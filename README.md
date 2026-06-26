@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="assets/brand/cover.png" alt="Invisible UI — headless, accessible, multi-framework component library" width="100%" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/cover-dark.png" />
+    <img src="assets/brand/cover-light.png" alt="Invisible UI — headless, accessible, multi-framework component library" width="100%" />
+  </picture>
 </p>
 
 # Invisible UI
@@ -20,9 +23,9 @@ A **headless, accessible, multi-framework** component library — built from scr
 > demo per component. More framework adapters can follow; they reuse the same
 > pattern.
 >
-> The npm packages are currently named `@design-system/*` and are unpublished;
-> they'll be renamed to the **Invisible UI** scope (`@invisible-ui/*`) when publishing (see
-> `docs/technical-roadmap.md`).
+> Nothing is published to npm yet. The workspace packages are named
+> `@design-system/*` internally; if and when they're published they'll move to
+> the **Invisible UI** scope (`@invisible-ui/*`) — see `docs/technical-roadmap.md`.
 
 ## What this is
 
