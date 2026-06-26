@@ -53,7 +53,7 @@ jobs:
 
       - name: Upload regenerated baselines
         if: ${{ inputs.update }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visual-baselines
           path: e2e/visual.spec.ts-snapshots/
@@ -61,7 +61,7 @@ jobs:
 
       - name: Upload report (diffs on failure)
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visual-report
           path: playwright-report/
