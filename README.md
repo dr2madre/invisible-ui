@@ -12,8 +12,7 @@ _by nozcadesign_
 A **headless, accessible, multi-framework** component library — built from scratch.
 
 > **⚠️ Alpha — in active development.** APIs, design tokens, and package names
-> may change without notice, and the packages are not yet published to npm. Not
-> recommended for production use yet.
+> may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core, the **Svelte** adapter, and the full
 > component set (Phases 1–6 — overlays, modals, navigation, form & value,
@@ -22,10 +21,6 @@ A **headless, accessible, multi-framework** component library — built from scr
 > tokens, `vitest`/`vitest-axe` coverage, and an Astro docs site with a live
 > demo per component. More framework adapters can follow; they reuse the same
 > pattern.
->
-> Nothing is published to npm yet. The workspace packages are named
-> `@design-system/*` internally; if and when they're published they'll move to
-> the **Invisible UI** scope (`@invisible-ui/*`) — see `docs/technical-roadmap.md`.
 
 ## What this is
 
