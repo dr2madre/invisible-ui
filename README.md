@@ -12,8 +12,6 @@
   <img alt="Status: alpha" src="https://img.shields.io/badge/status-alpha-orange.svg" />
 </p>
 
-_by nozcadesign_
-
 A **headless, accessible, multi-framework** component library — built from scratch.
 
 > **⚠️ Alpha — in active development.** APIs, design tokens, and package names
