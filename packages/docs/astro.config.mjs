@@ -12,7 +12,11 @@ export default defineConfig({
       title: "Invisible UI",
       description:
         "A headless, accessible, multi-framework component library — docs and live demos.",
-      logo: { src: "./src/assets/logo.svg", alt: "Invisible UI" },
+      logo: {
+        light: "./src/assets/logo.svg",
+        dark: "./src/assets/logo-white.svg",
+        alt: "Invisible UI",
+      },
       favicon: "/favicon.svg",
       // Design tokens + demo framing. Tokens key off [data-theme] (set by
       // Starlight) and prefers-color-scheme, so the theme toggle drives demos.
