@@ -29,6 +29,8 @@
   export let cancelLabel = "Cancel";
   /** Variant of the action button (use `"danger"` for destructive actions). */
   export let actionVariant: ButtonVariant = "primary";
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: ButtonVariant = "default";
   /** Called when the action button is pressed (before the dialog closes). */
   export let onAction: (() => void) | undefined = undefined;
   /** Called whenever the open state changes. */
@@ -57,9 +59,9 @@
   };
 </script>
 
-<button class="alert-dialog__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot>Open</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="alert-dialog__portal" use:portal>
@@ -76,10 +78,6 @@
 {/if}
 
 <style>
-  .alert-dialog__trigger {
-    font: inherit;
-  }
-
   .alert-dialog__portal {
     position: fixed;
     inset: 0;

@@ -11,7 +11,10 @@
    * content). Colors, radius and elevation are themeable via `--ds-popover-*`.
    */
   import { createPopover, type PopoverContext } from "./create-popover";
+  import Button from "../button/Button.svelte";
 
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   /** Initial open state. */
   export let open = false;
   /** Preferred placement of the panel. */
@@ -23,9 +26,9 @@
   const { triggerAction, contentAction, open: isOpen } = popover;
 </script>
 
-<button class="popover__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot name="trigger">Open</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="popover__content" use:contentAction>
@@ -34,10 +37,6 @@
 {/if}
 
 <style>
-  .popover__trigger {
-    font: inherit;
-  }
-
   .popover__content {
     /* Positioned by the adapter (Floating UI) with a fixed strategy. */
     position: fixed;

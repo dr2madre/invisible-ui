@@ -14,6 +14,10 @@
    */
   import { createDialog } from "./create-dialog";
   import { portal } from "../internal/portal";
+  import Button from "../button/Button.svelte";
+
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
 
   /** Initial open state. */
   export let open = false;
@@ -41,9 +45,9 @@
   } = dialog;
 </script>
 
-<button class="dialog__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot name="trigger">Open</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="dialog__portal" use:portal>
@@ -72,10 +76,6 @@
 {/if}
 
 <style>
-  .dialog__trigger {
-    font: inherit;
-  }
-
   .dialog__portal {
     position: fixed;
     inset: 0;

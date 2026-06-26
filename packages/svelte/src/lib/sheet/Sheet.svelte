@@ -14,7 +14,10 @@
    */
   import { createDialog } from "../dialog/create-dialog";
   import { portal } from "../internal/portal";
+  import Button from "../button/Button.svelte";
 
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   /** Which edge the sheet is anchored to. */
   export let side: "top" | "right" | "bottom" | "left" = "right";
   /** Initial open state. */
@@ -43,9 +46,9 @@
   } = dialog;
 </script>
 
-<button class="sheet__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot name="trigger">Open</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="sheet__portal" use:portal>
@@ -74,10 +77,6 @@
 {/if}
 
 <style>
-  .sheet__trigger {
-    font: inherit;
-  }
-
   .sheet__portal {
     position: fixed;
     inset: 0;

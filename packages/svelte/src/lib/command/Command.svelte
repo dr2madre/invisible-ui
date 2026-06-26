@@ -13,7 +13,10 @@
   import { createCommand, type CommandItem } from "./create-command";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
+  import Button from "../button/Button.svelte";
 
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   export let items: CommandItem[];
   export let open = false;
   /** Accessible title for the dialog. */
@@ -40,9 +43,9 @@
   } = command;
 </script>
 
-<button class="command__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot name="trigger">Search…</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="command__portal" use:portal>
@@ -78,10 +81,6 @@
 {/if}
 
 <style>
-  .command__trigger {
-    font: inherit;
-  }
-
   .command__portal {
     position: fixed;
     inset: 0;

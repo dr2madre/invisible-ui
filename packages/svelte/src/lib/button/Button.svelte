@@ -20,6 +20,14 @@
    */
   import { createButton, type ButtonVariant } from "./create-button";
   import Icon from "../icon/Icon.svelte";
+  import type { Action } from "svelte/action";
+
+  /**
+   * Optional extra Svelte action applied to the underlying `<button>`. Lets
+   * overlay components (Dialog, Popover, …) compose the Button as their trigger
+   * by passing their `triggerAction`, instead of rendering a bare button.
+   */
+  export let action: Action<HTMLElement> = () => {};
 
   export let variant: ButtonVariant = "default";
   export let disabled = false;
@@ -63,7 +71,13 @@
   $: showRight = rightIcon || $$slots.right;
 </script>
 
-<button class="button" class:button--icon-only={iconOnly} use:rootAction aria-label={ariaLabel}>
+<button
+  class="button"
+  class:button--icon-only={iconOnly}
+  use:rootAction
+  use:action
+  aria-label={ariaLabel}
+>
   {#if showLeft}
     <span class="button__icon">
       <slot name="left">
