@@ -45,6 +45,13 @@
       "description": "Action button variant; use `\"danger\"` for destructive actions."
     },
     {
+      "name": "triggerVariant",
+      "type": "ButtonVariant",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Visual variant for the trigger Button."
+    },
+    {
       "name": "onAction",
       "type": "(() => void) | undefined",
       "default": "undefined",

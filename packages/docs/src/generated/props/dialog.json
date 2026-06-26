@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "triggerVariant",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and accessibility (open/close, `role=\"dialog\"` + `aria-modal`, labelling via the title, Escape to close) come from the headless dialog (`@design-system/core`); this adapter adds the modal DOM concerns: a portal to `<body>`, a focus trap, body scroll lock, a backdrop that closes on press, and focus management (focus moves into the panel on open and returns to the trigger on close).  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass an accessible `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`. / import { createDialog } from \"./create-dialog\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+    },
+    {
       "name": "open",
       "type": "boolean",
       "default": "false",

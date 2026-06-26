@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "triggerVariant",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Drawer — a bottom-anchored modal you can drag down to dismiss (the \"Vaul\" pattern). Open state, focus trap, scroll lock, Escape / backdrop / close- button dismissal, focus restore and ARIA come from the shared modal adapter via `createDrawer` (which wraps `createDialog`); this component adds the grab handle and binds the panel transform to the drag.  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass a `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`; the handle and max height via `--ds-drawer-*`. / import { createDrawer } from \"./create-drawer\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+    },
+    {
       "name": "open",
       "type": "boolean",
       "default": "false",
