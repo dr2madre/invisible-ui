@@ -79,7 +79,7 @@ Four phases, designed so Astro stands up alongside Storybook first and Storybook
 is removed last (no broken-docs window):
 
 1. **Scaffold** a new `packages/docs` Astro project (`@astrojs/starlight` +
-   `@astrojs/svelte`), `base: "/nozca-ui/"`; migrate the existing `docs/*.md`
+   `@astrojs/svelte`), `base: "/invisible-ui/"`; migrate the existing `docs/*.md`
    prose into Starlight content — alongside Storybook.
 2. **Live demos** via Svelte islands (`client:visible`), porting the examples from
    the 35 `*.stories.svelte`; theme-aware (light/dark) demos.

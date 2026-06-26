@@ -7,7 +7,7 @@ const localChromium = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const executablePath = process.env.CI ? undefined : localChromium;
 
 const PORT = 4321;
-const BASE = `http://localhost:${PORT}/nozca-ui/`;
+const BASE = `http://localhost:${PORT}/invisible-ui/`;
 
 export default defineConfig({
   testDir: "./e2e",
