@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="assets/brand/cover.png" alt="Invisible UI — headless, accessible, multi-framework component library" width="100%" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/cover-dark.png" />
+    <img src="assets/brand/cover-light.png" alt="Invisible UI — headless, accessible, multi-framework component library" width="100%" />
+  </picture>
 </p>
 
 # Invisible UI
@@ -9,8 +12,7 @@ _by nozcadesign_
 A **headless, accessible, multi-framework** component library — built from scratch.
 
 > **⚠️ Alpha — in active development.** APIs, design tokens, and package names
-> may change without notice, and the packages are not yet published to npm. Not
-> recommended for production use yet.
+> may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core, the **Svelte** adapter, and the full
 > component set (Phases 1–6 — overlays, modals, navigation, form & value,
@@ -19,10 +21,6 @@ A **headless, accessible, multi-framework** component library — built from scr
 > tokens, `vitest`/`vitest-axe` coverage, and an Astro docs site with a live
 > demo per component. More framework adapters can follow; they reuse the same
 > pattern.
->
-> The npm packages are currently named `@design-system/*` and are unpublished;
-> they'll be renamed to the **Invisible UI** scope (`@invisible-ui/*`) when publishing (see
-> `docs/technical-roadmap.md`).
 
 ## What this is
 
