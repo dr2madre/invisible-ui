@@ -20,9 +20,12 @@ test("Calendar navigates to the next month", async ({ page }) => {
 test("Switch toggles on click", async ({ page }) => {
   await page.goto("components/switch/");
   const bluetooth = page.getByRole("switch", { name: "Bluetooth" });
-  await expect(bluetooth).toHaveAttribute("aria-checked", "false");
+  // The Switch is a native <input type="checkbox" role="switch">; state is
+  // conveyed by the native checked property, not aria-checked (see
+  // core/src/switch/connect.ts).
+  await expect(bluetooth).not.toBeChecked();
   await bluetooth.click();
-  await expect(bluetooth).toHaveAttribute("aria-checked", "true");
+  await expect(bluetooth).toBeChecked();
 });
 
 test("Combobox filters and selects an option", async ({ page }) => {
