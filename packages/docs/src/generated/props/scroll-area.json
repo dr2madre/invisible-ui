@@ -1,0 +1,27 @@
+{
+  "component": "scroll-area",
+  "selected": false,
+  "props": [
+    {
+      "name": "orientation",
+      "type": "ScrollOrientation",
+      "default": "\"vertical\"",
+      "required": false,
+      "description": "Scrollable axes."
+    },
+    {
+      "name": "maxHeight",
+      "type": "string",
+      "default": "\"12rem\"",
+      "required": false,
+      "description": "Max height of the viewport."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name for the region."
+    }
+  ]
+}

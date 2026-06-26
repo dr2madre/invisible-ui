@@ -1,0 +1,49 @@
+---
+title: "Combobox"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import ComboboxDemo from "../../../demos/ComboboxDemo.svelte";
+
+<Preview>
+  <ComboboxDemo client:only="svelte" />
+</Preview>
+
+An editable autocomplete (WAI-ARIA editable combobox): a text input paired with a
+filtered listbox. Unlike `Select` (a button that opens a fixed list), the user
+types to filter.
+
+### Import
+
+```svelte
+<script>
+  import ComboboxDemo from "../../../demos/ComboboxDemo.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="combobox" />
+
+### Accessibility
+
+- The input is `role="combobox"` with `aria-autocomplete="list"`, `aria-expanded`
+  and `aria-controls`; the popup is `role="listbox"` of `role="option"`s. DOM
+  focus stays on the input — the highlight moves via `aria-activedescendant`.
+- Typing filters; **Arrow Up/Down** move the highlight, **Enter** selects (filling
+  the input), **Escape** closes. Filtering, positioning (flip/shift) and keeping
+  the active option in view are handled by the adapter. Provide your own matcher
+  via the headless `createCombobox`'s `filter` option.
+
+### Example
+
+```svelte
+<Combobox
+  label="Fruit"
+  items={[{ value: "apple", label: "Apple" }, { value: "pear", label: "Pear" }]}
+  onValueChange={(v) => (fruit = v)}
+/>
+```
+
+Themeable via `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).

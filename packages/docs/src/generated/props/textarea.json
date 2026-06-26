@@ -1,0 +1,76 @@
+{
+  "component": "textarea",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Visible label, tied to the control."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "\"\"",
+      "required": false,
+      "description": "Field value."
+    },
+    {
+      "name": "placeholder",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Placeholder text."
+    },
+    {
+      "name": "rows",
+      "type": "number",
+      "default": "3",
+      "required": false,
+      "description": "Visible text rows."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Hint shown under the control, linked via `aria-describedby`."
+    },
+    {
+      "name": "error",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "When non-empty the field becomes invalid and announces the message."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the field."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Mark as required."
+    },
+    {
+      "name": "readOnly",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Make the field read-only."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the value changes."
+    }
+  ]
+}

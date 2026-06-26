@@ -1,0 +1,41 @@
+---
+title: "Table Set"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import TableSetDemo from "../../../demos/TableSetDemo.svelte";
+
+<Preview>
+  <TableSetDemo client:visible />
+</Preview>
+
+The composed table shell around [Table](/components/table/): a title, a
+column-visibility dropdown, a table ↔ cards view switcher, client-side
+pagination (or infinite scroll), and optional tabs that switch between distinct
+views (each with its own columns + rows).
+
+### Import
+
+```svelte
+<script>
+  import TableSet from "@design-system/svelte/TableSet.svelte";
+</script>
+```
+
+### Props (selected)
+
+<PropsTable component="table-set" />
+
+### Accessibility
+
+- Card view is a labelled list of `Card`s; the column dropdown is a Popover of
+  checkboxes; tabs follow the WAI-ARIA tabs pattern.
+
+### Example
+
+```svelte
+<TableSet title="Customers" {columns} {rows} configurable allowViewToggle pageSize={10} />
+```
+
+Themeable via `--ds-table-*`.

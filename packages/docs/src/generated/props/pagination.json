@@ -1,0 +1,20 @@
+{
+  "component": "pagination",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Pagination\"",
+      "required": false,
+      "description": "Accessible name for the nav."
+    },
+    {
+      "name": "onPageChange",
+      "type": "((page: number) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the page changes."
+    }
+  ]
+}

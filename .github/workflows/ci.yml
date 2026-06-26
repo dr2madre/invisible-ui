@@ -1,0 +1,43 @@
+name: CI
+
+# Per-PR quality gate: lint + format check, then builds the whole graph (incl.
+# the docs site), runs the vitest suites and the type checks.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm format:check
+
+      # `build` includes the Astro docs build; `test` runs vitest + vitest-axe.
+      - name: Build, test, typecheck
+        run: pnpm exec turbo run build test typecheck
+
+      # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
+      - name: Bundle size budget
+        run: pnpm size

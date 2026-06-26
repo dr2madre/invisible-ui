@@ -1,0 +1,53 @@
+name: Release
+
+# DORMANT until you choose to publish. Runs only when triggered manually
+# (Actions tab → Release → Run workflow). To go live later:
+#   1. Remove `private: true` from core/package.json and packages/svelte/package.json
+#      (rename the @design-system scope to the Nozca-ui scope you own on npm, e.g. @nozca-ui/core and @nozca-ui/svelte).
+#   2. Add the repo secret NPM_TOKEN (npm automation token with publish rights).
+#   3. Enable Settings → Actions → "Allow GitHub Actions to create and approve
+#      pull requests".
+#   4. Switch the trigger below back to `push: branches: [main]`.
+#
+# With pending changesets it opens a "Version Packages" PR (bumps + CHANGELOGs);
+# merging that publishes the changed packages. Provenance needs `id-token: write`.
+
+on:
+  workflow_dispatch:
+
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create release PR or publish
+        uses: changesets/action@v1
+        with:
+          version: pnpm run version-packages
+          publish: pnpm run release
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

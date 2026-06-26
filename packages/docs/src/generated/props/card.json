@@ -1,0 +1,76 @@
+{
+  "component": "card",
+  "selected": false,
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"media\" | \"dashboard\"",
+      "default": "\"media\"",
+      "required": false,
+      "description": "Media card or metric tile."
+    },
+    {
+      "name": "orientation",
+      "type": "\"vertical\" | \"horizontal\"",
+      "default": "\"vertical\"",
+      "required": false,
+      "description": "Media layout."
+    },
+    {
+      "name": "imageSrc",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Media image (falls back to the `icon` slot)."
+    },
+    {
+      "name": "imageAlt",
+      "type": "string",
+      "default": "\"\"",
+      "required": false,
+      "description": "Media image (falls back to the `icon` slot)."
+    },
+    {
+      "name": "title",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Heading (or use the `title` slot)."
+    },
+    {
+      "name": "headingLevel",
+      "type": "2 | 3 | 4 | 5 | 6",
+      "default": "3",
+      "required": false,
+      "description": "Heading level for the title."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Body text (or the `description` slot)."
+    },
+    {
+      "name": "value",
+      "type": "string | number | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Dashboard metric value."
+    },
+    {
+      "name": "change",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Dashboard delta (e.g. `\"+12.5%\"`)."
+    },
+    {
+      "name": "trend",
+      "type": "\"up\" | \"down\" | \"neutral\"",
+      "default": "\"neutral\"",
+      "required": false,
+      "description": "Tints the change."
+    }
+  ]
+}

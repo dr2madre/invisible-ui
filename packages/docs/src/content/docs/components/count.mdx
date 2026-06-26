@@ -1,0 +1,38 @@
+---
+title: "Count"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CountDemo from "../../../demos/CountDemo.svelte";
+
+<Preview>
+  <CountDemo client:visible />
+</Preview>
+
+A notification number / badge that clamps to `max` ("N+") with an optional dot
+mode for presence indicators.
+
+### Import
+
+```svelte
+<script>
+  import Count from "@design-system/svelte/Count.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="count" />
+
+### Accessibility
+
+- Pass `label` so the number is announced with meaning (e.g. "5 unread messages").
+
+### Example
+
+```svelte
+<Count count={128} max={99} label="notifications" />
+```
+
+Themeable via `--ds-count-*`.

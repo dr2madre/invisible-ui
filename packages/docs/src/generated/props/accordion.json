@@ -1,0 +1,34 @@
+{
+  "component": "accordion",
+  "selected": false,
+  "props": [
+    {
+      "name": "type",
+      "type": "AccordionType",
+      "default": "\"single\"",
+      "required": false,
+      "description": "One open at a time, or many."
+    },
+    {
+      "name": "collapsible",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "For `single`: allow collapsing the open item."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the whole accordion."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the expanded set changes."
+    }
+  ]
+}

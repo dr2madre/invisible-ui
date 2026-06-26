@@ -1,0 +1,55 @@
+{
+  "component": "skeleton",
+  "selected": false,
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"text\" | \"circle\" | \"rect\"",
+      "default": "\"text\"",
+      "required": false,
+      "description": "Shape."
+    },
+    {
+      "name": "lines",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": "Lines for the `text` variant (last line shortened)."
+    },
+    {
+      "name": "width",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Any CSS length (`circle` uses `width` for both)."
+    },
+    {
+      "name": "height",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Any CSS length (`circle` uses `width` for both)."
+    },
+    {
+      "name": "radius",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Border-radius override."
+    },
+    {
+      "name": "animation",
+      "type": "\"pulse\" | \"wave\" | \"none\"",
+      "default": "\"pulse\"",
+      "required": false,
+      "description": "Shimmer style."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "When set, becomes a polite `role=\"status\"`."
+    }
+  ]
+}

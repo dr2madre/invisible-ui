@@ -1,0 +1,55 @@
+{
+  "component": "segmented-control",
+  "selected": false,
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": "Layout direction."
+    },
+    {
+      "name": "iconOnly",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Icon-only segments (each item needs an accessible label)."
+    },
+    {
+      "name": "stacked",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Stack icon over label (iOS-style)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the control."
+    },
+    {
+      "name": "hideLabel",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Visually hide the group label (kept for assistive tech)."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the selected value is submitted under it."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the selected value changes."
+    }
+  ]
+}

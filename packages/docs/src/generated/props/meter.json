@@ -1,0 +1,48 @@
+{
+  "component": "meter",
+  "selected": false,
+  "props": [
+    {
+      "name": "value",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": "Current measurement."
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": "Range bounds."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "100",
+      "required": false,
+      "description": "Range bounds."
+    },
+    {
+      "name": "low",
+      "type": "number | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Threshold marks (tint the fill)."
+    },
+    {
+      "name": "high",
+      "type": "number | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Threshold marks (tint the fill)."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "component": "icon",
+  "selected": false,
+  "props": [
+    {
+      "name": "size",
+      "type": "string",
+      "default": "\"1em\"",
+      "required": false,
+      "description": "Width/height (scales with font-size by default)."
+    },
+    {
+      "name": "viewBox",
+      "type": "string",
+      "default": "\"0 0 24 24\"",
+      "required": false,
+      "description": "SVG viewBox."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number | string",
+      "default": "2",
+      "required": false,
+      "description": "Stroke width in viewBox units."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name; when omitted the icon is decorative."
+    }
+  ]
+}

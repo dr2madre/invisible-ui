@@ -1,0 +1,76 @@
+{
+  "component": "date-range-picker",
+  "selected": false,
+  "props": [
+    {
+      "name": "view",
+      "type": "CalendarView",
+      "default": "\"two-month\"",
+      "required": false,
+      "description": "Calendar view inside the popover."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible label."
+    },
+    {
+      "name": "placeholder",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Shown when empty."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the field."
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a clear button when a range is set."
+    },
+    {
+      "name": "events",
+      "type": "CalendarEvent[]",
+      "default": "[]",
+      "required": false,
+      "description": "Forwarded to the calendar."
+    },
+    {
+      "name": "prices",
+      "type": "Record<string, string>",
+      "default": "{}",
+      "required": false,
+      "description": "Forwarded to the calendar."
+    },
+    {
+      "name": "startName",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs)."
+    },
+    {
+      "name": "endName",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs)."
+    },
+    {
+      "name": "onChange",
+      "type": "((start: string | null, end: string | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the range changes."
+    }
+  ]
+}

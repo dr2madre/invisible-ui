@@ -1,0 +1,48 @@
+{
+  "component": "count",
+  "selected": false,
+  "props": [
+    {
+      "name": "count",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": "The value to show."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "99",
+      "required": false,
+      "description": "Clamp threshold (e.g. `128` → `99+`)."
+    },
+    {
+      "name": "dot",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Render a dot instead of a number."
+    },
+    {
+      "name": "showZero",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Render when `count` is `0`."
+    },
+    {
+      "name": "status",
+      "type": "CountStatus",
+      "default": "\"danger\"",
+      "required": false,
+      "description": "Color."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible description (e.g. \"unread messages\")."
+    }
+  ]
+}

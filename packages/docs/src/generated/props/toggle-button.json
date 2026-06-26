@@ -1,0 +1,20 @@
+{
+  "component": "toggle-button",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name; required when the slot is icon-only."
+    },
+    {
+      "name": "onPressedChange",
+      "type": "((p: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever `pressed` changes."
+    }
+  ]
+}

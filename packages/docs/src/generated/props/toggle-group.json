@@ -1,0 +1,41 @@
+{
+  "component": "toggle-group",
+  "selected": false,
+  "props": [
+    {
+      "name": "type",
+      "type": "ToggleGroupType",
+      "default": "\"single\"",
+      "required": false,
+      "description": "Selection mode."
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": "Layout."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the group."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the pressed set changes."
+    }
+  ]
+}

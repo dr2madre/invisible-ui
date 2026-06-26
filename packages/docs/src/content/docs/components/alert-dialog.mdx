@@ -1,0 +1,54 @@
+---
+title: "AlertDialog"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import AlertDialogDemo from "../../../demos/AlertDialogDemo.svelte";
+
+<Preview>
+  <AlertDialogDemo client:only="svelte" />
+</Preview>
+
+A modal that interrupts the user to confirm a consequential action (WAI-ARIA
+alertdialog pattern). Reuses the headless dialog with `role="alertdialog"` and
+the shared modal adapter. Unlike Dialog it is **not** dismissed by a backdrop
+press and has no close (✕) button.
+
+### Import
+
+```svelte
+<script>
+  import AlertDialog from "@design-system/svelte/AlertDialog.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="alert-dialog" />
+
+The default slot is the trigger's content.
+
+### Accessibility
+
+- Panel is `role="alertdialog"` with `aria-modal="true"`, named by the title and
+  described by the description (both required).
+- Focus starts on **Cancel** (the least-destructive action). **Escape** cancels;
+  there is **no** backdrop-press dismissal — the user must choose. Focus is
+  trapped and body scroll locked; focus returns to the trigger on close.
+
+### Example
+
+```svelte
+<AlertDialog
+  title="Delete file?"
+  description="This action cannot be undone."
+  actionLabel="Delete"
+  actionVariant="danger"
+  onAction={() => remove()}
+>
+  Delete file
+</AlertDialog>
+```
+
+Themeable via `--ds-dialog-*` (shared with Dialog).

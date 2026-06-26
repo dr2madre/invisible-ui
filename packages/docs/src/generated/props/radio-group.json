@@ -1,0 +1,34 @@
+{
+  "component": "radio-group",
+  "selected": false,
+  "props": [
+    {
+      "name": "orientation",
+      "type": "Orientation",
+      "default": "\"vertical\"",
+      "required": false,
+      "description": "Layout direction."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the group."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the selected value is submitted under it (auto-generated for grouping if omitted)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the selected value changes."
+    }
+  ]
+}

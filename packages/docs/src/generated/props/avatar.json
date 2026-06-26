@@ -1,0 +1,41 @@
+{
+  "component": "avatar",
+  "selected": false,
+  "props": [
+    {
+      "name": "name",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Provides the accessible name and the initials fallback."
+    },
+    {
+      "name": "src",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Image URL; when absent or it fails to load, initials are shown."
+    },
+    {
+      "name": "alt",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name; defaults to `name`."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"md\" | \"lg\"",
+      "default": "\"md\"",
+      "required": false,
+      "description": "Avatar size."
+    },
+    {
+      "name": "shape",
+      "type": "\"circle\" | \"square\"",
+      "default": "\"circle\"",
+      "required": false,
+      "description": "Avatar shape."
+    }
+  ]
+}

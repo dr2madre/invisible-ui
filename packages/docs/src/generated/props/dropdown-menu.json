@@ -1,0 +1,13 @@
+{
+  "component": "dropdown-menu",
+  "selected": false,
+  "props": [
+    {
+      "name": "onSelect",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called with the chosen item's value."
+    }
+  ]
+}

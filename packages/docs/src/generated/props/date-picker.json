@@ -1,0 +1,69 @@
+{
+  "component": "date-picker",
+  "selected": false,
+  "props": [
+    {
+      "name": "dateStyle",
+      "type": "\"full\" | \"long\" | \"medium\" | \"short\"",
+      "default": "\"medium\"",
+      "required": false,
+      "description": "`Intl` style for the field display."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible label for the field."
+    },
+    {
+      "name": "placeholder",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Shown when empty."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the field."
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a clear button when a date is set."
+    },
+    {
+      "name": "events",
+      "type": "CalendarEvent[]",
+      "default": "[]",
+      "required": false,
+      "description": "Appointment dots, forwarded to the calendar."
+    },
+    {
+      "name": "prices",
+      "type": "Record<string, string>",
+      "default": "{}",
+      "required": false,
+      "description": "Per-day prices, forwarded to the calendar."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the selected ISO date is submitted under it (via a hidden input)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the date changes (or is cleared)."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+---
+title: "Tag"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import TagDemo from "../../../demos/TagDemo.svelte";
+
+<Preview>
+  <TagDemo client:visible />
+</Preview>
+
+A small status chip: a colored label with optional icons, removable, and able
+to host a [Count](/components/count/).
+
+### Import
+
+```svelte
+<script>
+  import Tag from "@design-system/svelte/Tag.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="tag" />
+
+The default slot is the label; `leading` / `trailing` slots host icons.
+
+### Example
+
+```svelte
+<Tag status="success" variant="solid">Published</Tag>
+<Tag status="info" removable onRemove={() => {}}>Filter</Tag>
+```
+
+Themeable via `--ds-tag-*`.

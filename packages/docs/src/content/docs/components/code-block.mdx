@@ -1,0 +1,37 @@
+---
+title: "Code Block"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CodeBlockDemo from "../../../demos/CodeBlockDemo.svelte";
+
+<Preview>
+  <CodeBlockDemo client:visible />
+</Preview>
+
+A block `<pre><code>` with an optional language caption and a copy button.
+
+### Import
+
+```svelte
+<script>
+  import CodeBlock from "@design-system/svelte/CodeBlock.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="code-block" />
+
+### Accessibility
+
+- The copy button is labelled and announces success; the code is selectable.
+
+### Example
+
+```svelte
+<CodeBlock code={"const x = 1;"} language="ts" />
+```
+
+Themeable via `--ds-code-block-*`.

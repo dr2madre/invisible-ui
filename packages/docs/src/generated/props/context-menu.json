@@ -1,0 +1,20 @@
+{
+  "component": "context-menu",
+  "selected": false,
+  "props": [
+    {
+      "name": "onSelect",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called with the chosen item's value."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Context menu\"",
+      "required": false,
+      "description": "Accessible name for the popup (there is no labelling trigger)."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+---
+title: Nozca-ui
+description: A headless, accessible, multi-framework component library — docs and live demos.
+template: splash
+hero:
+  tagline: Headless, accessible primitives with a styled, themeable Svelte layer.
+  actions:
+    - text: Components
+      link: /design-system/components/
+      icon: right-arrow
+      variant: primary
+    - text: Foundations
+      link: /design-system/foundations/
+      icon: open-book
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+<CardGrid stagger>
+  <Card title="Headless core" icon="puzzle">
+    Behaviour & ARIA live in `@design-system/core` — framework-agnostic state
+    machines and prop getters.
+  </Card>
+  <Card title="Styled Svelte layer" icon="seti:svelte">
+    Batteries-included components themeable through `--ds-*` custom properties.
+  </Card>
+  <Card title="Accessible by default" icon="approve-check">
+    WAI-ARIA patterns, keyboard support, and `vitest-axe` coverage on every
+    component.
+  </Card>
+  <Card title="Live demos" icon="laptop">
+    Every component is documented with interactive Svelte islands — try them
+    right on the page.
+  </Card>
+</CardGrid>

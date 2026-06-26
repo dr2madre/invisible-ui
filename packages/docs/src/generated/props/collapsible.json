@@ -1,0 +1,34 @@
+{
+  "component": "collapsible",
+  "selected": false,
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Whether the region is expanded."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the trigger."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Trigger text (or use the `trigger` slot)."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when toggled."
+    }
+  ]
+}

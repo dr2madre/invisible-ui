@@ -1,0 +1,48 @@
+{
+  "component": "field",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Field label."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Helper text."
+    },
+    {
+      "name": "error",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Error message (sets `aria-invalid`)."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Mark the field required."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable styling/state."
+    },
+    {
+      "name": "id",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Control id."
+    }
+  ]
+}

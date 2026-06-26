@@ -1,0 +1,45 @@
+---
+title: "Button"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import ButtonDemo from "../../../demos/ButtonDemo.svelte";
+
+<Preview>
+  <ButtonDemo client:visible />
+</Preview>
+
+The styled, batteries-included button, carrying a semantic `variant` (what the action means, not a style).
+
+### Import
+
+```svelte
+<script>
+  import ButtonDemo from "../../../demos/ButtonDemo.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="button" />
+
+### Accessibility
+
+- Every button needs an accessible name: visible text (default slot) or `ariaLabel` for icon-only buttons.
+- `danger` shows a hazard icon by default, so meaning never relies on color alone (WCAG 1.4.1).
+- Behaviour and a11y (focus, Enter/Space activation) come from the headless button.
+
+### Example
+
+```svelte
+<Button variant="primary" onpress={() => save()}>Save changes</Button>
+
+<!-- Icon button: square, icon-only, with an accessible name -->
+<Button iconOnly variant="ghost" ariaLabel="Close" onpress={() => dismiss()}>
+  <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
+</Button>
+```
+
+Themeable via `--ds-button-*` (icon buttons: `--ds-button-icon-min`,
+`--ds-button-icon-size`, `--ds-button-icon-padding`).

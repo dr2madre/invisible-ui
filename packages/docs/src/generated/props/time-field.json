@@ -1,0 +1,27 @@
+{
+  "component": "time-field",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible label for the whole field."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the formatted time is submitted under it (via a hidden input)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called with the formatted value (or `null` while incomplete)."
+    }
+  ]
+}

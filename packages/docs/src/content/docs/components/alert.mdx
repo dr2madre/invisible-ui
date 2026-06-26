@@ -1,0 +1,44 @@
+---
+title: "Alert"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import AlertDemo from "../../../demos/AlertDemo.svelte";
+
+<Preview>
+  <AlertDemo client:visible />
+</Preview>
+
+A styled feedback banner: status icon, title, body, optional link, actions and close button.
+
+### Import
+
+```svelte
+<script>
+  import Alert from "@design-system/svelte/Alert.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="alert" />
+
+### Accessibility
+
+- A live region: `role="status"` (polite) by default; pass `role="alert"` for urgent, interrupting messages.
+- Status is conveyed by color + glyph + surface tint, never color alone; the FeedbackIcon is decorative.
+- Not dismissible by default — set `closable` to render the WCAG-sized ghost close button.
+
+### Example
+
+```svelte
+<Alert
+  status="success"
+  title="Saved"
+  description="Your changes have been saved."
+  closable
+/>
+```
+
+Themeable via `--ds-alert-*` (and the `--ds-color-*` token layer).

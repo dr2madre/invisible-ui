@@ -1,0 +1,97 @@
+---
+/**
+ * PropsTable — renders a component's props from its auto-generated manifest
+ * (packages/docs/src/generated/props/<component>.json). The manifest is produced
+ * by `pnpm api:generate` from the Svelte source (name / type / default /
+ * required) merged with curated descriptions, so the table can never drift from
+ * the component's actual props.
+ *
+ *   import PropsTable from "../../../components/PropsTable.astro";
+ *   <PropsTable component="checkbox" />
+ */
+interface Prop {
+  name: string;
+  type: string;
+  default: string | null;
+  required: boolean;
+  description: string;
+}
+interface Manifest {
+  component: string;
+  selected: boolean;
+  props: Prop[];
+}
+
+const { component } = Astro.props as { component: string };
+
+const manifests = import.meta.glob<{ default: Manifest }>("../generated/props/*.json", {
+  eager: true,
+});
+const entry = manifests[`../generated/props/${component}.json`];
+const data = entry?.default;
+
+// Descriptions are prose that may mention HTML (`<fieldset>`) and inline code
+// (`false`); escape everything, then turn markdown inline code into <code>.
+const renderDesc = (s: string) =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+---
+
+{
+  data ? (
+    <div class="props-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.props.map((p) => (
+            <tr>
+              <td>
+                <code>{p.name}</code>
+                {p.required && (
+                  <span class="props-table__required" title="Required">
+                    {" "}
+                    *
+                  </span>
+                )}
+              </td>
+              <td>
+                <code>{p.type}</code>
+              </td>
+              <td>{p.default == null ? "—" : <code>{p.default}</code>}</td>
+              <td set:html={renderDesc(p.description)} />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {data.selected && (
+        <p class="props-table__note">A selected subset of props is shown.</p>
+      )}
+    </div>
+  ) : (
+    <p>No props.</p>
+  )
+}
+
+<style>
+  .props-table {
+    overflow-x: auto;
+  }
+  .props-table__required {
+    color: var(--sl-color-red, #dc2626);
+    font-weight: 700;
+  }
+  .props-table__note {
+    font-size: 0.875em;
+    opacity: 0.8;
+  }
+</style>

@@ -1,0 +1,27 @@
+{
+  "component": "button-group",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the group."
+    },
+    {
+      "name": "orientation",
+      "type": "Orientation",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": "Layout direction."
+    },
+    {
+      "name": "attached",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Visually merge the buttons into one bar."
+    }
+  ]
+}

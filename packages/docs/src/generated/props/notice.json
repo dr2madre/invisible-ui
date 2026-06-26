@@ -1,0 +1,20 @@
+{
+  "component": "notice",
+  "selected": false,
+  "props": [
+    {
+      "name": "inverted",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "High-contrast inverse surface."
+    },
+    {
+      "name": "onclose",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when dismissed (auto, close button, or action)."
+    }
+  ]
+}

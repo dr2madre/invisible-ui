@@ -1,0 +1,20 @@
+{
+  "component": "feedback-icon",
+  "selected": false,
+  "props": [
+    {
+      "name": "status",
+      "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
+      "default": "\"info\"",
+      "required": false,
+      "description": "Which feedback type to show."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "When set, exposes the box as an image with this accessible name."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "component": "navigation-menu",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the `<nav>` landmark."
+    },
+    {
+      "name": "items",
+      "type": "NavigationMenuItem[]",
+      "default": null,
+      "required": true,
+      "description": "Links (`{ value, label, href }`) or panels (`{ value, label, links }`)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the open panel changes."
+    }
+  ]
+}

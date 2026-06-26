@@ -1,0 +1,76 @@
+{
+  "component": "alert",
+  "selected": false,
+  "props": [
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Heading."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Body text; override with the default slot for rich content."
+    },
+    {
+      "name": "href",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Link href; when set (and no `link` slot) a link is rendered."
+    },
+    {
+      "name": "linkText",
+      "type": "string",
+      "default": "\"Learn more\"",
+      "required": false,
+      "description": "Link text."
+    },
+    {
+      "name": "actions",
+      "type": "AlertAction[] | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Data-driven action buttons (alternative to the `actions` slot)."
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Render the close button."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "\"Close\"",
+      "required": false,
+      "description": "Accessible name for the close button."
+    },
+    {
+      "name": "role",
+      "type": "\"status\" | \"alert\" | \"region\"",
+      "default": "\"status\"",
+      "required": false,
+      "description": "Live-region role; `\"alert\"` for urgent messages."
+    },
+    {
+      "name": "inverted",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "High-contrast inverse surface."
+    },
+    {
+      "name": "onclose",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when dismissed."
+    }
+  ]
+}

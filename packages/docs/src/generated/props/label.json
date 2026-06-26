@@ -1,0 +1,13 @@
+{
+  "component": "label",
+  "selected": false,
+  "props": [
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a `*` required marker."
+    }
+  ]
+}

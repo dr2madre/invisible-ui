@@ -1,0 +1,39 @@
+---
+title: "Meter"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import MeterDemo from "../../../demos/MeterDemo.svelte";
+
+<Preview>
+  <MeterDemo client:visible />
+</Preview>
+
+A `role="meter"` gauge for a measurement within a known range (disk, battery,
+score), with optional low/high thresholds.
+
+### Import
+
+```svelte
+<script>
+  import Meter from "@design-system/svelte/Meter.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="meter" />
+
+### Accessibility
+
+- `role="meter"` with `aria-valuenow`/`min`/`max`. Not a progress bar — use
+  [Progress](/components/progress/) for task completion.
+
+### Example
+
+```svelte
+<Meter value={72} label="Disk usage" low={25} high={80} />
+```
+
+Themeable via `--ds-meter-*`.

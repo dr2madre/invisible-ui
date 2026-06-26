@@ -1,0 +1,68 @@
+name: Visual regression
+
+# Pixel-diff the styled component demos against committed baselines.
+#
+# Runs inside the pinned Playwright container so font/anti-aliasing rendering is
+# deterministic (the reason this is opt-in rather than part of the per-PR gate:
+# baselines are OS/-image-specific). To (re)generate the authoritative baselines,
+# dispatch this workflow with `update: true`, download the `visual-baselines`
+# artifact and commit it under e2e/visual.spec.ts-snapshots/. See
+# docs/visual-testing.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      update:
+        description: "Regenerate baselines and upload them as an artifact"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-jammy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build docs
+        run: pnpm exec turbo run build --filter=@design-system/docs
+
+      - name: Compare against baselines
+        if: ${{ !inputs.update }}
+        run: pnpm visual
+
+      - name: Regenerate baselines
+        if: ${{ inputs.update }}
+        run: pnpm visual:update
+
+      - name: Upload regenerated baselines
+        if: ${{ inputs.update }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines
+          path: e2e/visual.spec.ts-snapshots/
+          retention-days: 7
+
+      - name: Upload report (diffs on failure)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-report
+          path: playwright-report/
+          retention-days: 7

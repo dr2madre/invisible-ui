@@ -1,0 +1,36 @@
+---
+title: "Field"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import FieldDemo from "../../../demos/FieldDemo.svelte";
+
+<Preview>
+  <FieldDemo client:visible />
+</Preview>
+
+A form-field wrapper that links a label, optional description and error message
+to a control, wiring `aria-describedby` / `aria-invalid` for you.
+
+### Import
+
+```svelte
+<script>
+  import Field from "@design-system/svelte/Field.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="field" />
+
+The control is the default slot, which exposes `controlProps` and `controlId`:
+
+```svelte
+<Field label="Email" let:controlProps>
+  <input {...controlProps} type="email" />
+</Field>
+```
+
+Themeable via `--ds-field-*`.

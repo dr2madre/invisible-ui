@@ -1,0 +1,15 @@
+**/dist/**
+**/.turbo/**
+**/node_modules/**
+**/.astro/**
+pnpm-lock.yaml
+**/CHANGELOG.md
+# Markdown/MDX left to the author (tables, prose) to avoid churn
+**/*.md
+**/*.mdx
+
+**/test-results/**
+**/playwright-report/**
+
+# Auto-generated API manifests (canonical format is the generator's)
+**/src/generated/**

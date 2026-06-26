@@ -1,0 +1,41 @@
+{
+  "component": "tag",
+  "selected": false,
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"soft\" | \"solid\"",
+      "default": "\"soft\"",
+      "required": false,
+      "description": "Tinted background or solid fill."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"md\"",
+      "default": "\"md\"",
+      "required": false,
+      "description": "Chip size."
+    },
+    {
+      "name": "removable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a remove button."
+    },
+    {
+      "name": "removeLabel",
+      "type": "string",
+      "default": "\"Remove\"",
+      "required": false,
+      "description": "Accessible label for the remove button."
+    },
+    {
+      "name": "onRemove",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the remove button is pressed."
+    }
+  ]
+}

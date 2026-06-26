@@ -1,0 +1,16 @@
+node_modules/
+dist/
+storybook-static/
+.turbo/
+coverage/
+*.tsbuildinfo
+.svelte-kit/
+.DS_Store
+
+# Playwright
+test-results/
+playwright-report/
+.last-run.json
+
+# Generated design-token outputs (source: packages/svelte/tokens/tokens.json)
+packages/svelte/dist/tokens/

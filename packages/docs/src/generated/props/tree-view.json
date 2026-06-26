@@ -1,0 +1,34 @@
+{
+  "component": "tree-view",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the tree."
+    },
+    {
+      "name": "labels",
+      "type": "Record<string, string> | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Display labels per value (defaults to the value)."
+    },
+    {
+      "name": "onExpandedChange",
+      "type": "((expanded: string[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the expanded set changes."
+    },
+    {
+      "name": "onSelectedChange",
+      "type": "((selected: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the selection changes."
+    }
+  ]
+}

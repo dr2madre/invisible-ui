@@ -1,0 +1,20 @@
+{
+  "component": "blockquote",
+  "selected": false,
+  "props": [
+    {
+      "name": "cite",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Attribution text (or use the `cite` slot)."
+    },
+    {
+      "name": "citeUrl",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Source URL (sets the `cite` attribute / links the attribution)."
+    }
+  ]
+}

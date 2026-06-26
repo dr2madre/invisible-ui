@@ -1,0 +1,34 @@
+{
+  "component": "hover-card",
+  "selected": false,
+  "props": [
+    {
+      "name": "placement",
+      "type": "HoverCardContext[\"placement\"]",
+      "default": "\"bottom\"",
+      "required": false,
+      "description": "Preferred placement; flips when there's no room."
+    },
+    {
+      "name": "openDelay",
+      "type": "number",
+      "default": "300",
+      "required": false,
+      "description": "Delay before opening on hover, in ms (focus opens immediately)."
+    },
+    {
+      "name": "closeDelay",
+      "type": "number",
+      "default": "200",
+      "required": false,
+      "description": "Delay before closing on leave, in ms."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the card opens/closes."
+    }
+  ]
+}

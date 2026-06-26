@@ -1,0 +1,38 @@
+---
+title: "Textarea"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import TextareaDemo from "../../../demos/TextareaDemo.svelte";
+
+<Preview>
+  <TextareaDemo client:visible />
+</Preview>
+
+A styled multi-line text field sharing the text-field wiring with `TextField`.
+
+### Import
+
+```svelte
+<script>
+  import Textarea from "@design-system/svelte/Textarea.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="textarea" />
+
+### Accessibility
+
+- Label association plus `aria-describedby` (hint and error), `aria-invalid`, `aria-required` come from the shared headless text field.
+- A non-empty `error` puts the field in the invalid state and announces the message.
+
+### Example
+
+```svelte
+<Textarea label="Message" rows={5} onValueChange={(v) => (message = v)} />
+```
+
+Themeable via `--ds-field-*`.

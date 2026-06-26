@@ -1,0 +1,393 @@
+{
+  "name": "@design-system/svelte",
+  "version": "0.0.0",
+  "description": "Svelte adapter for the design system: thin, headless, accessible bindings over @design-system/core.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dr2madre/design-system.git",
+    "directory": "packages/svelte"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.svelte"
+  ],
+  "files": [
+    "dist",
+    "src/lib/icon/Icon.svelte",
+    "src/lib/feedback-icon",
+    "src/lib/close-button",
+    "src/lib/button/Button.svelte",
+    "src/lib/button-group/ButtonGroup.svelte",
+    "src/lib/alert",
+    "src/lib/notice/Notice.svelte",
+    "src/lib/notice/NoticeRegion.svelte",
+    "src/lib/checkbox/Checkbox.svelte",
+    "src/lib/checkbox-group/CheckboxGroup.svelte",
+    "src/lib/separator/Separator.svelte",
+    "src/lib/toolbar/Toolbar.svelte",
+    "src/lib/avatar/Avatar.svelte",
+    "src/lib/avatar-group/AvatarGroup.svelte",
+    "src/lib/card/Card.svelte",
+    "src/lib/skeleton/Skeleton.svelte",
+    "src/lib/calendar/Calendar.svelte",
+    "src/lib/date-picker/DatePicker.svelte",
+    "src/lib/date-range-picker/DateRangePicker.svelte",
+    "src/lib/time-field/TimeField.svelte",
+    "src/lib/i18n/LocaleProvider.svelte",
+    "src/lib/tag/Tag.svelte",
+    "src/lib/count/Count.svelte",
+    "src/lib/code/Code.svelte",
+    "src/lib/code-block/CodeBlock.svelte",
+    "src/lib/blockquote/Blockquote.svelte",
+    "src/lib/popover/Popover.svelte",
+    "src/lib/tooltip/Tooltip.svelte",
+    "src/lib/switch/Switch.svelte",
+    "src/lib/toggle-button/ToggleButton.svelte",
+    "src/lib/radio-group/RadioGroup.svelte",
+    "src/lib/rating-group/RatingGroup.svelte",
+    "src/lib/radio/Radio.svelte",
+    "src/lib/segmented-control/SegmentedControl.svelte",
+    "src/lib/tabs/Tabs.svelte",
+    "src/lib/accordion/Accordion.svelte",
+    "src/lib/collapsible/Collapsible.svelte",
+    "src/lib/aspect-ratio/AspectRatio.svelte",
+    "src/lib/progress/Progress.svelte",
+    "src/lib/meter/Meter.svelte",
+    "src/lib/label/Label.svelte",
+    "src/lib/field/Field.svelte",
+    "src/lib/toggle-group/ToggleGroup.svelte",
+    "src/lib/slider/Slider.svelte",
+    "src/lib/pagination/Pagination.svelte",
+    "src/lib/stepper/Stepper.svelte",
+    "src/lib/carousel/Carousel.svelte",
+    "src/lib/table/Table.svelte",
+    "src/lib/table/TableView.svelte",
+    "src/lib/table/TableSet.svelte",
+    "src/lib/pin-input/PinInput.svelte",
+    "src/lib/scroll-area/ScrollArea.svelte",
+    "src/lib/tree-view/TreeView.svelte",
+    "src/lib/text-field/TextField.svelte",
+    "src/lib/text-field/Textarea.svelte",
+    "src/lib/select/Select.svelte",
+    "src/lib/dropdown-menu/DropdownMenu.svelte",
+    "src/lib/context-menu/ContextMenu.svelte",
+    "src/lib/dialog/Dialog.svelte",
+    "src/lib/alert-dialog/AlertDialog.svelte",
+    "src/lib/sheet/Sheet.svelte",
+    "src/lib/drawer/Drawer.svelte",
+    "src/lib/hover-card/HoverCard.svelte",
+    "src/lib/menubar/Menubar.svelte",
+    "src/lib/combobox/Combobox.svelte",
+    "src/lib/command/Command.svelte",
+    "src/lib/navigation-menu/NavigationMenu.svelte",
+    "src/lib/styles/tokens.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./Icon.svelte": {
+      "svelte": "./src/lib/icon/Icon.svelte",
+      "default": "./src/lib/icon/Icon.svelte"
+    },
+    "./FeedbackIcon.svelte": {
+      "svelte": "./src/lib/feedback-icon/FeedbackIcon.svelte",
+      "default": "./src/lib/feedback-icon/FeedbackIcon.svelte"
+    },
+    "./CloseButton.svelte": {
+      "svelte": "./src/lib/close-button/CloseButton.svelte",
+      "default": "./src/lib/close-button/CloseButton.svelte"
+    },
+    "./Button.svelte": {
+      "svelte": "./src/lib/button/Button.svelte",
+      "default": "./src/lib/button/Button.svelte"
+    },
+    "./ButtonGroup.svelte": {
+      "svelte": "./src/lib/button-group/ButtonGroup.svelte",
+      "default": "./src/lib/button-group/ButtonGroup.svelte"
+    },
+    "./Alert.svelte": {
+      "svelte": "./src/lib/alert/Alert.svelte",
+      "default": "./src/lib/alert/Alert.svelte"
+    },
+    "./Checkbox.svelte": {
+      "svelte": "./src/lib/checkbox/Checkbox.svelte",
+      "default": "./src/lib/checkbox/Checkbox.svelte"
+    },
+    "./CheckboxGroup.svelte": {
+      "svelte": "./src/lib/checkbox-group/CheckboxGroup.svelte",
+      "default": "./src/lib/checkbox-group/CheckboxGroup.svelte"
+    },
+    "./Separator.svelte": {
+      "svelte": "./src/lib/separator/Separator.svelte",
+      "default": "./src/lib/separator/Separator.svelte"
+    },
+    "./Toolbar.svelte": {
+      "svelte": "./src/lib/toolbar/Toolbar.svelte",
+      "default": "./src/lib/toolbar/Toolbar.svelte"
+    },
+    "./TreeView.svelte": {
+      "svelte": "./src/lib/tree-view/TreeView.svelte",
+      "default": "./src/lib/tree-view/TreeView.svelte"
+    },
+    "./Avatar.svelte": {
+      "svelte": "./src/lib/avatar/Avatar.svelte",
+      "default": "./src/lib/avatar/Avatar.svelte"
+    },
+    "./AvatarGroup.svelte": {
+      "svelte": "./src/lib/avatar-group/AvatarGroup.svelte",
+      "default": "./src/lib/avatar-group/AvatarGroup.svelte"
+    },
+    "./Card.svelte": {
+      "svelte": "./src/lib/card/Card.svelte",
+      "default": "./src/lib/card/Card.svelte"
+    },
+    "./Skeleton.svelte": {
+      "svelte": "./src/lib/skeleton/Skeleton.svelte",
+      "default": "./src/lib/skeleton/Skeleton.svelte"
+    },
+    "./Calendar.svelte": {
+      "svelte": "./src/lib/calendar/Calendar.svelte",
+      "default": "./src/lib/calendar/Calendar.svelte"
+    },
+    "./DatePicker.svelte": {
+      "svelte": "./src/lib/date-picker/DatePicker.svelte",
+      "default": "./src/lib/date-picker/DatePicker.svelte"
+    },
+    "./DateRangePicker.svelte": {
+      "svelte": "./src/lib/date-range-picker/DateRangePicker.svelte",
+      "default": "./src/lib/date-range-picker/DateRangePicker.svelte"
+    },
+    "./TimeField.svelte": {
+      "svelte": "./src/lib/time-field/TimeField.svelte",
+      "default": "./src/lib/time-field/TimeField.svelte"
+    },
+    "./LocaleProvider.svelte": {
+      "svelte": "./src/lib/i18n/LocaleProvider.svelte",
+      "default": "./src/lib/i18n/LocaleProvider.svelte"
+    },
+    "./Tag.svelte": {
+      "svelte": "./src/lib/tag/Tag.svelte",
+      "default": "./src/lib/tag/Tag.svelte"
+    },
+    "./Count.svelte": {
+      "svelte": "./src/lib/count/Count.svelte",
+      "default": "./src/lib/count/Count.svelte"
+    },
+    "./Code.svelte": {
+      "svelte": "./src/lib/code/Code.svelte",
+      "default": "./src/lib/code/Code.svelte"
+    },
+    "./CodeBlock.svelte": {
+      "svelte": "./src/lib/code-block/CodeBlock.svelte",
+      "default": "./src/lib/code-block/CodeBlock.svelte"
+    },
+    "./Blockquote.svelte": {
+      "svelte": "./src/lib/blockquote/Blockquote.svelte",
+      "default": "./src/lib/blockquote/Blockquote.svelte"
+    },
+    "./Popover.svelte": {
+      "svelte": "./src/lib/popover/Popover.svelte",
+      "default": "./src/lib/popover/Popover.svelte"
+    },
+    "./Tooltip.svelte": {
+      "svelte": "./src/lib/tooltip/Tooltip.svelte",
+      "default": "./src/lib/tooltip/Tooltip.svelte"
+    },
+    "./Switch.svelte": {
+      "svelte": "./src/lib/switch/Switch.svelte",
+      "default": "./src/lib/switch/Switch.svelte"
+    },
+    "./ToggleButton.svelte": {
+      "svelte": "./src/lib/toggle-button/ToggleButton.svelte",
+      "default": "./src/lib/toggle-button/ToggleButton.svelte"
+    },
+    "./RadioGroup.svelte": {
+      "svelte": "./src/lib/radio-group/RadioGroup.svelte",
+      "default": "./src/lib/radio-group/RadioGroup.svelte"
+    },
+    "./RatingGroup.svelte": {
+      "svelte": "./src/lib/rating-group/RatingGroup.svelte",
+      "default": "./src/lib/rating-group/RatingGroup.svelte"
+    },
+    "./Radio.svelte": {
+      "svelte": "./src/lib/radio/Radio.svelte",
+      "default": "./src/lib/radio/Radio.svelte"
+    },
+    "./SegmentedControl.svelte": {
+      "svelte": "./src/lib/segmented-control/SegmentedControl.svelte",
+      "default": "./src/lib/segmented-control/SegmentedControl.svelte"
+    },
+    "./Tabs.svelte": {
+      "svelte": "./src/lib/tabs/Tabs.svelte",
+      "default": "./src/lib/tabs/Tabs.svelte"
+    },
+    "./Accordion.svelte": {
+      "svelte": "./src/lib/accordion/Accordion.svelte",
+      "default": "./src/lib/accordion/Accordion.svelte"
+    },
+    "./Collapsible.svelte": {
+      "svelte": "./src/lib/collapsible/Collapsible.svelte",
+      "default": "./src/lib/collapsible/Collapsible.svelte"
+    },
+    "./AspectRatio.svelte": {
+      "svelte": "./src/lib/aspect-ratio/AspectRatio.svelte",
+      "default": "./src/lib/aspect-ratio/AspectRatio.svelte"
+    },
+    "./Progress.svelte": {
+      "svelte": "./src/lib/progress/Progress.svelte",
+      "default": "./src/lib/progress/Progress.svelte"
+    },
+    "./Meter.svelte": {
+      "svelte": "./src/lib/meter/Meter.svelte",
+      "default": "./src/lib/meter/Meter.svelte"
+    },
+    "./Label.svelte": {
+      "svelte": "./src/lib/label/Label.svelte",
+      "default": "./src/lib/label/Label.svelte"
+    },
+    "./Field.svelte": {
+      "svelte": "./src/lib/field/Field.svelte",
+      "default": "./src/lib/field/Field.svelte"
+    },
+    "./ToggleGroup.svelte": {
+      "svelte": "./src/lib/toggle-group/ToggleGroup.svelte",
+      "default": "./src/lib/toggle-group/ToggleGroup.svelte"
+    },
+    "./Slider.svelte": {
+      "svelte": "./src/lib/slider/Slider.svelte",
+      "default": "./src/lib/slider/Slider.svelte"
+    },
+    "./Pagination.svelte": {
+      "svelte": "./src/lib/pagination/Pagination.svelte",
+      "default": "./src/lib/pagination/Pagination.svelte"
+    },
+    "./Stepper.svelte": {
+      "svelte": "./src/lib/stepper/Stepper.svelte",
+      "default": "./src/lib/stepper/Stepper.svelte"
+    },
+    "./Carousel.svelte": {
+      "svelte": "./src/lib/carousel/Carousel.svelte",
+      "default": "./src/lib/carousel/Carousel.svelte"
+    },
+    "./PinInput.svelte": {
+      "svelte": "./src/lib/pin-input/PinInput.svelte",
+      "default": "./src/lib/pin-input/PinInput.svelte"
+    },
+    "./Table.svelte": {
+      "svelte": "./src/lib/table/Table.svelte",
+      "default": "./src/lib/table/Table.svelte"
+    },
+    "./TableSet.svelte": {
+      "svelte": "./src/lib/table/TableSet.svelte",
+      "default": "./src/lib/table/TableSet.svelte"
+    },
+    "./ScrollArea.svelte": {
+      "svelte": "./src/lib/scroll-area/ScrollArea.svelte",
+      "default": "./src/lib/scroll-area/ScrollArea.svelte"
+    },
+    "./TextField.svelte": {
+      "svelte": "./src/lib/text-field/TextField.svelte",
+      "default": "./src/lib/text-field/TextField.svelte"
+    },
+    "./Textarea.svelte": {
+      "svelte": "./src/lib/text-field/Textarea.svelte",
+      "default": "./src/lib/text-field/Textarea.svelte"
+    },
+    "./Select.svelte": {
+      "svelte": "./src/lib/select/Select.svelte",
+      "default": "./src/lib/select/Select.svelte"
+    },
+    "./DropdownMenu.svelte": {
+      "svelte": "./src/lib/dropdown-menu/DropdownMenu.svelte",
+      "default": "./src/lib/dropdown-menu/DropdownMenu.svelte"
+    },
+    "./ContextMenu.svelte": {
+      "svelte": "./src/lib/context-menu/ContextMenu.svelte",
+      "default": "./src/lib/context-menu/ContextMenu.svelte"
+    },
+    "./Dialog.svelte": {
+      "svelte": "./src/lib/dialog/Dialog.svelte",
+      "default": "./src/lib/dialog/Dialog.svelte"
+    },
+    "./AlertDialog.svelte": {
+      "svelte": "./src/lib/alert-dialog/AlertDialog.svelte",
+      "default": "./src/lib/alert-dialog/AlertDialog.svelte"
+    },
+    "./Sheet.svelte": {
+      "svelte": "./src/lib/sheet/Sheet.svelte",
+      "default": "./src/lib/sheet/Sheet.svelte"
+    },
+    "./Drawer.svelte": {
+      "svelte": "./src/lib/drawer/Drawer.svelte",
+      "default": "./src/lib/drawer/Drawer.svelte"
+    },
+    "./HoverCard.svelte": {
+      "svelte": "./src/lib/hover-card/HoverCard.svelte",
+      "default": "./src/lib/hover-card/HoverCard.svelte"
+    },
+    "./Menubar.svelte": {
+      "svelte": "./src/lib/menubar/Menubar.svelte",
+      "default": "./src/lib/menubar/Menubar.svelte"
+    },
+    "./Combobox.svelte": {
+      "svelte": "./src/lib/combobox/Combobox.svelte",
+      "default": "./src/lib/combobox/Combobox.svelte"
+    },
+    "./Command.svelte": {
+      "svelte": "./src/lib/command/Command.svelte",
+      "default": "./src/lib/command/Command.svelte"
+    },
+    "./NavigationMenu.svelte": {
+      "svelte": "./src/lib/navigation-menu/NavigationMenu.svelte",
+      "default": "./src/lib/navigation-menu/NavigationMenu.svelte"
+    },
+    "./Notice.svelte": {
+      "svelte": "./src/lib/notice/Notice.svelte",
+      "default": "./src/lib/notice/Notice.svelte"
+    },
+    "./NoticeRegion.svelte": {
+      "svelte": "./src/lib/notice/NoticeRegion.svelte",
+      "default": "./src/lib/notice/NoticeRegion.svelte"
+    },
+    "./tokens.css": "./src/lib/styles/tokens.css"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "tokens:build": "style-dictionary build --config style-dictionary.config.json"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "dependencies": {
+    "@design-system/core": "workspace:*",
+    "@floating-ui/dom": "^1.7.6"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/svelte": "^5.2.0",
+    "@testing-library/user-event": "^14.5.0",
+    "jsdom": "^25.0.0",
+    "svelte": "^5.0.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.4.3",
+    "vitest": "^2.1.0",
+    "vitest-axe": "^0.1.0"
+  }
+}

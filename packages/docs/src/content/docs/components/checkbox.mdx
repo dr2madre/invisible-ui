@@ -1,0 +1,41 @@
+---
+title: "Checkbox"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CheckboxDemo from "../../../demos/CheckboxDemo.svelte";
+
+<Preview>
+  <CheckboxDemo client:visible />
+</Preview>
+
+The styled checkbox, with tri-state support (`true`, `false`, `"indeterminate"`).
+
+### Import
+
+```svelte
+<script>
+  import CheckboxDemo from "../../../demos/CheckboxDemo.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="checkbox" />
+
+### Accessibility
+
+- Built on a native `<input type="checkbox">`: the browser provides the checkbox
+  role, `aria-checked` (including `mixed` via the indeterminate property), Space
+  activation, focus and form participation. `data-state` mirrors the value for styling.
+- A `label` is required; the native input is wrapped in a `<label>`, so the
+  visible text names the control and clicking it toggles the box.
+
+### Example
+
+```svelte
+<Checkbox label="Accept terms" onCheckedChange={(c) => setAccepted(c)} />
+```
+
+Themeable via `--ds-checkbox-*`.

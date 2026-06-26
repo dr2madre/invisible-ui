@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/amzn/style-dictionary/main/types/config.schema.json",
+  "source": ["tokens/tokens.json"],
+  "platforms": {
+    "css": {
+      "transformGroup": "css",
+      "prefix": "ds",
+      "buildPath": "dist/tokens/",
+      "files": [{ "destination": "tokens.generated.css", "format": "css/variables" }]
+    }
+  }
+}

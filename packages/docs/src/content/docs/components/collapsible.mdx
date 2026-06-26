@@ -1,0 +1,39 @@
+---
+title: "Collapsible"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CollapsibleDemo from "../../../demos/CollapsibleDemo.svelte";
+
+<Preview>
+  <CollapsibleDemo client:visible />
+</Preview>
+
+A single disclosure: a trigger that shows/hides a region.
+
+### Import
+
+```svelte
+<script>
+  import Collapsible from "@design-system/svelte/Collapsible.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="collapsible" />
+
+Slots: `trigger` (the trigger content), default (the collapsible region).
+
+### Accessibility
+
+- The trigger is a `<button>` with `aria-expanded` linked to the region.
+
+### Example
+
+```svelte
+<Collapsible label="Details"><p>Hidden content.</p></Collapsible>
+```
+
+Themeable via `--ds-collapsible-*`.

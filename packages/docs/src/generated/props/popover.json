@@ -1,0 +1,27 @@
+{
+  "component": "popover",
+  "selected": false,
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Initial open state."
+    },
+    {
+      "name": "placement",
+      "type": "PopoverContext[\"placement\"]",
+      "default": "\"bottom\"",
+      "required": false,
+      "description": "Preferred placement (Floating UI); flips when there's no room."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the panel opens/closes."
+    }
+  ]
+}

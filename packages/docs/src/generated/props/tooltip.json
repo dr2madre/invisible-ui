@@ -1,0 +1,34 @@
+{
+  "component": "tooltip",
+  "selected": false,
+  "props": [
+    {
+      "name": "text",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "The tooltip label."
+    },
+    {
+      "name": "placement",
+      "type": "TooltipContext[\"placement\"]",
+      "default": "\"top\"",
+      "required": false,
+      "description": "Preferred placement; flips when there's no room."
+    },
+    {
+      "name": "openDelay",
+      "type": "number",
+      "default": "300",
+      "required": false,
+      "description": "Delay before showing on hover, in ms (focus shows immediately)."
+    },
+    {
+      "name": "closeDelay",
+      "type": "number",
+      "default": "100",
+      "required": false,
+      "description": "Delay before hiding on leave, in ms."
+    }
+  ]
+}

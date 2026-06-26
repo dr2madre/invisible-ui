@@ -1,0 +1,216 @@
+{
+  "component": "table-set",
+  "selected": true,
+  "props": [
+    {
+      "name": "views",
+      "type": "TableViewDef[] | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Tabs, each `{ id, label, columns, rows }`."
+    },
+    {
+      "name": "activeView",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "The active view id (controlled). Defaults to the first view."
+    },
+    {
+      "name": "viewsLabel",
+      "type": "string",
+      "default": "\"Views\"",
+      "required": false,
+      "description": "Accessible name for the views tab list."
+    },
+    {
+      "name": "onViewChange",
+      "type": "((id: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the active view changes."
+    },
+    {
+      "name": "title",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Header title."
+    },
+    {
+      "name": "titleLevel",
+      "type": "2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "caption",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name for the table/list (a `<caption>` in table view)."
+    },
+    {
+      "name": "hideCaption",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "pageSize",
+      "type": "number | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Rows per page (client-side pagination)."
+    },
+    {
+      "name": "page",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "paginationLabel",
+      "type": "string",
+      "default": "\"Table pages\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "onPageChange",
+      "type": "((page: number) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "infinite",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Infinite-scroll mode instead of pagination."
+    },
+    {
+      "name": "hasMore",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Infinite-scroll mode instead of pagination."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "onLoadMore",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Infinite-scroll mode instead of pagination."
+    },
+    {
+      "name": "loadMoreLabel",
+      "type": "string",
+      "default": "\"Load more\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "loadingLabel",
+      "type": "string",
+      "default": "\"Loading…\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "sort",
+      "type": "SortState | null",
+      "default": "null",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "onSortChange",
+      "type": "((sort: SortState | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "hiddenColumns",
+      "type": "string[]",
+      "default": "[]",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "onHiddenColumnsChange",
+      "type": "((hidden: string[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "view",
+      "type": "\"table\" | \"card\"",
+      "default": "\"table\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "allowViewToggle",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Table ↔ cards segmented control."
+    },
+    {
+      "name": "configurable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Column-visibility dropdown (Popover + checkboxes)."
+    },
+    {
+      "name": "configLabel",
+      "type": "string",
+      "default": "\"Columns\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "cardTitleKey",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Map columns to the card title/description."
+    },
+    {
+      "name": "cardDescriptionKey",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Map columns to the card title/description."
+    },
+    {
+      "name": "getValue",
+      "type": "(row: TableRow, key: string) => unknown",
+      "default": "(row, key) => row[key]",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "getRowId",
+      "type": "(row: TableRow, index: number) => string | number",
+      "default": "(row, index) =>",
+      "required": false,
+      "description": ""
+    }
+  ]
+}

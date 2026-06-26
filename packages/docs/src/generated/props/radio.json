@@ -1,0 +1,48 @@
+{
+  "component": "radio",
+  "selected": false,
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "This radio's value."
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Group name (shared across radios)."
+    },
+    {
+      "name": "checked",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Whether this radio is selected."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable this radio."
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Visible label (or use the default slot)."
+    },
+    {
+      "name": "onChange",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when this radio is chosen."
+    }
+  ]
+}

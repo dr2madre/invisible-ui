@@ -1,0 +1,18 @@
+/* Design tokens — primitives + semantic roles. They respond to [data-theme] (set
+   by Starlight on <html>) and prefers-color-scheme, so the theme toggle recolors
+   the live demos automatically. */
+@import "@design-system/svelte/tokens.css";
+
+/* Live-demo container used by <Preview>. */
+.ds-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  margin-block: 1rem 0;
+  background: var(--ds-color-background, #fff);
+  color: var(--ds-color-text, #0f172a);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-radius-surface, 0.75rem);
+}

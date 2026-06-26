@@ -1,0 +1,49 @@
+---
+title: "RadioGroup"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import RadioGroupDemo from "../../../demos/RadioGroupDemo.svelte";
+
+<Preview>
+  <RadioGroupDemo client:visible />
+</Preview>
+
+A single-select radio group built on native `<input type="radio">` items — the
+browser provides roving tabindex, arrow navigation and form participation.
+
+### Import
+
+```svelte
+<script>
+  import RadioGroup from "@design-system/svelte/RadioGroup.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="radio-group" />
+
+### Accessibility
+
+- Native radio pattern: the browser handles roving tabindex, arrow/Home/End
+  navigation, selection-follows-focus and form submission.
+- `role="radiogroup"` with an accessible `label`; each item exposes `data-state`
+  for styling.
+
+### Example
+
+```svelte
+<RadioGroup
+  label="Plan"
+  value="pro"
+  items={[
+    { value: "free", label: "Free" },
+    { value: "pro", label: "Pro" },
+  ]}
+  onValueChange={(v) => (plan = v)}
+/>
+```
+
+Themeable via `--ds-radio-*`.

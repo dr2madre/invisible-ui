@@ -1,0 +1,20 @@
+{
+  "component": "separator",
+  "selected": false,
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": "Divider direction."
+    },
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Hide from assistive tech (purely visual)."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+---
+title: "CloseButton"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CloseButtonDemo from "../../../demos/CloseButtonDemo.svelte";
+
+<Preview>
+  <CloseButtonDemo client:visible />
+</Preview>
+
+A styled "dismiss" button (the × in alerts, dialogs, notices). It is a **preset
+of the Button icon button** — a ghost, `iconOnly` Button with the × glyph and a
+comfortable square hit area.
+
+### Import
+
+```svelte
+<script>
+  import CloseButton from "@design-system/svelte/CloseButton.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="close-button" />
+
+### Accessibility
+
+- The icon is hidden from assistive tech; the button carries an accessible name via `label`.
+- Ghost treatment with a generous square hit area around a small glyph (WCAG 2.5.8 Target Size).
+
+### Example
+
+```svelte
+<CloseButton label="Dismiss" onclose={() => (open = false)} />
+```
+
+Themeable via `--ds-close-*`.

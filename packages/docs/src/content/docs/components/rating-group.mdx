@@ -1,0 +1,39 @@
+---
+title: "Rating Group"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import RatingGroupDemo from "../../../demos/RatingGroupDemo.svelte";
+
+<Preview>
+  <RatingGroupDemo client:visible />
+</Preview>
+
+A star rating built on native `<input type="radio">` stars — single-select with
+browser-provided roving tabindex, arrow keys and form participation.
+
+### Import
+
+```svelte
+<script>
+  import RatingGroup from "@design-system/svelte/RatingGroup.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="rating-group" />
+
+### Accessibility
+
+- A labelled `role="radiogroup"` of native radio stars; the browser handles
+  arrow-key move/select and form submission.
+
+### Example
+
+```svelte
+<RatingGroup value={3} max={5} label="Rating" />
+```
+
+Themeable via `--ds-rating-*`.

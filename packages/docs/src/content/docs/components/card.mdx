@@ -1,0 +1,37 @@
+---
+title: "Card"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CardDemo from "../../../demos/CardDemo.svelte";
+
+<Preview>
+  <CardDemo client:visible />
+</Preview>
+
+A surface for grouped content: a media card (image/icon + title + description +
+tags/actions) or a dashboard metric tile (value + change/trend).
+
+### Import
+
+```svelte
+<script>
+  import Card from "@design-system/svelte/Card.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="card" />
+
+Slots: `media`, `icon`, `title`, `description`, `tags`, `actions`, default
+(body content), `metric`.
+
+### Example
+
+```svelte
+<Card variant="dashboard" title="Revenue" value="€48,200" change="+12.5%" trend="up" />
+```
+
+Themeable via `--ds-card-*`.

@@ -1,0 +1,55 @@
+{
+  "component": "pin-input",
+  "selected": false,
+  "props": [
+    {
+      "name": "type",
+      "type": "PinInputType",
+      "default": "\"numeric\"",
+      "required": false,
+      "description": "Allowed characters."
+    },
+    {
+      "name": "mask",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Obscure entered characters."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable all cells."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the combined code is submitted under it."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible group name."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called on every change."
+    },
+    {
+      "name": "onComplete",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when all cells are filled."
+    }
+  ]
+}

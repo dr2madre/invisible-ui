@@ -1,0 +1,62 @@
+{
+  "component": "alert-dialog",
+  "selected": false,
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Initial open state."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible title naming the alert."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Description of the consequence."
+    },
+    {
+      "name": "actionLabel",
+      "type": "string",
+      "default": "\"Confirm\"",
+      "required": false,
+      "description": "Label of the confirming action button."
+    },
+    {
+      "name": "cancelLabel",
+      "type": "string",
+      "default": "\"Cancel\"",
+      "required": false,
+      "description": "Label of the cancel button (also the Escape action)."
+    },
+    {
+      "name": "actionVariant",
+      "type": "ButtonVariant",
+      "default": "\"primary\"",
+      "required": false,
+      "description": "Action button variant; use `\"danger\"` for destructive actions."
+    },
+    {
+      "name": "onAction",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the action button is pressed (before closing)."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the alert opens/closes."
+    }
+  ]
+}

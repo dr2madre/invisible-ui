@@ -1,0 +1,40 @@
+---
+title: "Carousel"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CarouselDemo from "../../../demos/CarouselDemo.svelte";
+
+<Preview>
+  <CarouselDemo client:visible />
+</Preview>
+
+A horizontal carousel: a `slide` mode (full-bleed background slides with an
+overlay) or a `gallery` mode (a scrolling row of cards). Render custom slide
+content with the default slot (`let:item let:index let:active`).
+
+### Import
+
+```svelte
+<script>
+  import Carousel from "@design-system/svelte/Carousel.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="carousel" />
+
+### Accessibility
+
+- Labelled region with previous/next controls and indicator buttons; the active
+  slide is tracked for assistive tech.
+
+### Example
+
+```svelte
+<Carousel label="Photos" items={[{ image: "/a.jpg", title: "A" }]} />
+```
+
+Themeable via `--ds-carousel-*`.

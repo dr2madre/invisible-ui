@@ -1,0 +1,76 @@
+{
+  "component": "combobox",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the control."
+    },
+    {
+      "name": "items",
+      "type": "ComboboxItem[]",
+      "default": null,
+      "required": true,
+      "description": "Options: `{ value, label?, disabled? }`."
+    },
+    {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": "Selected value."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "\"Search…\"",
+      "required": false,
+      "description": "Input placeholder."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Disable the control."
+    },
+    {
+      "name": "clearLabel",
+      "type": "string",
+      "default": "\"Clear\"",
+      "required": false,
+      "description": "Accessible label for the clear button."
+    },
+    {
+      "name": "emptyText",
+      "type": "string",
+      "default": "\"No results\"",
+      "required": false,
+      "description": "Shown when nothing matches."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the selected option's value is submitted under it (via a hidden input)."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string | null) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the selection changes."
+    },
+    {
+      "name": "onInputValueChange",
+      "type": "((text: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the input text changes."
+    }
+  ]
+}

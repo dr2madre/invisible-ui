@@ -1,0 +1,42 @@
+---
+title: "Table"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import TableDemo from "../../../demos/TableDemo.svelte";
+
+<Preview>
+  <TableDemo client:visible />
+</Preview>
+
+The pure data grid: columns, cells and sortable headers with `aria-sort`. It's
+controlled — sorting is reported via `onSortToggle`; for the batteries-included
+shell (config, views, pagination) see [TableSet](/components/table-set/).
+
+### Import
+
+```svelte
+<script>
+  import Table from "@design-system/svelte/Table.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="table" />
+
+Use the `cell` slot (`let:row let:column let:value let:rowIndex`) for custom
+cell rendering.
+
+### Accessibility
+
+- A real `<table>` with `<caption>`; sortable headers expose `aria-sort`.
+
+### Example
+
+```svelte
+<Table caption="Team" columns={[{ key: "name", header: "Name", sortable: true }]} rows={rows} />
+```
+
+Themeable via `--ds-table-*`.

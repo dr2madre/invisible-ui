@@ -1,0 +1,63 @@
+{
+  "name": "@design-system/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Nozca-ui (by nozcadesign) — a headless, accessible, multi-framework component library built from scratch.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "size": "size-limit",
+    "e2e": "playwright test --project=chromium",
+    "visual": "playwright test --project=visual",
+    "visual:update": "playwright test --project=visual --update-snapshots",
+    "api:generate": "node scripts/generate-api.mjs",
+    "api:check": "node scripts/generate-api.mjs --check",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=@design-system/core --filter=@design-system/svelte && changeset publish",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,js,svelte}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
+    "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.61.1",
+    "@size-limit/preset-small-lib": "^12.1.0",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^3.19.0",
+    "globals": "^17.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.8.4",
+    "prettier-plugin-svelte": "^4.1.1",
+    "size-limit": "^12.1.0",
+    "style-dictionary": "^5.5.0",
+    "svelte-eslint-parser": "^1.8.0",
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.62.0"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

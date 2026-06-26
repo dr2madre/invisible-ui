@@ -1,0 +1,24 @@
+[
+  {
+    "name": "@design-system/core — full barrel (all primitives)",
+    "path": "core/dist/index.js",
+    "limit": "13 kB"
+  },
+  {
+    "name": "@design-system/core — one primitive, tree-shaken (label)",
+    "path": "core/dist/index.js",
+    "import": "{ label }",
+    "limit": "0.5 kB"
+  },
+  {
+    "name": "@design-system/core — calendar only, tree-shaken",
+    "path": "core/dist/index.js",
+    "import": "{ calendar }",
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "@design-system/svelte — adapters barrel",
+    "path": "packages/svelte/dist/index.js",
+    "limit": "44 kB"
+  }
+]

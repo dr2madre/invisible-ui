@@ -1,0 +1,41 @@
+{
+  "component": "button",
+  "selected": false,
+  "props": [
+    {
+      "name": "onpress",
+      "type": "((event: Event) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when activated (click, or Enter/Space)."
+    },
+    {
+      "name": "leftIcon",
+      "type": "boolean | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Show a leading icon. Defaults on for `danger`."
+    },
+    {
+      "name": "rightIcon",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a trailing icon."
+    },
+    {
+      "name": "iconOnly",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Square, icon-only button (pass one icon in the slot + an `ariaLabel`). The CloseButton is a preset of this."
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name; required for icon-only buttons."
+    }
+  ]
+}

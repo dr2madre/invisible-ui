@@ -1,0 +1,20 @@
+{
+  "component": "stepper",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Progress\"",
+      "required": false,
+      "description": "Accessible name."
+    },
+    {
+      "name": "onStepChange",
+      "type": "((current: number) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the active step changes."
+    }
+  ]
+}

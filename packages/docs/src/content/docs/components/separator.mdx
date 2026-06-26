@@ -1,0 +1,38 @@
+---
+title: "Separator"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import SeparatorDemo from "../../../demos/SeparatorDemo.svelte";
+
+<Preview>
+  <SeparatorDemo client:visible />
+</Preview>
+
+A thin visual divider between content or groups of controls.
+
+### Import
+
+```svelte
+<script>
+  import Separator from "@design-system/svelte/Separator.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="separator" />
+
+### Accessibility
+
+- Semantic by default: `role="separator"` with `aria-orientation`.
+- Set `decorative` when it carries no meaning so it is hidden from assistive tech.
+
+### Example
+
+```svelte
+<Separator orientation="vertical" decorative />
+```
+
+Themeable via `--ds-separator-*` (falling back to `--ds-color-border`).

@@ -1,0 +1,333 @@
+/**
+ * Design tokens — two tiers, accessibility-first.
+ *
+ * Tier 1 — PRIMITIVES: the raw palette, reduced to three groups, listed in the
+ * order you most likely customize them:
+ *   1. Brand    (--ds-brand-*)    — your product's primary / secondary.
+ *   2. Feedback (--ds-feedback-*) — info / success / warning / danger.
+ *   3. Neutrals (--ds-neutral-*)  — the UI grays (text, surfaces, borders).
+ * Customizing the brand is usually enough; feedback and neutrals are there if
+ * you need them.
+ *
+ * Tier 2 — SEMANTIC (--ds-color-*): role-based tokens the components consume.
+ * They reference the primitives and remap between light/dark. Tinted surfaces
+ * are derived from the feedback hue via color-mix, so changing a feedback color
+ * cascades to its Alert/Notification surface automatically.
+ *
+ * NAMING — headless, decoupled from style. A semantic token names a ROLE
+ * (primary, surface, border, text…) or a STATE (hover, pressed, disabled,
+ * focus…). It NEVER describes appearance. So there is no "muted", "soft" or
+ * "subtle": that surface is `--ds-color-surface`, the hover overlay is
+ * `--ds-state-hover`. A word like "mute" is only allowed when it is a genuine
+ * state (a muted microphone), never as a visual adjective. Consumers stay free
+ * to restyle a role without the name lying about how it looks.
+ *
+ * Theme follows prefers-color-scheme; force it per subtree with
+ * [data-theme="light|dark"]. Defaults meet WCAG 2 AA (text 4.5:1, UI/icon glyph
+ * 3:1) — re-check contrast if you change the brand or feedback hues.
+ */
+
+/* =============== Tier 1 — primitives (the 3 customizable groups) =========== */
+:root {
+  /* 1) Brand — customize first. White text sits on these, so keep them dark
+        enough for 4.5:1 when used as button fills. */
+  --ds-brand-primary: #2563eb;
+  --ds-brand-primary-hover: #1d4ed8;
+  --ds-brand-secondary: #7c3aed;
+  --ds-brand-secondary-hover: #6d28d9;
+
+  /* 2) Feedback hues. */
+  --ds-feedback-info: #2563eb;
+  --ds-feedback-success: #16a34a;
+  --ds-feedback-warning: #d97706;
+  --ds-feedback-danger: #dc2626;
+  --ds-feedback-danger-hover: #b91c1c;
+
+  /* 3) Neutrals (UI) — a 0–950 gray ramp. */
+  --ds-neutral-0: #ffffff;
+  --ds-neutral-50: #f8fafc;
+  --ds-neutral-100: #f1f5f9;
+  --ds-neutral-200: #e2e8f0;
+  --ds-neutral-300: #cbd5e1;
+  --ds-neutral-400: #94a3b8;
+  --ds-neutral-500: #64748b;
+  --ds-neutral-600: #475569;
+  --ds-neutral-700: #334155;
+  --ds-neutral-800: #1e293b;
+  --ds-neutral-900: #0f172a;
+  --ds-neutral-950: #020617;
+}
+
+/* =============== Tier 2 — non-color roles (shape & type) ================== *
+ * Radius named for the shape's role, not its size — same in light/dark.
+ * Elevation remaps per theme and lives in the semantic blocks below.        */
+:root {
+  --ds-radius-control: 0.5rem; /* buttons, inputs, the close button */
+  --ds-radius-surface: 0.75rem; /* alerts, notifications, cards */
+  --ds-radius-pill: 999px; /* fully rounded — toggles, chips */
+
+  /* Type — system font stacks (native feel, no web-font download, no layout
+     shift). Named by role: sans for UI text, mono for code/numeric. */
+  --ds-font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --ds-font-mono:
+    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* =============== Tier 2 — semantic (light) ================================= */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --ds-color-background: var(--ds-neutral-0);
+  --ds-color-text: var(--ds-neutral-900);
+  --ds-color-text-secondary: var(--ds-neutral-600);
+  --ds-color-text-disabled: var(--ds-neutral-400);
+  --ds-color-border: var(--ds-neutral-200);
+  --ds-color-surface: var(--ds-neutral-100);
+  --ds-color-surface-hover: var(--ds-neutral-200);
+  --ds-color-disabled: var(--ds-neutral-200);
+  --ds-state-hover: rgb(0 0 0 / 0.06);
+  --ds-state-pressed: rgb(0 0 0 / 0.12);
+  --ds-color-focus-ring: var(--ds-brand-primary);
+
+  --ds-color-primary: var(--ds-brand-primary);
+  --ds-color-primary-hover: var(--ds-brand-primary-hover);
+  --ds-color-on-primary: var(--ds-neutral-0);
+  --ds-color-secondary: var(--ds-brand-secondary);
+  --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-on-secondary: var(--ds-neutral-0);
+
+  --ds-color-info: var(--ds-feedback-info);
+  --ds-color-success: var(--ds-feedback-success);
+  --ds-color-warning: var(--ds-feedback-warning);
+  --ds-color-danger: var(--ds-feedback-danger);
+  --ds-color-danger-hover: var(--ds-feedback-danger-hover);
+  --ds-color-neutral: var(--ds-neutral-500);
+  --ds-color-on-status: var(--ds-neutral-0);
+
+  /* Tinted surfaces derived from the feedback hue, mixed into the page. */
+  --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0));
+  --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 30%, var(--ds-neutral-0));
+  --ds-color-success-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 8%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-success-border: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 30%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-warning-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 8%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-warning-border: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 30%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-danger-surface: color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0));
+  --ds-color-danger-border: color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0));
+  --ds-color-neutral-surface: var(--ds-neutral-50);
+  --ds-color-neutral-border: var(--ds-neutral-200);
+
+  --ds-color-emphasis-surface: var(--ds-neutral-800);
+  --ds-color-on-emphasis: var(--ds-neutral-50);
+  --ds-color-emphasis-border: var(--ds-neutral-700);
+
+  --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* =============== Tier 2 — semantic (dark) ================================= */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --ds-color-background: var(--ds-neutral-900);
+    --ds-color-text: var(--ds-neutral-50);
+    --ds-color-text-secondary: var(--ds-neutral-400);
+    --ds-color-text-disabled: var(--ds-neutral-600);
+    --ds-color-border: var(--ds-neutral-700);
+    --ds-color-surface: var(--ds-neutral-700);
+    --ds-color-surface-hover: var(--ds-neutral-600);
+    --ds-color-disabled: var(--ds-neutral-800);
+    --ds-state-hover: rgb(255 255 255 / 0.09);
+    --ds-state-pressed: rgb(255 255 255 / 0.16);
+    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-primary) 60%, var(--ds-neutral-0));
+
+    --ds-color-primary: var(--ds-brand-primary);
+    --ds-color-primary-hover: var(--ds-brand-primary-hover);
+    --ds-color-on-primary: var(--ds-neutral-0);
+    --ds-color-secondary: var(--ds-brand-secondary);
+    --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
+    --ds-color-on-secondary: var(--ds-neutral-0);
+
+    --ds-color-info: var(--ds-feedback-info);
+    --ds-color-success: var(--ds-feedback-success);
+    --ds-color-warning: var(--ds-feedback-warning);
+    --ds-color-danger: var(--ds-feedback-danger);
+    --ds-color-danger-hover: var(--ds-feedback-danger-hover);
+    --ds-color-neutral: var(--ds-neutral-500);
+    --ds-color-on-status: var(--ds-neutral-0);
+
+    --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
+    --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
+    --ds-color-success-surface: color-mix(
+      in srgb,
+      var(--ds-feedback-success) 22%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-success-border: color-mix(
+      in srgb,
+      var(--ds-feedback-success) 45%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-warning-surface: color-mix(
+      in srgb,
+      var(--ds-feedback-warning) 22%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-warning-border: color-mix(
+      in srgb,
+      var(--ds-feedback-warning) 45%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-danger-surface: color-mix(
+      in srgb,
+      var(--ds-feedback-danger) 22%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-danger-border: color-mix(
+      in srgb,
+      var(--ds-feedback-danger) 45%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-neutral-surface: var(--ds-neutral-800);
+    --ds-color-neutral-border: var(--ds-neutral-700);
+
+    --ds-color-emphasis-surface: var(--ds-neutral-100);
+    --ds-color-on-emphasis: var(--ds-neutral-900);
+    --ds-color-emphasis-border: var(--ds-neutral-300);
+
+    --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ds-color-background: var(--ds-neutral-900);
+  --ds-color-text: var(--ds-neutral-50);
+  --ds-color-text-secondary: var(--ds-neutral-400);
+  --ds-color-text-disabled: var(--ds-neutral-600);
+  --ds-color-border: var(--ds-neutral-700);
+  --ds-color-surface: var(--ds-neutral-700);
+  --ds-color-surface-hover: var(--ds-neutral-600);
+  --ds-color-disabled: var(--ds-neutral-800);
+  --ds-state-hover: rgb(255 255 255 / 0.09);
+  --ds-state-pressed: rgb(255 255 255 / 0.16);
+  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-primary) 60%, var(--ds-neutral-0));
+
+  --ds-color-primary: var(--ds-brand-primary);
+  --ds-color-primary-hover: var(--ds-brand-primary-hover);
+  --ds-color-on-primary: var(--ds-neutral-0);
+  --ds-color-secondary: var(--ds-brand-secondary);
+  --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-on-secondary: var(--ds-neutral-0);
+
+  --ds-color-info: var(--ds-feedback-info);
+  --ds-color-success: var(--ds-feedback-success);
+  --ds-color-warning: var(--ds-feedback-warning);
+  --ds-color-danger: var(--ds-feedback-danger);
+  --ds-color-danger-hover: var(--ds-feedback-danger-hover);
+  --ds-color-neutral: var(--ds-neutral-500);
+  --ds-color-on-status: var(--ds-neutral-0);
+
+  --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
+  --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
+  --ds-color-success-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 22%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-success-border: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 45%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-warning-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 22%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-warning-border: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 45%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-danger-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-danger) 22%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-danger-border: color-mix(
+    in srgb,
+    var(--ds-feedback-danger) 45%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-neutral-surface: var(--ds-neutral-800);
+  --ds-color-neutral-border: var(--ds-neutral-700);
+
+  --ds-color-emphasis-surface: var(--ds-neutral-100);
+  --ds-color-on-emphasis: var(--ds-neutral-900);
+  --ds-color-emphasis-border: var(--ds-neutral-300);
+
+  --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+}
+
+/* =============== Fallback: no color-mix() (pre-2023 engines) ============== *
+ * Tinted feedback surfaces are color-mix-derived; where it's unsupported, fall
+ * back to a neutral surface and a solid status border so meaning is preserved. */
+@supports not (background: color-mix(in srgb, red 50%, white)) {
+  :root,
+  [data-theme="light"] {
+    --ds-color-info-surface: var(--ds-neutral-50);
+    --ds-color-success-surface: var(--ds-neutral-50);
+    --ds-color-warning-surface: var(--ds-neutral-50);
+    --ds-color-danger-surface: var(--ds-neutral-50);
+    --ds-color-info-border: var(--ds-feedback-info);
+    --ds-color-success-border: var(--ds-feedback-success);
+    --ds-color-warning-border: var(--ds-feedback-warning);
+    --ds-color-danger-border: var(--ds-feedback-danger);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ds-color-info-surface: var(--ds-neutral-800);
+      --ds-color-success-surface: var(--ds-neutral-800);
+      --ds-color-warning-surface: var(--ds-neutral-800);
+      --ds-color-danger-surface: var(--ds-neutral-800);
+      --ds-color-info-border: var(--ds-feedback-info);
+      --ds-color-success-border: var(--ds-feedback-success);
+      --ds-color-warning-border: var(--ds-feedback-warning);
+      --ds-color-danger-border: var(--ds-feedback-danger);
+      --ds-color-focus-ring: var(--ds-brand-primary);
+    }
+  }
+
+  [data-theme="dark"] {
+    --ds-color-info-surface: var(--ds-neutral-800);
+    --ds-color-success-surface: var(--ds-neutral-800);
+    --ds-color-warning-surface: var(--ds-neutral-800);
+    --ds-color-danger-surface: var(--ds-neutral-800);
+    --ds-color-info-border: var(--ds-feedback-info);
+    --ds-color-success-border: var(--ds-feedback-success);
+    --ds-color-warning-border: var(--ds-feedback-warning);
+    --ds-color-danger-border: var(--ds-feedback-danger);
+    --ds-color-focus-ring: var(--ds-brand-primary);
+  }
+}

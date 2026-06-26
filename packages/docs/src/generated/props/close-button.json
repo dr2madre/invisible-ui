@@ -1,0 +1,13 @@
+{
+  "component": "close-button",
+  "selected": false,
+  "props": [
+    {
+      "name": "onclose",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when activated (click or Enter/Space)."
+    }
+  ]
+}

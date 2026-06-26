@@ -1,0 +1,13 @@
+{
+  "component": "aspect-ratio",
+  "selected": false,
+  "props": [
+    {
+      "name": "ratio",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": "Width ÷ height (e.g. `16 / 9`)."
+    }
+  ]
+}

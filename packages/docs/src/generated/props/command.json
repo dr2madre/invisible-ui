@@ -1,0 +1,48 @@
+{
+  "component": "command",
+  "selected": false,
+  "props": [
+    {
+      "name": "title",
+      "type": "string",
+      "default": "\"Command menu\"",
+      "required": false,
+      "description": "Accessible title for the dialog."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Search commands\"",
+      "required": false,
+      "description": "Accessible label for the search input."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "\"Type a command or search…\"",
+      "required": false,
+      "description": "Input placeholder."
+    },
+    {
+      "name": "emptyText",
+      "type": "string",
+      "default": "\"No results found.\"",
+      "required": false,
+      "description": "Shown when nothing matches."
+    },
+    {
+      "name": "onCommand",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when a command is chosen."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((o: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the palette opens/closes."
+    }
+  ]
+}

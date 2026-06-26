@@ -1,0 +1,27 @@
+{
+  "component": "checkbox-group",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the group (rendered as the legend)."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Shared form field name; each checked item submits its value under it."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the selection changes."
+    }
+  ]
+}

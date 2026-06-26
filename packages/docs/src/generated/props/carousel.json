@@ -1,0 +1,41 @@
+{
+  "component": "carousel",
+  "selected": false,
+  "props": [
+    {
+      "name": "showIndicators",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Show the dot indicators."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the carousel."
+    },
+    {
+      "name": "prevLabel",
+      "type": "string",
+      "default": "\"Previous slide\"",
+      "required": false,
+      "description": "Accessible labels for the arrows."
+    },
+    {
+      "name": "nextLabel",
+      "type": "string",
+      "default": "\"Next slide\"",
+      "required": false,
+      "description": "Accessible labels for the arrows."
+    },
+    {
+      "name": "onIndexChange",
+      "type": "((index: number) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the active slide changes."
+    }
+  ]
+}

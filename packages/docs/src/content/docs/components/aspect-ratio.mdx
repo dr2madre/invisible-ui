@@ -1,0 +1,35 @@
+---
+title: "Aspect Ratio"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import AspectRatioDemo from "../../../demos/AspectRatioDemo.svelte";
+
+<Preview>
+  <AspectRatioDemo client:visible />
+</Preview>
+
+Constrains its content to a fixed width-to-height ratio (pure CSS `aspect-ratio`).
+
+### Import
+
+```svelte
+<script>
+  import AspectRatio from "@design-system/svelte/AspectRatio.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="aspect-ratio" />
+
+The content is the default slot (an image, video, map, …).
+
+### Example
+
+```svelte
+<AspectRatio ratio={16 / 9}><img src="/cover.jpg" alt="" /></AspectRatio>
+```
+
+Presentational — no ARIA of its own.

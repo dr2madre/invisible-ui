@@ -1,0 +1,31 @@
+name: Bug report
+description: Something isn't working as expected.
+labels: ["bug"]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: e.g. Calendar, DatePicker, Table
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: A minimal repro (code snippet or link) helps a lot.
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "@design-system/svelte@x.y.z"
+  - type: dropdown
+    id: a11y
+    attributes:
+      label: Is this an accessibility issue?
+      options: ["No", "Yes"]

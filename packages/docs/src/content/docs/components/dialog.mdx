@@ -1,0 +1,51 @@
+---
+title: "Dialog"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import DialogDemo from "../../../demos/DialogDemo.svelte";
+
+<Preview>
+  <DialogDemo client:only="svelte" />
+</Preview>
+
+A modal window (WAI-ARIA dialog pattern): a trigger opens a `role="dialog"` panel
+with `aria-modal="true"`, portalled to `<body>` over a backdrop, with a focus
+trap and body scroll lock.
+
+### Import
+
+```svelte
+<script>
+  import DialogDemo from "../../../demos/DialogDemo.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="dialog" />
+
+Slots: `trigger` (the trigger button's content) and the default slot (the body).
+
+### Accessibility
+
+- Trigger carries `aria-haspopup="dialog"` / `aria-expanded` and, while open,
+  `aria-controls`. The panel is `role="dialog"` with `aria-modal="true"`, named
+  by its title (`aria-labelledby`) and optionally described (`aria-describedby`).
+- Modal semantics: focus moves into the panel on open, is **trapped** (Tab
+  wraps), body scroll is **locked**; **Escape**, the close button, or a backdrop
+  press close it and return focus to the trigger.
+- Portalled to `<body>` to escape ancestor `overflow`/stacking contexts.
+
+### Example
+
+```svelte
+<Dialog title="Edit profile" description="Make changes to your profile here.">
+  <span slot="trigger">Edit profile</span>
+  <form>…</form>
+</Dialog>
+```
+
+Themeable via `--ds-dialog-*`. The shared modal utilities (`portal`, `trapFocus`,
+`lockScroll`) are reused by the Alert Dialog, Sheet and Drawer.

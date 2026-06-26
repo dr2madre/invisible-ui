@@ -1,0 +1,13 @@
+{
+  "component": "toolbar",
+  "selected": false,
+  "props": [
+    {
+      "name": "flat",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Borderless presentation: the controls inside lose their individual border/fill at rest (they read as one group, divided only by separators) with a subtle hover overlay."
+    }
+  ]
+}

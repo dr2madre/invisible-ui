@@ -1,0 +1,17 @@
+---
+/**
+ * Preview — a framed container for a live component demo. Drop a hydrated Svelte
+ * island inside it from an MDX page:
+ *
+ *   import Preview from "../../../components/Preview.astro";
+ *   import Button from "@design-system/svelte/Button.svelte";
+ *   <Preview><Button client:visible>Button</Button></Preview>
+ *
+ * The `.ds-preview` styling lives in src/styles/site.css and uses the design
+ * tokens, so it follows Starlight's light/dark theme.
+ */
+---
+
+<div class="ds-preview not-content">
+  <slot />
+</div>

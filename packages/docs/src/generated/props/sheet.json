@@ -1,0 +1,48 @@
+{
+  "component": "sheet",
+  "selected": false,
+  "props": [
+    {
+      "name": "side",
+      "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+      "default": "\"right\"",
+      "required": false,
+      "description": "Which edge the sheet is anchored to."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Initial open state."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible title naming the sheet."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional description, wired via `aria-describedby`."
+    },
+    {
+      "name": "closeLabel",
+      "type": "string",
+      "default": "\"Close\"",
+      "required": false,
+      "description": "Accessible label for the close button."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the sheet opens/closes."
+    }
+  ]
+}

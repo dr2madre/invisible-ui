@@ -1,0 +1,41 @@
+{
+  "component": "avatar-group",
+  "selected": false,
+  "props": [
+    {
+      "name": "items",
+      "type": "AvatarGroupItem[]",
+      "default": null,
+      "required": true,
+      "description": "People (`{ name, src?, alt? }`); `name` is the initials fallback."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "4",
+      "required": false,
+      "description": "Visible avatars before the \"+N\" chip."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"md\" | \"lg\"",
+      "default": "\"md\"",
+      "required": false,
+      "description": "Avatar size."
+    },
+    {
+      "name": "shape",
+      "type": "\"circle\" | \"square\"",
+      "default": "\"circle\"",
+      "required": false,
+      "description": "Avatar shape."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the group."
+    }
+  ]
+}

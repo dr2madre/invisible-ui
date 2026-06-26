@@ -1,0 +1,51 @@
+---
+title: "Command"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import CommandDemo from "../../../demos/CommandDemo.svelte";
+
+<Preview>
+  <CommandDemo client:only="svelte" />
+</Preview>
+
+A command palette (⌘K-style): a search combobox inside a modal dialog. It
+composes the **Dialog** (portal, focus trap, scroll lock, Escape / backdrop
+close, focus restore) and the **Combobox** (search, filter, keyboard) — no new
+core code.
+
+### Import
+
+```svelte
+<script>
+  import Command from "@design-system/svelte/Command.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="command" />
+
+The `trigger` slot is the opener button's content.
+
+### Accessibility
+
+- A modal `role="dialog"` (`aria-modal`) containing a `role="combobox"` search
+  input over a `role="listbox"` of results. On open, focus moves to the input and
+  is trapped; **Escape** / a backdrop press close it and restore focus.
+- Typing filters; **Arrow Up/Down** move the highlight (`aria-activedescendant`),
+  **Enter** runs the active command and closes.
+
+### Example
+
+```svelte
+<Command
+  items={[{ value: "save", label: "Save" }, { value: "open", label: "Open…" }]}
+  onCommand={(v) => run(v)}
+>
+  <span slot="trigger">Search…</span>
+</Command>
+```
+
+Themeable via `--ds-command-*` (and the shared dialog/select tokens).

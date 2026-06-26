@@ -1,0 +1,27 @@
+{
+  "component": "slider",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name."
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — the value is submitted under it."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: number) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the value changes."
+    }
+  ]
+}

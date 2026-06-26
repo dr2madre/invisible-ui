@@ -1,0 +1,27 @@
+{
+  "component": "menubar",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible name for the menubar."
+    },
+    {
+      "name": "menus",
+      "type": "MenubarMenu[]",
+      "default": null,
+      "required": true,
+      "description": "Top-level menus: `{ value, label, items, disabled? }`."
+    },
+    {
+      "name": "onSelect",
+      "type": "((menuValue: string, itemValue: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when an item is activated."
+    }
+  ]
+}

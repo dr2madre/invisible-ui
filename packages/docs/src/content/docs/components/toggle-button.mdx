@@ -1,0 +1,39 @@
+---
+title: "ToggleButton"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import ToggleButtonDemo from "../../../demos/ToggleButtonDemo.svelte";
+
+<Preview>
+  <ToggleButtonDemo client:visible />
+</Preview>
+
+A button that is on or off (`aria-pressed`), suited to toolbars like text formatting.
+
+### Import
+
+```svelte
+<script>
+  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="toggle-button" />
+
+### Accessibility
+
+- Exposes `aria-pressed` and `data-state="on" \| "off"`.
+- Provide `label` when the slot content is icon-only so the control still has an accessible name.
+- Distinct from `Switch`: a toggle button is an action, a switch is a setting.
+
+### Example
+
+```svelte
+<ToggleButton label="Bold" onPressedChange={(on) => setBold(on)}>B</ToggleButton>
+```
+
+Themeable via `--ds-toggle-*`.

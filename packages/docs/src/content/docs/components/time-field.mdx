@@ -1,0 +1,42 @@
+---
+title: "Time Field"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import TimeFieldDemo from "../../../demos/TimeFieldDemo.svelte";
+
+<Preview>
+  <TimeFieldDemo client:visible />
+</Preview>
+
+A segmented time input — hour : minute, optional seconds, 12- or 24-hour with an
+AM/PM segment. Each segment is a `role="spinbutton"`.
+
+### Import
+
+```svelte
+<script>
+  import TimeField from "@design-system/svelte/TimeField.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="time-field" />
+
+### Accessibility
+
+- Each segment is a `role="spinbutton"`: ArrowUp/Down increment/decrement
+  (wrapping), Left/Right move between segments, digits type with auto-advance,
+  Backspace clears, and A/P set the period in 12-hour mode.
+- `hourCycle` and `withSeconds` are construction-time configuration.
+
+### Example
+
+```svelte
+<TimeField value="09:30" label="Start time" />
+<TimeField value="14:05:30" hourCycle={12} withSeconds label="Meeting time" />
+```
+
+Themeable via `--ds-time-field-*`.
