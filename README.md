@@ -1,4 +1,4 @@
-# Nozca-ui
+# Invisible-ui
 
 _by nozcadesign_
 
@@ -13,7 +13,7 @@ A **headless, accessible, multi-framework** component library — built from scr
 > pattern.
 >
 > The npm packages are currently named `@design-system/*` and are unpublished;
-> they'll be renamed to the **Nozca-ui** scope when publishing (see
+> they'll be renamed to the **Invisible-ui** scope when publishing (see
 > `docs/technical-roadmap.md`).
 
 ## What this is
