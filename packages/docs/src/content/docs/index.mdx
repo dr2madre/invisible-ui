@@ -15,7 +15,13 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, Aside } from "@astrojs/starlight/components";
+
+<Aside type="caution" title="🚧 Alpha — in active development">
+  Nozca-ui is in **alpha**. APIs, tokens, and package names may change without
+  notice, and the packages are not yet published to npm. Not recommended for
+  production use yet.
+</Aside>
 
 <CardGrid stagger>
   <Card title="Headless core" icon="puzzle">

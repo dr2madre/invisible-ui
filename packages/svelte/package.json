@@ -1,6 +1,6 @@
 {
   "name": "@design-system/svelte",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Svelte adapter for the design system: thin, headless, accessible bindings over @design-system/core.",
   "license": "Apache-2.0",
   "repository": {
