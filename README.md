@@ -1,11 +1,16 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/brand/cover-dark.png" />
-    <img src="assets/brand/cover-light.png" alt="Invisible UI — headless, accessible, multi-framework component library" width="100%" />
+    <img src="assets/brand/cover-light.png" alt="Invisible UI" width="100%" />
   </picture>
 </p>
 
 # Invisible UI
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" /></a>
+  <img alt="Status: alpha" src="https://img.shields.io/badge/status-alpha-orange.svg" />
+</p>
 
 _by nozcadesign_
 
