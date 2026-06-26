@@ -3,6 +3,27 @@
   "selected": false,
   "props": [
     {
+      "name": "triggerVariant",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Command — a command palette (⌘K-style): a search combobox inside a modal dialog. The modal shell (portal, focus trap, scroll lock, Escape / backdrop close, focus restore) and the search/filter/keyboard behaviour come from the headless command (`@design-system/core` dialog + combobox); this is the styled wrapper.  Pass `items` ({ value, label?, disabled? }); `onCommand(value)` runs when a command is chosen. The `trigger` slot is the opener button's content. Bind `open` to wire a keyboard shortcut. Themeable via `--ds-command-*`. / import { createCommand, type CommandItem } from \"./create-command\"; import { portal } from \"../internal/portal\"; import Icon from \"../icon/Icon.svelte\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+    },
+    {
+      "name": "items",
+      "type": "CommandItem[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "title",
       "type": "string",
       "default": "\"Command menu\"",

@@ -13,7 +13,10 @@
    */
   import { createDrawer } from "./create-drawer";
   import { portal } from "../internal/portal";
+  import Button from "../button/Button.svelte";
 
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   /** Initial open state. */
   export let open = false;
   /** Accessible title naming the drawer (required). */
@@ -43,9 +46,9 @@
   } = drawer;
 </script>
 
-<button class="drawer__trigger" type="button" use:triggerAction>
+<Button variant={triggerVariant} action={triggerAction}>
   <slot name="trigger">Open</slot>
-</button>
+</Button>
 
 {#if $isOpen}
   <div class="drawer__portal" use:portal>
@@ -80,10 +83,6 @@
 {/if}
 
 <style>
-  .drawer__trigger {
-    font: inherit;
-  }
-
   .drawer__portal {
     position: fixed;
     inset: 0;

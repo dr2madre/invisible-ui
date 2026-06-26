@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "triggerVariant",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Popover — a styled, non-modal floating panel anchored to a trigger button. Behaviour and accessibility (open/close, `aria-haspopup`/`aria-expanded` wiring, Escape to close) come from the headless popover (`@design-system/core`); this adapter adds Floating-UI positioning (flip/shift), outside-press + focus-leave dismissal, and focus management (focus moves into the panel on open, returns to the trigger on Escape).  Slots: `trigger` (the trigger's content) and the default slot (the panel content). Colors, radius and elevation are themeable via `--ds-popover-*`. / import { createPopover, type PopoverContext } from \"./create-popover\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+    },
+    {
       "name": "open",
       "type": "boolean",
       "default": "false",

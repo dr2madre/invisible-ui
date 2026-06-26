@@ -3,6 +3,34 @@
   "selected": false,
   "props": [
     {
+      "name": "action",
+      "type": "Action<HTMLElement>",
+      "default": "() => {}",
+      "required": false,
+      "description": "Button — the styled, batteries-included button. Behaviour and accessibility come from the headless Button (`@design-system/core`); this layer adds the semantic variants and icon affordances.  Variants (semantic, surfaced as `data-variant`): - `default` — the baseline, medium-emphasis button (default). - `primary` — the most important action to move the flow forward. - `secondary` — an alternative emphasized action, on the brand's secondary color; typically paired next to `primary`. - `ghost`   — reduced affordance (no fill/border at rest), low emphasis. - `danger`  — destructive; uses the `danger` semantic color (the same token as the feedback icons) and shows a hazard icon by default, so the meaning never relies on color alone (WCAG 1.4.1 Use of Color).  Icons: a plain (un-boxed) leading and/or trailing icon. The built-in glyph is a plus; override either via the `left` / `right` slots. Colors and sizing are themeable CSS custom properties (`--ds-button-*`). / import { createButton, type ButtonVariant } from \"./create-button\"; import Icon from \"../icon/Icon.svelte\"; import type { Action } from \"svelte/action\";  /** Optional extra Svelte action applied to the underlying `<button>`. Lets overlay components (Dialog, Popover, …) compose the Button as their trigger by passing their `triggerAction`, instead of rendering a bare button."
+    },
+    {
+      "name": "variant",
+      "type": "ButtonVariant",
+      "default": "\"default\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "type",
+      "type": "\"button\" | \"submit\" | \"reset\"",
+      "default": "\"button\"",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "onpress",
       "type": "((event: Event) => void) | undefined",
       "default": "undefined",

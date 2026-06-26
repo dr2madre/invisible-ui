@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "triggerVariant",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Sheet — a Dialog anchored to an edge of the viewport (the common \"side panel\" pattern). It reuses the headless dialog (`@design-system/core`) and the shared modal adapter (`createDialog`) unchanged: portal to `<body>`, focus trap, scroll lock, Escape / backdrop / close-button dismissal, and focus restore. The only additions over `Dialog` are edge anchoring (`side`) and a slide-in animation.  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass a `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`; the panel extent via `--ds-sheet-size`. / import { createDialog } from \"../dialog/create-dialog\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+    },
+    {
       "name": "side",
       "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
       "default": "\"right\"",
