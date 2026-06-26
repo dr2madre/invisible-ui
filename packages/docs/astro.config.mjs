@@ -9,9 +9,11 @@ export default defineConfig({
   base: "/invisible-ui/",
   integrations: [
     starlight({
-      title: "Nozca-ui",
+      title: "Invisible UI",
       description:
         "A headless, accessible, multi-framework component library — docs and live demos.",
+      logo: { src: "./src/assets/logo.svg", alt: "Invisible UI" },
+      favicon: "/favicon.svg",
       // Design tokens + demo framing. Tokens key off [data-theme] (set by
       // Starlight) and prefers-color-scheme, so the theme toggle drives demos.
       customCss: ["./src/styles/site.css"],
