@@ -3,10 +3,10 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 
-// Deployed to GitHub Pages as a project site, served under /design-system/.
+// Deployed to GitHub Pages as a project site, served under /nozca-ui/.
 export default defineConfig({
   site: "https://dr2madre.github.io",
-  base: "/design-system/",
+  base: "/nozca-ui/",
   integrations: [
     starlight({
       title: "Nozca-ui",
