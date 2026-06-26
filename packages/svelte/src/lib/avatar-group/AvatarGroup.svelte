@@ -68,10 +68,11 @@
   .avatar-group__item {
     display: inline-flex;
     border-radius: inherit;
-    /* The ring is drawn as a box-shadow so it sits over the neighbour. It must
-       match the background the group sits on, so it only separates overlapping
-       avatars and stays invisible around the cluster's outer edge. */
-    box-shadow: 0 0 0 var(--ds-avatar-group-ring-width, 2px)
+    /* No separator ring by default — avatars overlap directly. Opt into one
+       (e.g. for photo avatars) by setting --ds-avatar-group-ring-width to a
+       non-zero value; the ring color should match the background the group sits
+       on so it only separates avatars and stays invisible at the outer edge. */
+    box-shadow: 0 0 0 var(--ds-avatar-group-ring-width, 0)
       var(--ds-avatar-group-ring-color, var(--ds-color-background, #fff));
   }
   .avatar-group__item:not(:first-child) {
