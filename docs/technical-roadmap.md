@@ -31,7 +31,7 @@ Each item ships as its own PR. Checkboxes track progress.
   both packages are `private: true` and the workflow is `workflow_dispatch`-only
   so nothing publishes by accident. To go live later, follow the checklist at
   the top of `.github/workflows/release.yml` (unset `private`, own the npm
-  scope to the Nozca-ui scope you own — e.g. `@nozca-ui/*` — add `NPM_TOKEN`,
+  scope to the Invisible UI scope you own — e.g. `@invisible-ui/*` — add `NPM_TOKEN`,
   flip the trigger to `push`).
 - [x] **2. Lint / format / hooks** — ESLint 9 flat config (js +
   typescript-eslint + eslint-plugin-svelte + prettier compat) + Prettier
