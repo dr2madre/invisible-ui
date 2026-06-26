@@ -4,6 +4,10 @@ _by nozcadesign_
 
 A **headless, accessible, multi-framework** component library — built from scratch.
 
+> **⚠️ Alpha — in active development.** APIs, design tokens, and package names
+> may change without notice, and the packages are not yet published to npm. Not
+> recommended for production use yet.
+
 > **Status:** The framework-agnostic core, the **Svelte** adapter, and the full
 > component set (Phases 1–6 — overlays, modals, navigation, form & value,
 > data/presentational, and date & time) are in place, each as a **headless**
