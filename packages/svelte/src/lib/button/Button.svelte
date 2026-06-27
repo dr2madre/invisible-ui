@@ -30,7 +30,7 @@
   export let action: Action<HTMLElement> = () => {};
 
   export let variant: ButtonVariant = "default";
-  /** Soft tone for `danger`: a pastel-red fill with dark text instead of the solid fill. */
+  /** Soft tone for `danger`: the danger red at 10% with an accessible red label, instead of the solid fill. */
   export let soft = false;
   export let disabled = false;
   export let type: "button" | "submit" | "reset" = "button";
@@ -212,12 +212,16 @@
   .button:global([data-variant="danger"]):hover:not(:disabled) {
     background: var(--ds-color-danger-hover, #b91c1c);
   }
-  /* soft danger: pastel-red fill with dark text. */
+  /* soft danger: the danger red at 10% with an accessible dark-red label. */
   .button--soft:global([data-variant="danger"]) {
-    background: var(--ds-color-danger-soft, #e5a1ac);
-    color: var(--ds-color-on-danger-soft, #7f1d1d);
+    background: var(--ds-color-danger-soft, color-mix(in srgb, #dc2626 10%, #fff));
+    color: var(--ds-color-on-danger-soft, #b91c1c);
   }
   .button--soft:global([data-variant="danger"]):hover:not(:disabled) {
-    background: color-mix(in srgb, var(--ds-color-danger-soft, #e5a1ac) 85%, #000);
+    background: color-mix(
+      in srgb,
+      var(--ds-feedback-danger, #dc2626) 18%,
+      var(--ds-color-background, #fff)
+    );
   }
 </style>
