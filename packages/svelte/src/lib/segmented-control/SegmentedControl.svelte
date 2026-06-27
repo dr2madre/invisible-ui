@@ -210,8 +210,8 @@
     block-size: 100%;
   }
   .segment:has(.segment__input:checked) {
-    background: var(--ds-color-secondary, #7b52cc);
-    color: var(--ds-color-on-secondary, #fff);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
+    color: var(--ds-color-secondary, #7b52cc);
   }
   .segment:has(.segment__input:focus-visible) {
     outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);

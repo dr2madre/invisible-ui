@@ -57,9 +57,9 @@
   }
 
   .toggle:global([data-state="on"]) {
-    background: var(--ds-color-secondary, #7b52cc);
-    color: var(--ds-color-on-secondary, #fff);
-    border-color: var(--ds-color-secondary, #7b52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
+    color: var(--ds-color-secondary, #7b52cc);
+    border-color: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 35%, transparent);
   }
 
   .toggle:global([data-disabled]) {

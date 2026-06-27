@@ -117,11 +117,17 @@
     background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f1f5f9));
   }
   .tree__item--selected {
-    background: var(--ds-tree-item-selected-bg, var(--ds-color-primary, #2563eb));
-    color: var(--ds-tree-item-selected-text, var(--ds-color-on-primary, #fff));
+    background: var(
+      --ds-tree-item-selected-bg,
+      color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent)
+    );
+    color: var(--ds-tree-item-selected-text, var(--ds-color-text, #1c1917));
   }
   .tree__item--selected:hover {
-    background: var(--ds-tree-item-selected-bg, var(--ds-color-primary, #2563eb));
+    background: var(
+      --ds-tree-item-selected-hover,
+      color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 16%, transparent)
+    );
   }
   .tree__item:global(:focus-visible) {
     outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);

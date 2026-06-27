@@ -105,13 +105,16 @@
     </div>
 
     {#if closable}
-      <CloseButton label={closeLabel} onclose={close} />
+      <span class="alert__close">
+        <CloseButton label={closeLabel} onclose={close} />
+      </span>
     {/if}
   </div>
 {/if}
 
 <style>
   .alert {
+    position: relative;
     display: flex;
     gap: 0.75rem;
     align-items: flex-start;
@@ -120,6 +123,15 @@
     border-radius: var(--ds-alert-radius, var(--ds-radius-surface, 0.75rem));
     background: var(--_bg);
     color: var(--_fg, var(--ds-color-text, #0f172a));
+  }
+  /* Pin the close button to the top-right; reserve room so text never runs under it. */
+  .alert:has(.alert__close) {
+    padding-inline-end: 2.5rem;
+  }
+  .alert__close {
+    position: absolute;
+    inset-block-start: 0.5rem;
+    inset-inline-end: 0.5rem;
   }
 
   .alert__content {

@@ -17,7 +17,7 @@
    * Colors are themeable CSS custom properties (`--ds-tag-*`), falling back to the
    * shared status token layer (`--ds-color-*`).
    */
-  type TagStatus = "neutral" | "info" | "success" | "warning" | "danger";
+  type TagStatus = "neutral" | "info" | "success" | "warning" | "danger" | "selected";
 
   export let status: TagStatus = "neutral";
   /** Visual weight: a soft tinted surface (default) or a solid, filled chip. */
@@ -129,6 +129,11 @@
     --_fg: var(--ds-color-neutral-text, #334155);
     --_border: var(--ds-color-neutral-border, #e2e8f0);
   }
+  .tag:global([data-variant="soft"][data-status="selected"]) {
+    --_bg: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 12%, transparent);
+    --_fg: var(--ds-color-secondary, #7b52cc);
+    --_border: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 30%, transparent);
+  }
   .tag:global([data-variant="soft"][data-status="info"]) {
     --_bg: var(--ds-color-info-surface, #eff6ff);
     --_fg: var(--ds-color-info-text, #1d4ed8);
@@ -170,5 +175,9 @@
   .tag:global([data-variant="solid"][data-status="danger"]) {
     --_bg: var(--ds-color-danger, #dc2626);
     --_fg: var(--ds-color-on-danger, #fff);
+  }
+  .tag:global([data-variant="solid"][data-status="selected"]) {
+    --_bg: var(--ds-color-secondary, #7b52cc);
+    --_fg: var(--ds-color-on-secondary, #fff);
   }
 </style>
