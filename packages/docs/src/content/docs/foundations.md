@@ -64,29 +64,29 @@ Replace the values with your brand palette.
 
 ```css
 :root {
-  /* Primary — swap these for your brand hue */
-  --ds-color-primary-50: #fff7ed;
-  --ds-color-primary-100: #ffedd5;
-  --ds-color-primary-200: #fed7aa;
-  --ds-color-primary-300: #fdba74;
-  --ds-color-primary-400: #fb923c;
-  --ds-color-primary-500: #f97316; /* base / primary */
-  --ds-color-primary-600: #ea580c;
-  --ds-color-primary-700: #c2410c;
-  --ds-color-primary-800: #9a3412;
-  --ds-color-primary-900: #7c2d12;
+  /* Primary — swap these for your brand hue (here: the Invisible UI green) */
+  --ds-color-primary-50: #f2faee;
+  --ds-color-primary-100: #e2f3d9;
+  --ds-color-primary-200: #c6e7b4;
+  --ds-color-primary-300: #a7d98c;
+  --ds-color-primary-400: #8dcc7a; /* brand green */
+  --ds-color-primary-500: #6fb35d; /* base / primary */
+  --ds-color-primary-600: #579646;
+  --ds-color-primary-700: #437438;
+  --ds-color-primary-800: #355c2d;
+  --ds-color-primary-900: #2a4a25;
 
-  /* Grey — used for text, backgrounds, lines and borders */
-  --ds-color-grey-50: #f8fafc;
-  --ds-color-grey-100: #f1f5f9;
-  --ds-color-grey-200: #e2e8f0;
-  --ds-color-grey-300: #cbd5e1;
-  --ds-color-grey-400: #94a3b8;
-  --ds-color-grey-500: #64748b;
-  --ds-color-grey-600: #475569;
-  --ds-color-grey-700: #334155;
-  --ds-color-grey-800: #1e293b;
-  --ds-color-grey-900: #0f172a;
+  /* Grey — Tailwind "stone": text, backgrounds, lines and borders */
+  --ds-color-grey-50: #fafaf9;
+  --ds-color-grey-100: #f5f5f4;
+  --ds-color-grey-200: #e7e5e4;
+  --ds-color-grey-300: #d6d3d1;
+  --ds-color-grey-400: #a8a29e;
+  --ds-color-grey-500: #78716c;
+  --ds-color-grey-600: #57534e;
+  --ds-color-grey-700: #44403c;
+  --ds-color-grey-800: #292524;
+  --ds-color-grey-900: #1c1917;
 }
 ```
 
@@ -111,27 +111,37 @@ import "@design-system/svelte/tokens.css";
 **Tier 1 — primitives.** The palette is deliberately small: **three groups**,
 listed in the order you most likely customize them.
 
+Brand colors are authored in **OKLCH** (perceptually uniform — predictable
+lightness for hover/contrast). The **primary** is green; the **secondary** is
+violet and doubles as the **selection / focus** color (selected controls and the
+focus ring derive from it, not from the primary).
+
 ```css
 :root {
-  /* 1) Brand — usually the only thing you need to change. */
-  --ds-brand-primary: #2563eb;
-  --ds-brand-primary-hover: #1d4ed8;
-  --ds-brand-secondary: #7c3aed;
-  --ds-brand-secondary-hover: #6d28d9;
+  /* 1) Brand — usually the only thing you need to change (OKLCH). */
+  --ds-brand-primary: oklch(78.3% 0.129 138.7); /* #8DCC7A green */
+  --ds-brand-primary-hover: oklch(72.3% 0.129 138.7);
+  --ds-brand-secondary: oklch(54.5% 0.181 295.2); /* #7B52CC violet — selection/focus */
+  --ds-brand-secondary-hover: oklch(48.5% 0.181 295.2);
 
   /* 2) Feedback hues. */
-  --ds-feedback-info: #2563eb;
+  --ds-feedback-info: #527acc;
   --ds-feedback-success: #16a34a;
-  --ds-feedback-warning: #d97706;
+  --ds-feedback-warning: #e58a2e; /* light amber → uses a dark on-warning glyph */
   --ds-feedback-danger: #dc2626;
   --ds-feedback-danger-hover: #b91c1c;
 
-  /* 3) Neutrals (UI) — a 0–950 gray ramp for text, surfaces, borders. */
+  /* 3) Neutrals (UI) — Tailwind "stone" 0–950 ramp for text, surfaces, borders. */
   --ds-neutral-0: #ffffff;
-  /* … --ds-neutral-50 … 900 … */
-  --ds-neutral-950: #020617;
+  --ds-neutral-50: #fafaf9;
+  /* … #f5f5f4 #e7e5e4 #d6d3d1 #a8a29e #78716c #57534e #44403c #292524 #1c1917 … */
+  --ds-neutral-950: #0c0a09;
 }
 ```
+
+> Because the primary green is light, `--ds-color-on-primary` is **dark** (dark
+> label on the green button); the light amber warning likewise uses a dark
+> `--ds-color-on-warning`. Both keep WCAG AA contrast.
 
 **Tier 2 — semantic (`--ds-color-*`).** Role tokens that reference the
 primitives and **remap between light/dark**. Components only ever read these.
@@ -174,8 +184,9 @@ token name commits to none of them.
 
 **Customizing — in order of effort:**
 
-1. **Brand** — set `--ds-brand-primary` (and `-secondary`); primary buttons,
-   focus rings and links follow.
+1. **Brand** — set `--ds-brand-primary` (primary buttons follow) and
+   `-secondary` (the **selection / focus** color: selected controls, the focus
+   ring and selected/active states follow it).
 2. **Feedback** — set `--ds-feedback-*`; the status icons and the
    Alert/Notice surfaces re-derive.
 3. **Neutrals** — set the `--ds-neutral-*` ramp to restyle every UI surface,
