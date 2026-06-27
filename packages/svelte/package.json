@@ -46,6 +46,8 @@
     "src/lib/code/Code.svelte",
     "src/lib/code-block/CodeBlock.svelte",
     "src/lib/blockquote/Blockquote.svelte",
+    "src/lib/kbd/Kbd.svelte",
+    "src/lib/breadcrumb/Breadcrumb.svelte",
     "src/lib/popover/Popover.svelte",
     "src/lib/tooltip/Tooltip.svelte",
     "src/lib/switch/Switch.svelte",
@@ -197,6 +199,14 @@
     "./Blockquote.svelte": {
       "svelte": "./src/lib/blockquote/Blockquote.svelte",
       "default": "./src/lib/blockquote/Blockquote.svelte"
+    },
+    "./Kbd.svelte": {
+      "svelte": "./src/lib/kbd/Kbd.svelte",
+      "default": "./src/lib/kbd/Kbd.svelte"
+    },
+    "./Breadcrumb.svelte": {
+      "svelte": "./src/lib/breadcrumb/Breadcrumb.svelte",
+      "default": "./src/lib/breadcrumb/Breadcrumb.svelte"
     },
     "./Popover.svelte": {
       "svelte": "./src/lib/popover/Popover.svelte",

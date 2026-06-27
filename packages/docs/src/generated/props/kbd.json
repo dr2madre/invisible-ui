@@ -1,0 +1,20 @@
+{
+  "component": "kbd",
+  "selected": false,
+  "props": [
+    {
+      "name": "keys",
+      "type": "string[] | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Kbd — a keyboard-shortcut hint rendered with the semantic `<kbd>` element.  Pass a single key as the default slot (`<Kbd>Esc</Kbd>`) or a chord as the `keys` array (`keys={[\"⌘\", \"K\"]}`) — each key gets its own nested `<kbd>` and they are joined by a visible separator (default \"+\"). The outer element is a `<kbd>` so assistive tech announces it as keyboard input.  Presentational only — a light, raised \"keycap\" on a white surface. Themeable via `--ds-kbd-*`. / /** A chord of keys, each rendered as its own keycap and joined by `separator`."
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "default": "\"+\"",
+      "required": false,
+      "description": "Separator shown between chord keys. Defaults to \"+\"."
+    }
+  ]
+}

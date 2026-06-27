@@ -1,0 +1,36 @@
+---
+title: "Kbd"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import KbdDemo from "../../../demos/KbdDemo.svelte";
+
+<Preview>
+  <KbdDemo client:visible />
+</Preview>
+
+A keyboard-shortcut hint, rendered with the semantic `<kbd>` element.
+
+### Import
+
+```svelte
+<script>
+  import Kbd from "@design-system/svelte/Kbd.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="kbd" />
+
+Pass a single key as the default slot, or a chord via the `keys` array.
+
+### Example
+
+```svelte
+<Kbd>Esc</Kbd>
+<Kbd keys={["⌘", "K"]} />
+```
+
+Themeable via `--ds-kbd-*`.

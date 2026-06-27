@@ -1,0 +1,27 @@
+{
+  "component": "breadcrumb",
+  "selected": false,
+  "props": [
+    {
+      "name": "items",
+      "type": "BreadcrumbItem[]",
+      "default": null,
+      "required": true,
+      "description": "Visible label. */ label: string; /** Link target. Omit on the current (last) page. */ href?: string; /** Render a home glyph before the label (typically the first item). */ home?: boolean; } </script>  <script lang=\"ts\"> /** Breadcrumb — a navigation trail (`<nav><ol>`) from the site root to the current page. Linked ancestors are underlined; the last item is the current page (`aria-current=\"page\"`, rendered in the selection color, not a link).  Items are data-driven via `items`; mark the first with `home: true` for a leading home glyph. Separators are decorative. Themeable via `--ds-breadcrumb-*`."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Breadcrumb\"",
+      "required": false,
+      "description": "Accessible name for the landmark."
+    },
+    {
+      "name": "separator",
+      "type": "string",
+      "default": "\"/\"",
+      "required": false,
+      "description": "Separator between items. Defaults to \"/\"."
+    }
+  ]
+}
