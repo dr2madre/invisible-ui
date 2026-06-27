@@ -12,7 +12,7 @@
     description="We'll never share it."
   />
 
-  <!-- Leading icon (e.g. a mail glyph) -->
+  <!-- Leading icon (decorative label, always on the left) -->
   <TextField label="Email" type="email" placeholder="you@example.com">
     <Icon slot="left">
       <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -20,21 +20,22 @@
     </Icon>
   </TextField>
 
-  <!-- Trailing icon (e.g. a search glyph) -->
+  <!-- Search: the glyph is a label, so it sits on the left (not a submit). -->
   <TextField label="Search" type="search" placeholder="Search…">
-    <Icon slot="right">
+    <Icon slot="left">
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </Icon>
   </TextField>
 
-  <!-- Both -->
-  <TextField label="Amount" type="text" placeholder="0.00">
-    <Icon slot="left"
-      ><line x1="12" y1="1" x2="12" y2="23" /><path
-        d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
-      /></Icon
-    >
-    <Icon slot="right"><polyline points="20 6 9 17 4 12" /></Icon>
-  </TextField>
+  <!-- Error: red ring + triangle + message. -->
+  <TextField label="Email" type="email" value="not-an-email" error="Enter a valid email address." />
+
+  <!-- Validated: green check (right) + confirming caption. -->
+  <TextField
+    label="Username"
+    type="text"
+    value="ada_lovelace"
+    success="This username is available."
+  />
 </div>
