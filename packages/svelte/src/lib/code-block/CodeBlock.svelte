@@ -62,9 +62,9 @@
 <style>
   .code-block {
     margin: 0;
-    background: var(--ds-code-block-surface, var(--ds-color-emphasis-surface, #1e293b));
-    color: var(--ds-code-block-text, var(--ds-color-on-emphasis, #f8fafc));
-    border: 1px solid var(--ds-code-block-border, var(--ds-color-emphasis-border, #334155));
+    background: var(--ds-code-block-surface, var(--ds-color-surface, #f1f5f9));
+    color: var(--ds-code-block-text, var(--ds-color-text, #0f172a));
+    border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #cbd5e1));
     border-radius: var(--ds-code-block-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
@@ -76,8 +76,7 @@
     gap: 0.75rem;
     padding: var(--ds-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
     font-size: 0.75rem;
-    border-block-end: 1px solid
-      var(--ds-code-block-border, var(--ds-color-emphasis-border, #334155));
+    border-block-end: 1px solid var(--ds-code-block-border, var(--ds-color-border, #cbd5e1));
   }
 
   .code-block__lang {
@@ -93,14 +92,14 @@
     font: inherit;
     font-size: 0.75rem;
     color: inherit;
-    background: var(--ds-code-block-copy-bg, rgba(255, 255, 255, 0.08));
+    background: var(--ds-code-block-copy-bg, rgba(0, 0, 0, 0.05));
     border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.375rem);
     cursor: pointer;
     transition: background-color 120ms ease;
   }
   .code-block__copy:hover {
-    background: var(--ds-code-block-copy-hover, rgba(255, 255, 255, 0.16));
+    background: var(--ds-code-block-copy-hover, rgba(0, 0, 0, 0.1));
   }
   .code-block__copy:focus-visible {
     outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
