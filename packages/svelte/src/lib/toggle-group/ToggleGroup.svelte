@@ -41,7 +41,7 @@
 <div class="toggle-group" use:rootAction aria-label={label}>
   {#each items as item (item.value)}
     <button class="toggle-group__item" use:itemAction={item.value}>
-      {item.label ?? item.value}
+      <slot name="item" {item}>{item.label ?? item.value}</slot>
     </button>
   {/each}
 </div>
