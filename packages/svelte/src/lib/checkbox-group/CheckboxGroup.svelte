@@ -133,7 +133,7 @@
      (coherent with the standalone Checkbox), not a solid fill. */
   .checkbox__input:checked + .checkbox {
     background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
-    border-color: var(--ds-color-secondary, #7b52cc);
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
     color: var(--ds-color-secondary, #7b52cc);
   }
 
