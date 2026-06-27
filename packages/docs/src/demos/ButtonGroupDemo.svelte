@@ -1,17 +1,13 @@
 <script>
   import ButtonGroup from "@design-system/svelte/ButtonGroup.svelte";
   import Button from "@design-system/svelte/Button.svelte";
+  import Select from "@design-system/svelte/Select.svelte";
   import Icon from "@design-system/svelte/Icon.svelte";
 </script>
 
 <div class="demos">
-  <ButtonGroup label="Text alignment">
-    <Button>Left</Button>
-    <Button>Center</Button>
-    <Button>Right</Button>
-  </ButtonGroup>
-
-  <!-- Grouped buttons with an icon (icon in the Button's `left` slot + label). -->
+  <!-- Independent actions joined into one attached bar. `label` names the group
+       for assistive tech (announced as "Document actions, group"). -->
   <ButtonGroup label="Document actions">
     <Button>
       <Icon slot="left">
@@ -39,13 +35,37 @@
       Share
     </Button>
   </ButtonGroup>
+
+  <!-- A toolbar of independent record actions, right-aligned, ending in a Select
+       for the overflow ("More…"). Spaced (attached={false}) because these are
+       distinct actions, not a single segmented choice. -->
+  <div class="bar">
+    <ButtonGroup label="Record actions" attached={false}>
+      <Button variant="default">Export</Button>
+      <Button variant="default">Duplicate</Button>
+      <Button variant="danger" soft>Delete</Button>
+      <Select
+        label="More actions"
+        placeholder="More…"
+        items={[
+          { value: "archive", label: "Archive" },
+          { value: "move", label: "Move to…" },
+          { value: "tag", label: "Add tag" },
+        ]}
+      />
+    </ButtonGroup>
+  </div>
 </div>
 
 <style>
   .demos {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1.5rem;
-    align-items: center;
+  }
+  /* Push the action toolbar to the right, like a list/table header. */
+  .bar {
+    display: flex;
+    justify-content: flex-end;
   }
 </style>
