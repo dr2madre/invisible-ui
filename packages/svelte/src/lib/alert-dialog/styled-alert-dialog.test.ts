@@ -27,9 +27,18 @@ describe("Svelte AlertDialog (styled)", () => {
     expect(screen.getByRole("button", { name: "Cancel" })).toHaveFocus();
   });
 
-  it("does NOT close on a backdrop press", async () => {
+  it("closes on a backdrop press by default", async () => {
     const user = userEvent.setup();
     render(Fixture);
+    await openIt(user);
+
+    await fireEvent.pointerDown(overlay()!);
+    expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
+  });
+
+  it("keeps open on a backdrop press when closeOnOutsideClick is false", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { closeOnOutsideClick: false } });
     await openIt(user);
 
     await fireEvent.pointerDown(overlay()!);

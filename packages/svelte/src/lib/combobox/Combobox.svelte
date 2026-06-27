@@ -52,8 +52,13 @@
   } = combobox;
 
   // The chevron toggles the list open/closed (showing all options when opened),
-  // so a selected value can be changed without clearing it first.
-  function toggle() {
+  // so a selected value can be changed without clearing it first. iOS Safari can
+  // synthesize a duplicate "ghost" click; ignore one that arrives right after the
+  // last so the list doesn't open then immediately close.
+  let lastToggle = -Infinity;
+  function toggle(event: MouseEvent) {
+    if (event.timeStamp - lastToggle < 350) return;
+    lastToggle = event.timeStamp;
     if ($open) setOpen(false);
     else openAll();
   }
@@ -210,6 +215,7 @@
     inline-size: 1.5rem;
     block-size: 1.5rem;
     flex: none;
+    touch-action: manipulation;
     /* Breathing room from the clear button. */
     margin-inline-start: 0.25rem;
     padding: 0.2rem;

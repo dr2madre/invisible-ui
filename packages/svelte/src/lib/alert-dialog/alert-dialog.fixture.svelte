@@ -3,6 +3,7 @@
 
   export let onAction: (() => void) | undefined = undefined;
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  export let closeOnOutsideClick = true;
 </script>
 
 <button type="button">before</button>
@@ -11,6 +12,7 @@
   description="This action cannot be undone."
   actionLabel="Delete"
   actionVariant="danger"
+  {closeOnOutsideClick}
   {onAction}
   {onOpenChange}
 >

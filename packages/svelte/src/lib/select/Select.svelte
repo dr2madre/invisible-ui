@@ -124,6 +124,7 @@
     font: inherit;
     text-align: start;
     cursor: pointer;
+    touch-action: manipulation;
     transition:
       border-color 120ms ease,
       box-shadow 120ms ease;

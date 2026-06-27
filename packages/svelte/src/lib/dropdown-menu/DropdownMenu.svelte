@@ -61,6 +61,7 @@
     font: inherit;
     font-weight: 600;
     cursor: pointer;
+    touch-action: manipulation;
   }
   .menu__trigger:focus-visible {
     outline: none;

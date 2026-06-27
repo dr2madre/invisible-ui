@@ -12,8 +12,9 @@ import AlertDialogDemo from "../../../demos/AlertDialogDemo.svelte";
 
 A modal that interrupts the user to confirm a consequential action (WAI-ARIA
 alertdialog pattern). Reuses the headless dialog with `role="alertdialog"` and
-the shared modal adapter. Unlike Dialog it is **not** dismissed by a backdrop
-press and has no close (✕) button.
+the shared modal adapter. It has no close (✕) button; a backdrop press cancels
+by default — set `closeOnOutsideClick={false}` to force an explicit choice for
+irreversible actions.
 
 ### Import
 
@@ -33,9 +34,10 @@ The default slot is the trigger's content.
 
 - Panel is `role="alertdialog"` with `aria-modal="true"`, named by the title and
   described by the description (both required).
-- Focus starts on **Cancel** (the least-destructive action). **Escape** cancels;
-  there is **no** backdrop-press dismissal — the user must choose. Focus is
-  trapped and body scroll locked; focus returns to the trigger on close.
+- Focus starts on **Cancel** (the least-destructive action). **Escape** cancels,
+  and a backdrop press cancels by default (opt out with
+  `closeOnOutsideClick={false}` for irreversible actions). Focus is trapped and
+  body scroll locked; focus returns to the trigger on close.
 
 ### Example
 

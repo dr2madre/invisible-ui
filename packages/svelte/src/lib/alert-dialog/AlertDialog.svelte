@@ -3,9 +3,10 @@
    * AlertDialog — a styled modal that interrupts the user to confirm a
    * consequential action (WAI-ARIA alertdialog pattern). It reuses the headless
    * dialog (`@design-system/core`) with `role="alertdialog"` and the shared modal
-   * adapter (`createDialog`): portal, focus trap, scroll lock. Unlike Dialog it
-   * is **not** dismissed by a backdrop press and has no close (✕) button — the
-   * user must choose Cancel or the action; Escape acts as Cancel.
+   * adapter (`createDialog`): portal, focus trap, scroll lock. It has no close
+   * (✕) button; a backdrop press cancels by default (set
+   * `closeOnOutsideClick={false}` to force an explicit choice for irreversible
+   * actions). Escape acts as Cancel.
    *
    * A `title` and `description` are both required (an alert must be named and
    * described). The default slot is the trigger. `onAction` runs when the action
@@ -33,6 +34,12 @@
   export let triggerVariant: ButtonVariant = "default";
   /** Called when the action button is pressed (before the dialog closes). */
   export let onAction: (() => void) | undefined = undefined;
+  /**
+   * Whether pressing the backdrop (outside the panel) cancels and closes.
+   * Defaults to `true`; set `false` to force an explicit Cancel/confirm choice
+   * (e.g. for irreversible actions).
+   */
+  export let closeOnOutsideClick = true;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
   /**
@@ -50,7 +57,7 @@
     open,
     role: "alertdialog",
     describedBy: true,
-    closeOnOutsideClick: false,
+    closeOnOutsideClick,
     // Focus the safe choice (Cancel) by default, not the destructive action.
     initialFocus: ".alert-dialog__actions button",
     onOpenChange,
@@ -63,6 +70,10 @@
     titleAction,
     descriptionAction,
   } = dialog;
+
+  // Reset the type-to-confirm field whenever the dialog closes (including via a
+  // backdrop press or Escape, which bypass the Cancel button).
+  $: if (!$isOpen && typed) typed = "";
 
   const cancel = () => {
     typed = "";

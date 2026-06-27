@@ -2,6 +2,7 @@ import { popover as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { ignoreGhostClicks } from "../internal/ghost-click";
 import { attachFloating, type Placement } from "../internal/floating";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { normalizeProps } from "../normalize";
@@ -63,8 +64,11 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
   const triggerAction: Action<HTMLElement> = (node) => {
     triggerEl = node;
     const base = createPropsAction(api, (a) => a.triggerProps)(node);
+    // Drop iOS's synthesized duplicate click so the popover doesn't toggle twice.
+    const stopGhost = ignoreGhostClicks(node);
     return {
       destroy() {
+        stopGhost();
         if (triggerEl === node) triggerEl = null;
         base?.destroy?.();
       },

@@ -4,6 +4,7 @@ import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { ignoreGhostClicks } from "../internal/ghost-click";
 import { normalizeProps } from "../normalize";
 
 export type MenuItem = core.MenuItem;
@@ -89,8 +90,11 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
   const triggerAction: Action<HTMLElement> = (node) => {
     triggerEl = node;
     const base = createPropsAction(api, (a) => a.triggerProps)(node);
+    // Drop iOS's synthesized duplicate click so the menu doesn't toggle twice.
+    const stopGhost = ignoreGhostClicks(node);
     return {
       destroy() {
+        stopGhost();
         if (triggerEl === node) triggerEl = null;
         base?.destroy?.();
       },
