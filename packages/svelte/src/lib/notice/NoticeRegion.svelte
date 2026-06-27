@@ -112,4 +112,18 @@
     inset-inline-start: 50%;
     transform: translateX(-50%);
   }
+
+  /* On narrow screens notices span the full width (edge-to-edge with a small
+     gutter), regardless of placement — a single column is easier to read and
+     tap on a phone than a floating corner card. */
+  @media (max-width: 30rem) {
+    .notice-region,
+    .notice-region:global([data-placement$="start"]),
+    .notice-region:global([data-placement$="end"]),
+    .notice-region:global([data-placement$="center"]) {
+      inline-size: 100%;
+      inset-inline: 0;
+      transform: none;
+    }
+  }
 </style>

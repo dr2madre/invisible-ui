@@ -66,6 +66,13 @@
       "description": "High-contrast inverse surface."
     },
     {
+      "name": "plain",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+    },
+    {
       "name": "onclose",
       "type": "(() => void) | undefined",
       "default": "undefined",
