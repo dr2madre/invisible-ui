@@ -17,6 +17,34 @@
       "description": "Form field name — the value is submitted under it."
     },
     {
+      "name": "showValue",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show the current value to the side of the track."
+    },
+    {
+      "name": "showRange",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show the min and max reference values under the ends of the track."
+    },
+    {
+      "name": "ticks",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show tick marks at each step (only when the count is reasonable)."
+    },
+    {
+      "name": "format",
+      "type": "(value: number) => string",
+      "default": "(v) => String(v)",
+      "required": false,
+      "description": "Format the displayed value/range (e.g. add a unit)."
+    },
+    {
       "name": "onValueChange",
       "type": "((value: number) => void) | undefined",
       "default": "undefined",
