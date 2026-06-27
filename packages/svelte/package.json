@@ -49,6 +49,8 @@
     "src/lib/kbd/Kbd.svelte",
     "src/lib/breadcrumb/Breadcrumb.svelte",
     "src/lib/drop-zone/DropZone.svelte",
+    "src/lib/login-form/LoginForm.svelte",
+    "src/lib/menu/Menu.svelte",
     "src/lib/popover/Popover.svelte",
     "src/lib/tooltip/Tooltip.svelte",
     "src/lib/switch/Switch.svelte",
@@ -212,6 +214,14 @@
     "./DropZone.svelte": {
       "svelte": "./src/lib/drop-zone/DropZone.svelte",
       "default": "./src/lib/drop-zone/DropZone.svelte"
+    },
+    "./LoginForm.svelte": {
+      "svelte": "./src/lib/login-form/LoginForm.svelte",
+      "default": "./src/lib/login-form/LoginForm.svelte"
+    },
+    "./Menu.svelte": {
+      "svelte": "./src/lib/menu/Menu.svelte",
+      "default": "./src/lib/menu/Menu.svelte"
     },
     "./Popover.svelte": {
       "svelte": "./src/lib/popover/Popover.svelte",

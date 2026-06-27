@@ -1,0 +1,34 @@
+{
+  "component": "menu",
+  "selected": false,
+  "props": [
+    {
+      "name": "sections",
+      "type": "MenuSection[]",
+      "default": null,
+      "required": true,
+      "description": "Optional leading icon component (rendered as `<svelte:component>`). */ icon?: unknown; } export interface MenuSection { /** Optional section heading. */ label?: string; items: MenuItem[]; } </script>  <script lang=\"ts\"> /** Menu — a sidebar navigation organism: a logo header, one or more labelled sections of items (icon + label), and a footer slot. Items are links when given an `href`, otherwise buttons that emit `onSelect`. The active item is marked with `aria-current=\"page\"` and the selection color.  Composed for the desktop/tablet sidebar pattern; themeable via `--ds-menu-*`."
+    },
+    {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": "The active item's value."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Main\"",
+      "required": false,
+      "description": "Accessible name for the navigation landmark."
+    },
+    {
+      "name": "onSelect",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    }
+  ]
+}
