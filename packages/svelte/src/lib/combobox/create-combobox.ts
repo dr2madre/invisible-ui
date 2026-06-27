@@ -31,6 +31,8 @@ export interface CreateCombobox {
   items: Readable<ComboboxItem[]>;
   /** Svelte action for the label: `<label use:labelAction>`. */
   labelAction: Action<HTMLElement>;
+  /** Svelte action for the control wrapper (keeps chevron/clear clicks "inside"). */
+  controlAction: Action<HTMLElement>;
   /** Svelte action for the input: `<input use:inputAction>`. */
   inputAction: Action<HTMLElement>;
   /** Svelte action for the listbox popup: `<ul use:listboxAction>`. */
@@ -39,6 +41,10 @@ export interface CreateCombobox {
   optionAction: Action<HTMLElement, string>;
   /** Svelte action for an optional clear button. */
   clearAction: Action<HTMLElement>;
+  /** Open the listbox showing all options (even when a value is selected). */
+  openAll: () => void;
+  /** Imperatively set the open state. */
+  setOpen: (open: boolean) => void;
 }
 
 const defaultFilter = (items: ComboboxItem[], query: string) => {
@@ -102,6 +108,21 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
 
   let inputEl: HTMLElement | null = null;
   let listboxEl: HTMLElement | null = null;
+  let controlEl: HTMLElement | null = null;
+
+  // Open the listbox showing ALL options (ignore the current input text), so a
+  // chosen value can be changed via the chevron without clearing it first.
+  const openAll = () => {
+    const wasOpen = get(state).open;
+    state.update((current) => ({
+      ...current,
+      open: true,
+      items: filter(allItems, ""),
+      activeValue: current.value ?? core.firstEnabled(filter(allItems, "")),
+    }));
+    if (!wasOpen) context.onOpenChange?.(true);
+    inputEl?.focus();
+  };
 
   const placement: Placement = "bottom-start";
   const reposition = () => {
@@ -119,12 +140,24 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
 
   const onOutsidePointer = (event: Event) => {
     const target = event.target as Node;
-    if (inputEl?.contains(target) || listboxEl?.contains(target)) return;
+    if (controlEl?.contains(target) || inputEl?.contains(target) || listboxEl?.contains(target))
+      return;
     setOpen(false);
     setActiveValue(null);
   };
 
   const labelAction = createPropsAction(api, (a) => a.labelProps);
+
+  // Registers the control wrapper so clicks on the chevron/clear (inside it but
+  // outside the input) don't count as an outside-press that closes the listbox.
+  const controlAction: Action<HTMLElement> = (node) => {
+    controlEl = node;
+    return {
+      destroy() {
+        if (controlEl === node) controlEl = null;
+      },
+    };
+  };
 
   const inputAction: Action<HTMLElement> = (node) => {
     inputEl = node;
@@ -210,9 +243,12 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     open: derived(state, ($s) => $s.open),
     items: derived(state, ($s) => $s.items),
     labelAction,
+    controlAction,
     inputAction,
     listboxAction,
     optionAction,
     clearAction,
+    openAll,
+    setOpen,
   };
 }

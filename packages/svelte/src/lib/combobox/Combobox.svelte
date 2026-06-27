@@ -38,6 +38,7 @@
   });
   const {
     labelAction,
+    controlAction,
     inputAction,
     listboxAction,
     optionAction,
@@ -45,7 +46,17 @@
     items: visible,
     inputValue,
     value: selectedValue,
+    open,
+    openAll,
+    setOpen,
   } = combobox;
+
+  // The chevron toggles the list open/closed (showing all options when opened),
+  // so a selected value can be changed without clearing it first.
+  function toggle() {
+    if ($open) setOpen(false);
+    else openAll();
+  }
 </script>
 
 <div class="combobox">
@@ -54,7 +65,7 @@
   {/if}
   <label class="combobox__label" use:labelAction>{label}</label>
 
-  <div class="combobox__control" class:combobox__control--disabled={disabled}>
+  <div class="combobox__control" class:combobox__control--disabled={disabled} use:controlAction>
     <span class="combobox__search" aria-hidden="true">
       <Icon size="100%">
         <circle cx="11" cy="11" r="8" />
@@ -79,9 +90,17 @@
       </button>
     {/if}
 
-    <span class="combobox__chevron" aria-hidden="true">
+    <button
+      class="combobox__chevron"
+      type="button"
+      tabindex="-1"
+      aria-label={$open ? "Close options" : "Show options"}
+      {disabled}
+      on:mousedown|preventDefault
+      on:click={toggle}
+    >
       <Icon size="100%"><polyline points="6 9 12 15 18 9" /></Icon>
-    </span>
+    </button>
   </div>
 
   <ul class="combobox__listbox" use:listboxAction>
@@ -174,10 +193,29 @@
   }
   .combobox__chevron {
     display: inline-flex;
-    inline-size: 1.1em;
-    block-size: 1.1em;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
     flex: none;
+    /* Breathing room from the clear button. */
+    margin-inline-start: 0.25rem;
+    padding: 0.2rem;
+    border: 0;
+    border-radius: var(--ds-radius-control, 0.5rem);
+    background: transparent;
     color: var(--ds-color-text-secondary, #64748b);
+    cursor: pointer;
+    transition:
+      background-color 120ms ease,
+      color 120ms ease;
+  }
+  .combobox__chevron:hover:not(:disabled) {
+    color: inherit;
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  }
+  .combobox__chevron:disabled {
+    cursor: not-allowed;
   }
 
   .combobox__listbox {
