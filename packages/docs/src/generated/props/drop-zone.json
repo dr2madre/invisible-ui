@@ -31,6 +31,13 @@
       "description": "Form field name (the underlying file input)."
     },
     {
+      "name": "caption",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
+    },
+    {
       "name": "onFiles",
       "type": "((files: File[]) => void) | undefined",
       "default": "undefined",
