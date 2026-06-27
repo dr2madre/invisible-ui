@@ -37,25 +37,25 @@
   --ds-brand-secondary-hover: oklch(48.5% 0.181 295.2);
 
   /* 2) Feedback hues. */
-  --ds-feedback-info: #2563eb;
+  --ds-feedback-info: #527acc;
   --ds-feedback-success: #16a34a;
-  --ds-feedback-warning: #d97706;
+  --ds-feedback-warning: #e58a2e;
   --ds-feedback-danger: #dc2626;
   --ds-feedback-danger-hover: #b91c1c;
 
-  /* 3) Neutrals (UI) — a 0–950 gray ramp. */
+  /* 3) Neutrals (UI) — Tailwind's "stone" 0–950 ramp. */
   --ds-neutral-0: #ffffff;
-  --ds-neutral-50: #f8fafc;
-  --ds-neutral-100: #f1f5f9;
-  --ds-neutral-200: #e2e8f0;
-  --ds-neutral-300: #cbd5e1;
-  --ds-neutral-400: #94a3b8;
-  --ds-neutral-500: #64748b;
-  --ds-neutral-600: #475569;
-  --ds-neutral-700: #334155;
-  --ds-neutral-800: #1e293b;
-  --ds-neutral-900: #0f172a;
-  --ds-neutral-950: #020617;
+  --ds-neutral-50: #fafaf9;
+  --ds-neutral-100: #f5f5f4;
+  --ds-neutral-200: #e7e5e4;
+  --ds-neutral-300: #d6d3d1;
+  --ds-neutral-400: #a8a29e;
+  --ds-neutral-500: #78716c;
+  --ds-neutral-600: #57534e;
+  --ds-neutral-700: #44403c;
+  --ds-neutral-800: #292524;
+  --ds-neutral-900: #1c1917;
+  --ds-neutral-950: #0c0a09;
 }
 
 /* =============== Tier 2 — non-color roles (shape & type) ================== *
@@ -106,6 +106,7 @@
   --ds-color-danger-hover: var(--ds-feedback-danger-hover);
   --ds-color-neutral: var(--ds-neutral-500);
   --ds-color-on-status: var(--ds-neutral-0);
+  --ds-color-on-warning: var(--ds-neutral-900);
 
   /* Tinted surfaces derived from the feedback hue, mixed into the page. */
   --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0));
@@ -173,6 +174,7 @@
     --ds-color-danger-hover: var(--ds-feedback-danger-hover);
     --ds-color-neutral: var(--ds-neutral-500);
     --ds-color-on-status: var(--ds-neutral-0);
+    --ds-color-on-warning: var(--ds-neutral-900);
 
     --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
     --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
@@ -246,6 +248,7 @@
   --ds-color-danger-hover: var(--ds-feedback-danger-hover);
   --ds-color-neutral: var(--ds-neutral-500);
   --ds-color-on-status: var(--ds-neutral-0);
+  --ds-color-on-warning: var(--ds-neutral-900);
 
   --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
   --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));

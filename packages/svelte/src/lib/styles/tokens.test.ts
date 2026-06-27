@@ -114,14 +114,16 @@ describe.each([
     ).toBeGreaterThanOrEqual(4.5);
   });
 
-  it.each(["info", "success", "warning", "danger", "neutral"] as const)(
-    "white glyph on the %s solid meets 3:1",
-    (status) => {
-      expect(contrast("--ds-color-on-status", `--ds-color-${status}`, vars)).toBeGreaterThanOrEqual(
-        3,
-      );
-    },
-  );
+  it.each([
+    ["info", "--ds-color-on-status"],
+    ["success", "--ds-color-on-status"],
+    // Warning (amber) is light, so its solid uses a dark glyph, not white.
+    ["warning", "--ds-color-on-warning"],
+    ["danger", "--ds-color-on-status"],
+    ["neutral", "--ds-color-on-status"],
+  ] as const)("status glyph on the %s solid meets 3:1", (status, on) => {
+    expect(contrast(on, `--ds-color-${status}`, vars)).toBeGreaterThanOrEqual(3);
+  });
 
   it("primary button label meets 4.5:1", () => {
     expect(contrast("--ds-color-on-primary", "--ds-color-primary", vars)).toBeGreaterThanOrEqual(
