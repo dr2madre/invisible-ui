@@ -84,6 +84,20 @@
       <span class="tree__label">
         <slot name="label" {node}>{labels?.[node.value] ?? node.value}</slot>
       </span>
+      {#if isSelected}
+        <span class="tree__check" aria-hidden="true">
+          <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
+            <path
+              d="M3.5 8.5l3 3 6-6.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      {/if}
     </li>
   {/each}
 </ul>
@@ -115,6 +129,12 @@
   }
   .tree__item:hover {
     background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f1f5f9));
+  }
+  .tree__check {
+    margin-inline-start: auto;
+    display: inline-flex;
+    flex: none;
+    color: var(--ds-color-secondary, #7b52cc);
   }
   .tree__item--selected {
     background: var(
