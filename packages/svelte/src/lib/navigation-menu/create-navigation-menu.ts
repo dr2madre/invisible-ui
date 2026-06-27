@@ -101,7 +101,11 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
       (p) => p,
     )(node);
 
-    const onEnter = () => {
+    const onEnter = (event: Event) => {
+      // Touch has no hover: a tap fires pointerenter AND click, and the click
+      // (core toggle) would immediately close what pointerenter just opened.
+      // Let the click own touch so the panel doesn't flash open/closed.
+      if ((event as PointerEvent).pointerType === "touch") return;
       clearTimers();
       const open = get(state).value;
       if (open !== null && open !== value)

@@ -1,6 +1,6 @@
 import { tooltip as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
@@ -74,14 +74,30 @@ export function createTooltip(context: TooltipContext = {}): CreateTooltip {
     triggerEl = node;
     const base = createPropsAction(api, (a) => a.triggerProps)(node);
 
-    const onEnter = () => show(openDelay);
+    const onEnter = (e: Event) => {
+      // Touch has no hover; the tap (onTap) owns touch so it doesn't flash.
+      if ((e as PointerEvent).pointerType === "touch") return;
+      show(openDelay);
+    };
     const onLeave = () => hide(closeDelay);
     const onFocusIn = () => show(0); // keyboard focus shows immediately
     const onFocusOut = () => hide(0);
+    // Touch/pen: a tap toggles the tooltip (no hover available on mobile).
+    let touch = false;
+    const onPointerDown = (e: Event) => {
+      touch = (e as PointerEvent).pointerType !== "mouse";
+    };
+    const onTap = () => {
+      if (!touch) return;
+      if (get(state).open) hide(0);
+      else show(0);
+    };
     node.addEventListener("pointerenter", onEnter);
     node.addEventListener("pointerleave", onLeave);
     node.addEventListener("focusin", onFocusIn);
     node.addEventListener("focusout", onFocusOut);
+    node.addEventListener("pointerdown", onPointerDown);
+    node.addEventListener("click", onTap);
 
     return {
       destroy() {
@@ -90,6 +106,8 @@ export function createTooltip(context: TooltipContext = {}): CreateTooltip {
         node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("focusin", onFocusIn);
         node.removeEventListener("focusout", onFocusOut);
+        node.removeEventListener("pointerdown", onPointerDown);
+        node.removeEventListener("click", onTap);
         if (triggerEl === node) triggerEl = null;
         base?.destroy?.();
       },
