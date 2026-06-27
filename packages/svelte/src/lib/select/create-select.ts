@@ -3,6 +3,7 @@ import { autoUpdate, computePosition, flip, offset, shift, type Placement } from
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { ignoreGhostClicks } from "../internal/ghost-click";
 import { normalizeProps } from "../normalize";
 
 export type SelectItem = core.SelectItem;
@@ -101,6 +102,8 @@ export function createSelect(context: SelectContext): CreateSelect {
   const triggerAction: Action<HTMLElement> = (node) => {
     triggerEl = node;
     const base = createPropsAction(api, (a) => a.triggerProps)(node);
+    // Drop iOS's synthesized duplicate click so the listbox doesn't toggle twice.
+    const stopGhost = ignoreGhostClicks(node);
 
     // Typeahead: printable characters jump to the next matching option.
     let buffer = "";
@@ -128,6 +131,7 @@ export function createSelect(context: SelectContext): CreateSelect {
     return {
       destroy() {
         node.removeEventListener("keydown", onKeyDown);
+        stopGhost();
         clearTimeout(timer);
         if (triggerEl === node) triggerEl = null;
         base?.destroy?.();

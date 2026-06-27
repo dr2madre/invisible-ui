@@ -131,6 +131,8 @@
     font-weight: 600;
     line-height: 1.2;
     cursor: pointer;
+    /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */
+    touch-action: manipulation;
     transition:
       background-color 120ms ease,
       border-color 120ms ease,

@@ -59,6 +59,13 @@
       "description": "Called when the action button is pressed (before closing)."
     },
     {
+      "name": "closeOnOutsideClick",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Whether pressing the backdrop (outside the panel) cancels and closes. Defaults to `true`; set `false` to force an explicit Cancel/confirm choice (e.g. for irreversible actions)."
+    },
+    {
       "name": "onOpenChange",
       "type": "((open: boolean) => void) | undefined",
       "default": "undefined",
