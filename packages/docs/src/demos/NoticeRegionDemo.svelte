@@ -13,5 +13,5 @@
   };
 </script>
 
-<Button variant="primary" onpress={show}>Show toast</Button>
+<Button onpress={show}>Show toast</Button>
 <NoticeRegion {notifier} placement="bottom-end" />
