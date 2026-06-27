@@ -71,7 +71,7 @@
     font: inherit;
     font-variant-numeric: tabular-nums;
     color: var(--ds-color-text, #0f172a);
-    background: var(--ds-color-surface, #fff);
+    background: var(--ds-color-background, #fff);
     border: 1px solid var(--ds-color-border, #cbd5e1);
     border-radius: var(--ds-radius-control, 0.5rem);
   }
@@ -98,7 +98,7 @@
     min-inline-size: 2em;
   }
   .time-field__segment:focus-visible {
-    background: var(--ds-time-field-focus-bg, var(--ds-color-primary, #2563eb));
+    background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7b52cc));
     color: var(--ds-time-field-focus-text, #fff);
   }
   .time-field__segment--placeholder {

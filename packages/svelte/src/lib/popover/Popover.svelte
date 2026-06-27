@@ -42,7 +42,7 @@
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-popover-z-index, 50);
+    z-index: var(--ds-popover-z-index, 100);
     box-sizing: border-box;
     inline-size: max-content;
     max-inline-size: var(--ds-popover-max-width, 20rem);

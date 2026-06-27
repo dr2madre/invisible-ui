@@ -75,7 +75,7 @@
     align-items: center;
     gap: 0.5rem;
     inline-size: 100%;
-    padding: 0.45rem 0.55rem;
+    padding: 0.45rem 0.85rem;
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;

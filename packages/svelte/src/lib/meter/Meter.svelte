@@ -41,18 +41,18 @@
   }
   .meter__indicator {
     block-size: 100%;
-    background: var(--ds-meter-fill, var(--ds-color-primary-500, #2563eb));
+    background: var(--ds-meter-fill, var(--ds-color-primary, #8dcc7a));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
   .meter__indicator:global([data-level="low"]) {
-    background: var(--ds-meter-fill-low, var(--ds-color-danger-500, #dc2626));
+    background: var(--ds-meter-fill-low, #e6735c);
   }
   .meter__indicator:global([data-level="medium"]) {
     background: var(--ds-meter-fill-medium, var(--ds-color-warning-500, #d97706));
   }
   .meter__indicator:global([data-level="high"]) {
-    background: var(--ds-meter-fill-high, var(--ds-color-success-500, #16a34a));
+    background: var(--ds-meter-fill-high, #8dcc7a);
   }
   @media (prefers-reduced-motion: reduce) {
     .meter__indicator {

@@ -51,7 +51,7 @@
     display: inline-flex;
     gap: var(--ds-toggle-group-gap, 0.25rem);
     padding: var(--ds-toggle-group-padding, 0.25rem);
-    background: var(--ds-toggle-group-track, var(--ds-color-border, #e2e8f0));
+    background: var(--ds-toggle-group-track, transparent);
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
   }
   .toggle-group:global([data-orientation="vertical"]) {
@@ -71,7 +71,11 @@
     cursor: pointer;
   }
   .toggle-group__item:global([data-state="on"]) {
-    background: var(--ds-toggle-group-item-active, var(--ds-color-background, #fff));
+    background: var(
+      --ds-toggle-group-item-active,
+      color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent)
+    );
+    color: var(--ds-color-secondary, #7b52cc);
     font-weight: 600;
   }
   .toggle-group__item:global(:focus-visible) {

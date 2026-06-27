@@ -4,12 +4,12 @@
   // A palette of soft greens around the brand primary (#8DCC7A) so each avatar
   // reads as a distinct person while staying on-brand.
   const items = [
-    { name: "Ada Lovelace", color: "#8dcc7a" },
-    { name: "Grace Hopper", color: "#a7d99b" },
-    { name: "Alan Turing", color: "#7ac9a8" },
-    { name: "Katherine Johnson", color: "#c2d98f" },
-    { name: "Edsger Dijkstra", color: "#9bd4c4" },
-    { name: "Barbara Liskov", color: "#b6cc7a" },
+    { name: "Ada Lovelace", color: "#e5a1ac" },
+    { name: "Grace Hopper", color: "#b8a1e6" },
+    { name: "Alan Turing", color: "#7abecc" },
+    { name: "Katherine Johnson", color: "#8dcc7a" },
+    { name: "Edsger Dijkstra", color: "#e5cb44" },
+    { name: "Barbara Liskov", color: "#b8a1e6" },
   ];
 </script>
 

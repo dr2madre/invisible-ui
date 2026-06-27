@@ -127,7 +127,7 @@
     align-items: center;
     gap: 0.5rem;
     padding-inline: 0.6rem;
-    background: var(--ds-color-surface, #fff);
+    background: var(--ds-color-background, #fff);
     border: 1px solid var(--ds-color-border, #cbd5e1);
     border-radius: var(--ds-radius-control, 0.5rem);
   }

@@ -38,7 +38,7 @@
   }
   .progress__indicator {
     block-size: 100%;
-    background: var(--ds-progress-fill, var(--ds-color-primary-500, #2563eb));
+    background: var(--ds-progress-fill, var(--ds-color-text, #1c1917));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
