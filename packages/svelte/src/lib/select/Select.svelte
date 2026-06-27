@@ -16,6 +16,8 @@
 
   /** Accessible name for the control. */
   export let label: string;
+  /** Visually hide the label (kept for assistive tech) — for compact toolbars. */
+  export let hideLabel = false;
   export let items: SelectItem[];
   export let value: string | null = null;
   export let placeholder = "Select…";
@@ -36,7 +38,7 @@
   {#if name}
     <input type="hidden" {name} value={$selectedValue ?? ""} />
   {/if}
-  <span class="select__label" use:labelAction>{label}</span>
+  <span class="select__label" class:select__label--hidden={hideLabel} use:labelAction>{label}</span>
 
   <button
     class="select__trigger"
@@ -81,6 +83,17 @@
   .select__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  .select__label--hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .select__trigger {
