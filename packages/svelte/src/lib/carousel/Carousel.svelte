@@ -231,7 +231,8 @@
     inset-inline-end: var(--ds-carousel-arrow-offset, 0.5rem);
   }
   .carousel__arrow:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .carousel__arrow:disabled {
@@ -259,7 +260,8 @@
     background: var(--ds-carousel-dot-active, var(--ds-color-primary, #2563eb));
   }
   .carousel__dot:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
 </style>

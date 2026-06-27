@@ -52,7 +52,8 @@
     background: var(--ds-toggle-bg-hover, var(--ds-toggle-bg, var(--ds-color-background, #fff)));
   }
   .toggle:global(:focus-visible) {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: var(--ds-focus-ring-offset, 2px);
   }
 

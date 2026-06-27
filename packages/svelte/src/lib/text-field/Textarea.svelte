@@ -108,7 +108,7 @@
   .field__control:focus-visible {
     outline: none;
     border-color: var(--ds-color-focus-ring, #2563eb);
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
 
   .field__control:global([data-invalid]) {

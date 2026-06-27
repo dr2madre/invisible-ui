@@ -118,7 +118,8 @@
   }
   .tag__remove:focus-visible {
     opacity: 1;
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 1px;
   }
 

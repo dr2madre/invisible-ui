@@ -98,7 +98,7 @@
   .navmenu__trigger:focus-visible,
   .navmenu__toplink:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .navmenu__chevron {
     display: inline-flex;
