@@ -28,12 +28,18 @@
   export let description: string | undefined = undefined;
   /** Accessible label for the close button. */
   export let closeLabel = "Close";
+  /**
+   * CSS selector (within the panel) for the element to focus on open — e.g.
+   * `"input"` to land on a form's first field instead of the close button.
+   */
+  export let initialFocus: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
   const dialog = createDialog({
     open,
     describedBy: description !== undefined,
+    initialFocus,
     onOpenChange,
   });
   const {
@@ -72,6 +78,9 @@
         <p class="sheet__description" use:descriptionAction>{description}</p>
       {/if}
       <div class="sheet__body"><slot /></div>
+      {#if $$slots.footer}
+        <footer class="sheet__footer"><slot name="footer" /></footer>
+      {/if}
     </div>
   </div>
 {/if}
@@ -214,5 +223,20 @@
   }
   .sheet__body {
     margin-block-start: 1rem;
+    /* Grow so the footer is pushed to the bottom of the panel. */
+    flex: 1;
+  }
+  /* Actions zone pinned to the bottom of the sheet, with a separating border. */
+  .sheet__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-block-start: 1rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--ds-color-border, #e2e8f0);
+    /* Counteract the panel's padding so the border spans full width. */
+    margin-inline: calc(-1 * var(--ds-dialog-padding-x, 1.5rem));
+    padding-inline: var(--ds-dialog-padding-x, 1.5rem);
   }
 </style>

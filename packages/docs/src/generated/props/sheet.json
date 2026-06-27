@@ -45,6 +45,13 @@
       "description": "Accessible label for the close button."
     },
     {
+      "name": "initialFocus",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "CSS selector (within the panel) for the element to focus on open — e.g. `\"input\"` to land on a form's first field instead of the close button."
+    },
+    {
       "name": "onOpenChange",
       "type": "((open: boolean) => void) | undefined",
       "default": "undefined",

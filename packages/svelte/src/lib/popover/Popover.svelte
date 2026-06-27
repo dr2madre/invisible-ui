@@ -57,9 +57,17 @@
       0 4px 6px -4px rgb(0 0 0 / 0.1)
     );
   }
+  /* Quieter focus: keep the elevation, tint the border and lay a thin ring just
+     inside it — rather than wrapping the whole card in a thick outer ring. */
   .popover__content:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: 2px;
+    border-color: var(--ds-color-focus-ring, #7b52cc);
+    box-shadow:
+      inset 0 0 0 1px var(--ds-color-focus-ring, #7b52cc),
+      var(
+        --ds-elevation-overlay,
+        0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1)
+      );
   }
 </style>

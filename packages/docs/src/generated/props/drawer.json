@@ -38,6 +38,13 @@
       "description": "Accessible label for the close button."
     },
     {
+      "name": "initialFocus",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
+    },
+    {
       "name": "onOpenChange",
       "type": "((open: boolean) => void) | undefined",
       "default": "undefined",
