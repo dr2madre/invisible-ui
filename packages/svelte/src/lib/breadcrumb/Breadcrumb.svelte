@@ -107,24 +107,24 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--ds-breadcrumb-link-text, var(--ds-color-text, #1c1917));
+    color: var(--ds-breadcrumb-link-text, var(--ds-color-selected, #7b52cc));
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .breadcrumb__link:hover {
-    color: var(--ds-breadcrumb-link-hover, var(--ds-color-secondary, #7b52cc));
+    color: var(--ds-breadcrumb-link-hover, var(--ds-color-secondary-hover, #6d28d9));
   }
   .breadcrumb__link:focus-visible {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
     border-radius: var(--ds-radius-control, 0.25rem);
   }
-  /* The current page: selection color, no link affordance. */
+  /* The current page: a dark grey (not black, not the link color), no link. */
   .breadcrumb__current {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--ds-breadcrumb-current-text, var(--ds-color-secondary, #7b52cc));
+    color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #57534e));
     font-weight: 600;
   }
   .breadcrumb__sr {

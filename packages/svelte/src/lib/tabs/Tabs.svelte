@@ -62,10 +62,12 @@
       border-color 120ms ease;
   }
   .tabs__tab:global([data-state="active"]) {
-    /* The selected tab is emphasized: bold + the primary underline. */
+    /* Selected tab: the label stays the normal text color; only the underline
+       carries the selection color (so the accent can change without recoloring
+       the text). */
     font-weight: 700;
-    color: var(--ds-color-secondary, #7b52cc);
-    border-block-end-color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-text, #1c1917);
+    border-block-end-color: var(--ds-color-selected, #7b52cc);
   }
   .tabs__tab:global(:focus-visible) {
     outline: none;

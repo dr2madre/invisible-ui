@@ -183,10 +183,15 @@
     color: var(--ds-step-complete-text, var(--ds-color-text, #1c1917));
   }
   /* Current: filled with the selection color. */
+  /* Current step: the shared selected look — faint selection fill, selection
+     border + number (coherent with checkbox/radio/etc.). */
   .stepper__step[data-status="current"] .stepper__indicator {
-    background: var(--ds-step-current-bg, var(--ds-color-secondary, #7b52cc));
-    border-color: var(--ds-step-current-bg, var(--ds-color-secondary, #7b52cc));
-    color: var(--ds-step-current-text, var(--ds-color-on-secondary, #fff));
+    background: var(
+      --ds-step-current-bg,
+      color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent)
+    );
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
+    color: var(--ds-step-current-text, var(--ds-color-selected, #7b52cc));
   }
   /* Upcoming: no fill, dashed near-black ring. */
   .stepper__step[data-status="upcoming"] .stepper__indicator {
