@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Nozca-ui (by nozcadesign) — a headless, accessible, multi-framework component library built from scratch.",
-  "license": "Apache-2.0",
+  "license": "MPL-2.0",
   "type": "module",
   "scripts": {
     "build": "turbo run build",

@@ -8,7 +8,7 @@
 # Invisible UI
 
 <p align="center">
-  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" /></a>
+  <a href="LICENSE"><img alt="License: MPL-2.0" src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" /></a>
   <img alt="Status: alpha" src="https://img.shields.io/badge/status-alpha-orange.svg" />
 </p>
 
@@ -363,4 +363,7 @@ branching workflow, commit conventions, and how to propose a new component.
 
 ## License
 
-Licensed under the [Apache License 2.0](./LICENSE).
+Licensed under the [Mozilla Public License 2.0](./LICENSE) — a file-level
+copyleft ("share-alike") license: modifications to MPL-licensed files must be
+shared under the same license, while the library can still be used within larger
+works under other licenses.
