@@ -35,5 +35,9 @@
      global override; the Button inside carries all behaviour and styling. */
   .close-button {
     display: inline-flex;
+    /* The dismiss button must stay color-neutral: it can sit on any (status-)
+       tinted surface, so it uses the surface's own text color — never a status
+       or accent color. The inner ghost Button inherits this. */
+    color: var(--ds-close-color, var(--ds-color-text, #1c1917));
   }
 </style>
