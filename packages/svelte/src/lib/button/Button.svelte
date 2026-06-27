@@ -30,7 +30,7 @@
   export let action: Action<HTMLElement> = () => {};
 
   export let variant: ButtonVariant = "default";
-  /** Soft tone for `danger`: a pastel-red fill with dark text instead of the solid fill. */
+  /** Soft tone for `danger`: the danger red at 10% with an accessible red label, instead of the solid fill. */
   export let soft = false;
   export let disabled = false;
   export let type: "button" | "submit" | "reset" = "button";

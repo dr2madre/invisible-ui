@@ -149,7 +149,6 @@
   );
   --ds-color-danger-surface: color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0));
   --ds-color-danger-border: color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0));
-  /* Soft destructive fill: pastel red with dark text (the "soft" danger button). */
   /* Soft destructive fill: the danger red at 10% over the page, with an
      accessible (AA) dark-red label on top. */
   --ds-color-danger-soft: color-mix(in srgb, var(--ds-feedback-danger) 10%, var(--ds-neutral-0));
