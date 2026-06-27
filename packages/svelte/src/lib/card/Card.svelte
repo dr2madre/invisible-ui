@@ -115,7 +115,7 @@
 <style>
   .card {
     box-sizing: border-box;
-    background: var(--ds-card-bg, var(--ds-color-surface, #fff));
+    background: var(--ds-card-bg, var(--ds-color-background, #fff));
     color: var(--ds-card-text, var(--ds-color-text, #0f172a));
     border: 1px solid var(--ds-card-border, var(--ds-color-border, #e2e8f0));
     border-radius: var(--ds-card-radius, var(--ds-radius-surface, 0.75rem));

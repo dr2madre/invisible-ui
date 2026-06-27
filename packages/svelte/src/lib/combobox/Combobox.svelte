@@ -55,6 +55,12 @@
   <label class="combobox__label" use:labelAction>{label}</label>
 
   <div class="combobox__control" class:combobox__control--disabled={disabled}>
+    <span class="combobox__search" aria-hidden="true">
+      <Icon size="100%">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </Icon>
+    </span>
     <input
       class="combobox__input"
       type="text"
@@ -128,6 +134,14 @@
     color: var(--ds-color-text-disabled, #94a3b8);
   }
 
+  .combobox__search {
+    display: inline-flex;
+    flex: none;
+    inline-size: 1.05em;
+    block-size: 1.05em;
+    margin-inline-start: 0.625rem;
+    color: var(--ds-color-text-secondary, #57534e);
+  }
   .combobox__input {
     flex: 1;
     min-inline-size: 0;

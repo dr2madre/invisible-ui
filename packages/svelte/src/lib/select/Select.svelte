@@ -44,6 +44,9 @@
     type="button"
     use:triggerAction
   >
+    {#if $$slots.icon}
+      <span class="select__icon" aria-hidden="true"><slot name="icon" /></span>
+    {/if}
     <span class="select__value">{display}</span>
     <span class="select__chevron" aria-hidden="true">
       <Icon size="100%">
@@ -113,10 +116,18 @@
     cursor: not-allowed;
   }
 
+  .select__icon {
+    display: inline-flex;
+    flex: none;
+    inline-size: 1.1em;
+    block-size: 1.1em;
+    color: var(--ds-color-text-secondary, #57534e);
+  }
   .select__value {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex: 1;
   }
   .select__chevron {
     display: inline-flex;
@@ -174,7 +185,7 @@
     inline-size: 1rem;
     block-size: 1rem;
     flex: none;
-    color: var(--ds-color-primary, #2563eb);
+    color: var(--ds-color-secondary, #7b52cc);
     visibility: hidden;
   }
   .select__option:global([data-state="selected"]) .select__check {
