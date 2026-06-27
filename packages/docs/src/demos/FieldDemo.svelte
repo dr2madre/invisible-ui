@@ -1,8 +1,11 @@
 <script>
   import Field from "@design-system/svelte/Field.svelte";
+  import Slider from "@design-system/svelte/Slider.svelte";
 
   const inputStyle =
     "width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #cbd5e1); border-radius: 0.5rem; font: inherit; background: var(--ds-color-background, #fff); color: inherit; box-sizing: border-box;";
+
+  let budget = 60;
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 22rem;">
@@ -29,5 +32,16 @@
   <!-- …or a multi-line native textarea — Field doesn't care what the control is. -->
   <Field label="Notes" description="Optional." let:controlProps>
     <textarea {...controlProps} rows="3" style={inputStyle}></textarea>
+  </Field>
+
+  <!-- …or a real Slider — the control is a full component, not just an input. -->
+  <Field label="Monthly budget" description="Drag to set your limit.">
+    <Slider
+      bind:value={budget}
+      label="Monthly budget"
+      showValue
+      showRange
+      format={(v) => `€${v}`}
+    />
   </Field>
 </div>

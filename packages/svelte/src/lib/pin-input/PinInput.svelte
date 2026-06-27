@@ -17,6 +17,10 @@
   /** Render cells masked (like a password). */
   export let mask = false;
   export let disabled = false;
+  /** Validation state — colors the cells (red ring) and signals errors. */
+  export let invalid = false;
+  /** Validation success — colors the cells green (e.g. a verified code). */
+  export let success = false;
   /** Form field name — the combined code is submitted under it. */
   export let name: string | undefined = undefined;
   /** Accessible name for the group of cells. */
@@ -39,7 +43,13 @@
   const cells = Array.from({ length }, (_, i) => i);
 </script>
 
-<div class="pin-input" use:rootAction aria-label={label}>
+<div
+  class="pin-input"
+  use:rootAction
+  aria-label={label}
+  data-invalid={invalid ? "" : undefined}
+  data-success={!invalid && success ? "" : undefined}
+>
   {#if name}
     <input type="hidden" {name} value={$values.join("")} />
   {/if}
@@ -48,6 +58,7 @@
       class="pin-input__cell"
       type={mask ? "password" : "text"}
       value={$values[i]}
+      aria-invalid={invalid ? "true" : undefined}
       use:inputAction={i}
     />
   {/each}
@@ -77,5 +88,21 @@
   .pin-input__cell[data-disabled] {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  /* Validation states color the cell borders (and ring on focus). */
+  .pin-input[data-invalid] .pin-input__cell {
+    border-color: var(--ds-color-danger, #dc2626);
+  }
+  .pin-input[data-invalid] .pin-input__cell:focus-visible {
+    border-color: var(--ds-color-danger, #dc2626);
+    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626);
+  }
+  .pin-input[data-success] .pin-input__cell {
+    border-color: var(--ds-color-success, #16a34a);
+  }
+  .pin-input[data-success] .pin-input__cell:focus-visible {
+    border-color: var(--ds-color-success, #16a34a);
+    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-success, #16a34a);
   }
 </style>

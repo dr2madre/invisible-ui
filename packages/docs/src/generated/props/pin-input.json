@@ -24,6 +24,20 @@
       "description": "Disable all cells."
     },
     {
+      "name": "invalid",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Validation state — colors the cells (red ring) and signals errors."
+    },
+    {
+      "name": "success",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Validation success — colors the cells green (e.g. a verified code)."
+    },
+    {
       "name": "name",
       "type": "string | undefined",
       "default": "undefined",
