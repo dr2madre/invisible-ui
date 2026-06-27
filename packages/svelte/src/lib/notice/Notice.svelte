@@ -71,7 +71,9 @@
   // Action clicks run the handler, then dismiss unless told to stay open.
   $: alertActions = actions?.map((action) => ({
     label: action.label,
-    variant: action.variant,
+    // Notices default to the white `default` button (not the Alert's ghost):
+    // a transient toast needs a clearly tappable action.
+    variant: action.variant ?? "default",
     onClick: () => {
       action.onClick?.();
       if (!action.keepOpen) onclose?.();
