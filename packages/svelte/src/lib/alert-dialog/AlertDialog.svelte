@@ -35,6 +35,16 @@
   export let onAction: (() => void) | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  /**
+   * Type-to-confirm: when set, a text input is shown and the action button stays
+   * disabled until the user types this exact phrase (extra safety for
+   * destructive actions). The `confirmHint` labels the input.
+   */
+  export let confirmPhrase: string | undefined = undefined;
+  export let confirmHint: string | undefined = undefined;
+
+  let typed = "";
+  $: confirmed = !confirmPhrase || typed === confirmPhrase;
 
   const dialog = createDialog({
     open,
@@ -52,9 +62,14 @@
     descriptionAction,
   } = dialog;
 
-  const cancel = () => setOpen(false);
+  const cancel = () => {
+    typed = "";
+    setOpen(false);
+  };
   const confirm = () => {
+    if (!confirmed) return;
     onAction?.();
+    typed = "";
     setOpen(false);
   };
 </script>
@@ -69,9 +84,25 @@
     <div class="alert-dialog__panel" use:contentAction>
       <h2 class="alert-dialog__title" use:titleAction>{title}</h2>
       <p class="alert-dialog__description" use:descriptionAction>{description}</p>
+      {#if confirmPhrase}
+        <label class="alert-dialog__confirm">
+          <span class="alert-dialog__confirm-hint">
+            {confirmHint ?? `Type "${confirmPhrase}" to confirm`}
+          </span>
+          <input
+            class="alert-dialog__confirm-input"
+            type="text"
+            autocomplete="off"
+            bind:value={typed}
+            placeholder={confirmPhrase}
+          />
+        </label>
+      {/if}
       <footer class="alert-dialog__actions">
         <Button variant="ghost" onpress={cancel}>{cancelLabel}</Button>
-        <Button variant={actionVariant} onpress={confirm}>{actionLabel}</Button>
+        <Button variant={actionVariant} disabled={!confirmed} onpress={confirm}
+          >{actionLabel}</Button
+        >
       </footer>
     </div>
   </div>
@@ -121,6 +152,30 @@
   .alert-dialog__description {
     margin: 0.5rem 0 0;
     color: var(--ds-color-text-secondary, #64748b);
+  }
+  .alert-dialog__confirm {
+    display: grid;
+    gap: 0.35rem;
+    margin-block-start: 1rem;
+  }
+  .alert-dialog__confirm-hint {
+    font-size: 0.8125rem;
+    color: var(--ds-color-text-secondary, #64748b);
+  }
+  .alert-dialog__confirm-input {
+    inline-size: 100%;
+    box-sizing: border-box;
+    padding: var(--ds-control-padding-y, 0.5rem) 0.75rem;
+    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border-radius: var(--ds-radius-control, 0.5rem);
+    font: inherit;
+    background: var(--ds-color-background, #fff);
+    color: inherit;
+  }
+  .alert-dialog__confirm-input:focus-visible {
+    outline: none;
+    border-color: var(--ds-color-focus-ring, #7b52cc);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .alert-dialog__actions {
     margin-block-start: 1.5rem;

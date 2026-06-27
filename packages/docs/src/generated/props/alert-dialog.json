@@ -64,6 +64,20 @@
       "default": "undefined",
       "required": false,
       "description": "Called when the alert opens/closes."
+    },
+    {
+      "name": "confirmPhrase",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Type-to-confirm: when set, a text input is shown and the action button stays disabled until the user types this exact phrase (extra safety for destructive actions). The `confirmHint` labels the input."
+    },
+    {
+      "name": "confirmHint",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
     }
   ]
 }
