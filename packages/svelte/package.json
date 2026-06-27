@@ -2,7 +2,7 @@
   "name": "@design-system/svelte",
   "version": "0.1.0-alpha.0",
   "description": "Svelte adapter for the design system: thin, headless, accessible bindings over @design-system/core.",
-  "license": "Apache-2.0",
+  "license": "EUPL-1.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dr2madre/design-system.git",
