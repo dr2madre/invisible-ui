@@ -122,7 +122,9 @@
     cursor: not-allowed;
   }
   .drop-zone__icon {
-    color: var(--ds-drop-zone-icon, var(--ds-color-secondary, #7b52cc));
+    /* Neutral (not the selection color) — the selection color is reserved for
+       selected states; here a soft grey reads as a quiet affordance. */
+    color: var(--ds-drop-zone-icon, var(--ds-color-text-secondary, #78716c));
   }
   /* Visually hidden but focusable: focus lands on the input, ring on the label. */
   .drop-zone__input {

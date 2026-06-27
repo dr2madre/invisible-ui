@@ -30,9 +30,9 @@
   const rating = createRatingGroup({ max, value, disabled, name, onValueChange });
   const { items, setValue, name: groupName, value: selected } = rating;
 
-  // Stars fill up to the hovered position (pointer preview), else the selection.
+  // While hovering, stars up to `hovered` show a grey preview; otherwise the
+  // selected stars show the selection color.
   let hovered = 0;
-  $: active = hovered || ($selected ?? 0);
 
   const labelId = `ds-rating-${++_uid}`;
   const starLabel = (n: number) => `${n} ${n === 1 ? "star" : "stars"}`;
@@ -51,7 +51,8 @@
     {#each items as item (item.value)}
       <label
         class="rating__star"
-        class:rating__star--filled={item.position <= active}
+        class:rating__star--filled={!hovered && item.position <= ($selected ?? 0)}
+        class:rating__star--preview={hovered > 0 && item.position <= hovered}
         on:pointerenter={() => {
           if (!disabled) hovered = item.position;
         }}
@@ -98,7 +99,8 @@
 
   .rating__star {
     display: inline-flex;
-    color: var(--ds-rating-empty-color, var(--ds-color-border, #cbd5e1));
+    /* Darker outline so empty stars stay visible. */
+    color: var(--ds-rating-empty-color, var(--ds-neutral-400, #a8a29e));
     cursor: pointer;
   }
   .rating--disabled .rating__star {
@@ -106,6 +108,14 @@
   }
   .rating__star :global(svg) {
     fill: none;
+  }
+  /* Hover preview: a neutral grey fill (not the selection color) showing the
+     stars about to be set. */
+  .rating__star--preview {
+    color: var(--ds-rating-preview-color, var(--ds-neutral-300, #d6d3d1));
+  }
+  .rating__star--preview :global(svg) {
+    fill: currentColor;
   }
   .rating__star--filled {
     color: var(--ds-rating-color, var(--ds-color-secondary, #7b52cc));
