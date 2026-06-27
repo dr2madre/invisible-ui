@@ -107,7 +107,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-color-on-primary, #fff);
+    color: var(--ds-color-on-secondary, #fff);
     flex: none;
   }
   /* Glyphs fill the padded content box; shown per checked state. The glyph
@@ -128,8 +128,8 @@
 
   .checkbox__input:checked + .checkbox,
   .checkbox__input:indeterminate + .checkbox {
-    background: var(--ds-color-primary, #2563eb);
-    border-color: var(--ds-color-primary, #2563eb);
+    background: var(--ds-color-secondary, #7b52cc);
+    border-color: var(--ds-color-secondary, #7b52cc);
   }
   .field--disabled .checkbox,
   .checkbox__input:disabled + .checkbox {

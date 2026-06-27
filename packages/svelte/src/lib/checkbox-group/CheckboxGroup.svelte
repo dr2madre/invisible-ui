@@ -116,7 +116,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--ds-color-on-primary, #fff);
+    color: var(--ds-color-on-secondary, #fff);
     flex: none;
   }
   .checkbox__input:focus-visible + .checkbox {
@@ -124,8 +124,8 @@
     outline-offset: var(--ds-focus-ring-offset, 2px);
   }
   .checkbox__input:checked + .checkbox {
-    background: var(--ds-color-primary, #2563eb);
-    border-color: var(--ds-color-primary, #2563eb);
+    background: var(--ds-color-secondary, #7b52cc);
+    border-color: var(--ds-color-secondary, #7b52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph

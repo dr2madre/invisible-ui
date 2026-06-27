@@ -97,7 +97,7 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      var(--ds-slider-range, var(--ds-color-primary-500, #2563eb)) var(--ds-slider-pct, 0%),
+      var(--ds-slider-range, var(--ds-color-secondary, #7b52cc)) var(--ds-slider-pct, 0%),
       var(--ds-slider-track, var(--ds-color-border, #e2e8f0)) var(--ds-slider-pct, 0%)
     );
   }
@@ -105,7 +105,7 @@
     inline-size: var(--ds-slider-thickness, 0.375rem);
     background: linear-gradient(
       to top,
-      var(--ds-slider-range, var(--ds-color-primary-500, #2563eb)) var(--ds-slider-pct, 0%),
+      var(--ds-slider-range, var(--ds-color-secondary, #7b52cc)) var(--ds-slider-pct, 0%),
       var(--ds-slider-track, var(--ds-color-border, #e2e8f0)) var(--ds-slider-pct, 0%)
     );
   }
@@ -116,7 +116,7 @@
     block-size: var(--ds-slider-thumb-size, 1rem);
     border-radius: 999px;
     background: var(--ds-slider-thumb, var(--ds-color-background, #fff));
-    border: 2px solid var(--ds-slider-range, var(--ds-color-primary-500, #2563eb));
+    border: 2px solid var(--ds-slider-range, var(--ds-color-secondary, #7b52cc));
     /* Center the thumb on the track. */
     margin-block-start: calc(
       (var(--ds-slider-thickness, 0.375rem) - var(--ds-slider-thumb-size, 1rem)) / 2
@@ -132,14 +132,14 @@
   .slider__input::-moz-range-progress {
     block-size: var(--ds-slider-thickness, 0.375rem);
     border-radius: 999px;
-    background: var(--ds-slider-range, var(--ds-color-primary-500, #2563eb));
+    background: var(--ds-slider-range, var(--ds-color-secondary, #7b52cc));
   }
   .slider__input::-moz-range-thumb {
     inline-size: var(--ds-slider-thumb-size, 1rem);
     block-size: var(--ds-slider-thumb-size, 1rem);
     border-radius: 999px;
     background: var(--ds-slider-thumb, var(--ds-color-background, #fff));
-    border: 2px solid var(--ds-slider-range, var(--ds-color-primary-500, #2563eb));
+    border: 2px solid var(--ds-slider-range, var(--ds-color-secondary, #7b52cc));
   }
 
   .slider__input:focus-visible {

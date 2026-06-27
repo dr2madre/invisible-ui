@@ -108,7 +108,7 @@
     fill: none;
   }
   .rating__star--filled {
-    color: var(--ds-rating-color, #f59e0b);
+    color: var(--ds-rating-color, var(--ds-color-secondary, #7b52cc));
   }
   .rating__star--filled :global(svg) {
     fill: currentColor;
