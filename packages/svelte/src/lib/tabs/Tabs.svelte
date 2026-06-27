@@ -10,9 +10,21 @@
    * directly. Colors are themeable CSS custom properties (`--ds-tabs-*`).
    */
   import { createTabs, type ActivationMode, type TabItem } from "./create-tabs";
+  import Icon from "../icon/Icon.svelte";
 
-  /** A tab, with an optional display label and its panel text. */
-  export type TabsItem = TabItem & { label?: string; content?: string };
+  /**
+   * A tab, with an optional display label and its panel text. May also carry a
+   * `count` (shown as a trailing badge — violet when the tab is selected, grey
+   * otherwise), a leading `icon` (an SVG path `d` string), and `iconOnly` to
+   * render just the icon (the label becomes the accessible name).
+   */
+  export type TabsItem = TabItem & {
+    label?: string;
+    content?: string;
+    count?: number;
+    icon?: string;
+    iconOnly?: boolean;
+  };
 
   export let items: TabsItem[];
   export let value: string | null = null;
@@ -33,7 +45,24 @@
 <div class="tabs">
   <div class="tabs__list" use:rootAction aria-label={label}>
     {#each items as item (item.value)}
-      <button class="tabs__tab" use:tabAction={item.value}>{item.label ?? item.value}</button>
+      <button
+        class="tabs__tab"
+        class:tabs__tab--icon-only={item.iconOnly}
+        use:tabAction={item.value}
+        aria-label={item.iconOnly ? (item.label ?? item.value) : undefined}
+      >
+        {#if item.icon}
+          <span class="tabs__tab-icon" aria-hidden="true">
+            <Icon size="100%"><path d={item.icon} /></Icon>
+          </span>
+        {/if}
+        {#if !item.iconOnly}
+          <span class="tabs__tab-label">{item.label ?? item.value}</span>
+        {/if}
+        {#if item.count != null}
+          <span class="tabs__tab-count" aria-hidden="true">{item.count}</span>
+        {/if}
+      </button>
     {/each}
   </div>
   {#each items as item (item.value)}
@@ -48,6 +77,9 @@
     border-block-end: 1px solid var(--ds-color-border, #cbd5e1);
   }
   .tabs__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     padding: var(--ds-tabs-tab-padding, 0.4rem 0.8rem);
     border: none;
     background: none;
@@ -60,6 +92,33 @@
     transition:
       color 120ms ease,
       border-color 120ms ease;
+  }
+  .tabs__tab-icon {
+    display: inline-flex;
+    inline-size: 1.1em;
+    block-size: 1.1em;
+    flex: none;
+  }
+  .tabs__tab--icon-only {
+    padding-inline: 0.55rem;
+  }
+  /* Count badge: grey pill by default, violet when the tab is selected. */
+  .tabs__tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 1.25rem;
+    padding-inline: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    border-radius: var(--ds-radius-pill, 999px);
+    color: var(--ds-color-text-secondary, #64748b);
+    background: var(--ds-color-neutral-surface, #f1f5f9);
+  }
+  .tabs__tab:global([data-state="active"]) .tabs__tab-count {
+    color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
+    background: var(--ds-color-selected, #7b52cc);
   }
   .tabs__tab:global([data-state="active"]) {
     /* Selected tab: the label stays the normal text color; only the underline
