@@ -84,6 +84,9 @@
     font-size: 0.875rem;
     font-weight: 600;
   }
+  .field--disabled .field__label {
+    color: var(--ds-color-text-disabled, #94a3b8);
+  }
   .field__required {
     color: var(--ds-color-danger, #dc2626);
   }

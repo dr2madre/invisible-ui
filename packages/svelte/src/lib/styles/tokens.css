@@ -74,6 +74,17 @@
   --ds-radius-surface: 0.75rem; /* alerts, notifications, cards */
   --ds-radius-pill: 999px; /* fully rounded — toggles, chips */
 
+  /* Shared control sizing so Button / Select / SegmentedControl / TextField /
+     Combobox line up at the same height + font when placed side by side. */
+  --ds-control-padding-y: 0.5rem;
+  --ds-control-padding-x: 0.875rem;
+
+  /* Selection color (checked/selected states). Alias of the secondary (violet);
+     distinct in name from the primary ACTION color, even if both are violet in
+     this theme. */
+  --ds-color-selected: var(--ds-color-secondary, oklch(54.5% 0.181 295.2));
+  --ds-color-on-selected: var(--ds-color-on-secondary, #fff);
+
   /* Type — system font stacks (native feel, no web-font download, no layout
      shift). Named by role: sans for UI text, mono for code/numeric. */
   --ds-font-sans:
@@ -108,9 +119,9 @@
     0 0 0 var(--ds-focus-ring-width) var(--ds-color-focus-ring),
     0 0 0 calc(var(--ds-focus-ring-width) + var(--ds-focus-halo-width)) var(--ds-color-focus-halo);
 
-  --ds-color-primary: var(--ds-brand-primary);
-  --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-900);
+  --ds-color-primary: var(--ds-brand-secondary);
+  --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-on-primary: var(--ds-neutral-0);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
   --ds-color-on-secondary: var(--ds-neutral-0);
@@ -180,9 +191,9 @@
     --ds-state-pressed: rgb(255 255 255 / 0.16);
     --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
-    --ds-color-primary: var(--ds-brand-primary);
-    --ds-color-primary-hover: var(--ds-brand-primary-hover);
-    --ds-color-on-primary: var(--ds-neutral-900);
+    --ds-color-primary: var(--ds-brand-secondary);
+    --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+    --ds-color-on-primary: var(--ds-neutral-0);
     --ds-color-secondary: var(--ds-brand-secondary);
     --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
     --ds-color-on-secondary: var(--ds-neutral-0);
@@ -260,9 +271,9 @@
   --ds-state-pressed: rgb(255 255 255 / 0.16);
   --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
-  --ds-color-primary: var(--ds-brand-primary);
-  --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-900);
+  --ds-color-primary: var(--ds-brand-secondary);
+  --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-on-primary: var(--ds-neutral-0);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
   --ds-color-on-secondary: var(--ds-neutral-0);

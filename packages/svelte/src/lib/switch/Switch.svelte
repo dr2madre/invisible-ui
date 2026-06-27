@@ -61,6 +61,9 @@
   .field--disabled {
     cursor: not-allowed;
   }
+  .field--disabled .field__label {
+    color: var(--ds-color-text-disabled, #94a3b8);
+  }
 
   /* The native input is the accessible, focusable control; visually hidden, with
      the sibling `.switch` painted from its :checked / :focus-visible state. */

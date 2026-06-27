@@ -49,7 +49,7 @@
   });
 </script>
 
-<div class="field" {...$api.rootProps}>
+<div class="field" class:field--disabled={disabled} {...$api.rootProps}>
   <label class="field__label" for={$api.ids.control} id={$api.ids.label}>
     {label}{#if required}<span class="field__required" aria-hidden="true">*</span>{/if}
   </label>
@@ -74,6 +74,9 @@
     font: inherit;
     font-weight: var(--ds-field-label-weight, 500);
     color: var(--ds-field-label-color, var(--ds-color-text, #0f172a));
+  }
+  .field--disabled .field__label {
+    color: var(--ds-color-text-disabled, #94a3b8);
   }
   .field__required {
     color: var(--ds-field-required-color, var(--ds-color-danger-500, #dc2626));
