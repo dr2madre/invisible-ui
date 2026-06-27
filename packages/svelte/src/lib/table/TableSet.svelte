@@ -209,7 +209,7 @@
   }
   .table-set__title {
     margin: 0;
-    font-size: var(--ds-table-title-size, 1.25rem);
+    font-size: var(--ds-table-title-size, 1.5rem);
     font-weight: 600;
   }
 
