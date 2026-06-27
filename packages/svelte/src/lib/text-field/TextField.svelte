@@ -67,15 +67,25 @@
     {label}{#if required}<span class="field__required" aria-hidden="true"> *</span>{/if}
   </label>
 
-  <input
-    class="field__control"
-    {type}
-    {name}
-    {placeholder}
-    {value}
-    on:input={onInput}
-    use:controlAction
-  />
+  <div class="field__input">
+    {#if $$slots.left}
+      <span class="field__icon field__icon--left" aria-hidden="true"><slot name="left" /></span>
+    {/if}
+    <input
+      class="field__control"
+      class:field__control--icon-left={$$slots.left}
+      class:field__control--icon-right={$$slots.right}
+      {type}
+      {name}
+      {placeholder}
+      {value}
+      on:input={onInput}
+      use:controlAction
+    />
+    {#if $$slots.right}
+      <span class="field__icon field__icon--right" aria-hidden="true"><slot name="right" /></span>
+    {/if}
+  </div>
 
   {#if description}
     <p class="field__description" use:descriptionAction>{description}</p>
@@ -100,6 +110,36 @@
   }
   .field__required {
     color: var(--ds-color-danger, #dc2626);
+  }
+
+  /* Wraps the control so leading/trailing icons can overlay it. */
+  .field__input {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .field__icon {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    color: var(--ds-color-text-secondary, #64748b);
+    pointer-events: none;
+  }
+  .field__icon :global(svg) {
+    inline-size: 1.15em;
+    block-size: 1.15em;
+  }
+  .field__icon--left {
+    inset-inline-start: 0.7rem;
+  }
+  .field__icon--right {
+    inset-inline-end: 0.7rem;
+  }
+  .field__control--icon-left {
+    padding-inline-start: 2.3rem;
+  }
+  .field__control--icon-right {
+    padding-inline-end: 2.3rem;
   }
 
   .field__control {
