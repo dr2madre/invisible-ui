@@ -31,8 +31,8 @@
 :root {
   /* 1) Brand — customize first. White text sits on these, so keep them dark
         enough for 4.5:1 when used as button fills. */
-  --ds-brand-primary: #2563eb;
-  --ds-brand-primary-hover: #1d4ed8;
+  --ds-brand-primary: oklch(78.3% 0.129 138.7);
+  --ds-brand-primary-hover: oklch(72.3% 0.129 138.7);
   --ds-brand-secondary: #7c3aed;
   --ds-brand-secondary-hover: #6d28d9;
 
@@ -94,7 +94,7 @@
 
   --ds-color-primary: var(--ds-brand-primary);
   --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-0);
+  --ds-color-on-primary: var(--ds-neutral-900);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
   --ds-color-on-secondary: var(--ds-neutral-0);
@@ -161,7 +161,7 @@
 
     --ds-color-primary: var(--ds-brand-primary);
     --ds-color-primary-hover: var(--ds-brand-primary-hover);
-    --ds-color-on-primary: var(--ds-neutral-0);
+    --ds-color-on-primary: var(--ds-neutral-900);
     --ds-color-secondary: var(--ds-brand-secondary);
     --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
     --ds-color-on-secondary: var(--ds-neutral-0);
@@ -234,7 +234,7 @@
 
   --ds-color-primary: var(--ds-brand-primary);
   --ds-color-primary-hover: var(--ds-brand-primary-hover);
-  --ds-color-on-primary: var(--ds-neutral-0);
+  --ds-color-on-primary: var(--ds-neutral-900);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
   --ds-color-on-secondary: var(--ds-neutral-0);
