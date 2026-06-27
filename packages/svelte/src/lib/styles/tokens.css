@@ -33,8 +33,8 @@
         enough for 4.5:1 when used as button fills. */
   --ds-brand-primary: oklch(78.3% 0.129 138.7);
   --ds-brand-primary-hover: oklch(72.3% 0.129 138.7);
-  --ds-brand-secondary: #7c3aed;
-  --ds-brand-secondary-hover: #6d28d9;
+  --ds-brand-secondary: oklch(54.5% 0.181 295.2);
+  --ds-brand-secondary-hover: oklch(48.5% 0.181 295.2);
 
   /* 2) Feedback hues. */
   --ds-feedback-info: #2563eb;
@@ -90,7 +90,7 @@
   --ds-color-disabled: var(--ds-neutral-200);
   --ds-state-hover: rgb(0 0 0 / 0.06);
   --ds-state-pressed: rgb(0 0 0 / 0.12);
-  --ds-color-focus-ring: var(--ds-brand-primary);
+  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
 
   --ds-color-primary: var(--ds-brand-primary);
   --ds-color-primary-hover: var(--ds-brand-primary-hover);
@@ -157,7 +157,7 @@
     --ds-color-disabled: var(--ds-neutral-800);
     --ds-state-hover: rgb(255 255 255 / 0.09);
     --ds-state-pressed: rgb(255 255 255 / 0.16);
-    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-primary) 60%, var(--ds-neutral-0));
+    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
     --ds-color-primary: var(--ds-brand-primary);
     --ds-color-primary-hover: var(--ds-brand-primary-hover);
@@ -230,7 +230,7 @@
   --ds-color-disabled: var(--ds-neutral-800);
   --ds-state-hover: rgb(255 255 255 / 0.09);
   --ds-state-pressed: rgb(255 255 255 / 0.16);
-  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-primary) 60%, var(--ds-neutral-0));
+  --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
   --ds-color-primary: var(--ds-brand-primary);
   --ds-color-primary-hover: var(--ds-brand-primary-hover);
@@ -315,7 +315,7 @@
       --ds-color-success-border: var(--ds-feedback-success);
       --ds-color-warning-border: var(--ds-feedback-warning);
       --ds-color-danger-border: var(--ds-feedback-danger);
-      --ds-color-focus-ring: var(--ds-brand-primary);
+      --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
     }
   }
 
@@ -328,6 +328,6 @@
     --ds-color-success-border: var(--ds-feedback-success);
     --ds-color-warning-border: var(--ds-feedback-warning);
     --ds-color-danger-border: var(--ds-feedback-danger);
-    --ds-color-focus-ring: var(--ds-brand-primary);
+    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
   }
 }
