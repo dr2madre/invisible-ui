@@ -67,7 +67,10 @@
 <style>
   .notice-region {
     position: fixed;
+    /* Sit above every overlay (dialog/popover/menu top out at ~100) and own a
+       self-contained stacking context so notices never slip behind page content. */
     z-index: var(--ds-notice-z, 1000);
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
