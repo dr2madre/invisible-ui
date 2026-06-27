@@ -54,6 +54,7 @@ export default defineConfig({
             { label: "PIN Input", link: "/components/pin-input/" },
             { label: "Field", link: "/components/field/" },
             { label: "Label", link: "/components/label/" },
+            { label: "DropZone", link: "/components/drop-zone/" },
           ],
         },
         {
@@ -104,6 +105,7 @@ export default defineConfig({
             { label: "Toolbar", link: "/components/toolbar/" },
             { label: "Tree View", link: "/components/tree-view/" },
             { label: "Stepper", link: "/components/stepper/" },
+            { label: "Breadcrumb", link: "/components/breadcrumb/" },
           ],
         },
         {
@@ -129,6 +131,14 @@ export default defineConfig({
             { label: "Code", link: "/components/code/" },
             { label: "Code Block", link: "/components/code-block/" },
             { label: "Icon", link: "/components/icon/" },
+            { label: "Kbd", link: "/components/kbd/" },
+          ],
+        },
+        {
+          label: "Patterns",
+          items: [
+            { label: "Login Form", link: "/components/login-form/" },
+            { label: "Menu", link: "/components/menu/" },
           ],
         },
         {
