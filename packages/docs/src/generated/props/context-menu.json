@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "items",
+      "type": "MenuItem[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "onSelect",
       "type": "((value: string) => void) | undefined",
       "default": "undefined",

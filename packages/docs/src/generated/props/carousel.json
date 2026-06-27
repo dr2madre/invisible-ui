@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "items",
+      "type": "CarouselSlide[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "variant",
+      "type": "\"slide\" | \"gallery\" | \"coverflow\"",
+      "default": "\"slide\"",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "default": "\"horizontal\"",

@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "status",
+      "type": "FeedbackStatus",
+      "default": "\"info\"",
+      "required": false,
+      "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+    },
+    {
       "name": "title",
       "type": "string",
       "default": null,

@@ -3,6 +3,41 @@
   "selected": false,
   "props": [
     {
+      "name": "steps",
+      "type": "StepDescriptor[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "current",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "linear",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string",
       "default": "\"Progress\"",

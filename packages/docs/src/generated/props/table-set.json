@@ -3,6 +3,20 @@
   "selected": true,
   "props": [
     {
+      "name": "columns",
+      "type": "TableColumnDef[]",
+      "default": "[]",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "rows",
+      "type": "TableRow[]",
+      "default": "[]",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "views",
       "type": "TableViewDef[] | undefined",
       "default": "undefined",

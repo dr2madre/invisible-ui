@@ -3,6 +3,34 @@
   "selected": false,
   "props": [
     {
+      "name": "nodes",
+      "type": "TreeNode[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "expanded",
+      "type": "string[]",
+      "default": "[]",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "selected",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string",
       "default": null,

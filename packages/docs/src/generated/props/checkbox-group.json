@@ -3,6 +3,27 @@
   "selected": false,
   "props": [
     {
+      "name": "items",
+      "type": "CheckboxGroupItem[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "value",
+      "type": "string[]",
+      "default": "[]",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string",
       "default": null,

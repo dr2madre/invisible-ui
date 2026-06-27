@@ -20,6 +20,7 @@
   import Alert from "../alert/Alert.svelte";
   import type { NoticeAction, NoticeStatus } from "./create-notifier";
 
+  /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
   export let status: NoticeStatus = "info";
   export let title: string | undefined = undefined;
   export let text: string | undefined = undefined;

@@ -96,10 +96,10 @@
     background: color-mix(in srgb, var(--_color) 15%, transparent);
   }
 
-  /* Transparent box: drop the chip, keep the colored glyph (for tinted surfaces). */
+  /* Transparent box: drop the chip but keep the same glyph size as the tinted
+     variant (the padding stays, so the icon doesn't jump larger). */
   .feedback-icon:global([data-box="transparent"]) {
     background: transparent;
-    padding: 0;
   }
   /* Solid box: full status color with a contrasting glyph. */
   .feedback-icon:global([data-box="solid"]) {
