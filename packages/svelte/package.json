@@ -47,6 +47,7 @@
     "src/lib/code-block/CodeBlock.svelte",
     "src/lib/blockquote/Blockquote.svelte",
     "src/lib/kbd/Kbd.svelte",
+    "src/lib/link/Link.svelte",
     "src/lib/breadcrumb/Breadcrumb.svelte",
     "src/lib/drop-zone/DropZone.svelte",
     "src/lib/login-form/LoginForm.svelte",
@@ -206,6 +207,10 @@
     "./Kbd.svelte": {
       "svelte": "./src/lib/kbd/Kbd.svelte",
       "default": "./src/lib/kbd/Kbd.svelte"
+    },
+    "./Link.svelte": {
+      "svelte": "./src/lib/link/Link.svelte",
+      "default": "./src/lib/link/Link.svelte"
     },
     "./Breadcrumb.svelte": {
       "svelte": "./src/lib/breadcrumb/Breadcrumb.svelte",

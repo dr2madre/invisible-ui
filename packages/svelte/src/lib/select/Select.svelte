@@ -18,7 +18,11 @@
   export let label: string;
   /** Visually hide the label (kept for assistive tech) — for compact toolbars. */
   export let hideLabel = false;
-  export let items: SelectItem[];
+  /**
+   * Options. Each may carry an optional leading `icon` (an SVG path `d` string)
+   * shown to the left of the label; the selection check then sits on the right.
+   */
+  export let items: (SelectItem & { icon?: string })[];
   export let value: string | null = null;
   export let placeholder = "Select…";
   export let disabled = false;
@@ -32,6 +36,7 @@
 
   $: selected = items.find((item) => item.value === $selectedValue);
   $: display = selected ? (selected.label ?? selected.value) : placeholder;
+  $: hasIcons = items.some((item) => item.icon);
 </script>
 
 <div class="select">
@@ -57,15 +62,23 @@
     </span>
   </button>
 
-  <ul class="select__listbox" use:listboxAction>
+  <ul class="select__listbox" class:select__listbox--icons={hasIcons} use:listboxAction>
     {#each items as item (item.value)}
       <li class="select__option" use:optionAction={item.value}>
+        {#if hasIcons}
+          <span class="select__option-icon" aria-hidden="true">
+            {#if item.icon}
+              <Icon size="100%"><path d={item.icon} /></Icon>
+            {/if}
+          </span>
+        {/if}
+        <span class="select__option-label">{item.label ?? item.value}</span>
+        <!-- Selection check sits on the right (after the label). -->
         <span class="select__check" aria-hidden="true">
           <Icon size="100%" strokeWidth={2.5}>
             <polyline points="20 6 9 17 4 12" />
           </Icon>
         </span>
-        <span class="select__option-label">{item.label ?? item.value}</span>
       </li>
     {/each}
   </ul>
@@ -192,6 +205,21 @@
   .select__option:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #94a3b8);
     cursor: not-allowed;
+  }
+
+  /* Leading per-option icon (reserved width so labels align even when only some
+     options carry an icon). */
+  .select__option-icon {
+    display: inline-flex;
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+    flex: none;
+    color: var(--ds-color-text-secondary, #57534e);
+  }
+  /* Label grows so the check is pushed to the right edge. */
+  .select__option-label {
+    flex: 1;
+    min-inline-size: 0;
   }
 
   .select__check {

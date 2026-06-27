@@ -60,9 +60,13 @@
     label="Layout"
     value="single"
     items={[
-      { value: "single", label: "Single column" },
-      { value: "two", label: "Two columns" },
-      { value: "grid", label: "Grid" },
+      { value: "single", label: "Single column", icon: "M6 4h12v16H6z" },
+      { value: "two", label: "Two columns", icon: "M4 4h7v16H4z M13 4h7v16h-7z" },
+      {
+        value: "grid",
+        label: "Grid",
+        icon: "M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z",
+      },
     ]}
   >
     <svg
