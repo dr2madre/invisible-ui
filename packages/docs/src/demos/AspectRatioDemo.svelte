@@ -32,10 +32,14 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: var(--ds-color-surface, #f5f5f4);
-    border: 1px dashed var(--ds-color-border, #e7e5e4);
+    /* Light, transparent gradient from the selection color to the primary. */
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 22%, transparent),
+      color-mix(in srgb, var(--ds-color-primary, #8dcc7a) 22%, transparent)
+    );
     border-radius: var(--ds-radius-surface, 0.75rem);
-    color: var(--ds-color-text-secondary, #57534e);
+    color: var(--ds-color-text, #1c1917);
     font-weight: 600;
     font-size: 0.875rem;
   }
