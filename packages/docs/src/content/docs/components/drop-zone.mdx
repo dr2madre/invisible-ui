@@ -1,0 +1,37 @@
+---
+title: "DropZone"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import DropZoneDemo from "../../../demos/DropZoneDemo.svelte";
+
+<Preview>
+  <DropZoneDemo client:visible />
+</Preview>
+
+A drag-and-drop file area with a click-to-browse fallback. Built on a native
+`<input type="file">`, so the browser owns file selection, keyboard operation
+and form participation.
+
+### Import
+
+```svelte
+<script>
+  import DropZone from "@design-system/svelte/DropZone.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="drop-zone" />
+
+Dropped and picked files are forwarded through the same `onFiles` callback.
+
+### Example
+
+```svelte
+<DropZone accept="image/*" multiple onFiles={(files) => console.log(files)} />
+```
+
+Themeable via `--ds-drop-zone-*`.

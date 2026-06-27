@@ -1,0 +1,41 @@
+{
+  "component": "drop-zone",
+  "selected": false,
+  "props": [
+    {
+      "name": "accept",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "DropZone — a drag-and-drop file area with a click-to-browse fallback.  Built on a native `<input type=\"file\">` so the browser owns file selection, keyboard operation and form participation; the styled area is a `<label>` for that input, so clicking or pressing Enter/Space on it opens the picker. A `dragover` highlight gives drag feedback, and dropped files are forwarded through the same `onFiles` callback as picked files.  Themeable via `--ds-drop-zone-*`. / /** Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Allow selecting/dropping more than one file."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name (the underlying file input)."
+    },
+    {
+      "name": "onFiles",
+      "type": "((files: File[]) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called with the selected/dropped files."
+    }
+  ]
+}

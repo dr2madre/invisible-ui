@@ -48,6 +48,7 @@
     "src/lib/blockquote/Blockquote.svelte",
     "src/lib/kbd/Kbd.svelte",
     "src/lib/breadcrumb/Breadcrumb.svelte",
+    "src/lib/drop-zone/DropZone.svelte",
     "src/lib/popover/Popover.svelte",
     "src/lib/tooltip/Tooltip.svelte",
     "src/lib/switch/Switch.svelte",
@@ -207,6 +208,10 @@
     "./Breadcrumb.svelte": {
       "svelte": "./src/lib/breadcrumb/Breadcrumb.svelte",
       "default": "./src/lib/breadcrumb/Breadcrumb.svelte"
+    },
+    "./DropZone.svelte": {
+      "svelte": "./src/lib/drop-zone/DropZone.svelte",
+      "default": "./src/lib/drop-zone/DropZone.svelte"
     },
     "./Popover.svelte": {
       "svelte": "./src/lib/popover/Popover.svelte",
