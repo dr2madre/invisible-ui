@@ -26,8 +26,8 @@
     </select>
   </Field>
 
-  <!-- …or a range, a textarea, a custom widget — Field doesn't care. -->
-  <Field label="Volume" let:controlProps>
-    <input {...controlProps} type="range" min="0" max="100" value="40" style="width: 100%;" />
+  <!-- …or a multi-line native textarea — Field doesn't care what the control is. -->
+  <Field label="Notes" description="Optional." let:controlProps>
+    <textarea {...controlProps} rows="3" style={inputStyle}></textarea>
   </Field>
 </div>

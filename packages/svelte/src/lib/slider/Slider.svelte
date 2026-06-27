@@ -21,6 +21,14 @@
   export let label: string;
   /** Form field name — the value is submitted under it. */
   export let name: string | undefined = undefined;
+  /** Show the current value to the side of the track. */
+  export let showValue = false;
+  /** Show the min and max reference values under the ends of the track. */
+  export let showRange = false;
+  /** Show tick marks at each step (only when the count is reasonable). */
+  export let ticks = false;
+  /** Format the displayed value/range (e.g. add a unit). */
+  export let format: (value: number) => string = (v) => String(v);
   /** Called whenever the value changes. */
   export let onValueChange: ((value: number) => void) | undefined = undefined;
 
@@ -33,35 +41,122 @@
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));
   }
+
+  // Tick positions (as %), shown only for a sane number of steps.
+  $: tickCount = step > 0 ? Math.round((max - min) / step) : 0;
+  $: tickPositions =
+    ticks && tickCount > 0 && tickCount <= 20
+      ? Array.from({ length: tickCount + 1 }, (_, i) => (i / tickCount) * 100)
+      : [];
 </script>
 
-<span
-  class="slider"
-  class:slider--disabled={disabled}
-  data-orientation={orientation}
-  style="--ds-slider-pct: {$percentage}%"
->
-  <input
-    class="slider__input"
-    type="range"
-    {name}
-    {min}
-    {max}
-    {step}
-    {disabled}
-    aria-label={label}
-    aria-orientation={orientation}
-    value={$sliderValue}
-    on:input={onInput}
-  />
-</span>
+<div class="slider-field" class:slider-field--disabled={disabled}>
+  <div class="slider-field__row">
+    {#if $$slots.icon}
+      <span class="slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
+    {/if}
+    <span
+      class="slider"
+      class:slider--disabled={disabled}
+      data-orientation={orientation}
+      style="--ds-slider-pct: {$percentage}%"
+    >
+      <input
+        class="slider__input"
+        type="range"
+        {name}
+        {min}
+        {max}
+        {step}
+        {disabled}
+        aria-label={label}
+        aria-orientation={orientation}
+        value={$sliderValue}
+        on:input={onInput}
+      />
+      {#if tickPositions.length}
+        <span class="slider__ticks" aria-hidden="true">
+          {#each tickPositions as pos (pos)}
+            <span class="slider__tick" style="inset-inline-start: {pos}%"></span>
+          {/each}
+        </span>
+      {/if}
+    </span>
+    {#if showValue}
+      <output class="slider-field__value">{format($sliderValue)}</output>
+    {/if}
+  </div>
+  {#if showRange}
+    <div class="slider-field__range" aria-hidden="true">
+      <span>{format(min)}</span>
+      <span>{format(max)}</span>
+    </div>
+  {/if}
+</div>
 
 <style>
-  .slider {
+  .slider-field {
     display: inline-flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    inline-size: var(--ds-slider-length, 14rem);
+  }
+  .slider-field--disabled {
+    opacity: 0.5;
+  }
+  .slider-field__row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  .slider-field__icon {
+    display: inline-flex;
+    flex: none;
+    color: var(--ds-color-text-secondary, #57534e);
+  }
+  .slider-field__icon :global(svg) {
+    inline-size: 1.2em;
+    block-size: 1.2em;
+  }
+  .slider-field__value {
+    flex: none;
+    min-inline-size: 2.5ch;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.875rem;
+    color: var(--ds-color-text, #1c1917);
+  }
+  .slider-field__range {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--ds-color-text-secondary, #78716c);
+  }
+
+  .slider {
+    position: relative;
+    display: inline-flex;
+    flex: 1;
+  }
+  /* Tick marks sit just under the track. */
+  .slider__ticks {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 50%;
+    block-size: 0;
+    pointer-events: none;
+  }
+  .slider__tick {
+    position: absolute;
+    inline-size: 2px;
+    block-size: 6px;
+    transform: translate(-50%, 2px);
+    border-radius: 1px;
+    background: var(--ds-slider-tick, var(--ds-color-border, #d6d3d1));
   }
   .slider[data-orientation="horizontal"] {
-    inline-size: var(--ds-slider-length, 14rem);
+    inline-size: auto;
+    min-inline-size: 0;
     align-items: center;
   }
   .slider[data-orientation="vertical"] {
