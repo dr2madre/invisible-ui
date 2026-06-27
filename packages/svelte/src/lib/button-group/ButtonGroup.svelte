@@ -36,6 +36,8 @@
   .button-group {
     display: inline-flex;
     flex-direction: row;
+    /* Center items so a taller sibling (e.g. a Select) doesn't stretch buttons. */
+    align-items: center;
   }
   .button-group--vertical {
     flex-direction: column;

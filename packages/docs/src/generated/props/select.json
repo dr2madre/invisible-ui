@@ -10,6 +10,13 @@
       "description": "Accessible name for the control."
     },
     {
+      "name": "hideLabel",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+    },
+    {
       "name": "items",
       "type": "SelectItem[]",
       "default": null,

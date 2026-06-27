@@ -30,8 +30,6 @@
   export let action: Action<HTMLElement> = () => {};
 
   export let variant: ButtonVariant = "default";
-  /** Soft tone for `danger`: the danger red at 10% with an accessible red label, instead of the solid fill. */
-  export let soft = false;
   export let disabled = false;
   export let type: "button" | "submit" | "reset" = "button";
   /** Called when the button is activated (click, or Enter/Space when emulated). */
@@ -76,7 +74,6 @@
 <button
   class="button"
   class:button--icon-only={iconOnly}
-  class:button--soft={soft}
   use:rootAction
   use:action
   aria-label={ariaLabel}
@@ -204,20 +201,14 @@
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
 
-  /* danger: destructive, on the shared danger semantic color. */
+  /* danger: destructive. The danger red at 10% with an accessible dark-red
+     label and a matching border (the hazard icon keeps meaning off color alone). */
   .button:global([data-variant="danger"]) {
-    background: var(--ds-color-danger, #dc2626);
-    color: var(--ds-color-on-status, #fff);
-  }
-  .button:global([data-variant="danger"]):hover:not(:disabled) {
-    background: var(--ds-color-danger-hover, #b91c1c);
-  }
-  /* soft danger: the danger red at 10% with an accessible dark-red label. */
-  .button--soft:global([data-variant="danger"]) {
     background: var(--ds-color-danger-soft, color-mix(in srgb, #dc2626 10%, #fff));
     color: var(--ds-color-on-danger-soft, #b91c1c);
+    border-color: color-mix(in srgb, var(--ds-feedback-danger, #dc2626) 35%, transparent);
   }
-  .button--soft:global([data-variant="danger"]):hover:not(:disabled) {
+  .button:global([data-variant="danger"]):hover:not(:disabled) {
     background: color-mix(
       in srgb,
       var(--ds-feedback-danger, #dc2626) 18%,

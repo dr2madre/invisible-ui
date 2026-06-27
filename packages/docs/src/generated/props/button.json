@@ -17,13 +17,6 @@
       "description": ""
     },
     {
-      "name": "soft",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Soft tone for `danger`: a pastel-red fill with dark text instead of the solid fill."
-    },
-    {
       "name": "disabled",
       "type": "boolean",
       "default": "false",
