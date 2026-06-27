@@ -198,7 +198,7 @@
         sort={$api.sort}
         onSortToggle={toggleSort}
         {caption}
-        {hideCaption}
+        hideCaption={hideCaption || !!title}
         {getValue}
         {getRowId}
       >
@@ -264,7 +264,8 @@
     gap: 0.5rem;
     margin-inline-start: auto;
   }
-  /* The column-settings trigger, rendered as an icon button. */
+  /* The column-settings trigger: a ghost icon button (no boxed border at rest,
+     just a hover surface) so it doesn't read as a separate framed element. */
   .table-view__settings {
     display: inline-flex;
     align-items: center;
@@ -272,13 +273,13 @@
     inline-size: 2.25rem;
     block-size: 2.25rem;
     color: var(--ds-color-text-secondary, #64748b);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.5rem);
-    background: var(--ds-color-background, #fff);
+    background: transparent;
   }
   .table-view__settings:hover {
     color: var(--ds-color-text, #0f172a);
-    background: var(--ds-color-neutral-surface, #f8fafc);
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .table-view__sr {
     position: absolute;
