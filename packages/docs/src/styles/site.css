@@ -3,6 +3,66 @@
    the live demos automatically. */
 @import "@design-system/svelte/tokens.css";
 
+/* Recolor Starlight's accent (links, active nav, hero button) to the brand
+   selection color (violet) instead of the default blue. */
+:root {
+  --sl-color-accent-low: #2e2150;
+  --sl-color-accent: #9a78db;
+  --sl-color-accent-high: #e3d8f7;
+  --sl-color-text-accent: #b69ce8;
+}
+:root[data-theme="light"] {
+  --sl-color-accent-low: #efe9fb;
+  --sl-color-accent: #7b52cc;
+  --sl-color-accent-high: #3b2a63;
+  --sl-color-text-accent: #6b46c1;
+}
+
+/* Home feature cards — design-system look with aligned icons. */
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin-block-start: 1.5rem;
+}
+.home-card {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 1.1rem 1.25rem;
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #e7e5e4);
+  border-radius: var(--ds-radius-surface, 0.75rem);
+}
+.home-card__icon {
+  flex: none;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 12%, transparent);
+  color: var(--ds-color-secondary, #7b52cc);
+}
+.home-card__icon svg {
+  inline-size: 1.3rem;
+  block-size: 1.3rem;
+}
+.home-card__body {
+  min-inline-size: 0;
+}
+.home-card__body h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.home-card__body p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary, #57534e);
+}
+
 /* Live-demo container used by <Preview>. */
 .ds-preview {
   display: flex;
