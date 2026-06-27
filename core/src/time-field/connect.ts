@@ -160,6 +160,29 @@ export function connect({
     }
   };
 
+  // Mobile soft keyboards don't emit reliable keydown digits; contenteditable
+  // segments fire `beforeinput` instead. We never let the element edit itself —
+  // we read the inserted data and route it through the same spinbutton logic.
+  // (On desktop, the keydown handler preventDefaults printable keys, so this
+  // does not double-fire.)
+  const onBeforeInput = (seg: TimeSegmentType) => (event: Event) => {
+    const e = event as InputEvent;
+    e.preventDefault?.();
+    if ((e.inputType ?? "").startsWith("delete")) {
+      clear(seg);
+      return;
+    }
+    const data = e.data ?? "";
+    if (seg === "dayPeriod") {
+      const c = data.toLowerCase();
+      if (c.includes("a")) togglePeriod("AM");
+      else if (c.includes("p")) togglePeriod("PM");
+      return;
+    }
+    const digit = data.replace(/\D/g, "").slice(-1);
+    if (digit) typeDigit(seg, digit);
+  };
+
   const getSegmentText = (seg: TimeSegmentType): string => {
     if (seg === "dayPeriod") {
       return parts.hour == null ? PLACEHOLDER.dayPeriod : periodOf(parts.hour);
@@ -179,6 +202,10 @@ export function connect({
           role: "spinbutton",
           id: segmentId(id, seg),
           tabindex: 0,
+          contenteditable: "true",
+          inputmode: "text",
+          spellcheck: false,
+          autocapitalize: "none",
           "data-segment": seg,
           "aria-label": "AM/PM",
           "aria-valuetext": period ?? "Empty",
@@ -186,6 +213,8 @@ export function connect({
           "aria-valuemax": 1,
           "aria-valuenow": period === "PM" ? 1 : 0,
           onKeyDown: onKeyDown(seg),
+          onBeforeInput: onBeforeInput(seg),
+          onClick: () => togglePeriod(),
         });
       }
       const { min, max } = bounds(seg, hourCycle);
@@ -194,6 +223,10 @@ export function connect({
         role: "spinbutton",
         id: segmentId(id, seg),
         tabindex: 0,
+        contenteditable: "true",
+        inputmode: "numeric",
+        spellcheck: false,
+        autocapitalize: "none",
         "data-segment": seg,
         "aria-label": seg,
         "aria-valuemin": min,
@@ -201,6 +234,7 @@ export function connect({
         "aria-valuenow": v ?? undefined,
         "aria-valuetext": v == null ? "Empty" : pad2(v),
         onKeyDown: onKeyDown(seg),
+        onBeforeInput: onBeforeInput(seg),
       });
     },
   };

@@ -89,15 +89,20 @@
   .time-field__segment {
     padding: 0.05rem 0.2rem;
     border-radius: var(--ds-radius-control, 0.25rem);
-    cursor: default;
+    cursor: text;
     outline: none;
     min-inline-size: 1.4em;
     text-align: center;
+    white-space: nowrap;
+    /* contenteditable, but editing is intercepted — hide the text caret. */
+    caret-color: transparent;
   }
   .time-field__segment--period {
     min-inline-size: 2em;
   }
-  .time-field__segment:focus-visible {
+  /* Highlight the active segment on any focus (including touch), so it's always
+     clear which part is being edited — `:focus-visible` alone misses touch. */
+  .time-field__segment:focus {
     background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7b52cc));
     color: var(--ds-time-field-focus-text, #fff);
   }
