@@ -12,12 +12,35 @@
   ];
 </script>
 
-<Carousel {items} variant="gallery" label="Destinations" let:item>
-  <div class="slide" style="background: {item.pastel};">
-    <Tag>{item.tag}</Tag>
-    <span class="slide__title">{item.title}</span>
-  </div>
-</Carousel>
+<div style="display: flex; flex-direction: column; gap: 2.5rem;">
+  <!-- Gallery: a scrolling row of cards. -->
+  <Carousel {items} variant="gallery" label="Destinations" let:item>
+    <div class="slide" style="background: {item.pastel};">
+      <Tag>{item.tag}</Tag>
+      <span class="slide__title">{item.title}</span>
+    </div>
+  </Carousel>
+
+  <!-- Coverflow ("jukebox"): the active card is centered, neighbors recede. -->
+  <Carousel {items} variant="coverflow" label="Featured destinations" let:item let:active>
+    <div class="cover" style="background: {item.pastel};" data-active={active ? "" : undefined}>
+      <span class="slide__title">{item.title}</span>
+    </div>
+  </Carousel>
+
+  <!-- Vertical coverflow. -->
+  <Carousel
+    {items}
+    variant="coverflow"
+    orientation="vertical"
+    label="Featured destinations (vertical)"
+    let:item
+  >
+    <div class="cover" style="background: {item.pastel};">
+      <span class="slide__title">{item.title}</span>
+    </div>
+  </Carousel>
+</div>
 
 <style>
   .slide {
@@ -36,5 +59,15 @@
   .slide__title {
     font-weight: 700;
     font-size: 1.1rem;
+  }
+  .cover {
+    inline-size: 100%;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    color: var(--ds-color-text, #1c1917);
   }
 </style>
