@@ -140,9 +140,11 @@
   .table__th {
     text-align: start;
     font-weight: 600;
-    color: var(--ds-table-header-text, var(--ds-color-text-secondary, #475569));
+    /* Medium-dark header labels (not full black). */
+    color: var(--ds-table-header-text, var(--ds-color-text-secondary, #57534e));
+    /* Same height as body rows: identical padding + a 1px border (not thicker). */
     padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
-    border-block-end: var(--ds-table-header-border, 2px) solid
+    border-block-end: var(--ds-table-header-border, 1px) solid
       var(--ds-table-border, var(--ds-color-border, #e2e8f0));
     white-space: nowrap;
   }
@@ -191,7 +193,12 @@
   .table__sort:hover .table__sort-icon :global(.table__sort-icon-unset) {
     opacity: 0.7;
   }
+  /* The actively-sorted column reads as "selected": header label + icon adopt
+     the selection color so the current sort is unmistakable. */
+  .table__th[data-sort-direction] {
+    color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
+  }
   .table__th[data-sort-direction] .table__sort-icon {
-    color: var(--ds-table-sort-active, var(--ds-color-primary, #2563eb));
+    color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
   }
 </style>
