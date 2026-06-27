@@ -1,12 +1,9 @@
 <script>
   import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
-  import Separator from "@design-system/svelte/Separator.svelte";
-  import Logo from "./Logo.svelte";
   import HomeIcon from "./icons/HomeIcon.svelte";
   import SearchIcon from "./icons/SearchIcon.svelte";
   import BellIcon from "./icons/BellIcon.svelte";
   import UserIcon from "./icons/UserIcon.svelte";
-  import SettingsIcon from "./icons/SettingsIcon.svelte";
 
   const nav = [
     { value: "home", label: "Home", icon: HomeIcon },
@@ -14,7 +11,6 @@
     { value: "alerts", label: "Alerts", icon: BellIcon },
     { value: "profile", label: "Profile", icon: UserIcon },
   ];
-  const more = [{ value: "settings", label: "Settings", icon: SettingsIcon }];
 </script>
 
 <div class="demos">
@@ -44,26 +40,18 @@
   </section>
 
   <section>
-    <p class="cap">Sidebar (desktop / tablet)</p>
-    <aside class="sidebar">
-      <div class="sidebar__logo"><Logo /></div>
-      <Separator />
-      <SegmentedControl label="Main" orientation="vertical" value="home" items={nav} />
-      <Separator />
-      <SegmentedControl label="More" orientation="vertical" value={null} items={more} />
-    </aside>
-  </section>
-
-  <section>
-    <p class="cap">Sidebar — compact (label under icon)</p>
+    <p class="cap">Vertical — compact (label under icon)</p>
     <SegmentedControl label="Sections" orientation="vertical" stacked value="home" items={nav} />
   </section>
 
   <section>
-    <p class="cap">Sidebar — icons only</p>
+    <p class="cap">Vertical — icons only</p>
     <SegmentedControl label="Sections" orientation="vertical" iconOnly value="home" items={nav} />
   </section>
 </div>
+
+<!-- The full desktop sidebar (logo + dividers + several nav groups) is an
+     organism, not a segmented control — see the Menu component. -->
 
 <style>
   .demos {
@@ -83,23 +71,5 @@
   .bottombar {
     inline-size: 22rem;
     max-inline-size: 100%;
-  }
-
-  /* Desktop / tablet sidebar shell: logo, dividers, full-width nav groups. */
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    inline-size: 14rem;
-    padding: 0.75rem;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-surface, 0.75rem);
-  }
-  .sidebar__logo {
-    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
-  }
-  .sidebar :global(.segmented-field),
-  .sidebar :global(.segmented) {
-    inline-size: 100%;
   }
 </style>

@@ -127,10 +127,13 @@
     outline-offset: var(--ds-focus-ring-offset, 2px);
   }
 
+  /* Checked: a faint selection-color fill with the glyph in the full selection
+     color (coherent with the other selected elements), not a solid fill. */
   .checkbox__input:checked + .checkbox,
   .checkbox__input:indeterminate + .checkbox {
-    background: var(--ds-color-secondary, #7b52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
     border-color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-secondary, #7b52cc);
   }
   .field--disabled .checkbox,
   .checkbox__input:disabled + .checkbox {
