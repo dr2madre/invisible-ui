@@ -118,7 +118,8 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       ...current,
       open: true,
       items: filter(allItems, ""),
-      activeValue: current.value ?? core.firstEnabled(filter(allItems, "")),
+      // No first-item pre-highlight; only the selected value (if any).
+      activeValue: current.value,
     }));
     if (!wasOpen) context.onOpenChange?.(true);
     inputEl?.focus();

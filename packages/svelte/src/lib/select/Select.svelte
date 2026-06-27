@@ -184,8 +184,9 @@
     cursor: pointer;
     user-select: none;
   }
-  /* The active (keyboard/pointer-highlighted) option. */
-  .select__option:global([data-active]) {
+  /* The active (keyboard-highlighted) option — never on the selected one, which
+     keeps its own selection tint. */
+  .select__option:global([data-active]:not([data-state="selected"])) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .select__option:global([data-disabled]) {

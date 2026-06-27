@@ -129,7 +129,6 @@
     text-align: start;
     cursor: pointer;
   }
-  .menubar__item:global([data-active]),
   .menubar__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }

@@ -68,8 +68,9 @@ export function connect({
 
   const openListbox = () => {
     if (disabled || open) return;
-    // Highlight the selected option, or the first enabled one.
-    setActiveValue(value ?? firstEnabled(items));
+    // Highlight only the selected option (if any) on open — no first-item
+    // pre-highlight, so nothing looks active until the user navigates.
+    setActiveValue(value);
     setOpen(true);
   };
 
@@ -96,6 +97,8 @@ export function connect({
       if (key === "ArrowDown" || key === "ArrowUp" || key === "Enter" || key === " ") {
         event.preventDefault();
         openListbox();
+        // Opening via keyboard highlights an option (selected, else first).
+        setActiveValue(value ?? firstEnabled(items));
       }
       return;
     }

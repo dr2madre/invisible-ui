@@ -11,7 +11,7 @@ describe("Svelte select (headless adapter)", () => {
     expect(trigger).toHaveAttribute("data-state", "closed");
   });
 
-  it("opens on click and highlights the first enabled option", async () => {
+  it("opens on click with nothing pre-highlighted; ArrowDown highlights the first option", async () => {
     const user = userEvent.setup();
     render(Fixture);
     const trigger = screen.getByRole("combobox", { name: /Fruit/ });
@@ -19,7 +19,10 @@ describe("Svelte select (headless adapter)", () => {
     await user.click(trigger);
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByRole("listbox")).toBeVisible();
-    // activedescendant points at the first enabled option (apple).
+    // Nothing is pre-highlighted on a pointer open.
+    expect(trigger.getAttribute("aria-activedescendant")).toBeFalsy();
+    // ArrowDown then highlights the first enabled option (apple).
+    await user.keyboard("{ArrowDown}");
     const apple = screen.getByRole("option", { name: "Apple" });
     expect(trigger.getAttribute("aria-activedescendant")).toBe(apple.id);
   });

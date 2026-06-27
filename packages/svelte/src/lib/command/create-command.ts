@@ -71,14 +71,16 @@ export function createCommand(context: CommandContext): CreateCommand {
 
   const query = writable({
     inputValue: "",
-    activeValue: core.firstEnabled(allItems),
+    // Nothing pre-highlighted on open; the first match is highlighted once the
+    // user starts typing (so Enter runs the top result).
+    activeValue: null as string | null,
     items: allItems,
   });
 
   // Reset the query each time the palette opens.
   dialog.open.subscribe((isOpen) => {
     if (isOpen) {
-      query.set({ inputValue: "", activeValue: core.firstEnabled(allItems), items: allItems });
+      query.set({ inputValue: "", activeValue: null, items: allItems });
     }
   });
 
