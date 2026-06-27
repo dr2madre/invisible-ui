@@ -25,12 +25,18 @@
   export let description: string | undefined = undefined;
   /** Accessible label for the close button. */
   export let closeLabel = "Close";
+  /**
+   * CSS selector (within the panel) for the element to focus on open. When
+   * omitted, focus lands on the panel itself — never on the close button.
+   */
+  export let initialFocus: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
   const drawer = createDrawer({
     open,
     describedBy: description !== undefined,
+    initialFocus,
     onOpenChange,
   });
   const {

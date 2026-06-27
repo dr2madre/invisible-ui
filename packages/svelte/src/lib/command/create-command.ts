@@ -67,6 +67,8 @@ export function createCommand(context: CommandContext): CreateCommand {
   const dialog = createDialog({
     open: context.open,
     onOpenChange: context.onOpenChange,
+    // The palette opens with the search input focused, ready to type.
+    initialFocus: ".command__input",
   });
 
   const query = writable({

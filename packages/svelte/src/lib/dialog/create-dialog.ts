@@ -4,7 +4,7 @@ import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { onOutsidePointerDown } from "../internal/dismiss";
-import { FOCUSABLE, trapFocus } from "../internal/focus-trap";
+import { trapFocus } from "../internal/focus-trap";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
 
@@ -19,6 +19,12 @@ export interface DialogContext extends core.DialogContext {
   closeOnEscape?: boolean;
   /** Whether pressing the backdrop / outside the panel closes. Default `true`. */
   closeOnOutsideClick?: boolean;
+  /**
+   * CSS selector (within the panel) for the element to focus on open. When
+   * omitted, focus lands on the panel itself — never on the close button — so a
+   * screen reader announces the dialog without snapping focus to a "✕".
+   */
+  initialFocus?: string;
 }
 
 export interface CreateDialog {
@@ -97,12 +103,15 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
       ? onOutsidePointerDown([node], () => setOpen(false))
       : () => {};
 
-    // Move focus into the panel (first focusable, else the panel itself) after
-    // the portal has relocated it to <body> — reparenting drops focus, so this
-    // must run after the mount completes (a microtask later), not inline.
+    // Move focus into the panel after the portal has relocated it to <body> —
+    // reparenting drops focus, so this must run after the mount completes (a
+    // microtask later), not inline. With `initialFocus`, focus that element;
+    // otherwise focus the panel itself (never the close button).
     tick().then(() => {
-      const first = node.querySelector<HTMLElement>(FOCUSABLE);
-      (first ?? node).focus();
+      const target = context.initialFocus
+        ? node.querySelector<HTMLElement>(context.initialFocus)
+        : null;
+      (target ?? node).focus();
     });
 
     return {

@@ -51,6 +51,8 @@
     role: "alertdialog",
     describedBy: true,
     closeOnOutsideClick: false,
+    // Focus the safe choice (Cancel) by default, not the destructive action.
+    initialFocus: ".alert-dialog__actions button",
     onOpenChange,
   });
   const {
