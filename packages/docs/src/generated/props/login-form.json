@@ -1,0 +1,27 @@
+{
+  "component": "login-form",
+  "selected": false,
+  "props": [
+    {
+      "name": "providers",
+      "type": "{ id: string",
+      "default": null,
+      "required": true,
+      "description": "LoginForm — a sign-in organism composed from the primitives: an optional logo (slot) on top, optional social-login buttons, the email + password fields, a \"forgot password\" link, and the submit button.  It is a real `<form>`: the fields are native inputs (via TextField) and `onSubmit` receives `{ email, password }`. Presentation is a centered card; themeable via `--ds-login-*` and the underlying component tokens. / import TextField from \"../text-field/TextField.svelte\"; import Button from \"../button/Button.svelte\";  export let heading = \"Sign in\"; export let subheading: string | undefined = undefined; export let submitLabel = \"Sign in\"; export let forgotHref: string | undefined = \"#\"; export let forgotLabel = \"Forgot password?\"; /** Social providers rendered as white buttons above the fields."
+    },
+    {
+      "name": "onSubmit",
+      "type": "((value: { email: string",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "onProvider",
+      "type": "((id: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+---
+title: "Menu"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PropsTable from "../../../components/PropsTable.astro";
+import MenuDemo from "../../../demos/MenuDemo.svelte";
+
+<Preview>
+  <MenuDemo client:visible />
+</Preview>
+
+A sidebar navigation organism: a logo header, labelled sections of items
+(icon + label), and a footer slot. Items are links when given an `href`,
+otherwise buttons that emit `onSelect`. The active item is marked with
+`aria-current="page"` and the selection color.
+
+### Import
+
+```svelte
+<script>
+  import Menu from "@design-system/svelte/Menu.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="menu" />
+
+### Example
+
+```svelte
+<Menu
+  value="home"
+  sections={[{ label: "Main", items: [{ value: "home", label: "Home" }] }]}
+  onSelect={(v) => (active = v)}
+/>
+```
+
+Themeable via `--ds-menu-*`.
