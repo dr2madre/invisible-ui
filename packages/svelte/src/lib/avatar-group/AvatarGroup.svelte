@@ -6,6 +6,8 @@
     src?: string;
     /** Accessible name override; defaults to `name`. */
     alt?: string;
+    /** Optional background tint for the initials avatar (any CSS color). */
+    color?: string;
   }
 </script>
 
@@ -40,7 +42,10 @@
 
 <div class="avatar-group" data-size={size} data-shape={shape} role="group" aria-label={label}>
   {#each visible as item (item.name)}
-    <span class="avatar-group__item">
+    <span
+      class="avatar-group__item"
+      style={item.color ? `--ds-avatar-bg: ${item.color}` : undefined}
+    >
       <Avatar name={item.name} src={item.src} alt={item.alt} {size} {shape} />
     </span>
   {/each}
