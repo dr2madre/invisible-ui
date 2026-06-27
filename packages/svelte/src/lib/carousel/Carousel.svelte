@@ -21,6 +21,9 @@
    * - `variant="gallery"`: a horizontally-scrolling row of items (e.g. cards —
    *   an album/LP-cover gallery). Provide the item markup via the default slot
    *   (`let:item let:index let:active`).
+   * - `variant="coverflow"`: a 3D "jukebox" — the active item is centered and
+   *   upright while its neighbors recede, rotated and scaled down, peeking from
+   *   either side. Set `orientation="vertical"` to stack the flow top-to-bottom.
    *
    * Behaviour and accessibility come from the headless carousel in
    * `@design-system/core`: a labelled group of "N of M" slides, previous/next
@@ -30,7 +33,9 @@
   import { createCarousel, type CarouselContext } from "./create-carousel";
 
   export let items: CarouselSlide[];
-  export let variant: "slide" | "gallery" = "slide";
+  export let variant: "slide" | "gallery" | "coverflow" = "slide";
+  /** Coverflow only: lay the flow out horizontally (default) or vertically. */
+  export let orientation: "horizontal" | "vertical" = "horizontal";
   export let loop = false;
   /** Show the slide-picker dots. Defaults to `true`. */
   export let showIndicators = true;
@@ -65,9 +70,34 @@
     const child = viewportEl.querySelectorAll<HTMLElement>(".carousel__slide")[$index];
     if (child) viewportEl.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
   }
+
+  // Coverflow: position each slide by its signed distance from the active one —
+  // translate along the flow axis, recede with a rotation + downscale, and fade
+  // out the far ones. The active slide (offset 0) is centered and upright.
+  function coverflowStyle(offset: number): string {
+    const abs = Math.abs(offset);
+    const vertical = orientation === "vertical";
+    const translate = vertical
+      ? `translateY(calc(var(--ds-carousel-coverflow-spacing, 9rem) * ${offset}))`
+      : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
+    const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
+    const scale = Math.max(0, 1 - abs * 0.15);
+    const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
+    return [
+      `transform: translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`,
+      `opacity: ${opacity.toFixed(3)}`,
+      `z-index: ${100 - Math.round(abs)}`,
+    ].join("; ");
+  }
 </script>
 
-<section class="carousel" data-variant={variant} use:rootAction aria-label={label}>
+<section
+  class="carousel"
+  data-variant={variant}
+  data-orientation={variant === "coverflow" ? orientation : undefined}
+  use:rootAction
+  aria-label={label}
+>
   <div class="carousel__stage">
     <div class="carousel__viewport" bind:this={viewportEl} use:viewportAction>
       <div
@@ -81,7 +111,10 @@
           <div
             class="carousel__slide"
             use:slideAction={i}
-            aria-hidden={variant === "slide" && !active ? "true" : undefined}
+            style={variant === "coverflow" ? coverflowStyle(i - $index) : undefined}
+            aria-hidden={(variant === "slide" || variant === "coverflow") && !active
+              ? "true"
+              : undefined}
           >
             {#if $$slots.default}
               <slot {item} index={i} {active} />
@@ -229,6 +262,62 @@
     flex: 0 0 auto;
     inline-size: var(--ds-carousel-item-size, 14rem);
     scroll-snap-align: start;
+  }
+
+  /* ---- Coverflow ("jukebox"): a 3D flow with the active item centered ---- */
+  .carousel[data-variant="coverflow"] .carousel__viewport {
+    position: relative;
+    block-size: var(--ds-carousel-coverflow-height, 16rem);
+    /* The perspective makes the receding neighbors read as 3D. */
+    perspective: var(--ds-carousel-coverflow-perspective, 1200px);
+  }
+  .carousel[data-variant="coverflow"] .carousel__track {
+    display: block;
+    block-size: 100%;
+    transform-style: preserve-3d;
+  }
+  .carousel[data-variant="coverflow"] .carousel__slide {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    inline-size: var(--ds-carousel-coverflow-size, 12rem);
+    /* The per-slide transform/opacity/z-index are set inline from the active
+       offset; this transition animates them as the active item changes. */
+    transition:
+      transform var(--ds-carousel-transition, 350ms ease),
+      opacity var(--ds-carousel-transition, 350ms ease);
+    will-change: transform;
+  }
+  .carousel[data-variant="coverflow"] .carousel__bg {
+    aspect-ratio: 1;
+    border-radius: var(--ds-carousel-radius, var(--ds-radius-surface, 0.75rem));
+    overflow: hidden;
+    box-shadow: 0 8px 20px -6px rgb(0 0 0 / 0.35);
+  }
+  /* Pastel set for image-less coverflow cards (mirrors the slide variant). */
+  .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+  }
+  .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+  }
+  .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+  }
+  .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+  }
+  .carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+  }
+  /* Vertical jukebox: a taller viewport so stacked neighbors have room. */
+  .carousel[data-variant="coverflow"][data-orientation="vertical"] .carousel__viewport {
+    block-size: var(--ds-carousel-coverflow-height, 22rem);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel[data-variant="coverflow"] .carousel__slide {
+      transition: none;
+    }
   }
 
   /* ---- Controls ---- */

@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": "A built-in slide's content (used when no default slot is provided). */ export interface CarouselSlide { /** Background image URL (slide variant). */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; /** Arbitrary extra data for custom rendering via the default slot. */ [key: string]: unknown; } </script>  <script lang=\"ts\"> /** Carousel — a styled, accessible carousel with two modes:  - `variant=\"slide\"` (default): full-bleed horizontal slides with a background image and an overlaid title/description, one at a time. - `variant=\"gallery\"`: a horizontally-scrolling row of items (e.g. cards — an album/LP-cover gallery). Provide the item markup via the default slot (`let:item let:index let:active`). - `variant=\"coverflow\"`: a 3D \"jukebox\" — the active item is centered and upright while its neighbors recede, rotated and scaled down, peeking from either side. Set `orientation=\"vertical\"` to stack the flow top-to-bottom.  Behaviour and accessibility come from the headless carousel in `@design-system/core`: a labelled group of \"N of M\" slides, previous/next buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The control needs an accessible name via `label`. Themed via `--ds-carousel-*`. / import { createCarousel, type CarouselContext } from \"./create-carousel\";  export let items: CarouselSlide[]; export let variant: \"slide\" | \"gallery\" | \"coverflow\" = \"slide\"; /** Coverflow only: lay the flow out horizontally (default) or vertically."
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "showIndicators",
       "type": "boolean",
       "default": "true",
