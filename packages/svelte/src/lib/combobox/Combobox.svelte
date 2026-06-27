@@ -81,14 +81,21 @@
       use:inputAction
     />
 
-    {#if $inputValue && !disabled}
-      <button class="combobox__clear" aria-label={clearLabel} use:clearAction>
-        <Icon size="100%">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </Icon>
-      </button>
-    {/if}
+    <!-- The clear button always occupies its slot (hidden when empty) so the
+         input width stays stable instead of jumping as text is typed/cleared. -->
+    <button
+      class="combobox__clear"
+      class:combobox__clear--hidden={!$inputValue || disabled}
+      aria-label={clearLabel}
+      tabindex={!$inputValue || disabled ? -1 : 0}
+      aria-hidden={!$inputValue || disabled ? "true" : undefined}
+      use:clearAction
+    >
+      <Icon size="100%">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </Icon>
+    </button>
 
     <button
       class="combobox__chevron"
@@ -190,6 +197,11 @@
   }
   .combobox__clear:hover {
     color: inherit;
+  }
+  /* Reserve the clear button's footprint when empty (no layout shift). */
+  .combobox__clear--hidden {
+    visibility: hidden;
+    pointer-events: none;
   }
   .combobox__chevron {
     display: inline-flex;

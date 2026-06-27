@@ -81,23 +81,26 @@
       {:else}
         <span class="tree__twistie-spacer" aria-hidden="true"></span>
       {/if}
+      {#if $$slots.icon}
+        <span class="tree__icon" aria-hidden="true"><slot name="icon" {node} /></span>
+      {/if}
       <span class="tree__label">
         <slot name="label" {node}>{labels?.[node.value] ?? node.value}</slot>
       </span>
-      {#if isSelected}
-        <span class="tree__check" aria-hidden="true">
-          <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
-            <path
-              d="M3.5 8.5l3 3 6-6.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.75"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </span>
-      {/if}
+      <!-- The check's slot is always reserved (hidden when unselected) so a
+           selected row is no wider than its siblings — the check never overflows. -->
+      <span class="tree__check" class:tree__check--shown={isSelected} aria-hidden="true">
+        <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
+          <path
+            d="M3.5 8.5l3 3 6-6.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
     </li>
   {/each}
 </ul>
@@ -130,11 +133,30 @@
   .tree__item:hover {
     background: var(--ds-tree-item-hover, var(--ds-color-neutral-surface, #f1f5f9));
   }
+  .tree__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    inline-size: 1.1em;
+    block-size: 1.1em;
+    color: var(--ds-color-text-secondary, #57534e);
+  }
+  .tree__icon :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
   .tree__check {
     margin-inline-start: auto;
     display: inline-flex;
     flex: none;
+    inline-size: 1em;
     color: var(--ds-color-secondary, #7b52cc);
+    /* Always present (reserves width); only shown on the selected row. */
+    visibility: hidden;
+  }
+  .tree__check--shown {
+    visibility: visible;
   }
   .tree__item--selected {
     background: var(
