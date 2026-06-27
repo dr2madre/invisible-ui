@@ -22,6 +22,13 @@
       "default": "true",
       "required": false,
       "description": "Visually merge the buttons into one bar."
+    },
+    {
+      "name": "align",
+      "type": "\"start\" | \"center\" | \"end\" | \"stretch\"",
+      "default": "\"center\"",
+      "required": false,
+      "description": "Cross-axis alignment of the items. Defaults to `center` so a taller sibling (e.g. a Select with a label) never stretches the buttons; use `end` to line buttons up with a labelled control's input row, or `stretch` for equal heights."
     }
   ]
 }
