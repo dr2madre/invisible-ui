@@ -97,10 +97,20 @@
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
     border: 1px solid var(--ds-color-border, #cbd5e1);
     border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
-    background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
     resize: vertical;
+    /* A visible drag grip: diagonal stripes tucked into the bottom-right corner,
+       painted over the solid background (the native resize handle still works). */
+    background:
+      repeating-linear-gradient(
+          -45deg,
+          var(--ds-field-grip-color, var(--ds-color-border, #cbd5e1)) 0 1px,
+          transparent 1px 3px
+        )
+        bottom var(--ds-field-grip-inset, 3px) right var(--ds-field-grip-inset, 3px) / 9px 9px
+        no-repeat,
+      var(--ds-color-background, #fff);
     transition:
       border-color 120ms ease,
       box-shadow 120ms ease;

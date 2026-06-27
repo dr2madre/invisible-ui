@@ -24,6 +24,11 @@
   export let value = "on";
   /** Mark the control required for native form validation. */
   export let required = false;
+  /** Show ON/OFF text inside the track (a wider, labelled variant). */
+  export let onOff = false;
+  /** Text shown in the track when on / off (only with `onOff`). */
+  export let onText = "ON";
+  export let offText = "OFF";
   /** Called whenever the on/off value changes. */
   export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
 
@@ -47,7 +52,12 @@
     on:change={onChange}
     data-state={$swState.checked ? "checked" : "unchecked"}
   />
-  <span class="switch" aria-hidden="true"></span>
+  <span class="switch" class:switch--onoff={onOff} aria-hidden="true">
+    {#if onOff}
+      <span class="switch__on">{onText}</span>
+      <span class="switch__off">{offText}</span>
+    {/if}
+  </span>
   <span class="field__label"><slot>{label}</slot></span>
 </label>
 
@@ -117,5 +127,47 @@
   .field--disabled .switch,
   .switch__input:disabled + .switch {
     opacity: 0.5;
+  }
+
+  /* ---- ON/OFF labelled variant: a wider track with text behind the thumb ---- */
+  .switch--onoff {
+    inline-size: var(--ds-switch-onoff-width, 3.75rem);
+    display: flex;
+    align-items: center;
+  }
+  .switch--onoff .switch__on,
+  .switch--onoff .switch__off {
+    position: absolute;
+    inset-block: 0;
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--ds-switch-onoff-font, 0.625rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: opacity 120ms ease;
+  }
+  /* ON sits on the left (revealed when the thumb slides right). */
+  .switch--onoff .switch__on {
+    inset-inline-start: 0.5rem;
+    color: var(--ds-switch-onoff-on-text, var(--ds-color-on-secondary, #fff));
+    opacity: 0;
+  }
+  /* OFF sits on the right (shown while off, thumb on the left). */
+  .switch--onoff .switch__off {
+    inset-inline-end: 0.5rem;
+    color: var(--ds-switch-onoff-off-text, var(--ds-color-text-secondary, #64748b));
+    opacity: 1;
+  }
+  .switch__input:checked + .switch--onoff .switch__on {
+    opacity: 1;
+  }
+  .switch__input:checked + .switch--onoff .switch__off {
+    opacity: 0;
+  }
+  .switch--onoff.switch::after {
+    translate: 0 0;
+  }
+  .switch__input:checked + .switch--onoff.switch::after {
+    translate: calc(var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)) 0;
   }
 </style>

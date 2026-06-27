@@ -6,4 +6,7 @@
   <Switch label="Wi-Fi" checked />
   <Switch label="Bluetooth" />
   <Switch label="Airplane mode" disabled />
+  <!-- ON/OFF text-in-track variant. -->
+  <Switch label="Notifications" onOff checked />
+  <Switch label="Auto-update" onOff />
 </div>
