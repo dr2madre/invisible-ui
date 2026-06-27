@@ -146,11 +146,13 @@
     outline: none;
   }
   .slider__input:focus-visible::-webkit-slider-thumb {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .slider__input:focus-visible::-moz-range-thumb {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
 </style>

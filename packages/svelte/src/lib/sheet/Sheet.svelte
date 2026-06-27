@@ -105,7 +105,8 @@
     );
   }
   .sheet__panel:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
 
@@ -203,7 +204,8 @@
     color: inherit;
   }
   .sheet__close:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .sheet__description {

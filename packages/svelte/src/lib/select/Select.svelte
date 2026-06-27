@@ -105,7 +105,7 @@
   .select__trigger:focus-visible {
     outline: none;
     border-color: var(--ds-color-focus-ring, #2563eb);
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .select__trigger--placeholder .select__value {
     color: var(--ds-color-text-secondary, #64748b);

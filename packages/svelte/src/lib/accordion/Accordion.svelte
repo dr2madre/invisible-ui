@@ -92,7 +92,8 @@
     rotate: 90deg;
   }
   .accordion__trigger:global(:focus-visible) {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
   .accordion__trigger:global([data-disabled]) {

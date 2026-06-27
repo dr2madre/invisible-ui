@@ -497,7 +497,8 @@
   }
   .calendar__today:focus-visible,
   .calendar__arrow:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
 
@@ -562,7 +563,7 @@
   .calendar__day:focus-visible {
     outline: none;
     border-color: var(--ds-color-focus-ring, #2563eb);
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .calendar__day--outside {
     color: var(--ds-color-text-secondary, #94a3b8);
@@ -669,7 +670,8 @@
     color: var(--ds-color-primary, #2563eb);
   }
   .calendar__mini-title:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .calendar__mini-grid {
@@ -704,7 +706,8 @@
     background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f1f5f9));
   }
   .calendar__mini-day:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -1px;
   }
   .calendar__mini-day[data-today] {
@@ -748,7 +751,8 @@
     cursor: pointer;
   }
   .calendar__agenda-head:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
   .calendar__agenda-head[data-selected] {

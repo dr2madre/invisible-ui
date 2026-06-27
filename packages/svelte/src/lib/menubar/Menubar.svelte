@@ -89,7 +89,7 @@
   }
   .menubar__trigger:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .menubar__trigger:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #94a3b8);

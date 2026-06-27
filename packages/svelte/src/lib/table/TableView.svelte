@@ -356,7 +356,8 @@
     cursor: pointer;
   }
   .table-view__load-more:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .table-view__load-more:disabled {

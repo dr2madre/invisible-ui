@@ -123,7 +123,8 @@
     user-select: none;
   }
   .drawer__panel:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
   @keyframes drawer-in {
@@ -184,7 +185,8 @@
     color: inherit;
   }
   .drawer__close:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .drawer__description {

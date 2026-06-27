@@ -146,7 +146,7 @@
   }
   .date-picker__field:focus-within {
     border-color: var(--ds-color-focus-ring, #2563eb);
-    box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #2563eb);
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .date-picker--disabled .date-picker__field {
     opacity: 0.55;
@@ -187,7 +187,8 @@
     background: var(--ds-color-neutral-surface, #f1f5f9);
   }
   .date-picker__clear:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #2563eb);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 1px;
   }
 

@@ -70,7 +70,8 @@
   }
   .pagination__control:focus-visible,
   .pagination__page:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 1px;
   }
   .pagination__control[data-disabled] {

@@ -102,7 +102,8 @@
     background: var(--ds-code-block-copy-hover, rgba(0, 0, 0, 0.1));
   }
   .code-block__copy:focus-visible {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
 

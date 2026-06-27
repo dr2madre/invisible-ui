@@ -68,7 +68,8 @@
     border-block-end-color: var(--ds-color-secondary, #7b52cc);
   }
   .tabs__tab:global(:focus-visible) {
-    outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
   .tabs__tab:global([data-disabled]) {

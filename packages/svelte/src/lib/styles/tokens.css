@@ -91,6 +91,14 @@
   --ds-state-hover: rgb(0 0 0 / 0.06);
   --ds-state-pressed: rgb(0 0 0 / 0.12);
   --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
+  /* Focus indicator: a solid inner ring + a transparent halo of the same color. */
+  --ds-focus-ring-width: 2px;
+  --ds-focus-ring-offset: 2px;
+  --ds-focus-halo-width: 3px;
+  --ds-color-focus-halo: color-mix(in srgb, var(--ds-color-focus-ring) 30%, transparent);
+  --ds-focus-ring-shadow:
+    0 0 0 var(--ds-focus-ring-width) var(--ds-color-focus-ring),
+    0 0 0 calc(var(--ds-focus-ring-width) + var(--ds-focus-halo-width)) var(--ds-color-focus-halo);
 
   --ds-color-primary: var(--ds-brand-primary);
   --ds-color-primary-hover: var(--ds-brand-primary-hover);
