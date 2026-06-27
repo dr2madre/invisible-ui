@@ -124,9 +124,12 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: var(--ds-focus-ring-offset, 2px);
   }
+  /* Checked: faint selection-color fill + glyph in the full selection color
+     (coherent with the standalone Checkbox), not a solid fill. */
   .checkbox__input:checked + .checkbox {
-    background: var(--ds-color-secondary, #7b52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
     border-color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-secondary, #7b52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph
