@@ -150,9 +150,38 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
       }
     };
     node.addEventListener("contextmenu", onContextMenu);
+
+    // Touch has no right-click: open on a long-press (~500ms) at the press point.
+    let pressTimer: ReturnType<typeof setTimeout> | undefined;
+    let start = { x: 0, y: 0 };
+    const LONG_PRESS = 500;
+    const MOVE_TOLERANCE = 10;
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== "touch") return;
+      start = { x: event.clientX, y: event.clientY };
+      pressTimer = setTimeout(() => openAt(event.clientX, event.clientY), LONG_PRESS);
+    };
+    const cancelPress = () => clearTimeout(pressTimer);
+    const onPointerMove = (event: PointerEvent) => {
+      if (
+        Math.abs(event.clientX - start.x) > MOVE_TOLERANCE ||
+        Math.abs(event.clientY - start.y) > MOVE_TOLERANCE
+      )
+        cancelPress();
+    };
+    node.addEventListener("pointerdown", onPointerDown);
+    node.addEventListener("pointerup", cancelPress);
+    node.addEventListener("pointercancel", cancelPress);
+    node.addEventListener("pointermove", onPointerMove);
+
     return {
       destroy() {
+        cancelPress();
         node.removeEventListener("contextmenu", onContextMenu);
+        node.removeEventListener("pointerdown", onPointerDown);
+        node.removeEventListener("pointerup", cancelPress);
+        node.removeEventListener("pointercancel", cancelPress);
+        node.removeEventListener("pointermove", onPointerMove);
       },
     };
   };
