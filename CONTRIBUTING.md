@@ -49,6 +49,21 @@ docs: document Dialog usage
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 
+## Authorship
+
+Commits must be authored by a **human account**. Configure your git author name
+and email to match your own (or your GitHub) identity before contributing:
+
+```
+git config user.name "Your Name"
+git config user.email "you@example.com"
+```
+
+AI assistants and other automated tools may help draft changes, but they must
+**not** be listed as the author or co-author of a commit — no `Co-Authored-By`
+trailers for bots, and no automated/placeholder author identities. A real person
+takes responsibility for every contribution.
+
 ## Token naming (headless)
 
 Tokens are **headless**: a token name must express _role_ or _state_, never
