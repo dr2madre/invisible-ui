@@ -48,6 +48,11 @@
   export let role: "status" | "alert" | "region" = "status";
   /** High-contrast inverse surface (opposite of the page) for maximum visibility. */
   export let inverted = false;
+  /**
+   * No-surface variant: drop the tinted background and border (the message sits
+   * on the page). The status stays visible via the colored FeedbackIcon chip.
+   */
+  export let plain = false;
   /** Called when dismissed. */
   export let onclose: (() => void) | undefined = undefined;
 
@@ -66,13 +71,16 @@
     class="alert"
     data-status={status}
     data-inverted={inverted ? "" : undefined}
+    data-plain={plain ? "" : undefined}
     {role}
     on:mouseenter
     on:mouseleave
     on:focusin
     on:focusout
   >
-    <FeedbackIcon {status} />
+    <!-- On the plain (no-surface) variant the colored chip carries the status; on
+         a tinted surface the chip box goes transparent so it doesn't clash. -->
+    <FeedbackIcon {status} box={plain || inverted ? "tint" : "transparent"} />
 
     <div class="alert__content">
       {#if title}
@@ -203,5 +211,13 @@
     --_bg: var(--ds-color-emphasis-surface, #1e293b);
     --_border: var(--ds-color-emphasis-border, #334155);
     --_fg: var(--ds-color-on-emphasis, #f8fafc);
+  }
+
+  /* Plain (no-surface): transparent background, no border. The colored
+     FeedbackIcon chip carries the status. Wins over the status tint. */
+  .alert:global([data-plain]) {
+    --_bg: transparent;
+    --_border: transparent;
+    padding-inline: 0;
   }
 </style>

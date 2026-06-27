@@ -17,11 +17,23 @@
 
   export let status: "info" | "success" | "warning" | "danger" | "neutral" = "info";
   export let label: string | undefined = undefined;
+  /**
+   * Box treatment behind the glyph:
+   * - `"tint"` (default): a soft status-colored chip.
+   * - `"transparent"`: no box — just the colored glyph. Use on already-tinted
+   *   surfaces (e.g. inside a colored Alert) so the chip doesn't clash.
+   * - `"solid"`: a full status-colored box with a contrasting (white) glyph.
+   */
+  export let box: "tint" | "transparent" | "solid" = "tint";
+  /** Box shape — `"rounded"` (default) or a full `"round"` circle. */
+  export let shape: "rounded" | "round" = "rounded";
 </script>
 
 <span
   class="feedback-icon"
   data-status={status}
+  data-box={box}
+  data-shape={shape}
   role={label ? "img" : undefined}
   aria-label={label}
   aria-hidden={label ? undefined : "true"}
@@ -82,6 +94,21 @@
     /* Glyph at full status color; box tinted with the same color at 15%. */
     color: var(--_color);
     background: color-mix(in srgb, var(--_color) 15%, transparent);
+  }
+
+  /* Transparent box: drop the chip, keep the colored glyph (for tinted surfaces). */
+  .feedback-icon:global([data-box="transparent"]) {
+    background: transparent;
+    padding: 0;
+  }
+  /* Solid box: full status color with a contrasting glyph. */
+  .feedback-icon:global([data-box="solid"]) {
+    background: var(--_color);
+    color: var(--ds-feedback-icon-on-solid, #fff);
+  }
+  /* Full circle. */
+  .feedback-icon:global([data-shape="round"]) {
+    border-radius: 50%;
   }
 
   /* The glyph (built-in or slotted) fills the padded content box and centers. */

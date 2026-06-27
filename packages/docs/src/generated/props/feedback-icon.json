@@ -3,18 +3,18 @@
   "selected": false,
   "props": [
     {
-      "name": "status",
-      "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
-      "default": "\"info\"",
+      "name": "box",
+      "type": "\"tint\" | \"transparent\" | \"solid\"",
+      "default": "\"tint\"",
       "required": false,
-      "description": "Which feedback type to show."
+      "description": "FeedbackIcon — a status icon enclosed in a rounded, colored box (the \"system icon\" look). It conveys the *type* of feedback (info / success / warning / danger / neutral) at a glance, which is an accessibility aid for alerts and similar messages.  This is intentionally a *styled* component (it ships SVGs + CSS), unlike the headless primitives. Colors are CSS custom properties (`--ds-feedback-*`) with sensible defaults, so they remain themeable.  A built-in icon is provided per status; pass your own via the default slot to override it. The box is decorative by default (`aria-hidden`); pass `label` to expose it as an image with an accessible name. / import Icon from \"../icon/Icon.svelte\";  export let status: \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\" = \"info\"; export let label: string | undefined = undefined; /** Box treatment behind the glyph: - `\"tint\"` (default): a soft status-colored chip. - `\"transparent\"`: no box — just the colored glyph. Use on already-tinted surfaces (e.g. inside a colored Alert) so the chip doesn't clash. - `\"solid\"`: a full status-colored box with a contrasting (white) glyph."
     },
     {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
+      "name": "shape",
+      "type": "\"rounded\" | \"round\"",
+      "default": "\"rounded\"",
       "required": false,
-      "description": "When set, exposes the box as an image with this accessible name."
+      "description": "Box shape — `\"rounded\"` (default) or a full `\"round\"` circle."
     }
   ]
 }
