@@ -53,7 +53,10 @@ describe("Svelte Command (styled)", () => {
     render(Fixture, { props: { onCommand } });
     await openPalette(user);
 
-    await user.keyboard("{ArrowDown}"); // New File -> Open…
+    // Nothing is pre-highlighted on open; first ArrowDown lands on the first
+    // item, a second moves to "Open…".
+    await user.keyboard("{ArrowDown}"); // -> New File
+    await user.keyboard("{ArrowDown}"); // -> Open…
     await user.keyboard("{Enter}");
     expect(onCommand).toHaveBeenCalledWith("open");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

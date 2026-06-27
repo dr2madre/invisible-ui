@@ -246,8 +246,12 @@
     cursor: pointer;
     user-select: none;
   }
-  .combobox__option:global([data-active]) {
+  .combobox__option:global([data-active]:not([data-state="selected"])) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  }
+  /* The selected option keeps a faint selection tint. */
+  .combobox__option:global([data-state="selected"]) {
+    background: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent);
   }
   .combobox__option:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #94a3b8);
@@ -258,7 +262,7 @@
     inline-size: 1rem;
     block-size: 1rem;
     flex: none;
-    color: var(--ds-color-primary, #2563eb);
+    color: var(--ds-color-selected, #7b52cc);
     visibility: hidden;
   }
   .combobox__option:global([data-state="selected"]) .combobox__check {

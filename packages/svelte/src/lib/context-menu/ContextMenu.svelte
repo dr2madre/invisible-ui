@@ -85,8 +85,8 @@
     text-align: start;
     cursor: pointer;
   }
-  /* The active item is the one with DOM focus (roving) or pointer hover. */
-  .context-menu__item:global([data-active]),
+  /* Hover (desktop) or keyboard focus only — no grey just for being the
+     roving-active item on open (no grey on tap). */
   .context-menu__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }

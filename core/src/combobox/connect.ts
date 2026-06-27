@@ -72,7 +72,8 @@ export function connect({
 
   const openListbox = () => {
     if (disabled || open) return;
-    setActiveValue(value ?? firstEnabled(items));
+    // No first-item pre-highlight on open; only the selected value (if any).
+    setActiveValue(value);
     setOpen(true);
   };
   const closeListbox = () => {
@@ -102,6 +103,8 @@ export function connect({
       if (key === "ArrowDown" || key === "ArrowUp") {
         event.preventDefault();
         openListbox();
+        // Opening via keyboard highlights an option (selected, else first).
+        setActiveValue(value ?? firstEnabled(items));
       }
       return;
     }
