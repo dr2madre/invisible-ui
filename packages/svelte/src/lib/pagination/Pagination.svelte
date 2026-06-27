@@ -63,8 +63,8 @@
     cursor: pointer;
   }
   .pagination__page[data-selected] {
-    background: var(--ds-pagination-active, var(--ds-color-primary-500, #2563eb));
-    border-color: var(--ds-pagination-active, var(--ds-color-primary-500, #2563eb));
+    background: var(--ds-pagination-active, var(--ds-color-secondary, #7b52cc));
+    border-color: var(--ds-pagination-active, var(--ds-color-secondary, #7b52cc));
     color: var(--ds-pagination-active-text, var(--ds-color-on-emphasis, #fff));
     font-weight: 600;
   }

@@ -64,8 +64,8 @@
   .tabs__tab:global([data-state="active"]) {
     /* The selected tab is emphasized: bold + the primary underline. */
     font-weight: 700;
-    color: var(--ds-color-primary, #2563eb);
-    border-block-end-color: var(--ds-color-primary, #2563eb);
+    color: var(--ds-color-secondary, #7b52cc);
+    border-block-end-color: var(--ds-color-secondary, #7b52cc);
   }
   .tabs__tab:global(:focus-visible) {
     outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);

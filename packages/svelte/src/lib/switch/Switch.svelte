@@ -94,7 +94,8 @@
     inline-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     border-radius: 50%;
-    background: var(--ds-color-on-primary, #fff);
+    /* The thumb is always white (it sits on the track in both states). */
+    background: var(--ds-switch-thumb, var(--ds-neutral-0, #fff));
     transition: translate 150ms ease;
   }
   .switch__input:focus-visible + .switch {
@@ -103,7 +104,7 @@
   }
 
   .switch__input:checked + .switch {
-    background: var(--ds-color-primary, #2563eb);
+    background: var(--ds-color-secondary, #7b52cc);
   }
   .switch__input:checked + .switch::after {
     translate: calc(var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)) 0;

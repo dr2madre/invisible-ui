@@ -125,14 +125,14 @@
     flex: none;
   }
   .radio__input:checked + .radio__dot {
-    border-color: var(--ds-color-primary, #2563eb);
+    border-color: var(--ds-color-secondary, #7b52cc);
   }
   .radio__input:checked + .radio__dot::after {
     content: "";
     inline-size: 0.6rem;
     block-size: 0.6rem;
     border-radius: 50%;
-    background: var(--ds-color-primary, #2563eb);
+    background: var(--ds-color-secondary, #7b52cc);
   }
   .radio__input:focus-visible + .radio__dot {
     outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, currentColor);
