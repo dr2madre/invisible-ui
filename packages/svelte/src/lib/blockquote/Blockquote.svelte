@@ -36,7 +36,7 @@
     margin: 0;
     padding-inline-start: var(--ds-blockquote-padding, 1rem);
     border-inline-start: var(--ds-blockquote-border-width, 3px) solid
-      var(--ds-blockquote-accent, var(--ds-color-border, #cbd5e1));
+      var(--ds-blockquote-accent, var(--ds-color-neutral-400, #a8a29e));
     color: var(--ds-blockquote-text, var(--ds-color-text-secondary, #475569));
   }
 

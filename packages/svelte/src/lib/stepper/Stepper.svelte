@@ -114,17 +114,18 @@
     align-items: flex-start;
   }
 
-  /* Connector line that precedes every step but the first. */
+  /* Short divider that precedes every step but the first. */
   .stepper__connector {
-    flex: 1;
+    flex: none;
+    inline-size: var(--ds-step-connector-length, 1.5rem);
     block-size: var(--ds-step-connector-thickness, 2px);
     margin-inline: 0.25rem;
-    background: var(--ds-step-connector-color, var(--ds-color-border, #cbd5e1));
+    background: var(--ds-step-connector-color, var(--ds-color-border, #d6d3d1));
     border-radius: 999px;
   }
   .stepper__step[data-status="complete"] .stepper__connector,
   .stepper__step[data-status="current"] .stepper__connector {
-    background: var(--ds-step-connector-active, var(--ds-color-primary, #2563eb));
+    background: var(--ds-step-connector-active, var(--ds-color-secondary, #7b52cc));
   }
   .stepper__list:global([data-orientation="vertical"]) .stepper__connector {
     inline-size: var(--ds-step-connector-thickness, 2px);
@@ -174,14 +175,24 @@
       border-color 120ms ease,
       color 120ms ease;
   }
+  /* Completed: light gray filled circle with a dark check. */
   .stepper__step[data-status="complete"] .stepper__indicator {
-    background: var(--ds-step-complete-bg, var(--ds-color-primary, #2563eb));
-    border-color: var(--ds-step-complete-bg, var(--ds-color-primary, #2563eb));
-    color: var(--ds-color-on-primary, #fff);
+    background: var(--ds-step-complete-bg, var(--ds-color-neutral-200, #e7e5e4));
+    border-color: var(--ds-step-complete-border, var(--ds-color-border, #d6d3d1));
+    color: var(--ds-step-complete-text, var(--ds-color-text, #1c1917));
   }
+  /* Current: filled with the selection color. */
   .stepper__step[data-status="current"] .stepper__indicator {
-    border-color: var(--ds-step-current-border, var(--ds-color-primary, #2563eb));
-    color: var(--ds-step-current-text, var(--ds-color-primary, #2563eb));
+    background: var(--ds-step-current-bg, var(--ds-color-secondary, #7b52cc));
+    border-color: var(--ds-step-current-bg, var(--ds-color-secondary, #7b52cc));
+    color: var(--ds-step-current-text, var(--ds-color-on-secondary, #fff));
+  }
+  /* Upcoming: no fill, dashed near-black ring. */
+  .stepper__step[data-status="upcoming"] .stepper__indicator {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--ds-step-upcoming-border, var(--ds-color-neutral-800, #292524));
+    color: var(--ds-step-upcoming-text, var(--ds-color-neutral-800, #292524));
   }
 
   .stepper__text {
@@ -195,10 +206,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  .stepper__step[data-status="upcoming"] .stepper__label {
-    color: var(--ds-color-text-secondary, #64748b);
-    font-weight: 500;
   }
   .stepper__description {
     font-size: 0.8125rem;
