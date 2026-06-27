@@ -36,9 +36,33 @@ function hexToRgb(hex: string): RGB {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
+// oklch(L% C H) → sRGB 0–255 (CSS Color 4 conversion, for contrast checks).
+function oklchToRgb(value: string): RGB {
+  const m = /oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)\s*\)/.exec(value);
+  if (!m) throw new Error(`Cannot parse oklch: ${value}`);
+  const L = Number(m[1]) / 100;
+  const C = Number(m[2]);
+  const h = (Number(m[3]) * Math.PI) / 180;
+  const a = C * Math.cos(h);
+  const b = C * Math.sin(h);
+  const l_ = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m_ = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s_ = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
+  const lin = [
+    4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_,
+    -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+    -0.0041960863 * l_ - 0.7034186147 * m_ + 1.707614701 * s_,
+  ];
+  return lin.map((c) => {
+    const srgb = c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
+    return Math.max(0, Math.min(255, Math.round(srgb * 255)));
+  }) as RGB;
+}
+
 function resolve(value: string, vars: Record<string, string>): RGB {
   const v = value.trim();
   if (v.startsWith("#")) return hexToRgb(v);
+  if (v.startsWith("oklch(")) return oklchToRgb(v);
 
   if (v.startsWith("var(")) {
     const name = v.slice(4, v.indexOf(")")).split(",")[0].trim();
