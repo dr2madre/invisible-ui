@@ -68,62 +68,66 @@
 </script>
 
 <section class="carousel" data-variant={variant} use:rootAction aria-label={label}>
-  <div class="carousel__viewport" bind:this={viewportEl} use:viewportAction>
-    <div
-      class="carousel__track"
-      style={variant === "slide" ? `transform: translateX(calc(-1 * ${$index} * 100%))` : undefined}
-    >
-      {#each items as item, i (i)}
-        {@const active = i === $index}
-        <div
-          class="carousel__slide"
-          use:slideAction={i}
-          aria-hidden={variant === "slide" && !active ? "true" : undefined}
-        >
-          {#if $$slots.default}
-            <slot {item} index={i} {active} />
-          {:else}
-            <div
-              class="carousel__bg"
-              style={item.image ? `background-image: url(${item.image})` : undefined}
-            >
-              {#if item.title || item.description}
-                <div class="carousel__overlay">
-                  {#if item.title}<p class="carousel__title">{item.title}</p>{/if}
-                  {#if item.description}<p class="carousel__desc">{item.description}</p>{/if}
-                </div>
-              {/if}
-            </div>
-          {/if}
-        </div>
-      {/each}
+  <div class="carousel__stage">
+    <div class="carousel__viewport" bind:this={viewportEl} use:viewportAction>
+      <div
+        class="carousel__track"
+        style={variant === "slide"
+          ? `transform: translateX(calc(-1 * ${$index} * 100%))`
+          : undefined}
+      >
+        {#each items as item, i (i)}
+          {@const active = i === $index}
+          <div
+            class="carousel__slide"
+            use:slideAction={i}
+            aria-hidden={variant === "slide" && !active ? "true" : undefined}
+          >
+            {#if $$slots.default}
+              <slot {item} index={i} {active} />
+            {:else}
+              <div
+                class="carousel__bg"
+                style={item.image ? `background-image: url(${item.image})` : undefined}
+              >
+                {#if item.title || item.description}
+                  <div class="carousel__overlay">
+                    {#if item.title}<p class="carousel__title">{item.title}</p>{/if}
+                    {#if item.description}<p class="carousel__desc">{item.description}</p>{/if}
+                  </div>
+                {/if}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
     </div>
-  </div>
 
-  <button class="carousel__arrow carousel__arrow--prev" use:prevAction aria-label={prevLabel}>
-    <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
-      <path
-        d="M10 3L5 8l5 5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  </button>
-  <button class="carousel__arrow carousel__arrow--next" use:nextAction aria-label={nextLabel}>
-    <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
-      <path
-        d="M6 3l5 5-5 5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  </button>
+    <button class="carousel__arrow carousel__arrow--prev" use:prevAction aria-label={prevLabel}>
+      <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
+        <path
+          d="M10 3L5 8l5 5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <button class="carousel__arrow carousel__arrow--next" use:nextAction aria-label={nextLabel}>
+      <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
+        <path
+          d="M6 3l5 5-5 5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </div>
 
   {#if showIndicators}
     <div class="carousel__indicators" role="group" aria-label="Choose slide">
@@ -143,6 +147,11 @@
     color: var(--ds-color-text, #0f172a);
   }
 
+  /* Positioning context for the arrows so they center on the slides only, not
+     the whole carousel (which also includes the indicator dots below). */
+  .carousel__stage {
+    position: relative;
+  }
   .carousel__viewport {
     overflow: hidden;
     border-radius: var(--ds-carousel-radius, var(--ds-radius-surface, 0.75rem));

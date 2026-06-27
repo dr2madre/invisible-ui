@@ -114,25 +114,39 @@
     align-items: flex-start;
   }
 
-  /* Short divider that precedes every step but the first. */
+  /* Short dotted divider that precedes every step but the first: a row of soft,
+     round dots (rounded caps) in a light grey — denser and quieter than a solid
+     bar. The dots are drawn with a repeating radial-gradient. */
   .stepper__connector {
     flex: none;
     inline-size: var(--ds-step-connector-length, 1.5rem);
-    block-size: var(--ds-step-connector-thickness, 2px);
+    block-size: var(--ds-step-connector-thickness, 3px);
     margin-inline: 0.25rem;
-    background: var(--ds-step-connector-color, var(--ds-color-border, #d6d3d1));
-    border-radius: 999px;
+    background-image: radial-gradient(
+      circle,
+      var(--ds-step-connector-color, var(--ds-color-neutral-300, #e7e5e4)) 0 42%,
+      transparent 48%
+    );
+    background-size: var(--ds-step-connector-dot-gap, 5px) 100%;
+    background-repeat: repeat-x;
+    background-position: center;
   }
   .stepper__step[data-status="complete"] .stepper__connector,
   .stepper__step[data-status="current"] .stepper__connector {
-    background: var(--ds-step-connector-active, var(--ds-color-secondary, #7b52cc));
+    background-image: radial-gradient(
+      circle,
+      var(--ds-step-connector-active, var(--ds-color-secondary, #7b52cc)) 0 42%,
+      transparent 48%
+    );
   }
   .stepper__list:global([data-orientation="vertical"]) .stepper__connector {
-    inline-size: var(--ds-step-connector-thickness, 2px);
+    inline-size: var(--ds-step-connector-thickness, 3px);
     block-size: auto;
     min-block-size: 1.25rem;
     margin-block: 0.25rem;
     margin-inline: 0;
+    background-size: 100% var(--ds-step-connector-dot-gap, 5px);
+    background-repeat: repeat-y;
   }
 
   .stepper__trigger {

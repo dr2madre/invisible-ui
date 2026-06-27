@@ -1,7 +1,6 @@
 <script>
   import Card from "@design-system/svelte/Card.svelte";
   import Tag from "@design-system/svelte/Tag.svelte";
-  import ButtonGroup from "@design-system/svelte/ButtonGroup.svelte";
   import Button from "@design-system/svelte/Button.svelte";
 </script>
 
@@ -9,11 +8,13 @@
   <!-- Dashboard metric tile -->
   <Card variant="dashboard" title="Monthly revenue" value="€48,200" change="+12.5%" trend="up" />
 
-  <!-- Rich media card: image on top, date + tag, title, description, actions -->
+  <!-- Rich media card: image on top, title, tags (under the title, before the
+       description), then a ghost link + primary action (no footer divider). -->
   <Card
     title="Spring collection"
     description="Fresh arrivals for the new season, hand-picked by our team."
   >
+    <!-- Solid/gradient placeholder when there's no image, so it reads clearly. -->
     <div
       slot="media"
       aria-hidden="true"
@@ -21,15 +22,15 @@
     ></div>
 
     <svelte:fragment slot="tags">
-      <span style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">12 May 2026</span>
       <Tag status="success">New</Tag>
+      <Tag status="info">Limited</Tag>
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
-      <ButtonGroup label="Card actions" attached={false}>
-        <Button variant="primary">Shop now</Button>
-        <Button variant="ghost">Details</Button>
-      </ButtonGroup>
+      <Button variant="ghost" onpress={() => {}} --ds-button-padding="0">
+        <span style="text-decoration: underline; text-underline-offset: 2px;">Details</span>
+      </Button>
+      <Button variant="primary">Shop now</Button>
     </svelte:fragment>
   </Card>
 </div>

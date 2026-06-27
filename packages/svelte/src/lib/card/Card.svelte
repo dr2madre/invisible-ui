@@ -200,7 +200,8 @@
     justify-content: space-between;
     gap: 0.5rem;
     padding: var(--ds-card-actions-padding, 0.75rem 1rem);
-    border-block-start: 1px solid var(--ds-card-border, var(--ds-color-border, #e2e8f0));
+    /* No footer divider by default — opt in via --ds-card-actions-border. */
+    border-block-start: 1px solid var(--ds-card-actions-border, transparent);
   }
 
   /* ---- Media card, horizontal ---- */
