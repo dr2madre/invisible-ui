@@ -62,10 +62,15 @@
      a faint selection-colored fill + matching border. */
   .toggle-group__item {
     appearance: none;
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font: inherit;
+    /* Equal, square-ish size for every item (text or icon) so heights match the
+       standalone ToggleButton and don't vary item-to-item. */
+    min-block-size: var(--ds-control-height, 2.25rem);
+    min-inline-size: var(--ds-control-height, 2.25rem);
     padding: var(--ds-toggle-group-item-padding, 0.35rem 0.7rem);
     border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
     border-radius: var(--ds-toggle-group-item-radius, var(--ds-radius-control, 0.375rem));
@@ -77,14 +82,20 @@
       border-color 120ms ease,
       color 120ms ease;
   }
+  /* Uniform icon size across items. */
+  .toggle-group__item :global(svg) {
+    inline-size: var(--ds-toggle-group-icon-size, 1.15rem);
+    block-size: var(--ds-toggle-group-icon-size, 1.15rem);
+  }
   .toggle-group__item:global([data-state="on"]) {
+    /* No weight change on selection (it would shift width) — color + fill +
+       border carry the state. */
     background: var(
       --ds-toggle-group-item-active,
-      color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent)
+      color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent)
     );
-    color: var(--ds-color-secondary, #7b52cc);
-    border-color: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 35%, transparent);
-    font-weight: 600;
+    color: var(--ds-color-selected, #7b52cc);
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
   }
   .toggle-group__item:global(:focus-visible) {
     outline: none;

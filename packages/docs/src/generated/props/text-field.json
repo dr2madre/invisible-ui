@@ -45,6 +45,13 @@
       "description": "When non-empty the field becomes invalid and announces the message."
     },
     {
+      "name": "success",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Success/validated message; shows a green check and a confirming caption."
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "default": "false",
