@@ -74,7 +74,11 @@
     <input type="hidden" name={endName} value={end ?? ""} />
   {/if}
   <div class="date-picker__field">
-    <span class="date-picker__icon" aria-hidden="true">
+    <span
+      class="date-picker__icon"
+      class:date-picker__icon--active={start || end}
+      aria-hidden="true"
+    >
       <Icon size="1.1rem">
         <rect x="3" y="4" width="18" height="18" rx="2" />
         <line x1="16" y1="2" x2="16" y2="6" />
@@ -154,6 +158,10 @@
   .date-picker__icon {
     display: inline-flex;
     color: var(--ds-color-text-secondary, #64748b);
+  }
+  /* Once a range is set, the icon adopts the selection color (like DatePicker). */
+  .date-picker__icon--active {
+    color: var(--ds-color-secondary, #7b52cc);
   }
   .date-picker__input {
     flex: 1;
