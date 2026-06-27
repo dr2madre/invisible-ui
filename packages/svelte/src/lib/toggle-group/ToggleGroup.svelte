@@ -49,26 +49,33 @@
 <style>
   .toggle-group {
     display: inline-flex;
-    gap: var(--ds-toggle-group-gap, 0.25rem);
-    padding: var(--ds-toggle-group-padding, 0.25rem);
+    gap: var(--ds-toggle-group-gap, 0.375rem);
+    padding: var(--ds-toggle-group-padding, 0);
     background: var(--ds-toggle-group-track, transparent);
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
   }
   .toggle-group:global([data-orientation="vertical"]) {
     flex-direction: column;
   }
+  /* Each item is its own squared toggle button (mirrors the standalone
+     ToggleButton): a 1px border at rest, a transparent fill, and — when on —
+     a faint selection-colored fill + matching border. */
   .toggle-group__item {
     appearance: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font: inherit;
     padding: var(--ds-toggle-group-item-padding, 0.35rem 0.7rem);
-    border-radius: var(
-      --ds-toggle-group-item-radius,
-      calc(var(--ds-radius-control, 0.5rem) - 0.25rem)
-    );
-    background: transparent;
+    border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+    border-radius: var(--ds-toggle-group-item-radius, var(--ds-radius-control, 0.375rem));
+    background: var(--ds-toggle-bg, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #0f172a);
     cursor: pointer;
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease,
+      color 120ms ease;
   }
   .toggle-group__item:global([data-state="on"]) {
     background: var(
@@ -76,6 +83,7 @@
       color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent)
     );
     color: var(--ds-color-secondary, #7b52cc);
+    border-color: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 35%, transparent);
     font-weight: 600;
   }
   .toggle-group__item:global(:focus-visible) {
