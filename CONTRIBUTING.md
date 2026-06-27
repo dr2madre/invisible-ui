@@ -49,8 +49,9 @@ docs: document Dialog usage
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 
-## Authorship
+## Authorship & human oversight
 
+Every contribution requires **human review and oversight** before it is pushed.
 Commits must be authored by a **human account**. Configure your git author name
 and email to match your own (or your GitHub) identity before contributing:
 
@@ -59,10 +60,15 @@ git config user.name "Your Name"
 git config user.email "you@example.com"
 ```
 
-AI assistants and other automated tools may help draft changes, but they must
-**not** be listed as the author or co-author of a commit — no `Co-Authored-By`
-trailers for bots, and no automated/placeholder author identities. A real person
-takes responsibility for every contribution.
+AI assistants may help draft changes, but they must **never** appear as the
+author of a commit — neither as the **sole author** nor as a **co-author**. No
+`Co-Authored-By` trailers for AI tools, and no automated or placeholder author
+identities. An AI cannot accept responsibility for code, so it cannot be
+credited as an author.
+
+**Only the human who uses the AI is responsible for what gets pushed.** That
+person must review, understand, and stand behind every change submitted under
+their name.
 
 ## Token naming (headless)
 
