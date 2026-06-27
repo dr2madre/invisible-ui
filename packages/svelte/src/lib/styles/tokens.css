@@ -43,6 +43,14 @@
   --ds-feedback-danger: #dc2626;
   --ds-feedback-danger-hover: #b91c1c;
 
+  /* Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive
+     backgrounds and lightened status tints. */
+  --ds-pastel-pink: oklch(77.7% 0.082 8.5); /* #E5A1AC */
+  --ds-pastel-violet: oklch(75.4% 0.1 299.3); /* #B8A1E6 */
+  --ds-pastel-teal: oklch(76.1% 0.071 212.1); /* #7ABECC */
+  --ds-pastel-green: oklch(78.3% 0.129 138.7); /* #8DCC7A */
+  --ds-pastel-yellow: oklch(84.1% 0.151 98); /* #E5CB44 */
+
   /* 3) Neutrals (UI) — Tailwind's "stone" 0–950 ramp. */
   --ds-neutral-0: #ffffff;
   --ds-neutral-50: #fafaf9;
@@ -141,6 +149,9 @@
   );
   --ds-color-danger-surface: color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0));
   --ds-color-danger-border: color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0));
+  /* Soft destructive fill: pastel red with dark text (the "soft" danger button). */
+  --ds-color-danger-soft: var(--ds-pastel-pink);
+  --ds-color-on-danger-soft: #7f1d1d;
   --ds-color-neutral-surface: var(--ds-neutral-50);
   --ds-color-neutral-border: var(--ds-neutral-200);
 
