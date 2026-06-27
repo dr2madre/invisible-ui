@@ -3,6 +3,34 @@
   "selected": false,
   "props": [
     {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "hourCycle",
+      "type": "HourCycle",
+      "default": "24",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "withSeconds",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string | undefined",
       "default": "undefined",

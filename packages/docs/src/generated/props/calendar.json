@@ -3,6 +3,48 @@
   "selected": false,
   "props": [
     {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "focusedDate",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "view",
+      "type": "CalendarView",
+      "default": "\"month\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "weekStartsOn",
+      "type": "WeekStart",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "min",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "max",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "locale",
       "type": "string | undefined",
       "default": "undefined",

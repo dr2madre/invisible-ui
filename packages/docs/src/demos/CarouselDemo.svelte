@@ -13,6 +13,17 @@
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+  <!-- Slide: full-bleed slides with an overlaid title (built-in rendering). -->
+  <Carousel
+    variant="slide"
+    label="Featured (slide)"
+    items={[
+      { title: "Mountains", description: "Trending this week" },
+      { title: "Ocean", description: "Popular" },
+      { title: "Desert", description: "New" },
+    ]}
+  />
+
   <!-- Gallery: a scrolling row of cards. -->
   <Carousel {items} variant="gallery" label="Destinations" let:item>
     <div class="slide" style="background: {item.pastel};">

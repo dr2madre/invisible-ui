@@ -3,6 +3,55 @@
   "selected": false,
   "props": [
     {
+      "name": "status",
+      "type": "NoticeStatus",
+      "default": "\"info\"",
+      "required": false,
+      "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+    },
+    {
+      "name": "title",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "text",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "5000",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "role",
+      "type": "\"status\" | \"alert\"",
+      "default": "\"status\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "actions",
+      "type": "NoticeAction[] | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "inverted",
       "type": "boolean",
       "default": "false",

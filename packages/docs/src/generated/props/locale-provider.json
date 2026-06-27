@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "locale",
+      "type": "string",
+      "default": "\"en\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "dir",
+      "type": "Dir",
+      "default": "\"ltr\"",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "messages",
       "type": "Messages",
       "default": "{}",

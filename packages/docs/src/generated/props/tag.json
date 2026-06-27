@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "status",
+      "type": "TagStatus",
+      "default": "\"neutral\"",
+      "required": false,
+      "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+    },
+    {
       "name": "variant",
       "type": "\"soft\" | \"solid\"",
       "default": "\"soft\"",

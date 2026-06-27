@@ -25,13 +25,18 @@ to host a [Count](/components/count/).
 
 <PropsTable component="tag" />
 
-The default slot is the label; `leading` / `trailing` slots host icons.
+The default slot is the label; the `icon` slot holds a leading icon and the
+`trailing` slot a trailing one.
 
 ### Example
 
 ```svelte
 <Tag status="success" variant="solid">Published</Tag>
 <Tag status="info" removable onRemove={() => {}}>Filter</Tag>
+<Tag status="danger">
+  <Icon slot="icon"><!-- … --></Icon>
+  Blocked
+</Tag>
 ```
 
 Themeable via `--ds-tag-*`.

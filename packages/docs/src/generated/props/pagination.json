@@ -3,6 +3,41 @@
   "selected": false,
   "props": [
     {
+      "name": "page",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "pageCount",
+      "type": "number",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "siblingCount",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "boundaryCount",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string",
       "default": "\"Pagination\"",

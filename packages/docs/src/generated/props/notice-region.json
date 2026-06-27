@@ -3,6 +3,27 @@
   "selected": false,
   "props": [
     {
+      "name": "notifier",
+      "type": "Notifier",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "placement",
+      "type": "unknown",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"Notices\"",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "maxVisible",
       "type": "number",
       "default": "3",

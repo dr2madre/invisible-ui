@@ -31,6 +31,7 @@
 
   type FeedbackStatus = "info" | "success" | "warning" | "danger" | "neutral";
 
+  /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
   export let status: FeedbackStatus = "info";
   /** Heading (required). */
   export let title: string;

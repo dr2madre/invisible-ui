@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "pressed",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string | undefined",
       "default": "undefined",

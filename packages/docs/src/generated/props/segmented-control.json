@@ -3,6 +3,27 @@
   "selected": false,
   "props": [
     {
+      "name": "items",
+      "type": "SegmentedControlItem[]",
+      "default": null,
+      "required": true,
+      "description": ""
+    },
+    {
+      "name": "value",
+      "type": "string | null",
+      "default": "null",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "default": "\"horizontal\"",

@@ -19,6 +19,7 @@
    */
   type TagStatus = "neutral" | "info" | "success" | "warning" | "danger" | "selected";
 
+  /** Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`. */
   export let status: TagStatus = "neutral";
   /** Visual weight: a soft tinted surface (default) or a solid, filled chip. */
   export let variant: "soft" | "solid" = "soft";

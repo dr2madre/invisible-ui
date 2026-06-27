@@ -71,7 +71,12 @@ function inferType(def) {
 function parseSource(src) {
   // Drop the module-context <script> block so its `export let` (if any) is ignored.
   const props = [];
-  const re = /(?:\/\*\*([\s\S]*?)\*\/\s*)?export\s+let\s+([A-Za-z_$][\w$]*)\s*([^;\n]*)/g;
+  // The JSDoc body uses a tempered token `(?:(?!\*\/)[\s\S])*?` so it can't span
+  // across a `*/` — otherwise a comment on a preceding non-prop declaration (e.g.
+  // an `interface`) would backtrack to the next documented prop and swallow an
+  // undocumented prop in between (this dropped `status` from Alert/Tag/Count/Notice).
+  const re =
+    /(?:\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s*)?export\s+let\s+([A-Za-z_$][\w$]*)\s*([^;\n]*)/g;
   let m;
   while ((m = re.exec(src))) {
     const [, jsdocRaw, name, rest] = m;

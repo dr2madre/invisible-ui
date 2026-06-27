@@ -3,6 +3,20 @@
   "selected": false,
   "props": [
     {
+      "name": "status",
+      "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
+      "default": "\"info\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "box",
       "type": "\"tint\" | \"transparent\" | \"solid\"",
       "default": "\"tint\"",

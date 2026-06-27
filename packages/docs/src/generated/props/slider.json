@@ -3,6 +3,48 @@
   "selected": false,
   "props": [
     {
+      "name": "value",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "default": "100",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "default": "1",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"horizontal\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "label",
       "type": "string",
       "default": null,
