@@ -17,6 +17,19 @@
   export let orientation: Orientation = "horizontal";
   /** Visually merge the buttons into one bar (vs. spacing them apart). */
   export let attached = true;
+  /**
+   * Cross-axis alignment of the items. Defaults to `center` so a taller sibling
+   * (e.g. a Select with a label) never stretches the buttons; use `end` to line
+   * buttons up with a labelled control's input row, or `stretch` for equal heights.
+   */
+  export let align: "start" | "center" | "end" | "stretch" = "center";
+
+  const alignItems = {
+    start: "flex-start",
+    center: "center",
+    end: "flex-end",
+    stretch: "stretch",
+  };
 
   const { rootAction, setState } = createButtonGroup({ label, orientation });
 
@@ -27,6 +40,7 @@
   class="button-group"
   class:button-group--attached={attached}
   class:button-group--vertical={orientation === "vertical"}
+  style="align-items: {alignItems[align]};"
   use:rootAction
 >
   <slot />
@@ -36,8 +50,7 @@
   .button-group {
     display: inline-flex;
     flex-direction: row;
-    /* Center items so a taller sibling (e.g. a Select) doesn't stretch buttons. */
-    align-items: center;
+    /* Cross-axis alignment is set inline from the `align` prop (default center). */
   }
   .button-group--vertical {
     flex-direction: column;
