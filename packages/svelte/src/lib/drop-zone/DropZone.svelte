@@ -17,6 +17,8 @@
   export let disabled = false;
   /** Form field name (the underlying file input). */
   export let name: string | undefined = undefined;
+  /** Optional grey caption under the text (e.g. accepted formats / max size). */
+  export let caption: string | undefined = undefined;
   /** Called with the selected/dropped files. */
   export let onFiles: ((files: File[]) => void) | undefined = undefined;
 
@@ -68,26 +70,31 @@
     on:change={onInput}
   />
   <span class="drop-zone__icon" aria-hidden="true">
-    <svg
-      viewBox="0 0 24 24"
-      width="2em"
-      height="2em"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.75"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="17 8 12 3 7 8" />
-      <line x1="12" y1="3" x2="12" y2="15" />
-    </svg>
+    <slot name="icon">
+      <svg
+        viewBox="0 0 24 24"
+        width="2em"
+        height="2em"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+    </slot>
   </span>
   <span class="drop-zone__text">
     <slot>
-      <strong>Click to upload</strong> or drag and drop
+      <span class="drop-zone__action">Select</span> or drag and drop
     </slot>
   </span>
+  {#if caption}
+    <span class="drop-zone__caption">{caption}</span>
+  {/if}
 </label>
 
 <style>
@@ -125,6 +132,21 @@
     /* Neutral (not the selection color) — the selection color is reserved for
        selected states; here a soft grey reads as a quiet affordance. */
     color: var(--ds-drop-zone-icon, var(--ds-color-text-secondary, #78716c));
+  }
+  .drop-zone__icon :global(svg) {
+    inline-size: 2em;
+    block-size: 2em;
+  }
+  /* The "Select" word reads as the clickable action (link-like, underlined). */
+  .drop-zone__action {
+    color: var(--ds-color-selected, #7b52cc);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .drop-zone__caption {
+    font-size: 0.8125rem;
+    color: var(--ds-color-text-secondary, #78716c);
   }
   /* Visually hidden but focusable: focus lands on the input, ring on the label. */
   .drop-zone__input {
