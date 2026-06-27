@@ -2,7 +2,7 @@
   "name": "@design-system/core",
   "version": "0.1.0-alpha.0",
   "description": "Framework-agnostic state, behavior and accessibility logic for the design system.",
-  "license": "MPL-2.0",
+  "license": "EUPL-1.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dr2madre/design-system.git",
