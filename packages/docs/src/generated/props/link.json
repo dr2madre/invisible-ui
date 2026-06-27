@@ -1,0 +1,34 @@
+{
+  "component": "link",
+  "selected": false,
+  "props": [
+    {
+      "name": "href",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Link — a styled inline text link rendered with a semantic `<a>`.  Violet and underlined by default (the brand selection colour), with a clear hover/focus treatment. Set `external` for links that open in a new tab — it adds `target=\"_blank\"` + safe `rel`, and an arrow icon marks it visually. When no `href` is given it renders a non-navigating link (e.g. a disabled or JS-driven link) that is still keyboardable when an `onpress` is supplied.  Presentational only — themeable via `--ds-link-*`. / /** Destination URL."
+    },
+    {
+      "name": "external",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Open in a new tab (adds target/rel and a trailing arrow icon)."
+    },
+    {
+      "name": "variant",
+      "type": "\"primary\" | \"subtle\"",
+      "default": "\"primary\"",
+      "required": false,
+      "description": "Tone down to the surrounding text colour (still underlined on hover)."
+    },
+    {
+      "name": "onpress",
+      "type": "((event: MouseEvent) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional press handler (useful when there is no `href`)."
+    }
+  ]
+}

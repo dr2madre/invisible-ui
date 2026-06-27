@@ -132,6 +132,7 @@ export default defineConfig({
             { label: "Code Block", link: "/components/code-block/" },
             { label: "Icon", link: "/components/icon/" },
             { label: "Kbd", link: "/components/kbd/" },
+            { label: "Link", link: "/components/link/" },
           ],
         },
         {
