@@ -166,6 +166,22 @@
     background-size: cover;
     background-position: center;
   }
+  /* Image-less slides cycle through the pastel set (an image overrides the color). */
+  .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+  }
+  .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+  }
+  .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+  }
+  .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+  }
+  .carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
+    background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+  }
   .carousel__overlay {
     inline-size: 100%;
     padding: var(--ds-carousel-overlay-padding, 1.5rem);
