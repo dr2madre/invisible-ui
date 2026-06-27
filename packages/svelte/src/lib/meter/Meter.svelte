@@ -41,7 +41,7 @@
   }
   .meter__indicator {
     block-size: 100%;
-    background: var(--ds-meter-fill, var(--ds-color-primary, #8dcc7a));
+    background: var(--ds-meter-fill, var(--ds-brand-primary, #8dcc7a));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }

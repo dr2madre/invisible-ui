@@ -78,6 +78,11 @@
     margin-block-end: 0.125rem;
     padding: 0;
   }
+  /* Disabled group/item dims its label too. */
+  .checkbox-group:disabled .checkbox-group__label,
+  .field--disabled .field__label {
+    color: var(--ds-color-text-disabled, #94a3b8);
+  }
 
   .field {
     display: inline-flex;

@@ -157,7 +157,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--ds-segment-gap, 0.4rem);
-    padding: var(--ds-segment-padding, 0.4rem 0.9rem);
+    padding: var(--ds-segment-padding, var(--ds-control-padding-y, 0.5rem) 0.9rem);
     cursor: pointer;
     border-inline-start: 1px solid var(--ds-color-border, #cbd5e1);
     transition:

@@ -67,8 +67,10 @@
   $: setDisabled(disabled);
   $: setVariant(variant);
 
-  $: showLeft = (leftIcon ?? variant === "danger") || $$slots.left;
-  $: showRight = rightIcon || $$slots.right;
+  // Icon-only buttons carry their single glyph in the default slot, so never add
+  // the auto leading/trailing icon (avoids the danger hazard + glyph doubling up).
+  $: showLeft = !iconOnly && ((leftIcon ?? variant === "danger") || $$slots.left);
+  $: showRight = !iconOnly && (rightIcon || $$slots.right);
 </script>
 
 <button
@@ -119,7 +121,10 @@
     align-items: center;
     justify-content: center;
     gap: var(--ds-button-gap, 0.5rem);
-    padding: var(--ds-button-padding, 0.5rem 0.875rem);
+    padding: var(
+      --ds-button-padding,
+      var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
+    );
     border-radius: var(--ds-button-radius, var(--ds-radius-control, 0.5rem));
     border: 1px solid transparent;
     font: inherit;
