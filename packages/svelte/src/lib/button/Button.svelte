@@ -163,14 +163,14 @@
     block-size: var(--ds-button-icon-size, 1.1em);
   }
 
-  /* default: the baseline, medium-emphasis button. */
+  /* default: the baseline, medium-emphasis button — white surface + border. */
   .button:global([data-variant="default"]) {
-    background: var(--ds-color-surface, #f1f5f9);
+    background: var(--ds-button-bg, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #0f172a);
     border-color: var(--ds-color-border, #cbd5e1);
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
-    background: var(--ds-color-surface-hover, #e2e8f0);
+    background: var(--ds-button-bg-hover, var(--ds-color-surface, #f1f5f9));
   }
 
   /* primary: the high-emphasis call to action. */
