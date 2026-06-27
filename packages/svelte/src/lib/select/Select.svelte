@@ -204,7 +204,9 @@
   .select__option:global([data-state="selected"]) .select__check {
     visibility: visible;
   }
-  .select__option:global([data-state="selected"]) .select__option-label {
-    font-weight: 600;
+  /* Selected option: a faint selection-color fill (not gray), no bold — the
+     check already marks it. */
+  .select__option:global([data-state="selected"]) {
+    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
   }
 </style>
