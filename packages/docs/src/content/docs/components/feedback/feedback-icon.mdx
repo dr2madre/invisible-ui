@@ -1,0 +1,38 @@
+---
+title: "FeedbackIcon"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import FeedbackIconDemo from "../../../../demos/FeedbackIconDemo.svelte";
+
+<Preview>
+  <FeedbackIconDemo client:visible />
+</Preview>
+
+A status icon enclosed in a rounded, colored box (the "system icon" look).
+
+### Import
+
+```svelte
+<script>
+  import FeedbackIcon from "@design-system/svelte/FeedbackIcon.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="feedback-icon" />
+
+### Accessibility
+
+- Decorative by default (`aria-hidden`); pass `label` to expose it as a `role="img"` with an accessible name.
+- A built-in icon is provided per status; override it via the default slot.
+
+### Example
+
+```svelte
+<FeedbackIcon status="warning" label="Warning" />
+```
+
+Themeable via `--ds-feedback-*`.

@@ -1,0 +1,43 @@
+---
+title: "TextField"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import TextFieldDemo from "../../../../demos/TextFieldDemo.svelte";
+
+<Preview>
+  <TextFieldDemo client:visible />
+</Preview>
+
+A styled single-line text field with label, optional description and error message.
+
+### Import
+
+```svelte
+<script>
+  import TextField from "@design-system/svelte/TextField.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="text-field" />
+
+### Accessibility
+
+- Label association plus `aria-describedby` (hint and error), `aria-invalid`, `aria-required` come from the headless text field.
+- A non-empty `error` puts the field in the invalid state and announces the message.
+
+### Example
+
+```svelte
+<TextField
+  label="Email"
+  type="email"
+  description="We'll never share it."
+  onValueChange={(v) => (email = v)}
+/>
+```
+
+Themeable via `--ds-field-*`.

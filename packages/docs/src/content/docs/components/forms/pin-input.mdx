@@ -1,0 +1,39 @@
+---
+title: "PIN Input"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import PinInputDemo from "../../../../demos/PinInputDemo.svelte";
+
+<Preview>
+  <PinInputDemo client:visible />
+</Preview>
+
+A one-cell-per-character code input (OTP / PIN) with auto-advance, paste
+spreading and backspace handling.
+
+### Import
+
+```svelte
+<script>
+  import PinInput from "@design-system/svelte/PinInput.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="pin-input" />
+
+### Accessibility
+
+- A labelled group of single-character inputs; focus auto-advances and paste
+  fills across cells.
+
+### Example
+
+```svelte
+<PinInput length={4} label="Verification code" />
+```
+
+Themeable via `--ds-pin-input-*`.

@@ -1,0 +1,35 @@
+---
+title: "Blockquote"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import BlockquoteDemo from "../../../../demos/BlockquoteDemo.svelte";
+
+<Preview>
+  <BlockquoteDemo client:visible />
+</Preview>
+
+A `<blockquote>` for quoted prose, with optional attribution.
+
+### Import
+
+```svelte
+<script>
+  import Blockquote from "@design-system/svelte/Blockquote.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="blockquote" />
+
+The quote is the default slot.
+
+### Example
+
+```svelte
+<Blockquote cite="Grace Hopper">We've always done it this way.</Blockquote>
+```
+
+Themeable via `--ds-blockquote-*`.

@@ -1,0 +1,39 @@
+---
+title: "Icon"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import IconDemo from "../../../../demos/IconDemo.svelte";
+
+<Preview>
+  <IconDemo client:visible />
+</Preview>
+
+A standardized SVG wrapper for the system's glyphs and any icon you drop in.
+
+### Import
+
+```svelte
+<script>
+  import Icon from "@design-system/svelte/Icon.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="icon" />
+
+### Accessibility
+
+- Decorative by default (`aria-hidden`); pass `label` to expose it as a `role="img"` with an accessible name.
+- Provide the glyph shapes (`<path>`, `<line>`, `<polyline>`, …) via the default slot.
+
+### Example
+
+```svelte
+<Icon label="Add">
+  <line x1="12" y1="5" x2="12" y2="19" />
+  <line x1="5" y1="12" x2="19" y2="12" />
+</Icon>
+```

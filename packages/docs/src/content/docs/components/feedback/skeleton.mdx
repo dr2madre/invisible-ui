@@ -1,0 +1,40 @@
+---
+title: "Skeleton"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import SkeletonDemo from "../../../../demos/SkeletonDemo.svelte";
+
+<Preview>
+  <SkeletonDemo client:visible />
+</Preview>
+
+A loading placeholder that mirrors the shape of content while it loads.
+
+### Import
+
+```svelte
+<script>
+  import Skeleton from "@design-system/svelte/Skeleton.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="skeleton" />
+
+### Accessibility
+
+- Decorative by default (`aria-hidden`) — announce loading on the surrounding
+  region. Pass `label` to make the skeleton itself a polite status. Respects
+  `prefers-reduced-motion`.
+
+### Example
+
+```svelte
+<Skeleton variant="circle" width="3rem" />
+<Skeleton variant="text" lines={3} />
+```
+
+Themeable via `--ds-skeleton-*`.

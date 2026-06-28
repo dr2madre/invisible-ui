@@ -1,0 +1,40 @@
+---
+title: "Slider"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import SliderDemo from "../../../../demos/SliderDemo.svelte";
+
+<Preview>
+  <SliderDemo client:visible />
+</Preview>
+
+A single-thumb slider built on a native `<input type="range">` — pointer drag,
+keyboard control and form participation come from the browser.
+
+### Import
+
+```svelte
+<script>
+  import Slider from "@design-system/svelte/Slider.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="slider" />
+
+### Accessibility
+
+- Native `<input type="range">`: the browser provides the slider role, ARIA
+  value, Arrow/Home/End/PageUp-Down control, pointer dragging and form
+  submission.
+
+### Example
+
+```svelte
+<Slider value={40} step={5} label="Volume" />
+```
+
+Themeable via `--ds-slider-*`.

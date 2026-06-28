@@ -1,0 +1,42 @@
+---
+title: "ButtonGroup"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import ButtonGroupDemo from "../../../../demos/ButtonGroupDemo.svelte";
+
+<Preview>
+  <ButtonGroupDemo client:visible />
+</Preview>
+
+Groups related action buttons into a labelled `role="group"`, optionally joined into one segmented bar.
+
+### Import
+
+```svelte
+<script>
+  import ButtonGroup from "@design-system/svelte/ButtonGroup.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="button-group" />
+
+### Accessibility
+
+- Renders a labelled `role="group"` with `aria-orientation`.
+- Holds no selection — each button stays an independent action and tab stop.
+
+### Example
+
+```svelte
+<ButtonGroup label="Text alignment">
+  <Button>Left</Button>
+  <Button>Center</Button>
+  <Button>Right</Button>
+</ButtonGroup>
+```
+
+Themeable via `--ds-button-group-*`.

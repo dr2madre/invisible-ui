@@ -1,0 +1,37 @@
+---
+title: "Link"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import LinkDemo from "../../../../demos/LinkDemo.svelte";
+
+<Preview>
+  <LinkDemo client:visible />
+</Preview>
+
+An inline text link, rendered with a semantic `<a>`. Violet and underlined by
+default, with a clear hover and focus treatment.
+
+### Import
+
+```svelte
+<script>
+  import Link from "@design-system/svelte/Link.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="link" />
+
+### Example
+
+```svelte
+<Link href="/docs">Read the docs</Link>
+<Link href="https://example.com" external>External site</Link>
+<Link href="/more" variant="subtle">A quieter link</Link>
+```
+
+Set `external` for links that open in a new tab — it adds `target="_blank"` with
+a safe `rel` and a trailing arrow icon. Themeable via `--ds-link-*`.
