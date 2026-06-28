@@ -12,6 +12,8 @@
     { value: "cherry", label: "Cherry" },
   ]}
 >
+  <!-- A generic shopping basket — doesn't depict any single option (apple/
+       banana/cherry), just "produce". -->
   <svg
     slot="icon"
     viewBox="0 0 24 24"
@@ -24,9 +26,12 @@
     stroke-linejoin="round"
     aria-hidden="true"
   >
-    <path
-      d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"
-    />
-    <path d="M10 2c1 .5 2 2 2 5" />
+    <path d="m5 11 4-7" />
+    <path d="m19 11-4-7" />
+    <path d="M2 11h20" />
+    <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.6-7.4" />
+    <path d="m9 11 1 9" />
+    <path d="M4.5 15.5h15" />
+    <path d="m15 11-1 9" />
   </svg>
 </Select>
