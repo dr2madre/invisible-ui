@@ -22,6 +22,8 @@ export interface CreateSelect {
   open: Readable<boolean>;
   /** Imperatively select a value. */
   setValue: (value: string) => void;
+  /** Reset to no selection (show the placeholder). */
+  clear: () => void;
   /** Replace the option list (e.g. when items change). */
   setItems: (items: SelectItem[]) => void;
   /** Svelte action for the label: `<span use:labelAction>`. */
@@ -66,6 +68,14 @@ export function createSelect(context: SelectContext): CreateSelect {
     state.update((current) =>
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
+
+  // Reset to no selection (the trigger shows the placeholder again).
+  const clear = () =>
+    state.update((current) => {
+      if (current.value === null) return current;
+      context.onValueChange?.("");
+      return { ...current, value: null, activeValue: null };
+    });
 
   const setItems = (items: SelectItem[]) => state.update((current) => ({ ...current, items }));
 
@@ -195,6 +205,7 @@ export function createSelect(context: SelectContext): CreateSelect {
     value: derived(state, ($state) => $state.value),
     open: derived(state, ($state) => $state.open),
     setValue,
+    clear,
     setItems,
     labelAction,
     triggerAction,

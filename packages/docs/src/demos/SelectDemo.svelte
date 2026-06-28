@@ -5,6 +5,7 @@
 <Select
   label="Fruit"
   value="banana"
+  clearable
   placeholder="Select a fruit…"
   items={[
     { value: "apple", label: "Apple" },

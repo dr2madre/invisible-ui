@@ -26,13 +26,25 @@
   export let value: string | null = null;
   export let placeholder = "Select…";
   export let disabled = false;
+  /** Show a clear (✕) button when a value is selected, to reset to the placeholder. */
+  export let clearable = false;
+  export let clearLabel = "Clear selection";
   /** Form field name — the selected value is submitted under it (via a hidden input). */
   export let name: string | undefined = undefined;
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
   const select = createSelect({ items, value, disabled, onValueChange });
-  const { labelAction, triggerAction, listboxAction, optionAction, value: selectedValue } = select;
+  const {
+    labelAction,
+    triggerAction,
+    listboxAction,
+    optionAction,
+    value: selectedValue,
+    clear,
+  } = select;
+
+  $: showClear = clearable && !disabled && selected != null;
 
   $: selected = items.find((item) => item.value === $selectedValue);
   $: display = selected ? (selected.label ?? selected.value) : placeholder;
@@ -45,22 +57,40 @@
   {/if}
   <span class="select__label" class:select__label--hidden={hideLabel} use:labelAction>{label}</span>
 
-  <button
-    class="select__trigger"
-    class:select__trigger--placeholder={!selected}
-    type="button"
-    use:triggerAction
-  >
-    {#if $$slots.icon}
-      <span class="select__icon" aria-hidden="true"><slot name="icon" /></span>
+  <div class="select__trigger-wrap">
+    <button
+      class="select__trigger"
+      class:select__trigger--placeholder={!selected}
+      class:select__trigger--clearable={showClear}
+      type="button"
+      use:triggerAction
+    >
+      {#if $$slots.icon}
+        <span class="select__icon" aria-hidden="true"><slot name="icon" /></span>
+      {/if}
+      <span class="select__value">{display}</span>
+      <span class="select__chevron" aria-hidden="true">
+        <Icon size="100%">
+          <polyline points="6 9 12 15 18 9" />
+        </Icon>
+      </span>
+    </button>
+    <!-- Clear sits beside (not inside) the trigger button — a button can't nest a
+         button — and resets the selection to the placeholder. -->
+    {#if showClear}
+      <button
+        class="select__clear"
+        type="button"
+        aria-label={clearLabel}
+        on:click|stopPropagation={() => clear()}
+      >
+        <Icon size="100%">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </Icon>
+      </button>
     {/if}
-    <span class="select__value">{display}</span>
-    <span class="select__chevron" aria-hidden="true">
-      <Icon size="100%">
-        <polyline points="6 9 12 15 18 9" />
-      </Icon>
-    </span>
-  </button>
+  </div>
 
   <ul class="select__listbox" class:select__listbox--icons={hasIcons} use:listboxAction>
     {#each items as item (item.value)}
@@ -163,6 +193,42 @@
     flex: none;
     color: var(--ds-color-text-secondary, #64748b);
     transition: rotate 150ms ease;
+  }
+
+  /* Clear (✕): overlaid just left of the chevron; the trigger reserves room for
+     it via --clearable so the value text never runs underneath. */
+  .select__trigger-wrap {
+    position: relative;
+  }
+  .select__trigger--clearable .select__value {
+    padding-inline-end: 1.5rem;
+  }
+  .select__clear {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 2.1rem;
+    margin-block: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    padding: 0.15rem;
+    border: 0;
+    border-radius: var(--ds-radius-control, 0.375rem);
+    background: transparent;
+    color: var(--ds-color-text-secondary, #64748b);
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .select__clear:hover {
+    color: inherit;
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+  }
+  .select__clear:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
+    outline-offset: 1px;
   }
   .select__trigger:global([data-state="open"]) .select__chevron {
     rotate: 180deg;

@@ -45,6 +45,20 @@
       "description": "Disable the control."
     },
     {
+      "name": "clearable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a clear (✕) button when a value is selected, to reset to the placeholder."
+    },
+    {
+      "name": "clearLabel",
+      "type": "string",
+      "default": "\"Clear selection\"",
+      "required": false,
+      "description": ""
+    },
+    {
       "name": "name",
       "type": "string | undefined",
       "default": "undefined",
