@@ -1,0 +1,46 @@
+---
+title: "NoticeRegion"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import NoticeRegionDemo from "../../../../demos/NoticeRegionDemo.svelte";
+
+<Preview>
+  <NoticeRegionDemo client:only="svelte" />
+</Preview>
+
+A fixed, stacking landmark that renders a notifier's queue of notices.
+
+### Import
+
+```svelte
+<script>
+  import NoticeRegion from "@design-system/svelte/NoticeRegion.svelte";
+  import { createNotifier } from "@design-system/svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="notice-region" />
+
+### Accessibility
+
+- An accessible landmark: `role="region"` with a label; each Notice inside is its own live region.
+- Notices enter/leave with a fly/fade transition and the stack reflows via FLIP, disabled under reduced motion.
+
+### Example
+
+```svelte
+<script>
+  const notifier = createNotifier();
+</script>
+
+<NoticeRegion {notifier} placement="top-end" />
+<Button onpress={() => notifier.show({ status: "success", title: "Saved" })}>
+  Save
+</Button>
+```
+
+Themeable via `--ds-notice-*` and `--ds-elevation-overlay`.

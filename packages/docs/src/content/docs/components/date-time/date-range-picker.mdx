@@ -1,0 +1,40 @@
+---
+title: "Date Range Picker"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import DateRangePickerDemo from "../../../../demos/DateRangePickerDemo.svelte";
+
+<Preview>
+  <DateRangePickerDemo client:load />
+</Preview>
+
+A field that opens a [Calendar](/components/calendar/) in range mode: the first
+click sets the start, the next sets the end (days between are banded), and the
+popover closes once both are chosen. Defaults to the two-month view.
+
+### Import
+
+```svelte
+<script>
+  import DateRangePicker from "@design-system/svelte/DateRangePicker.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="date-range-picker" />
+
+### Accessibility
+
+- Readonly `role="combobox"` field (as in [Date Picker](/components/date-picker/));
+  the calendar inside follows the WAI-ARIA date-grid pattern.
+
+### Example
+
+```svelte
+<DateRangePicker start="2026-06-10" end="2026-06-15" label="Stay dates" clearable />
+```
+
+Themeable via `--ds-date-picker-*` and the calendar's `--ds-calendar-*`.

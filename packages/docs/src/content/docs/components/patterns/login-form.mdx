@@ -1,0 +1,40 @@
+---
+title: "LoginForm"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import LoginFormDemo from "../../../../demos/LoginFormDemo.svelte";
+
+<Preview>
+  <LoginFormDemo client:visible />
+</Preview>
+
+A sign-in organism composed from the primitives: an optional logo, social-login
+buttons, the email + password fields, a "forgot password" link, and the submit
+button. It is a real `<form>` — `onSubmit` receives `{ email, password }`.
+
+### Import
+
+```svelte
+<script>
+  import LoginForm from "@design-system/svelte/LoginForm.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="login-form" />
+
+Pass a logo via the `logo` slot and provider glyphs via `provider-icon`.
+
+### Example
+
+```svelte
+<LoginForm
+  providers={[{ id: "google", label: "Google" }]}
+  onSubmit={({ email, password }) => signIn(email, password)}
+/>
+```
+
+Themeable via `--ds-login-*`.

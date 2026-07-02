@@ -17,3 +17,4 @@ packages/svelte/dist/tokens/
 
 # Claude (local only)
 .claude/
+CLAUDE.md

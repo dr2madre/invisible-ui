@@ -1,0 +1,38 @@
+---
+title: "Pagination"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import PaginationDemo from "../../../../demos/PaginationDemo.svelte";
+
+<Preview>
+  <PaginationDemo client:visible />
+</Preview>
+
+Page navigation with first/last boundaries, sibling pages around the current
+page, and ellipses.
+
+### Import
+
+```svelte
+<script>
+  import Pagination from "@design-system/svelte/Pagination.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="pagination" />
+
+### Accessibility
+
+- `<nav>` with a labelled list; the current page carries `aria-current="page"`.
+
+### Example
+
+```svelte
+<Pagination page={3} pageCount={10} onPageChange={(p) => (page = p)} />
+```
+
+Themeable via `--ds-pagination-*`.

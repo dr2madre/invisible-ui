@@ -1,0 +1,33 @@
+---
+title: "Code"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import CodeDemo from "../../../../demos/CodeDemo.svelte";
+
+<Preview>
+  <CodeDemo client:visible />
+</Preview>
+
+Inline `<code>` for short snippets, identifiers and commands within prose.
+
+### Import
+
+```svelte
+<script>
+  import Code from "@design-system/svelte/Code.svelte";
+</script>
+```
+
+### Props
+
+None — the content is the default slot. For multi-line blocks with a copy
+button, use [CodeBlock](/components/code-block/).
+
+### Example
+
+```svelte
+<p>Run <Code>pnpm build</Code> to compile.</p>
+```
+
+Themeable via `--ds-code-*`.

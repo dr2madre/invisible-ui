@@ -1,0 +1,39 @@
+---
+title: "Progress"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import ProgressDemo from "../../../../demos/ProgressDemo.svelte";
+
+<Preview>
+  <ProgressDemo client:visible />
+</Preview>
+
+A `role="progressbar"` for task completion. Pass `value={null}` for an
+indeterminate bar.
+
+### Import
+
+```svelte
+<script>
+  import Progress from "@design-system/svelte/Progress.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="progress" />
+
+### Accessibility
+
+- `role="progressbar"` with `aria-valuenow`/`min`/`max` (omitted when
+  indeterminate). For a measurement (not completion) use [Meter](/components/meter/).
+
+### Example
+
+```svelte
+<Progress value={62} label="Uploading" />
+```
+
+Themeable via `--ds-progress-*`.
