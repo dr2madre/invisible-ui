@@ -57,8 +57,12 @@ Each item ships as its own PR. Checkboxes track progress.
   overrides + `dir` for RTL). Adopted by the date/time family (Calendar, Date
   Picker, Date Range Picker, Time Field); a label prop still overrides the
   catalog. Rollout to the remaining components is mechanical follow-up.
-- [ ] **6. Second framework adapter** — prove the agnostic core with a React (or
-  Vue) adapter over the existing `@design-system/core`.
+- [ ] **6. Second framework adapter** — prove the agnostic core with a **React**
+  adapter over the existing `@design-system/core`, then a **Reflex** (Python)
+  adapter that wraps the React components. First pass is a 4–6 component
+  proof-of-concept (Button, Checkbox, Switch, Select, Dialog). Full plan,
+  integration findings and the Python-behaviour constraint:
+  `docs/adapters-roadmap.md`.
 - [x] **7. SSR/hydration guarantee** — `ssr.test.ts` server-renders every
   fixture (`svelte/server` `render`, node env) so no component touches the DOM
   during SSR; runs in the normal test gate. Caught and fixed a real bug: Toolbar
