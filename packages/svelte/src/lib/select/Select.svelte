@@ -30,6 +30,12 @@
   /** Trigger text when nothing is selected. Defaults to the i18n catalog's "Select…". */
   export let placeholder: string | undefined = undefined;
   export let disabled = false;
+  /**
+   * Width behaviour: `wrap` fits the longest option (plus the trigger
+   * padding), `fill` takes 100% of the container, `fixed` uses
+   * `--ds-select-width` (16rem by default).
+   */
+  export let width: "wrap" | "fill" | "fixed" = "wrap";
   /** Form field name — the selected value is submitted under it (via a hidden input). */
   export let name: string | undefined = undefined;
   /** Called whenever the selected value changes. */
@@ -61,7 +67,7 @@
   $: hasIcons = items.some((item) => item.icon);
 </script>
 
-<div class="select">
+<div class="select" data-width={width}>
   {#if name}
     <input type="hidden" {name} value={$selectedValue ?? ""} />
   {/if}
@@ -76,7 +82,15 @@
     {#if $$slots.icon}
       <span class="select__icon" aria-hidden="true"><slot name="icon" /></span>
     {/if}
-    <span class="select__value">{display}</span>
+    <span class="select__text">
+      <span class="select__value">{display}</span>
+      <!-- Invisible sizer: the longest option (or the placeholder) sets the
+           trigger's stable width, so it never resizes on selection. -->
+      <span class="select__sizer" aria-hidden="true">
+        {#each items as item (item.value)}<span>{item.label ?? item.value}</span>{/each}
+        <span>{resolvedPlaceholder}</span>
+      </span>
+    </span>
     <span class="select__chevron" aria-hidden="true">
       <Icon size="100%">
         <polyline points="6 9 12 15 18 9" />
@@ -110,9 +124,17 @@
   .select {
     display: grid;
     gap: var(--ds-select-gap, 0.375rem);
-    inline-size: var(--ds-select-width, 16rem);
+    /* wrap (default): as wide as the longest option (the sizer below) plus
+       the trigger padding. */
+    inline-size: fit-content;
     font: inherit;
     color: var(--ds-color-text, #0f172a);
+  }
+  .select:global([data-width="fill"]) {
+    inline-size: 100%;
+  }
+  .select:global([data-width="fixed"]) {
+    inline-size: var(--ds-select-width, 16rem);
   }
 
   .select__label {
@@ -178,17 +200,34 @@
     block-size: 1.1em;
     color: var(--ds-color-text-secondary, #57534e);
   }
+  .select__text {
+    flex: 1;
+    min-inline-size: 0;
+  }
   .select__value {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    flex: 1;
     /* A set value reads as content (medium, like a Button label); the
        placeholder stays regular + secondary. */
     font-weight: 500;
   }
   .select__trigger--placeholder .select__value {
     font-weight: 400;
+  }
+  /* Zero-height, invisible: contributes only its widest line (measured at the
+     value's weight so the width never jitters). */
+  .select__sizer {
+    display: block;
+    block-size: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-weight: 500;
+  }
+  .select__sizer > span {
+    display: block;
+    white-space: nowrap;
   }
   .select__chevron {
     display: inline-flex;

@@ -45,6 +45,13 @@
       "description": "Disable the control."
     },
     {
+      "name": "width",
+      "type": "\"wrap\" | \"fill\" | \"fixed\"",
+      "default": "\"wrap\"",
+      "required": false,
+      "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default)."
+    },
+    {
       "name": "name",
       "type": "string | undefined",
       "default": "undefined",
