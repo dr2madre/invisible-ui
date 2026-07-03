@@ -164,6 +164,10 @@
      accessible (AA) dark-red label on top. */
   --ds-color-danger-soft: color-mix(in srgb, var(--ds-feedback-danger) 10%, var(--ds-neutral-0));
   --ds-color-on-danger-soft: var(--ds-feedback-danger-hover);
+  /* Soft primary fill (the "secondary" button): primary at 10% with the full
+     primary as label in light; the label flips to white on dark surfaces. */
+  --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-0));
+  --ds-color-on-primary-soft: var(--ds-color-primary-hover);
   --ds-color-neutral-surface: var(--ds-neutral-50);
   --ds-color-neutral-border: var(--ds-neutral-200);
 
@@ -244,7 +248,9 @@
       var(--ds-feedback-danger) 18%,
       var(--ds-neutral-900)
     );
-    --ds-color-on-danger-soft: #fca5a5;
+    --ds-color-on-danger-soft: #fff;
+    --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900));
+    --ds-color-on-primary-soft: #fff;
     --ds-color-neutral-surface: var(--ds-neutral-800);
     --ds-color-neutral-border: var(--ds-neutral-700);
 
@@ -320,7 +326,9 @@
     var(--ds-neutral-900)
   );
   --ds-color-danger-soft: color-mix(in srgb, var(--ds-feedback-danger) 18%, var(--ds-neutral-900));
-  --ds-color-on-danger-soft: #fca5a5;
+  --ds-color-on-danger-soft: #fff;
+  --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900));
+  --ds-color-on-primary-soft: #fff;
   --ds-color-neutral-surface: var(--ds-neutral-800);
   --ds-color-neutral-border: var(--ds-neutral-700);
 

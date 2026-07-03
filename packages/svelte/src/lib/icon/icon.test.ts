@@ -24,4 +24,18 @@ describe("Icon", () => {
     expect(svg).toHaveAttribute("width", "2rem");
     expect(svg).toHaveAttribute("height", "2rem");
   });
+
+  it("has no animation hook by default", () => {
+    const { container } = render(Fixture);
+    expect(container.querySelector("svg.icon")).not.toHaveAttribute("data-animation");
+  });
+
+  it("exposes the animation as a data hook with a custom duration", () => {
+    const { container } = render(Fixture, {
+      props: { animation: "spin", animationDuration: "0.8s" },
+    });
+    const svg = container.querySelector<SVGElement>("svg.icon")!;
+    expect(svg).toHaveAttribute("data-animation", "spin");
+    expect(svg.style.getPropertyValue("--ds-icon-animation-duration")).toBe("0.8s");
+  });
 });

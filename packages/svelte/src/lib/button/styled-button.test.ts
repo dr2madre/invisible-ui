@@ -36,6 +36,18 @@ describe("Svelte Button (styled)", () => {
     expect(onpress).toHaveBeenCalledOnce();
   });
 
+  it("announces loading, shows the spinner and ignores presses", async () => {
+    const user = userEvent.setup();
+    const onpress = vi.fn();
+    render(Fixture, { props: { loading: true, onpress } });
+    const button = screen.getByRole("button", { name: "Delete" });
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button).not.toBeDisabled();
+    expect(button.querySelector(".loading__spinner")).not.toBeNull();
+    await user.click(button);
+    expect(onpress).not.toHaveBeenCalled();
+  });
+
   it("shows no icons by default for primary", () => {
     const { container } = render(Fixture, { props: { variant: "primary" } });
     expect(container.querySelectorAll("svg")).toHaveLength(0);

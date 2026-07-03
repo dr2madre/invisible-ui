@@ -24,6 +24,13 @@
       "description": ""
     },
     {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Loading state: shows an inline spinner in place of the leading icon (or of the glyph, for icon-only buttons), announces `aria-busy` and ignores presses. The label stays visible and the button stays focusable."
+    },
+    {
       "name": "type",
       "type": "\"button\" | \"submit\" | \"reset\"",
       "default": "\"button\"",
