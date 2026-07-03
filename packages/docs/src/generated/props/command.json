@@ -25,29 +25,29 @@
     },
     {
       "name": "title",
-      "type": "string",
-      "default": "\"Command menu\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible title for the dialog."
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Search commands\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible label for the search input."
     },
     {
       "name": "placeholder",
-      "type": "string",
-      "default": "\"Type a command or search…\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Input placeholder."
     },
     {
       "name": "emptyText",
-      "type": "string",
-      "default": "\"No results found.\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Shown when nothing matches."
     },

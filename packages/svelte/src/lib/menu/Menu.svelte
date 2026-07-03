@@ -22,15 +22,21 @@
    *
    * Composed for the desktop/tablet sidebar pattern; themeable via `--ds-menu-*`.
    */
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
+
   export let sections: MenuSection[];
   /** The active item's value. */
   export let value: string | null = null;
-  /** Accessible name for the navigation landmark. */
-  export let label = "Main";
+  /** Accessible name for the navigation landmark. Defaults to the i18n catalog's "Main". */
+  export let label: string | undefined = undefined;
   export let onSelect: ((value: string) => void) | undefined = undefined;
+
+  $: resolvedLabel = label ?? $t("menu.label");
 </script>
 
-<nav class="menu" aria-label={label}>
+<nav class="menu" aria-label={resolvedLabel}>
   {#if $$slots.logo}
     <div class="menu__logo"><slot name="logo" /></div>
   {/if}

@@ -18,8 +18,8 @@
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Main\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name for the navigation landmark."
     },

@@ -31,6 +31,9 @@
    * control needs an accessible name via `label`. Themed via `--ds-carousel-*`.
    */
   import { createCarousel, type CarouselContext } from "./create-carousel";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let items: CarouselSlide[];
   export let variant: "slide" | "gallery" | "coverflow" = "slide";
@@ -41,8 +44,10 @@
   export let showIndicators = true;
   /** Accessible name for the carousel (announced by screen readers). */
   export let label: string;
-  export let prevLabel = "Previous slide";
-  export let nextLabel = "Next slide";
+  /** Previous button accessible name. Defaults to the i18n catalog's "Previous slide". */
+  export let prevLabel: string | undefined = undefined;
+  /** Next button accessible name. Defaults to the i18n catalog's "Next slide". */
+  export let nextLabel: string | undefined = undefined;
   /** Called whenever the current slide changes. */
   export let onIndexChange: ((index: number) => void) | undefined = undefined;
 
@@ -64,6 +69,9 @@
   } = carousel;
 
   let viewportEl: HTMLElement | undefined;
+
+  $: resolvedPrevLabel = prevLabel ?? $t("carousel.previous");
+  $: resolvedNextLabel = nextLabel ?? $t("carousel.next");
 
   // Gallery mode scrolls the active item into view; slide mode uses a transform.
   $: if (viewportEl && variant === "gallery" && typeof viewportEl.scrollTo === "function") {
@@ -136,7 +144,11 @@
       </div>
     </div>
 
-    <button class="carousel__arrow carousel__arrow--prev" use:prevAction aria-label={prevLabel}>
+    <button
+      class="carousel__arrow carousel__arrow--prev"
+      use:prevAction
+      aria-label={resolvedPrevLabel}
+    >
       <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
         <path
           d="M10 3L5 8l5 5"
@@ -148,7 +160,11 @@
         />
       </svg>
     </button>
-    <button class="carousel__arrow carousel__arrow--next" use:nextAction aria-label={nextLabel}>
+    <button
+      class="carousel__arrow carousel__arrow--next"
+      use:nextAction
+      aria-label={resolvedNextLabel}
+    >
       <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
         <path
           d="M6 3l5 5-5 5"

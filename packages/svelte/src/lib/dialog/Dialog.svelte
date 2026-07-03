@@ -15,6 +15,9 @@
   import { createDialog } from "./create-dialog";
   import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Visual variant for the trigger Button. */
   export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
@@ -25,8 +28,8 @@
   export let title: string;
   /** Optional description, wired via `aria-describedby`. */
   export let description: string | undefined = undefined;
-  /** Accessible label for the close button. */
-  export let closeLabel = "Close";
+  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
   /**
    * CSS selector (within the panel) for the element to focus on open. When
    * omitted, focus lands on the panel itself — never on the close button.
@@ -35,11 +38,16 @@
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
+  const handleOpenChange = (next: boolean) => {
+    open = next;
+    onOpenChange?.(next);
+  };
+
   const dialog = createDialog({
     open,
     describedBy: description !== undefined,
     initialFocus,
-    onOpenChange,
+    onOpenChange: handleOpenChange,
   });
   const {
     open: isOpen,
@@ -49,6 +57,10 @@
     descriptionAction,
     closeAction,
   } = dialog;
+
+  $: dialog.setOpen(open);
+
+  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -61,7 +73,7 @@
     <div class="dialog__panel" use:contentAction>
       <header class="dialog__header">
         <h2 class="dialog__title" use:titleAction>{title}</h2>
-        <button class="dialog__close" type="button" aria-label={closeLabel} use:closeAction>
+        <button class="dialog__close" type="button" aria-label={resolvedCloseLabel} use:closeAction>
           <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
             <path
               d="M6 6l12 12M18 6L6 18"

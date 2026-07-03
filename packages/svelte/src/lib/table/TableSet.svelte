@@ -34,6 +34,9 @@
   import TableView from "./TableView.svelte";
   import { createTabs } from "../tabs/create-tabs";
   import type { SortState } from "./create-table";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   // Single-view data (used when `views` is not provided).
   export let columns: TableColumnDef[] = [];
@@ -42,8 +45,8 @@
   export let views: TableViewDef[] | undefined = undefined;
   /** The active view id (controlled). Defaults to the first view. */
   export let activeView: string | undefined = undefined;
-  /** Accessible name for the views tab list. */
-  export let viewsLabel = "Views";
+  /** Accessible name for the views tab list. Defaults to the i18n catalog's "Views". */
+  export let viewsLabel: string | undefined = undefined;
   /** Called when the active view changes. */
   export let onViewChange: ((id: string) => void) | undefined = undefined;
 
@@ -57,14 +60,17 @@
   // Per-view config, forwarded to the active TableView.
   export let pageSize: number | undefined = undefined;
   export let page = 1;
-  export let paginationLabel = "Table pages";
+  /** Accessible name for the pagination nav. Defaults to the i18n catalog's "Table pages". */
+  export let paginationLabel: string | undefined = undefined;
   export let onPageChange: ((page: number) => void) | undefined = undefined;
   export let infinite = false;
   export let hasMore = false;
   export let loading = false;
   export let onLoadMore: (() => void) | undefined = undefined;
-  export let loadMoreLabel = "Load more";
-  export let loadingLabel = "Loading…";
+  /** Load-more button text. Defaults to the i18n catalog's "Load more". */
+  export let loadMoreLabel: string | undefined = undefined;
+  /** Loading status text. Defaults to the i18n catalog's "Loading…". */
+  export let loadingLabel: string | undefined = undefined;
   export let sort: SortState | null = null;
   export let onSortChange: ((sort: SortState | null) => void) | undefined = undefined;
   export let hiddenColumns: string[] = [];
@@ -72,7 +78,8 @@
   export let view: "table" | "card" = "table";
   export let allowViewToggle = false;
   export let configurable = false;
-  export let configLabel = "Columns";
+  /** Column-visibility dropdown label. Defaults to the i18n catalog's "Columns". */
+  export let configLabel: string | undefined = undefined;
   export let cardTitleKey: string | undefined = undefined;
   export let cardDescriptionKey: string | undefined = undefined;
   export let getValue: (row: TableRow, key: string) => unknown = (row, key) => row[key];
@@ -96,6 +103,10 @@
   const rootAction = tabs?.rootAction;
   const tabAction = tabs?.tabAction;
   const panelAction = tabs?.panelAction;
+
+  // The per-view labels (pagination/loadMore/loading/config) are forwarded as-is:
+  // when undefined, TableView falls back to the i18n catalog itself.
+  $: resolvedViewsLabel = viewsLabel ?? $t("table.views");
 </script>
 
 <section class="table-set">
@@ -106,7 +117,7 @@
       {/if}
       <slot name="toolbar" />
       {#if hasViews && rootAction && tabAction}
-        <div class="table-set__tabs" use:rootAction aria-label={viewsLabel}>
+        <div class="table-set__tabs" use:rootAction aria-label={resolvedViewsLabel}>
           {#each views! as v (v.id)}
             <button class="table-set__tab" use:tabAction={v.id}>{v.label}</button>
           {/each}

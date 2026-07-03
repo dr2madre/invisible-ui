@@ -39,8 +39,8 @@
     },
     {
       "name": "closeLabel",
-      "type": "string",
-      "default": "\"Close\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible label for the close button."
     },

@@ -13,6 +13,9 @@
    * CSS custom properties (`--ds-switch-*`).
    */
   import { createSwitch } from "./create-switch";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Accessible, visible label (required). Override with the default slot for rich content. */
   export let label: string;
@@ -26,13 +29,16 @@
   export let required = false;
   /** Show ON/OFF text inside the track (a wider, labelled variant). */
   export let onOff = false;
-  /** Text shown in the track when on / off (only with `onOff`). */
-  export let onText = "ON";
-  export let offText = "OFF";
+  /** Text shown in the track when on / off (only with `onOff`). Default to the i18n catalog's "ON" / "OFF". */
+  export let onText: string | undefined = undefined;
+  export let offText: string | undefined = undefined;
   /** Called whenever the on/off value changes. */
   export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
 
   const { state: swState, setChecked } = createSwitch({ checked, disabled, onCheckedChange });
+
+  $: resolvedOnText = onText ?? $t("switch.on");
+  $: resolvedOffText = offText ?? $t("switch.off");
 
   function onChange(event: Event) {
     setChecked((event.currentTarget as HTMLInputElement).checked);
@@ -54,8 +60,8 @@
   />
   <span class="switch" class:switch--onoff={onOff} aria-hidden="true">
     {#if onOff}
-      <span class="switch__on">{onText}</span>
-      <span class="switch__off">{offText}</span>
+      <span class="switch__on">{resolvedOnText}</span>
+      <span class="switch__off">{resolvedOffText}</span>
     {/if}
   </span>
   <span class="field__label"><slot>{label}</slot></span>

@@ -17,6 +17,9 @@
   import Card from "../card/Card.svelte";
   import Icon from "../icon/Icon.svelte";
   import { createTable, type SortState, type TableContext } from "./create-table";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let columns: TableColumnDef[];
   export let rows: TableRow[];
@@ -29,15 +32,18 @@
 
   export let pageSize: number | undefined = undefined;
   export let page = 1;
-  export let paginationLabel = "Table pages";
+  /** Accessible name for the pagination nav. Defaults to the i18n catalog's "Table pages". */
+  export let paginationLabel: string | undefined = undefined;
   export let onPageChange: ((page: number) => void) | undefined = undefined;
 
   export let infinite = false;
   export let hasMore = false;
   export let loading = false;
   export let onLoadMore: (() => void) | undefined = undefined;
-  export let loadMoreLabel = "Load more";
-  export let loadingLabel = "Loading…";
+  /** Load-more button text. Defaults to the i18n catalog's "Load more". */
+  export let loadMoreLabel: string | undefined = undefined;
+  /** Loading status text. Defaults to the i18n catalog's "Loading…". */
+  export let loadingLabel: string | undefined = undefined;
 
   export let sort: SortState | null = null;
   export let onSortChange: ((sort: SortState | null) => void) | undefined = undefined;
@@ -47,7 +53,8 @@
   export let view: "table" | "card" = "table";
   export let allowViewToggle = false;
   export let configurable = false;
-  export let configLabel = "Columns";
+  /** Column-visibility dropdown label. Defaults to the i18n catalog's "Columns". */
+  export let configLabel: string | undefined = undefined;
   export let cardTitleKey: string | undefined = undefined;
   export let cardDescriptionKey: string | undefined = undefined;
 
@@ -79,6 +86,11 @@
       setSort({ key, direction: "asc" });
     }
   };
+
+  $: resolvedPaginationLabel = paginationLabel ?? $t("table.pagination");
+  $: resolvedLoadMoreLabel = loadMoreLabel ?? $t("table.loadMore");
+  $: resolvedLoadingLabel = loadingLabel ?? $t("table.loading");
+  $: resolvedConfigLabel = configLabel ?? $t("table.columns");
 
   $: titleKey = cardTitleKey ?? columns[0]?.key;
 
@@ -144,9 +156,9 @@
                 <line x1="8" y1="10" x2="8" y2="14" />
                 <line x1="16" y1="18" x2="16" y2="22" />
               </Icon>
-              <span class="table-view__sr">{configLabel}</span>
+              <span class="table-view__sr">{resolvedConfigLabel}</span>
             </span>
-            <div class="table-view__config-list" role="group" aria-label={configLabel}>
+            <div class="table-view__config-list" role="group" aria-label={resolvedConfigLabel}>
               {#each columns as column (column.key)}
                 <Checkbox
                   label={column.header}
@@ -212,7 +224,7 @@
   {#if infinite}
     <div class="table-view__infinite">
       <p class="table-view__status" role="status" aria-live="polite">
-        {loading ? loadingLabel : ""}
+        {loading ? resolvedLoadingLabel : ""}
       </p>
       {#if hasMore}
         <button
@@ -221,7 +233,7 @@
           on:click={() => onLoadMore?.()}
           disabled={loading}
         >
-          {loading ? loadingLabel : loadMoreLabel}
+          {loading ? resolvedLoadingLabel : resolvedLoadMoreLabel}
         </button>
       {/if}
       <div class="table-view__sentinel" use:sentinel aria-hidden="true"></div>
@@ -232,7 +244,7 @@
         <Pagination
           page={currentPage}
           {pageCount}
-          label={paginationLabel}
+          label={resolvedPaginationLabel}
           onPageChange={changePage}
         />
       {/key}

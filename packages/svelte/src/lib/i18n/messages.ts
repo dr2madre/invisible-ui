@@ -31,6 +31,53 @@ export const en = {
   // Time Field
   "timeField.label": "Time",
   "timeField.dayPeriod": "AM/PM",
+  // Loading
+  "loading.label": "Loading…",
+  // Alert
+  "alert.close": "Close",
+  "alert.learnMore": "Learn more",
+  // Overlays
+  "dialog.close": "Close",
+  "sheet.close": "Close",
+  "drawer.close": "Close",
+  "alertDialog.action": "Confirm",
+  "alertDialog.cancel": "Cancel",
+  // Notice
+  "noticeRegion.label": "Notices",
+  // Forms & inputs
+  "combobox.placeholder": "Search…",
+  "combobox.clear": "Clear",
+  "combobox.empty": "No results",
+  "command.title": "Command menu",
+  "command.label": "Search commands",
+  "command.placeholder": "Type a command or search…",
+  "command.empty": "No results found.",
+  "select.placeholder": "Select…",
+  "switch.on": "ON",
+  "switch.off": "OFF",
+  "loginForm.submit": "Sign in",
+  "loginForm.forgot": "Forgot password?",
+  // Navigation
+  "pagination.label": "Pagination",
+  "breadcrumb.label": "Breadcrumb",
+  "contextMenu.label": "Context menu",
+  "menu.label": "Main",
+  "stepper.label": "Progress",
+  "carousel.previous": "Previous slide",
+  "carousel.next": "Next slide",
+  // Data
+  "table.views": "Views",
+  "table.pagination": "Table pages",
+  "table.loadMore": "Load more",
+  "table.loading": "Loading…",
+  "table.columns": "Columns",
+  // Misc
+  "codeBlock.copy": "Copy code",
+  "tag.remove": "Remove",
+  // Drop Zone — prompt first, the styled action word last, so translations
+  // like "Trascina qui i file oppure seleziona" keep a natural order.
+  "dropZone.prompt": "Drag & drop files or",
+  "dropZone.action": "browse",
 } as const;
 
 export type MessageKey = keyof typeof en;

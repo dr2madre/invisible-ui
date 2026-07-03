@@ -13,16 +13,21 @@
    * elevation reuse the shared menu tokens (`--ds-menu-*`).
    */
   import { createContextMenu, type MenuItem } from "./create-context-menu";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let items: MenuItem[];
   export let disabled = false;
   /** Called with the chosen item's value. */
   export let onSelect: ((value: string) => void) | undefined = undefined;
-  /** Accessible name for the menu popup (no labelling trigger exists). */
-  export let label = "Context menu";
+  /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
+  export let label: string | undefined = undefined;
 
   const menu = createContextMenu({ items, disabled, onSelect });
   const { open, triggerAction, menuAction, itemAction } = menu;
+
+  $: resolvedLabel = label ?? $t("contextMenu.label");
 </script>
 
 <div class="context-menu__trigger" tabindex="0" use:triggerAction>
@@ -32,7 +37,7 @@
 <!-- Rendered only while open: the popup truly leaves the DOM (and the
      accessibility tree) when the menu is closed. -->
 {#if $open}
-  <div class="context-menu__popup" aria-label={label} use:menuAction>
+  <div class="context-menu__popup" aria-label={resolvedLabel} use:menuAction>
     {#each items as item (item.value)}
       <button class="context-menu__item" type="button" use:itemAction={item.value}>
         {item.label ?? item.value}

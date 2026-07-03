@@ -11,8 +11,8 @@
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Breadcrumb\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name for the landmark."
     },

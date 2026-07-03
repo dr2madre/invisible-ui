@@ -16,7 +16,10 @@
   import { createDialog } from "../dialog/create-dialog";
   import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
+
+  const { t } = getI18n();
 
   /** Initial open state. */
   export let open = false;
@@ -24,10 +27,10 @@
   export let title: string;
   /** Description of the consequence (required). */
   export let description: string;
-  /** Label of the confirming action button. */
-  export let actionLabel = "Confirm";
-  /** Label of the cancelling button (also the Escape action). */
-  export let cancelLabel = "Cancel";
+  /** Label of the confirming action button. Defaults to the i18n catalog's "Confirm". */
+  export let actionLabel: string | undefined = undefined;
+  /** Label of the cancelling button (also the Escape action). Defaults to the i18n catalog's "Cancel". */
+  export let cancelLabel: string | undefined = undefined;
   /** Variant of the action button (use `"danger"` for destructive actions). */
   export let actionVariant: ButtonVariant = "primary";
   /** Visual variant for the trigger Button. */
@@ -53,6 +56,11 @@
   let typed = "";
   $: confirmed = !confirmPhrase || typed === confirmPhrase;
 
+  const handleOpenChange = (next: boolean) => {
+    open = next;
+    onOpenChange?.(next);
+  };
+
   const dialog = createDialog({
     open,
     role: "alertdialog",
@@ -60,7 +68,7 @@
     closeOnOutsideClick,
     // Focus the safe choice (Cancel) by default, not the destructive action.
     initialFocus: ".alert-dialog__actions button",
-    onOpenChange,
+    onOpenChange: handleOpenChange,
   });
   const {
     open: isOpen,
@@ -70,6 +78,11 @@
     titleAction,
     descriptionAction,
   } = dialog;
+
+  $: dialog.setOpen(open);
+
+  $: resolvedActionLabel = actionLabel ?? $t("alertDialog.action");
+  $: resolvedCancelLabel = cancelLabel ?? $t("alertDialog.cancel");
 
   // Reset the type-to-confirm field whenever the dialog closes (including via a
   // backdrop press or Escape, which bypass the Cancel button).
@@ -112,9 +125,9 @@
         </label>
       {/if}
       <footer class="alert-dialog__actions">
-        <Button variant="ghost" onpress={cancel}>{cancelLabel}</Button>
+        <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
         <Button variant={actionVariant} disabled={!confirmed} onpress={confirm}
-          >{actionLabel}</Button
+          >{resolvedActionLabel}</Button
         >
       </footer>
     </div>

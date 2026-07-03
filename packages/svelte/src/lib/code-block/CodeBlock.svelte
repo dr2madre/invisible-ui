@@ -17,14 +17,20 @@
    *
    * Colors are themeable CSS custom properties (`--ds-code-block-*`).
    */
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
+
   /** The source text. Drives the copy button and is rendered when no slot is given. */
   export let code = "";
   /** Optional caption shown in the header (e.g. a language or filename). */
   export let language: string | undefined = undefined;
   /** Render a copy-to-clipboard button. Defaults to `true`. */
   export let copyable = true;
-  /** Accessible name for the copy button. */
-  export let copyLabel = "Copy code";
+  /** Accessible name for the copy button. Defaults to the i18n catalog's "Copy code". */
+  export let copyLabel: string | undefined = undefined;
+
+  $: resolvedCopyLabel = copyLabel ?? $t("codeBlock.copy");
 
   let copied = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -47,7 +53,12 @@
     <figcaption class="code-block__header">
       {#if language}<span class="code-block__lang">{language}</span>{/if}
       {#if copyable}
-        <button type="button" class="code-block__copy" on:click={copy} aria-label={copyLabel}>
+        <button
+          type="button"
+          class="code-block__copy"
+          on:click={copy}
+          aria-label={resolvedCopyLabel}
+        >
           {copied ? "Copied" : "Copy"}
         </button>
       {/if}

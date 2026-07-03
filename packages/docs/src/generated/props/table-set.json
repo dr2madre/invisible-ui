@@ -32,8 +32,8 @@
     },
     {
       "name": "viewsLabel",
-      "type": "string",
-      "default": "\"Views\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name for the views tab list."
     },
@@ -88,10 +88,10 @@
     },
     {
       "name": "paginationLabel",
-      "type": "string",
-      "default": "\"Table pages\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Accessible name for the pagination nav. Defaults to the i18n catalog's \"Table pages\"."
     },
     {
       "name": "onPageChange",
@@ -130,17 +130,17 @@
     },
     {
       "name": "loadMoreLabel",
-      "type": "string",
-      "default": "\"Load more\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Load-more button text. Defaults to the i18n catalog's \"Load more\"."
     },
     {
       "name": "loadingLabel",
-      "type": "string",
-      "default": "\"Loading…\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Loading status text. Defaults to the i18n catalog's \"Loading…\"."
     },
     {
       "name": "sort",
@@ -193,10 +193,10 @@
     },
     {
       "name": "configLabel",
-      "type": "string",
-      "default": "\"Columns\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Column-visibility dropdown label. Defaults to the i18n catalog's \"Columns\"."
     },
     {
       "name": "cardTitleKey",

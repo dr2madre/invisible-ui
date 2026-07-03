@@ -32,8 +32,8 @@
     },
     {
       "name": "placeholder",
-      "type": "string",
-      "default": "\"Select…\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Trigger text when nothing is selected."
     },

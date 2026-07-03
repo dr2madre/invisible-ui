@@ -25,8 +25,8 @@
     },
     {
       "name": "placeholder",
-      "type": "string",
-      "default": "\"Search…\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Input placeholder."
     },
@@ -39,15 +39,15 @@
     },
     {
       "name": "clearLabel",
-      "type": "string",
-      "default": "\"Clear\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible label for the clear button."
     },
     {
       "name": "emptyText",
-      "type": "string",
-      "default": "\"No results\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Shown when nothing matches."
     },

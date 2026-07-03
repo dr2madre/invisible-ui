@@ -13,6 +13,9 @@
    */
   import { createSelect, type SelectItem } from "./create-select";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Accessible name for the control. */
   export let label: string;
@@ -24,18 +27,37 @@
    */
   export let items: (SelectItem & { icon?: string })[];
   export let value: string | null = null;
-  export let placeholder = "Select…";
+  /** Trigger text when nothing is selected. Defaults to the i18n catalog's "Select…". */
+  export let placeholder: string | undefined = undefined;
   export let disabled = false;
   /** Form field name — the selected value is submitted under it (via a hidden input). */
   export let name: string | undefined = undefined;
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
-  const select = createSelect({ items, value, disabled, onValueChange });
-  const { labelAction, triggerAction, listboxAction, optionAction, value: selectedValue } = select;
+  const handleValueChange = (next: string) => {
+    value = next;
+    onValueChange?.(next);
+  };
 
+  const select = createSelect({ items, value, disabled, onValueChange: handleValueChange });
+  const {
+    labelAction,
+    triggerAction,
+    listboxAction,
+    optionAction,
+    value: selectedValue,
+    syncValue,
+    setItems,
+    setDisabled,
+  } = select;
+
+  $: syncValue(value);
+  $: setItems(items);
+  $: setDisabled(disabled);
+  $: resolvedPlaceholder = placeholder ?? $t("select.placeholder");
   $: selected = items.find((item) => item.value === $selectedValue);
-  $: display = selected ? (selected.label ?? selected.value) : placeholder;
+  $: display = selected ? (selected.label ?? selected.value) : resolvedPlaceholder;
   $: hasIcons = items.some((item) => item.icon);
 </script>
 

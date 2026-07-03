@@ -22,14 +22,17 @@
    * check; the current/upcoming steps show their number. Themed (`--ds-step-*`).
    */
   import { createStepper, type StepperContext } from "./create-stepper";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let steps: StepDescriptor[];
   export let current = 0;
   export let linear = true;
   export let orientation: "horizontal" | "vertical" = "horizontal";
   export let disabled = false;
-  /** Accessible name for the progress nav (announced by screen readers). */
-  export let label = "Progress";
+  /** Accessible name for the progress nav (announced by screen readers). Defaults to the i18n catalog's "Progress". */
+  export let label: string | undefined = undefined;
   /** Called whenever the current step changes. */
   export let onStepChange: ((current: number) => void) | undefined = undefined;
 
@@ -47,9 +50,11 @@
 
   const statusOf = (index: number) =>
     index < $currentStore ? "complete" : index === $currentStore ? "current" : "upcoming";
+
+  $: resolvedLabel = label ?? $t("stepper.label");
 </script>
 
-<nav class="stepper" use:rootAction aria-label={label}>
+<nav class="stepper" use:rootAction aria-label={resolvedLabel}>
   <ol class="stepper__list" use:listAction>
     {#each steps as step, index (index)}
       {@const status = statusOf(index)}
