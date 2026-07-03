@@ -49,6 +49,9 @@
 <style>
   .toggle-group {
     display: inline-flex;
+    /* The group only wraps its items: it spaces them (gap) and itself
+       (padding), but never sizes them — no cross-axis stretch. */
+    align-items: flex-start;
     gap: var(--ds-toggle-group-gap, 0.375rem);
     padding: var(--ds-toggle-group-padding, 0);
     background: var(--ds-toggle-group-track, transparent);
@@ -67,8 +70,10 @@
     align-items: center;
     justify-content: center;
     font: inherit;
-    /* Equal, square-ish size for every item (text or icon) so heights match the
-       standalone ToggleButton and don't vary item-to-item. */
+    /* Equal, square size for every item (text or icon): the shared minimum is
+       the only size driver — content is centered and its line box kept tight
+       (line-height: 1) so tall glyphs can't inflate the height past it. */
+    line-height: 1;
     min-block-size: var(--ds-control-height, 2.25rem);
     min-inline-size: var(--ds-control-height, 2.25rem);
     padding: var(--ds-toggle-group-item-padding, 0.35rem 0.7rem);
