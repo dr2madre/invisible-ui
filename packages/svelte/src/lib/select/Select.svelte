@@ -138,12 +138,18 @@
     gap: 0.5rem;
     inline-size: 100%;
     box-sizing: border-box;
-    padding: var(--ds-select-padding, 0.5rem 0.75rem);
+    /* Shared control metrics (same as Button): padding tokens + a fixed line
+       box, so Select and Button sit at the same height side by side. */
+    padding: var(
+      --ds-select-padding,
+      var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
+    );
     border: 1px solid var(--ds-color-border, #cbd5e1);
     border-radius: var(--ds-select-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
+    line-height: 1.2;
     text-align: start;
     cursor: pointer;
     touch-action: manipulation;
