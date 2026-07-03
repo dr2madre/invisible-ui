@@ -10,7 +10,14 @@ import SelectDemo from "../../../../demos/SelectDemo.svelte";
   <SelectDemo client:only="svelte" />
 </Preview>
 
-A styled single-select dropdown (WAI-ARIA select-only combobox) with an elevated popup.
+A styled **native** `<select>`: the browser owns the popup, keyboard, typeahead,
+form participation and the platform picker on mobile. This layer styles the
+closed control and adds label, placeholder, width modes and the invalid state.
+
+Options are plain text by design — the native popup can't render markup. For
+per-option icons, rich option content or a styled popup, use the
+[Combobox](/invisible-ui/components/forms/combobox/) (optionally with the
+search hidden): that is the custom, advanced select.
 
 ### Select or Dropdown Menu?
 
@@ -27,15 +34,6 @@ different semantics:
 Rule of thumb: if "what's in the field right now?" makes sense, use Select; if
 the items are verbs (Rename, Delete, Share…), use Dropdown Menu.
 
-### Why not a native `<select>`?
-
-The native element can't render markup inside its options (per-option icons,
-custom layouts), so this component implements the ARIA select-only combobox
-pattern instead. Nativeness is kept where it matters: the value submits
-through a real hidden input, and keyboard / typeahead / screen-reader
-behaviour follows the WAI-ARIA APG. Controls the native platform handles well
-(Checkbox, Radio, Switch, Slider…) do stay native inputs.
-
 ### Import
 
 ```svelte
@@ -50,8 +48,10 @@ behaviour follows the WAI-ARIA APG. Controls the native platform handles well
 
 ### Accessibility
 
-- Select-only combobox: open/close, arrow & Home/End navigation, typeahead, `aria-activedescendant`, selection — all headless in the core.
-- Popup positioning (flip/shift, stays attached on scroll) is handled by the adapter via `@floating-ui/dom`.
+- A real `<select>`: the browser provides the popup, keyboard, typeahead,
+  screen-reader semantics, `required` validation and the mobile picker.
+- The visible label is a `<label for>`; `error` maps to `aria-invalid` plus an
+  announced description.
 
 ### Example
 

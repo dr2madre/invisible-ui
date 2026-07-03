@@ -18,7 +18,7 @@
     },
     {
       "name": "items",
-      "type": "(SelectItem & { icon?: string })[]",
+      "type": "SelectItem[]",
       "default": null,
       "required": true,
       "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`."
@@ -78,13 +78,6 @@
       "default": "undefined",
       "required": false,
       "description": "Called whenever the selected value changes."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the popup opens or closes."
     }
   ]
 }

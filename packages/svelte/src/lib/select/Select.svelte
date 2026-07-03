@@ -4,20 +4,21 @@
 
 <script lang="ts">
   /**
-   * Select — the styled, batteries-included single-select dropdown (WAI-ARIA
-   * select-only combobox). Behaviour and accessibility (open/close, arrow &
-   * Home/End navigation, typeahead, `aria-activedescendant`, selection) come
-   * from the headless select (`@design-system/core`); positioning of the popup
-   * (flip/shift, stays attached on scroll) is handled by the adapter via
-   * `@floating-ui/dom`.
+   * Select — a styled **native** `<select>`. The browser owns the popup,
+   * keyboard, typeahead, form participation and the platform picker on mobile;
+   * this layer styles the closed control (`appearance: none` + a custom
+   * chevron) and adds label, placeholder, width modes and the invalid state.
    *
-   * Pass `items` ({ value, label?, disabled? }) and an accessible `label`. The
-   * trigger shows the selected option's label (or `placeholder`). Colors,
-   * radius and elevation are themeable CSS custom properties (`--ds-select-*`).
+   * By design the options are plain text: the native popup can't render
+   * markup. If you need per-option icons, rich option content or a styled
+   * popup, use the Combobox (optionally with the search hidden) — that is the
+   * custom, advanced select.
+   *
+   * Colors, radius and spacing are themeable via `--ds-select-*`.
    */
-  import { createSelect, type SelectItem } from "./create-select";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import type { SelectItem } from "./create-select";
 
   const { t } = getI18n();
 
@@ -25,125 +26,75 @@
   export let label: string;
   /** Visually hide the label (kept for assistive tech) — for compact toolbars. */
   export let hideLabel = false;
-  /**
-   * Options. Each may carry an optional leading `icon` (an SVG path `d` string)
-   * shown to the left of the label; the selection check then sits on the right.
-   */
-  export let items: (SelectItem & { icon?: string })[];
+  /** Options ({ value, label?, disabled? }). Plain text only — see Combobox for rich options. */
+  export let items: SelectItem[];
+  /** Selected value (bindable). `null` shows the placeholder. */
   export let value: string | null = null;
-  /** Trigger text when nothing is selected. Defaults to the i18n catalog's "Select…". */
+  /** Shown while nothing is selected. Defaults to the i18n catalog's "Select…". */
   export let placeholder: string | undefined = undefined;
   export let disabled = false;
   /**
-   * Width behaviour: `wrap` fits the longest option (plus the trigger
-   * padding), `fill` takes 100% of the container, `fixed` uses
-   * `--ds-select-width` (16rem by default).
+   * Width behaviour: `wrap` fits the longest option (the native default),
+   * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`
+   * (16rem by default).
    */
   export let width: "wrap" | "fill" | "fixed" = "wrap";
-  /** Form field name — the selected value is submitted under it (via a hidden input). */
+  /** Form field name — this is a real `<select>`, so it submits natively. */
   export let name: string | undefined = undefined;
-  /** Marks the control as required (announced to assistive tech). */
+  /** Marks the control as required (native validation + announced to AT). */
   export let required = false;
   /** Error message; when non-empty the select becomes invalid and announces it. */
   export let error: string | undefined = undefined;
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
-  /** Called whenever the popup opens or closes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
-  const errorId = `ds-select-${++selectCount}-error`;
+  const uid = ++selectCount;
+  const selectId = `ds-select-${uid}`;
+  const errorId = `ds-select-${uid}-error`;
 
-  const handleValueChange = (next: string) => {
-    value = next;
-    onValueChange?.(next);
-  };
-
-  const select = createSelect({
-    items,
-    value,
-    disabled,
-    onValueChange: handleValueChange,
-    onOpenChange: (open) => onOpenChange?.(open),
-  });
-  const {
-    labelAction,
-    triggerAction,
-    listboxAction,
-    optionAction,
-    value: selectedValue,
-    syncValue,
-    setItems,
-    setDisabled,
-  } = select;
-
-  $: syncValue(value);
-  $: setItems(items);
-  $: setDisabled(disabled);
   $: resolvedPlaceholder = placeholder ?? $t("select.placeholder");
-  $: selected = items.find((item) => item.value === $selectedValue);
-  $: display = selected ? (selected.label ?? selected.value) : resolvedPlaceholder;
-  $: hasIcons = items.some((item) => item.icon);
+  // The native element always has a selection; `""` stands for "nothing yet"
+  // (the hidden, disabled placeholder option) and maps to `value = null`.
+  $: nativeValue = value ?? "";
+
+  function onChange(event: Event) {
+    const next = (event.currentTarget as HTMLSelectElement).value;
+    value = next === "" ? null : next;
+    if (value != null) onValueChange?.(value);
+  }
 </script>
 
 <div class="select" data-width={width}>
-  {#if name}
-    <input type="hidden" {name} value={$selectedValue ?? ""} />
-  {/if}
-  <span class="select__label" class:select__label--hidden={hideLabel} use:labelAction>{label}</span>
+  <label class="select__label" class:select__label--hidden={hideLabel} for={selectId}>
+    {label}
+  </label>
 
-  <button
-    class="select__trigger"
-    class:select__trigger--placeholder={!selected}
-    type="button"
-    aria-required={required ? "true" : undefined}
-    aria-invalid={error ? "true" : undefined}
-    aria-describedby={error ? errorId : undefined}
-    data-invalid={error ? "" : undefined}
-    use:triggerAction
-  >
-    {#if $$slots.icon}
-      <span class="select__icon" aria-hidden="true"><slot name="icon" /></span>
-    {/if}
-    <span class="select__text">
-      <span class="select__value">{display}</span>
-      <!-- Invisible sizer: the longest option (or the placeholder) sets the
-           trigger's stable width, so it never resizes on selection. -->
-      <span class="select__sizer" aria-hidden="true">
-        {#each items as item (item.value)}<span>{item.label ?? item.value}</span>{/each}
-        <span>{resolvedPlaceholder}</span>
-      </span>
-    </span>
+  <span class="select__control">
+    <select
+      class="select__native"
+      class:select__native--placeholder={value == null}
+      id={selectId}
+      {name}
+      {disabled}
+      {required}
+      aria-invalid={error ? "true" : undefined}
+      aria-describedby={error ? errorId : undefined}
+      data-invalid={error ? "" : undefined}
+      value={nativeValue}
+      on:change={onChange}
+    >
+      <!-- Placeholder: a hidden, disabled option holding the empty value. -->
+      <option value="" disabled hidden>{resolvedPlaceholder}</option>
+      {#each items as item (item.value)}
+        <option value={item.value} disabled={item.disabled}>{item.label ?? item.value}</option>
+      {/each}
+    </select>
     <span class="select__chevron" aria-hidden="true">
       <Icon size="100%">
         <polyline points="6 9 12 15 18 9" />
       </Icon>
     </span>
-  </button>
-
-  <ul class="select__listbox" class:select__listbox--icons={hasIcons} use:listboxAction>
-    {#each items as item (item.value)}
-      <li class="select__option" use:optionAction={item.value}>
-        <!-- Custom option content via the `option` slot; the default renders
-             the optional leading icon (an SVG path per item) plus the label. -->
-        <slot name="option" {item} selected={item.value === $selectedValue}>
-          {#if hasIcons}
-            <span class="select__option-icon" aria-hidden="true">
-              {#if item.icon}
-                <Icon size="100%"><path d={item.icon} /></Icon>
-              {/if}
-            </span>
-          {/if}
-          <span class="select__option-label">{item.label ?? item.value}</span>
-        </slot>
-        <!-- Selection check sits on the right (after the content). -->
-        <span class="select__check" aria-hidden="true">
-          <Icon size="100%" strokeWidth={2.5}>
-            <polyline points="20 6 9 17 4 12" />
-          </Icon>
-        </span>
-      </li>
-    {/each}
-  </ul>
+  </span>
 
   {#if error}
     <span class="select__error" id={errorId}>{error}</span>
@@ -154,8 +105,7 @@
   .select {
     display: grid;
     gap: var(--ds-select-gap, 0.375rem);
-    /* wrap (default): as wide as the longest option (the sizer below) plus
-       the trigger padding. */
+    /* wrap (default): the native select already fits its longest option. */
     inline-size: fit-content;
     font: inherit;
     color: var(--ds-color-text, #0f172a);
@@ -183,47 +133,51 @@
     border: 0;
   }
 
-  .select__trigger {
+  /* Wrapper anchors the custom chevron over the native control. */
+  .select__control {
+    position: relative;
     display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--ds-select-trigger-gap, 0.5rem);
+    inline-size: 100%;
+  }
+  .select__native {
+    appearance: none;
     inline-size: 100%;
     box-sizing: border-box;
-    /* Shared control metrics (same as Button): padding tokens + a fixed line
-       box, so Select and Button sit at the same height side by side. */
+    /* Shared control metrics (same as Button) + room for the chevron. */
     padding: var(
       --ds-select-padding,
       var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
     );
+    padding-inline-end: calc(var(--ds-control-padding-x, 0.875rem) + 1.6em);
     border: 1px solid var(--ds-color-border, #cbd5e1);
     border-radius: var(--ds-select-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
     line-height: 1.2;
-    text-align: start;
+    /* A set value reads as content (medium, like a Button label). */
+    font-weight: 500;
     cursor: pointer;
-    touch-action: manipulation;
     transition:
       border-color 120ms ease,
       box-shadow 120ms ease;
   }
-  .select__trigger:focus-visible {
+  .select__native--placeholder {
+    font-weight: 400;
+    color: var(--ds-color-text-secondary, #64748b);
+  }
+  .select__native:focus-visible {
     outline: none;
     border-color: var(--ds-color-focus-ring, #2563eb);
     box-shadow: var(--ds-focus-ring-shadow);
   }
-  .select__trigger--placeholder .select__value {
-    color: var(--ds-color-text-secondary, #64748b);
-  }
-  .select__trigger:global([data-disabled]) {
+  .select__native:disabled {
     background: var(--ds-color-disabled, #e2e8f0);
     color: var(--ds-color-text-disabled, #94a3b8);
     cursor: not-allowed;
   }
-  /* Invalid: danger border on the trigger, message underneath. */
-  .select__trigger:global([data-invalid]) {
+  /* Invalid: danger border on the control, message underneath. */
+  .select__native:global([data-invalid]) {
     border-color: var(--ds-color-danger, #dc2626);
   }
   .select__error {
@@ -231,123 +185,15 @@
     color: var(--ds-color-danger, #dc2626);
   }
 
-  .select__icon {
-    display: inline-flex;
-    flex: none;
-    inline-size: var(--ds-select-icon-size, 1.1em);
-    block-size: var(--ds-select-icon-size, 1.1em);
-    color: var(--ds-color-text-secondary, #57534e);
-  }
-  .select__text {
-    flex: 1;
-    min-inline-size: 0;
-  }
-  .select__value {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    /* A set value reads as content (medium, like a Button label); the
-       placeholder stays regular + secondary. */
-    font-weight: 500;
-  }
-  .select__trigger--placeholder .select__value {
-    font-weight: 400;
-  }
-  /* Zero-height, invisible: contributes only its widest line (measured at the
-     value's weight so the width never jitters). */
-  .select__sizer {
-    display: block;
-    block-size: 0;
-    overflow: hidden;
-    visibility: hidden;
-    font-weight: 500;
-  }
-  .select__sizer > span {
-    display: block;
-    white-space: nowrap;
-  }
   .select__chevron {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--ds-control-padding-x, 0.875rem);
+    translate: 0 -50%;
     display: inline-flex;
     inline-size: var(--ds-select-icon-size, 1.1em);
     block-size: var(--ds-select-icon-size, 1.1em);
-    flex: none;
     color: var(--ds-color-text-secondary, #64748b);
-    transition: rotate 150ms ease;
-  }
-  .select__trigger:global([data-state="open"]) .select__chevron {
-    rotate: 180deg;
-  }
-
-  .select__listbox {
-    /* Positioned by the adapter (Floating UI) with a fixed strategy. */
-    position: fixed;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    z-index: var(--ds-select-z-index, 50);
-    margin: 0;
-    padding: var(--ds-select-listbox-padding, 0.25rem);
-    list-style: none;
-    max-block-size: var(--ds-select-max-height, 16rem);
-    overflow-y: auto;
-    background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-select-listbox-radius, var(--ds-radius-surface, 0.75rem));
-    box-shadow: var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1));
-  }
-  /* Hidden until opened. */
-  .select__listbox:global([data-state="closed"]) {
-    display: none;
-  }
-
-  .select__option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.5rem;
-    border-radius: var(--ds-radius-control, 0.5rem);
-    cursor: pointer;
-    user-select: none;
-  }
-  /* The active (keyboard-highlighted) option — never on the selected one, which
-     keeps its own selection tint. */
-  .select__option:global([data-active]:not([data-state="selected"])) {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-  }
-  .select__option:global([data-disabled]) {
-    color: var(--ds-color-text-disabled, #94a3b8);
-    cursor: not-allowed;
-  }
-
-  /* Leading per-option icon (reserved width so labels align even when only some
-     options carry an icon). */
-  .select__option-icon {
-    display: inline-flex;
-    inline-size: var(--ds-select-option-icon-size, 1.1rem);
-    block-size: var(--ds-select-option-icon-size, 1.1rem);
-    flex: none;
-    color: var(--ds-color-text-secondary, #57534e);
-  }
-  /* Label grows so the check is pushed to the right edge. */
-  .select__option-label {
-    flex: 1;
-    min-inline-size: 0;
-  }
-
-  .select__check {
-    display: inline-flex;
-    inline-size: 1rem;
-    block-size: 1rem;
-    flex: none;
-    color: var(--ds-color-secondary, #7b52cc);
-    visibility: hidden;
-  }
-  .select__option:global([data-state="selected"]) .select__check {
-    visibility: visible;
-  }
-  /* Selected option: a faint selection-color fill (not gray), no bold — the
-     check already marks it. */
-  .select__option:global([data-state="selected"]) {
-    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
+    pointer-events: none;
   }
 </style>

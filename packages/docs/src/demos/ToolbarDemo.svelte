@@ -56,34 +56,14 @@
 
   <Separator orientation="vertical" decorative />
 
+  <!-- Native Select: plain-text options (icons live in the Combobox). -->
   <Select
     label="Layout"
     value="single"
     items={[
-      { value: "single", label: "Single column", icon: "M6 4h12v16H6z" },
-      { value: "two", label: "Two columns", icon: "M4 4h7v16H4z M13 4h7v16h-7z" },
-      {
-        value: "grid",
-        label: "Grid",
-        icon: "M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z",
-      },
+      { value: "single", label: "Single column" },
+      { value: "two", label: "Two columns" },
+      { value: "grid", label: "Grid" },
     ]}
-  >
-    <svg
-      slot="icon"
-      viewBox="0 0 24 24"
-      width="100%"
-      height="100%"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <line x1="3" y1="9" x2="21" y2="9" />
-      <line x1="9" y1="21" x2="9" y2="9" />
-    </svg>
-  </Select>
+  />
 </Toolbar>
