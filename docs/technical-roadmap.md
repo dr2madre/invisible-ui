@@ -14,7 +14,7 @@ Aria / Spectrum, shadcn/ui, MUI / Chakra).
   `isolatedModules`, ES2022 / Bundler resolution.
 - **Tokens** — two tiers (primitives → semantic role/state), dark mode
   (`prefers-color-scheme` + `[data-theme]`), WCAG AA, `color-mix` surfaces.
-- **Accessibility tests** — `vitest-axe` on every component (122 test files).
+- **Accessibility tests** — `vitest-axe` on every component (144 test files).
 - **RTL readiness** — CSS logical properties throughout.
 - **Docs** — Astro + Starlight with a live demo per component; ADRs.
 - **CI per-PR** — build + test + typecheck gate.
