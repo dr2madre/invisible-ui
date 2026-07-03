@@ -10,7 +10,7 @@
     createToggleButton,
   } from "@design-system/svelte";
   import FeedbackIcon from "@design-system/svelte/FeedbackIcon.svelte";
-  import CloseButton from "@design-system/svelte/CloseButton.svelte";
+  import Icon from "@design-system/svelte/Icon.svelte";
   import { createNotifier } from "@design-system/svelte";
   import Button from "@design-system/svelte/Button.svelte";
   import Alert from "@design-system/svelte/Alert.svelte";
@@ -187,7 +187,14 @@
       <div class="row dismissible">
         <FeedbackIcon status="info" />
         <span>Dismiss me with the ghost close button.</span>
-        <CloseButton label="Dismiss" onclose={() => (closableShown = false)} />
+        <Button
+          iconOnly
+          variant="ghost"
+          ariaLabel="Dismiss"
+          onpress={() => (closableShown = false)}
+        >
+          <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
+        </Button>
       </div>
     {:else}
       <button class="reset" on:click={() => (closableShown = true)}>Reset</button>
