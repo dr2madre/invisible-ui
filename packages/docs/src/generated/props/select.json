@@ -18,7 +18,7 @@
     },
     {
       "name": "items",
-      "type": "(SelectItem & { icon?: string })[]",
+      "type": "SelectItem[]",
       "default": null,
       "required": true,
       "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`."
@@ -45,11 +45,32 @@
       "description": "Disable the control."
     },
     {
+      "name": "width",
+      "type": "\"wrap\" | \"fill\" | \"fixed\"",
+      "default": "\"wrap\"",
+      "required": false,
+      "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default)."
+    },
+    {
       "name": "name",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
       "description": "Form field name — the selected value is submitted under it (via a hidden input)."
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Marks the control as required (announced to assistive tech)."
+    },
+    {
+      "name": "error",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Error message; when non-empty the select becomes invalid and announces it."
     },
     {
       "name": "onValueChange",

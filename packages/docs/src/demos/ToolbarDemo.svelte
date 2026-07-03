@@ -2,7 +2,7 @@
   import Toolbar from "@design-system/svelte/Toolbar.svelte";
   import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
   import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
-  import Select from "@design-system/svelte/Select.svelte";
+  import Combobox from "@design-system/svelte/Combobox.svelte";
   import Separator from "@design-system/svelte/Separator.svelte";
   import AlignLeftIcon from "./icons/AlignLeftIcon.svelte";
   import AlignCenterIcon from "./icons/AlignCenterIcon.svelte";
@@ -56,8 +56,11 @@
 
   <Separator orientation="vertical" decorative />
 
-  <Select
+  <!-- Advanced select (Combobox without search): per-option layout icons. -->
+  <Combobox
     label="Layout"
+    searchable={false}
+    width="wrap"
     value="single"
     items={[
       { value: "single", label: "Single column", icon: "M6 4h12v16H6z" },
@@ -68,22 +71,5 @@
         icon: "M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z",
       },
     ]}
-  >
-    <svg
-      slot="icon"
-      viewBox="0 0 24 24"
-      width="100%"
-      height="100%"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <line x1="3" y1="9" x2="21" y2="9" />
-      <line x1="9" y1="21" x2="9" y2="9" />
-    </svg>
-  </Select>
+  />
 </Toolbar>

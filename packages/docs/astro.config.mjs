@@ -26,7 +26,6 @@ export default defineConfig({
         { label: "Foundations", link: "/foundations/" },
         { label: "API", link: "/api/" },
         { label: "Components", link: "/components/" },
-        { label: "Actions",            autogenerate: { directory: "components/actions" } },
         { label: "Forms & inputs",     autogenerate: { directory: "components/forms" } },
         { label: "Date & time",        autogenerate: { directory: "components/date-time" } },
         { label: "Overlays",           autogenerate: { directory: "components/overlays" } },

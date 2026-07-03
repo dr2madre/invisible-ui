@@ -3,9 +3,45 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./combobox.fixture.svelte";
+import Combobox from "./Combobox.svelte";
 
 const input = () => screen.getByRole("combobox");
 const listbox = () => screen.getByRole("listbox");
+
+describe("Svelte Combobox (styled, select-only)", () => {
+  const iconItems = [
+    { value: "high", label: "High", icon: "M12 19V5m-7 7 7-7 7 7" },
+    { value: "low", label: "Low", icon: "M12 5v14m7-7-7 7-7-7" },
+  ];
+
+  it("renders a read-only trigger input that opens the full list on click", async () => {
+    const user = userEvent.setup();
+    render(Combobox, {
+      props: { label: "Priority", items: iconItems, searchable: false, value: "high" },
+    });
+    const trigger = screen.getByRole("combobox", { name: "Priority" });
+    expect(trigger).toHaveAttribute("readonly");
+    expect(trigger).toHaveValue("High");
+    await user.click(trigger);
+    // No filtering in select-only mode: every option is listed.
+    expect(screen.getAllByRole("option")).toHaveLength(2);
+  });
+
+  it("renders per-option icons and mirrors the selected one on the control", () => {
+    const { container } = render(Combobox, {
+      props: { label: "Priority", items: iconItems, searchable: false, value: "low" },
+    });
+    expect(container.querySelectorAll(".combobox__option-icon").length).toBeGreaterThan(0);
+    expect(container.querySelector(".combobox__search path")).not.toBeNull();
+  });
+
+  it("exposes the width mode as a data hook", () => {
+    const { container } = render(Combobox, {
+      props: { label: "Priority", items: iconItems, width: "wrap" },
+    });
+    expect(container.querySelector(".combobox")).toHaveAttribute("data-width", "wrap");
+  });
+});
 
 describe("Svelte Combobox (styled)", () => {
   it("renders an editable combobox input, closed", () => {

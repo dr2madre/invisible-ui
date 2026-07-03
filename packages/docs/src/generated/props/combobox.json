@@ -11,7 +11,7 @@
     },
     {
       "name": "items",
-      "type": "ComboboxItem[]",
+      "type": "(ComboboxItem & { icon?: string })[]",
       "default": null,
       "required": true,
       "description": "Options: `{ value, label?, disabled? }`."
@@ -22,6 +22,20 @@
       "default": "null",
       "required": false,
       "description": "Selected value."
+    },
+    {
+      "name": "searchable",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "With `searchable={false}` the text input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
+    },
+    {
+      "name": "width",
+      "type": "\"wrap\" | \"fill\" | \"fixed\"",
+      "default": "\"fixed\"",
+      "required": false,
+      "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container."
     },
     {
       "name": "placeholder",

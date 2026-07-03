@@ -10,7 +10,29 @@ import SelectDemo from "../../../../demos/SelectDemo.svelte";
   <SelectDemo client:only="svelte" />
 </Preview>
 
-A styled single-select dropdown (WAI-ARIA select-only combobox) with an elevated popup.
+A styled **native** `<select>`: the browser owns the popup, keyboard, typeahead,
+form participation and the platform picker on mobile. This layer styles the
+closed control and adds label, placeholder, width modes and the invalid state.
+
+Options are plain text by design — the native popup can't render markup. For
+per-option icons, rich option content or a styled popup, use the
+[Combobox](/invisible-ui/components/forms/combobox/) (optionally with the
+search hidden): that is the custom, advanced select.
+
+### Select or Dropdown Menu?
+
+They share the popup mechanics, but they are different components with
+different semantics:
+
+- **Select** is a _form control_: it picks a **value** that persists, is
+  announced as selected, submits with the form (via a hidden input under
+  `name`), and supports `label` / `required` / `error`.
+- **[Dropdown Menu](/invisible-ui/components/overlays/dropdown-menu/)** is a
+  menu of _actions_: its items **run commands** (`role="menu"` /
+  `role="menuitem"`), nothing stays selected and no form value exists.
+
+Rule of thumb: if "what's in the field right now?" makes sense, use Select; if
+the items are verbs (Rename, Delete, Share…), use Dropdown Menu.
 
 ### Import
 
@@ -26,8 +48,10 @@ A styled single-select dropdown (WAI-ARIA select-only combobox) with an elevated
 
 ### Accessibility
 
-- Select-only combobox: open/close, arrow & Home/End navigation, typeahead, `aria-activedescendant`, selection — all headless in the core.
-- Popup positioning (flip/shift, stays attached on scroll) is handled by the adapter via `@floating-ui/dom`.
+- A real `<select>`: the browser provides the popup, keyboard, typeahead,
+  screen-reader semantics, `required` validation and the mobile picker.
+- The visible label is a `<label for>`; `error` maps to `aria-invalid` plus an
+  announced description.
 
 ### Example
 

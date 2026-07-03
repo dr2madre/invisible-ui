@@ -11,8 +11,13 @@ import ComboboxDemo from "../../../../demos/ComboboxDemo.svelte";
 </Preview>
 
 An editable autocomplete (WAI-ARIA editable combobox): a text input paired with a
-filtered listbox. Unlike `Select` (a button that opens a fixed list), the user
-types to filter.
+filtered listbox. Unlike [Select](/invisible-ui/components/forms/select/) (a
+native `<select>` with plain-text options), the user types to filter.
+
+With `searchable={false}` it becomes the **advanced select**: a read-only
+trigger that always lists every option — styled popup, per-option `icon`s (the
+control mirrors the selected one) and the `width` modes (`wrap` / `fill` /
+`fixed`), for the cases the native Select can't render.
 
 ### Import
 

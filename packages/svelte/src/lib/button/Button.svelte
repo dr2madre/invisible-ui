@@ -145,7 +145,7 @@
     border-radius: var(--ds-button-radius, var(--ds-radius-control, 0.5rem));
     border: 1px solid transparent;
     font: inherit;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.2;
     cursor: pointer;
     /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */

@@ -19,8 +19,24 @@
 
   /** Accessible name for the control. */
   export let label: string;
-  export let items: ComboboxItem[];
+  /**
+   * Options. Each may carry an optional leading `icon` (an SVG path `d`
+   * string) shown before the label; with the search hidden, the control
+   * mirrors the selected option's icon.
+   */
+  export let items: (ComboboxItem & { icon?: string })[];
   export let value: string | null = null;
+  /**
+   * With `searchable={false}` the text input becomes read-only and the list
+   * always shows every option — a select-only combobox: the advanced Select
+   * (styled popup, per-option icons) without the autocomplete.
+   */
+  export let searchable = true;
+  /**
+   * Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem),
+   * `wrap` fits the longest option, `fill` takes 100% of the container.
+   */
+  export let width: "wrap" | "fill" | "fixed" = "fixed";
   /** Input placeholder. Defaults to the i18n catalog's "Search…". */
   export let placeholder: string | undefined = undefined;
   export let disabled = false;
@@ -47,6 +63,9 @@
     value,
     inputValue: initialSelected ? (initialSelected.label ?? initialSelected.value) : "",
     disabled,
+    // Select-only mode never filters: the read-only input is a trigger, so the
+    // list must always show every option (keyboard opening included).
+    filter: searchable ? undefined : (all) => all,
     onValueChange: handleValueChange,
     onInputValueChange: handleInputValueChange,
   });
@@ -79,6 +98,7 @@
   $: syncInputValue(selectedInputValue);
   $: setItems(items);
   $: setDisabled(disabled);
+  $: hasIcons = items.some((item) => item.icon);
 
   // The chevron toggles the list open/closed (showing all options when opened),
   // so a selected value can be changed without clearing it first. iOS Safari can
@@ -93,7 +113,7 @@
   }
 </script>
 
-<div class="combobox">
+<div class="combobox" data-width={width}>
   {#if name}
     <input type="hidden" {name} value={$selectedValue ?? ""} />
   {/if}
@@ -101,20 +121,37 @@
   <label class="combobox__label" use:labelAction>{label}</label>
 
   <div class="combobox__control" class:combobox__control--disabled={disabled} use:controlAction>
-    <span class="combobox__search" aria-hidden="true">
-      <Icon size="100%">
-        <circle cx="11" cy="11" r="8" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </Icon>
-    </span>
+    {#if searchable}
+      <span class="combobox__search" aria-hidden="true">
+        <Icon size="100%">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </Icon>
+      </span>
+    {:else if $$slots.icon || selected?.icon}
+      <!-- No search: the leading slot (or the selected option's icon). -->
+      <span class="combobox__search" aria-hidden="true">
+        <slot name="icon">
+          {#if selected?.icon}<Icon size="100%"><path d={selected.icon} /></Icon>{/if}
+        </slot>
+      </span>
+    {/if}
     <input
       class="combobox__input"
+      class:combobox__input--select-only={!searchable}
       type="text"
       placeholder={resolvedPlaceholder}
+      readonly={!searchable}
       {disabled}
       value={$inputValue}
       use:inputAction
     />
+    <!-- Invisible sizer: with width="wrap" the longest option (or the
+         placeholder) sets a stable control width. -->
+    <span class="combobox__sizer" aria-hidden="true">
+      {#each items as item (item.value)}<span>{item.label ?? item.value}</span>{/each}
+      <span>{resolvedPlaceholder}</span>
+    </span>
 
     <!-- The clear button always occupies its slot (hidden when empty) so the
          input width stays stable instead of jumping as text is typed/cleared. -->
@@ -156,6 +193,13 @@
         <span class="combobox__check" aria-hidden="true">
           <Icon size="100%" strokeWidth={2.5}><polyline points="20 6 9 17 4 12" /></Icon>
         </span>
+        {#if hasIcons}
+          <span class="combobox__option-icon" aria-hidden="true">
+            {#if item.icon}
+              <Icon size="100%"><path d={item.icon} /></Icon>
+            {/if}
+          </span>
+        {/if}
         <span class="combobox__option-label">{item.label ?? item.value}</span>
       </li>
     {:else}
@@ -173,6 +217,12 @@
     inline-size: var(--ds-combobox-width, 16rem);
     font: inherit;
     color: var(--ds-color-text, #0f172a);
+  }
+  .combobox:global([data-width="wrap"]) {
+    inline-size: fit-content;
+  }
+  .combobox:global([data-width="fill"]) {
+    inline-size: 100%;
   }
 
   .combobox__label {
@@ -221,6 +271,26 @@
   }
   .combobox__input:focus {
     outline: none;
+  }
+  /* Select-only: the read-only input behaves as a trigger. */
+  .combobox__input--select-only {
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .combobox__input--select-only::placeholder {
+    font-weight: 400;
+  }
+  /* Zero-height, invisible: contributes only its widest line for width="wrap". */
+  .combobox__sizer {
+    display: block;
+    block-size: 0;
+    overflow: hidden;
+    visibility: hidden;
+    padding-inline: var(--ds-combobox-sizer-padding, 0.75rem);
+  }
+  .combobox__sizer > span {
+    display: block;
+    white-space: nowrap;
   }
 
   .combobox__clear {
@@ -319,6 +389,15 @@
     flex: none;
     color: var(--ds-color-selected, #7b52cc);
     visibility: hidden;
+  }
+  /* Leading per-option icon (reserved width so labels align even when only
+     some options carry an icon). */
+  .combobox__option-icon {
+    display: inline-flex;
+    inline-size: var(--ds-combobox-option-icon-size, 1.1rem);
+    block-size: var(--ds-combobox-option-icon-size, 1.1rem);
+    flex: none;
+    color: var(--ds-color-text-secondary, #57534e);
   }
   .combobox__option:global([data-state="selected"]) .combobox__check {
     visibility: visible;
