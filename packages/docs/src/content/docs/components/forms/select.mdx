@@ -12,6 +12,30 @@ import SelectDemo from "../../../../demos/SelectDemo.svelte";
 
 A styled single-select dropdown (WAI-ARIA select-only combobox) with an elevated popup.
 
+### Select or Dropdown Menu?
+
+They share the popup mechanics, but they are different components with
+different semantics:
+
+- **Select** is a _form control_: it picks a **value** that persists, is
+  announced as selected, submits with the form (via a hidden input under
+  `name`), and supports `label` / `required` / `error`.
+- **[Dropdown Menu](/invisible-ui/components/overlays/dropdown-menu/)** is a
+  menu of _actions_: its items **run commands** (`role="menu"` /
+  `role="menuitem"`), nothing stays selected and no form value exists.
+
+Rule of thumb: if "what's in the field right now?" makes sense, use Select; if
+the items are verbs (Rename, Delete, Share…), use Dropdown Menu.
+
+### Why not a native `<select>`?
+
+The native element can't render markup inside its options (per-option icons,
+custom layouts), so this component implements the ARIA select-only combobox
+pattern instead. Nativeness is kept where it matters: the value submits
+through a real hidden input, and keyboard / typeahead / screen-reader
+behaviour follows the WAI-ARIA APG. Controls the native platform handles well
+(Checkbox, Radio, Switch, Slider…) do stay native inputs.
+
 ### Import
 
 ```svelte
