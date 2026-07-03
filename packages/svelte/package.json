@@ -22,7 +22,6 @@
     "dist",
     "src/lib/icon/Icon.svelte",
     "src/lib/feedback-icon",
-    "src/lib/close-button",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/alert",
@@ -36,6 +35,7 @@
     "src/lib/avatar-group/AvatarGroup.svelte",
     "src/lib/card/Card.svelte",
     "src/lib/skeleton/Skeleton.svelte",
+    "src/lib/loading/Loading.svelte",
     "src/lib/calendar/Calendar.svelte",
     "src/lib/date-picker/DatePicker.svelte",
     "src/lib/date-range-picker/DateRangePicker.svelte",
@@ -112,10 +112,6 @@
       "svelte": "./src/lib/feedback-icon/FeedbackIcon.svelte",
       "default": "./src/lib/feedback-icon/FeedbackIcon.svelte"
     },
-    "./CloseButton.svelte": {
-      "svelte": "./src/lib/close-button/CloseButton.svelte",
-      "default": "./src/lib/close-button/CloseButton.svelte"
-    },
     "./Button.svelte": {
       "svelte": "./src/lib/button/Button.svelte",
       "default": "./src/lib/button/Button.svelte"
@@ -163,6 +159,10 @@
     "./Skeleton.svelte": {
       "svelte": "./src/lib/skeleton/Skeleton.svelte",
       "default": "./src/lib/skeleton/Skeleton.svelte"
+    },
+    "./Loading.svelte": {
+      "svelte": "./src/lib/loading/Loading.svelte",
+      "default": "./src/lib/loading/Loading.svelte"
     },
     "./Calendar.svelte": {
       "svelte": "./src/lib/calendar/Calendar.svelte",

@@ -17,6 +17,10 @@
    * Colors are themeable CSS custom properties (`--ds-tag-*`), falling back to the
    * shared status token layer (`--ds-color-*`).
    */
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
+
   type TagStatus = "neutral" | "info" | "success" | "warning" | "danger" | "selected";
 
   /** Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`. */
@@ -27,10 +31,12 @@
   export let size: "sm" | "md" = "md";
   /** Render a remove (✕) button. Defaults to `false`. */
   export let removable = false;
-  /** Accessible name for the remove button. Falls back to "Remove". */
-  export let removeLabel = "Remove";
+  /** Accessible name for the remove button. Defaults to the i18n catalog's "Remove". */
+  export let removeLabel: string | undefined = undefined;
   /** Called when the remove button is pressed. */
   export let onRemove: (() => void) | undefined = undefined;
+
+  $: resolvedRemoveLabel = removeLabel ?? $t("tag.remove");
 </script>
 
 <span class="tag" data-status={status} data-variant={variant} data-size={size}>
@@ -45,7 +51,7 @@
     <button
       type="button"
       class="tag__remove"
-      aria-label={removeLabel}
+      aria-label={resolvedRemoveLabel}
       on:click={() => onRemove?.()}
     >
       <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">

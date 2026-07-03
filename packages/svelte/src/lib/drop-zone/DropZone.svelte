@@ -8,8 +8,14 @@
    * `dragover` highlight gives drag feedback, and dropped files are forwarded
    * through the same `onFiles` callback as picked files.
    *
-   * Themeable via `--ds-drop-zone-*`.
+   * Themeable via `--ds-drop-zone-*`. The default prompt comes from the i18n
+   * catalog (`dropZone.prompt` + the styled `dropZone.action` word); pass your
+   * own content in the default slot to replace it entirely.
    */
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
+
   /** Accepted file types (the input's `accept` attribute), e.g. "image/*". */
   export let accept: string | undefined = undefined;
   /** Allow selecting/dropping more than one file. */
@@ -89,7 +95,9 @@
   </span>
   <span class="drop-zone__text">
     <slot>
-      <span class="drop-zone__action">Select</span> or drag and drop
+      <!-- Link-like affordance only: the real interactive element is the label →
+           file input, so the action word stays a non-semantic span. -->
+      {$t("dropZone.prompt")} <span class="drop-zone__action">{$t("dropZone.action")}</span>
     </slot>
   </span>
   {#if caption}
@@ -137,7 +145,7 @@
     inline-size: 2em;
     block-size: 2em;
   }
-  /* The "Select" word reads as the clickable action (link-like, underlined). */
+  /* The action word ("browse") reads as the clickable action (link-like, underlined). */
   .drop-zone__action {
     color: var(--ds-color-selected, #7b52cc);
     font-weight: 600;

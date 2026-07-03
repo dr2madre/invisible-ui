@@ -53,15 +53,15 @@
     },
     {
       "name": "onText",
-      "type": "string",
-      "default": "\"ON\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Text shown in the track when on / off (only with `onOff`)."
     },
     {
       "name": "offText",
-      "type": "string",
-      "default": "\"OFF\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": ""
     },

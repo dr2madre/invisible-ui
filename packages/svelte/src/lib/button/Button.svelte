@@ -20,6 +20,7 @@
    */
   import { createButton, type ButtonVariant } from "./create-button";
   import Icon from "../icon/Icon.svelte";
+  import Loading from "../loading/Loading.svelte";
   import type { Action } from "svelte/action";
 
   /**
@@ -31,6 +32,12 @@
 
   export let variant: ButtonVariant = "default";
   export let disabled = false;
+  /**
+   * Loading state: shows an inline spinner in place of the leading icon (or of
+   * the glyph, for icon-only buttons), announces `aria-busy` and ignores
+   * presses. The label stays visible and the button stays focusable.
+   */
+  export let loading = false;
   export let type: "button" | "submit" | "reset" = "button";
   /** Called when the button is activated (click, or Enter/Space when emulated). */
   export let onpress: ((event: Event) => void) | undefined = undefined;
@@ -40,7 +47,7 @@
   export let rightIcon = false;
   /**
    * Icon-only button: square, no text — pass a single icon in the default slot
-   * and an `ariaLabel`. (The CloseButton is a preset of this.)
+   * and an `ariaLabel` (e.g. the ghost "×" dismiss button in Alert).
    */
   export let iconOnly = false;
   /**
@@ -61,7 +68,9 @@
     variant,
     disabled,
     type,
-    onPress: (event) => onpress?.(event),
+    onPress: (event) => {
+      if (!loading) onpress?.(event);
+    },
   });
 
   $: setDisabled(disabled);
@@ -69,7 +78,7 @@
 
   // Icon-only buttons carry their single glyph in the default slot, so never add
   // the auto leading/trailing icon (avoids the danger hazard + glyph doubling up).
-  $: showLeft = !iconOnly && ((leftIcon ?? variant === "danger") || $$slots.left);
+  $: showLeft = !iconOnly && !loading && ((leftIcon ?? variant === "danger") || $$slots.left);
   $: showRight = !iconOnly && (rightIcon || $$slots.right);
 </script>
 
@@ -79,6 +88,8 @@
   use:rootAction
   use:action
   aria-label={ariaLabel}
+  aria-busy={loading ? "true" : undefined}
+  data-loading={loading ? "" : undefined}
 >
   {#if showLeft}
     <span class="button__icon">
@@ -101,7 +112,13 @@
     </span>
   {/if}
 
-  <slot />
+  {#if loading}
+    <span class="button__icon"><Loading variant="spinner" decorative /></span>
+  {/if}
+
+  {#if !(loading && iconOnly)}
+    <slot />
+  {/if}
 
   {#if showRight}
     <span class="button__icon">
@@ -162,6 +179,10 @@
     cursor: not-allowed;
   }
 
+  .button:global([data-loading]) {
+    cursor: progress;
+  }
+
   .button__icon {
     display: inline-flex;
     flex: none;
@@ -190,19 +211,33 @@
     background: var(--ds-color-primary-hover, #1d4ed8);
   }
 
-  /* secondary: alternative emphasized action, on the brand's secondary color. */
+  /* secondary: alternative emphasized action — a soft tint of the primary. */
   .button:global([data-variant="secondary"]) {
-    background: var(--ds-color-secondary, #7c3aed);
-    color: var(--ds-color-on-secondary, #fff);
+    background: var(
+      --ds-color-primary-soft,
+      color-mix(in srgb, var(--ds-color-primary, #2563eb) 10%, #fff)
+    );
+    color: var(--ds-color-on-primary-soft, var(--ds-color-primary, #2563eb));
+    border-color: color-mix(in srgb, var(--ds-color-primary, #2563eb) 55%, transparent);
   }
   .button:global([data-variant="secondary"]):hover:not(:disabled) {
-    background: var(--ds-color-secondary-hover, #6d28d9);
+    background: color-mix(
+      in srgb,
+      var(--ds-color-primary, #2563eb) 24%,
+      var(--ds-color-background, #fff)
+    );
   }
 
-  /* ghost: reduced affordance — no fill or border at rest. */
+  /* ghost: reduced affordance — no fill or border at rest; the label is
+     underlined so the affordance never relies on color alone. Icon-only ghosts
+     (e.g. the Alert "×") have no text to underline. */
   .button:global([data-variant="ghost"]) {
     background: transparent;
     color: inherit;
+  }
+  .button:global([data-variant="ghost"]):not(.button--icon-only) {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
   }
   .button:global([data-variant="ghost"]):hover:not(:disabled) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));

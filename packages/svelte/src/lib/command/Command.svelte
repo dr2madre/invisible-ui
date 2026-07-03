@@ -14,21 +14,40 @@
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Visual variant for the trigger Button. */
   export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   export let items: CommandItem[];
   export let open = false;
-  /** Accessible title for the dialog. */
-  export let title = "Command menu";
-  /** Accessible label for the search input. */
-  export let label = "Search commands";
-  export let placeholder = "Type a command or search…";
-  export let emptyText = "No results found.";
+  /** Accessible title for the dialog. Defaults to the i18n catalog's "Command menu". */
+  export let title: string | undefined = undefined;
+  /** Accessible label for the search input. Defaults to the i18n catalog's "Search commands". */
+  export let label: string | undefined = undefined;
+  /** Input placeholder. Defaults to the i18n catalog's "Type a command or search…". */
+  export let placeholder: string | undefined = undefined;
+  /** Text shown when no command matches. Defaults to the i18n catalog's "No results found.". */
+  export let emptyText: string | undefined = undefined;
   export let onCommand: ((value: string) => void) | undefined = undefined;
   export let onOpenChange: ((o: boolean) => void) | undefined = undefined;
 
-  const command = createCommand({ items, open, onCommand, onOpenChange });
+  const handleOpenChange = (next: boolean) => {
+    open = next;
+    onOpenChange?.(next);
+  };
+
+  const handleCommand = (value: string) => {
+    onCommand?.(value);
+  };
+
+  const command = createCommand({
+    items,
+    open,
+    onCommand: handleCommand,
+    onOpenChange: handleOpenChange,
+  });
   const {
     open: isOpen,
     triggerAction,
@@ -40,7 +59,16 @@
     optionAction,
     items: visible,
     inputValue,
+    setItems,
   } = command;
+
+  $: resolvedTitle = title ?? $t("command.title");
+  $: resolvedLabel = label ?? $t("command.label");
+  $: resolvedPlaceholder = placeholder ?? $t("command.placeholder");
+  $: resolvedEmptyText = emptyText ?? $t("command.empty");
+
+  $: command.setOpen(open);
+  $: setItems(items);
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -51,7 +79,7 @@
   <div class="command__portal" use:portal>
     <div class="command__overlay" aria-hidden="true"></div>
     <div class="command__panel" use:contentAction>
-      <h2 class="command__sr-only" use:titleAction>{title}</h2>
+      <h2 class="command__sr-only" use:titleAction>{resolvedTitle}</h2>
 
       <div class="command__search">
         <span class="command__search-icon" aria-hidden="true">
@@ -59,11 +87,12 @@
             ><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon
           >
         </span>
-        <label class="command__sr-only" use:labelAction>{label}</label>
+        <!-- svelte-ignore a11y_label_has_associated_control -->
+        <label class="command__sr-only" use:labelAction>{resolvedLabel}</label>
         <input
           class="command__input"
           type="text"
-          {placeholder}
+          placeholder={resolvedPlaceholder}
           value={$inputValue}
           use:inputAction
         />
@@ -71,9 +100,18 @@
 
       <ul class="command__list" use:listboxAction>
         {#each $visible as item (item.value)}
-          <li class="command__item" use:optionAction={item.value}>{item.label ?? item.value}</li>
+          <li
+            class="command__item"
+            role="option"
+            aria-selected="false"
+            use:optionAction={item.value}
+          >
+            {item.label ?? item.value}
+          </li>
         {:else}
-          <li class="command__empty" role="option" aria-disabled="true">{emptyText}</li>
+          <li class="command__empty" role="option" aria-selected="false" aria-disabled="true">
+            {resolvedEmptyText}
+          </li>
         {/each}
       </ul>
     </div>

@@ -46,15 +46,15 @@
     },
     {
       "name": "prevLabel",
-      "type": "string",
-      "default": "\"Previous slide\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible labels for the arrows."
     },
     {
       "name": "nextLabel",
-      "type": "string",
-      "default": "\"Next slide\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible labels for the arrows."
     },

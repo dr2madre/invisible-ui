@@ -8,14 +8,17 @@
    * Colors, sizing and radius are themeable via `--ds-pagination-*`.
    */
   import { createPagination } from "./create-pagination";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let page = 1;
   export let pageCount: number;
   export let siblingCount = 1;
   export let boundaryCount = 1;
   export let disabled = false;
-  /** Accessible name for the navigation landmark. */
-  export let label = "Pagination";
+  /** Accessible name for the navigation landmark. Defaults to the i18n catalog's "Pagination". */
+  export let label: string | undefined = undefined;
   /** Called whenever the page changes. */
   export let onPageChange: ((page: number) => void) | undefined = undefined;
 
@@ -27,9 +30,11 @@
     disabled,
     onPageChange,
   });
+
+  $: resolvedLabel = label ?? $t("pagination.label");
 </script>
 
-<nav class="pagination" use:rootAction aria-label={label}>
+<nav class="pagination" use:rootAction aria-label={resolvedLabel}>
   <button class="pagination__control" use:prevAction aria-label="Go to previous page">‹</button>
   {#each $items as item, i (typeof item === "number" ? `p${item}` : `e${i}`)}
     {#if item === "ellipsis"}

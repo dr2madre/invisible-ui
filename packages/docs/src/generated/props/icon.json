@@ -29,6 +29,20 @@
       "default": "undefined",
       "required": false,
       "description": "Accessible name; when omitted the icon is decorative."
+    },
+    {
+      "name": "animation",
+      "type": "\"none\" | \"spin\" | \"pulse\"",
+      "default": "\"none\"",
+      "required": false,
+      "description": "Built-in animation for the glyph: `spin` (continuous rotation, e.g. a loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect `prefers-reduced-motion` (the icon stays visible, static)."
+    },
+    {
+      "name": "animationDuration",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Animation duration (any CSS time, e.g. \"0.8s\")."
     }
   ]
 }

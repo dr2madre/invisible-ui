@@ -1,5 +1,10 @@
 # Roadmap
 
+> **Status: completed ✅ (July 2026).** All phases (1–6) shipped, every public
+> component has an Astro live demo, and the docs tooling migration is done.
+> This file is archived under `docs/done/`. Remaining engineering work is
+> tracked in [`technical-roadmap.md`](../technical-roadmap.md).
+
 Component build-out plan for the design system. Every component ships the same
 "parity bar": a headless primitive in `@design-system/core` (when it needs
 state), a Svelte adapter, a styled themeable component (`--ds-*` tokens),
@@ -35,8 +40,8 @@ groups). Each ships the parity bar above (reuse existing primitives wherever
 possible, only add core when needed).
 
 **Status: 12 of 12 built and merged to `main`** — core + Svelte adapter
-+ styled component + `vitest`/`vitest-axe` tests, all green. **Astro demos are
-not yet written — see "Where to continue".**
++ styled component + `vitest`/`vitest-axe` tests, all green. Astro live demos
+for all 12 are shipped (see [`demos-roadmap.md`](./demos-roadmap.md)).
 
 | Component | Status | Core approach | Reuse strategy |
 | --- | --- | --- | --- |
@@ -58,14 +63,7 @@ gained an `orientation` prop (`vertical` default / `horizontal`), and a standalo
 **`Radio`** (single radio + label on a native `<input type="radio">`, grouped by
 `name`) was added for hand-laid-out radios.
 
-### Where to continue (contributors)
-
-All 12 Phase 4 components are built and merged. The remaining gap is
-documentation: **Astro live demos are still missing** for many built components.
-For each, add `packages/docs/src/content/docs/components/<name>.mdx` (frontmatter
-title + a `<Preview>` embedding a `<…Demo client:visible />` island) and the
-matching `packages/docs/src/demos/<Name>Demo.svelte`. Copy an existing
-component's page as the template. See `docs/demos-roadmap.md` for the checklist.
+### Component anatomy (reference)
 
 Each component lives in `core/src/<name>/` (types/state/connect/index + test) and
 `packages/svelte/src/lib/<name>/` (create-*, `<Name>.svelte`, fixtures, tests),

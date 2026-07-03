@@ -25,15 +25,15 @@
     },
     {
       "name": "actionLabel",
-      "type": "string",
-      "default": "\"Confirm\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Label of the confirming action button."
     },
     {
       "name": "cancelLabel",
-      "type": "string",
-      "default": "\"Cancel\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Label of the cancel button (also the Escape action)."
     },

@@ -5,8 +5,9 @@
   export let title = "Heads up";
   export let description = "Something happened you should know about.";
   export let href: string | undefined = undefined;
-  export let linkText = "Learn more";
+  export let linkText: string | undefined = undefined;
   export let closable = false;
+  export let open = true;
   export let role: "status" | "alert" | "region" = "status";
   export let onclose: (() => void) | undefined = undefined;
   export let actions:
@@ -18,4 +19,15 @@
     | undefined = undefined;
 </script>
 
-<Alert {status} {title} {description} {href} {linkText} {closable} {role} {actions} {onclose} />
+<Alert
+  {status}
+  {title}
+  {description}
+  {href}
+  {linkText}
+  {closable}
+  bind:open
+  {role}
+  {actions}
+  {onclose}
+/>

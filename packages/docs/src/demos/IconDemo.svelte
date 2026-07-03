@@ -17,3 +17,8 @@
     y2="6"
   /><line x1="3" y1="10" x2="21" y2="10" /></Icon
 >
+<!-- Animated: a spinning loader arc and a pulsing live dot. -->
+<Icon size="2rem" label="Loading" animation="spin"><path d="M21 12a9 9 0 1 1-6.2-8.56" /></Icon>
+<Icon size="2rem" label="Recording" animation="pulse" animationDuration="1.6s"
+  ><circle cx="12" cy="12" r="6" fill="currentColor" stroke="none" /></Icon
+>

@@ -8,7 +8,10 @@ A component "has a demo" when it has a page
 `<Preview><…Demo client:* /></Preview>` — backed by
 `packages/docs/src/demos/<Name>Demo.svelte`.
 
-**Status: 66 of 67 components have a demo (added LocaleProvider). The only one without — `TableView` — is internal (no public export).**
+> **Status: completed ✅ (July 2026).** Every public component page (73 pages,
+> 72 demo islands — the extra page is the `/components/` overview index) embeds
+> a live demo. The only component without one — `TableView` — is internal (no
+> public export). Archived under `docs/done/`.
 
 Every public component page now embeds a `*Demo.svelte` island (the six that
 previously inlined the component inside `<Preview>` — Button, Checkbox, Combobox,

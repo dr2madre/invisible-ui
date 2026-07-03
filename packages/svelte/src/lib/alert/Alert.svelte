@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  let alertCount = 0;
+</script>
+
 <script lang="ts">
   /**
    * Alert — a banner that communicates a feedback message, composed from the
@@ -6,7 +10,8 @@
    *
    * Accessibility:
    * - The container is a live region. `role` defaults to `"status"` (polite);
-   *   pass `role="alert"` for urgent, interrupting messages.
+   *   pass `role="alert"` for urgent, interrupting messages. The title names
+   *   the container via `aria-labelledby` (required when `role="region"`).
    * - The FeedbackIcon is decorative (the message text carries the meaning); the
    *   status is also conveyed visually by color + glyph + surface tint, so it
    *   never relies on color alone.
@@ -18,9 +23,13 @@
    * opposite of the page) — useful for transient notices.
    */
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
-  import CloseButton from "../close-button/CloseButton.svelte";
   import Button from "../button/Button.svelte";
+  import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
+
+  const { t } = getI18n();
+  const titleId = `ds-alert-${++alertCount}-title`;
 
   /** A data-driven action button (alternative to the `actions` slot). */
   interface AlertAction {
@@ -39,12 +48,19 @@
   export let description: string;
   /** Link href. When set (and no `link` slot is provided) a link is rendered. */
   export let href: string | undefined = undefined;
-  export let linkText = "Learn more";
+  /** Link text. Defaults to the i18n catalog's "Learn more". */
+  export let linkText: string | undefined = undefined;
   /** Action buttons (alternative to the `actions` slot). */
   export let actions: AlertAction[] | undefined = undefined;
   /** Render the close button. Defaults to `false` (not dismissible). */
   export let closable = false;
-  export let closeLabel = "Close";
+  /** Close button accessible name. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
+  /**
+   * Controls visibility (bindable). Dismissing sets it to `false`; set it back
+   * to `true` to show the alert again.
+   */
+  export let open = true;
   /** Live-region role. `"status"` (polite) by default; `"alert"` for urgent. */
   export let role: "status" | "alert" | "region" = "status";
   /** High-contrast inverse surface (opposite of the page) for maximum visibility. */
@@ -54,18 +70,27 @@
    * on the page). The status stays visible via the colored FeedbackIcon chip.
    */
   export let plain = false;
+  /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
+  export let iconShape: "rounded" | "round" = "rounded";
+  /**
+   * FeedbackIcon box override. By default the box is tinted on plain/inverted
+   * alerts and transparent on tinted surfaces (so it doesn't clash); set
+   * `"tint"` or `"solid"` to force a visible chip on a tinted surface too.
+   */
+  export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
   /** Called when dismissed. */
   export let onclose: (() => void) | undefined = undefined;
 
-  let dismissed = false;
-
   function close() {
-    dismissed = true;
+    open = false;
     onclose?.();
   }
+
+  $: resolvedLinkText = linkText ?? $t("alert.learnMore");
+  $: resolvedCloseLabel = closeLabel ?? $t("alert.close");
 </script>
 
-{#if !dismissed}
+{#if open}
   <!-- Pointer/focus events are forwarded so a Notice can pause its
        auto-dismiss countdown on the live region itself (no extra wrapper). -->
   <div
@@ -74,18 +99,34 @@
     data-inverted={inverted ? "" : undefined}
     data-plain={plain ? "" : undefined}
     {role}
+    aria-labelledby={title ? titleId : undefined}
     on:mouseenter
     on:mouseleave
     on:focusin
     on:focusout
   >
     <!-- On the plain (no-surface) variant the colored chip carries the status; on
-         a tinted surface the chip box goes transparent so it doesn't clash. -->
-    <FeedbackIcon {status} box={plain || inverted ? "tint" : "transparent"} />
+         a tinted surface the chip box goes transparent so it doesn't clash. Pass
+         a custom glyph via the `icon` slot (forwarded to the FeedbackIcon). -->
+    {#if $$slots.icon}
+      <FeedbackIcon
+        {status}
+        shape={iconShape}
+        box={iconBox ?? (plain || inverted ? "tint" : "transparent")}
+      >
+        <slot name="icon" />
+      </FeedbackIcon>
+    {:else}
+      <FeedbackIcon
+        {status}
+        shape={iconShape}
+        box={iconBox ?? (plain || inverted ? "tint" : "transparent")}
+      />
+    {/if}
 
     <div class="alert__content">
       {#if title}
-        <p class="alert__title">{title}</p>
+        <p class="alert__title" id={titleId}>{title}</p>
       {/if}
 
       {#if description || $$slots.default}
@@ -95,7 +136,7 @@
       {#if $$slots.link}
         <slot name="link" />
       {:else if href}
-        <a class="alert__link" {href}>{linkText}</a>
+        <a class="alert__link" {href}>{resolvedLinkText}</a>
       {/if}
 
       {#if actions?.length || $$slots.actions}
@@ -115,7 +156,12 @@
 
     {#if closable}
       <span class="alert__close">
-        <CloseButton label={closeLabel} onclose={close} />
+        <Button iconOnly variant="ghost" ariaLabel={resolvedCloseLabel} onpress={close}>
+          <Icon>
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </Icon>
+        </Button>
       </span>
     {/if}
   </div>
@@ -141,6 +187,12 @@
     position: absolute;
     inset-block-start: 0.5rem;
     inset-inline-end: 0.5rem;
+    /* Ghost icon Button sized to a square WCAG 2.5.8 hit area. It stays
+       color-neutral (inherits the surface's own text color) so it works on any
+       status-tinted or inverted surface. */
+    --ds-button-icon-min: var(--ds-close-hit-area, 2.5rem);
+    --ds-button-icon-size: var(--ds-close-icon-size, 1rem);
+    color: var(--ds-close-color, inherit);
   }
 
   .alert__content {
@@ -215,10 +267,10 @@
   }
 
   /* Plain (no-surface): transparent background, no border. The colored
-     FeedbackIcon chip carries the status. Wins over the status tint. */
+     FeedbackIcon chip carries the status. Wins over the status tint. Keeps the
+     lateral padding so its content aligns with the surfaced alerts. */
   .alert:global([data-plain]) {
     --_bg: transparent;
     --_border: transparent;
-    padding-inline: 0;
   }
 </style>

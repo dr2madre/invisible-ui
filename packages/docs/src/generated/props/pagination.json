@@ -39,8 +39,8 @@
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Pagination\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name for the nav."
     },

@@ -18,10 +18,10 @@
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Notices\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Accessible name for the region landmark. Defaults to the i18n catalog's \"Notices\"."
     },
     {
       "name": "maxVisible",

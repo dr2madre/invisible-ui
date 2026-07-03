@@ -13,28 +13,42 @@
    */
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Accessible name for the control. */
   export let label: string;
   export let items: ComboboxItem[];
   export let value: string | null = null;
-  export let placeholder = "Search…";
+  /** Input placeholder. Defaults to the i18n catalog's "Search…". */
+  export let placeholder: string | undefined = undefined;
   export let disabled = false;
-  export let clearLabel = "Clear";
-  export let emptyText = "No results";
+  /** Clear button accessible name. Defaults to the i18n catalog's "Clear". */
+  export let clearLabel: string | undefined = undefined;
+  /** Text shown when no option matches. Defaults to the i18n catalog's "No results". */
+  export let emptyText: string | undefined = undefined;
   /** Form field name — the selected option's value is submitted under it. */
   export let name: string | undefined = undefined;
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
   export let onInputValueChange: ((text: string) => void) | undefined = undefined;
 
-  const selected = items.find((item) => item.value === value);
+  const handleValueChange = (next: string | null) => {
+    value = next;
+    onValueChange?.(next);
+  };
+  const handleInputValueChange = (text: string) => {
+    onInputValueChange?.(text);
+  };
+
+  const initialSelected = items.find((item) => item.value === value);
   const combobox = createCombobox({
     items,
     value,
-    inputValue: selected ? (selected.label ?? selected.value) : "",
+    inputValue: initialSelected ? (initialSelected.label ?? initialSelected.value) : "",
     disabled,
-    onValueChange,
-    onInputValueChange,
+    onValueChange: handleValueChange,
+    onInputValueChange: handleInputValueChange,
   });
   const {
     labelAction,
@@ -49,7 +63,22 @@
     open,
     openAll,
     setOpen,
+    syncValue,
+    syncInputValue,
+    setItems,
+    setDisabled,
   } = combobox;
+
+  $: resolvedPlaceholder = placeholder ?? $t("combobox.placeholder");
+  $: resolvedClearLabel = clearLabel ?? $t("combobox.clear");
+  $: resolvedEmptyText = emptyText ?? $t("combobox.empty");
+
+  $: selected = items.find((item) => item.value === value);
+  $: selectedInputValue = selected ? (selected.label ?? selected.value) : "";
+  $: syncValue(value);
+  $: syncInputValue(selectedInputValue);
+  $: setItems(items);
+  $: setDisabled(disabled);
 
   // The chevron toggles the list open/closed (showing all options when opened),
   // so a selected value can be changed without clearing it first. iOS Safari can
@@ -68,6 +97,7 @@
   {#if name}
     <input type="hidden" {name} value={$selectedValue ?? ""} />
   {/if}
+  <!-- svelte-ignore a11y_label_has_associated_control -->
   <label class="combobox__label" use:labelAction>{label}</label>
 
   <div class="combobox__control" class:combobox__control--disabled={disabled} use:controlAction>
@@ -80,7 +110,7 @@
     <input
       class="combobox__input"
       type="text"
-      {placeholder}
+      placeholder={resolvedPlaceholder}
       {disabled}
       value={$inputValue}
       use:inputAction
@@ -91,7 +121,7 @@
     <button
       class="combobox__clear"
       class:combobox__clear--hidden={!$inputValue || disabled}
-      aria-label={clearLabel}
+      aria-label={resolvedClearLabel}
       tabindex={!$inputValue || disabled ? -1 : 0}
       aria-hidden={!$inputValue || disabled ? "true" : undefined}
       use:clearAction
@@ -117,14 +147,21 @@
 
   <ul class="combobox__listbox" use:listboxAction>
     {#each $visible as item (item.value)}
-      <li class="combobox__option" use:optionAction={item.value}>
+      <li
+        class="combobox__option"
+        role="option"
+        aria-selected={$selectedValue === item.value}
+        use:optionAction={item.value}
+      >
         <span class="combobox__check" aria-hidden="true">
           <Icon size="100%" strokeWidth={2.5}><polyline points="20 6 9 17 4 12" /></Icon>
         </span>
         <span class="combobox__option-label">{item.label ?? item.value}</span>
       </li>
     {:else}
-      <li class="combobox__empty" role="option" aria-disabled="true">{emptyText}</li>
+      <li class="combobox__empty" role="option" aria-selected="false" aria-disabled="true">
+        {resolvedEmptyText}
+      </li>
     {/each}
   </ul>
 </div>

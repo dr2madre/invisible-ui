@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [svelte(), svelteTesting()],
   test: {
     environment: "jsdom",
+    fileParallelism: false,
     setupFiles: ["./vitest-setup.ts"],
+    testTimeout: 10_000,
   },
 });

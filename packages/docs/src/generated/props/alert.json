@@ -32,8 +32,8 @@
     },
     {
       "name": "linkText",
-      "type": "string",
-      "default": "\"Learn more\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Link text."
     },
@@ -53,10 +53,17 @@
     },
     {
       "name": "closeLabel",
-      "type": "string",
-      "default": "\"Close\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name for the close button."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the alert again."
     },
     {
       "name": "role",
@@ -78,6 +85,20 @@
       "default": "false",
       "required": false,
       "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+    },
+    {
+      "name": "iconShape",
+      "type": "\"rounded\" | \"round\"",
+      "default": "\"rounded\"",
+      "required": false,
+      "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+    },
+    {
+      "name": "iconBox",
+      "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
     },
     {
       "name": "onclose",

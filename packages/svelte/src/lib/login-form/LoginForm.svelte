@@ -10,12 +10,17 @@
    */
   import TextField from "../text-field/TextField.svelte";
   import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   export let heading = "Sign in";
   export let subheading: string | undefined = undefined;
-  export let submitLabel = "Sign in";
+  /** Submit button label. Defaults to the i18n catalog's "Sign in". */
+  export let submitLabel: string | undefined = undefined;
   export let forgotHref: string | undefined = "#";
-  export let forgotLabel = "Forgot password?";
+  /** Forgot-password link text. Defaults to the i18n catalog's "Forgot password?". */
+  export let forgotLabel: string | undefined = undefined;
   /** Social providers rendered as white buttons above the fields. */
   export let providers: { id: string; label: string }[] = [];
   export let onSubmit: ((value: { email: string; password: string }) => void) | undefined =
@@ -24,6 +29,9 @@
 
   let email = "";
   let password = "";
+
+  $: resolvedSubmitLabel = submitLabel ?? $t("loginForm.submit");
+  $: resolvedForgotLabel = forgotLabel ?? $t("loginForm.forgot");
 
   function submit(event: SubmitEvent) {
     event.preventDefault();
@@ -66,11 +74,11 @@
   <div class="login__field">
     <TextField label="Password" type="password" name="password" bind:value={password} />
     {#if forgotHref}
-      <a class="login__forgot" href={forgotHref}>{forgotLabel}</a>
+      <a class="login__forgot" href={forgotHref}>{resolvedForgotLabel}</a>
     {/if}
   </div>
 
-  <Button variant="primary" type="submit">{submitLabel}</Button>
+  <Button variant="primary" type="submit">{resolvedSubmitLabel}</Button>
 </form>
 
 <style>

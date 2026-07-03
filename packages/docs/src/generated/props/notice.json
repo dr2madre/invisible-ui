@@ -59,6 +59,20 @@
       "description": "High-contrast inverse surface."
     },
     {
+      "name": "iconShape",
+      "type": "\"rounded\" | \"round\"",
+      "default": "\"rounded\"",
+      "required": false,
+      "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+    },
+    {
+      "name": "iconBox",
+      "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "FeedbackIcon box override (see Alert): force `\"tint\"`/`\"solid\"` on a tinted surface."
+    },
+    {
       "name": "onclose",
       "type": "(() => void) | undefined",
       "default": "undefined",

@@ -30,6 +30,17 @@ describe("Svelte Dialog (styled)", () => {
     expect(modal.contains(document.activeElement)).toBe(true);
   });
 
+  it("opens and closes when the open prop changes", async () => {
+    const { rerender } = render(Fixture, { props: { open: false } });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await rerender({ open: true });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    await rerender({ open: false });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("locks body scroll while open and restores it on close", async () => {
     const user = userEvent.setup();
     render(Fixture);

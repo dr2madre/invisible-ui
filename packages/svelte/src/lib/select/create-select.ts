@@ -22,8 +22,12 @@ export interface CreateSelect {
   open: Readable<boolean>;
   /** Imperatively select a value. */
   setValue: (value: string) => void;
+  /** Sync an externally-controlled value without emitting a change event. */
+  syncValue: (value: string | null) => void;
   /** Replace the option list (e.g. when items change). */
   setItems: (items: SelectItem[]) => void;
+  /** Sync an externally-controlled disabled state. */
+  setDisabled: (disabled: boolean) => void;
   /** Svelte action for the label: `<span use:labelAction>`. */
   labelAction: Action<HTMLElement>;
   /** Svelte action for the trigger: `<button use:triggerAction>`. */
@@ -48,12 +52,15 @@ const TYPEAHEAD_RESET = 500;
 export function createSelect(context: SelectContext): CreateSelect {
   const state = writable<SelectState>(core.initialState(context));
 
-  const setValue = (value: string) =>
+  const updateValue = (value: string | null, notify: boolean) =>
     state.update((current) => {
       if (current.value === value) return current;
-      context.onValueChange?.(value);
+      if (notify && value != null) context.onValueChange?.(value);
       return { ...current, value };
     });
+
+  const setValue = (value: string) => updateValue(value, true);
+  const syncValue = (value: string | null) => updateValue(value, false);
 
   const setOpen = (open: boolean) =>
     state.update((current) => {
@@ -67,7 +74,18 @@ export function createSelect(context: SelectContext): CreateSelect {
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
 
-  const setItems = (items: SelectItem[]) => state.update((current) => ({ ...current, items }));
+  const setItems = (items: SelectItem[]) =>
+    state.update((current) => ({
+      ...current,
+      items,
+      activeValue:
+        current.activeValue && items.some((item) => item.value === current.activeValue)
+          ? current.activeValue
+          : null,
+    }));
+
+  const setDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, setOpen, setActiveValue, normalize: normalizeProps }),
@@ -195,7 +213,9 @@ export function createSelect(context: SelectContext): CreateSelect {
     value: derived(state, ($state) => $state.value),
     open: derived(state, ($state) => $state.open),
     setValue,
+    syncValue,
     setItems,
+    setDisabled,
     labelAction,
     triggerAction,
     listboxAction,

@@ -34,6 +34,16 @@ describe("Svelte Tabs (styled)", () => {
     expect(screen.getByRole("tabpanel")).toHaveTextContent("Password settings.");
   });
 
+  it("updates the active tab when the controlled value changes", async () => {
+    const { rerender } = render(Tabs, {
+      props: { items, label: "Settings", value: "account" },
+    });
+
+    await rerender({ items, label: "Settings", value: "team" });
+    expect(screen.getByRole("tab", { name: "Team" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Team settings.");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Tabs, {
       props: { items, label: "Settings", value: "account" },

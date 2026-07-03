@@ -24,6 +24,20 @@
       "description": "Range bounds."
     },
     {
+      "name": "shape",
+      "type": "\"bar\" | \"circle\"",
+      "default": "\"bar\"",
+      "required": false,
+      "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
+    },
+    {
+      "name": "showValue",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show the percentage inside the circle (determinate `circle` only)."
+    },
+    {
       "name": "label",
       "type": "string",
       "default": null,

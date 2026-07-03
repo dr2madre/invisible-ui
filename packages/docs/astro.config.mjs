@@ -42,4 +42,12 @@ export default defineConfig({
     }),
     svelte(),
   ],
+  vite: {
+    // In dev, Vite would externalize the workspace core package in SSR and let
+    // Node load its dist directly — which fails, because the unbundled dist
+    // uses extensionless relative imports (`./types`) that Node ESM can't
+    // resolve. Forcing it through Vite's pipeline (as `astro build` already
+    // does) keeps `pnpm dev` working.
+    ssr: { noExternal: ["@design-system/core"] },
+  },
 });

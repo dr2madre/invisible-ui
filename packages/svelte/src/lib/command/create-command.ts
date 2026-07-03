@@ -29,6 +29,8 @@ export interface CreateCommand {
   items: Readable<CommandItem[]>;
   /** The current query text. */
   inputValue: Readable<string>;
+  /** Replace the command list (e.g. when commands load asynchronously). */
+  setItems: (items: CommandItem[]) => void;
   /** Action for the trigger button. */
   triggerAction: Action<HTMLElement>;
   /** Action for the dialog panel (render only while open). */
@@ -60,7 +62,7 @@ const defaultFilter = (items: CommandItem[], query: string) => {
  * is rendered inline in the dialog (no floating popup).
  */
 export function createCommand(context: CommandContext): CreateCommand {
-  const allItems = context.items;
+  let allItems = context.items;
   const filter = context.filter ?? defaultFilter;
   const base = core.initialState({ items: allItems });
 
@@ -90,6 +92,16 @@ export function createCommand(context: CommandContext): CreateCommand {
     query.update((q) => ({ ...q, activeValue }));
   const setInputValue = (inputValue: string) =>
     query.update((q) => ({ ...q, inputValue, items: filter(allItems, inputValue) }));
+
+  const setItems = (items: CommandItem[]) => {
+    allItems = items;
+    query.update((q) => ({
+      ...q,
+      items: filter(allItems, q.inputValue),
+      activeValue:
+        q.activeValue && items.some((item) => item.value === q.activeValue) ? q.activeValue : null,
+    }));
+  };
 
   const comboState = derived([dialog.open, query], ([$open, $q]) => ({
     open: $open,
@@ -145,6 +157,7 @@ export function createCommand(context: CommandContext): CreateCommand {
     setOpen: dialog.setOpen,
     items: derived(query, ($q) => $q.items),
     inputValue: derived(query, ($q) => $q.inputValue),
+    setItems,
     triggerAction: dialog.triggerAction,
     contentAction: dialog.contentAction,
     titleAction: dialog.titleAction,

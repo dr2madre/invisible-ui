@@ -19,14 +19,20 @@
    * leading home glyph. Separators are decorative. Themeable via
    * `--ds-breadcrumb-*`.
    */
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
+
   export let items: BreadcrumbItem[];
-  /** Accessible name for the landmark. */
-  export let label = "Breadcrumb";
+  /** Accessible name for the landmark. Defaults to the i18n catalog's "Breadcrumb". */
+  export let label: string | undefined = undefined;
   /** Separator between items. Defaults to "/". */
   export let separator = "/";
+
+  $: resolvedLabel = label ?? $t("breadcrumb.label");
 </script>
 
-<nav class="breadcrumb" aria-label={label}>
+<nav class="breadcrumb" aria-label={resolvedLabel}>
   <ol class="breadcrumb__list">
     {#each items as item, i (i)}
       {@const isLast = i === items.length - 1}

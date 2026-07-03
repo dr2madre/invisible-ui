@@ -11,4 +11,12 @@
     text="A new version is ready to install."
     closable={false}
   />
+  <!-- With an undo action (duration 0: stays until dismissed). -->
+  <Notice
+    status="info"
+    title="File deleted"
+    text="report-january.pdf was moved to trash."
+    duration={0}
+    actions={[{ label: "Undo", variant: "primary", keepOpen: true }]}
+  />
 </div>

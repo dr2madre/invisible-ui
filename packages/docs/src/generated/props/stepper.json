@@ -39,8 +39,8 @@
     },
     {
       "name": "label",
-      "type": "string",
-      "default": "\"Progress\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
       "description": "Accessible name."
     },

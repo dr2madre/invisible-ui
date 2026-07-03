@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "rm -rf dist && tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

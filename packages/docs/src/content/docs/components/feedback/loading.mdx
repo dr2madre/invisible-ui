@@ -1,0 +1,69 @@
+---
+title: "Loading"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import LoadingDemo from "../../../../demos/LoadingDemo.svelte";
+
+<Preview>
+  <LoadingDemo client:visible />
+</Preview>
+
+An inline loading indicator — pulsing `dots` (default), a rotating `spinner`
+arc, bouncing `typing` dots (chat "waiting for a reply"), a `morph`ing shape,
+or a `bar` to place at the top of the content it covers. The bar is
+indeterminate by default; give it a `value` (0–100) and it becomes a
+determinate fill that completes, with progressbar semantics. Everything
+follows the surrounding font size and text color (`currentColor`), so it works
+standalone, inside buttons, or next to text.
+
+For buttons, prefer the Button's own `loading` prop: it renders this spinner,
+announces `aria-busy` and ignores presses while active.
+
+### Import
+
+```svelte
+<script>
+  import Loading from "@design-system/svelte/Loading.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="loading" />
+
+### Overlay pattern
+
+To mark a whole region as reloading, place a translucent veil over it with any
+Loading variant centered inside, and set `aria-busy="true"` on the region (see
+the last demo above). The veil blocks pointer interaction while the region is
+busy. For richer progress (bytes, file counts, percentages) use
+[Progress](/invisible-ui/components/progress/) instead.
+
+### Accessibility
+
+- By default the indicator is a polite `role="status"` with an accessible name
+  (`label`; when omitted it comes from the i18n catalog, so `LocaleProvider`
+  localizes it). A determinate bar is a `progressbar` with `aria-value*`, and
+  `detail` doubles as its `aria-valuetext`.
+- The visible text is `aria-hidden`: the accessible name/value already carries
+  it, and a ticking percentage inside a live region would be re-announced on
+  every change.
+- Set `decorative` when the surrounding region already announces the loading
+  state (e.g. a button with its own label) — the dots are then hidden from
+  assistive tech.
+- The pulse respects `prefers-reduced-motion`: the dots stay visible, static.
+
+### Theming
+
+| Token | Purpose | Default |
+| --- | --- | --- |
+| `--ds-loading-size` | Dot diameter | `0.3em` |
+| `--ds-loading-gap` | Gap between dots | `0.25em` |
+| `--ds-loading-spinner-size` | Spinner/morph diameter | `1em` |
+| `--ds-loading-bar-height` | Bar thickness | `3px` |
+| `--ds-loading-label-size` | Visible text size | `0.8125em` |
+| `--ds-loading-label-gap` | Gap between indicator and text | `0.625em` |
+| `--ds-loading-bar-label-gap` | Gap between bar and its text line | `0.375em` |
+| `--ds-loading-duration` | Animation speed (all variants) | per-variant (1.2–2s) |

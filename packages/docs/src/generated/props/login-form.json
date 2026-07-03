@@ -18,10 +18,10 @@
     },
     {
       "name": "submitLabel",
-      "type": "string",
-      "default": "\"Sign in\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Submit button label. Defaults to the i18n catalog's \"Sign in\"."
     },
     {
       "name": "forgotHref",
@@ -32,10 +32,10 @@
     },
     {
       "name": "forgotLabel",
-      "type": "string",
-      "default": "\"Forgot password?\"",
+      "type": "string | undefined",
+      "default": "undefined",
       "required": false,
-      "description": ""
+      "description": "Forgot-password link text. Defaults to the i18n catalog's \"Forgot password?\"."
     },
     {
       "name": "providers",
