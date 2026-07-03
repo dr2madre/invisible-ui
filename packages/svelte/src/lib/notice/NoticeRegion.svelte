@@ -15,7 +15,10 @@
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
   import Notice from "./Notice.svelte";
+  import { getI18n } from "../i18n/create-i18n";
   import type { Notifier } from "./create-notifier";
+
+  const { t } = getI18n();
 
   export let notifier: Notifier;
   export let placement:
@@ -25,7 +28,8 @@
     | "bottom-start"
     | "bottom-center"
     | "bottom-end" = "top-end";
-  export let label = "Notices";
+  /** Accessible name for the region landmark. Defaults to the i18n catalog's "Notices". */
+  export let label: string | undefined = undefined;
   /** Maximum notices rendered at once. `0` means no limit. */
   export let maxVisible = 3;
   /** Enter/leave/reflow duration in ms. */
@@ -36,12 +40,13 @@
       ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
       : false;
 
+  $: resolvedLabel = label ?? $t("noticeRegion.label");
   $: motion = prefersReduced ? 0 : duration;
   $: flyY = placement.startsWith("top") ? -16 : 16;
   $: visible = maxVisible > 0 ? $notifier.slice(0, maxVisible) : $notifier;
 </script>
 
-<div class="notice-region" data-placement={placement} role="region" aria-label={label}>
+<div class="notice-region" data-placement={placement} role="region" aria-label={resolvedLabel}>
   {#each visible as notice (notice.id)}
     <div
       class="notice-slot"
@@ -58,6 +63,8 @@
         role={notice.role}
         actions={notice.actions}
         inverted={notice.inverted}
+        iconShape={notice.iconShape}
+        iconBox={notice.iconBox}
         onclose={() => notifier.dismiss(notice.id)}
       />
     </div>

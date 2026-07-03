@@ -33,6 +33,10 @@
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
    */
   export let inverted = false;
+  /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
+  export let iconShape: "rounded" | "round" = "rounded";
+  /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */
+  export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
   /** Called when the notice is dismissed (auto, close button, or action). */
   export let onclose: (() => void) | undefined = undefined;
 
@@ -84,17 +88,40 @@
 
 <!-- No wrapper: the Alert is the live region. Pause-on-hover/focus listeners
      attach to it directly (it carries role="status"/"alert"). -->
-<Alert
-  {status}
-  title={title ?? ""}
-  description={text ?? ""}
-  {role}
-  {closable}
-  {inverted}
-  actions={alertActions}
-  onclose={() => onclose?.()}
-  on:mouseenter={pause}
-  on:mouseleave={start}
-  on:focusin={pause}
-  on:focusout={start}
-/>
+{#if $$slots.icon}
+  <Alert
+    {status}
+    title={title ?? ""}
+    description={text ?? ""}
+    {role}
+    {closable}
+    {inverted}
+    {iconShape}
+    {iconBox}
+    actions={alertActions}
+    onclose={() => onclose?.()}
+    on:mouseenter={pause}
+    on:mouseleave={start}
+    on:focusin={pause}
+    on:focusout={start}
+  >
+    <slot name="icon" slot="icon" />
+  </Alert>
+{:else}
+  <Alert
+    {status}
+    title={title ?? ""}
+    description={text ?? ""}
+    {role}
+    {closable}
+    {inverted}
+    {iconShape}
+    {iconBox}
+    actions={alertActions}
+    onclose={() => onclose?.()}
+    on:mouseenter={pause}
+    on:mouseleave={start}
+    on:focusin={pause}
+    on:focusout={start}
+  />
+{/if}

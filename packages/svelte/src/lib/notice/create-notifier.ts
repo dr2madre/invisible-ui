@@ -35,6 +35,10 @@ export interface NoticeOptions {
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
    */
   inverted?: boolean;
+  /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
+  iconShape?: "rounded" | "round";
+  /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */
+  iconBox?: "tint" | "transparent" | "solid";
 }
 
 /** A queued notice, with its generated id. */

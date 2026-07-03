@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./alert.fixture.svelte";
 import ActionsFixture from "./alert-actions.fixture.svelte";
+import IconFixture from "./alert-icon.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -61,6 +62,30 @@ describe("Alert", () => {
     render(Fixture, { props: { actions: [{ label: "Retry", variant: "primary", onClick }] } });
     await user.click(screen.getByRole("button", { name: "Retry" }));
     expect(onClick).toHaveBeenCalledOnce();
+  });
+
+  it("is named by its title via aria-labelledby (region role included)", () => {
+    render(Fixture, { props: { role: "region", title: "Weekly digest" } });
+    expect(screen.getByRole("region", { name: "Weekly digest" })).toBeInTheDocument();
+  });
+
+  it("is controllable through the open prop", async () => {
+    const { rerender } = render(Fixture, { props: { open: false } });
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    await rerender({ open: true });
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
+
+  it("localizes the default close and link labels through the i18n catalog", () => {
+    render(Fixture, { props: { closable: true, href: "/changelog" } });
+    expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Learn more" })).toBeInTheDocument();
+  });
+
+  it("accepts a custom glyph through the icon slot", () => {
+    const { container } = render(IconFixture);
+    // The chip stays decorative (aria-hidden), so assert the slotted glyph in the DOM.
+    expect(container.querySelector('.feedback-icon path[d^="M18 8A6"]')).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {
