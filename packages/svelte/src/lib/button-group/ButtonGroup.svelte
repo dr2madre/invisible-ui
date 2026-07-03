@@ -67,33 +67,40 @@
     z-index: 1;
   }
 
-  /* Attached: square the inner corners, then re-round only the outer ends. */
+  /* Attached: square every control inside (buttons, or composed controls like
+     a Select whose trigger button sits inside a wrapper), then re-round only
+     the group's outer ends — the group owns the outer corners, whatever the
+     children are. */
   .button-group--attached :global(button) {
     border-radius: 0;
   }
 
   /* Horizontal: collapse the shared vertical borders and round the ends. */
-  .button-group--attached:not(.button-group--vertical) :global(button:not(:last-child)) {
+  .button-group--attached:not(.button-group--vertical) > :global(*:not(:last-child)) {
     margin-inline-end: -1px;
   }
-  .button-group--attached:not(.button-group--vertical) :global(button:first-child) {
+  .button-group--attached:not(.button-group--vertical) > :global(*:first-child),
+  .button-group--attached:not(.button-group--vertical) > :global(*:first-child button) {
     border-start-start-radius: var(--ds-radius-control, 0.5rem);
     border-end-start-radius: var(--ds-radius-control, 0.5rem);
   }
-  .button-group--attached:not(.button-group--vertical) :global(button:last-child) {
+  .button-group--attached:not(.button-group--vertical) > :global(*:last-child),
+  .button-group--attached:not(.button-group--vertical) > :global(*:last-child button) {
     border-start-end-radius: var(--ds-radius-control, 0.5rem);
     border-end-end-radius: var(--ds-radius-control, 0.5rem);
   }
 
   /* Vertical: collapse the shared horizontal borders and round the ends. */
-  .button-group--attached.button-group--vertical :global(button:not(:last-child)) {
+  .button-group--attached.button-group--vertical > :global(*:not(:last-child)) {
     margin-block-end: -1px;
   }
-  .button-group--attached.button-group--vertical :global(button:first-child) {
+  .button-group--attached.button-group--vertical > :global(*:first-child),
+  .button-group--attached.button-group--vertical > :global(*:first-child button) {
     border-start-start-radius: var(--ds-radius-control, 0.5rem);
     border-start-end-radius: var(--ds-radius-control, 0.5rem);
   }
-  .button-group--attached.button-group--vertical :global(button:last-child) {
+  .button-group--attached.button-group--vertical > :global(*:last-child),
+  .button-group--attached.button-group--vertical > :global(*:last-child button) {
     border-end-start-radius: var(--ds-radius-control, 0.5rem);
     border-end-end-radius: var(--ds-radius-control, 0.5rem);
   }
