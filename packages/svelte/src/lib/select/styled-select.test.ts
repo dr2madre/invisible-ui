@@ -80,6 +80,24 @@ describe("Svelte Select (styled)", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("announces required and invalid states with the error message", () => {
+    render(Select, {
+      props: { label: "View", items, required: true, error: "Pick a view to continue" },
+    });
+    const trigger = screen.getByRole("combobox", { name: /View/ });
+    expect(trigger).toHaveAttribute("aria-required", "true");
+    expect(trigger).toHaveAttribute("aria-invalid", "true");
+    expect(trigger).toHaveAccessibleDescription("Pick a view to continue");
+  });
+
+  it("notifies open state changes", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(Select, { props: { label: "View", items, onOpenChange } });
+    await user.click(screen.getByRole("combobox", { name: /View/ }));
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
   it("has no accessibility violations when open", async () => {
     const user = userEvent.setup();
     const { container } = render(Select, { props: { label: "View", items, value: "list" } });

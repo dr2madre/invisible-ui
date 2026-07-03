@@ -59,11 +59,32 @@
       "description": "Form field name — the selected value is submitted under it (via a hidden input)."
     },
     {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Marks the control as required (announced to assistive tech)."
+    },
+    {
+      "name": "error",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Error message; when non-empty the select becomes invalid and announces it."
+    },
+    {
       "name": "onValueChange",
       "type": "((value: string) => void) | undefined",
       "default": "undefined",
       "required": false,
       "description": "Called whenever the selected value changes."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the popup opens or closes."
     }
   ]
 }

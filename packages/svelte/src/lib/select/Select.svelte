@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  let selectCount = 0;
+</script>
+
 <script lang="ts">
   /**
    * Select — the styled, batteries-included single-select dropdown (WAI-ARIA
@@ -38,15 +42,29 @@
   export let width: "wrap" | "fill" | "fixed" = "wrap";
   /** Form field name — the selected value is submitted under it (via a hidden input). */
   export let name: string | undefined = undefined;
+  /** Marks the control as required (announced to assistive tech). */
+  export let required = false;
+  /** Error message; when non-empty the select becomes invalid and announces it. */
+  export let error: string | undefined = undefined;
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
+  /** Called whenever the popup opens or closes. */
+  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+
+  const errorId = `ds-select-${++selectCount}-error`;
 
   const handleValueChange = (next: string) => {
     value = next;
     onValueChange?.(next);
   };
 
-  const select = createSelect({ items, value, disabled, onValueChange: handleValueChange });
+  const select = createSelect({
+    items,
+    value,
+    disabled,
+    onValueChange: handleValueChange,
+    onOpenChange: (open) => onOpenChange?.(open),
+  });
   const {
     labelAction,
     triggerAction,
@@ -77,6 +95,10 @@
     class="select__trigger"
     class:select__trigger--placeholder={!selected}
     type="button"
+    aria-required={required ? "true" : undefined}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={error ? errorId : undefined}
+    data-invalid={error ? "" : undefined}
     use:triggerAction
   >
     {#if $$slots.icon}
@@ -101,15 +123,19 @@
   <ul class="select__listbox" class:select__listbox--icons={hasIcons} use:listboxAction>
     {#each items as item (item.value)}
       <li class="select__option" use:optionAction={item.value}>
-        {#if hasIcons}
-          <span class="select__option-icon" aria-hidden="true">
-            {#if item.icon}
-              <Icon size="100%"><path d={item.icon} /></Icon>
-            {/if}
-          </span>
-        {/if}
-        <span class="select__option-label">{item.label ?? item.value}</span>
-        <!-- Selection check sits on the right (after the label). -->
+        <!-- Custom option content via the `option` slot; the default renders
+             the optional leading icon (an SVG path per item) plus the label. -->
+        <slot name="option" {item} selected={item.value === $selectedValue}>
+          {#if hasIcons}
+            <span class="select__option-icon" aria-hidden="true">
+              {#if item.icon}
+                <Icon size="100%"><path d={item.icon} /></Icon>
+              {/if}
+            </span>
+          {/if}
+          <span class="select__option-label">{item.label ?? item.value}</span>
+        </slot>
+        <!-- Selection check sits on the right (after the content). -->
         <span class="select__check" aria-hidden="true">
           <Icon size="100%" strokeWidth={2.5}>
             <polyline points="20 6 9 17 4 12" />
@@ -118,6 +144,10 @@
       </li>
     {/each}
   </ul>
+
+  {#if error}
+    <span class="select__error" id={errorId}>{error}</span>
+  {/if}
 </div>
 
 <style>
@@ -157,7 +187,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--ds-select-trigger-gap, 0.5rem);
     inline-size: 100%;
     box-sizing: border-box;
     /* Shared control metrics (same as Button): padding tokens + a fixed line
@@ -192,12 +222,20 @@
     color: var(--ds-color-text-disabled, #94a3b8);
     cursor: not-allowed;
   }
+  /* Invalid: danger border on the trigger, message underneath. */
+  .select__trigger:global([data-invalid]) {
+    border-color: var(--ds-color-danger, #dc2626);
+  }
+  .select__error {
+    font-size: 0.8125rem;
+    color: var(--ds-color-danger, #dc2626);
+  }
 
   .select__icon {
     display: inline-flex;
     flex: none;
-    inline-size: 1.1em;
-    block-size: 1.1em;
+    inline-size: var(--ds-select-icon-size, 1.1em);
+    block-size: var(--ds-select-icon-size, 1.1em);
     color: var(--ds-color-text-secondary, #57534e);
   }
   .select__text {
@@ -231,8 +269,8 @@
   }
   .select__chevron {
     display: inline-flex;
-    inline-size: 1.1em;
-    block-size: 1.1em;
+    inline-size: var(--ds-select-icon-size, 1.1em);
+    block-size: var(--ds-select-icon-size, 1.1em);
     flex: none;
     color: var(--ds-color-text-secondary, #64748b);
     transition: rotate 150ms ease;
@@ -285,8 +323,8 @@
      options carry an icon). */
   .select__option-icon {
     display: inline-flex;
-    inline-size: 1.1rem;
-    block-size: 1.1rem;
+    inline-size: var(--ds-select-option-icon-size, 1.1rem);
+    block-size: var(--ds-select-option-icon-size, 1.1rem);
     flex: none;
     color: var(--ds-color-text-secondary, #57534e);
   }
