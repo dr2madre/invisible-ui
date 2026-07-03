@@ -89,10 +89,11 @@ Each item ships as its own PR. Checkboxes track progress.
   `input[type=checkbox]`; Radio/RadioGroup/SegmentedControl/RatingGroup →
   `input[type=radio]`; Switch → `input[type=checkbox][role=switch]`; Slider →
   `input[type=range]`), so the browser owns accessibility, keyboard and form
-  participation. Each gained a `name` prop. Controls that stay ARIA for good
-  reason (Select, Combobox, Date/DateRange Picker, PinInput, TimeField) submit
-  via a mirrored hidden input under `name`; native fields (TextField) pass
-  `name` straight through. Every control has a test asserting its value reaches
+  participation. Each gained a `name` prop. Select was later rebuilt on a
+  native `<select>` as well (see ADR 0003). Controls that stay ARIA for good
+  reason (Combobox, Date/DateRange Picker, PinInput, TimeField) submit via a
+  mirrored hidden input under `name`; native fields (TextField) pass `name`
+  straight through. Every control has a test asserting its value reaches
   `FormData`.
 - [x] **11. Supply chain & contribution** — npm provenance (set in #1),
   Dependabot (npm + actions, grouped dev deps), CODEOWNERS, issue forms + PR
