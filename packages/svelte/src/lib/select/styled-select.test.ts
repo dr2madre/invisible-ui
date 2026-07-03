@@ -22,6 +22,37 @@ describe("Svelte Select (styled)", () => {
     expect(screen.getByRole("combobox", { name: /View/ })).toHaveTextContent("Board");
   });
 
+  it("updates the trigger and hidden input when the controlled value changes", async () => {
+    const { rerender } = render(Select, {
+      props: { label: "View", items, value: "list", name: "view", placeholder: "Pick a view" },
+    });
+    const trigger = screen.getByRole("combobox", { name: /View/ });
+    const input = document.querySelector<HTMLInputElement>('input[name="view"]');
+
+    expect(trigger).toHaveTextContent("List");
+    expect(input).toHaveValue("list");
+
+    await rerender({
+      label: "View",
+      items,
+      value: "calendar",
+      name: "view",
+      placeholder: "Pick a view",
+    });
+    expect(trigger).toHaveTextContent("Calendar");
+    expect(input).toHaveValue("calendar");
+
+    await rerender({
+      label: "View",
+      items,
+      value: null,
+      name: "view",
+      placeholder: "Pick a view",
+    });
+    expect(trigger).toHaveTextContent("Pick a view");
+    expect(input).toHaveValue("");
+  });
+
   it("opens, selects an option, and updates the trigger text", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
@@ -32,6 +63,20 @@ describe("Svelte Select (styled)", () => {
     await user.click(screen.getByRole("option", { name: "Calendar" }));
     expect(onValueChange).toHaveBeenCalledWith("calendar");
     expect(trigger).toHaveTextContent("Calendar");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("honors disabled after rerender", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(Select, {
+      props: { label: "View", items, onValueChange: vi.fn() },
+    });
+    const trigger = screen.getByRole("combobox", { name: /View/ });
+
+    await rerender({ label: "View", items, disabled: true });
+    expect(trigger).toHaveAttribute("aria-disabled", "true");
+
+    await user.click(trigger);
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 

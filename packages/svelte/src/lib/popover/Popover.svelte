@@ -22,8 +22,15 @@
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
-  const popover = createPopover({ open, placement, onOpenChange });
+  const handleOpenChange = (next: boolean) => {
+    open = next;
+    onOpenChange?.(next);
+  };
+
+  const popover = createPopover({ open, placement, onOpenChange: handleOpenChange });
   const { triggerAction, contentAction, open: isOpen } = popover;
+
+  $: popover.setOpen(open);
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>

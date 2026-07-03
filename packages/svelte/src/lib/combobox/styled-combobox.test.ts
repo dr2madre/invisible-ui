@@ -44,6 +44,17 @@ describe("Svelte Combobox (styled)", () => {
     expect(input()).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("updates the input when the controlled value changes", async () => {
+    const { rerender } = render(Fixture, { props: { value: "apple" } });
+    expect(input()).toHaveValue("Apple");
+
+    await rerender({ value: "banana" });
+    expect(input()).toHaveValue("Banana");
+
+    await rerender({ value: null });
+    expect(input()).toHaveValue("");
+  });
+
   it("navigates with the keyboard and selects with Enter", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

@@ -19,6 +19,12 @@ export interface CreateTabs {
   value: Readable<string | null>;
   /** Imperatively select a tab (ignored when disabled). */
   setValue: (value: string) => void;
+  /** Sync an externally-controlled value without emitting a change event. */
+  syncValue: (value: string | null) => void;
+  /** Replace the tab list (e.g. when items change). */
+  setItems: (items: TabItem[]) => void;
+  /** Sync the activation mode. */
+  setActivationMode: (activationMode: ActivationMode) => void;
   /** Svelte action for the tab list container: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for a tab trigger: `<button use:tabAction={value}>`. */
@@ -36,13 +42,32 @@ export interface CreateTabs {
 export function createTabs(context: TabsContext): CreateTabs {
   const state = writable<TabsState>(core.initialState(context));
 
-  const setValue = (value: string) => {
+  const updateValue = (value: string | null, notify: boolean) => {
     state.update((current) => {
       if (current.value === value) return current;
-      context.onValueChange?.(value);
+      if (notify && value != null) context.onValueChange?.(value);
       return { ...current, value };
     });
   };
+
+  const setValue = (value: string) => updateValue(value, true);
+  const syncValue = (value: string | null) =>
+    state.update((current) => {
+      const next = value ?? core.firstEnabled(current.items);
+      return current.value === next ? current : { ...current, value: next };
+    });
+
+  const setItems = (items: TabItem[]) =>
+    state.update((current) => {
+      const hasCurrent = current.value && items.some((item) => item.value === current.value);
+      const nextValue = hasCurrent ? current.value : core.firstEnabled(items);
+      return { ...current, items, value: nextValue };
+    });
+
+  const setActivationMode = (activationMode: ActivationMode) =>
+    state.update((current) =>
+      current.activationMode === activationMode ? current : { ...current, activationMode },
+    );
 
   // The tab list scopes focus movement during keyboard navigation.
   let rootEl: HTMLElement | null = null;
@@ -88,6 +113,9 @@ export function createTabs(context: TabsContext): CreateTabs {
     api,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
+    setItems,
+    setActivationMode,
     rootAction,
     tabAction,
     panelAction,

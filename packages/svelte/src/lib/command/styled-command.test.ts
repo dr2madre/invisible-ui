@@ -25,6 +25,38 @@ describe("Svelte Command (styled)", () => {
     expect(within(screen.getByRole("listbox")).getAllByRole("option")).toHaveLength(4);
   });
 
+  it("opens and closes when the open prop changes", async () => {
+    const { rerender } = render(Fixture, { props: { open: false } });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await rerender({ open: true });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    await rerender({ open: false });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("updates visible commands when items change", async () => {
+    const { rerender } = render(Fixture, {
+      props: {
+        open: true,
+        items: [{ value: "save", label: "Save" }],
+      },
+    });
+    expect(
+      within(screen.getByRole("listbox")).getByRole("option", { name: "Save" }),
+    ).toBeInTheDocument();
+
+    await rerender({
+      open: true,
+      items: [{ value: "deploy", label: "Deploy" }],
+    });
+    expect(screen.queryByRole("option", { name: "Save" })).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("listbox")).getByRole("option", { name: "Deploy" }),
+    ).toBeInTheDocument();
+  });
+
   it("filters commands as you type", async () => {
     const user = userEvent.setup();
     render(Fixture);

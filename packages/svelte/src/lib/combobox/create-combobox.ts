@@ -43,6 +43,16 @@ export interface CreateCombobox {
   clearAction: Action<HTMLElement>;
   /** Open the listbox showing all options (even when a value is selected). */
   openAll: () => void;
+  /** Imperatively select a value. */
+  setValue: (value: string | null) => void;
+  /** Sync an externally-controlled value without emitting a change event. */
+  syncValue: (value: string | null) => void;
+  /** Sync externally-controlled input text without emitting a change event. */
+  syncInputValue: (inputValue: string) => void;
+  /** Replace the option list (e.g. when items change). */
+  setItems: (items: ComboboxItem[]) => void;
+  /** Sync an externally-controlled disabled state. */
+  setDisabled: (disabled: boolean) => void;
   /** Imperatively set the open state. */
   setOpen: (open: boolean) => void;
 }
@@ -61,7 +71,7 @@ const defaultFilter = (items: ComboboxItem[], query: string) => {
  * DOM focus stays on the input (activedescendant).
  */
 export function createCombobox(context: ComboboxContext): CreateCombobox {
-  const allItems = context.items;
+  let allItems = context.items;
   const filter = context.filter ?? defaultFilter;
 
   const state = writable<ComboboxState>({
@@ -69,12 +79,15 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     items: filter(allItems, context.inputValue ?? ""),
   });
 
-  const setValue = (value: string | null) =>
+  const updateValue = (value: string | null, notify: boolean) =>
     state.update((current) => {
       if (current.value === value) return current;
-      context.onValueChange?.(value);
+      if (notify) context.onValueChange?.(value);
       return { ...current, value };
     });
+
+  const setValue = (value: string | null) => updateValue(value, true);
+  const syncValue = (value: string | null) => updateValue(value, false);
 
   const setOpen = (open: boolean) =>
     state.update((current) => {
@@ -94,6 +107,28 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       context.onInputValueChange?.(inputValue);
       return { ...current, inputValue, items: filter(allItems, inputValue) };
     });
+
+  const syncInputValue = (inputValue: string) =>
+    state.update((current) =>
+      current.inputValue === inputValue
+        ? current
+        : { ...current, inputValue, items: filter(allItems, inputValue) },
+    );
+
+  const setItems = (items: ComboboxItem[]) => {
+    allItems = items;
+    state.update((current) => ({
+      ...current,
+      items: filter(allItems, current.inputValue),
+      activeValue:
+        current.activeValue && items.some((item) => item.value === current.activeValue)
+          ? current.activeValue
+          : null,
+    }));
+  };
+
+  const setDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
 
   const api = derived(state, ($state) =>
     core.connect({
@@ -250,6 +285,11 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     optionAction,
     clearAction,
     openAll,
+    setValue,
+    syncValue,
+    syncInputValue,
+    setItems,
+    setDisabled,
     setOpen,
   };
 }

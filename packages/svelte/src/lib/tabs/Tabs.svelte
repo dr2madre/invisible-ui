@@ -34,12 +34,23 @@
   /** Called whenever the selected tab changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
-  const { rootAction, tabAction, panelAction } = createTabs({
-    items,
-    value,
-    activationMode,
-    onValueChange,
-  });
+  const handleValueChange = (next: string) => {
+    value = next;
+    onValueChange?.(next);
+  };
+
+  const { rootAction, tabAction, panelAction, syncValue, setItems, setActivationMode } = createTabs(
+    {
+      items,
+      value,
+      activationMode,
+      onValueChange: handleValueChange,
+    },
+  );
+
+  $: syncValue(value);
+  $: setItems(items);
+  $: setActivationMode(activationMode);
 </script>
 
 <div class="tabs">
