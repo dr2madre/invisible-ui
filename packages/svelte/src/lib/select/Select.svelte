@@ -183,6 +183,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     flex: 1;
+    /* A set value reads as content (medium, like a Button label); the
+       placeholder stays regular + secondary. */
+    font-weight: 500;
+  }
+  .select__trigger--placeholder .select__value {
+    font-weight: 400;
   }
   .select__chevron {
     display: inline-flex;
