@@ -88,6 +88,8 @@
     "src/lib/context-menu/ContextMenu.svelte",
     "src/lib/dialog/Dialog.svelte",
     "src/lib/alert-dialog/AlertDialog.svelte",
+    "src/lib/confirm-dialog/ConfirmDialog.svelte",
+    "src/lib/prompt-dialog/PromptDialog.svelte",
     "src/lib/sheet/Sheet.svelte",
     "src/lib/drawer/Drawer.svelte",
     "src/lib/hover-card/HoverCard.svelte",
@@ -365,6 +367,14 @@
     "./AlertDialog.svelte": {
       "svelte": "./src/lib/alert-dialog/AlertDialog.svelte",
       "default": "./src/lib/alert-dialog/AlertDialog.svelte"
+    },
+    "./ConfirmDialog.svelte": {
+      "svelte": "./src/lib/confirm-dialog/ConfirmDialog.svelte",
+      "default": "./src/lib/confirm-dialog/ConfirmDialog.svelte"
+    },
+    "./PromptDialog.svelte": {
+      "svelte": "./src/lib/prompt-dialog/PromptDialog.svelte",
+      "default": "./src/lib/prompt-dialog/PromptDialog.svelte"
     },
     "./Sheet.svelte": {
       "svelte": "./src/lib/sheet/Sheet.svelte",

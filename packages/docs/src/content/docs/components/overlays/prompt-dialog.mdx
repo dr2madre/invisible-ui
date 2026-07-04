@@ -1,0 +1,65 @@
+---
+title: "Prompt Dialog"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import PromptDialogDemo from "../../../../demos/PromptDialogDemo.svelte";
+
+<Preview>
+  <PromptDialogDemo client:visible />
+</Preview>
+
+A modal that asks the user for a single value — the accessible equivalent of
+`window.prompt`. It reuses the headless dialog (`role="dialog"`) and the shared
+modal adapter: portal, focus trap, scroll lock. The input is focused on open and
+Enter confirms. `onConfirm(value)` runs with the entered text.
+
+Set **`confirmValue`** for a type-to-confirm gate: the confirm button stays
+disabled until the input matches it exactly — e.g. typing a file name to confirm
+its deletion (the demo above). Pair it with `confirmVariant="danger"` for
+destructive actions.
+
+### When to use which dialog
+
+- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content.
+- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — a routine yes/no confirmation.
+- **[Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)** — an urgent/destructive action to acknowledge.
+- **Prompt Dialog** — asks for a single value (optionally gated by `confirmValue`).
+
+### Import
+
+```svelte
+<script>
+  import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="prompt-dialog" />
+
+### Accessibility
+
+- `role="dialog"`, `aria-modal`, named by its `title`; the input is labelled by
+  `label` and receives focus on open. Escape and a backdrop press cancel.
+- Focus is trapped in the panel and returns to the trigger on close.
+
+### Example
+
+```svelte
+<!-- Type the file name to enable the destructive Delete. -->
+<PromptDialog
+  title="Delete file"
+  description="This can't be undone. Type the file name to confirm."
+  label="File name"
+  confirmValue="report-2026.pdf"
+  confirmLabel="Delete file"
+  confirmVariant="danger"
+  onConfirm={() => remove()}
+>
+  Delete report-2026.pdf
+</PromptDialog>
+```
+
+Themeable via `--ds-dialog-*`.
