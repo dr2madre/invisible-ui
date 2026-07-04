@@ -1,0 +1,76 @@
+---
+title: "ErrorState"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import ErrorStateDemo from "../../../../demos/ErrorStateDemo.svelte";
+
+<Preview>
+  <ErrorStateDemo client:visible />
+</Preview>
+
+A centered, full-page (or full-section) message shown when something has gone
+wrong — a failed request, a 500, a lost connection. A status icon, a title, an
+optional description, and a single recovery button at the bottom (the default
+button, not a link). It is **not** dismissable: an error state replaces the
+content it covers, so there is nothing to close.
+
+### Error state vs empty state
+
+These are two different concepts (per Nielsen Norman Group):
+
+- **Error state** (this component) — something *failed*. The system couldn't do
+  what was asked (500, timeout, no connection). The user needs to **recover**
+  (retry, reload, go back).
+- **Empty state** — nothing has *gone wrong*; there's simply no content yet
+  (first run, no results, a cleared list). The user needs to **get started**.
+
+Use `ErrorState` only for failures. A 404 is a borderline case — it's an error
+(the route doesn't resolve), so it fits here: keep the layout and just change
+the icon and copy (see the second demo, which swaps a custom glyph through the
+`icon` slot).
+
+### Import
+
+```svelte
+<script>
+  import ErrorState from "@design-system/svelte/ErrorState.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="error-state" />
+
+### Anatomy & reuse
+
+It composes existing primitives — no new behavior:
+
+- **Icon**: a [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/)
+  (`danger` by default). Override it with a different glyph or a bespoke
+  illustration via the `icon` slot.
+- **Action**: a [Button](/invisible-ui/components/actions/button/) in its
+  `default` variant. Replace the whole action area (e.g. two buttons) via the
+  `actions` slot; omit `actionLabel` for no button.
+
+### Accessibility
+
+- The region is a `role="alert"`, so when it appears it is announced.
+- Meaning never rests on color alone — the title (and the icon glyph) carry it
+  (WCAG 1.4.1).
+- `headingLevel` (default `2`) sets the title's heading level so it fits the
+  surrounding document outline (use `1` on a dedicated error page).
+
+### Example
+
+```svelte
+<ErrorState
+  title="Couldn't connect to the server"
+  description="Check your connection and try again."
+  actionLabel="Try again"
+  onAction={() => retry()}
+/>
+```
+
+Themeable via `--ds-error-state-*` (gap, padding, max-width, icon/title size).

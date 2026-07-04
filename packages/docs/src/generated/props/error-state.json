@@ -1,0 +1,48 @@
+{
+  "component": "error-state",
+  "selected": false,
+  "props": [
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "The headline — what went wrong, in plain language."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional secondary line — detail or next step."
+    },
+    {
+      "name": "status",
+      "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
+      "default": "\"danger\"",
+      "required": false,
+      "description": "Feedback status driving the default icon's color and glyph."
+    },
+    {
+      "name": "headingLevel",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "2",
+      "required": false,
+      "description": "Heading level for the title, so it fits the surrounding document outline."
+    },
+    {
+      "name": "actionLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Recovery button label (e.g. \"Try again\"). Omit to render no button."
+    },
+    {
+      "name": "onAction",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the recovery button is pressed."
+    }
+  ]
+}

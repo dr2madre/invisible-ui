@@ -22,6 +22,7 @@
     "dist",
     "src/lib/icon/Icon.svelte",
     "src/lib/feedback-icon",
+    "src/lib/error-state/ErrorState.svelte",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/alert",
@@ -111,6 +112,10 @@
     "./FeedbackIcon.svelte": {
       "svelte": "./src/lib/feedback-icon/FeedbackIcon.svelte",
       "default": "./src/lib/feedback-icon/FeedbackIcon.svelte"
+    },
+    "./ErrorState.svelte": {
+      "svelte": "./src/lib/error-state/ErrorState.svelte",
+      "default": "./src/lib/error-state/ErrorState.svelte"
     },
     "./Button.svelte": {
       "svelte": "./src/lib/button/Button.svelte",
