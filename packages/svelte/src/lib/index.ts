@@ -14,7 +14,6 @@ export * from "./progress";
 export * from "./meter";
 export * from "./label";
 export * from "./field";
-export * from "./toggle-group";
 export * from "./slider";
 export * from "./pagination";
 export * from "./stepper";

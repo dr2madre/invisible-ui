@@ -1,6 +1,6 @@
 <script>
   import Toolbar from "@design-system/svelte/Toolbar.svelte";
-  import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
+  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
   import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
   import Combobox from "@design-system/svelte/Combobox.svelte";
   import Separator from "@design-system/svelte/Separator.svelte";
@@ -8,12 +8,10 @@
   import AlignCenterIcon from "./icons/AlignCenterIcon.svelte";
   import AlignRightIcon from "./icons/AlignRightIcon.svelte";
 
-  let format = ["bold"];
-  const formatItems = [
-    { value: "bold", label: "Bold" },
-    { value: "italic", label: "Italic" },
-    { value: "underline", label: "Underline" },
-  ];
+  // Independent on/off toggles (native checkboxes).
+  let bold = true;
+  let italic = false;
+  let underline = false;
 
   let align = "left";
   const alignItems = [
@@ -26,23 +24,15 @@
 <!-- A real toolbar: a toggle group, a segmented control with alignment icons,
      and an icon-led select for the layout. -->
 <Toolbar label="Text formatting">
-  <ToggleGroup
-    items={formatItems}
-    value={format}
-    type="multiple"
-    label="Text style"
-    onValueChange={(v) => (format = v)}
-  >
-    <svelte:fragment slot="item" let:item>
-      {#if item.value === "bold"}
-        <span style="font-weight: 800;">B</span>
-      {:else if item.value === "italic"}
-        <span style="font-style: italic; font-family: Georgia, serif;">I</span>
-      {:else}
-        <span style="text-decoration: underline;">U</span>
-      {/if}
-    </svelte:fragment>
-  </ToggleGroup>
+  <ToggleButton label="Bold" pressed={bold} onPressedChange={(p) => (bold = p)}>
+    <span style="font-weight: 800;">B</span>
+  </ToggleButton>
+  <ToggleButton label="Italic" pressed={italic} onPressedChange={(p) => (italic = p)}>
+    <span style="font-style: italic; font-family: Georgia, serif;">I</span>
+  </ToggleButton>
+  <ToggleButton label="Underline" pressed={underline} onPressedChange={(p) => (underline = p)}>
+    <span style="text-decoration: underline;">U</span>
+  </ToggleButton>
 
   <Separator orientation="vertical" decorative />
 

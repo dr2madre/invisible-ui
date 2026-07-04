@@ -17,15 +17,17 @@ export interface CreateToggleButton {
   setPressed: (value: boolean) => void;
   /** Imperatively flip the pressed value (ignored when disabled). */
   toggle: () => void;
-  /** Svelte action for the root `<button>`: `<button use:rootAction>`. */
+  /** Svelte action for the native checkbox: `<input type="checkbox" use:rootAction>`. */
   rootAction: Action<HTMLElement>;
 }
 
 /**
- * Create a headless toggle button — a button that is on or off (`aria-pressed`),
- * suitable for toolbars (e.g. Bold/Italic). This is distinct from a switch:
- * use `createSwitch` for a settings-style on/off control. Behaviour and
- * accessibility live in `@design-system/core`.
+ * Create a headless toggle button — an independent on/off control rendered as a
+ * native `<input type="checkbox">` styled to look like a button (e.g. Bold in a
+ * toolbar). This is distinct from a switch (a settings-style on/off control):
+ * use `createSwitch` for that. Behaviour and accessibility live in
+ * `@design-system/core`; the browser owns the checkbox role, Space activation,
+ * focus and form participation.
  */
 export function createToggleButton(context: ToggleButtonContext = {}): CreateToggleButton {
   const state = writable<ToggleButtonState>(core.initialState(context));

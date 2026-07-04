@@ -1,38 +1,39 @@
 import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import ToggleGroup from "./ToggleGroup.svelte";
+import Fixture from "./styled-toggle-group.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
-const items = [
-  { value: "list", label: "List" },
-  { value: "board", label: "Board" },
-  { value: "calendar", label: "Calendar" },
-];
-
-describe("Svelte ToggleGroup (styled)", () => {
-  it("renders labelled toggles with the initial value pressed", () => {
-    render(ToggleGroup, { props: { items, value: ["board"], label: "View" } });
-    const board = screen.getByRole("button", { name: "Board" });
-    expect(board).toHaveAttribute("aria-pressed", "true");
-    expect(board).toHaveAttribute("data-state", "on");
+describe("Svelte ToggleGroup (visual wrapper)", () => {
+  it("is a role=group carrying the optional container name", () => {
+    render(Fixture, { props: { label: "View" } });
+    expect(screen.getByRole("group", { name: "View" })).toBeInTheDocument();
   });
 
-  it("reports the new pressed set on click", async () => {
-    const user = userEvent.setup();
-    const onValueChange = vi.fn();
-    render(ToggleGroup, { props: { items, value: ["list"], label: "View", onValueChange } });
+  it("renders the inserted toggles, each an independent checkbox", () => {
+    render(Fixture);
+    expect(screen.getByRole("checkbox", { name: "List" })).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: "Board" })).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: "Calendar" })).toBeInTheDocument();
+  });
 
-    await user.click(screen.getByRole("button", { name: "Calendar" }));
-    expect(onValueChange).toHaveBeenCalledWith(["calendar"]);
+  it("toggles each child independently (no shared selection)", async () => {
+    const user = userEvent.setup();
+    render(Fixture);
+    const list = screen.getByRole("checkbox", { name: "List" });
+    const board = screen.getByRole("checkbox", { name: "Board" });
+
+    await user.click(list);
+    await user.click(board);
+    // Both stay on — the group imposes no single-selection.
+    expect(list).toBeChecked();
+    expect(board).toBeChecked();
   });
 
   it("has no accessibility violations", async () => {
-    const { container } = render(ToggleGroup, {
-      props: { items, value: ["board"], label: "View" },
-    });
+    const { container } = render(Fixture, { props: { label: "View" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });

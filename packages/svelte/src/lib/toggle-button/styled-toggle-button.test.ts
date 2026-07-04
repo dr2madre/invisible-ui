@@ -9,20 +9,20 @@ const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 describe("Svelte ToggleButton (styled)", () => {
   it("renders an accessible toggle button with the off state", () => {
     render(Fixture);
-    const button = screen.getByRole("button", { name: "Bold" });
-    expect(button).toHaveAttribute("aria-pressed", "false");
-    expect(button).toHaveAttribute("data-state", "off");
+    const toggle = screen.getByRole("checkbox", { name: "Bold" });
+    expect(toggle).not.toBeChecked();
+    expect(toggle).toHaveAttribute("data-state", "off");
   });
 
   it("toggles on press and reports the change", async () => {
     const user = userEvent.setup();
     const onPressedChange = vi.fn();
     render(Fixture, { props: { onPressedChange } });
-    const button = screen.getByRole("button", { name: "Bold" });
+    const toggle = screen.getByRole("checkbox", { name: "Bold" });
 
-    await user.click(button);
-    expect(button).toHaveAttribute("aria-pressed", "true");
-    expect(button).toHaveAttribute("data-state", "on");
+    await user.click(toggle);
+    expect(toggle).toBeChecked();
+    expect(toggle).toHaveAttribute("data-state", "on");
     expect(onPressedChange).toHaveBeenCalledWith(true);
   });
 

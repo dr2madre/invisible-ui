@@ -12,10 +12,12 @@ export interface ToggleButtonApi {
   /** Flip the pressed value (ignored when disabled). */
   toggle(): void;
   /**
-   * Props for the root `<button>` element: a toggle button uses `aria-pressed`
-   * (it is a button that is on or off — e.g. Bold in a toolbar), plus
-   * `data-state` / `data-disabled` styling hooks and a click handler. A native
-   * `<button>` provides keyboard (Space/Enter), pointer and touch activation.
+   * Props for a native `<input type="checkbox">`. A toggle button is an
+   * independent on/off control, so it is a checkbox styled to look like a
+   * button: the browser owns the checkbox role, Space activation, focus and
+   * form participation, while `data-state` (`on`/`off`) and `data-disabled`
+   * drive the button styling. The live `checked` value is a DOM *property*, so
+   * adapters bind it directly rather than via these (attribute-shaped) props.
    */
   rootProps: ElementProps;
 }
@@ -30,10 +32,12 @@ export interface ConnectOptions {
 }
 
 /**
- * Connect toggle-button state to prop getters following the WAI-ARIA button
- * pattern with `aria-pressed`
- * (https://www.w3.org/WAI/ARIA/apg/patterns/button/). Unlike a switch, a toggle
- * button represents an on/off action and is well suited to toolbars.
+ * Connect toggle-button state to props for a **native** `<input
+ * type="checkbox">`. A toggle button is an independent on/off control, so it is
+ * a checkbox visually styled as a button — not an `aria-pressed` button and not
+ * a switch. Accessibility (role, Space activation, focus) and form
+ * participation come from the browser; the headless layer only owns the
+ * controlled `pressed` (i.e. `checked`) value.
  */
 export function connect({
   state,
@@ -56,12 +60,14 @@ export function connect({
     },
     toggle,
     rootProps: normalize({
-      type: "button",
-      "aria-pressed": pressed,
+      type: "checkbox",
+      disabled: disabled || undefined,
       "data-state": pressed ? "on" : "off",
       "data-disabled": disabled ? "" : undefined,
-      disabled: disabled || undefined,
-      onClick: toggle,
+      onChange: (event: Event) => {
+        if (disabled) return;
+        setPressed((event.target as HTMLInputElement).checked);
+      },
     }),
   };
 }
