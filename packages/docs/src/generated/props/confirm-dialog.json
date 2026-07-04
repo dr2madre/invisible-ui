@@ -1,0 +1,76 @@
+{
+  "component": "confirm-dialog",
+  "selected": false,
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Initial open state."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible title naming the confirmation (required)."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional supporting message."
+    },
+    {
+      "name": "confirmLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Label of the confirming button. Defaults to the i18n catalog's \"Confirm\"."
+    },
+    {
+      "name": "cancelLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Label of the cancelling button (also the Escape action). Defaults to \"Cancel\"."
+    },
+    {
+      "name": "confirmVariant",
+      "type": "ButtonVariant",
+      "default": "\"primary\"",
+      "required": false,
+      "description": "Variant of the confirm button (`\"danger\"` for a destructive-ish confirm)."
+    },
+    {
+      "name": "triggerVariant",
+      "type": "ButtonVariant",
+      "default": "\"default\"",
+      "required": false,
+      "description": "Visual variant for the trigger Button."
+    },
+    {
+      "name": "onConfirm",
+      "type": "(() => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called when the confirm button is pressed (before the dialog closes)."
+    },
+    {
+      "name": "closeOnOutsideClick",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the open state changes."
+    }
+  ]
+}

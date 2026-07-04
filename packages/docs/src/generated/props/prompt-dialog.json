@@ -1,0 +1,111 @@
+{
+  "component": "prompt-dialog",
+  "selected": false,
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Initial open state."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Accessible title (required)."
+    },
+    {
+      "name": "description",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Optional supporting message shown under the title."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": null,
+      "required": true,
+      "description": "Visible label for the input."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "\"\"",
+      "required": false,
+      "description": "Initial / current value."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "\"\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Require a non-empty value: the confirm button stays disabled while blank."
+    },
+    {
+      "name": "confirmValue",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Type-to-confirm: when set, the confirm button stays disabled until the input matches this exact value — e.g. typing a file name to confirm its deletion."
+    },
+    {
+      "name": "confirmLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "cancelLabel",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "confirmVariant",
+      "type": "ButtonVariant",
+      "default": "\"primary\"",
+      "required": false,
+      "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm)."
+    },
+    {
+      "name": "triggerVariant",
+      "type": "ButtonVariant",
+      "default": "\"default\"",
+      "required": false,
+      "description": ""
+    },
+    {
+      "name": "onConfirm",
+      "type": "((value: string) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called with the entered value when confirmed (before the dialog closes)."
+    },
+    {
+      "name": "closeOnOutsideClick",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void) | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Called whenever the open state changes."
+    }
+  ]
+}

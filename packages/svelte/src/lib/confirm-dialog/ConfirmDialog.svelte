@@ -1,0 +1,151 @@
+<script lang="ts">
+  /**
+   * ConfirmDialog — a styled modal for a routine yes/no confirmation ("Discard
+   * changes?"). It reuses the headless dialog (`@design-system/core`) with
+   * `role="dialog"` and the shared modal adapter (`createDialog`): portal, focus
+   * trap, scroll lock.
+   *
+   * This is the everyday confirmation. For an *urgent* or *destructive* action
+   * that must interrupt and be acknowledged (delete, with type-to-confirm), use
+   * `AlertDialog` (`role="alertdialog"`) instead.
+   *
+   * The default slot is the trigger. `onConfirm` runs when the confirm button is
+   * pressed. A `title` is required; `description` is optional. Colors, radius and
+   * elevation are themeable via `--ds-dialog-*`.
+   */
+  import { createDialog } from "../dialog/create-dialog";
+  import { portal } from "../internal/portal";
+  import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+  import type { ButtonVariant } from "../button/create-button";
+
+  const { t } = getI18n();
+
+  /** Initial open state. */
+  export let open = false;
+  /** Accessible title naming the confirmation (required). */
+  export let title: string;
+  /** Optional supporting message. */
+  export let description: string | undefined = undefined;
+  /** Label of the confirming button. Defaults to the i18n catalog's "Confirm". */
+  export let confirmLabel: string | undefined = undefined;
+  /** Label of the cancelling button (also the Escape action). Defaults to "Cancel". */
+  export let cancelLabel: string | undefined = undefined;
+  /** Variant of the confirm button (`"danger"` for a destructive-ish confirm). */
+  export let confirmVariant: ButtonVariant = "primary";
+  /** Visual variant for the trigger Button. */
+  export let triggerVariant: ButtonVariant = "default";
+  /** Called when the confirm button is pressed (before the dialog closes). */
+  export let onConfirm: (() => void) | undefined = undefined;
+  /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
+  export let closeOnOutsideClick = true;
+  /** Called whenever the open state changes. */
+  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+
+  const handleOpenChange = (next: boolean) => {
+    open = next;
+    onOpenChange?.(next);
+  };
+
+  const dialog = createDialog({
+    open,
+    role: "dialog",
+    describedBy: true,
+    closeOnOutsideClick,
+    // Focus the safe choice (Cancel) first.
+    initialFocus: ".confirm-dialog__actions button",
+    onOpenChange: handleOpenChange,
+  });
+  const {
+    open: isOpen,
+    setOpen,
+    triggerAction,
+    contentAction,
+    titleAction,
+    descriptionAction,
+  } = dialog;
+
+  $: dialog.setOpen(open);
+
+  $: resolvedConfirmLabel = confirmLabel ?? $t("alertDialog.action");
+  $: resolvedCancelLabel = cancelLabel ?? $t("alertDialog.cancel");
+
+  const cancel = () => setOpen(false);
+  const confirm = () => {
+    onConfirm?.();
+    setOpen(false);
+  };
+</script>
+
+<Button variant={triggerVariant} action={triggerAction}>
+  <slot>Open</slot>
+</Button>
+
+{#if $isOpen}
+  <div class="confirm-dialog__portal" use:portal>
+    <div class="confirm-dialog__overlay" aria-hidden="true"></div>
+    <div class="confirm-dialog__panel" use:contentAction>
+      <h2 class="confirm-dialog__title" use:titleAction>{title}</h2>
+      {#if description}
+        <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
+      {/if}
+      <footer class="confirm-dialog__actions">
+        <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
+        <Button variant={confirmVariant} onpress={confirm}>{resolvedConfirmLabel}</Button>
+      </footer>
+    </div>
+  </div>
+{/if}
+
+<style>
+  .confirm-dialog__portal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ds-dialog-z-index, 60);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+  .confirm-dialog__overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
+  }
+  .confirm-dialog__panel {
+    position: relative;
+    box-sizing: border-box;
+    inline-size: 100%;
+    max-inline-size: var(--ds-dialog-max-width, 28rem);
+    padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
+    background: var(--ds-color-background, #fff);
+    color: var(--ds-color-text, #0f172a);
+    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
+    box-shadow: var(
+      --ds-elevation-overlay,
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1)
+    );
+  }
+  .confirm-dialog__panel:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
+    outline-offset: 2px;
+  }
+  .confirm-dialog__title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .confirm-dialog__description {
+    margin: 0.5rem 0 0;
+    color: var(--ds-color-text-secondary, #64748b);
+  }
+  .confirm-dialog__actions {
+    margin-block-start: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+</style>
