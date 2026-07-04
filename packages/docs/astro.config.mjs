@@ -34,11 +34,11 @@ export default defineConfig({
         { label: "Forms & inputs", items: [{ autogenerate: { directory: "components/forms" } }] },
         { label: "Feedback", items: [{ autogenerate: { directory: "components/feedback" } }] },
         { label: "Overlays", items: [{ autogenerate: { directory: "components/overlays" } }] },
-        { label: "Navigation", items: [{ autogenerate: { directory: "components/navigation" } }] },
         {
           label: "Data & layout",
           items: [{ autogenerate: { directory: "components/data-layout" } }],
         },
+        { label: "Navigation", items: [{ autogenerate: { directory: "components/navigation" } }] },
         {
           label: "Typography & media",
           items: [{ autogenerate: { directory: "components/typography" } }],
