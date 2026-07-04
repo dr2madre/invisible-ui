@@ -127,13 +127,15 @@
         {/if}
       </span>
     {:else if variant === "grid"}
-      <!-- Dot matrix: each cell's wave delay grows with row+column, so the
-           pulse travels diagonally across the area (the "ola"). -->
+      <!-- Halftone dot matrix: each cell's phase offset is its diagonal position
+           *normalized* to the grid (0→1), so a lit "area" of larger dots renders
+           and sweeps across continuously — and it works at any rows × columns. -->
       <span class="loading__grid" style="--loading-grid-cols: {columns};">
         {#each { length: rows * columns } as _, i (i)}
           <span
             class="loading__cell"
-            style="--loading-cell-step: {(i % columns) + Math.floor(i / columns)};"
+            style="--loading-cell-p: {((i % columns) + Math.floor(i / columns)) /
+              Math.max(1, columns + rows - 2)};"
           ></span>
         {/each}
       </span>
@@ -312,9 +314,12 @@
     border-radius: var(--ds-radius-pill, 999px);
     background: currentColor;
     opacity: 0.15;
-    animation: loading-grid-wave var(--ds-loading-duration, 2.4s) ease-in-out infinite;
-    /* row+column index → diagonal delay; /16 leaves a pause between waves. */
-    animation-delay: calc(var(--loading-cell-step, 0) * var(--ds-loading-duration, 2.4s) / 16);
+    transform: scale(0.4);
+    animation: loading-grid-wave var(--ds-loading-duration, 2s) linear infinite;
+    /* Normalized diagonal position → phase offset (negative delay keeps every
+       cell in the same seamless loop): one lit band sweeps the whole matrix per
+       cycle, independent of grid size. */
+    animation-delay: calc(var(--loading-cell-p, 0) * var(--ds-loading-duration, 2s) * -1);
   }
   @keyframes loading-pulse {
     0%,
@@ -372,14 +377,17 @@
       transform: rotate(180deg);
     }
   }
+  /* Halftone: the dot grows to full size and fades in as the lit area passes,
+     then recedes. The 40–60% plateau widens the lit band so it reads as an
+     "area" rendering, not a thin line. */
   @keyframes loading-grid-wave {
     0%,
-    55%,
     100% {
       opacity: 0.15;
-      transform: scale(0.7);
+      transform: scale(0.4);
     }
-    22% {
+    40%,
+    60% {
       opacity: 1;
       transform: scale(1);
     }
@@ -394,6 +402,7 @@
     }
     .loading__cell {
       opacity: 0.4;
+      transform: none;
     }
     .loading__fill {
       transition: none;
