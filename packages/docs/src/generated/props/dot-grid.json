@@ -17,6 +17,13 @@
       "description": "Hide from assistive tech (the surrounding region announces the state)."
     },
     {
+      "name": "loading",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
+    },
+    {
       "name": "field",
       "type": "boolean",
       "default": "true",

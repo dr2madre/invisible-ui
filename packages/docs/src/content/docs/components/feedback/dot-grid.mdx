@@ -13,19 +13,24 @@ import DotGridDemo from "../../../../demos/DotGridDemo.svelte";
 A loading **area**: a surface that signals a process in progress, from two
 composable parts.
 
-1. A backdrop — the tiling **halftone dot field** (`field`, on by default): a
-   faint dot pattern with a brighter band sweeping across continuously. It's a
-   CSS `background` (no per-dot DOM), so it **tiles to any size** cheaply. Turn
-   `field` off to use DotGrid purely as a positioned loading area.
+1. A backdrop — the **halftone dot field** (`field`, on by default): a faint dot
+   lattice with a couple of soft, brighter **zones** that drift across it
+   continuously (like the "image generating" dot cards), so different areas seem
+   to render over time. The dots are a CSS `background` (no per-dot DOM), so it
+   **tiles to any size** cheaply. Turn `field` off to use DotGrid purely as a
+   positioned loading area.
 2. A label/indicator **zone**, placed with `labelPosition` (`center` default, or
    `top` / `bottom` / `left` / `right`). It shows any combination of:
    - a live `status` message ("Connecting…", "Rendering…"),
    - a `value` percentage (shown as `N%`),
    - a `detail` line — free text for **bytes or a file count** ("48 MB of 128
      MB", "3 of 8 files"),
-   - and whatever you put in the default **slot** — e.g. a
+   - and whatever you put in the **`indicator` slot** — e.g. a
      [Loading](/invisible-ui/components/feedback/loading/) `spinner` (or dots,
      bar…) to add an explicit indicator on, or instead of, the dot field.
+
+When the process finishes, set `loading={false}`: DotGrid renders its **default
+slot** (the real content) in place of the placeholder, with a gentle fade.
 
 Unlike the inline `Loading` variants, DotGrid **covers a surface**; use `Loading`
 for an inline indicator next to text or in a button.
@@ -51,11 +56,21 @@ indicator through the slot:
 </div>
 
 <div style="position: relative; aspect-ratio: 16 / 10;">
-  <!-- A spinner centered on the field via the slot -->
+  <!-- A spinner centered on the field via the indicator slot -->
   <DotGrid label="Loading">
-    <Loading variant="spinner" decorative />
+    <Loading slot="indicator" variant="spinner" decorative />
   </DotGrid>
 </div>
+```
+
+When the data arrives, flip `loading` and the default slot's content replaces the
+placeholder (with a gentle fade):
+
+```svelte
+<DotGrid loading={pending} status="Rendering preview">
+  <!-- shown once `pending` is false -->
+  <Report {data} />
+</DotGrid>
 ```
 
 ### Props
@@ -72,18 +87,17 @@ indicator through the slot:
   visible but `aria-hidden`, so a fast-ticking value isn't re-announced.
 - Set `decorative` when the surrounding region already announces that it is busy
   (e.g. an `aria-busy` container) — the field is then hidden from assistive tech.
-- The sweep respects `prefers-reduced-motion`: the animation stops and the field
-  settles to a gentle static tint.
+- The drift respects `prefers-reduced-motion`: the animation stops and the glows
+  hold still (a gentle static brightening).
 
 ### Theming
 
-Colors follow `currentColor` (set `color` on the container). Density, speed and
-band size are themeable:
+Colors follow `currentColor` (set `color` on the container). Density and speed
+are themeable:
 
 | Token | Purpose | Default |
 | --- | --- | --- |
-| `--ds-dot-grid-dot` | Dot radius | `1.6px` |
-| `--ds-dot-grid-gap` | Distance between dots | `1.15rem` |
-| `--ds-dot-grid-band` | Sweep band repeat length | `150px` |
-| `--ds-dot-grid-duration` | Sweep speed | `2.6s` |
+| `--ds-dot-grid-dot` | Dot radius | `2px` |
+| `--ds-dot-grid-gap` | Distance between dots | `1.1rem` |
+| `--ds-dot-grid-duration` | Drift cycle length | `7s` |
 | `--ds-dot-grid-min-height` | Fallback min height | `6rem` |

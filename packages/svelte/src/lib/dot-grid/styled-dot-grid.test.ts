@@ -35,6 +35,17 @@ describe("Svelte DotGrid", () => {
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
+  it("renders the content in place of the placeholder when loading ends", () => {
+    const { rerender } = render(Fixture, { props: { loading: true } });
+    // While loading: the placeholder (status region), not the content.
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(screen.queryByText("Loaded content")).not.toBeInTheDocument();
+    // Done: the content replaces the placeholder.
+    rerender({ loading: false });
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.getByText("Loaded content")).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { status: "Loading data" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
