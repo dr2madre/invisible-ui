@@ -84,15 +84,6 @@
   </section>
 
   <section>
-    <p class="demo__caption">Grid — the "area" wave of AI rendering, with live status</p>
-    <div
-      style="display: grid; place-items: center; inline-size: 16rem; aspect-ratio: 4 / 3; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; color: var(--ds-color-primary);"
-    >
-      <Loading variant="grid" status={currentStatus} label="Generating image" />
-    </div>
-  </section>
-
-  <section>
     <p class="demo__caption">In buttons — including successive steps via loadingStatus</p>
     <div style="display: flex; gap: 0.5rem; align-items: center;">
       <Button variant="primary">
@@ -130,6 +121,15 @@
           1,
         )} MB of 4.6 MB"
       />
+    </div>
+  </section>
+
+  <section>
+    <p class="demo__caption">Grid — the "area" wave of AI rendering, with live status</p>
+    <div
+      style="display: grid; place-items: center; inline-size: 16rem; aspect-ratio: 4 / 3; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; color: var(--ds-color-text);"
+    >
+      <Loading variant="grid" status={currentStatus} label="Generating image" />
     </div>
   </section>
 
