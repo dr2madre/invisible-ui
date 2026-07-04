@@ -6,7 +6,7 @@
 
 <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 26rem;">
   <DropZone
-    accept="image/*"
+    accept=".png,.jpg,.jpeg,.gif"
     multiple
     caption="PNG, JPG or GIF — up to 5 MB."
     onFiles={(files) => (names = files.map((f) => f.name))}
