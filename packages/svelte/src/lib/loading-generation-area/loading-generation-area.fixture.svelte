@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DotGrid from "./DotGrid.svelte";
+  import LoadingGenerationArea from "./LoadingGenerationArea.svelte";
 
   export let label: string | undefined = undefined;
   export let decorative = false;
@@ -11,6 +11,15 @@
   export let detail: string | undefined = undefined;
 </script>
 
-<DotGrid {label} {decorative} {loading} {field} {labelPosition} {status} {value} {detail}>
+<LoadingGenerationArea
+  {label}
+  {decorative}
+  {loading}
+  {field}
+  {labelPosition}
+  {status}
+  {value}
+  {detail}
+>
   <p>Loaded content</p>
-</DotGrid>
+</LoadingGenerationArea>

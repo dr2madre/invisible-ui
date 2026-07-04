@@ -30,7 +30,8 @@
    * `typing` dots (chat "waiting for a reply"), a `morph`ing shape
    * (square ⇄ circle), or a `bar` (full-width track — place it at the top of
    * the content it covers, e.g. a card). For a full-surface "area rendering"
-   * loader (the tiling halftone dot field) use the `DotGrid` component.
+   * loader (the tiling halftone dot field) use the `LoadingGenerationArea`
+   * component.
    */
   export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" = "dots";
   /**

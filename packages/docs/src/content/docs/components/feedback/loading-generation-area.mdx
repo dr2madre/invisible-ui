@@ -1,13 +1,13 @@
 ---
-title: "DotGrid"
+title: "LoadingGenerationArea"
 ---
 
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
-import DotGridDemo from "../../../../demos/DotGridDemo.svelte";
+import LoadingGenerationAreaDemo from "../../../../demos/LoadingGenerationAreaDemo.svelte";
 
 <Preview>
-  <DotGridDemo client:visible />
+  <LoadingGenerationAreaDemo client:visible />
 </Preview>
 
 A loading **area**: a surface that signals a process in progress, from two
@@ -30,17 +30,17 @@ loader on a loader): turn `field` off and put a different loader — e.g. a
 [Loading](/invisible-ui/components/feedback/loading/) `spinner` — into the
 `indicator` slot to use that as the area's loader instead.
 
-When the process finishes, set `loading={false}`: DotGrid renders its **default
+When the process finishes, set `loading={false}`: LoadingGenerationArea renders its **default
 slot** (the real content) in place of the placeholder, with a gentle fade.
 
-Unlike the inline `Loading` variants, DotGrid **covers a surface**; use `Loading`
+Unlike the inline `Loading` variants, LoadingGenerationArea **covers a surface**; use `Loading`
 for an inline indicator next to text or in a button.
 
 ### Import
 
 ```svelte
 <script>
-  import DotGrid from "@design-system/svelte/DotGrid.svelte";
+  import LoadingGenerationArea from "@design-system/svelte/LoadingGenerationArea.svelte";
 </script>
 ```
 
@@ -53,14 +53,14 @@ indicator through the slot:
 ```svelte
 <div style="position: relative; aspect-ratio: 16 / 10;">
   <!-- Percentage + file count in a bottom label zone -->
-  <DotGrid labelPosition="bottom" status="Uploading" value={pct} detail="3 of 8 files" />
+  <LoadingGenerationArea labelPosition="bottom" status="Uploading" value={pct} detail="3 of 8 files" />
 </div>
 
 <div style="position: relative; aspect-ratio: 16 / 10;">
   <!-- A plain area (no dot field) with an explicit spinner via the slot -->
-  <DotGrid field={false} label="Loading">
+  <LoadingGenerationArea field={false} label="Loading">
     <Loading slot="indicator" variant="spinner" decorative />
-  </DotGrid>
+  </LoadingGenerationArea>
 </div>
 ```
 
@@ -68,15 +68,15 @@ When the data arrives, flip `loading` and the default slot's content replaces th
 placeholder (with a gentle fade):
 
 ```svelte
-<DotGrid loading={pending} status="Generating image">
+<LoadingGenerationArea loading={pending} status="Generating image">
   <!-- the generated result (an image, a mock, any content) — shown once `pending` is false -->
   <img src={url} alt="Generated image" style="width: 100%; height: 100%; object-fit: cover;" />
-</DotGrid>
+</LoadingGenerationArea>
 ```
 
 ### Props
 
-<PropsTable component="dot-grid" />
+<PropsTable component="loading-generation-area" />
 
 ### Accessibility
 
@@ -98,7 +98,8 @@ are themeable:
 
 | Token | Purpose | Default |
 | --- | --- | --- |
-| `--ds-dot-grid-dot` | Dot radius | `2px` |
-| `--ds-dot-grid-gap` | Distance between dots | `1.1rem` |
-| `--ds-dot-grid-duration` | Drift cycle length | `7s` |
-| `--ds-dot-grid-min-height` | Fallback min height | `6rem` |
+| `--ds-loading-generation-area-dot` | Resting (grey) dot radius | `1.4px` |
+| `--ds-loading-generation-area-dot-lit` | Lit dot radius (dots grow to this in a zone) | `3px` |
+| `--ds-loading-generation-area-gap` | Distance between dots | `1.1rem` |
+| `--ds-loading-generation-area-duration` | Drift cycle length | `7s` |
+| `--ds-loading-generation-area-min-height` | Fallback min height | `6rem` |

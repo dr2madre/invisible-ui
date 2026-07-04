@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * DotGrid — a loading **area**: a surface that signals a process in progress,
+   * LoadingGenerationArea — a loading **area**: a surface that signals a process in progress,
    * from two composable parts.
    *
    * 1. A backdrop: a **halftone dot field** (`field`, on by default) — a faint
@@ -8,7 +8,7 @@
    *    it continuously (like the "image generating" dot cards), so different
    *    areas seem to render over time. The dots are a CSS `background` (no
    *    per-dot DOM), so it covers any size cheaply. Turn `field` off to use
-   *    DotGrid as a plain positioned loading area.
+   *    LoadingGenerationArea as a plain positioned loading area.
    * 2. A label **zone**, placed via `labelPosition` (`center` default, or
    *    `top`/`bottom`/`left`/`right`), showing any of: a live `status` message,
    *    a `value` percentage, and a `detail` line (bytes, counts).
@@ -18,7 +18,7 @@
    * `field` off and drop a different loader — e.g. `<Loading variant="spinner"/>`
    * — into the `indicator` slot to use that instead.
    *
-   * When loading finishes, flip `loading` to `false`: DotGrid renders its
+   * When loading finishes, flip `loading` to `false`: LoadingGenerationArea renders its
    * default slot (the real content) in place of the loading placeholder.
    *
    * Accessibility: a polite `role="status"` with an accessible name (`label`,
@@ -26,7 +26,7 @@
    * is `aria-atomic`); the percentage and detail are visible but `aria-hidden`
    * so a fast-ticking value isn't re-announced. `decorative` hides it from
    * assistive tech. The twinkle respects `prefers-reduced-motion`. Themeable via
-   * `--ds-dot-grid-*`.
+   * `--ds-loading-generation-area-*`.
    */
   import { getI18n } from "../i18n/create-i18n";
 
@@ -61,8 +61,8 @@
 
 {#if loading}
   <div
-    class="dot-grid"
-    class:dot-grid--field={field}
+    class="loading-generation-area"
+    class:loading-generation-area--field={field}
     data-position={labelPosition}
     role={decorative ? undefined : "status"}
     aria-label={decorative || hasStatus ? undefined : resolvedLabel}
@@ -70,71 +70,78 @@
     aria-hidden={decorative ? "true" : undefined}
   >
     {#if hasZone}
-      <div class="dot-grid__zone">
+      <div class="loading-generation-area__zone">
         <slot name="indicator" />
-        {#if hasStatus}<span class="dot-grid__status">{status}</span>{/if}
-        {#if clamped != null}<span class="dot-grid__value" aria-hidden="true"
+        {#if hasStatus}<span class="loading-generation-area__status">{status}</span>{/if}
+        {#if clamped != null}<span class="loading-generation-area__value" aria-hidden="true"
             >{Math.round(clamped)}%</span
           >{/if}
-        {#if detail != null}<span class="dot-grid__detail" aria-hidden="true">{detail}</span>{/if}
+        {#if detail != null}<span class="loading-generation-area__detail" aria-hidden="true"
+            >{detail}</span
+          >{/if}
       </div>
     {/if}
   </div>
 {:else}
-  <div class="dot-grid__content"><slot /></div>
+  <div class="loading-generation-area__content"><slot /></div>
 {/if}
 
 <style>
-  .dot-grid {
+  .loading-generation-area {
     position: relative;
     display: grid;
     inline-size: 100%;
     block-size: 100%;
-    min-block-size: var(--ds-dot-grid-min-height, 6rem);
+    min-block-size: var(--ds-loading-generation-area-min-height, 6rem);
     overflow: hidden;
   }
   /* Label/indicator zone placement. */
-  .dot-grid[data-position="center"] {
+  .loading-generation-area[data-position="center"] {
     place-items: center;
   }
-  .dot-grid[data-position="top"] {
+  .loading-generation-area[data-position="top"] {
     place-items: start center;
   }
-  .dot-grid[data-position="bottom"] {
+  .loading-generation-area[data-position="bottom"] {
     place-items: end center;
   }
-  .dot-grid[data-position="left"] {
+  .loading-generation-area[data-position="left"] {
     place-items: center start;
   }
-  .dot-grid[data-position="right"] {
+  .loading-generation-area[data-position="right"] {
     place-items: center end;
   }
 
-  /* The dot lattice: a faint dot tile covering the whole surface (tiles at any
-     size, no per-dot DOM). */
-  .dot-grid--field {
+  /* The dot lattice: small, thin, faint (grey) dots covering the whole surface
+     (tiles at any size, no per-dot DOM). */
+  .loading-generation-area--field {
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, currentColor 16%, transparent) 0 var(--ds-dot-grid-dot, 2px),
-      transparent calc(var(--ds-dot-grid-dot, 2px) + 0.8px)
+      color-mix(in srgb, currentColor 30%, transparent) 0
+        var(--ds-loading-generation-area-dot, 1.4px),
+      transparent calc(var(--ds-loading-generation-area-dot, 1.4px) + 0.6px)
     );
-    background-size: var(--ds-dot-grid-gap, 1.1rem) var(--ds-dot-grid-gap, 1.1rem);
+    background-size: var(--ds-loading-generation-area-gap, 1.1rem)
+      var(--ds-loading-generation-area-gap, 1.1rem);
     background-position: center;
   }
-  /* Brighter zones: the same dots at full strength, revealed only under two soft
-     radial "glows" that drift across on offset loops — so a couple of areas read
-     as rendering, moving continuously. Returning to the start keeps it seamless. */
-  .dot-grid--field::after {
+  /* Brighter zones: the same lattice, but the dots are LARGER and full-strength
+     (they grow and turn to `currentColor` — white on a dark surface). Revealed
+     only under two soft radial "glows" that drift across on offset loops, so as
+     a glow passes a dot appears to enlarge and brighten. Returning to the start
+     keeps it seamless. */
+  .loading-generation-area--field::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 0;
     background-image: radial-gradient(
       circle at center,
-      currentColor 0 var(--ds-dot-grid-dot, 2px),
-      transparent calc(var(--ds-dot-grid-dot, 2px) + 0.8px)
+      currentColor 0 var(--ds-loading-generation-area-dot-lit, 3px),
+      transparent calc(var(--ds-loading-generation-area-dot-lit, 3px) + 0.7px)
     );
-    background-size: var(--ds-dot-grid-gap, 1.1rem) var(--ds-dot-grid-gap, 1.1rem);
+    background-size: var(--ds-loading-generation-area-gap, 1.1rem)
+      var(--ds-loading-generation-area-gap, 1.1rem);
     background-position: center;
     --glow: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.45) 38%, transparent 68%);
     -webkit-mask-image: var(--glow), var(--glow);
@@ -149,9 +156,10 @@
       46% 46%;
     -webkit-mask-composite: source-over;
     mask-composite: add;
-    animation: dot-grid-drift var(--ds-dot-grid-duration, 7s) ease-in-out infinite;
+    animation: loading-generation-area-drift var(--ds-loading-generation-area-duration, 7s)
+      ease-in-out infinite;
   }
-  @keyframes dot-grid-drift {
+  @keyframes loading-generation-area-drift {
     0%,
     100% {
       mask-position:
@@ -188,15 +196,15 @@
   }
 
   /* The zone sits above the field and stays legible over the dots. */
-  .dot-grid__zone {
+  .loading-generation-area__zone {
     position: relative;
     z-index: 1;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
-    margin: var(--ds-dot-grid-zone-margin, 0.75rem);
-    padding: var(--ds-dot-grid-zone-padding, 0.5rem 0.75rem);
+    margin: var(--ds-loading-generation-area-zone-margin, 0.75rem);
+    padding: var(--ds-loading-generation-area-zone-padding, 0.5rem 0.75rem);
     border-radius: var(--ds-radius-control, 0.5rem);
     background: color-mix(in srgb, var(--ds-color-background, #fff) 78%, transparent);
     color: var(--ds-color-text, #0f172a);
@@ -204,27 +212,28 @@
     font-size: var(--ds-loading-label-size, 0.8125rem);
     line-height: 1.3;
   }
-  .dot-grid__value {
+  .loading-generation-area__value {
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  .dot-grid__detail {
+  .loading-generation-area__detail {
     color: var(--ds-color-text-secondary, #64748b);
     font-variant-numeric: tabular-nums;
   }
 
   /* Loaded content fades in where the placeholder was. */
-  .dot-grid__content {
-    animation: dot-grid-reveal var(--ds-dot-grid-reveal, 240ms) ease-out;
+  .loading-generation-area__content {
+    animation: loading-generation-area-reveal var(--ds-loading-generation-area-reveal, 240ms)
+      ease-out;
   }
-  @keyframes dot-grid-reveal {
+  @keyframes loading-generation-area-reveal {
     from {
       opacity: 0;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .dot-grid--field::after {
+    .loading-generation-area--field::after {
       animation: none;
       /* Hold the glows still (a gentle static brightening) instead of drifting. */
       -webkit-mask-position:
@@ -234,7 +243,7 @@
         30% 35%,
         72% 68%;
     }
-    .dot-grid__content {
+    .loading-generation-area__content {
       animation: none;
     }
   }

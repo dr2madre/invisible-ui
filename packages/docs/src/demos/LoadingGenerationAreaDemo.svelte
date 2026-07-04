@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import DotGrid from "@design-system/svelte/DotGrid.svelte";
+  import LoadingGenerationArea from "@design-system/svelte/LoadingGenerationArea.svelte";
   import Loading from "@design-system/svelte/Loading.svelte";
 
   const STEPS = ["Connecting…", "Fetching records…", "Rendering…"];
@@ -28,12 +28,12 @@
 <div style="display: flex; flex-direction: column; gap: 1.5rem; inline-size: 100%;">
   <!-- Centered live status. -->
   <div style={box}>
-    <DotGrid label="Generating image" status={STEPS[step]} />
+    <LoadingGenerationArea label="Generating image" status={STEPS[step]} />
   </div>
 
   <!-- Percentage + file count in a bottom label zone. -->
   <div style={box}>
-    <DotGrid
+    <LoadingGenerationArea
       labelPosition="bottom"
       status="Uploading"
       value={pct}
@@ -44,20 +44,20 @@
   <!-- No dot field (field={false}): a plain loading area with an explicit
        indicator via the slot — the dot field would be redundant here. -->
   <div style={box}>
-    <DotGrid field={false} label="Loading">
+    <LoadingGenerationArea field={false} label="Loading">
       <Loading slot="indicator" variant="spinner" decorative />
-    </DotGrid>
+    </LoadingGenerationArea>
   </div>
 
   <!-- The typical case: an image is being generated. While loading, the dot
        field; when done, the generated image renders in its place. -->
   <div style={box}>
-    <DotGrid {loading} status="Generating image">
+    <LoadingGenerationArea {loading} status="Generating image">
       <img
         src="{import.meta.env.BASE_URL}dot-grid-sample.png"
         alt="Generated landscape"
         style="inline-size: 100%; block-size: 100%; object-fit: cover; display: block;"
       />
-    </DotGrid>
+    </LoadingGenerationArea>
   </div>
 </div>
