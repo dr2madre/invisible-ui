@@ -12,13 +12,14 @@ import LoadingDemo from "../../../../demos/LoadingDemo.svelte";
 
 An inline loading indicator — pulsing `dots` (default), a rotating `spinner`
 arc, bouncing `typing` dots (chat "waiting for a reply"), a `morph`ing shape,
-a `bar` to place at the top of the content it covers, or a `grid`: a dot
-matrix pulsing in a diagonal wave — the "area" loader familiar from AI image
-rendering (size it with `rows`/`columns`). The bar is indeterminate by
-default; give it a `value` (0–100) and it becomes a determinate fill that
-completes, with progressbar semantics. Everything follows the surrounding
-font size and text color (`currentColor`), so it works standalone, inside
-buttons, or next to text.
+or a `bar` to place at the top of the content it covers. The bar is
+indeterminate by default; give it a `value` (0–100) and it becomes a
+determinate fill that completes, with progressbar semantics. Everything follows
+the surrounding font size and text color (`currentColor`), so it works
+standalone, inside buttons, or next to text.
+
+For a full-surface "area rendering" loader — a tiling halftone dot field that
+covers a panel while a process runs — use [DotGrid](/invisible-ui/components/feedback/dot-grid/).
 
 The live `status` message works on every variant: on a determinate bar it
 renders below the track and doubles as `aria-valuetext` when no `detail` is
@@ -132,8 +133,6 @@ instant opens never flash one.
 | `--ds-loading-gap` | Gap between dots | `0.25em` |
 | `--ds-loading-spinner-size` | Spinner/morph diameter | `1em` |
 | `--ds-loading-bar-height` | Bar thickness | `3px` |
-| `--ds-loading-grid-size` | Grid dot size | `0.5em` |
-| `--ds-loading-grid-gap` | Gap between grid dots | `0.4em` |
 | `--ds-loading-label-size` | Visible text size | `0.8125em` |
 | `--ds-loading-label-gap` | Gap between indicator and text | `0.625em` |
 | `--ds-loading-bar-label-gap` | Gap between bar and its text line | `0.375em` |

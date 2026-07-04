@@ -23,6 +23,7 @@
     "src/lib/icon/Icon.svelte",
     "src/lib/feedback-icon",
     "src/lib/error-state/ErrorState.svelte",
+    "src/lib/dot-grid/DotGrid.svelte",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/alert",
@@ -116,6 +117,10 @@
     "./ErrorState.svelte": {
       "svelte": "./src/lib/error-state/ErrorState.svelte",
       "default": "./src/lib/error-state/ErrorState.svelte"
+    },
+    "./DotGrid.svelte": {
+      "svelte": "./src/lib/dot-grid/DotGrid.svelte",
+      "default": "./src/lib/dot-grid/DotGrid.svelte"
     },
     "./Button.svelte": {
       "svelte": "./src/lib/button/Button.svelte",
