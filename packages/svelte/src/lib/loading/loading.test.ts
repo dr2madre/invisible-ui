@@ -31,9 +31,11 @@ describe("Loading", () => {
     expect(root()).toHaveAttribute("data-variant", "grid");
     const cells = root().querySelectorAll(".loading__cell");
     expect(cells).toHaveLength(12);
-    // Diagonal wave: the delay step grows with row+column.
-    expect(cells[0].getAttribute("style")).toContain("--loading-cell-step: 0");
-    expect(cells[11].getAttribute("style")).toContain("--loading-cell-step: 5");
+    // Halftone sweep: each cell's phase is its diagonal position normalized to
+    // the grid (0 at the first corner, 1 at the opposite), so it scales to any
+    // rows × columns.
+    expect(cells[0].getAttribute("style")).toContain("--loading-cell-p: 0");
+    expect(cells[11].getAttribute("style")).toContain("--loading-cell-p: 1");
   });
 
   it("shows the status below a determinate bar and feeds aria-valuetext", () => {
