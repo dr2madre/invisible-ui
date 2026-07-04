@@ -41,9 +41,10 @@
     />
   </div>
 
-  <!-- Add an explicit indicator (spinner) via the indicator slot. -->
+  <!-- No dot field (field={false}): a plain loading area with an explicit
+       indicator via the slot — the dot field would be redundant here. -->
   <div style={box}>
-    <DotGrid label="Loading">
+    <DotGrid field={false} label="Loading">
       <Loading slot="indicator" variant="spinner" decorative />
     </DotGrid>
   </div>
