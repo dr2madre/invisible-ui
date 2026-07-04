@@ -28,14 +28,11 @@
   /**
    * Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing
    * `typing` dots (chat "waiting for a reply"), a `morph`ing shape
-   * (square ⇄ circle), a `bar` (full-width track — place it at the top of
-   * the content it covers, e.g. a card), or a `grid` — a dot matrix pulsing
-   * in a diagonal wave, the "area" loader of AI image rendering.
+   * (square ⇄ circle), or a `bar` (full-width track — place it at the top of
+   * the content it covers, e.g. a card). For a full-surface "area rendering"
+   * loader (the tiling halftone dot field) use the `DotGrid` component.
    */
-  export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" | "grid" = "dots";
-  /** Dot-matrix size for the `grid` variant. */
-  export let columns = 8;
-  export let rows = 5;
+  export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" = "dots";
   /**
    * Completion percentage (0–100) for the `bar` variant: the bar becomes
    * determinate (a fill that grows to done) and exposes progressbar semantics.
@@ -125,19 +122,6 @@
         {:else}
           <span class="loading__segment"></span>
         {/if}
-      </span>
-    {:else if variant === "grid"}
-      <!-- Halftone dot matrix: each cell's phase offset is its diagonal position
-           *normalized* to the grid (0→1), so a lit "area" of larger dots renders
-           and sweeps across continuously — and it works at any rows × columns. -->
-      <span class="loading__grid" style="--loading-grid-cols: {columns};">
-        {#each { length: rows * columns } as _, i (i)}
-          <span
-            class="loading__cell"
-            style="--loading-cell-p: {((i % columns) + Math.floor(i / columns)) /
-              Math.max(1, columns + rows - 2)};"
-          ></span>
-        {/each}
       </span>
     {:else}
       <span class="loading__indicator">
@@ -295,32 +279,6 @@
     background: currentColor;
     animation: loading-morph var(--ds-loading-duration, 2s) ease-in-out infinite;
   }
-  /* Grid: an area of dots pulsing in a diagonal traveling wave. Status/label
-     text flows underneath. */
-  .loading[data-variant="grid"] {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--ds-loading-label-gap, 0.625em);
-  }
-  .loading__grid {
-    display: grid;
-    grid-template-columns: repeat(var(--loading-grid-cols, 8), var(--ds-loading-grid-size, 0.5em));
-    gap: var(--ds-loading-grid-gap, 0.4em);
-  }
-  .loading__cell {
-    inline-size: var(--ds-loading-grid-size, 0.5em);
-    block-size: var(--ds-loading-grid-size, 0.5em);
-    border-radius: var(--ds-radius-pill, 999px);
-    background: currentColor;
-    opacity: 0.15;
-    transform: scale(0.4);
-    animation: loading-grid-wave var(--ds-loading-duration, 2s) linear infinite;
-    /* Normalized diagonal position → phase offset (negative delay keeps every
-       cell in the same seamless loop): one lit band sweeps the whole matrix per
-       cycle, independent of grid size. */
-    animation-delay: calc(var(--loading-cell-p, 0) * var(--ds-loading-duration, 2s) * -1);
-  }
   @keyframes loading-pulse {
     0%,
     100% {
@@ -377,32 +335,12 @@
       transform: rotate(180deg);
     }
   }
-  /* Halftone: the dot grows to full size and fades in as the lit area passes,
-     then recedes. The 40–60% plateau widens the lit band so it reads as an
-     "area" rendering, not a thin line. */
-  @keyframes loading-grid-wave {
-    0%,
-    100% {
-      opacity: 0.15;
-      transform: scale(0.4);
-    }
-    40%,
-    60% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
     .loading__dot,
     .loading__spinner,
     .loading__segment,
-    .loading__shape,
-    .loading__cell {
+    .loading__shape {
       animation: none;
-    }
-    .loading__cell {
-      opacity: 0.4;
-      transform: none;
     }
     .loading__fill {
       transition: none;

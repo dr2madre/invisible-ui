@@ -26,18 +26,6 @@ describe("Loading", () => {
     expect(root().querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
-  it("renders a rows×columns wave matrix for the grid variant", () => {
-    render(Fixture, { props: { variant: "grid", rows: 3, columns: 4 } });
-    expect(root()).toHaveAttribute("data-variant", "grid");
-    const cells = root().querySelectorAll(".loading__cell");
-    expect(cells).toHaveLength(12);
-    // Halftone sweep: each cell's phase is its diagonal position normalized to
-    // the grid (0 at the first corner, 1 at the opposite), so it scales to any
-    // rows × columns.
-    expect(cells[0].getAttribute("style")).toContain("--loading-cell-p: 0");
-    expect(cells[11].getAttribute("style")).toContain("--loading-cell-p: 1");
-  });
-
   it("shows the status below a determinate bar and feeds aria-valuetext", () => {
     render(Fixture, {
       props: { variant: "bar", value: 40, label: "Import", status: "Fetching records…" },

@@ -1,0 +1,20 @@
+{
+  "component": "dot-grid",
+  "selected": false,
+  "props": [
+    {
+      "name": "label",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Accessible name. Defaults to the i18n catalog's \"Loading…\"."
+    },
+    {
+      "name": "decorative",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Hide from assistive tech (the surrounding region announces the state)."
+    }
+  ]
+}

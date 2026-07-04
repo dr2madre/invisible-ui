@@ -125,15 +125,6 @@
   </section>
 
   <section>
-    <p class="demo__caption">Grid — the "area" wave of AI rendering, with live status</p>
-    <div
-      style="display: grid; place-items: center; inline-size: 16rem; aspect-ratio: 4 / 3; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; color: var(--ds-color-text);"
-    >
-      <Loading variant="grid" status={currentStatus} label="Generating image" />
-    </div>
-  </section>
-
-  <section>
     <p class="demo__caption">Overlay pattern — busy region (built-in overlay + veil)</p>
     <div
       aria-busy="true"

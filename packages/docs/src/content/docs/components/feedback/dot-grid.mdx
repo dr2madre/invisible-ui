@@ -1,0 +1,67 @@
+---
+title: "DotGrid"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import DotGridDemo from "../../../../demos/DotGridDemo.svelte";
+
+<Preview>
+  <DotGridDemo client:visible />
+</Preview>
+
+A loading indicator rendered as a **tiling halftone dot field**: a faint dot
+pattern fills the whole surface and a brighter band of dots sweeps across it
+continuously — a lit "area" that renders and moves, signalling that a process is
+in progress (an image generating, a panel building). Use it as a backdrop for
+content that isn't ready yet.
+
+Unlike the inline [Loading](/invisible-ui/components/feedback/loading/) variants
+(dots, spinner, bar…), DotGrid **covers a surface** and **tiles to any size** —
+the dots are a CSS `background`, not per-dot DOM, so covering a whole panel
+stays cheap.
+
+### Import
+
+```svelte
+<script>
+  import DotGrid from "@design-system/svelte/DotGrid.svelte";
+</script>
+```
+
+### Usage
+
+Give it a sized, positioned container (or drop it in as a filling layer):
+
+```svelte
+<div style="position: relative; aspect-ratio: 16 / 10;">
+  <DotGrid label="Generating image" />
+</div>
+```
+
+### Props
+
+<PropsTable component="dot-grid" />
+
+### Accessibility
+
+- A polite `role="status"` with an accessible name (`label`; when omitted it
+  comes from the i18n catalog, so `LocaleProvider` localizes it) — it announces
+  the loading state like the other indicators.
+- Set `decorative` when the surrounding region already announces that it is busy
+  (e.g. an `aria-busy` container) — the field is then hidden from assistive tech.
+- The sweep respects `prefers-reduced-motion`: the animation stops and the field
+  settles to a gentle static tint.
+
+### Theming
+
+Colors follow `currentColor` (set `color` on the container). Density, speed and
+band size are themeable:
+
+| Token | Purpose | Default |
+| --- | --- | --- |
+| `--ds-dot-grid-dot` | Dot radius | `1.6px` |
+| `--ds-dot-grid-gap` | Distance between dots | `1.15rem` |
+| `--ds-dot-grid-band` | Sweep band repeat length | `150px` |
+| `--ds-dot-grid-duration` | Sweep speed | `2.6s` |
+| `--ds-dot-grid-min-height` | Fallback min height | `6rem` |
