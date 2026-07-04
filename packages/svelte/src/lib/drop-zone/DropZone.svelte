@@ -34,22 +34,20 @@
 
   // The native file dialog can take up to ~1s to appear (the OS builds the
   // panel). Per response-time UX (a wait past ~0.4–1s needs feedback), show a
-  // loading indicator in that gap — but only if the dialog is actually slow, so
-  // a fast open never flashes a spinner. Cleared when the dialog closes (the
-  // window regains focus) or a file is chosen/cancelled.
+  // loading indicator in that gap. The no-flash delay and the overlay live in
+  // the shared Loading component (`delay` + `overlay`/`veil` options); here we
+  // only own the trigger (the dialog opening) and the clear (the dialog closing
+  // — window refocus — or a file being chosen/cancelled).
   let opening = false;
-  let openTimer: ReturnType<typeof setTimeout> | undefined;
 
   function resolveOpen() {
-    clearTimeout(openTimer);
     opening = false;
     if (typeof window !== "undefined") window.removeEventListener("focus", resolveOpen);
   }
 
   function onOpen() {
     if (disabled) return;
-    clearTimeout(openTimer);
-    openTimer = setTimeout(() => (opening = true), 150);
+    opening = true;
     // `once` auto-removes it after the dialog closes (window refocus); the
     // change/cancel paths also clear it early. No lifecycle hook needed (keeps
     // the component SSR-safe).
@@ -135,9 +133,9 @@
   {/if}
 
   {#if opening}
-    <span class="drop-zone__loading" aria-hidden="true">
-      <Loading variant="spinner" decorative />
-    </span>
+    <!-- Reuse Loading's built-in delay (no flash on a fast open) + overlay;
+         no veil — the OS dialog is already modal, so nothing to block here. -->
+    <Loading variant="spinner" overlay veil={false} delay={150} decorative />
   {/if}
 </label>
 
@@ -173,19 +171,9 @@
     opacity: 0.55;
     cursor: not-allowed;
   }
-  /* While the native file dialog is opening: dim the prompt and float a spinner
-     over it so the delay reads as "working", not "nothing happened". */
-  .drop-zone--opening .drop-zone__icon,
-  .drop-zone--opening .drop-zone__text,
-  .drop-zone--opening .drop-zone__caption {
-    opacity: 0.35;
-  }
-  .drop-zone__loading {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* The opening spinner is a Loading overlay (veil off); tint it and scale it
+     up a little via the font-size it keys off. */
+  .drop-zone--opening :global(.loading--overlay) {
     color: var(--ds-color-secondary, #7b52cc);
     font-size: 1.5rem;
   }

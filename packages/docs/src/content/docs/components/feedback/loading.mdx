@@ -35,11 +35,22 @@ announces `aria-busy` and ignores presses while active.
 
 ### Overlay pattern
 
-To mark a whole region as reloading, place a translucent veil over it with any
-Loading variant centered inside, and set `aria-busy="true"` on the region (see
-the last demo above). The veil blocks pointer interaction while the region is
-busy. For richer progress (bytes, file counts, percentages) use
+To mark a whole region as reloading, set `overlay` on the Loading and
+`aria-busy="true"` on the region (which must be positioned, e.g.
+`position: relative`). The indicator fills and centers over the region; by
+default a translucent **veil** dims it and blocks pointer interaction while
+busy. Set `veil={false}` to overlay just the indicator — no dimming, no pointer
+blocking — for cases where a surrounding modal already guards interaction (this
+is what `DropZone` uses while the native file dialog opens). For richer progress
+(bytes, file counts, percentages) use
 [Progress](/invisible-ui/components/progress/) instead.
+
+```svelte
+<div aria-busy={busy} style="position: relative">
+  …region content…
+  {#if busy}<Loading overlay label="Reloading" />{/if}
+</div>
+```
 
 ### When to show a loader — response-time UX
 
@@ -59,26 +70,16 @@ work finishes first, the user never sees a spinner. A loader that appears and
 vanishes within a frame reads as a glitch, not as progress. Once shown, keep it
 visible for a brief minimum (~300–500 ms) so it can't blink out either.
 
+This is built in — pass `delay` (ms) and Loading stays hidden until it elapses.
+Mount it as soon as the work starts and remove it when the work ends; if that
+happens before `delay`, nothing is ever shown:
+
 ```svelte
-<script>
-  let loading = false;
-  let timer;
-
-  function start() {
-    // Only surface the loader if the work is actually slow.
-    timer = setTimeout(() => (loading = true), 150);
-    doWork().finally(() => {
-      clearTimeout(timer);
-      loading = false;
-    });
-  }
-</script>
-
-{#if loading}<Loading variant="spinner" />{/if}
+{#if busy}<Loading variant="spinner" delay={150} />{/if}
 ```
 
 The `DropZone` uses exactly this: the native file dialog can take up to ~1 s to
-open, so it shows a spinner only if the dialog hasn't appeared within 150 ms —
+open, so its spinner (`delay={150}`) appears only if the dialog is slow —
 instant opens never flash one.
 
 ### Accessibility
