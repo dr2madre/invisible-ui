@@ -117,7 +117,7 @@
   .loading-generation-area--field {
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, currentColor 16%, transparent) 0 var(--ds-loading-generation-area-dot, 1px),
+      color-mix(in srgb, currentColor 10%, transparent) 0 var(--ds-loading-generation-area-dot, 1px),
       transparent calc(var(--ds-loading-generation-area-dot, 1px) + 0.6px)
     );
     background-size: var(--ds-loading-generation-area-gap, 1.1rem)

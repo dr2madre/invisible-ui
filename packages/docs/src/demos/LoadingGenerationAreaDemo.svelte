@@ -1,20 +1,21 @@
 <script>
   import { onMount } from "svelte";
   import LoadingGenerationArea from "@design-system/svelte/LoadingGenerationArea.svelte";
-  import Loading from "@design-system/svelte/Loading.svelte";
+  import logoLight from "../assets/logo.svg";
+  import logoDark from "../assets/logo-white.svg";
 
-  const STEPS = ["Connecting…", "Fetching records…", "Rendering…"];
+  const STEPS = ["Connecting…", "Composing…", "Rendering…"];
   let step = 0;
-  let pct = 0;
+  let files = 0;
   onMount(() => {
     const t = setInterval(() => {
       step = (step + 1) % STEPS.length;
-      pct = pct >= 100 ? 0 : pct + 4;
+      files = files >= 8 ? 1 : files + 1;
     }, 700);
     return () => clearInterval(t);
   });
 
-  // Reveal demo: load for ~2.6s, show the content for a beat, then loop.
+  // Reveal demo: generate for ~2.6s, show the result for a beat, then loop.
   let loading = true;
   onMount(() => {
     const t = setInterval(() => (loading = !loading), 2600);
@@ -31,33 +32,58 @@
     <LoadingGenerationArea label="Generating image" status={STEPS[step]} />
   </div>
 
-  <!-- Percentage + file count in a bottom label zone. -->
+  <!-- A file count in a bottom label zone — no percentage (it's often unknown
+       while generating/rendering). -->
   <div style={box}>
-    <LoadingGenerationArea
-      labelPosition="bottom"
-      status="Uploading"
-      value={pct}
-      detail="{Math.min(8, Math.ceil((pct / 100) * 8))} of 8 files"
-    />
+    <LoadingGenerationArea labelPosition="bottom" status="Rendering" detail="{files} of 8 files" />
   </div>
 
-  <!-- No dot field (field={false}): a plain loading area with an explicit
-       indicator via the slot — the dot field would be redundant here. -->
-  <div style={box}>
-    <LoadingGenerationArea field={false} label="Loading">
-      <Loading slot="indicator" variant="spinner" decorative />
-    </LoadingGenerationArea>
-  </div>
-
-  <!-- The typical case: an image is being generated. While loading, the dot
-       field; when done, the generated image renders in its place. -->
+  <!-- When generation ends, the result renders in place — here the (theme-aware)
+       header logo stands in for the generated image. -->
   <div style={box}>
     <LoadingGenerationArea {loading} status="Generating image">
-      <img
-        src="{import.meta.env.BASE_URL}dot-grid-sample.png"
-        alt="Generated landscape"
-        style="inline-size: 100%; block-size: 100%; object-fit: cover; display: block;"
-      />
+      <div class="gen-result">
+        <img class="gen-result__img gen-result__img--light" src={logoLight} alt="Generated image" />
+        <img class="gen-result__img gen-result__img--dark" src={logoDark} alt="Generated image" />
+      </div>
     </LoadingGenerationArea>
   </div>
 </div>
+
+<style>
+  .gen-result {
+    display: grid;
+    place-items: center;
+    block-size: 100%;
+    padding: 2rem;
+  }
+  .gen-result__img {
+    max-inline-size: 60%;
+    max-block-size: 100%;
+    object-fit: contain;
+  }
+  /* Show the logo that matches the theme — the same light/dark swap as the header. */
+  .gen-result__img--dark {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .gen-result__img--light {
+      display: none;
+    }
+    .gen-result__img--dark {
+      display: block;
+    }
+  }
+  :global([data-theme="light"]) .gen-result__img--light {
+    display: block;
+  }
+  :global([data-theme="light"]) .gen-result__img--dark {
+    display: none;
+  }
+  :global([data-theme="dark"]) .gen-result__img--light {
+    display: none;
+  }
+  :global([data-theme="dark"]) .gen-result__img--dark {
+    display: block;
+  }
+</style>
