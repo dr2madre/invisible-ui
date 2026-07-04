@@ -13,6 +13,7 @@
    * own content in the default slot to replace it entirely.
    */
   import { getI18n } from "../i18n/create-i18n";
+  import Loading from "../loading/Loading.svelte";
 
   const { t } = getI18n();
 
@@ -31,12 +32,37 @@
   let dragging = false;
   let input: HTMLInputElement;
 
+  // The native file dialog can take up to ~1s to appear (the OS builds the
+  // panel). Per response-time UX (a wait past ~0.4–1s needs feedback), show a
+  // loading indicator in that gap — but only if the dialog is actually slow, so
+  // a fast open never flashes a spinner. Cleared when the dialog closes (the
+  // window regains focus) or a file is chosen/cancelled.
+  let opening = false;
+  let openTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function resolveOpen() {
+    clearTimeout(openTimer);
+    opening = false;
+    if (typeof window !== "undefined") window.removeEventListener("focus", resolveOpen);
+  }
+
+  function onOpen() {
+    if (disabled) return;
+    clearTimeout(openTimer);
+    openTimer = setTimeout(() => (opening = true), 150);
+    // `once` auto-removes it after the dialog closes (window refocus); the
+    // change/cancel paths also clear it early. No lifecycle hook needed (keeps
+    // the component SSR-safe).
+    window.addEventListener("focus", resolveOpen, { once: true });
+  }
+
   const emit = (list: FileList | null | undefined) => {
     if (!list || !list.length) return;
     onFiles?.(Array.from(list));
   };
 
   function onInput(event: Event) {
+    resolveOpen();
     emit((event.currentTarget as HTMLInputElement).files);
   }
 
@@ -61,6 +87,8 @@
   class="drop-zone"
   class:drop-zone--dragging={dragging}
   class:drop-zone--disabled={disabled}
+  class:drop-zone--opening={opening}
+  aria-busy={opening ? "true" : undefined}
   on:drop={onDrop}
   on:dragover={onDragOver}
   on:dragleave={onDragLeave}
@@ -73,6 +101,8 @@
     {multiple}
     {disabled}
     {name}
+    on:click={onOpen}
+    on:cancel={resolveOpen}
     on:change={onInput}
   />
   <span class="drop-zone__icon" aria-hidden="true">
@@ -103,10 +133,17 @@
   {#if caption}
     <span class="drop-zone__caption">{caption}</span>
   {/if}
+
+  {#if opening}
+    <span class="drop-zone__loading" aria-hidden="true">
+      <Loading variant="spinner" decorative />
+    </span>
+  {/if}
 </label>
 
 <style>
   .drop-zone {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,6 +172,22 @@
   .drop-zone--disabled {
     opacity: 0.55;
     cursor: not-allowed;
+  }
+  /* While the native file dialog is opening: dim the prompt and float a spinner
+     over it so the delay reads as "working", not "nothing happened". */
+  .drop-zone--opening .drop-zone__icon,
+  .drop-zone--opening .drop-zone__text,
+  .drop-zone--opening .drop-zone__caption {
+    opacity: 0.35;
+  }
+  .drop-zone__loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ds-color-secondary, #7b52cc);
+    font-size: 1.5rem;
   }
   .drop-zone__icon {
     /* Neutral (not the selection color) — the selection color is reserved for

@@ -41,6 +41,46 @@ the last demo above). The veil blocks pointer interaction while the region is
 busy. For richer progress (bytes, file counts, percentages) use
 [Progress](/invisible-ui/components/progress/) instead.
 
+### When to show a loader — response-time UX
+
+Whether to show a loader at all depends on how long the wait is (Nielsen's
+response-time limits, and the Doherty threshold of ~400 ms):
+
+| Wait | Perceived as | What to show |
+| --- | --- | --- |
+| **< 0.1 s** | Instant | Nothing — a loader here only adds noise. |
+| **0.1 – 1 s** | Noticeable, still in flow | Usually nothing; avoid a layout that looks frozen. |
+| **1 – 10 s** | Attention wanders | An indeterminate indicator (`dots` / `spinner`) so the wait reads as "working". |
+| **> 10 s** | Flow broken | A determinate `bar` with a percentage/`detail`, and ideally a way to cancel. |
+
+**The delay rule — never flash a loader.** Don't show the indicator the instant
+an action starts. Reveal it only after a short delay (~**100–200 ms**): if the
+work finishes first, the user never sees a spinner. A loader that appears and
+vanishes within a frame reads as a glitch, not as progress. Once shown, keep it
+visible for a brief minimum (~300–500 ms) so it can't blink out either.
+
+```svelte
+<script>
+  let loading = false;
+  let timer;
+
+  function start() {
+    // Only surface the loader if the work is actually slow.
+    timer = setTimeout(() => (loading = true), 150);
+    doWork().finally(() => {
+      clearTimeout(timer);
+      loading = false;
+    });
+  }
+</script>
+
+{#if loading}<Loading variant="spinner" />{/if}
+```
+
+The `DropZone` uses exactly this: the native file dialog can take up to ~1 s to
+open, so it shows a spinner only if the dialog hasn't appeared within 150 ms —
+instant opens never flash one.
+
 ### Accessibility
 
 - By default the indicator is a polite `role="status"` with an accessible name
