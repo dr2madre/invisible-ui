@@ -10,11 +10,11 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.30.6",
-    "@astrojs/svelte": "^7.2.5",
+    "@astrojs/starlight": "^0.41.3",
+    "@astrojs/svelte": "^9.0.1",
     "@design-system/core": "workspace:*",
     "@design-system/svelte": "workspace:*",
-    "astro": "^5.18.2",
+    "astro": "^7.0.6",
     "svelte": "^5.56.4"
   },
   "devDependencies": {

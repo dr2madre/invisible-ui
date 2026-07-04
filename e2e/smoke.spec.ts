@@ -4,12 +4,12 @@ import { test, expect } from "@playwright/test";
 // without throwing — catches SSR/hydration/runtime errors that jsdom can't.
 const pages = [
   { path: "", name: "home" },
-  { path: "components/button/", name: "Button" },
-  { path: "components/dialog/", name: "Dialog" },
-  { path: "components/calendar/", name: "Calendar" },
-  { path: "components/combobox/", name: "Combobox" },
-  { path: "components/table-set/", name: "Table Set" },
-  { path: "components/time-field/", name: "Time Field" },
+  { path: "components/forms/button/", name: "Button" },
+  { path: "components/overlays/dialog/", name: "Dialog" },
+  { path: "components/date-time/calendar/", name: "Calendar" },
+  { path: "components/forms/combobox/", name: "Combobox" },
+  { path: "components/data-layout/table-set/", name: "Table Set" },
+  { path: "components/date-time/time-field/", name: "Time Field" },
 ];
 
 for (const p of pages) {

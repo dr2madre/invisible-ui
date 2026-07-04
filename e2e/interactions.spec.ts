@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("Dialog opens from its trigger and closes on Escape", async ({ page }) => {
-  await page.goto("components/dialog/");
+  await page.goto("components/overlays/dialog/");
   await page.getByRole("button", { name: "Open dialog" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -10,7 +10,7 @@ test("Dialog opens from its trigger and closes on Escape", async ({ page }) => {
 });
 
 test("Calendar navigates to the next month", async ({ page }) => {
-  await page.goto("components/calendar/");
+  await page.goto("components/date-time/calendar/");
   const title = page.locator(".calendar__title").first();
   const next = page.getByRole("button", { name: "Next" }).first();
   const before = (await title.textContent()) ?? "";
@@ -23,7 +23,7 @@ test("Calendar navigates to the next month", async ({ page }) => {
 });
 
 test("Switch toggles on click", async ({ page }) => {
-  await page.goto("components/switch/");
+  await page.goto("components/forms/switch/");
   const bluetooth = page.getByRole("switch", { name: "Bluetooth" });
   // The Switch is a native <input type="checkbox" role="switch">; state is
   // conveyed by the native checked property, not aria-checked (see
@@ -41,7 +41,7 @@ test("Switch toggles on click", async ({ page }) => {
 });
 
 test("Combobox filters and selects an option", async ({ page }) => {
-  await page.goto("components/combobox/");
+  await page.goto("components/forms/combobox/");
   const input = page.getByRole("combobox", { name: "Fruit" });
   await input.click();
   await input.fill("ch");

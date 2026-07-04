@@ -1,10 +1,12 @@
+import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
 
 // Real-browser E2E against the built docs site (every component has a live demo
-// there). Locally we use the pre-installed Chromium (PLAYWRIGHT_BROWSERS_PATH);
-// in CI Playwright installs its own, so executablePath is only set off-CI.
+// there). In the Linux devcontainer a pre-installed Chromium lives at a fixed
+// path; anywhere else (CI, macOS, …) Playwright's own browser install is used —
+// so the hardcoded path only applies when it actually exists.
 const localChromium = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
-const executablePath = process.env.CI ? undefined : localChromium;
+const executablePath = !process.env.CI && existsSync(localChromium) ? localChromium : undefined;
 
 const PORT = 4321;
 const BASE = `http://localhost:${PORT}/invisible-ui/`;
