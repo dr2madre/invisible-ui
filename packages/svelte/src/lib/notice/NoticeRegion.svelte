@@ -22,12 +22,8 @@
 
   export let notifier: Notifier;
   export let placement:
-    | "top-start"
-    | "top-center"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-center"
-    | "bottom-end" = "top-end";
+    "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end" =
+    "top-end";
   /** Accessible name for the region landmark. Defaults to the i18n catalog's "Notices". */
   export let label: string | undefined = undefined;
   /** Maximum notices rendered at once. `0` means no limit. */

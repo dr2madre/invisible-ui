@@ -12,29 +12,29 @@ import { test, expect } from "@playwright/test";
 // authoritative when generated in the pinned Playwright container (see
 // docs/visual-testing.md); run `pnpm visual:update` to refresh them.
 const components = [
-  "button",
-  "tag",
-  "card",
-  "alert",
-  "checkbox",
-  "checkbox-group",
-  "switch",
-  "radio-group",
-  "segmented-control",
-  "slider",
-  "rating-group",
-  "progress",
-  "meter",
-  "text-field",
-  "select",
-  "pagination",
-  "avatar",
-  "label",
-];
+  ["forms", "button"],
+  ["feedback", "tag"],
+  ["data-layout", "card"],
+  ["feedback", "alert"],
+  ["forms", "checkbox"],
+  ["forms", "checkbox-group"],
+  ["forms", "switch"],
+  ["forms", "radio-group"],
+  ["forms", "segmented-control"],
+  ["forms", "slider"],
+  ["forms", "rating-group"],
+  ["feedback", "progress"],
+  ["feedback", "meter"],
+  ["forms", "text-field"],
+  ["forms", "select"],
+  ["navigation", "pagination"],
+  ["data-layout", "avatar"],
+  ["forms", "label"],
+] as const;
 
-for (const name of components) {
+for (const [group, name] of components) {
   test(`visual: ${name}`, async ({ page }) => {
-    await page.goto(`components/${name}/`, { waitUntil: "networkidle" });
+    await page.goto(`components/${group}/${name}/`, { waitUntil: "networkidle" });
     const preview = page.locator(".ds-preview").first();
     await expect(preview).toBeVisible();
     await expect(preview).toHaveScreenshot(`${name}.png`);
