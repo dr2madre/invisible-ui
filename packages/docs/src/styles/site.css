@@ -127,3 +127,9 @@
   justify-items: start;
   text-align: start;
 }
+
+/* Hero actions: a left-aligned pair — Foundations first, the primary CTA
+   (Components) to its right. */
+[data-has-hero] .hero .actions > .primary {
+  order: 2;
+}
