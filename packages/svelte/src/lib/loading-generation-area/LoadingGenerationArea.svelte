@@ -112,24 +112,22 @@
     place-items: center end;
   }
 
-  /* The dot lattice: small, thin, faint (grey) dots covering the whole surface
+  /* The resting lattice: tiny, faint (grey) dots covering the whole surface
      (tiles at any size, no per-dot DOM). */
   .loading-generation-area--field {
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, currentColor 30%, transparent) 0
-        var(--ds-loading-generation-area-dot, 1.4px),
-      transparent calc(var(--ds-loading-generation-area-dot, 1.4px) + 0.6px)
+      color-mix(in srgb, currentColor 16%, transparent) 0 var(--ds-loading-generation-area-dot, 1px),
+      transparent calc(var(--ds-loading-generation-area-dot, 1px) + 0.6px)
     );
     background-size: var(--ds-loading-generation-area-gap, 1.1rem)
       var(--ds-loading-generation-area-gap, 1.1rem);
     background-position: center;
   }
-  /* Brighter zones: the same lattice, but the dots are LARGER and full-strength
-     (they grow and turn to `currentColor` — white on a dark surface). Revealed
-     only under two soft radial "glows" that drift across on offset loops, so as
-     a glow passes a dot appears to enlarge and brighten. Returning to the start
-     keeps it seamless. */
+  /* Lit zones: the dots at their normal size and full strength (`currentColor`,
+     i.e. white on a dark surface) — the resting dots are tiny, so a passing glow
+     reads as them coming in. Revealed only under two soft radial "glows" that
+     drift across on offset loops. Returning to the start keeps it seamless. */
   .loading-generation-area--field::after {
     content: "";
     position: absolute;
@@ -137,8 +135,8 @@
     z-index: 0;
     background-image: radial-gradient(
       circle at center,
-      currentColor 0 var(--ds-loading-generation-area-dot-lit, 3px),
-      transparent calc(var(--ds-loading-generation-area-dot-lit, 3px) + 0.7px)
+      currentColor 0 var(--ds-loading-generation-area-dot-lit, 2.5px),
+      transparent calc(var(--ds-loading-generation-area-dot-lit, 2.5px) + 0.7px)
     );
     background-size: var(--ds-loading-generation-area-gap, 1.1rem)
       var(--ds-loading-generation-area-gap, 1.1rem);
