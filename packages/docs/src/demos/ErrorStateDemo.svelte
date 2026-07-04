@@ -17,7 +17,7 @@
     status="neutral"
     title="Page not found"
     description="The page you're looking for doesn't exist or was moved."
-    actionLabel="Go home"
+    actionLabel="Go to homepage"
   >
     <svg
       slot="icon"
