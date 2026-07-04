@@ -50,6 +50,34 @@
       "default": "false",
       "required": false,
       "description": "Hide from assistive tech (the surrounding region announces the state)."
+    },
+    {
+      "name": "status",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Live status message — a running description of what the process is doing (\"Connecting…\", \"Fetching records…\", \"Rendering…\"). Unlike `label` (a static accessible name), this renders as visible text **inside** the polite `role=\"status\"` region and is announced on every change, so a succession of backend-reported steps is read out as it progresses. The region is `aria-atomic`, so each new message is announced in full. Ignored on a determinate bar (a progressbar announces its value, not free text) and when `decorative`."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "default": "0",
+      "required": false,
+      "description": "No-flash delay (ms): keep the indicator hidden until this long has passed, so a fast operation never flashes a loader. If the component is removed before the delay elapses, nothing is ever shown. Follows the response-time rule — reveal a loader only once a wait is actually noticeable. Default `0` (shown immediately)."
+    },
+    {
+      "name": "overlay",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Render as a centered overlay filling the nearest positioned ancestor — the built-in busy-region pattern. Mark that region `aria-busy=\"true\"`."
+    },
+    {
+      "name": "veil",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "With `overlay`: paint a translucent backdrop that also blocks pointer interaction while busy. Set `false` to overlay just the indicator (no dim, no pointer blocking) — e.g. over a control whose own modal already guards interaction."
     }
   ]
 }

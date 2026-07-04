@@ -41,6 +41,25 @@
     ((filesDone + (filesDone >= TOTAL_FILES ? 0 : fileProgress / 100)) / TOTAL_FILES) * 100;
   const FILE_NAMES = ["report-january.pdf", "report-february.pdf", "report-march.pdf"];
   $: currentFile = FILE_NAMES[Math.min(filesDone, TOTAL_FILES - 1)];
+
+  // No-flash delay + overlay-without-veil: a fake ~1.2s task. Loading is mounted
+  // immediately but only appears after its own 150ms delay, so a quick task
+  // would never flash it.
+  let busy = false;
+  function runTask() {
+    busy = true;
+    setTimeout(() => (busy = false), 1200);
+  }
+
+  // Live status: a succession of steps as a backend would report them. Each new
+  // message is announced (polite + atomic), not just shown.
+  const STEPS = ["Connecting…", "Authenticating…", "Fetching records…", "Rendering…"];
+  let step = 0;
+  onMount(() => {
+    const t = setInterval(() => (step = (step + 1) % STEPS.length), 1400);
+    return () => clearInterval(t);
+  });
+  $: currentStatus = STEPS[step];
 </script>
 
 <div class="demo">
@@ -57,6 +76,11 @@
   <section>
     <p class="demo__caption">With a visible label</p>
     <Loading showLabel label="Loading results" />
+  </section>
+
+  <section>
+    <p class="demo__caption">Live status — steps reported by the backend</p>
+    <Loading variant="spinner" status={currentStatus} />
   </section>
 
   <section>
@@ -100,22 +124,37 @@
   </section>
 
   <section>
-    <p class="demo__caption">Overlay pattern — busy region</p>
+    <p class="demo__caption">Overlay pattern — busy region (built-in overlay + veil)</p>
     <div
       aria-busy="true"
-      style="position: relative; inline-size: 16rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden;"
+      style="position: relative; inline-size: 16rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; overflow: hidden; color: var(--ds-color-primary);"
     >
-      <div style="padding: 1rem;">
+      <div style="padding: 1rem; color: var(--ds-color-text);">
         <p style="margin: 0; font-weight: 600;">Team activity</p>
         <p style="margin: 0.25rem 0 0; color: var(--ds-color-text-secondary);">
           12 updates this week
         </p>
       </div>
-      <div
-        style="position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in srgb, var(--ds-color-background) 65%, transparent); color: var(--ds-color-primary);"
-      >
-        <Loading variant="typing" label="Reloading section" />
-      </div>
+      <!-- `overlay` fills this positioned box; `veil` (default) dims + blocks it. -->
+      <Loading variant="typing" overlay label="Reloading section" />
+    </div>
+  </section>
+
+  <section>
+    <p class="demo__caption">Overlay without veil + no-flash delay (the DropZone pattern)</p>
+    <p
+      style="margin: -0.25rem 0 0.625rem; font-size: 0.8125rem; color: var(--ds-color-text-secondary);"
+    >
+      Press it: the spinner appears only after 150 ms, so a fast action never flashes one.
+    </p>
+    <div
+      aria-busy={busy}
+      style="position: relative; inline-size: 16rem; display: flex; justify-content: center; padding: 1.25rem; border: 1px solid var(--ds-color-border); border-radius: 0.75rem; color: var(--ds-color-secondary);"
+    >
+      <Button variant="primary" onpress={runTask}>Run a ~1.2s task</Button>
+      {#if busy}
+        <Loading variant="spinner" overlay veil={false} delay={150} decorative />
+      {/if}
     </div>
   </section>
 
