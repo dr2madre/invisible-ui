@@ -26,6 +26,25 @@ describe("Loading", () => {
     expect(root().querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("renders a rows×columns wave matrix for the grid variant", () => {
+    render(Fixture, { props: { variant: "grid", rows: 3, columns: 4 } });
+    expect(root()).toHaveAttribute("data-variant", "grid");
+    const cells = root().querySelectorAll(".loading__cell");
+    expect(cells).toHaveLength(12);
+    // Diagonal wave: the delay step grows with row+column.
+    expect(cells[0].getAttribute("style")).toContain("--loading-cell-step: 0");
+    expect(cells[11].getAttribute("style")).toContain("--loading-cell-step: 5");
+  });
+
+  it("shows the status below a determinate bar and feeds aria-valuetext", () => {
+    render(Fixture, {
+      props: { variant: "bar", value: 40, label: "Import", status: "Fetching records…" },
+    });
+    const el = screen.getByRole("progressbar", { name: "Import" });
+    expect(el.querySelector(".loading__status")).toHaveTextContent("Fetching records…");
+    expect(el).toHaveAttribute("aria-valuetext", "Fetching records…");
+  });
+
   it("renders a sliding segment for the bar variant", () => {
     render(Fixture, { props: { variant: "bar" } });
     expect(root()).toHaveAttribute("data-variant", "bar");

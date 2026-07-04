@@ -28,10 +28,14 @@
   /**
    * Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing
    * `typing` dots (chat "waiting for a reply"), a `morph`ing shape
-   * (square ⇄ circle), or a `bar` (full-width track — place it at the top of
-   * the content it covers, e.g. a card).
+   * (square ⇄ circle), a `bar` (full-width track — place it at the top of
+   * the content it covers, e.g. a card), or a `grid` — a dot matrix pulsing
+   * in a diagonal wave, the "area" loader of AI image rendering.
    */
-  export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" = "dots";
+  export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" | "grid" = "dots";
+  /** Dot-matrix size for the `grid` variant. */
+  export let columns = 8;
+  export let rows = 5;
   /**
    * Completion percentage (0–100) for the `bar` variant: the bar becomes
    * determinate (a fill that grows to done) and exposes progressbar semantics.
@@ -57,9 +61,10 @@
    * static accessible name), this renders as visible text **inside** the polite
    * `role="status"` region and is announced on every change, so a succession of
    * backend-reported steps is read out as it progresses. The region is
-   * `aria-atomic`, so each new message is announced in full. Ignored on a
-   * determinate bar (a progressbar announces its value, not free text) and when
-   * `decorative`.
+   * `aria-atomic`, so each new message is announced in full. On a determinate
+   * bar the text renders below the track and also feeds `aria-valuetext` when
+   * no `detail` is set (a progressbar announces its value text, not a live
+   * region). Ignored when `decorative`.
    */
   export let status: string | undefined = undefined;
   /**
@@ -111,7 +116,7 @@
     aria-valuemin={determinate && !decorative ? 0 : undefined}
     aria-valuemax={determinate && !decorative ? 100 : undefined}
     aria-valuenow={determinate && !decorative ? clamped : undefined}
-    aria-valuetext={determinate && !decorative ? detail : undefined}
+    aria-valuetext={determinate && !decorative ? (detail ?? status) : undefined}
   >
     {#if variant === "bar"}
       <span class="loading__track">
@@ -120,6 +125,17 @@
         {:else}
           <span class="loading__segment"></span>
         {/if}
+      </span>
+    {:else if variant === "grid"}
+      <!-- Dot matrix: each cell's wave delay grows with row+column, so the
+           pulse travels diagonally across the area (the "ola"). -->
+      <span class="loading__grid" style="--loading-grid-cols: {columns};">
+        {#each { length: rows * columns } as _, i (i)}
+          <span
+            class="loading__cell"
+            style="--loading-cell-step: {(i % columns) + Math.floor(i / columns)};"
+          ></span>
+        {/each}
       </span>
     {:else}
       <span class="loading__indicator">
@@ -145,9 +161,9 @@
         {/if}
       </span>
     {/if}
-    {#if hasStatus && !determinate}
-      <!-- Live status: visible AND announced. The region is polite + atomic, so
-           each new backend-reported step is read out in full as it changes. -->
+    {#if hasStatus}
+      <!-- Live status: visible AND announced (on the determinate bar the role
+           is progressbar, so the announcement travels via aria-valuetext). -->
       <span class="loading__status">{status}</span>
     {/if}
     {#if hasText}
@@ -277,6 +293,29 @@
     background: currentColor;
     animation: loading-morph var(--ds-loading-duration, 2s) ease-in-out infinite;
   }
+  /* Grid: an area of dots pulsing in a diagonal traveling wave. Status/label
+     text flows underneath. */
+  .loading[data-variant="grid"] {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ds-loading-label-gap, 0.625em);
+  }
+  .loading__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--loading-grid-cols, 8), var(--ds-loading-grid-size, 0.5em));
+    gap: var(--ds-loading-grid-gap, 0.4em);
+  }
+  .loading__cell {
+    inline-size: var(--ds-loading-grid-size, 0.5em);
+    block-size: var(--ds-loading-grid-size, 0.5em);
+    border-radius: var(--ds-radius-pill, 999px);
+    background: currentColor;
+    opacity: 0.15;
+    animation: loading-grid-wave var(--ds-loading-duration, 2.4s) ease-in-out infinite;
+    /* row+column index → diagonal delay; /16 leaves a pause between waves. */
+    animation-delay: calc(var(--loading-cell-step, 0) * var(--ds-loading-duration, 2.4s) / 16);
+  }
   @keyframes loading-pulse {
     0%,
     100% {
@@ -333,12 +372,28 @@
       transform: rotate(180deg);
     }
   }
+  @keyframes loading-grid-wave {
+    0%,
+    55%,
+    100% {
+      opacity: 0.15;
+      transform: scale(0.7);
+    }
+    22% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .loading__dot,
     .loading__spinner,
     .loading__segment,
-    .loading__shape {
+    .loading__shape,
+    .loading__cell {
       animation: none;
+    }
+    .loading__cell {
+      opacity: 0.4;
     }
     .loading__fill {
       transition: none;

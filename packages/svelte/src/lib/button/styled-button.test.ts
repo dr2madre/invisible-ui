@@ -48,6 +48,17 @@ describe("Svelte Button (styled)", () => {
     expect(onpress).not.toHaveBeenCalled();
   });
 
+  it("announces successive loading steps through loadingStatus", async () => {
+    const { rerender, container } = render(Fixture, {
+      props: { loading: true, loadingStatus: "Uploading…" },
+    });
+    const region = container.querySelector('.button [role="status"]')!;
+    expect(region).toHaveAttribute("aria-atomic", "true");
+    expect(region.querySelector(".loading__status")).toHaveTextContent("Uploading…");
+    await rerender({ loading: true, loadingStatus: "Processing…" });
+    expect(region.querySelector(".loading__status")).toHaveTextContent("Processing…");
+  });
+
   it("shows no icons by default for primary", () => {
     const { container } = render(Fixture, { props: { variant: "primary" } });
     expect(container.querySelectorAll("svg")).toHaveLength(0);

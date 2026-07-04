@@ -4,10 +4,24 @@
   "props": [
     {
       "name": "variant",
-      "type": "\"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\"",
+      "type": "\"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\" | \"grid\"",
       "default": "\"dots\"",
       "required": false,
       "description": "Indicator shape: pulsing `dots` or a rotating `spinner` arc."
+    },
+    {
+      "name": "columns",
+      "type": "number",
+      "default": "8",
+      "required": false,
+      "description": "Dot-matrix size for the `grid` variant."
+    },
+    {
+      "name": "rows",
+      "type": "number",
+      "default": "5",
+      "required": false,
+      "description": ""
     },
     {
       "name": "value",
