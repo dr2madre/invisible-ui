@@ -162,11 +162,13 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   `attached`, joins them into one segmented bar (collapsing inner corners and
   shared borders); spacing is themeable via `--ds-button-group-*`. Imported from
   `@design-system/svelte/ButtonGroup.svelte`.
-- **Toggle Button** — a button that is on or off (`aria-pressed`,
-  `data-state="on" | "off"`), suited to toolbars (e.g. Bold/Italic). Distinct
-  from a **Switch**: a toggle button is an action, a switch is a setting. A
-  **styled** `ToggleButton.svelte` realises this with themeable `--ds-toggle-*`
-  tokens, from `@design-system/svelte/ToggleButton.svelte`.
+- **Toggle Button** — an on/off control built on a native
+  `<input type="checkbox">` styled to look like a button
+  (`data-state="on" | "off"`), suited to toolbars (e.g. Bold/Italic) — the
+  browser owns state, keyboard and form participation. Distinct from a
+  **Switch**: a toggle button is an action, a switch is a setting. A **styled**
+  `ToggleButton.svelte` realises this with themeable `--ds-toggle-*` tokens,
+  from `@design-system/svelte/ToggleButton.svelte`.
 - **Toolbar** — a grouping container (`role="toolbar"`, required `label`) for a
   set of controls (buttons, toggle buttons), optionally divided into groups with
   a `Separator`. From `@design-system/svelte/Toolbar.svelte`.
@@ -226,17 +228,16 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   invalid state and announces the message. Imported from
   `@design-system/svelte/TextField.svelte` and
   `@design-system/svelte/Textarea.svelte`.
-- **Select** — a collapsible single-select dropdown (WAI-ARIA select-only
-  combobox): a `role="combobox"` trigger opens a `role="listbox"` popup, with
-  arrow / Home / End navigation, typeahead, and `aria-activedescendant` (DOM
-  focus stays on the trigger). The behaviour and a11y are headless in the core;
-  the **styled** `Select.svelte` adds the trigger, the checkmarked options and
-  the elevated popup, themeable via `--ds-select-*`. Popup **positioning** —
-  flip when there's no room below, shift to stay on screen, and stay attached on
-  scroll — is handled in the Svelte adapter via
-  [`@floating-ui/dom`](https://floating-ui.com/) (a dependency of the adapter,
-  not the core, since it is pure geometry rather than behaviour/a11y). Imported
-  from `@design-system/svelte/Select.svelte`.
+- **Select** — a styled **native** `<select>`: the browser owns the popup,
+  keyboard, typeahead, `required` validation, form participation and the
+  platform picker on mobile; the styled layer owns the closed control
+  (`appearance: none` + custom chevron), label, placeholder, width modes
+  (`wrap`/`fill`/`fixed`) and the announced invalid state, themeable via
+  `--ds-select-*`. Options are plain text by design — for per-option icons,
+  rich options and a styled popup use the **Combobox** with the search hidden
+  (`searchable={false}`), the custom "advanced select". The headless
+  `core/select` primitive remains for fully custom builds (see ADR 0003).
+  Imported from `@design-system/svelte/Select.svelte`.
 - **Dropdown Menu** — a menu button (WAI-ARIA menu button pattern): a trigger
   opens a `role="menu"` of action items, with arrow / Home / End navigation,
   typeahead, focus moving **into** the menu and returning to the trigger on
@@ -298,12 +299,16 @@ The site's pages live in `packages/docs/src/content/docs/` and the demos in
   Alert *is* the live region, and the floating elevation is applied by the
   region. Imported from `@design-system/svelte` (the notifier) and
   `@design-system/svelte/NoticeRegion.svelte` / `Notice.svelte`.
-- **CloseButton** — a styled "dismiss" button (the × in alerts, dialogs,
-  notices), built on the headless Button. *Ghost* treatment: no border or fill at
-  rest, with a generous square hit area around a small icon (WCAG 2.5.8 Target
-  Size). Accessible name via `label` (default "Close"); fires `onclose`. Sizing
-  and colors are themeable CSS custom properties (`--ds-close-*`). Imported from
-  `@design-system/svelte/CloseButton.svelte`.
+- **Loading** — an inline loading indicator with several shapes: pulsing
+  `dots`, a `spinner` arc, chat-style `typing` dots, a `morph`ing shape, an
+  indeterminate/determinate `bar`, and a `grid` — a dot matrix pulsing in a
+  diagonal wave (the "area" loader of AI rendering). A polite `role="status"`
+  by default (a determinate bar is a `progressbar`); the `status` prop
+  announces successive backend-reported steps as they change, `delay` prevents
+  loader flashes on fast operations, and `overlay`/`veil` cover a busy region.
+  Buttons integrate it via their `loading`/`loadingStatus` props. Themeable via
+  `--ds-loading-*`; honors reduced motion. Imported from
+  `@design-system/svelte/Loading.svelte`.
 
 ### Svelte usage
 
