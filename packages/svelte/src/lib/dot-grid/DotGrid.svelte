@@ -9,11 +9,14 @@
    *    areas seem to render over time. The dots are a CSS `background` (no
    *    per-dot DOM), so it covers any size cheaply. Turn `field` off to use
    *    DotGrid as a plain positioned loading area.
-   * 2. A label/indicator **zone**, placed via `labelPosition`
-   *    (`center` default, or `top`/`bottom`/`left`/`right`). It shows any of:
-   *    a live `status` message, a `value` percentage, a `detail` line (bytes,
-   *    counts), and whatever you drop in the `indicator` slot — e.g. a
-   *    `<Loading variant="spinner" />` (or dots, bar, …).
+   * 2. A label **zone**, placed via `labelPosition` (`center` default, or
+   *    `top`/`bottom`/`left`/`right`), showing any of: a live `status` message,
+   *    a `value` percentage, and a `detail` line (bytes, counts).
+   *
+   * The dot field and an explicit indicator are **alternatives**, never stacked
+   * (no loader on a loader): the field *is* the loading visual by default; turn
+   * `field` off and drop a different loader — e.g. `<Loading variant="spinner"/>`
+   * — into the `indicator` slot to use that instead.
    *
    * When loading finishes, flip `loading` to `false`: DotGrid renders its
    * default slot (the real content) in place of the loading placeholder.
