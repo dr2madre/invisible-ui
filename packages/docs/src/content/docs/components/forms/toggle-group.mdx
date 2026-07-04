@@ -10,12 +10,14 @@ import ToggleGroupDemo from "../../../../demos/ToggleGroupDemo.svelte";
   <ToggleGroupDemo client:visible />
 </Preview>
 
-A set of toggle buttons — `single` (at most one pressed) or `multiple` (any
-number) — with roving tabindex.
+A purely **visual** wrapper that arranges a set of independent
+[Toggle Button](/invisible-ui/components/forms/toggle-button/) children and
+gives them a shared look. It has **no selection state of its own**: each toggle
+inside is a standalone on/off control (a native checkbox) that owns its own
+`pressed` state, label and form field. You insert the toggles via the default
+slot.
 
-Behaviourally this is a group of _checkboxes_: independent on/off options that
-can coexist. If you need a group of _radio buttons_ — exactly one active
-choice, like a view switcher — use the
+If you need exactly one active choice — a radio-style view switcher — use the
 [Segmented Control](/invisible-ui/components/forms/segmented-control/) instead.
 
 ### Import
@@ -23,8 +25,16 @@ choice, like a view switcher — use the
 ```svelte
 <script>
   import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
+  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
 </script>
 ```
+
+### Styles
+
+- `separate` (default) — each toggle keeps its own style, spaced by a gap.
+- `segmented` — the toggles are joined into one control: their individual
+  borders are dropped and the group draws a single outer border with thin
+  dividers between items.
 
 ### Props
 
@@ -32,12 +42,21 @@ choice, like a view switcher — use the
 
 ### Accessibility
 
-- Roving tabindex across the buttons; each exposes `aria-pressed`.
+- The group is a `role="group"`. Each toggle is an independent native checkbox,
+  so it is a normal Tab stop and toggles with Space.
+- The optional `label` becomes the group's `aria-label` — a _container_ name
+  (e.g. "Formatting") that gives screen readers context ("group, Formatting").
+  It is optional and different in nature from a form label: it names the
+  container, it does **not** label the items (each toggle carries its own name).
+  If the toggles are unrelated, omit it entirely.
 
 ### Example
 
 ```svelte
-<ToggleGroup type="multiple" label="Format" items={[{ value: "bold", label: "Bold" }]} />
+<ToggleGroup label="Formatting">
+  <ToggleButton label="Bold" pressed={bold} onPressedChange={(p) => (bold = p)}>B</ToggleButton>
+  <ToggleButton label="Italic" pressed={italic} onPressedChange={(p) => (italic = p)}>I</ToggleButton>
+</ToggleGroup>
 ```
 
-Themeable via `--ds-toggle-*`.
+Themeable via `--ds-toggle-*` and `--ds-toggle-group-*`.

@@ -5,7 +5,10 @@
   export let disabled = false;
   export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
 
-  const { rootAction } = createToggleButton({ pressed, disabled, onPressedChange });
+  const { state: tbState, rootAction } = createToggleButton({ pressed, disabled, onPressedChange });
 </script>
 
-<button use:rootAction>Bold</button>
+<label>
+  <input use:rootAction checked={$tbState.pressed} aria-label="Bold" />
+  <span aria-hidden="true">Bold</span>
+</label>

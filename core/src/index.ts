@@ -15,7 +15,6 @@ export * as progress from "./progress";
 export * as meter from "./meter";
 export * as label from "./label";
 export * as field from "./field";
-export * as toggleGroup from "./toggle-group";
 export * as slider from "./slider";
 export * as pagination from "./pagination";
 export * as pinInput from "./pin-input";

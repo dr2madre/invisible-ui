@@ -3,53 +3,25 @@
   "selected": false,
   "props": [
     {
-      "name": "items",
-      "type": "ToggleGroupEntry[]",
-      "default": null,
-      "required": true,
-      "description": ""
-    },
-    {
-      "name": "value",
-      "type": "string[]",
-      "default": "[]",
+      "name": "variant",
+      "type": "\"separate\" | \"segmented\"",
+      "default": "\"separate\"",
       "required": false,
-      "description": ""
-    },
-    {
-      "name": "type",
-      "type": "ToggleGroupType",
-      "default": "\"single\"",
-      "required": false,
-      "description": "Selection mode."
+      "description": "Visual style. `separate` keeps each toggle's own style; `segmented` joins them."
     },
     {
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "default": "\"horizontal\"",
       "required": false,
-      "description": "Layout."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the group."
+      "description": "Layout axis (purely visual — the group has no keyboard navigation of its own)."
     },
     {
       "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string[]) => void) | undefined",
+      "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Called when the pressed set changes."
+      "description": "Optional container name for screen readers (the group's aria-label); names the container, not the items."
     }
   ]
 }

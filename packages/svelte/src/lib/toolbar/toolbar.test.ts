@@ -11,23 +11,24 @@ describe("Toolbar", () => {
     render(Fixture);
     const toolbar = screen.getByRole("toolbar", { name: "Text formatting" });
     expect(toolbar).toHaveAttribute("aria-orientation", "horizontal");
-    expect(screen.getByRole("button", { name: "Bold", pressed: false })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Align left" })).toBeInTheDocument();
+    // Toggle buttons are independent on/off controls (native checkboxes).
+    expect(screen.getByRole("checkbox", { name: "Bold" })).not.toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Align left" })).toBeInTheDocument();
   });
 
   it("exposes a single tab stop (roving tabindex)", () => {
     render(Fixture);
-    expect(screen.getByRole("button", { name: "Bold" })).toHaveAttribute("tabindex", "0");
-    expect(screen.getByRole("button", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
-    expect(screen.getByRole("button", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("checkbox", { name: "Bold" })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("checkbox", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("checkbox", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
   });
 
   it("moves focus with the arrow keys and wraps, updating the tab stop", async () => {
     const user = userEvent.setup();
     render(Fixture);
-    const bold = screen.getByRole("button", { name: "Bold" });
-    const italic = screen.getByRole("button", { name: "Italic" });
-    const alignLeft = screen.getByRole("button", { name: "Align left" });
+    const bold = screen.getByRole("checkbox", { name: "Bold" });
+    const italic = screen.getByRole("checkbox", { name: "Italic" });
+    const alignLeft = screen.getByRole("checkbox", { name: "Align left" });
 
     bold.focus();
     await user.keyboard("{ArrowRight}");

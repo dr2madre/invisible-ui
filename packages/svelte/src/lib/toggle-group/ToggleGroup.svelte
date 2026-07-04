@@ -1,114 +1,80 @@
 <script lang="ts">
   /**
-   * ToggleGroup — a styled group of toggle buttons (e.g. a text-formatting or
-   * view switcher). Behaviour and accessibility (aria-pressed, roving tabindex,
-   * arrow-key movement, single/multiple selection) come from the headless
-   * toggle group (`@design-system/core`); this layer adds a segmented look.
+   * ToggleGroup — a purely **visual** wrapper that arranges a set of independent
+   * `<ToggleButton>` children and gives them a shared look. It carries no
+   * selection state of its own: each ToggleButton inside is a standalone
+   * on/off control (a native checkbox) that owns its own `pressed` state,
+   * label and form field. Insert the toggles via the default slot.
    *
-   * Each item provides a `label` (falling back to `value`). Colors, radius and
-   * spacing are themeable via `--ds-toggle-group-*`.
+   * Styles:
+   * - `separate` (default) — each toggle keeps its own default style, spaced by
+   *   a gap.
+   * - `segmented` — items are joined into one control: their individual borders
+   *   are dropped and the group draws a single outer border with thin dividers.
+   *
+   * Accessibility: the group is a `role="group"`. The optional `label` becomes
+   * the group's `aria-label` — a *container* name (e.g. "Formatting") that gives
+   * screen-reader context ("group, Formatting"). It is optional and different in
+   * nature from a form label: it names the container, it does not label the
+   * items (each toggle carries its own name). If the toggles are unrelated, omit
+   * it entirely. Radius, spacing and colors are themeable via
+   * `--ds-toggle-group-*`.
    */
-  import {
-    createToggleGroup,
-    type ToggleGroupItem,
-    type ToggleGroupType,
-  } from "./create-toggle-group";
 
-  /** An item with an optional display label. */
-  export type ToggleGroupEntry = ToggleGroupItem & { label?: string };
-
-  export let items: ToggleGroupEntry[];
-  export let value: string[] = [];
-  /** `single` (default): at most one pressed. `multiple`: any number. */
-  export let type: ToggleGroupType = "single";
+  /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
+  export let variant: "separate" | "segmented" = "separate";
+  /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
   export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let disabled = false;
-  /** Accessible name for the group. */
-  export let label: string;
-  /** Called whenever the pressed set changes. */
-  export let onValueChange: ((value: string[]) => void) | undefined = undefined;
-
-  const { rootAction, itemAction } = createToggleGroup({
-    items,
-    value,
-    type,
-    orientation,
-    disabled,
-    onValueChange,
-  });
+  /**
+   * Optional container name for screen readers (the group's `aria-label`). Names
+   * the container, not the items; omit it when the toggles are unrelated.
+   */
+  export let label: string | undefined = undefined;
 </script>
 
-<div class="toggle-group" use:rootAction aria-label={label}>
-  {#each items as item (item.value)}
-    <button class="toggle-group__item" use:itemAction={item.value}>
-      <slot name="item" {item}>{item.label ?? item.value}</slot>
-    </button>
-  {/each}
+<div
+  class="toggle-group toggle-group--{variant}"
+  role="group"
+  aria-label={label}
+  data-orientation={orientation}
+>
+  <slot />
 </div>
 
 <style>
   .toggle-group {
     display: inline-flex;
-    /* The group only wraps its items: it spaces them (gap) and itself
-       (padding), but never sizes them — no cross-axis stretch. */
     align-items: flex-start;
-    gap: var(--ds-toggle-group-gap, 0.375rem);
-    padding: var(--ds-toggle-group-padding, 0);
-    background: var(--ds-toggle-group-track, transparent);
-    border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
   }
-  .toggle-group:global([data-orientation="vertical"]) {
+  .toggle-group[data-orientation="vertical"] {
     flex-direction: column;
   }
-  /* Each item is its own squared toggle button (mirrors the standalone
-     ToggleButton): a 1px border at rest, a transparent fill, and — when on —
-     a faint selection-colored fill + matching border. */
-  .toggle-group__item {
-    appearance: none;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font: inherit;
-    /* Equal, square size for every item (text or icon): the shared minimum is
-       the only size driver — content is centered and its line box kept tight
-       (line-height: 1) so tall glyphs can't inflate the height past it. */
-    line-height: 1;
-    min-block-size: var(--ds-control-height, 2.25rem);
-    min-inline-size: var(--ds-control-height, 2.25rem);
-    padding: var(--ds-toggle-group-item-padding, 0.35rem 0.7rem);
+
+  /* separate: each toggle keeps its own style, spaced by a gap. */
+  .toggle-group--separate {
+    gap: var(--ds-toggle-group-gap, 0.375rem);
+  }
+
+  /* segmented: join the toggles into one control — drop their individual
+     borders/radius and draw a single outer border with thin dividers. Targets
+     the child ToggleButton's scoped parts via :global. */
+  .toggle-group--segmented {
+    gap: 0;
     border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
-    border-radius: var(--ds-toggle-group-item-radius, var(--ds-radius-control, 0.375rem));
-    background: var(--ds-toggle-bg, var(--ds-color-background, #fff));
-    color: var(--ds-color-text, #0f172a);
-    cursor: pointer;
-    transition:
-      background-color 120ms ease,
-      border-color 120ms ease,
-      color 120ms ease;
+    border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
+    overflow: hidden;
   }
-  /* Uniform icon size across items. */
-  .toggle-group__item :global(svg) {
-    inline-size: var(--ds-toggle-group-icon-size, 1.15rem);
-    block-size: var(--ds-toggle-group-icon-size, 1.15rem);
+  .toggle-group--segmented :global(.toggle__surface) {
+    border: 0;
+    border-radius: 0;
   }
-  .toggle-group__item:global([data-state="on"]) {
-    /* No weight change on selection (it would shift width) — color + fill +
-       border carry the state. */
-    background: var(
-      --ds-toggle-group-item-active,
-      color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent)
-    );
-    color: var(--ds-color-selected, #7b52cc);
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
+  /* Divider between adjacent toggles (along the layout axis). */
+  .toggle-group--segmented[data-orientation="horizontal"]
+    :global(.toggle:not(:first-child) .toggle__surface) {
+    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
   }
-  .toggle-group__item:global(:focus-visible) {
-    outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: 1px;
-  }
-  .toggle-group__item:global([data-disabled]) {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .toggle-group--segmented[data-orientation="vertical"]
+    :global(.toggle:not(:first-child) .toggle__surface) {
+    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
   }
 </style>

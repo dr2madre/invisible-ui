@@ -24,6 +24,20 @@
       "description": "Accessible name; required when the slot is icon-only."
     },
     {
+      "name": "name",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Form field name — when checked, submits `value` under it."
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "\"on\"",
+      "required": false,
+      "description": "Value submitted under `name` when pressed."
+    },
+    {
       "name": "onPressedChange",
       "type": "((p: boolean) => void) | undefined",
       "default": "undefined",
