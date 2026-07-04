@@ -67,9 +67,9 @@ When the data arrives, flip `loading` and the default slot's content replaces th
 placeholder (with a gentle fade):
 
 ```svelte
-<DotGrid loading={pending} status="Rendering preview">
-  <!-- shown once `pending` is false -->
-  <Report {data} />
+<DotGrid loading={pending} status="Generating image">
+  <!-- the generated result (an image, a mock, any content) — shown once `pending` is false -->
+  <img src={url} alt="Generated image" style="width: 100%; height: 100%; object-fit: cover;" />
 </DotGrid>
 ```
 

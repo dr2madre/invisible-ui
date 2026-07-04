@@ -48,19 +48,15 @@
     </DotGrid>
   </div>
 
-  <!-- When loading ends, the default slot's content renders in place. -->
+  <!-- The typical case: an image is being generated. While loading, the dot
+       field; when done, the generated image renders in its place. -->
   <div style={box}>
-    <DotGrid {loading} status="Rendering preview">
-      <div
-        style="display: grid; place-items: center; block-size: 100%; padding: 1rem; text-align: center;"
-      >
-        <div>
-          <p style="margin: 0; font-weight: 700;">Monthly report</p>
-          <p style="margin: 0.25rem 0 0; color: var(--ds-color-text-secondary);">
-            Ready — rendered content shown here.
-          </p>
-        </div>
-      </div>
+    <DotGrid {loading} status="Generating image">
+      <img
+        src="{import.meta.env.BASE_URL}dot-grid-sample.png"
+        alt="Generated landscape"
+        style="inline-size: 100%; block-size: 100%; object-fit: cover; display: block;"
+      />
     </DotGrid>
   </div>
 </div>
