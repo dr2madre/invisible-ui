@@ -38,6 +38,13 @@
    * presses. The label stays visible and the button stays focusable.
    */
   export let loading = false;
+  /**
+   * Live loading message announced on every change while `loading` — for a
+   * succession of backend-reported steps ("Uploading…" → "Processing…"). It is
+   * visually hidden (the button label stays stable); assistive tech hears each
+   * step through the spinner's polite status region.
+   */
+  export let loadingStatus: string | undefined = undefined;
   export let type: "button" | "submit" | "reset" = "button";
   /** Called when the button is activated (click, or Enter/Space when emulated). */
   export let onpress: ((event: Event) => void) | undefined = undefined;
@@ -113,7 +120,9 @@
   {/if}
 
   {#if loading}
-    <span class="button__icon"><Loading variant="spinner" decorative /></span>
+    <span class="button__icon">
+      <Loading variant="spinner" decorative={loadingStatus == null} status={loadingStatus} />
+    </span>
   {/if}
 
   {#if !(loading && iconOnly)}
@@ -181,6 +190,19 @@
 
   .button:global([data-loading]) {
     cursor: progress;
+  }
+  /* The live loading status is announced, never shown: the button label must
+     stay stable while the spinner's status region reads out each step. */
+  .button :global(.loading__status) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .button__icon {

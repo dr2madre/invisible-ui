@@ -31,6 +31,13 @@
       "description": "Loading state: shows an inline spinner in place of the leading icon (or of the glyph, for icon-only buttons), announces `aria-busy` and ignores presses. The label stays visible and the button stays focusable."
     },
     {
+      "name": "loadingStatus",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Live loading message announced on every change while `loading` — for a succession of backend-reported steps (\"Uploading…\" → \"Processing…\"). It is visually hidden (the button label stays stable); assistive tech hears each step through the spinner's polite status region."
+    },
+    {
       "name": "type",
       "type": "\"button\" | \"submit\" | \"reset\"",
       "default": "\"button\"",

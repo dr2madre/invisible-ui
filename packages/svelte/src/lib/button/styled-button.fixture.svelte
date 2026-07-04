@@ -5,9 +5,12 @@
   export let variant: ButtonVariant = "default";
   export let disabled = false;
   export let loading = false;
+  export let loadingStatus: string | undefined = undefined;
   export let leftIcon: boolean | undefined = undefined;
   export let rightIcon = false;
   export let onpress: ((event: Event) => void) | undefined = undefined;
 </script>
 
-<Button {variant} {disabled} {loading} {leftIcon} {rightIcon} {onpress}>Delete</Button>
+<Button {variant} {disabled} {loading} {loadingStatus} {leftIcon} {rightIcon} {onpress}>
+  Delete
+</Button>
