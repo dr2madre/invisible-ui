@@ -15,6 +15,41 @@
       "default": "false",
       "required": false,
       "description": "Hide from assistive tech (the surrounding region announces the state)."
+    },
+    {
+      "name": "field",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Show the tiling halftone dot field as the backdrop."
+    },
+    {
+      "name": "labelPosition",
+      "type": "\"center\" | \"top\" | \"bottom\" | \"left\" | \"right\"",
+      "default": "\"center\"",
+      "required": false,
+      "description": "Where the label/indicator zone sits over the area."
+    },
+    {
+      "name": "status",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Live status message — announced on every change."
+    },
+    {
+      "name": "value",
+      "type": "number | null",
+      "default": "null",
+      "required": false,
+      "description": "Percentage (0–100), shown as \"N%\"."
+    },
+    {
+      "name": "detail",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Extra detail line, e.g. \"48 MB of 128 MB\"."
     }
   ]
 }

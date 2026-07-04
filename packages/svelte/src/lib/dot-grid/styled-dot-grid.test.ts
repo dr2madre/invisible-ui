@@ -16,13 +16,27 @@ describe("Svelte DotGrid", () => {
     expect(screen.getByRole("status", { name: "Generating image" })).toBeInTheDocument();
   });
 
+  it("shows a live status, a percentage and a detail line", () => {
+    render(Fixture, {
+      props: { status: "Rendering…", value: 40, detail: "3 of 8 files" },
+    });
+    expect(screen.getByText("Rendering…")).toBeInTheDocument();
+    expect(screen.getByText("40%")).toBeInTheDocument();
+    expect(screen.getByText("3 of 8 files")).toBeInTheDocument();
+  });
+
+  it("places the label zone via labelPosition", () => {
+    render(Fixture, { props: { labelPosition: "bottom", status: "Working…" } });
+    expect(screen.getByRole("status")).toHaveAttribute("data-position", "bottom");
+  });
+
   it("is hidden from assistive tech when decorative", () => {
     render(Fixture, { props: { decorative: true } });
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {
-    const { container } = render(Fixture);
+    const { container } = render(Fixture, { props: { status: "Loading data" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
