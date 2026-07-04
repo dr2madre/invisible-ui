@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
-import Fixture from "./dot-grid.fixture.svelte";
+import Fixture from "./loading-generation-area.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
-describe("Svelte DotGrid", () => {
+describe("Svelte LoadingGenerationArea", () => {
   it("is a polite status with a default accessible name", () => {
     render(Fixture);
     expect(screen.getByRole("status", { name: "Loading…" })).toBeInTheDocument();

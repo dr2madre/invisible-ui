@@ -23,7 +23,7 @@
     "src/lib/icon/Icon.svelte",
     "src/lib/feedback-icon",
     "src/lib/error-state/ErrorState.svelte",
-    "src/lib/dot-grid/DotGrid.svelte",
+    "src/lib/loading-generation-area/LoadingGenerationArea.svelte",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/alert",
@@ -118,9 +118,9 @@
       "svelte": "./src/lib/error-state/ErrorState.svelte",
       "default": "./src/lib/error-state/ErrorState.svelte"
     },
-    "./DotGrid.svelte": {
-      "svelte": "./src/lib/dot-grid/DotGrid.svelte",
-      "default": "./src/lib/dot-grid/DotGrid.svelte"
+    "./LoadingGenerationArea.svelte": {
+      "svelte": "./src/lib/loading-generation-area/LoadingGenerationArea.svelte",
+      "default": "./src/lib/loading-generation-area/LoadingGenerationArea.svelte"
     },
     "./Button.svelte": {
       "svelte": "./src/lib/button/Button.svelte",

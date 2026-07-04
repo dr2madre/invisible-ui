@@ -1,5 +1,5 @@
 {
-  "component": "dot-grid",
+  "component": "loading-generation-area",
   "selected": false,
   "props": [
     {
@@ -28,7 +28,7 @@
       "type": "boolean",
       "default": "true",
       "required": false,
-      "description": "Show the tiling halftone dot field as the backdrop."
+      "description": "Show the dot field as the backdrop."
     },
     {
       "name": "labelPosition",
@@ -56,7 +56,7 @@
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Extra detail line, e.g. \"48 MB of 128 MB\"."
+      "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
     }
   ]
 }
