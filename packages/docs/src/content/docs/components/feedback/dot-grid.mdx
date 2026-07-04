@@ -10,16 +10,25 @@ import DotGridDemo from "../../../../demos/DotGridDemo.svelte";
   <DotGridDemo client:visible />
 </Preview>
 
-A loading indicator rendered as a **tiling halftone dot field**: a faint dot
-pattern fills the whole surface and a brighter band of dots sweeps across it
-continuously — a lit "area" that renders and moves, signalling that a process is
-in progress (an image generating, a panel building). Use it as a backdrop for
-content that isn't ready yet.
+A loading **area**: a surface that signals a process in progress, from two
+composable parts.
 
-Unlike the inline [Loading](/invisible-ui/components/feedback/loading/) variants
-(dots, spinner, bar…), DotGrid **covers a surface** and **tiles to any size** —
-the dots are a CSS `background`, not per-dot DOM, so covering a whole panel
-stays cheap.
+1. A backdrop — the tiling **halftone dot field** (`field`, on by default): a
+   faint dot pattern with a brighter band sweeping across continuously. It's a
+   CSS `background` (no per-dot DOM), so it **tiles to any size** cheaply. Turn
+   `field` off to use DotGrid purely as a positioned loading area.
+2. A label/indicator **zone**, placed with `labelPosition` (`center` default, or
+   `top` / `bottom` / `left` / `right`). It shows any combination of:
+   - a live `status` message ("Connecting…", "Rendering…"),
+   - a `value` percentage (shown as `N%`),
+   - a `detail` line — free text for **bytes or a file count** ("48 MB of 128
+     MB", "3 of 8 files"),
+   - and whatever you put in the default **slot** — e.g. a
+     [Loading](/invisible-ui/components/feedback/loading/) `spinner` (or dots,
+     bar…) to add an explicit indicator on, or instead of, the dot field.
+
+Unlike the inline `Loading` variants, DotGrid **covers a surface**; use `Loading`
+for an inline indicator next to text or in a button.
 
 ### Import
 
@@ -31,11 +40,21 @@ stays cheap.
 
 ### Usage
 
-Give it a sized, positioned container (or drop it in as a filling layer):
+Give it a sized, positioned container (or drop it in as a filling layer). Add a
+label zone (position + status / percentage / detail), and optionally an explicit
+indicator through the slot:
 
 ```svelte
 <div style="position: relative; aspect-ratio: 16 / 10;">
-  <DotGrid label="Generating image" />
+  <!-- Percentage + file count in a bottom label zone -->
+  <DotGrid labelPosition="bottom" status="Uploading" value={pct} detail="3 of 8 files" />
+</div>
+
+<div style="position: relative; aspect-ratio: 16 / 10;">
+  <!-- A spinner centered on the field via the slot -->
+  <DotGrid label="Loading">
+    <Loading variant="spinner" decorative />
+  </DotGrid>
 </div>
 ```
 
@@ -48,6 +67,9 @@ Give it a sized, positioned container (or drop it in as a filling layer):
 - A polite `role="status"` with an accessible name (`label`; when omitted it
   comes from the i18n catalog, so `LocaleProvider` localizes it) — it announces
   the loading state like the other indicators.
+- When `status` is set it drives the announcement (the region is `aria-atomic`,
+  so each new message is read in full); the `value` percentage and `detail` are
+  visible but `aria-hidden`, so a fast-ticking value isn't re-announced.
 - Set `decorative` when the surrounding region already announces that it is busy
   (e.g. an `aria-busy` container) — the field is then hidden from assistive tech.
 - The sweep respects `prefers-reduced-motion`: the animation stops and the field

@@ -3,6 +3,11 @@
 
   export let label: string | undefined = undefined;
   export let decorative = false;
+  export let field = true;
+  export let labelPosition: "center" | "top" | "bottom" | "left" | "right" = "center";
+  export let status: string | undefined = undefined;
+  export let value: number | null = null;
+  export let detail: string | undefined = undefined;
 </script>
 
-<DotGrid {label} {decorative} />
+<DotGrid {label} {decorative} {field} {labelPosition} {status} {value} {detail} />
