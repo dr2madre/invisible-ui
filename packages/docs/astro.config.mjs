@@ -40,8 +40,8 @@ export default defineConfig({
         },
         { label: "Navigation", items: [{ autogenerate: { directory: "components/navigation" } }] },
         {
-          label: "Typography & media",
-          items: [{ autogenerate: { directory: "components/typography" } }],
+          label: "Formatting & display",
+          items: [{ autogenerate: { directory: "components/formatting-display" } }],
         },
         { label: "Patterns", items: [{ autogenerate: { directory: "components/patterns" } }] },
         {
