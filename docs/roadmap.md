@@ -1,6 +1,4 @@
----
-title: "Roadmap"
----
+# Roadmap
 
 Component build-out plan for the design system. Every component ships the same
 "parity bar": a headless primitive in `@design-system/core`, a Svelte adapter,

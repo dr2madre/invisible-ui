@@ -155,7 +155,7 @@ Tinted Alert/Notice surfaces are **derived from the feedback hue** with
 > `--ds-color-surface`, the hover overlay is `--ds-state-hover`. A word like
 > "mute" is allowed only when it is a real *state* (a muted mic), never as a
 > visual adjective. This keeps a token honest when you re-theme its role. See
-> [ADR 0002](./adr/0002-tokens-decoupled-from-style.md).
+> ADR 0002 (tokens decoupled from style) in the repository's `docs/adr/`.
 
 ```css
 --ds-color-primary: var(--ds-brand-primary);
@@ -251,4 +251,4 @@ Style the primitives with their hooks, referencing the tokens above:
 }
 ```
 
-See also the [ADR on the headless approach](./adr/0001-headless-vs-amber-web-components.md).
+See also ADR 0001 (headless primitives) in the repository's `docs/adr/`.
