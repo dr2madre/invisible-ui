@@ -52,6 +52,17 @@
   /** Hide from assistive tech (the surrounding region announces the state). */
   export let decorative = false;
   /**
+   * Live status message — a running description of what the process is doing
+   * ("Connecting…", "Fetching records…", "Rendering…"). Unlike `label` (a
+   * static accessible name), this renders as visible text **inside** the polite
+   * `role="status"` region and is announced on every change, so a succession of
+   * backend-reported steps is read out as it progresses. The region is
+   * `aria-atomic`, so each new message is announced in full. Ignored on a
+   * determinate bar (a progressbar announces its value, not free text) and when
+   * `decorative`.
+   */
+  export let status: string | undefined = undefined;
+  /**
    * No-flash delay (ms): keep the indicator hidden until this long has passed,
    * so a fast operation never flashes a loader. If the component is removed
    * before the delay elapses, nothing is ever shown. Follows the response-time
@@ -81,6 +92,7 @@
   }
 
   $: resolvedLabel = label ?? $t("loading.label");
+  $: hasStatus = status != null;
   $: determinate = variant === "bar" && value != null;
   $: clamped = value == null ? null : Math.min(100, Math.max(0, value));
   $: hasText = showLabel || detail != null || (showValue && clamped != null);
@@ -93,7 +105,8 @@
     class:loading--veil={overlay && veil}
     data-variant={variant}
     role={decorative ? undefined : determinate ? "progressbar" : "status"}
-    aria-label={decorative ? undefined : resolvedLabel}
+    aria-label={decorative || (hasStatus && !determinate) ? undefined : resolvedLabel}
+    aria-atomic={hasStatus && !decorative ? "true" : undefined}
     aria-hidden={decorative ? "true" : undefined}
     aria-valuemin={determinate && !decorative ? 0 : undefined}
     aria-valuemax={determinate && !decorative ? 100 : undefined}
@@ -131,6 +144,11 @@
           <span class="loading__dot"></span>
         {/if}
       </span>
+    {/if}
+    {#if hasStatus && !determinate}
+      <!-- Live status: visible AND announced. The region is polite + atomic, so
+           each new backend-reported step is read out in full as it changes. -->
+      <span class="loading__status">{status}</span>
     {/if}
     {#if hasText}
       <!-- Hidden from AT: the name/value attributes above already carry this, and
@@ -231,6 +249,11 @@
   .loading__label {
     display: inline-flex;
     gap: 0.75em;
+    font-size: var(--ds-loading-label-size, 0.8125em);
+    line-height: 1.2;
+  }
+  /* Live status message line (visible + announced). */
+  .loading__status {
     font-size: var(--ds-loading-label-size, 0.8125em);
     line-height: 1.2;
   }

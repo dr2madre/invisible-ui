@@ -29,6 +29,25 @@ announces `aria-busy` and ignores presses while active.
 </script>
 ```
 
+### Live status — a running description
+
+For a process that reports its progress in steps, pass `status`: a message that
+renders **inside** the polite `role="status"` region and is announced on every
+change (the region is `aria-atomic`, so each new message is read in full). This
+is how you surface a succession of backend-reported states — `"Connecting…"` →
+`"Fetching records…"` → `"Rendering…"` — rather than a single static line.
+
+```svelte
+<!-- `status` is whatever the backend last reported; each change is announced. -->
+<Loading variant="spinner" status={currentStep} />
+```
+
+It differs from `label` (a static accessible name) and from `showLabel` /
+`detail` / the percentage (which are `aria-hidden` on purpose, so a fast-ticking
+value isn't re-announced on every frame). Use `status` for discrete, meaningful
+steps; use `detail` for a value that changes continuously. `status` is ignored
+on a determinate `bar` (a progressbar announces its value via `aria-valuetext`).
+
 ### Props
 
 <PropsTable component="loading" />

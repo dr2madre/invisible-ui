@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 
@@ -7,6 +7,10 @@ import svelte from "@astrojs/svelte";
 export default defineConfig({
   site: "https://dr2madre.github.io",
   base: "/invisible-ui/",
+  // Serve images as-is (no build-time optimization). Avoids the native `sharp`
+  // dependency — the only raster asset is the home hero cover, already export-
+  // sized — so the docs build stays deterministic across local and CI.
+  image: { service: passthroughImageService() },
   integrations: [
     starlight({
       title: "Invisible UI",

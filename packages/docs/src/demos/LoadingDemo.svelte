@@ -50,6 +50,16 @@
     busy = true;
     setTimeout(() => (busy = false), 1200);
   }
+
+  // Live status: a succession of steps as a backend would report them. Each new
+  // message is announced (polite + atomic), not just shown.
+  const STEPS = ["Connecting…", "Authenticating…", "Fetching records…", "Rendering…"];
+  let step = 0;
+  onMount(() => {
+    const t = setInterval(() => (step = (step + 1) % STEPS.length), 1400);
+    return () => clearInterval(t);
+  });
+  $: currentStatus = STEPS[step];
 </script>
 
 <div class="demo">
@@ -66,6 +76,11 @@
   <section>
     <p class="demo__caption">With a visible label</p>
     <Loading showLabel label="Loading results" />
+  </section>
+
+  <section>
+    <p class="demo__caption">Live status — steps reported by the backend</p>
+    <Loading variant="spinner" status={currentStatus} />
   </section>
 
   <section>

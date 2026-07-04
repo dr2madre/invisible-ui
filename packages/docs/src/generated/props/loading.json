@@ -52,6 +52,13 @@
       "description": "Hide from assistive tech (the surrounding region announces the state)."
     },
     {
+      "name": "status",
+      "type": "string | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Live status message — a running description of what the process is doing (\"Connecting…\", \"Fetching records…\", \"Rendering…\"). Unlike `label` (a static accessible name), this renders as visible text **inside** the polite `role=\"status\"` region and is announced on every change, so a succession of backend-reported steps is read out as it progresses. The region is `aria-atomic`, so each new message is announced in full. Ignored on a determinate bar (a progressbar announces its value, not free text) and when `decorative`."
+    },
+    {
       "name": "delay",
       "type": "number",
       "default": "0",
