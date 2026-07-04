@@ -2,7 +2,7 @@
   "name": "@design-system/monorepo",
   "version": "0.0.0",
   "private": true,
-  "description": "Nozca-ui (by nozcadesign) — a headless, accessible, multi-framework component library built from scratch.",
+  "description": "Nozca-ui (by nozcadesign) \u2014 a headless, accessible, multi-framework component library built from scratch.",
   "license": "EUPL-1.2",
   "type": "module",
   "scripts": {
@@ -58,6 +58,9 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "tsup>esbuild": ">=0.28.1"
+    }
   }
 }

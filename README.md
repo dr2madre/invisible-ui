@@ -112,6 +112,8 @@ pnpm install     # install workspace dependencies
 pnpm build       # build core, then the adapters (Turborepo)
 pnpm test        # unit tests (core) + interaction & axe a11y tests (Svelte)
 pnpm typecheck   # type-check all packages
+pnpm e2e         # real-browser tests against the built docs site
+                 # (first run once: pnpm exec playwright install chromium)
 ```
 
 Run the example app:
@@ -124,7 +126,7 @@ A **docs site** built with [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build) — with **live, interactive component
 demos** (each styled component embedded as a Svelte island) plus prop tables,
 accessibility notes and usage examples — is published to **GitHub Pages** on
-every push to `main`: **https://dr2madre.github.io/design-system/** (see
+every push to `main`: **https://dr2madre.github.io/invisible-ui/** (see
 [`.github/workflows/docs.yml`](./.github/workflows/docs.yml)).
 
 Run the docs site locally:
