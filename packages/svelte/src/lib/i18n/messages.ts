@@ -38,10 +38,12 @@ export const en = {
   "alert.learnMore": "Learn more",
   // Overlays
   "dialog.close": "Close",
+  // Shared by the dialog family presets (Alert/Confirm/Prompt — ADR 0005).
+  "dialog.confirm": "Confirm",
+  "dialog.cancel": "Cancel",
+  "dialog.dismiss": "OK",
   "sheet.close": "Close",
   "drawer.close": "Close",
-  "alertDialog.action": "Confirm",
-  "alertDialog.cancel": "Cancel",
   // Notice
   "noticeRegion.label": "Notices",
   // Forms & inputs

@@ -1,13 +1,12 @@
 <script lang="ts">
   /**
-   * ConfirmDialog — a styled modal for a routine yes/no confirmation ("Discard
-   * changes?"). It reuses the headless dialog (`@design-system/core`) with
-   * `role="dialog"` and the shared modal adapter (`createDialog`): portal, focus
-   * trap, scroll lock.
-   *
-   * This is the everyday confirmation. For an *urgent* or *destructive* action
-   * that must interrupt and be acknowledged (delete, with type-to-confirm), use
-   * `AlertDialog` (`role="alertdialog"`) instead.
+   * ConfirmDialog — a styled modal to verify or accept before proceeding, the
+   * accessible equivalent of `window.confirm()` (a platform "simple dialog",
+   * per ADR 0005). It reuses the headless dialog (`@design-system/core`) and
+   * the shared modal adapter (`createDialog`): portal, focus trap, scroll lock.
+   * Cancel stops the process, confirm proceeds. Set `urgent` when the choice
+   * must interrupt (`role="alertdialog"`); for a message with nothing to cancel
+   * use `AlertDialog`, to ask for a value use `PromptDialog`.
    *
    * The default slot is the trigger. `onConfirm` runs when the confirm button is
    * pressed. A `title` is required; `description` is optional. Colors, radius and
@@ -33,6 +32,11 @@
   export let cancelLabel: string | undefined = undefined;
   /** Variant of the confirm button (`"danger"` for a destructive-ish confirm). */
   export let confirmVariant: ButtonVariant = "primary";
+  /**
+   * Interrupting urgency: switches the panel to `role="alertdialog"`, which
+   * screen readers announce immediately. Nothing else changes (ADR 0005).
+   */
+  export let urgent = false;
   /** Visual variant for the trigger Button. */
   export let triggerVariant: ButtonVariant = "default";
   /** Called when the confirm button is pressed (before the dialog closes). */
@@ -49,7 +53,7 @@
 
   const dialog = createDialog({
     open,
-    role: "dialog",
+    role: urgent ? "alertdialog" : "dialog",
     describedBy: Boolean(description),
     closeOnOutsideClick,
     // Focus the safe choice (Cancel) first.
@@ -67,8 +71,8 @@
 
   $: dialog.setOpen(open);
 
-  $: resolvedConfirmLabel = confirmLabel ?? $t("alertDialog.action");
-  $: resolvedCancelLabel = cancelLabel ?? $t("alertDialog.cancel");
+  $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
+  $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
 
   const cancel = () => setOpen(false);
   const confirm = () => {

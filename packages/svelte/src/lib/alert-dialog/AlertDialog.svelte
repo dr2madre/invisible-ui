@@ -1,17 +1,17 @@
 <script lang="ts">
   /**
-   * AlertDialog — a styled modal that interrupts the user to confirm a
-   * consequential action (WAI-ARIA alertdialog pattern). It reuses the headless
-   * dialog (`@design-system/core`) with `role="alertdialog"` and the shared modal
-   * adapter (`createDialog`): portal, focus trap, scroll lock. It has no close
-   * (✕) button; a backdrop press cancels by default (set
-   * `closeOnOutsideClick={false}` to force an explicit choice for irreversible
-   * actions). Escape acts as Cancel.
+   * AlertDialog — a styled modal acknowledgement, the accessible equivalent of
+   * `window.alert()` (the platform's first "simple dialog", per ADR 0005). It
+   * interrupts to communicate an important message (`role="alertdialog"`, so
+   * screen readers announce it immediately), but there is nothing to cancel:
+   * one button takes note and closes. Escape and a backdrop press are
+   * equivalent to the button.
    *
    * A `title` and `description` are both required (an alert must be named and
-   * described). The default slot is the trigger. `onAction` runs when the action
-   * button is pressed. Colors, radius and elevation are themeable via
-   * `--ds-dialog-*`.
+   * described). The default slot is the trigger. `onDismiss` runs whenever the
+   * alert is acknowledged — button, Escape or backdrop. For a choice that can
+   * stop a process use `ConfirmDialog`; to ask for a value use `PromptDialog`.
+   * Colors, radius and elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
   import { portal } from "../internal/portal";
@@ -25,40 +25,30 @@
   export let open = false;
   /** Accessible title naming the alert (required). */
   export let title: string;
-  /** Description of the consequence (required). */
+  /** The message to acknowledge (required). */
   export let description: string;
-  /** Label of the confirming action button. Defaults to the i18n catalog's "Confirm". */
-  export let actionLabel: string | undefined = undefined;
-  /** Label of the cancelling button (also the Escape action). Defaults to the i18n catalog's "Cancel". */
-  export let cancelLabel: string | undefined = undefined;
-  /** Variant of the action button (use `"danger"` for destructive actions). */
-  export let actionVariant: ButtonVariant = "primary";
+  /**
+   * Label of the single acknowledging button. Defaults to the i18n catalog's
+   * "OK"; prefer naming the outcome in context ("Done", "Close", "I understood").
+   */
+  export let dismissLabel: string | undefined = undefined;
   /** Visual variant for the trigger Button. */
   export let triggerVariant: ButtonVariant = "default";
-  /** Called when the action button is pressed (before the dialog closes). */
-  export let onAction: (() => void) | undefined = undefined;
+  /** Called when the alert is acknowledged (button, Escape or backdrop). */
+  export let onDismiss: (() => void) | undefined = undefined;
   /**
-   * Whether pressing the backdrop (outside the panel) cancels and closes.
-   * Defaults to `true`; set `false` to force an explicit Cancel/confirm choice
-   * (e.g. for irreversible actions).
+   * Whether pressing the backdrop acknowledges and closes. Defaults to `true`;
+   * set `false` to require an explicit button press (e.g. "I understood").
    */
   export let closeOnOutsideClick = true;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  /**
-   * Type-to-confirm: when set, a text input is shown and the action button stays
-   * disabled until the user types this exact phrase (extra safety for
-   * destructive actions). The `confirmHint` labels the input.
-   */
-  export let confirmPhrase: string | undefined = undefined;
-  export let confirmHint: string | undefined = undefined;
-
-  let typed = "";
-  $: confirmed = !confirmPhrase || typed === confirmPhrase;
 
   const handleOpenChange = (next: boolean) => {
     open = next;
     onOpenChange?.(next);
+    // Every way of closing an acknowledgement is the acknowledgement.
+    if (!next) onDismiss?.();
   };
 
   const dialog = createDialog({
@@ -66,7 +56,7 @@
     role: "alertdialog",
     describedBy: true,
     closeOnOutsideClick,
-    // Focus the safe choice (Cancel) by default, not the destructive action.
+    // Focus the only action: taking note.
     initialFocus: ".alert-dialog__actions button",
     onOpenChange: handleOpenChange,
   });
@@ -81,23 +71,9 @@
 
   $: dialog.setOpen(open);
 
-  $: resolvedActionLabel = actionLabel ?? $t("alertDialog.action");
-  $: resolvedCancelLabel = cancelLabel ?? $t("alertDialog.cancel");
+  $: resolvedDismissLabel = dismissLabel ?? $t("dialog.dismiss");
 
-  // Reset the type-to-confirm field whenever the dialog closes (including via a
-  // backdrop press or Escape, which bypass the Cancel button).
-  $: if (!$isOpen && typed) typed = "";
-
-  const cancel = () => {
-    typed = "";
-    setOpen(false);
-  };
-  const confirm = () => {
-    if (!confirmed) return;
-    onAction?.();
-    typed = "";
-    setOpen(false);
-  };
+  const dismiss = () => setOpen(false);
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -110,25 +86,8 @@
     <div class="alert-dialog__panel" use:contentAction>
       <h2 class="alert-dialog__title" use:titleAction>{title}</h2>
       <p class="alert-dialog__description" use:descriptionAction>{description}</p>
-      {#if confirmPhrase}
-        <label class="alert-dialog__confirm">
-          <span class="alert-dialog__confirm-hint">
-            {confirmHint ?? `Type "${confirmPhrase}" to confirm`}
-          </span>
-          <input
-            class="alert-dialog__confirm-input"
-            type="text"
-            autocomplete="off"
-            bind:value={typed}
-            placeholder={confirmPhrase}
-          />
-        </label>
-      {/if}
       <footer class="alert-dialog__actions">
-        <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
-        <Button variant={actionVariant} disabled={!confirmed} onpress={confirm}
-          >{resolvedActionLabel}</Button
-        >
+        <Button variant="primary" onpress={dismiss}>{resolvedDismissLabel}</Button>
       </footer>
     </div>
   </div>
@@ -178,30 +137,6 @@
   .alert-dialog__description {
     margin: 0.5rem 0 0;
     color: var(--ds-color-text-secondary, #64748b);
-  }
-  .alert-dialog__confirm {
-    display: grid;
-    gap: 0.35rem;
-    margin-block-start: 1rem;
-  }
-  .alert-dialog__confirm-hint {
-    font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #64748b);
-  }
-  .alert-dialog__confirm-input {
-    inline-size: 100%;
-    box-sizing: border-box;
-    padding: var(--ds-control-padding-y, 0.5rem) 0.75rem;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.5rem);
-    font: inherit;
-    background: var(--ds-color-background, #fff);
-    color: inherit;
-  }
-  .alert-dialog__confirm-input:focus-visible {
-    outline: none;
-    border-color: var(--ds-color-focus-ring, #7b52cc);
-    box-shadow: var(--ds-focus-ring-shadow);
   }
   .alert-dialog__actions {
     margin-block-start: 1.5rem;
