@@ -91,7 +91,6 @@
     "src/lib/confirm-dialog/ConfirmDialog.svelte",
     "src/lib/prompt-dialog/PromptDialog.svelte",
     "src/lib/sheet-dialog/SheetDialog.svelte",
-    "src/lib/hover-card/HoverCard.svelte",
     "src/lib/menubar/Menubar.svelte",
     "src/lib/combobox/Combobox.svelte",
     "src/lib/search-dialog/SearchDialog.svelte",
@@ -378,10 +377,6 @@
     "./SheetDialog.svelte": {
       "svelte": "./src/lib/sheet-dialog/SheetDialog.svelte",
       "default": "./src/lib/sheet-dialog/SheetDialog.svelte"
-    },
-    "./HoverCard.svelte": {
-      "svelte": "./src/lib/hover-card/HoverCard.svelte",
-      "default": "./src/lib/hover-card/HoverCard.svelte"
     },
     "./Menubar.svelte": {
       "svelte": "./src/lib/menubar/Menubar.svelte",
