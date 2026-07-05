@@ -31,6 +31,10 @@ differing only in job.
   cancel stops, confirm proceeds (`urgent` to interrupt).
 - **[Prompt Dialog](/invisible-ui/components/feedback/dialog/prompt-dialog/)** — asks for a single value
   (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
+- **[Search Dialog](/invisible-ui/components/feedback/dialog/search-dialog/)** — a quick search: search by keyword and
+  pick from a list.
+- **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** — a task in an edge-anchored panel
+  (`side` variant, optional drag-to-dismiss).
 
 ### Import
 
@@ -66,4 +70,4 @@ Slots: `trigger` (the trigger button's content) and the default slot (the body).
 ```
 
 Themeable via `--ds-dialog-*`. The shared modal utilities (`portal`, `trapFocus`,
-`lockScroll`) are reused by the Alert Dialog, Sheet and Drawer.
+`lockScroll`) are reused across the whole dialog family.

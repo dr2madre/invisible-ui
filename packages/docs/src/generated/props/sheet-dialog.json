@@ -1,5 +1,5 @@
 {
-  "component": "sheet",
+  "component": "sheet-dialog",
   "selected": false,
   "props": [
     {
@@ -7,14 +7,21 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
       "default": "\"default\"",
       "required": false,
-      "description": "Sheet — a Dialog anchored to an edge of the viewport (the common \"side panel\" pattern). It reuses the headless dialog (`@design-system/core`) and the shared modal adapter (`createDialog`) unchanged: portal to `<body>`, focus trap, scroll lock, Escape / backdrop / close-button dismissal, and focus restore. The only additions over `Dialog` are edge anchoring (`side`) and a slide-in animation.  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass a `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`; the panel extent via `--ds-sheet-size`. / import { createDialog } from \"../dialog/create-dialog\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+      "description": "Visual variant for the trigger Button."
     },
     {
       "name": "side",
-      "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+      "type": "SheetDialogSide",
       "default": "\"right\"",
       "required": false,
-      "description": "Which edge the sheet is anchored to."
+      "description": "Which edge the panel is anchored to."
+    },
+    {
+      "name": "draggable",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
     },
     {
       "name": "open",
@@ -28,7 +35,7 @@
       "type": "string",
       "default": null,
       "required": true,
-      "description": "Accessible title naming the sheet."
+      "description": "Accessible title naming the panel (required)."
     },
     {
       "name": "description",
@@ -42,7 +49,7 @@
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Accessible label for the close button."
+      "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\"."
     },
     {
       "name": "initialFocus",
@@ -56,7 +63,7 @@
       "type": "((open: boolean) => void) | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Called when the sheet opens/closes."
+      "description": "Called whenever the open state changes."
     }
   ]
 }

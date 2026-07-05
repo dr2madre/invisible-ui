@@ -1,14 +1,22 @@
 <script lang="ts">
-  import Sheet from "./Sheet.svelte";
+  import SheetDialog from "./SheetDialog.svelte";
 
   export let open = false;
   export let side: "top" | "right" | "bottom" | "left" = "right";
+  export let draggable = false;
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 </script>
 
 <button type="button">before</button>
-<Sheet {open} {side} {onOpenChange} title="Filters" description="Refine the results.">
-  <span slot="trigger">Open sheet</span>
+<SheetDialog
+  {open}
+  {side}
+  {draggable}
+  {onOpenChange}
+  title="Filters"
+  description="Refine the results."
+>
+  <span slot="trigger">Open panel</span>
   <label>Query <input type="text" /></label>
   <button type="button">Apply</button>
-</Sheet>
+</SheetDialog>
