@@ -25,8 +25,7 @@ trap, scroll lock, Escape, backdrop dismiss, `initialFocus`) and the
 - **`Dialog`** — the generic modal (`role="dialog"`). Any content; the base
   everything else builds on.
 - **`ConfirmDialog`** — a routine yes/no (`role="dialog"`). Focus lands on the
-  safe choice. The negative button names what staying does ("Keep file"), never
-  a bare "Cancel".
+  safe choice.
 - **`AlertDialog`** — an *urgent* or *destructive* action to acknowledge
   (`role="alertdialog"`). No ✕ button; optional type-to-confirm via
   `confirmPhrase`.
@@ -38,6 +37,18 @@ trap, scroll lock, Escape, backdrop dismiss, `initialFocus`) and the
 The presets are thin wrappers over `createDialog`, differing only in role,
 focus target, and which props they expose. The difference a user sees is intent
 and urgency, not divergent behavior.
+
+**Button copy guideline.** Buttons name outcomes, not gestures: the confirming
+button names the action ("Delete file"), the negative button names what staying
+does ("Keep file"). The reason is the classic confirmation trap: a dialog asking
+*"Do you want to cancel the order?"* answered by **Cancel** / **OK** is
+ambiguous — "Cancel" reads both as "cancel the order" and "dismiss this dialog".
+Naming outcomes removes the ambiguity for everyone, and especially for
+screen-reader users, who hear the button label on its own, outside the visual
+layout. This is a copy guideline, not an API constraint: the labels stay
+overridable and the defaults stay the platform-conventional "Confirm"/"Cancel"
+(a generic fallback the guideline exists to improve on). Every example in docs
+and demos must follow the guideline.
 
 **Shared wording.** The presets reuse one canonical example rather than each
 inventing copy: the AlertDialog "delete file" text — *"Do you want to delete

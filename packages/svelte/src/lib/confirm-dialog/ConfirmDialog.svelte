@@ -50,7 +50,7 @@
   const dialog = createDialog({
     open,
     role: "dialog",
-    describedBy: true,
+    describedBy: Boolean(description),
     closeOnOutsideClick,
     // Focus the safe choice (Cancel) first.
     initialFocus: ".confirm-dialog__actions button",
