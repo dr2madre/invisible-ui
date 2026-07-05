@@ -5,32 +5,32 @@ import { createDialog } from "../dialog/create-dialog";
 import { createPropsAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
-export type CommandItem = core.ComboboxItem;
+export type SearchDialogItem = core.ComboboxItem;
 
-export interface CommandContext {
+export interface SearchDialogContext {
   /** The available commands. */
-  items: CommandItem[];
+  items: SearchDialogItem[];
   /** Initial open state. */
   open?: boolean;
   /** Filter commands against the query. Defaults to case-insensitive substring. */
-  filter?: (items: CommandItem[], query: string) => CommandItem[];
+  filter?: (items: SearchDialogItem[], query: string) => SearchDialogItem[];
   /** Called when a command is chosen (before the palette closes). */
-  onCommand?: (value: string) => void;
+  onSelect?: (value: string) => void;
   /** Called whenever the palette opens/closes. */
   onOpenChange?: (open: boolean) => void;
 }
 
-export interface CreateCommand {
+export interface CreateSearchDialog {
   /** Whether the palette is open. */
   open: Readable<boolean>;
   /** Imperatively open/close the palette. */
   setOpen: (open: boolean) => void;
   /** The currently visible (filtered) commands. */
-  items: Readable<CommandItem[]>;
+  items: Readable<SearchDialogItem[]>;
   /** The current query text. */
   inputValue: Readable<string>;
   /** Replace the command list (e.g. when commands load asynchronously). */
-  setItems: (items: CommandItem[]) => void;
+  setItems: (items: SearchDialogItem[]) => void;
   /** Action for the trigger button. */
   triggerAction: Action<HTMLElement>;
   /** Action for the dialog panel (render only while open). */
@@ -47,7 +47,7 @@ export interface CreateCommand {
   optionAction: Action<HTMLElement, string>;
 }
 
-const defaultFilter = (items: CommandItem[], query: string) => {
+const defaultFilter = (items: SearchDialogItem[], query: string) => {
   const q = query.trim().toLowerCase();
   if (!q) return items;
   return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
@@ -58,10 +58,10 @@ const defaultFilter = (items: CommandItem[], query: string) => {
  * modal shell (portal, focus trap, scroll lock, Escape / backdrop close, focus
  * restore) comes from {@link createDialog}; the search input + filtered results
  * reuse the headless combobox (`@design-system/core`) wired "always open" while
- * the dialog is open. Choosing a command runs `onCommand` and closes. The list
+ * the dialog is open. Choosing a command runs `onSelect` and closes. The list
  * is rendered inline in the dialog (no floating popup).
  */
-export function createCommand(context: CommandContext): CreateCommand {
+export function createSearchDialog(context: SearchDialogContext): CreateSearchDialog {
   let allItems = context.items;
   const filter = context.filter ?? defaultFilter;
   const base = core.initialState({ items: allItems });
@@ -70,7 +70,7 @@ export function createCommand(context: CommandContext): CreateCommand {
     open: context.open,
     onOpenChange: context.onOpenChange,
     // The palette opens with the search input focused, ready to type.
-    initialFocus: ".command__input",
+    initialFocus: ".search-dialog__input",
   });
 
   const query = writable({
@@ -93,7 +93,7 @@ export function createCommand(context: CommandContext): CreateCommand {
   const setInputValue = (inputValue: string) =>
     query.update((q) => ({ ...q, inputValue, items: filter(allItems, inputValue) }));
 
-  const setItems = (items: CommandItem[]) => {
+  const setItems = (items: SearchDialogItem[]) => {
     allItems = items;
     query.update((q) => ({
       ...q,
@@ -118,7 +118,7 @@ export function createCommand(context: CommandContext): CreateCommand {
       state: $state,
       // Selecting a command runs it; there is no persistent selection.
       setValue: (v) => {
-        if (v != null) context.onCommand?.(v);
+        if (v != null) context.onSelect?.(v);
       },
       // The combobox "closing" (Escape / select) closes the dialog.
       setOpen: (o) => {

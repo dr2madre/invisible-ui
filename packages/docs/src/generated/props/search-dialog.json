@@ -1,5 +1,5 @@
 {
-  "component": "command",
+  "component": "search-dialog",
   "selected": false,
   "props": [
     {
@@ -7,11 +7,11 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
       "default": "\"default\"",
       "required": false,
-      "description": "Command — a command palette (⌘K-style): a search combobox inside a modal dialog. The modal shell (portal, focus trap, scroll lock, Escape / backdrop close, focus restore) and the search/filter/keyboard behaviour come from the headless command (`@design-system/core` dialog + combobox); this is the styled wrapper.  Pass `items` ({ value, label?, disabled? }); `onCommand(value)` runs when a command is chosen. The `trigger` slot is the opener button's content. Bind `open` to wire a keyboard shortcut. Themeable via `--ds-command-*`. / import { createCommand, type CommandItem } from \"./create-command\"; import { portal } from \"../internal/portal\"; import Icon from \"../icon/Icon.svelte\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+      "description": "Visual variant for the trigger Button."
     },
     {
       "name": "items",
-      "type": "CommandItem[]",
+      "type": "SearchDialogItem[]",
       "default": null,
       "required": true,
       "description": ""
@@ -28,42 +28,42 @@
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Accessible title for the dialog."
+      "description": "Accessible title for the dialog. Defaults to the i18n catalog's \"Search\"."
     },
     {
       "name": "label",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Accessible label for the search input."
+      "description": "Accessible label for the search input. Defaults to the i18n catalog's \"Search\"."
     },
     {
       "name": "placeholder",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Input placeholder."
+      "description": "Input placeholder. Defaults to the i18n catalog's \"Type to search…\"."
     },
     {
       "name": "emptyText",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Shown when nothing matches."
+      "description": "Text shown when nothing matches. Defaults to the i18n catalog's \"No results found.\"."
     },
     {
-      "name": "onCommand",
+      "name": "onSelect",
       "type": "((value: string) => void) | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Called when a command is chosen."
+      "description": ""
     },
     {
       "name": "onOpenChange",
       "type": "((o: boolean) => void) | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Called when the palette opens/closes."
+      "description": ""
     }
   ]
 }
