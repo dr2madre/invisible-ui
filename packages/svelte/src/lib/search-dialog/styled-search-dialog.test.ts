@@ -117,6 +117,61 @@ describe("Svelte SearchDialog (styled)", () => {
     expect(screen.getByRole("status")).toHaveTextContent("No results found.");
   });
 
+  const groupedItems = [
+    { value: "home", label: "Home", group: "Pages" },
+    { value: "settings-page", label: "Settings page", group: "Pages" },
+    { value: "new", label: "New File", group: "Actions" },
+    { value: "save", label: "Save", group: "Actions" },
+    { value: "help", label: "Help" },
+  ];
+
+  it("renders grouped results under labelled sections, ungrouped first", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { items: groupedItems } });
+    await openPalette(user);
+
+    const groups = screen.getAllByRole("group");
+    expect(groups).toHaveLength(2);
+    expect(groups[0]).toHaveAccessibleName("Pages");
+    expect(groups[1]).toHaveAccessibleName("Actions");
+    expect(within(groups[0]).getAllByRole("option")).toHaveLength(2);
+    // Ungrouped items come first in the flat traversal order.
+    const options = within(screen.getByRole("listbox")).getAllByRole("option");
+    expect(options[0]).toHaveTextContent("Help");
+    expect(options).toHaveLength(5);
+  });
+
+  it("keyboard traversal crosses group boundaries in display order", async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(Fixture, { props: { items: groupedItems, onSelect } });
+    await openPalette(user);
+
+    // Help (ungrouped) -> Home -> Settings page (both in Pages)
+    await user.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}");
+    await user.keyboard("{Enter}");
+    expect(onSelect).toHaveBeenCalledWith("settings-page");
+  });
+
+  it("hides a group and its header when the filter empties it", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { items: groupedItems } });
+    await openPalette(user);
+
+    await user.type(screen.getByRole("combobox"), "sett");
+    const groups = screen.getAllByRole("group");
+    expect(groups).toHaveLength(1);
+    expect(groups[0]).toHaveAccessibleName("Pages");
+    expect(screen.queryByText("Actions")).not.toBeInTheDocument();
+  });
+
+  it("has no accessibility violations with grouped results", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { items: groupedItems } });
+    await openPalette(user);
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+
   it("closes on Escape", async () => {
     const user = userEvent.setup();
     render(Fixture);

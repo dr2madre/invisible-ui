@@ -4,11 +4,14 @@
   let open = false;
   let chosen = "";
 
+  // `group` sections the results by type — ungrouped items come first.
   const items = [
-    { value: "new", label: "New File" },
-    { value: "open", label: "Open…" },
-    { value: "save", label: "Save" },
-    { value: "settings", label: "Settings" },
+    { value: "help", label: "Help" },
+    { value: "home", label: "Home", group: "Pages" },
+    { value: "settings", label: "Settings", group: "Pages" },
+    { value: "new", label: "New File", group: "Actions" },
+    { value: "open", label: "Open…", group: "Actions" },
+    { value: "save", label: "Save", group: "Actions" },
   ];
 
   // The shortcut belongs to the application, not the component: this demo
