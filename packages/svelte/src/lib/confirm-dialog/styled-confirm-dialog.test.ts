@@ -34,8 +34,21 @@ describe("Svelte ConfirmDialog", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  // Svelte re-applies a prop's initializer when `undefined` is passed, so the
+  // fixture models "no description" with an empty string.
+  it("omits aria-describedby when there is no description", () => {
+    render(Fixture, { props: { open: true, description: "" } });
+    const dialog = screen.getByRole("dialog", { name: "Discard changes?" });
+    expect(dialog).not.toHaveAttribute("aria-describedby");
+  });
+
   it("has no accessibility violations when open", async () => {
     const { container } = render(Fixture, { props: { open: true } });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+
+  it("has no accessibility violations without a description", async () => {
+    const { container } = render(Fixture, { props: { open: true, description: "" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
