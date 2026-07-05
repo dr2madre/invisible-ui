@@ -19,6 +19,13 @@ dialog: it must never interrupt, never steal focus. Stack it inside a
 via `createNotifier()`; for the same message fixed in the page flow, use
 [Inline Notification](/invisible-ui/components/feedback/inline-notification/).
 
+While a **modal dialog is open**, the page — notification regions included —
+is inert: a notification raised then renders underneath the dialog and is not
+announced. By design: background information waits; feedback about the task in
+progress belongs *inside* the dialog, as an
+[Inline Notification](/invisible-ui/components/feedback/inline-notification/)
+(see [the dialog overview](/invisible-ui/components/feedback/dialog/#while-a-dialog-is-open-the-page-waits)).
+
 ### Auto-dismiss is opt-in
 
 Notifications are **persistent by default** (`duration = 0`): the user reads

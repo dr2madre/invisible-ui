@@ -25,6 +25,12 @@ Set **`urgent`** when the choice must interrupt: the panel switches to
 changes — urgency is a modifier, not a different component (the demo above
 shows both).
 
+It also works **stacked on another dialog** — the confirm-on-close case: a
+Confirm Dialog guarding an edit dialog with unsaved changes. The top layer
+stacks it above, Escape closes only the confirm, and focus returns into the
+outer dialog (see
+[the family overview](/invisible-ui/components/feedback/dialog/#while-a-dialog-is-open-the-page-waits)).
+
 ### Wording
 
 Buttons name outcomes, not gestures. The classic trap: *"Do you want to cancel
