@@ -17,6 +17,20 @@
       "description": ""
     },
     {
+      "name": "suggestions",
+      "type": "SearchDialogItem[]",
+      "default": "[]",
+      "required": false,
+      "description": "Items shown while the query is empty — recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means: an empty query shows all items."
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and suppresses the empty state meanwhile. Feed async results through `items` when they arrive."
+    },
+    {
       "name": "open",
       "type": "boolean",
       "default": "false",

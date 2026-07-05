@@ -17,6 +17,7 @@
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
+  import Loading from "../loading/Loading.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -24,6 +25,18 @@
   /** Visual variant for the trigger Button. */
   export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
   export let items: SearchDialogItem[];
+  /**
+   * Items shown while the query is empty — recents, frequent searches. The
+   * application measures and decides; the dialog displays. They may carry
+   * their own `group` ("Recent"). Empty means: an empty query shows all items.
+   */
+  export let suggestions: SearchDialogItem[] = [];
+  /**
+   * Results are being fetched: shows an indicator, announces "Searching…"
+   * through the status region and suppresses the empty state meanwhile.
+   * Feed async results through `items` when they arrive.
+   */
+  export let loading = false;
   export let open = false;
   /** Accessible title for the dialog. Defaults to the i18n catalog's "Search". */
   export let title: string | undefined = undefined;
@@ -47,6 +60,7 @@
 
   const search = createSearchDialog({
     items,
+    suggestions,
     open,
     onSelect: handleSelect,
     onOpenChange: handleOpenChange,
@@ -63,6 +77,7 @@
     items: visible,
     inputValue,
     setItems,
+    setSuggestions,
   } = search;
 
   $: resolvedTitle = title ?? $t("searchDialog.title");
@@ -72,6 +87,7 @@
 
   $: search.setOpen(open);
   $: setItems(items);
+  $: setSuggestions(suggestions);
 
   // The adapter puts items in display order (ungrouped first, then one run
   // per group), so consecutive runs of the same group form the sections.
@@ -114,7 +130,9 @@
 
       <!-- Polite announcement of the filtered results for screen readers. -->
       <div class="search-dialog__sr-only" role="status">
-        {#if $visible.length === 0}
+        {#if loading}
+          {$t("searchDialog.loading")}
+        {:else if $visible.length === 0}
           {resolvedEmptyText}
         {:else if $visible.length === 1}
           {$t("searchDialog.resultOne")}
@@ -122,6 +140,12 @@
           {$t("searchDialog.resultMany", { count: $visible.length })}
         {/if}
       </div>
+
+      {#if loading}
+        <div class="search-dialog__loading">
+          <Loading variant="dots" decorative />
+        </div>
+      {/if}
 
       <!-- The listbox stays in the DOM even when empty so the input's
            aria-controls keeps pointing at a real element. -->
@@ -149,7 +173,7 @@
           {/if}
         {/each}
       </div>
-      {#if $visible.length === 0}
+      {#if $visible.length === 0 && !loading}
         <p class="search-dialog__empty">{resolvedEmptyText}</p>
       {/if}
     </div>
@@ -218,6 +242,12 @@
     outline: none;
   }
 
+  .search-dialog__loading {
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem;
+    border-block-end: 1px solid var(--ds-color-border, #cbd5e1);
+  }
   .search-dialog__list {
     margin: 0;
     padding: var(--ds-search-dialog-list-padding, 0.375rem);
