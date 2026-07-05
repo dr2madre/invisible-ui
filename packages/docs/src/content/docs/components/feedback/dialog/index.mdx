@@ -38,6 +38,52 @@ differing only in job.
 - **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** — a task in an edge-anchored panel
   (`side` variant, optional drag-to-dismiss).
 
+### While a dialog is open, the page waits
+
+A modal interrupts by design: `showModal()` makes everything outside it
+**inert** — non-interactive and silenced for assistive technology too. That
+includes floating [Notifications](/invisible-ui/components/feedback/notification/):
+a toast raised while a dialog is open renders underneath it and is not
+announced. This is coherent, not a limitation — background information waits;
+anything about the task in progress belongs *inside* the dialog.
+
+**Feedback inside a dialog** — for a non-blocking message tied to the task
+(a failed save, a lost connection), render an
+[Inline Notification](/invisible-ui/components/feedback/inline-notification/)
+in the dialog body. Inside the open dialog it is outside the inert zone, so its
+live region announces normally:
+
+```svelte
+<Dialog title="Edit profile">
+  {#if saveError}
+    <InlineNotification status="danger" title="Save failed" role="alert" />
+  {/if}
+  <form>…</form>
+</Dialog>
+```
+
+**Dialogs stack — one level, one job.** The top layer is a stack: opening a
+dialog from inside a dialog puts it on top and makes the outer one inert too.
+The one legitimate case is the **confirm-on-close**: a Confirm Dialog guarding
+an edit dialog with unsaved changes. **Escape pops one level** (the confirm
+closes, the editor survives, focus returns inside it); scroll stays locked
+until the last dialog closes. If you need more than one level of stacking, the
+task wants a different shape, not a deeper stack.
+
+```svelte
+<Dialog title="Edit profile">
+  <form>…</form>
+  <ConfirmDialog
+    title="Discard changes?"
+    description="Your edits will be lost."
+    confirmLabel="Discard changes"
+    cancelLabel="Keep editing"
+  >
+    Discard
+  </ConfirmDialog>
+</Dialog>
+```
+
 ### Import
 
 ```svelte
