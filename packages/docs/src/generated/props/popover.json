@@ -3,6 +3,13 @@
   "selected": false,
   "props": [
     {
+      "name": "trigger",
+      "type": "\"click\" | \"hover\"",
+      "default": "\"click\"",
+      "required": false,
+      "description": "Opening contract: an intentional click, or a hover/focus preview."
+    },
+    {
       "name": "triggerVariant",
       "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
       "default": "\"default\"",
@@ -22,6 +29,20 @@
       "default": "\"bottom\"",
       "required": false,
       "description": "Preferred placement (Floating UI); flips when there's no room."
+    },
+    {
+      "name": "openDelay",
+      "type": "number",
+      "default": "300",
+      "required": false,
+      "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
+    },
+    {
+      "name": "closeDelay",
+      "type": "number",
+      "default": "200",
+      "required": false,
+      "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
     },
     {
       "name": "onOpenChange",

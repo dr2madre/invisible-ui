@@ -1,5 +1,5 @@
 <script lang="ts">
-  import HoverCard from "./HoverCard.svelte";
+  import Popover from "./Popover.svelte";
 
   export let openDelay = 0;
   export let closeDelay = 0;
@@ -7,12 +7,12 @@
 </script>
 
 <a href="#before">before</a>
-<HoverCard {openDelay} {closeDelay} {onOpenChange}>
+<Popover trigger="hover" {openDelay} {closeDelay} {onOpenChange}>
   <a slot="trigger" href="#ada">@ada</a>
   <div>
     <strong>Ada Lovelace</strong>
     <p>Mathematician, the first programmer.</p>
     <a href="#follow">Follow</a>
   </div>
-</HoverCard>
+</Popover>
 <a href="#after">after</a>

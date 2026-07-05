@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./popover.fixture.svelte";
+import HoverFixture from "./popover-hover.fixture.svelte";
 
 describe("Svelte Popover (styled)", () => {
   it("is closed by default with the trigger advertising the panel", () => {
@@ -52,6 +53,77 @@ describe("Svelte Popover (styled)", () => {
     const user = userEvent.setup();
     const { container } = render(Fixture);
     await user.click(screen.getByRole("button", { name: "Open popover" }));
+    expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Svelte Popover (trigger=hover)", () => {
+  const card = () => document.querySelector<HTMLElement>(".popover__content");
+  // pointerenter/leave don't bubble, so the wrapper (which carries the
+  // listeners) must be the event target.
+  const triggerWrap = () => document.querySelector<HTMLElement>(".popover__hover-trigger")!;
+
+  it("is closed by default", () => {
+    render(HoverFixture);
+    expect(card()).toBeNull();
+  });
+
+  it("opens on keyboard focus of the trigger without moving focus", async () => {
+    const onOpenChange = vi.fn();
+    render(HoverFixture, { props: { onOpenChange } });
+
+    await fireEvent.focusIn(screen.getByRole("link", { name: "@ada" }));
+    expect(card()).not.toBeNull();
+    expect(onOpenChange).toHaveBeenLastCalledWith(true);
+    // Focus is NOT moved into the card.
+    expect(card()!.contains(document.activeElement)).toBe(false);
+  });
+
+  it("opens on pointer enter and closes on pointer leave", async () => {
+    render(HoverFixture);
+
+    await fireEvent.pointerEnter(triggerWrap());
+    expect(card()).not.toBeNull();
+
+    await fireEvent.pointerLeave(triggerWrap());
+    expect(card()).toBeNull();
+  });
+
+  it("first click opens the preview; once open the default proceeds", async () => {
+    render(HoverFixture);
+    const link = screen.getByRole("link", { name: "@ada" });
+
+    // Closed: the click is consumed to open the preview (touch fallback).
+    const firstDefaultAllowed = await fireEvent.click(link);
+    expect(firstDefaultAllowed).toBe(false);
+    expect(card()).not.toBeNull();
+
+    // Open: the click is not intercepted — the link would navigate.
+    const secondDefaultAllowed = await fireEvent.click(link);
+    expect(secondDefaultAllowed).toBe(true);
+  });
+
+  it("closes when focus leaves the trigger and card", async () => {
+    render(HoverFixture);
+    await fireEvent.focusIn(screen.getByRole("link", { name: "@ada" }));
+    expect(card()).not.toBeNull();
+
+    await fireEvent.focusIn(screen.getByRole("link", { name: "after" }));
+    expect(card()).toBeNull();
+  });
+
+  it("closes on Escape", async () => {
+    render(HoverFixture);
+    await fireEvent.focusIn(screen.getByRole("link", { name: "@ada" }));
+    expect(card()).not.toBeNull();
+
+    await fireEvent.keyDown(document, { key: "Escape" });
+    expect(card()).toBeNull();
+  });
+
+  it("has no accessibility violations when open", async () => {
+    const { container } = render(HoverFixture);
+    await fireEvent.pointerEnter(triggerWrap());
     expect(await axe(container)).toHaveNoViolations();
   });
 });

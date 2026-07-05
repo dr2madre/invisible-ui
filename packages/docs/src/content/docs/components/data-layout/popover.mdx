@@ -10,8 +10,23 @@ import PopoverDemo from "../../../../demos/PopoverDemo.svelte";
   <PopoverDemo client:only="svelte" />
 </Preview>
 
-A non-modal floating panel anchored to a trigger button (positioned with
-Floating UI; flip/shift; outside-press + focus-leave dismissal).
+A non-modal floating card anchored to a trigger (positioned with Floating UI;
+flip/shift; outside-press + focus-leave dismissal). One fully customizable
+card, two opening contracts:
+
+- **`trigger="click"`** (default) — an intentional opening: a Button opens the
+  panel and **focus moves in**; Escape returns it to the trigger.
+- **`trigger="hover"`** — a preview (the pattern elsewhere called "hover
+  card"): the card opens on hover **and keyboard focus** of the slotted
+  trigger (typically a link), with `openDelay`/`closeDelay`; **focus never
+  moves in** — Tab reaches its links naturally. Hover does not exist on touch:
+  the first click/tap opens the preview instead of activating the trigger, and
+  once open the default action proceeds (the second tap follows the link).
+  Content must be **supplementary** — never put essential information only
+  here, because a preview is not guaranteed to every input modality.
+
+For a plain text hint, use [Tooltip](/invisible-ui/components/data-layout/tooltip/):
+different job, different role (`role="tooltip"` wired via `aria-describedby`).
 
 ### Import
 
@@ -30,11 +45,14 @@ content).
 
 ### Accessibility
 
-- Trigger carries `aria-haspopup="dialog"` / `aria-expanded` and, while open,
-  `aria-controls`.
-- Non-modal: focus moves into the panel on open; **Escape** closes and returns
-  focus to the trigger; an outside pointer press or focus leaving the panel also
-  closes (without stealing focus back).
+- With `trigger="click"`: the trigger carries `aria-haspopup="dialog"` /
+  `aria-expanded` and, while open, `aria-controls`. Non-modal: focus moves into
+  the panel on open; **Escape** closes and returns focus to the trigger; an
+  outside pointer press or focus leaving the panel also closes (without
+  stealing focus back).
+- With `trigger="hover"`: opening on keyboard focus gives non-pointer users the
+  same preview; focus is never moved or trapped; the card stays open while
+  hovered (WCAG 1.4.13 hoverable) and **Escape** dismisses it (dismissable).
 - Positioning (flip/shift, stays attached on scroll) via `@floating-ui/dom`.
 
 ### Example
@@ -43,6 +61,12 @@ content).
 <Popover>
   <span slot="trigger">Open</span>
   <p>Panel content goes here.</p>
+</Popover>
+
+<!-- Preview on hover/focus of a link (supplementary content only). -->
+<Popover trigger="hover">
+  <a slot="trigger" href="/users/ada">@ada</a>
+  <ProfileCard user="ada" />
 </Popover>
 ```
 
