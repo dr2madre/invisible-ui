@@ -18,7 +18,10 @@ Enter confirms. `onConfirm(value)` runs with the entered text.
 Set **`confirmValue`** for a type-to-confirm gate: the confirm button stays
 disabled until the input matches it exactly — e.g. typing a file name to confirm
 its deletion (the demo above). Pair it with `confirmVariant="danger"` for
-destructive actions.
+destructive actions. This is the same type-to-confirm safety as
+[Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)'s `confirmPhrase`
+and reuses the same wording — the difference is only the role (`role="dialog"`
+here vs `role="alertdialog"` for the interrupting variant).
 
 ### When to use which dialog
 
@@ -51,14 +54,16 @@ destructive actions.
 <!-- Type the file name to enable the destructive Delete. -->
 <PromptDialog
   title="Delete file"
-  description="This can't be undone. Type the file name to confirm."
-  label="File name"
-  confirmValue="report-2026.pdf"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  label="Type the file name to confirm"
+  placeholder="report-q3.pdf"
+  confirmValue="report-q3.pdf"
   confirmLabel="Delete file"
+  cancelLabel="Keep file"
   confirmVariant="danger"
   onConfirm={() => remove()}
 >
-  Delete report-2026.pdf
+  Delete file
 </PromptDialog>
 ```
 

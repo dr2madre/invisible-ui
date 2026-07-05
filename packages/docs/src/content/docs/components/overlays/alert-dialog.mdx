@@ -16,6 +16,21 @@ the shared modal adapter. It has no close (✕) button; a backdrop press cancels
 by default — set `closeOnOutsideClick={false}` to force an explicit choice for
 irreversible actions.
 
+The two examples above share their wording with the sibling presets so the
+family reads consistently: the plain yes/no is the same choice as
+[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/), and the
+type-to-confirm variant is the same input as
+[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/). The difference
+is the role and urgency — AlertDialog interrupts (`role="alertdialog"`), the
+presets do not (`role="dialog"`).
+
+### When to use which dialog
+
+- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content.
+- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — a routine yes/no confirmation.
+- **Alert Dialog** — an *urgent* or *destructive* action to acknowledge (optional type-to-confirm).
+- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value.
+
 ### Import
 
 ```svelte
@@ -43,9 +58,10 @@ The default slot is the trigger's content.
 
 ```svelte
 <AlertDialog
-  title="Delete file?"
-  description="This action cannot be undone."
-  actionLabel="Delete"
+  title="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  actionLabel="Delete file"
+  cancelLabel="Keep file"
   actionVariant="danger"
   onAction={() => remove()}
 >
