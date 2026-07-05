@@ -42,8 +42,7 @@ export const en = {
   "dialog.confirm": "Confirm",
   "dialog.cancel": "Cancel",
   "dialog.dismiss": "OK",
-  "sheet.close": "Close",
-  "drawer.close": "Close",
+  "sheetDialog.close": "Close",
   // Notice
   "noticeRegion.label": "Notices",
   // Forms & inputs

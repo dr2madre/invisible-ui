@@ -1,0 +1,78 @@
+---
+title: "Sheet Dialog"
+sidebar:
+  order: 6
+---
+
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import SheetDialogDemo from "../../../../../demos/SheetDialogDemo.svelte";
+
+<Preview>
+  <SheetDialogDemo client:only="svelte" />
+</Preview>
+
+A Dialog anchored to an edge of the viewport — the panel pattern variously
+marketed as "sheet", "side panel" or "drawer" (names that describe motion, not
+a job: this is a dialog in every sense). It reuses the headless dialog and the
+shared modal adapter unchanged; over Dialog it adds edge anchoring (**`side`**:
+`top` / `right` / `bottom` / `left`), a slide-in animation, and an optional
+**`draggable`** drag-to-dismiss gesture on the bottom and lateral sides.
+
+Use it for a task the user finishes or cancels in context — filters, an edit
+form, a cart. It stays modal: for content that could live on its own page and
+merely *happens* to be shown alongside, routing a view into a Sheet Dialog is
+the application's choice.
+
+### When to use which dialog
+
+- **[Dialog](/invisible-ui/components/feedback/dialog/)** — generic modal for any content; the head of the family.
+- **[Alert Dialog](/invisible-ui/components/feedback/dialog/alert-dialog/)** — an acknowledgement: a message with
+  nothing to cancel (one button).
+- **[Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/)** — verify or accept before proceeding:
+  cancel stops, confirm proceeds (`urgent` to interrupt).
+- **[Prompt Dialog](/invisible-ui/components/feedback/dialog/prompt-dialog/)** — asks for a single value
+  (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
+- **[Search Dialog](/invisible-ui/components/feedback/dialog/search-dialog/)** — a quick search: search by keyword and
+  pick from a list.
+- **Sheet Dialog** — a task in an edge-anchored panel
+  (`side` variant, optional drag-to-dismiss).
+
+### Import
+
+```svelte
+<script>
+  import SheetDialog from "@design-system/svelte/SheetDialog.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="sheet-dialog" />
+
+Slots: `trigger` (the trigger button's content), the default slot (the body)
+and an optional `footer` pinned to the panel's end.
+
+### Accessibility
+
+- `role="dialog"` with `aria-modal="true"`, named by `title` and described by
+  the optional `description`. Focus moves into the panel on open (customize
+  with `initialFocus`), is trapped, and returns to the trigger on close.
+- **Escape**, the close button, or a backdrop press dismiss it; body scroll is
+  locked while open.
+- The drag handle is a **pointer affordance only** (`aria-hidden`): keyboard
+  and screen-reader users dismiss with Escape or the close button, so no
+  functionality depends on the gesture. Release past a quarter of the panel's
+  extent — or a fast flick — dismisses; anything less snaps home.
+
+### Example
+
+```svelte
+<SheetDialog side="bottom" draggable title="Account" description="Manage your account.">
+  <span slot="trigger">Account</span>
+  <button type="button">Sign out</button>
+</SheetDialog>
+```
+
+Themeable via `--ds-dialog-*` (shared) plus `--ds-sheet-dialog-size`,
+`--ds-sheet-dialog-duration` and `--ds-sheet-dialog-handle`.

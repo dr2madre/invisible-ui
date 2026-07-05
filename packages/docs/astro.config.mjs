@@ -44,7 +44,6 @@ export default defineConfig({
               label: "Dialog",
               items: [{ autogenerate: { directory: "components/feedback/dialog" } }],
             },
-            "components/feedback/drawer",
             "components/feedback/error-state",
             "components/feedback/feedback-icon",
             "components/feedback/loading",
@@ -53,13 +52,14 @@ export default defineConfig({
             "components/feedback/notice",
             "components/feedback/notice-region",
             "components/feedback/progress",
-            "components/feedback/sheet",
             "components/feedback/skeleton",
             "components/feedback/tag",
           ],
         },
+        // Layout will become its own category (an optional presentation
+        // layer); until then this section holds data presentation only.
         {
-          label: "Data & layout",
+          label: "Data",
           items: [{ autogenerate: { directory: "components/data-layout" } }],
         },
         { label: "Navigation", items: [{ autogenerate: { directory: "components/navigation" } }] },
