@@ -10,26 +10,28 @@ import AlertDialogDemo from "../../../../demos/AlertDialogDemo.svelte";
   <AlertDialogDemo client:only="svelte" />
 </Preview>
 
-A modal that interrupts the user to confirm a consequential action (WAI-ARIA
-alertdialog pattern). Reuses the headless dialog with `role="alertdialog"` and
-the shared modal adapter. It has no close (✕) button; a backdrop press cancels
-by default — set `closeOnOutsideClick={false}` to force an explicit choice for
-irreversible actions.
+A modal acknowledgement — the accessible equivalent of `window.alert()`, the
+first of the platform's *simple dialogs*. It interrupts to communicate an
+important message (`role="alertdialog"`, announced immediately by screen
+readers), but there is **nothing to cancel**: one button takes note and closes.
+Escape and a backdrop press are equivalent to the button; set
+`closeOnOutsideClick={false}` to require an explicit press (e.g. a notice the
+user must actively acknowledge).
 
-The two examples above share their wording with the sibling presets so the
-family reads consistently: the plain yes/no is the same choice as
-[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/), and the
-type-to-confirm variant is the same input as
-[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/). The difference
-is the role and urgency — AlertDialog interrupts (`role="alertdialog"`), the
-presets do not (`role="dialog"`).
+If the dialog offers a *choice* — something that can stop a process — it is not
+an alert: use [Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)
+(with `urgent` if it must interrupt), or
+[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/) if it asks for
+a value.
 
 ### When to use which dialog
 
-- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content.
-- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — a routine yes/no confirmation.
-- **Alert Dialog** — an *urgent* or *destructive* action to acknowledge (optional type-to-confirm).
-- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value.
+- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content; the head of the family.
+- **Alert Dialog** — an acknowledgement: a message with nothing to cancel (one button).
+- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — verify or accept before proceeding:
+  cancel stops, confirm proceeds (`urgent` to interrupt).
+- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value
+  (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
 
 ### Import
 
@@ -45,27 +47,34 @@ presets do not (`role="dialog"`).
 
 The default slot is the trigger's content.
 
+### Wording
+
+The default label is the conventional "OK", but prefer naming the outcome in
+context: **Done** after an operation, **Close** for a plain notice,
+**I understood** when the user is taking on an obligation. Same principle as
+the family's [button copy guideline](/invisible-ui/components/overlays/confirm-dialog/#wording):
+buttons name outcomes, not gestures.
+
 ### Accessibility
 
 - Panel is `role="alertdialog"` with `aria-modal="true"`, named by the title and
-  described by the description (both required).
-- Focus starts on **Cancel** (the least-destructive action). **Escape** cancels,
-  and a backdrop press cancels by default (opt out with
-  `closeOnOutsideClick={false}` for irreversible actions). Focus is trapped and
-  body scroll locked; focus returns to the trigger on close.
+  described by the message (both required). Screen readers announce the content
+  immediately — that is what the role is for.
+- Focus starts on the only button; focus is trapped and body scroll locked;
+  focus returns to the trigger on close.
+- **Escape** and a backdrop press acknowledge exactly like the button
+  (`onDismiss` runs in every case) — there is no destructive path to protect.
 
 ### Example
 
 ```svelte
 <AlertDialog
-  title="Delete file"
-  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
-  actionLabel="Delete file"
-  cancelLabel="Keep file"
-  actionVariant="danger"
-  onAction={() => remove()}
+  title="File deleted"
+  description="“report-q3.pdf” was permanently deleted."
+  dismissLabel="Done"
+  onDismiss={() => refresh()}
 >
-  Delete file
+  Show outcome
 </AlertDialog>
 ```
 

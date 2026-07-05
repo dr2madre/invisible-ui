@@ -24,25 +24,11 @@
       "description": "Description of the consequence."
     },
     {
-      "name": "actionLabel",
+      "name": "dismissLabel",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Label of the confirming action button."
-    },
-    {
-      "name": "cancelLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Label of the cancel button (also the Escape action)."
-    },
-    {
-      "name": "actionVariant",
-      "type": "ButtonVariant",
-      "default": "\"primary\"",
-      "required": false,
-      "description": "Action button variant; use `\"danger\"` for destructive actions."
+      "description": "Label of the single acknowledging button. Defaults to the i18n catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
     },
     {
       "name": "triggerVariant",
@@ -52,11 +38,11 @@
       "description": "Visual variant for the trigger Button."
     },
     {
-      "name": "onAction",
+      "name": "onDismiss",
       "type": "(() => void) | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Called when the action button is pressed (before closing)."
+      "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
     },
     {
       "name": "closeOnOutsideClick",
@@ -71,20 +57,6 @@
       "default": "undefined",
       "required": false,
       "description": "Called when the alert opens/closes."
-    },
-    {
-      "name": "confirmPhrase",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Type-to-confirm: when set, a text input is shown and the action button stays disabled until the user types this exact phrase (extra safety for destructive actions). The `confirmHint` labels the input."
-    },
-    {
-      "name": "confirmHint",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
     }
   ]
 }

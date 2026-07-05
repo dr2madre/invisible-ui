@@ -45,6 +45,13 @@
       "description": "Variant of the confirm button (`\"danger\"` for a destructive-ish confirm)."
     },
     {
+      "name": "urgent",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005)."
+    },
+    {
       "name": "triggerVariant",
       "type": "ButtonVariant",
       "default": "\"default\"",
