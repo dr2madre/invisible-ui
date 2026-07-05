@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./dialog.fixture.svelte";
+import NestedFixture from "./dialog-nested.fixture.svelte";
 
 // Native <dialog>: backdrop presses target the element itself with
 // coordinates outside its box.
@@ -92,6 +93,29 @@ describe("Svelte Dialog (styled)", () => {
     const panel = screen.getByRole("dialog");
     expect(panel.tagName).toBe("DIALOG");
     expect((panel as HTMLDialogElement).open).toBe(true);
+  });
+
+  it("stacks a confirm dialog on top; Escape closes only the innermost", async () => {
+    const user = userEvent.setup();
+    render(NestedFixture);
+    await user.click(screen.getByRole("button", { name: "Edit profile" }));
+    const outer = screen.getByRole("dialog", { name: "Edit profile" });
+
+    await user.click(screen.getByRole("button", { name: "Discard" }));
+    expect(screen.getByRole("dialog", { name: "Discard changes?" })).toBeInTheDocument();
+    expect(outer).toBeInTheDocument();
+
+    // Escape pops the stack one level: the confirm closes, the editor stays,
+    // focus returns inside it and the body stays scroll-locked.
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog", { name: "Discard changes?" })).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Edit profile" })).toBeInTheDocument();
+    expect(outer.contains(document.activeElement)).toBe(true);
+    expect(document.body.style.overflow).toBe("hidden");
+
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(document.body.style.overflow).toBe("");
   });
 
   it("has no accessibility violations when open", async () => {

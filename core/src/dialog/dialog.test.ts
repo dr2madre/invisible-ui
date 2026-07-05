@@ -69,7 +69,7 @@ describe("dialog connect", () => {
   });
 
   it("closes on Escape, unless closeOnEscape is false", () => {
-    const escape = { key: "Escape", preventDefault() {} } as unknown as Event;
+    const escape = { key: "Escape", preventDefault() {}, stopPropagation() {} } as unknown as Event;
 
     const setOpen = vi.fn();
     (
