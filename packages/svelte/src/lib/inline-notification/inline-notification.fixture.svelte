@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Alert from "./Alert.svelte";
+  import InlineNotification from "./InlineNotification.svelte";
 
   export let status: "info" | "success" | "warning" | "danger" | "neutral" = "info";
   export let title = "Heads up";
@@ -19,7 +19,7 @@
     | undefined = undefined;
 </script>
 
-<Alert
+<InlineNotification
   {status}
   {title}
   {description}

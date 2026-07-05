@@ -1,0 +1,66 @@
+---
+title: "Notification"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import NotificationDemo from "../../../../demos/NotificationDemo.svelte";
+
+<Preview>
+  <NotificationDemo client:only="svelte" />
+</Preview>
+
+A floating message — the pattern also known as **toast** or **snackbar** (names
+that describe motion and look; the job is: notify). It is a live region, not a
+dialog: it must never interrupt, never steal focus. Stack it inside a
+[Notification Region](/invisible-ui/components/feedback/notification-region/)
+via `createNotifier()`; for the same message fixed in the page flow, use
+[Inline Notification](/invisible-ui/components/feedback/inline-notification/).
+
+### Auto-dismiss is opt-in
+
+Notifications are **persistent by default** (`duration = 0`): the user reads
+and closes them at their own pace. Opt into auto-dismiss (`duration` in ms)
+only for information that requires no reading care and no action. When set,
+the countdown pauses on hover and focus (WCAG 2.2.1 Timing).
+
+### Position follows attention
+
+- **Central positions** (`bottom-center`, `top-center`) for messages about
+  what the user was actively doing — outcomes, confirmations, undo. The snack
+  in the demo: high contrast (`inverted`), bottom-center, persistent.
+- **Peripheral positions** (`top-end`, `bottom-end` in LTR) only for
+  background information the user was not involved in — incoming messages,
+  finished background jobs. Peripheral is precisely what the user may not see:
+  never put must-read messages there.
+
+### Import
+
+```svelte
+<script>
+  import Notification from "@design-system/svelte/Notification.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="notification" />
+
+### Accessibility
+
+- It *is* the live region (`role="status"`, or `role="alert"` for urgent
+  messages) — reusing Inline Notification's anatomy; additions are announced
+  without moving focus.
+- The auto-dismiss countdown (when opted in) pauses while the notification is
+  hovered or focused, so actions like Undo remain usable (WCAG 2.2.1).
+- Actions inside a notification should also be available elsewhere (Undo via
+  shortcut, the opened item findable): a notification is ephemeral by nature.
+
+### Example
+
+```svelte
+<Notification status="success" title="Saved" text="Your changes were saved." />
+```
+
+Typically you drive notifications through `createNotifier()` +
+`NotificationRegion` rather than rendering `Notification` directly.

@@ -41,13 +41,13 @@ export * from "./hover-card";
 export * from "./menubar";
 export * from "./navigation-menu";
 export * from "./text-field";
-export { createNotifier } from "./notice/create-notifier";
+export { createNotifier } from "./notification/create-notifier";
 export type {
   Notifier,
-  NoticeAction,
-  NoticeItem,
-  NoticeOptions,
-  NoticePromiseMessages,
-  NoticeStatus,
-} from "./notice/create-notifier";
+  NotificationAction,
+  NotificationItem,
+  NotificationOptions,
+  NotificationPromiseMessages,
+  NotificationStatus,
+} from "./notification/create-notifier";
 export { normalizeProps } from "./normalize";

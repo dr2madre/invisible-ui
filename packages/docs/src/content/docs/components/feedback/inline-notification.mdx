@@ -1,0 +1,52 @@
+---
+title: "Inline Notification"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import InlineNotificationDemo from "../../../../demos/InlineNotificationDemo.svelte";
+
+<Preview>
+  <InlineNotificationDemo client:visible />
+</Preview>
+
+A feedback banner fixed in the page flow: status icon, title, body, optional
+link, actions and close button. Like
+[Notification](/invisible-ui/components/feedback/notification/) but in-page
+rather than floating — and unlike
+[Alert Dialog](/invisible-ui/components/feedback/dialog/alert-dialog/), it never
+interrupts: it is a live region the user reaches in the normal reading order.
+(Previously named "Alert" — renamed because the alert that interrupts is the
+Alert Dialog; ARIA's `role="alert"` remains available here for urgent
+messages.)
+
+### Import
+
+```svelte
+<script>
+  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="inline-notification" />
+
+### Accessibility
+
+- A live region: `role="status"` (polite) by default; pass `role="alert"` for urgent messages.
+- Status is conveyed by color + glyph + surface tint, never color alone; the FeedbackIcon is decorative.
+- Not dismissible by default — set `closable` to render the WCAG-sized ghost close button.
+
+### Example
+
+```svelte
+<InlineNotification
+  status="success"
+  title="Saved"
+  description="Your changes have been saved."
+  closable
+/>
+```
+
+Themeable via `--ds-alert-*` (and the `--ds-color-*` token layer).

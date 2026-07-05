@@ -27,8 +27,8 @@
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/alert",
-    "src/lib/notice/Notice.svelte",
-    "src/lib/notice/NoticeRegion.svelte",
+    "src/lib/notification/Notification.svelte",
+    "src/lib/notification/NotificationRegion.svelte",
     "src/lib/checkbox/Checkbox.svelte",
     "src/lib/checkbox-group/CheckboxGroup.svelte",
     "src/lib/separator/Separator.svelte",
@@ -131,9 +131,9 @@
       "svelte": "./src/lib/button-group/ButtonGroup.svelte",
       "default": "./src/lib/button-group/ButtonGroup.svelte"
     },
-    "./Alert.svelte": {
-      "svelte": "./src/lib/alert/Alert.svelte",
-      "default": "./src/lib/alert/Alert.svelte"
+    "./InlineNotification.svelte": {
+      "svelte": "./src/lib/inline-notification/InlineNotification.svelte",
+      "default": "./src/lib/inline-notification/InlineNotification.svelte"
     },
     "./Checkbox.svelte": {
       "svelte": "./src/lib/checkbox/Checkbox.svelte",
@@ -399,13 +399,13 @@
       "svelte": "./src/lib/navigation-menu/NavigationMenu.svelte",
       "default": "./src/lib/navigation-menu/NavigationMenu.svelte"
     },
-    "./Notice.svelte": {
-      "svelte": "./src/lib/notice/Notice.svelte",
-      "default": "./src/lib/notice/Notice.svelte"
+    "./Notification.svelte": {
+      "svelte": "./src/lib/notification/Notification.svelte",
+      "default": "./src/lib/notification/Notification.svelte"
     },
-    "./NoticeRegion.svelte": {
-      "svelte": "./src/lib/notice/NoticeRegion.svelte",
-      "default": "./src/lib/notice/NoticeRegion.svelte"
+    "./NotificationRegion.svelte": {
+      "svelte": "./src/lib/notification/NotificationRegion.svelte",
+      "default": "./src/lib/notification/NotificationRegion.svelte"
     },
     "./tokens.css": "./src/lib/styles/tokens.css"
   },

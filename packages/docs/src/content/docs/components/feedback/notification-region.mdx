@@ -1,0 +1,54 @@
+---
+title: "Notification Region"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import NotificationRegionDemo from "../../../../demos/NotificationRegionDemo.svelte";
+
+<Preview>
+  <NotificationRegionDemo client:only="svelte" />
+</Preview>
+
+A fixed, stacking landmark that renders a notifier's queue of
+[Notifications](/invisible-ui/components/feedback/notification/).
+
+Pick the `placement` by attention, not by habit: central placements
+(`bottom-center`, `top-center`) for outcomes of the user's own actions;
+peripheral corners (`top-end`, `bottom-end`) only for background information —
+they are exactly where the user may not be looking.
+
+### Import
+
+```svelte
+<script>
+  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
+  import { createNotifier } from "@design-system/svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="notification-region" />
+
+### Accessibility
+
+- An accessible landmark: `role="region"` with a label; each Notification
+  inside is its own live region.
+- Notifications enter/leave with a fly/fade transition and the stack reflows
+  via FLIP, disabled under reduced motion.
+
+### Example
+
+```svelte
+<script>
+  const notifier = createNotifier();
+</script>
+
+<NotificationRegion {notifier} placement="bottom-center" />
+<Button onpress={() => notifier.show({ status: "success", title: "Saved" })}>
+  Save
+</Button>
+```
+
+Themeable via `--ds-notice-*` and `--ds-elevation-overlay`.

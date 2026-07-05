@@ -1,5 +1,5 @@
 {
-  "component": "notice-region",
+  "component": "notification-region",
   "selected": false,
   "props": [
     {
@@ -28,14 +28,14 @@
       "type": "number",
       "default": "3",
       "required": false,
-      "description": "Max notices rendered at once; `0` means no limit."
+      "description": "Maximum notices rendered at once. `0` means no limit."
     },
     {
       "name": "duration",
       "type": "number",
       "default": "200",
       "required": false,
-      "description": "Enter/leave/reflow motion duration in ms."
+      "description": "Enter/leave/reflow duration in ms."
     }
   ]
 }

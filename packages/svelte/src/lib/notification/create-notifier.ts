@@ -1,26 +1,26 @@
 import { writable, type Readable } from "svelte/store";
 import type { ButtonVariant } from "../button/create-button";
 
-export type NoticeStatus = "info" | "success" | "warning" | "danger" | "neutral";
+export type NotificationStatus = "info" | "success" | "warning" | "danger" | "neutral";
 
-/** An action button shown inside a notice. */
-export interface NoticeAction {
+/** An action button shown inside a notification. */
+export interface NotificationAction {
   label: string;
   variant?: ButtonVariant;
   /** Run when the action is clicked. */
   onClick?: () => void;
-  /** Keep the notice open after the action runs. Defaults to `false` (dismiss). */
+  /** Keep the notification open after the action runs. Defaults to `false` (dismiss). */
   keepOpen?: boolean;
 }
 
-/** Options accepted when showing a notice. */
-export interface NoticeOptions {
-  status?: NoticeStatus;
+/** Options accepted when showing a notification. */
+export interface NotificationOptions {
+  status?: NotificationStatus;
   title?: string;
   /** Body text. */
   text?: string;
   /**
-   * Auto-dismiss delay in ms. `0` keeps the notice until dismissed.
+   * Auto-dismiss delay in ms. `0` keeps the notification until dismissed.
    * Defaults to `5000`.
    */
   duration?: number;
@@ -29,7 +29,7 @@ export interface NoticeOptions {
   /** Live-region role. `"status"` (polite) by default; `"alert"` for urgent. */
   role?: "status" | "alert";
   /** Action buttons. */
-  actions?: NoticeAction[];
+  actions?: NotificationAction[];
   /**
    * High-contrast inverse surface for maximum visibility. Recommended for
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
@@ -42,35 +42,35 @@ export interface NoticeOptions {
 }
 
 /** A queued notice, with its generated id. */
-export interface NoticeItem extends NoticeOptions {
+export interface NotificationItem extends NotificationOptions {
   id: string;
 }
 
 /** Messages for {@link Notifier.promise}; success/error may derive from the result. */
-export interface NoticePromiseMessages<T> {
+export interface NotificationPromiseMessages<T> {
   loading: string;
   success: string | ((data: T) => string);
   error: string | ((error: unknown) => string);
-  /** Auto-dismiss delay for the resolved success/error notice. Defaults to 5000. */
+  /** Auto-dismiss delay for the resolved success/error notification. Defaults to `0` (persistent). */
   duration?: number;
 }
 
 export interface Notifier {
-  /** The reactive list of active notices (oldest first). */
-  subscribe: Readable<NoticeItem[]>["subscribe"];
-  /** Queue a notice; returns its id. */
-  show: (options?: NoticeOptions) => string;
+  /** The reactive list of active notifications (oldest first). */
+  subscribe: Readable<NotificationItem[]>["subscribe"];
+  /** Queue a notification; returns its id. */
+  show: (options?: NotificationOptions) => string;
   /** Update an existing notice in place. */
-  update: (id: string, patch: NoticeOptions) => void;
-  /** Remove a notice by id. */
+  update: (id: string, patch: NotificationOptions) => void;
+  /** Remove a notification by id. */
   dismiss: (id: string) => void;
-  /** Remove all notices. */
+  /** Remove all notifications. */
   clear: () => void;
   /**
    * Show a loading notice tied to a promise, then swap it to success or
    * error when the promise settles. Returns the original promise.
    */
-  promise: <T>(promise: Promise<T>, messages: NoticePromiseMessages<T>) => Promise<T>;
+  promise: <T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>) => Promise<T>;
 }
 
 let counter = 0;
@@ -80,29 +80,32 @@ const resolveMessage = <A>(message: string | ((arg: A) => string), arg: A): stri
   typeof message === "function" ? message(arg) : message;
 
 /**
- * Create a notifier: a small store that manages a list of notices,
- * decoupled from rendering. Pair it with `NoticeRegion` to display the
+ * Create a notifier: a small store that manages a list of notifications,
+ * decoupled from rendering. Pair it with `NotificationRegion` to display the
  * queue. Timing lives in the `Notice` component, so the store stays
  * simple and side-effect free.
  */
 export function createNotifier(): Notifier {
-  const { subscribe, update: updateStore } = writable<NoticeItem[]>([]);
+  const { subscribe, update: updateStore } = writable<NotificationItem[]>([]);
 
   const dismiss = (id: string) => updateStore((items) => items.filter((n) => n.id !== id));
 
-  const show = (options: NoticeOptions = {}): string => {
+  const show = (options: NotificationOptions = {}): string => {
     const id = nextId();
     updateStore((items) => [...items, { ...options, id }]);
     return id;
   };
 
-  const update = (id: string, patch: NoticeOptions) =>
+  const update = (id: string, patch: NotificationOptions) =>
     updateStore((items) => items.map((n) => (n.id === id ? { ...n, ...patch, id } : n)));
 
   const clear = () => updateStore(() => []);
 
-  const promise = async <T>(p: Promise<T>, messages: NoticePromiseMessages<T>): Promise<T> => {
-    const duration = messages.duration ?? 5000;
+  const promise = async <T>(
+    p: Promise<T>,
+    messages: NotificationPromiseMessages<T>,
+  ): Promise<T> => {
+    const duration = messages.duration ?? 0;
     const id = show({
       status: "info",
       title: messages.loading,

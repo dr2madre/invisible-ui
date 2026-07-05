@@ -2,18 +2,18 @@ import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { createNotifier } from "./create-notifier";
-import NoticeRegion from "./NoticeRegion.svelte";
+import NotificationRegion from "./NotificationRegion.svelte";
 
-describe("NoticeRegion", () => {
+describe("NotificationRegion", () => {
   it("is a labelled region", () => {
     const notifier = createNotifier();
-    render(NoticeRegion, { props: { notifier, duration: 0 } });
-    expect(screen.getByRole("region", { name: "Notices" })).toBeInTheDocument();
+    render(NotificationRegion, { props: { notifier, duration: 0 } });
+    expect(screen.getByRole("region", { name: "Notifications" })).toBeInTheDocument();
   });
 
   it("renders queued notices and removes them on dismiss", async () => {
     const notifier = createNotifier();
-    render(NoticeRegion, { props: { notifier, duration: 0 } });
+    render(NotificationRegion, { props: { notifier, duration: 0 } });
 
     notifier.show({ title: "First", text: "one", duration: 0 });
     notifier.show({ title: "Second", text: "two", duration: 0 });
@@ -28,7 +28,7 @@ describe("NoticeRegion", () => {
 
   it("limits visible notices and reveals queued ones as space frees", async () => {
     const notifier = createNotifier();
-    render(NoticeRegion, { props: { notifier, duration: 0, maxVisible: 2 } });
+    render(NotificationRegion, { props: { notifier, duration: 0, maxVisible: 2 } });
 
     notifier.show({ title: "T1", duration: 0 });
     notifier.show({ title: "T2", duration: 0 });

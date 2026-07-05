@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  let alertCount = 0;
+  let inlineNotificationCount = 0;
 </script>
 
 <script lang="ts">
@@ -29,7 +29,7 @@
   import type { ButtonVariant } from "../button/create-button";
 
   const { t } = getI18n();
-  const titleId = `ds-alert-${++alertCount}-title`;
+  const titleId = `ds-alert-${++inlineNotificationCount}-title`;
 
   /** A data-driven action button (alternative to the `actions` slot). */
   interface AlertAction {
@@ -86,15 +86,15 @@
     onclose?.();
   }
 
-  $: resolvedLinkText = linkText ?? $t("alert.learnMore");
-  $: resolvedCloseLabel = closeLabel ?? $t("alert.close");
+  $: resolvedLinkText = linkText ?? $t("inlineNotification.learnMore");
+  $: resolvedCloseLabel = closeLabel ?? $t("inlineNotification.close");
 </script>
 
 {#if open}
   <!-- Pointer/focus events are forwarded so a Notice can pause its
        auto-dismiss countdown on the live region itself (no extra wrapper). -->
   <div
-    class="alert"
+    class="inline-notification"
     data-status={status}
     data-inverted={inverted ? "" : undefined}
     data-plain={plain ? "" : undefined}
@@ -124,23 +124,23 @@
       />
     {/if}
 
-    <div class="alert__content">
+    <div class="inline-notification__content">
       {#if title}
-        <p class="alert__title" id={titleId}>{title}</p>
+        <p class="inline-notification__title" id={titleId}>{title}</p>
       {/if}
 
       {#if description || $$slots.default}
-        <div class="alert__body"><slot>{description}</slot></div>
+        <div class="inline-notification__body"><slot>{description}</slot></div>
       {/if}
 
       {#if $$slots.link}
         <slot name="link" />
       {:else if href}
-        <a class="alert__link" {href}>{resolvedLinkText}</a>
+        <a class="inline-notification__link" {href}>{resolvedLinkText}</a>
       {/if}
 
       {#if actions?.length || $$slots.actions}
-        <div class="alert__actions">
+        <div class="inline-notification__actions">
           {#if actions?.length}
             {#each actions as action (action.label)}
               <Button variant={action.variant ?? "ghost"} onpress={() => action.onClick?.()}>
@@ -155,7 +155,7 @@
     </div>
 
     {#if closable}
-      <span class="alert__close">
+      <span class="inline-notification__close">
         <Button iconOnly variant="ghost" ariaLabel={resolvedCloseLabel} onpress={close}>
           <Icon>
             <line x1="18" y1="6" x2="6" y2="18" />
@@ -180,10 +180,10 @@
     color: var(--_fg, var(--ds-color-text, #0f172a));
   }
   /* Pin the close button to the top-right; reserve room so text never runs under it. */
-  .alert:has(.alert__close) {
+  .alert:has(.inline-notification__close) {
     padding-inline-end: 2.5rem;
   }
-  .alert__close {
+  .inline-notification__close {
     position: absolute;
     inset-block-start: 0.5rem;
     inset-inline-end: 0.5rem;
@@ -195,32 +195,32 @@
     color: var(--ds-close-color, inherit);
   }
 
-  .alert__content {
+  .inline-notification__content {
     flex: 1;
     min-inline-size: 0;
     display: grid;
     gap: 0.25rem;
   }
 
-  .alert__title {
+  .inline-notification__title {
     margin: 0;
     font-weight: 600;
     line-height: 1.3;
   }
 
-  .alert__body {
+  .inline-notification__body {
     margin: 0;
     line-height: 1.45;
   }
 
-  .alert__actions {
+  .inline-notification__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-block-start: 0.5rem;
   }
 
-  .alert__link {
+  .inline-notification__link {
     justify-self: start;
     margin-block-start: 0.25rem;
     color: inherit;
@@ -228,7 +228,7 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .alert__link:focus-visible {
+  .inline-notification__link:focus-visible {
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;

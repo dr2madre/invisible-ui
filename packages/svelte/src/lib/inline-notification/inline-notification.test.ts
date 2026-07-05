@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import Fixture from "./alert.fixture.svelte";
-import ActionsFixture from "./alert-actions.fixture.svelte";
-import IconFixture from "./alert-icon.fixture.svelte";
+import Fixture from "./inline-notification.fixture.svelte";
+import ActionsFixture from "./inline-notification-actions.fixture.svelte";
+import IconFixture from "./inline-notification-icon.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 

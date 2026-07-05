@@ -1,14 +1,19 @@
 <script>
-  import Alert from "@design-system/svelte/Alert.svelte";
+  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
 </script>
 
 <div style="display:grid; gap:0.75rem; inline-size:100%;">
   <!-- Tinted surface: the FeedbackIcon box goes transparent so it doesn't clash. -->
-  <Alert status="success" title="Saved" description="Your changes have been saved." />
-  <Alert status="danger" title="Payment failed" description="Try a different card." closable />
+  <InlineNotification status="success" title="Saved" description="Your changes have been saved." />
+  <InlineNotification
+    status="danger"
+    title="Payment failed"
+    description="Try a different card."
+    closable
+  />
 
   <!-- Tinted surface with a forced round, tinted icon chip. -->
-  <Alert
+  <InlineNotification
     iconShape="round"
     iconBox="tint"
     status="warning"
@@ -17,7 +22,7 @@
   />
 
   <!-- With a link. -->
-  <Alert
+  <InlineNotification
     status="info"
     title="Update available"
     description="A new version of the app is ready to install."
@@ -26,7 +31,7 @@
   />
 
   <!-- No-surface (plain) variant: no tint/border; the colored chip carries the status. -->
-  <Alert
+  <InlineNotification
     plain
     status="info"
     title="Heads up"

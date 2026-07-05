@@ -1,5 +1,5 @@
 {
-  "component": "alert",
+  "component": "inline-notification",
   "selected": false,
   "props": [
     {
@@ -14,49 +14,49 @@
       "type": "string",
       "default": null,
       "required": true,
-      "description": "Heading."
+      "description": "Heading (required)."
     },
     {
       "name": "description",
       "type": "string",
       "default": null,
       "required": true,
-      "description": "Body text; override with the default slot for rich content."
+      "description": "Body text (required). Override with the default slot for rich content."
     },
     {
       "name": "href",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Link href; when set (and no `link` slot) a link is rendered."
+      "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
     },
     {
       "name": "linkText",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Link text."
+      "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
     },
     {
       "name": "actions",
       "type": "AlertAction[] | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Data-driven action buttons (alternative to the `actions` slot)."
+      "description": "Action buttons (alternative to the `actions` slot)."
     },
     {
       "name": "closable",
       "type": "boolean",
       "default": "false",
       "required": false,
-      "description": "Render the close button."
+      "description": "Render the close button. Defaults to `false` (not dismissible)."
     },
     {
       "name": "closeLabel",
       "type": "string | undefined",
       "default": "undefined",
       "required": false,
-      "description": "Accessible name for the close button."
+      "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
     },
     {
       "name": "open",
@@ -70,14 +70,14 @@
       "type": "\"status\" | \"alert\" | \"region\"",
       "default": "\"status\"",
       "required": false,
-      "description": "Live-region role; `\"alert\"` for urgent messages."
+      "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
     },
     {
       "name": "inverted",
       "type": "boolean",
       "default": "false",
       "required": false,
-      "description": "High-contrast inverse surface."
+      "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
     },
     {
       "name": "plain",

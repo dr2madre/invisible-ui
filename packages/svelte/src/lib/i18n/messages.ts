@@ -34,8 +34,8 @@ export const en = {
   // Loading
   "loading.label": "Loading…",
   // Alert
-  "alert.close": "Close",
-  "alert.learnMore": "Learn more",
+  "inlineNotification.close": "Close",
+  "inlineNotification.learnMore": "Learn more",
   // Overlays
   "dialog.close": "Close",
   // Shared by the dialog family presets (Alert/Confirm/Prompt — ADR 0005).
@@ -43,8 +43,8 @@ export const en = {
   "dialog.cancel": "Cancel",
   "dialog.dismiss": "OK",
   "sheetDialog.close": "Close",
-  // Notice
-  "noticeRegion.label": "Notices",
+  // Notification
+  "notificationRegion.label": "Notifications",
   // Forms & inputs
   "combobox.placeholder": "Search…",
   "combobox.clear": "Clear",

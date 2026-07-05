@@ -1,5 +1,5 @@
 <script>
-  import NoticeRegion from "@design-system/svelte/NoticeRegion.svelte";
+  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
   import Button from "@design-system/svelte/Button.svelte";
   import { createNotifier } from "@design-system/svelte";
 
@@ -30,4 +30,4 @@
   <Button onpress={show}>Show toast</Button>
   <Button onpress={showUndo}>With undo action</Button>
 </div>
-<NoticeRegion {notifier} placement="bottom-end" />
+<NotificationRegion {notifier} placement="bottom-end" />
