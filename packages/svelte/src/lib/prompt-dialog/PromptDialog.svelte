@@ -4,7 +4,7 @@
    * accessible equivalent of `window.prompt()` (a platform "simple dialog",
    * per ADR 0005): everything ConfirmDialog has, plus an input. It reuses the
    * headless dialog (`@design-system/core`) and the shared modal adapter
-   * (`createDialog`): portal, focus trap, scroll lock. The text input is
+   * (`createDialog`): native `<dialog>` + `showModal()`, scroll lock. The text input is
    * focused on open. The value is optional by default — `required` makes it
    * mandatory, `confirmValue` turns it into a type-to-confirm gate; `urgent`
    * switches to `role="alertdialog"` when the ask must interrupt.
@@ -15,7 +15,6 @@
    * via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
-  import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
@@ -111,50 +110,36 @@
 </Button>
 
 {#if $isOpen}
-  <div class="prompt-dialog__portal" use:portal>
-    <div class="prompt-dialog__overlay" aria-hidden="true"></div>
-    <div class="prompt-dialog__panel" use:contentAction>
-      <h2 class="prompt-dialog__title" use:titleAction>{title}</h2>
-      {#if description}
-        <p class="prompt-dialog__description" use:descriptionAction>{description}</p>
-      {/if}
-      <label class="prompt-dialog__field">
-        <span class="prompt-dialog__label">{label}</span>
-        <input
-          class="prompt-dialog__input"
-          type="text"
-          autocomplete="off"
-          {placeholder}
-          bind:value={current}
-          on:keydown={onKeyDown}
-        />
-      </label>
-      <footer class="prompt-dialog__actions">
-        <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
-        <Button variant={confirmVariant} disabled={!canConfirm} onpress={confirm}
-          >{resolvedConfirmLabel}</Button
-        >
-      </footer>
-    </div>
-  </div>
+  <dialog class="prompt-dialog__panel" use:contentAction>
+    <h2 class="prompt-dialog__title" use:titleAction>{title}</h2>
+    {#if description}
+      <p class="prompt-dialog__description" use:descriptionAction>{description}</p>
+    {/if}
+    <label class="prompt-dialog__field">
+      <span class="prompt-dialog__label">{label}</span>
+      <input
+        class="prompt-dialog__input"
+        type="text"
+        autocomplete="off"
+        {placeholder}
+        bind:value={current}
+        on:keydown={onKeyDown}
+      />
+    </label>
+    <footer class="prompt-dialog__actions">
+      <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
+      <Button variant={confirmVariant} disabled={!canConfirm} onpress={confirm}
+        >{resolvedConfirmLabel}</Button
+      >
+    </footer>
+  </dialog>
 {/if}
 
 <style>
-  .prompt-dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-  }
-  .prompt-dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .prompt-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
   .prompt-dialog__panel {
-    position: relative;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);

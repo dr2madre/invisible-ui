@@ -94,9 +94,9 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
 };
 
 /**
- * Create a headless command palette — a combobox inside a modal dialog. The
- * modal shell (portal, focus trap, scroll lock, Escape / backdrop close, focus
- * restore) comes from {@link createDialog}; the search input + filtered results
+ * Create a headless quick search — a combobox inside a modal dialog. The
+ * modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape /
+ * backdrop close, focus restore) comes from {@link createDialog}; the search input + filtered results
  * reuse the headless combobox (`@design-system/core`) wired "always open" while
  * the dialog is open. Choosing a command runs `onSelect` and closes. The list
  * is rendered inline in the dialog (no floating popup).

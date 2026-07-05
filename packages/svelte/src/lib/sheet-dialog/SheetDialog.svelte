@@ -3,8 +3,9 @@
    * SheetDialog — a Dialog anchored to an edge of the viewport (the panel
    * pattern variously marketed as "sheet", "side panel" or "drawer"). It is a
    * dialog in every sense: it reuses the headless dialog (`@design-system/core`)
-   * and the shared modal adapter unchanged — portal to `<body>`, focus trap,
-   * scroll lock, Escape / backdrop / close-button dismissal, and focus restore.
+   * and the shared modal adapter unchanged — native `<dialog>` + `showModal()`
+   * (top layer, inert background), scroll lock, Escape / backdrop /
+   * close-button dismissal, and focus restore.
    * Over `Dialog` it adds edge anchoring (`side`), a slide-in animation and an
    * optional drag-to-dismiss gesture (`draggable`, on the bottom and lateral
    * sides): a grab handle the user can drag past a distance or velocity
@@ -17,7 +18,6 @@
    * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
    */
   import { createSheetDialog, type SheetDialogSide } from "./create-sheet-dialog";
-  import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -93,62 +93,52 @@
 </Button>
 
 {#if $isOpen}
-  <div class="sheet-dialog__portal" use:portal>
-    <div class="sheet-dialog__overlay" aria-hidden="true"></div>
-    <div
-      class="sheet-dialog__panel"
-      class:sheet-dialog__panel--dragging={$dragging}
-      data-side={side}
-      style:transform={dragTransform}
-      use:contentAction
-    >
-      {#if hasHandle}
-        <div class="sheet-dialog__handle" use:handleAction aria-hidden="true"></div>
-      {/if}
-      <header class="sheet-dialog__header">
-        <h2 class="sheet-dialog__title" use:titleAction>{title}</h2>
-        <button
-          class="sheet-dialog__close"
-          type="button"
-          aria-label={resolvedCloseLabel}
-          use:closeAction
-        >
-          <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
-            <path
-              d="M6 6l12 12M18 6L6 18"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
-      </header>
-      {#if description !== undefined}
-        <p class="sheet-dialog__description" use:descriptionAction>{description}</p>
-      {/if}
-      <div class="sheet-dialog__body"><slot /></div>
-      {#if $$slots.footer}
-        <footer class="sheet-dialog__footer"><slot name="footer" /></footer>
-      {/if}
-    </div>
-  </div>
+  <dialog
+    class="sheet-dialog__panel"
+    class:sheet-dialog__panel--dragging={$dragging}
+    data-side={side}
+    style:transform={dragTransform}
+    use:contentAction
+  >
+    {#if hasHandle}
+      <div class="sheet-dialog__handle" use:handleAction aria-hidden="true"></div>
+    {/if}
+    <header class="sheet-dialog__header">
+      <h2 class="sheet-dialog__title" use:titleAction>{title}</h2>
+      <button
+        class="sheet-dialog__close"
+        type="button"
+        aria-label={resolvedCloseLabel}
+        use:closeAction
+      >
+        <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </header>
+    {#if description !== undefined}
+      <p class="sheet-dialog__description" use:descriptionAction>{description}</p>
+    {/if}
+    <div class="sheet-dialog__body"><slot /></div>
+    {#if $$slots.footer}
+      <footer class="sheet-dialog__footer"><slot name="footer" /></footer>
+    {/if}
+  </dialog>
 {/if}
 
 <style>
-  .sheet-dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-  }
-  .sheet-dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .sheet-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
-
   .sheet-dialog__panel {
     position: fixed;
+    margin: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -179,16 +169,20 @@
   .sheet-dialog__panel[data-side="right"],
   .sheet-dialog__panel[data-side="left"] {
     inset-block: 0;
+    block-size: 100%;
+    max-block-size: 100vh;
     inline-size: var(--ds-sheet-dialog-size, 20rem);
     max-inline-size: 100vw;
   }
   .sheet-dialog__panel[data-side="right"] {
     inset-inline-end: 0;
+    inset-inline-start: auto;
     border-inline-end: 0;
     animation: sheet-dialog-in-right var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel[data-side="left"] {
     inset-inline-start: 0;
+    inset-inline-end: auto;
     border-inline-start: 0;
     animation: sheet-dialog-in-left var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
@@ -197,16 +191,20 @@
   .sheet-dialog__panel[data-side="top"],
   .sheet-dialog__panel[data-side="bottom"] {
     inset-inline: 0;
+    inline-size: 100%;
+    max-inline-size: 100vw;
     block-size: var(--ds-sheet-dialog-size, 16rem);
     max-block-size: 100vh;
   }
   .sheet-dialog__panel[data-side="top"] {
     inset-block-start: 0;
+    inset-block-end: auto;
     border-block-start: 0;
     animation: sheet-dialog-in-top var(--ds-sheet-dialog-duration, 0.25s) ease;
   }
   .sheet-dialog__panel[data-side="bottom"] {
     inset-block-end: 0;
+    inset-block-start: auto;
     border-block-end: 0;
     animation: sheet-dialog-in-bottom var(--ds-sheet-dialog-duration, 0.25s) ease;
   }

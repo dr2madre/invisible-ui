@@ -14,7 +14,6 @@
    * Colors, radius and elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
-  import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
@@ -81,34 +80,20 @@
 </Button>
 
 {#if $isOpen}
-  <div class="alert-dialog__portal" use:portal>
-    <div class="alert-dialog__overlay" aria-hidden="true"></div>
-    <div class="alert-dialog__panel" use:contentAction>
-      <h2 class="alert-dialog__title" use:titleAction>{title}</h2>
-      <p class="alert-dialog__description" use:descriptionAction>{description}</p>
-      <footer class="alert-dialog__actions">
-        <Button variant="primary" onpress={dismiss}>{resolvedDismissLabel}</Button>
-      </footer>
-    </div>
-  </div>
+  <dialog class="alert-dialog__panel" use:contentAction>
+    <h2 class="alert-dialog__title" use:titleAction>{title}</h2>
+    <p class="alert-dialog__description" use:descriptionAction>{description}</p>
+    <footer class="alert-dialog__actions">
+      <Button variant="primary" onpress={dismiss}>{resolvedDismissLabel}</Button>
+    </footer>
+  </dialog>
 {/if}
 
 <style>
-  .alert-dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-  }
-  .alert-dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .alert-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
   .alert-dialog__panel {
-    position: relative;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);

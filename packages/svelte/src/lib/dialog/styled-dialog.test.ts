@@ -4,7 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./dialog.fixture.svelte";
 
-const overlay = () => document.querySelector<HTMLElement>(".dialog__overlay");
+// Native <dialog>: backdrop presses target the element itself with
+// coordinates outside its box.
+const pressBackdrop = (panel: HTMLElement) =>
+  fireEvent.pointerDown(panel, { clientX: -10, clientY: -10 });
 
 describe("Svelte Dialog (styled)", () => {
   it("is closed by default with the trigger advertising the dialog", () => {
@@ -77,27 +80,18 @@ describe("Svelte Dialog (styled)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
-    await fireEvent.pointerDown(overlay()!);
+    await pressBackdrop(screen.getByRole("dialog"));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("traps Tab focus within the panel", async () => {
+  it("is a native <dialog> shown modally (inert background is the browser's)", async () => {
     const user = userEvent.setup();
     render(Fixture);
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
-    const close = screen.getByRole("button", { name: "Close" });
-    const save = screen.getByRole("button", { name: "Save" });
-
-    // Tab past the last focusable wraps to the first (the close button).
-    save.focus();
-    await fireEvent.keyDown(save, { key: "Tab" });
-    expect(close).toHaveFocus();
-
-    // Shift+Tab before the first wraps to the last (Save).
-    close.focus();
-    await fireEvent.keyDown(close, { key: "Tab", shiftKey: true });
-    expect(save).toHaveFocus();
+    const panel = screen.getByRole("dialog");
+    expect(panel.tagName).toBe("DIALOG");
+    expect((panel as HTMLDialogElement).open).toBe(true);
   });
 
   it("has no accessibility violations when open", async () => {

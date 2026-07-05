@@ -3,8 +3,6 @@ import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
-import { onOutsidePointerDown } from "../internal/dismiss";
-import { trapFocus } from "../internal/focus-trap";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
 
@@ -47,15 +45,18 @@ export interface CreateDialog {
 }
 
 /**
- * Create a headless modal dialog. Behaviour/ARIA live in `@design-system/core`
- * (role, `aria-modal`, labelling, Escape); this adapter owns the modal DOM
- * concerns, reusing the shared overlay primitives: a focus trap
- * (`trapFocus`), scroll lock (`lockScroll`) and outside-press dismiss
- * (`onOutsidePointerDown`). On open it moves focus into the panel; on close it
- * returns focus to whatever was focused before (typically the trigger).
+ * Create a headless modal dialog on the native `<dialog>` element (ADR 0005).
+ * Behaviour/ARIA live in `@design-system/core` (role, `aria-modal`, labelling,
+ * Escape); the platform provides modality via `showModal()`: top-layer
+ * rendering (no portal, no z-index), an inert background (a real focus trap,
+ * enforced by the browser for keyboard *and* assistive tech), Escape via the
+ * `cancel` event and a stylable `::backdrop`. This adapter keeps only what the
+ * platform does not do: body scroll lock, backdrop light-dismiss (a pointer
+ * press whose coordinates fall outside the panel), initial focus and focus
+ * restore to the trigger.
  *
- * Render the panel only while open so the content action's lifecycle tracks the
- * open state (and the portal mounts/unmounts with it).
+ * Attach `contentAction` to a `<dialog>` element and render it only while
+ * open, so the action's lifecycle tracks the open state.
  */
 export function createDialog(context: DialogContext = {}): CreateDialog {
   const state = writable<DialogState>(core.initialState(context));
@@ -92,21 +93,43 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
   };
 
   const contentAction: Action<HTMLElement> = (node) => {
+    const dialogEl = node as unknown as HTMLDialogElement;
     const base = createPropsAction(api, (a) => a.contentProps)(node);
 
     // Capture focus before it moves into the dialog, to restore on close.
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
+    // Top layer + inert background come from the platform.
+    dialogEl.showModal();
     const releaseScroll = lockScroll();
-    const releaseTrap = trapFocus(node);
-    const stopOutside = closeOnOutsideClick
-      ? onOutsidePointerDown([node], () => setOpen(false))
-      : () => {};
 
-    // Move focus into the panel after the portal has relocated it to <body> —
-    // reparenting drops focus, so this must run after the mount completes (a
-    // microtask later), not inline. With `initialFocus`, focus that element;
-    // otherwise focus the panel itself (never the close button).
+    // Native Escape: route through our state (the {#if} removes the element)
+    // instead of letting the platform close it out from under us.
+    const onCancel = (event: Event) => {
+      event.preventDefault();
+      if (context.closeOnEscape !== false) setOpen(false);
+    };
+    // Any other native close (e.g. a `method="dialog"` form) syncs the state.
+    const onClose = () => setOpen(false);
+    // With the page inert, backdrop presses target the <dialog> itself; a
+    // press whose coordinates fall outside the panel's box is a light dismiss.
+    const onPointerDown = (event: PointerEvent) => {
+      if (!closeOnOutsideClick || event.target !== node) return;
+      const rect = node.getBoundingClientRect();
+      const inside =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.bottom &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.right;
+      if (!inside) setOpen(false);
+    };
+    dialogEl.addEventListener("cancel", onCancel);
+    dialogEl.addEventListener("close", onClose);
+    dialogEl.addEventListener("pointerdown", onPointerDown);
+
+    // `showModal()` focuses the first focusable; enforce our contract instead —
+    // after the mount settles: `initialFocus` when given, else the panel itself
+    // (never the close button).
     tick().then(() => {
       const target = context.initialFocus
         ? node.querySelector<HTMLElement>(context.initialFocus)
@@ -116,9 +139,11 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
 
     return {
       destroy() {
+        dialogEl.removeEventListener("cancel", onCancel);
+        dialogEl.removeEventListener("close", onClose);
+        dialogEl.removeEventListener("pointerdown", onPointerDown);
+        if (dialogEl.open) dialogEl.close();
         base?.destroy?.();
-        stopOutside();
-        releaseTrap();
         releaseScroll();
         // Return focus to where it was (the trigger, usually).
         const restore = triggerEl ?? previouslyFocused;

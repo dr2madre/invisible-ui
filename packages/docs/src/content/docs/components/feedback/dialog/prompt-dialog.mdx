@@ -15,8 +15,8 @@ import PromptDialogDemo from "../../../../../demos/PromptDialogDemo.svelte";
 A modal that asks the user for a single value — the accessible equivalent of
 `window.prompt()`, one of the platform's *simple dialogs*: everything
 [Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/) has, plus an
-input. It reuses the headless dialog and the shared modal adapter: portal, focus
-trap, scroll lock. The input is focused on open and Enter confirms.
+input. It reuses the headless dialog and the shared modal adapter (native
+`<dialog>` + `showModal()`: top layer, inert background, scroll lock). The input is focused on open and Enter confirms.
 `onConfirm(value)` runs with the entered text.
 
 The value is **optional by default** — context decides: set `required` to keep

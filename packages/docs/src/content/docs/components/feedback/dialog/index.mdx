@@ -14,8 +14,10 @@ import DialogDemo from "../../../../../demos/DialogDemo.svelte";
 </Preview>
 
 A modal window (WAI-ARIA dialog pattern): a trigger opens a `role="dialog"` panel
-with `aria-modal="true"`, portalled to `<body>` over a backdrop, with a focus
-trap and body scroll lock.
+with `aria-modal="true"`, built on the **native `<dialog>` element** and
+`showModal()`: top-layer rendering, an inert background (a real focus trap,
+enforced by the browser for keyboard *and* assistive tech), a stylable
+`::backdrop`, plus body scroll lock.
 
 This is the generic modal the rest of the family builds on. The three presets
 are the accessible, stylable equivalents of the platform's *simple dialogs*
@@ -69,5 +71,6 @@ Slots: `trigger` (the trigger button's content) and the default slot (the body).
 </Dialog>
 ```
 
-Themeable via `--ds-dialog-*`. The shared modal utilities (`portal`, `trapFocus`,
-`lockScroll`) are reused across the whole dialog family.
+Themeable via `--ds-dialog-*` (the backdrop via `::backdrop`). The shared
+modal adapter — native `<dialog>` + `showModal()` and scroll lock — is reused
+across the whole dialog family.
