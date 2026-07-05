@@ -1,6 +1,6 @@
 # 5. The dialog family maps to the platform's simple dialogs; the panel is a native `<dialog>`
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-07-05
 
 ## Context
