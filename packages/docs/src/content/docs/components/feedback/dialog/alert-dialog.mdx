@@ -21,18 +21,18 @@ Escape and a backdrop press are equivalent to the button; set
 user must actively acknowledge).
 
 If the dialog offers a *choice* — something that can stop a process — it is not
-an alert: use [Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)
+an alert: use [Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/)
 (with `urgent` if it must interrupt), or
-[Prompt Dialog](/invisible-ui/components/overlays/dialog/prompt-dialog/) if it asks for
+[Prompt Dialog](/invisible-ui/components/feedback/dialog/prompt-dialog/) if it asks for
 a value.
 
 ### When to use which dialog
 
-- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content; the head of the family.
+- **[Dialog](/invisible-ui/components/feedback/dialog/)** — generic modal for any content; the head of the family.
 - **Alert Dialog** — an acknowledgement: a message with nothing to cancel (one button).
-- **[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)** — verify or accept before proceeding:
+- **[Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/)** — verify or accept before proceeding:
   cancel stops, confirm proceeds (`urgent` to interrupt).
-- **[Prompt Dialog](/invisible-ui/components/overlays/dialog/prompt-dialog/)** — asks for a single value
+- **[Prompt Dialog](/invisible-ui/components/feedback/dialog/prompt-dialog/)** — asks for a single value
   (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
 
 ### Import
@@ -54,7 +54,7 @@ The default slot is the trigger's content.
 The default label is the conventional "OK", but prefer naming the outcome in
 context: **Done** after an operation, **Close** for a plain notice,
 **I understood** when the user is taking on an obligation. Same principle as
-the family's [button copy guideline](/invisible-ui/components/overlays/dialog/confirm-dialog/#wording):
+the family's [button copy guideline](/invisible-ui/components/feedback/dialog/confirm-dialog/#wording):
 buttons name outcomes, not gestures.
 
 ### Accessibility

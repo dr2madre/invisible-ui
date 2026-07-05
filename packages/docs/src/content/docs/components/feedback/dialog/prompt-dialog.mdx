@@ -14,7 +14,7 @@ import PromptDialogDemo from "../../../../../demos/PromptDialogDemo.svelte";
 
 A modal that asks the user for a single value — the accessible equivalent of
 `window.prompt()`, one of the platform's *simple dialogs*: everything
-[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/) has, plus an
+[Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/) has, plus an
 input. It reuses the headless dialog and the shared modal adapter: portal, focus
 trap, scroll lock. The input is focused on open and Enter confirms.
 `onConfirm(value)` runs with the entered text.
@@ -29,10 +29,10 @@ destructive actions: `urgent` switches the panel to `role="alertdialog"`
 
 ### When to use which dialog
 
-- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content; the head of the family.
-- **[Alert Dialog](/invisible-ui/components/overlays/dialog/alert-dialog/)** — an acknowledgement: a message with
+- **[Dialog](/invisible-ui/components/feedback/dialog/)** — generic modal for any content; the head of the family.
+- **[Alert Dialog](/invisible-ui/components/feedback/dialog/alert-dialog/)** — an acknowledgement: a message with
   nothing to cancel (one button).
-- **[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)** — verify or accept before proceeding:
+- **[Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/)** — verify or accept before proceeding:
   cancel stops, confirm proceeds (`urgent` to interrupt).
 - **Prompt Dialog** — asks for a single value
   (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
