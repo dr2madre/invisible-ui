@@ -1,10 +1,12 @@
 ---
 title: "Confirm Dialog"
+sidebar:
+  order: 3
 ---
 
-import Preview from "../../../../components/Preview.astro";
-import PropsTable from "../../../../components/PropsTable.astro";
-import ConfirmDialogDemo from "../../../../demos/ConfirmDialogDemo.svelte";
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import ConfirmDialogDemo from "../../../../../demos/ConfirmDialogDemo.svelte";
 
 <Preview>
   <ConfirmDialogDemo client:visible />
@@ -36,11 +38,11 @@ outcome.
 ### When to use which dialog
 
 - **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content; the head of the family.
-- **[Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)** — an acknowledgement: a message with
+- **[Alert Dialog](/invisible-ui/components/overlays/dialog/alert-dialog/)** — an acknowledgement: a message with
   nothing to cancel (one button).
 - **Confirm Dialog** — verify or accept before proceeding: cancel stops, confirm
   proceeds (`urgent` to interrupt).
-- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value
+- **[Prompt Dialog](/invisible-ui/components/overlays/dialog/prompt-dialog/)** — asks for a single value
   (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
 
 ### Import

@@ -33,7 +33,25 @@ export default defineConfig({
         // Date & time components live under Forms & inputs.
         { label: "Forms & inputs", items: [{ autogenerate: { directory: "components/forms" } }] },
         { label: "Feedback", items: [{ autogenerate: { directory: "components/feedback" } }] },
-        { label: "Overlays", items: [{ autogenerate: { directory: "components/overlays" } }] },
+        {
+          label: "Overlays",
+          // The dialog family (ADR 0005) nests under its own group; the other
+          // overlay pages are listed by slug — add new ones here.
+          items: [
+            {
+              label: "Dialog",
+              items: [{ autogenerate: { directory: "components/overlays/dialog" } }],
+            },
+            "components/overlays/command",
+            "components/overlays/context-menu",
+            "components/overlays/drawer",
+            "components/overlays/dropdown-menu",
+            "components/overlays/hover-card",
+            "components/overlays/popover",
+            "components/overlays/sheet",
+            "components/overlays/tooltip",
+          ],
+        },
         {
           label: "Data & layout",
           items: [{ autogenerate: { directory: "components/data-layout" } }],

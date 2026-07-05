@@ -1,10 +1,13 @@
 ---
 title: "Dialog"
+sidebar:
+  label: "Overview"
+  order: 1
 ---
 
-import Preview from "../../../../components/Preview.astro";
-import PropsTable from "../../../../components/PropsTable.astro";
-import DialogDemo from "../../../../demos/DialogDemo.svelte";
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import DialogDemo from "../../../../../demos/DialogDemo.svelte";
 
 <Preview>
   <DialogDemo client:only="svelte" />
@@ -22,18 +25,18 @@ differing only in job.
 ### When to use which dialog
 
 - **Dialog** — generic modal for any content; the head of the family.
-- **[Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)** — an acknowledgement: a message with
+- **[Alert Dialog](/invisible-ui/components/overlays/dialog/alert-dialog/)** — an acknowledgement: a message with
   nothing to cancel (one button).
-- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — verify or accept before proceeding:
+- **[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)** — verify or accept before proceeding:
   cancel stops, confirm proceeds (`urgent` to interrupt).
-- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value
+- **[Prompt Dialog](/invisible-ui/components/overlays/dialog/prompt-dialog/)** — asks for a single value
   (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
 
 ### Import
 
 ```svelte
 <script>
-  import DialogDemo from "../../../../demos/DialogDemo.svelte";
+  import Dialog from "@design-system/svelte/Dialog.svelte";
 </script>
 ```
 
