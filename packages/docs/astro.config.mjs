@@ -39,7 +39,6 @@ export default defineConfig({
           // overlay pages are listed by slug — add new ones here, keeping the
           // list alphabetical.
           items: [
-            "components/overlays/command",
             "components/overlays/context-menu",
             {
               label: "Dialog",
