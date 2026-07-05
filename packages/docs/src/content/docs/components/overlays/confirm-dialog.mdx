@@ -17,9 +17,18 @@ pressed. Focus lands on the safe choice.
 
 The example reuses the same wording as [Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)
 so the family reads consistently — the only difference is the role and urgency
-(`role="dialog"` here vs `role="alertdialog"` for the interrupting variant). Note
-the negative button: it says what staying does (**"Keep file"**), never a bare
-"Cancel".
+(`role="dialog"` here vs `role="alertdialog"` for the interrupting variant).
+
+### Wording
+
+Buttons name outcomes, not gestures. The classic trap: *"Do you want to cancel
+the order?"* with **Cancel** / **OK** buttons — "Cancel" reads both as "cancel
+the order" and "close this dialog", and a screen-reader user hears the bare
+label with no layout around it to disambiguate. Name what each choice does
+instead: **Cancel order** / **Keep order** (or, in the example below,
+**Delete file** / **Keep file**). Both labels are overridable; the defaults are
+the conventional "Confirm"/"Cancel", and the examples here always name the
+outcome.
 
 ### When to use which dialog
 
