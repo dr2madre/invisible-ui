@@ -5,7 +5,9 @@
 
 ## Context
 
-Two observations against the dialog family shipped in [ADR 0004](0004-dialog-family.md).
+Two observations against the first version of the dialog family (ADR 0004,
+whose still-valid parts are folded into this document; the file is removed —
+this project keeps only current decisions on record).
 
 **The taxonomy has a better anchor than urgency.** The HTML Living Standard
 already names the three modal jobs, and calls them *simple dialogs*:
@@ -13,7 +15,7 @@ already names the three modal jobs, and calls them *simple dialogs*:
 OK/Cancel) and `prompt()` (ask for a value, OK/Cancel plus an input). The
 browser built-ins are unusable in practice — not stylable, not themeable, not
 part of the page's accessibility tree control — but the *jobs* they name are
-exactly the presets a design system needs. ADR 0004 instead presented
+exactly the presets a design system needs. The first version instead presented
 `AlertDialog` as a sibling job defined by urgency, which created two problems:
 the family had no acknowledgement-only preset (the actual `alert()` job — a
 message with nothing to cancel), and the current `AlertDialog` (two buttons,
@@ -37,9 +39,8 @@ project rule to prefer native browser behavior where accessible and robust.
 ## Decision (proposed)
 
 One primitive, three presets named after the platform's simple dialogs. All
-presets are thin wrappers over `createDialog`, share the `--ds-dialog-*` tokens
-and the [ADR 0004](0004-dialog-family.md) button-copy guideline (buttons name
-outcomes, not gestures).
+presets are thin wrappers over `createDialog` and share the `--ds-dialog-*`
+tokens, the button copy guideline and the canonical wording below.
 
 - **`Dialog`** — the generic modal (`role="dialog"`). Any content; the head of
   the family and the base everything else builds on.
@@ -62,13 +63,31 @@ outcomes, not gestures).
   makes it mandatory, `confirmValue` turns it into a type-to-confirm gate —
   context decides. `urgent` available as on Confirm.
 
-**Migration.** The current `AlertDialog` (two buttons, `confirmPhrase`) is a
+**Button copy guideline.** Buttons name outcomes, not gestures: the confirming
+button names the action ("Delete file"), the negative button names what staying
+does ("Keep file"). The reason is the classic confirmation trap: a dialog asking
+*"Do you want to cancel the order?"* answered by **Cancel** / **OK** is
+ambiguous — "Cancel" reads both as "cancel the order" and "dismiss this dialog".
+Naming outcomes removes the ambiguity for everyone, and especially for
+screen-reader users, who hear the button label on its own, outside the visual
+layout. This is a copy guideline, not an API constraint: labels stay overridable
+and the defaults stay the platform-conventional "OK"/"Confirm"/"Cancel" (a
+generic fallback the guideline exists to improve on). Every example in docs and
+demos must follow the guideline.
+
+**Shared wording.** The presets reuse one canonical example rather than each
+inventing copy: the delete-file story — *"Do you want to delete "report-q3.pdf"?
+The file will be permanently deleted."*, buttons *Delete file* / *Keep file* —
+told across the family (Confirm decides, Prompt gates it by typing the name,
+Alert reports the outcome), so the choice between dialogs reads as intent, not
+phrasing.
+
+**Migration.** The previous `AlertDialog` (two buttons, `confirmPhrase`) is a
 Confirm in the new taxonomy: its jobs move to `ConfirmDialog { urgent }` and,
 for type-to-confirm, `PromptDialog { urgent, confirmValue }`. `confirmPhrase`
-and `confirmHint` are dropped (the Prompt gate is the single implementation, as
-ADR 0004 already intended). The shared i18n keys move from the `alertDialog.*`
-namespace to a family-level `dialog.*` namespace, making the reuse visible from
-the catalog.
+and `confirmHint` are dropped (the Prompt gate is the single implementation).
+The shared i18n keys move from the `alertDialog.*` namespace to a family-level
+`dialog.*` namespace, making the reuse visible from the catalog.
 
 **Native element.** Replace the hand-rolled modality with native `<dialog>` +
 `showModal()`: delete `trapFocus`, `lockScroll`, the portal and the z-index
