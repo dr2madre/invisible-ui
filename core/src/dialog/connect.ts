@@ -83,6 +83,9 @@ export function connect({
       onKeyDown: (event: Event) => {
         if (closeOnEscape && (event as KeyboardEvent).key === "Escape") {
           event.preventDefault();
+          // Dialogs stack (confirm-on-close): Escape must close only the
+          // innermost one, not bubble up and close the whole stack.
+          event.stopPropagation();
           closeDialog();
         }
       },
