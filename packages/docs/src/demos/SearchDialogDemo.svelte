@@ -9,8 +9,8 @@
     { value: "help", label: "Help" },
     { value: "home", label: "Home", group: "Pages" },
     { value: "settings", label: "Settings", group: "Pages" },
-    { value: "new", label: "New File", group: "Actions" },
-    { value: "open", label: "Open…", group: "Actions" },
+    { value: "new", label: "New File", group: "Actions", shortcut: ["⌘", "N"] },
+    { value: "open", label: "Open…", group: "Actions", shortcut: ["⌘", "O"] },
     { value: "save", label: "Save", group: "Actions" },
   ];
 

@@ -18,6 +18,7 @@
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
   import Loading from "../loading/Loading.svelte";
+  import Kbd from "../kbd/Kbd.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -160,14 +161,32 @@
               <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
               {#each section.items as item (item.value)}
                 <div class="search-dialog__item" role="option" use:optionAction={item.value}>
-                  {item.label ?? item.value}
+                  <span class="search-dialog__item-label">{item.label ?? item.value}</span>
+                  {#if item.shortcut}
+                    <span class="search-dialog__item-shortcut">
+                      {#if Array.isArray(item.shortcut)}
+                        <Kbd keys={item.shortcut} />
+                      {:else}
+                        <Kbd>{item.shortcut}</Kbd>
+                      {/if}
+                    </span>
+                  {/if}
                 </div>
               {/each}
             </div>
           {:else}
             {#each section.items as item (item.value)}
               <div class="search-dialog__item" role="option" use:optionAction={item.value}>
-                {item.label ?? item.value}
+                <span class="search-dialog__item-label">{item.label ?? item.value}</span>
+                {#if item.shortcut}
+                  <span class="search-dialog__item-shortcut">
+                    {#if Array.isArray(item.shortcut)}
+                      <Kbd keys={item.shortcut} />
+                    {:else}
+                      <Kbd>{item.shortcut}</Kbd>
+                    {/if}
+                  </span>
+                {/if}
               </div>
             {/each}
           {/if}
@@ -261,6 +280,13 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--ds-color-text-secondary, #64748b);
+  }
+  .search-dialog__item-label {
+    min-inline-size: 0;
+  }
+  .search-dialog__item-shortcut {
+    margin-inline-start: auto;
+    flex: none;
   }
   .search-dialog__item {
     display: flex;

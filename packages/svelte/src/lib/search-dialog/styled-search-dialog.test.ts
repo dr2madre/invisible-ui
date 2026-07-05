@@ -202,6 +202,26 @@ describe("Svelte SearchDialog (styled)", () => {
     expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
   });
 
+  it("renders an item shortcut as a keycap label inside the option", async () => {
+    const user = userEvent.setup();
+    render(Fixture, {
+      props: {
+        items: [
+          { value: "save", label: "Save", shortcut: ["⌘", "S"] },
+          { value: "open", label: "Open…" },
+        ],
+      },
+    });
+    await openPalette(user);
+
+    const option = screen.getByRole("option", { name: /Save/ });
+    const kbd = option.querySelector("kbd");
+    expect(kbd).not.toBeNull();
+    expect(kbd!.textContent).toContain("⌘");
+    // A label, not a control: nothing focusable inside the option.
+    expect(option.querySelector("button, a, input")).toBeNull();
+  });
+
   it("closes on Escape", async () => {
     const user = userEvent.setup();
     render(Fixture);
