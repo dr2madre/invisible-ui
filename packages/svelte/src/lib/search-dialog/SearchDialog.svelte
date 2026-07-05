@@ -72,6 +72,17 @@
 
   $: search.setOpen(open);
   $: setItems(items);
+
+  // The adapter puts items in display order (ungrouped first, then one run
+  // per group), so consecutive runs of the same group form the sections.
+  type Section = { group: string | null; items: SearchDialogItem[] };
+  $: sections = $visible.reduce<Section[]>((acc, item) => {
+    const group = item.group ?? null;
+    const last = acc[acc.length - 1];
+    if (last && last.group === group) last.items.push(item);
+    else acc.push({ group, items: [item] });
+    return acc;
+  }, []);
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -114,13 +125,30 @@
 
       <!-- The listbox stays in the DOM even when empty so the input's
            aria-controls keeps pointing at a real element. -->
-      <ul class="search-dialog__list" use:listboxAction>
-        {#each $visible as item (item.value)}
-          <li class="search-dialog__item" role="option" use:optionAction={item.value}>
-            {item.label ?? item.value}
-          </li>
+      <!-- Divs with explicit roles: ARIA in HTML does not allow role="group"
+           on <li>, and the listbox/option roles carry the list semantics. -->
+      <div class="search-dialog__list" use:listboxAction>
+        {#each sections as section, s (section.group ?? `flat-${s}`)}
+          {#if section.group}
+            <!-- The visible header is hidden from AT; the group's aria-label
+                 carries the same name, so it is announced once. -->
+            <div class="search-dialog__group" role="group" aria-label={section.group}>
+              <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
+              {#each section.items as item (item.value)}
+                <div class="search-dialog__item" role="option" use:optionAction={item.value}>
+                  {item.label ?? item.value}
+                </div>
+              {/each}
+            </div>
+          {:else}
+            {#each section.items as item (item.value)}
+              <div class="search-dialog__item" role="option" use:optionAction={item.value}>
+                {item.label ?? item.value}
+              </div>
+            {/each}
+          {/if}
         {/each}
-      </ul>
+      </div>
       {#if $visible.length === 0}
         <p class="search-dialog__empty">{resolvedEmptyText}</p>
       {/if}
@@ -193,8 +221,16 @@
   .search-dialog__list {
     margin: 0;
     padding: var(--ds-search-dialog-list-padding, 0.375rem);
-    list-style: none;
     overflow-y: auto;
+  }
+  .search-dialog__group-header {
+    display: block;
+    padding: 0.5rem 0.625rem 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ds-color-text-secondary, #64748b);
   }
   .search-dialog__item {
     display: flex;

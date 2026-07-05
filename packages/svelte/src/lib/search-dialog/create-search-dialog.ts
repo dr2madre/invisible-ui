@@ -5,18 +5,24 @@ import { createDialog } from "../dialog/create-dialog";
 import { createPropsAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
-export type SearchDialogItem = core.ComboboxItem;
+export interface SearchDialogItem extends core.ComboboxItem {
+  /**
+   * Optional section the result belongs to ("Pages", "Actions"). Grouped
+   * results render under a section header; ungrouped results come first.
+   */
+  group?: string;
+}
 
 export interface SearchDialogContext {
-  /** The available commands. */
+  /** The searchable results. */
   items: SearchDialogItem[];
   /** Initial open state. */
   open?: boolean;
-  /** Filter commands against the query. Defaults to case-insensitive substring. */
+  /** Filter results against the query. Defaults to case-insensitive substring. */
   filter?: (items: SearchDialogItem[], query: string) => SearchDialogItem[];
-  /** Called when a command is chosen (before the palette closes). */
+  /** Called when a result is chosen (before the dialog closes). */
   onSelect?: (value: string) => void;
-  /** Called whenever the palette opens/closes. */
+  /** Called whenever the dialog opens/closes. */
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -54,6 +60,26 @@ const defaultFilter = (items: SearchDialogItem[], query: string) => {
 };
 
 /**
+ * Put items in display order: ungrouped results first (in the given order),
+ * then one run per group, groups ordered by first appearance. Keyboard
+ * navigation follows the item order, so the logical order must match what the
+ * grouped list renders.
+ */
+const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
+  const ungrouped: SearchDialogItem[] = [];
+  const groups = new Map<string, SearchDialogItem[]>();
+  for (const item of items) {
+    if (!item.group) ungrouped.push(item);
+    else {
+      const run = groups.get(item.group) ?? [];
+      run.push(item);
+      groups.set(item.group, run);
+    }
+  }
+  return [...ungrouped, ...[...groups.values()].flat()];
+};
+
+/**
  * Create a headless command palette — a combobox inside a modal dialog. The
  * modal shell (portal, focus trap, scroll lock, Escape / backdrop close, focus
  * restore) comes from {@link createDialog}; the search input + filtered results
@@ -62,7 +88,7 @@ const defaultFilter = (items: SearchDialogItem[], query: string) => {
  * is rendered inline in the dialog (no floating popup).
  */
 export function createSearchDialog(context: SearchDialogContext): CreateSearchDialog {
-  let allItems = context.items;
+  let allItems = orderItems(context.items);
   const filter = context.filter ?? defaultFilter;
   const base = core.initialState({ items: allItems });
 
@@ -94,7 +120,7 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     query.update((q) => ({ ...q, inputValue, items: filter(allItems, inputValue) }));
 
   const setItems = (items: SearchDialogItem[]) => {
-    allItems = items;
+    allItems = orderItems(items);
     query.update((q) => ({
       ...q,
       items: filter(allItems, q.inputValue),
