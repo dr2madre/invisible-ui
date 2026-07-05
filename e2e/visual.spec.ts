@@ -15,7 +15,7 @@ const components = [
   ["forms", "button"],
   ["feedback", "tag"],
   ["data-layout", "card"],
-  ["feedback", "alert"],
+  ["feedback", "inline-notification"],
   ["forms", "checkbox"],
   ["forms", "checkbox-group"],
   ["forms", "switch"],

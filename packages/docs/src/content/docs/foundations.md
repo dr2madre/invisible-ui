@@ -145,7 +145,7 @@ focus ring derive from it, not from the primary).
 
 **Tier 2 — semantic (`--ds-color-*`).** Role tokens that reference the
 primitives and **remap between light/dark**. Components only ever read these.
-Tinted Alert/Notice surfaces are **derived from the feedback hue** with
+Tinted InlineNotification/Notification surfaces are **derived from the feedback hue** with
 `color-mix`, so changing a feedback color cascades to its surface automatically:
 
 > **Naming rule — decoupled from style.** A semantic token names a **role**
@@ -188,7 +188,7 @@ token name commits to none of them.
    `-secondary` (the **selection / focus** color: selected controls, the focus
    ring and selected/active states follow it).
 2. **Feedback** — set `--ds-feedback-*`; the status icons and the
-   Alert/Notice surfaces re-derive.
+   InlineNotification/Notification surfaces re-derive.
 3. **Neutrals** — set the `--ds-neutral-*` ramp to restyle every UI surface,
    border and text color.
 
@@ -216,7 +216,7 @@ fills and on the status icon boxes.
 
 ### Inverted (high-contrast) surface
 
-`Alert`/`Notice` accept `inverted`, which swaps the status tint for the
+`InlineNotification`/`Notification` accept `inverted`, which swaps the status tint for the
 `--ds-color-emphasis-*` surface (foreground `--ds-color-on-emphasis`) — a
 high-contrast box that flips with the theme. The status stays visible via the
 colored FeedbackIcon. It's the recommended look for transient, self-dismissing

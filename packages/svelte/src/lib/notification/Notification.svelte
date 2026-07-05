@@ -1,33 +1,38 @@
 <script lang="ts">
   /**
-   * Notice — an ephemeral, auto-dismissing Alert, meant to be stacked
-   * inside a `NoticeRegion`. It reuses the Alert for its anatomy and
-   * accessibility (it *is* the live region — there is no extra wrapper), and
-   * adds timing:
+   * Notification — a floating message (toast / snack), meant to be stacked
+   * inside a `NotificationRegion`. It reuses the InlineNotification for its
+   * anatomy and accessibility (it *is* the live region — there is no extra
+   * wrapper), and adds timing:
    *
-   * - Auto-dismisses after `duration` ms (`0` keeps it until closed). The timer
-   *   restarts if `duration` changes (e.g. a promise notice swapping
-   *   loading → success).
-   * - The countdown pauses while the notice is hovered or focused (so
-   *   action buttons can be used), per WCAG 2.2.1 Timing. The pause listeners
-   *   sit on the Alert's live region itself — the element the user interacts
-   *   with — so no presentational wrapper is needed.
+   * - **Persistent by default** (`duration = 0`): the user reads and closes it
+   *   at their own pace. Auto-dismiss is opt-in (`duration` in ms) and should
+   *   be reserved for information the user does not need to act on or read
+   *   carefully.
+   * - When a `duration` is set, the countdown pauses while the notification is
+   *   hovered or focused (so action buttons can be used), per WCAG 2.2.1
+   *   Timing. The pause listeners sit on the live region itself — the element
+   *   the user interacts with — so no presentational wrapper is needed. The
+   *   timer restarts if `duration` changes (e.g. a promise notification
+   *   swapping loading → success).
    * - Closable by default; supports action buttons that dismiss on click.
    *
-   * Enter/leave motion and elevation are handled by `NoticeRegion`.
+   * Enter/leave motion, elevation and placement are handled by
+   * `NotificationRegion`.
    */
   import { onDestroy } from "svelte";
-  import Alert from "../alert/Alert.svelte";
-  import type { NoticeAction, NoticeStatus } from "./create-notifier";
+  import InlineNotification from "../inline-notification/InlineNotification.svelte";
+  import type { NotificationAction, NotificationStatus } from "./create-notifier";
 
   /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
-  export let status: NoticeStatus = "info";
+  export let status: NotificationStatus = "info";
   export let title: string | undefined = undefined;
   export let text: string | undefined = undefined;
-  export let duration = 5000;
+  /** Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed. */
+  export let duration = 0;
   export let closable = true;
   export let role: "status" | "alert" = "status";
-  export let actions: NoticeAction[] | undefined = undefined;
+  export let actions: NotificationAction[] | undefined = undefined;
   /**
    * High-contrast inverse surface for maximum visibility. Recommended for
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
@@ -35,9 +40,9 @@
   export let inverted = false;
   /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
   export let iconShape: "rounded" | "round" = "rounded";
-  /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */
+  /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
   export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
-  /** Called when the notice is dismissed (auto, close button, or action). */
+  /** Called when the notification is dismissed (auto, close button, or action). */
   export let onclose: (() => void) | undefined = undefined;
 
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -89,7 +94,7 @@
 <!-- No wrapper: the Alert is the live region. Pause-on-hover/focus listeners
      attach to it directly (it carries role="status"/"alert"). -->
 {#if $$slots.icon}
-  <Alert
+  <InlineNotification
     {status}
     title={title ?? ""}
     description={text ?? ""}
@@ -106,9 +111,9 @@
     on:focusout={start}
   >
     <slot name="icon" slot="icon" />
-  </Alert>
+  </InlineNotification>
 {:else}
-  <Alert
+  <InlineNotification
     {status}
     title={title ?? ""}
     description={text ?? ""}

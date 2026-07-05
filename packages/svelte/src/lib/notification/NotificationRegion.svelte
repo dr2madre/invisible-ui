@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * NoticeRegion — a fixed, stacking container that renders a notifier's
+   * NotificationRegion — a fixed, stacking container that renders a notifier's
    * queue. It is an accessible landmark (`role="region"` with a label); each
    * Notice inside is its own live region, so additions are announced.
    *
@@ -10,11 +10,11 @@
    * At most `maxVisible` notices render at once; the rest stay queued and
    * appear as space frees up (their countdown only starts once visible).
    *
-   *   <NoticeRegion {notifier} placement="top-end" />
+   *   <NotificationRegion {notifier} placement="top-end" />
    */
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
-  import Notice from "./Notice.svelte";
+  import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { Notifier } from "./create-notifier";
 
@@ -36,13 +36,18 @@
       ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
       : false;
 
-  $: resolvedLabel = label ?? $t("noticeRegion.label");
+  $: resolvedLabel = label ?? $t("notificationRegion.label");
   $: motion = prefersReduced ? 0 : duration;
   $: flyY = placement.startsWith("top") ? -16 : 16;
   $: visible = maxVisible > 0 ? $notifier.slice(0, maxVisible) : $notifier;
 </script>
 
-<div class="notice-region" data-placement={placement} role="region" aria-label={resolvedLabel}>
+<div
+  class="notification-region"
+  data-placement={placement}
+  role="region"
+  aria-label={resolvedLabel}
+>
   {#each visible as notice (notice.id)}
     <div
       class="notice-slot"
@@ -50,7 +55,7 @@
       out:fly={{ y: flyY, duration: motion }}
       animate:flip={{ duration: motion }}
     >
-      <Notice
+      <Notification
         status={notice.status}
         title={notice.title}
         text={notice.text}
@@ -68,7 +73,7 @@
 </div>
 
 <style>
-  .notice-region {
+  .notification-region {
     position: fixed;
     /* Sit above every overlay (dialog/popover/menu top out at ~100) and own a
        self-contained stacking context so notices never slip behind page content. */
@@ -87,7 +92,7 @@
      apply the floating elevation — no presentational wrapper is added. The
      shadow lands on the Alert itself (the slot's only child) so it follows the
      alert's rounded corners; customize via --ds-elevation-overlay. */
-  .notice-region > :global(*) {
+  .notification-region > :global(*) {
     pointer-events: auto;
   }
   .notice-slot > :global(*) {
@@ -98,20 +103,20 @@
     );
   }
 
-  .notice-region:global([data-placement^="top"]) {
+  .notification-region:global([data-placement^="top"]) {
     top: 0;
   }
-  .notice-region:global([data-placement^="bottom"]) {
+  .notification-region:global([data-placement^="bottom"]) {
     bottom: 0;
     flex-direction: column-reverse;
   }
-  .notice-region:global([data-placement$="start"]) {
+  .notification-region:global([data-placement$="start"]) {
     inset-inline-start: 0;
   }
-  .notice-region:global([data-placement$="end"]) {
+  .notification-region:global([data-placement$="end"]) {
     inset-inline-end: 0;
   }
-  .notice-region:global([data-placement$="center"]) {
+  .notification-region:global([data-placement$="center"]) {
     inset-inline-start: 50%;
     transform: translateX(-50%);
   }
@@ -120,10 +125,10 @@
      gutter), regardless of placement — a single column is easier to read and
      tap on a phone than a floating corner card. */
   @media (max-width: 30rem) {
-    .notice-region,
-    .notice-region:global([data-placement$="start"]),
-    .notice-region:global([data-placement$="end"]),
-    .notice-region:global([data-placement$="center"]) {
+    .notification-region,
+    .notification-region:global([data-placement$="start"]),
+    .notification-region:global([data-placement$="end"]),
+    .notification-region:global([data-placement$="center"]) {
       inline-size: 100%;
       inset-inline: 0;
       transform: none;

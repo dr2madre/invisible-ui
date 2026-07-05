@@ -38,7 +38,6 @@ export default defineConfig({
           // feedback pages are listed by slug — add new ones here, keeping the
           // list alphabetical.
           items: [
-            "components/feedback/alert",
             "components/feedback/count",
             {
               label: "Dialog",
@@ -46,11 +45,17 @@ export default defineConfig({
             },
             "components/feedback/error-state",
             "components/feedback/feedback-icon",
+            "components/feedback/inline-notification",
             "components/feedback/loading",
             "components/feedback/loading-generation-area",
             "components/feedback/meter",
-            "components/feedback/notice",
-            "components/feedback/notice-region",
+            {
+              label: "Notification",
+              items: [
+                "components/feedback/notification",
+                "components/feedback/notification-region",
+              ],
+            },
             "components/feedback/progress",
             "components/feedback/skeleton",
             "components/feedback/tag",
