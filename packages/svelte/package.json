@@ -95,7 +95,7 @@
     "src/lib/hover-card/HoverCard.svelte",
     "src/lib/menubar/Menubar.svelte",
     "src/lib/combobox/Combobox.svelte",
-    "src/lib/command/Command.svelte",
+    "src/lib/search-dialog/SearchDialog.svelte",
     "src/lib/navigation-menu/NavigationMenu.svelte",
     "src/lib/styles/tokens.css"
   ],
@@ -396,9 +396,9 @@
       "svelte": "./src/lib/combobox/Combobox.svelte",
       "default": "./src/lib/combobox/Combobox.svelte"
     },
-    "./Command.svelte": {
-      "svelte": "./src/lib/command/Command.svelte",
-      "default": "./src/lib/command/Command.svelte"
+    "./SearchDialog.svelte": {
+      "svelte": "./src/lib/search-dialog/SearchDialog.svelte",
+      "default": "./src/lib/search-dialog/SearchDialog.svelte"
     },
     "./NavigationMenu.svelte": {
       "svelte": "./src/lib/navigation-menu/NavigationMenu.svelte",

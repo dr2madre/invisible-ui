@@ -1,0 +1,80 @@
+---
+title: "Search Dialog"
+sidebar:
+  order: 5
+---
+
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import SearchDialogDemo from "../../../../../demos/SearchDialogDemo.svelte";
+
+<Preview>
+  <SearchDialogDemo client:only="svelte" />
+</Preview>
+
+A **quick search**: search by keyword and pick from a list, in a modal (the
+pattern is also marketed as "command palette", but nothing here is a command).
+It composes the **Dialog** (portal, focus trap, scroll lock, Escape / backdrop
+close, focus restore) and the **Combobox** (search, filter, keyboard) — no new
+core code. What it searches is up to the application: content, pages, files,
+people, or the service's own actions and features.
+
+No keyboard shortcut is built in: bind `open` and wire the shortcut in the
+application (the demo above uses <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd>).
+
+Unlike the family's simple dialogs, it asks nothing and interrupts nothing —
+it is a search tool inside the same modal shell.
+
+### Import
+
+```svelte
+<script>
+  import SearchDialog from "@design-system/svelte/SearchDialog.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="search-dialog" />
+
+The `trigger` slot is the opener button's content.
+
+### Accessibility
+
+- A modal `role="dialog"` (`aria-modal`) containing a `role="combobox"` search
+  input over a `role="listbox"` of results. On open, focus moves to the input and
+  is trapped; **Escape** / a backdrop press close it and restore focus.
+- Typing filters; **Arrow Up/Down** move the highlight (`aria-activedescendant`),
+  **Enter** selects the active result and closes.
+- A visually-hidden `role="status"` region announces the filtered result count
+  ("3 results available" / "No results found.") on every keystroke, so
+  screen-reader users hear the effect of their typing.
+
+### Example
+
+```svelte
+<script>
+  let open = false;
+  const items = [
+    { value: "new", label: "New File" },
+    { value: "open", label: "Open…" },
+    { value: "save", label: "Save" },
+  ];
+</script>
+
+<svelte:window
+  on:keydown={(e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+      e.preventDefault();
+      open = true;
+    }
+  }}
+/>
+
+<SearchDialog {items} bind:open onSelect={(value) => run(value)}>
+  <span slot="trigger">Search…</span>
+</SearchDialog>
+```
+
+Themeable via `--ds-search-dialog-*` (panel width, inset, radius) plus the
+shared `--ds-dialog-*` overlay tokens.

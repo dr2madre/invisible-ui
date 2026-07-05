@@ -1,10 +1,13 @@
 <script lang="ts">
   /**
-   * PromptDialog — a styled modal that asks the user for a single value (the
-   * modal equivalent of `window.prompt`). It reuses the headless dialog
-   * (`@design-system/core`) with `role="dialog"` and the shared modal adapter
-   * (`createDialog`): portal, focus trap, scroll lock. The text input is focused
-   * on open.
+   * PromptDialog — a styled modal that asks the user for a single value, the
+   * accessible equivalent of `window.prompt()` (a platform "simple dialog",
+   * per ADR 0005): everything ConfirmDialog has, plus an input. It reuses the
+   * headless dialog (`@design-system/core`) and the shared modal adapter
+   * (`createDialog`): portal, focus trap, scroll lock. The text input is
+   * focused on open. The value is optional by default — `required` makes it
+   * mandatory, `confirmValue` turns it into a type-to-confirm gate; `urgent`
+   * switches to `role="alertdialog"` when the ask must interrupt.
    *
    * The default slot is the trigger. `onConfirm(value)` runs with the entered
    * text when confirmed; Enter in the field also confirms. A `title` is
@@ -41,6 +44,11 @@
   export let cancelLabel: string | undefined = undefined;
   /** Variant of the confirm button (`"danger"` for a destructive confirm). */
   export let confirmVariant: ButtonVariant = "primary";
+  /**
+   * Interrupting urgency: switches the panel to `role="alertdialog"`, which
+   * screen readers announce immediately. Nothing else changes (ADR 0005).
+   */
+  export let urgent = false;
   export let triggerVariant: ButtonVariant = "default";
   /** Called with the entered value when confirmed (before the dialog closes). */
   export let onConfirm: ((value: string) => void) | undefined = undefined;
@@ -58,7 +66,7 @@
 
   const dialog = createDialog({
     open,
-    role: "dialog",
+    role: urgent ? "alertdialog" : "dialog",
     describedBy: Boolean(description),
     closeOnOutsideClick,
     initialFocus: ".prompt-dialog__input",
@@ -76,8 +84,8 @@
   $: dialog.setOpen(open);
   // Reset to the initial value each time it (re)opens.
   $: if ($isOpen) current = value;
-  $: resolvedConfirmLabel = confirmLabel ?? $t("alertDialog.action");
-  $: resolvedCancelLabel = cancelLabel ?? $t("alertDialog.cancel");
+  $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
+  $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
   $: canConfirm =
     confirmValue != null ? current === confirmValue : !required || current.trim().length > 0;
 

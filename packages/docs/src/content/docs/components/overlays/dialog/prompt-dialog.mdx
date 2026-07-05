@@ -1,0 +1,78 @@
+---
+title: "Prompt Dialog"
+sidebar:
+  order: 4
+---
+
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import PromptDialogDemo from "../../../../../demos/PromptDialogDemo.svelte";
+
+<Preview>
+  <PromptDialogDemo client:visible />
+</Preview>
+
+A modal that asks the user for a single value — the accessible equivalent of
+`window.prompt()`, one of the platform's *simple dialogs*: everything
+[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/) has, plus an
+input. It reuses the headless dialog and the shared modal adapter: portal, focus
+trap, scroll lock. The input is focused on open and Enter confirms.
+`onConfirm(value)` runs with the entered text.
+
+The value is **optional by default** — context decides: set `required` to keep
+the confirm button disabled while blank, or **`confirmValue`** for a
+type-to-confirm gate, where the button stays disabled until the input matches
+exactly — e.g. typing a file name to confirm its deletion (the second demo
+above). Pair the gate with `confirmVariant="danger"` and **`urgent`** for
+destructive actions: `urgent` switches the panel to `role="alertdialog"`
+(announced immediately by screen readers) and changes nothing else.
+
+### When to use which dialog
+
+- **[Dialog](/invisible-ui/components/overlays/dialog/)** — generic modal for any content; the head of the family.
+- **[Alert Dialog](/invisible-ui/components/overlays/dialog/alert-dialog/)** — an acknowledgement: a message with
+  nothing to cancel (one button).
+- **[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)** — verify or accept before proceeding:
+  cancel stops, confirm proceeds (`urgent` to interrupt).
+- **Prompt Dialog** — asks for a single value
+  (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
+
+### Import
+
+```svelte
+<script>
+  import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="prompt-dialog" />
+
+### Accessibility
+
+- `role="dialog"`, `aria-modal`, named by its `title`; the input is labelled by
+  `label` and receives focus on open. Escape and a backdrop press cancel.
+- Focus is trapped in the panel and returns to the trigger on close.
+
+### Example
+
+```svelte
+<!-- Type the file name to enable the destructive Delete. -->
+<PromptDialog
+  urgent
+  title="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  label="Type the file name to confirm"
+  placeholder="report-q3.pdf"
+  confirmValue="report-q3.pdf"
+  confirmLabel="Delete file"
+  cancelLabel="Keep file"
+  confirmVariant="danger"
+  onConfirm={() => remove()}
+>
+  Delete file
+</PromptDialog>
+```
+
+Themeable via `--ds-dialog-*`.

@@ -1,10 +1,13 @@
 ---
 title: "Dialog"
+sidebar:
+  label: "Overview"
+  order: 1
 ---
 
-import Preview from "../../../../components/Preview.astro";
-import PropsTable from "../../../../components/PropsTable.astro";
-import DialogDemo from "../../../../demos/DialogDemo.svelte";
+import Preview from "../../../../../components/Preview.astro";
+import PropsTable from "../../../../../components/PropsTable.astro";
+import DialogDemo from "../../../../../demos/DialogDemo.svelte";
 
 <Preview>
   <DialogDemo client:only="svelte" />
@@ -14,25 +17,26 @@ A modal window (WAI-ARIA dialog pattern): a trigger opens a `role="dialog"` pane
 with `aria-modal="true"`, portalled to `<body>` over a backdrop, with a focus
 trap and body scroll lock.
 
-This is the generic modal the rest of the family builds on: the presets below
-reuse the same headless machinery and tokens, differing only in intent and
-urgency.
+This is the generic modal the rest of the family builds on. The three presets
+are the accessible, stylable equivalents of the platform's *simple dialogs*
+(`alert()`, `confirm()`, `prompt()`): same headless machinery, same tokens,
+differing only in job.
 
 ### When to use which dialog
 
-- **Dialog** — generic modal for any content; the base everything else builds on.
-- **[Confirm Dialog](/invisible-ui/components/overlays/confirm-dialog/)** — a routine yes/no confirmation (`role="dialog"`).
-- **[Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)** — an *urgent* or *destructive* action
-  that must interrupt and be acknowledged (`role="alertdialog"`, optional
-  type-to-confirm).
-- **[Prompt Dialog](/invisible-ui/components/overlays/prompt-dialog/)** — asks for a single value
-  (optionally gated by `confirmValue`).
+- **Dialog** — generic modal for any content; the head of the family.
+- **[Alert Dialog](/invisible-ui/components/overlays/dialog/alert-dialog/)** — an acknowledgement: a message with
+  nothing to cancel (one button).
+- **[Confirm Dialog](/invisible-ui/components/overlays/dialog/confirm-dialog/)** — verify or accept before proceeding:
+  cancel stops, confirm proceeds (`urgent` to interrupt).
+- **[Prompt Dialog](/invisible-ui/components/overlays/dialog/prompt-dialog/)** — asks for a single value
+  (optional, `required`, or gated by `confirmValue`; `urgent` to interrupt).
 
 ### Import
 
 ```svelte
 <script>
-  import DialogDemo from "../../../../demos/DialogDemo.svelte";
+  import Dialog from "@design-system/svelte/Dialog.svelte";
 </script>
 ```
 

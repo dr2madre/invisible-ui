@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./confirm-dialog.fixture.svelte";
@@ -32,6 +33,19 @@ describe("Svelte ConfirmDialog", () => {
     await user.click(screen.getByRole("button", { name: "Cancel" }));
     expect(onConfirm).not.toHaveBeenCalled();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("urgent switches the role to alertdialog and nothing else", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { open: true, urgent: true } });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    const modal = screen.getByRole("alertdialog", { name: "Discard changes?" });
+    expect(modal).toHaveAttribute("aria-modal", "true");
+    // Same two buttons, same safe-choice focus.
+    await tick();
+    expect(screen.getByRole("button", { name: "Cancel" })).toHaveFocus();
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
   });
 
   // Svelte re-applies a prop's initializer when `undefined` is passed, so the

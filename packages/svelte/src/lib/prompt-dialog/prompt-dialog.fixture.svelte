@@ -5,8 +5,17 @@
   export let value = "report";
   export let confirmValue: string | undefined = undefined;
   export let onConfirm: ((value: string) => void) | undefined = undefined;
+  export let urgent = false;
 </script>
 
-<PromptDialog {open} {onConfirm} {value} {confirmValue} title="Rename file" label="File name">
+<PromptDialog
+  {open}
+  {onConfirm}
+  {value}
+  {confirmValue}
+  {urgent}
+  title="Rename file"
+  label="File name"
+>
   Rename
 </PromptDialog>

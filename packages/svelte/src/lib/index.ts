@@ -36,7 +36,7 @@ export { createContextMenu, type ContextMenuContext, type CreateContextMenu } fr
 export * from "./dialog";
 export * from "./drawer";
 export * from "./combobox";
-export * from "./command";
+export * from "./search-dialog";
 export * from "./hover-card";
 export * from "./menubar";
 export * from "./navigation-menu";

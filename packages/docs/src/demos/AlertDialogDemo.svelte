@@ -5,39 +5,36 @@
 </script>
 
 <div style="display: grid; gap: 1.5rem;">
-  <!-- Title = the topic; the question + consequence live in the body; the
-       buttons name the object, not just the verb. Same wording is reused by
-       ConfirmDialog and PromptDialog so the family reads consistently. -->
+  <!-- The alert() job: an outcome to take note of — nothing to cancel. Here it
+       is the epilogue of the family's delete-file story: Confirm/Prompt decide,
+       Alert reports. The button names the outcome ("Done"), not a bare "OK". -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <AlertDialog
-      title="Delete file"
-      description={`Do you want to delete “${file}”? The file will be permanently deleted.`}
-      actionLabel="Delete file"
-      cancelLabel="Keep file"
-      actionVariant="danger"
+      title="File deleted"
+      description={`“${file}” was permanently deleted.`}
+      dismissLabel="Done"
     >
-      Delete file
+      Show outcome
     </AlertDialog>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
-      Plain yes/no — same choice as <strong>Confirm dialog</strong>, at alert urgency.
+      Acknowledge an outcome — the epilogue of the <strong>Confirm dialog</strong> /
+      <strong>Prompt dialog</strong> delete flow.
     </figcaption>
   </figure>
 
-  <!-- Type-to-confirm: high-safety destructive action. -->
+  <!-- Explicit acknowledgement: backdrop dismissal off, the user must press
+       the button ("I understood"). -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <AlertDialog
-      title="Delete file"
-      description={`Do you want to delete “${file}”? The file will be permanently deleted.`}
-      actionLabel="Delete file"
-      cancelLabel="Keep file"
-      actionVariant="danger"
-      confirmPhrase={file}
-      confirmHint="Type the file name to confirm"
+      title="Scheduled maintenance"
+      description="Saving will be unavailable on Sunday between 02:00 and 04:00 (UTC)."
+      dismissLabel="I understood"
+      closeOnOutsideClick={false}
     >
-      Delete (type to confirm)
+      Show notice
     </AlertDialog>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
-      Type-to-confirm — same input as <strong>Prompt dialog</strong>, at alert urgency.
+      Explicit acknowledgement — <code>closeOnOutsideClick={"{false}"}</code> requires pressing the button.
     </figcaption>
   </figure>
 </div>

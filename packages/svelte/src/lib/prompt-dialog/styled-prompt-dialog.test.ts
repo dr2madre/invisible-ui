@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./prompt-dialog.fixture.svelte";
@@ -46,6 +47,14 @@ describe("Svelte PromptDialog", () => {
     await user.click(screen.getByRole("button", { name: "Cancel" }));
     expect(onConfirm).not.toHaveBeenCalled();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("urgent switches the role to alertdialog and keeps the input focused", async () => {
+    render(Fixture, { props: { open: true, urgent: true } });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("alertdialog", { name: "Rename file" })).toBeInTheDocument();
+    await tick();
+    expect(screen.getByLabelText("File name")).toHaveFocus();
   });
 
   it("has no accessibility violations when open", async () => {

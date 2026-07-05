@@ -1,21 +1,21 @@
 <script lang="ts">
   import AlertDialog from "./AlertDialog.svelte";
 
-  export let onAction: (() => void) | undefined = undefined;
+  export let onDismiss: (() => void) | undefined = undefined;
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
   export let closeOnOutsideClick = true;
+  export let dismissLabel: string | undefined = undefined;
 </script>
 
 <button type="button">before</button>
 <AlertDialog
-  title="Delete file?"
-  description="This action cannot be undone."
-  actionLabel="Delete"
-  actionVariant="danger"
+  title="File deleted"
+  description="“report-q3.pdf” was permanently deleted."
+  {dismissLabel}
   {closeOnOutsideClick}
-  {onAction}
+  {onDismiss}
   {onOpenChange}
 >
-  Delete file
+  Show alert
 </AlertDialog>
 <button type="button">after</button>
