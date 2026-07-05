@@ -5,6 +5,8 @@
   export let open = false;
   export let onSelect: ((value: string) => void) | undefined = undefined;
   export let onOpenChange: ((o: boolean) => void) | undefined = undefined;
+  export let suggestions: SearchDialogItem[] = [];
+  export let loading = false;
 
   export let items: SearchDialogItem[] = [
     { value: "new-file", label: "New File" },
@@ -14,6 +16,6 @@
   ];
 </script>
 
-<SearchDialog {items} {open} {onSelect} {onOpenChange}>
+<SearchDialog {items} {open} {onSelect} {onOpenChange} {suggestions} {loading}>
   <span slot="trigger">Open palette</span>
 </SearchDialog>

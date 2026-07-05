@@ -172,6 +172,36 @@ describe("Svelte SearchDialog (styled)", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 
+  it("shows suggestions while the query is empty, results once typing", async () => {
+    const user = userEvent.setup();
+    render(Fixture, {
+      props: {
+        suggestions: [{ value: "open", label: "Open…", group: "Recent" }],
+      },
+    });
+    await openPalette(user);
+
+    // Empty query: only the suggestion, under its "Recent" group.
+    expect(within(screen.getByRole("listbox")).getAllByRole("option")).toHaveLength(1);
+    expect(screen.getByRole("group")).toHaveAccessibleName("Recent");
+
+    // Typing swaps to filtered results; clearing brings the suggestions back.
+    await user.type(screen.getByRole("combobox"), "sa");
+    expect(within(screen.getByRole("listbox")).getAllByRole("option")).toHaveLength(1);
+    expect(screen.queryByRole("group")).not.toBeInTheDocument();
+    await user.clear(screen.getByRole("combobox"));
+    expect(screen.getByRole("group")).toHaveAccessibleName("Recent");
+  });
+
+  it("announces and shows the loading state, suppressing the empty state", async () => {
+    const user = userEvent.setup();
+    render(Fixture, { props: { items: [], loading: true } });
+    await openPalette(user);
+
+    expect(screen.getByRole("status")).toHaveTextContent("Searching…");
+    expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
+  });
+
   it("closes on Escape", async () => {
     const user = userEvent.setup();
     render(Fixture);

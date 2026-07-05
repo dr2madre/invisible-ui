@@ -16,6 +16,12 @@ export interface SearchDialogItem extends core.ComboboxItem {
 export interface SearchDialogContext {
   /** The searchable results. */
   items: SearchDialogItem[];
+  /**
+   * Items shown while the query is empty (recents, frequent searches — the
+   * application measures, the dialog displays). They may carry their own
+   * `group` ("Recent"). When omitted or empty, an empty query shows all items.
+   */
+  suggestions?: SearchDialogItem[];
   /** Initial open state. */
   open?: boolean;
   /** Filter results against the query. Defaults to case-insensitive substring. */
@@ -35,8 +41,10 @@ export interface CreateSearchDialog {
   items: Readable<SearchDialogItem[]>;
   /** The current query text. */
   inputValue: Readable<string>;
-  /** Replace the command list (e.g. when commands load asynchronously). */
+  /** Replace the result list (e.g. when results load asynchronously). */
   setItems: (items: SearchDialogItem[]) => void;
+  /** Replace the empty-query suggestions. */
+  setSuggestions: (suggestions: SearchDialogItem[]) => void;
   /** Action for the trigger button. */
   triggerAction: Action<HTMLElement>;
   /** Action for the dialog panel (render only while open). */
@@ -89,7 +97,12 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
  */
 export function createSearchDialog(context: SearchDialogContext): CreateSearchDialog {
   let allItems = orderItems(context.items);
+  let allSuggestions = orderItems(context.suggestions ?? []);
   const filter = context.filter ?? defaultFilter;
+
+  // Empty query: show the suggestions when provided, everything otherwise.
+  const visibleFor = (query: string) =>
+    query.trim() === "" && allSuggestions.length ? allSuggestions : filter(allItems, query);
   const base = core.initialState({ items: allItems });
 
   const dialog = createDialog({
@@ -104,29 +117,42 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     // Nothing pre-highlighted on open; the first match is highlighted once the
     // user starts typing (so Enter runs the top result).
     activeValue: null as string | null,
-    items: allItems,
+    items: visibleFor(""),
   });
 
   // Reset the query each time the palette opens.
   dialog.open.subscribe((isOpen) => {
     if (isOpen) {
-      query.set({ inputValue: "", activeValue: null, items: allItems });
+      query.set({ inputValue: "", activeValue: null, items: visibleFor("") });
     }
   });
 
   const setActiveValue = (activeValue: string | null) =>
     query.update((q) => ({ ...q, activeValue }));
   const setInputValue = (inputValue: string) =>
-    query.update((q) => ({ ...q, inputValue, items: filter(allItems, inputValue) }));
+    query.update((q) => ({ ...q, inputValue, items: visibleFor(inputValue) }));
+
+  const refresh = () =>
+    query.update((q) => {
+      const items = visibleFor(q.inputValue);
+      return {
+        ...q,
+        items,
+        activeValue:
+          q.activeValue && items.some((item) => item.value === q.activeValue)
+            ? q.activeValue
+            : null,
+      };
+    });
 
   const setItems = (items: SearchDialogItem[]) => {
     allItems = orderItems(items);
-    query.update((q) => ({
-      ...q,
-      items: filter(allItems, q.inputValue),
-      activeValue:
-        q.activeValue && items.some((item) => item.value === q.activeValue) ? q.activeValue : null,
-    }));
+    refresh();
+  };
+
+  const setSuggestions = (suggestions: SearchDialogItem[]) => {
+    allSuggestions = orderItems(suggestions);
+    refresh();
   };
 
   const comboState = derived([dialog.open, query], ([$open, $q]) => ({
@@ -184,6 +210,7 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     items: derived(query, ($q) => $q.items),
     inputValue: derived(query, ($q) => $q.inputValue),
     setItems,
+    setSuggestions,
     triggerAction: dialog.triggerAction,
     contentAction: dialog.contentAction,
     titleAction: dialog.titleAction,

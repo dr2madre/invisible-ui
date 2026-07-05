@@ -55,6 +55,7 @@ export const en = {
   "searchDialog.empty": "No results found.",
   "searchDialog.resultOne": "1 result available",
   "searchDialog.resultMany": "{count} results available",
+  "searchDialog.loading": "Searching…",
   "select.placeholder": "Select…",
   "switch.on": "ON",
   "switch.off": "OFF",
