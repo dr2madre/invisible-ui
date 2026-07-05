@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("Dialog opens from its trigger and closes on Escape", async ({ page }) => {
-  await page.goto("components/overlays/dialog/");
+  await page.goto("components/feedback/dialog/");
   await page.getByRole("button", { name: "Open dialog" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();

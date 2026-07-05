@@ -4,7 +4,10 @@ import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./sheet-dialog.fixture.svelte";
 
-const overlay = () => document.querySelector<HTMLElement>(".sheet-dialog__overlay");
+// Native <dialog>: backdrop presses target the element itself with
+// coordinates outside its box.
+const pressBackdrop = (panel: HTMLElement) =>
+  fireEvent.pointerDown(panel, { clientX: -10, clientY: -10 });
 const handleOf = (panel: HTMLElement) => panel.querySelector<HTMLElement>(".sheet-dialog__handle")!;
 
 /** A pointer-ish event with controllable coordinates and timeStamp (jsdom lacks
@@ -58,7 +61,7 @@ describe("Svelte SheetDialog (styled)", () => {
     render(Fixture);
 
     await user.click(screen.getByRole("button", { name: "Open panel" }));
-    await fireEvent.pointerDown(overlay()!);
+    await pressBackdrop(screen.getByRole("dialog"));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Open panel" }));

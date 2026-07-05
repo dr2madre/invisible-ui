@@ -2,8 +2,8 @@
   /**
    * SearchDialog — search and pick from a list, in a modal (the pattern often
    * marketed as "command palette"): a search combobox inside a modal dialog.
-   * The modal shell (portal, focus trap, scroll lock, Escape / backdrop close,
-   * focus restore) and the search/filter/keyboard behaviour come from the
+   * The modal shell (native `<dialog>` + `showModal()`, scroll lock, Escape /
+   * backdrop close, focus restore) and the search/filter/keyboard behaviour come from the
    * headless dialog + combobox (`@design-system/core`); this is the styled
    * wrapper. A visually-hidden `role="status"` region announces the filtered
    * result count to screen readers.
@@ -14,7 +14,6 @@
    * application. Themeable via `--ds-search-dialog-*`.
    */
   import { createSearchDialog, type SearchDialogItem } from "./create-search-dialog";
-  import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
   import Loading from "../loading/Loading.svelte";
@@ -107,74 +106,56 @@
 </Button>
 
 {#if $isOpen}
-  <div class="search-dialog__portal" use:portal>
-    <div class="search-dialog__overlay" aria-hidden="true"></div>
-    <div class="search-dialog__panel" use:contentAction>
-      <h2 class="search-dialog__sr-only" use:titleAction>{resolvedTitle}</h2>
+  <dialog class="search-dialog__panel" use:contentAction>
+    <h2 class="search-dialog__sr-only" use:titleAction>{resolvedTitle}</h2>
 
-      <div class="search-dialog__search">
-        <span class="search-dialog__search-icon" aria-hidden="true">
-          <Icon size="100%"
-            ><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon
-          >
-        </span>
-        <!-- svelte-ignore a11y_label_has_associated_control -->
-        <label class="search-dialog__sr-only" use:labelAction>{resolvedLabel}</label>
-        <input
-          class="search-dialog__input"
-          type="text"
-          placeholder={resolvedPlaceholder}
-          value={$inputValue}
-          use:inputAction
-        />
-      </div>
+    <div class="search-dialog__search">
+      <span class="search-dialog__search-icon" aria-hidden="true">
+        <Icon size="100%"
+          ><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon
+        >
+      </span>
+      <!-- svelte-ignore a11y_label_has_associated_control -->
+      <label class="search-dialog__sr-only" use:labelAction>{resolvedLabel}</label>
+      <input
+        class="search-dialog__input"
+        type="text"
+        placeholder={resolvedPlaceholder}
+        value={$inputValue}
+        use:inputAction
+      />
+    </div>
 
-      <!-- Polite announcement of the filtered results for screen readers. -->
-      <div class="search-dialog__sr-only" role="status">
-        {#if loading}
-          {$t("searchDialog.loading")}
-        {:else if $visible.length === 0}
-          {resolvedEmptyText}
-        {:else if $visible.length === 1}
-          {$t("searchDialog.resultOne")}
-        {:else}
-          {$t("searchDialog.resultMany", { count: $visible.length })}
-        {/if}
-      </div>
-
+    <!-- Polite announcement of the filtered results for screen readers. -->
+    <div class="search-dialog__sr-only" role="status">
       {#if loading}
-        <div class="search-dialog__loading">
-          <Loading variant="dots" decorative />
-        </div>
+        {$t("searchDialog.loading")}
+      {:else if $visible.length === 0}
+        {resolvedEmptyText}
+      {:else if $visible.length === 1}
+        {$t("searchDialog.resultOne")}
+      {:else}
+        {$t("searchDialog.resultMany", { count: $visible.length })}
       {/if}
+    </div>
 
-      <!-- The listbox stays in the DOM even when empty so the input's
+    {#if loading}
+      <div class="search-dialog__loading">
+        <Loading variant="dots" decorative />
+      </div>
+    {/if}
+
+    <!-- The listbox stays in the DOM even when empty so the input's
            aria-controls keeps pointing at a real element. -->
-      <!-- Divs with explicit roles: ARIA in HTML does not allow role="group"
+    <!-- Divs with explicit roles: ARIA in HTML does not allow role="group"
            on <li>, and the listbox/option roles carry the list semantics. -->
-      <div class="search-dialog__list" use:listboxAction>
-        {#each sections as section, s (section.group ?? `flat-${s}`)}
-          {#if section.group}
-            <!-- The visible header is hidden from AT; the group's aria-label
+    <div class="search-dialog__list" use:listboxAction>
+      {#each sections as section, s (section.group ?? `flat-${s}`)}
+        {#if section.group}
+          <!-- The visible header is hidden from AT; the group's aria-label
                  carries the same name, so it is announced once. -->
-            <div class="search-dialog__group" role="group" aria-label={section.group}>
-              <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
-              {#each section.items as item (item.value)}
-                <div class="search-dialog__item" role="option" use:optionAction={item.value}>
-                  <span class="search-dialog__item-label">{item.label ?? item.value}</span>
-                  {#if item.shortcut}
-                    <span class="search-dialog__item-shortcut">
-                      {#if Array.isArray(item.shortcut)}
-                        <Kbd keys={item.shortcut} />
-                      {:else}
-                        <Kbd>{item.shortcut}</Kbd>
-                      {/if}
-                    </span>
-                  {/if}
-                </div>
-              {/each}
-            </div>
-          {:else}
+          <div class="search-dialog__group" role="group" aria-label={section.group}>
+            <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
             {#each section.items as item (item.value)}
               <div class="search-dialog__item" role="option" use:optionAction={item.value}>
                 <span class="search-dialog__item-label">{item.label ?? item.value}</span>
@@ -189,33 +170,38 @@
                 {/if}
               </div>
             {/each}
-          {/if}
-        {/each}
-      </div>
-      {#if $visible.length === 0 && !loading}
-        <p class="search-dialog__empty">{resolvedEmptyText}</p>
-      {/if}
+          </div>
+        {:else}
+          {#each section.items as item (item.value)}
+            <div class="search-dialog__item" role="option" use:optionAction={item.value}>
+              <span class="search-dialog__item-label">{item.label ?? item.value}</span>
+              {#if item.shortcut}
+                <span class="search-dialog__item-shortcut">
+                  {#if Array.isArray(item.shortcut)}
+                    <Kbd keys={item.shortcut} />
+                  {:else}
+                    <Kbd>{item.shortcut}</Kbd>
+                  {/if}
+                </span>
+              {/if}
+            </div>
+          {/each}
+        {/if}
+      {/each}
     </div>
-  </div>
+    {#if $visible.length === 0 && !loading}
+      <p class="search-dialog__empty">{resolvedEmptyText}</p>
+    {/if}
+  </dialog>
 {/if}
 
 <style>
-  .search-dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-    display: grid;
-    place-items: start center;
-    padding: var(--ds-search-dialog-inset, 12vh 1rem 1rem);
-  }
-  .search-dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .search-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
-
   .search-dialog__panel {
-    position: relative;
+    margin-block-start: var(--ds-search-dialog-inset-top, 12vh);
+    margin-inline: auto;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-search-dialog-width, 32rem);

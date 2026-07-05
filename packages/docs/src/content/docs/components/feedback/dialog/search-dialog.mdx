@@ -14,7 +14,7 @@ import SearchDialogDemo from "../../../../../demos/SearchDialogDemo.svelte";
 
 A **quick search**: search by keyword and pick from a list, in a modal (the
 pattern is also marketed as "command palette", but nothing here is a command).
-It composes the **Dialog** (portal, focus trap, scroll lock, Escape / backdrop
+It composes the **Dialog** (native `<dialog>` element, scroll lock, Escape / backdrop
 close, focus restore) and the **Combobox** (search, filter, keyboard) — no new
 core code. What it searches is up to the application: content, pages, files,
 people, or the service's own actions and features.

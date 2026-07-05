@@ -15,7 +15,8 @@ import ConfirmDialogDemo from "../../../../../demos/ConfirmDialogDemo.svelte";
 A modal to verify or accept before proceeding — the accessible equivalent of
 `window.confirm()`, one of the platform's *simple dialogs*. Cancel stops the
 process, confirm proceeds. It reuses the headless dialog and the shared modal
-adapter: portal, focus trap, scroll lock. The trigger is the default slot;
+adapter (native `<dialog>` + `showModal()`: top layer, inert background,
+scroll lock). The trigger is the default slot;
 `onConfirm` runs when the confirm button is pressed. Focus lands on the safe
 choice.
 

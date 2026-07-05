@@ -3,17 +3,17 @@
    * Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and
    * accessibility (open/close, `role="dialog"` + `aria-modal`, labelling via the
    * title, Escape to close) come from the headless dialog
-   * (`@design-system/core`); this adapter adds the modal DOM concerns: a portal
-   * to `<body>`, a focus trap, body scroll lock, a backdrop that closes on press,
-   * and focus management (focus moves into the panel on open and returns to the
-   * trigger on close).
+   * (`@design-system/core`); this adapter adds the modal DOM concerns on the
+   * native `<dialog>` element (`showModal()`: top layer, inert background,
+   * `::backdrop`), plus body scroll lock, backdrop light-dismiss and focus
+   * management (focus moves into the panel on open and returns to the trigger
+   * on close).
    *
    * Slots: `trigger` (the trigger button's content) and the default slot (the
    * body). Pass an accessible `title` (required) and optional `description`.
    * Colors, radius and elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "./create-dialog";
-  import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -68,49 +68,33 @@
 </Button>
 
 {#if $isOpen}
-  <div class="dialog__portal" use:portal>
-    <div class="dialog__overlay" aria-hidden="true"></div>
-    <div class="dialog__panel" use:contentAction>
-      <header class="dialog__header">
-        <h2 class="dialog__title" use:titleAction>{title}</h2>
-        <button class="dialog__close" type="button" aria-label={resolvedCloseLabel} use:closeAction>
-          <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
-            <path
-              d="M6 6l12 12M18 6L6 18"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
-      </header>
-      {#if description !== undefined}
-        <p class="dialog__description" use:descriptionAction>{description}</p>
-      {/if}
-      <div class="dialog__body"><slot /></div>
-    </div>
-  </div>
+  <dialog class="dialog__panel" use:contentAction>
+    <header class="dialog__header">
+      <h2 class="dialog__title" use:titleAction>{title}</h2>
+      <button class="dialog__close" type="button" aria-label={resolvedCloseLabel} use:closeAction>
+        <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </header>
+    {#if description !== undefined}
+      <p class="dialog__description" use:descriptionAction>{description}</p>
+    {/if}
+    <div class="dialog__body"><slot /></div>
+  </dialog>
 {/if}
 
 <style>
-  .dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-  }
-
-  .dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
-
   .dialog__panel {
-    position: relative;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 30rem);

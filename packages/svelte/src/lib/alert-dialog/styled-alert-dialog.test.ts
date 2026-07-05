@@ -4,7 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./alert-dialog.fixture.svelte";
 
-const overlay = () => document.querySelector<HTMLElement>(".alert-dialog__overlay");
+// Native <dialog>: backdrop presses target the element itself with
+// coordinates outside its box.
+const pressBackdrop = (panel: HTMLElement) =>
+  fireEvent.pointerDown(panel, { clientX: -10, clientY: -10 });
 const openIt = (user: ReturnType<typeof userEvent.setup>) =>
   user.click(screen.getByRole("button", { name: "Show alert" }));
 
@@ -64,7 +67,7 @@ describe("Svelte AlertDialog (styled)", () => {
     render(Fixture, { props: { onDismiss } });
     await openIt(user);
 
-    await fireEvent.pointerDown(overlay()!);
+    await pressBackdrop(screen.getByRole("alertdialog"));
     expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
@@ -74,7 +77,7 @@ describe("Svelte AlertDialog (styled)", () => {
     render(Fixture, { props: { closeOnOutsideClick: false } });
     await openIt(user);
 
-    await fireEvent.pointerDown(overlay()!);
+    await pressBackdrop(screen.getByRole("alertdialog"));
     expect(screen.getByRole("alertdialog")).toBeInTheDocument();
   });
 

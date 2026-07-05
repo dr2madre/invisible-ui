@@ -5,7 +5,7 @@ import { test, expect } from "@playwright/test";
 const pages = [
   { path: "", name: "home" },
   { path: "components/forms/button/", name: "Button" },
-  { path: "components/overlays/dialog/", name: "Dialog" },
+  { path: "components/feedback/dialog/", name: "Dialog" },
   { path: "components/date-time/calendar/", name: "Calendar" },
   { path: "components/forms/combobox/", name: "Combobox" },
   { path: "components/data-layout/table-set/", name: "Table Set" },

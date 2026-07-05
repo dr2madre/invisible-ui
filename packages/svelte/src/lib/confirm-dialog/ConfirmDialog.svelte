@@ -3,7 +3,8 @@
    * ConfirmDialog — a styled modal to verify or accept before proceeding, the
    * accessible equivalent of `window.confirm()` (a platform "simple dialog",
    * per ADR 0005). It reuses the headless dialog (`@design-system/core`) and
-   * the shared modal adapter (`createDialog`): portal, focus trap, scroll lock.
+   * the shared modal adapter (`createDialog`): native `<dialog>` +
+   * `showModal()`, scroll lock.
    * Cancel stops the process, confirm proceeds. Set `urgent` when the choice
    * must interrupt (`role="alertdialog"`); for a message with nothing to cancel
    * use `AlertDialog`, to ask for a value use `PromptDialog`.
@@ -13,7 +14,6 @@
    * elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
-  import { portal } from "../internal/portal";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
@@ -86,37 +86,23 @@
 </Button>
 
 {#if $isOpen}
-  <div class="confirm-dialog__portal" use:portal>
-    <div class="confirm-dialog__overlay" aria-hidden="true"></div>
-    <div class="confirm-dialog__panel" use:contentAction>
-      <h2 class="confirm-dialog__title" use:titleAction>{title}</h2>
-      {#if description}
-        <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
-      {/if}
-      <footer class="confirm-dialog__actions">
-        <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
-        <Button variant={confirmVariant} onpress={confirm}>{resolvedConfirmLabel}</Button>
-      </footer>
-    </div>
-  </div>
+  <dialog class="confirm-dialog__panel" use:contentAction>
+    <h2 class="confirm-dialog__title" use:titleAction>{title}</h2>
+    {#if description}
+      <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
+    {/if}
+    <footer class="confirm-dialog__actions">
+      <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
+      <Button variant={confirmVariant} onpress={confirm}>{resolvedConfirmLabel}</Button>
+    </footer>
+  </dialog>
 {/if}
 
 <style>
-  .confirm-dialog__portal {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ds-dialog-z-index, 60);
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-  }
-  .confirm-dialog__overlay {
-    position: fixed;
-    inset: 0;
+  .confirm-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
   .confirm-dialog__panel {
-    position: relative;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);
