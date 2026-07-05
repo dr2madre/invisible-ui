@@ -25,8 +25,18 @@ groups follow in order of first appearance, and a group whose results are all
 filtered out disappears with its header. Keyboard traversal is flat — arrows
 cross group boundaries in display order.
 
-No keyboard shortcut is built in: bind `open` and wire the shortcut in the
-application (the demo above uses <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd>).
+**`suggestions`** are shown while the query is empty — recents, frequent
+searches: the application measures and decides, the dialog displays (they may
+carry their own `group`, e.g. "Recent"). Set **`loading`** while results are
+fetched: an indicator appears, the status region announces "Searching…", and
+the empty state waits; feed the async results through `items` when they arrive.
+
+Items can carry a **`shortcut`** ("⌘S" or `["⌘", "S"]` for a chord), rendered
+right-aligned as a keycap. It is a label, not a binding: the dialog never
+registers keyboard shortcuts — live shortcuts belong to the application, like
+the one that opens it. No open shortcut is built in either: bind `open` and
+wire it in the application (the demo above uses <kbd>⌘S</kbd> /
+<kbd>Ctrl+S</kbd>).
 
 Unlike the family's simple dialogs, it asks nothing and interrupts nothing —
 it is a search tool inside the same modal shell.
@@ -70,8 +80,11 @@ The `trigger` slot is the opener button's content.
   screen readers announce the section when entering it; the visible header is
   hidden from AT to avoid double reading.
 - A visually-hidden `role="status"` region announces the filtered result count
-  ("3 results available" / "No results found.") on every keystroke, so
-  screen-reader users hear the effect of their typing.
+  ("3 results available" / "No results found.") on every keystroke — and
+  "Searching…" while `loading` — so screen-reader users hear the effect of
+  their typing.
+- Item shortcuts are rendered with the semantic `<kbd>` element (via the Kbd
+  component) and are part of the option's accessible name.
 
 ### Example
 

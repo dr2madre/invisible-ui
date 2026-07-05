@@ -11,6 +11,12 @@ export interface SearchDialogItem extends core.ComboboxItem {
    * results render under a section header; ungrouped results come first.
    */
   group?: string;
+  /**
+   * Keyboard-shortcut hint shown right-aligned on the result ("⌘S", or
+   * ["⌘", "S"] for a chord). A label, not a binding: the dialog never
+   * registers shortcuts — live shortcuts belong to the application.
+   */
+  shortcut?: string | string[];
 }
 
 export interface SearchDialogContext {
