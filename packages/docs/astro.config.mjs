@@ -36,14 +36,15 @@ export default defineConfig({
         {
           label: "Overlays",
           // The dialog family (ADR 0005) nests under its own group; the other
-          // overlay pages are listed by slug — add new ones here.
+          // overlay pages are listed by slug — add new ones here, keeping the
+          // list alphabetical.
           items: [
+            "components/overlays/command",
+            "components/overlays/context-menu",
             {
               label: "Dialog",
               items: [{ autogenerate: { directory: "components/overlays/dialog" } }],
             },
-            "components/overlays/command",
-            "components/overlays/context-menu",
             "components/overlays/drawer",
             "components/overlays/dropdown-menu",
             "components/overlays/hover-card",
