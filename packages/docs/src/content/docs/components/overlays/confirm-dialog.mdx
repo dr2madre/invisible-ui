@@ -10,10 +10,16 @@ import ConfirmDialogDemo from "../../../../demos/ConfirmDialogDemo.svelte";
   <ConfirmDialogDemo client:visible />
 </Preview>
 
-A modal for a routine yes/no confirmation ("Discard changes?"). It reuses the
-headless dialog (`role="dialog"`) and the shared modal adapter: portal, focus
-trap, scroll lock. The trigger is the default slot; `onConfirm` runs when the
-confirm button is pressed. Focus lands on the safe choice (Cancel).
+A modal for a routine yes/no confirmation. It reuses the headless dialog
+(`role="dialog"`) and the shared modal adapter: portal, focus trap, scroll lock.
+The trigger is the default slot; `onConfirm` runs when the confirm button is
+pressed. Focus lands on the safe choice.
+
+The example reuses the same wording as [Alert Dialog](/invisible-ui/components/overlays/alert-dialog/)
+so the family reads consistently — the only difference is the role and urgency
+(`role="dialog"` here vs `role="alertdialog"` for the interrupting variant). Note
+the negative button: it says what staying does (**"Keep file"**), never a bare
+"Cancel".
 
 ### When to use which dialog
 
@@ -48,13 +54,14 @@ confirm button is pressed. Focus lands on the safe choice (Cancel).
 
 ```svelte
 <ConfirmDialog
-  title="Discard changes?"
-  description="Your unsaved edits will be lost."
-  confirmLabel="Discard"
+  title="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  confirmLabel="Delete file"
+  cancelLabel="Keep file"
   confirmVariant="danger"
-  onConfirm={() => discard()}
+  onConfirm={() => remove()}
 >
-  Discard changes
+  Delete file
 </ConfirmDialog>
 ```
 

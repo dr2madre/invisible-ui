@@ -1,30 +1,31 @@
 <script>
   import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
 
-  const fileName = "report-2026.pdf";
+  const file = "report-q3.pdf";
   let deleted = false;
 </script>
 
 <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-  <!-- Type-to-confirm delete: the Delete button stays disabled until the typed
-       text matches the file name (GitHub-style). -->
+  <!-- Same wording as the AlertDialog type-to-confirm example. The Delete button
+       stays disabled until the typed name matches the file (confirmValue gate). -->
   <PromptDialog
     title="Delete file"
-    description="This can't be undone. Type the file name to confirm."
-    label="File name"
-    placeholder={fileName}
-    confirmValue={fileName}
+    description={`Do you want to delete “${file}”? The file will be permanently deleted.`}
+    label="Type the file name to confirm"
+    placeholder={file}
+    confirmValue={file}
     confirmLabel="Delete file"
+    cancelLabel="Keep file"
     confirmVariant="danger"
     triggerVariant="danger"
     onConfirm={() => (deleted = true)}
   >
-    Delete {fileName}
+    Delete file
   </PromptDialog>
 
   {#if deleted}
     <span style="font-size: 0.875rem; color: var(--ds-color-text-secondary);">
-      “{fileName}” deleted.
+      “{file}” deleted.
     </span>
   {/if}
 </div>
