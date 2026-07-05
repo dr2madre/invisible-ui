@@ -12,11 +12,12 @@ import SearchDialogDemo from "../../../../../demos/SearchDialogDemo.svelte";
   <SearchDialogDemo client:only="svelte" />
 </Preview>
 
-Search and pick from a list, in a modal — the pattern often marketed as
-"command palette". It composes the **Dialog** (portal, focus trap, scroll lock,
-Escape / backdrop close, focus restore) and the **Combobox** (search, filter,
-keyboard) — no new core code. What it searches is up to the application:
-actions, pages, files, people, settings.
+A **quick search**: search by keyword and pick from a list, in a modal (the
+pattern is also marketed as "command palette", but nothing here is a command).
+It composes the **Dialog** (portal, focus trap, scroll lock, Escape / backdrop
+close, focus restore) and the **Combobox** (search, filter, keyboard) — no new
+core code. What it searches is up to the application: content, pages, files,
+people, or the service's own actions and features.
 
 No keyboard shortcut is built in: bind `open` and wire the shortcut in the
 application (the demo above uses <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd>).
