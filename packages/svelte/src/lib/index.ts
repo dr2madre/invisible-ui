@@ -34,6 +34,7 @@ export * from "./dropdown-menu";
 // names unique to the context menu to avoid duplicate-export collisions.
 export { createContextMenu, type ContextMenuContext, type CreateContextMenu } from "./context-menu";
 export * from "./dialog";
+export * from "./drop-area";
 export * from "./sheet-dialog";
 export * from "./combobox";
 export * from "./search-dialog";

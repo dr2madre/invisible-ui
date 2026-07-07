@@ -57,7 +57,6 @@ export default defineConfig({
                     "components/forms/toggle-group",
                   ],
                 },
-                "components/forms/drop-zone",
                 "components/forms/field",
                 "components/forms/label",
                 "components/forms/pin-input",
@@ -86,6 +85,7 @@ export default defineConfig({
                     "components/forms/time-field",
                   ],
                 },
+                "components/forms/upload-drop-area",
               ],
             },
             {
@@ -96,7 +96,7 @@ export default defineConfig({
               items: [
                 "components/feedback/count",
                 {
-                  label: "Dialog",
+                  label: "Dialog and modals",
                   items: [{ autogenerate: { directory: "components/feedback/dialog" } }],
                 },
                 "components/feedback/error-state",
@@ -124,7 +124,30 @@ export default defineConfig({
             },
             {
               label: "Data",
-              items: [{ autogenerate: { directory: "components/data-layout" } }],
+              // Listed by label alphabetically; behavior groups nest.
+              items: [
+                "components/data-layout/avatar",
+                "components/data-layout/avatar-group",
+                "components/data-layout/card",
+                "components/data-layout/carousel",
+                {
+                  label: "Collapsible items",
+                  items: ["components/data-layout/accordion", "components/data-layout/collapsible"],
+                },
+                {
+                  label: "Floating",
+                  items: [
+                    "components/data-layout/context-menu",
+                    "components/data-layout/dropdown-menu",
+                    "components/data-layout/popover",
+                    "components/data-layout/tooltip",
+                  ],
+                },
+                {
+                  label: "Tables",
+                  items: ["components/data-layout/table", "components/data-layout/table-set"],
+                },
+              ],
             },
             {
               label: "Navigation",

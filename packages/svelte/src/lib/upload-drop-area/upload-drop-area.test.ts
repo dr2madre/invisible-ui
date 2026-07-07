@@ -1,12 +1,12 @@
 import { render, fireEvent } from "@testing-library/svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
-import Fixture from "./drop-zone.fixture.svelte";
+import Fixture from "./upload-drop-area.fixture.svelte";
 
-const zone = () => document.querySelector<HTMLElement>(".drop-zone")!;
-const input = () => document.querySelector<HTMLInputElement>(".drop-zone__input")!;
+const zone = () => document.querySelector<HTMLElement>(".upload-drop-area")!;
+const input = () => document.querySelector<HTMLInputElement>(".upload-drop-area__input")!;
 
-describe("DropZone", () => {
+describe("UploadDropArea", () => {
   it("renders a label wrapping a file input", () => {
     render(Fixture);
     expect(zone().tagName).toBe("LABEL");
@@ -22,9 +22,9 @@ describe("DropZone", () => {
   it("highlights on dragover and clears on dragleave", async () => {
     render(Fixture);
     await fireEvent.dragOver(zone());
-    expect(zone()).toHaveClass("drop-zone--dragging");
+    expect(zone()).toHaveAttribute("data-dragover");
     await fireEvent.dragLeave(zone());
-    expect(zone()).not.toHaveClass("drop-zone--dragging");
+    expect(zone()).not.toHaveAttribute("data-dragover");
   });
 
   it("emits dropped files via onFiles", async () => {
