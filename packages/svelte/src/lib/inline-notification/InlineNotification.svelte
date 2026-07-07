@@ -168,7 +168,7 @@
 {/if}
 
 <style>
-  .alert {
+  .inline-notification {
     position: relative;
     display: flex;
     gap: 0.75rem;
@@ -180,7 +180,7 @@
     color: var(--_fg, var(--ds-color-text, #0f172a));
   }
   /* Pin the close button to the top-right; reserve room so text never runs under it. */
-  .alert:has(.inline-notification__close) {
+  .inline-notification:has(.inline-notification__close) {
     padding-inline-end: 2.5rem;
   }
   .inline-notification__close {
@@ -237,30 +237,30 @@
 
   /* Soft, status-tinted surface. data-status is dynamic, so the value part is
      :global to avoid the Svelte unused-selector pruning. */
-  .alert:global([data-status="info"]) {
+  .inline-notification:global([data-status="info"]) {
     --_bg: var(--ds-color-info-surface, #eff6ff);
     --_border: var(--ds-color-info-border, #bfdbfe);
   }
-  .alert:global([data-status="success"]) {
+  .inline-notification:global([data-status="success"]) {
     --_bg: var(--ds-color-success-surface, #f0fdf4);
     --_border: var(--ds-color-success-border, #bbf7d0);
   }
-  .alert:global([data-status="warning"]) {
+  .inline-notification:global([data-status="warning"]) {
     --_bg: var(--ds-color-warning-surface, #fffbeb);
     --_border: var(--ds-color-warning-border, #fde68a);
   }
-  .alert:global([data-status="danger"]) {
+  .inline-notification:global([data-status="danger"]) {
     --_bg: var(--ds-color-danger-surface, #fef2f2);
     --_border: var(--ds-color-danger-border, #fecaca);
   }
-  .alert:global([data-status="neutral"]) {
+  .inline-notification:global([data-status="neutral"]) {
     --_bg: var(--ds-color-neutral-surface, #f8fafc);
     --_border: var(--ds-color-neutral-border, #e2e8f0);
   }
 
   /* Inverted: a high-contrast surface that ignores the status tint (the status
      stays visible via the colored FeedbackIcon). Wins over the rules above. */
-  .alert:global([data-inverted]) {
+  .inline-notification:global([data-inverted]) {
     --_bg: var(--ds-color-emphasis-surface, #1e293b);
     --_border: var(--ds-color-emphasis-border, #334155);
     --_fg: var(--ds-color-on-emphasis, #f8fafc);
@@ -269,7 +269,7 @@
   /* Plain (no-surface): transparent background, no border. The colored
      FeedbackIcon chip carries the status. Wins over the status tint. Keeps the
      lateral padding so its content aligns with the surfaced alerts. */
-  .alert:global([data-plain]) {
+  .inline-notification:global([data-plain]) {
     --_bg: transparent;
     --_border: transparent;
   }
