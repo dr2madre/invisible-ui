@@ -38,8 +38,15 @@ export default defineConfig({
             {
               label: "Forms & inputs",
               items: [
-                "components/forms/button",
-                "components/forms/button-group",
+                {
+                  label: "Buttons",
+                  items: [
+                    "components/forms/button",
+                    "components/forms/button-group",
+                    "components/forms/icon-button",
+                    "components/forms/loading-button",
+                  ],
+                },
                 {
                   label: "Check controls",
                   items: [
@@ -50,7 +57,6 @@ export default defineConfig({
                     "components/forms/toggle-group",
                   ],
                 },
-                "components/forms/combobox",
                 "components/forms/drop-zone",
                 "components/forms/field",
                 "components/forms/label",
@@ -64,7 +70,10 @@ export default defineConfig({
                     "components/forms/segmented-control",
                   ],
                 },
-                "components/forms/select",
+                {
+                  label: "Select controls",
+                  items: ["components/forms/combobox", "components/forms/select"],
+                },
                 "components/forms/slider",
                 "components/forms/text-area",
                 "components/forms/text-field",

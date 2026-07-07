@@ -1,0 +1,49 @@
+---
+title: "Loading Button"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import LoadingButtonDemo from "../../../../demos/LoadingButtonDemo.svelte";
+
+<Preview>
+  <LoadingButtonDemo client:visible />
+</Preview>
+
+The in-flight preset of [Button](/invisible-ui/components/forms/button/): set
+**`loading`** while the action runs. An inline spinner replaces the leading
+icon (or the glyph, for icon-only buttons), presses are ignored, and the label
+stays visible — the button never changes size or loses focus.
+
+**`loadingStatus`** feeds a live status message for multi-step operations
+("Uploading…" → "Processing…"): visually hidden, announced politely to
+assistive tech on every change.
+
+### Import
+
+```svelte
+<script>
+  import Button from "@design-system/svelte/Button.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="button" />
+
+### Accessibility
+
+- While `loading`, the button exposes `aria-busy`, stays focusable and ignores
+  presses — no disappearing controls, no focus loss.
+- Step announcements go through the spinner's polite status region
+  (`loadingStatus`), so the visible label never flickers.
+
+### Example
+
+```svelte
+<Button variant="primary" loading={saving} loadingStatus="Saving…" onpress={save}>
+  Save changes
+</Button>
+```
+
+Themeable via the shared `--ds-button-*`.
