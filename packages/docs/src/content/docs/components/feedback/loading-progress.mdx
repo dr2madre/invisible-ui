@@ -1,0 +1,60 @@
+---
+title: "Loading Progress"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import LoadingProgressDemo from "../../../../demos/LoadingProgressDemo.svelte";
+
+<Preview>
+  <LoadingProgressDemo client:only="svelte" />
+</Preview>
+
+Waiting **with completion feedback**: the system is working and the interface
+reports how far along it is — a percentage, a byte count, a file count, an
+expectation of when it ends. It reuses the
+[Progress](/invisible-ui/components/data-layout/progress/) anatomy (bar and
+ring) and the `bar` variant of
+[Loading Spinners](/invisible-ui/components/feedback/loading/), adding the
+label / value / `detail` line.
+
+The split with Progress is about **who drives the value**: here the system
+does (downloads, uploads, exports, syncs) — the user waits. When the value
+advances because the *user* acts (steps completed, achievements), that is
+[Progress](/invisible-ui/components/data-layout/progress/), which lives under
+Data and is determinate by design.
+
+Indeterminate waiting (a bar that sweeps, no value yet) belongs here too — the
+card examples in the demo show the indeterminate → determinate pair.
+
+### Import
+
+```svelte
+<script>
+  import Loading from "@design-system/svelte/Loading.svelte";
+  import Progress from "@design-system/svelte/Progress.svelte";
+</script>
+```
+
+### Props
+
+Bar loaders are the `bar` variant of [Loading](/invisible-ui/components/feedback/loading/):
+
+<PropsTable component="loading" />
+
+### Accessibility
+
+- Determinate bars are `progressbar`s with `aria-value*`; the value is
+  announced via `aria-valuetext` as it changes.
+- The indeterminate bar announces as busy without a value — use it only until
+  a value is known, then switch to the determinate form.
+- Per the [response-time guidance](/invisible-ui/components/feedback/loading/):
+  past ~10 s the user needs a determinate bar with a percentage or `detail`,
+  and ideally a way to cancel.
+
+### Example
+
+```svelte
+<Loading variant="bar" value={percent} showLabel showValue label="Downloading" />
+<Progress shape="circle" value={percent} showValue label="Uploading photo" />
+```

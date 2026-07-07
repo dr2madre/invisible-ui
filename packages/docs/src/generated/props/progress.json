@@ -4,7 +4,7 @@
   "props": [
     {
       "name": "value",
-      "type": "number | null",
+      "type": "number",
       "default": "0",
       "required": false,
       "description": "Completion (`null` = indeterminate)."

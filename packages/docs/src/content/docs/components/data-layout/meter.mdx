@@ -13,6 +13,11 @@ import MeterDemo from "../../../../demos/MeterDemo.svelte";
 A `role="meter"` gauge for a measurement within a known range (disk, battery,
 score), with optional low/high thresholds.
 
+It looks like [Progress](/invisible-ui/components/data-layout/progress/) — a
+value in a range — and differs only in meaning: a meter is a **level right
+now** (a snapshot), a progressbar **advances toward completion**. Same anatomy,
+different announcement to assistive tech.
+
 ### Import
 
 ```svelte
