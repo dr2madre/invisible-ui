@@ -1,0 +1,56 @@
+---
+title: "Progress"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import ProgressDemo from "../../../../demos/ProgressDemo.svelte";
+
+<Preview>
+  <ProgressDemo client:visible />
+</Preview>
+
+A `role="progressbar"` that represents a **value against a reference** —
+completion of user-driven steps, gamification (achievements unlocked),
+analytics. **Determinate by design**: the value advances because the user
+acts, not because the system is working.
+
+Two deliberate boundaries:
+
+- **No indeterminate state.** A bar that sweeps or a ring that spins without a
+  value is *waiting* — that is the Loading family's job. For system-driven
+  progress with time/percentage feedback (downloads, uploads, exports) use
+  [Loading Progress](/invisible-ui/components/feedback/loading-progress/),
+  which reuses this same anatomy.
+- **Progress vs [Meter](/invisible-ui/components/data-layout/meter/)**: they
+  look alike (a value in a range) and differ only in what they *mean* to
+  assistive tech. `progressbar` says "this advances toward done"; `meter` says
+  "this is a level right now" (disk usage, battery, score) with optional
+  low/high thresholds. If the value is heading to completion, Progress; if it
+  is a snapshot measurement, Meter.
+
+### Import
+
+```svelte
+<script>
+  import Progress from "@design-system/svelte/Progress.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="progress" />
+
+### Accessibility
+
+- `role="progressbar"` with `aria-valuenow`/`min`/`max`; the circle exposes
+  the same semantics with the percentage optionally visible (`showValue`).
+
+### Example
+
+```svelte
+<Progress value={7} max={10} label="Achievements unlocked" />
+<Progress shape="circle" value={82} showValue label="Profile completeness" />
+```
+
+Themeable via `--ds-progress-*`.

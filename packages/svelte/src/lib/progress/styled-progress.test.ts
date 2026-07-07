@@ -14,11 +14,12 @@ describe("Svelte Progress (styled)", () => {
     expect(fill.getAttribute("style")).toContain("inline-size: 25%");
   });
 
-  it("renders an indeterminate bar without a value", () => {
-    render(Progress, { props: { value: null, label: "Working" } });
-    const bar = screen.getByRole("progressbar", { name: "Working" });
-    expect(bar).not.toHaveAttribute("aria-valuenow");
-    expect(bar).toHaveAttribute("data-state", "indeterminate");
+  it("is determinate by design: zero renders an empty fill, never a sweep", () => {
+    const { container } = render(Progress, { props: { value: 0, label: "Achievements" } });
+    const bar = screen.getByRole("progressbar", { name: "Achievements" });
+    expect(bar).toHaveAttribute("aria-valuenow", "0");
+    const fill = container.querySelector(".progress__indicator")!;
+    expect(fill.getAttribute("style")).toContain("inline-size: 0%");
   });
 
   it("renders a determinate circle whose ring maps the percentage", () => {

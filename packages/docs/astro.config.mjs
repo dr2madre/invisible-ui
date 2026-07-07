@@ -105,12 +105,11 @@ export default defineConfig({
                   label: "Loading",
                   items: [
                     "components/feedback/loading-generation-area",
+                    "components/feedback/loading-progress",
                     "components/feedback/loading",
-                    "components/feedback/progress",
                     "components/feedback/skeleton",
                   ],
                 },
-                "components/feedback/meter",
                 {
                   label: "Notification",
                   items: [
@@ -143,6 +142,8 @@ export default defineConfig({
                     "components/data-layout/tooltip",
                   ],
                 },
+                "components/data-layout/meter",
+                "components/data-layout/progress",
                 {
                   label: "Tables",
                   items: ["components/data-layout/table", "components/data-layout/table-set"],

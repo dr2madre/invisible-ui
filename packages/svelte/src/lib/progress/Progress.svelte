@@ -1,18 +1,22 @@
 <script lang="ts">
   /**
-   * Progress — a styled progress bar (WAI-ARIA progressbar pattern): a track
-   * with a fill that reflects completion. Behaviour and accessibility (role,
-   * aria-value*, determinate vs indeterminate) come from the headless progress
-   * (`@design-system/core`); this layer adds the track, fill and an
-   * indeterminate sweep animation.
+   * Progress — a styled, **determinate** progress (WAI-ARIA progressbar
+   * pattern): a track with a fill that represents a value against a reference
+   * — completion of user-driven steps, gamification, analytics. Behaviour and
+   * accessibility (role, aria-value*) come from the headless progress
+   * (`@design-system/core`).
+   *
+   * Deliberately no indeterminate state: something that sweeps or spins
+   * without a value is *waiting*, and waiting is the Loading family's job
+   * (which reuses this same anatomy and adds time/percentage feedback).
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
    * themeable via `--ds-progress-*`.
    */
   import { createProgress } from "./create-progress";
 
-  /** Current value; pass `null` for an indeterminate bar. */
-  export let value: number | null = 0;
+  /** Current value (determinate — see Loading for indeterminate waiting). */
+  export let value = 0;
   /** Minimum value. */
   export let min = 0;
   /** Maximum value. */
@@ -25,7 +29,7 @@
   export let label: string;
 
   const { rootAction, indicatorAction, percentage } = createProgress({ value, min, max });
-  $: width = $percentage == null ? 100 : $percentage;
+  $: width = $percentage ?? 0;
   // r=15.9155 makes the circumference 100, so dasharray maps 1:1 to percent.
   const R = 15.9155;
 </script>
@@ -40,11 +44,11 @@
         cx="18"
         cy="18"
         r={R}
-        style="stroke-dasharray: {$percentage == null ? 25 : $percentage} 100;"
+        style="stroke-dasharray: {$percentage ?? 0} 100;"
       />
     </svg>
-    {#if showValue && $percentage != null}
-      <span class="progress__value">{Math.round($percentage)}%</span>
+    {#if showValue}
+      <span class="progress__value">{Math.round($percentage ?? 0)}%</span>
     {/if}
   </div>
 {:else}
@@ -67,19 +71,6 @@
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
-  .progress__indicator:global([data-state="indeterminate"]) {
-    inline-size: 40% !important;
-    animation: ds-progress-sweep 1.2s ease-in-out infinite;
-  }
-  @keyframes ds-progress-sweep {
-    0% {
-      transform: translateX(-120%);
-    }
-    100% {
-      transform: translateX(320%);
-    }
-  }
-
   /* Circle: a ring whose stroke fills clockwise from 12 o'clock. */
   .progress--circle {
     position: relative;
@@ -108,28 +99,16 @@
     stroke-linecap: round;
     transition: stroke-dasharray 200ms ease;
   }
-  .progress__ring:global([data-state="indeterminate"]) {
-    animation: ds-progress-turn 1.2s linear infinite;
-    transform-origin: center;
-  }
   .progress__value {
     position: absolute;
     font-size: var(--ds-progress-value-size, 0.75em);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  @keyframes ds-progress-turn {
-    to {
-      transform: rotate(360deg);
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
     .progress__indicator,
-    .progress__indicator:global([data-state="indeterminate"]),
-    .progress__ring,
-    .progress__ring:global([data-state="indeterminate"]) {
+    .progress__ring {
       transition: none;
-      animation: none;
     }
   }
 </style>
