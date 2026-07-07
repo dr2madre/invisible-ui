@@ -1,0 +1,19 @@
+---
+title: "Layout"
+---
+
+An **optional presentation layer** — empty for now, by design.
+
+Layout is where page-composition components will live: pieces that arrange
+content rather than carry behavior. They sit on top of the system as an
+opt-in layer; the primitives underneath stay headless, and nothing in the
+other sections will ever depend on this one.
+
+Candidates discussed so far:
+
+- A **non-modal contextual panel** (master–detail, preview pane): content that
+  could be its own page, shown alongside the current one. Unlike
+  [Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/) it does
+  not interrupt — the page stays interactive.
+
+Nothing ships here until a real use case asks for it.

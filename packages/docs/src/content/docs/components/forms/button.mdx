@@ -10,13 +10,20 @@ import ButtonDemo from "../../../../demos/ButtonDemo.svelte";
   <ButtonDemo client:visible />
 </Preview>
 
-The styled, batteries-included button, carrying a semantic `variant` (what the action means, not a style).
+The styled, batteries-included button, carrying a semantic `variant` (what the
+action means, not a style): `default`, `primary`, `secondary`, `danger`,
+`ghost`.
+
+Two presets have their own pages:
+[Icon Button](/invisible-ui/components/forms/icon-button/) (square, icon-only)
+and [Loading Button](/invisible-ui/components/forms/loading-button/)
+(in-flight state with announcements).
 
 ### Import
 
 ```svelte
 <script>
-  import ButtonDemo from "../../../../demos/ButtonDemo.svelte";
+  import Button from "@design-system/svelte/Button.svelte";
 </script>
 ```
 
@@ -34,12 +41,6 @@ The styled, batteries-included button, carrying a semantic `variant` (what the a
 
 ```svelte
 <Button variant="primary" onpress={() => save()}>Save changes</Button>
-
-<!-- Icon button: square, icon-only, with an accessible name -->
-<Button iconOnly variant="ghost" ariaLabel="Close" onpress={() => dismiss()}>
-  <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
-</Button>
 ```
 
-Themeable via `--ds-button-*` (icon buttons: `--ds-button-icon-min`,
-`--ds-button-icon-size`, `--ds-button-icon-padding`).
+Themeable via `--ds-button-*`.

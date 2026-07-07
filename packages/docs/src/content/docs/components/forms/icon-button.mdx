@@ -1,0 +1,46 @@
+---
+title: "Icon Button"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import IconButtonDemo from "../../../../demos/IconButtonDemo.svelte";
+
+<Preview>
+  <IconButtonDemo client:visible />
+</Preview>
+
+The icon-only preset of [Button](/invisible-ui/components/forms/button/):
+`iconOnly` makes it square and sizes the glyph; all variants apply. It is the
+same component — a dismiss "×" is just `iconOnly` + a glyph + an `ariaLabel`.
+
+### Import
+
+```svelte
+<script>
+  import Button from "@design-system/svelte/Button.svelte";
+  import Icon from "@design-system/svelte/Icon.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="button" />
+
+### Accessibility
+
+- **`ariaLabel` is mandatory**: with no visible text, the accessible name must
+  come from somewhere — the demo's "Close", "Add", "Delete" are what screen
+  readers announce.
+- The hit area keeps the WCAG minimum target size via `--ds-button-icon-min`.
+
+### Example
+
+```svelte
+<Button iconOnly variant="ghost" ariaLabel="Close" onpress={() => dismiss()}>
+  <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
+</Button>
+```
+
+Themeable via `--ds-button-icon-min`, `--ds-button-icon-size`,
+`--ds-button-icon-padding` (plus the shared `--ds-button-*`).
