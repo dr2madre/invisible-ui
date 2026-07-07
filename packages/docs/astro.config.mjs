@@ -144,10 +144,6 @@ export default defineConfig({
                 },
                 "components/data-layout/meter",
                 "components/data-layout/progress",
-                {
-                  label: "Tables",
-                  items: ["components/data-layout/table", "components/data-layout/table-set"],
-                },
               ],
             },
             {
@@ -158,7 +154,25 @@ export default defineConfig({
               label: "Formatting & display",
               items: [{ autogenerate: { directory: "components/formatting-display" } }],
             },
-            { label: "Patterns", items: [{ autogenerate: { directory: "components/patterns" } }] },
+            {
+              label: "Patterns",
+              // Composed patterns, not base components. Listed by label
+              // alphabetically; Tables nests its two views.
+              items: [
+                "components/patterns/breadcrumb",
+                "components/patterns/login-form",
+                "components/patterns/menu",
+                "components/patterns/menubar",
+                "components/patterns/navigation-menu",
+                "components/patterns/stepper",
+                {
+                  label: "Tables",
+                  items: ["components/patterns/table", "components/patterns/table-set"],
+                },
+                "components/patterns/toolbar",
+                "components/patterns/tree-view",
+              ],
+            },
             {
               label: "Localization",
               items: [{ autogenerate: { directory: "components/localization" } }],
