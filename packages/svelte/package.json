@@ -51,7 +51,7 @@
     "src/lib/kbd/Kbd.svelte",
     "src/lib/link/Link.svelte",
     "src/lib/breadcrumb/Breadcrumb.svelte",
-    "src/lib/drop-zone/DropZone.svelte",
+    "src/lib/upload-drop-area/UploadDropArea.svelte",
     "src/lib/login-form/LoginForm.svelte",
     "src/lib/menu/Menu.svelte",
     "src/lib/popover/Popover.svelte",
@@ -226,9 +226,9 @@
       "svelte": "./src/lib/breadcrumb/Breadcrumb.svelte",
       "default": "./src/lib/breadcrumb/Breadcrumb.svelte"
     },
-    "./DropZone.svelte": {
-      "svelte": "./src/lib/drop-zone/DropZone.svelte",
-      "default": "./src/lib/drop-zone/DropZone.svelte"
+    "./UploadDropArea.svelte": {
+      "svelte": "./src/lib/upload-drop-area/UploadDropArea.svelte",
+      "default": "./src/lib/upload-drop-area/UploadDropArea.svelte"
     },
     "./LoginForm.svelte": {
       "svelte": "./src/lib/login-form/LoginForm.svelte",

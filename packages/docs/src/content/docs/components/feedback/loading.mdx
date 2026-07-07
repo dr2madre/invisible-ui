@@ -31,6 +31,11 @@ announces `aria-busy` and ignores presses while active. Feed the Button's
 views announce a changing `loadingLabel` the same way (their loading text is
 already a polite live region).
 
+The progress-type loaders (bar with label and percentage, double bar for
+multi-file downloads, bar at the top of a card) are demoed on the
+[Progress](/invisible-ui/components/feedback/progress/) page, next to their
+`progressbar` sibling.
+
 ### Import
 
 ```svelte
@@ -70,7 +75,7 @@ To mark a whole region as reloading, set `overlay` on the Loading and
 default a translucent **veil** dims it and blocks pointer interaction while
 busy. Set `veil={false}` to overlay just the indicator — no dimming, no pointer
 blocking — for cases where a surrounding modal already guards interaction (this
-is what `DropZone` uses while the native file dialog opens). For richer progress
+is what `UploadDropArea` uses while the native file dialog opens). For richer progress
 (bytes, file counts, percentages) use
 [Progress](/invisible-ui/components/progress/) instead.
 
@@ -107,7 +112,7 @@ happens before `delay`, nothing is ever shown:
 {#if busy}<Loading variant="spinner" delay={150} />{/if}
 ```
 
-The `DropZone` uses exactly this: the native file dialog can take up to ~1 s to
+The `UploadDropArea` uses exactly this: the native file dialog can take up to ~1 s to
 open, so its spinner (`delay={150}`) appears only if the dialog is slow —
 instant opens never flash one.
 

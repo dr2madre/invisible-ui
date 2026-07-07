@@ -78,10 +78,10 @@ export const en = {
   // Misc
   "codeBlock.copy": "Copy code",
   "tag.remove": "Remove",
-  // Drop Zone — prompt first, the styled action word last, so translations
+  // Upload Drop Area — prompt first, the styled action word last, so translations
   // like "Trascina qui i file oppure seleziona" keep a natural order.
-  "dropZone.prompt": "Drag & drop files or",
-  "dropZone.action": "browse",
+  "uploadDropArea.prompt": "Drag & drop files or",
+  "uploadDropArea.action": "browse",
 } as const;
 
 export type MessageKey = keyof typeof en;

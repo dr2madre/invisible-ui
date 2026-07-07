@@ -1,11 +1,11 @@
 <script>
-  import DropZone from "@design-system/svelte/DropZone.svelte";
+  import UploadDropArea from "@design-system/svelte/UploadDropArea.svelte";
 
   let names = [];
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 26rem;">
-  <DropZone
+  <UploadDropArea
     accept=".png,.jpg,.jpeg,.gif"
     multiple
     caption="PNG, JPG or GIF — up to 5 MB."

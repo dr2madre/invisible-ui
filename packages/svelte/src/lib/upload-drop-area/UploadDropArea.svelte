@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * DropZone — a drag-and-drop file area with a click-to-browse fallback.
+   * UploadDropArea — a drag-and-drop file area with a click-to-browse fallback.
    *
    * Built on a native `<input type="file">` so the browser owns file selection,
    * keyboard operation and form participation; the styled area is a `<label>` for
@@ -8,10 +8,11 @@
    * `dragover` highlight gives drag feedback, and dropped files are forwarded
    * through the same `onFiles` callback as picked files.
    *
-   * Themeable via `--ds-drop-zone-*`. The default prompt comes from the i18n
-   * catalog (`dropZone.prompt` + the styled `dropZone.action` word); pass your
+   * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the i18n
+   * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
    * own content in the default slot to replace it entirely.
    */
+  import { dropArea } from "../drop-area/drop-area";
   import { getI18n } from "../i18n/create-i18n";
   import Loading from "../loading/Loading.svelte";
 
@@ -29,7 +30,6 @@
   /** Called with the selected/dropped files. */
   export let onFiles: ((files: File[]) => void) | undefined = undefined;
 
-  let dragging = false;
   let input: HTMLInputElement;
 
   // The native file dialog can take up to ~1s to appear (the OS builds the
@@ -63,37 +63,20 @@
     resolveOpen();
     emit((event.currentTarget as HTMLInputElement).files);
   }
-
-  function onDrop(event: DragEvent) {
-    event.preventDefault();
-    dragging = false;
-    if (disabled) return;
-    emit(event.dataTransfer?.files);
-  }
-
-  function onDragOver(event: DragEvent) {
-    event.preventDefault();
-    if (!disabled) dragging = true;
-  }
-
-  function onDragLeave() {
-    dragging = false;
-  }
 </script>
 
+<!-- The drag target is the generic dropArea action (shared, Tree-ready); this
+     component adds the upload business: the file input and its picker. -->
 <label
-  class="drop-zone"
-  class:drop-zone--dragging={dragging}
-  class:drop-zone--disabled={disabled}
-  class:drop-zone--opening={opening}
+  class="upload-drop-area"
+  class:upload-drop-area--disabled={disabled}
+  class:upload-drop-area--opening={opening}
   aria-busy={opening ? "true" : undefined}
-  on:drop={onDrop}
-  on:dragover={onDragOver}
-  on:dragleave={onDragLeave}
+  use:dropArea={{ disabled, onDrop: (data) => emit(data.files) }}
 >
   <input
     bind:this={input}
-    class="drop-zone__input"
+    class="upload-drop-area__input"
     type="file"
     {accept}
     {multiple}
@@ -103,7 +86,7 @@
     on:cancel={resolveOpen}
     on:change={onInput}
   />
-  <span class="drop-zone__icon" aria-hidden="true">
+  <span class="upload-drop-area__icon" aria-hidden="true">
     <slot name="icon">
       <svg
         viewBox="0 0 24 24"
@@ -121,15 +104,16 @@
       </svg>
     </slot>
   </span>
-  <span class="drop-zone__text">
+  <span class="upload-drop-area__text">
     <slot>
       <!-- Link-like affordance only: the real interactive element is the label →
            file input, so the action word stays a non-semantic span. -->
-      {$t("dropZone.prompt")} <span class="drop-zone__action">{$t("dropZone.action")}</span>
+      {$t("uploadDropArea.prompt")}
+      <span class="upload-drop-area__action">{$t("uploadDropArea.action")}</span>
     </slot>
   </span>
   {#if caption}
-    <span class="drop-zone__caption">{caption}</span>
+    <span class="upload-drop-area__caption">{caption}</span>
   {/if}
 
   {#if opening}
@@ -140,26 +124,26 @@
 </label>
 
 <style>
-  .drop-zone {
+  .upload-drop-area {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: var(--ds-drop-zone-padding, 2rem 1.5rem);
+    padding: var(--ds-upload-drop-area-padding, 2rem 1.5rem);
     text-align: center;
-    color: var(--ds-drop-zone-text, var(--ds-color-text-secondary, #57534e));
-    background: var(--ds-drop-zone-bg, var(--ds-color-background, #fff));
-    border: var(--ds-drop-zone-border-width, 2px) dashed
-      var(--ds-drop-zone-border, var(--ds-color-border, #d6d3d1));
-    border-radius: var(--ds-drop-zone-radius, var(--ds-radius-surface, 0.75rem));
+    color: var(--ds-upload-drop-area-text, var(--ds-color-text-secondary, #57534e));
+    background: var(--ds-upload-drop-area-bg, var(--ds-color-background, #fff));
+    border: var(--ds-upload-drop-area-border-width, 2px) dashed
+      var(--ds-upload-drop-area-border, var(--ds-color-border, #d6d3d1));
+    border-radius: var(--ds-upload-drop-area-radius, var(--ds-radius-surface, 0.75rem));
     cursor: pointer;
     transition:
       border-color 120ms ease,
       background-color 120ms ease;
   }
-  .drop-zone--dragging {
+  .upload-drop-area[data-dragover] {
     border-color: var(--ds-color-secondary, #7b52cc);
     background: color-mix(
       in srgb,
@@ -167,38 +151,38 @@
       var(--ds-color-background, #fff)
     );
   }
-  .drop-zone--disabled {
+  .upload-drop-area--disabled {
     opacity: 0.55;
     cursor: not-allowed;
   }
   /* The opening spinner is a Loading overlay (veil off); tint it and scale it
      up a little via the font-size it keys off. */
-  .drop-zone--opening :global(.loading--overlay) {
+  .upload-drop-area--opening :global(.loading--overlay) {
     color: var(--ds-color-secondary, #7b52cc);
     font-size: 1.5rem;
   }
-  .drop-zone__icon {
+  .upload-drop-area__icon {
     /* Neutral (not the selection color) — the selection color is reserved for
        selected states; here a soft grey reads as a quiet affordance. */
-    color: var(--ds-drop-zone-icon, var(--ds-color-text-secondary, #78716c));
+    color: var(--ds-upload-drop-area-icon, var(--ds-color-text-secondary, #78716c));
   }
-  .drop-zone__icon :global(svg) {
+  .upload-drop-area__icon :global(svg) {
     inline-size: 2em;
     block-size: 2em;
   }
   /* The action word ("browse") reads as the clickable action (link-like, underlined). */
-  .drop-zone__action {
+  .upload-drop-area__action {
     color: var(--ds-color-selected, #7b52cc);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .drop-zone__caption {
+  .upload-drop-area__caption {
     font-size: 0.8125rem;
     color: var(--ds-color-text-secondary, #78716c);
   }
   /* Visually hidden but focusable: focus lands on the input, ring on the label. */
-  .drop-zone__input {
+  .upload-drop-area__input {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -209,7 +193,7 @@
     white-space: nowrap;
     border: 0;
   }
-  .drop-zone:focus-within {
+  .upload-drop-area:focus-within {
     border-style: solid;
     box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
   }

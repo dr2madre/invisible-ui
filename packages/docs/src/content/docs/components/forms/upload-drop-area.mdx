@@ -1,0 +1,51 @@
+---
+title: "Upload Drop Area"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import UploadDropAreaDemo from "../../../../demos/UploadDropAreaDemo.svelte";
+
+<Preview>
+  <UploadDropAreaDemo client:visible />
+</Preview>
+
+A drag-and-drop file area with a click-to-browse fallback. Built on a native
+`<input type="file">`, so the browser owns file selection, keyboard operation
+and form participation.
+
+The drag target itself is the generic **`dropArea`** action (exported from the
+package): it wires the dragover/dragleave/drop trio, reflects the state on a
+`data-dragover` attribute and hands the raw `DataTransfer` to `onDrop`. It is
+reusable on any element — a TreeView item, a kanban column — and it is a
+pointer-only *enhancement* by design: drag-and-drop has no keyboard or
+assistive-tech contract, so always pair it with an accessible alternative
+(here, the click-to-browse input).
+
+### Import
+
+```svelte
+<script>
+  import UploadDropArea from "@design-system/svelte/UploadDropArea.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="upload-drop-area" />
+
+Dropped and picked files are forwarded through the same `onFiles` callback.
+
+### Example
+
+```svelte
+<UploadDropArea accept="image/*" multiple onFiles={(files) => upload(files)} />
+
+<!-- The generic action, on any element: -->
+<script>
+  import { dropArea } from "@design-system/svelte";
+</script>
+<li use:dropArea={{ onDrop: (data) => moveInto(node, data) }}>Documents</li>
+```
+
+Themeable via `--ds-upload-drop-area-*`.
