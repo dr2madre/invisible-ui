@@ -7,7 +7,8 @@
    * Notices enter and leave with a fly/fade transition and the stack
    * reflows via FLIP. Motion is disabled when the user prefers reduced motion.
    *
-   * At most `maxVisible` notices render at once; the rest stay queued and
+   * At most `maxVisible` notifications render at once: new ones always enter
+   * and the oldest are dismissed to make room —
    * appear as space frees up (their countdown only starts once visible).
    *
    *   <NotificationRegion {notifier} placement="top-end" />
@@ -40,7 +41,9 @@
   $: resolvedLabel = label ?? $t("notificationRegion.label");
   $: motion = prefersReduced ? 0 : duration;
   $: flyY = placement.startsWith("top") ? -16 : 16;
-  $: visible = maxVisible > 0 ? $notifier.slice(0, maxVisible) : $notifier;
+  // New notifications always enter; past the limit the OLDEST leave. Never
+  // hold a new notification in an invisible queue.
+  $: visible = maxVisible > 0 ? $notifier.slice(-maxVisible) : $notifier;
 </script>
 
 <!-- Portalled to <body>: a viewport-fixed region must escape ancestor
