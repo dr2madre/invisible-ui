@@ -9,7 +9,14 @@
   const show = () => {
     const status = statuses[n % statuses.length];
     n += 1;
-    notifier.show({ status, title: `Toast #${n}`, text: `A ${status} notification.` });
+    // Background info: opted into auto-dismiss, so the stack drains by itself
+    // (notifications are persistent by default; maxVisible queues the rest).
+    notifier.show({
+      status,
+      title: `Toast #${n}`,
+      text: `A ${status} notification.`,
+      duration: 5000,
+    });
   };
   const showUndo = () =>
     notifier.show({
@@ -20,7 +27,7 @@
         {
           label: "Undo",
           variant: "primary",
-          onClick: () => notifier.show({ status: "success", title: "Restored" }),
+          onClick: () => notifier.show({ status: "success", title: "Restored", duration: 4000 }),
         },
       ],
     });
