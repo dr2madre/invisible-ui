@@ -26,7 +26,7 @@ describe("NotificationRegion", () => {
     expect(screen.getByText("Second")).toBeInTheDocument();
   });
 
-  it("limits visible notices and reveals queued ones as space frees", async () => {
+  it("keeps the newest visible: past maxVisible the oldest leave", async () => {
     const notifier = createNotifier();
     render(NotificationRegion, { props: { notifier, duration: 0, maxVisible: 2 } });
 
@@ -34,13 +34,9 @@ describe("NotificationRegion", () => {
     notifier.show({ title: "T2", duration: 0 });
     notifier.show({ title: "T3", duration: 0 });
 
-    expect(await screen.findByText("T1")).toBeInTheDocument();
-    expect(screen.getByText("T2")).toBeInTheDocument();
-    expect(screen.queryByText("T3")).not.toBeInTheDocument();
-
-    const user = userEvent.setup();
-    await user.click(screen.getAllByRole("button", { name: "Close" })[0]);
-    expect(screen.queryByText("T1")).not.toBeInTheDocument();
+    // The new notification always enters; the oldest drops off.
     expect(await screen.findByText("T3")).toBeInTheDocument();
+    expect(screen.getByText("T2")).toBeInTheDocument();
+    expect(screen.queryByText("T1")).not.toBeInTheDocument();
   });
 });

@@ -5,36 +5,33 @@
 
   const notifier = createNotifier();
   const statuses = ["info", "success", "warning", "danger"];
-  let n = 0;
-  const show = () => {
-    const status = statuses[n % statuses.length];
-    n += 1;
-    // Background info: opted into auto-dismiss, so the stack drains by itself
-    // (notifications are persistent by default; maxVisible queues the rest).
+  let persistent = 0;
+  let timed = 0;
+
+  // Persistent: stays until the user closes it (Undo also dismisses).
+  const showPersistent = () =>
     notifier.show({
-      status,
-      title: `Toast #${n}`,
-      text: `A ${status} notification.`,
-      duration: 5000,
+      status: statuses[persistent++ % statuses.length],
+      title: `Persistent #${persistent}`,
+      text: "Stays until you close it.",
+      actions: [{ label: "Undo", variant: "primary" }],
     });
-  };
-  const showUndo = () =>
+
+  // Auto-dismiss: background info, expires by itself.
+  const showTimed = () =>
     notifier.show({
-      status: "info",
-      title: "File deleted",
-      text: "report-january.pdf was moved to trash.",
-      actions: [
-        {
-          label: "Undo",
-          variant: "primary",
-          onClick: () => notifier.show({ status: "success", title: "Restored", duration: 4000 }),
-        },
-      ],
+      status: statuses[timed++ % statuses.length],
+      title: `Auto #${timed}`,
+      text: "Goes away by itself in 5s.",
+      duration: 5000,
     });
 </script>
 
-<div style="display: flex; gap: 0.5rem; align-items: center;">
-  <Button onpress={show}>Show toast</Button>
-  <Button onpress={showUndo}>With undo action</Button>
+<div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+  <Button onpress={showPersistent}>Show persistent</Button>
+  <Button onpress={showTimed}>Show auto-dismiss</Button>
 </div>
-<NotificationRegion {notifier} placement="bottom-end" />
+
+<!-- No limit: the buttons can be pressed any number of times, and a new
+     notification must always enter the stack. -->
+<NotificationRegion {notifier} placement="bottom-end" maxVisible={0} />
