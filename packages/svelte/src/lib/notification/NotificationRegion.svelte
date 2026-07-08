@@ -56,9 +56,12 @@
   aria-label={resolvedLabel}
   use:portal
 >
-  {#each visible as notice (notice.id)}
+  {#each visible as notice, i (notice.id)}
+    <!-- Paint order inverted: the toast below covers the shadow of the one
+         above, so shadows never fall on the next notification down. -->
     <div
       class="notice-slot"
+      style:z-index={visible.length - i}
       in:fly={{ y: flyY, duration: motion }}
       out:fly={{ y: flyY, duration: motion }}
       animate:flip={{ duration: motion }}
