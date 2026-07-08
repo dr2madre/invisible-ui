@@ -14,6 +14,7 @@
    */
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
+  import { portal } from "../internal/portal";
   import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { Notifier } from "./create-notifier";
@@ -42,11 +43,15 @@
   $: visible = maxVisible > 0 ? $notifier.slice(0, maxVisible) : $notifier;
 </script>
 
+<!-- Portalled to <body>: a viewport-fixed region must escape ancestor
+     stacking contexts (e.g. a layout's `isolation: isolate`), or its z-index
+     only competes inside them and headers/content paint above the toasts. -->
 <div
   class="notification-region"
   data-placement={placement}
   role="region"
   aria-label={resolvedLabel}
+  use:portal
 >
   {#each visible as notice (notice.id)}
     <div

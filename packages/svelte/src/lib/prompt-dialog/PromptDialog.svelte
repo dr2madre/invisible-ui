@@ -140,6 +140,8 @@
     background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
   }
   .prompt-dialog__panel {
+    /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
+    margin: auto;
     box-sizing: border-box;
     inline-size: 100%;
     max-inline-size: var(--ds-dialog-max-width, 28rem);

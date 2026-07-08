@@ -31,7 +31,7 @@ describe("Svelte Combobox (styled, select-only)", () => {
     const { container } = render(Combobox, {
       props: { label: "Priority", items: iconItems, searchable: false, value: "low" },
     });
-    expect(container.querySelectorAll(".combobox__option-icon").length).toBeGreaterThan(0);
+    expect(document.querySelectorAll(".combobox__option-icon").length).toBeGreaterThan(0);
     expect(container.querySelector(".combobox__search path")).not.toBeNull();
   });
 

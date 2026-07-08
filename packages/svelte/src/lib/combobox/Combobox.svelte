@@ -12,6 +12,7 @@
    * `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).
    */
   import { createCombobox, type ComboboxItem } from "./create-combobox";
+  import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -182,7 +183,7 @@
     </button>
   </div>
 
-  <ul class="combobox__listbox" use:listboxAction>
+  <ul class="combobox__listbox" use:portal use:listboxAction>
     {#each $visible as item (item.value)}
       <li
         class="combobox__option"

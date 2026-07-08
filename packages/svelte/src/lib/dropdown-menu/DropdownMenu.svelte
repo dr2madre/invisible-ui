@@ -13,6 +13,7 @@
    * and elevation are themeable CSS custom properties (`--ds-menu-*`).
    */
   import { createDropdownMenu, type MenuItem } from "./create-dropdown-menu";
+  import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
 
   export let label: string;
@@ -33,7 +34,7 @@
     </span>
   </button>
 
-  <div class="menu__popup" use:menuAction>
+  <div class="menu__popup" use:portal use:menuAction>
     {#each items as item (item.value)}
       <button class="menu__item" type="button" use:itemAction={item.value}>
         {item.label ?? item.value}

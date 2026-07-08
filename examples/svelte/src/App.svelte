@@ -13,8 +13,8 @@
   import Icon from "@design-system/svelte/Icon.svelte";
   import { createNotifier } from "@design-system/svelte";
   import Button from "@design-system/svelte/Button.svelte";
-  import Alert from "@design-system/svelte/Alert.svelte";
-  import NoticeRegion from "@design-system/svelte/NoticeRegion.svelte";
+  import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
+  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
   import TextField from "@design-system/svelte/TextField.svelte";
   import Textarea from "@design-system/svelte/Textarea.svelte";
   import ButtonGroup from "@design-system/svelte/ButtonGroup.svelte";
@@ -102,16 +102,16 @@
   </section>
 
   <section>
-    <h2>Alert</h2>
+    <h2>Inline Notification</h2>
     <div class="alerts">
-      <Alert
+      <InlineNotification
         status="success"
         title="Saved"
         description="Your changes have been saved successfully."
         href="/changes"
         linkText="View changes"
       />
-      <Alert
+      <InlineNotification
         status="danger"
         title="Payment failed"
         description="We couldn't process your card. Please try a different payment method."
@@ -122,12 +122,12 @@
           <Button variant="primary">Retry</Button>
           <Button variant="ghost">Cancel</Button>
         </svelte:fragment>
-      </Alert>
+      </InlineNotification>
     </div>
   </section>
 
   <section>
-    <h2>Notice</h2>
+    <h2>Notification</h2>
     <div class="row">
       <Button
         variant="primary"
@@ -136,7 +136,8 @@
           notifier.show({
             status: "success",
             title: "Saved",
-            text: `Notice #${++noticeCount} — auto-dismisses in 5s.`,
+            text: `Notification #${++noticeCount} — auto-dismisses in 5s.`,
+            duration: 5000,
           })}
       >
         Show notice
@@ -378,7 +379,7 @@
   </section>
 </main>
 
-<NoticeRegion {notifier} placement="top-end" />
+<NotificationRegion {notifier} placement="top-end" />
 
 <style>
   main {

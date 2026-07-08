@@ -12,6 +12,7 @@
    * `--ds-tooltip-*`.
    */
   import { createTooltip, type TooltipContext } from "./create-tooltip";
+  import { portal } from "../internal/portal";
 
   /** Tooltip label text. */
   export let text: string;
@@ -28,7 +29,7 @@
 </span>
 
 {#if $open}
-  <div class="tooltip__content" use:tooltipAction>{text}</div>
+  <div class="tooltip__content" use:portal use:tooltipAction>{text}</div>
 {/if}
 
 <style>
