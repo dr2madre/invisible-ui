@@ -88,8 +88,14 @@
     z-index: var(--ds-notice-z, 1000);
     isolation: isolate;
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
+    /* Newest on top of the pile, always fully visible: the stack never grows
+       past the screen — when it would, it slides down and the oldest are
+       clipped on the far side. */
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    max-block-size: 100dvh;
+    overflow: clip;
     padding: 1rem;
     inline-size: min(100% - 2rem, var(--ds-notice-width, 24rem));
     /* Let clicks pass through the gaps; notices stay interactive. */
@@ -116,7 +122,6 @@
   }
   .notification-region:global([data-placement^="bottom"]) {
     bottom: 0;
-    flex-direction: column-reverse;
   }
   .notification-region:global([data-placement$="start"]) {
     inset-inline-start: 0;
