@@ -14,6 +14,7 @@
    *   <NotificationRegion {notifier} placement="top-end" />
    */
   import { flip } from "svelte/animate";
+  import { SvelteMap } from "svelte/reactivity";
   import { fly } from "svelte/transition";
   import { portal } from "../internal/portal";
   import Notification from "./Notification.svelte";
@@ -44,6 +45,15 @@
   // New notifications always enter; past the limit the OLDEST leave. Never
   // hold a new notification in an invisible queue.
   $: visible = maxVisible > 0 ? $notifier.slice(-maxVisible) : $notifier;
+
+  // Stable paint order, assigned once per notification: older = higher, so
+  // every toast covers the shadow of the one above (the newer one) — and a
+  // dismissed toast keeps its slot in the order while it animates out,
+  // instead of momentarily tying with a neighbour when indexes shift.
+  const paintOrder = new SvelteMap<string, number>();
+  let seq = 0;
+  $: for (const n of visible) if (!paintOrder.has(n.id)) paintOrder.set(n.id, ++seq);
+  const zOf = (id: string) => 100000 - (paintOrder.get(id) ?? 0);
 </script>
 
 <!-- Portalled to <body>: a viewport-fixed region must escape ancestor
@@ -56,12 +66,10 @@
   aria-label={resolvedLabel}
   use:portal
 >
-  {#each visible as notice, i (notice.id)}
-    <!-- Paint order inverted: the toast below covers the shadow of the one
-         above, so shadows never fall on the next notification down. -->
+  {#each visible as notice (notice.id)}
     <div
       class="notice-slot"
-      style:z-index={visible.length - i}
+      style:z-index={zOf(notice.id)}
       in:fly={{ y: flyY, duration: motion }}
       out:fly={{ y: flyY, duration: motion }}
       animate:flip={{ duration: motion }}
