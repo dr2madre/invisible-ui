@@ -14,7 +14,7 @@
       status: statuses[persistent++ % statuses.length],
       title: `Persistent #${persistent}`,
       text: "Stays until you close it.",
-      actions: [{ label: "Undo", variant: "primary" }],
+      actions: [{ label: "Undo" }],
     });
 
   // Auto-dismiss: background info, expires by itself.
