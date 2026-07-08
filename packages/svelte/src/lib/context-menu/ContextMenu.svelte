@@ -13,6 +13,7 @@
    * elevation reuse the shared menu tokens (`--ds-menu-*`).
    */
   import { createContextMenu, type MenuItem } from "./create-context-menu";
+  import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -37,7 +38,7 @@
 <!-- Rendered only while open: the popup truly leaves the DOM (and the
      accessibility tree) when the menu is closed. -->
 {#if $open}
-  <div class="context-menu__popup" aria-label={resolvedLabel} use:menuAction>
+  <div class="context-menu__popup" aria-label={resolvedLabel} use:portal use:menuAction>
     {#each items as item (item.value)}
       <button class="context-menu__item" type="button" use:itemAction={item.value}>
         {item.label ?? item.value}

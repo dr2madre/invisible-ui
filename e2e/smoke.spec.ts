@@ -6,10 +6,10 @@ const pages = [
   { path: "", name: "home" },
   { path: "components/forms/button/", name: "Button" },
   { path: "components/feedback/dialog/", name: "Dialog" },
-  { path: "components/date-time/calendar/", name: "Calendar" },
+  { path: "components/forms/calendar/", name: "Calendar" },
   { path: "components/forms/combobox/", name: "Combobox" },
-  { path: "components/data-layout/table-set/", name: "Table Set" },
-  { path: "components/date-time/time-field/", name: "Time Field" },
+  { path: "components/patterns/table-set/", name: "Table Set" },
+  { path: "components/forms/time-field/", name: "Time Field" },
 ];
 
 for (const p of pages) {

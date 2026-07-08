@@ -12,6 +12,7 @@
    * Themeable via `--ds-navmenu-*`.
    */
   import { createNavigationMenu, type NavigationMenuItem } from "./create-navigation-menu";
+  import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
 
   /** Accessible name for the navigation landmark. */
@@ -36,7 +37,7 @@
           </button>
 
           {#if $value === item.value}
-            <div class="navmenu__content" use:contentAction={item.value}>
+            <div class="navmenu__content" use:portal use:contentAction={item.value}>
               <ul class="navmenu__links">
                 {#each item.links as link (link.href)}
                   <li>

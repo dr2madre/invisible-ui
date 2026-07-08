@@ -13,6 +13,7 @@
    * Themeable via `--ds-menu-*` (shared with DropdownMenu) and `--ds-menubar-*`.
    */
   import { createMenubar, type MenubarMenu } from "./create-menubar";
+  import { portal } from "../internal/portal";
 
   /** Accessible name for the menubar. */
   export let label: string;
@@ -44,7 +45,9 @@
         {menu.label}
       </button>
 
-      <div class="menubar__popup" use:menu.menuAction>
+      <!-- Portalled out of the bar, so the bar's keydown (Arrow switching)
+           must be attached here too. -->
+      <div class="menubar__popup" use:portal use:menubarAction use:menu.menuAction>
         {#each menu.items as item (item.value)}
           <button class="menubar__item" type="button" use:menu.itemAction={item.value}>
             {item.label ?? item.value}

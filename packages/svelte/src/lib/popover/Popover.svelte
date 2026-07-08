@@ -22,6 +22,7 @@
    * mode) and the default slot (the card). Themeable via `--ds-popover-*`.
    */
   import { createPopover, type PopoverContext } from "./create-popover";
+  import { portal } from "../internal/portal";
   import { createHoverCard } from "../hover-card/create-hover-card";
   import Button from "../button/Button.svelte";
 
@@ -79,7 +80,7 @@
 {/if}
 
 {#if $isOpen}
-  <div class="popover__content" use:contentAction>
+  <div class="popover__content" use:portal use:contentAction>
     <slot />
   </div>
 {/if}

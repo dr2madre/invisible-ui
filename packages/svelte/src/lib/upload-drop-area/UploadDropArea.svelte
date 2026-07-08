@@ -143,7 +143,7 @@
       border-color 120ms ease,
       background-color 120ms ease;
   }
-  .upload-drop-area[data-dragover] {
+  .upload-drop-area:global([data-dragover]) {
     border-color: var(--ds-color-secondary, #7b52cc);
     background: color-mix(
       in srgb,
