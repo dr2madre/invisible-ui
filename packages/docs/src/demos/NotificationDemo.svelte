@@ -13,7 +13,7 @@
       inverted: true,
       title: "File deleted",
       text: "report-january.pdf was moved to trash.",
-      actions: [{ label: "Undo", variant: "primary" }],
+      actions: [{ label: "Undo" }],
     });
 
   // Toast: peripheral corner, for background information the user was NOT
