@@ -81,7 +81,7 @@
     },
     {
       "name": "onclose",
-      "type": "(() => void) | undefined",
+      "type": "((reason: NotificationDismissReason) => void) | undefined",
       "default": "undefined",
       "required": false,
       "description": "Called when the notification is dismissed (auto, close button, or action)."

@@ -22,7 +22,11 @@
    */
   import { onDestroy } from "svelte";
   import InlineNotification from "../inline-notification/InlineNotification.svelte";
-  import type { NotificationAction, NotificationStatus } from "./create-notifier";
+  import type {
+    NotificationAction,
+    NotificationDismissReason,
+    NotificationStatus,
+  } from "./create-notifier";
 
   /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
   export let status: NotificationStatus = "info";
@@ -44,8 +48,8 @@
   export let iconShape: "rounded" | "round" = "rounded";
   /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
   export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
-  /** Called when the notification is dismissed (auto, close button, or action). */
-  export let onclose: (() => void) | undefined = undefined;
+  /** Called when the notification closes, with the reason (timeout / user / action). */
+  export let onclose: ((reason: NotificationDismissReason) => void) | undefined = undefined;
   /**
    * Hold the auto-dismiss countdown (the region sets this while the whole stack
    * is hovered or focused, so a burst of toasts pauses together — not just the
@@ -66,7 +70,7 @@
   function start() {
     if (duration <= 0 || remaining <= 0 || timer !== undefined) return;
     startedAt = Date.now();
-    timer = setTimeout(() => onclose?.(), remaining);
+    timer = setTimeout(() => onclose?.("timeout"), remaining);
   }
 
   function pause() {
@@ -98,7 +102,7 @@
     variant: action.variant ?? "ghost",
     onClick: () => {
       action.onClick?.();
-      if (!action.keepOpen) onclose?.();
+      if (!action.keepOpen) onclose?.("action");
     },
   }));
 </script>
@@ -117,7 +121,7 @@
     {iconShape}
     {iconBox}
     actions={alertActions}
-    onclose={() => onclose?.()}
+    onclose={() => onclose?.("user")}
   >
     <slot name="icon" slot="icon" />
   </InlineNotification>
@@ -133,6 +137,6 @@
     {iconShape}
     {iconBox}
     actions={alertActions}
-    onclose={() => onclose?.()}
+    onclose={() => onclose?.("user")}
   />
 {/if}
