@@ -16,6 +16,7 @@
   import { flip } from "svelte/animate";
   import { SvelteMap } from "svelte/reactivity";
   import { fly } from "svelte/transition";
+  import { cubicIn, cubicOut } from "svelte/easing";
   import { portal } from "../internal/portal";
   import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -31,8 +32,17 @@
   export let label: string | undefined = undefined;
   /** Maximum notices rendered at once. `0` means no limit. */
   export let maxVisible = 3;
-  /** Enter/leave/reflow duration in ms. */
+  /** Enter/reflow duration in ms. */
   export let duration = 200;
+  /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
+  export let exitDuration: number | undefined = undefined;
+  /** Easing for enter/reflow. Ease-out by default. */
+  export let easing: (t: number) => number = cubicOut;
+  /**
+   * Easing for the leave animation. Ease-in by default: starts slow and
+   * accelerates away, so a dismissal never snaps.
+   */
+  export let exitEasing: (t: number) => number = cubicIn;
 
   const prefersReduced =
     typeof window !== "undefined" && typeof window.matchMedia === "function"
@@ -41,6 +51,7 @@
 
   $: resolvedLabel = label ?? $t("notificationRegion.label");
   $: motion = prefersReduced ? 0 : duration;
+  $: motionOut = prefersReduced ? 0 : (exitDuration ?? Math.round(duration * 1.75));
   $: flyY = placement.startsWith("top") ? -16 : 16;
   // New notifications always enter; past the limit the OLDEST leave. Never
   // hold a new notification in an invisible queue.
@@ -70,9 +81,9 @@
     <div
       class="notice-slot"
       style:z-index={zOf(notice.id)}
-      in:fly={{ y: flyY, duration: motion }}
-      out:fly={{ y: flyY, duration: motion }}
-      animate:flip={{ duration: motion }}
+      in:fly={{ y: flyY, duration: motion, easing }}
+      out:fly={{ y: flyY, duration: motionOut, easing: exitEasing }}
+      animate:flip={{ duration: motionOut, easing }}
     >
       <Notification
         status={notice.status}
