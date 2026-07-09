@@ -184,7 +184,7 @@
           <section style="display: grid; gap: 0.25rem;">
             <h3 class="nc-section">{section.label}</h3>
             {#each section.rows as item (item.id)}
-              <div class="nc-row" class:nc-row--read={item.read}>
+              <div class="nc-row">
                 <InlineNotification plain status="neutral" iconBox="transparent" title={item.title}>
                   <Icon slot="icon"><path d={iconOf(item.topic)} /></Icon>
                   <span style="display: grid; gap: 0.15rem;">
@@ -226,15 +226,13 @@
     color: var(--ds-color-text-secondary);
   }
   /* Rows carry no surface, border or status color — only outer spacing sets
-     them apart. Read items recede via opacity, not a different color. */
+     them apart. Read and unread rows look identical; the only difference is
+     the dot's presence. */
   .nc-row {
     position: relative;
     padding-inline-end: 1rem;
   }
-  .nc-row--read {
-    opacity: 0.6;
-  }
-  /* Unread dot, top-right; press marks the item read. */
+  /* Unread dot (red), top-right; press marks the item read. */
   .nc-dot {
     position: absolute;
     inset-block-start: 1.15rem;
@@ -244,7 +242,7 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: var(--ds-color-primary, #7b52cc);
+    background: var(--ds-color-danger, #dc2626);
     cursor: pointer;
   }
   .nc-dot:focus-visible {
