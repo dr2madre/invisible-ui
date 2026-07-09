@@ -38,6 +38,13 @@
       "description": "Distance from the viewport edges, as a CSS length. Default `1rem`."
     },
     {
+      "name": "swipeable",
+      "type": "boolean",
+      "default": "true",
+      "required": false,
+      "description": "Allow swiping a notification away (pointer/touch). Default `true`."
+    },
+    {
       "name": "duration",
       "type": "number",
       "default": "200",

@@ -31,6 +31,17 @@ they are exactly where the user may not be looking.
 
 <PropsTable component="notification-region" />
 
+### Interaction
+
+- **Swipe to dismiss** (`swipeable`, on by default): drag a notification
+  horizontally past a short threshold — or flick it — to dismiss; a smaller
+  drag snaps back. It is a pointer enhancement, so the close button and
+  auto-dismiss stay the accessible paths (keyboard and assistive tech are
+  never left without a way out). Vertical scroll is preserved.
+- **Hovering or focusing anywhere in the stack pauses every countdown** (not
+  only the notification under the pointer), so a burst can be read and acted on
+  without any of them expiring (WCAG 2.2.1).
+
 ### Accessibility
 
 - An accessible landmark: `role="region"` with a label; each Notification

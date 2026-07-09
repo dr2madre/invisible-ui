@@ -46,6 +46,12 @@
   export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
   /** Called when the notification is dismissed (auto, close button, or action). */
   export let onclose: (() => void) | undefined = undefined;
+  /**
+   * Hold the auto-dismiss countdown (the region sets this while the whole stack
+   * is hovered or focused, so a burst of toasts pauses together — not just the
+   * one under the pointer).
+   */
+  export let paused = false;
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   let remaining = duration;
@@ -70,12 +76,16 @@
     remaining -= Date.now() - startedAt;
   }
 
+  // Region-driven pause: hold while `paused`, resume when released.
+  $: if (paused) pause();
+  else start();
+
   // (Re)initialise the countdown whenever the duration changes.
   $: resetForDuration(duration);
   function resetForDuration(d: number) {
     clearTimer();
     remaining = d;
-    start();
+    if (!paused) start();
   }
 
   onDestroy(clearTimer);
@@ -108,10 +118,6 @@
     {iconBox}
     actions={alertActions}
     onclose={() => onclose?.()}
-    on:mouseenter={pause}
-    on:mouseleave={start}
-    on:focusin={pause}
-    on:focusout={start}
   >
     <slot name="icon" slot="icon" />
   </InlineNotification>
@@ -128,9 +134,5 @@
     {iconBox}
     actions={alertActions}
     onclose={() => onclose?.()}
-    on:mouseenter={pause}
-    on:mouseleave={start}
-    on:focusin={pause}
-    on:focusout={start}
   />
 {/if}
