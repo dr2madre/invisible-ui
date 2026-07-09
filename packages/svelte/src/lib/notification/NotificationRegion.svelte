@@ -7,9 +7,11 @@
    * Notices enter and leave with a fly/fade transition and the stack
    * reflows via FLIP. Motion is disabled when the user prefers reduced motion.
    *
-   * At most `maxVisible` notifications render at once: new ones always enter
-   * and the oldest are dismissed to make room —
-   * appear as space frees up (their countdown only starts once visible).
+   * The region spans the full window height and stacks every notification
+   * (newest fully visible on top); when the pile would pass the far edge it is
+   * clipped there, never at a smaller box. `maxVisible` is an optional count
+   * cap for consumers who want one — unset by default, so the window height is
+   * the only bound.
    *
    *   <NotificationRegion {notifier} placement="top-end" />
    */
@@ -30,8 +32,12 @@
     "top-end";
   /** Accessible name for the region landmark. Defaults to the i18n catalog's "Notices". */
   export let label: string | undefined = undefined;
-  /** Maximum notices rendered at once. `0` means no limit. */
-  export let maxVisible = 3;
+  /**
+   * Optional cap on notifications rendered at once. `0` (default) means no
+   * count cap — the pile fills the window height and clips the oldest at the
+   * far edge. Set a number to also limit by count.
+   */
+  export let maxVisible = 0;
   /** Enter/reflow duration in ms. */
   export let duration = 200;
   /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
