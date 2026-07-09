@@ -20,8 +20,9 @@ export interface NotificationOptions {
   /** Body text. */
   text?: string;
   /**
-   * Auto-dismiss delay in ms. `0` keeps the notification until dismissed.
-   * Defaults to `5000`.
+   * Auto-dismiss delay in ms. `0` (default) keeps the notification until
+   * dismissed — auto-dismiss is opt-in. A snack with no close button should
+   * set one so it can't become a dead end.
    */
   duration?: number;
   /** Whether to render the close button. Defaults to `true`. */
