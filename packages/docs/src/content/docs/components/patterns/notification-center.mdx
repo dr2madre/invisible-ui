@@ -4,61 +4,66 @@ title: "Notification Center"
 
 import Preview from "../../../../components/Preview.astro";
 import NotificationCenterDemo from "../../../../demos/NotificationCenterDemo.svelte";
+import NotificationCenterDeletableDemo from "../../../../demos/NotificationCenterDeletableDemo.svelte";
 
 <Preview>
   <NotificationCenterDemo client:only="svelte" />
 </Preview>
 
 A **notification center**: a bell with an unread badge that opens a panel of
-past notifications. It is the persistent, history side of feedback — the
-counterpart to the ephemeral
-[Notification](/invisible-ui/components/feedback/notification/) toast. Toasts
-come and go; the center is where they stay to be reviewed.
+past notifications — the persistent, history side of feedback, the counterpart
+to the ephemeral [Notification](/invisible-ui/components/feedback/notification/)
+toast. It is a **pattern, not a component**: pure composition of pieces you
+already have.
 
-This is a **pattern, not a component** — pure composition of pieces you already
-have:
+### Anatomy
 
-- **[Button](/invisible-ui/components/forms/button/)** (ghost, icon) + **[Count](/invisible-ui/components/data-layout/count/)** — the bell and its unread badge.
-- **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** (`side="right"`) — the panel. A lateral sheet, not a popover: a history list is substantial content that wants room, scroll and a footer, and the sheet already brings focus trap, Escape / backdrop dismissal and scroll lock.
-- A list of **[Inline Notification](/invisible-ui/components/feedback/inline-notification/)** — one per entry, with the timestamp in the body and a close button to dismiss.
+- **[Button](/invisible-ui/components/forms/button/)** (ghost) + **[Count](/invisible-ui/components/data-layout/count/)** — the bell and its unread badge.
+- **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** (`side="right"`, roomier via `--ds-sheet-dialog-size`) — the panel. A lateral sheet, not a popover: a history list wants width, scroll and a footer, and the sheet brings focus trap, Escape / backdrop dismissal and scroll lock. Its **`headerActions`** slot puts *Mark all read* and a settings button on the title row.
+- **Search** ([Text Field](/invisible-ui/components/forms/text-field/)) and **topic filter chips** ([Toggle Button](/invisible-ui/components/forms/icon-button/)) at the top.
+- **Date sections** — *Today / Yesterday / This week* headers over each group.
+- Rows are **[Inline Notification](/invisible-ui/components/feedback/inline-notification/)** in the `plain` layout with `status="neutral"` and `iconBox="transparent"`: **no surface, no border, no status color** — the list stays calm, rows set apart by spacing alone. Each row carries a **per-type icon** (mapped from the notification's topic, not its status), the time, and an **unread dot** you press to mark it read.
+- A **settings** button (gear) swaps the panel to per-type **[Switch](/invisible-ui/components/forms/switch/)** toggles — turn notification types on or off.
+
+### Deletable variant
+
+Some centers let you remove a notification instead of tracking read state. Same
+calm rows, but each has a close (✕) to delete and the header clears all:
+
+<Preview>
+  <NotificationCenterDeletableDemo client:only="svelte" />
+</Preview>
+
+Pick one model, not both: **mark-read** (nothing is deleted; the dot tracks
+state) suits an audit-style history; **deletable** (dismiss when handled) suits
+a work queue.
+
+### Filter chips vs tabs
+
+Two ways to narrow by topic:
+
+- **Chips** (shown above) — multi-select toggles that filter the list in place.
+  Compact; good for combining topics and pairing with search.
+- **Tabs** — one view per type, each tab carrying its own unread `count`
+  ([Tabs](/invisible-ui/components/navigation/tabs/) supports `item.count`).
+  Clearer separation, but one type at a time. Prefer tabs when the types are
+  few and rarely combined. (Rich per-tab lists need the Tabs panel to hold
+  components — a snippet-based panel is the planned enabler; until then the
+  chips model is the composable one.)
 
 ### What the pattern fixes, what the app owns
 
-- **Fixed by the pieces**: the dialog semantics and keyboard/focus behaviour
-  (Sheet Dialog), the badge and its accessible name (Count), each row's live
-  region, status icon and dismiss affordance (Inline Notification).
-- **Owned by the application**: the notification list and its persistence,
-  what "unread" means and when it flips, grouping or pagination, and where the
-  data comes from. The design system deliberately does not decide these.
+- **Fixed by the pieces**: dialog + keyboard/focus (Sheet Dialog), the badge and
+  its accessible name (Count), each row's live region and icon (Inline
+  Notification), the settings toggles (Switch).
+- **Owned by the application**: the list and its persistence, what "unread"
+  means, topic taxonomy, grouping/pagination, and the data source.
 
 ### Accessibility
 
-- The bell is a normal button; the unread `Count` carries an accessible name
-  (`"3 unread notifications"`), so the badge is not conveyed by color/number
-  alone.
+- The bell is a button; the unread `Count` has an accessible name
+  (`"3 unread notifications"`) — not conveyed by number/color alone.
 - The panel is the Sheet Dialog's modal `role="dialog"` — focus moves in, is
   trapped, and returns to the bell on close.
-- Unread rows are distinguished by a surface tint **and** their position/label,
-  never by color alone.
-
-### Sketch
-
-```svelte
-<SheetDialog side="right" title="Notifications" triggerVariant="ghost">
-  <span slot="trigger">
-    <BellIcon />
-    {#if unread}<Count count={unread} label={`${unread} unread`} />{/if}
-  </span>
-
-  {#each items as item (item.id)}
-    <InlineNotification status={item.status} title={item.title} closable
-      onclose={() => dismiss(item.id)}>
-      {item.text}
-    </InlineNotification>
-  {/each}
-
-  <svelte:fragment slot="footer">
-    <Button variant="ghost" onpress={markAllRead}>Mark all read</Button>
-  </svelte:fragment>
-</SheetDialog>
-```
+- Rows use no color to carry meaning: read state is a dot + dimming, type is an
+  icon + text — never color alone.

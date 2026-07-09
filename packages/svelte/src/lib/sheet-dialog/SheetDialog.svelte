@@ -105,6 +105,11 @@
     {/if}
     <header class="sheet-dialog__header">
       <h2 class="sheet-dialog__title" use:titleAction>{title}</h2>
+      {#if $$slots.headerActions}
+        <!-- Actions on the title row (e.g. a settings button, "Mark all read"),
+             sitting just before the close button. -->
+        <div class="sheet-dialog__header-actions"><slot name="headerActions" /></div>
+      {/if}
       <button
         class="sheet-dialog__close"
         type="button"
@@ -270,15 +275,21 @@
 
   .sheet-dialog__header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.5rem;
   }
   .sheet-dialog__title {
     margin: 0;
+    /* Take the row; actions and close sit at the end. */
+    margin-inline-end: auto;
     font-size: 1.125rem;
     font-weight: 600;
     line-height: 1.4;
+  }
+  .sheet-dialog__header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
   .sheet-dialog__close {
     flex: none;
