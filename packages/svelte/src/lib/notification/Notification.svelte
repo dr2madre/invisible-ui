@@ -44,6 +44,10 @@
   export let inverted = false;
   /** Snackbar layout: one compact row (icon + title + inline action), no description. */
   export let snack = false;
+  /** Rich body: a Svelte component rendered instead of `text` (ignored in snack). */
+  export let component: import("svelte").ComponentType | undefined = undefined;
+  /** Props for `component`. */
+  export let componentProps: Record<string, unknown> = {};
   /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
   export let iconShape: "rounded" | "round" = "rounded";
   /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
@@ -118,6 +122,8 @@
     {closable}
     {inverted}
     {snack}
+    {component}
+    {componentProps}
     {iconShape}
     {iconBox}
     actions={alertActions}
@@ -134,6 +140,8 @@
     {closable}
     {inverted}
     {snack}
+    {component}
+    {componentProps}
     {iconShape}
     {iconBox}
     actions={alertActions}

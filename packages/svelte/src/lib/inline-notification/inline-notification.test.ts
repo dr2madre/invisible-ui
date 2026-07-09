@@ -5,6 +5,8 @@ import { axe } from "vitest-axe";
 import Fixture from "./inline-notification.fixture.svelte";
 import ActionsFixture from "./inline-notification-actions.fixture.svelte";
 import IconFixture from "./inline-notification-icon.fixture.svelte";
+import InlineNotification from "./InlineNotification.svelte";
+import SampleBody from "./sample-body.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -112,6 +114,19 @@ describe("Alert", () => {
       props: { status: "warning", href: "/docs", closable: true },
     });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+
+  it("renders a component as rich body, with its props, instead of the text", () => {
+    render(InlineNotification, {
+      props: {
+        title: "Uploaded",
+        description: "plain text that should be replaced",
+        component: SampleBody,
+        componentProps: { name: "Ada" },
+      },
+    });
+    expect(screen.getByTestId("rich-body")).toHaveTextContent("Hello Ada");
+    expect(screen.queryByText("plain text that should be replaced")).not.toBeInTheDocument();
   });
 
   it("snack layout has no accessibility violations", async () => {

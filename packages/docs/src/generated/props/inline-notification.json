@@ -108,6 +108,20 @@
       "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
     },
     {
+      "name": "component",
+      "type": "import(\"svelte\").ComponentType | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
+    },
+    {
+      "name": "componentProps",
+      "type": "Record<string, unknown>",
+      "default": "{}",
+      "required": false,
+      "description": "Props passed to `component`."
+    },
+    {
       "name": "onclose",
       "type": "(() => void) | undefined",
       "default": "undefined",

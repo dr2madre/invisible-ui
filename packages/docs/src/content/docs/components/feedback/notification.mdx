@@ -80,6 +80,8 @@ than rendering `Notification` directly:
   dismissing action), or `"api"` (`dismiss()`/`clear()`). This is what makes
   the canonical **delete + Undo** flow correct: finalize on any reason *except*
   `"action"`.
+- **Rich content**: pass a `component` (plus `componentProps`) to render
+  arbitrary body content — a file preview, an avatar row — instead of `text`.
 
 ```svelte
 <script>
