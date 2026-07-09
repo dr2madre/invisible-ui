@@ -65,11 +65,48 @@ the countdown pauses on hover and focus (WCAG 2.2.1 Timing).
 - Actions inside a notification should also be available elsewhere (Undo via
   shortcut, the opened item findable): a notification is ephemeral by nature.
 
-### Example
+### The notifier API
+
+Drive notifications through `createNotifier()` + `NotificationRegion` rather
+than rendering `Notification` directly:
+
+- **Status helpers**: `notifier.success(title, options?)`, and the same for
+  `info` / `warning` / `danger` / `neutral` — sugar over `show({ status, title })`.
+- **Replace by id**: pass an `id` to `show()` to update a live notification in
+  place (no new entry): `show({ id: "save", title: "Saving…" })` then
+  `show({ id: "save", title: "Saved", status: "success" })`.
+- **`onDismiss(reason)`**: fires once when the notification closes, with the
+  reason — `"user"` (close button or swipe), `"timeout"`, `"action"` (a
+  dismissing action), or `"api"` (`dismiss()`/`clear()`). This is what makes
+  the canonical **delete + Undo** flow correct: finalize on any reason *except*
+  `"action"`.
 
 ```svelte
-<Notification status="success" title="Saved" text="Your changes were saved." />
+<script>
+  const notifier = createNotifier();
+
+  function deleteFile(file) {
+    remove(file); // optimistic
+    notifier.show({
+      title: `Deleted “${file}”`,
+      duration: 6000,
+      actions: [{ label: "Undo", onClick: () => restore(file) }],
+      onDismiss: (reason) => {
+        if (reason !== "action") commitDelete(file); // timed out / closed → finalize
+      },
+    });
+  }
+</script>
+
+<NotificationRegion {notifier} placement="bottom-end" />
 ```
 
-Typically you drive notifications through `createNotifier()` +
-`NotificationRegion` rather than rendering `Notification` directly.
+### Accessibility
+
+- It *is* the live region (`role="status"`, or `role="alert"` for urgent
+  messages) — reusing Inline Notification's anatomy; additions are announced
+  without moving focus.
+- The auto-dismiss countdown (when opted in) pauses while the notification is
+  hovered or focused, so actions like Undo remain usable (WCAG 2.2.1).
+- Actions inside a notification should also be available elsewhere (Undo via
+  shortcut, the opened item findable): a notification is ephemeral by nature.

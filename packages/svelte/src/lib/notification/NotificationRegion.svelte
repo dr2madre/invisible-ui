@@ -116,7 +116,10 @@
       in:fly={{ y: flyY, duration: motion, easing }}
       out:fly={{ y: flyY, duration: motionOut, easing: exitEasing }}
       animate:flip={{ duration: motionOut, easing }}
-      use:swipeDismiss={{ disabled: !swipeable, onDismiss: () => notifier.dismiss(notice.id) }}
+      use:swipeDismiss={{
+        disabled: !swipeable,
+        onDismiss: () => notifier.dismiss(notice.id, "user"),
+      }}
     >
       <Notification
         status={notice.status}
@@ -131,7 +134,7 @@
         {paused}
         iconShape={notice.iconShape}
         iconBox={notice.iconBox}
-        onclose={() => notifier.dismiss(notice.id)}
+        onclose={(reason) => notifier.dismiss(notice.id, reason)}
       />
     </div>
   {/each}

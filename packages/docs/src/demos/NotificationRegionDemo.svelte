@@ -4,34 +4,50 @@
   import { createNotifier } from "@design-system/svelte";
 
   const notifier = createNotifier();
-  const statuses = ["info", "success", "warning", "danger"];
-  let persistent = 0;
-  let timed = 0;
+  let files = ["report-q3.pdf", "budget.xlsx", "notes.md"];
+  let n = 0;
 
-  // Persistent: stays until the user closes it (Undo also dismisses).
-  const showPersistent = () =>
+  // Canonical delete + Undo: the notification auto-dismisses; onDismiss tells
+  // us HOW it closed. Undo (action) cancels; timeout/user/api finalizes.
+  const deleteFile = () => {
+    const file = files[n % files.length];
+    n += 1;
+    const snapshot = [...files];
+    files = files.filter((f) => f !== file);
     notifier.show({
-      status: statuses[persistent++ % statuses.length],
-      title: `Persistent #${persistent}`,
-      text: "Stays until you close it.",
-      actions: [{ label: "Undo" }],
+      status: "neutral",
+      inverted: true,
+      snack: true,
+      duration: 6000,
+      closable: false,
+      title: `Deleted “${file}”`,
+      actions: [{ label: "Undo", onClick: () => (files = snapshot) }],
+      onDismiss: (reason) => {
+        // The action already restored the file; any other close finalizes.
+        if (reason !== "action")
+          notifier.success(`“${file}” permanently deleted`, { duration: 3000 });
+      },
     });
+  };
 
-  // Auto-dismiss: background info, expires by itself.
-  const showTimed = () =>
-    notifier.show({
-      status: statuses[timed++ % statuses.length],
-      title: `Auto #${timed}`,
-      text: "Goes away by itself in 5s.",
-      duration: 5000,
-    });
+  // Replace-by-id: one toast that mutates in place, "Saving…" → "Saved".
+  const save = () => {
+    notifier.show({ id: "save", status: "info", title: "Saving…" });
+    setTimeout(() => notifier.success("Saved", { id: "save", duration: 3000 }), 900);
+  };
 </script>
 
-<div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-  <Button onpress={showPersistent}>Show persistent</Button>
-  <Button onpress={showTimed}>Show auto-dismiss</Button>
+<div style="display: grid; gap: 0.75rem;">
+  <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+    <Button variant="danger" onpress={deleteFile} disabled={files.length === 0}
+      >Delete a file</Button
+    >
+    <Button onpress={save}>Save (replace by id)</Button>
+  </div>
+  <p style="margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
+    Files: {files.length ? files.join(", ") : "none"}. Delete one, then Undo before the toast fades
+    — or let it finalize.
+  </p>
 </div>
 
-<!-- No limit: the buttons can be pressed any number of times, and a new
-     notification must always enter the stack. -->
-<NotificationRegion {notifier} placement="bottom-end" maxVisible={0} />
+<NotificationRegion {notifier} placement="bottom-end" />

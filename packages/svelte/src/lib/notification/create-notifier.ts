@@ -3,6 +3,17 @@ import type { ButtonVariant } from "../button/create-button";
 
 export type NotificationStatus = "info" | "success" | "warning" | "danger" | "neutral";
 
+/**
+ * Why a notification closed:
+ * - `"user"` — the close button or a swipe.
+ * - `"timeout"` — the auto-dismiss countdown elapsed.
+ * - `"action"` — an action button that dismisses (not `keepOpen`).
+ * - `"api"` — `dismiss()`/`clear()` from code.
+ * Lets the canonical "delete + Undo" flow finalize on `timeout`/`user` and
+ * cancel on `action`.
+ */
+export type NotificationDismissReason = "user" | "timeout" | "action" | "api";
+
 /** An action button shown inside a notification. */
 export interface NotificationAction {
   label: string;
@@ -15,6 +26,12 @@ export interface NotificationAction {
 
 /** Options accepted when showing a notification. */
 export interface NotificationOptions {
+  /**
+   * Stable id. Pass one to `show()` to **replace** an existing notification in
+   * place (e.g. "Saving…" → "Saved") instead of stacking a new one; omit it
+   * and one is generated.
+   */
+  id?: string;
   status?: NotificationStatus;
   title?: string;
   /** Body text. */
@@ -46,6 +63,12 @@ export interface NotificationOptions {
   iconShape?: "rounded" | "round";
   /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */
   iconBox?: "tint" | "transparent" | "solid";
+  /**
+   * Called once when the notification closes, with the reason. Fires for every
+   * path (close button, swipe, timeout, action, or `dismiss()`/`clear()`), not
+   * when a `show()` with the same id merely replaces it.
+   */
+  onDismiss?: (reason: NotificationDismissReason) => void;
 }
 
 /** A queued notice, with its generated id. */
@@ -62,16 +85,32 @@ export interface NotificationPromiseMessages<T> {
   duration?: number;
 }
 
+/** Convenience options for the status helpers — status is set by the method. */
+export type StatusOptions = Omit<NotificationOptions, "status" | "title">;
+
 export interface Notifier {
   /** The reactive list of active notifications (oldest first). */
   subscribe: Readable<NotificationItem[]>["subscribe"];
-  /** Queue a notification; returns its id. */
+  /**
+   * Queue a notification; returns its id. If `options.id` matches a live
+   * notification, that one is replaced in place (no new entry, no `onDismiss`).
+   */
   show: (options?: NotificationOptions) => string;
+  /** Shorthand for `show({ status: "info", title, ...options })`. */
+  info: (title: string, options?: StatusOptions) => string;
+  /** Shorthand for `show({ status: "success", title, ...options })`. */
+  success: (title: string, options?: StatusOptions) => string;
+  /** Shorthand for `show({ status: "warning", title, ...options })`. */
+  warning: (title: string, options?: StatusOptions) => string;
+  /** Shorthand for `show({ status: "danger", title, ...options })`. */
+  danger: (title: string, options?: StatusOptions) => string;
+  /** Shorthand for `show({ status: "neutral", title, ...options })`. */
+  neutral: (title: string, options?: StatusOptions) => string;
   /** Update an existing notice in place. */
   update: (id: string, patch: NotificationOptions) => void;
-  /** Remove a notification by id. */
-  dismiss: (id: string) => void;
-  /** Remove all notifications. */
+  /** Remove a notification by id, firing its `onDismiss` with the reason (default `"api"`). */
+  dismiss: (id: string, reason?: NotificationDismissReason) => void;
+  /** Remove all notifications, firing each `onDismiss("api")`. */
   clear: () => void;
   /**
    * Show a loading notice tied to a promise, then swap it to success or
@@ -94,19 +133,57 @@ const resolveMessage = <A>(message: string | ((arg: A) => string), arg: A): stri
  */
 export function createNotifier(): Notifier {
   const { subscribe, update: updateStore } = writable<NotificationItem[]>([]);
+  // onDismiss callbacks live outside the reactive list so the store stays
+  // plain-data; keyed by id, cleared when the notification leaves.
+  const onDismissById = new Map<string, (reason: NotificationDismissReason) => void>();
 
-  const dismiss = (id: string) => updateStore((items) => items.filter((n) => n.id !== id));
+  const update = (id: string, patch: NotificationOptions) => {
+    if (patch.onDismiss) onDismissById.set(id, patch.onDismiss);
+    updateStore((items) => items.map((n) => (n.id === id ? { ...n, ...patch, id } : n)));
+  };
+
+  const dismiss = (id: string, reason: NotificationDismissReason = "api") => {
+    let existed = false;
+    updateStore((items) => {
+      existed = items.some((n) => n.id === id);
+      return items.filter((n) => n.id !== id);
+    });
+    if (existed) onDismissById.get(id)?.(reason);
+    onDismissById.delete(id);
+  };
 
   const show = (options: NotificationOptions = {}): string => {
-    const id = nextId();
+    // A live id replaces in place (dedup); otherwise append.
+    if (options.id) {
+      let exists = false;
+      updateStore((items) => {
+        exists = items.some((n) => n.id === options.id);
+        return items;
+      });
+      if (exists) {
+        update(options.id, options);
+        return options.id;
+      }
+    }
+    const id = options.id ?? nextId();
+    if (options.onDismiss) onDismissById.set(id, options.onDismiss);
     updateStore((items) => [...items, { ...options, id }]);
     return id;
   };
 
-  const update = (id: string, patch: NotificationOptions) =>
-    updateStore((items) => items.map((n) => (n.id === id ? { ...n, ...patch, id } : n)));
+  const withStatus =
+    (status: NotificationStatus) =>
+    (title: string, options: StatusOptions = {}): string =>
+      show({ ...options, status, title });
 
-  const clear = () => updateStore(() => []);
+  const clear = () =>
+    updateStore((items) => {
+      for (const n of items) {
+        onDismissById.get(n.id)?.("api");
+        onDismissById.delete(n.id);
+      }
+      return [];
+    });
 
   const promise = async <T>(
     p: Promise<T>,
@@ -140,5 +217,17 @@ export function createNotifier(): Notifier {
     }
   };
 
-  return { subscribe, show, update, dismiss, clear, promise };
+  return {
+    subscribe,
+    show,
+    info: withStatus("info"),
+    success: withStatus("success"),
+    warning: withStatus("warning"),
+    danger: withStatus("danger"),
+    neutral: withStatus("neutral"),
+    update,
+    dismiss,
+    clear,
+    promise,
+  };
 }

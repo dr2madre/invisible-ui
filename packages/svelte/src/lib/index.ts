@@ -46,9 +46,11 @@ export { createNotifier } from "./notification/create-notifier";
 export type {
   Notifier,
   NotificationAction,
+  NotificationDismissReason,
   NotificationItem,
   NotificationOptions,
   NotificationPromiseMessages,
   NotificationStatus,
+  StatusOptions,
 } from "./notification/create-notifier";
 export { normalizeProps } from "./normalize";

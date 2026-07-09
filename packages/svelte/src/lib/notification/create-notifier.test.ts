@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createNotifier } from "./create-notifier";
 
 describe("createNotifier", () => {
@@ -40,6 +40,57 @@ describe("createNotifier", () => {
     const items = get(notifier);
     expect(items).toHaveLength(1);
     expect(items[0]).toMatchObject({ id, title: "B", status: "success" });
+  });
+
+  it("status helpers set the status and title", () => {
+    const notifier = createNotifier();
+    notifier.success("Saved", { duration: 3000 });
+    notifier.danger("Failed");
+    const items = get(notifier);
+    expect(items.map((n) => [n.status, n.title])).toEqual([
+      ["success", "Saved"],
+      ["danger", "Failed"],
+    ]);
+    expect(items[0].duration).toBe(3000);
+  });
+
+  it("replaces in place when show() is given a live id (dedup)", () => {
+    const notifier = createNotifier();
+    notifier.show({ id: "save", title: "Saving…" });
+    notifier.show({ id: "save", title: "Saved", status: "success" });
+    const items = get(notifier);
+    expect(items).toHaveLength(1);
+    expect(items[0]).toMatchObject({ id: "save", title: "Saved", status: "success" });
+  });
+
+  it("fires onDismiss with the reason and only once", () => {
+    const notifier = createNotifier();
+    const onDismiss = vi.fn();
+    const id = notifier.show({ title: "Bye", onDismiss });
+    notifier.dismiss(id, "timeout");
+    notifier.dismiss(id, "user"); // already gone — must not fire again
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+    expect(onDismiss).toHaveBeenCalledWith("timeout");
+  });
+
+  it("dismiss() defaults the reason to api; clear() fires api for each", () => {
+    const notifier = createNotifier();
+    const a = vi.fn();
+    const b = vi.fn();
+    const id = notifier.show({ title: "A", onDismiss: a });
+    notifier.show({ title: "B", onDismiss: b });
+    notifier.dismiss(id);
+    expect(a).toHaveBeenCalledWith("api");
+    notifier.clear();
+    expect(b).toHaveBeenCalledWith("api");
+  });
+
+  it("replacing by id does not fire the old onDismiss", () => {
+    const notifier = createNotifier();
+    const onDismiss = vi.fn();
+    notifier.show({ id: "x", title: "One", onDismiss });
+    notifier.show({ id: "x", title: "Two" });
+    expect(onDismiss).not.toHaveBeenCalled();
   });
 
   describe("promise", () => {
