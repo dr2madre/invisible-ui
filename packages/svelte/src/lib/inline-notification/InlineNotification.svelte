@@ -287,12 +287,18 @@
      takes the text color with no box (set transparent above). */
   .inline-notification:global([data-snack]) {
     inline-size: fit-content;
-    max-inline-size: 100%;
+    /* Wrap the content on one line even past the region's column width, up to
+       the viewport (the region clips only vertically, so this stays visible). */
+    max-inline-size: calc(100vw - 2rem);
     margin-inline: auto;
     align-items: center;
     gap: 0.625rem;
     padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
     border-radius: var(--ds-snack-radius, var(--ds-radius-surface, 0.75rem));
+  }
+  /* The message stays on a single line, however long. */
+  .inline-notification:global([data-snack]) .inline-notification__title {
+    white-space: nowrap;
   }
   .inline-notification:global([data-snack]) .inline-notification__content {
     flex: 0 1 auto;
@@ -304,12 +310,32 @@
     margin-block-start: 0;
     flex-wrap: nowrap;
   }
-  /* Icon glyph in the text color (no status tint), no box. */
+  /* Icon glyph in the text color (no status tint), no box. A slight pop on
+     entrance (plays once on mount); disabled under reduced motion. */
   .inline-notification:global([data-snack]) :global(.feedback-icon) {
     color: inherit;
     inline-size: var(--ds-snack-icon-size, 1.25rem);
     block-size: var(--ds-snack-icon-size, 1.25rem);
     padding: 0;
+    animation: ds-snack-icon-in 340ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes ds-snack-icon-in {
+    from {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .inline-notification:global([data-snack]) :global(.feedback-icon) {
+      animation: none;
+    }
   }
   /* Close, when present, sits inline in the row instead of pinned top-right. */
   .inline-notification:global([data-snack]):has(.inline-notification__close) {

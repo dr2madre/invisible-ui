@@ -31,6 +31,13 @@
       "description": "Maximum notices rendered at once. `0` means no limit."
     },
     {
+      "name": "inset",
+      "type": "string",
+      "default": "\"1rem\"",
+      "required": false,
+      "description": "Distance from the viewport edges, as a CSS length. Default `1rem`."
+    },
+    {
       "name": "duration",
       "type": "number",
       "default": "200",

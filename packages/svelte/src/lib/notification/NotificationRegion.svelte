@@ -38,6 +38,8 @@
    * far edge. Set a number to also limit by count.
    */
   export let maxVisible = 0;
+  /** Distance from the viewport edges, as a CSS length. Default `1rem`. */
+  export let inset = "1rem";
   /** Enter/reflow duration in ms. */
   export let duration = 200;
   /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
@@ -81,6 +83,7 @@
   data-placement={placement}
   role="region"
   aria-label={resolvedLabel}
+  style:padding={inset}
   use:portal
 >
   {#each visible as notice (notice.id)}
@@ -124,7 +127,12 @@
     flex-direction: column-reverse;
     justify-content: flex-end;
     max-block-size: 100dvh;
-    overflow: clip;
+    /* Clip only the block axis (the vertical pile cap); keep the inline axis
+       visible so a content-wrapping snack and drop shadows aren't cut, and so
+       the exit transform never crosses a clip edge. (clip on one axis + visible
+       on the other is a valid combo — visible is not coerced.) */
+    overflow-block: clip;
+    overflow-inline: visible;
     padding: 1rem;
     inline-size: min(100% - 2rem, var(--ds-notice-width, 24rem));
     /* Let clicks pass through the gaps; notices stay interactive. */

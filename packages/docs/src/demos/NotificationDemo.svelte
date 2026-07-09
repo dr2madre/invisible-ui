@@ -9,9 +9,13 @@
   const snacks = createNotifier();
   const showSnack = () =>
     snacks.show({
-      status: "info",
+      status: "success",
       inverted: true,
       snack: true,
+      closable: false,
+      // No close button, so it auto-dismisses. 6s gives time to reach Undo;
+      // the countdown pauses on hover/focus (WCAG 2.2.1).
+      duration: 6000,
       title: "File moved to trash",
       actions: [{ label: "Undo" }],
     });
@@ -34,8 +38,9 @@
     <Button onpress={showSnack}>Delete file (snack)</Button>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
       <strong>Snack</strong> — the snackbar layout (<code>snack</code>): one compact row (icon,
-      title, inline action), high contrast (<code>inverted</code>), <code>bottom-center</code>. The
-      outcome of the user's own action, near their attention; closed by the user or by Undo.
+      title, inline action), high contrast (<code>inverted</code>), <code>bottom-center</code>. No
+      close button, so it auto-dismisses (6s, paused on hover/focus); the outcome of the user's own
+      action, near their attention.
     </figcaption>
   </figure>
 
@@ -49,5 +54,5 @@
   </figure>
 </div>
 
-<NotificationRegion notifier={snacks} placement="bottom-center" />
+<NotificationRegion notifier={snacks} placement="bottom-center" inset="3rem" />
 <NotificationRegion notifier={toasts} placement="top-end" />
