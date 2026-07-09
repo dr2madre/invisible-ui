@@ -171,6 +171,27 @@
   --ds-color-neutral-surface: var(--ds-neutral-50);
   --ds-color-neutral-border: var(--ds-neutral-200);
 
+  /* Status label text for use ON the tinted *-surface tokens (e.g. soft Tag).
+     Dark, saturated in light mode so small text clears WCAG AA 4.5:1. */
+  --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 48%, var(--ds-neutral-900));
+  --ds-color-success-text: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 52%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-warning-text: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 42%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 58%, var(--ds-neutral-900));
+  --ds-color-selected-text: color-mix(
+    in srgb,
+    var(--ds-color-secondary) 55%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-neutral-text: var(--ds-neutral-700);
+
   --ds-color-emphasis-surface: var(--ds-neutral-800);
   --ds-color-on-emphasis: var(--ds-neutral-50);
   --ds-color-emphasis-border: var(--ds-neutral-700);
@@ -254,6 +275,26 @@
     --ds-color-neutral-surface: var(--ds-neutral-800);
     --ds-color-neutral-border: var(--ds-neutral-700);
 
+    /* Light, saturated status label text on the dark tinted *-surface tokens. */
+    --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50));
+    --ds-color-success-text: color-mix(
+      in srgb,
+      var(--ds-feedback-success) 50%,
+      var(--ds-neutral-50)
+    );
+    --ds-color-warning-text: color-mix(
+      in srgb,
+      var(--ds-feedback-warning) 58%,
+      var(--ds-neutral-50)
+    );
+    --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50));
+    --ds-color-selected-text: color-mix(
+      in srgb,
+      var(--ds-color-secondary) 62%,
+      var(--ds-neutral-50)
+    );
+    --ds-color-neutral-text: var(--ds-neutral-200);
+
     --ds-color-emphasis-surface: var(--ds-neutral-100);
     --ds-color-on-emphasis: var(--ds-neutral-900);
     --ds-color-emphasis-border: var(--ds-neutral-300);
@@ -331,6 +372,14 @@
   --ds-color-on-primary-soft: #fff;
   --ds-color-neutral-surface: var(--ds-neutral-800);
   --ds-color-neutral-border: var(--ds-neutral-700);
+
+  /* Light, saturated status label text on the dark tinted *-surface tokens. */
+  --ds-color-info-text: color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50));
+  --ds-color-success-text: color-mix(in srgb, var(--ds-feedback-success) 50%, var(--ds-neutral-50));
+  --ds-color-warning-text: color-mix(in srgb, var(--ds-feedback-warning) 58%, var(--ds-neutral-50));
+  --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50));
+  --ds-color-selected-text: color-mix(in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50));
+  --ds-color-neutral-text: var(--ds-neutral-200);
 
   --ds-color-emphasis-surface: var(--ds-neutral-100);
   --ds-color-on-emphasis: var(--ds-neutral-900);
