@@ -66,6 +66,20 @@
       "description": "Snackbar layout: one compact row (icon + title + inline action), no description."
     },
     {
+      "name": "component",
+      "type": "import(\"svelte\").ComponentType | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Rich body: a Svelte component rendered instead of `text` (ignored in snack)."
+    },
+    {
+      "name": "componentProps",
+      "type": "Record<string, unknown>",
+      "default": "{}",
+      "required": false,
+      "description": "Props for `component`."
+    },
+    {
       "name": "iconShape",
       "type": "\"rounded\" | \"round\"",
       "default": "\"rounded\"",

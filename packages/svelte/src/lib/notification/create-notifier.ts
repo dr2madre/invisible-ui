@@ -64,6 +64,13 @@ export interface NotificationOptions {
   /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */
   iconBox?: "tint" | "transparent" | "solid";
   /**
+   * Rich content: a Svelte component rendered as the body instead of `text`
+   * (a file preview, an avatar row). Its props go in `componentProps`.
+   */
+  component?: import("svelte").ComponentType;
+  /** Props for `component`. */
+  componentProps?: Record<string, unknown>;
+  /**
    * Called once when the notification closes, with the reason. Fires for every
    * path (close button, swipe, timeout, action, or `dismiss()`/`clear()`), not
    * when a `show()` with the same id merely replaces it.

@@ -85,6 +85,14 @@
    * floating `Notification`, not the in-page banner.
    */
   export let snack = false;
+  /**
+   * Render arbitrary content as the body instead of `description` / the default
+   * slot — a Svelte component plus its props. Lets a data-driven notifier carry
+   * rich content (a file preview, an avatar row). Ignored in `snack` layout.
+   */
+  export let component: import("svelte").ComponentType | undefined = undefined;
+  /** Props passed to `component`. */
+  export let componentProps: Record<string, unknown> = {};
   /** Called when dismissed. */
   export let onclose: (() => void) | undefined = undefined;
 
@@ -137,7 +145,11 @@
         <p class="inline-notification__title" id={titleId}>{title}</p>
       {/if}
 
-      {#if !snack && (description || $$slots.default)}
+      {#if !snack && component}
+        <div class="inline-notification__body">
+          <svelte:component this={component} {...componentProps} />
+        </div>
+      {:else if !snack && (description || $$slots.default)}
         <div class="inline-notification__body"><slot>{description}</slot></div>
       {/if}
 

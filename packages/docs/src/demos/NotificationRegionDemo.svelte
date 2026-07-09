@@ -2,6 +2,7 @@
   import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
   import Button from "@design-system/svelte/Button.svelte";
   import { createNotifier } from "@design-system/svelte";
+  import RichToastBody from "./RichToastBody.svelte";
 
   const notifier = createNotifier();
   let files = ["report-q3.pdf", "budget.xlsx", "notes.md"];
@@ -35,6 +36,15 @@
     notifier.show({ id: "save", status: "info", title: "Saving…" });
     setTimeout(() => notifier.success("Saved", { id: "save", duration: 3000 }), 900);
   };
+
+  // Rich content: a Svelte component as the body (avatar + message).
+  const showRich = () =>
+    notifier.show({
+      title: "New activity",
+      duration: 6000,
+      component: RichToastBody,
+      componentProps: { name: "Ada Lovelace", message: "commented on your pull request" },
+    });
 </script>
 
 <div style="display: grid; gap: 0.75rem;">
@@ -43,6 +53,7 @@
       >Delete a file</Button
     >
     <Button onpress={save}>Save (replace by id)</Button>
+    <Button onpress={showRich}>Rich content</Button>
   </div>
   <p style="margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
     Files: {files.length ? files.join(", ") : "none"}. Delete one, then Undo before the toast fades

@@ -131,6 +131,8 @@
         actions={notice.actions}
         inverted={notice.inverted}
         snack={notice.snack}
+        component={notice.component}
+        componentProps={notice.componentProps}
         {paused}
         iconShape={notice.iconShape}
         iconBox={notice.iconBox}
