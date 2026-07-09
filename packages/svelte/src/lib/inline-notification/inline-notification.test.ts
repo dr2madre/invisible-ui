@@ -88,9 +88,35 @@ describe("Alert", () => {
     expect(container.querySelector('.feedback-icon path[d^="M18 8A6"]')).not.toBeNull();
   });
 
+  it("snack layout: single row, no description, icon box transparent", () => {
+    const { container } = render(Fixture, {
+      props: {
+        snack: true,
+        title: "File moved to trash",
+        description: "This should not render in snack mode.",
+        actions: [{ label: "Undo" }],
+      },
+    });
+    expect(container.querySelector(".inline-notification[data-snack]")).not.toBeNull();
+    expect(screen.getByText("File moved to trash")).toBeInTheDocument();
+    // Description is dropped in the snackbar layout.
+    expect(container.querySelector(".inline-notification__body")).toBeNull();
+    expect(screen.queryByText("This should not render in snack mode.")).not.toBeInTheDocument();
+    // Icon has no box (transparent) and the action sits inline.
+    expect(container.querySelector('.feedback-icon[data-box="transparent"]')).not.toBeNull();
+    expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, {
       props: { status: "warning", href: "/docs", closable: true },
+    });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+
+  it("snack layout has no accessibility violations", async () => {
+    const { container } = render(Fixture, {
+      props: { snack: true, title: "Saved", actions: [{ label: "Undo" }] },
     });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });

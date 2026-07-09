@@ -35,6 +35,12 @@ export interface NotificationOptions {
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
    */
   inverted?: boolean;
+  /**
+   * Snackbar layout: a single compact row — icon, title and an inline action,
+   * vertically centered, in a container that wraps its content. No
+   * description; the icon takes the text color with no box.
+   */
+  snack?: boolean;
   /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
   iconShape?: "rounded" | "round";
   /** FeedbackIcon box override (see Alert): force `"tint"`/`"solid"` on a tinted surface. */

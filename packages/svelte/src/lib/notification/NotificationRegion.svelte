@@ -100,6 +100,7 @@
         role={notice.role}
         actions={notice.actions}
         inverted={notice.inverted}
+        snack={notice.snack}
         iconShape={notice.iconShape}
         iconBox={notice.iconBox}
         onclose={() => notifier.dismiss(notice.id)}

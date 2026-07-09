@@ -101,6 +101,13 @@
       "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
     },
     {
+      "name": "snack",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
+    },
+    {
       "name": "onclose",
       "type": "(() => void) | undefined",
       "default": "undefined",

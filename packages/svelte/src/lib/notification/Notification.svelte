@@ -38,6 +38,8 @@
    * transient info outcomes that auto-dismiss (saved, offline, downtime…).
    */
   export let inverted = false;
+  /** Snackbar layout: one compact row (icon + title + inline action), no description. */
+  export let snack = false;
   /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
   export let iconShape: "rounded" | "round" = "rounded";
   /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
@@ -101,6 +103,7 @@
     {role}
     {closable}
     {inverted}
+    {snack}
     {iconShape}
     {iconBox}
     actions={alertActions}
@@ -120,6 +123,7 @@
     {role}
     {closable}
     {inverted}
+    {snack}
     {iconShape}
     {iconBox}
     actions={alertActions}
