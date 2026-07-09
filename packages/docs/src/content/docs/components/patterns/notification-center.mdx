@@ -1,0 +1,64 @@
+---
+title: "Notification Center"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import NotificationCenterDemo from "../../../../demos/NotificationCenterDemo.svelte";
+
+<Preview>
+  <NotificationCenterDemo client:only="svelte" />
+</Preview>
+
+A **notification center**: a bell with an unread badge that opens a panel of
+past notifications. It is the persistent, history side of feedback — the
+counterpart to the ephemeral
+[Notification](/invisible-ui/components/feedback/notification/) toast. Toasts
+come and go; the center is where they stay to be reviewed.
+
+This is a **pattern, not a component** — pure composition of pieces you already
+have:
+
+- **[Button](/invisible-ui/components/forms/button/)** (ghost, icon) + **[Count](/invisible-ui/components/data-layout/count/)** — the bell and its unread badge.
+- **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** (`side="right"`) — the panel. A lateral sheet, not a popover: a history list is substantial content that wants room, scroll and a footer, and the sheet already brings focus trap, Escape / backdrop dismissal and scroll lock.
+- A list of **[Inline Notification](/invisible-ui/components/feedback/inline-notification/)** — one per entry, with the timestamp in the body and a close button to dismiss.
+
+### What the pattern fixes, what the app owns
+
+- **Fixed by the pieces**: the dialog semantics and keyboard/focus behaviour
+  (Sheet Dialog), the badge and its accessible name (Count), each row's live
+  region, status icon and dismiss affordance (Inline Notification).
+- **Owned by the application**: the notification list and its persistence,
+  what "unread" means and when it flips, grouping or pagination, and where the
+  data comes from. The design system deliberately does not decide these.
+
+### Accessibility
+
+- The bell is a normal button; the unread `Count` carries an accessible name
+  (`"3 unread notifications"`), so the badge is not conveyed by color/number
+  alone.
+- The panel is the Sheet Dialog's modal `role="dialog"` — focus moves in, is
+  trapped, and returns to the bell on close.
+- Unread rows are distinguished by a surface tint **and** their position/label,
+  never by color alone.
+
+### Sketch
+
+```svelte
+<SheetDialog side="right" title="Notifications" triggerVariant="ghost">
+  <span slot="trigger">
+    <BellIcon />
+    {#if unread}<Count count={unread} label={`${unread} unread`} />{/if}
+  </span>
+
+  {#each items as item (item.id)}
+    <InlineNotification status={item.status} title={item.title} closable
+      onclose={() => dismiss(item.id)}>
+      {item.text}
+    </InlineNotification>
+  {/each}
+
+  <svelte:fragment slot="footer">
+    <Button variant="ghost" onpress={markAllRead}>Mark all read</Button>
+  </svelte:fragment>
+</SheetDialog>
+```
