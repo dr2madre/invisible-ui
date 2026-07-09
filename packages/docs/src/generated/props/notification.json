@@ -59,6 +59,13 @@
       "description": "High-contrast inverse surface for maximum visibility. Recommended for transient info outcomes that auto-dismiss (saved, offline, downtime…)."
     },
     {
+      "name": "snack",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Snackbar layout: one compact row (icon + title + inline action), no description."
+    },
+    {
       "name": "iconShape",
       "type": "\"rounded\" | \"round\"",
       "default": "\"rounded\"",

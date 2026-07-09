@@ -11,8 +11,8 @@
     snacks.show({
       status: "info",
       inverted: true,
-      title: "File deleted",
-      text: "report-january.pdf was moved to trash.",
+      snack: true,
+      title: "File moved to trash",
       actions: [{ label: "Undo" }],
     });
 
@@ -33,9 +33,9 @@
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Button onpress={showSnack}>Delete file (snack)</Button>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
-      <strong>Snack</strong> — high contrast (<code>inverted</code>), <code>bottom-center</code>:
-      the outcome of the user's own action sits near their attention. Persistent (no
-      <code>duration</code>): closed by the user, or by Undo.
+      <strong>Snack</strong> — the snackbar layout (<code>snack</code>): one compact row (icon,
+      title, inline action), high contrast (<code>inverted</code>), <code>bottom-center</code>. The
+      outcome of the user's own action, near their attention; closed by the user or by Undo.
     </figcaption>
   </figure>
 

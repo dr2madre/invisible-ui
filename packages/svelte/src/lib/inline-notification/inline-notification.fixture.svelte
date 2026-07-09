@@ -7,6 +7,7 @@
   export let href: string | undefined = undefined;
   export let linkText: string | undefined = undefined;
   export let closable = false;
+  export let snack = false;
   export let open = true;
   export let role: "status" | "alert" | "region" = "status";
   export let onclose: (() => void) | undefined = undefined;
@@ -26,6 +27,7 @@
   {href}
   {linkText}
   {closable}
+  {snack}
   bind:open
   {role}
   {actions}

@@ -78,6 +78,13 @@
    * `"tint"` or `"solid"` to force a visible chip on a tinted surface too.
    */
   export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
+  /**
+   * Snackbar layout: one compact, vertically-centered row — icon, title and
+   * inline actions — in a container that wraps its content. The description is
+   * dropped and the icon takes the text color with no box. Meant for the
+   * floating `Notification`, not the in-page banner.
+   */
+  export let snack = false;
   /** Called when dismissed. */
   export let onclose: (() => void) | undefined = undefined;
 
@@ -98,6 +105,7 @@
     data-status={status}
     data-inverted={inverted ? "" : undefined}
     data-plain={plain ? "" : undefined}
+    data-snack={snack ? "" : undefined}
     {role}
     aria-labelledby={title ? titleId : undefined}
     on:mouseenter
@@ -112,7 +120,7 @@
       <FeedbackIcon
         {status}
         shape={iconShape}
-        box={iconBox ?? (plain || inverted ? "tint" : "transparent")}
+        box={iconBox ?? (snack ? "transparent" : plain || inverted ? "tint" : "transparent")}
       >
         <slot name="icon" />
       </FeedbackIcon>
@@ -120,7 +128,7 @@
       <FeedbackIcon
         {status}
         shape={iconShape}
-        box={iconBox ?? (plain || inverted ? "tint" : "transparent")}
+        box={iconBox ?? (snack ? "transparent" : plain || inverted ? "tint" : "transparent")}
       />
     {/if}
 
@@ -129,7 +137,7 @@
         <p class="inline-notification__title" id={titleId}>{title}</p>
       {/if}
 
-      {#if description || $$slots.default}
+      {#if !snack && (description || $$slots.default)}
         <div class="inline-notification__body"><slot>{description}</slot></div>
       {/if}
 
@@ -272,5 +280,44 @@
   .inline-notification:global([data-plain]) {
     --_bg: transparent;
     --_border: transparent;
+  }
+
+  /* Snackbar: one compact row that wraps its content and centers everything
+     vertically. Icon + title + inline actions on a single line; the icon
+     takes the text color with no box (set transparent above). */
+  .inline-notification:global([data-snack]) {
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    margin-inline: auto;
+    align-items: center;
+    gap: 0.625rem;
+    padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
+    border-radius: var(--ds-snack-radius, 999px);
+  }
+  .inline-notification:global([data-snack]) .inline-notification__content {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .inline-notification:global([data-snack]) .inline-notification__actions {
+    margin-block-start: 0;
+    flex-wrap: nowrap;
+  }
+  /* Icon glyph in the text color (no status tint), no box. */
+  .inline-notification:global([data-snack]) :global(.feedback-icon) {
+    color: inherit;
+    inline-size: var(--ds-snack-icon-size, 1.25rem);
+    block-size: var(--ds-snack-icon-size, 1.25rem);
+    padding: 0;
+  }
+  /* Close, when present, sits inline in the row instead of pinned top-right. */
+  .inline-notification:global([data-snack]):has(.inline-notification__close) {
+    padding-inline-end: 0.5rem;
+  }
+  .inline-notification:global([data-snack]) .inline-notification__close {
+    position: static;
+    inset: auto;
+    --ds-button-icon-min: var(--ds-close-hit-area, 2rem);
   }
 </style>
