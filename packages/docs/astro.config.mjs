@@ -164,6 +164,7 @@ export default defineConfig({
                 "components/patterns/menu",
                 "components/patterns/menubar",
                 "components/patterns/navigation-menu",
+                "components/patterns/notification-center",
                 "components/patterns/stepper",
                 {
                   label: "Tables",
