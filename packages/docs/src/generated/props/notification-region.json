@@ -36,6 +36,27 @@
       "default": "200",
       "required": false,
       "description": "Enter/leave/reflow duration in ms."
+    },
+    {
+      "name": "exitDuration",
+      "type": "number | undefined",
+      "default": "undefined",
+      "required": false,
+      "description": "Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit."
+    },
+    {
+      "name": "easing",
+      "type": "(t: number) => number",
+      "default": "cubicOut",
+      "required": false,
+      "description": "Easing for enter/reflow. Ease-out by default."
+    },
+    {
+      "name": "exitEasing",
+      "type": "(t: number) => number",
+      "default": "cubicIn",
+      "required": false,
+      "description": "Easing for the leave animation. Ease-in by default: starts slow and accelerates away, so a dismissal never snaps."
     }
   ]
 }
