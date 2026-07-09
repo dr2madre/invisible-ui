@@ -292,7 +292,7 @@
     align-items: center;
     gap: 0.625rem;
     padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
-    border-radius: var(--ds-snack-radius, 999px);
+    border-radius: var(--ds-snack-radius, var(--ds-radius-surface, 0.75rem));
   }
   .inline-notification:global([data-snack]) .inline-notification__content {
     flex: 0 1 auto;
