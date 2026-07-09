@@ -115,13 +115,11 @@
     border-radius: 999px;
     cursor: pointer;
     opacity: 0.7;
-    transition:
-      opacity 120ms ease,
-      background-color 120ms ease;
+    transition: opacity 120ms ease;
   }
+  /* Hover strengthens the glyph only — no background fill. */
   .tag__remove:hover {
     opacity: 1;
-    background: var(--ds-tag-remove-hover, rgba(0, 0, 0, 0.1));
   }
   .tag__remove:focus-visible {
     opacity: 1;
@@ -138,9 +136,9 @@
     --_border: var(--ds-color-neutral-border, #e2e8f0);
   }
   .tag:global([data-variant="soft"][data-status="selected"]) {
-    --_bg: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 12%, transparent);
-    --_fg: var(--ds-color-secondary, #7b52cc);
-    --_border: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 30%, transparent);
+    --_bg: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 8%, transparent);
+    --_fg: var(--ds-color-selected-text, var(--ds-color-secondary, #7b52cc));
+    --_border: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 22%, transparent);
   }
   .tag:global([data-variant="soft"][data-status="info"]) {
     --_bg: var(--ds-color-info-surface, #eff6ff);

@@ -43,7 +43,12 @@
       </Tag>
     {/each}
     {#if filters.length < initial.length}
-      <Button variant="ghost" onpress={() => (filters = [...initial])}>Reset</Button>
+      <!-- Reset sits a touch smaller than a default button (font + padding). -->
+      <span
+        style="font-size: 0.8125rem; --ds-control-padding-y: 0.35rem; --ds-control-padding-x: 0.6rem;"
+      >
+        <Button variant="ghost" onpress={() => (filters = [...initial])}>Reset</Button>
+      </span>
     {/if}
   </div>
 </div>
