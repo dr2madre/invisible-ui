@@ -72,17 +72,17 @@ describe("Notification", () => {
       expect(onclose).not.toHaveBeenCalled();
     });
 
-    it("pauses the countdown while hovered", async () => {
+    it("holds the countdown while paused, resumes when released", async () => {
       const onclose = vi.fn();
-      render(Notification, { props: { title: "Hi", duration: 1000, onclose } });
-      // No wrapper: the live region (the Alert) is the element that pauses.
-      const region = screen.getByRole("status");
+      // The region drives pausing for the whole stack via the `paused` prop.
+      const { rerender } = render(Notification, {
+        props: { title: "Hi", duration: 1000, paused: true, onclose },
+      });
 
-      await fireEvent.mouseEnter(region);
       vi.advanceTimersByTime(5000);
       expect(onclose).not.toHaveBeenCalled();
 
-      await fireEvent.mouseLeave(region);
+      await rerender({ title: "Hi", duration: 1000, paused: false, onclose });
       vi.advanceTimersByTime(1000);
       expect(onclose).toHaveBeenCalledOnce();
     });

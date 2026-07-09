@@ -20,6 +20,7 @@
   import { fly } from "svelte/transition";
   import { cubicIn, cubicOut } from "svelte/easing";
   import { portal } from "../internal/portal";
+  import { swipeDismiss } from "../internal/swipe";
   import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { Notifier } from "./create-notifier";
@@ -40,6 +41,8 @@
   export let maxVisible = 0;
   /** Distance from the viewport edges, as a CSS length. Default `1rem`. */
   export let inset = "1rem";
+  /** Allow swiping a notification away (pointer/touch). Default `true`. */
+  export let swipeable = true;
   /** Enter/reflow duration in ms. */
   export let duration = 200;
   /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
@@ -73,17 +76,37 @@
   let seq = 0;
   $: for (const n of visible) if (!paintOrder.has(n.id)) paintOrder.set(n.id, ++seq);
   const zOf = (id: string) => 100000 - (paintOrder.get(id) ?? 0);
+
+  // Pause the WHOLE stack while any notification is hovered or holds focus, so
+  // a burst pauses together (not just the one under the pointer). pointerover/
+  // out and focusin/out bubble from the interactive slots through the region's
+  // pointer-events:none root; leaving is "no longer inside the region".
+  let regionEl: HTMLElement;
+  let pointerInside = false;
+  let focusInside = false;
+  $: paused = pointerInside || focusInside;
+  const inside = (target: EventTarget | null) =>
+    target instanceof Node && regionEl?.contains(target);
 </script>
 
 <!-- Portalled to <body>: a viewport-fixed region must escape ancestor
      stacking contexts (e.g. a layout's `isolation: isolate`), or its z-index
      only competes inside them and headers/content paint above the toasts. -->
 <div
+  bind:this={regionEl}
   class="notification-region"
   data-placement={placement}
   role="region"
   aria-label={resolvedLabel}
   style:padding={inset}
+  on:pointerover={() => (pointerInside = true)}
+  on:pointerout={(e) => {
+    if (!inside(e.relatedTarget)) pointerInside = false;
+  }}
+  on:focusin={() => (focusInside = true)}
+  on:focusout={(e) => {
+    if (!inside(e.relatedTarget)) focusInside = false;
+  }}
   use:portal
 >
   {#each visible as notice (notice.id)}
@@ -93,6 +116,7 @@
       in:fly={{ y: flyY, duration: motion, easing }}
       out:fly={{ y: flyY, duration: motionOut, easing: exitEasing }}
       animate:flip={{ duration: motionOut, easing }}
+      use:swipeDismiss={{ disabled: !swipeable, onDismiss: () => notifier.dismiss(notice.id) }}
     >
       <Notification
         status={notice.status}
@@ -104,6 +128,7 @@
         actions={notice.actions}
         inverted={notice.inverted}
         snack={notice.snack}
+        {paused}
         iconShape={notice.iconShape}
         iconBox={notice.iconBox}
         onclose={() => notifier.dismiss(notice.id)}
@@ -145,6 +170,18 @@
      alert's rounded corners; customize via --ds-elevation-overlay. */
   .notification-region > :global(*) {
     pointer-events: auto;
+  }
+  .notice-slot {
+    /* Keep vertical scroll; the horizontal axis is the swipe-to-dismiss gesture. */
+    touch-action: pan-y;
+  }
+  /* While settling (dismiss/snap-back) the transform + fade animate; while
+     actively swiping (data-swiping) the element tracks the finger with no
+     transition. */
+  .notice-slot[data-swipe-out] {
+    transition:
+      transform 200ms ease,
+      opacity 200ms ease;
   }
   .notice-slot > :global(*) {
     box-shadow: var(
