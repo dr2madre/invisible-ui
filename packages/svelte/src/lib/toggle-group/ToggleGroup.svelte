@@ -26,6 +26,12 @@
   /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
   export let orientation: "horizontal" | "vertical" = "horizontal";
   /**
+   * Let the toggles wrap onto multiple lines when they overflow the available
+   * width (e.g. a row of filter chips in a narrow panel). Only meaningful on a
+   * horizontal `separate` group; ignored when `segmented`, which is one control.
+   */
+  export let wrap = false;
+  /**
    * Optional container name for screen readers (the group's `aria-label`). Names
    * the container, not the items; omit it when the toggles are unrelated.
    */
@@ -34,6 +40,7 @@
 
 <div
   class="toggle-group toggle-group--{variant}"
+  class:toggle-group--wrap={wrap && variant === "separate"}
   role="group"
   aria-label={label}
   data-orientation={orientation}
@@ -53,6 +60,11 @@
   /* separate: each toggle keeps its own style, spaced by a gap. */
   .toggle-group--separate {
     gap: var(--ds-toggle-group-gap, 0.375rem);
+  }
+  /* Wrap a horizontal chip row onto multiple lines instead of overflowing. */
+  .toggle-group--wrap {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   /* segmented: join the toggles into one control — drop their individual

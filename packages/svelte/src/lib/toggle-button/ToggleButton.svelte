@@ -11,11 +11,21 @@
    * slot is icon-only so the control still has an accessible name. Pass `name`
    * (and optional `value`) to submit the pressed state with a form. Colors and
    * sizing are themeable CSS custom properties (`--ds-toggle-*`).
+   *
+   * Set `check` for the filter-chip look: a leading checkmark appears when the
+   * button is pressed, making the selection explicit alongside the fill — the
+   * selected-state affordance of a grouped checkbox, in a chip. Pairs naturally
+   * with `ToggleGroup` for a row of multi-select filter chips.
    */
   import { createToggleButton } from "./create-toggle-button";
 
   export let pressed = false;
   export let disabled = false;
+  /**
+   * Show a leading checkmark when pressed (the filter-chip look). The check
+   * reveals the selected state explicitly, the way a checkbox does.
+   */
+  export let check = false;
   /** Accessible name; required when the slot content is icon-only. */
   export let label: string | undefined = undefined;
   /** Form field name — when checked, submits `value` under it. */
@@ -37,7 +47,25 @@
     {value}
     aria-label={label}
   />
-  <span class="toggle__surface"><slot /></span>
+  <span class="toggle__surface">
+    {#if check && $tbState.pressed}
+      <!-- Leading checkmark, shown only when pressed — the explicit
+           selected-state mark of a checkbox, in the chip. -->
+      <svg
+        class="toggle__check"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M20 6 9 17l-5-5" />
+      </svg>
+    {/if}
+    <slot />
+  </span>
 </label>
 
 <style>

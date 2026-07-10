@@ -20,7 +20,7 @@ already have.
 
 - **[Button](/invisible-ui/components/forms/button/)** (ghost) + **[Count](/invisible-ui/components/data-layout/count/)** — the bell and its unread badge.
 - **[Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/)** (`side="right"`, roomier via `--ds-sheet-dialog-size`) — the panel. A lateral sheet, not a popover: a history list wants width, scroll and a footer, and the sheet brings focus trap, Escape / backdrop dismissal and scroll lock. Its **`headerActions`** slot puts *Mark all read* and a settings button on the title row.
-- **Search** ([Text Field](/invisible-ui/components/forms/text-field/)) and **topic filter chips** ([Toggle Button](/invisible-ui/components/forms/icon-button/)) at the top.
+- **Search** ([Text Field](/invisible-ui/components/forms/text-field/)) and **topic filter chips** — a [Toggle Group](/invisible-ui/components/forms/toggle-group/) (`wrap`) of `check` [Toggle Buttons](/invisible-ui/components/forms/toggle-button/): each is a native checkbox and shows a checkmark when selected — at the top.
 - **Date sections** — *Today / Yesterday / This week* headers over each group.
 - Rows are **[Inline Notification](/invisible-ui/components/feedback/inline-notification/)** in the `plain` layout with `status="neutral"` and `iconBox="transparent"`: **no surface, no border, no status color** — the list stays calm, rows set apart by spacing alone. Each row carries a **per-type icon** (mapped from the notification's topic, not its status), the time, and an **unread dot** you press to mark it read.
 - A **settings** button (gear) swaps the panel to per-type **[Switch](/invisible-ui/components/forms/switch/)** toggles — turn notification types on or off.
@@ -65,5 +65,6 @@ Two ways to narrow by topic:
   (`"3 unread notifications"`) — not conveyed by number/color alone.
 - The panel is the Sheet Dialog's modal `role="dialog"` — focus moves in, is
   trapped, and returns to the bell on close.
-- Rows use no color to carry meaning: read state is a dot + dimming, type is an
-  icon + text — never color alone.
+- Rows use no color to carry meaning: read state is a dot (present when unread,
+  gone once read — the row itself never changes), type is an icon + text — never
+  color alone.

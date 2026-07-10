@@ -17,6 +17,13 @@
       "description": "Layout axis (purely visual — the group has no keyboard navigation of its own)."
     },
     {
+      "name": "wrap",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Let the toggles wrap onto multiple lines when they overflow the available width (e.g. a row of filter chips in a narrow panel). Only meaningful on a horizontal `separate` group; ignored when `segmented`."
+    },
+    {
       "name": "label",
       "type": "string | undefined",
       "default": "undefined",
