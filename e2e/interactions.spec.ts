@@ -10,7 +10,7 @@ test("Dialog opens from its trigger and closes on Escape", async ({ page }) => {
 });
 
 test("Calendar navigates to the next month", async ({ page }) => {
-  await page.goto("components/date-time/calendar/");
+  await page.goto("components/forms/calendar/");
   const title = page.locator(".calendar__title").first();
   const next = page.getByRole("button", { name: "Next" }).first();
   const before = (await title.textContent()) ?? "";
@@ -42,9 +42,9 @@ test("Switch toggles on click", async ({ page }) => {
 
 test("Combobox filters and selects an option", async ({ page }) => {
   await page.goto("components/forms/combobox/");
-  const input = page.getByRole("combobox", { name: "Fruit" });
+  const input = page.getByRole("combobox", { name: "Assignee" });
   await input.click();
-  await input.fill("ch");
-  await page.getByRole("option", { name: "Cherry" }).click();
-  await expect(input).toHaveValue("Cherry");
+  await input.fill("ada");
+  await page.getByRole("option", { name: "Ada Lovelace" }).click();
+  await expect(input).toHaveValue("Ada Lovelace");
 });
