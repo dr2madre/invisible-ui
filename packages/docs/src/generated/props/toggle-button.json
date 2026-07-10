@@ -17,6 +17,13 @@
       "description": ""
     },
     {
+      "name": "check",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show a leading checkmark when pressed (the filter-chip look) — reveals the selected state explicitly, the way a checkbox does. Pairs with `ToggleGroup` for multi-select filter chips."
+    },
+    {
       "name": "label",
       "type": "string | undefined",
       "default": "undefined",

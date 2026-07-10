@@ -59,4 +59,24 @@ If you need exactly one active choice — a radio-style view switcher — use th
 </ToggleGroup>
 ```
 
+### Filter chips
+
+Multi-select filter chips are just a `wrap` group of `check` toggles: each is a
+native checkbox, the checkmark makes the selection explicit, and `wrap` lets the
+row flow onto multiple lines in a narrow container.
+
+```svelte
+<ToggleGroup label="Filter by topic" wrap>
+  {#each topics as topic (topic.id)}
+    <ToggleButton
+      check
+      pressed={active.has(topic.id)}
+      onPressedChange={(on) => toggle(topic.id, on)}
+    >
+      {topic.label}
+    </ToggleButton>
+  {/each}
+</ToggleGroup>
+```
+
 Themeable via `--ds-toggle-*` and `--ds-toggle-group-*`.

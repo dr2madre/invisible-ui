@@ -6,6 +6,7 @@
   import Icon from "@design-system/svelte/Icon.svelte";
   import TextField from "@design-system/svelte/TextField.svelte";
   import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
+  import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
   import Switch from "@design-system/svelte/Switch.svelte";
   import { SvelteSet } from "svelte/reactivity";
 
@@ -166,16 +167,17 @@
     <div style="display: grid; gap: 1rem;">
       <TextField label="Search notifications" hideLabel placeholder="Search…" bind:value={query} />
 
-      <div style="display: flex; flex-wrap: wrap; gap: 0.375rem;">
+      <ToggleGroup label="Filter by topic" wrap>
         {#each TOPICS.filter((t) => enabled[t.id]) as topic (topic.id)}
           <ToggleButton
+            check
             pressed={activeChips.has(topic.id)}
             onPressedChange={(on) => toggleChip(topic.id, on)}
           >
             {topic.label}
           </ToggleButton>
         {/each}
-      </div>
+      </ToggleGroup>
 
       {#if bySection.length === 0}
         <p style="color: var(--ds-color-text-secondary);">Nothing to show.</p>
