@@ -13,9 +13,12 @@
    * affordance only — keyboard users have Escape and the close button.
    *
    * Slots: `trigger` (the trigger button's content), the default slot (the
-   * body) and an optional `footer` (actions). Pass a `title` (required) and
-   * optional `description`. Colors, radius and elevation are themeable via
-   * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
+   * body), an optional `footer` (actions), and two header slots — `headerLead`
+   * (before the title, on the leading edge, e.g. a back affordance) and
+   * `headerActions` (after the title, just before the close button). Pass a
+   * `title` (required) and optional `description`. Colors, radius and elevation
+   * are themeable via `--ds-dialog-*`; the panel extent via
+   * `--ds-sheet-dialog-size`.
    */
   import { createSheetDialog, type SheetDialogSide } from "./create-sheet-dialog";
   import Button from "../button/Button.svelte";
@@ -104,6 +107,11 @@
       <div class="sheet-dialog__handle" use:handleAction aria-hidden="true"></div>
     {/if}
     <header class="sheet-dialog__header">
+      {#if $$slots.headerLead}
+        <!-- Content before the title (e.g. a back/up affordance), on the
+             leading edge of the header. -->
+        <div class="sheet-dialog__header-lead"><slot name="headerLead" /></div>
+      {/if}
       <h2 class="sheet-dialog__title" use:titleAction>{title}</h2>
       {#if $$slots.headerActions}
         <!-- Actions on the title row (e.g. a settings button, "Mark all read"),
@@ -285,6 +293,11 @@
     font-size: 1.125rem;
     font-weight: 600;
     line-height: 1.4;
+  }
+  .sheet-dialog__header-lead {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
   .sheet-dialog__header-actions {
     display: inline-flex;

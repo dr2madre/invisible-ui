@@ -19,6 +19,12 @@
    */
   import { createToggleButton } from "./create-toggle-button";
 
+  /**
+   * Whether the button is pressed. Controlled: changing it updates the control,
+   * so it can reflect external selection state (e.g. a filter chip driven by a
+   * list). Pass it once and drive clicks via `onPressedChange` for uncontrolled
+   * use — that keeps working too.
+   */
   export let pressed = false;
   export let disabled = false;
   /**
@@ -35,7 +41,20 @@
   /** Called whenever the pressed value changes. */
   export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
 
-  const { state: tbState, rootAction } = createToggleButton({ pressed, disabled, onPressedChange });
+  const {
+    state: tbState,
+    setPressed,
+    rootAction,
+  } = createToggleButton({
+    pressed,
+    disabled,
+    onPressedChange,
+  });
+  // Controlled sync: when the `pressed` prop changes, mirror it into the store
+  // (a no-op when already equal). This only re-runs on a prop change, never on
+  // an internal click, so uncontrolled usage — passing `pressed` once and
+  // letting clicks drive it — keeps working unchanged.
+  $: setPressed(pressed);
 </script>
 
 <label class="toggle" class:toggle--disabled={disabled}>

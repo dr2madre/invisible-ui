@@ -5,9 +5,12 @@
    * Behaviour and accessibility come from the headless tabs (`@design-system/core`);
    * this layer adds the underline indicator and panels.
    *
-   * Each item supplies a tab `label` (falling back to `value`) and its panel
-   * `content` as text. For rich panel markup, drive the headless `createTabs`
-   * directly. Colors are themeable CSS custom properties (`--ds-tabs-*`).
+   * Each item supplies a tab `label` (falling back to `value`) and, optionally,
+   * its panel `content` as text. For rich panel markup, use the scoped `panel`
+   * slot — it renders once per tab with `let:item`, so the consumer can put any
+   * content in the (correctly wired) panel and switch on `item.value`; the text
+   * `content` is the fallback when the slot is absent. Colors are themeable CSS
+   * custom properties (`--ds-tabs-*`).
    */
   import { createTabs, type ActivationMode, type TabItem } from "./create-tabs";
   import Icon from "../icon/Icon.svelte";
@@ -77,7 +80,11 @@
     {/each}
   </div>
   {#each items as item (item.value)}
-    <div class="tabs__panel" use:panelAction={item.value}>{item.content ?? ""}</div>
+    <div class="tabs__panel" use:panelAction={item.value}>
+      <!-- Rich per-panel content via a scoped slot; falls back to the item's
+           text `content` when no slot is provided (backward compatible). -->
+      <slot name="panel" {item}>{item.content ?? ""}</slot>
+    </div>
   {/each}
 </div>
 
