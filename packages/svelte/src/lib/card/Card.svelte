@@ -183,12 +183,12 @@
     margin: 0;
     font-size: var(--ds-card-title-size, 1.05rem);
     font-weight: 600;
-    line-height: 1.3;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .card__description {
     margin: 0;
     color: var(--ds-card-description-text, var(--ds-color-text-secondary, #475569));
-    line-height: 1.5;
+    line-height: var(--ds-line-height, 1.4);
   }
   .card__content {
     margin-block-start: 0.25rem;

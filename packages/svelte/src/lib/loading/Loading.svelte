@@ -253,12 +253,12 @@
     display: inline-flex;
     gap: 0.75em;
     font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: 1.2;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   /* Live status message line (visible + announced). */
   .loading__status {
     font-size: var(--ds-loading-label-size, 0.8125em);
-    line-height: 1.2;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .loading[data-variant="bar"] .loading__label {
     inline-size: 100%;

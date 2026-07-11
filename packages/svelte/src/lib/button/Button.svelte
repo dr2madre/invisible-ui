@@ -155,7 +155,7 @@
     border: 1px solid transparent;
     font: inherit;
     font-weight: 500;
-    line-height: 1.2;
+    line-height: var(--ds-line-height-tight, 1.2);
     cursor: pointer;
     /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */
     touch-action: manipulation;

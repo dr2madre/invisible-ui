@@ -92,6 +92,59 @@
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --ds-font-mono:
     SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Line heights (unitless). Base for body copy; tight for the more compact
+     display/UI text — every heading level plus subtitles, buttons and labels. */
+  --ds-line-height: 1.4; /* 140% — base / body */
+  --ds-line-height-tight: 1.2; /* 120% — headings, subtitles, buttons, labels */
+
+  /* Heading scale (rem, from the 100% base). Bold by default; override a token
+     to re-scale, or a component (e.g. a dialog title) can set its own size. */
+  --ds-heading-weight: 700;
+  --ds-font-size-h1: 2.375rem; /* 38px */
+  --ds-font-size-h2: 2rem; /* 32px */
+  --ds-font-size-h3: 1.75rem; /* 28px */
+  --ds-font-size-h4: 1.5rem; /* 24px */
+  --ds-font-size-h5: 1.25rem; /* 20px */
+  --ds-font-size-h6: 1rem; /* 16px */
+}
+
+/* Base presentation layer — the default typography, applied once at the root
+   with ZERO specificity (`:where`) so any consumer rule wins effortlessly and a
+   single redefined token (`--ds-font-sans`) re-themes everything. Components use
+   `font: inherit`, so they pick these up without hardcoding a font. */
+:where(html) {
+  /* 100% = the user's browser base (typically 16px) — never a hardcoded px, so
+     the user's font-size preference is respected. Everything else scales from
+     here in rem. */
+  font-size: 100%;
+  font-family: var(--ds-font-sans);
+  line-height: var(--ds-line-height);
+}
+
+/* Heading defaults — bold, tight line-height, sizes from the tokens above. Zero
+   specificity, so a component class or consumer rule overrides them freely. */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-weight: var(--ds-heading-weight);
+  line-height: var(--ds-line-height-tight);
+}
+:where(h1) {
+  font-size: var(--ds-font-size-h1);
+}
+:where(h2) {
+  font-size: var(--ds-font-size-h2);
+}
+:where(h3) {
+  font-size: var(--ds-font-size-h3);
+}
+:where(h4) {
+  font-size: var(--ds-font-size-h4);
+}
+:where(h5) {
+  font-size: var(--ds-font-size-h5);
+}
+:where(h6) {
+  font-size: var(--ds-font-size-h6);
 }
 
 /* =============== Tier 2 — semantic (light) ================================= */

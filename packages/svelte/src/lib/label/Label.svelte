@@ -30,6 +30,7 @@
     gap: 0.2em;
     font: inherit;
     font-weight: var(--ds-label-font-weight, 500);
+    line-height: var(--ds-line-height-tight, 1.2);
     color: var(--ds-label-color, var(--ds-color-text, #0f172a));
   }
   .label__required {

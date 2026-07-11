@@ -8,7 +8,6 @@
   import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
   import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
   import Switch from "@design-system/svelte/Switch.svelte";
-  import { SvelteSet } from "svelte/reactivity";
 
   // Each notification TYPE carries its own icon (glyph path) — set per topic,
   // not per status, so the center reads as one calm, uncolored list.
@@ -81,19 +80,20 @@
   ];
 
   let enabled = Object.fromEntries(TOPICS.map((t) => [t.id, true]));
-  const activeChips = new SvelteSet();
+  // Selected filter topics. A plain array reassigned on toggle — a reactive
+  // source `$:` actually tracks (a mutated Set/SvelteSet would not re-run it).
+  let activeTopics = [];
   let query = "";
   let showSettings = false;
 
   const toggleChip = (id, on) => {
-    if (on) activeChips.add(id);
-    else activeChips.delete(id);
+    activeTopics = on ? [...activeTopics, id] : activeTopics.filter((t) => t !== id);
   };
 
   $: visible = items.filter(
     (i) =>
       enabled[i.topic] &&
-      (activeChips.size === 0 || activeChips.has(i.topic)) &&
+      (activeTopics.length === 0 || activeTopics.includes(i.topic)) &&
       (query === "" || (i.title + " " + i.text).toLowerCase().includes(query.toLowerCase())),
   );
   $: unread = items.filter((i) => !i.read && enabled[i.topic]).length;
@@ -112,8 +112,12 @@
   const markRead = (id) => (items = items.map((i) => (i.id === id ? { ...i, read: true } : i)));
 </script>
 
-<SheetDialog side="right" title="Notifications" triggerVariant="ghost">
-  <span slot="trigger">
+<SheetDialog
+  side="right"
+  title={showSettings ? "Notification Settings" : "Notifications"}
+  triggerVariant="ghost"
+>
+  <span slot="trigger" style="display: inline-flex; align-items: center; gap: 0.5rem;">
     <span style="position: relative; display: inline-flex;">
       <Icon>
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -125,28 +129,39 @@
         </span>
       {/if}
     </span>
+    Notifications
   </span>
 
-  <svelte:fragment slot="headerActions">
-    <Button
-      variant="ghost"
-      iconOnly
-      ariaLabel={showSettings ? "Back to notifications" : "Notification settings"}
-      onpress={() => (showSettings = !showSettings)}
-    >
-      {#if showSettings}
+  <svelte:fragment slot="headerLead">
+    {#if showSettings}
+      <!-- Back to the notifications list — on the leading edge, before the title. -->
+      <Button
+        variant="ghost"
+        iconOnly
+        ariaLabel="Back to notifications"
+        onpress={() => (showSettings = false)}
+      >
         <Icon><path d="M19 12H5m7-7-7 7 7 7" /></Icon>
-      {:else}
+      </Button>
+    {/if}
+  </svelte:fragment>
+
+  <svelte:fragment slot="headerActions">
+    {#if !showSettings}
+      <!-- Settings gear sits last, next to the close button. -->
+      <Button
+        variant="ghost"
+        iconOnly
+        ariaLabel="Notification settings"
+        onpress={() => (showSettings = true)}
+      >
         <Icon>
           <circle cx="12" cy="12" r="3" />
           <path
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
           />
         </Icon>
-      {/if}
-    </Button>
-    {#if !showSettings}
-      <Button variant="ghost" onpress={markAllRead} disabled={unread === 0}>Mark all read</Button>
+      </Button>
     {/if}
   </svelte:fragment>
 
@@ -164,14 +179,15 @@
       {/each}
     </div>
   {:else}
-    <div style="display: grid; gap: 1rem;">
+    <!-- --ds-field-width: 100% makes the search TextField fill the panel width. -->
+    <div style="display: grid; gap: 1rem; --ds-field-width: 100%;">
       <TextField label="Search notifications" hideLabel placeholder="Search…" bind:value={query} />
 
       <ToggleGroup label="Filter by topic" wrap>
         {#each TOPICS.filter((t) => enabled[t.id]) as topic (topic.id)}
           <ToggleButton
             check
-            pressed={activeChips.has(topic.id)}
+            pressed={activeTopics.includes(topic.id)}
             onPressedChange={(on) => toggleChip(topic.id, on)}
           >
             {topic.label}
@@ -179,11 +195,16 @@
         {/each}
       </ToggleGroup>
 
+      <!-- Mark all read sits between the filters and the list. -->
+      <div style="display: flex; justify-content: flex-end;">
+        <Button variant="ghost" onpress={markAllRead} disabled={unread === 0}>Mark all read</Button>
+      </div>
+
       {#if bySection.length === 0}
         <p style="color: var(--ds-color-text-secondary);">Nothing to show.</p>
       {:else}
         {#each bySection as section (section.key)}
-          <section style="display: grid; gap: 0.25rem;">
+          <section style="display: grid; gap: 1rem;">
             <h3 class="nc-section">{section.label}</h3>
             {#each section.rows as item (item.id)}
               <div class="nc-row">
@@ -234,10 +255,17 @@
     position: relative;
     padding-inline-end: 1rem;
   }
+  /* Rows carry no padding of their own — the group's 1rem gap sets them apart.
+     Zero the InlineNotification padding via its override token (and directly, so
+     it holds regardless of token cascade). */
+  .nc-row :global(.inline-notification) {
+    --ds-alert-padding: 0;
+    padding: 0;
+  }
   /* Unread dot (red), top-right; press marks the item read. */
   .nc-dot {
     position: absolute;
-    inset-block-start: 1.15rem;
+    inset-block-start: 0.35rem;
     inset-inline-end: 0.25rem;
     inline-size: 0.5rem;
     block-size: 0.5rem;

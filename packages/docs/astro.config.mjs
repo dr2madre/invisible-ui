@@ -154,35 +154,41 @@ export default defineConfig({
               label: "Formatting & display",
               items: [{ autogenerate: { directory: "components/formatting-display" } }],
             },
-            {
-              label: "Patterns",
-              // Composed patterns, not base components. Listed by label
-              // alphabetically; Tables nests its two views.
-              items: [
-                "components/patterns/breadcrumb",
-                "components/patterns/login-form",
-                "components/patterns/menu",
-                "components/patterns/menubar",
-                "components/patterns/navigation-menu",
-                "components/patterns/notification-center",
-                "components/patterns/stepper",
-                {
-                  label: "Tables",
-                  items: ["components/patterns/table", "components/patterns/table-set"],
-                },
-                "components/patterns/toolbar",
-                "components/patterns/tree-view",
-              ],
-            },
-            {
-              label: "Localization",
-              items: [{ autogenerate: { directory: "components/localization" } }],
-            },
           ],
         },
-        // Layout: the optional presentation layer, separate from the headless
-        // components — intentionally empty for now (the page states the intent).
-        { label: "Layout", link: "/layout/" },
+        {
+          // Composed patterns, not base components — their own top-level section.
+          // Listed alphabetically; Tables nests its two views.
+          label: "Patterns",
+          items: [
+            "components/patterns/breadcrumb",
+            "components/patterns/login-form",
+            "components/patterns/menu",
+            "components/patterns/menubar",
+            "components/patterns/navigation-menu",
+            "components/patterns/notification-center",
+            "components/patterns/stepper",
+            {
+              label: "Tables",
+              items: ["components/patterns/table", "components/patterns/table-set"],
+            },
+            "components/patterns/toolbar",
+            "components/patterns/tree-view",
+          ],
+        },
+        {
+          // Localization is its own concern, not a component.
+          label: "Localization",
+          items: [{ autogenerate: { directory: "components/localization" } }],
+        },
+        {
+          // The optional presentation layer: design tokens and layout.
+          label: "Presentation",
+          items: [
+            { label: "Tokens", link: "/presentation/tokens/" },
+            { label: "Layout", link: "/presentation/layout/" },
+          ],
+        },
         // API reference sits at the bottom. Roadmap and Decisions (ADRs) are
         // kept as internal Markdown under the repo's `docs/`, not published here.
         { label: "API", link: "/api/" },

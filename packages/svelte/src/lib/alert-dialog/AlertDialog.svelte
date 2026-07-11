@@ -119,7 +119,7 @@
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .alert-dialog__description {
     margin: 0.5rem 0 0;

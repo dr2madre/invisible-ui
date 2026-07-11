@@ -1,0 +1,20 @@
+---
+title: "Tokens"
+---
+
+import Preview from "../../../components/Preview.astro";
+import PaletteDemo from "../../../demos/PaletteDemo.svelte";
+
+The color tokens of the presentation layer — interface, feedback and action
+colors, straight from the semantic tokens (`--ds-color-*`). Each swatch renders
+its live token, so the palette follows the current theme (light/dark) and any
+override.
+
+<Preview>
+  <PaletteDemo client:only="svelte" />
+</Preview>
+
+Note: **primary** and **secondary** currently resolve to the same brand hue
+(the violet `--ds-brand-secondary`); the green `--ds-brand-primary` is a
+primitive not mapped to the primary role. Feedback **surfaces** are the tinted
+backgrounds derived from each feedback hue via `color-mix`.

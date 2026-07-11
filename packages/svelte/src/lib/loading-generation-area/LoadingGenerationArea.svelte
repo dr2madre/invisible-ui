@@ -208,7 +208,7 @@
     color: var(--ds-color-text, #0f172a);
     text-align: center;
     font-size: var(--ds-loading-label-size, 0.8125rem);
-    line-height: 1.3;
+    line-height: var(--ds-line-height, 1.4);
   }
   .loading-generation-area__value {
     font-weight: 600;

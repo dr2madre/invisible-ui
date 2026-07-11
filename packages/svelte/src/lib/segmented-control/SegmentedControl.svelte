@@ -179,7 +179,7 @@
   }
   .segment--stacked .segment__label {
     font-size: var(--ds-segment-stacked-label-size, 0.75rem);
-    line-height: 1.1;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .segment--disabled {
     opacity: 0.5;
