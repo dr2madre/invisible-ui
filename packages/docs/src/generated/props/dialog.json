@@ -24,6 +24,13 @@
       "description": "Accessible title naming the dialog."
     },
     {
+      "name": "hideTitle",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Visually hide the title while keeping it as the dialog's accessible name (announced by screen readers via `aria-labelledby`). The title text is always required; this only controls whether it is shown."
+    },
+    {
       "name": "description",
       "type": "string | undefined",
       "default": "undefined",
@@ -36,6 +43,13 @@
       "default": "undefined",
       "required": false,
       "description": "Accessible label for the close button."
+    },
+    {
+      "name": "footerClose",
+      "type": "boolean",
+      "default": "false",
+      "required": false,
+      "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot."
     },
     {
       "name": "initialFocus",
