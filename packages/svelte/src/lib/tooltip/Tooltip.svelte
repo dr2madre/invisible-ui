@@ -46,7 +46,7 @@
     max-inline-size: var(--ds-tooltip-max-width, 18rem);
     padding: var(--ds-tooltip-padding, 0.3rem 0.5rem);
     font-size: var(--ds-tooltip-font-size, 0.8125rem);
-    line-height: 1.3;
+    line-height: var(--ds-line-height, 1.4);
     background: var(--ds-tooltip-bg, var(--ds-color-emphasis-surface, #1e293b));
     color: var(--ds-tooltip-color, var(--ds-color-on-emphasis, #f8fafc));
     border-radius: var(--ds-tooltip-radius, var(--ds-radius-control, 0.375rem));

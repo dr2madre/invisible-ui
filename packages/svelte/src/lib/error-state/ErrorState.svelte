@@ -86,7 +86,7 @@
     margin: 0;
     font-size: var(--ds-error-state-title-size, 1.25rem);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .error-state__description {
     margin: 0;

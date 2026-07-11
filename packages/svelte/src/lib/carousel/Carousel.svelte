@@ -253,11 +253,11 @@
     margin: 0;
     font-size: var(--ds-carousel-title-size, 1.5rem);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .carousel__desc {
     margin: 0.35rem 0 0;
-    line-height: 1.45;
+    line-height: var(--ds-line-height, 1.4);
     opacity: 0.95;
   }
 

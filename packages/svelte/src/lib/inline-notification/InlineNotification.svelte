@@ -225,12 +225,12 @@
   .inline-notification__title {
     margin: 0;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
 
   .inline-notification__body {
     margin: 0;
-    line-height: 1.45;
+    line-height: var(--ds-line-height, 1.4);
   }
 
   .inline-notification__actions {

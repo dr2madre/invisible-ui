@@ -76,7 +76,7 @@
     font: inherit;
     font-size: var(--ds-tag-font-size, 0.8125rem);
     font-weight: 500;
-    line-height: 1.4;
+    line-height: var(--ds-line-height-tight, 1.2);
     white-space: nowrap;
     border: 1px solid var(--_border, transparent);
     border-radius: var(--ds-tag-radius, var(--ds-radius-control, 0.375rem));

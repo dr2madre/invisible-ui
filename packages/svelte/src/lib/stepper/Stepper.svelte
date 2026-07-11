@@ -227,7 +227,7 @@
   }
   .stepper__label {
     font-weight: 600;
-    line-height: 1.3;
+    line-height: var(--ds-line-height-tight, 1.2);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -235,6 +235,6 @@
   .stepper__description {
     font-size: 0.8125rem;
     color: var(--ds-color-text-secondary, #64748b);
-    line-height: 1.3;
+    line-height: var(--ds-line-height, 1.4);
   }
 </style>

@@ -292,7 +292,7 @@
     margin-inline-end: auto;
     font-size: 1.125rem;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: var(--ds-line-height-tight, 1.2);
   }
   .sheet-dialog__header-lead {
     display: inline-flex;

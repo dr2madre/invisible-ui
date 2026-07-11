@@ -43,7 +43,7 @@
   .blockquote__quote {
     margin: 0;
     font-style: var(--ds-blockquote-font-style, italic);
-    line-height: 1.5;
+    line-height: var(--ds-line-height, 1.4);
   }
 
   .blockquote__cite {

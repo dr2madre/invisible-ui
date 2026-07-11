@@ -154,7 +154,7 @@
     background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
-    line-height: 1.2;
+    line-height: var(--ds-line-height-tight, 1.2);
     /* A set value reads as content (medium, like a Button label). */
     font-weight: 500;
     cursor: pointer;
