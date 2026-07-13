@@ -29,19 +29,32 @@
 
 /* =============== Tier 1 — primitives (the 3 customizable groups) =========== */
 :root {
+  /* 0) Palette scale — the raw named primitives, taken from the project color
+        palette (family + weight). The brand and feedback base tokens below
+        reference these — never a raw value. */
+  --ds-red-600: #be3b50; /* Alizarin Red 600 */
+  --ds-red-700: #ab2e42; /* Alizarin Red 700 */
+  --ds-orange-500: #c96422; /* Burnt Orange 500 */
+  --ds-green-600: #3e7523; /* Sap Green 600 */
+  --ds-blue-500: #4067b6; /* Cobalt Blue 500 */
+  --ds-purple-500: #7a52cc; /* Dioxazine Purple 500 */
+  --ds-purple-600: #6840b7; /* Dioxazine Purple 600 */
+
   /* 1) Brand — customize first. White text sits on these, so keep them dark
         enough for 4.5:1 when used as button fills. */
-  --ds-brand-primary: oklch(78.3% 0.129 138.7);
-  --ds-brand-primary-hover: oklch(72.3% 0.129 138.7);
-  --ds-brand-secondary: oklch(54.5% 0.181 295.2);
-  --ds-brand-secondary-hover: oklch(48.5% 0.181 295.2);
+  --ds-brand-primary: var(--ds-purple-500);
+  --ds-brand-primary-hover: var(--ds-purple-600);
+  --ds-brand-secondary: var(--ds-purple-500); /* legacy alias — same hue as primary */
+  --ds-brand-secondary-hover: var(--ds-purple-600);
+  --ds-brand-white: var(--ds-neutral-0); /* lightest UI point — white #fff */
+  --ds-brand-black: var(--ds-neutral-950); /* darkest UI point — warm grey 950 */
 
   /* 2) Feedback hues. */
-  --ds-feedback-info: #527acc;
-  --ds-feedback-success: #16a34a;
-  --ds-feedback-warning: #e58a2e;
-  --ds-feedback-danger: #dc2626;
-  --ds-feedback-danger-hover: #b91c1c;
+  --ds-feedback-info: var(--ds-blue-500);
+  --ds-feedback-success: var(--ds-green-600);
+  --ds-feedback-warning: var(--ds-orange-500);
+  --ds-feedback-danger: var(--ds-red-600);
+  --ds-feedback-danger-hover: var(--ds-red-700);
 
   /* Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive
      backgrounds and lightened status tints. */
@@ -51,19 +64,19 @@
   --ds-pastel-green: oklch(78.3% 0.129 138.7); /* #8DCC7A */
   --ds-pastel-yellow: oklch(84.1% 0.151 98); /* #E5CB44 */
 
-  /* 3) Neutrals (UI) — Tailwind's "stone" 0–950 ramp. */
+  /* 3) Neutrals (UI) — the palette's "Warm Grey" 0–950 ramp. */
   --ds-neutral-0: #ffffff;
-  --ds-neutral-50: #fafaf9;
-  --ds-neutral-100: #f5f5f4;
-  --ds-neutral-200: #e7e5e4;
-  --ds-neutral-300: #d6d3d1;
-  --ds-neutral-400: #a8a29e;
-  --ds-neutral-500: #78716c;
-  --ds-neutral-600: #57534e;
-  --ds-neutral-700: #44403c;
-  --ds-neutral-800: #292524;
-  --ds-neutral-900: #1c1917;
-  --ds-neutral-950: #0c0a09;
+  --ds-neutral-50: #f4f2ef;
+  --ds-neutral-100: #e6e0d8;
+  --ds-neutral-200: #c7c1b7;
+  --ds-neutral-300: #a8a297;
+  --ds-neutral-400: #757067;
+  --ds-neutral-500: #5e5951;
+  --ds-neutral-600: #524c44;
+  --ds-neutral-700: #413c36;
+  --ds-neutral-800: #332f2a;
+  --ds-neutral-900: #282420;
+  --ds-neutral-950: #1c1915;
 }
 
 /* =============== Tier 2 — non-color roles (shape & type) ================== *
@@ -82,7 +95,7 @@
   /* Selection color (checked/selected states). Alias of the secondary (violet);
      distinct in name from the primary ACTION color, even if both are violet in
      this theme. */
-  --ds-color-selected: var(--ds-color-secondary, oklch(54.5% 0.181 295.2));
+  --ds-color-selected: var(--ds-color-primary, #7a52cc);
   --ds-color-on-selected: var(--ds-color-on-secondary, #fff);
 
   /* Type — system font stacks (native feel, no web-font download, no layout
@@ -172,8 +185,8 @@
     0 0 0 var(--ds-focus-ring-width) var(--ds-color-focus-ring),
     0 0 0 calc(var(--ds-focus-ring-width) + var(--ds-focus-halo-width)) var(--ds-color-focus-halo);
 
-  --ds-color-primary: var(--ds-brand-secondary);
-  --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-primary: var(--ds-brand-primary);
+  --ds-color-primary-hover: var(--ds-brand-primary-hover);
   --ds-color-on-primary: var(--ds-neutral-0);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
@@ -259,7 +272,7 @@
 
     --ds-color-background: var(--ds-neutral-900);
     --ds-color-text: var(--ds-neutral-50);
-    --ds-color-text-secondary: var(--ds-neutral-400);
+    --ds-color-text-secondary: var(--ds-neutral-300);
     --ds-color-text-disabled: var(--ds-neutral-600);
     --ds-color-border: var(--ds-neutral-700);
     --ds-color-surface: var(--ds-neutral-700);
@@ -269,8 +282,8 @@
     --ds-state-pressed: rgb(255 255 255 / 0.16);
     --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
-    --ds-color-primary: var(--ds-brand-secondary);
-    --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+    --ds-color-primary: var(--ds-brand-primary);
+    --ds-color-primary-hover: var(--ds-brand-primary-hover);
     --ds-color-on-primary: var(--ds-neutral-0);
     --ds-color-secondary: var(--ds-brand-secondary);
     --ds-color-secondary-hover: var(--ds-brand-secondary-hover);
@@ -361,7 +374,7 @@
 
   --ds-color-background: var(--ds-neutral-900);
   --ds-color-text: var(--ds-neutral-50);
-  --ds-color-text-secondary: var(--ds-neutral-400);
+  --ds-color-text-secondary: var(--ds-neutral-300);
   --ds-color-text-disabled: var(--ds-neutral-600);
   --ds-color-border: var(--ds-neutral-700);
   --ds-color-surface: var(--ds-neutral-700);
@@ -371,8 +384,8 @@
   --ds-state-pressed: rgb(255 255 255 / 0.16);
   --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0));
 
-  --ds-color-primary: var(--ds-brand-secondary);
-  --ds-color-primary-hover: var(--ds-brand-secondary-hover);
+  --ds-color-primary: var(--ds-brand-primary);
+  --ds-color-primary-hover: var(--ds-brand-primary-hover);
   --ds-color-on-primary: var(--ds-neutral-0);
   --ds-color-secondary: var(--ds-brand-secondary);
   --ds-color-secondary-hover: var(--ds-brand-secondary-hover);

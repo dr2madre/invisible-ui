@@ -133,3 +133,13 @@
 [data-has-hero] .hero .actions > .primary {
   order: 2;
 }
+
+/* Sidebar: third-level component groups (Buttons, Check controls, Radio/Select
+   controls, Time, Dialog and modals, Loading, Notification, Collapsible items,
+   Floating) read like their sibling page links — regular weight, 14px — not bold
+   group headers. Second-level groups (Forms & inputs, Feedback, Data) stay
+   emphasized. Targets group labels nested two ULs below the top level. */
+.top-level ul ul .group-label > .large {
+  font-size: 0.875rem;
+  font-weight: 400;
+}

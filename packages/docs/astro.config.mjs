@@ -144,6 +144,8 @@ export default defineConfig({
                 },
                 "components/data-layout/meter",
                 "components/data-layout/progress",
+                // Table lives here (Data); its slug stays under /components/patterns/.
+                "components/patterns/table",
               ],
             },
             {
@@ -158,7 +160,8 @@ export default defineConfig({
         },
         {
           // Composed patterns, not base components — their own top-level section.
-          // Listed alphabetically; Tables nests its two views.
+          // Listed alphabetically. Table moved to Components > Data; Table set
+          // stays here as a standalone entry (no parent group).
           label: "Patterns",
           items: [
             "components/patterns/breadcrumb",
@@ -168,10 +171,7 @@ export default defineConfig({
             "components/patterns/navigation-menu",
             "components/patterns/notification-center",
             "components/patterns/stepper",
-            {
-              label: "Tables",
-              items: ["components/patterns/table", "components/patterns/table-set"],
-            },
+            "components/patterns/table-set",
             "components/patterns/toolbar",
             "components/patterns/tree-view",
           ],
@@ -185,6 +185,7 @@ export default defineConfig({
           // The optional presentation layer: design tokens and layout.
           label: "Presentation",
           items: [
+            { label: "Color palette", link: "/presentation/color-palette/" },
             { label: "Tokens", link: "/presentation/tokens/" },
             { label: "Layout", link: "/presentation/layout/" },
           ],

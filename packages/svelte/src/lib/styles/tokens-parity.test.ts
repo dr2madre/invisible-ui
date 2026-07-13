@@ -18,7 +18,12 @@ const css = read("./tokens.css");
 const cssVar = (name: string): string => {
   const m = new RegExp(`--ds-${name}:\\s*([^;]+);`).exec(css);
   if (!m) throw new Error(`--ds-${name} not found in tokens.css`);
-  return m[1]!.trim().toLowerCase();
+  const raw = m[1]!.trim();
+  // The style tier references the named primitive scale (e.g.
+  // `--ds-brand-primary: var(--ds-purple-500)`); resolve one hop so parity is
+  // checked on the underlying raw value, not the reference string.
+  const ref = /^var\(\s*(--ds-[\w-]+)\s*\)$/.exec(raw);
+  return ref ? cssVar(ref[1]!.replace(/^--ds-/, "")) : raw.toLowerCase();
 };
 
 const walk = (path: string): TokenNode => {
