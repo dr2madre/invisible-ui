@@ -122,14 +122,14 @@
           varName: "--ds-neutral-300",
           palette: "Warm Grey 300",
           light: [],
-          dark: ["--ds-color-emphasis-border"],
+          dark: ["--ds-color-emphasis-border", "--ds-color-text-secondary"],
         },
         {
           cls: "neutral-400",
           varName: "--ds-neutral-400",
           palette: "Warm Grey 400",
           light: ["--ds-color-text-disabled"],
-          dark: ["--ds-color-text-secondary"],
+          dark: [],
         },
         {
           cls: "neutral-500",

@@ -272,7 +272,7 @@
 
     --ds-color-background: var(--ds-neutral-900);
     --ds-color-text: var(--ds-neutral-50);
-    --ds-color-text-secondary: var(--ds-neutral-400);
+    --ds-color-text-secondary: var(--ds-neutral-300);
     --ds-color-text-disabled: var(--ds-neutral-600);
     --ds-color-border: var(--ds-neutral-700);
     --ds-color-surface: var(--ds-neutral-700);
@@ -374,7 +374,7 @@
 
   --ds-color-background: var(--ds-neutral-900);
   --ds-color-text: var(--ds-neutral-50);
-  --ds-color-text-secondary: var(--ds-neutral-400);
+  --ds-color-text-secondary: var(--ds-neutral-300);
   --ds-color-text-disabled: var(--ds-neutral-600);
   --ds-color-border: var(--ds-neutral-700);
   --ds-color-surface: var(--ds-neutral-700);
