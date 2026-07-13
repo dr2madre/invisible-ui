@@ -14,7 +14,97 @@ override.
   <PaletteDemo client:only="svelte" />
 </Preview>
 
-Note: **primary** and **secondary** currently resolve to the same brand hue
-(the violet `--ds-brand-secondary`); the green `--ds-brand-primary` is a
-primitive not mapped to the primary role. Feedback **surfaces** are the tinted
-backgrounds derived from each feedback hue via `color-mix`.
+## Two tiers
+
+Theming ships as `tokens.css` — **primitives** (the raw palette) feed
+**semantic** tokens (roles) that the components consume:
+
+```js
+import "@design-system/svelte/tokens.css";
+```
+
+**Tier 1 — primitives.** Three groups, listed in the order you most likely
+customize them: **brand** (`--ds-brand-*`), **feedback** (`--ds-feedback-*`) and
+**neutrals** (`--ds-neutral-*`). The brand and feedback base tokens reference a
+raw named scale (`--ds-purple-500`, `--ds-red-600`, …) taken from the
+[color palette](/invisible-ui/presentation/color-palette/) — never a raw value.
+
+The **primary** is Dioxazine Purple and doubles as the **selection / focus**
+color: selected controls and the focus ring derive from it. There is no distinct
+secondary *color* — `--ds-color-secondary` resolves to the same purple.
+"Secondary" names a **function** (a present-but-not-prominent button), realized
+by inverting the primary, not a second hue.
+
+**Tier 2 — semantic (`--ds-color-*`).** Role tokens that reference the
+primitives and **remap between light/dark**. Components only ever read these:
+
+```css
+--ds-color-primary: var(--ds-brand-primary);
+--ds-color-danger: var(--ds-feedback-danger);
+--ds-color-text: var(--ds-neutral-900);            /* light; → --ds-neutral-50 in dark */
+--ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0));
+```
+
+> **Naming rule — decoupled from style.** A semantic token names a **role**
+> (`surface`, `border`, `text`, `primary`, `emphasis-surface`…) or a **state**
+> (`hover`, `pressed`, `disabled`, `focus-ring`…) — **never an appearance**.
+> There is no `muted`, `soft` or `subtle`: the neutral control fill is
+> `--ds-color-surface`, the hover overlay is `--ds-state-hover`. See ADR 0002
+> (tokens decoupled from style) in the repository's `docs/adr/`.
+
+## Surface, text and state roles
+
+Beyond brand and feedback, the semantic layer covers the everyday neutrals —
+each named for its role or state, and each remapping per theme:
+
+| Token | Role / state |
+| --- | --- |
+| `--ds-color-background` | the page surface |
+| `--ds-color-surface` / `--ds-color-surface-hover` | a control/panel fill and its hover |
+| `--ds-color-text` / `--ds-color-text-secondary` | primary and secondary (medium-emphasis) text |
+| `--ds-color-text-disabled` / `--ds-color-disabled` | the *disabled* state — text and fill |
+| `--ds-state-hover` / `--ds-state-pressed` | interaction overlays (hover, pressed) |
+| `--ds-color-focus-ring` | the focus state |
+
+**Text emphasis (guideline).** Map neutral weights to emphasis levels through
+their role tokens:
+
+| Emphasis | Token |
+| --- | --- |
+| High-emphasis text | `--ds-color-text` (`--ds-neutral-900`) |
+| Medium-emphasis text | `--ds-color-text-secondary` (`--ds-neutral-600`) |
+| Disabled text | `--ds-color-text-disabled` (`--ds-neutral-400`) |
+
+## Shape & elevation (non-color)
+
+Radius and shadow are tokens too, named for the role they shape rather than a
+pixel size:
+
+| Token | Role |
+| --- | --- |
+| `--ds-radius-control` | buttons, inputs, the close button (0.5rem) |
+| `--ds-radius-surface` | alerts, notices, cards (0.75rem) |
+| `--ds-radius-pill` | fully rounded — toggles, chips (999px) |
+| `--ds-elevation-overlay` | the floating overlay shadow (remaps per theme) |
+
+Components read these through their per-component override, e.g.
+`var(--ds-button-radius, var(--ds-radius-control, …))` — set the role token to
+restyle a whole class of shapes at once, or the component token for a one-off.
+
+## Customizing — in order of effort
+
+1. **Brand** — set `--ds-brand-primary` (primary buttons, selection and the
+   focus ring follow).
+2. **Feedback** — set `--ds-feedback-*`; the status icons and the
+   InlineNotification/Notification surfaces re-derive.
+3. **Neutrals** — set the `--ds-neutral-*` ramp to restyle every UI surface,
+   border and text color.
+
+**Theme switch.** Follows `prefers-color-scheme` by default; force it per subtree
+with `[data-theme="dark"]` / `[data-theme="light"]`.
+
+**Accessibility.** The defaults are checked against WCAG 2 AA (text 4.5:1, icon
+glyphs 3:1) by an automated test over `tokens.css`. If you change the brand or
+feedback hues, re-verify contrast — white text sits on the brand/danger fills and
+on the status icon boxes, while the light Burnt Orange warning uses a **dark**
+`--ds-color-on-warning`.

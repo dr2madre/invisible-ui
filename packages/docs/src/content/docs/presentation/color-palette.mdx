@@ -1,0 +1,59 @@
+---
+title: "Color palette"
+---
+
+import Preview from "../../../components/Preview.astro";
+import ColorPaletteDemo from "../../../demos/ColorPaletteDemo.svelte";
+
+The raw color palette — every color with its HEX and OKLCH, grouped by hue. Just
+the colors; for how these map to roles and themes see
+[Tokens](/invisible-ui/presentation/tokens/).
+
+<Preview>
+  <ColorPaletteDemo client:only="svelte" />
+</Preview>
+
+## The scale
+
+An **11-weight scale** per hue, from `50` (lightest) to `950` (darkest). Pick a
+semantic role and step up or down in weight for hover, active, borders and
+surfaces. The scale is authored to keep perceptually even steps (checked in
+OKLCH), so a weight change reads as a predictable lightness change.
+
+- **Brand** — the primary is **Dioxazine Purple**; step to `600` for hover.
+- **Feedback** — Cobalt Blue (info), Sap Green (success), Burnt Orange
+  (warning), Alizarin Red (danger).
+- **Neutrals** — the **Warm Grey** ramp carries text, surfaces and borders;
+  **White** sits apart at the light end.
+
+## Where the values live
+
+The palette feeds the primitive tokens in `tokens.css`. The brand and feedback
+base tokens reference a raw named scale drawn from these hues; the neutrals map
+the Warm Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`:
+
+```css
+:root {
+  /* Brand — Dioxazine Purple */
+  --ds-purple-500: #7a52cc; /* primary */
+  --ds-purple-600: #6840b7; /* primary hover */
+
+  /* Neutrals — Warm Grey 0–950 (text, surfaces, borders) */
+  --ds-neutral-0: #ffffff; /* white */
+  --ds-neutral-50: #f4f2ef;
+  --ds-neutral-100: #e6e0d8;
+  --ds-neutral-200: #c7c1b7;
+  --ds-neutral-300: #a8a297;
+  --ds-neutral-400: #757067;
+  --ds-neutral-500: #5e5951;
+  --ds-neutral-600: #524c44;
+  --ds-neutral-700: #413c36;
+  --ds-neutral-800: #332f2a;
+  --ds-neutral-900: #282420;
+  --ds-neutral-950: #1c1915; /* black — darkest UI point */
+}
+```
+
+To retheme, replace these values with your own palette; the semantic
+`--ds-color-*` roles re-derive automatically. See
+[Tokens](/invisible-ui/presentation/tokens/) for the role mapping.

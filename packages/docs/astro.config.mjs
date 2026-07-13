@@ -185,6 +185,7 @@ export default defineConfig({
           // The optional presentation layer: design tokens and layout.
           label: "Presentation",
           items: [
+            { label: "Color palette", link: "/presentation/color-palette/" },
             { label: "Tokens", link: "/presentation/tokens/" },
             { label: "Layout", link: "/presentation/layout/" },
           ],
