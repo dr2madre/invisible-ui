@@ -20,7 +20,7 @@
     "api:check": "node scripts/generate-api.mjs --check",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=@design-system/core --filter=@design-system/svelte && changeset publish",
+    "release": "turbo run build --filter=@design-system/core --filter=@design-system/svelte --filter=@design-system/react && changeset publish",
     "prepare": "husky"
   },
   "lint-staged": {

@@ -1,0 +1,63 @@
+{
+  "name": "@design-system/react",
+  "version": "0.1.0-alpha.0",
+  "description": "React adapter for the design system: thin, headless, accessible bindings over @design-system/core.",
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dr2madre/design-system.git",
+    "directory": "packages/react"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@design-system/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@vitejs/plugin-react": "^5.1.0",
+    "jsdom": "^29.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.3",
+    "vitest": "^4.1.9",
+    "vitest-axe": "^0.1.0"
+  }
+}

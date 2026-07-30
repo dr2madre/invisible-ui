@@ -1,0 +1,123 @@
+/* Button — ported from the Svelte adapter's <style> block, class names kept
+   identical for visual parity. Svelte scopes its styles; this file is global,
+   so consumers opt in by importing `@design-system/react/styles.css`. */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-button-gap, 0.5rem);
+  padding: var(
+    --ds-button-padding,
+    var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
+  );
+  border-radius: var(--ds-button-radius, var(--ds-radius-control, 0.5rem));
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 500;
+  line-height: var(--ds-line-height-tight, 1.2);
+  cursor: pointer;
+  /* No tap delay / synthesized ghost clicks on touch (iOS Safari). */
+  touch-action: manipulation;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+/* Icon-only: square, equal padding, comfortable target; sizes the glyph. */
+.button--icon-only {
+  padding: var(--ds-button-icon-padding, 0.5rem);
+  aspect-ratio: 1;
+  min-inline-size: var(--ds-button-icon-min, 2.25rem);
+  min-block-size: var(--ds-button-icon-min, 2.25rem);
+}
+.button--icon-only svg {
+  inline-size: var(--ds-button-icon-size, 1.25em);
+  block-size: var(--ds-button-icon-size, 1.25em);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: var(--ds-focus-ring-offset, 2px);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button__icon {
+  display: inline-flex;
+  flex: none;
+}
+.button__icon svg {
+  inline-size: var(--ds-button-icon-size, 1.1em);
+  block-size: var(--ds-button-icon-size, 1.1em);
+}
+
+/* default: the baseline, medium-emphasis button — surface + border. */
+.button[data-variant="default"] {
+  background: var(--ds-button-bg, var(--ds-color-background, #fff));
+  color: var(--ds-color-text, #0f172a);
+  border-color: var(--ds-color-border, #cbd5e1);
+}
+.button[data-variant="default"]:hover:not(:disabled) {
+  background: var(--ds-button-bg-hover, var(--ds-color-surface, #f1f5f9));
+}
+
+/* primary: the high-emphasis call to action. */
+.button[data-variant="primary"] {
+  background: var(--ds-color-primary, #2563eb);
+  color: var(--ds-color-on-primary, #fff);
+}
+.button[data-variant="primary"]:hover:not(:disabled) {
+  background: var(--ds-color-primary-hover, #1d4ed8);
+}
+
+/* secondary: alternative emphasized action — a soft tint of the primary. */
+.button[data-variant="secondary"] {
+  background: var(
+    --ds-color-primary-soft,
+    color-mix(in srgb, var(--ds-color-primary, #2563eb) 10%, #fff)
+  );
+  color: var(--ds-color-on-primary-soft, var(--ds-color-primary, #2563eb));
+  border-color: color-mix(in srgb, var(--ds-color-primary, #2563eb) 55%, transparent);
+}
+.button[data-variant="secondary"]:hover:not(:disabled) {
+  background: color-mix(
+    in srgb,
+    var(--ds-color-primary, #2563eb) 24%,
+    var(--ds-color-background, #fff)
+  );
+}
+
+/* ghost: reduced affordance — no fill or border at rest; the label is
+   underlined so the affordance never relies on colour alone. */
+.button[data-variant="ghost"] {
+  background: transparent;
+  color: inherit;
+}
+.button[data-variant="ghost"]:not(.button--icon-only) {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.button[data-variant="ghost"]:hover:not(:disabled) {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+
+/* danger: destructive. The danger red at 10% with an accessible dark-red label
+   and a matching border (the hazard icon keeps meaning off colour alone). */
+.button[data-variant="danger"] {
+  background: var(--ds-color-danger-soft, color-mix(in srgb, #dc2626 10%, #fff));
+  color: var(--ds-color-on-danger-soft, #b91c1c);
+  border-color: color-mix(in srgb, var(--ds-feedback-danger, #dc2626) 35%, transparent);
+}
+.button[data-variant="danger"]:hover:not(:disabled) {
+  background: color-mix(
+    in srgb,
+    var(--ds-feedback-danger, #dc2626) 18%,
+    var(--ds-color-background, #fff)
+  );
+}

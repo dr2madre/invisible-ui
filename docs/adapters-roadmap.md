@@ -34,7 +34,7 @@ the chosen components exercise every integration shape the core exposes.
 | **Button** | Single-node, minimal `rootProps`. Baseline. |
 | **Checkbox** | Controlled **native** input; `checked`/`indeterminate` are DOM properties, not attributes. |
 | **Switch** | Controlled native `input[role=switch]`. |
-| **Select** | The hard case: multi-part (label/trigger/listbox/option), Floating-UI positioning, typeahead, outside-pointer close, `aria-activedescendant`. |
+| **Select** | Native `<select>` styled by the adapter (ADR 0003), so it proves the *non-core* half of an adapter: markup, ids, labelling and the invalid state. |
 | **Dialog** | Overlay: portal, focus-trap, scroll-lock, Escape, `initialFocus`. |
 
 ## Key integration finding
@@ -52,6 +52,30 @@ Contrast with the Svelte adapter, which applies props via `use:` actions and
 must bookkeep event listeners in `createPropsAction`. In React the connected
 `api` is recomputed per render (`useMemo`) and spread onto JSX, so handlers
 always close over current state — no listener bookkeeping.
+
+## Status
+
+**Part A is shipped for Button, Checkbox, Switch and Select** (`packages/react`,
+46 tests incl. axe). Outstanding: **Dialog** — the overlay shape (portal, focus
+trap, scroll lock, Escape, `initialFocus`) that the current set does not
+exercise. Since ADR 0005 the dialog family runs on the native `<dialog>` +
+`showModal()`, so the React port is mostly the `useEffect` equivalent of the
+Svelte `createDialog` rather than a hand-rolled portal. Part B (Reflex) has not
+started.
+
+**What the first pass proved:** the core needed **no change at all** to drive a
+second framework — `normalizeProps` is 12 lines of key renaming, and the two
+stateful components differ from their Svelte counterparts only in how state is
+held (`useState` + `useMemo` vs a store). Two frictions worth recording:
+
+- **DOM properties still need an escape hatch.** `indeterminate` has no
+  attribute, so React sets it through a `ref` effect exactly as Svelte sets it
+  through an action. Any core primitive exposing a live DOM property will need
+  the same per-adapter handling.
+- **Controlled-value mirroring is adapter-specific.** Svelte's `$:` sync becomes
+  a render-phase comparison against the previous prop (cheaper than an effect,
+  no double render). Worth factoring into a shared helper once more controlled
+  components land.
 
 ## Part A — React adapter (`packages/react`)
 
