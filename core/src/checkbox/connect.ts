@@ -1,4 +1,4 @@
-import { identityNormalize, type ElementProps, type Normalize } from "../types";
+import { identityNormalize, type DomProps, type ElementProps, type Normalize } from "../types";
 import { nextChecked } from "./state";
 import type { CheckboxState, CheckedState } from "./types";
 
@@ -16,11 +16,17 @@ export interface CheckboxApi {
   toggle(): void;
   /**
    * Props for a native `<input type="checkbox">`. The browser owns the
-   * checkbox role, Space activation, focus and form participation; the live
-   * `checked` and `indeterminate` values are DOM *properties*, so adapters bind
-   * those directly rather than via these (attribute-shaped) props.
+   * checkbox role, Space activation, focus and form participation. `checked` is
+   * left to the adapter's own controlled-input binding; `indeterminate` has no
+   * attribute at all and is declared in {@link CheckboxApi.rootDomProps}.
    */
   rootProps: ElementProps;
+  /**
+   * DOM properties for the same `<input>`: `indeterminate`, which HTML cannot
+   * express as an attribute. Adapters apply this bag generically — see
+   * {@link DomProps}.
+   */
+  rootDomProps: DomProps;
 }
 
 export interface ConnectOptions {
@@ -60,6 +66,7 @@ export function connect({
       setChecked(value);
     },
     toggle,
+    rootDomProps: { indeterminate },
     rootProps: normalize({
       type: "checkbox",
       disabled: disabled || undefined,

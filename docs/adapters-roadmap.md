@@ -68,10 +68,17 @@ second framework — `normalizeProps` is 12 lines of key renaming, and the two
 stateful components differ from their Svelte counterparts only in how state is
 held (`useState` + `useMemo` vs a store). Two frictions worth recording:
 
-- **DOM properties still need an escape hatch.** `indeterminate` has no
-  attribute, so React sets it through a `ref` effect exactly as Svelte sets it
-  through an action. Any core primitive exposing a live DOM property will need
-  the same per-adapter handling.
+- **DOM properties needed an escape hatch — now closed.** `indeterminate` has
+  no HTML attribute, so it cannot travel in a prop bag: each adapter was setting
+  it by hand (a Svelte action, a React `ref` effect), which meant a third
+  adapter could silently omit it — the checkbox would look right and never show
+  the dash. The core now **declares** such properties in a `rootDomProps` bag
+  (see `DomProps` in `core/src/types.ts`), and each adapter applies it
+  generically: one `domProps` action in Svelte, one `useDomProps` hook in React,
+  neither knowing any property name. A component gaining a new DOM-only property
+  is picked up by both adapters with no change. `checked` / `value` / `disabled`
+  deliberately stay in `rootProps`, where the framework's own controlled-input
+  handling owns them.
 - **Controlled-value mirroring is adapter-specific.** Svelte's `$:` sync becomes
   a render-phase comparison against the previous prop (cheaper than an effect,
   no double render). Worth factoring into a shared helper once more controlled
