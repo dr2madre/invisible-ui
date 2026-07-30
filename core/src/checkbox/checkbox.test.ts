@@ -42,6 +42,18 @@ describe("checkbox connect (native input)", () => {
     expect(api.rootProps["data-state"]).toBe("indeterminate");
   });
 
+  // `indeterminate` has no HTML attribute, so it can only reach the element as
+  // a DOM property. Declaring it here is what lets every adapter apply it
+  // generically instead of each remembering to do it by hand.
+  it("declares indeterminate as a DOM property, not an attribute", () => {
+    const on = connect({ state: { checked: "indeterminate", disabled: false }, setChecked: noop });
+    expect(on.rootDomProps).toEqual({ indeterminate: true });
+    expect(on.rootProps).not.toHaveProperty("indeterminate");
+
+    const off = connect({ state: { checked: true, disabled: false }, setChecked: noop });
+    expect(off.rootDomProps).toEqual({ indeterminate: false });
+  });
+
   it("reports the new value from the input's change event", () => {
     const setChecked = vi.fn();
     const api = connect({ state: { checked: false, disabled: false }, setChecked });

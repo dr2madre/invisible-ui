@@ -1,5 +1,6 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { Icon } from "../icon/Icon";
+import { useDomProps } from "../use-dom-props";
 import { useCheckbox, type CheckedState } from "./use-checkbox";
 
 export interface CheckboxProps {
@@ -41,11 +42,9 @@ export function Checkbox({
   const api = useCheckbox({ checked, disabled, onCheckedChange });
   const ref = useRef<HTMLInputElement>(null);
 
-  // `indeterminate` is a DOM property with no attribute equivalent, so it is
-  // set imperatively — the same reason the Svelte adapter uses an action here.
-  useEffect(() => {
-    if (ref.current) ref.current.indeterminate = api.indeterminate;
-  }, [api.indeterminate]);
+  // Properties HTML has no attribute for (here: `indeterminate`) are declared
+  // by the core and applied generically — nothing component-specific here.
+  useDomProps(ref, api.rootDomProps);
 
   return (
     <label className={disabled ? "field field--disabled" : "field"}>
