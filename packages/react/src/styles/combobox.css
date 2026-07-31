@@ -1,0 +1,202 @@
+/* Combobox — ported from the Svelte adapter, class names kept identical.
+   Svelte's :global() wrappers are unwrapped: this file is already global. */
+.combobox {
+  display: grid;
+  gap: var(--ds-combobox-gap, 0.375rem);
+  inline-size: var(--ds-combobox-width, 16rem);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+.combobox[data-width="wrap"] {
+  inline-size: fit-content;
+}
+.combobox[data-width="fill"] {
+  inline-size: 100%;
+}
+
+.combobox__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.combobox__control {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-sizing: border-box;
+  padding-inline-end: 0.5rem;
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-combobox-radius, var(--ds-radius-control, 0.5rem));
+  background: var(--ds-color-background, #fff);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+.combobox__control:focus-within {
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.combobox__control--disabled {
+  background: var(--ds-color-disabled, #e2e8f0);
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+
+.combobox__search {
+  display: inline-flex;
+  flex: none;
+  inline-size: 1.05em;
+  block-size: 1.05em;
+  margin-inline-start: 0.625rem;
+  color: var(--ds-color-text-secondary, #57534e);
+}
+.combobox__input {
+  flex: 1;
+  min-inline-size: 0;
+  padding: var(--ds-combobox-padding, 0.5rem 0.75rem);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.combobox__input:focus {
+  outline: none;
+}
+/* Select-only: the read-only input behaves as a trigger. */
+.combobox__input--select-only {
+  cursor: pointer;
+  font-weight: 500;
+}
+.combobox__input--select-only::placeholder {
+  font-weight: 400;
+}
+/* Zero-height, invisible: contributes only its widest line for width="wrap". */
+.combobox__sizer {
+  display: block;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  padding-inline: var(--ds-combobox-sizer-padding, 0.75rem);
+}
+.combobox__sizer > span {
+  display: block;
+  white-space: nowrap;
+}
+
+.combobox__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  background: transparent;
+  color: var(--ds-color-text-secondary, #64748b);
+  cursor: pointer;
+}
+.combobox__clear:hover {
+  color: inherit;
+}
+/* Reserve the clear button's footprint when empty (no layout shift). */
+.combobox__clear--hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+.combobox__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  touch-action: manipulation;
+  /* Breathing room from the clear button. */
+  margin-inline-start: 0.25rem;
+  padding: 0.2rem;
+  border: 0;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  background: transparent;
+  color: var(--ds-color-text-secondary, #64748b);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+.combobox__chevron:hover:not(:disabled) {
+  color: inherit;
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+.combobox__chevron:disabled {
+  cursor: not-allowed;
+}
+
+.combobox__listbox {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--ds-select-z-index, 50);
+  margin: 0;
+  padding: var(--ds-select-listbox-padding, 0.25rem);
+  list-style: none;
+  max-block-size: var(--ds-select-max-height, 16rem);
+  overflow-y: auto;
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-select-listbox-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+}
+.combobox__listbox[data-state="closed"] {
+  display: none;
+}
+
+.combobox__option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  cursor: pointer;
+  user-select: none;
+}
+.combobox__option[data-active]:not([data-state="selected"]) {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+/* The selected option keeps a faint selection tint. */
+.combobox__option[data-state="selected"] {
+  background: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent);
+}
+.combobox__option[data-disabled] {
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+.combobox__check {
+  display: inline-flex;
+  inline-size: 1rem;
+  block-size: 1rem;
+  flex: none;
+  color: var(--ds-color-selected, #7b52cc);
+  visibility: hidden;
+}
+/* Leading per-option icon (reserved width so labels align even when only
+     some options carry an icon). */
+.combobox__option-icon {
+  display: inline-flex;
+  inline-size: var(--ds-combobox-option-icon-size, 1.1rem);
+  block-size: var(--ds-combobox-option-icon-size, 1.1rem);
+  flex: none;
+  color: var(--ds-color-text-secondary, #57534e);
+}
+.combobox__option[data-state="selected"] .combobox__check {
+  visibility: visible;
+}
+.combobox__option[data-state="selected"] .combobox__option-label {
+  font-weight: 600;
+}
+
+.combobox__empty {
+  padding: 0.5rem;
+  color: var(--ds-color-text-secondary, #64748b);
+  cursor: default;
+}
