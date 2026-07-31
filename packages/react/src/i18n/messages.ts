@@ -10,6 +10,9 @@
  * by `t(key, { name })`.
  */
 export const en = {
+  "combobox.placeholder": "Search…",
+  "combobox.clear": "Clear",
+  "combobox.empty": "No results",
   "select.placeholder": "Select…",
   "switch.on": "ON",
   "switch.off": "OFF",

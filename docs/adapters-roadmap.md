@@ -35,6 +35,7 @@ the chosen components exercise every integration shape the core exposes.
 | **Checkbox** | Controlled **native** input; `checked`/`indeterminate` are DOM properties, not attributes. |
 | **Switch** | Controlled native `input[role=switch]`. |
 | **Select** | Native `<select>` styled by the adapter (ADR 0003), so it proves the *non-core* half of an adapter: markup, ids, labelling and the invalid state. |
+| **Combobox** | The hard case, and the design system's **advanced (non-native) select**: multi-part (label/input/listbox/option), Floating-UI positioning, filtering, `aria-activedescendant` with DOM focus pinned to the input, outside-pointer close, scroll-into-view. |
 | **Dialog** | Overlay: portal, focus-trap, scroll-lock, Escape, `initialFocus`. |
 
 ## Key integration finding
@@ -55,18 +56,23 @@ always close over current state — no listener bookkeeping.
 
 ## Status
 
-**Part A is shipped for Button, Checkbox, Switch and Select** (`packages/react`,
-46 tests incl. axe). Outstanding: **Dialog** — the overlay shape (portal, focus
-trap, scroll lock, Escape, `initialFocus`) that the current set does not
-exercise. Since ADR 0005 the dialog family runs on the native `<dialog>` +
-`showModal()`, so the React port is mostly the `useEffect` equivalent of the
-Svelte `createDialog` rather than a hand-rolled portal. Part B (Reflex) has not
-started.
+**Part A is shipped for Button, Checkbox, Switch, Select and Combobox**
+(`packages/react`, 70 tests incl. axe). Outstanding: **Dialog** — the overlay
+shape (portal, focus trap, scroll lock, Escape, `initialFocus`) that the current
+set does not exercise. Since ADR 0005 the dialog family runs on the native
+`<dialog>` + `showModal()`, so the React port is mostly the `useEffect`
+equivalent of the Svelte `createDialog` rather than a hand-rolled portal. Part B
+(Reflex) has not started.
 
-**What the first pass proved:** the core needed **no change at all** to drive a
-second framework — `normalizeProps` is 12 lines of key renaming, and the two
-stateful components differ from their Svelte counterparts only in how state is
-held (`useState` + `useMemo` vs a store). Two frictions worth recording:
+**What the pass proved:** the core needed **no change at all** to drive a second
+framework. That claim only became load-bearing with the **Combobox**: the first
+four components are a `connect()` and a spread (and the native Select does not
+touch the core at all), so they exercise the seam but not the state machine. The
+Combobox does — multi-part prop bags, a highlight tracked separately from DOM
+focus, a positioned popup, filtering owned by the adapter — and it ported with
+no core change either, the Svelte and React versions differing only in how state
+is held (`useState` + `useMemo` vs a store) and how DOM concerns attach (effects
++ ref callbacks vs actions). Frictions worth recording:
 
 - **DOM properties needed an escape hatch — now closed.** `indeterminate` has
   no HTML attribute, so it cannot travel in a prop bag: each adapter was setting
