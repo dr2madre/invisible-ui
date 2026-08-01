@@ -57,18 +57,18 @@ Each item ships as its own PR. Checkboxes track progress.
   overrides + `dir` for RTL). Adopted by the date/time family (Calendar, Date
   Picker, Date Range Picker, Time Field); a label prop still overrides the
   catalog. Rollout to the remaining components is mechanical follow-up.
-- [~] **6. Second framework adapter** — **React adapter shipped as a
-  proof-of-concept** (`packages/react`): Button, Checkbox, Switch, Select and
-  **Combobox** over the existing `@design-system/core`, with the near-identity
-  `normalizeProps` seam, a `useX()` hook per component, a minimal
+- [~] **6. Second framework adapter** — **React adapter complete as a
+  proof-of-concept** (`packages/react`): Button, Checkbox, Switch, Select,
+  Combobox and Dialog over the existing `@design-system/core`, with the
+  near-identity `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
-  by a parity test) and 70 tests incl. axe. **Confirmed:** the core needed *no*
-  change to drive a second framework — the Combobox is what makes that claim
-  load-bearing, being the multi-part case (Floating-UI popup, filtering,
-  `aria-activedescendant` with focus pinned to the input). Remaining: **Dialog**
-  (the overlay shape the PoC set has not yet exercised) and the **Reflex**
-  (Python) adapter wrapping the React components. Full plan, integration
-  findings and the Python-behaviour constraint: `docs/adapters-roadmap.md`.
+  by a parity test) and 89 tests incl. axe. **Confirmed:** the core needed *no*
+  change to drive a second framework — the Combobox makes that claim
+  load-bearing (multi-part, Floating-UI popup, filtering,
+  `aria-activedescendant` with focus pinned to the input) and the Dialog closes
+  the overlay shape. Remaining: the **Reflex** (Python) adapter wrapping the
+  React components. Full plan, integration findings and the Python-behaviour
+  constraint: `docs/adapters-roadmap.md`.
 - [x] **7. SSR/hydration guarantee** — `ssr.test.ts` server-renders every
   fixture (`svelte/server` `render`, node env) so no component touches the DOM
   during SSR; runs in the normal test gate. Caught and fixed a real bug: Toolbar

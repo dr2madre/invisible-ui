@@ -17,6 +17,7 @@ export { Checkbox, type CheckboxProps } from "./checkbox/Checkbox";
 export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
+export { Dialog, type DialogProps } from "./dialog/Dialog";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -29,6 +30,12 @@ export {
   type UseCombobox,
   type UseComboboxOptions,
 } from "./combobox/use-combobox";
+export {
+  useDialog,
+  type DialogRole,
+  type UseDialog,
+  type UseDialogOptions,
+} from "./dialog/use-dialog";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

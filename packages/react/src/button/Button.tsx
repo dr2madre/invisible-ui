@@ -1,8 +1,13 @@
-import type { ReactNode } from "react";
+import { forwardRef, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react";
 import { HazardGlyph, Icon, PlusGlyph } from "../icon/Icon";
 import { useButton, type ButtonVariant } from "./use-button";
 
-export interface ButtonProps {
+type NativeButtonProps = Omit<
+  ComponentPropsWithoutRef<"button">,
+  "type" | "disabled" | "children" | "className"
+>;
+
+export interface ButtonProps extends NativeButtonProps {
   /**
    * Semantic variant, surfaced as `data-variant`:
    * `default` (baseline) · `primary` (the action that moves the flow forward) ·
@@ -41,21 +46,32 @@ export interface ButtonProps {
  * come from the headless Button (`@design-system/core`); this layer adds the
  * semantic variants and icon affordances.
  *
+ * **Composition.** Any extra props are forwarded to the underlying `<button>`,
+ * so an overlay (Dialog, Popover, …) can use the Button as its trigger by
+ * spreading its `triggerProps` — the React counterpart of the Svelte adapter's
+ * `action` prop. A forwarded `onClick` is *composed* with the button's own
+ * press handler rather than replacing it, so both run.
+ *
  * Colours and sizing are themeable via `--ds-button-*`.
  */
-export function Button({
-  variant = "default",
-  disabled = false,
-  type = "button",
-  onPress,
-  leftIcon,
-  rightIcon = false,
-  left,
-  right,
-  iconOnly = false,
-  ariaLabel,
-  children,
-}: ButtonProps) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    variant = "default",
+    disabled = false,
+    type = "button",
+    onPress,
+    leftIcon,
+    rightIcon = false,
+    left,
+    right,
+    iconOnly = false,
+    ariaLabel,
+    children,
+    onClick: composedOnClick,
+    ...rest
+  },
+  ref,
+) {
   const api = useButton({ variant, disabled, type, onPress });
 
   // Icon-only buttons carry their single glyph as children, so they never get
@@ -69,11 +85,20 @@ export function Button({
     );
   }
 
+  const pressHandler = api.rootProps.onClick as ((event: Event) => void) | undefined;
+  const onClick = (event: MouseEvent<HTMLButtonElement>) => {
+    pressHandler?.(event.nativeEvent);
+    composedOnClick?.(event);
+  };
+
   return (
     <button
       {...api.rootProps}
+      {...rest}
+      ref={ref}
+      onClick={onClick}
       className={iconOnly ? "button button--icon-only" : "button"}
-      aria-label={ariaLabel}
+      aria-label={ariaLabel ?? rest["aria-label"]}
     >
       {showLeft && (
         <span className="button__icon">
@@ -94,4 +119,4 @@ export function Button({
       )}
     </button>
   );
-}
+});

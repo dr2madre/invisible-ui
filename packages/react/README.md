@@ -2,8 +2,8 @@
 
 React adapter over the framework-agnostic [`@design-system/core`](../../core).
 
-**Status: proof-of-concept.** Five components — Button, Checkbox, Switch,
-Select and Combobox — chosen to exercise the integration shapes an adapter has
+**Status: proof-of-concept.** Six components — Button, Checkbox, Switch,
+Select, Combobox and Dialog — chosen to exercise the integration shapes an adapter has
 to solve. The goal is to prove the core drives a second framework, not to reach
 parity with the Svelte adapter. See
 [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
@@ -11,7 +11,7 @@ parity with the Svelte adapter. See
 ## Usage
 
 ```tsx
-import { Button, Checkbox, Combobox, Select, Switch } from "@design-system/react";
+import { Button, Checkbox, Combobox, Dialog, Select, Switch } from "@design-system/react";
 import "@design-system/react/styles.css";
 
 function Example() {
@@ -26,6 +26,9 @@ function Example() {
       <Switch label="Notifications" />
       <Select label="Fruit" items={[{ value: "apple", label: "Apple" }]} />
       <Combobox label="Fruit" items={[{ value: "apple", label: "Apple" }]} />
+      <Dialog title="Share this file" trigger="Share">
+        <p>Anyone with the link can view it.</p>
+      </Dialog>
     </>
   );
 }
@@ -54,6 +57,10 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   leaves out: filtering, popup positioning (Floating UI), close-on-outside-pointer
   and scroll-into-view. DOM focus stays on the input; the highlight travels via
   `aria-activedescendant`.
+- **`useDialog`** runs on the native `<dialog>` + `showModal()`, so the top
+  layer, the inert background (a real focus trap) and `::backdrop` come from the
+  browser. It adds only scroll lock, backdrop light-dismiss, `initialFocus` and
+  focus restore, in an effect gated on `open`.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 
@@ -71,6 +78,9 @@ behaviour.
   rich content) or searched, reach for it instead of `Select`. With
   `searchable={false}` the input becomes a read-only trigger and the list never
   filters — a select-only combobox with a styled popup.
+- **Button composes.** Extra props are forwarded to the underlying `<button>`,
+  so an overlay can use it as a trigger by spreading `triggerProps`; a forwarded
+  `onClick` is composed with the button's own press handler, not replaced.
 - **CSS class names match the Svelte adapter** (`.button`, `.checkbox`,
   `.switch`, `.select__native`, …) so both adapters render the same design.
   Svelte scopes its styles; this package ships plain global CSS you opt into.
