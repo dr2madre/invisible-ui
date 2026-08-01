@@ -27,6 +27,7 @@ export default defineConfig({
       customCss: ["./src/styles/site.css"],
       sidebar: [
         { label: "Overview", link: "/" },
+        { label: "Why Invisible UI", link: "/why/" },
         { label: "Foundations", link: "/foundations/" },
         {
           label: "Components",

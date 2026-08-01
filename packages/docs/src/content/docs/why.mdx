@@ -1,0 +1,93 @@
+---
+title: "Why Invisible UI"
+description: "One set of interface components that works with every technology your teams use — built on web standards, accessible by default, and free of visual opinions."
+---
+
+Interface components — buttons, forms, dialogs, menus — that work with every
+technology your teams use. Written once, tested deeply, and designed to
+outlive the trends.
+
+## Write once, use everywhere
+
+Most component libraries belong to one framework: if it's built for React, a
+Svelte team can't use it, and a plain web page can't either. Invisible UI
+turns that upside down. All the difficult parts — keyboard behaviour, focus,
+what a screen reader announces — live in **one shared core**. On top of it sit
+thin adapters for **Svelte**, **React**, **Python** and **plain HTML**. Same
+components, same behaviour, same look — whatever your stack. When we added the
+last three adapters, the core needed **zero changes**. That's not a promise;
+it's a measured fact.
+
+## No technology marriage
+
+Frameworks come and go — anyone who has been in software for a decade has
+watched yesterday's standard become today's migration project. Invisible UI is
+built so you never bet the house: the core depends on **no framework at all**,
+and each adapter is a thin, replaceable layer. If your company changes stack
+in five years, the components — and the accessibility work inside them — come
+along.
+
+## It works even where frameworks can't go
+
+Not every application is a shiny new single-page app. There are portals built
+years ago, server-rendered tools, internal systems nobody dares rebuild. For
+those, Invisible UI ships **self-contained web components**: one stylesheet,
+one script tag, no build step, no framework required.
+
+```html
+<script type="module" src=".../define.js"></script>
+<ds-select label="Fruit" name="fruit">
+  <option value="apple">Apple</option>
+</ds-select>
+```
+
+If a page can show HTML, it can use these components. That makes Invisible UI
+a practical tool for **modernizing legacy software** — putting a new,
+accessible face on old systems without rewriting them.
+
+## The browser does the heavy lifting
+
+Where the web platform already provides something solid — a real `<select>`,
+a real `<dialog>`, a real checkbox — we use it instead of rebuilding it. The
+result is fewer bugs, forms that just work, and details you get for free, like
+the native picker on phones. We only build custom behaviour where the platform
+genuinely has none, and we follow the **W3C standards** (the organisation that
+defines how the web works) when we do.
+
+## Accessible by default, not by afterthought
+
+Every component follows the international accessibility patterns (WAI-ARIA):
+full keyboard support, correct announcements for screen readers, visible
+focus. Every single component carries an automated accessibility test, and the
+suite runs on every change — **over 1,100 automated tests** across the
+project, including real-browser and visual checks. Accessibility here is not a
+checkbox for compliance; it's the foundation the library stands on.
+
+## Your brand, not ours
+
+The library is called *Invisible* for a reason: it brings no visual opinions
+of its own. Colours, spacing, radii and typography all come from **design
+tokens** — a single set of values you change once to make everything yours.
+The default theme exists so you can start today; nothing in it is mandatory.
+
+## Every decision is public
+
+Why is the Select native while the Combobox is custom? Why did the dialogs
+move to the platform's `<dialog>` element? Each significant choice is written
+down in a public architecture record, with the trade-offs stated honestly. If
+you inherit this library, you inherit its reasoning too.
+
+## Where we are — honestly
+
+Invisible UI is in **alpha**: the component set (70+) and the Svelte adapter
+are complete and documented with live demos; the React, Python and web
+components adapters are proven proof-of-concepts on a shared six-component
+set. Names and details may still change. If that trade-off suits you, this is
+a good moment to look around and tell us what's missing.
+
+## Start here
+
+- **[Components](/invisible-ui/components/)** — every component, with a live demo on each page.
+- **[Naming map](/invisible-ui/components/naming/)** — coming from another library? Find things by the name you know.
+- **[Foundations](/invisible-ui/foundations/)** — tokens, colour, typography.
+- **[API conventions](/invisible-ui/api/)** — how the pieces fit, for every framework.
