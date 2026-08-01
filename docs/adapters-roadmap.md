@@ -2,7 +2,8 @@
 
 Tracks the effort to prove the framework-agnostic `@design-system/core` with
 adapters beyond Svelte. This is technical-roadmap item **#6 (second framework
-adapter)** expanded into a concrete plan.
+adapter)** expanded into a concrete plan. For what comes *after* (Web
+Components, Vue, Flutter tokens, Rust): `docs/next-adapter-strategy.md`.
 
 **Scope for the first pass: proof-of-concept, 4–6 representative components** —
 not full parity. The goal is to establish the pattern and prove portability, so
