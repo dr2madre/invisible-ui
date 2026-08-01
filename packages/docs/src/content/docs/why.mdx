@@ -1,35 +1,27 @@
 ---
 title: "Why Invisible UI"
-description: "One set of interface components for every technology your teams use — built on web standards, accessible by default, themeable to your brand."
+description: "One set of interface components for every technology your teams use: built on web standards, accessible by default, themeable to your brand."
 ---
 
-A design system: interface components — buttons, forms, dialogs, menus — for
+A design system: interface components (buttons, forms, dialogs, menus) for
 every technology your teams use. Experience, accessibility, usability and
-customization — tested deeply, made to outlive the trends.
+customization, tested deeply.
 
 ## Why "Invisible"
 
 In user-experience research, an interface gets noticed when it fails: the
 button that ignores a press, the label read two ways, the popup that steals
 your focus. Good design, as Don Norman wrote in *The Design of Everyday
-Things*, is far harder to notice than bad design — when it works, it
+Things*, is far harder to notice than bad design. When it works, it
 disappears. Invisible design is the systematic removal of **cognitive load**,
 the mental effort people spend decoding a screen: controls that signal what
 they do, feedback that appears where attention already is, words that state
 outcomes. When that effort approaches zero, people reach what psychologists
-call *flow* — complete absorption in their task, tool forgotten.
+call *flow*, complete absorption in the task, tool forgotten.
 
-For this system the name carries three meanings:
-
-1. **Invisible to your users** — the UX meaning above: interfaces so smooth
-   people simply get on with what they came to do.
-2. **Invisible to your stack** — the same components work in Svelte, React,
-   Python and plain HTML; the technology underneath stays out of sight.
-3. **Invisible as a brand** — a complete, neutral theme works out of the
-   box, and design tokens turn everything into your visual language. People
-   see your product; the library stays out of sight.
-
-One name, three promises. The rest of this page keeps them.
+The name also describes the library itself: the same components work in
+Svelte, React, Python and plain HTML, and a neutral default theme takes on
+your visual language through design tokens.
 
 ## The user experience is in the code
 
@@ -38,7 +30,7 @@ system, held to the same standard as performance or security. The decisions,
 applied consistently everywhere:
 
 - **Buttons name outcomes.** A dialog asking *"Do you want to delete this
-  file?"* answers with **Delete file** / **Keep file** — each label readable
+  file?"* answers with **Delete file** / **Keep file**, each label readable
   on its own, by everyone, screen readers included.
 - **Dialogs match jobs people already understand**: confirm something, ask
   for a value, acknowledge an outcome.
@@ -53,11 +45,11 @@ applied consistently everywhere:
   other libraries.
 
 All of it is built into the components and locked in by their tests, so it
-arrives intact in your product — on every stack the adapters reach.
+arrives intact in your product, on every stack the adapters reach.
 
 ## Write once, use everywhere
 
-The hard parts — keyboard behaviour, focus, what a screen reader announces —
+The hard parts (keyboard behaviour, focus, what a screen reader announces)
 live in **one shared core**. Thin adapters expose it to **Svelte**, **React**,
 **Python** and **plain HTML**: same components, same behaviour, same look,
 whatever your stack. We measured the claim: when the last three adapters were
@@ -65,11 +57,11 @@ added, the core needed **zero changes**.
 
 ## Free to change your mind
 
-Frameworks come and go — anyone who has been in software for a decade has
+Frameworks come and go: anyone who has been in software for a decade has
 watched yesterday's standard become today's migration project. The core is
-pure, framework-free code, and each adapter is a thin, replaceable layer. If
-your company changes stack in five years, the components — and the
-accessibility work inside them — come along.
+pure, framework-free code, and each adapter is a thin, replaceable layer.
+When a stack changes, you replace the adapter and keep the components, with
+all the accessibility work inside them.
 
 ## It works where frameworks are out of reach
 
@@ -90,8 +82,8 @@ on existing systems, while they keep running.
 
 ## The browser does the heavy lifting
 
-Where the web platform already provides something solid — a real `<select>`,
-a real `<dialog>`, a real checkbox — we use it. The result is fewer bugs,
+Where the web platform already provides something solid (a real `<select>`,
+a real `<dialog>`, a real checkbox) we use it. The result is fewer bugs,
 forms that just work, and details you get for free, like the native picker on
 phones. Custom behaviour appears only where the platform leaves a genuine
 gap, and there we follow the **W3C standards** (the organisation that defines
@@ -102,13 +94,13 @@ how the web works).
 Every component follows the international accessibility patterns (WAI-ARIA):
 full keyboard support, correct announcements for screen readers, visible
 focus. Every component carries an automated accessibility test, and the suite
-runs on every change — **over 1,100 automated tests** across the project,
+runs on every change: **over 1,100 automated tests** across the project,
 including real-browser and visual checks. Accessibility is the foundation the
 library stands on.
 
 ## Your brand
 
-Colours, spacing, radii and typography all come from **design tokens** — a
+Colours, spacing, radii and typography all come from **design tokens**: a
 single set of values you change once to make everything yours. The default
 theme exists so you can start today; every value in it is yours to replace.
 
@@ -119,7 +111,7 @@ move to the platform's `<dialog>` element? Each significant choice is written
 down in a public architecture record, with the trade-offs stated honestly. If
 you inherit this library, you inherit its reasoning too.
 
-## Where we are — honestly
+## Where we are
 
 Invisible UI is in **alpha**: the component set (70+) and the Svelte adapter
 are complete and documented with live demos; the React, Python and web
@@ -129,7 +121,7 @@ a good moment to look around and tell us what's missing.
 
 ## Start here
 
-- **[Components](/invisible-ui/components/)** — every component, with a live demo on each page.
-- **[Naming map](/invisible-ui/components/naming/)** — coming from another library? Find things by the name you know.
-- **[Foundations](/invisible-ui/foundations/)** — tokens, colour, typography.
-- **[API conventions](/invisible-ui/api/)** — how the pieces fit, for every framework.
+- **[Components](/invisible-ui/components/)**: every component, with a live demo on each page.
+- **[Naming map](/invisible-ui/components/naming/)**: coming from another library? Find things by the name you know.
+- **[Foundations](/invisible-ui/foundations/)**: tokens, colour, typography.
+- **[API conventions](/invisible-ui/api/)**: how the pieces fit, for every framework.
