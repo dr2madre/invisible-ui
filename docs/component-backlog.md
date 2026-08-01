@@ -29,7 +29,7 @@ bottom regardless of score.
 | 8 | **Form (validation)** | super-pattern | 1 | 4 | 4 | Practically a ready application; needs its own design round first. |
 | 9 | **Splitter / Resizable** | component | 2 | 2 | 4 | Niche until app-shell layouts appear; rename before building. |
 | 10 | Timeline | pattern | 3 | 2 | — | **Parked** by review: an organism people build however they like. |
-| 11 | Charts | super-pattern | 1 | 3 | — | **Parked**: pick the chart engine first. |
+| 11 | Charts | super-pattern | 1 | 3 | — | **Parked**: engine decision planned in [charts-strategy.md](./charts-strategy.md); Sparkline (step 0) can ship early, no engine needed. |
 | 12 | Color Picker | component | 1 | 2 | — | **Parked**: wait for a real use case. |
 
 ## A. Components (gaps vs peer libraries)
@@ -57,7 +57,7 @@ bottom regardless of score.
 | --- | --- | --- | --- |
 | Form (with validation) | Fields wired to a validation story: schema, error messages, submit state | shadcn (Form + react-hook-form/zod) | Practically a ready application on top of Field/inputs. Needs its own design round (which validation story, which framework bindings). |
 | Data Table | Table + sorting, filtering, selection, pagination as one machine | shadcn (TanStack recipe), MUI DataGrid | Our Table is presentational by design; this is the machinery on top. |
-| Charts | Ready-made chart components on the tokens | shadcn (Recharts-based) | **Later** — a separate track; decide the underlying chart engine first. |
+| Charts | Ready-made chart components on the tokens | shadcn (Recharts-based) | **Later** — strategy and engine evaluation in [charts-strategy.md](./charts-strategy.md). |
 
 Non-gaps (already covered — do **not** add): Toast/Snackbar → Notification;
 Drawer → Sheet Dialog; Command palette → Search Dialog; Badge → Count/Tag;
