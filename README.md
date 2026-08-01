@@ -24,8 +24,11 @@ A **headless, accessible, multi-framework** component library — built from scr
 > data/presentational, and date & time) are in place, each as a **headless**
 > primitive _and_ a **styled, token-driven** component, with light/dark design
 > tokens, `vitest`/`vitest-axe` coverage, and an Astro docs site with a live
-> demo per component. More framework adapters can follow; they reuse the same
-> pattern.
+> demo per component. A **React** adapter (proof-of-concept: Button, Checkbox,
+> Switch, Select, Combobox, Dialog) proves the core drives a second framework
+> with **no core changes**, and **Reflex (Python)** wrappers expose the same
+> six components to Python apps. The
+> [technical roadmap](./docs/technical-roadmap.md) is complete (12/12).
 
 ## What this is
 
@@ -75,6 +78,10 @@ ecosystem.
 - [ADR 0001 — Headless vs. Amber's styled Web Components](./docs/adr/0001-headless-vs-amber-web-components.md):
   why this project is headless and how it relates to Bitrock's
   [Amber Design System](https://amber.bitrock.it/).
+- [ADR 0002 — Tokens decoupled from style](./docs/adr/0002-tokens-decoupled-from-style.md)
+- [ADR 0003 — Select is native; the Combobox is the advanced select](./docs/adr/0003-native-select-advanced-combobox.md)
+- [ADR 0005 — The dialog family maps to the platform's simple dialogs](./docs/adr/0005-native-dialog-and-urgency.md)
+- [ADR 0006 — The Python adapter wraps the React components](./docs/adr/0006-python-adapter-wraps-react.md)
 - [Foundations](./docs/foundations.md): optional, fully customizable design
   guidelines (system font stack, color scale, WCAG AA contrast) applied on top
   of the headless primitives.
@@ -85,32 +92,41 @@ ecosystem.
 design-system/
 ├── core/                  # @design-system/core — framework-agnostic state, behavior, a11y
 ├── packages/
-│   └── svelte/            # @design-system/svelte — thin Svelte adapter
+│   ├── svelte/            # @design-system/svelte — the full Svelte adapter
+│   ├── react/             # @design-system/react — React adapter (PoC: 6 components)
+│   ├── reflex/            # invisible-ui (PyPI-style) — Reflex/Python wrappers over the React build
+│   └── docs/              # the Astro + Starlight docs site
 ├── examples/
-│   └── svelte/            # runnable usage example
-└── (future adapters)      # React, Vue, … plug into the same core
+│   ├── svelte/            # runnable Svelte example
+│   └── reflex/            # runnable Reflex (Python) example
+└── docs/                  # ADRs, roadmaps, foundations
 ```
 
 The monorepo uses pnpm workspaces + Turborepo. A shared `core/` holds the
 framework-agnostic behavior and accessibility logic; thin per-framework
-adapters expose it idiomatically. **Svelte** is the first adapter; the core is
-deliberately framework-agnostic so additional adapters can be added later
-without touching behavior.
+adapters expose it idiomatically. **Svelte** is the full adapter; **React** is
+a proof-of-concept subset that confirmed the core needs no changes to drive a
+second framework (see [`docs/adapters-roadmap.md`](./docs/adapters-roadmap.md));
+**Reflex** wraps the React components so Python apps reuse the same behaviour
+(ADR 0006) — nothing is re-implemented per framework.
 
 ### How it works
 
 Each component in `core/` is a pure state plus a `connect()` function that
 returns framework-agnostic **prop getters** carrying ARIA attributes,
 `data-*` styling hooks, and event handlers. An adapter applies those props in
-its own idiom — the Svelte adapter does so through a `use:` action — so
-behavior and accessibility are written once and shared.
+its own idiom — the Svelte adapter through `use:` actions, the React adapter by
+spreading them onto JSX from `use*` hooks — so behavior and accessibility are
+written once and shared. DOM-only properties with no HTML attribute (e.g. a
+checkbox's `indeterminate`) are declared by the core in a `rootDomProps` bag,
+so no adapter can silently forget them.
 
 ## Getting started
 
 ```bash
 pnpm install     # install workspace dependencies
 pnpm build       # build core, then the adapters (Turborepo)
-pnpm test        # unit tests (core) + interaction & axe a11y tests (Svelte)
+pnpm test        # unit tests (core) + interaction & axe a11y tests (Svelte + React)
 pnpm typecheck   # type-check all packages
 pnpm e2e         # real-browser tests against the built docs site
                  # (first run once: pnpm exec playwright install chromium)
@@ -120,6 +136,13 @@ Run the example app:
 
 ```bash
 pnpm --filter @design-system/example-svelte dev
+```
+
+Python (Reflex) wrappers have their own tests, no Node required:
+
+```bash
+pip install -e "packages/reflex[dev]"
+python -m pytest packages/reflex/tests
 ```
 
 A **docs site** built with [Astro](https://astro.build) +
