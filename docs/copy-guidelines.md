@@ -65,6 +65,13 @@ attention to itself turns against the text.
 - ~~"The browser does the heavy lifting."~~ → "The browser does the work."
 - ~~"Touch is a first-class citizen."~~ → "Touch works everywhere."
 
+## Other libraries: cite, never compare
+
+Citing the field's reference projects is fine (an inspiration credit, a
+"commonly called X elsewhere" note, a prior-art column). Direct comparisons
+are banned: no "measures itself against", "benchmarked against peers",
+"differs from X", "X can, we cannot". The project describes itself.
+
 ## No em dashes
 
 The em dash (—) is high-register documentation punctuation; people write

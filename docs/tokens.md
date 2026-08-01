@@ -18,7 +18,7 @@ source, **`packages/svelte/tokens/tokens.json`** (W3C **DTCG** format), and
    _Design-owned._
 3. **Component** — binds component properties to semantic tokens, never to raw
    values; aliases the native role vocabulary when a stack mandates one
-   (shadcn/Material/Carbon). _Frontend-owned_ — for this Svelte stack it's the
+   (Material/Carbon). _Frontend-owned_ — for this Svelte stack it's the
    "free" CSS layer (`tokens.css` + the `--ds-color-*` roles components consume).
 
 ## Naming grammar

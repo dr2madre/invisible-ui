@@ -69,9 +69,8 @@ accessible primitives) — which itself stands on the shoulders of
 [Melt UI](https://melt-ui.com/) (internal architecture),
 [Radix UI](https://www.radix-ui.com/) (API design) and
 [React Spectrum](https://react-spectrum.adobe.com/) (accessibility, and
-date/time). It differs in two key ways: everything is **built from scratch**,
-and it is **multi-framework** from the ground up rather than tied to a single
-ecosystem.
+date/time). Everything here is **built from scratch** and **multi-framework**
+from the start.
 
 ## Design decisions & foundations
 

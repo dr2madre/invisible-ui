@@ -21,7 +21,7 @@ bottom regardless of score.
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | **Empty State** | component | 5 | 5 | 25 | Sibling of the existing Error State — same layout, new intent. Decided as the next build. |
 | 2 | **Number Input** | component | 4 | 5 | 20 | Native-first (`inputmode="decimal"` + spinbutton); the most common form gap. |
-| 3 | **Sidebar** | pattern | 3 | 5 | 15 | Composition of existing parts (nav, collapsible, sheet on mobile); shadcn's most-used piece. |
+| 3 | **Sidebar** | pattern | 3 | 5 | 15 | Composition of existing parts (nav, collapsible, sheet on mobile); the most used piece of an app shell. |
 | 4 | **Editable** | component | 4 | 3 | 12 | Small; pairs with the PromptDialog rename story. |
 | 5 | **Multi-select (tag input)** | component | 2 | 4 | 8 | Builds on `core/combobox` + Tag, but multi-value state is a real design round. |
 | 6 | **Range Slider** | component | 2 | 3 | 6 | First slider that can't stay native — full ARIA implementation. |
@@ -32,15 +32,15 @@ bottom regardless of score.
 | 11 | Charts | super-pattern | 1 | 3 | — | **Parked**: engine decision planned in [charts-strategy.md](./charts-strategy.md); Sparkline (step 0) can ship early, no engine needed. |
 | 12 | Color Picker | component | 1 | 2 | — | **Parked**: wait for a real use case. |
 
-## A. Components (gaps vs peer libraries)
+## A. Components (coverage gaps)
 
 | Candidate | What it is | Peer precedent | Status / notes |
 | --- | --- | --- | --- |
-| **Empty State** | "No data yet" view (icon + message + optional action) — the calm sibling of Error State | shadcn (Empty), most systems | **Probable next.** Likely a sibling or variant of Error State: same layout, different intent (nothing failed). |
+| **Empty State** | "No data yet" view (icon + message + optional action) — the calm sibling of Error State | most systems | **Probable next.** Likely a sibling or variant of Error State: same layout, different intent (nothing failed). |
 | **Number Input** | Numeric field with +/− steppers, min/max/step, wheel & arrow keys | Ark, MUI, React Aria, Chakra | The most common form gap. Native-first: `inputmode="decimal"` + spinbutton pattern. |
 | **Multi-select (tag input)** | Combobox selecting several values, shown as removable tags | Ark (TagsInput), MUI, React Aria | Builds on `core/combobox` + Tag. Decide: separate component vs `multiple` on Combobox. |
-| **Range Slider** | Two-thumb min–max slider | Radix, Ark, MUI, shadcn | Our Slider is a single native `input[type=range]` (no native dual). The first slider primitive that can't stay native. |
-| **Splitter** | Drag-to-resize panes | Ark/Zag, Radix & shadcn (Resizable) | "Splitter" is the WAI-ARIA spec name ("window splitter") — nobody says it. Pick a human name when building (shadcn: *Resizable*; also seen: *Split Pane*). |
+| **Range Slider** | Two-thumb min–max slider | Radix, Ark, MUI | Our Slider is a single native `input[type=range]` (no native dual). The first slider primitive that can't stay native. |
+| **Splitter** | Drag-to-resize panes | Ark/Zag, Radix | "Splitter" is the WAI-ARIA spec name ("window splitter") — nobody says it. Pick a human name when building (commonly *Resizable* or *Split Pane*). |
 | **Editable** | Text that becomes an input on press (inline rename) | Ark/Zag, Chakra | Small; pairs naturally with the PromptDialog rename story. |
 | Color Picker | Swatch/area/channel color selection | Ark/Zag, React Aria | **Later** — complex surface; wait for a real use case. |
 
@@ -48,16 +48,16 @@ bottom regardless of score.
 
 | Candidate | What it is | Peer precedent | Status / notes |
 | --- | --- | --- | --- |
-| **Sidebar** | The app shell's side navigation: collapsible, groups, mobile behaviour | shadcn (their most-used piece) | A pattern, not a primitive — composed from existing parts (nav, collapsible, sheet on mobile). Documented under Patterns like Login Form / Notification Center. |
+| **Sidebar** | The app shell's side navigation: collapsible, groups, mobile behaviour | most app shells | A pattern, not a primitive — composed from existing parts (nav, collapsible, sheet on mobile). Documented under Patterns like Login Form / Notification Center. |
 | Timeline | Ordered event list with markers | AntD, MUI Lab | **Later** — an organism people can (and do) build however they like; presentational only. |
 
 ## C. Super-patterns (almost ready applications)
 
 | Candidate | What it is | Peer precedent | Status / notes |
 | --- | --- | --- | --- |
-| Form (with validation) | Fields wired to a validation story: schema, error messages, submit state | shadcn (Form + react-hook-form/zod) | Practically a ready application on top of Field/inputs. Needs its own design round (which validation story, which framework bindings). |
-| Data Table | Table + sorting, filtering, selection, pagination as one machine | shadcn (TanStack recipe), MUI DataGrid | Our Table is presentational by design; this is the machinery on top. |
-| Charts | Ready-made chart components on the tokens | shadcn (Recharts-based) | **Later** — strategy and engine evaluation in [charts-strategy.md](./charts-strategy.md). |
+| Form (with validation) | Fields wired to a validation story: schema, error messages, submit state | react-hook-form + zod recipes | Practically a ready application on top of Field/inputs. Needs its own design round (which validation story, which framework bindings). |
+| Data Table | Table + sorting, filtering, selection, pagination as one machine | TanStack Table recipes, MUI DataGrid | Our Table is presentational by design; this is the machinery on top. |
+| Charts | Ready-made chart components on the tokens | Recharts-based kits | **Later** — strategy and engine evaluation in [charts-strategy.md](./charts-strategy.md). |
 
 Non-gaps (already covered — do **not** add): Toast/Snackbar → Notification;
 Drawer → Sheet Dialog; Command palette → Search Dialog; Badge → Count/Tag;
