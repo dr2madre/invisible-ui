@@ -54,8 +54,8 @@ Mirror the design system's own architecture (core + adapters):
 ## Engine candidates — evaluated (status checked August 2026)
 
 Hard requirement first: **framework-agnostic**. Recharts and visx are
-React-only — they break the multi-framework core principle and are excluded
-regardless of quality (shadcn can use Recharts; we cannot). Highcharts and
+React-only: they break the multi-framework core principle and are excluded
+regardless of quality. Highcharts and
 amCharts are excluded on commercial licensing. Plotly is excluded as heavy and
 visually opinionated.
 

@@ -10,9 +10,10 @@ Commission: modified versions must stay open. That protects against closed
 paid forks, and it costs adoption, because legal teams approve unfamiliar
 licenses slowly or never.
 
-The component libraries this project measures itself against (shadcn/ui,
-Radix, Headless UI) are MIT-licensed, and their reach comes in part from the
-zero-friction license: everyone recognizes it, nobody has to read it.
+MIT is the most recognized license in the field: everyone knows it, nobody
+has to read it, and legal teams approve it on sight. That zero-friction
+recognition is a large part of how widely adopted component libraries
+spread.
 
 ## Decision
 

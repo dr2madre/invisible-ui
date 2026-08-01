@@ -3,13 +3,12 @@
 The component build-out (Phases 1–6) and the live-demo docs are complete. This
 roadmap tracks the **engineering / distribution maturity** of the design system
 — the gaps that separate a *built* system from one a team can *publish, version
-and maintain* — benchmarked against peers (Zag.js / Ark UI, Radix UI, React
-Aria / Spectrum, shadcn/ui, MUI / Chakra).
+and maintain*.
 
-## Already at benchmark level
+## Already in place
 
 - **Headless core** — framework-agnostic `state` / `connect` / prop-getter
-  pattern (peer: Zag/Ark) + a Svelte adapter.
+  pattern (as in Zag/Ark) + a Svelte adapter.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
 - **Tokens** — two tiers (primitives → semantic role/state), dark mode
@@ -112,4 +111,4 @@ Each item ships as its own PR. Checkboxes track progress.
 
 P1 (1 → 2 → 3) first: they unblock real consumption and keep the codebase
 consistent. Then P2 by impact (visual-regression and i18n give the most
-benchmark lift), then P3.
+maturity lift), then P3.
