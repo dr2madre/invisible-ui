@@ -14,7 +14,3 @@ playwright-report/
 
 # Generated design-token outputs (source: packages/svelte/tokens/tokens.json)
 packages/svelte/dist/tokens/
-
-# Claude (local only)
-.claude/
-CLAUDE.md
