@@ -27,9 +27,41 @@ Before / after, from our own pages:
 - ~~"Accessible by default, not by afterthought."~~ → "Accessible by default."
 - ~~"Your brand, not ours."~~ → "Your brand."
 
-**Allowed:** factual absence claims where the absence *is* the benefit — "no
+**Allowed:** factual absence claims where the absence *is* the benefit: "no
 build step", "zero dependencies", "the core needed zero changes". Those state
 a measurement.
+
+## The name stays out of promises
+
+Never use the name "Invisible" inside a sentence as a slogan that promises
+things. Slogan-built marketing phrases read badly and box the copy in.
+Explain the name once, factually, with the terms of the UX field. Then move
+on.
+
+- ~~"Invisible to your users. Invisible to your stack. Invisible as a
+  brand."~~ → explain what the components do, in plain sentences.
+- ~~"One name, three promises."~~ → delete.
+
+## No promises about the future
+
+State present facts and measurements. The project's future is unknowable, so
+sentences that guarantee it are claims we cannot keep. Emphatic phrasing is
+always a mistake.
+
+- ~~"made to outlive the trends"~~ → "tested deeply" (a present fact).
+- ~~"will always work"~~ → "works today in Svelte, React, Python and plain
+  HTML" (a measurement).
+
+## No em dashes
+
+The em dash (—) is high-register documentation punctuation; people write
+with commas, colons, periods and parentheses. Use those. Hyphens inside
+compound words ("framework-agnostic", "first-class") stay: that is spelling,
+not punctuation.
+
+- ~~"The hard parts — keyboard behaviour, focus — live in one shared
+  core."~~ → "The hard parts (keyboard behaviour, focus) live in one shared
+  core."
 
 ## Assume intelligent readers
 
