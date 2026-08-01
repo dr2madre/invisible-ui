@@ -32,6 +32,7 @@ export default defineConfig({
           label: "Components",
           items: [
             { label: "Overview", link: "/components/" },
+            { label: "Naming map", link: "/components/naming/" },
             // Date & time components live under Forms & inputs. Pages are
             // listed by slug — add new ones here, keeping the list
             // alphabetical; radio-behavior controls nest under their group.
