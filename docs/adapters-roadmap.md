@@ -36,7 +36,7 @@ the chosen components exercise every integration shape the core exposes.
 | **Switch** | Controlled native `input[role=switch]`. |
 | **Select** | Native `<select>` styled by the adapter (ADR 0003), so it proves the *non-core* half of an adapter: markup, ids, labelling and the invalid state. |
 | **Combobox** | The hard case, and the design system's **advanced (non-native) select**: multi-part (label/input/listbox/option), Floating-UI positioning, filtering, `aria-activedescendant` with DOM focus pinned to the input, outside-pointer close, scroll-into-view. |
-| **Dialog** | Overlay: portal, focus-trap, scroll-lock, Escape, `initialFocus`. |
+| **Dialog** | The overlay shape: native `<dialog>` + `showModal()` (ADR 0005), scroll lock, backdrop light-dismiss, `initialFocus`, focus restore, and Escape that closes only the innermost of stacked dialogs. |
 
 ## Key integration finding
 
@@ -56,13 +56,8 @@ always close over current state — no listener bookkeeping.
 
 ## Status
 
-**Part A is shipped for Button, Checkbox, Switch, Select and Combobox**
-(`packages/react`, 70 tests incl. axe). Outstanding: **Dialog** — the overlay
-shape (portal, focus trap, scroll lock, Escape, `initialFocus`) that the current
-set does not exercise. Since ADR 0005 the dialog family runs on the native
-`<dialog>` + `showModal()`, so the React port is mostly the `useEffect`
-equivalent of the Svelte `createDialog` rather than a hand-rolled portal. Part B
-(Reflex) has not started.
+**Part A is complete** — Button, Checkbox, Switch, Select, Combobox and Dialog
+(`packages/react`, 89 tests incl. axe). Part B (Reflex) has not started.
 
 **What the pass proved:** the core needed **no change at all** to drive a second
 framework. That claim only became load-bearing with the **Combobox**: the first
@@ -72,7 +67,12 @@ Combobox does — multi-part prop bags, a highlight tracked separately from DOM
 focus, a positioned popup, filtering owned by the adapter — and it ported with
 no core change either, the Svelte and React versions differing only in how state
 is held (`useState` + `useMemo` vs a store) and how DOM concerns attach (effects
-+ ref callbacks vs actions). Frictions worth recording:
++ ref callbacks vs actions). The **Dialog** closed the last shape, the overlay,
+and turned out to be the *easiest* of the three: since ADR 0005 modality is the
+platform's (`<dialog>` + `showModal()` — top layer, inert background, real focus
+trap), so the adapter only ports scroll lock, backdrop light-dismiss, initial
+focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
+`useEffect` gated on `open`. Frictions worth recording:
 
 - **DOM properties needed an escape hatch — now closed.** `indeterminate` has
   no HTML attribute, so it cannot travel in a prop bag: each adapter was setting
@@ -103,16 +103,16 @@ is held (`useState` + `useMemo` vs a store) and how DOM concerns attach (effects
    normalize }))`. Styled component spreads the prop bag onto JSX; native
    `checked`/`indeterminate` set via a `ref` effect (as Svelte binds the DOM
    property).
-4. **Component specifics** — Select ports the Svelte adapter's DOM concerns to
+4. **Component specifics** — Combobox ports the Svelte adapter's DOM concerns to
    React (`@floating-ui/react-dom`'s `useFloating` replaces manual
-   `computePosition`+`autoUpdate`; effects for outside-pointer, scroll-into-view,
-   typeahead). Dialog ports `internal/{portal,focus-trap,scroll-lock}` to React
-   (`createPortal`, focus-trap effect, overflow-lock effect) and honours
-   `initialFocus`.
-5. **Styling** — reuse the token CSS
-   (`packages/svelte/src/lib/styles/tokens.css`); port the 5 styled components'
-   `<style>` blocks to co-located CSS, keeping class names identical for visual
-   parity.
+   `computePosition`+`autoUpdate`; effects for outside-pointer and
+   scroll-into-view). Dialog needs no portal or focus trap — since ADR 0005 it
+   renders a native `<dialog>` and calls `showModal()`, so only scroll lock,
+   backdrop light-dismiss, `initialFocus` and focus restore are ported, in a
+   `useEffect` gated on `open`.
+5. **Styling** — the token CSS is copied from the Svelte adapter and held
+   byte-identical by a parity test; each styled component's `<style>` block is
+   ported to a co-located CSS file, class names kept identical for visual parity.
 6. **Tests** — port the behavioural assertions from the Svelte suite (role/name,
    keyboard, controlled callbacks, `data-state`, `axe()`), green under
    `pnpm --filter @design-system/react test`.
