@@ -2,7 +2,7 @@
   "name": "@design-system/elements",
   "version": "0.1.0-alpha.0",
   "description": "Web Components adapter for the design system: framework-free custom elements over @design-system/core.",
-  "license": "EUPL-1.2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dr2madre/design-system.git",

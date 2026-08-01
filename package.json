@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Invisible UI (by nozcadesign): a headless, accessible, multi-framework component library built from scratch.",
-  "license": "EUPL-1.2",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "turbo run build",
