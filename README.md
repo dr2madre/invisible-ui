@@ -8,7 +8,7 @@
 # Invisible UI
 
 <p align="center">
-  <a href="LICENSE"><img alt="License: EUPL-1.2" src="https://img.shields.io/badge/license-EUPL--1.2-blue.svg" /></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
   <img alt="Status: alpha" src="https://img.shields.io/badge/status-alpha-orange.svg" />
 </p>
 
@@ -393,8 +393,5 @@ branching workflow, commit conventions, and how to propose a new component.
 
 ## License
 
-Licensed under the [European Union Public Licence v. 1.2](./LICENSE) (EUPL-1.2)
-— a copyleft ("share-alike") license published by the European Commission:
-derivative works must be distributed under the EUPL (or a compatible license),
-and the licence is legally valid across jurisdictions, with official versions in
-23 languages.
+Licensed under the [MIT License](./LICENSE): use, copy, modify and
+redistribute freely, in any project, keeping the copyright notice.
