@@ -1,0 +1,15 @@
+/* The React adapter's stylesheet: design tokens plus the styled components.
+   Import once at the app root:
+
+     import "@design-system/react/styles.css";
+
+   For tokens only (when you style the components yourself), import
+   `@design-system/react/tokens.css` instead. */
+
+@import "./tokens.css";
+@import "./button.css";
+@import "./checkbox.css";
+@import "./switch.css";
+@import "./combobox.css";
+@import "./dialog.css";
+@import "./select.css";

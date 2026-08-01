@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Invisible UI Elements — HTMX habitat</title>
+  <!-- Server-driven habitat: HTMX swaps in HTML fragments; custom elements
+       upgrade automatically wherever they land. (CDN import: needs network.) -->
+  <link rel="stylesheet" href="../../packages/elements/src/styles/index.css" />
+  <script type="module" src="../../packages/elements/dist/define.js"></script>
+  <script src="https://unpkg.com/htmx.org@2"></script>
+  <style> body { font-family: system-ui, sans-serif; margin: 2rem; display: grid; gap: 1.5rem; justify-items: start; } </style>
+</head>
+<body>
+  <h1>Invisible UI × HTMX</h1>
+  <p>The fragment below simulates a server response: elements upgrade on swap.</p>
+
+  <button hx-get="fragment.html" hx-target="#zone" hx-swap="innerHTML">Load the form fragment</button>
+  <div id="zone"></div>
+</body>
+</html>
