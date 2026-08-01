@@ -62,6 +62,37 @@ Shadow DOM per component with the tokens piercing via CSS custom properties
 (they inherit through shadow roots by design). SSR via Declarative Shadow DOM
 where it matters.
 
+## Why this isn't 2019's Web Components
+
+Web Components have a mixed reputation among experienced frontend engineers,
+for good historical reasons. The known objections, and why they don't apply to
+this plan:
+
+- **"They were overhyped around 2018–2020 and teams got burned."** True — and
+  the blockers that burned those teams have since been removed *by the
+  standards themselves*: React 19 supports custom elements properly, form
+  participation is solved by ElementInternals, server rendering by Declarative
+  Shadow DOM. The 2019 experience predates all three.
+- **"The developer experience is worse than React or Svelte for building
+  apps."** Also true — and out of scope. Nobody builds an *application* in
+  custom elements here: Svelte and React users get real, native components
+  from their own adapters and never touch an element. The elements exist for
+  contexts that have **no** framework — plain pages, server-driven stacks,
+  legacy portals.
+- **"Shadow DOM makes theming painful."** CSS custom properties inherit
+  through shadow roots by design — and the `--ds-*` tokens are already the
+  system's only theming mechanism, so the existing contract carries over
+  unchanged.
+- **"It's another frontend fashion."** It is the opposite of one: a W3C
+  standard, shipped in production by the design systems of GitHub, Microsoft,
+  Adobe and SAP. Standards outlive framework cycles by construction.
+
+The architectural rule that defuses the whole debate: the classic failure mode
+is building the design system *inside* Web Components and routing every
+framework through them. Here behaviour lives in the framework-agnostic core,
+and the elements are **one more adapter at the same level as Svelte and
+React** — nobody is routed through them.
+
 ## What the others get instead
 
 | Target | Path | When |
