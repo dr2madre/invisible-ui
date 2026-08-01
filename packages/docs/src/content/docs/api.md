@@ -16,8 +16,10 @@ Behaviour, state and accessibility live once in the framework-agnostic core
   returns framework-agnostic **prop getters**: plain objects carrying ARIA
   attributes, `data-*` styling hooks and event handlers. The core never imports a
   framework and never touches the DOM.
-- **Adapter** (e.g. Svelte) — wraps the state in a store and applies the
-  connected props to real elements. You bring the markup and the styling.
+- **Adapter** — exposes that API in each framework's idiom: the **Svelte**
+  adapter wraps the state in a store and applies props through `use:` actions;
+  the **React** adapter holds it in hooks and spreads the prop bags onto JSX.
+  You bring the markup and the styling.
 
 ## Svelte adapter: `create*` + actions
 
@@ -41,6 +43,32 @@ element's attributes, ARIA and event listeners in sync with state.
 The **styled** components are imported from their own module
 (`@design-system/svelte/<Component>.svelte`); the headless `create*` functions
 come from the package root (`@design-system/svelte`).
+
+## React adapter: `use*` hooks
+
+The React adapter (`@design-system/react`, a proof-of-concept set: Button,
+Checkbox, Switch, Select, Combobox, Dialog) exposes the same primitives as
+`use*` hooks. The connected API is recomputed each render and its prop bags are
+spread onto JSX; styled components and the hooks ship from the package root,
+styles are opt-in via `@design-system/react/styles.css`.
+
+```tsx
+import { Checkbox, useCheckbox } from "@design-system/react";
+import "@design-system/react/styles.css";
+
+// Styled…
+<Checkbox label="Subscribe" onCheckedChange={save} />;
+
+// …or headless: render your own markup, keep only the behaviour.
+const api = useCheckbox({ onCheckedChange: save });
+<input {...api.rootProps} checked={api.checked === true} />;
+```
+
+**Python (Reflex)** apps get the same six components as thin wrappers over the
+React build — `pip` package `invisible-ui`, `import invisible_ui as ui`,
+`ui.button("Save", variant="primary", on_press=State.save)`. Behaviour runs in
+the browser as the core's JavaScript; Python only wires state and events (ADR
+0006).
 
 ## `data-*` styling hooks
 
