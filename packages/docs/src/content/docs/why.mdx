@@ -7,21 +7,12 @@ A design system: interface components (buttons, forms, dialogs, menus) for
 every technology your teams use. Experience, accessibility, usability and
 customization, tested deeply.
 
-## Why "Invisible"
+## Start here
 
-In user-experience research, an interface gets noticed when it fails: the
-button that ignores a press, the label read two ways, the popup that steals
-your focus. Good design, as Don Norman wrote in *The Design of Everyday
-Things*, is far harder to notice than bad design. When it works, it
-disappears. Invisible design is the systematic removal of **cognitive load**,
-the mental effort people spend decoding a screen: controls that signal what
-they do, feedback that appears where attention already is, words that state
-outcomes. When that effort approaches zero, people reach what psychologists
-call *flow*, complete absorption in the task, tool forgotten.
-
-The name also describes the library itself: the same components work in
-Svelte, React, Python and plain HTML, and a neutral default theme takes on
-your visual language through design tokens.
+- **[Components](/invisible-ui/components/)**: every component, with a live demo on each page.
+- **[Naming map](/invisible-ui/components/naming/)**: coming from another library? Find things by the name you know.
+- **[Foundations](/invisible-ui/foundations/)**: tokens, colour, typography.
+- **[API conventions](/invisible-ui/api/)**: how the pieces fit, for every framework.
 
 ## The user experience is in the code
 
@@ -38,14 +29,34 @@ applied consistently everywhere:
   offers the next step; "something went wrong" looks like what it is.
 - **One selection colour everywhere**, so state reads at a glance across
   checkboxes, tabs, lists and menus.
-- **Touch is a first-class citizen**: menus, tooltips and pickers behave
-  properly on phones.
+- **Touch works everywhere**: menus, tooltips and pickers behave properly
+  on phones.
 - **The docs are designed too**: components are named for humans, and a
   [naming map](/invisible-ui/components/naming/) welcomes people arriving from
   other libraries.
 
 All of it is built into the components and locked in by their tests, so it
 arrives intact in your product, on every stack the adapters reach.
+
+## Why "Invisible"
+
+When a design works, it is hardly noticed. Interfaces get noticed when they
+fail: the button that ignores a press, the label read two ways, the popup
+that steals your focus. Invisible UI is named for the aim: removing the
+effort people spend decoding an interactive system.
+
+The components follow the usability and accessibility principles defined by
+WCAG (the W3C accessibility guidelines) and by industry best practice. The
+experience of the product you build with them remains your design work. If a
+pattern looks wrong to you, report it or contribute.
+
+## Where we are
+
+Invisible UI is in **alpha**: the component set (70+) and the Svelte adapter
+are complete and documented with live demos; the React, Python and web
+components adapters are proven proof-of-concepts on a shared six-component
+set. Names and details may still change. If that trade-off suits you, this is
+a good moment to look around and tell us what's missing.
 
 ## Write once, use everywhere
 
@@ -77,10 +88,10 @@ tools, internal systems teams prefer to keep. For those, Invisible UI ships
 ```
 
 If a page can show HTML, it can use these components. That makes Invisible UI
-a practical tool for **modernizing legacy software**: a new, accessible face
-on existing systems, while they keep running.
+a practical tool for **modernizing legacy software**: a new, accessible
+interface on existing systems, while they keep running.
 
-## The browser does the heavy lifting
+## The browser does the work
 
 Where the web platform already provides something solid (a real `<select>`,
 a real `<dialog>`, a real checkbox) we use it. The result is fewer bugs,
@@ -95,8 +106,7 @@ Every component follows the international accessibility patterns (WAI-ARIA):
 full keyboard support, correct announcements for screen readers, visible
 focus. Every component carries an automated accessibility test, and the suite
 runs on every change: **over 1,100 automated tests** across the project,
-including real-browser and visual checks. Accessibility is the foundation the
-library stands on.
+including real-browser and visual checks.
 
 ## Your brand
 
@@ -108,20 +118,6 @@ theme exists so you can start today; every value in it is yours to replace.
 
 Why is the Select native while the Combobox is custom? Why did the dialogs
 move to the platform's `<dialog>` element? Each significant choice is written
-down in a public architecture record, with the trade-offs stated honestly. If
-you inherit this library, you inherit its reasoning too.
-
-## Where we are
-
-Invisible UI is in **alpha**: the component set (70+) and the Svelte adapter
-are complete and documented with live demos; the React, Python and web
-components adapters are proven proof-of-concepts on a shared six-component
-set. Names and details may still change. If that trade-off suits you, this is
-a good moment to look around and tell us what's missing.
-
-## Start here
-
-- **[Components](/invisible-ui/components/)**: every component, with a live demo on each page.
-- **[Naming map](/invisible-ui/components/naming/)**: coming from another library? Find things by the name you know.
-- **[Foundations](/invisible-ui/foundations/)**: tokens, colour, typography.
-- **[API conventions](/invisible-ui/api/)**: how the pieces fit, for every framework.
+down in a public architecture record, with the trade-offs stated honestly.
+Years later, your team can read why each choice was made and re-evaluate it
+with full context.

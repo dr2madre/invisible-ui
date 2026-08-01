@@ -52,6 +52,19 @@ always a mistake.
 - ~~"will always work"~~ → "works today in Svelte, React, Python and plain
   HTML" (a measurement).
 
+## No metaphors
+
+Literal statements only. Metaphors read as filler and age badly across
+languages. The tone is honest, assertive and approachable; charm that calls
+attention to itself turns against the text.
+
+- ~~"We can promise the ground it stands on."~~ → "The components follow the
+  usability and accessibility principles defined by WCAG."
+- ~~"Accessibility is the foundation the library stands on."~~ → delete; the
+  facts around it already say it.
+- ~~"The browser does the heavy lifting."~~ → "The browser does the work."
+- ~~"Touch is a first-class citizen."~~ → "Touch works everywhere."
+
 ## No em dashes
 
 The em dash (—) is high-register documentation punctuation; people write
