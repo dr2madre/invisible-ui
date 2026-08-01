@@ -1,6 +1,30 @@
 # Translation notes (internal)
 
-Notes for a future Italian localization of the documentation.
+Notes for the future localization of the documentation and FAQ answers.
+
+## Target languages
+
+Planned set (docs + FAQ answers):
+
+| Language | Code | Notes |
+| --- | --- | --- |
+| Italian | `it` | First target; tone quirks below. |
+| French | `fr` | |
+| Spanish | `es` | |
+| German | `de` | |
+| Portuguese | `pt-BR` | Brazilian variant first — the larger developer community; `pt-PT` later if demand. |
+| Chinese | `zh-CN` | Simplified first; `zh-TW` (traditional) later if demand. |
+| Russian | `ru` | |
+| Arabic | `ar` | **RTL** — the components already support it (CSS logical properties, `LocaleProvider dir`), so the docs site must too; Arabic is the test that proves it. |
+
+Worth considering as a second wave (large developer communities, commonly
+covered by major docs sites): **Japanese** (`ja`), **Korean** (`ko`),
+**Indonesian** (`id`), **Turkish** (`tr`), **Hindi** (`hi`).
+
+Implementation path: Starlight (the docs framework) has built-in i18n —
+per-locale content folders and localized UI strings — so the site side is
+solved; the work is the translation itself and keeping it fresh (untranslated
+pages fall back to English automatically).
 
 ## Tone quirks
 
