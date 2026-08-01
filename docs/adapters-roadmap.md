@@ -25,7 +25,7 @@ the chosen components exercise every integration shape the core exposes.
   > target (FastHTML, NiceGUI, Streamlit/Dash without a React island) could
   > render the accessible static markup but would need a JS runtime for
   > behaviour, so it is explicitly out of scope for this PoC. See
-  > `docs/adr/0003-python-adapter-wraps-react.md`.
+  > `docs/adr/0006-python-adapter-wraps-react.md`.
 
 ## Representative components (the PoC set)
 
@@ -56,8 +56,13 @@ always close over current state — no listener bookkeeping.
 
 ## Status
 
-**Part A is complete** — Button, Checkbox, Switch, Select, Combobox and Dialog
-(`packages/react`, 89 tests incl. axe). Part B (Reflex) has not started.
+**Both parts are complete.** Part A: Button, Checkbox, Switch, Select, Combobox
+and Dialog (`packages/react`, 89 tests incl. axe). Part B: the same six as
+Reflex wrappers (`packages/reflex`, importable as `invisible_ui`; 8 render
+tests) — thin `rx.Component` subclasses over the React build, per ADR 0006.
+Until `@design-system/react` is published to npm, a consuming Reflex app must
+make the package resolvable itself (see the package README); the example app
+lives in `examples/reflex`.
 
 **What the pass proved:** the core needed **no change at all** to drive a second
 framework. That claim only became load-bearing with the **Combobox**: the first
@@ -127,7 +132,7 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
    workspace) declaring the React package as its JS dependency;
    `invisible_ui/__init__.py` exporting the 5 wrappers.
 3. **ADR** — record the wrap-React decision and the JS-behaviour constraint in
-   `docs/adr/0003-python-adapter-wraps-react.md`.
+   `docs/adr/0006-python-adapter-wraps-react.md`.
 4. **Example** — `examples/reflex/` minimal app; `reflex run` / `reflex export`
    smoke check. A full Python test harness is out of PoC scope.
 
@@ -140,7 +145,7 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 - `examples/react/` — Vite + React demo app.
 - `packages/reflex/` — `pyproject.toml`, `invisible_ui/*.py`.
 - `examples/reflex/` — minimal Reflex app.
-- `docs/adr/0003-python-adapter-wraps-react.md`.
+- `docs/adr/0006-python-adapter-wraps-react.md`.
 - Root `package.json` release list — add `@design-system/react`.
 
 ## Verification

@@ -57,18 +57,17 @@ Each item ships as its own PR. Checkboxes track progress.
   overrides + `dir` for RTL). Adopted by the date/time family (Calendar, Date
   Picker, Date Range Picker, Time Field); a label prop still overrides the
   catalog. Rollout to the remaining components is mechanical follow-up.
-- [~] **6. Second framework adapter** — **React adapter complete as a
-  proof-of-concept** (`packages/react`): Button, Checkbox, Switch, Select,
-  Combobox and Dialog over the existing `@design-system/core`, with the
-  near-identity `normalizeProps` seam, a `useX()` hook per component, a minimal
+- [x] **6. Second framework adapter** — complete as a proof-of-concept.
+  **React** (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
+  Dialog over the existing `@design-system/core`, with the near-identity
+  `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
   by a parity test) and 89 tests incl. axe. **Confirmed:** the core needed *no*
   change to drive a second framework — the Combobox makes that claim
-  load-bearing (multi-part, Floating-UI popup, filtering,
-  `aria-activedescendant` with focus pinned to the input) and the Dialog closes
-  the overlay shape. Remaining: the **Reflex** (Python) adapter wrapping the
-  React components. Full plan, integration findings and the Python-behaviour
-  constraint: `docs/adapters-roadmap.md`.
+  load-bearing, the Dialog closes the overlay shape. **Reflex/Python**
+  (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over
+  the React build (ADR 0006) with 8 render tests — nothing re-implemented in
+  Python. Full plan and integration findings: `docs/adapters-roadmap.md`.
 - [x] **7. SSR/hydration guarantee** — `ssr.test.ts` server-renders every
   fixture (`svelte/server` `render`, node env) so no component touches the DOM
   during SSR; runs in the normal test gate. Caught and fixed a real bug: Toolbar
