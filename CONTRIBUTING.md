@@ -63,6 +63,9 @@ author name and email to match your own (or your GitHub) identity before
 contributing; commits from the maintainer are authored as `dr2madre
 (48051639+dr2madre@users.noreply.github.com)`.
 
+Signing commits is encouraged: the signature proves where a commit comes
+from. The responsibility behind it is always a person's.
+
 AI assistants may help draft changes, but they must **never** appear as the
 author of a commit, neither as the sole author nor as a co-author. No
 `Co-Authored-By` trailers for AI tools, and no automated or placeholder
