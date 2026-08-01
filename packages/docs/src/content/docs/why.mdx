@@ -1,89 +1,80 @@
 ---
 title: "Why Invisible UI"
-description: "One set of interface components that works with every technology your teams use — built on web standards, accessible by default, and free of visual opinions."
+description: "One set of interface components for every technology your teams use — built on web standards, accessible by default, themeable to your brand."
 ---
 
-A design system — not a parts bin. Interface components — buttons, forms,
-dialogs, menus — that work with every technology your teams use, built as one
-craft: experience, accessibility and engineering together, tested deeply, and
-made to outlive the trends.
+A design system: interface components — buttons, forms, dialogs, menus — for
+every technology your teams use. Experience, accessibility, usability and
+customization — tested deeply, made to outlive the trends.
 
 ## Why "Invisible"
 
-In user-experience research the word has a precise meaning. Nobody opens
-software for its interface: people come to write a document, pay an invoice,
-book a visit. The interface is only the medium — and you truly *notice* an
-interface only when it fails: the button that doesn't respond, the label read
-two ways, the popup that steals your focus. As Don Norman observed in *The
-Design of Everyday Things*, good design is far harder to notice than bad
-design — when it works, it simply disappears.
+In user-experience research, an interface gets noticed when it fails: the
+button that ignores a press, the label read two ways, the popup that steals
+your focus. Good design, as Don Norman wrote in *The Design of Everyday
+Things*, is far harder to notice than bad design — when it works, it
+disappears. Invisible design is the systematic removal of **cognitive load**,
+the mental effort people spend decoding a screen: controls that signal what
+they do, feedback that appears where attention already is, words that state
+outcomes. When that effort approaches zero, people reach what psychologists
+call *flow* — complete absorption in their task, tool forgotten.
 
-Invisible design is not minimalism, and it is not hiding controls. It is the
-systematic removal of **cognitive load** — the mental effort people spend
-decoding a screen instead of doing their task. Controls that signal what they
-do without instructions. Feedback that appears where attention already is.
-Words that state outcomes, not mechanics. When that effort approaches zero,
-people reach what psychologists call *flow*: complete absorption in the task,
-tool forgotten. "The best interface is no interface", as Golden Krishna put
-it — and where a visible interface *is* needed, the next best thing is one
-that never asks to be thought about.
+For this system the name carries three meanings:
 
-That is the goal this system is named after. Everything below serves it.
+1. **Invisible to your users** — the UX meaning above: interfaces so smooth
+   people simply get on with what they came to do.
+2. **Invisible to your stack** — the same components work in Svelte, React,
+   Python and plain HTML; the technology underneath stays out of sight.
+3. **Invisible until you theme it** — the components arrive free of visual
+   opinions and take on your brand through design tokens.
+
+One name, three promises. The rest of this page keeps them.
 
 ## The user experience is in the code
 
-Usability, accessibility and clear wording are not a layer applied on top of
-these components — they are what the components are made of, held to the same
-standard as performance or security. The decisions, applied consistently
-everywhere:
+Usability, accessibility and clear wording are requirements of this design
+system, held to the same standard as performance or security. The decisions,
+applied consistently everywhere:
 
-- **Buttons name outcomes, not gestures.** A dialog asking *"Do you want to
-  delete this file?"* answers with **Delete file** / **Keep file** — never an
-  ambiguous OK/Cancel that users (and screen readers) can misread.
-- **Dialogs match jobs people already understand** — confirm something, ask
-  for a value, acknowledge an outcome — instead of one generic popup doing
-  everything badly.
-- **An empty list is not an error.** "Nothing here yet" looks calm and offers
-  the next step; "something went wrong" looks like what it is. Different
-  situations, different designs.
+- **Buttons name outcomes.** A dialog asking *"Do you want to delete this
+  file?"* answers with **Delete file** / **Keep file** — each label readable
+  on its own, by everyone, screen readers included.
+- **Dialogs match jobs people already understand**: confirm something, ask
+  for a value, acknowledge an outcome.
+- **An empty list gets its own design.** "Nothing here yet" looks calm and
+  offers the next step; "something went wrong" looks like what it is.
 - **One selection colour everywhere**, so state reads at a glance across
   checkboxes, tabs, lists and menus.
 - **Touch is a first-class citizen**: menus, tooltips and pickers behave
-  properly on phones, not just under a mouse pointer.
-- **Even the docs are designed**: components are named for humans, and a
+  properly on phones.
+- **The docs are designed too**: components are named for humans, and a
   [naming map](/invisible-ui/components/naming/) welcomes people arriving from
   other libraries.
 
-None of this lives in a guidelines document nobody reads: it is built into
-the components and locked in by their tests, so it arrives intact in your
-product — on every stack the adapters reach.
+All of it is built into the components and locked in by their tests, so it
+arrives intact in your product — on every stack the adapters reach.
 
 ## Write once, use everywhere
 
-Most component libraries belong to one framework: if it's built for React, a
-Svelte team can't use it, and a plain web page can't either. Invisible UI
-turns that upside down. All the difficult parts — keyboard behaviour, focus,
-what a screen reader announces — live in **one shared core**. On top of it sit
-thin adapters for **Svelte**, **React**, **Python** and **plain HTML**. Same
-components, same behaviour, same look — whatever your stack. When we added the
-last three adapters, the core needed **zero changes**. That's not a promise;
-it's a measured fact.
+The hard parts — keyboard behaviour, focus, what a screen reader announces —
+live in **one shared core**. Thin adapters expose it to **Svelte**, **React**,
+**Python** and **plain HTML**: same components, same behaviour, same look,
+whatever your stack. We measured the claim: when the last three adapters were
+added, the core needed **zero changes**.
 
-## No technology marriage
+## Free to change your mind
 
 Frameworks come and go — anyone who has been in software for a decade has
-watched yesterday's standard become today's migration project. Invisible UI is
-built so you never bet the house: the core depends on **no framework at all**,
-and each adapter is a thin, replaceable layer. If your company changes stack
-in five years, the components — and the accessibility work inside them — come
-along.
+watched yesterday's standard become today's migration project. The core is
+pure, framework-free code, and each adapter is a thin, replaceable layer. If
+your company changes stack in five years, the components — and the
+accessibility work inside them — come along.
 
-## It works even where frameworks can't go
+## It works where frameworks are out of reach
 
-Not every application is a shiny new single-page app. There are portals built
-years ago, server-rendered tools, internal systems nobody dares rebuild. For
-those, Invisible UI ships **self-contained web components**: one stylesheet,
-one script tag, no build step, no framework required.
+Plenty of valuable software lives in portals built years ago, server-rendered
+tools, internal systems teams prefer to keep. For those, Invisible UI ships
+**self-contained web components**: one stylesheet, one script tag.
 
 ```html
 <script type="module" src=".../define.js"></script>
@@ -93,33 +84,32 @@ one script tag, no build step, no framework required.
 ```
 
 If a page can show HTML, it can use these components. That makes Invisible UI
-a practical tool for **modernizing legacy software** — putting a new,
-accessible face on old systems without rewriting them.
+a practical tool for **modernizing legacy software**: a new, accessible face
+on existing systems, while they keep running.
 
 ## The browser does the heavy lifting
 
 Where the web platform already provides something solid — a real `<select>`,
-a real `<dialog>`, a real checkbox — we use it instead of rebuilding it. The
-result is fewer bugs, forms that just work, and details you get for free, like
-the native picker on phones. We only build custom behaviour where the platform
-genuinely has none, and we follow the **W3C standards** (the organisation that
-defines how the web works) when we do.
+a real `<dialog>`, a real checkbox — we use it. The result is fewer bugs,
+forms that just work, and details you get for free, like the native picker on
+phones. Custom behaviour appears only where the platform leaves a genuine
+gap, and there we follow the **W3C standards** (the organisation that defines
+how the web works).
 
-## Accessible by default, not by afterthought
+## Accessible by default
 
 Every component follows the international accessibility patterns (WAI-ARIA):
 full keyboard support, correct announcements for screen readers, visible
-focus. Every single component carries an automated accessibility test, and the
-suite runs on every change — **over 1,100 automated tests** across the
-project, including real-browser and visual checks. Accessibility here is not a
-checkbox for compliance; it's the foundation the library stands on.
+focus. Every component carries an automated accessibility test, and the suite
+runs on every change — **over 1,100 automated tests** across the project,
+including real-browser and visual checks. Accessibility is the foundation the
+library stands on.
 
-## Your brand, not ours
+## Your brand
 
-The library brings no visual opinions of its own — invisible in this sense
-too. Colours, spacing, radii and typography all come from **design tokens** —
-a single set of values you change once to make everything yours. The default
-theme exists so you can start today; nothing in it is mandatory.
+Colours, spacing, radii and typography all come from **design tokens** — a
+single set of values you change once to make everything yours. The default
+theme exists so you can start today; every value in it is yours to replace.
 
 ## Every decision is public
 
