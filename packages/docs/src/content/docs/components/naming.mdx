@@ -1,0 +1,41 @@
+---
+title: "Naming map"
+description: "Looking for a Toast, Drawer or Badge? The correspondence between common component names and the names used here."
+---
+
+Different libraries call the same component different things. If you can't find
+what you're looking for, scan the left column — one row per common name, with a
+one-line reason for our choice.
+
+| You may know it as… | Here it's called | Why this name |
+| --- | --- | --- |
+| Toast | [Notification](/invisible-ui/components/feedback/notification/) | One name for the whole family — "toast" describes a position, not the job. |
+| Snackbar | [Notification](/invisible-ui/components/feedback/notification/) | Same family; the bottom single-line look is the `snackbar` layout. |
+| Alert (banner) | [Inline Notification](/invisible-ui/components/feedback/inline-notification/) | "Alert" collides with the `alert()` dialog; this one sits in the page flow. |
+| Banner | [Inline Notification](/invisible-ui/components/feedback/inline-notification/) | Same component. |
+| Modal | [Dialog](/invisible-ui/components/feedback/dialog/) | The WAI-ARIA role name; every modal here is a dialog. |
+| Drawer | [Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/) | One edge-anchored dialog covers both drawer and sheet (`side` picks the edge). |
+| Sheet | [Sheet Dialog](/invisible-ui/components/feedback/dialog/sheet-dialog/) | Same component. |
+| Command palette / ⌘K | [Search Dialog](/invisible-ui/components/feedback/dialog/search-dialog/) | Nothing in it is a command — it searches and picks from a list. |
+| Confirm (2-button alert) | [Confirm Dialog](/invisible-ui/components/feedback/dialog/confirm-dialog/) | The platform's `confirm()` job; add `urgent` for `role="alertdialog"`. |
+| Badge (number) | [Count](/invisible-ui/components/feedback/count/) | A numeric badge counts; a textual one labels — two jobs, two components. |
+| Badge (label) / Chip / Pill | [Tag](/invisible-ui/components/feedback/tag/) | Same component. |
+| OTP / one-time code input | [PIN Input](/invisible-ui/components/forms/pin-input/) | |
+| Spinner / Loader | [Loading](/invisible-ui/components/feedback/loading/) | Named for what the user experiences, not the drawing. |
+| Progress (indeterminate) | [Loading Progress](/invisible-ui/components/feedback/loading-progress/) | [Progress](/invisible-ui/components/data-layout/progress/) is determinate by design; the waiting side is Loading. |
+| Empty state / error page | [Error State](/invisible-ui/components/feedback/error-state/) | |
+| Autocomplete / typeahead | [Combobox](/invisible-ui/components/forms/combobox/) | The WAI-ARIA pattern name. |
+| Advanced select (rich options) | [Combobox](/invisible-ui/components/forms/combobox/) with `searchable={false}` | The native [Select](/invisible-ui/components/forms/select/) keeps the platform picker; rich options need the styled popup. |
+| Dropzone / file upload | [Upload Drop Area](/invisible-ui/components/forms/upload-drop-area/) | Says both what it's for (upload) and how (drop). |
+| Input / Text field | [Text Input](/invisible-ui/components/forms/text-field/) | |
+| Toggle (a setting) | [Switch](/invisible-ui/components/forms/switch/) | A switch is a setting; screen readers announce on/off. |
+| Toggle (an action, e.g. **Bold**) | [Toggle Button](/invisible-ui/components/forms/toggle-button/) | A pressed/unpressed action — different job from a Switch. |
+| Kbd | [Keyboard shortcut](/invisible-ui/components/navigation/kbd/) | The page is named for humans; the component stays `Kbd` (the HTML element). |
+| Disclosure | [Collapsible](/invisible-ui/components/data-layout/collapsible/) | |
+| Hover card | [Popover](/invisible-ui/components/data-layout/popover/) in hover mode | One positioning primitive; hover preview is a mode, not a component. |
+| Segmented button | [Segmented Control](/invisible-ui/components/forms/segmented-control/) | |
+| Menu (button + actions) | [Dropdown Menu](/invisible-ui/components/data-layout/dropdown-menu/) | Items run commands; picking a *value* is a [Select](/invisible-ui/components/forms/select/). |
+| Notification center | [Notification Center](/invisible-ui/components/patterns/notification-center/) | A composed pattern, under Patterns. |
+
+If a name is missing from this table and from the sidebar, the component
+probably doesn't exist yet — suggestions are welcome as issues.
