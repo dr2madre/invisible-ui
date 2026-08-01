@@ -10,6 +10,28 @@ Before adding anything here, check the public
 [naming map](../packages/docs/src/content/docs/components/naming.mdx): most
 "missing" components already exist under a different name.
 
+## Build order
+
+Every candidate from sections A–C in one ranked plan. Score = **ease of
+creation × absolute utility** (how often we expect people to reach for it),
+each 1–5; ties break on utility. Items the review explicitly parked sit at the
+bottom regardless of score.
+
+| # | Candidate | Size | Ease | Utility | Score | Why here |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | **Empty State** | component | 5 | 5 | 25 | Sibling of the existing Error State — same layout, new intent. Decided as the next build. |
+| 2 | **Number Input** | component | 4 | 5 | 20 | Native-first (`inputmode="decimal"` + spinbutton); the most common form gap. |
+| 3 | **Sidebar** | pattern | 3 | 5 | 15 | Composition of existing parts (nav, collapsible, sheet on mobile); shadcn's most-used piece. |
+| 4 | **Editable** | component | 4 | 3 | 12 | Small; pairs with the PromptDialog rename story. |
+| 5 | **Multi-select (tag input)** | component | 2 | 4 | 8 | Builds on `core/combobox` + Tag, but multi-value state is a real design round. |
+| 6 | **Range Slider** | component | 2 | 3 | 6 | First slider that can't stay native — full ARIA implementation. |
+| 7 | **Data Table** | super-pattern | 1 | 4 | 4 | The machinery (sort/filter/select/paginate) on top of the presentational Table. |
+| 8 | **Form (validation)** | super-pattern | 1 | 4 | 4 | Practically a ready application; needs its own design round first. |
+| 9 | **Splitter / Resizable** | component | 2 | 2 | 4 | Niche until app-shell layouts appear; rename before building. |
+| 10 | Timeline | pattern | 3 | 2 | — | **Parked** by review: an organism people build however they like. |
+| 11 | Charts | super-pattern | 1 | 3 | — | **Parked**: pick the chart engine first. |
+| 12 | Color Picker | component | 1 | 2 | — | **Parked**: wait for a real use case. |
+
 ## A. Components (gaps vs peer libraries)
 
 | Candidate | What it is | Peer precedent | Status / notes |
