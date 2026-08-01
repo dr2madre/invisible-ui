@@ -103,7 +103,13 @@ React** — nobody is routed through them.
 | **Streamlit** | component kit wrapping `@design-system/react` (the Reflex move again) | small, on demand |
 | **Solid / Qwik / Angular** | direct adapters; the core already proved it needs no changes | on demand |
 
-## PoC plan
+## PoC plan — **shipped** (see ADR 0008)
+
+The plan below was executed: `packages/elements` exists with the six
+components, 48 unit tests + CSS parity, a real-browser smoke of the plain-HTML
+habitat, and the three habitat pages in `examples/elements/`. Decisions
+(light DOM, self-contained dist, `<option>` children, `heading` naming) are
+recorded in `docs/adr/0008-web-components-adapter.md`.
 
 1. `packages/elements` (`@design-system/elements`): the **same six components
    as the React PoC** (Button, Checkbox, Switch, Select, Combobox, Dialog) as

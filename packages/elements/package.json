@@ -1,0 +1,60 @@
+{
+  "name": "@design-system/elements",
+  "version": "0.1.0-alpha.0",
+  "description": "Web Components adapter for the design system: framework-free custom elements over @design-system/core.",
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dr2madre/design-system.git",
+    "directory": "packages/elements"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "./dist/define.js",
+    "./src/define.ts"
+  ],
+  "files": [
+    "dist",
+    "src/styles"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./define": {
+      "types": "./dist/define.d.ts",
+      "import": "./dist/define.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@design-system/core": "workspace:*",
+    "@floating-ui/dom": "^1.7.6"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/user-event": "^14.6.1",
+    "jsdom": "^29.1.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.9",
+    "vitest-axe": "^0.1.0"
+  }
+}

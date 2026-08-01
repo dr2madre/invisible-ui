@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invisible UI Elements — plain HTML habitat</title>
+  <!-- No framework, no build step: a stylesheet and a script tag. -->
+  <link rel="stylesheet" href="../../packages/elements/src/styles/index.css" />
+  <script type="module" src="../../packages/elements/dist/define.js"></script>
+  <style> body { font-family: system-ui, sans-serif; margin: 2rem; display: grid; gap: 1.5rem; justify-items: start; } </style>
+</head>
+<body>
+  <h1>Invisible UI × plain HTML</h1>
+
+  <ds-button variant="primary" id="save">Save</ds-button>
+  <output id="saves">Saved 0 times</output>
+
+  <ds-checkbox label="Subscribe to the newsletter" name="news"></ds-checkbox>
+
+  <ds-switch label="Notifications" on-off checked></ds-switch>
+
+  <ds-select label="Fruit" name="fruit">
+    <option value="apple">Apple</option>
+    <option value="banana">Banana</option>
+    <option value="cherry" disabled>Cherry</option>
+  </ds-select>
+
+  <ds-combobox label="Priority" searchable="false" value="high">
+    <option value="high" icon="M12 19V5m-7 7 7-7 7 7">High</option>
+    <option value="low" icon="M12 5v14m7-7-7 7-7-7">Low</option>
+  </ds-combobox>
+
+  <ds-dialog heading="Share this file" description="Anyone with the link can view it." trigger="Share…">
+    <p>Body content goes here.</p>
+  </ds-dialog>
+
+  <script type="module">
+    let saves = 0;
+    document.getElementById("save").addEventListener("click", () => {
+      document.getElementById("saves").textContent = `Saved ${++saves} times`;
+    });
+    document.querySelector("ds-select").addEventListener("change", (e) =>
+      console.log("fruit:", e.detail.value));
+  </script>
+</body>
+</html>
