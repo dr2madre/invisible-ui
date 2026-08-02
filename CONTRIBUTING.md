@@ -1,10 +1,13 @@
 # Contributing
 
-Thanks for your interest in contributing to **Invisible UI** (by
+The working conventions for every change in **Invisible UI** (by
 nozcadesign), a headless, accessible, multi-framework component library.
 
-> **Note:** The project is in alpha. These guidelines describe the current
-> workflow and evolve with the project.
+> **Note:** The project is in alpha and code changes stay with the
+> maintainer while names and structure settle. The way to help today is
+> **reporting**: open an issue for anything that looks wrong or missing.
+> These guidelines record the conventions every change follows, and they
+> become the contributor guide when the project opens up.
 
 ## Ground rules
 
