@@ -1,11 +1,19 @@
 <script lang="ts">
   import EmptyState from "./EmptyState.svelte";
+  import type { ComponentProps } from "svelte";
 
   export let onAction: (() => void) | undefined = undefined;
   export let withIllustration = false;
+  export let actions: ComponentProps<EmptyState>["actions"] = [];
 </script>
 
-{#if withIllustration}
+{#if actions.length}
+  <EmptyState
+    title="No projects yet"
+    description="Create your first project to get started."
+    {actions}
+  />
+{:else if withIllustration}
   <EmptyState
     title="No projects yet"
     description="Create your first project to get started."

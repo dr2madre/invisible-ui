@@ -43,6 +43,13 @@
       "default": "undefined",
       "required": false,
       "description": "Called when the action button is pressed."
+    },
+    {
+      "name": "actions",
+      "type": "{ label: string",
+      "default": null,
+      "required": true,
+      "description": "Configurable action group: each entry renders a `Button`. The first action gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area."
     }
   ]
 }

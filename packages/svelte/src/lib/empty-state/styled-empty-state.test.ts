@@ -32,6 +32,30 @@ describe("Svelte EmptyState", () => {
     expect(container.querySelector(".feedback-icon")).not.toBeInTheDocument();
   });
 
+  it("renders a configurable action group: first action default, the rest ghost", async () => {
+    const user = userEvent.setup();
+    const onAdd = vi.fn();
+    const onImport = vi.fn();
+    render(Fixture, {
+      props: {
+        actions: [
+          { label: "Add a project", onAction: onAdd },
+          { label: "Import", onAction: onImport },
+        ],
+      },
+    });
+    const buttons = screen.getAllByRole("button");
+    expect(buttons).toHaveLength(2);
+    await user.click(screen.getByRole("button", { name: "Import" }));
+    expect(onImport).toHaveBeenCalledTimes(1);
+    expect(onAdd).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Add a project" })).toHaveAttribute(
+      "data-variant",
+      "default",
+    );
+    expect(screen.getByRole("button", { name: "Import" })).toHaveAttribute("data-variant", "ghost");
+  });
+
   it("runs the action on press", async () => {
     const user = userEvent.setup();
     const onAction = vi.fn();
