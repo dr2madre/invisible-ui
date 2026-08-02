@@ -47,22 +47,16 @@ jobs:
         if: ${{ !inputs.update }}
         run: pnpm visual
 
-      # Demos that animate on their own (progress, meter) never produce two
-      # identical consecutive screenshots, so update mode reports them as
-      # failed while every stable demo still gets its refreshed snapshot.
-      # Keep going: the push step publishes what regenerated; the report
-      # artifact carries the unstable ones for inspection.
       - name: Regenerate baselines
         if: ${{ inputs.update }}
-        continue-on-error: true
         run: pnpm visual:update
 
       - name: Push regenerated baselines to the test/visual-baselines branch
         if: ${{ inputs.update }}
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "dr2madre"
           git config user.email "48051639+dr2madre@users.noreply.github.com"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           if git diff --quiet -- e2e/visual.spec.ts-snapshots/ && \
              [ -z "$(git status --porcelain e2e/visual.spec.ts-snapshots/)" ]; then
             echo "Baselines unchanged; nothing to push."
