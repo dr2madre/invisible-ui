@@ -51,12 +51,16 @@ It composes existing primitives — no new behavior:
 - **Icon**: a [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/)
   (`danger` by default). Override it with a different glyph or a bespoke
   illustration via the `icon` slot.
-- **Actions**: [Buttons](/invisible-ui/components/actions/button/). One
-  recovery button comes from `actionLabel`/`onAction`; a configurable group
-  comes from the `actions` prop (an array of `{ label, onAction, variant }`:
-  the first action renders in the `default` variant and the rest in `ghost`,
-  unless an entry sets its own `variant`). For anything else, the `actions`
-  slot replaces the whole area. Omit all three for no actions.
+- **Actions**: [Buttons](/invisible-ui/components/forms/button/) and
+  [Links](/invisible-ui/components/navigation/link/). One recovery button
+  comes from `actionLabel`/`onAction`; a configurable group comes from the
+  `actions` prop: an array of `{ label, onAction, variant, href }` where the
+  first action renders in the `default` variant and the rest in `ghost`
+  (unless an entry sets its own `variant`), and an entry with `href` renders
+  as a link (e.g. "Contact support"). For anything else, the `actions` slot
+  replaces the whole area. Omit all three for no actions.
+- **Density**: `size="sm"` compacts padding, icon and title for use inside
+  cards, panels and table areas; the default `md` fits pages and sections.
 
 ### Accessibility
 

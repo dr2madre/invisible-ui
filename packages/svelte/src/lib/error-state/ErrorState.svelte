@@ -22,6 +22,7 @@
    */
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
+  import Link from "../link/Link.svelte";
   import type { ButtonVariant } from "../button/create-button";
 
   /** The headline — what went wrong, in plain language. */
@@ -37,15 +38,24 @@
   /** Called when the recovery button is pressed. */
   export let onAction: (() => void) | undefined = undefined;
   /**
-   * Configurable action group: each entry renders a `Button`. The first
-   * action gets the `default` variant and the rest `ghost`, unless an entry
-   * sets its own `variant`. Takes precedence over `actionLabel`; the
-   * `actions` slot replaces the whole area.
+   * Configurable action group. An entry with `href` renders a `Link` (a
+   * direct pathway, e.g. "Learn more" documentation); the others render
+   * `Button`s: the first gets the `default` variant and the rest `ghost`,
+   * unless an entry sets its own `variant`. Takes precedence over
+   * `actionLabel`; the `actions` slot replaces the whole area.
    */
-  export let actions: { label: string; onAction?: () => void; variant?: ButtonVariant }[] = [];
+  export let actions: {
+    label: string;
+    onAction?: () => void;
+    variant?: ButtonVariant;
+    href?: string;
+    target?: string;
+  }[] = [];
+  /** Density: `md` for full pages and sections, `sm` inside cards, panels and table areas. */
+  export let size: "md" | "sm" = "md";
 </script>
 
-<div class="error-state" role="alert">
+<div class="error-state" role="alert" data-size={size}>
   <span class="error-state__icon">
     <slot name="icon">
       <FeedbackIcon {status} box="tint" shape="round" />
@@ -67,12 +77,18 @@
       <slot name="actions">
         {#if actions.length}
           {#each actions as action, index (action.label)}
-            <Button
-              variant={action.variant ?? (index === 0 ? "default" : "ghost")}
-              onpress={action.onAction}
-            >
-              {action.label}
-            </Button>
+            {#if action.href}
+              <Link href={action.href} target={action.target} onpress={action.onAction}>
+                {action.label}
+              </Link>
+            {:else}
+              <Button
+                variant={action.variant ?? (index === 0 ? "default" : "ghost")}
+                onpress={action.onAction}
+              >
+                {action.label}
+              </Button>
+            {/if}
           {/each}
         {:else if actionLabel}
           <Button variant="default" onpress={onAction}>{actionLabel}</Button>
@@ -116,5 +132,17 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
+    align-items: center;
+  }
+  /* Compact density for cards, panels and table areas. */
+  .error-state[data-size="sm"] {
+    gap: var(--ds-error-state-gap, 0.5rem);
+    padding: var(--ds-error-state-padding, 1.5rem 1rem);
+  }
+  .error-state[data-size="sm"] .error-state__icon {
+    --ds-feedback-icon-size: var(--ds-error-state-icon-size, 2.5rem);
+  }
+  .error-state[data-size="sm"] .error-state__title {
+    font-size: var(--ds-error-state-title-size, 1rem);
   }
 </style>

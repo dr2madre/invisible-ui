@@ -42,6 +42,7 @@ because it is part of the native-first stance (ADR 0003/0005).
 | Date Range Picker | APG date grid, range selection | hybrid | 2 hidden inputs | | |
 | Dialog | APG Dialog (Modal) / HTML `<dialog>` | native | — | | `showModal()`: top layer, inert background (ADR 0005). |
 | Dropdown Menu | APG **Menu Button** | ARIA | — | ≠ | Spec name is Menu Button. |
+| Empty State | ARIA `role="status"` | ARIA | — | ≠ | No spec component. Calm sibling of Error State. |
 | Error State | ARIA `role="alert"` | ARIA | — | ≠ | No spec component. |
 | Feedback Icon | `role="img"` / `aria-hidden` | presentational | — | | |
 | Field | HTML `<label>` + `aria-describedby` wiring | native | native | | Wires whatever control is slotted in. |

@@ -101,6 +101,7 @@ export default defineConfig({
                   label: "Dialog and modals",
                   items: [{ autogenerate: { directory: "components/feedback/dialog" } }],
                 },
+                "components/feedback/empty-state",
                 "components/feedback/error-state",
                 "components/feedback/feedback-icon",
                 {

@@ -5,16 +5,19 @@
   export let onAction: (() => void) | undefined = undefined;
   export let withIllustration = false;
   export let actions: ComponentProps<EmptyState>["actions"] = [];
+  export let size: ComponentProps<EmptyState>["size"] = "md";
 </script>
 
 {#if actions.length}
   <EmptyState
+    {size}
     title="No projects yet"
     description="Create your first project to get started."
     {actions}
   />
 {:else if withIllustration}
   <EmptyState
+    {size}
     title="No projects yet"
     description="Create your first project to get started."
     actionLabel="Add a project"
@@ -36,6 +39,7 @@
   </EmptyState>
 {:else}
   <EmptyState
+    {size}
     title="No projects yet"
     description="Create your first project to get started."
     actionLabel="Add a project"

@@ -27,7 +27,6 @@
     "src/lib/loading-generation-area/LoadingGenerationArea.svelte",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
-    "src/lib/alert",
     "src/lib/notification/Notification.svelte",
     "src/lib/notification/NotificationRegion.svelte",
     "src/lib/checkbox/Checkbox.svelte",

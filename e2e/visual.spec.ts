@@ -13,6 +13,8 @@ import { test, expect } from "@playwright/test";
 // docs/visual-testing.md); run `pnpm visual:update` to refresh them.
 const components = [
   ["forms", "button"],
+  ["feedback", "empty-state"],
+  ["feedback", "error-state"],
   ["feedback", "tag"],
   ["data-layout", "card"],
   ["feedback", "inline-notification"],

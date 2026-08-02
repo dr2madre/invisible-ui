@@ -50,6 +50,7 @@ bottom regardless of score.
 | --- | --- | --- | --- |
 | **Sidebar** | The app shell's side navigation: collapsible, groups, mobile behaviour | most app shells | A pattern, not a primitive — composed from existing parts (nav, collapsible, sheet on mobile). Documented under Patterns like Login Form / Notification Center. |
 | Timeline | Ordered event list with markers | AntD, MUI Lab | **Later** — an organism people can (and do) build however they like; presentational only. |
+| Async Content | One region that walks the data cycle: initial moment → query running (Loading/Skeleton) → answer: content, Empty State or Error State | query-state wrappers in data-fetching libraries | **Later** — needs its own design round. The pieces all exist; this is the orchestration on top, so the right moment for each state is built in (never the empty state while the query runs). |
 
 ## C. Super-patterns (almost ready applications)
 

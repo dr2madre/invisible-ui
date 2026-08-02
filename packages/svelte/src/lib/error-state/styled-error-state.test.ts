@@ -58,6 +58,25 @@ describe("Svelte ErrorState", () => {
     );
   });
 
+  it("renders an action with href as a link", () => {
+    render(Fixture, {
+      props: {
+        actions: [
+          { label: "Try again" },
+          { label: "Contact support", href: "https://example.com/support" },
+        ],
+      },
+    });
+    const link = screen.getByRole("link", { name: "Contact support" });
+    expect(link).toHaveAttribute("href", "https://example.com/support");
+    expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
+  });
+
+  it("supports the compact size", () => {
+    render(Fixture, { props: { size: "sm" } });
+    expect(screen.getByRole("alert")).toHaveAttribute("data-size", "sm");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture);
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

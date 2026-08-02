@@ -29,6 +29,28 @@ Two different concepts (per Nielsen Norman Group):
 Same layout, different intent: the two components share their anatomy on
 purpose, so a screen can switch between them without moving anything.
 
+### When to use
+
+The three empty moments, each with its own copy:
+
+- **First use**: the feature has never been filled. Explain what will live
+  here and invite the first step. *"No projects yet. Create your first
+  project to get started."* The default slot can hold a learning cue
+  (a short tip, starter links) that teaches how this space gets populated.
+- **No results**: a search or filter came back empty. Show the term, suggest
+  a correction, and offer a way out. *"No results for 'tofu'. Check the
+  spelling or try a broader search."* with a "Clear search" action.
+- **Cleared by the user**: the work is done (an emptied inbox, a completed
+  list). Celebrate quietly with `status="success"`. *"All done. Nothing
+  needs your attention."*
+
+One timing rule: the empty state appears only after the data has answered.
+While the request runs, show a
+[Loading](/invisible-ui/components/feedback/loading/) or a
+[Skeleton](/invisible-ui/components/feedback/skeleton/); declaring "nothing
+here" during a load misleads. The full cycle (initial moment, query running,
+then content, empty or error) is a composition pattern on the backlog.
+
 ### Import
 
 ```svelte
@@ -49,12 +71,16 @@ It composes existing primitives, no new behavior:
   `illustration` slot (an SVG, an image, anything). Without it, the theme's
   [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/) renders as
   the fallback (`neutral` by default, so the tone stays calm).
-- **Actions**: [Buttons](/invisible-ui/components/actions/button/). One
-  inviting button comes from `actionLabel`/`onAction`; a configurable group
-  comes from the `actions` prop (an array of `{ label, onAction, variant }`:
-  the first action renders in the `default` variant and the rest in `ghost`,
-  unless an entry sets its own `variant`). For anything else, the `actions`
-  slot replaces the whole area. Omit all three for no actions.
+- **Actions**: [Buttons](/invisible-ui/components/forms/button/) and
+  [Links](/invisible-ui/components/navigation/link/). One inviting button
+  comes from `actionLabel`/`onAction`; a configurable group comes from the
+  `actions` prop: an array of `{ label, onAction, variant, href }` where the
+  first action renders in the `default` variant and the rest in `ghost`
+  (unless an entry sets its own `variant`), and an entry with `href` renders
+  as a link (e.g. "Learn more" documentation). For anything else, the
+  `actions` slot replaces the whole area. Omit all three for no actions.
+- **Density**: `size="sm"` compacts padding, icon and title for use inside
+  cards, panels and table areas; the default `md` fits pages and sections.
 
 ### Accessibility
 
