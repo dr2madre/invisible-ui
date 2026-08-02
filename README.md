@@ -385,10 +385,11 @@ follows the light/dark theme out of the box) and stays fully themeable through
 These are thin wrappers over the headless primitives — same behavior and
 accessibility, with a default look you can re-theme via tokens.
 
-## Contributing
+## Feedback
 
-Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the
-branching workflow, commit conventions, and how to propose a new component.
+Found something wrong, or missing something you need? Open an issue: reports
+are the most useful help while the project is in alpha. The working
+conventions for changes live in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
