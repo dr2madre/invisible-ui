@@ -69,12 +69,12 @@ components of the shared set. Two notes from that work:
   post-flush watch, the approach the Svelte and elements adapters already
   use. Options are keyed by value, which keeps each option element across
   highlight changes: a pointer press selects the option it started on.
-- The `normalize` seam gained the rename its own docstring anticipated. Vue
-  derives a DOM event name by hyphenating what follows `on`, so `onKeyDown`
-  registered a listener for `key-down` and never fired. Handler keys now
-  collapse to a single capitalized word (`onKeydown`, `onMouseenter`). The
-  four components that shipped first only used `onClick` and `onChange`, so
-  they were unaffected; the fix also revives Enter and Space handling on
-  `useButton({ nativeButton: false })`.
+- The `normalize` seam carries the rename its docstring anticipated. Vue
+  derives a DOM event name by hyphenating what follows `on`, so a multi-word
+  key such as `onKeyDown` resolves to `key-down`. The seam collapses handler
+  keys to a single capitalized word (`onKeydown`, `onMouseenter`), which is
+  what the components with keyboard and pointer behavior need, and what
+  makes Enter and Space work on `useButton({ nativeButton: false })`.
+  Single-word keys pass through unchanged.
 
 The core still needed zero changes.
