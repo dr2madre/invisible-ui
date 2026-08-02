@@ -38,8 +38,10 @@ Playwright container** (`mcr.microsoft.com/playwright:v1.61.1-jammy`) and is
 To (re)generate the authoritative, CI-matching baselines:
 
 1. Dispatch **Visual regression** with `update: true`.
-2. Download the `visual-baselines` artifact.
-3. Commit it under `e2e/visual.spec.ts-snapshots/`.
+2. The workflow pushes the refreshed snapshots to the
+   `test/visual-baselines` branch (it pushes nothing when the images are
+   unchanged).
+3. Open a pull request from that branch, review the image diff, and merge.
 
 After that, dispatch with `update: false` (the default) to compare; failures
 upload a `visual-report` artifact with the side-by-side diffs.
