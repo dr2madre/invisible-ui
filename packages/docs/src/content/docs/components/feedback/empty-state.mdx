@@ -49,10 +49,12 @@ It composes existing primitives, no new behavior:
   `illustration` slot (an SVG, an image, anything). Without it, the theme's
   [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/) renders as
   the fallback (`neutral` by default, so the tone stays calm).
-- **Action**: a [Button](/invisible-ui/components/actions/button/) in its
-  `default` variant, from `actionLabel`/`onAction`. Replace the whole action
-  area (e.g. a primary action plus a quieter alternative) through the
-  `actions` slot; omit `actionLabel` for no button.
+- **Actions**: [Buttons](/invisible-ui/components/actions/button/). One
+  inviting button comes from `actionLabel`/`onAction`; a configurable group
+  comes from the `actions` prop (an array of `{ label, onAction, variant }`:
+  the first action renders in the `default` variant and the rest in `ghost`,
+  unless an entry sets its own `variant`). For anything else, the `actions`
+  slot replaces the whole area. Omit all three for no actions.
 
 ### Accessibility
 

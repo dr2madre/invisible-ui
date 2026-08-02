@@ -6,9 +6,10 @@
    * this when an action or load failed and the user needs to recover.
    *
    * Layout: a status `FeedbackIcon` (danger by default), a `title`, an optional
-   * `description`, and a single recovery `Button` at the bottom (the default
-   * `variant`, not a link) — e.g. "Try again". It is **not** dismissable: an
-   * error state replaces the content it covers, so there is nothing to close.
+   * `description`, and a recovery action area at the bottom: a single `Button`
+   * from `actionLabel`/`onAction` (e.g. "Try again"), or a configurable group
+   * from the `actions` prop. It is **not** dismissable: an error state
+   * replaces the content it covers, so there is nothing to close.
    *
    * Reuses the existing `FeedbackIcon` and `Button`. Swap the icon for another
    * glyph or an ad-hoc illustration via the `icon` slot (e.g. a bespoke 404
@@ -21,6 +22,7 @@
    */
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
+  import type { ButtonVariant } from "../button/create-button";
 
   /** The headline — what went wrong, in plain language. */
   export let title: string;
@@ -34,6 +36,13 @@
   export let actionLabel: string | undefined = undefined;
   /** Called when the recovery button is pressed. */
   export let onAction: (() => void) | undefined = undefined;
+  /**
+   * Configurable action group: each entry renders a `Button`. The first
+   * action gets the `default` variant and the rest `ghost`, unless an entry
+   * sets its own `variant`. Takes precedence over `actionLabel`; the
+   * `actions` slot replaces the whole area.
+   */
+  export let actions: { label: string; onAction?: () => void; variant?: ButtonVariant }[] = [];
 </script>
 
 <div class="error-state" role="alert">
@@ -53,10 +62,19 @@
 
   <slot />
 
-  {#if $$slots.actions || actionLabel}
+  {#if $$slots.actions || actions.length || actionLabel}
     <div class="error-state__actions">
       <slot name="actions">
-        {#if actionLabel}
+        {#if actions.length}
+          {#each actions as action, index (action.label)}
+            <Button
+              variant={action.variant ?? (index === 0 ? "default" : "ghost")}
+              onpress={action.onAction}
+            >
+              {action.label}
+            </Button>
+          {/each}
+        {:else if actionLabel}
           <Button variant="default" onpress={onAction}>{actionLabel}</Button>
         {/if}
       </slot>

@@ -32,6 +32,32 @@ describe("Svelte ErrorState", () => {
     expect(onAction).toHaveBeenCalledTimes(1);
   });
 
+  it("renders a configurable action group: first action default, the rest ghost", async () => {
+    const user = userEvent.setup();
+    const onRetry = vi.fn();
+    const onBack = vi.fn();
+    render(Fixture, {
+      props: {
+        actions: [
+          { label: "Try again", onAction: onRetry },
+          { label: "Go back", onAction: onBack },
+        ],
+      },
+    });
+    expect(screen.getAllByRole("button")).toHaveLength(2);
+    await user.click(screen.getByRole("button", { name: "Go back" }));
+    expect(onBack).toHaveBeenCalledTimes(1);
+    expect(onRetry).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Try again" })).toHaveAttribute(
+      "data-variant",
+      "default",
+    );
+    expect(screen.getByRole("button", { name: "Go back" })).toHaveAttribute(
+      "data-variant",
+      "ghost",
+    );
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture);
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

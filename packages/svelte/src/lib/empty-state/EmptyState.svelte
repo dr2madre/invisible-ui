@@ -10,8 +10,9 @@
    * an action area at the bottom. The illustration area accepts a bespoke
    * artwork via the `illustration` slot and falls back to the theme's
    * `FeedbackIcon` (neutral by default). The action area renders a single
-   * `Button` from `actionLabel`/`onAction`, or any custom content via the
-   * `actions` slot. Themeable via `--ds-empty-state-*`.
+   * `Button` from `actionLabel`/`onAction`, a configurable group from the
+   * `actions` prop, or any custom content via the `actions` slot. Themeable
+   * via `--ds-empty-state-*`.
    *
    * Accessibility: the region is a `role="status"` (polite live region), so
    * when content resolves to empty the change is announced without
@@ -20,6 +21,7 @@
    */
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
+  import type { ButtonVariant } from "../button/create-button";
 
   /** The headline — what this space is for, in plain language. */
   export let title: string;
@@ -33,6 +35,13 @@
   export let actionLabel: string | undefined = undefined;
   /** Called when the action button is pressed. */
   export let onAction: (() => void) | undefined = undefined;
+  /**
+   * Configurable action group: each entry renders a `Button`. The first
+   * action gets the `default` variant and the rest `ghost`, unless an entry
+   * sets its own `variant`. Takes precedence over `actionLabel`; the
+   * `actions` slot replaces the whole area.
+   */
+  export let actions: { label: string; onAction?: () => void; variant?: ButtonVariant }[] = [];
 </script>
 
 <div class="empty-state" role="status">
@@ -52,10 +61,19 @@
 
   <slot />
 
-  {#if $$slots.actions || actionLabel}
+  {#if $$slots.actions || actions.length || actionLabel}
     <div class="empty-state__actions">
       <slot name="actions">
-        {#if actionLabel}
+        {#if actions.length}
+          {#each actions as action, index (action.label)}
+            <Button
+              variant={action.variant ?? (index === 0 ? "default" : "ghost")}
+              onpress={action.onAction}
+            >
+              {action.label}
+            </Button>
+          {/each}
+        {:else if actionLabel}
           <Button variant="default" onpress={onAction}>{actionLabel}</Button>
         {/if}
       </slot>
