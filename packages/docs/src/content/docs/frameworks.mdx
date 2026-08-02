@@ -15,7 +15,7 @@ when an adapter grows.
 | **React** | `@design-system/react` | 6 (the shared set below) | Working proof of concept. |
 | **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 6 | Working proof of concept; wraps the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
 | **Web components** (plain HTML) | `@design-system/elements` | 6 | Working proof of concept: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
-| **Vue** | `@design-system/vue` | In development | The first components are being built now. |
+| **Vue** | `@design-system/vue` | 4 | Working proof of concept: Button, Checkbox, Switch, Select, with `v-model`. |
 
 Every component always exists in Svelte; the shared set below is where the
 other adapters are proven first, one component at a time. When a component
@@ -24,14 +24,14 @@ change with it.
 
 ## The shared component set
 
-| Component | React | Python | Web components |
-| --- | --- | --- | --- |
-| [Button](/invisible-ui/components/forms/button/) | ✓ | ✓ | ✓ |
-| [Checkbox](/invisible-ui/components/forms/checkbox/) | ✓ | ✓ | ✓ |
-| [Switch](/invisible-ui/components/forms/switch/) | ✓ | ✓ | ✓ |
-| [Select](/invisible-ui/components/forms/select/) | ✓ | ✓ | ✓ |
-| [Combobox](/invisible-ui/components/forms/combobox/) | ✓ | ✓ | ✓ |
-| [Dialog](/invisible-ui/components/feedback/dialog/dialog/) | ✓ | ✓ | ✓ |
+| Component | React | Python | Web components | Vue |
+| --- | --- | --- | --- | --- |
+| [Button](/invisible-ui/components/forms/button/) | ✓ | ✓ | ✓ | ✓ |
+| [Checkbox](/invisible-ui/components/forms/checkbox/) | ✓ | ✓ | ✓ | ✓ |
+| [Switch](/invisible-ui/components/forms/switch/) | ✓ | ✓ | ✓ | ✓ |
+| [Select](/invisible-ui/components/forms/select/) | ✓ | ✓ | ✓ | ✓ |
+| [Combobox](/invisible-ui/components/forms/combobox/) | ✓ | ✓ | ✓ | |
+| [Dialog](/invisible-ui/components/feedback/dialog/dialog/) | ✓ | ✓ | ✓ | |
 
 The set was chosen to prove every behavior family: a plain control, two
 checked controls, a native picker, a full custom popup, and the modal
