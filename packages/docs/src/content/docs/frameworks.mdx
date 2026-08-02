@@ -1,0 +1,47 @@
+---
+title: "Framework support"
+description: "The measured state of every adapter: which components run on which technology today."
+---
+
+One shared core carries the behavior; thin adapters expose it to each
+technology. This page tracks the measured state of that work and is updated
+when an adapter grows.
+
+## Where each technology stands
+
+| Technology | Package | Components today | State |
+| --- | --- | --- | --- |
+| **Svelte** | `@design-system/svelte` | All 70+ | Complete: every component documented with a live demo. |
+| **React** | `@design-system/react` | 6 (the shared set below) | Working proof of concept. |
+| **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 6 | Working proof of concept; wraps the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
+| **Web components** (plain HTML) | `@design-system/elements` | 6 | Working proof of concept: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
+| **Vue** | `@design-system/vue` | In development | The first components are being built now. |
+
+Every component always exists in Svelte; the shared set below is where the
+other adapters are proven first, one component at a time. When a component
+lands in an adapter, this page and the [API conventions](/invisible-ui/api/)
+change with it.
+
+## The shared component set
+
+| Component | React | Python | Web components |
+| --- | --- | --- | --- |
+| [Button](/invisible-ui/components/forms/button/) | ✓ | ✓ | ✓ |
+| [Checkbox](/invisible-ui/components/forms/checkbox/) | ✓ | ✓ | ✓ |
+| [Switch](/invisible-ui/components/forms/switch/) | ✓ | ✓ | ✓ |
+| [Select](/invisible-ui/components/forms/select/) | ✓ | ✓ | ✓ |
+| [Combobox](/invisible-ui/components/forms/combobox/) | ✓ | ✓ | ✓ |
+| [Dialog](/invisible-ui/components/feedback/dialog/dialog/) | ✓ | ✓ | ✓ |
+
+The set was chosen to prove every behavior family: a plain control, two
+checked controls, a native picker, a full custom popup, and the modal
+lifecycle. Porting all six required **zero changes** to the core, which is
+the measurement behind "write once, use everywhere".
+
+## Using a technology without its adapter
+
+The web components run in any page that can show HTML: server-rendered
+apps, older portals, and frameworks without a dedicated adapter today. A
+Vue example lives in the repository
+([examples/elements/vue.html](https://github.com/dr2madre/invisible-ui/blob/main/examples/elements/vue.html)):
+the custom elements work in Vue templates as they are.
