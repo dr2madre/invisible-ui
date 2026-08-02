@@ -19,7 +19,7 @@ bottom regardless of score.
 
 | # | Candidate | Size | Ease | Utility | Score | Why here |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | **Empty State** | component | 5 | 5 | 25 | Sibling of the existing Error State — same layout, new intent. Decided as the next build. |
+| 1 | **Empty State** | component | 5 | 5 | 25 | **Shipped.** Sibling of the existing Error State — same layout, new intent. |
 | 2 | **Number Input** | component | 4 | 5 | 20 | Native-first (`inputmode="decimal"` + spinbutton); the most common form gap. |
 | 3 | **Sidebar** | pattern | 3 | 5 | 15 | Composition of existing parts (nav, collapsible, sheet on mobile); the most used piece of an app shell. |
 | 4 | **Editable** | component | 4 | 3 | 12 | Small; pairs with the PromptDialog rename story. |
@@ -36,7 +36,7 @@ bottom regardless of score.
 
 | Candidate | What it is | Peer precedent | Status / notes |
 | --- | --- | --- | --- |
-| **Empty State** | "No data yet" view (icon + message + optional action) — the calm sibling of Error State | most systems | **Probable next.** Likely a sibling or variant of Error State: same layout, different intent (nothing failed). |
+| **Empty State** | "No data yet" view (illustration + message + optional action) — the calm sibling of Error State | most systems | **Shipped** (Svelte): `illustration` slot with themed icon fallback, `actions` slot. Same layout as Error State, different intent (nothing failed). |
 | **Number Input** | Numeric field with +/− steppers, min/max/step, wheel & arrow keys | Ark, MUI, React Aria, Chakra | The most common form gap. Native-first: `inputmode="decimal"` + spinbutton pattern. |
 | **Multi-select (tag input)** | Combobox selecting several values, shown as removable tags | Ark (TagsInput), MUI, React Aria | Builds on `core/combobox` + Tag. Decide: separate component vs `multiple` on Combobox. |
 | **Range Slider** | Two-thumb min–max slider | Radix, Ark, MUI | Our Slider is a single native `input[type=range]` (no native dual). The first slider primitive that can't stay native. |

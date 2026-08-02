@@ -23,6 +23,7 @@
     "src/lib/icon/Icon.svelte",
     "src/lib/feedback-icon",
     "src/lib/error-state/ErrorState.svelte",
+    "src/lib/empty-state/EmptyState.svelte",
     "src/lib/loading-generation-area/LoadingGenerationArea.svelte",
     "src/lib/button/Button.svelte",
     "src/lib/button-group/ButtonGroup.svelte",
@@ -117,6 +118,10 @@
     "./ErrorState.svelte": {
       "svelte": "./src/lib/error-state/ErrorState.svelte",
       "default": "./src/lib/error-state/ErrorState.svelte"
+    },
+    "./EmptyState.svelte": {
+      "svelte": "./src/lib/empty-state/EmptyState.svelte",
+      "default": "./src/lib/empty-state/EmptyState.svelte"
     },
     "./LoadingGenerationArea.svelte": {
       "svelte": "./src/lib/loading-generation-area/LoadingGenerationArea.svelte",
