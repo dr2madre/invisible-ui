@@ -265,6 +265,9 @@ importers:
       '@design-system/core':
         specifier: workspace:*
         version: link:../../core
+      '@floating-ui/dom':
+        specifier: ^1.7.6
+        version: 1.8.0
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.9.1

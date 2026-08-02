@@ -41,7 +41,8 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@design-system/core": "workspace:*"
+    "@design-system/core": "workspace:*",
+    "@floating-ui/dom": "^1.7.6"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

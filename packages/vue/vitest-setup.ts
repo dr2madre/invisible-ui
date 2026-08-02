@@ -25,6 +25,20 @@ expect.extend(matchers);
 // unless the setup registers it.
 afterEach(cleanup);
 
+// jsdom doesn't implement HTMLDialogElement's methods. The dialog family runs
+// on the native <dialog> + showModal() (ADR 0005); stub just enough for unit
+// tests. Real top-layer / inert-background behavior is covered by e2e.
+if (typeof HTMLDialogElement !== "undefined" && !HTMLDialogElement.prototype.showModal) {
+  HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+    this.setAttribute("open", "");
+  };
+  HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+    if (!this.hasAttribute("open")) return;
+    this.removeAttribute("open");
+    this.dispatchEvent(new Event("close"));
+  };
+}
+
 // jsdom's canvas API is intentionally incomplete; axe-core may touch it.
 if (typeof HTMLCanvasElement !== "undefined") {
   HTMLCanvasElement.prototype.getContext = (() =>
