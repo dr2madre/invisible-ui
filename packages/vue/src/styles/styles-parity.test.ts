@@ -9,12 +9,21 @@ import { describe, expect, it } from "vitest";
 // the adapters render the same design system, and a silent divergence would
 // show up as adapters that look subtly different.
 //
-// `index.css` is excluded: it imports exactly the sheets this package ships,
-// which is the proof-of-concept set of four components.
+// `index.css` is excluded: it names this package in its comment and in the
+// import path it documents, so its text is package-specific even though it now
+// pulls in the same six sheets.
 
 const read = (rel: string) => readFileSync(fileURLToPath(new URL(rel, import.meta.url)), "utf8");
 
-const SHEETS = ["tokens.css", "button.css", "checkbox.css", "switch.css", "select.css"];
+const SHEETS = [
+  "tokens.css",
+  "button.css",
+  "checkbox.css",
+  "switch.css",
+  "combobox.css",
+  "dialog.css",
+  "select.css",
+];
 
 describe("stylesheet parity with the React adapter", () => {
   it.each(SHEETS)("%s matches byte for byte", (sheet) => {

@@ -18,13 +18,25 @@ describe("normalizeProps (the Vue seam)", () => {
     });
   });
 
-  it("passes the core's camelCase handlers through as vnode props", () => {
+  it("passes single-word handlers through as vnode props", () => {
     const onClick = vi.fn();
-    const onKeyDown = vi.fn();
-    const out = normalizeProps({ onClick, onKeyDown });
+    const onChange = vi.fn();
+    const out = normalizeProps({ onClick, onChange });
 
     expect(out.onClick).toBe(onClick);
-    expect(out.onKeyDown).toBe(onKeyDown);
+    expect(out.onChange).toBe(onChange);
+  });
+
+  it("collapses multi-word handler keys so Vue resolves the DOM event name", () => {
+    const onKeyDown = vi.fn();
+    const onMouseEnter = vi.fn();
+    const out = normalizeProps({ onKeyDown, onMouseEnter });
+
+    // Vue hyphenates what follows `on`; `onKeyDown` would listen for
+    // "key-down", while `onKeydown` resolves to "keydown".
+    expect(out.onKeydown).toBe(onKeyDown);
+    expect(out.onMouseenter).toBe(onMouseEnter);
+    expect("onKeyDown" in out).toBe(false);
   });
 
   it("keeps DOM attribute spellings, which Vue accepts as-is", () => {
