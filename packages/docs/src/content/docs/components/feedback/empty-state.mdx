@@ -1,0 +1,78 @@
+---
+title: "Empty State"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import EmptyStateDemo from "../../../../demos/EmptyStateDemo.svelte";
+
+<Preview>
+  <EmptyStateDemo client:visible />
+</Preview>
+
+A centered message shown when there is no content to show and nothing has
+failed: first run, an empty list, no search results, a cleared inbox. It looks
+calm and offers the next step: an illustration, a title, an optional
+description, and an action area at the bottom.
+
+### Empty state vs error state
+
+Two different concepts (per Nielsen Norman Group):
+
+- **Empty state** (this component): nothing went wrong, there is simply no
+  content yet. The user needs to **get started**, so the action is an
+  invitation ("Add a project", "Clear filters").
+- **[Error state](/invisible-ui/components/feedback/error-state/)**: something
+  *failed* (500, timeout, lost connection). The user needs to **recover**
+  (retry, reload, go back).
+
+Same layout, different intent: the two components share their anatomy on
+purpose, so a screen can switch between them without moving anything.
+
+### Import
+
+```svelte
+<script>
+  import EmptyState from "@design-system/svelte/EmptyState.svelte";
+</script>
+```
+
+### Props
+
+<PropsTable component="empty-state" />
+
+### Anatomy & reuse
+
+It composes existing primitives, no new behavior:
+
+- **Illustration**: the space at the top accepts your own artwork through the
+  `illustration` slot (an SVG, an image, anything). Without it, the theme's
+  [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/) renders as
+  the fallback (`neutral` by default, so the tone stays calm).
+- **Action**: a [Button](/invisible-ui/components/actions/button/) in its
+  `default` variant, from `actionLabel`/`onAction`. Replace the whole action
+  area (e.g. a primary action plus a quieter alternative) through the
+  `actions` slot; omit `actionLabel` for no button.
+
+### Accessibility
+
+- The region is a `role="status"` (a polite live region): when content
+  resolves to empty, the change is announced without interrupting what the
+  user is doing.
+- Meaning never rests on color alone: the title carries it (WCAG 1.4.1).
+- `headingLevel` (default `2`) sets the title's heading level so it fits the
+  surrounding document outline.
+
+### Example
+
+```svelte
+<EmptyState
+  title="No projects yet"
+  description="Create your first project to get started."
+  actionLabel="Add a project"
+  onAction={() => createProject()}
+/>
+```
+
+Themeable via `--ds-empty-state-*` (gap, padding, max-width, icon size,
+illustration max-width, title size).
