@@ -47,8 +47,14 @@ jobs:
         if: ${{ !inputs.update }}
         run: pnpm visual
 
+      # Demos that animate on their own (progress, meter) never produce two
+      # identical consecutive screenshots, so update mode reports them as
+      # failed while every stable demo still gets its refreshed snapshot.
+      # Keep going: the push step publishes what regenerated; the report
+      # artifact carries the unstable ones for inspection.
       - name: Regenerate baselines
         if: ${{ inputs.update }}
+        continue-on-error: true
         run: pnpm visual:update
 
       - name: Push regenerated baselines to the test/visual-baselines branch
