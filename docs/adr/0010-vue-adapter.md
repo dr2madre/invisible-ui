@@ -58,6 +58,23 @@ recipe the React adapter followed.
   a module counter because Vue's own `useId` requires 3.5; server-side
   rendering of this package is untested and out of scope for the PoC.
 - The package is private and unpublished, like the other adapters at this
-  stage. The component set is Button, Checkbox, Switch and Select; Combobox
-  and Dialog ship in the React and elements adapters, and adding them here is
-  a separate decision.
+  stage.
+
+## Addendum, 2026-08-02: the shared set is complete
+
+Combobox and Dialog shipped the same day, so the Vue adapter carries all six
+components of the shared set. Two notes from that work:
+
+- The Combobox positions its popup with `@floating-ui/dom` driven by a
+  post-flush watch, the approach the Svelte and elements adapters already
+  use. Options are keyed by value, which keeps each option element across
+  highlight changes: a pointer press selects the option it started on.
+- The `normalize` seam gained the rename its own docstring anticipated. Vue
+  derives a DOM event name by hyphenating what follows `on`, so `onKeyDown`
+  registered a listener for `key-down` and never fired. Handler keys now
+  collapse to a single capitalized word (`onKeydown`, `onMouseenter`). The
+  four components that shipped first only used `onClick` and `onChange`, so
+  they were unaffected; the fix also revives Enter and Space handling on
+  `useButton({ nativeButton: false })`.
+
+The core still needed zero changes.

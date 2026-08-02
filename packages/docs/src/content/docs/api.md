@@ -70,8 +70,8 @@ React build — `pip` package `invisible-ui`, `import invisible_ui as ui`,
 the browser as the core's JavaScript; Python only wires state and events (ADR
 0006).
 
-**Vue** apps get native composables and components (`@design-system/vue`:
-Button, Checkbox, Switch, Select) with `v-model` on the checked and selected
+**Vue** apps get native composables and components (`@design-system/vue`,
+the full shared set) with `v-model` on the checked, selected and open
 values, plus the same callback props as the React adapter (ADR 0010). The
 [Framework support](/invisible-ui/frameworks/) page tracks per-adapter
 coverage.
