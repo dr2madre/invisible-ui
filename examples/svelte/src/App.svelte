@@ -14,6 +14,7 @@
   import { createNotifier } from "@design-system/svelte";
   import Button from "@design-system/svelte/Button.svelte";
   import InlineNotification from "@design-system/svelte/InlineNotification.svelte";
+  import EmptyState from "@design-system/svelte/EmptyState.svelte";
   import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
   import TextField from "@design-system/svelte/TextField.svelte";
   import Textarea from "@design-system/svelte/Textarea.svelte";
@@ -99,6 +100,16 @@
         <FeedbackIcon {status} label={status} />
       {/each}
     </div>
+  </section>
+
+  <section>
+    <h2>Empty state</h2>
+    <EmptyState
+      size="sm"
+      title="No projects yet"
+      description="Create your first project to get started."
+      actions={[{ label: "Add a project" }, { label: "Learn more", href: "#" }]}
+    />
   </section>
 
   <section>

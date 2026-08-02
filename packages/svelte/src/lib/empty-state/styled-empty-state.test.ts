@@ -56,6 +56,25 @@ describe("Svelte EmptyState", () => {
     expect(screen.getByRole("button", { name: "Import" })).toHaveAttribute("data-variant", "ghost");
   });
 
+  it("renders an action with href as a link", () => {
+    render(Fixture, {
+      props: {
+        actions: [
+          { label: "Add a project" },
+          { label: "Learn more", href: "https://example.com/docs" },
+        ],
+      },
+    });
+    const link = screen.getByRole("link", { name: "Learn more" });
+    expect(link).toHaveAttribute("href", "https://example.com/docs");
+    expect(screen.getByRole("button", { name: "Add a project" })).toBeInTheDocument();
+  });
+
+  it("supports the compact size", () => {
+    render(Fixture, { props: { size: "sm" } });
+    expect(screen.getByRole("status")).toHaveAttribute("data-size", "sm");
+  });
+
   it("runs the action on press", async () => {
     const user = userEvent.setup();
     const onAction = vi.fn();

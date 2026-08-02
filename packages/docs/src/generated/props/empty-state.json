@@ -46,10 +46,17 @@
     },
     {
       "name": "actions",
-      "type": "{ label: string",
+      "type": "{",
       "default": null,
       "required": true,
       "description": "Configurable action group: each entry renders a `Button`. The first action gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area."
+    },
+    {
+      "name": "size",
+      "type": "\"md\" | \"sm\"",
+      "default": "\"md\"",
+      "required": false,
+      "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas."
     }
   ]
 }
