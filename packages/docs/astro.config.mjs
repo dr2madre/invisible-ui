@@ -28,6 +28,7 @@ export default defineConfig({
       sidebar: [
         { label: "Overview", link: "/" },
         { label: "Why Invisible UI", link: "/why/" },
+        { label: "Framework support", link: "/frameworks/" },
         { label: "Foundations", link: "/foundations/" },
         {
           label: "Components",
