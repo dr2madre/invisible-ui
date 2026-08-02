@@ -1,0 +1,13 @@
+/* The Vue adapter's stylesheet: design tokens plus the styled components the
+   proof of concept ships. Import once at the app root:
+
+     import "@design-system/vue/styles.css";
+
+   For tokens only (when you style the components yourself), import
+   `@design-system/vue/tokens.css` instead. */
+
+@import "./tokens.css";
+@import "./button.css";
+@import "./checkbox.css";
+@import "./switch.css";
+@import "./select.css";

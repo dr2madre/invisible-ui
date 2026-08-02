@@ -1,0 +1,96 @@
+/* Switch — ported from the Svelte adapter, class names kept identical.
+   The `.field` / `.field__label` row is shared with Checkbox. */
+
+.switch__input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.switch {
+  inline-size: var(--ds-switch-width, 2.5rem);
+  block-size: var(--ds-switch-height, 1.5rem);
+  border-radius: var(--ds-radius-pill, 999px);
+  background: var(--ds-color-border, #cbd5e1);
+  position: relative;
+  flex: none;
+  transition: background-color 120ms ease;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.125rem;
+  inset-inline-start: 0.125rem;
+  inline-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
+  block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
+  border-radius: 50%;
+  /* The thumb is always white (it sits on the track in both states). */
+  background: var(--ds-switch-thumb, var(--ds-neutral-0, #fff));
+  transition: translate 150ms ease;
+}
+.switch__input:focus-visible + .switch {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: var(--ds-focus-ring-offset, 2px);
+}
+
+.switch__input:checked + .switch {
+  background: var(--ds-color-secondary, #7b52cc);
+}
+.switch__input:checked + .switch::after {
+  translate: calc(var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)) 0;
+}
+
+.field--disabled .switch,
+.switch__input:disabled + .switch {
+  opacity: 0.5;
+}
+
+/* ---- ON/OFF labelled variant: a wider track with text behind the thumb ---- */
+.switch--onoff {
+  inline-size: var(--ds-switch-onoff-width, 3.75rem);
+  display: flex;
+  align-items: center;
+}
+.switch--onoff .switch__on,
+.switch--onoff .switch__off {
+  position: absolute;
+  inset-block: 0;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--ds-switch-onoff-font, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: opacity 120ms ease;
+}
+/* ON sits on the left (revealed when the thumb slides right). */
+.switch--onoff .switch__on {
+  inset-inline-start: 0.5rem;
+  color: var(--ds-switch-onoff-on-text, var(--ds-color-on-secondary, #fff));
+  opacity: 0;
+}
+/* OFF sits on the right (shown while off, thumb on the left). */
+.switch--onoff .switch__off {
+  inset-inline-end: 0.5rem;
+  color: var(--ds-switch-onoff-off-text, var(--ds-color-text-secondary, #64748b));
+  opacity: 1;
+}
+.switch__input:checked + .switch--onoff .switch__on {
+  opacity: 1;
+}
+.switch__input:checked + .switch--onoff .switch__off {
+  opacity: 0;
+}
+.switch--onoff.switch::after {
+  translate: 0 0;
+}
+.switch__input:checked + .switch--onoff.switch::after {
+  translate: calc(var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)) 0;
+}
