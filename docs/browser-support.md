@@ -18,6 +18,13 @@ Everything except `color-mix()` is comfortably within the last-2-versions
 window. `color-mix()` is the newest; it has a **graceful fallback** (below), so
 older browsers stay usable — they just lose the subtle hue tint.
 
+## Automated coverage
+
+The functional Playwright suite runs on every pull request in Chromium,
+Firefox and WebKit. It covers representative page hydration and interactions
+for Dialog, Calendar, Switch and Combobox. Visual regression remains pinned to
+Chromium so screenshots stay deterministic across runs.
+
 ## `color-mix()` fallback
 
 The tinted feedback surfaces/borders (Alert, Notice, status tokens) are derived

@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "size-limit",
-    "e2e": "playwright test --project=chromium",
+    "e2e": "playwright test --project=chromium --project=firefox --project=webkit",
     "visual": "playwright test --project=visual",
     "visual:update": "playwright test --project=visual --update-snapshots",
     "api:generate": "node scripts/generate-api.mjs",
