@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  e2e:
+  browser:
     name: E2E (${{ matrix.browser }})
     runs-on: ubuntu-latest
     strategy:
@@ -50,3 +50,16 @@ jobs:
           name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 7
+
+  # Preserve the required `e2e` status while the browser jobs fan out. This
+  # aggregator passes only when every matrix entry succeeds.
+  e2e:
+    name: e2e
+    if: ${{ always() }}
+    needs: browser
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm browser matrix passed
+        env:
+          RESULT: ${{ needs.browser.result }}
+        run: test "$RESULT" = "success"
