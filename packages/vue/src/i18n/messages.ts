@@ -12,6 +12,9 @@
 export const en = {
   "combobox.placeholder": "Search…",
   "dialog.close": "Close",
+  "dialog.confirm": "Confirm",
+  "dialog.cancel": "Cancel",
+  "dialog.dismiss": "OK",
   "combobox.clear": "Clear",
   "combobox.empty": "No results",
   "select.placeholder": "Select…",

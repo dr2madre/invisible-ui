@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { defineComponent, h, ref } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { nextTick } from "vue";
 import { LocaleProvider } from "../i18n/i18n";
 import { Combobox, type ComboboxOption } from "./Combobox";
 
@@ -242,23 +243,32 @@ describe("Vue Combobox (styled)", () => {
     const user = userEvent.setup();
     render(Controlled);
 
+    // Mouse presses always count, however quick: the ghost guard arms only
+    // after touch input.
     await user.click(screen.getByRole("button", { name: "Show options" }));
     expect(input()).toHaveAttribute("aria-expanded", "true");
-
-    // Past the ghost-click window below, so this counts as a real second press.
-    await new Promise((resolve) => setTimeout(resolve, 400));
     await user.click(screen.getByRole("button", { name: "Close options" }));
     expect(input()).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("ignores an iOS ghost click arriving right after the first", async () => {
-    const user = userEvent.setup();
+  it("ignores an iOS ghost click arriving right after a tap", async () => {
     render(Controlled);
+    const chevron = screen.getByRole("button", { name: "Show options" });
 
-    // Two presses inside the 350ms window: the synthesized duplicate must not
-    // close what the first press opened.
-    await user.click(screen.getByRole("button", { name: "Show options" }));
-    await user.click(screen.getByRole("button", { name: "Close options" }));
+    // A tap: touch pointerdown, then the click the browser derives from it.
+    // (jsdom has no PointerEvent constructor; a MouseEvent with the field
+    // defined carries the same information to the handler.)
+    const tap = new MouseEvent("pointerdown", { bubbles: true });
+    Object.defineProperty(tap, "pointerType", { value: "touch" });
+    chevron.dispatchEvent(tap);
+    chevron.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await nextTick();
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    // The synthesized duplicate arrives inside the window with no fresh
+    // press: it must not close what the tap opened.
+    chevron.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await nextTick();
     expect(input()).toHaveAttribute("aria-expanded", "true");
   });
 

@@ -1,0 +1,69 @@
+/* PromptDialog, ported from the Svelte adapter, class names kept identical.
+   Distinct from the shared dialog.css: the simple dialogs are single-message
+   panels, without the grid header/body/footer layout. */
+
+.prompt-dialog__panel::backdrop {
+  background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
+}
+.prompt-dialog__panel {
+  /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */
+  margin: auto;
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: var(--ds-dialog-max-width, 28rem);
+  padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
+  background: var(--ds-color-background, #fff);
+  color: var(--ds-color-text, #0f172a);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(
+    --ds-elevation-overlay,
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1)
+  );
+}
+.prompt-dialog__panel:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
+.prompt-dialog__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: var(--ds-line-height-tight, 1.2);
+}
+.prompt-dialog__description {
+  margin: 0.5rem 0 0;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.prompt-dialog__field {
+  display: grid;
+  gap: 0.35rem;
+  margin-block-start: 1rem;
+}
+.prompt-dialog__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.prompt-dialog__input {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--ds-control-padding-y, 0.5rem) 0.75rem;
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-radius-control, 0.5rem);
+  font: inherit;
+  background: var(--ds-color-background, #fff);
+  color: inherit;
+}
+.prompt-dialog__input:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #7b52cc);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.prompt-dialog__actions {
+  margin-block-start: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
