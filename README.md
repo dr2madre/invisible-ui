@@ -114,6 +114,9 @@ no changes to drive another framework; **Web Components** cover the
 framework-free shared set. **Reflex** wraps the React components so Python apps
 reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
 
+See [`core/README.md`](./core/README.md) for the primitive contract, state
+ownership and adapter integration model.
+
 ### How it works
 
 Each component in `core/` is a pure state plus a `connect()` function that
