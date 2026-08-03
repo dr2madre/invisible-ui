@@ -1,0 +1,38 @@
+/* CheckboxGroup, ported from the Svelte adapter. The painted box, glyph and
+   hidden input (`.checkbox`, `.checkbox__glyph`, `.checkbox__input`) are the
+   same classes as the standalone Checkbox and come from `checkbox.css`, so
+   both render identically. The Svelte item row is `.field`, which is taken by
+   the Checkbox / Switch label row in this global sheet, so the item row
+   carries `checkbox-group__item` instead. */
+
+.checkbox-group {
+  display: grid;
+  gap: var(--ds-checkbox-group-gap, 0.5rem);
+  /* Reset the native fieldset chrome. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.checkbox-group__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-block-end: 0.125rem;
+  padding: 0;
+}
+/* Disabled group/item dims its label too. */
+.checkbox-group:disabled .checkbox-group__label,
+.checkbox-group__item--disabled .field__label {
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+
+.checkbox-group__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-checkbox-gap, 0.5rem);
+  cursor: pointer;
+}
+.checkbox-group__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

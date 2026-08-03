@@ -1,0 +1,72 @@
+/* RadioGroup, ported from the Svelte adapter, class names kept identical. */
+
+.radio-field {
+  display: grid;
+  gap: var(--ds-radio-label-gap, 0.5rem);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+.radio-field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-radio-gap, 0.5rem);
+}
+.radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: var(--ds-radio-gap-horizontal, 1.25rem);
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.radio--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The native input is the accessible, focusable control; visually hidden,
+   with the sibling `.radio__dot` painted from its :checked / :focus-visible. */
+.radio__input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.radio__dot {
+  inline-size: var(--ds-radio-size, 1.1rem);
+  block-size: var(--ds-radio-size, 1.1rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: 50%;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+}
+.radio__input:checked + .radio__dot {
+  border-color: var(--ds-color-secondary, #7b52cc);
+}
+.radio__input:checked + .radio__dot::after {
+  content: "";
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  border-radius: 50%;
+  background: var(--ds-color-secondary, #7b52cc);
+}
+.radio__input:focus-visible + .radio__dot {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
