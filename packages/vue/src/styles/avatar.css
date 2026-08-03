@@ -1,0 +1,44 @@
+/* Avatar, ported from the Svelte adapter, class names kept identical. */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  overflow: hidden;
+  inline-size: var(--ds-avatar-size, 2.5rem);
+  block-size: var(--ds-avatar-size, 2.5rem);
+  background: var(--ds-avatar-bg, var(--ds-color-surface, #f1f5f9));
+  color: var(--ds-avatar-color, var(--ds-color-text-secondary, #64748b));
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+}
+.avatar[data-size="sm"] {
+  inline-size: var(--ds-avatar-size, 2rem);
+  block-size: var(--ds-avatar-size, 2rem);
+  font-size: 0.75rem;
+}
+.avatar[data-size="md"] {
+  inline-size: var(--ds-avatar-size, 2.5rem);
+  block-size: var(--ds-avatar-size, 2.5rem);
+  font-size: 0.875rem;
+}
+.avatar[data-size="lg"] {
+  inline-size: var(--ds-avatar-size, 3.5rem);
+  block-size: var(--ds-avatar-size, 3.5rem);
+  font-size: 1.125rem;
+}
+.avatar[data-shape="circle"] {
+  border-radius: 50%;
+}
+.avatar[data-shape="square"] {
+  border-radius: var(--ds-avatar-radius, var(--ds-radius-control, 0.5rem));
+}
+
+.avatar__img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}

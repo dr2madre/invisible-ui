@@ -8,8 +8,9 @@
  * Tooltip, DropdownMenu, AlertDialog, ConfirmDialog, PromptDialog) and the
  * feedback batch (Notification + NotificationRegion + createNotifier,
  * InlineNotification, FeedbackIcon, Progress, Loading, Skeleton, Tag, Count)
- * ported from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are
- * opt-in:
+ * and the data & nav batch (Tabs, Accordion, Card, Table, Pagination,
+ * Breadcrumb, Avatar, AvatarGroup) ported from the Svelte adapter; see
+ * `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -69,6 +70,25 @@ export { Loading, type LoadingProps, type LoadingVariant } from "./loading/Loadi
 export { Skeleton, type SkeletonProps } from "./skeleton/Skeleton";
 export { Tag, type TagProps, type TagStatus } from "./tag/Tag";
 export { Count, type CountProps, type CountStatus } from "./count/Count";
+export { Tabs, type TabsItem, type TabsProps } from "./tabs/Tabs";
+export { Accordion, type AccordionEntry, type AccordionProps } from "./accordion/Accordion";
+export { Card, type CardProps } from "./card/Card";
+export {
+  Table,
+  type SortDirection,
+  type SortState,
+  type TableColumnDef,
+  type TableProps,
+  type TableRow,
+} from "./table/Table";
+export { Pagination, type PaginationProps } from "./pagination/Pagination";
+export { Breadcrumb, type BreadcrumbItem, type BreadcrumbProps } from "./breadcrumb/Breadcrumb";
+export { Avatar, initialsOf, type AvatarProps } from "./avatar/Avatar";
+export {
+  AvatarGroup,
+  type AvatarGroupItem,
+  type AvatarGroupProps,
+} from "./avatar-group/AvatarGroup";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -115,6 +135,26 @@ export {
   type ProgressState,
   type UseProgress,
 } from "./progress/use-progress";
+export {
+  useTabs,
+  type ActivationMode,
+  type TabItem,
+  type UseTabs,
+  type UseTabsOptions,
+} from "./tabs/use-tabs";
+export {
+  useAccordion,
+  type AccordionItem,
+  type AccordionType,
+  type UseAccordion,
+  type UseAccordionOptions,
+} from "./accordion/use-accordion";
+export {
+  usePagination,
+  type PageItem,
+  type UsePagination,
+  type UsePaginationOptions,
+} from "./pagination/use-pagination";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

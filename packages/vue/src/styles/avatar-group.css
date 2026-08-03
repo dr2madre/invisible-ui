@@ -1,0 +1,60 @@
+/* AvatarGroup, ported from the Svelte adapter, class names kept identical. */
+
+.avatar-group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Overlap each avatar over its predecessor; a ring separates them. */
+.avatar-group__item {
+  display: inline-flex;
+  border-radius: inherit;
+  /* No separator ring by default: avatars overlap directly. Opt into one
+     (e.g. for photo avatars) by setting --ds-avatar-group-ring-width to a
+     non-zero value; the ring color should match the background the group sits
+     on so it only separates avatars and stays invisible at the outer edge. */
+  box-shadow: 0 0 0 var(--ds-avatar-group-ring-width, 0)
+    var(--ds-avatar-group-ring-color, var(--ds-color-background, #fff));
+}
+.avatar-group__item:not(:first-child) {
+  margin-inline-start: var(--ds-avatar-group-overlap, -0.625rem);
+}
+
+/* Stack order: earlier avatars sit above later ones so the overlap reads
+   left-to-right; the overflow chip stays on top. */
+.avatar-group__item {
+  position: relative;
+  z-index: 0;
+}
+
+.avatar-group__overflow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: var(--ds-avatar-size, 2.5rem);
+  block-size: var(--ds-avatar-size, 2.5rem);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+  background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #e2e8f0));
+  color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #475569));
+}
+.avatar-group__overflow[data-size="sm"] {
+  inline-size: var(--ds-avatar-size, 2rem);
+  block-size: var(--ds-avatar-size, 2rem);
+  font-size: 0.6875rem;
+}
+.avatar-group__overflow[data-size="lg"] {
+  inline-size: var(--ds-avatar-size, 3.5rem);
+  block-size: var(--ds-avatar-size, 3.5rem);
+  font-size: 1rem;
+}
+.avatar-group__overflow[data-shape="circle"] {
+  border-radius: 50%;
+}
+.avatar-group__overflow[data-shape="square"] {
+  border-radius: var(--ds-avatar-radius, var(--ds-radius-control, 0.5rem));
+}
