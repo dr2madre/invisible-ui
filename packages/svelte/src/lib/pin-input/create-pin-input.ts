@@ -33,7 +33,12 @@ export interface CreatePinInput {
  * to a Svelte store, applies connected props via actions, moves DOM focus, and
  * fires `onComplete` once every cell is filled.
  */
-export function createPinInput(context: core.PinInputContext = {}): CreatePinInput {
+export interface CreatePinInputContext extends core.PinInputContext {
+  /** Accessible name for a cell, by zero-based index. Defaults to the catalog. */
+  cellLabel?: (index: number, length: number) => string;
+}
+
+export function createPinInput(context: CreatePinInputContext = {}): CreatePinInput {
   const state = writable<PinInputState>(core.initialState(context));
 
   const setValues = (values: string[]) => {
@@ -57,7 +62,13 @@ export function createPinInput(context: core.PinInputContext = {}): CreatePinInp
   };
 
   const api = derived(state, ($state) =>
-    core.connect({ state: $state, setValues, focus, normalize: normalizeProps }),
+    core.connect({
+      state: $state,
+      setValues,
+      focus,
+      cellLabel: context.cellLabel,
+      normalize: normalizeProps,
+    }),
   );
 
   const baseRootAction = createPropsAction(api, (a) => a.rootProps);

@@ -63,6 +63,12 @@ export const en = {
   "loginForm.forgot": "Forgot password?",
   // Navigation
   "pagination.label": "Pagination",
+  "pagination.previous": "Go to previous page",
+  "pagination.next": "Go to next page",
+  "pagination.page": "Go to page {page}",
+  "rating.star": "{count} star",
+  "rating.stars": "{count} stars",
+  "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
   "contextMenu.label": "Context menu",
   "menu.label": "Main",

@@ -76,7 +76,7 @@ export const Pagination = defineComponent({
             {
               ...api.value.getPrevProps(),
               class: "pagination__control",
-              "aria-label": "Go to previous page",
+              "aria-label": t("pagination.previous"),
             },
             "‹",
           ),
@@ -93,7 +93,7 @@ export const Pagination = defineComponent({
                     ...api.value.getPageProps(item),
                     key: `p${item}`,
                     class: "pagination__page",
-                    "aria-label": `Go to page ${item}`,
+                    "aria-label": t("pagination.page", { page: item }),
                   },
                   item,
                 ),
@@ -103,7 +103,7 @@ export const Pagination = defineComponent({
             {
               ...api.value.getNextProps(),
               class: "pagination__control",
-              "aria-label": "Go to next page",
+              "aria-label": t("pagination.next"),
             },
             "›",
           ),

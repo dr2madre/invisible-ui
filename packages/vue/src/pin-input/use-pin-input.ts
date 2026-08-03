@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useI18n } from "../i18n/i18n";
 
 export type PinInputType = core.PinInputType;
 export type PinInputApi = core.PinInputApi;
@@ -24,6 +25,8 @@ export interface UsePinInputOptions {
   /** Render cells masked. */
   mask?: boolean;
   disabled?: boolean;
+  /** Accessible name for a cell, by zero-based index. Defaults to the catalog. */
+  cellLabel?: (index: number, length: number) => string;
   /** Called whenever the combined value changes. */
   onValueChange?: (value: string) => void;
   /** Called once all cells are filled. */
@@ -53,6 +56,7 @@ export interface UsePinInput {
  */
 export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}): UsePinInput {
   const resolved = computed(() => toValue(options));
+  const i18n = useI18n();
   // One seeding pass fixes the id, so later states reuse it instead of drawing
   // a fresh one from the core's counter on every recompute.
   const seed = core.initialState(resolved.value);
@@ -102,7 +106,15 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
   };
 
   const api = computed(() =>
-    core.connect({ state: state.value, setValues, focus, normalize: normalizeProps }),
+    core.connect({
+      state: state.value,
+      setValues,
+      focus,
+      cellLabel:
+        resolved.value.cellLabel ??
+        ((index, length) => i18n.value.t("pinInput.cell", { index: index + 1, length })),
+      normalize: normalizeProps,
+    }),
   );
 
   return {
