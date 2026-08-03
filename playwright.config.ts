@@ -24,10 +24,15 @@ export default defineConfig({
   // Visual snapshots: disable animations and tolerate sub-pixel anti-aliasing so
   // baselines stay stable across runs. Authoritative baselines are generated in
   // the pinned Playwright container (see docs/visual-testing.md).
+  //
+  // The ratio has to stay well under what a single component state occupies: at
+  // 2% a restored selected-page style (1.95% of the pagination shot) counted as
+  // no change at all. 0.4% leaves room for anti-aliasing noise, around 200
+  // pixels on these images, and still fails on a state that stops rendering.
   expect: {
     toHaveScreenshot: {
       animations: "disabled",
-      maxDiffPixelRatio: 0.02,
+      maxDiffPixelRatio: 0.004,
     },
   },
   projects: [
