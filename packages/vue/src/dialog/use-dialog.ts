@@ -59,8 +59,9 @@ let instanceCount = 0;
  * scroll lock, backdrop light-dismiss, initial focus and focus restore.
  *
  * The panel must be rendered only while open, so the post-flush `watch` tracks
- * the open state and its cleanup runs when the panel goes away, the Vue
- * counterpart of the React effect's lifecycle.
+ * the panel element itself (assigned while open, including a mount that starts
+ * open) and its cleanup runs when the panel goes away, the Vue counterpart of
+ * the React effect's lifecycle.
  */
 export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): UseDialog {
   const id = `ds-dialog-${++instanceCount}`;
@@ -94,11 +95,15 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
   const triggerRef = ref<HTMLElement | null>(null);
   const panelRef = ref<HTMLDialogElement | null>(null);
 
+  // The effect keys on the panel element, not the open flag: a component
+  // mounted with `open: true` assigns the template ref only after this
+  // composable ran, so a watch on `open` alone would find no element and skip
+  // `showModal()` until the state changed. Watching the element (present only
+  // while open) makes mount-time open behave like any later open; the cleanup
+  // still runs when the panel goes away.
   watch(
-    open,
-    (isOpen, _previous, onCleanup) => {
-      if (!isOpen) return;
-      const el = panelRef.value;
+    () => (open.value ? panelRef.value : null),
+    (el, _previous, onCleanup) => {
       if (!el) return;
 
       // Capture focus before it moves into the dialog, to restore on close.

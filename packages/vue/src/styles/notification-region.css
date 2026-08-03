@@ -1,0 +1,127 @@
+/* NotificationRegion, ported from the Svelte adapter, class names kept
+   identical. The Svelte fly/FLIP transitions map to Vue `TransitionGroup`
+   classes (`notice-*`) below; the component sets the durations through
+   `--ds-notice-motion` / `--ds-notice-motion-out` (0ms under reduced motion). */
+
+.notification-region {
+  position: fixed;
+  /* Sit above every overlay (dialog/popover/menu top out at ~100) and own a
+     self-contained stacking context so notices never slip behind page content. */
+  z-index: var(--ds-notice-z, 1000);
+  isolation: isolate;
+  display: flex;
+  gap: 0.5rem;
+  /* Newest on top of the pile, always fully visible: the stack never grows
+     past the screen — when it would, it slides down and the oldest are
+     clipped on the far side. */
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  max-block-size: 100dvh;
+  /* Clip only the block axis (the vertical pile cap); keep the inline axis
+     visible so a content-wrapping snack and drop shadows aren't cut, and so
+     the exit transform never crosses a clip edge. (clip on one axis + visible
+     on the other is a valid combo — visible is not coerced.) */
+  overflow-block: clip;
+  overflow-inline: visible;
+  padding: 1rem;
+  inline-size: min(100% - 2rem, var(--ds-notice-width, 24rem));
+  /* Let clicks pass through the gaps; notices stay interactive. */
+  pointer-events: none;
+}
+/* Each slot holds exactly one Notification (an InlineNotification live
+   region). The slot exists for stacking + enter/leave motion, so it is the
+   natural place to apply the floating elevation — no presentational wrapper
+   is added. The shadow lands on the live region itself (the slot's only
+   child) so it follows its rounded corners; customize via
+   --ds-elevation-overlay. */
+.notification-region > * {
+  pointer-events: auto;
+}
+.notice-slot {
+  /* Keep vertical scroll; the horizontal axis is the swipe-to-dismiss gesture. */
+  touch-action: pan-y;
+}
+/* While settling (dismiss/snap-back) the transform + fade animate; while
+   actively swiping (data-swiping) the element tracks the finger with no
+   transition. */
+.notice-slot[data-swipe-out] {
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+.notice-slot > * {
+  box-shadow: var(
+    --ds-elevation-overlay,
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1)
+  );
+}
+
+/* Enter: fly in from the near edge (top placements from above, bottom
+   placements from below) with an ease-out; leave: the reverse with an ease-in,
+   so a dismissal never snaps. The move class is the FLIP reflow. */
+.notification-region .notice-enter-active {
+  transition:
+    transform var(--ds-notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1),
+    opacity var(--ds-notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1);
+}
+.notification-region .notice-leave-active {
+  transition:
+    transform var(--ds-notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0),
+    opacity var(--ds-notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0);
+  /* Take the leaving slot out of the flow so the FLIP reflow starts at once. */
+  position: absolute;
+}
+.notification-region .notice-move {
+  transition: transform var(--ds-notice-motion-out, 350ms) cubic-bezier(0.33, 1, 0.68, 1);
+}
+.notification-region .notice-enter-from,
+.notification-region .notice-leave-to {
+  opacity: 0;
+}
+.notification-region[data-placement^="top"] .notice-enter-from,
+.notification-region[data-placement^="top"] .notice-leave-to {
+  transform: translateY(-16px);
+}
+.notification-region[data-placement^="bottom"] .notice-enter-from,
+.notification-region[data-placement^="bottom"] .notice-leave-to {
+  transform: translateY(16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .notification-region .notice-enter-active,
+  .notification-region .notice-leave-active,
+  .notification-region .notice-move {
+    transition: none;
+  }
+}
+
+.notification-region[data-placement^="top"] {
+  top: 0;
+}
+.notification-region[data-placement^="bottom"] {
+  bottom: 0;
+}
+.notification-region[data-placement$="start"] {
+  inset-inline-start: 0;
+}
+.notification-region[data-placement$="end"] {
+  inset-inline-end: 0;
+}
+.notification-region[data-placement$="center"] {
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+/* On narrow screens notices span the full width (edge-to-edge with a small
+   gutter), regardless of placement — a single column is easier to read and
+   tap on a phone than a floating corner card. */
+@media (max-width: 30rem) {
+  .notification-region,
+  .notification-region[data-placement$="start"],
+  .notification-region[data-placement$="end"],
+  .notification-region[data-placement$="center"] {
+    inline-size: 100%;
+    inset-inline: 0;
+    transform: none;
+  }
+}

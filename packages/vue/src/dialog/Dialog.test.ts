@@ -57,6 +57,21 @@ describe("Vue Dialog (styled)", () => {
     expect(panel.open).toBe(true);
   });
 
+  it("is modal from the start when mounted already open", async () => {
+    renderBasic({ open: true });
+
+    // showModal() must run for a panel that exists at mount, exactly as for a
+    // later open: the platform's top layer and inert background, not a bare
+    // rendered <dialog>.
+    const panel = (await screen.findByRole("dialog", {
+      name: "Share this file",
+    })) as HTMLDialogElement;
+    expect(panel.open).toBe(true);
+    expect(panel).toHaveAttribute("aria-modal", "true");
+    expect(panel).toHaveFocus();
+    expect(document.body.style.overflow).toBe("hidden");
+  });
+
   it("opens and closes when the open prop changes", async () => {
     const { rerender } = renderBasic({ open: false });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
