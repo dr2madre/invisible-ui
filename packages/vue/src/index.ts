@@ -9,8 +9,10 @@
  * feedback batch (Notification + NotificationRegion + createNotifier,
  * InlineNotification, FeedbackIcon, Progress, Loading, Skeleton, Tag, Count)
  * and the data & nav batch (Tabs, Accordion, Card, Table, Pagination,
- * Breadcrumb, Avatar, AvatarGroup) ported from the Svelte adapter; see
- * `docs/adapters-roadmap.md`. Styles are opt-in:
+ * Breadcrumb, Avatar, AvatarGroup) and the controls & inputs batch (Slider,
+ * RatingGroup, SegmentedControl, ToggleButton, ToggleGroup, PinInput, Radio,
+ * Meter, Toolbar, ButtonGroup, Link, Kbd, Separator) ported from the Svelte
+ * adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -89,6 +91,33 @@ export {
   type AvatarGroupItem,
   type AvatarGroupProps,
 } from "./avatar-group/AvatarGroup";
+export { Slider, type SliderProps } from "./slider/Slider";
+export { RatingGroup, type RatingGroupProps } from "./rating-group/RatingGroup";
+export {
+  SegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlOrientation,
+  type SegmentedControlProps,
+} from "./segmented-control/SegmentedControl";
+export { ToggleButton, type ToggleButtonProps } from "./toggle-button/ToggleButton";
+export {
+  ToggleGroup,
+  type ToggleGroupOrientation,
+  type ToggleGroupProps,
+  type ToggleGroupVariant,
+} from "./toggle-group/ToggleGroup";
+export { PinInput, type PinInputProps } from "./pin-input/PinInput";
+export { Radio, type RadioProps } from "./radio/Radio";
+export { Meter, type MeterProps } from "./meter/Meter";
+export { Toolbar, type ToolbarOrientation, type ToolbarProps } from "./toolbar/Toolbar";
+export {
+  ButtonGroup,
+  type ButtonGroupAlign,
+  type ButtonGroupProps,
+} from "./button-group/ButtonGroup";
+export { Link, type LinkProps, type LinkVariant } from "./link/Link";
+export { Kbd, type KbdProps } from "./kbd/Kbd";
+export { Separator, type SeparatorOrientation, type SeparatorProps } from "./separator/Separator";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -155,6 +184,52 @@ export {
   type UsePagination,
   type UsePaginationOptions,
 } from "./pagination/use-pagination";
+export {
+  useSlider,
+  type SliderApi,
+  type SliderOrientation,
+  type SliderState,
+  type UseSliderOptions,
+} from "./slider/use-slider";
+export {
+  useRatingGroup,
+  type RatingItem,
+  type UseRatingGroup,
+  type UseRatingGroupOptions,
+} from "./rating-group/use-rating-group";
+export {
+  useSegmentedControl,
+  type SegmentItem,
+  type UseSegmentedControlOptions,
+} from "./segmented-control/use-segmented-control";
+export {
+  useToggleButton,
+  type ToggleButtonApi,
+  type ToggleButtonState,
+  type UseToggleButtonOptions,
+} from "./toggle-button/use-toggle-button";
+export {
+  usePinInput,
+  type PinInputApi,
+  type PinInputState,
+  type PinInputType,
+  type UsePinInput,
+  type UsePinInputOptions,
+} from "./pin-input/use-pin-input";
+export {
+  useMeter,
+  type MeterApi,
+  type MeterContext,
+  type MeterState,
+  type UseMeter,
+} from "./meter/use-meter";
+export {
+  useButtonGroup,
+  type ButtonGroupApi,
+  type ButtonGroupOrientation,
+  type ButtonGroupState,
+  type UseButtonGroupOptions,
+} from "./button-group/use-button-group";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

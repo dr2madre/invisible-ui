@@ -1,0 +1,12 @@
+/* Radio (the standalone single radio), ported from the Svelte adapter, class
+   names kept identical.
+
+   The dot, the visually hidden input and the checked/focus painting are the
+   same `.radio*` rules the RadioGroup already ships, so they live once in
+   `radio-group.css` and this sheet only adds what a standalone radio needs:
+   the typography a group would otherwise inherit from `.radio-field`. */
+
+.radio {
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}

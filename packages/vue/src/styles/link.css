@@ -1,0 +1,30 @@
+/* Link, ported from the Svelte adapter, class names kept identical. */
+
+.link {
+  color: var(--ds-link-color, var(--ds-color-secondary, #7b52cc));
+  text-decoration: underline;
+  text-decoration-thickness: var(--ds-link-underline, 1px);
+  text-underline-offset: 0.15em;
+  border-radius: 0.15em;
+  cursor: pointer;
+  transition:
+    color 120ms ease,
+    text-decoration-color 120ms ease;
+}
+.link[data-variant="subtle"] {
+  color: inherit;
+  text-decoration-color: var(--ds-color-border, #cbd5e1);
+}
+.link:hover {
+  color: var(--ds-link-hover, var(--ds-color-secondary-600, #5a3a9e));
+  text-decoration-color: currentColor;
+}
+.link:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+}
+.link__external {
+  display: inline-block;
+  margin-inline-start: 0.15em;
+  vertical-align: baseline;
+}
