@@ -3,7 +3,9 @@
  *
  * The shared component set (Button, Checkbox, Switch, Select, Combobox,
  * Dialog) proving the framework-agnostic core drives another framework
- * natively; see `docs/adapters-roadmap.md`. Styles are opt-in:
+ * natively, plus the forms batch (TextField, Textarea, RadioGroup,
+ * CheckboxGroup, Field, Label) ported from the Svelte adapter; see
+ * `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -18,6 +20,12 @@ export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
 export { Dialog, type DialogProps } from "./dialog/Dialog";
+export { TextField, type TextFieldProps } from "./text-field/TextField";
+export { Textarea, type TextareaProps } from "./textarea/Textarea";
+export { RadioGroup, type RadioGroupItem, type RadioGroupProps } from "./radio-group/RadioGroup";
+export { CheckboxGroup, type CheckboxGroupProps } from "./checkbox-group/CheckboxGroup";
+export { Field, type FieldProps } from "./field/Field";
+export { Label, type LabelProps } from "./label/Label";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Composables: the headless layer, for consumers rendering their own markup.
@@ -36,6 +44,20 @@ export {
   type UseDialog,
   type UseDialogOptions,
 } from "./dialog/use-dialog";
+export { useTextField, type UseTextFieldOptions } from "./text-field/use-text-field";
+export {
+  useRadioGroup,
+  type RadioGroupOrientation,
+  type RadioItem,
+  type UseRadioGroupOptions,
+} from "./radio-group/use-radio-group";
+export {
+  useCheckboxGroup,
+  type CheckboxGroupItem,
+  type UseCheckboxGroupOptions,
+} from "./checkbox-group/use-checkbox-group";
+export { useField, type UseFieldOptions } from "./field/use-field";
+export { useLabel, type UseLabelOptions } from "./label/use-label";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

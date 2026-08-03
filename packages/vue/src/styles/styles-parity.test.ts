@@ -1,21 +1,30 @@
 // @vitest-environment node
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 // The Vue adapter ships its own copy of the component stylesheets so it is
-// self-contained when published. Those copies must never drift from the React
-// adapter's (which in turn guards its tokens against the Svelte adapter's):
-// the adapters render the same design system, and a silent divergence would
-// show up as adapters that look subtly different.
+// self-contained when published.
+//
+// SHARED_SHEETS exist in both the React and the Vue adapter and must never
+// drift from the React copies (which in turn guard their tokens against the
+// Svelte adapter's): the adapters render the same design system, and a silent
+// divergence would show up as adapters that look subtly different.
+//
+// VUE_SOURCE_SHEETS are the forms batch, which the React adapter has not
+// ported yet. These Vue sheets are the source of truth for the adapters that
+// follow (web components are next). Each is checked to be present here and
+// still absent from the React adapter: the day React gains one, this test
+// fails and the sheet moves to SHARED_SHEETS.
 //
 // `index.css` is excluded: it names this package in its comment and in the
-// import path it documents, so its text is package-specific even though it now
-// pulls in the same six sheets.
+// import path it documents, so its text is package-specific even though it
+// only pulls the sheets together.
 
-const read = (rel: string) => readFileSync(fileURLToPath(new URL(rel, import.meta.url)), "utf8");
+const path = (rel: string) => fileURLToPath(new URL(rel, import.meta.url));
+const read = (rel: string) => readFileSync(path(rel), "utf8");
 
-const SHEETS = [
+const SHARED_SHEETS = [
   "tokens.css",
   "button.css",
   "checkbox.css",
@@ -25,8 +34,24 @@ const SHEETS = [
   "select.css",
 ];
 
+const VUE_SOURCE_SHEETS = [
+  "text-field.css",
+  "textarea.css",
+  "radio-group.css",
+  "checkbox-group.css",
+  "field.css",
+  "label.css",
+];
+
 describe("stylesheet parity with the React adapter", () => {
-  it.each(SHEETS)("%s matches byte for byte", (sheet) => {
+  it.each(SHARED_SHEETS)("%s matches byte for byte", (sheet) => {
     expect(read(`./${sheet}`)).toBe(read(`../../../react/src/styles/${sheet}`));
+  });
+});
+
+describe("forms batch stylesheets (Vue is the source of truth)", () => {
+  it.each(VUE_SOURCE_SHEETS)("%s is present here and not yet in React", (sheet) => {
+    expect(read(`./${sheet}`).length).toBeGreaterThan(0);
+    expect(existsSync(path(`../../../react/src/styles/${sheet}`))).toBe(false);
   });
 });
