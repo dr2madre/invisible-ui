@@ -19,3 +19,9 @@
 @import "./checkbox-group.css";
 @import "./field.css";
 @import "./label.css";
+@import "./popover.css";
+@import "./tooltip.css";
+@import "./dropdown-menu.css";
+@import "./alert-dialog.css";
+@import "./confirm-dialog.css";
+@import "./prompt-dialog.css";

@@ -11,11 +11,11 @@ import { describe, expect, it } from "vitest";
 // Svelte adapter's): the adapters render the same design system, and a silent
 // divergence would show up as adapters that look subtly different.
 //
-// VUE_SOURCE_SHEETS are the forms batch, which the React adapter has not
-// ported yet. These Vue sheets are the source of truth for the adapters that
-// follow (web components are next). Each is checked to be present here and
-// still absent from the React adapter: the day React gains one, this test
-// fails and the sheet moves to SHARED_SHEETS.
+// VUE_SOURCE_SHEETS are the batches the React adapter has not ported yet:
+// forms, then overlays & menus. These Vue sheets are the source of truth for
+// the adapters that follow (web components are next). Each is checked to be
+// present here and still absent from the React adapter: the day React gains
+// one, this test fails and the sheet moves to SHARED_SHEETS.
 //
 // `index.css` is excluded: it names this package in its comment and in the
 // import path it documents, so its text is package-specific even though it
@@ -41,6 +41,12 @@ const VUE_SOURCE_SHEETS = [
   "checkbox-group.css",
   "field.css",
   "label.css",
+  "popover.css",
+  "tooltip.css",
+  "dropdown-menu.css",
+  "alert-dialog.css",
+  "confirm-dialog.css",
+  "prompt-dialog.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

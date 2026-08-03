@@ -125,12 +125,18 @@ export const Combobox = defineComponent({
 
     // The chevron toggles the list (showing all options when opening), so a
     // selected value can be changed without clearing it first. iOS Safari can
-    // synthesize a duplicate "ghost" click; ignore one that lands right after
-    // the last so the list doesn't open then immediately close.
-    const lastToggle = ref(-Infinity);
+    // synthesize a duplicate "ghost" click after a tap; a click landing right
+    // after a touch-driven one is ignored so the list doesn't open then
+    // immediately close. Mouse and keyboard presses always count.
+    const lastTouchToggle = ref(-Infinity);
+    const chevronPointerType = ref("");
+    const onChevronPointerdown = (event: PointerEvent) => {
+      chevronPointerType.value = event.pointerType;
+    };
     const toggle = (event: MouseEvent) => {
-      if (event.timeStamp - lastToggle.value < GHOST_CLICK_MS) return;
-      lastToggle.value = event.timeStamp;
+      if (event.timeStamp - lastTouchToggle.value < GHOST_CLICK_MS) return;
+      if (chevronPointerType.value === "touch") lastTouchToggle.value = event.timeStamp;
+      chevronPointerType.value = "";
       if (open.value) setOpen(false);
       else openAll();
     };
@@ -304,6 +310,7 @@ export const Combobox = defineComponent({
                 "aria-label": open.value ? "Close options" : "Show options",
                 disabled: props.disabled,
                 onMousedown: (event: MouseEvent) => event.preventDefault(),
+                onPointerdown: onChevronPointerdown,
                 onClick: toggle,
               },
               [

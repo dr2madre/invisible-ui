@@ -1,0 +1,92 @@
+/* DropdownMenu, ported from the Svelte adapter. There the block is `.menu`,
+   scoped per component by the compiler; this sheet is global, and no other
+   sheet claims `.menu`, so the class names stay as in the Svelte markup.
+   Svelte's :global() wrappers are unwrapped: this file is already global. */
+
+.menu {
+  display: inline-block;
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+
+.menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--ds-menu-trigger-padding, 0.5rem 0.75rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-menu-radius, var(--ds-radius-control, 0.5rem));
+  background: var(--ds-color-background, #fff);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.menu__trigger:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.menu__trigger[data-disabled] {
+  background: var(--ds-color-disabled, #e2e8f0);
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+.menu__chevron {
+  display: inline-flex;
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  color: var(--ds-color-text-secondary, #64748b);
+  transition: rotate 150ms ease;
+}
+.menu__trigger[data-state="open"] .menu__chevron {
+  rotate: 180deg;
+}
+
+.menu__popup {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--ds-menu-z-index, 50);
+  min-inline-size: var(--ds-menu-min-width, 12rem);
+  margin: 0;
+  padding: var(--ds-menu-padding, 0.25rem);
+  display: flex;
+  flex-direction: column;
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-menu-popup-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+}
+.menu__popup[data-state="closed"] {
+  display: none;
+}
+
+.menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 0;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+/* Highlight on pointer hover (desktop) or keyboard focus only, never just
+   because an item is the roving-active one on open (no grey on tap). */
+.menu__item:hover {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+.menu__item:focus-visible {
+  outline: none;
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+.menu__item[data-disabled] {
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}

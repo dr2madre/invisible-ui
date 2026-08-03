@@ -4,8 +4,9 @@
  * The shared component set (Button, Checkbox, Switch, Select, Combobox,
  * Dialog) proving the framework-agnostic core drives another framework
  * natively, plus the forms batch (TextField, Textarea, RadioGroup,
- * CheckboxGroup, Field, Label) ported from the Svelte adapter; see
- * `docs/adapters-roadmap.md`. Styles are opt-in:
+ * CheckboxGroup, Field, Label) and the overlays & menus batch (Popover,
+ * Tooltip, DropdownMenu, AlertDialog, ConfirmDialog, PromptDialog) ported
+ * from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -27,6 +28,12 @@ export { CheckboxGroup, type CheckboxGroupProps } from "./checkbox-group/Checkbo
 export { Field, type FieldProps } from "./field/Field";
 export { Label, type LabelProps } from "./label/Label";
 export { Icon, type IconProps } from "./icon/Icon";
+export { Popover, type PopoverProps } from "./popover/Popover";
+export { Tooltip, type TooltipProps } from "./tooltip/Tooltip";
+export { DropdownMenu, type DropdownMenuProps } from "./dropdown-menu/DropdownMenu";
+export { AlertDialog, type AlertDialogProps } from "./alert-dialog/AlertDialog";
+export { ConfirmDialog, type ConfirmDialogProps } from "./confirm-dialog/ConfirmDialog";
+export { PromptDialog, type PromptDialogProps } from "./prompt-dialog/PromptDialog";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -58,6 +65,14 @@ export {
 } from "./checkbox-group/use-checkbox-group";
 export { useField, type UseFieldOptions } from "./field/use-field";
 export { useLabel, type UseLabelOptions } from "./label/use-label";
+export { usePopover, type UsePopover, type UsePopoverOptions } from "./popover/use-popover";
+export { useTooltip, type UseTooltip, type UseTooltipOptions } from "./tooltip/use-tooltip";
+export {
+  useDropdownMenu,
+  type MenuItem,
+  type UseDropdownMenu,
+  type UseDropdownMenuOptions,
+} from "./dropdown-menu/use-dropdown-menu";
 export { useDomProps } from "./use-dom-props";
 
 // Localization
