@@ -1,5 +1,5 @@
 import { button as core } from "@design-system/core";
-import { applyProps, boolAttr, upgradeProperty } from "../internal/base";
+import { applyProps, boolAttr, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { hazardIcon, plusIcon } from "../internal/icons";
 
 /**
@@ -15,7 +15,7 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  * `aria-label` (forwarded — required for icon-only).
  * Activation is the native `click` event.
  */
-export class DsButton extends HTMLElement {
+export class DsButton extends HTMLElementBase {
   static observedAttributes = ["variant", "disabled"];
 
   #button: HTMLButtonElement | null = null;

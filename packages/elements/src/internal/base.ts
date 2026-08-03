@@ -1,6 +1,15 @@
 import type { DomProps, ElementProps } from "@design-system/core";
 
 /**
+ * Custom-element classes are evaluated when the package is imported. Node has
+ * no global `HTMLElement`, so extending it directly makes even an SSR import
+ * throw. This fallback is never instantiated on the server; it only keeps the
+ * module graph safe until the browser supplies the real base class.
+ */
+export const HTMLElementBase: typeof HTMLElement =
+  typeof HTMLElement === "undefined" ? (class {} as unknown as typeof HTMLElement) : HTMLElement;
+
+/**
  * The elements adapter's seam over the core's prop bags.
  *
  * The other adapters hand props to a renderer; here there is no renderer —
