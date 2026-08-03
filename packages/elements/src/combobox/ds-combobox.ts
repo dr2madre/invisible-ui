@@ -1,6 +1,6 @@
 import { combobox as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
-import { applyProps, boolAttr, emit, upgradeProperty } from "../internal/base";
+import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { checkIcon, chevronIcon, closeIcon, searchIcon } from "../internal/icons";
 
 export interface ComboboxItem {
@@ -37,7 +37,7 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  * `name` (submits via a hidden input).
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
  */
-export class DsCombobox extends HTMLElement {
+export class DsCombobox extends HTMLElementBase {
   static observedAttributes = ["value", "disabled"];
 
   #input: HTMLInputElement | null = null;

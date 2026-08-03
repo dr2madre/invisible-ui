@@ -1,5 +1,5 @@
 import { switchControl as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, upgradeProperty } from "../internal/base";
+import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 
 /**
  * `<ds-switch>` — the styled switch as a custom element.
@@ -13,7 +13,7 @@ import { applyProps, boolAttr, emit, upgradeProperty } from "../internal/base";
  * Properties: `checked` (boolean).
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
-export class DsSwitch extends HTMLElement {
+export class DsSwitch extends HTMLElementBase {
   static observedAttributes = ["checked", "disabled"];
 
   #input: HTMLInputElement | null = null;

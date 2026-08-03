@@ -9,6 +9,10 @@ prefer their native adapter (`@design-system/svelte`, `@design-system/react`).
 **Status: proof-of-concept** (ADR 0008) — the same six components as the React
 PoC: Button, Checkbox, Switch, Select, Combobox, Dialog.
 
+Both JavaScript entrypoints are safe to import during SSR. The server emits
+declarative `<ds-*>` light-DOM markup; when `@design-system/elements/define`
+loads in the browser, the elements upgrade that existing content in place.
+
 ## Usage — no build step required
 
 ```html
@@ -69,9 +73,10 @@ customElements.define("ds-button", DsButton);
 
 ## Tests
 
-48 unit tests (jsdom, Testing Library, axe on every component) + an 8-sheet
-CSS parity suite that keeps the stylesheets byte-identical to the React
-adapter's:
+59 tests: 48 component tests (jsdom, Testing Library, axe on every component),
+an 8-sheet CSS parity suite, two Node import checks and a browser upgrade test
+for server-rendered light DOM. The parity suite keeps the stylesheets
+byte-identical to the React adapter's:
 
 ```sh
 pnpm --filter @design-system/elements test

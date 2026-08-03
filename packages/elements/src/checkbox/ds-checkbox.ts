@@ -1,5 +1,12 @@
 import { checkbox as core } from "@design-system/core";
-import { applyDomProps, applyProps, boolAttr, emit, upgradeProperty } from "../internal/base";
+import {
+  applyDomProps,
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  upgradeProperty,
+} from "../internal/base";
 import { checkIcon, dashIcon } from "../internal/icons";
 
 /**
@@ -16,7 +23,7 @@ import { checkIcon, dashIcon } from "../internal/icons";
  * Properties: `checked` (boolean | "indeterminate").
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
-export class DsCheckbox extends HTMLElement {
+export class DsCheckbox extends HTMLElementBase {
   static observedAttributes = ["checked", "indeterminate", "disabled"];
 
   #input: HTMLInputElement | null = null;

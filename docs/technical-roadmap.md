@@ -91,7 +91,11 @@ Each item ships as its own PR. Checkboxes track progress.
   surface:** all six catalog components plus `Icon` and `LocaleProvider`
   server-render without a DOM and hydrate together without mismatches or
   recoverable errors; the Combobox portal is created only after hydration.
-  Equivalent coverage for the custom-elements adapter remains follow-up work.
+  **Custom elements carry the framework-free equivalent:** both the selective
+  and registration entrypoints import without browser globals, while a browser
+  test proves declarative server-rendered light DOM upgrades after registration
+  without losing labels, options or selected state. No virtual-DOM hydration
+  step is involved.
 
 ### 🟡 P3 — polish & ecosystem
 

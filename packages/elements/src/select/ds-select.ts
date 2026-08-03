@@ -1,4 +1,4 @@
-import { boolAttr, emit, nextId, upgradeProperty } from "../internal/base";
+import { boolAttr, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
 import { chevronIcon } from "../internal/icons";
 
 export interface SelectItem {
@@ -27,7 +27,7 @@ export interface SelectItem {
  * `disabled`, `width` (wrap|fill|fixed), `name`, `required`, `error`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
-export class DsSelect extends HTMLElement {
+export class DsSelect extends HTMLElementBase {
   static observedAttributes = ["value", "disabled", "error"];
 
   #select: HTMLSelectElement | null = null;

@@ -1,5 +1,5 @@
 import { dialog as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, upgradeProperty } from "../internal/base";
+import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { closeIcon } from "../internal/icons";
 import { lockScroll } from "../internal/scroll-lock";
 
@@ -20,7 +20,7 @@ import { lockScroll } from "../internal/scroll-lock";
  * Properties: `open` (boolean).
  * Emits: bubbling `open-change` CustomEvent with `detail.open`.
  */
-export class DsDialog extends HTMLElement {
+export class DsDialog extends HTMLElementBase {
   static observedAttributes = ["open", "heading", "description"];
 
   #trigger: HTMLButtonElement | null = null;

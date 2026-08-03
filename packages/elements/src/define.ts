@@ -10,6 +10,7 @@ import { DsSelect } from "./select/ds-select";
 import { DsSwitch } from "./switch/ds-switch";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
+  if (typeof customElements === "undefined") return;
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 };
 
