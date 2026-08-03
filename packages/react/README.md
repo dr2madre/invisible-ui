@@ -8,6 +8,9 @@ to solve. The goal is to prove the core drives a second framework, not to reach
 parity with the Svelte adapter. See
 [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
+The package has 99 tests, including dedicated server-rendering and hydration
+coverage for every public renderable export.
+
 ## Usage
 
 ```tsx
@@ -66,6 +69,15 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
 
 The hooks are exported, so you can render your own markup and keep only the
 behaviour.
+
+## SSR and hydration
+
+All six catalog components, `Icon` and `LocaleProvider` render in a Node
+environment without accessing the DOM. A browser test then hydrates the same
+public surface and fails on React hydration mismatches or recoverable errors.
+The Combobox renders its body-level portal only after hydration, keeping the
+server and initial client trees identical before moving the listbox into its
+runtime layer.
 
 ## Notes
 

@@ -1,8 +1,8 @@
 /**
  * `@design-system/react` — the React adapter over `@design-system/core`.
  *
- * A proof-of-concept set (Button, Checkbox, Switch, Select) proving the
- * framework-agnostic core drives a second framework; see
+ * A proof-of-concept set (Button, Checkbox, Switch, Select, Combobox, Dialog)
+ * proving the framework-agnostic core drives a second framework; see
  * `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/react/styles.css";
