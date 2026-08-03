@@ -1,104 +1,234 @@
 {
   "component": "date-picker",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "DatePicker",
+        "specifier": "@design-system/svelte/DatePicker.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "locale",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "dateStyle",
+          "type": "\"full\" | \"long\" | \"medium\" | \"short\"",
+          "default": "\"medium\"",
+          "required": false,
+          "description": "`Intl` style for the field display."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the field."
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Shown when empty."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the field."
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a clear button when a date is set."
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": "[]",
+          "required": false,
+          "description": "Appointment dots, forwarded to the calendar."
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": "{}",
+          "required": false,
+          "description": "Per-day prices, forwarded to the calendar."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the selected ISO date is submitted under it (via a hidden input)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the date changes (or is cleared)."
+        }
+      ]
     },
-    {
-      "name": "min",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "max",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "weekStartsOn",
-      "type": "WeekStart",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "locale",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "dateStyle",
-      "type": "\"full\" | \"long\" | \"medium\" | \"short\"",
-      "default": "\"medium\"",
-      "required": false,
-      "description": "`Intl` style for the field display."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the field."
-    },
-    {
-      "name": "placeholder",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Shown when empty."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the field."
-    },
-    {
-      "name": "clearable",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show a clear button when a date is set."
-    },
-    {
-      "name": "events",
-      "type": "CalendarEvent[]",
-      "default": "[]",
-      "required": false,
-      "description": "Appointment dots, forwarded to the calendar."
-    },
-    {
-      "name": "prices",
-      "type": "Record<string, string>",
-      "default": "{}",
-      "required": false,
-      "description": "Per-day prices, forwarded to the calendar."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the selected ISO date is submitted under it (via a hidden input)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string | null) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the date changes (or is cleared)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "DatePicker",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "Selected date (ISO `YYYY-MM-DD`); bindable with `v-model`."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "dateStyle",
+          "type": "DateStyle",
+          "default": "\"medium\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the field. Defaults to the catalog's \"Date\"."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a clear button once a date is selected."
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Forwarded to the calendar."
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": "() => ({})",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the selected ISO date is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string | null"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

@@ -90,7 +90,9 @@ export function Select({
 
       <span className="select__control">
         <select
-          className={value == null ? "select__native select__native--placeholder" : "select__native"}
+          className={
+            value == null ? "select__native select__native--placeholder" : "select__native"
+          }
           id={selectId}
           name={name}
           disabled={disabled}

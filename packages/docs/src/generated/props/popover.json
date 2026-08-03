@@ -1,55 +1,132 @@
 {
   "component": "popover",
   "selected": false,
-  "props": [
-    {
-      "name": "trigger",
-      "type": "\"click\" | \"hover\"",
-      "default": "\"click\"",
-      "required": false,
-      "description": "Opening contract: an intentional click, or a hover/focus preview."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Popover",
+        "specifier": "@design-system/svelte/Popover.svelte"
+      },
+      "props": [
+        {
+          "name": "trigger",
+          "type": "\"click\" | \"hover\"",
+          "default": "\"click\"",
+          "required": false,
+          "description": "Opening contract: an intentional click, or a hover/focus preview."
+        },
+        {
+          "name": "triggerVariant",
+          "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Popover — a styled, non-modal floating panel anchored to a trigger button. Behaviour and accessibility (open/close, `aria-haspopup`/`aria-expanded` wiring, Escape to close) come from the headless popover (`@design-system/core`); this adapter adds Floating-UI positioning (flip/shift), outside-press + focus-leave dismissal, and focus management (focus moves into the panel on open, returns to the trigger on Escape).  Slots: `trigger` (the trigger's content) and the default slot (the panel content). Colors, radius and elevation are themeable via `--ds-popover-*`. / import { createPopover, type PopoverContext } from \"./create-popover\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial open state."
+        },
+        {
+          "name": "placement",
+          "type": "PopoverContext[\"placement\"]",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Preferred placement (Floating UI); flips when there's no room."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "200",
+          "required": false,
+          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the panel opens/closes."
+        }
+      ]
     },
-    {
-      "name": "triggerVariant",
-      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
-      "default": "\"default\"",
-      "required": false,
-      "description": "Popover — a styled, non-modal floating panel anchored to a trigger button. Behaviour and accessibility (open/close, `aria-haspopup`/`aria-expanded` wiring, Escape to close) come from the headless popover (`@design-system/core`); this adapter adds Floating-UI positioning (flip/shift), outside-press + focus-leave dismissal, and focus management (focus moves into the panel on open, returns to the trigger on Escape).  Slots: `trigger` (the trigger's content) and the default slot (the panel content). Colors, radius and elevation are themeable via `--ds-popover-*`. / import { createPopover, type PopoverContext } from \"./create-popover\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
-    },
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Initial open state."
-    },
-    {
-      "name": "placement",
-      "type": "PopoverContext[\"placement\"]",
-      "default": "\"bottom\"",
-      "required": false,
-      "description": "Preferred placement (Floating UI); flips when there's no room."
-    },
-    {
-      "name": "openDelay",
-      "type": "number",
-      "default": "300",
-      "required": false,
-      "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
-    },
-    {
-      "name": "closeDelay",
-      "type": "number",
-      "default": "200",
-      "required": false,
-      "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the panel opens/closes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Popover",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "trigger",
+          "type": "\"click\" | \"hover\"",
+          "default": "\"click\"",
+          "required": false,
+          "description": "Opening contract: an intentional click, or a hover/focus preview."
+        },
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only)."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "placement",
+          "type": "Placement",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Preferred placement of the panel."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "200",
+          "required": false,
+          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "default",
+        "trigger"
+      ]
     }
-  ]
+  }
 }

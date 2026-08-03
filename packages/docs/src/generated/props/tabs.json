@@ -1,41 +1,110 @@
 {
   "component": "tabs",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "TabsItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Tabs",
+        "specifier": "@design-system/svelte/Tabs.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "TabsItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "activationMode",
+          "type": "ActivationMode",
+          "default": "\"automatic\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tab list."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected tab changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "activationMode",
-      "type": "ActivationMode",
-      "default": "\"automatic\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the tab list."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the selected tab changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Tabs",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "TabsItem[]",
+          "default": null,
+          "required": true,
+          "description": "Ordered list of tabs."
+        },
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected tab value. `null` falls back to the first enabled tab."
+        },
+        {
+          "name": "activationMode",
+          "type": "ActivationMode",
+          "default": "\"automatic\"",
+          "required": false,
+          "description": "`automatic` (default): arrows select while moving. `manual`: Enter/Space selects."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tab list (announced by screen readers)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected tab changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": [
+        "panel"
+      ]
     }
-  ]
+  }
 }

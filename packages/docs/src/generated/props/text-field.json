@@ -1,90 +1,209 @@
 {
   "component": "text-field",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Visible label, tied to the control."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "TextField",
+        "specifier": "@design-system/svelte/TextField.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label, tied to the control."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Field value."
+        },
+        {
+          "name": "type",
+          "type": "InputType",
+          "default": "\"text\"",
+          "required": false,
+          "description": "Input type."
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Placeholder text."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Hint shown under the control, linked via `aria-describedby`."
+        },
+        {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "When non-empty the field becomes invalid and announces the message."
+        },
+        {
+          "name": "success",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Success/validated message; shows a green check and a confirming caption."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the field."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark as required."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Make the field read-only."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string",
-      "default": "\"\"",
-      "required": false,
-      "description": "Field value."
-    },
-    {
-      "name": "type",
-      "type": "InputType",
-      "default": "\"text\"",
-      "required": false,
-      "description": "Input type."
-    },
-    {
-      "name": "placeholder",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Placeholder text."
-    },
-    {
-      "name": "description",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Hint shown under the control, linked via `aria-describedby`."
-    },
-    {
-      "name": "error",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "When non-empty the field becomes invalid and announces the message."
-    },
-    {
-      "name": "success",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Success/validated message; shows a green check and a confirming caption."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the field."
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Mark as required."
-    },
-    {
-      "name": "readOnly",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Make the field read-only."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the value is submitted under it."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the value changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "TextField",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label, tied to the control."
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "type",
+          "type": "InputType",
+          "default": "\"text\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional hint shown under the control and linked via aria-describedby."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message; when non-empty the field becomes invalid and announces it."
+        },
+        {
+          "name": "success",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Success/validated message; shows a green check and a confirming caption."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": [
+        "left",
+        "right"
+      ]
     }
-  ]
+  }
 }

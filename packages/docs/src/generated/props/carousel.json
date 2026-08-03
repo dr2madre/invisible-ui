@@ -1,69 +1,166 @@
 {
   "component": "carousel",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "CarouselSlide[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Carousel",
+        "specifier": "@design-system/svelte/Carousel.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "CarouselSlide[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "variant",
+          "type": "\"slide\" | \"gallery\" | \"coverflow\"",
+          "default": "\"slide\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "A built-in slide's content (used when no default slot is provided). */ export interface CarouselSlide { /** Background image URL (slide variant). */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; /** Arbitrary extra data for custom rendering via the default slot. */ [key: string]: unknown; } </script>  <script lang=\"ts\"> /** Carousel — a styled, accessible carousel with two modes:  - `variant=\"slide\"` (default): full-bleed horizontal slides with a background image and an overlaid title/description, one at a time. - `variant=\"gallery\"`: a horizontally-scrolling row of items (e.g. cards — an album/LP-cover gallery). Provide the item markup via the default slot (`let:item let:index let:active`). - `variant=\"coverflow\"`: a 3D \"jukebox\" — the active item is centered and upright while its neighbors recede, rotated and scaled down, peeking from either side. Set `orientation=\"vertical\"` to stack the flow top-to-bottom.  Behaviour and accessibility come from the headless carousel in `@design-system/core`: a labelled group of \"N of M\" slides, previous/next buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The control needs an accessible name via `label`. Themed via `--ds-carousel-*`. / import { createCarousel, type CarouselContext } from \"./create-carousel\";  export let items: CarouselSlide[]; export let variant: \"slide\" | \"gallery\" | \"coverflow\" = \"slide\"; /** Coverflow only: lay the flow out horizontally (default) or vertically."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the dot indicators."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the carousel."
+        },
+        {
+          "name": "prevLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible labels for the arrows."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible labels for the arrows."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the active slide changes."
+        }
+      ]
     },
-    {
-      "name": "variant",
-      "type": "\"slide\" | \"gallery\" | \"coverflow\"",
-      "default": "\"slide\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": "A built-in slide's content (used when no default slot is provided). */ export interface CarouselSlide { /** Background image URL (slide variant). */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; /** Arbitrary extra data for custom rendering via the default slot. */ [key: string]: unknown; } </script>  <script lang=\"ts\"> /** Carousel — a styled, accessible carousel with two modes:  - `variant=\"slide\"` (default): full-bleed horizontal slides with a background image and an overlaid title/description, one at a time. - `variant=\"gallery\"`: a horizontally-scrolling row of items (e.g. cards — an album/LP-cover gallery). Provide the item markup via the default slot (`let:item let:index let:active`). - `variant=\"coverflow\"`: a 3D \"jukebox\" — the active item is centered and upright while its neighbors recede, rotated and scaled down, peeking from either side. Set `orientation=\"vertical\"` to stack the flow top-to-bottom.  Behaviour and accessibility come from the headless carousel in `@design-system/core`: a labelled group of \"N of M\" slides, previous/next buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The control needs an accessible name via `label`. Themed via `--ds-carousel-*`. / import { createCarousel, type CarouselContext } from \"./create-carousel\";  export let items: CarouselSlide[]; export let variant: \"slide\" | \"gallery\" | \"coverflow\" = \"slide\"; /** Coverflow only: lay the flow out horizontally (default) or vertically."
-    },
-    {
-      "name": "loop",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "showIndicators",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Show the dot indicators."
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the carousel."
-    },
-    {
-      "name": "prevLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible labels for the arrows."
-    },
-    {
-      "name": "nextLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible labels for the arrows."
-    },
-    {
-      "name": "onIndexChange",
-      "type": "((index: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the active slide changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Carousel",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "CarouselSlide[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "variant",
+          "type": "CarouselVariant",
+          "default": "\"slide\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "CarouselOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Coverflow only: lay the flow out horizontally (default) or vertically."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the slide-picker dots. Defaults to `true`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the carousel (announced by screen readers)."
+        },
+        {
+          "name": "prevLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Previous button accessible name. Defaults to the catalog's \"Previous slide\"."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Next button accessible name. Defaults to the catalog's \"Next slide\"."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Current slide index; bindable with `v-model:index`."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the current slide changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:index",
+          "payload": "index: number"
+        }
+      ],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

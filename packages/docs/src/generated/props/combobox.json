@@ -1,90 +1,375 @@
 {
   "component": "combobox",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the control."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Combobox",
+        "specifier": "@design-system/svelte/Combobox.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "items",
+          "type": "(ComboboxItem & { icon?: string })[]",
+          "default": null,
+          "required": true,
+          "description": "Options: `{ value, label?, disabled? }`."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value."
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "With `searchable={false}` the text input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"fixed\"",
+          "required": false,
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container."
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Input placeholder."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the control."
+        },
+        {
+          "name": "clearLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the clear button."
+        },
+        {
+          "name": "emptyText",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Shown when nothing matches."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the selected option's value is submitted under it (via a hidden input)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the selection changes."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "((text: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the input text changes."
+        }
+      ]
     },
-    {
-      "name": "items",
-      "type": "(ComboboxItem & { icon?: string })[]",
-      "default": null,
-      "required": true,
-      "description": "Options: `{ value, label?, disabled? }`."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Combobox",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "items",
+          "type": "ComboboxOption[]",
+          "default": null,
+          "required": true,
+          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon."
+        },
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value. `null` for none."
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "With `searchable: false` the input becomes read-only and the list always shows every option: a select-only combobox, the advanced Select (styled popup, per-option icons) without the autocomplete."
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"fixed\"",
+          "required": false,
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\"."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\"."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the selected option's value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(text: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string | null"
+        }
+      ],
+      "slots": [
+        "icon"
+      ]
     },
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": "Selected value."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Combobox",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "items",
+          "type": "ComboboxOption[]",
+          "default": null,
+          "required": true,
+          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "With `searchable={false}` the input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"fixed\"",
+          "required": false,
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\"."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\"."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name — the selected option's value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(text: string) => void",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading icon shown when `searchable={false}` and no option icon applies."
+        }
+      ]
     },
-    {
-      "name": "searchable",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "With `searchable={false}` the text input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
-    },
-    {
-      "name": "width",
-      "type": "\"wrap\" | \"fill\" | \"fixed\"",
-      "default": "\"fixed\"",
-      "required": false,
-      "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container."
-    },
-    {
-      "name": "placeholder",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Input placeholder."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the control."
-    },
-    {
-      "name": "clearLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the clear button."
-    },
-    {
-      "name": "emptyText",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Shown when nothing matches."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the selected option's value is submitted under it (via a hidden input)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string | null) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the selection changes."
-    },
-    {
-      "name": "onInputValueChange",
-      "type": "((text: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the input text changes."
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-combobox",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": false,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "searchable",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "width",
+          "reactive": false,
+          "required": false,
+          "description": "wrap|fill|fixed"
+        },
+        {
+          "name": "placeholder",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "clear-label",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "empty-text",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": "submits via a hidden input"
+        }
+      ],
+      "notes": [
+        "Emits: `change` (`detail.value`), `input-change` (`detail.value`)."
+      ]
     }
-  ]
+  }
 }

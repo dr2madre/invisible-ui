@@ -1,83 +1,192 @@
 {
   "component": "pin-input",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "string",
-      "default": "\"\"",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "PinInput",
+        "specifier": "@design-system/svelte/PinInput.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "default": "6",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "type",
+          "type": "PinInputType",
+          "default": "\"numeric\"",
+          "required": false,
+          "description": "Allowed characters."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Obscure entered characters."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable all cells."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation state — colors the cells (red ring) and signals errors."
+        },
+        {
+          "name": "success",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation success — colors the cells green (e.g. a verified code)."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the combined code is submitted under it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible group name."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called on every change."
+        },
+        {
+          "name": "onComplete",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when all cells are filled."
+        }
+      ]
     },
-    {
-      "name": "length",
-      "type": "number",
-      "default": "6",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "type",
-      "type": "PinInputType",
-      "default": "\"numeric\"",
-      "required": false,
-      "description": "Allowed characters."
-    },
-    {
-      "name": "mask",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Obscure entered characters."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable all cells."
-    },
-    {
-      "name": "invalid",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Validation state — colors the cells (red ring) and signals errors."
-    },
-    {
-      "name": "success",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Validation success — colors the cells green (e.g. a verified code)."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the combined code is submitted under it."
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible group name."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called on every change."
-    },
-    {
-      "name": "onComplete",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when all cells are filled."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "PinInput",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "default": "6",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "type",
+          "type": "PinInputType",
+          "default": "\"numeric\"",
+          "required": false,
+          "description": "Allowed characters."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render cells masked (like a password)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation state; colors the cells (red ring) and signals errors."
+        },
+        {
+          "name": "success",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation success; colors the cells green (e.g. a verified code)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the combined code is submitted under it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group of cells (required)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the combined value changes."
+        },
+        {
+          "name": "onComplete",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called once all cells are filled."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

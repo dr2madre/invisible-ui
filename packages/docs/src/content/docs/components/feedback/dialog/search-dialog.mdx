@@ -4,6 +4,7 @@ sidebar:
   order: 5
 ---
 
+import ImportSnippet from "../../../../../components/ImportSnippet.astro";
 import Preview from "../../../../../components/Preview.astro";
 import PropsTable from "../../../../../components/PropsTable.astro";
 import SearchDialogDemo from "../../../../../demos/SearchDialogDemo.svelte";
@@ -57,11 +58,7 @@ it is a search tool inside the same modal shell.
 
 ### Import
 
-```svelte
-<script>
-  import SearchDialog from "@design-system/svelte/SearchDialog.svelte";
-</script>
-```
+<ImportSnippet component="search-dialog" />
 
 ### Props
 

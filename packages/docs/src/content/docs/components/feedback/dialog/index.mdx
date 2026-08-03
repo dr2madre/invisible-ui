@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import ImportSnippet from "../../../../../components/ImportSnippet.astro";
 import Preview from "../../../../../components/Preview.astro";
 import PropsTable from "../../../../../components/PropsTable.astro";
 import DialogDemo from "../../../../../demos/DialogDemo.svelte";
@@ -86,11 +87,7 @@ task wants a different shape, not a deeper stack.
 
 ### Import
 
-```svelte
-<script>
-  import Dialog from "@design-system/svelte/Dialog.svelte";
-</script>
-```
+<ImportSnippet component="dialog" />
 
 ### Props
 

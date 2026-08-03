@@ -1,27 +1,70 @@
 {
   "component": "scroll-area",
   "selected": false,
-  "props": [
-    {
-      "name": "orientation",
-      "type": "ScrollOrientation",
-      "default": "\"vertical\"",
-      "required": false,
-      "description": "Scrollable axes."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "ScrollArea",
+        "specifier": "@design-system/svelte/ScrollArea.svelte"
+      },
+      "props": [
+        {
+          "name": "orientation",
+          "type": "ScrollOrientation",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Scrollable axes."
+        },
+        {
+          "name": "maxHeight",
+          "type": "string",
+          "default": "\"12rem\"",
+          "required": false,
+          "description": "Max height of the viewport."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the region."
+        }
+      ]
     },
-    {
-      "name": "maxHeight",
-      "type": "string",
-      "default": "\"12rem\"",
-      "required": false,
-      "description": "Max height of the viewport."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the region."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "ScrollArea",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "orientation",
+          "type": "ScrollOrientation",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Which axes scroll. Defaults to `vertical`."
+        },
+        {
+          "name": "maxHeight",
+          "type": "string",
+          "default": "\"12rem\"",
+          "required": false,
+          "description": "Max size of the viewport (the scroll constraint), e.g. `\"12rem\"`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional accessible name; makes the viewport a labelled scroll region."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

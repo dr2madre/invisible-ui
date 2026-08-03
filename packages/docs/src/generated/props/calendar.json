@@ -1,188 +1,404 @@
 {
   "component": "calendar",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Calendar",
+        "specifier": "@design-system/svelte/Calendar.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "focusedDate",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "view",
+          "type": "CalendarView",
+          "default": "\"month\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "locale",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "BCP-47 locale for month/weekday names."
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": "[]",
+          "required": false,
+          "description": "Appointment dots (`{ date, label?, tone? }`), keyed by `date`."
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": "{}",
+          "required": false,
+          "description": "Per-day price label, keyed by ISO date."
+        },
+        {
+          "name": "maxDots",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": "Max appointment dots before a \"+N\" overflow marker."
+        },
+        {
+          "name": "yearColumns",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Mini-months per row in the year view."
+        },
+        {
+          "name": "views",
+          "type": "CalendarView[]",
+          "default": "[\"month\"]",
+          "required": false,
+          "description": "Views offered in the built-in switcher (one entry = no switcher)."
+        },
+        {
+          "name": "viewLabels",
+          "type": "Partial<Record<CalendarView, string>>",
+          "default": "{}",
+          "required": false,
+          "description": "Override the switcher labels per view."
+        },
+        {
+          "name": "showToday",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the \"today\" shortcut in the header."
+        },
+        {
+          "name": "prevLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header control labels (fall back to the i18n catalog)."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header control labels (fall back to the i18n catalog)."
+        },
+        {
+          "name": "todayLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header control labels (fall back to the i18n catalog)."
+        },
+        {
+          "name": "viewsLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the view switcher."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the grid (falls back to the i18n catalog)."
+        },
+        {
+          "name": "mode",
+          "type": "\"single\" | \"range\"",
+          "default": "\"single\"",
+          "required": false,
+          "description": "Single date, or a start–end range."
+        },
+        {
+          "name": "rangeStart",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Range endpoints (when `mode=\"range\"`)."
+        },
+        {
+          "name": "rangeEnd",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Range endpoints (when `mode=\"range\"`)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((iso: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the selected date changes."
+        },
+        {
+          "name": "onFocusChange",
+          "type": "((iso: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the focused date changes."
+        },
+        {
+          "name": "onViewChange",
+          "type": "((view: CalendarView) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the active view changes."
+        },
+        {
+          "name": "onRangeChange",
+          "type": "((start: string | null, end: string | null) => void) | undefined",
+          "default": "",
+          "required": false,
+          "description": "Called when the range changes."
+        }
+      ]
     },
-    {
-      "name": "focusedDate",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "view",
-      "type": "CalendarView",
-      "default": "\"month\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "weekStartsOn",
-      "type": "WeekStart",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "min",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "max",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "locale",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "BCP-47 locale for month/weekday names."
-    },
-    {
-      "name": "events",
-      "type": "CalendarEvent[]",
-      "default": "[]",
-      "required": false,
-      "description": "Appointment dots (`{ date, label?, tone? }`), keyed by `date`."
-    },
-    {
-      "name": "prices",
-      "type": "Record<string, string>",
-      "default": "{}",
-      "required": false,
-      "description": "Per-day price label, keyed by ISO date."
-    },
-    {
-      "name": "maxDots",
-      "type": "number",
-      "default": "3",
-      "required": false,
-      "description": "Max appointment dots before a \"+N\" overflow marker."
-    },
-    {
-      "name": "yearColumns",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": "Mini-months per row in the year view."
-    },
-    {
-      "name": "views",
-      "type": "CalendarView[]",
-      "default": "[\"month\"]",
-      "required": false,
-      "description": "Views offered in the built-in switcher (one entry = no switcher)."
-    },
-    {
-      "name": "viewLabels",
-      "type": "Partial<Record<CalendarView, string>>",
-      "default": "{}",
-      "required": false,
-      "description": "Override the switcher labels per view."
-    },
-    {
-      "name": "showToday",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Show the \"today\" shortcut in the header."
-    },
-    {
-      "name": "prevLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Header control labels (fall back to the i18n catalog)."
-    },
-    {
-      "name": "nextLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Header control labels (fall back to the i18n catalog)."
-    },
-    {
-      "name": "todayLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Header control labels (fall back to the i18n catalog)."
-    },
-    {
-      "name": "viewsLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the view switcher."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the grid (falls back to the i18n catalog)."
-    },
-    {
-      "name": "mode",
-      "type": "\"single\" | \"range\"",
-      "default": "\"single\"",
-      "required": false,
-      "description": "Single date, or a start–end range."
-    },
-    {
-      "name": "rangeStart",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": "Range endpoints (when `mode=\"range\"`)."
-    },
-    {
-      "name": "rangeEnd",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": "Range endpoints (when `mode=\"range\"`)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((iso: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the selected date changes."
-    },
-    {
-      "name": "onFocusChange",
-      "type": "((iso: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the focused date changes."
-    },
-    {
-      "name": "onViewChange",
-      "type": "((view: CalendarView) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the active view changes."
-    },
-    {
-      "name": "onRangeChange",
-      "type": "((start: string | null, end: string | null) => void) | undefined",
-      "default": "",
-      "required": false,
-      "description": "Called when the range changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Calendar",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "Selected date (ISO `YYYY-MM-DD`); bindable with `v-model`."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "focusedDate",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "view",
+          "type": "CalendarView",
+          "default": "\"month\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "BCP-47 locale for month and weekday names. Defaults to the runtime locale."
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Appointment dots, keyed by their `date`."
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": "() => ({})",
+          "required": false,
+          "description": "Per-day price label, keyed by ISO date (e.g. `{ \"2026-06-25\": \"€120\" }`)."
+        },
+        {
+          "name": "maxDots",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": "Maximum dots rendered before a \"+N\" overflow marker (grid views)."
+        },
+        {
+          "name": "yearColumns",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Year view: how many mini-months per row."
+        },
+        {
+          "name": "views",
+          "type": "CalendarView[]",
+          "default": "() => [\"month\"]",
+          "required": false,
+          "description": "Views offered in the built-in switcher. With one entry no switcher shows."
+        },
+        {
+          "name": "viewLabels",
+          "type": "Partial<Record<CalendarView, string>>",
+          "default": "() => ({})",
+          "required": false,
+          "description": "Override the switcher labels per view."
+        },
+        {
+          "name": "showToday",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "prevLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "todayLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "viewsLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the grid."
+        },
+        {
+          "name": "mode",
+          "type": "CalendarMode",
+          "default": "\"single\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "rangeStart",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Range endpoints (ISO), used when `mode=\"range\"`."
+        },
+        {
+          "name": "rangeEnd",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onFocusChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: CalendarView) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onRangeChange",
+          "type": "(start: string | null, end: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": [
+        "day"
+      ]
     }
-  ]
+  }
 }

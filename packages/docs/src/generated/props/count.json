@@ -1,48 +1,110 @@
 {
   "component": "count",
   "selected": false,
-  "props": [
-    {
-      "name": "count",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": "The value to show."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Count",
+        "specifier": "@design-system/svelte/Count.svelte"
+      },
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The value to show."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "99",
+          "required": false,
+          "description": "Clamp threshold (e.g. `128` → `99+`)."
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a dot instead of a number."
+        },
+        {
+          "name": "showZero",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render when `count` is `0`."
+        },
+        {
+          "name": "status",
+          "type": "CountStatus",
+          "default": "\"danger\"",
+          "required": false,
+          "description": "Color."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible description (e.g. \"unread messages\")."
+        }
+      ]
     },
-    {
-      "name": "max",
-      "type": "number",
-      "default": "99",
-      "required": false,
-      "description": "Clamp threshold (e.g. `128` → `99+`)."
-    },
-    {
-      "name": "dot",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Render a dot instead of a number."
-    },
-    {
-      "name": "showZero",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Render when `count` is `0`."
-    },
-    {
-      "name": "status",
-      "type": "CountStatus",
-      "default": "\"danger\"",
-      "required": false,
-      "description": "Color."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible description (e.g. \"unread messages\")."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Count",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The number to display."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "99",
+          "required": false,
+          "description": "Ceiling before showing \"N+\". Defaults to 99."
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a bare dot (presence indicator) instead of a number."
+        },
+        {
+          "name": "showZero",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the bubble even when `count` is 0. Defaults to `false`."
+        },
+        {
+          "name": "status",
+          "type": "CountStatus",
+          "default": "\"danger\"",
+          "required": false,
+          "description": "Status color. Defaults to `danger` (the conventional unread red)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Fuller accessible label (e.g. \"3 unread messages\")."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

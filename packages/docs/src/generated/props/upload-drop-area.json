@@ -1,48 +1,113 @@
 {
   "component": "upload-drop-area",
   "selected": false,
-  "props": [
-    {
-      "name": "accept",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "UploadDropArea",
+        "specifier": "@design-system/svelte/UploadDropArea.svelte"
+      },
+      "props": [
+        {
+          "name": "accept",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Allow selecting/dropping more than one file."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name (the underlying file input)."
+        },
+        {
+          "name": "caption",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
+        },
+        {
+          "name": "onFiles",
+          "type": "((files: File[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the selected/dropped files."
+        }
+      ]
     },
-    {
-      "name": "multiple",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Allow selecting/dropping more than one file."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name (the underlying file input)."
-    },
-    {
-      "name": "caption",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
-    },
-    {
-      "name": "onFiles",
-      "type": "((files: File[]) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called with the selected/dropped files."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "UploadDropArea",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "accept",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Allow selecting/dropping more than one file."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name (the underlying file input)."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
+        },
+        {
+          "name": "onFiles",
+          "type": "(files: File[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the selected/dropped files."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default",
+        "icon"
+      ]
     }
-  ]
+  }
 }

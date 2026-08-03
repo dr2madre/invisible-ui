@@ -259,7 +259,9 @@ describe("Vue Calendar (year view)", () => {
     expect(dayButton("2027-03-10")).toBeInTheDocument();
   });
 
-  it("has no accessibility violations", async () => {
+  // The year view is 12 full day grids; the axe pass needs more than the
+  // suite's 10s budget on slow runners.
+  it("has no accessibility violations", { timeout: 30_000 }, async () => {
     const { container } = renderCalendar({ view: "year" });
     expect(await axe(container, noAxeRegion)).toHaveNoViolations();
   });

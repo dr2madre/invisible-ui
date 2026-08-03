@@ -1,34 +1,84 @@
 {
   "component": "code-block",
   "selected": false,
-  "props": [
-    {
-      "name": "code",
-      "type": "string",
-      "default": "\"\"",
-      "required": false,
-      "description": "Source to render (or use the default slot)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "CodeBlock",
+        "specifier": "@design-system/svelte/CodeBlock.svelte"
+      },
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Source to render (or use the default slot)."
+        },
+        {
+          "name": "language",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Language caption."
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show a copy-to-clipboard button."
+        },
+        {
+          "name": "copyLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the copy button."
+        }
+      ]
     },
-    {
-      "name": "language",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Language caption."
-    },
-    {
-      "name": "copyable",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Show a copy-to-clipboard button."
-    },
-    {
-      "name": "copyLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the copy button."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "CodeBlock",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "The source text. Drives the copy button and is rendered when no slot is given."
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional caption shown in the header (e.g. a language or filename)."
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Render a copy-to-clipboard button. Defaults to `true`."
+        },
+        {
+          "name": "copyLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the copy button. Defaults to the catalog's \"Copy code\"."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

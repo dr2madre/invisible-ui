@@ -2,6 +2,7 @@
 title: "Icon Button"
 ---
 
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import IconButtonDemo from "../../../../demos/IconButtonDemo.svelte";
@@ -16,12 +17,7 @@ same component — a dismiss "×" is just `iconOnly` + a glyph + an `ariaLabel`.
 
 ### Import
 
-```svelte
-<script>
-  import Button from "@design-system/svelte/Button.svelte";
-  import Icon from "@design-system/svelte/Icon.svelte";
-</script>
-```
+<ImportSnippet components={["button", "icon"]} />
 
 ### Props
 

@@ -1,48 +1,122 @@
 {
   "component": "rating-group",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible group name."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "RatingGroup",
+        "specifier": "@design-system/svelte/RatingGroup.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible group name."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "5",
+          "required": false,
+          "description": "Number of stars."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Current rating."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the group."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the rating is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the rating changes."
+        }
+      ]
     },
-    {
-      "name": "max",
-      "type": "number",
-      "default": "5",
-      "required": false,
-      "description": "Number of stars."
-    },
-    {
-      "name": "value",
-      "type": "number | null",
-      "default": "null",
-      "required": false,
-      "description": "Current rating."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the group."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the rating is submitted under it."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the rating changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "RatingGroup",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the rating group (required)."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "5",
+          "required": false,
+          "description": "Number of stars."
+        },
+        {
+          "name": "modelValue",
+          "type": "number | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected rating (1..max), or null."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the rating is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the rating changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: number"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

@@ -1,69 +1,170 @@
 {
   "component": "sheet-dialog",
   "selected": false,
-  "props": [
-    {
-      "name": "triggerVariant",
-      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
-      "default": "\"default\"",
-      "required": false,
-      "description": "Visual variant for the trigger Button."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "SheetDialog",
+        "specifier": "@design-system/svelte/SheetDialog.svelte"
+      },
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "side",
+          "type": "SheetDialogSide",
+          "default": "\"right\"",
+          "required": false,
+          "description": "Which edge the panel is anchored to."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial open state."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the panel (required)."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\"."
+        },
+        {
+          "name": "initialFocus",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open — e.g. `\"input\"` to land on a form's first field instead of the close button."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the open state changes."
+        }
+      ]
     },
-    {
-      "name": "side",
-      "type": "SheetDialogSide",
-      "default": "\"right\"",
-      "required": false,
-      "description": "Which edge the panel is anchored to."
-    },
-    {
-      "name": "draggable",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
-    },
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Initial open state."
-    },
-    {
-      "name": "title",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible title naming the panel (required)."
-    },
-    {
-      "name": "description",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Optional description, wired via `aria-describedby`."
-    },
-    {
-      "name": "closeLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\"."
-    },
-    {
-      "name": "initialFocus",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "CSS selector (within the panel) for the element to focus on open — e.g. `\"input\"` to land on a form's first field instead of the close button."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the open state changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "SheetDialog",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+        },
+        {
+          "name": "side",
+          "type": "SheetDialogSide",
+          "default": "\"right\"",
+          "required": false,
+          "description": "Which edge the panel is anchored to."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the panel (required)."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+        },
+        {
+          "name": "initialFocus",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open, e.g. `\"input\"` to land on a form's first field instead of the close button."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the open state changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "default",
+        "footer",
+        "headerActions",
+        "headerLead",
+        "trigger"
+      ]
     }
-  ]
+  }
 }

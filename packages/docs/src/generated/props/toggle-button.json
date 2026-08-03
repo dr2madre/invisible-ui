@@ -1,55 +1,138 @@
 {
   "component": "toggle-button",
   "selected": false,
-  "props": [
-    {
-      "name": "pressed",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Whether the button is pressed. Controlled: changing it updates the control, so it can reflect external selection state. For uncontrolled use, pass it once and drive clicks via `onPressedChange`."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "ToggleButton",
+        "specifier": "@design-system/svelte/ToggleButton.svelte"
+      },
+      "props": [
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the button is pressed. Controlled: changing it updates the control, so it can reflect external selection state. For uncontrolled use, pass it once and drive clicks via `onPressedChange`."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "check",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a leading checkmark when pressed (the filter-chip look) — reveals the selected state explicitly, the way a checkbox does. Pairs with `ToggleGroup` for multi-select filter chips."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name; required when the slot is icon-only."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — when checked, submits `value` under it."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted under `name` when pressed."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "((p: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever `pressed` changes."
+        }
+      ]
     },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "check",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show a leading checkmark when pressed (the filter-chip look) — reveals the selected state explicitly, the way a checkbox does. Pairs with `ToggleGroup` for multi-select filter chips."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name; required when the slot is icon-only."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — when checked, submits `value` under it."
-    },
-    {
-      "name": "value",
-      "type": "string",
-      "default": "\"on\"",
-      "required": false,
-      "description": "Value submitted under `name` when pressed."
-    },
-    {
-      "name": "onPressedChange",
-      "type": "((p: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever `pressed` changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "ToggleButton",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "boolean",
+          "default": "undefined",
+          "required": false,
+          "description": "Whether the button is pressed. `v-model` binds it two ways; passing it once and driving clicks through `onPressedChange` works as well."
+        },
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "check",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a leading checkmark when pressed (the filter-chip look). The check reveals the selected state explicitly, the way a checkbox does."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name; required when the slot content is icon-only."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; when pressed, submits `value` under it."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted under `name` when pressed."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the pressed value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "pressed: boolean"
+        }
+      ],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

@@ -1,48 +1,122 @@
 {
   "component": "checkbox-group",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "CheckboxGroupItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "CheckboxGroup",
+        "specifier": "@design-system/svelte/CheckboxGroup.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxGroupItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group (rendered as the legend)."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Shared form field name; each checked item submits its value under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selection changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string[]",
-      "default": "[]",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the group (rendered as the legend)."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Shared form field name; each checked item submits its value under it."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string[]) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the selection changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "CheckboxGroup",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxGroupItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "modelValue",
+          "type": "string[]",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group (required; rendered as the legend)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Shared form field name; each checked item submits its value under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected values change."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string[]"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

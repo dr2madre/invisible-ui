@@ -90,10 +90,12 @@ Each item ships as its own PR. Checkboxes track progress.
   keeps the source in sync with the runtime `tokens.css`. See `docs/tokens.md`.
   _(First slice — extend the structure as the token spec evolves.)_
 - [x] **9. API reference — auto-generated.** `scripts/generate-api.mjs` derives
-  every component's props (name / type / default / required) from the Svelte
-  source and merges curated descriptions into per-component JSON manifests
-  (`packages/docs/src/generated/props/*.json`); docs pages render them via a
-  `<PropsTable>` component, so the tables can't drift from the real props. A
+  every component's API (name / type / default / required) from each adapter
+  that ships it, Svelte, Vue, React and the web components, and merges curated
+  descriptions into per-component JSON manifests
+  (`packages/docs/src/generated/props/*.json`); docs pages render them via
+  `<PropsTable>` and `<ImportSnippet>`, one tab per framework, so the tables
+  can't drift from the real components. A
   freshness test (`api-manifest.test.ts` → `pnpm api:check`) fails CI if the
   committed manifests are stale. (Replaced the earlier hand-written tables +
   `prop-docs.test.ts` drift guard.)

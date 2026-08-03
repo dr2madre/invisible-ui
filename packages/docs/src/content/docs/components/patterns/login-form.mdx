@@ -2,6 +2,7 @@
 title: "Login Form"
 ---
 
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import LoginFormDemo from "../../../../demos/LoginFormDemo.svelte";
@@ -16,11 +17,7 @@ button. It is a real `<form>` — `onSubmit` receives `{ email, password }`.
 
 ### Import
 
-```svelte
-<script>
-  import LoginForm from "@design-system/svelte/LoginForm.svelte";
-</script>
-```
+<ImportSnippet component="login-form" />
 
 ### Props
 

@@ -1,62 +1,152 @@
 {
   "component": "alert-dialog",
   "selected": false,
-  "props": [
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Initial open state."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "AlertDialog",
+        "specifier": "@design-system/svelte/AlertDialog.svelte"
+      },
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial open state."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the alert."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Description of the consequence."
+        },
+        {
+          "name": "dismissLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Label of the single acknowledging button. Defaults to the i18n catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
+        },
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(() => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop (outside the panel) cancels and closes. Defaults to `true`; set `false` to force an explicit Cancel/confirm choice (e.g. for irreversible actions)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the alert opens/closes."
+        }
+      ]
     },
-    {
-      "name": "title",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible title naming the alert."
-    },
-    {
-      "name": "description",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Description of the consequence."
-    },
-    {
-      "name": "dismissLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Label of the single acknowledging button. Defaults to the i18n catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
-    },
-    {
-      "name": "triggerVariant",
-      "type": "ButtonVariant",
-      "default": "\"default\"",
-      "required": false,
-      "description": "Visual variant for the trigger Button."
-    },
-    {
-      "name": "onDismiss",
-      "type": "(() => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
-    },
-    {
-      "name": "closeOnOutsideClick",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Whether pressing the backdrop (outside the panel) cancels and closes. Defaults to `true`; set `false` to force an explicit Cancel/confirm choice (e.g. for irreversible actions)."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the alert opens/closes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "AlertDialog",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the alert (required)."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The message to acknowledge (required)."
+        },
+        {
+          "name": "dismissLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Label of the single acknowledging button. Defaults to the catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop acknowledges and closes. Defaults to `true`; set `false` to require an explicit button press (e.g. \"I understood\")."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "trigger"
+      ]
     }
-  ]
+  }
 }
