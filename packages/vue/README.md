@@ -48,6 +48,11 @@ Import `@design-system/vue/tokens.css` alone when rendering your own markup or
 replacing the component styles. It defines the shared `--ds-*` custom
 properties without loading every component stylesheet.
 
+For a complete runnable integration, see the native
+[`examples/vue`](../../examples/vue) app. It uses `v-model`, localization,
+dialogs, notifications and the shared light/dark theme tokens directly through
+`@design-system/vue`.
+
 ## Controlled values and `v-model`
 
 Value components expose idiomatic `v-model` and retain explicit callbacks for
