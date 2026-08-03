@@ -87,6 +87,22 @@ const VUE_SOURCE_SHEETS = [
   "menu.css",
   "menubar.css",
   "navigation-menu.css",
+  "aspect-ratio.css",
+  "blockquote.css",
+  "code.css",
+  "code-block.css",
+  "empty-state.css",
+  "error-state.css",
+  "loading-generation-area.css",
+  "login-form.css",
+  "upload-drop-area.css",
+  "scroll-area.css",
+  "stepper.css",
+  "tree-view.css",
+  "carousel.css",
+  "sheet-dialog.css",
+  "search-dialog.css",
+  "table-set.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

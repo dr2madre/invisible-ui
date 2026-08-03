@@ -1,0 +1,160 @@
+/* LoadingGenerationArea, ported from the Svelte adapter, class names kept
+   identical. */
+
+.loading-generation-area {
+  position: relative;
+  display: grid;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: var(--ds-loading-generation-area-min-height, 6rem);
+  overflow: hidden;
+}
+/* Label/indicator zone placement. */
+.loading-generation-area[data-position="center"] {
+  place-items: center;
+}
+.loading-generation-area[data-position="top"] {
+  place-items: start center;
+}
+.loading-generation-area[data-position="bottom"] {
+  place-items: end center;
+}
+.loading-generation-area[data-position="left"] {
+  place-items: center start;
+}
+.loading-generation-area[data-position="right"] {
+  place-items: center end;
+}
+
+/* The resting lattice: tiny, faint (grey) dots covering the whole surface
+   (tiles at any size, no per-dot DOM). */
+.loading-generation-area--field {
+  background-image: radial-gradient(
+    circle at center,
+    color-mix(in srgb, currentColor 10%, transparent) 0 var(--ds-loading-generation-area-dot, 1px),
+    transparent calc(var(--ds-loading-generation-area-dot, 1px) + 0.6px)
+  );
+  background-size: var(--ds-loading-generation-area-gap, 1.1rem)
+    var(--ds-loading-generation-area-gap, 1.1rem);
+  background-position: center;
+}
+/* Lit zones: the dots at their normal size and full strength (`currentColor`,
+   i.e. white on a dark surface). The resting dots are tiny, so a passing glow
+   reads as them coming in. Revealed only under two soft radial "glows" that
+   drift across on offset loops. Returning to the start keeps it seamless. */
+.loading-generation-area--field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle at center,
+    currentColor 0 var(--ds-loading-generation-area-dot-lit, 2.5px),
+    transparent calc(var(--ds-loading-generation-area-dot-lit, 2.5px) + 0.7px)
+  );
+  background-size: var(--ds-loading-generation-area-gap, 1.1rem)
+    var(--ds-loading-generation-area-gap, 1.1rem);
+  background-position: center;
+  --glow: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.45) 38%, transparent 68%);
+  -webkit-mask-image: var(--glow), var(--glow);
+  mask-image: var(--glow), var(--glow);
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-size:
+    62% 62%,
+    46% 46%;
+  mask-size:
+    62% 62%,
+    46% 46%;
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+  animation: loading-generation-area-drift var(--ds-loading-generation-area-duration, 7s)
+    ease-in-out infinite;
+}
+@keyframes loading-generation-area-drift {
+  0%,
+  100% {
+    mask-position:
+      12% 16%,
+      82% 72%;
+    -webkit-mask-position:
+      12% 16%,
+      82% 72%;
+  }
+  25% {
+    mask-position:
+      84% 26%,
+      24% 80%;
+    -webkit-mask-position:
+      84% 26%,
+      24% 80%;
+  }
+  50% {
+    mask-position:
+      68% 84%,
+      26% 22%;
+    -webkit-mask-position:
+      68% 84%,
+      26% 22%;
+  }
+  75% {
+    mask-position:
+      18% 66%,
+      84% 38%;
+    -webkit-mask-position:
+      18% 66%,
+      84% 38%;
+  }
+}
+
+/* The zone sits above the field and stays legible over the dots. */
+.loading-generation-area__zone {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin: var(--ds-loading-generation-area-zone-margin, 0.75rem);
+  padding: var(--ds-loading-generation-area-zone-padding, 0.5rem 0.75rem);
+  border-radius: var(--ds-radius-control, 0.5rem);
+  background: color-mix(in srgb, var(--ds-color-background, #fff) 78%, transparent);
+  color: var(--ds-color-text, #0f172a);
+  text-align: center;
+  font-size: var(--ds-loading-label-size, 0.8125rem);
+  line-height: var(--ds-line-height, 1.4);
+}
+.loading-generation-area__value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.loading-generation-area__detail {
+  color: var(--ds-color-text-secondary, #64748b);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Loaded content fades in where the placeholder was. */
+.loading-generation-area__content {
+  animation: loading-generation-area-reveal var(--ds-loading-generation-area-reveal, 240ms) ease-out;
+}
+@keyframes loading-generation-area-reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-generation-area--field::after {
+    animation: none;
+    /* Hold the glows still (a gentle static brightening) instead of drifting. */
+    -webkit-mask-position:
+      30% 35%,
+      72% 68%;
+    mask-position:
+      30% 35%,
+      72% 68%;
+  }
+  .loading-generation-area__content {
+    animation: none;
+  }
+}

@@ -1,0 +1,68 @@
+/* LoginForm, ported from the Svelte adapter, class names kept identical. */
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-login-gap, 1rem);
+  inline-size: min(100%, var(--ds-login-width, 22rem));
+  padding: var(--ds-login-padding, 1.75rem);
+  background: var(--ds-login-bg, var(--ds-color-background, #fff));
+  border: 1px solid var(--ds-login-border, var(--ds-color-border, #e7e5e4));
+  border-radius: var(--ds-login-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(--ds-login-shadow, var(--ds-elevation-overlay, 0 1px 3px rgb(0 0 0 / 0.1)));
+}
+.login__logo {
+  display: flex;
+  justify-content: center;
+}
+.login__head {
+  text-align: center;
+}
+.login__heading {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--ds-color-text, #1c1917);
+}
+.login__subheading {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-text-secondary, #57534e);
+}
+.login__providers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.login__divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ds-color-text-secondary, #78716c);
+  font-size: 0.8125rem;
+}
+.login__divider::before,
+.login__divider::after {
+  content: "";
+  flex: 1;
+  block-size: 1px;
+  background: var(--ds-color-border, #e7e5e4);
+}
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.login__forgot {
+  align-self: flex-end;
+  font-size: 0.8125rem;
+  color: var(--ds-color-secondary, #7b52cc);
+  /* Underlined so it carries meaning without color, and a visible focus ring. */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 2px;
+}
+.login__forgot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+  outline-offset: 2px;
+}
