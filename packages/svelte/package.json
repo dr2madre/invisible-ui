@@ -29,6 +29,7 @@
     "src/lib/button-group/ButtonGroup.svelte",
     "src/lib/notification/Notification.svelte",
     "src/lib/notification/NotificationRegion.svelte",
+    "src/lib/inline-notification/InlineNotification.svelte",
     "src/lib/checkbox/Checkbox.svelte",
     "src/lib/checkbox-group/CheckboxGroup.svelte",
     "src/lib/separator/Separator.svelte",
