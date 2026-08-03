@@ -19,15 +19,14 @@ A **headless, accessible, multi-framework** component library — built from scr
 > **⚠️ Alpha — in active development.** APIs, design tokens, and package names
 > may change without notice. Not recommended for production use yet.
 
-> **Status:** The framework-agnostic core, the **Svelte** adapter, and the full
-> component set (Phases 1–6 — overlays, modals, navigation, form & value,
-> data/presentational, and date & time) are in place, each as a **headless**
-> primitive _and_ a **styled, token-driven** component, with light/dark design
-> tokens, `vitest`/`vitest-axe` coverage, and an Astro docs site with a live
-> demo per component. A **React** adapter (proof-of-concept: Button, Checkbox,
-> Switch, Select, Combobox, Dialog) proves the core drives a second framework
-> with **no core changes**, and **Reflex (Python)** wrappers expose the same
-> six components to Python apps. The
+> **Status:** The framework-agnostic core and the complete **Svelte** and
+> **Vue** adapters carry the full component set (74 components across
+> overlays, modals, navigation, forms, data and date/time), with headless APIs
+> for behavioral primitives and styled, token-driven components. The
+> repository includes light/dark tokens, `vitest`/`vitest-axe` coverage and an
+> Astro docs site with a live Svelte demo per component. **React**, **Web
+> Components** and **Reflex (Python)** expose the six-component shared
+> proof-of-concept set. The
 > [technical roadmap](./docs/technical-roadmap.md) is complete (12/12).
 
 ## What this is
@@ -56,8 +55,8 @@ appearance. Here, presentation is intentionally left to the consumer.
 - **Headless.** No opinionated styling is shipped. Consumers bring their own
   design language and CSS.
 - **Multi-framework parity.** Shared behavior is exposed consistently across
-  frameworks (e.g. React and Svelte) so the same primitive behaves the same
-  way everywhere.
+  frameworks (with full Svelte/Vue parity) so the same primitive behaves the
+  same way everywhere.
 - **Built from scratch.** Primitives are implemented directly rather than
   wrapping existing libraries, keeping behavior, bundle size, and a11y under
   our control.
@@ -81,6 +80,8 @@ from the start.
 - [ADR 0003 — Select is native; the Combobox is the advanced select](./docs/adr/0003-native-select-advanced-combobox.md)
 - [ADR 0005 — The dialog family maps to the platform's simple dialogs](./docs/adr/0005-native-dialog-and-urgency.md)
 - [ADR 0006 — The Python adapter wraps the React components](./docs/adr/0006-python-adapter-wraps-react.md)
+- [ADR 0008 — The framework-free adapter is custom elements](./docs/adr/0008-web-components-adapter.md)
+- [ADR 0010 — The Vue adapter is native composables over the core](./docs/adr/0010-vue-adapter.md)
 - [Foundations](./docs/foundations.md): optional, fully customizable design
   guidelines (system font stack, color scale, WCAG AA contrast) applied on top
   of the headless primitives.
@@ -92,22 +93,25 @@ design-system/
 ├── core/                  # @design-system/core — framework-agnostic state, behavior, a11y
 ├── packages/
 │   ├── svelte/            # @design-system/svelte — the full Svelte adapter
+│   ├── vue/               # @design-system/vue — the full Vue 3 adapter
 │   ├── react/             # @design-system/react — React adapter (PoC: 6 components)
+│   ├── elements/          # @design-system/elements — custom elements (PoC: 6 components)
 │   ├── reflex/            # invisible-ui (PyPI-style) — Reflex/Python wrappers over the React build
 │   └── docs/              # the Astro + Starlight docs site
 ├── examples/
 │   ├── svelte/            # runnable Svelte example
+│   ├── elements/          # plain HTML, HTMX and Vue custom-element habitats
 │   └── reflex/            # runnable Reflex (Python) example
 └── docs/                  # ADRs, roadmaps, foundations
 ```
 
 The monorepo uses pnpm workspaces + Turborepo. A shared `core/` holds the
 framework-agnostic behavior and accessibility logic; thin per-framework
-adapters expose it idiomatically. **Svelte** is the full adapter; **React** is
-a proof-of-concept subset that confirmed the core needs no changes to drive a
-second framework (see [`docs/adapters-roadmap.md`](./docs/adapters-roadmap.md));
-**Reflex** wraps the React components so Python apps reuse the same behaviour
-(ADR 0006) — nothing is re-implemented per framework.
+adapters expose it idiomatically. **Svelte** and **Vue** carry the full catalog.
+**React** is the original proof-of-concept subset that confirmed the core needs
+no changes to drive another framework; **Web Components** cover the
+framework-free shared set. **Reflex** wraps the React components so Python apps
+reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
 
 ### How it works
 
@@ -115,17 +119,18 @@ Each component in `core/` is a pure state plus a `connect()` function that
 returns framework-agnostic **prop getters** carrying ARIA attributes,
 `data-*` styling hooks, and event handlers. An adapter applies those props in
 its own idiom — the Svelte adapter through `use:` actions, the React adapter by
-spreading them onto JSX from `use*` hooks — so behavior and accessibility are
-written once and shared. DOM-only properties with no HTML attribute (e.g. a
-checkbox's `indeterminate`) are declared by the core in a `rootDomProps` bag,
-so no adapter can silently forget them.
+spreading them onto JSX from `use*` hooks, and the Vue adapter through reactive
+composables and vnode prop bags — so behavior and accessibility are written
+once and shared. DOM-only properties with no HTML attribute (e.g. a checkbox's
+`indeterminate`) are declared by the core in a `rootDomProps` bag, so no adapter
+can silently forget them.
 
 ## Getting started
 
 ```bash
 pnpm install     # install workspace dependencies
 pnpm build       # build core, then the adapters (Turborepo)
-pnpm test        # unit tests (core) + interaction & axe a11y tests (Svelte + React)
+pnpm test        # unit, interaction and axe a11y tests across all adapters
 pnpm typecheck   # type-check all packages
 pnpm e2e         # real-browser tests against the built docs site
                  # (first run once: pnpm exec playwright install chromium)
@@ -136,6 +141,28 @@ Run the example app:
 ```bash
 pnpm --filter @design-system/example-svelte dev
 ```
+
+Vue consumers can use the complete native adapter directly:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import { Checkbox, Select } from "@design-system/vue";
+import "@design-system/vue/styles.css";
+
+const subscribed = ref(false);
+const fruit = ref<string | null>(null);
+const fruits = [{ value: "apple", label: "Apple" }];
+</script>
+
+<template>
+  <Checkbox v-model="subscribed" label="Subscribe" />
+  <Select v-model="fruit" label="Fruit" :items="fruits" />
+</template>
+```
+
+See [`packages/vue/README.md`](./packages/vue/README.md) for styled components,
+headless composables, localization and package-specific commands.
 
 Python (Reflex) wrappers have their own tests, no Node required:
 

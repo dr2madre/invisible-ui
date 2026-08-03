@@ -161,8 +161,7 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
-- Extend the React adapter toward parity (the remaining ~32 core primitives and
-  their styled components).
+- Extend the React adapter from the shared six toward full catalog parity.
 - A React-aware API-manifest generator (the current `scripts/generate-api.mjs`
   parses `.svelte` `export let` — it does not see `.tsx` props).
 - Decide whether the docs site embeds React demos alongside the Svelte islands.

@@ -5,6 +5,12 @@ Reflex/Python. Same values as everything else here: **least possible
 opinionation**, **no bets on things that may die**, **solid, well-made
 foundations**. Outcome of the PoC below becomes ADR 0008.
 
+> **Status update, 2026-08-03:** This document records the decision that led to
+> the shipped Web Components proof of concept. Demand for an idiomatic Vue
+> surface followed immediately: `packages/vue` now carries the full Svelte
+> catalog as native Vue components and composables (ADR 0010). The historical
+> recommendation below is retained as the reasoning behind adapter order.
+
 ## The constraint that shapes everything
 
 The core is TypeScript producing **DOM-shaped prop bags** (ARIA attributes,
@@ -97,7 +103,7 @@ React** — nobody is routed through them.
 
 | Target | Path | When |
 | --- | --- | --- |
-| **Vue** | consume the custom elements; direct adapter only on real demand | after WC PoC |
+| **Vue** | native `@design-system/vue` adapter, complete catalog; custom elements remain an interop option | shipped after WC PoC |
 | **Flutter** | tokens only: finish the Style Dictionary **Dart** output so a Flutter theme escapes Material with our design language | independent, small |
 | **Rust** | today: Tauri + existing adapters (document it). Watch Leptos/Dioxus; revisit at their 1.0 | watch list |
 | **Streamlit** | component kit wrapping `@design-system/react` (the Reflex move again) | small, on demand |
