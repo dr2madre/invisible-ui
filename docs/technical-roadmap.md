@@ -8,14 +8,16 @@ and maintain*.
 ## Already in place
 
 - **Headless core** — framework-agnostic `state` / `connect` / prop-getter
-  pattern (as in Zag/Ark) + a Svelte adapter.
+  pattern (as in Zag/Ark) + complete Svelte and Vue adapters. React and custom
+  elements carry the six-component shared proof-of-concept set; Reflex wraps
+  the React set for Python consumers.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
 - **Tokens** — two tiers (primitives → semantic role/state), dark mode
   (`prefers-color-scheme` + `[data-theme]`), WCAG AA, `color-mix` surfaces.
-- **Accessibility tests** — `vitest-axe` on every component (144 test files).
+- **Accessibility tests** — component suites carry `vitest-axe` coverage.
 - **RTL readiness** — CSS logical properties throughout.
-- **Docs** — Astro + Starlight with a live demo per component; ADRs.
+- **Docs** — Astro + Starlight with a live Svelte demo per component; ADRs.
 - **CI per-PR** — build + test + typecheck gate.
 
 ## Gaps — prioritized
@@ -27,8 +29,9 @@ Each item ships as its own PR. Checkboxes track progress.
 - [x] **1. Release & versioning** — Changesets + semver, `release.yml` workflow
   (version PR + `npm publish` with provenance), CHANGELOG per package,
   `publishConfig`, `repository` metadata, release scripts. **Parked/dormant:**
-  both packages are `private: true` and the workflow is `workflow_dispatch`-only
-  so nothing publishes by accident. To go live later, follow the checklist at
+  the packages are `private: true` and the workflow is
+  `workflow_dispatch`-only, so nothing publishes by accident. To go live later,
+  follow the checklist at
   the top of `.github/workflows/release.yml` (unset `private`, own the npm
   scope to the Invisible UI scope you own — e.g. `@invisible-ui/*` — add `NPM_TOKEN`,
   flip the trigger to `push`).
@@ -56,8 +59,13 @@ Each item ships as its own PR. Checkboxes track progress.
   overrides + `dir` for RTL). Adopted by the date/time family (Calendar, Date
   Picker, Date Range Picker, Time Field); a label prop still overrides the
   catalog. Rollout to the remaining components is mechanical follow-up.
-- [x] **6. Second framework adapter** — complete as a proof-of-concept.
-  **React** (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
+- [x] **6. Multi-framework adapters** — the portability proof expanded beyond
+  its original scope. **Vue** (`packages/vue`) now carries the full Svelte
+  catalog of 74 components as native Vue 3 components and composables, with
+  `v-model`, `provide`/`inject` localization, ported CSS and 788 tests. The
+  parity batches landed in PRs #193–#199 (ADR 0010). The original
+  proof-of-concept remains in **React**
+  (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
   Dialog over the existing `@design-system/core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
@@ -67,11 +75,12 @@ Each item ships as its own PR. Checkboxes track progress.
   (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over
   the React build (ADR 0006) with 8 render tests — nothing re-implemented in
   Python. Full plan and integration findings: `docs/adapters-roadmap.md`.
-- [x] **7. SSR/hydration guarantee** — `ssr.test.ts` server-renders every
-  fixture (`svelte/server` `render`, node env) so no component touches the DOM
-  during SSR; runs in the normal test gate. Caught and fixed a real bug: Toolbar
-  used `onMount` (threw under SSR) — converted to a client-only action, matching
-  the rest of the codebase.
+- [x] **7. Svelte SSR/hydration guarantee** — `ssr.test.ts` server-renders every
+  Svelte fixture (`svelte/server` `render`, node env) so no component touches
+  the DOM during SSR; runs in the normal test gate. Caught and fixed a real bug:
+  Toolbar used `onMount` (threw under SSR) — converted to a client-only action,
+  matching the rest of the Svelte codebase. Equivalent adapter-specific SSR
+  coverage, including Vue hydration, is separate follow-up work.
 
 ### 🟡 P3 — polish & ecosystem
 
