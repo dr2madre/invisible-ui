@@ -12,7 +12,8 @@ import { describe, expect, it } from "vitest";
 // divergence would show up as adapters that look subtly different.
 //
 // VUE_SOURCE_SHEETS are the batches the React adapter has not ported yet:
-// forms, then overlays & menus, then feedback. These Vue sheets are the source
+// forms, overlays & menus, feedback, data & nav, then controls & inputs. These
+// Vue sheets are the source
 // of truth for the adapters that follow (web components are next). Each is
 // checked to be present here and still absent from the React adapter: the day
 // React gains one, this test fails and the sheet moves to SHARED_SHEETS.
@@ -63,6 +64,19 @@ const VUE_SOURCE_SHEETS = [
   "breadcrumb.css",
   "avatar.css",
   "avatar-group.css",
+  "slider.css",
+  "rating-group.css",
+  "segmented-control.css",
+  "toggle-button.css",
+  "toggle-group.css",
+  "pin-input.css",
+  "radio.css",
+  "meter.css",
+  "toolbar.css",
+  "button-group.css",
+  "link.css",
+  "kbd.css",
+  "separator.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

@@ -1,0 +1,42 @@
+/* ToggleGroup, ported from the Svelte adapter, class names kept identical.
+   The `segmented` variant reaches into the child ToggleButton's parts, which
+   the Svelte source scoped with :global; in a plain sheet the selectors stand
+   as written. */
+
+.toggle-group {
+  display: inline-flex;
+  align-items: flex-start;
+}
+.toggle-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+/* separate: each toggle keeps its own style, spaced by a gap. */
+.toggle-group--separate {
+  gap: var(--ds-toggle-group-gap, 0.375rem);
+}
+/* Wrap a horizontal chip row onto multiple lines instead of overflowing. */
+.toggle-group--wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* segmented: join the toggles into one control, dropping their individual
+   borders/radius and drawing a single outer border with thin dividers. */
+.toggle-group--segmented {
+  gap: 0;
+  border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+  border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
+  overflow: hidden;
+}
+.toggle-group--segmented .toggle__surface {
+  border: 0;
+  border-radius: 0;
+}
+/* Divider between adjacent toggles (along the layout axis). */
+.toggle-group--segmented[data-orientation="horizontal"] .toggle:not(:first-child) .toggle__surface {
+  border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+}
+.toggle-group--segmented[data-orientation="vertical"] .toggle:not(:first-child) .toggle__surface {
+  border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+}
