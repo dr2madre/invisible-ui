@@ -14,7 +14,7 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Link — a styled inline text link rendered with a semantic `<a>`.  Violet and underlined by default (the brand selection colour), with a clear hover/focus treatment. Set `external` for links that open in a new tab — it adds `target=\"_blank\"` + safe `rel`, and an arrow icon marks it visually. When no `href` is given it renders a non-navigating link (e.g. a disabled or JS-driven link) that is still keyboardable when an `onpress` is supplied.  Presentational only — themeable via `--ds-link-*`. / /** Destination URL."
+          "description": "Destination URL."
         },
         {
           "name": "external",

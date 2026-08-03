@@ -23,6 +23,7 @@
 
   const { t } = getI18n();
 
+  /** The trail, from the root to the current page (rendered last). */
   export let items: BreadcrumbItem[];
   /** Accessible name for the landmark. Defaults to the i18n catalog's "Breadcrumb". */
   export let label: string | undefined = undefined;
