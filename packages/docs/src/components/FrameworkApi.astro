@@ -1,0 +1,174 @@
+---
+/**
+ * FrameworkApi — one adapter's API for one component, read from the generated
+ * manifest: a props table (Svelte, Vue, React), the emitted events and slots
+ * (Vue), or the attributes, properties and events of a custom element.
+ * PropsTable renders one of these per framework tab.
+ */
+import { renderDescription, type FrameworkApi, type FrameworkId } from "./frameworks";
+
+const { api, framework, selected } = Astro.props as {
+  api: FrameworkApi;
+  framework: FrameworkId;
+  selected: boolean;
+};
+
+const props = api.props ?? [];
+const emits = api.emits ?? [];
+const slots = api.slots ?? [];
+const attributes = api.attributes ?? [];
+const notes = api.notes ?? [];
+const empty = props.length === 0 && attributes.length === 0;
+---
+
+<div class="framework-api">
+  {empty && <p>No props.</p>}
+
+  {
+    props.length > 0 && (
+      <div class="framework-api__scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Prop</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.map((p) => (
+              <tr>
+                <td>
+                  <code>{p.name}</code>
+                  {p.required && (
+                    <span class="framework-api__required" title="Required">
+                      {" "}
+                      *
+                    </span>
+                  )}
+                </td>
+                <td>
+                  <code>{p.type}</code>
+                </td>
+                <td>{p.default == null ? "—" : <code>{p.default}</code>}</td>
+                <td set:html={renderDescription(p.description)} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  {
+    attributes.length > 0 && (
+      <div class="framework-api__scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Reactive</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {attributes.map((a) => (
+              <tr>
+                <td>
+                  <code>{a.name}</code>
+                  {a.required && (
+                    <span class="framework-api__required" title="Required">
+                      {" "}
+                      *
+                    </span>
+                  )}
+                </td>
+                <td>{a.reactive ? "yes" : "—"}</td>
+                <td set:html={renderDescription(a.description)} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  {
+    attributes.length > 0 && (
+      <p class="framework-api__note">
+        Reactive attributes re-render the element when they change after the first render.
+      </p>
+    )
+  }
+
+  {notes.map((note) => <p class="framework-api__note" set:html={renderDescription(note)} />)}
+
+  {
+    emits.length > 0 && (
+      <div class="framework-api__scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Payload</th>
+            </tr>
+          </thead>
+          <tbody>
+            {emits.map((e) => (
+              <tr>
+                <td>
+                  <code>{e.name}</code>
+                </td>
+                <td>{e.payload ? <code>{e.payload}</code> : "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  {
+    slots.length > 0 && (
+      <p class="framework-api__note">
+        Slots:{" "}
+        {slots.map((name, i) => (
+          <>
+            {i > 0 && ", "}
+            <code>{name}</code>
+          </>
+        ))}
+        .
+      </p>
+    )
+  }
+
+  {
+    api.extends && api.extends.length > 0 && (
+      <p class="framework-api__note">
+        Also accepts <code>{api.extends.join(", ")}</code>.
+      </p>
+    )
+  }
+
+  {
+    selected && framework === "svelte" && (
+      <p class="framework-api__note">A selected subset of props is shown.</p>
+    )
+  }
+</div>
+
+<style>
+  .framework-api__scroll {
+    overflow-x: auto;
+  }
+  .framework-api__required {
+    color: var(--sl-color-red, #dc2626);
+    font-weight: 700;
+  }
+  .framework-api__note {
+    font-size: 0.875em;
+    opacity: 0.8;
+  }
+</style>

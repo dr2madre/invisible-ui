@@ -1,48 +1,150 @@
 {
   "component": "icon",
   "selected": false,
-  "props": [
-    {
-      "name": "size",
-      "type": "string",
-      "default": "\"1em\"",
-      "required": false,
-      "description": "Width/height (scales with font-size by default)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Icon",
+        "specifier": "@design-system/svelte/Icon.svelte"
+      },
+      "props": [
+        {
+          "name": "size",
+          "type": "string",
+          "default": "\"1em\"",
+          "required": false,
+          "description": "Width/height (scales with font-size by default)."
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "default": "\"0 0 24 24\"",
+          "required": false,
+          "description": "SVG viewBox."
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number | string",
+          "default": "2",
+          "required": false,
+          "description": "Stroke width in viewBox units."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name; when omitted the icon is decorative."
+        },
+        {
+          "name": "animation",
+          "type": "\"none\" | \"spin\" | \"pulse\"",
+          "default": "\"none\"",
+          "required": false,
+          "description": "Built-in animation for the glyph: `spin` (continuous rotation, e.g. a loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect `prefers-reduced-motion` (the icon stays visible, static)."
+        },
+        {
+          "name": "animationDuration",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Animation duration (any CSS time, e.g. \"0.8s\")."
+        }
+      ]
     },
-    {
-      "name": "viewBox",
-      "type": "string",
-      "default": "\"0 0 24 24\"",
-      "required": false,
-      "description": "SVG viewBox."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Icon",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "size",
+          "type": "string",
+          "default": "\"1em\"",
+          "required": false,
+          "description": "Rendered size; `1em` by default so icons scale with the surrounding text."
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "default": "\"0 0 24 24\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number | string",
+          "default": "2",
+          "required": false,
+          "description": "Stroke width in viewBox units (glyphs are stroke-based by default)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`)."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     },
-    {
-      "name": "strokeWidth",
-      "type": "number | string",
-      "default": "2",
-      "required": false,
-      "description": "Stroke width in viewBox units."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name; when omitted the icon is decorative."
-    },
-    {
-      "name": "animation",
-      "type": "\"none\" | \"spin\" | \"pulse\"",
-      "default": "\"none\"",
-      "required": false,
-      "description": "Built-in animation for the glyph: `spin` (continuous rotation, e.g. a loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect `prefers-reduced-motion` (the icon stays visible, static)."
-    },
-    {
-      "name": "animationDuration",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Animation duration (any CSS time, e.g. \"0.8s\")."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Icon",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "size",
+          "type": "string",
+          "default": "\"1em\"",
+          "required": false,
+          "description": "Rendered size; `1em` by default so icons scale with the surrounding text."
+        },
+        {
+          "name": "viewBox",
+          "type": "string",
+          "default": "\"0 0 24 24\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number | string",
+          "default": "2",
+          "required": false,
+          "description": "Stroke width in viewBox units (glyphs are stroke-based by default)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Extra classes merged onto the `<svg>` (e.g. for stateful styling)."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The glyph itself: `<path>`, `<line>`, `<polyline>`, …"
+        }
+      ]
     }
-  ]
+  }
 }

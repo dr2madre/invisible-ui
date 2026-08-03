@@ -1,20 +1,57 @@
 {
   "component": "blockquote",
   "selected": false,
-  "props": [
-    {
-      "name": "cite",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Attribution text (or use the `cite` slot)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Blockquote",
+        "specifier": "@design-system/svelte/Blockquote.svelte"
+      },
+      "props": [
+        {
+          "name": "cite",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Attribution text (or use the `cite` slot)."
+        },
+        {
+          "name": "citeUrl",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Source URL (sets the `cite` attribute / links the attribution)."
+        }
+      ]
     },
-    {
-      "name": "citeUrl",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Source URL (sets the `cite` attribute / links the attribution)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Blockquote",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "cite",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Visible attribution text (e.g. an author). Use the `cite` slot for rich content."
+        },
+        {
+          "name": "citeUrl",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Machine-readable source URL, mapped to the native `cite` attribute (not displayed)."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "cite",
+        "default"
+      ]
     }
-  ]
+  }
 }

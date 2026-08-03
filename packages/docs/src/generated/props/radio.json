@@ -1,48 +1,112 @@
 {
   "component": "radio",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "This radio's value."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Radio",
+        "specifier": "@design-system/svelte/Radio.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "This radio's value."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Group name (shared across radios)."
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether this radio is selected."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable this radio."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Visible label (or use the default slot)."
+        },
+        {
+          "name": "onChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when this radio is chosen."
+        }
+      ]
     },
-    {
-      "name": "name",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Group name (shared across radios)."
-    },
-    {
-      "name": "checked",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Whether this radio is selected."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable this radio."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Visible label (or use the default slot)."
-    },
-    {
-      "name": "onChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when this radio is chosen."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Radio",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The value submitted / reported when this radio is chosen."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Group name; radios sharing a name are mutually exclusive."
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether this radio is selected."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Label text, used when the default slot is empty."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with this radio's value when it becomes selected."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

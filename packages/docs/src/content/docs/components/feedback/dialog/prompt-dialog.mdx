@@ -4,6 +4,7 @@ sidebar:
   order: 4
 ---
 
+import ImportSnippet from "../../../../../components/ImportSnippet.astro";
 import Preview from "../../../../../components/Preview.astro";
 import PropsTable from "../../../../../components/PropsTable.astro";
 import PromptDialogDemo from "../../../../../demos/PromptDialogDemo.svelte";
@@ -43,11 +44,7 @@ destructive actions: `urgent` switches the panel to `role="alertdialog"`
 
 ### Import
 
-```svelte
-<script>
-  import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
-</script>
-```
+<ImportSnippet component="prompt-dialog" />
 
 ### Props
 

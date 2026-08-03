@@ -1,55 +1,124 @@
 {
   "component": "skeleton",
   "selected": false,
-  "props": [
-    {
-      "name": "variant",
-      "type": "\"text\" | \"circle\" | \"rect\"",
-      "default": "\"text\"",
-      "required": false,
-      "description": "Shape."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Skeleton",
+        "specifier": "@design-system/svelte/Skeleton.svelte"
+      },
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"text\" | \"circle\" | \"rect\"",
+          "default": "\"text\"",
+          "required": false,
+          "description": "Shape."
+        },
+        {
+          "name": "lines",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Lines for the `text` variant (last line shortened)."
+        },
+        {
+          "name": "width",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Any CSS length (`circle` uses `width` for both)."
+        },
+        {
+          "name": "height",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Any CSS length (`circle` uses `width` for both)."
+        },
+        {
+          "name": "radius",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Border-radius override."
+        },
+        {
+          "name": "animation",
+          "type": "\"pulse\" | \"wave\" | \"none\"",
+          "default": "\"pulse\"",
+          "required": false,
+          "description": "Shimmer style."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "When set, becomes a polite `role=\"status\"`."
+        }
+      ]
     },
-    {
-      "name": "lines",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": "Lines for the `text` variant (last line shortened)."
-    },
-    {
-      "name": "width",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Any CSS length (`circle` uses `width` for both)."
-    },
-    {
-      "name": "height",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Any CSS length (`circle` uses `width` for both)."
-    },
-    {
-      "name": "radius",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Border-radius override."
-    },
-    {
-      "name": "animation",
-      "type": "\"pulse\" | \"wave\" | \"none\"",
-      "default": "\"pulse\"",
-      "required": false,
-      "description": "Shimmer style."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "When set, becomes a polite `role=\"status\"`."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Skeleton",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"text\" | \"circle\" | \"rect\"",
+          "default": "\"text\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "lines",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Number of lines for the `text` variant."
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Any CSS length (e.g. \"12rem\", \"100%\"). For `circle`, also sets height."
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Any CSS length. Ignored by `text` (uses line height)."
+        },
+        {
+          "name": "radius",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Border radius override (any CSS length)."
+        },
+        {
+          "name": "animation",
+          "type": "\"pulse\" | \"wave\" | \"none\"",
+          "default": "\"pulse\"",
+          "required": false,
+          "description": "Shimmer animation. Defaults to `pulse`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "When set, the skeleton becomes a polite status with this accessible name."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

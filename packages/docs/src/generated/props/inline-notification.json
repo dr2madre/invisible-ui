@@ -1,132 +1,288 @@
 {
   "component": "inline-notification",
   "selected": false,
-  "props": [
-    {
-      "name": "status",
-      "type": "FeedbackStatus",
-      "default": "\"info\"",
-      "required": false,
-      "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "InlineNotification",
+        "specifier": "@design-system/svelte/InlineNotification.svelte"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "FeedbackStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Heading (required)."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Body text (required). Override with the default slot for rich content."
+        },
+        {
+          "name": "href",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
+        },
+        {
+          "name": "linkText",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
+        },
+        {
+          "name": "actions",
+          "type": "AlertAction[] | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Action buttons (alternative to the `actions` slot)."
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render the close button. Defaults to `false` (not dismissible)."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the alert again."
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\" | \"region\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
+        },
+        {
+          "name": "plain",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
+        },
+        {
+          "name": "component",
+          "type": "import(\"svelte\").ComponentType | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": "{}",
+          "required": false,
+          "description": "Props passed to `component`."
+        },
+        {
+          "name": "onclose",
+          "type": "(() => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when dismissed."
+        }
+      ]
     },
-    {
-      "name": "title",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Heading (required)."
-    },
-    {
-      "name": "description",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Body text (required). Override with the default slot for rich content."
-    },
-    {
-      "name": "href",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
-    },
-    {
-      "name": "linkText",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
-    },
-    {
-      "name": "actions",
-      "type": "AlertAction[] | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Action buttons (alternative to the `actions` slot)."
-    },
-    {
-      "name": "closable",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Render the close button. Defaults to `false` (not dismissible)."
-    },
-    {
-      "name": "closeLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
-    },
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the alert again."
-    },
-    {
-      "name": "role",
-      "type": "\"status\" | \"alert\" | \"region\"",
-      "default": "\"status\"",
-      "required": false,
-      "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
-    },
-    {
-      "name": "inverted",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
-    },
-    {
-      "name": "plain",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
-    },
-    {
-      "name": "iconShape",
-      "type": "\"rounded\" | \"round\"",
-      "default": "\"rounded\"",
-      "required": false,
-      "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
-    },
-    {
-      "name": "iconBox",
-      "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
-    },
-    {
-      "name": "snack",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
-    },
-    {
-      "name": "component",
-      "type": "import(\"svelte\").ComponentType | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
-    },
-    {
-      "name": "componentProps",
-      "type": "Record<string, unknown>",
-      "default": "{}",
-      "required": false,
-      "description": "Props passed to `component`."
-    },
-    {
-      "name": "onclose",
-      "type": "(() => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when dismissed."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "InlineNotification",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "FeedbackStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Heading (required)."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Body text (required). Override with the default slot for rich content."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
+        },
+        {
+          "name": "linkText",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
+        },
+        {
+          "name": "actions",
+          "type": "InlineNotificationAction[]",
+          "default": "undefined",
+          "required": false,
+          "description": "Action buttons (alternative to the `actions` slot)."
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render the close button. Defaults to `false` (not dismissible)."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Controls visibility; bindable with `v-model:open`. Dismissing sets it to `false`; set it back to `true` to show the notification again."
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\" | \"region\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
+        },
+        {
+          "name": "plain",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\"",
+          "default": "undefined",
+          "required": false,
+          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted notifications and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
+        },
+        {
+          "name": "component",
+          "type": "Component",
+          "default": "undefined",
+          "required": false,
+          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Vue component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": "() => ({})",
+          "required": false,
+          "description": "Props passed to `component`."
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when dismissed."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "actions",
+        "default",
+        "icon",
+        "link"
+      ]
     }
-  ]
+  }
 }

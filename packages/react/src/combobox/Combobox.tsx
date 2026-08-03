@@ -126,12 +126,7 @@ export function Combobox({
   };
 
   const listbox = (
-    <ul
-      {...api.listboxProps}
-      ref={listboxRef}
-      className="combobox__listbox"
-      style={floatingStyles}
-    >
+    <ul {...api.listboxProps} ref={listboxRef} className="combobox__listbox" style={floatingStyles}>
       {visible.length > 0 ? (
         visible.map((item) => {
           // The hook filters plain core items; the icon lives on the prop list.
@@ -174,9 +169,7 @@ export function Combobox({
 
       <div
         ref={controlRef}
-        className={
-          disabled ? "combobox__control combobox__control--disabled" : "combobox__control"
-        }
+        className={disabled ? "combobox__control combobox__control--disabled" : "combobox__control"}
       >
         {searchable ? (
           <span className="combobox__search" aria-hidden="true">
@@ -226,9 +219,7 @@ export function Combobox({
             input width stays stable instead of jumping as text is typed. */}
         <button
           {...api.clearProps}
-          className={
-            clearHidden ? "combobox__clear combobox__clear--hidden" : "combobox__clear"
-          }
+          className={clearHidden ? "combobox__clear combobox__clear--hidden" : "combobox__clear"}
           aria-label={resolvedClearLabel}
           tabIndex={clearHidden ? -1 : 0}
           aria-hidden={clearHidden ? "true" : undefined}

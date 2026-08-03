@@ -1,33 +1,49 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Invisible UI Elements — Vue habitat</title>
-  <!-- Vue consumes custom elements natively: v-model-free, plain attributes
+  <head>
+    <meta charset="utf-8" />
+    <title>Invisible UI Elements — Vue habitat</title>
+    <!-- Vue consumes custom elements natively: v-model-free, plain attributes
        and CustomEvents. (CDN import: needs network.) -->
-  <link rel="stylesheet" href="../../packages/elements/src/styles/index.css" />
-  <script type="module" src="../../packages/elements/dist/define.js"></script>
-  <style> body { font-family: system-ui, sans-serif; margin: 2rem; } #app { display: grid; gap: 1.5rem; justify-items: start; } </style>
-</head>
-<body>
-  <div id="app">
-    <h1>Invisible UI × Vue</h1>
-    <ds-checkbox label="Subscribe" :checked="subscribed || null" @change="subscribed = $event.detail.checked"></ds-checkbox>
-    <p>subscribed = {{ subscribed }}</p>
-    <ds-select label="Fruit" :value="fruit" @change="fruit = $event.detail.value">
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-    </ds-select>
-    <p>fruit = {{ fruit }}</p>
-    <ds-dialog heading="From Vue" trigger="Open dialog"><p>Hello from a Vue-managed page.</p></ds-dialog>
-  </div>
-  <script type="module">
-    import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js";
-    createApp({
-      data: () => ({ subscribed: false, fruit: "apple" }),
-      // Tell Vue the ds-* tags are custom elements, not missing components.
-      compilerOptions: { isCustomElement: (tag) => tag.startsWith("ds-") },
-    }).mount("#app");
-  </script>
-</body>
+    <link rel="stylesheet" href="../../packages/elements/src/styles/index.css" />
+    <script type="module" src="../../packages/elements/dist/define.js"></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 2rem;
+      }
+      #app {
+        display: grid;
+        gap: 1.5rem;
+        justify-items: start;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Invisible UI × Vue</h1>
+      <ds-checkbox
+        label="Subscribe"
+        :checked="subscribed || null"
+        @change="subscribed = $event.detail.checked"
+      ></ds-checkbox>
+      <p>subscribed = {{ subscribed }}</p>
+      <ds-select label="Fruit" :value="fruit" @change="fruit = $event.detail.value">
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </ds-select>
+      <p>fruit = {{ fruit }}</p>
+      <ds-dialog heading="From Vue" trigger="Open dialog"
+        ><p>Hello from a Vue-managed page.</p></ds-dialog
+      >
+    </div>
+    <script type="module">
+      import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js";
+      createApp({
+        data: () => ({ subscribed: false, fruit: "apple" }),
+        // Tell Vue the ds-* tags are custom elements, not missing components.
+        compilerOptions: { isCustomElement: (tag) => tag.startsWith("ds-") },
+      }).mount("#app");
+    </script>
+  </body>
 </html>

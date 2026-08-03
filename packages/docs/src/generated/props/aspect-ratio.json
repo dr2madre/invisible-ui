@@ -1,13 +1,42 @@
 {
   "component": "aspect-ratio",
   "selected": false,
-  "props": [
-    {
-      "name": "ratio",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": "Width ÷ height (e.g. `16 / 9`)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "AspectRatio",
+        "specifier": "@design-system/svelte/AspectRatio.svelte"
+      },
+      "props": [
+        {
+          "name": "ratio",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Width ÷ height (e.g. `16 / 9`)."
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "AspectRatio",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "ratio",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Width-to-height ratio, e.g. `16 / 9`, `4 / 3`, `1`."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

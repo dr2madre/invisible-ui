@@ -1,55 +1,129 @@
 {
   "component": "stepper",
   "selected": false,
-  "props": [
-    {
-      "name": "steps",
-      "type": "StepDescriptor[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Stepper",
+        "specifier": "@design-system/svelte/Stepper.svelte"
+      },
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepDescriptor[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "linear",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name."
+        },
+        {
+          "name": "onStepChange",
+          "type": "((current: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the active step changes."
+        }
+      ]
     },
-    {
-      "name": "current",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "linear",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name."
-    },
-    {
-      "name": "onStepChange",
-      "type": "((current: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the active step changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Stepper",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepDescriptor[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Current step (0-based); bindable with `v-model:current`."
+        },
+        {
+          "name": "linear",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "StepperOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the progress nav. Defaults to the catalog's \"Progress\"."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(current: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the current step changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:current",
+          "payload": "current: number"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

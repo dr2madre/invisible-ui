@@ -1,55 +1,136 @@
 {
   "component": "time-field",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "TimeField",
+        "specifier": "@design-system/svelte/TimeField.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hourCycle",
+          "type": "HourCycle",
+          "default": "24",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "withSeconds",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the whole field."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the formatted time is submitted under it (via a hidden input)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the formatted value (or `null` while incomplete)."
+        }
+      ]
     },
-    {
-      "name": "hourCycle",
-      "type": "HourCycle",
-      "default": "24",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "withSeconds",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the whole field."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the formatted time is submitted under it (via a hidden input)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string | null) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called with the formatted value (or `null` while incomplete)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "TimeField",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "Value as `\"HH:mm\"` or `\"HH:mm:ss\"` (24h); bindable with `v-model`."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hourCycle",
+          "type": "HourCycle",
+          "default": "24",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "withSeconds",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the whole field. Defaults to the catalog's \"Time\"."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the formatted time is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string | null"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

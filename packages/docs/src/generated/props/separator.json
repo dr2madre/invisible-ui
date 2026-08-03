@@ -1,20 +1,54 @@
 {
   "component": "separator",
   "selected": false,
-  "props": [
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": "Divider direction."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Separator",
+        "specifier": "@design-system/svelte/Separator.svelte"
+      },
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Divider direction."
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive tech (purely visual)."
+        }
+      ]
     },
-    {
-      "name": "decorative",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Hide from assistive tech (purely visual)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Separator",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "orientation",
+          "type": "SeparatorOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive tech (purely visual)."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

@@ -1,76 +1,178 @@
 {
   "component": "segmented-control",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "SegmentedControlItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "SegmentedControl",
+        "specifier": "@design-system/svelte/SegmentedControl.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "SegmentedControlItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout direction."
+        },
+        {
+          "name": "iconOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Icon-only segments (each item needs an accessible label)."
+        },
+        {
+          "name": "stacked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Stack icon over label (iOS-style)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the group label (kept for assistive tech)."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the selected value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": "Layout direction."
-    },
-    {
-      "name": "iconOnly",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Icon-only segments (each item needs an accessible label)."
-    },
-    {
-      "name": "stacked",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Stack icon over label (iOS-style)."
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the control."
-    },
-    {
-      "name": "hideLabel",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Visually hide the group label (kept for assistive tech)."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the selected value is submitted under it."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the selected value changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "SegmentedControl",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "SegmentedControlItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "SegmentedControlOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout and arrow-key axis. `horizontal` (default) is a segment bar; `vertical` stacks the segments into a column (e.g. a sidebar). Each segment's content stays a row (icon beside label) unless `stacked` is set."
+        },
+        {
+          "name": "iconOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render only the icon for each segment, hiding the visible label (the label still names the segment via `aria-label`). Items without an icon keep their text."
+        },
+        {
+          "name": "stacked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Stack each segment's content vertically: icon on top, label below (e.g. an iOS-style tab). Implies the label stays visible."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control (announced by screen readers)."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label (kept for assistive tech)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the selected value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

@@ -1,69 +1,353 @@
 {
   "component": "dialog",
   "selected": false,
-  "props": [
-    {
-      "name": "triggerVariant",
-      "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
-      "default": "\"default\"",
-      "required": false,
-      "description": "Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and accessibility (open/close, `role=\"dialog\"` + `aria-modal`, labelling via the title, Escape to close) come from the headless dialog (`@design-system/core`); this adapter adds the modal DOM concerns: a portal to `<body>`, a focus trap, body scroll lock, a backdrop that closes on press, and focus management (focus moves into the panel on open and returns to the trigger on close).  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass an accessible `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`. / import { createDialog } from \"./create-dialog\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Dialog",
+        "specifier": "@design-system/svelte/Dialog.svelte"
+      },
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Dialog — a styled modal window (WAI-ARIA dialog pattern). Behaviour and accessibility (open/close, `role=\"dialog\"` + `aria-modal`, labelling via the title, Escape to close) come from the headless dialog (`@design-system/core`); this adapter adds the modal DOM concerns: a portal to `<body>`, a focus trap, body scroll lock, a backdrop that closes on press, and focus management (focus moves into the panel on open and returns to the trigger on close).  Slots: `trigger` (the trigger button's content) and the default slot (the body). Pass an accessible `title` (required) and optional `description`. Colors, radius and elevation are themeable via `--ds-dialog-*`. / import { createDialog } from \"./create-dialog\"; import { portal } from \"../internal/portal\"; import Button from \"../button/Button.svelte\";  /** Visual variant for the trigger Button."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial open state."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the dialog."
+        },
+        {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the title while keeping it as the dialog's accessible name (announced by screen readers via `aria-labelledby`). The title text is always required; this only controls whether it is shown."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button."
+        },
+        {
+          "name": "footerClose",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot."
+        },
+        {
+          "name": "initialFocus",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the dialog opens/closes."
+        }
+      ]
     },
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Initial open state."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Dialog",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the dialog (required)."
+        },
+        {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+        },
+        {
+          "name": "footerClose",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close/cancel button on the footer's leading edge."
+        },
+        {
+          "name": "initialFocus",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself, never on the close button."
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop closes. Default `true`."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "default",
+        "footer",
+        "headerLead",
+        "icon",
+        "trigger"
+      ]
     },
-    {
-      "name": "title",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible title naming the dialog."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Dialog",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button."
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the dialog (required)."
+        },
+        {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`."
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading feedback icon, centered against the title block."
+        },
+        {
+          "name": "headerLead",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading ghost icon button (e.g. a back affordance)."
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Trailing action buttons in the footer."
+        },
+        {
+          "name": "footerClose",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close/cancel button on the footer's leading edge."
+        },
+        {
+          "name": "initialFocus",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop closes. Default `true`."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The dialog body."
+        }
+      ]
     },
-    {
-      "name": "hideTitle",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Visually hide the title while keeping it as the dialog's accessible name (announced by screen readers via `aria-labelledby`). The title text is always required; this only controls whether it is shown."
-    },
-    {
-      "name": "description",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Optional description, wired via `aria-describedby`."
-    },
-    {
-      "name": "closeLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the close button."
-    },
-    {
-      "name": "footerClose",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot."
-    },
-    {
-      "name": "initialFocus",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the dialog opens/closes."
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-dialog",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "heading",
+          "reactive": true,
+          "required": true,
+          "description": "the global `title` attribute is a browser tooltip and cannot be used"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "trigger",
+          "reactive": false,
+          "required": false,
+          "description": "opener text"
+        },
+        {
+          "name": "trigger-variant",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "close-label",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "initial-focus",
+          "reactive": false,
+          "required": false,
+          "description": "CSS selector"
+        },
+        {
+          "name": "no-outside-close",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `open` (boolean).",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`."
+      ]
     }
-  ]
+  }
 }

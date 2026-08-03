@@ -1,34 +1,82 @@
 {
   "component": "dropdown-menu",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "DropdownMenu",
+        "specifier": "@design-system/svelte/DropdownMenu.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "items",
+          "type": "MenuItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSelect",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the chosen item's value."
+        }
+      ]
     },
-    {
-      "name": "items",
-      "type": "MenuItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onSelect",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called with the chosen item's value."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "DropdownMenu",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The trigger button's visible label."
+        },
+        {
+          "name": "items",
+          "type": "MenuItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the chosen item's value."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

@@ -1,27 +1,68 @@
 {
   "component": "menubar",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the menubar."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Menubar",
+        "specifier": "@design-system/svelte/Menubar.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the menubar."
+        },
+        {
+          "name": "menus",
+          "type": "MenubarMenu[]",
+          "default": null,
+          "required": true,
+          "description": "Top-level menus: `{ value, label, items, disabled? }`."
+        },
+        {
+          "name": "onSelect",
+          "type": "((menuValue: string, itemValue: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when an item is activated."
+        }
+      ]
     },
-    {
-      "name": "menus",
-      "type": "MenubarMenu[]",
-      "default": null,
-      "required": true,
-      "description": "Top-level menus: `{ value, label, items, disabled? }`."
-    },
-    {
-      "name": "onSelect",
-      "type": "((menuValue: string, itemValue: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when an item is activated."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Menubar",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the bar."
+        },
+        {
+          "name": "menus",
+          "type": "MenubarMenu[]",
+          "default": null,
+          "required": true,
+          "description": "The top-level menus."
+        },
+        {
+          "name": "onSelect",
+          "type": "(menuValue: string, itemValue: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the chosen item's menu value and item value."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

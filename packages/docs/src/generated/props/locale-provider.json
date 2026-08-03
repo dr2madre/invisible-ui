@@ -1,34 +1,115 @@
 {
   "component": "locale-provider",
   "selected": false,
-  "props": [
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "\"en\"",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "LocaleProvider",
+        "specifier": "@design-system/svelte/LocaleProvider.svelte"
+      },
+      "props": [
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "\"en\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "dir",
+          "type": "Dir",
+          "default": "\"ltr\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "messages",
+          "type": "Messages",
+          "default": "{}",
+          "required": false,
+          "description": "Overrides merged over the English catalog."
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render without the wrapping element (you manage `dir`)."
+        }
+      ]
     },
-    {
-      "name": "dir",
-      "type": "Dir",
-      "default": "\"ltr\"",
-      "required": false,
-      "description": ""
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "LocaleProvider",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "\"en\"",
+          "required": false,
+          "description": "BCP-47 locale tag. Defaults to `\"en\"`."
+        },
+        {
+          "name": "dir",
+          "type": "Dir",
+          "default": "\"ltr\"",
+          "required": false,
+          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
+        },
+        {
+          "name": "messages",
+          "type": "Messages",
+          "default": "undefined",
+          "required": false,
+          "description": "Message overrides, merged over the English catalog."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     },
-    {
-      "name": "messages",
-      "type": "Messages",
-      "default": "{}",
-      "required": false,
-      "description": "Overrides merged over the English catalog."
-    },
-    {
-      "name": "inline",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Render without the wrapping element (you manage `dir`)."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "LocaleProvider",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "\"en\"",
+          "required": false,
+          "description": "BCP-47 locale tag. Defaults to `\"en\"`."
+        },
+        {
+          "name": "dir",
+          "type": "Dir",
+          "default": "\"ltr\"",
+          "required": false,
+          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
+        },
+        {
+          "name": "messages",
+          "type": "Messages",
+          "default": null,
+          "required": false,
+          "description": "Message overrides, merged over the English catalog."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": ""
+        }
+      ]
     }
-  ]
+  }
 }

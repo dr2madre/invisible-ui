@@ -1,62 +1,150 @@
 {
   "component": "tree-view",
   "selected": false,
-  "props": [
-    {
-      "name": "nodes",
-      "type": "TreeNode[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "TreeView",
+        "specifier": "@design-system/svelte/TreeView.svelte"
+      },
+      "props": [
+        {
+          "name": "nodes",
+          "type": "TreeNode[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "expanded",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "selected",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tree."
+        },
+        {
+          "name": "labels",
+          "type": "Record<string, string> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Display labels per value (defaults to the value)."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "((expanded: string[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the expanded set changes."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "((selected: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the selection changes."
+        }
+      ]
     },
-    {
-      "name": "expanded",
-      "type": "string[]",
-      "default": "[]",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "selected",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the tree."
-    },
-    {
-      "name": "labels",
-      "type": "Record<string, string> | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Display labels per value (defaults to the value)."
-    },
-    {
-      "name": "onExpandedChange",
-      "type": "((expanded: string[]) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the expanded set changes."
-    },
-    {
-      "name": "onSelectedChange",
-      "type": "((selected: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the selection changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "TreeView",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "nodes",
+          "type": "TreeNode[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "expanded",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Expanded parent values; bindable with `v-model:expanded`."
+        },
+        {
+          "name": "selected",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value; bindable with `v-model:selected`."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tree (announced by screen readers)."
+        },
+        {
+          "name": "labels",
+          "type": "Record<string, string>",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional per-node display labels, keyed by node value."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the expanded set changes."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(selected: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:expanded",
+          "payload": "expanded: string[]"
+        },
+        {
+          "name": "update:selected",
+          "payload": "selected: string"
+        }
+      ],
+      "slots": [
+        "icon",
+        "label"
+      ]
     }
-  ]
+  }
 }

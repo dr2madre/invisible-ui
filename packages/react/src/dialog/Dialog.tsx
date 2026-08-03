@@ -72,7 +72,12 @@ export function Dialog({
   children,
 }: DialogProps) {
   const { t } = useI18n();
-  const { api, open: isOpen, triggerRef, panelRef } = useDialog({
+  const {
+    api,
+    open: isOpen,
+    triggerRef,
+    panelRef,
+  } = useDialog({
     open,
     describedBy: description !== undefined,
     initialFocus,
@@ -113,7 +118,13 @@ export function Dialog({
               type="button"
               aria-label={resolvedCloseLabel}
             >
-              <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
+              <svg
+                viewBox="0 0 24 24"
+                width="1em"
+                height="1em"
+                aria-hidden="true"
+                focusable="false"
+              >
                 <path
                   d="M6 6l12 12M18 6L6 18"
                   fill="none"

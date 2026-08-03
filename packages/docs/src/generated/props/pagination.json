@@ -1,55 +1,136 @@
 {
   "component": "pagination",
   "selected": false,
-  "props": [
-    {
-      "name": "page",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Pagination",
+        "specifier": "@design-system/svelte/Pagination.svelte"
+      },
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "pageCount",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "boundaryCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the nav."
+        },
+        {
+          "name": "onPageChange",
+          "type": "((page: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the page changes."
+        }
+      ]
     },
-    {
-      "name": "pageCount",
-      "type": "number",
-      "default": null,
-      "required": true,
-      "description": ""
-    },
-    {
-      "name": "siblingCount",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "boundaryCount",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the nav."
-    },
-    {
-      "name": "onPageChange",
-      "type": "((page: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the page changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Pagination",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `page` when bound."
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Current page (1-based)."
+        },
+        {
+          "name": "pageCount",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": "Total number of pages."
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages shown on each side of the current page."
+        },
+        {
+          "name": "boundaryCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages always shown at the start and end."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Pagination\"."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the page changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "page: number"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

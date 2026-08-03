@@ -1,55 +1,136 @@
 {
   "component": "radio-group",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "RadioGroupItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "RadioGroup",
+        "specifier": "@design-system/svelte/RadioGroup.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "RadioGroupItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "Orientation",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Layout direction."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the selected value is submitted under it (auto-generated for grouping if omitted)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "orientation",
-      "type": "Orientation",
-      "default": "\"vertical\"",
-      "required": false,
-      "description": "Layout direction."
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the group."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the selected value is submitted under it (auto-generated for grouping if omitted)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the selected value changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "RadioGroup",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "RadioGroupItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "RadioGroupOrientation",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Layout and arrow-key axis. Defaults to `vertical`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group (announced by screen readers)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the selected value is submitted under it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

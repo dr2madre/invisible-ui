@@ -1,34 +1,90 @@
 {
   "component": "collapsible",
   "selected": false,
-  "props": [
-    {
-      "name": "open",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Whether the region is expanded."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Collapsible",
+        "specifier": "@design-system/svelte/Collapsible.svelte"
+      },
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the region is expanded."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the trigger."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Trigger text (or use the `trigger` slot)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when toggled."
+        }
+      ]
     },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the trigger."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Trigger text (or use the `trigger` slot)."
-    },
-    {
-      "name": "onOpenChange",
-      "type": "((open: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when toggled."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Collapsible",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Trigger text, used when the `trigger` slot is not provided."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the open state changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "default",
+        "trigger"
+      ]
     }
-  ]
+  }
 }
