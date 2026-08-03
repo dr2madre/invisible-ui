@@ -1,5 +1,6 @@
 import { defineComponent, h, Teleport, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useContextMenu, type MenuItem } from "./use-context-menu";
 
 export interface ContextMenuProps {
@@ -36,6 +37,7 @@ export const ContextMenu = defineComponent({
     label: { type: String, default: undefined },
   },
   setup(props, { slots }) {
+    const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
     const { api, open, triggerRef, menuRef, triggerHandlers } = useContextMenu(() => ({
       items: props.items,
@@ -55,7 +57,7 @@ export const ContextMenu = defineComponent({
           slots.default?.(),
         ),
         open.value
-          ? h(Teleport, { to: "body" }, [
+          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
               h(
                 "div",
                 {

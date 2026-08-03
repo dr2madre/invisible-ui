@@ -1,5 +1,6 @@
 import { defineComponent, h, Teleport, type PropType } from "vue";
 import type { Placement } from "../internal/floating";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useTooltip } from "./use-tooltip";
 
 export interface TooltipProps {
@@ -32,6 +33,7 @@ export const Tooltip = defineComponent({
     closeDelay: { type: Number, default: 100 },
   },
   setup(props, { slots }) {
+    const teleportDisabled = useHydratedTeleport();
     const { api, open, triggerRef, tooltipRef, show, hide, hold } = useTooltip(() => ({
       placement: props.placement,
       openDelay: props.openDelay,
@@ -70,7 +72,7 @@ export const Tooltip = defineComponent({
         slots.default?.(),
       ),
       open.value
-        ? h(Teleport, { to: "body" }, [
+        ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
             h(
               "div",
               {

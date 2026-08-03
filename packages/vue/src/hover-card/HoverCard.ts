@@ -1,5 +1,6 @@
 import { defineComponent, h, Teleport, type PropType } from "vue";
 import type { Placement } from "../internal/floating";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useHoverPreview } from "../popover/use-hover-preview";
 
 export interface HoverCardProps {
@@ -47,6 +48,7 @@ export const HoverCard = defineComponent({
     "update:open": (open: boolean) => typeof open === "boolean",
   },
   setup(props, { emit, slots }) {
+    const teleportDisabled = useHydratedTeleport();
     const { api, open, triggerRef, cardRef, show, hide, hold } = useHoverPreview(() => ({
       open: props.open,
       placement: props.placement,
@@ -99,7 +101,7 @@ export const HoverCard = defineComponent({
         slots.trigger?.(),
       ),
       open.value
-        ? h(Teleport, { to: "body" }, [
+        ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
             h(
               "div",
               {

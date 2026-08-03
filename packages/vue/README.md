@@ -8,7 +8,7 @@ native Vue composables for components with headless behavior.
 **Status: alpha and unpublished.** The package is currently private while
 names, APIs and the release scope are finalized. Vue `^3.4` is supported. Full
 catalog parity landed across PRs #193–#199; the Vue suite currently contains
-788 tests.
+866 tests, including dedicated server-rendering and hydration coverage.
 
 ## Usage
 
@@ -151,8 +151,10 @@ the findings from the full port.
 ## Current constraints
 
 - The package is ESM-only and currently private/unpublished.
-- Vue server rendering and hydration do not yet have a dedicated adapter test
-  suite. Client rendering is the measured path today.
+- Every public component export is server-rendered in a DOM-free Node test.
+  Representative stateful, overlay and date components are also rendered in a
+  server runtime and hydrated in a separate client runtime without mismatches.
+  Body-level Teleports stay in place through hydration and move after mount.
 - `useMenubar` reads the structure of its menu list once during setup; item and
   disabled state remain reactive, but adding, removing or reordering top-level
   menus requires remounting it.

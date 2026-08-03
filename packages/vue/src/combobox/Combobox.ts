@@ -1,6 +1,7 @@
 import { defineComponent, h, ref, Teleport, type PropType, type VNode } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
 
 /** A combobox option, optionally carrying a leading icon (an SVG path `d`). */
@@ -91,6 +92,7 @@ export const Combobox = defineComponent({
     "update:modelValue": (value: string | null) => value === null || typeof value === "string",
   },
   setup(props, { emit, slots }) {
+    const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
 
     const combobox = useCombobox(() => ({
@@ -324,7 +326,7 @@ export const Combobox = defineComponent({
           ],
         ),
 
-        h(Teleport, { to: "body" }, [listbox]),
+        h(Teleport, { to: "body", disabled: teleportDisabled.value }, [listbox]),
       ]);
     };
   },

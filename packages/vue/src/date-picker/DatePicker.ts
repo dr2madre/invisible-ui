@@ -3,6 +3,7 @@ import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { WeekStart } from "../calendar/use-calendar";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { usePopover } from "../popover/use-popover";
 
 /** Intl date style used for the field display. */
@@ -70,6 +71,7 @@ export const DatePicker = defineComponent({
     "update:modelValue": (value: string | null) => value === null || typeof value === "string",
   },
   setup(props, { emit }) {
+    const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
     const { api, open, setOpen, triggerRef, panelRef } = usePopover(() => ({
       placement: "bottom-start",
@@ -172,7 +174,7 @@ export const DatePicker = defineComponent({
         ]),
 
         open.value
-          ? h(Teleport, { to: "body" }, [
+          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
               h(
                 "div",
                 { ...api.value.contentProps, ref: panelRef, class: "date-picker__popover" },
