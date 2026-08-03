@@ -71,13 +71,13 @@ Each item ships as its own PR. Checkboxes track progress.
   Dialog over the existing `@design-system/core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
-  by a parity test) and 89 tests incl. axe. **Confirmed:** the core needed *no*
+  by a parity test) and 99 tests incl. axe, SSR and hydration. **Confirmed:** the core needed *no*
   change to drive a second framework — the Combobox makes that claim
   load-bearing, the Dialog closes the overlay shape. **Reflex/Python**
   (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over
   the React build (ADR 0006) with 8 render tests — nothing re-implemented in
   Python. Full plan and integration findings: `docs/adapters-roadmap.md`.
-- [x] **7. Svelte SSR/hydration guarantee** — `ssr.test.ts` server-renders every
+- [x] **7. Adapter SSR/hydration guarantees** — `ssr.test.ts` server-renders every
   Svelte fixture (`svelte/server` `render`, node env) so no component touches
   the DOM during SSR; runs in the normal test gate. Caught and fixed a real bug:
   Toolbar used `onMount` (threw under SSR) — converted to a client-only action,
@@ -87,7 +87,11 @@ Each item ships as its own PR. Checkboxes track progress.
   fixture hydrates representative stateful, overlay and date components without
   mismatches. Body-level Teleports render in place through hydration and move
   after mount, so Vue can locate the server nodes before creating viewport-level
-  layers. Equivalent coverage for the other adapters remains follow-up work.
+  layers. **React now carries the same guarantee across its proof-of-concept
+  surface:** all six catalog components plus `Icon` and `LocaleProvider`
+  server-render without a DOM and hydrate together without mismatches or
+  recoverable errors; the Combobox portal is created only after hydration.
+  Equivalent coverage for the custom-elements adapter remains follow-up work.
 
 ### 🟡 P3 — polish & ecosystem
 

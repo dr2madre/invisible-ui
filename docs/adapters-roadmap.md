@@ -58,7 +58,7 @@ always close over current state — no listener bookkeeping.
 ## Status
 
 **Both parts are complete.** Part A: Button, Checkbox, Switch, Select, Combobox
-and Dialog (`packages/react`, 89 tests incl. axe). Part B: the same six as
+and Dialog (`packages/react`, 99 tests incl. axe, SSR and hydration). Part B: the same six as
 Reflex wrappers (`packages/reflex`, importable as `invisible_ui`; 8 render
 tests) — thin `rx.Component` subclasses over the React build, per ADR 0006.
 Until `@design-system/react` is published to npm, a consuming Reflex app must
