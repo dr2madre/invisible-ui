@@ -75,7 +75,7 @@ over the existing core primitive + ported CSS + tests from the Svelte suite.
 Python (Reflex) inherits each React port for free.
 
 **Adapter order (decided 2026-08-02): Vue first to full parity, then web
-components, then React.**
+components, then React.** Vue reached full parity on 2026-08-03.
 
 Batch order (by typical consumer demand):
 

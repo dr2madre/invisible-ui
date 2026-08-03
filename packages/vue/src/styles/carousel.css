@@ -1,0 +1,207 @@
+/* Carousel, ported from the Svelte adapter, class names kept identical. */
+
+.carousel {
+  position: relative;
+  inline-size: 100%;
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+
+/* Positioning context for the arrows so they center on the slides only, not
+   the whole carousel (which also includes the indicator dots below). */
+.carousel__stage {
+  position: relative;
+}
+.carousel__viewport {
+  overflow: hidden;
+  border-radius: var(--ds-carousel-radius, var(--ds-radius-surface, 0.75rem));
+}
+
+.carousel__track {
+  display: flex;
+  transition: transform var(--ds-carousel-transition, 350ms ease);
+}
+
+/* ---- Slide mode: one full-bleed slide at a time ---- */
+.carousel[data-variant="slide"] .carousel__slide {
+  flex: 0 0 100%;
+  min-inline-size: 0;
+}
+.carousel__bg {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: var(--ds-carousel-aspect, 16 / 9);
+  background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #e2e8f0));
+  background-size: cover;
+  background-position: center;
+}
+/* Image-less slides cycle through the pastel set (an image overrides the color). */
+.carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+}
+.carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+}
+.carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+}
+.carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+}
+.carousel[data-variant="slide"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+}
+.carousel__overlay {
+  inline-size: 100%;
+  padding: var(--ds-carousel-overlay-padding, 1.5rem);
+  color: var(--ds-carousel-overlay-text, #fff);
+  background: var(
+    --ds-carousel-overlay-bg,
+    linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))
+  );
+}
+.carousel__title {
+  margin: 0;
+  font-size: var(--ds-carousel-title-size, 1.5rem);
+  font-weight: 700;
+  line-height: var(--ds-line-height-tight, 1.2);
+}
+.carousel__desc {
+  margin: 0.35rem 0 0;
+  line-height: var(--ds-line-height, 1.4);
+  opacity: 0.95;
+}
+
+/* ---- Gallery mode: scrolling row of items ---- */
+.carousel[data-variant="gallery"] .carousel__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.carousel[data-variant="gallery"] .carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+.carousel[data-variant="gallery"] .carousel__track {
+  gap: var(--ds-carousel-gap, 1rem);
+  transition: none;
+}
+.carousel[data-variant="gallery"] .carousel__slide {
+  flex: 0 0 auto;
+  inline-size: var(--ds-carousel-item-size, 14rem);
+  scroll-snap-align: start;
+}
+
+/* ---- Coverflow ("jukebox"): a 3D flow with the active item centered ---- */
+.carousel[data-variant="coverflow"] .carousel__viewport {
+  position: relative;
+  block-size: var(--ds-carousel-coverflow-height, 16rem);
+  /* The perspective makes the receding neighbors read as 3D. */
+  perspective: var(--ds-carousel-coverflow-perspective, 1200px);
+}
+.carousel[data-variant="coverflow"] .carousel__track {
+  display: block;
+  block-size: 100%;
+  transform-style: preserve-3d;
+}
+.carousel[data-variant="coverflow"] .carousel__slide {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: var(--ds-carousel-coverflow-size, 12rem);
+  /* The per-slide transform/opacity/z-index are set inline from the active
+     offset; this transition animates them as the active item changes. */
+  transition:
+    transform var(--ds-carousel-transition, 350ms ease),
+    opacity var(--ds-carousel-transition, 350ms ease);
+  will-change: transform;
+}
+.carousel[data-variant="coverflow"] .carousel__bg {
+  aspect-ratio: 1;
+  border-radius: var(--ds-carousel-radius, var(--ds-radius-surface, 0.75rem));
+  overflow: hidden;
+  box-shadow: 0 8px 20px -6px rgb(0 0 0 / 0.35);
+}
+/* Pastel set for image-less coverflow cards (mirrors the slide variant). */
+.carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 1) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-pink, #e5a1ac));
+}
+.carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 2) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-violet, #b8a1e6));
+}
+.carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 3) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-teal, #7abecc));
+}
+.carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 4) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-green, #8dcc7a));
+}
+.carousel[data-variant="coverflow"] .carousel__slide:nth-child(5n + 5) .carousel__bg {
+  background-color: var(--ds-carousel-slide-bg, var(--ds-pastel-yellow, #e5cb44));
+}
+/* Vertical jukebox: a taller viewport so stacked neighbors have room. */
+.carousel[data-variant="coverflow"][data-orientation="vertical"] .carousel__viewport {
+  block-size: var(--ds-carousel-coverflow-height, 22rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel[data-variant="coverflow"] .carousel__slide {
+    transition: none;
+  }
+}
+
+/* ---- Controls ---- */
+.carousel__arrow {
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--ds-carousel-arrow-size, 2.25rem);
+  block-size: var(--ds-carousel-arrow-size, 2.25rem);
+  font-size: 1.1rem;
+  color: var(--ds-carousel-arrow-text, var(--ds-color-text, #0f172a));
+  background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #fff));
+  border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-border, #e2e8f0));
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+.carousel__arrow--prev {
+  inset-inline-start: var(--ds-carousel-arrow-offset, 0.5rem);
+}
+.carousel__arrow--next {
+  inset-inline-end: var(--ds-carousel-arrow-offset, 0.5rem);
+}
+.carousel__arrow:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
+.carousel__arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.carousel__indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-block-start: 0.75rem;
+}
+.carousel__dot {
+  inline-size: var(--ds-carousel-dot-size, 0.5rem);
+  block-size: var(--ds-carousel-dot-size, 0.5rem);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ds-carousel-dot-color, var(--ds-color-border, #cbd5e1));
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.carousel__dot[data-selected] {
+  background: var(--ds-carousel-dot-active, var(--ds-color-primary, #2563eb));
+}
+.carousel__dot:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}

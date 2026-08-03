@@ -78,3 +78,19 @@ components of the shared set. Two notes from that work:
   Single-word keys pass through unchanged.
 
 The core still needed zero changes.
+
+## Addendum, 2026-08-03: full parity
+
+The Vue adapter carries the whole catalog: every Svelte component has a Vue
+counterpart, ported batch by batch (forms core, overlays and menus, feedback,
+data and navigation, controls, the date and navigation surfaces, and the
+closing set with carousel, tree view, stepper, the sheet and search dialogs
+and the table composites). The core needed zero changes across all of them,
+with one exception recorded here: `core/calendar` now reads an empty value
+and an empty focused date as nothing selected, since the empty string reached
+the date formatters as an invalid date. Every adapter gains that reading.
+
+Two Vue-side notes worth keeping: `useMenubar` reads its menu list once at
+setup, and trigger listeners that must exist before the first user gesture
+are declared as prop bags the component spreads, since Vue assigns template
+refs after the render that needs them.

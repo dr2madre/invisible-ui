@@ -12,6 +12,8 @@
 export const en = {
   "breadcrumb.label": "Breadcrumb",
   "calendar.previous": "Previous",
+  "carousel.previous": "Previous slide",
+  "carousel.next": "Next slide",
   "calendar.next": "Next",
   "calendar.today": "Today",
   "calendar.label": "Calendar",
@@ -22,6 +24,7 @@ export const en = {
   "calendar.view.three-day": "3 Days",
   "calendar.view.day": "Day",
   "calendar.view.year": "Year",
+  "codeBlock.copy": "Copy code",
   "combobox.placeholder": "Search…",
   "contextMenu.label": "Context menu",
   "datePicker.label": "Date",
@@ -39,15 +42,36 @@ export const en = {
   "inlineNotification.close": "Close",
   "inlineNotification.learnMore": "Learn more",
   "loading.label": "Loading…",
+  "loginForm.submit": "Sign in",
+  "loginForm.forgot": "Forgot password?",
   "menu.label": "Main",
   "notificationRegion.label": "Notifications",
   "pagination.label": "Pagination",
+  "searchDialog.title": "Search",
+  "searchDialog.label": "Search",
+  "searchDialog.placeholder": "Type to search…",
+  "searchDialog.empty": "No results found.",
+  "searchDialog.resultOne": "1 result available",
+  "searchDialog.resultMany": "{count} results available",
+  "searchDialog.loading": "Searching…",
   "select.placeholder": "Select…",
+  "sheetDialog.close": "Close",
+  "stepper.label": "Progress",
   "switch.on": "ON",
   "switch.off": "OFF",
+  "table.views": "Views",
+  "table.pagination": "Table pages",
+  "table.loadMore": "Load more",
+  "table.loading": "Loading…",
+  "table.columns": "Columns",
   "tag.remove": "Remove",
   "timeField.label": "Time",
   "timeField.dayPeriod": "AM/PM",
+  // Upload Drop Area: prompt first, the styled action word last, so
+  // translations like "Trascina qui i file oppure seleziona" keep a natural
+  // order.
+  "uploadDropArea.prompt": "Drag & drop files or",
+  "uploadDropArea.action": "browse",
 } as const;
 
 export type MessageKey = keyof typeof en;

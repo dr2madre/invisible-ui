@@ -15,10 +15,10 @@ when an adapter grows.
 | **React** | `@design-system/react` | 6 (the shared set below) | Working proof of concept. |
 | **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 6 | Working proof of concept; wraps the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
 | **Web components** (plain HTML) | `@design-system/elements` | 6 | Working proof of concept: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
-| **Vue** | `@design-system/vue` | 58 | Growing toward parity: the shared set, the forms core, the overlays, the feedback family, data and navigation, the controls, and the date, time and navigation surfaces (calendar, pickers, time field, menus). |
+| **Vue** | `@design-system/vue` | All 70+ | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
 
-Every component always exists in Svelte; the shared set below is where the
-other adapters are proven first, one component at a time. When a component
+Svelte and Vue carry the whole catalog; the shared set below is where the
+remaining adapters are proven first, one component at a time. When a component
 lands in an adapter, this page and the [API conventions](/invisible-ui/api/)
 change with it.
 

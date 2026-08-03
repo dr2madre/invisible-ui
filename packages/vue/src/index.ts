@@ -13,7 +13,11 @@
  * RatingGroup, SegmentedControl, ToggleButton, ToggleGroup, PinInput, Radio,
  * Meter, Toolbar, ButtonGroup, Link, Kbd, Separator) and the dates, times &
  * navigation surfaces batch (Calendar, DatePicker, DateRangePicker, TimeField,
- * Collapsible, HoverCard, ContextMenu, Menu, Menubar, NavigationMenu) ported
+ * Collapsible, HoverCard, ContextMenu, Menu, Menubar, NavigationMenu) and the
+ * long tail that completes parity with the Svelte adapter (AspectRatio,
+ * Blockquote, Code, CodeBlock, EmptyState, ErrorState, LoadingGenerationArea,
+ * LoginForm, UploadDropArea, ScrollArea, Stepper, TreeView, Carousel,
+ * SheetDialog, SearchDialog, TableSet) ported
  * from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
@@ -135,6 +139,36 @@ export { ContextMenu, type ContextMenuProps } from "./context-menu/ContextMenu";
 export { Menu, type MenuEntry, type MenuProps, type MenuSection } from "./menu/Menu";
 export { Menubar, type MenubarProps } from "./menubar/Menubar";
 export { NavigationMenu, type NavigationMenuProps } from "./navigation-menu/NavigationMenu";
+export { AspectRatio, type AspectRatioProps } from "./aspect-ratio/AspectRatio";
+export { Blockquote, type BlockquoteProps } from "./blockquote/Blockquote";
+export { Code } from "./code/Code";
+export { CodeBlock, type CodeBlockProps } from "./code-block/CodeBlock";
+export { EmptyState, type EmptyStateAction, type EmptyStateProps } from "./empty-state/EmptyState";
+export { ErrorState, type ErrorStateAction, type ErrorStateProps } from "./error-state/ErrorState";
+export {
+  LoadingGenerationArea,
+  type LoadingGenerationAreaPosition,
+  type LoadingGenerationAreaProps,
+} from "./loading-generation-area/LoadingGenerationArea";
+export {
+  LoginForm,
+  type LoginFormProps,
+  type LoginFormProvider,
+  type LoginFormValue,
+} from "./login-form/LoginForm";
+export { UploadDropArea, type UploadDropAreaProps } from "./upload-drop-area/UploadDropArea";
+export { ScrollArea, type ScrollAreaProps } from "./scroll-area/ScrollArea";
+export { Stepper, type StepDescriptor, type StepperProps } from "./stepper/Stepper";
+export { TreeView, type TreeViewProps } from "./tree-view/TreeView";
+export {
+  Carousel,
+  type CarouselProps,
+  type CarouselSlide,
+  type CarouselVariant,
+} from "./carousel/Carousel";
+export { SheetDialog, type SheetDialogProps } from "./sheet-dialog/SheetDialog";
+export { SearchDialog, type SearchDialogProps } from "./search-dialog/SearchDialog";
+export { TableSet, type TableSetProps, type TableViewDef } from "./table/TableSet";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -292,6 +326,50 @@ export {
   type UseNavigationMenu,
   type UseNavigationMenuOptions,
 } from "./navigation-menu/use-navigation-menu";
+export { useDropArea, type UseDropArea, type UseDropAreaOptions } from "./drop-area/use-drop-area";
+export {
+  useScrollArea,
+  type ScrollbarGeometry,
+  type ScrollOrientation,
+  type UseScrollArea,
+} from "./scroll-area/use-scroll-area";
+export {
+  useStepper,
+  type StepperApi,
+  type StepperOrientation,
+  type StepperState,
+  type StepStatus,
+  type UseStepperOptions,
+} from "./stepper/use-stepper";
+export {
+  useTreeView,
+  type TreeApi,
+  type TreeNode,
+  type TreeState,
+  type UseTreeView,
+  type UseTreeViewOptions,
+  type VisibleNode,
+} from "./tree-view/use-tree-view";
+export {
+  useCarousel,
+  type CarouselApi,
+  type CarouselOrientation,
+  type CarouselState,
+  type UseCarouselOptions,
+} from "./carousel/use-carousel";
+export {
+  useSheetDialog,
+  type SheetDialogSide,
+  type UseSheetDialog,
+  type UseSheetDialogOptions,
+} from "./sheet-dialog/use-sheet-dialog";
+export {
+  useSearchDialog,
+  type SearchDialogItem,
+  type UseSearchDialog,
+  type UseSearchDialogOptions,
+} from "./search-dialog/use-search-dialog";
+export { useTable, type TableApi, type UseTable, type UseTableOptions } from "./table/use-table";
 export { useDomProps } from "./use-dom-props";
 
 // Localization
