@@ -100,6 +100,7 @@ design-system/
 │   └── docs/              # the Astro + Starlight docs site
 ├── examples/
 │   ├── svelte/            # runnable Svelte example
+│   ├── vue/               # runnable native Vue adapter example
 │   ├── elements/          # plain HTML, HTMX and Vue custom-element habitats
 │   └── reflex/            # runnable Reflex (Python) example
 └── docs/                  # ADRs, roadmaps, foundations
@@ -136,11 +137,15 @@ pnpm e2e         # real-browser tests against the built docs site
                  # (first run once: pnpm exec playwright install chromium)
 ```
 
-Run the example app:
+Run the framework example apps:
 
 ```bash
 pnpm --filter @design-system/example-svelte dev
+pnpm --filter @design-system/example-vue dev
 ```
+
+See [`packages/svelte/README.md`](./packages/svelte/README.md) for styled
+components, headless factories, localization and package-specific commands.
 
 Vue consumers can use the complete native adapter directly:
 
@@ -161,8 +166,10 @@ const fruits = [{ value: "apple", label: "Apple" }];
 </template>
 ```
 
-See [`packages/vue/README.md`](./packages/vue/README.md) for styled components,
-headless composables, localization and package-specific commands.
+See the runnable [`examples/vue`](./examples/vue) app for a complete native
+adapter integration, and [`packages/vue/README.md`](./packages/vue/README.md)
+for styled components, headless composables, localization and package-specific
+commands.
 
 Python (Reflex) wrappers have their own tests, no Node required:
 
