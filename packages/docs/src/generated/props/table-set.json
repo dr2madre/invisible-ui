@@ -1,230 +1,477 @@
 {
   "component": "table-set",
   "selected": true,
-  "props": [
-    {
-      "name": "columns",
-      "type": "TableColumnDef[]",
-      "default": "[]",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "TableSet",
+        "specifier": "@design-system/svelte/TableSet.svelte"
+      },
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumnDef[]",
+          "default": "[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "rows",
+          "type": "TableRow[]",
+          "default": "[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "views",
+          "type": "TableViewDef[] | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Tabs, each `{ id, label, columns, rows }`."
+        },
+        {
+          "name": "activeView",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The active view id (controlled). Defaults to the first view."
+        },
+        {
+          "name": "viewsLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the views tab list."
+        },
+        {
+          "name": "onViewChange",
+          "type": "((id: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the active view changes."
+        },
+        {
+          "name": "title",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header title."
+        },
+        {
+          "name": "titleLevel",
+          "type": "2 | 3 | 4 | 5 | 6",
+          "default": "2",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "caption",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the table/list (a `<caption>` in table view)."
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Rows per page (client-side pagination)."
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "paginationLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the pagination nav. Defaults to the i18n catalog's \"Table pages\"."
+        },
+        {
+          "name": "onPageChange",
+          "type": "((page: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "infinite",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Infinite-scroll mode instead of pagination."
+        },
+        {
+          "name": "hasMore",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Infinite-scroll mode instead of pagination."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onLoadMore",
+          "type": "(() => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Infinite-scroll mode instead of pagination."
+        },
+        {
+          "name": "loadMoreLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Load-more button text. Defaults to the i18n catalog's \"Load more\"."
+        },
+        {
+          "name": "loadingLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Loading status text. Defaults to the i18n catalog's \"Loading…\"."
+        },
+        {
+          "name": "sort",
+          "type": "SortState | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSortChange",
+          "type": "((sort: SortState | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hiddenColumns",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onHiddenColumnsChange",
+          "type": "((hidden: string[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "view",
+          "type": "\"table\" | \"card\"",
+          "default": "\"table\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "allowViewToggle",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Table ↔ cards segmented control."
+        },
+        {
+          "name": "configurable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Column-visibility dropdown (Popover + checkboxes)."
+        },
+        {
+          "name": "configLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Column-visibility dropdown label. Defaults to the i18n catalog's \"Columns\"."
+        },
+        {
+          "name": "cardTitleKey",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Map columns to the card title/description."
+        },
+        {
+          "name": "cardDescriptionKey",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Map columns to the card title/description."
+        },
+        {
+          "name": "getValue",
+          "type": "(row: TableRow, key: string) => unknown",
+          "default": "(row, key) => row[key]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: TableRow, index: number) => string | number",
+          "default": "(row, index) =>",
+          "required": false,
+          "description": ""
+        }
+      ]
     },
-    {
-      "name": "rows",
-      "type": "TableRow[]",
-      "default": "[]",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "views",
-      "type": "TableViewDef[] | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Tabs, each `{ id, label, columns, rows }`."
-    },
-    {
-      "name": "activeView",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "The active view id (controlled). Defaults to the first view."
-    },
-    {
-      "name": "viewsLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the views tab list."
-    },
-    {
-      "name": "onViewChange",
-      "type": "((id: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the active view changes."
-    },
-    {
-      "name": "title",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Header title."
-    },
-    {
-      "name": "titleLevel",
-      "type": "2 | 3 | 4 | 5 | 6",
-      "default": "2",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "caption",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the table/list (a `<caption>` in table view)."
-    },
-    {
-      "name": "hideCaption",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "pageSize",
-      "type": "number | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Rows per page (client-side pagination)."
-    },
-    {
-      "name": "page",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "paginationLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the pagination nav. Defaults to the i18n catalog's \"Table pages\"."
-    },
-    {
-      "name": "onPageChange",
-      "type": "((page: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "infinite",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Infinite-scroll mode instead of pagination."
-    },
-    {
-      "name": "hasMore",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Infinite-scroll mode instead of pagination."
-    },
-    {
-      "name": "loading",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onLoadMore",
-      "type": "(() => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Infinite-scroll mode instead of pagination."
-    },
-    {
-      "name": "loadMoreLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Load-more button text. Defaults to the i18n catalog's \"Load more\"."
-    },
-    {
-      "name": "loadingLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Loading status text. Defaults to the i18n catalog's \"Loading…\"."
-    },
-    {
-      "name": "sort",
-      "type": "SortState | null",
-      "default": "null",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onSortChange",
-      "type": "((sort: SortState | null) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "hiddenColumns",
-      "type": "string[]",
-      "default": "[]",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onHiddenColumnsChange",
-      "type": "((hidden: string[]) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "view",
-      "type": "\"table\" | \"card\"",
-      "default": "\"table\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "allowViewToggle",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Table ↔ cards segmented control."
-    },
-    {
-      "name": "configurable",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Column-visibility dropdown (Popover + checkboxes)."
-    },
-    {
-      "name": "configLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Column-visibility dropdown label. Defaults to the i18n catalog's \"Columns\"."
-    },
-    {
-      "name": "cardTitleKey",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Map columns to the card title/description."
-    },
-    {
-      "name": "cardDescriptionKey",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Map columns to the card title/description."
-    },
-    {
-      "name": "getValue",
-      "type": "(row: TableRow, key: string) => unknown",
-      "default": "(row, key) => row[key]",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "getRowId",
-      "type": "(row: TableRow, index: number) => string | number",
-      "default": "(row, index) =>",
-      "required": false,
-      "description": ""
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "TableSet",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumnDef[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Single-view data (used when `views` is not provided)."
+        },
+        {
+          "name": "rows",
+          "type": "TableRow[]",
+          "default": "() => []",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "views",
+          "type": "TableViewDef[]",
+          "default": "undefined",
+          "required": false,
+          "description": "Distinct views shown as tabs; each supplies its own columns and rows."
+        },
+        {
+          "name": "activeView",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "The active view id (controlled). Defaults to the first view."
+        },
+        {
+          "name": "viewsLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the views tab list. Defaults to the catalog's \"Views\"."
+        },
+        {
+          "name": "onViewChange",
+          "type": "(id: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the active view changes."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional title shown in the header (rendered as a heading)."
+        },
+        {
+          "name": "titleLevel",
+          "type": "2 | 3 | 4 | 5 | 6",
+          "default": "2",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the table/list (a `<caption>` in table view)."
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "paginationLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the pagination nav. Defaults to the catalog's \"Table pages\"."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "infinite",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hasMore",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onLoadMore",
+          "type": "() => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "loadMoreLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Load-more button text. Defaults to the catalog's \"Load more\"."
+        },
+        {
+          "name": "loadingLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Loading status text. Defaults to the catalog's \"Loading…\"."
+        },
+        {
+          "name": "sort",
+          "type": "SortState | null",
+          "default": "null",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSortChange",
+          "type": "(sort: SortState | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "hiddenColumns",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onHiddenColumnsChange",
+          "type": "(hidden: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "view",
+          "type": "\"table\" | \"card\"",
+          "default": "\"table\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "allowViewToggle",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "configurable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "configLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Column-visibility dropdown label. Defaults to the catalog's \"Columns\"."
+        },
+        {
+          "name": "cardTitleKey",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "cardDescriptionKey",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "getValue",
+          "type": "(row: TableRow, key: string) => unknown",
+          "default": "(row: TableRow, key: string) => row[key]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: TableRow, index: number) => string | number",
+          "default": "(row: TableRow, index: number) => (row.id as string | number) ?? index",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "cell",
+        "toolbar"
+      ]
     }
-  ]
+  }
 }

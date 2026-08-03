@@ -1,34 +1,84 @@
 {
   "component": "toggle-group",
   "selected": false,
-  "props": [
-    {
-      "name": "variant",
-      "type": "\"separate\" | \"segmented\"",
-      "default": "\"separate\"",
-      "required": false,
-      "description": "Visual style. `separate` keeps each toggle's own style; `segmented` joins them."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "ToggleGroup",
+        "specifier": "@design-system/svelte/ToggleGroup.svelte"
+      },
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"separate\" | \"segmented\"",
+          "default": "\"separate\"",
+          "required": false,
+          "description": "Visual style. `separate` keeps each toggle's own style; `segmented` joins them."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout axis (purely visual — the group has no keyboard navigation of its own)."
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Let the toggles wrap onto multiple lines when they overflow the available width (e.g. a row of filter chips in a narrow panel). Only meaningful on a horizontal `separate` group; ignored when `segmented`."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional container name for screen readers (the group's aria-label); names the container, not the items."
+        }
+      ]
     },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": "Layout axis (purely visual — the group has no keyboard navigation of its own)."
-    },
-    {
-      "name": "wrap",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Let the toggles wrap onto multiple lines when they overflow the available width (e.g. a row of filter chips in a narrow panel). Only meaningful on a horizontal `separate` group; ignored when `segmented`."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Optional container name for screen readers (the group's aria-label); names the container, not the items."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "ToggleGroup",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "variant",
+          "type": "ToggleGroupVariant",
+          "default": "\"separate\"",
+          "required": false,
+          "description": "Visual style. `separate` keeps each toggle's own style; `segmented` joins them."
+        },
+        {
+          "name": "orientation",
+          "type": "ToggleGroupOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout axis. Purely visual: the group has no keyboard navigation of its own."
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Let the toggles wrap onto multiple lines when they overflow the available width (e.g. a row of filter chips in a narrow panel). Meaningful on a horizontal `separate` group; ignored when `segmented`, which is one control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional container name for screen readers (the group's `aria-label`). It names the container, not the items; omit it when the toggles are unrelated."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

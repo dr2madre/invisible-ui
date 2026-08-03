@@ -1,83 +1,345 @@
 {
   "component": "select",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the control."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Select",
+        "specifier": "@design-system/svelte/Select.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+        },
+        {
+          "name": "items",
+          "type": "SelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value."
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Trigger text when nothing is selected."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the control."
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"wrap\"",
+          "required": false,
+          "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default)."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the selected value is submitted under it (via a hidden input)."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Marks the control as required (announced to assistive tech)."
+        },
+        {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message; when non-empty the select becomes invalid and announces it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ]
     },
-    {
-      "name": "hideLabel",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Select",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label (kept for assistive tech), for compact toolbars."
+        },
+        {
+          "name": "items",
+          "type": "SelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Options. Plain text only; see the note on rich options below."
+        },
+        {
+          "name": "modelValue",
+          "type": "string | null",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value. `null` shows the placeholder."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"wrap\"",
+          "required": false,
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; this is a real `<select>`, so it submits natively."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Marks the control as required (native validation + announced to AT)."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message; when non-empty the select becomes invalid and announces it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
     },
-    {
-      "name": "items",
-      "type": "SelectItem[]",
-      "default": null,
-      "required": true,
-      "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Select",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the control."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+        },
+        {
+          "name": "items",
+          "type": "SelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Options. Plain text only — see the note on rich options below."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected value. `null` shows the placeholder."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "width",
+          "type": "\"wrap\" | \"fill\" | \"fixed\"",
+          "default": "\"wrap\"",
+          "required": false,
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name — this is a real `<select>`, so it submits natively."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Marks the control as required (native validation + announced to AT)."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Error message; when non-empty the select becomes invalid and announces it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the selected value changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string | null",
-      "default": "null",
-      "required": false,
-      "description": "Selected value."
-    },
-    {
-      "name": "placeholder",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Trigger text when nothing is selected."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the control."
-    },
-    {
-      "name": "width",
-      "type": "\"wrap\" | \"fill\" | \"fixed\"",
-      "default": "\"wrap\"",
-      "required": false,
-      "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default)."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the selected value is submitted under it (via a hidden input)."
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Marks the control as required (announced to assistive tech)."
-    },
-    {
-      "name": "error",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Error message; when non-empty the select becomes invalid and announces it."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the selected value changes."
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-select",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": false,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "hide-label",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "width",
+          "reactive": false,
+          "required": false,
+          "description": "wrap|fill|fixed"
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Emits: bubbling `change` CustomEvent with `detail.value`."
+      ]
     }
-  ]
+  }
 }

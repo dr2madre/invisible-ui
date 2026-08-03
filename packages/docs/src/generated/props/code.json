@@ -1,5 +1,26 @@
 {
   "component": "code",
   "selected": false,
-  "props": []
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Code",
+        "specifier": "@design-system/svelte/Code.svelte"
+      },
+      "props": []
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Code",
+        "specifier": "@design-system/vue"
+      },
+      "props": [],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
+    }
+  }
 }

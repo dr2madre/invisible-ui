@@ -4,6 +4,7 @@ sidebar:
   order: 2
 ---
 
+import ImportSnippet from "../../../../../components/ImportSnippet.astro";
 import Preview from "../../../../../components/Preview.astro";
 import PropsTable from "../../../../../components/PropsTable.astro";
 import AlertDialogDemo from "../../../../../demos/AlertDialogDemo.svelte";
@@ -42,11 +43,7 @@ a value.
 
 ### Import
 
-```svelte
-<script>
-  import AlertDialog from "@design-system/svelte/AlertDialog.svelte";
-</script>
-```
+<ImportSnippet component="alert-dialog" />
 
 ### Props
 

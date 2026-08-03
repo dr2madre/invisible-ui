@@ -1,111 +1,238 @@
 {
   "component": "notification",
   "selected": false,
-  "props": [
-    {
-      "name": "status",
-      "type": "NotificationStatus",
-      "default": "\"info\"",
-      "required": false,
-      "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Notification",
+        "specifier": "@design-system/svelte/Notification.svelte"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "NotificationStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+        },
+        {
+          "name": "title",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "text",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed."
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "actions",
+          "type": "NotificationAction[] | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "High-contrast inverse surface for maximum visibility. Recommended for transient info outcomes that auto-dismiss (saved, offline, downtime…)."
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact row (icon + title + inline action), no description."
+        },
+        {
+          "name": "component",
+          "type": "import(\"svelte\").ComponentType | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Rich body: a Svelte component rendered instead of `text` (ignored in snack)."
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": "{}",
+          "required": false,
+          "description": "Props for `component`."
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "FeedbackIcon box override (see InlineNotification): force `\"tint\"`/`\"solid\"` on a tinted surface."
+        },
+        {
+          "name": "onclose",
+          "type": "((reason: NotificationDismissReason) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the notification is dismissed (auto, close button, or action)."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hold the auto-dismiss countdown (the region sets this while the whole stack is hovered or focused, so a burst of toasts pauses together — not just the one under the pointer)."
+        }
+      ]
     },
-    {
-      "name": "title",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "text",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "duration",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": "Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed."
-    },
-    {
-      "name": "closable",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "role",
-      "type": "\"status\" | \"alert\"",
-      "default": "\"status\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "actions",
-      "type": "NotificationAction[] | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "inverted",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "High-contrast inverse surface for maximum visibility. Recommended for transient info outcomes that auto-dismiss (saved, offline, downtime…)."
-    },
-    {
-      "name": "snack",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Snackbar layout: one compact row (icon + title + inline action), no description."
-    },
-    {
-      "name": "component",
-      "type": "import(\"svelte\").ComponentType | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Rich body: a Svelte component rendered instead of `text` (ignored in snack)."
-    },
-    {
-      "name": "componentProps",
-      "type": "Record<string, unknown>",
-      "default": "{}",
-      "required": false,
-      "description": "Props for `component`."
-    },
-    {
-      "name": "iconShape",
-      "type": "\"rounded\" | \"round\"",
-      "default": "\"rounded\"",
-      "required": false,
-      "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
-    },
-    {
-      "name": "iconBox",
-      "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "FeedbackIcon box override (see InlineNotification): force `\"tint\"`/`\"solid\"` on a tinted surface."
-    },
-    {
-      "name": "onclose",
-      "type": "((reason: NotificationDismissReason) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the notification is dismissed (auto, close button, or action)."
-    },
-    {
-      "name": "paused",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Hold the auto-dismiss countdown (the region sets this while the whole stack is hovered or focused, so a burst of toasts pauses together — not just the one under the pointer)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Notification",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "NotificationStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed."
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "actions",
+          "type": "NotificationAction[]",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "High-contrast inverse surface for maximum visibility. Recommended for transient info outcomes that auto-dismiss (saved, offline, downtime…)."
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact row (icon + title + inline action), no description."
+        },
+        {
+          "name": "component",
+          "type": "Component",
+          "default": "undefined",
+          "required": false,
+          "description": "Rich body: a Vue component rendered instead of `text` (ignored in snack)."
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": "() => ({})",
+          "required": false,
+          "description": "Props for `component`."
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\"",
+          "default": "undefined",
+          "required": false,
+          "description": "FeedbackIcon box override (see InlineNotification): force `\"tint\"`/`\"solid\"` on a tinted surface."
+        },
+        {
+          "name": "onClose",
+          "type": "(reason: NotificationDismissReason) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the notification closes, with the reason (timeout / user / action)."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hold the auto-dismiss countdown (the region sets this while the whole stack is hovered or focused, so a burst of toasts pauses together — not just the one under the pointer)."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "icon"
+      ]
     }
-  ]
+  }
 }

@@ -1,27 +1,68 @@
 {
   "component": "navigation-menu",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name for the `<nav>` landmark."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "NavigationMenu",
+        "specifier": "@design-system/svelte/NavigationMenu.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the `<nav>` landmark."
+        },
+        {
+          "name": "items",
+          "type": "NavigationMenuItem[]",
+          "default": null,
+          "required": true,
+          "description": "Links (`{ value, label, href }`) or panels (`{ value, label, links }`)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the open panel changes."
+        }
+      ]
     },
-    {
-      "name": "items",
-      "type": "NavigationMenuItem[]",
-      "default": null,
-      "required": true,
-      "description": "Links (`{ value, label, href }`) or panels (`{ value, label, links }`)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string | null) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the open panel changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "NavigationMenu",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the navigation landmark."
+        },
+        {
+          "name": "items",
+          "type": "NavigationMenuItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

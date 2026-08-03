@@ -2,6 +2,7 @@
 title: "Toggle Group"
 ---
 
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import ToggleGroupDemo from "../../../../demos/ToggleGroupDemo.svelte";
@@ -22,12 +23,7 @@ If you need exactly one active choice — a radio-style view switcher — use th
 
 ### Import
 
-```svelte
-<script>
-  import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
-  import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
-</script>
-```
+<ImportSnippet components={["toggle-group", "toggle-button"]} />
 
 ### Styles
 

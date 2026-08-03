@@ -1,97 +1,222 @@
 {
   "component": "slider",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Slider",
+        "specifier": "@design-system/svelte/Slider.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the value is submitted under it."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the current value to the side of the track."
+        },
+        {
+          "name": "showRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the min and max reference values under the ends of the track."
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show tick marks at each step (only when the count is reasonable)."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "default": "(v) => String(v)",
+          "required": false,
+          "description": "Format the displayed value/range (e.g. add a unit)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: number) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the value changes."
+        }
+      ]
     },
-    {
-      "name": "min",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "max",
-      "type": "number",
-      "default": "100",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "step",
-      "type": "number",
-      "default": "1",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name."
-    },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name — the value is submitted under it."
-    },
-    {
-      "name": "showValue",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show the current value to the side of the track."
-    },
-    {
-      "name": "showRange",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show the min and max reference values under the ends of the track."
-    },
-    {
-      "name": "ticks",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show tick marks at each step (only when the count is reasonable)."
-    },
-    {
-      "name": "format",
-      "type": "(value: number) => string",
-      "default": "(v) => String(v)",
-      "required": false,
-      "description": "Format the displayed value/range (e.g. add a unit)."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: number) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the value changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Slider",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "SliderOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the slider (required)."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the value is submitted under it."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the current value to the side of the track."
+        },
+        {
+          "name": "showRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the min and max reference values under the ends of the track."
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show tick marks at each step (drawn only when the count stays readable)."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "default": "(value: number) => String(value)",
+          "required": false,
+          "description": "Format the displayed value/range (e.g. add a unit)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: number"
+        }
+      ],
+      "slots": [
+        "icon"
+      ]
     }
-  ]
+  }
 }

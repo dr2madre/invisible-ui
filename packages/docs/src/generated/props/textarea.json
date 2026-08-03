@@ -1,76 +1,178 @@
 {
   "component": "textarea",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Visible label, tied to the control."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Textarea",
+        "specifier": "@design-system/svelte/Textarea.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label, tied to the control."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Field value."
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Placeholder text."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": "Visible text rows."
+        },
+        {
+          "name": "description",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Hint shown under the control, linked via `aria-describedby`."
+        },
+        {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "When non-empty the field becomes invalid and announces the message."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the field."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark as required."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Make the field read-only."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ]
     },
-    {
-      "name": "value",
-      "type": "string",
-      "default": "\"\"",
-      "required": false,
-      "description": "Field value."
-    },
-    {
-      "name": "placeholder",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Placeholder text."
-    },
-    {
-      "name": "rows",
-      "type": "number",
-      "default": "3",
-      "required": false,
-      "description": "Visible text rows."
-    },
-    {
-      "name": "description",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Hint shown under the control, linked via `aria-describedby`."
-    },
-    {
-      "name": "error",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "When non-empty the field becomes invalid and announces the message."
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the field."
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Mark as required."
-    },
-    {
-      "name": "readOnly",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Make the field read-only."
-    },
-    {
-      "name": "onValueChange",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the value changes."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Textarea",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label, tied to the control."
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Optional hint shown under the control and linked via aria-describedby."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message; when non-empty the field becomes invalid and announces it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
     }
-  ]
+  }
 }

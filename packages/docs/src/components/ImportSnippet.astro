@@ -1,0 +1,87 @@
+---
+/**
+ * ImportSnippet — the import line for a component, one tab per adapter that
+ * ships it. Package specifiers come from the generated manifest
+ * (packages/docs/src/generated/props/<component>.json), so a page gains a tab
+ * as soon as an adapter gains the component.
+ *
+ *   import ImportSnippet from "../../../components/ImportSnippet.astro";
+ *   <ImportSnippet component="checkbox" />
+ *   <ImportSnippet components={["toggle-group", "toggle-button"]} />
+ *   <ImportSnippet component="notification-region" helpers={["createNotifier"]} />
+ *
+ * `helpers` are named exports of the adapter's root package (a store, a
+ * factory) that the page needs next to the component.
+ */
+import { Code, Tabs, TabItem } from "@astrojs/starlight/components";
+import {
+  FRAMEWORK_LABELS,
+  FRAMEWORK_LANGUAGES,
+  FRAMEWORK_ORDER,
+  loadManifest,
+  type FrameworkId,
+  type ImportInfo,
+} from "./frameworks";
+
+const {
+  component,
+  components,
+  helpers = [],
+} = Astro.props as { component?: string; components?: string[]; helpers?: string[] };
+
+const slugs = components ?? (component ? [component] : []);
+const manifests = slugs.map((slug) => loadManifest(slug)).filter((m) => m !== undefined);
+
+// Only the adapters that ship every component in the snippet get a tab.
+const ids = FRAMEWORK_ORDER.filter(
+  (id) => manifests.length > 0 && manifests.every((m) => m.frameworks[id]),
+);
+
+function snippet(id: FrameworkId, imports: ImportInfo[]): string {
+  if (id === "elements") {
+    const tags = imports.map((i) => `<${i.name}></${i.name}>`).join("\n");
+    return `<script type="module">\n  import "${imports[0].specifier}";\n</script>\n\n${tags}`;
+  }
+
+  const lines = imports
+    .filter((i) => i.kind === "default")
+    .map((i) => `import ${i.name} from "${i.specifier}";`);
+  // Vue and React export the components by name from the package root; Svelte
+  // imports each component file, so the root is that path without the file.
+  const named = [...imports.filter((i) => i.kind === "named").map((i) => i.name), ...helpers];
+  if (named.length > 0) {
+    const root =
+      imports.find((i) => i.kind === "named")?.specifier ??
+      imports[0].specifier.replace(/\/[^/]+$/, "");
+    lines.push(`import { ${named.join(", ")} } from "${root}";`);
+  }
+
+  if (id === "react") return lines.join("\n");
+  const open = id === "vue" ? "<script setup>" : "<script>";
+  return `${open}\n${lines.map((l) => `  ${l}`).join("\n")}\n</script>`;
+}
+
+const panels = ids.map((id) => ({
+  id,
+  label: FRAMEWORK_LABELS[id],
+  lang: FRAMEWORK_LANGUAGES[id],
+  code: snippet(
+    id,
+    manifests.map((m) => m.frameworks[id]!.import),
+  ),
+}));
+---
+
+{panels.length === 1 && <Code code={panels[0].code} lang={panels[0].lang} />}
+
+{
+  panels.length > 1 && (
+    <Tabs syncKey="framework">
+      {panels.map((panel) => (
+        <TabItem label={panel.label}>
+          <Code code={panel.code} lang={panel.lang} />
+        </TabItem>
+      ))}
+    </Tabs>
+  )
+}

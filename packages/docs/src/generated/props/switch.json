@@ -1,76 +1,334 @@
 {
   "component": "switch",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible, visible label; override with the default slot."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Switch",
+        "specifier": "@design-system/svelte/Switch.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label; override with the default slot."
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "On/off state."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Disable the control."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the value is submitted under it when on."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted with the form when on."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark the control required for native form validation."
+        },
+        {
+          "name": "onOff",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+        },
+        {
+          "name": "onText",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Text shown in the track when on / off (only with `onOff`)."
+        },
+        {
+          "name": "offText",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((c: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the value changes."
+        }
+      ]
     },
-    {
-      "name": "checked",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "On/off state."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Switch",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label (required). Override with the default slot for rich content."
+        },
+        {
+          "name": "modelValue",
+          "type": "boolean",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `checked` when bound."
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the value is submitted under it when on."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark the control required for native form validation."
+        },
+        {
+          "name": "onOff",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+        },
+        {
+          "name": "onText",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\"."
+        },
+        {
+          "name": "offText",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called whenever the on/off value changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "checked: boolean"
+        }
+      ],
+      "slots": [
+        "default"
+      ]
     },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Disable the control."
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Switch",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label (required). Override with `children` for rich content."
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name — the value is submitted under it when on."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark the control required for native form validation."
+        },
+        {
+          "name": "onOff",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+        },
+        {
+          "name": "onText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\"."
+        },
+        {
+          "name": "offText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the on/off value changes."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": ""
+        }
+      ]
     },
-    {
-      "name": "name",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Form field name; the value is submitted under it when on."
-    },
-    {
-      "name": "value",
-      "type": "string",
-      "default": "\"on\"",
-      "required": false,
-      "description": "Value submitted with the form when on."
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Mark the control required for native form validation."
-    },
-    {
-      "name": "onOff",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
-    },
-    {
-      "name": "onText",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Text shown in the track when on / off (only with `onOff`)."
-    },
-    {
-      "name": "offText",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onCheckedChange",
-      "type": "((c: boolean) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called whenever the value changes."
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-switch",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": false,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "checked",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "on-off",
+          "reactive": false,
+          "required": false,
+          "description": "text-in-track variant"
+        },
+        {
+          "name": "on-text",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "off-text",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `checked` (boolean).",
+        "Emits: bubbling `change` CustomEvent with `detail.checked`."
+      ]
     }
-  ]
+  }
 }

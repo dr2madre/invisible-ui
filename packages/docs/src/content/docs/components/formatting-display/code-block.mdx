@@ -2,6 +2,7 @@
 title: "Code Block"
 ---
 
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import CodeBlockDemo from "../../../../demos/CodeBlockDemo.svelte";
@@ -14,11 +15,7 @@ A block `<pre><code>` with an optional language caption and a copy button.
 
 ### Import
 
-```svelte
-<script>
-  import CodeBlock from "@design-system/svelte/CodeBlock.svelte";
-</script>
-```
+<ImportSnippet component="code-block" />
 
 ### Props
 

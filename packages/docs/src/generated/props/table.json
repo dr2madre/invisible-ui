@@ -1,62 +1,140 @@
 {
   "component": "table",
   "selected": false,
-  "props": [
-    {
-      "name": "columns",
-      "type": "TableColumnDef[]",
-      "default": null,
-      "required": true,
-      "description": "Columns (`{ key, header, sortable?, align?, hideable? }`)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Table",
+        "specifier": "@design-system/svelte/Table.svelte"
+      },
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumnDef[]",
+          "default": null,
+          "required": true,
+          "description": "Columns (`{ key, header, sortable?, align?, hideable? }`)."
+        },
+        {
+          "name": "rows",
+          "type": "TableRow[]",
+          "default": null,
+          "required": true,
+          "description": "Row objects keyed by `column.key`."
+        },
+        {
+          "name": "sort",
+          "type": "SortState | null",
+          "default": "null",
+          "required": false,
+          "description": "Current sort (`{ key, direction }`)."
+        },
+        {
+          "name": "onSortToggle",
+          "type": "((key: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when a sortable header is toggled."
+        },
+        {
+          "name": "caption",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible caption."
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the caption."
+        },
+        {
+          "name": "getValue",
+          "type": "(row: TableRow, key: string) => unknown",
+          "default": "(row, key) => row[key]",
+          "required": false,
+          "description": "Read a cell value (override for nested/derived data)."
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: TableRow, index: number) => string | number",
+          "default": "(row, index) =>",
+          "required": false,
+          "description": "Stable row key."
+        }
+      ]
     },
-    {
-      "name": "rows",
-      "type": "TableRow[]",
-      "default": null,
-      "required": true,
-      "description": "Row objects keyed by `column.key`."
-    },
-    {
-      "name": "sort",
-      "type": "SortState | null",
-      "default": "null",
-      "required": false,
-      "description": "Current sort (`{ key, direction }`)."
-    },
-    {
-      "name": "onSortToggle",
-      "type": "((key: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when a sortable header is toggled."
-    },
-    {
-      "name": "caption",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible caption."
-    },
-    {
-      "name": "hideCaption",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Visually hide the caption."
-    },
-    {
-      "name": "getValue",
-      "type": "(row: TableRow, key: string) => unknown",
-      "default": "(row, key) => row[key]",
-      "required": false,
-      "description": "Read a cell value (override for nested/derived data)."
-    },
-    {
-      "name": "getRowId",
-      "type": "(row: TableRow, index: number) => string | number",
-      "default": "(row, index) =>",
-      "required": false,
-      "description": "Stable row key."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Table",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumnDef[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "rows",
+          "type": "TableRow[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "sort",
+          "type": "SortState | null",
+          "default": "null",
+          "required": false,
+          "description": "The active sort, reflected on the headers (controlled)."
+        },
+        {
+          "name": "onSortToggle",
+          "type": "(key: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the column key when a sortable header is activated."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the table (rendered as a `<caption>`)."
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the caption (still available to assistive tech)."
+        },
+        {
+          "name": "getValue",
+          "type": "(row: TableRow, key: string) => unknown",
+          "default": "(row: TableRow, key: string) => row[key]",
+          "required": false,
+          "description": "Reads a row's value for a column (defaults to `row[key]`)."
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: TableRow, index: number) => string | number",
+          "default": "(row: TableRow, index: number) => (row.id as string | number) ?? index",
+          "required": false,
+          "description": "Stable row key (defaults to `row.id`, falling back to the index)."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "cell"
+      ]
     }
-  ]
+  }
 }

@@ -1,48 +1,114 @@
 {
   "component": "tag",
   "selected": false,
-  "props": [
-    {
-      "name": "status",
-      "type": "TagStatus",
-      "default": "\"neutral\"",
-      "required": false,
-      "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Tag",
+        "specifier": "@design-system/svelte/Tag.svelte"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "TagStatus",
+          "default": "\"neutral\"",
+          "required": false,
+          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+        },
+        {
+          "name": "variant",
+          "type": "\"soft\" | \"solid\"",
+          "default": "\"soft\"",
+          "required": false,
+          "description": "Tinted background or solid fill."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "default": "\"md\"",
+          "required": false,
+          "description": "Chip size."
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a remove button."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the remove button."
+        },
+        {
+          "name": "onRemove",
+          "type": "(() => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the remove button is pressed."
+        }
+      ]
     },
-    {
-      "name": "variant",
-      "type": "\"soft\" | \"solid\"",
-      "default": "\"soft\"",
-      "required": false,
-      "description": "Tinted background or solid fill."
-    },
-    {
-      "name": "size",
-      "type": "\"sm\" | \"md\"",
-      "default": "\"md\"",
-      "required": false,
-      "description": "Chip size."
-    },
-    {
-      "name": "removable",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show a remove button."
-    },
-    {
-      "name": "removeLabel",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible label for the remove button."
-    },
-    {
-      "name": "onRemove",
-      "type": "(() => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called when the remove button is pressed."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Tag",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "status",
+          "type": "TagStatus",
+          "default": "\"neutral\"",
+          "required": false,
+          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+        },
+        {
+          "name": "variant",
+          "type": "\"soft\" | \"solid\"",
+          "default": "\"soft\"",
+          "required": false,
+          "description": "Visual weight: a soft tinted surface (default) or a solid, filled chip."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "default": "\"md\"",
+          "required": false,
+          "description": "Size of the chip."
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a remove (✕) button. Defaults to `false`."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the remove button. Defaults to the i18n catalog's \"Remove\"."
+        },
+        {
+          "name": "onRemove",
+          "type": "() => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the remove button is pressed."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default",
+        "icon",
+        "trailing"
+      ]
     }
-  ]
+  }
 }

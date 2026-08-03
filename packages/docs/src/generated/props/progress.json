@@ -1,48 +1,110 @@
 {
   "component": "progress",
   "selected": false,
-  "props": [
-    {
-      "name": "value",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": "Completion (`null` = indeterminate)."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Progress",
+        "specifier": "@design-system/svelte/Progress.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Completion (`null` = indeterminate)."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Range bounds."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "Range bounds."
+        },
+        {
+          "name": "shape",
+          "type": "\"bar\" | \"circle\"",
+          "default": "\"bar\"",
+          "required": false,
+          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the percentage inside the circle (determinate `circle` only)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name."
+        }
+      ]
     },
-    {
-      "name": "min",
-      "type": "number",
-      "default": "0",
-      "required": false,
-      "description": "Range bounds."
-    },
-    {
-      "name": "max",
-      "type": "number",
-      "default": "100",
-      "required": false,
-      "description": "Range bounds."
-    },
-    {
-      "name": "shape",
-      "type": "\"bar\" | \"circle\"",
-      "default": "\"bar\"",
-      "required": false,
-      "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
-    },
-    {
-      "name": "showValue",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show the percentage inside the circle (determinate `circle` only)."
-    },
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": "Accessible name."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Progress",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Current value (determinate — see Loading for indeterminate waiting)."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Minimum value."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "Maximum value."
+        },
+        {
+          "name": "shape",
+          "type": "\"bar\" | \"circle\"",
+          "default": "\"bar\"",
+          "required": false,
+          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the percentage inside the circle (determinate `circle` only)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the progress bar (required)."
+        }
+      ],
+      "emits": [],
+      "slots": []
     }
-  ]
+  }
 }

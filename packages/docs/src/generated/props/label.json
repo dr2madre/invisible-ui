@@ -1,13 +1,49 @@
 {
   "component": "label",
   "selected": false,
-  "props": [
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Show a `*` required marker."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Label",
+        "specifier": "@design-system/svelte/Label.svelte"
+      },
+      "props": [
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a `*` required marker."
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Label",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "for",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Id of the control this labels (sets `for`)."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a required marker (`*`) after the text."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

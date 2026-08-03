@@ -1,34 +1,84 @@
 {
   "component": "context-menu",
   "selected": false,
-  "props": [
-    {
-      "name": "items",
-      "type": "MenuItem[]",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "ContextMenu",
+        "specifier": "@design-system/svelte/ContextMenu.svelte"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSelect",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the chosen item's value."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the popup (there is no labelling trigger)."
+        }
+      ]
     },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "onSelect",
-      "type": "((value: string) => void) | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Called with the chosen item's value."
-    },
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name for the popup (there is no labelling trigger)."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "ContextMenu",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuItem[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the chosen item's value."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the popup; no trigger labels it. Defaults to the catalog's \"Context menu\"."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }

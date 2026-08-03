@@ -1,62 +1,141 @@
 {
   "component": "loading-generation-area",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Accessible name. Defaults to the i18n catalog's \"Loading…\"."
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "LoadingGenerationArea",
+        "specifier": "@design-system/svelte/LoadingGenerationArea.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name. Defaults to the i18n catalog's \"Loading…\"."
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive tech (the surrounding region announces the state)."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
+        },
+        {
+          "name": "field",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the dot field as the backdrop."
+        },
+        {
+          "name": "labelPosition",
+          "type": "\"center\" | \"top\" | \"bottom\" | \"left\" | \"right\"",
+          "default": "\"center\"",
+          "required": false,
+          "description": "Where the label/indicator zone sits over the area."
+        },
+        {
+          "name": "status",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Live status message — announced on every change."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Percentage (0–100), shown as \"N%\"."
+        },
+        {
+          "name": "detail",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
+        }
+      ]
     },
-    {
-      "name": "decorative",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Hide from assistive tech (the surrounding region announces the state)."
-    },
-    {
-      "name": "loading",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
-    },
-    {
-      "name": "field",
-      "type": "boolean",
-      "default": "true",
-      "required": false,
-      "description": "Show the dot field as the backdrop."
-    },
-    {
-      "name": "labelPosition",
-      "type": "\"center\" | \"top\" | \"bottom\" | \"left\" | \"right\"",
-      "default": "\"center\"",
-      "required": false,
-      "description": "Where the label/indicator zone sits over the area."
-    },
-    {
-      "name": "status",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Live status message — announced on every change."
-    },
-    {
-      "name": "value",
-      "type": "number | null",
-      "default": "null",
-      "required": false,
-      "description": "Percentage (0–100), shown as \"N%\"."
-    },
-    {
-      "name": "detail",
-      "type": "string | undefined",
-      "default": "undefined",
-      "required": false,
-      "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "LoadingGenerationArea",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name. Defaults to the catalog's \"Loading…\"."
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive tech (the surrounding region announces the state)."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
+        },
+        {
+          "name": "field",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the dot field as the backdrop."
+        },
+        {
+          "name": "labelPosition",
+          "type": "LoadingGenerationAreaPosition",
+          "default": "\"center\"",
+          "required": false,
+          "description": "Where the label/indicator zone sits over the area."
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Live status message, announced on every change."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Percentage (0–100), shown as \"N%\"."
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default",
+        "indicator"
+      ]
     }
-  ]
+  }
 }

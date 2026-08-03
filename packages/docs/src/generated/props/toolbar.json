@@ -1,27 +1,70 @@
 {
   "component": "toolbar",
   "selected": false,
-  "props": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": null,
-      "required": true,
-      "description": ""
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Toolbar",
+        "specifier": "@design-system/svelte/Toolbar.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "flat",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Borderless presentation: the controls inside lose their individual border/fill at rest (they read as one group, divided only by separators) with a subtle hover overlay."
+        }
+      ]
     },
-    {
-      "name": "orientation",
-      "type": "\"horizontal\" | \"vertical\"",
-      "default": "\"horizontal\"",
-      "required": false,
-      "description": ""
-    },
-    {
-      "name": "flat",
-      "type": "boolean",
-      "default": "false",
-      "required": false,
-      "description": "Borderless presentation: the controls inside lose their individual border/fill at rest (they read as one group, divided only by separators) with a subtle hover overlay."
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Toolbar",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the toolbar (required)."
+        },
+        {
+          "name": "orientation",
+          "type": "ToolbarOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "flat",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Flat presentation: the controls inside lose their individual borders and fill at rest (they read as one group, divided only by separators), with a subtle hover overlay. The toolbar's own frame still groups them."
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "default"
+      ]
     }
-  ]
+  }
 }
