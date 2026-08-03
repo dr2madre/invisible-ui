@@ -66,15 +66,18 @@ OTP → PIN Input; Spinner → Loading; Error/404 page → Error State;
 Autocomplete → Combobox; File upload → Upload Drop Area; Input Group → likely a
 Field/Text Input variant, assess there before adding a component.
 
-## D. React-adapter parity (porting, not design)
+## D. Adapter parity (porting, not design)
 
-The React PoC (Button, Checkbox, Switch, Select, Combobox, Dialog) already
-exercises every integration shape, so the remaining ~66 components are
-mechanical ports — each one: `useX` hook over the existing core primitive +
-ported CSS + tests from the Svelte suite. Python (Reflex) inherits each port
-for free.
+The shared six-component set (Button, Checkbox, Switch, Select, Combobox,
+Dialog) already exercises every integration shape in all adapters, so the
+remaining ~66 components are mechanical ports — each one: a composable/hook
+over the existing core primitive + ported CSS + tests from the Svelte suite.
+Python (Reflex) inherits each React port for free.
 
-Suggested order (by typical consumer demand):
+**Adapter order (decided 2026-08-02): Vue first to full parity, then web
+components, then React.**
+
+Batch order (by typical consumer demand):
 
 | Batch | Components |
 | --- | --- |
@@ -84,6 +87,6 @@ Suggested order (by typical consumer demand):
 | 4 — data & nav | Tabs, Accordion, Card, Table, Pagination, Breadcrumb, Avatar |
 | 5 — the long tail | date/time family, carousel, tree view, stepper, the rest |
 
-Parity is **not** currently a goal (the PoC proved portability; see
-`docs/adapters-roadmap.md`) — this section exists so that, if demand appears,
-the order is already thought through.
+Parity became a goal on 2026-08-02, starting with Vue. Progress is
+tracked on the public [Framework support] page
+(`packages/docs/src/content/docs/frameworks.mdx`).
