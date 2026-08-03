@@ -67,7 +67,7 @@
     font: inherit;
     cursor: pointer;
   }
-  .pagination__page[data-selected] {
+  .pagination__page:global([data-selected]) {
     background: var(--ds-pagination-active, var(--ds-color-secondary, #7b52cc));
     border-color: var(--ds-pagination-active, var(--ds-color-secondary, #7b52cc));
     color: var(--ds-pagination-active-text, var(--ds-color-on-emphasis, #fff));
@@ -79,7 +79,7 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 1px;
   }
-  .pagination__control[data-disabled] {
+  .pagination__control:global([data-disabled]) {
     opacity: 0.5;
     cursor: not-allowed;
   }

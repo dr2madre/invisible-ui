@@ -183,7 +183,7 @@
   /* While settling (dismiss/snap-back) the transform + fade animate; while
      actively swiping (data-swiping) the element tracks the finger with no
      transition. */
-  .notice-slot[data-swipe-out] {
+  .notice-slot:global([data-swipe-out]) {
     transition:
       transform 200ms ease,
       opacity 200ms ease;

@@ -85,7 +85,7 @@
     outline-offset: 1px;
     border-color: var(--ds-color-focus-ring, #2563eb);
   }
-  .pin-input__cell[data-disabled] {
+  .pin-input__cell:global([data-disabled]) {
     opacity: 0.5;
     cursor: not-allowed;
   }
