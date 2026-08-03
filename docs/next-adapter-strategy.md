@@ -112,7 +112,7 @@ React** — nobody is routed through them.
 ## PoC plan — **shipped** (see ADR 0008)
 
 The plan below was executed: `packages/elements` exists with the six
-components, 48 unit tests + CSS parity, a real-browser smoke of the plain-HTML
+components, 59 unit tests + CSS parity, a real-browser smoke of the plain-HTML
 habitat, and the three habitat pages in `examples/elements/`. Decisions
 (light DOM, self-contained dist, `<option>` children, `heading` naming) are
 recorded in `docs/adr/0008-web-components-adapter.md`.
