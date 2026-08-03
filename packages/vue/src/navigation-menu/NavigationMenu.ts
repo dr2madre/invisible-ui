@@ -1,5 +1,6 @@
 import { defineComponent, h, Teleport, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useNavigationMenu, type NavigationMenuItem } from "./use-navigation-menu";
 
 export interface NavigationMenuProps {
@@ -32,6 +33,7 @@ export const NavigationMenu = defineComponent({
     },
   },
   setup(props) {
+    const teleportDisabled = useHydratedTeleport();
     const {
       api,
       value,
@@ -46,7 +48,7 @@ export const NavigationMenu = defineComponent({
 
     const panel = (item: NavigationMenuItem) => {
       const contentProps = api.value.getContentProps(item.value);
-      return h(Teleport, { to: "body" }, [
+      return h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
         h(
           "div",
           {

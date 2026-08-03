@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { Notification } from "./Notification";
 import type { Notifier } from "./create-notifier";
 
@@ -70,6 +71,7 @@ export const NotificationRegion = defineComponent({
     exitDuration: { type: Number, default: undefined },
   },
   setup(props) {
+    const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
 
     const prefersReduced =
@@ -151,7 +153,7 @@ export const NotificationRegion = defineComponent({
       // stacking contexts (e.g. a layout's `isolation: isolate`), or its
       // z-index only competes inside them and headers/content paint above the
       // toasts.
-      return h(Teleport, { to: "body" }, [
+      return h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
         h(
           "div",
           {

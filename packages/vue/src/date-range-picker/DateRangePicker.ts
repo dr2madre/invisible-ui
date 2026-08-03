@@ -4,6 +4,7 @@ import type { CalendarView, WeekStart } from "../calendar/use-calendar";
 import type { DateStyle } from "../date-picker/DatePicker";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
+import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { usePopover } from "../popover/use-popover";
 
 export interface DateRangePickerProps {
@@ -72,6 +73,7 @@ export const DateRangePicker = defineComponent({
     "update:end": (value: string | null) => value === null || typeof value === "string",
   },
   setup(props, { emit }) {
+    const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
     const { api, open, setOpen, triggerRef, panelRef } = usePopover(() => ({
       placement: "bottom-start",
@@ -189,7 +191,7 @@ export const DateRangePicker = defineComponent({
         ]),
 
         open.value
-          ? h(Teleport, { to: "body" }, [
+          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
               h(
                 "div",
                 {

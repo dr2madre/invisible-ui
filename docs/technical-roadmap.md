@@ -62,7 +62,7 @@ Each item ships as its own PR. Checkboxes track progress.
 - [x] **6. Multi-framework adapters** — the portability proof expanded beyond
   its original scope. **Vue** (`packages/vue`) now carries the full Svelte
   catalog of 74 components as native Vue 3 components and composables, with
-  `v-model`, `provide`/`inject` localization, ported CSS and 788 tests. The
+  `v-model`, `provide`/`inject` localization, ported CSS and 866 tests. The
   parity batches landed in PRs #193–#199 (ADR 0010). The original
   proof-of-concept remains in **React**
   (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
@@ -79,8 +79,13 @@ Each item ships as its own PR. Checkboxes track progress.
   Svelte fixture (`svelte/server` `render`, node env) so no component touches
   the DOM during SSR; runs in the normal test gate. Caught and fixed a real bug:
   Toolbar used `onMount` (threw under SSR) — converted to a client-only action,
-  matching the rest of the Svelte codebase. Equivalent adapter-specific SSR
-  coverage, including Vue hydration, is separate follow-up work.
+  matching the rest of the Svelte codebase. **Vue now carries the equivalent
+  guarantee:** a Node suite server-renders all 76 public component exports (the
+  74-component catalog plus `Icon` and `LocaleProvider`), and a separate-runtime
+  fixture hydrates representative stateful, overlay and date components without
+  mismatches. Body-level Teleports render in place through hydration and move
+  after mount, so Vue can locate the server nodes before creating viewport-level
+  layers. Equivalent coverage for the other adapters remains follow-up work.
 
 ### 🟡 P3 — polish & ecosystem
 
