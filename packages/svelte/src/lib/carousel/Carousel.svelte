@@ -386,7 +386,7 @@
     cursor: pointer;
     transition: background-color 120ms ease;
   }
-  .carousel__dot[data-selected] {
+  .carousel__dot:global([data-selected]) {
     background: var(--ds-carousel-dot-active, var(--ds-color-primary, #2563eb));
   }
   .carousel__dot:focus-visible {

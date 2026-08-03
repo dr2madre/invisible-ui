@@ -569,18 +569,18 @@
     color: var(--ds-color-text-secondary, #94a3b8);
     opacity: 0.6;
   }
-  .calendar__day[data-today] .calendar__daynum {
+  .calendar__day:global([data-today]) .calendar__daynum {
     font-weight: 700;
     color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
   }
-  .calendar__day[data-selected] {
+  .calendar__day:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
     color: var(--ds-calendar-selected-text, #fff);
   }
-  .calendar__day[data-selected] .calendar__daynum {
+  .calendar__day:global([data-selected]) .calendar__daynum {
     color: inherit;
   }
-  .calendar__day[data-disabled] {
+  .calendar__day:global([data-disabled]) {
     opacity: 0.35;
     cursor: not-allowed;
   }
@@ -637,8 +637,8 @@
     font-weight: 600;
     color: var(--ds-calendar-price, var(--ds-color-success, #15803d));
   }
-  .calendar__day[data-selected] .calendar__price,
-  .calendar__day[data-selected] .calendar__more {
+  .calendar__day:global([data-selected]) .calendar__price,
+  .calendar__day:global([data-selected]) .calendar__more {
     color: inherit;
   }
 
@@ -710,11 +710,11 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -1px;
   }
-  .calendar__mini-day[data-today] {
+  .calendar__mini-day:global([data-today]) {
     color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
     font-weight: 700;
   }
-  .calendar__mini-day[data-selected] {
+  .calendar__mini-day:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
     color: var(--ds-calendar-selected-text, #fff);
   }
@@ -755,15 +755,15 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
-  .calendar__agenda-head[data-selected] {
+  .calendar__agenda-head:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
     color: var(--ds-calendar-selected-text, #fff);
   }
-  .calendar__agenda-head[data-today] .calendar__agenda-num {
+  .calendar__agenda-head:global([data-today]) .calendar__agenda-num {
     color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
     font-weight: 700;
   }
-  .calendar__agenda-head[data-selected] .calendar__agenda-num {
+  .calendar__agenda-head:global([data-selected]) .calendar__agenda-num {
     color: inherit;
   }
   .calendar__agenda-weekday {
@@ -771,7 +771,7 @@
     text-transform: uppercase;
     color: var(--ds-color-text-secondary, #64748b);
   }
-  .calendar__agenda-head[data-selected] .calendar__agenda-weekday {
+  .calendar__agenda-head:global([data-selected]) .calendar__agenda-weekday {
     color: inherit;
   }
   .calendar__agenda-num {
