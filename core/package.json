@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dr2madre/design-system.git",
+    "url": "git+https://github.com/dr2madre/invisible-ui.git",
     "directory": "core"
   },
   "publishConfig": {
