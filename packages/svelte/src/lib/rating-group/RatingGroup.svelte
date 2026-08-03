@@ -40,6 +40,9 @@
 
 <div class="rating-field">
   <span class="rating__label" id={labelId}>{label}</span>
+  <!-- The native radios own focus and the roving tabindex, so the group
+       itself takes none. -->
+  <!-- svelte-ignore a11y-interactive-supports-focus -->
   <div
     class="rating"
     class:rating--disabled={disabled}

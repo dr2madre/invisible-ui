@@ -7,7 +7,7 @@
   export let size: ComponentProps<ErrorState>["size"] = "md";
 </script>
 
-{#if actions.length}
+{#if actions?.length}
   <ErrorState
     {size}
     title="Couldn't connect to the server"

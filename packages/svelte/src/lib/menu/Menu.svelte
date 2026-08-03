@@ -1,10 +1,12 @@
 <script lang="ts" context="module">
+  import type { ComponentType } from "svelte";
+
   export interface MenuItem {
     value: string;
     label: string;
     href?: string;
     /** Optional leading icon component (rendered as `<svelte:component>`). */
-    icon?: unknown;
+    icon?: ComponentType;
   }
   export interface MenuSection {
     /** Optional section heading. */

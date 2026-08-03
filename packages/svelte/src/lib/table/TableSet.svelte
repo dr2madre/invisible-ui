@@ -86,13 +86,14 @@
   export let getRowId: (row: TableRow, index: number) => string | number = (row, index) =>
     (row.id as string | number) ?? index;
 
-  const hasViews = Array.isArray(views) && views.length > 0;
+  const viewList: TableViewDef[] = Array.isArray(views) ? views : [];
+  const hasViews = viewList.length > 0;
 
   // A tab list drives which view is active (only when `views` is given).
-  let activeId = activeView ?? (hasViews ? views![0].id : "");
+  let activeId = activeView ?? viewList[0]?.id ?? "";
   const tabs = hasViews
     ? createTabs({
-        items: views!.map((v) => ({ value: v.id })),
+        items: viewList.map((v) => ({ value: v.id })),
         value: activeId,
         onValueChange: (id) => {
           activeId = id;

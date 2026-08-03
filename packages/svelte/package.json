@@ -413,6 +413,7 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "check": "svelte-check --tsconfig ./tsconfig.check.json --threshold warning",
     "tokens:build": "style-dictionary build --config style-dictionary.config.json"
   },
   "peerDependencies": {
