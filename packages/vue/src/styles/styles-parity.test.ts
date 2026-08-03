@@ -12,10 +12,10 @@ import { describe, expect, it } from "vitest";
 // divergence would show up as adapters that look subtly different.
 //
 // VUE_SOURCE_SHEETS are the batches the React adapter has not ported yet:
-// forms, then overlays & menus. These Vue sheets are the source of truth for
-// the adapters that follow (web components are next). Each is checked to be
-// present here and still absent from the React adapter: the day React gains
-// one, this test fails and the sheet moves to SHARED_SHEETS.
+// forms, then overlays & menus, then feedback. These Vue sheets are the source
+// of truth for the adapters that follow (web components are next). Each is
+// checked to be present here and still absent from the React adapter: the day
+// React gains one, this test fails and the sheet moves to SHARED_SHEETS.
 //
 // `index.css` is excluded: it names this package in its comment and in the
 // import path it documents, so its text is package-specific even though it
@@ -47,6 +47,14 @@ const VUE_SOURCE_SHEETS = [
   "alert-dialog.css",
   "confirm-dialog.css",
   "prompt-dialog.css",
+  "feedback-icon.css",
+  "inline-notification.css",
+  "notification-region.css",
+  "progress.css",
+  "loading.css",
+  "skeleton.css",
+  "tag.css",
+  "count.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
@@ -55,7 +63,7 @@ describe("stylesheet parity with the React adapter", () => {
   });
 });
 
-describe("forms batch stylesheets (Vue is the source of truth)", () => {
+describe("Vue-first batch stylesheets (Vue is the source of truth)", () => {
   it.each(VUE_SOURCE_SHEETS)("%s is present here and not yet in React", (sheet) => {
     expect(read(`./${sheet}`).length).toBeGreaterThan(0);
     expect(existsSync(path(`../../../react/src/styles/${sheet}`))).toBe(false);

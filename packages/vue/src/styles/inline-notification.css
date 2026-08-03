@@ -1,0 +1,172 @@
+/* InlineNotification, ported from the Svelte adapter, class names kept
+   identical. */
+
+.inline-notification {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: var(--ds-alert-padding, 0.875rem 1rem);
+  border: 1px solid var(--_border);
+  border-radius: var(--ds-alert-radius, var(--ds-radius-surface, 0.75rem));
+  background: var(--_bg);
+  color: var(--_fg, var(--ds-color-text, #0f172a));
+}
+/* Pin the close button to the top-right; reserve room so text never runs under it. */
+.inline-notification:has(.inline-notification__close) {
+  padding-inline-end: 2.5rem;
+}
+.inline-notification__close {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  /* Ghost icon Button sized to a square WCAG 2.5.8 hit area. It stays
+     color-neutral (inherits the surface's own text color) so it works on any
+     status-tinted or inverted surface. */
+  --ds-button-icon-min: var(--ds-close-hit-area, 2.5rem);
+  --ds-button-icon-size: var(--ds-close-icon-size, 1rem);
+  color: var(--ds-close-color, inherit);
+}
+
+.inline-notification__content {
+  flex: 1;
+  min-inline-size: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.inline-notification__title {
+  margin: 0;
+  font-weight: 600;
+  line-height: var(--ds-line-height-tight, 1.2);
+}
+
+.inline-notification__body {
+  margin: 0;
+  line-height: var(--ds-line-height, 1.4);
+}
+
+.inline-notification__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.5rem;
+}
+
+.inline-notification__link {
+  justify-self: start;
+  margin-block-start: 0.25rem;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.inline-notification__link:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Soft, status-tinted surface. */
+.inline-notification[data-status="info"] {
+  --_bg: var(--ds-color-info-surface, #eff6ff);
+  --_border: var(--ds-color-info-border, #bfdbfe);
+}
+.inline-notification[data-status="success"] {
+  --_bg: var(--ds-color-success-surface, #f0fdf4);
+  --_border: var(--ds-color-success-border, #bbf7d0);
+}
+.inline-notification[data-status="warning"] {
+  --_bg: var(--ds-color-warning-surface, #fffbeb);
+  --_border: var(--ds-color-warning-border, #fde68a);
+}
+.inline-notification[data-status="danger"] {
+  --_bg: var(--ds-color-danger-surface, #fef2f2);
+  --_border: var(--ds-color-danger-border, #fecaca);
+}
+.inline-notification[data-status="neutral"] {
+  --_bg: var(--ds-color-neutral-surface, #f8fafc);
+  --_border: var(--ds-color-neutral-border, #e2e8f0);
+}
+
+/* Inverted: a high-contrast surface that ignores the status tint (the status
+   stays visible via the colored FeedbackIcon). Wins over the rules above. */
+.inline-notification[data-inverted] {
+  --_bg: var(--ds-color-emphasis-surface, #1e293b);
+  --_border: var(--ds-color-emphasis-border, #334155);
+  --_fg: var(--ds-color-on-emphasis, #f8fafc);
+}
+
+/* Plain (no-surface): transparent background, no border. The colored
+   FeedbackIcon chip carries the status. Wins over the status tint. Keeps the
+   lateral padding so its content aligns with the surfaced notifications. */
+.inline-notification[data-plain] {
+  --_bg: transparent;
+  --_border: transparent;
+}
+
+/* Snackbar: one compact row that wraps its content and centers everything
+   vertically. Icon + title + inline actions on a single line; the icon
+   takes the text color with no box (set transparent above). */
+.inline-notification[data-snack] {
+  inline-size: fit-content;
+  /* Wrap the content on one line even past the region's column width, up to
+     the viewport (the region clips only vertically, so this stays visible). */
+  max-inline-size: calc(100vw - 2rem);
+  margin-inline: auto;
+  align-items: center;
+  gap: 0.625rem;
+  padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
+  border-radius: var(--ds-snack-radius, var(--ds-radius-surface, 0.75rem));
+}
+/* The message stays on a single line, however long. */
+.inline-notification[data-snack] .inline-notification__title {
+  white-space: nowrap;
+}
+.inline-notification[data-snack] .inline-notification__content {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.inline-notification[data-snack] .inline-notification__actions {
+  margin-block-start: 0;
+  flex-wrap: nowrap;
+}
+/* Icon glyph in the text color (no status tint), no box. A slight pop on
+   entrance (plays once on mount); disabled under reduced motion. */
+.inline-notification[data-snack] .feedback-icon {
+  color: inherit;
+  inline-size: var(--ds-snack-icon-size, 1.25rem);
+  block-size: var(--ds-snack-icon-size, 1.25rem);
+  padding: 0;
+  animation: ds-snack-icon-in 340ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes ds-snack-icon-in {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inline-notification[data-snack] .feedback-icon {
+    animation: none;
+  }
+}
+/* Close, when present, sits inline in the row instead of pinned top-right. */
+.inline-notification[data-snack]:has(.inline-notification__close) {
+  padding-inline-end: 0.5rem;
+}
+.inline-notification[data-snack] .inline-notification__close {
+  position: static;
+  inset: auto;
+  --ds-button-icon-min: var(--ds-close-hit-area, 2rem);
+}

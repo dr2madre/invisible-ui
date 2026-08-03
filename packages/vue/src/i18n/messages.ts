@@ -17,9 +17,14 @@ export const en = {
   "dialog.dismiss": "OK",
   "combobox.clear": "Clear",
   "combobox.empty": "No results",
+  "inlineNotification.close": "Close",
+  "inlineNotification.learnMore": "Learn more",
+  "loading.label": "Loading…",
+  "notificationRegion.label": "Notifications",
   "select.placeholder": "Select…",
   "switch.on": "ON",
   "switch.off": "OFF",
+  "tag.remove": "Remove",
 } as const;
 
 export type MessageKey = keyof typeof en;

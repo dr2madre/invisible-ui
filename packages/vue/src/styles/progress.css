@@ -1,0 +1,55 @@
+/* Progress, ported from the Svelte adapter, class names kept identical. */
+
+.progress {
+  inline-size: var(--ds-progress-width, 16rem);
+  block-size: var(--ds-progress-height, 0.5rem);
+  overflow: hidden;
+  background: var(--ds-progress-track, var(--ds-color-border, #e2e8f0));
+  border-radius: var(--ds-progress-radius, 999px);
+}
+.progress__indicator {
+  block-size: 100%;
+  background: var(--ds-progress-fill, var(--ds-color-text, #1c1917));
+  border-radius: inherit;
+  transition: inline-size 200ms ease;
+}
+/* Circle: a ring whose stroke fills clockwise from 12 o'clock. */
+.progress--circle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--ds-progress-circle-size, 3rem);
+  block-size: var(--ds-progress-circle-size, 3rem);
+  background: none;
+  overflow: visible;
+}
+.progress--circle svg {
+  inline-size: 100%;
+  block-size: 100%;
+  transform: rotate(-90deg);
+}
+.progress__track,
+.progress__ring {
+  fill: none;
+  stroke-width: var(--ds-progress-circle-stroke, 3.5);
+}
+.progress__track {
+  stroke: var(--ds-progress-track, var(--ds-color-border, #e2e8f0));
+}
+.progress__ring {
+  stroke: var(--ds-progress-fill, var(--ds-color-text, #1c1917));
+  stroke-linecap: round;
+  transition: stroke-dasharray 200ms ease;
+}
+.progress__value {
+  position: absolute;
+  font-size: var(--ds-progress-value-size, 0.75em);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress__indicator,
+  .progress__ring {
+    transition: none;
+  }
+}

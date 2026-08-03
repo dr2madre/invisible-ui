@@ -1,0 +1,182 @@
+/* Loading, ported from the Svelte adapter, class names kept identical. */
+
+.loading {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-loading-label-gap, 0.625em);
+}
+/* Overlay: fill the nearest positioned ancestor and center the indicator —
+   the built-in busy-region layer. */
+.loading--overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* No veil: show only the indicator, and don't intercept pointer events. */
+.loading--overlay:not(.loading--veil) {
+  pointer-events: none;
+}
+/* Veil: a translucent backdrop that also blocks interaction while busy. */
+.loading--veil {
+  background: color-mix(in srgb, var(--ds-color-background, #fff) 65%, transparent);
+}
+/* The indicator sits in its own box so text (or anything else) can be laid
+   out beside it without touching the dots' internal spacing. */
+.loading__indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-loading-gap, 0.25em);
+  block-size: 1em;
+}
+.loading__dot {
+  inline-size: var(--ds-loading-size, 0.3em);
+  block-size: var(--ds-loading-size, 0.3em);
+  border-radius: var(--ds-radius-pill, 999px);
+  background: currentColor;
+  animation: loading-pulse var(--ds-loading-duration, 1.2s) ease-in-out infinite;
+}
+.loading__dot:nth-child(2) {
+  animation-delay: calc(var(--ds-loading-duration, 1.2s) / 6);
+}
+.loading__dot:nth-child(3) {
+  animation-delay: calc(var(--ds-loading-duration, 1.2s) / 3);
+}
+.loading__spinner {
+  inline-size: var(--ds-loading-spinner-size, 1em);
+  block-size: var(--ds-loading-spinner-size, 1em);
+  animation: loading-spin var(--ds-loading-duration, 1.2s) linear infinite;
+}
+/* Bar: a full-width track (sliding segment when indeterminate, growing fill
+   when determinate), with the optional text line underneath. */
+.loading[data-variant="bar"] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-loading-bar-label-gap, 0.375em);
+  inline-size: 100%;
+  block-size: auto;
+}
+.loading__track {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--ds-loading-bar-height, 3px);
+  background: color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: var(--ds-radius-pill, 999px);
+  overflow: hidden;
+}
+.loading__segment {
+  display: block;
+  inline-size: 40%;
+  block-size: 100%;
+  border-radius: inherit;
+  background: currentColor;
+  animation: loading-slide var(--ds-loading-duration, 1.4s) ease-in-out infinite;
+}
+/* Determinate bar: a fill that grows start → end until done. */
+.loading__fill {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: currentColor;
+  transition: inline-size 200ms ease;
+}
+/* Visible text: label start-aligned, value/detail pushed to the end on bars. */
+.loading__label {
+  display: inline-flex;
+  gap: 0.75em;
+  font-size: var(--ds-loading-label-size, 0.8125em);
+  line-height: var(--ds-line-height-tight, 1.2);
+}
+/* Live status message line (visible + announced). */
+.loading__status {
+  font-size: var(--ds-loading-label-size, 0.8125em);
+  line-height: var(--ds-line-height-tight, 1.2);
+}
+.loading[data-variant="bar"] .loading__label {
+  inline-size: 100%;
+  justify-content: space-between;
+}
+.loading__meta {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Typing: the dots bounce in turn instead of pulsing. */
+.loading[data-variant="typing"] .loading__dot {
+  animation-name: loading-bounce;
+}
+/* Morph: one shape blending square ⇄ circle while it swings half a turn
+   forth and back. */
+.loading__shape {
+  inline-size: var(--ds-loading-spinner-size, 1em);
+  block-size: var(--ds-loading-spinner-size, 1em);
+  background: currentColor;
+  animation: loading-morph var(--ds-loading-duration, 2s) ease-in-out infinite;
+}
+@keyframes loading-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loading-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+/* RTL: the segment travels start → end, so the motion flips with the text. */
+[dir="rtl"] .loading__segment {
+  animation-name: loading-slide-rtl;
+}
+@keyframes loading-slide-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-250%);
+  }
+}
+@keyframes loading-bounce {
+  0%,
+  100% {
+    transform: none;
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-40%);
+    opacity: 1;
+  }
+}
+@keyframes loading-morph {
+  0%,
+  100% {
+    border-radius: 15%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 50%;
+    transform: rotate(180deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading__dot,
+  .loading__spinner,
+  .loading__segment,
+  .loading__shape {
+    animation: none;
+  }
+  .loading__fill {
+    transition: none;
+  }
+}

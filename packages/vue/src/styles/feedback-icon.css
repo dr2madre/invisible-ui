@@ -1,0 +1,56 @@
+/* FeedbackIcon, ported from the Svelte adapter, class names kept identical. */
+
+.feedback-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex: none;
+  inline-size: var(--ds-feedback-icon-size, 2rem);
+  block-size: var(--ds-feedback-icon-size, 2rem);
+  /* Default breathing room around the glyph; themeable. With border-box the
+     padding carves a definite content box the SVG can fill (no circular %). */
+  padding: var(--ds-feedback-icon-padding, 0.375rem);
+  border-radius: var(--ds-feedback-icon-radius, var(--ds-radius-control, 0.5rem));
+  /* Glyph at full status color; box tinted with the same color at 15%. */
+  color: var(--_color);
+  background: color-mix(in srgb, var(--_color) 15%, transparent);
+}
+
+/* Transparent box: drop the chip but keep the same glyph size as the tinted
+   variant (the padding stays, so the icon doesn't jump larger). */
+.feedback-icon[data-box="transparent"] {
+  background: transparent;
+}
+/* Solid box: full status color with a contrasting glyph. */
+.feedback-icon[data-box="solid"] {
+  background: var(--_color);
+  color: var(--ds-feedback-icon-on-solid, #fff);
+}
+/* Full circle. */
+.feedback-icon[data-shape="round"] {
+  border-radius: 50%;
+}
+
+/* The glyph (built-in or slotted) fills the padded content box and centers. */
+.feedback-icon svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.feedback-icon[data-status="info"] {
+  --_color: var(--ds-color-info, #2563eb);
+}
+.feedback-icon[data-status="success"] {
+  --_color: var(--ds-color-success, #16a34a);
+}
+.feedback-icon[data-status="warning"] {
+  --_color: var(--ds-color-warning, #d97706);
+}
+.feedback-icon[data-status="danger"] {
+  --_color: var(--ds-color-danger, #dc2626);
+}
+.feedback-icon[data-status="neutral"] {
+  --_color: var(--ds-color-neutral, #64748b);
+}

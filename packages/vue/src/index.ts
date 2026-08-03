@@ -4,9 +4,12 @@
  * The shared component set (Button, Checkbox, Switch, Select, Combobox,
  * Dialog) proving the framework-agnostic core drives another framework
  * natively, plus the forms batch (TextField, Textarea, RadioGroup,
- * CheckboxGroup, Field, Label) and the overlays & menus batch (Popover,
- * Tooltip, DropdownMenu, AlertDialog, ConfirmDialog, PromptDialog) ported
- * from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
+ * CheckboxGroup, Field, Label), the overlays & menus batch (Popover,
+ * Tooltip, DropdownMenu, AlertDialog, ConfirmDialog, PromptDialog) and the
+ * feedback batch (Notification + NotificationRegion + createNotifier,
+ * InlineNotification, FeedbackIcon, Progress, Loading, Skeleton, Tag, Count)
+ * ported from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are
+ * opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -34,6 +37,38 @@ export { DropdownMenu, type DropdownMenuProps } from "./dropdown-menu/DropdownMe
 export { AlertDialog, type AlertDialogProps } from "./alert-dialog/AlertDialog";
 export { ConfirmDialog, type ConfirmDialogProps } from "./confirm-dialog/ConfirmDialog";
 export { PromptDialog, type PromptDialogProps } from "./prompt-dialog/PromptDialog";
+export {
+  FeedbackIcon,
+  type FeedbackIconProps,
+  type FeedbackStatus,
+} from "./feedback-icon/FeedbackIcon";
+export {
+  InlineNotification,
+  type InlineNotificationAction,
+  type InlineNotificationProps,
+} from "./inline-notification/InlineNotification";
+export { Notification, type NotificationProps } from "./notification/Notification";
+export {
+  NotificationRegion,
+  type NotificationPlacement,
+  type NotificationRegionProps,
+} from "./notification/NotificationRegion";
+export { createNotifier } from "./notification/create-notifier";
+export type {
+  Notifier,
+  NotificationAction,
+  NotificationDismissReason,
+  NotificationItem,
+  NotificationOptions,
+  NotificationPromiseMessages,
+  NotificationStatus,
+  StatusOptions,
+} from "./notification/create-notifier";
+export { Progress, type ProgressProps } from "./progress/Progress";
+export { Loading, type LoadingProps, type LoadingVariant } from "./loading/Loading";
+export { Skeleton, type SkeletonProps } from "./skeleton/Skeleton";
+export { Tag, type TagProps, type TagStatus } from "./tag/Tag";
+export { Count, type CountProps, type CountStatus } from "./count/Count";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -73,6 +108,13 @@ export {
   type UseDropdownMenu,
   type UseDropdownMenuOptions,
 } from "./dropdown-menu/use-dropdown-menu";
+export {
+  useProgress,
+  type ProgressApi,
+  type ProgressContext,
+  type ProgressState,
+  type UseProgress,
+} from "./progress/use-progress";
 export { useDomProps } from "./use-dom-props";
 
 // Localization
