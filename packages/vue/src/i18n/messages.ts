@@ -10,6 +10,7 @@
  * by `t(key, { name })`.
  */
 export const en = {
+  "breadcrumb.label": "Breadcrumb",
   "combobox.placeholder": "Search…",
   "dialog.close": "Close",
   "dialog.confirm": "Confirm",
@@ -21,6 +22,7 @@ export const en = {
   "inlineNotification.learnMore": "Learn more",
   "loading.label": "Loading…",
   "notificationRegion.label": "Notifications",
+  "pagination.label": "Pagination",
   "select.placeholder": "Select…",
   "switch.on": "ON",
   "switch.off": "OFF",

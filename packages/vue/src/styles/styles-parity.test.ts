@@ -55,6 +55,14 @@ const VUE_SOURCE_SHEETS = [
   "skeleton.css",
   "tag.css",
   "count.css",
+  "tabs.css",
+  "accordion.css",
+  "card.css",
+  "table.css",
+  "pagination.css",
+  "breadcrumb.css",
+  "avatar.css",
+  "avatar-group.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

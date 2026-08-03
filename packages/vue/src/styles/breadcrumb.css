@@ -1,0 +1,55 @@
+/* Breadcrumb, ported from the Svelte adapter, class names kept identical. */
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-breadcrumb-gap, 0.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--ds-breadcrumb-font-size, 0.875rem);
+}
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-breadcrumb-gap, 0.5rem);
+}
+.breadcrumb__sep {
+  color: var(--ds-breadcrumb-sep-text, var(--ds-color-text-secondary, #78716c));
+}
+.breadcrumb__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ds-breadcrumb-link-text, var(--ds-color-selected, #7b52cc));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.breadcrumb__link:hover {
+  color: var(--ds-breadcrumb-link-hover, var(--ds-color-secondary-hover, #6d28d9));
+}
+.breadcrumb__link:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+  border-radius: var(--ds-radius-control, 0.25rem);
+}
+/* The current page: a dark grey (not black, not the link color), no link. */
+.breadcrumb__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #57534e));
+  font-weight: 600;
+}
+.breadcrumb__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

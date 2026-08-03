@@ -1,0 +1,72 @@
+/* Tabs, ported from the Svelte adapter, class names kept identical. */
+
+.tabs__list {
+  display: inline-flex;
+  gap: 0.25rem;
+  border-block-end: 1px solid var(--ds-color-border, #cbd5e1);
+}
+.tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: var(--ds-tabs-tab-padding, 0.4rem 0.8rem);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  /* Idle tabs use full-strength text (not muted grey). */
+  color: var(--ds-color-text, #0f172a);
+  border-block-end: 2px solid transparent;
+  margin-block-end: -1px;
+  transition:
+    color 120ms ease,
+    border-color 120ms ease;
+}
+.tabs__tab-icon {
+  display: inline-flex;
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  flex: none;
+}
+.tabs__tab--icon-only {
+  padding-inline: 0.55rem;
+}
+/* Count badge: grey pill by default, violet when the tab is selected. */
+.tabs__tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.25rem;
+  padding-inline: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  border-radius: var(--ds-radius-pill, 999px);
+  color: var(--ds-color-text-secondary, #64748b);
+  background: var(--ds-color-neutral-surface, #f1f5f9);
+}
+.tabs__tab[data-state="active"] .tabs__tab-count {
+  color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
+  background: var(--ds-color-selected, #7b52cc);
+}
+.tabs__tab[data-state="active"] {
+  /* Selected tab: the label stays the normal text color; only the underline
+     carries the selection color (so the accent can change without recoloring
+     the text). */
+  font-weight: 700;
+  color: var(--ds-color-text, #1c1917);
+  border-block-end-color: var(--ds-color-selected, #7b52cc);
+}
+.tabs__tab:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
+.tabs__tab[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.tabs__panel {
+  padding-block: 0.75rem;
+  color: var(--ds-color-text-secondary, #64748b);
+}

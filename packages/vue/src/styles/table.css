@@ -1,0 +1,94 @@
+/* Table, ported from the Svelte adapter, class names kept identical. */
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+  font-size: var(--ds-table-font-size, 0.9375rem);
+}
+
+.table__caption {
+  caption-side: top;
+  text-align: start;
+  padding-block-end: 0.5rem;
+  font-weight: 600;
+}
+.table__caption--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.table__th {
+  text-align: start;
+  font-weight: 600;
+  /* Medium-dark header labels (not full black). */
+  color: var(--ds-table-header-text, var(--ds-color-text-secondary, #57534e));
+  /* Same height as body rows: identical padding + a 1px border (not thicker). */
+  padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
+  border-block-end: var(--ds-table-header-border, 1px) solid
+    var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+  white-space: nowrap;
+}
+.table__td {
+  padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
+  border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+}
+.table__th[data-align="end"],
+.table__td[data-align="end"] {
+  text-align: end;
+}
+.table__th[data-align="center"],
+.table__td[data-align="center"] {
+  text-align: center;
+}
+
+.table__row:hover {
+  background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f8fafc));
+}
+
+.table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.table__sort:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.table__sort-icon {
+  display: inline-flex;
+}
+/* Unsorted columns show a faint up/down hint; the active one is emphasized. */
+.table__sort-icon .table__sort-icon-unset {
+  opacity: 0.4;
+}
+.table__sort:hover .table__sort-icon .table__sort-icon-unset {
+  opacity: 0.7;
+}
+/* The actively-sorted column reads as "selected": header label + icon adopt
+   the selection color so the current sort is unmistakable. */
+.table__th[data-sort-direction] {
+  color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
+}
+.table__th[data-sort-direction] .table__sort-icon {
+  color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
+}
