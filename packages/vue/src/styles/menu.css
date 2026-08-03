@@ -1,0 +1,78 @@
+/* Menu (the sidebar navigation), ported from the Svelte adapter. There the
+   block is `.menu`, scoped per component by the compiler; here the sheets are
+   global and `dropdown-menu.css` already claims `.menu` and `.menu__item`, so
+   every rule is scoped under `nav.menu`. The dropdown's popup is a `div`
+   teleported to the body, so it never matches these selectors. */
+
+nav.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-menu-gap, 0.75rem);
+  inline-size: var(--ds-menu-width, 15rem);
+  padding: var(--ds-menu-padding, 0.75rem);
+  background: var(--ds-menu-bg, var(--ds-color-background, #fff));
+  border: 1px solid var(--ds-menu-border, var(--ds-color-border, #e7e5e4));
+  border-radius: var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem));
+}
+
+nav.menu .menu__logo {
+  padding: 0.25rem 0.5rem;
+}
+
+nav.menu .menu__section-label {
+  margin: 0 0 0.25rem;
+  padding-inline: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ds-color-text-secondary, #78716c);
+}
+
+nav.menu .menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav.menu .menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  padding: 0.5rem 0.625rem;
+  font: inherit;
+  text-align: start;
+  color: var(--ds-menu-item-text, var(--ds-color-text, #1c1917));
+  text-decoration: none;
+  background: none;
+  border: 0;
+  border-radius: var(--ds-radius-control, 0.5rem);
+  cursor: pointer;
+}
+nav.menu .menu__item:hover {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+nav.menu .menu__item--active {
+  color: var(--ds-color-secondary, #7b52cc);
+  background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
+  font-weight: 600;
+}
+nav.menu .menu__item:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+}
+
+nav.menu .menu__icon {
+  display: inline-flex;
+  font-size: 1.1em;
+}
+
+nav.menu .menu__footer {
+  margin-block-start: auto;
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--ds-color-border, #e7e5e4);
+}

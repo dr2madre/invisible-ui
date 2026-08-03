@@ -1,0 +1,45 @@
+/* Collapsible, ported from the Svelte adapter, class names kept identical.
+   Svelte's :global() wrappers are unwrapped: this file is already global. */
+
+.collapsible {
+  inline-size: var(--ds-collapsible-width, 18rem);
+}
+
+.collapsible__trigger {
+  inline-size: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--ds-collapsible-trigger-padding, 0.5rem 0.75rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-collapsible-radius, var(--ds-radius-control, 0.375rem));
+  background: var(--ds-color-background, #fff);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+  cursor: pointer;
+  text-align: start;
+}
+.collapsible__trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
+.collapsible__trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.collapsible__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--ds-color-text-secondary, #64748b);
+  transition: rotate 150ms ease;
+}
+.collapsible__trigger[data-state="open"] .collapsible__icon {
+  rotate: 180deg;
+}
+
+.collapsible__content {
+  padding: var(--ds-collapsible-content-padding, 0.625rem 0.75rem);
+}

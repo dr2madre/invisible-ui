@@ -11,8 +11,10 @@
  * and the data & nav batch (Tabs, Accordion, Card, Table, Pagination,
  * Breadcrumb, Avatar, AvatarGroup) and the controls & inputs batch (Slider,
  * RatingGroup, SegmentedControl, ToggleButton, ToggleGroup, PinInput, Radio,
- * Meter, Toolbar, ButtonGroup, Link, Kbd, Separator) ported from the Svelte
- * adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
+ * Meter, Toolbar, ButtonGroup, Link, Kbd, Separator) and the dates, times &
+ * navigation surfaces batch (Calendar, DatePicker, DateRangePicker, TimeField,
+ * Collapsible, HoverCard, ContextMenu, Menu, Menubar, NavigationMenu) ported
+ * from the Svelte adapter; see `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/vue/styles.css";
  */
@@ -118,6 +120,21 @@ export {
 export { Link, type LinkProps, type LinkVariant } from "./link/Link";
 export { Kbd, type KbdProps } from "./kbd/Kbd";
 export { Separator, type SeparatorOrientation, type SeparatorProps } from "./separator/Separator";
+export {
+  Calendar,
+  type CalendarEvent,
+  type CalendarMode,
+  type CalendarProps,
+} from "./calendar/Calendar";
+export { DatePicker, type DatePickerProps, type DateStyle } from "./date-picker/DatePicker";
+export { DateRangePicker, type DateRangePickerProps } from "./date-range-picker/DateRangePicker";
+export { TimeField, type TimeFieldProps } from "./time-field/TimeField";
+export { Collapsible, type CollapsibleProps } from "./collapsible/Collapsible";
+export { HoverCard, type HoverCardProps } from "./hover-card/HoverCard";
+export { ContextMenu, type ContextMenuProps } from "./context-menu/ContextMenu";
+export { Menu, type MenuEntry, type MenuProps, type MenuSection } from "./menu/Menu";
+export { Menubar, type MenubarProps } from "./menubar/Menubar";
+export { NavigationMenu, type NavigationMenuProps } from "./navigation-menu/NavigationMenu";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -230,6 +247,51 @@ export {
   type ButtonGroupState,
   type UseButtonGroupOptions,
 } from "./button-group/use-button-group";
+export {
+  useCalendar,
+  type CalendarDay,
+  type CalendarView,
+  type UseCalendar,
+  type UseCalendarOptions,
+  type WeekStart,
+} from "./calendar/use-calendar";
+export {
+  useTimeField,
+  type HourCycle,
+  type TimeParts,
+  type TimeSegmentType,
+  type UseTimeField,
+  type UseTimeFieldOptions,
+} from "./time-field/use-time-field";
+export {
+  useCollapsible,
+  type UseCollapsible,
+  type UseCollapsibleOptions,
+} from "./collapsible/use-collapsible";
+export {
+  useHoverPreview,
+  type UseHoverPreview,
+  type UseHoverPreviewOptions,
+} from "./popover/use-hover-preview";
+export {
+  useContextMenu,
+  type UseContextMenu,
+  type UseContextMenuOptions,
+} from "./context-menu/use-context-menu";
+export {
+  useMenubar,
+  type MenubarEntry,
+  type MenubarMenu,
+  type UseMenubar,
+  type UseMenubarOptions,
+} from "./menubar/use-menubar";
+export {
+  useNavigationMenu,
+  type NavigationMenuItem,
+  type NavigationMenuLink,
+  type UseNavigationMenu,
+  type UseNavigationMenuOptions,
+} from "./navigation-menu/use-navigation-menu";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

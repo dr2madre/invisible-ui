@@ -77,6 +77,16 @@ const VUE_SOURCE_SHEETS = [
   "link.css",
   "kbd.css",
   "separator.css",
+  "calendar.css",
+  "date-picker.css",
+  "date-range-picker.css",
+  "time-field.css",
+  "collapsible.css",
+  "hover-card.css",
+  "context-menu.css",
+  "menu.css",
+  "menubar.css",
+  "navigation-menu.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

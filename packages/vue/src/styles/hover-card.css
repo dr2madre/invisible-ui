@@ -1,0 +1,29 @@
+/* HoverCard. The Svelte adapter ships the hover card headless only, so the
+   surface is styled here from the popover card it shares its shape with:
+   same elevation, radius and padding, under `hover-card__*` class names and
+   its own `--ds-hover-card-*` tokens. */
+
+.hover-card__trigger {
+  display: inline-flex;
+}
+
+.hover-card__content {
+  /* Positioned by the adapter (Floating UI) with a fixed strategy. */
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--ds-hover-card-z-index, 100);
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: var(--ds-hover-card-max-width, 20rem);
+  padding: var(--ds-hover-card-padding, 0.875rem 1rem);
+  background: var(--ds-color-background, #fff);
+  color: var(--ds-color-text, #0f172a);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-hover-card-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(
+    --ds-elevation-overlay,
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1)
+  );
+}

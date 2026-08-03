@@ -1,0 +1,93 @@
+/* DatePicker, ported from the Svelte adapter, class names kept identical.
+   DateRangePicker renders the same `.date-picker` block, so this sheet holds
+   the shared field and popover rules; `date-range-picker.css` carries only the
+   two places the range field differs. */
+
+.date-picker {
+  display: inline-flex;
+  flex-direction: column;
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+.date-picker__field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.6rem;
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-radius-control, 0.5rem);
+}
+.date-picker__field:focus-within {
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.date-picker--disabled .date-picker__field {
+  opacity: 0.55;
+}
+
+.date-picker__icon {
+  display: inline-flex;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+/* Once a date is picked, the icon adopts the selection color. */
+.date-picker__icon--active {
+  color: var(--ds-color-secondary, #7b52cc);
+}
+
+.date-picker__input {
+  flex: 1;
+  min-inline-size: 8rem;
+  padding-block: 0.5rem;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+.date-picker__input::placeholder {
+  color: var(--ds-color-text-secondary, #94a3b8);
+}
+.date-picker__input:disabled {
+  cursor: not-allowed;
+}
+
+.date-picker__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  color: var(--ds-color-text-secondary, #64748b);
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.date-picker__clear:hover {
+  background: var(--ds-color-neutral-surface, #f1f5f9);
+}
+.date-picker__clear:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 1px;
+}
+
+.date-picker__popover {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--ds-popover-z-index, 50);
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: min(92vw, 22rem);
+  padding: var(--ds-popover-padding, 0.875rem 1rem);
+  background: var(--ds-color-background, #fff);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
+  box-shadow: var(
+    --ds-elevation-overlay,
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1)
+  );
+}
