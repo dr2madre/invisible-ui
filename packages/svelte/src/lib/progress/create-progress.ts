@@ -19,8 +19,11 @@ export interface CreateProgress {
   setValue: (value: number | null) => void;
   /** Svelte action for the progressbar element: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
-  /** Svelte action for the fill/indicator: `<div use:indicatorAction>`. */
-  indicatorAction: Action<HTMLElement>;
+  /**
+   * Svelte action for the fill/indicator: `<div use:indicatorAction>`. Typed on
+   * `Element` because the circular variant applies it to an SVG `<circle>`.
+   */
+  indicatorAction: Action<Element>;
 }
 
 /**
@@ -46,6 +49,6 @@ export function createProgress(context: core.ProgressContext = {}): CreateProgre
     percentage: derived(api, ($api) => $api.percentage),
     setValue,
     rootAction: createPropsAction(api, (a) => a.rootProps),
-    indicatorAction: createPropsAction(api, (a) => a.indicatorProps),
+    indicatorAction: createPropsAction<ProgressApi, Element>(api, (a) => a.indicatorProps),
   };
 }

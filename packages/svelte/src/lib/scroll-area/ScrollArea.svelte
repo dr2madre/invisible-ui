@@ -31,6 +31,9 @@
 </script>
 
 <div class="scroll-area" data-orientation={orientation}>
+  <!-- A scrollable region has to be reachable by keyboard, so the viewport
+       carries tabindex on purpose. -->
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <div
     class="scroll-area__viewport"
     use:viewportAction

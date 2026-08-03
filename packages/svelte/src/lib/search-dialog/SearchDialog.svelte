@@ -157,6 +157,7 @@
           <div class="search-dialog__group" role="group" aria-label={section.group}>
             <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
             {#each section.items as item (item.value)}
+              <!-- svelte-ignore a11y-role-has-required-aria-props -->
               <div class="search-dialog__item" role="option" use:optionAction={item.value}>
                 <span class="search-dialog__item-label">{item.label ?? item.value}</span>
                 {#if item.shortcut}
@@ -173,6 +174,7 @@
           </div>
         {:else}
           {#each section.items as item (item.value)}
+            <!-- svelte-ignore a11y-role-has-required-aria-props -->
             <div class="search-dialog__item" role="option" use:optionAction={item.value}>
               <span class="search-dialog__item-label">{item.label ?? item.value}</span>
               {#if item.shortcut}

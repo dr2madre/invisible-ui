@@ -8,7 +8,7 @@
   export let size: ComponentProps<EmptyState>["size"] = "md";
 </script>
 
-{#if actions.length}
+{#if actions?.length}
   <EmptyState
     {size}
     title="No projects yet"

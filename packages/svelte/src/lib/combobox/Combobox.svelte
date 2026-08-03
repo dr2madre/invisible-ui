@@ -99,6 +99,7 @@
   $: syncInputValue(selectedInputValue);
   $: setItems(items);
   $: setDisabled(disabled);
+  $: iconByValue = new Map(items.map((item) => [item.value, item.icon]));
   $: hasIcons = items.some((item) => item.icon);
 
   // The chevron toggles the list open/closed (showing all options when opened),
@@ -195,9 +196,10 @@
           <Icon size="100%" strokeWidth={2.5}><polyline points="20 6 9 17 4 12" /></Icon>
         </span>
         {#if hasIcons}
+          {@const icon = iconByValue.get(item.value)}
           <span class="combobox__option-icon" aria-hidden="true">
-            {#if item.icon}
-              <Icon size="100%"><path d={item.icon} /></Icon>
+            {#if icon}
+              <Icon size="100%"><path d={icon} /></Icon>
             {/if}
           </span>
         {/if}

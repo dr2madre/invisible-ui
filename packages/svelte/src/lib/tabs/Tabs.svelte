@@ -1,19 +1,5 @@
-<script lang="ts">
-  /**
-   * Tabs — the styled, batteries-included tabs widget (WAI-ARIA tabs pattern):
-   * roving tabindex, arrow/Home/End navigation, automatic or manual activation.
-   * Behaviour and accessibility come from the headless tabs (`@design-system/core`);
-   * this layer adds the underline indicator and panels.
-   *
-   * Each item supplies a tab `label` (falling back to `value`) and, optionally,
-   * its panel `content` as text. For rich panel markup, use the scoped `panel`
-   * slot — it renders once per tab with `let:item`, so the consumer can put any
-   * content in the (correctly wired) panel and switch on `item.value`; the text
-   * `content` is the fallback when the slot is absent. Colors are themeable CSS
-   * custom properties (`--ds-tabs-*`).
-   */
-  import { createTabs, type ActivationMode, type TabItem } from "./create-tabs";
-  import Icon from "../icon/Icon.svelte";
+<script context="module" lang="ts">
+  import type { TabItem } from "./create-tabs";
 
   /**
    * A tab, with an optional display label and its panel text. May also carry a
@@ -28,6 +14,24 @@
     icon?: string;
     iconOnly?: boolean;
   };
+</script>
+
+<script lang="ts">
+  /**
+   * Tabs — the styled, batteries-included tabs widget (WAI-ARIA tabs pattern):
+   * roving tabindex, arrow/Home/End navigation, automatic or manual activation.
+   * Behaviour and accessibility come from the headless tabs (`@design-system/core`);
+   * this layer adds the underline indicator and panels.
+   *
+   * Each item supplies a tab `label` (falling back to `value`) and, optionally,
+   * its panel `content` as text. For rich panel markup, use the scoped `panel`
+   * slot — it renders once per tab with `let:item`, so the consumer can put any
+   * content in the (correctly wired) panel and switch on `item.value`; the text
+   * `content` is the fallback when the slot is absent. Colors are themeable CSS
+   * custom properties (`--ds-tabs-*`).
+   */
+  import { createTabs, type ActivationMode } from "./create-tabs";
+  import Icon from "../icon/Icon.svelte";
 
   export let items: TabsItem[];
   export let value: string | null = null;

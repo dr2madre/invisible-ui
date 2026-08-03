@@ -31,6 +31,9 @@
   $: resolvedLabel = label ?? $t("contextMenu.label");
 </script>
 
+<!-- triggerAction applies aria-haspopup="menu" at runtime; tabindex keeps the
+     trigger reachable for the keyboard menu key. -->
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div class="context-menu__trigger" tabindex="0" use:triggerAction>
   <slot />
 </div>

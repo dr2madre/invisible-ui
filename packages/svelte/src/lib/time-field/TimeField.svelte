@@ -50,6 +50,9 @@
       >
     {/if}
     {@const text = $api.getSegmentText(seg)}
+    <!-- segmentAction applies role="spinbutton" at runtime, which the
+         compiler cannot see in the static markup. -->
+    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <span
       class="time-field__segment"
       class:time-field__segment--placeholder={isEmpty(seg, text)}

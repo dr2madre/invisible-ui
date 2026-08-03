@@ -1,3 +1,10 @@
+<script context="module" lang="ts">
+  import type { AccordionItem } from "./create-accordion";
+
+  /** An item, with an optional header label and its panel text. */
+  export type AccordionEntry = AccordionItem & { label?: string; content?: string };
+</script>
+
 <script lang="ts">
   /**
    * Accordion — the styled, batteries-included accordion (WAI-ARIA accordion
@@ -11,11 +18,8 @@
    * `createAccordion` directly. Colors are themeable CSS custom properties
    * (`--ds-accordion-*`).
    */
-  import { createAccordion, type AccordionItem, type AccordionType } from "./create-accordion";
+  import { createAccordion, type AccordionType } from "./create-accordion";
   import Icon from "../icon/Icon.svelte";
-
-  /** An item, with an optional header label and its panel text. */
-  export type AccordionEntry = AccordionItem & { label?: string; content?: string };
 
   export let items: AccordionEntry[];
   export let value: string[] = [];
