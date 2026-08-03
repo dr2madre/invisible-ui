@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 dependencies = ["reflex>=0.9,<1.0"]
 
 [project.urls]
-Repository = "https://github.com/dr2madre/design-system"
+Repository = "https://github.com/dr2madre/invisible-ui"
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
