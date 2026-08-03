@@ -9,7 +9,7 @@ const localChromium = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const executablePath = !process.env.CI && existsSync(localChromium) ? localChromium : undefined;
 
 const PORT = 4321;
-const BASE = `http://localhost:${PORT}/invisible-ui/`;
+const BASE = `http://127.0.0.1:${PORT}/invisible-ui/`;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -39,6 +39,16 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: executablePath ? { executablePath } : {},
       },
+    },
+    {
+      name: "firefox",
+      testIgnore: /visual\.spec\.ts/,
+      use: devices["Desktop Firefox"],
+    },
+    {
+      name: "webkit",
+      testIgnore: /visual\.spec\.ts/,
+      use: devices["Desktop Safari"],
     },
     {
       name: "visual",

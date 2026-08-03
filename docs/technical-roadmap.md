@@ -53,7 +53,9 @@ Each item ships as its own PR. Checkboxes track progress.
   regression** added: `e2e/visual.spec.ts` pixel-diffs the styled demos against
   committed baselines (`pnpm visual` / `visual:update`); the `visual.yml`
   workflow runs in the pinned Playwright container for deterministic rendering
-  (see `docs/visual-testing.md`). _Still open: a cross-browser matrix._
+  (see `docs/visual-testing.md`). The functional suite runs in a per-browser CI
+  matrix for Chromium, Firefox and WebKit; visual baselines remain Chromium-only
+  so pixel comparisons stay deterministic.
 - [x] **5. i18n / localization** — an English message catalog + reactive i18n
   context (`createI18n`/`getI18n`) and a `LocaleProvider` (locale + message
   overrides + `dir` for RTL). Adopted by the date/time family (Calendar, Date
