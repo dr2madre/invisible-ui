@@ -28,6 +28,7 @@
 
   const { t } = getI18n();
 
+  /** Groups of items, rendered in order with an optional heading each. */
   export let sections: MenuSection[];
   /** The active item's value. */
   export let value: string | null = null;

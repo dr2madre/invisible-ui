@@ -24,9 +24,9 @@
   import type { Action } from "svelte/action";
 
   /**
-   * Optional extra Svelte action applied to the underlying `<button>`. Lets
-   * overlay components (Dialog, Popover, …) compose the Button as their trigger
-   * by passing their `triggerAction`, instead of rendering a bare button.
+   * Optional extra Svelte action applied to the underlying `<button>`. Overlay
+   * components (Dialog, Popover, …) pass their `triggerAction` here to compose
+   * the Button as their trigger.
    */
   export let action: Action<HTMLElement> = () => {};
 
