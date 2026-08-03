@@ -156,10 +156,17 @@ export function monthsOfYear(year: number): Array<{ year: number; month: number 
 
 /* ------------------------------------------------------------------ */
 
-/** Build the initial state from user context. */
+/**
+ * Build the initial state from user context.
+ *
+ * An empty string means "nothing selected": consumers bind a text-shaped
+ * model that starts empty, and `""` is not a date, so it resolves to `null`
+ * and the focus falls through to today. Feeding it to a date formatter
+ * yields an invalid date and throws while rendering.
+ */
 export function initialState(context: CalendarContext): CalendarState {
-  const value = context.value ?? null;
-  const focusedDate = context.focusedDate ?? value ?? today();
+  const value = context.value ? context.value : null;
+  const focusedDate = (context.focusedDate ? context.focusedDate : null) ?? value ?? today();
   return {
     value,
     focusedDate,
