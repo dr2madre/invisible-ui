@@ -34,9 +34,10 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
-      # `build` includes the Astro docs build; `test` runs vitest + vitest-axe.
+      # `build` includes the Astro docs build; `test` runs vitest + vitest-axe;
+      # `check` is svelte-check over the components (types plus a11y).
       - name: Build, test, typecheck
-        run: pnpm exec turbo run build test typecheck
+        run: pnpm exec turbo run build test typecheck check
 
       # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
       - name: Bundle size budget

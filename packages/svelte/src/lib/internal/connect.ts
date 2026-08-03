@@ -10,7 +10,7 @@ export interface Connectable {
 const EVENT_PROP = /^on[A-Z]/;
 
 /** Apply a framework-agnostic prop bag to a DOM node (attributes only). */
-export function applyProps(node: HTMLElement, props: ElementProps): void {
+export function applyProps(node: Element, props: ElementProps): void {
   for (const [key, value] of Object.entries(props)) {
     // Event handlers (onClick, onKeyDown, …) are wired separately.
     if (EVENT_PROP.test(key) || typeof value === "function") continue;
@@ -42,10 +42,10 @@ export function applyProps(node: HTMLElement, props: ElementProps): void {
  * dispatched to the latest props, so they always see current state. Used both
  * for a component root and for individual items of a composite component.
  */
-export function createPropsAction<T>(
+export function createPropsAction<T, E extends Element = HTMLElement>(
   api: Readable<T>,
   select: (api: T) => ElementProps,
-): Action<HTMLElement> {
+): Action<E> {
   return (node) => {
     let current = select(get(api));
 

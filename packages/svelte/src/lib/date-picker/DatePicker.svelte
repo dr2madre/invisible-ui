@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+  let _uid = 0;
+</script>
+
 <script lang="ts">
   /**
    * DatePicker — a date input that opens a `Calendar` in a popover. Composes the
@@ -57,6 +61,9 @@
     value = null;
     onValueChange?.(null);
   };
+
+  // The combobox names the panel it controls; the panel exists only while open.
+  const popupId = `dsDatePicker-${++_uid}-popup`;
 </script>
 
 <div class="date-picker" class:date-picker--disabled={disabled}>
@@ -81,6 +88,8 @@
       aria-label={label ?? $t("datePicker.label")}
       placeholder={placeholder ?? $t("datePicker.placeholder")}
       value={displayValue}
+      aria-controls={popupId}
+      aria-expanded={$isOpen}
       use:triggerAction
     />
     {#if clearable && value && !disabled}
@@ -98,7 +107,7 @@
   </div>
 
   {#if $isOpen}
-    <div class="date-picker__popover" use:contentAction>
+    <div class="date-picker__popover" id={popupId} use:contentAction>
       <Calendar
         {value}
         focusedDate={value ?? undefined}

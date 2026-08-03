@@ -1,4 +1,17 @@
 <script context="module" lang="ts">
+  import type { ComponentType } from "svelte";
+  import type { SegmentItem } from "./create-segmented-control";
+
+  /**
+   * A segment, with an optional display `label` (falls back to `value`) and an
+   * optional `icon` (any Svelte component, e.g. a lucide-svelte icon or a custom
+   * `<Icon>` wrapper).
+   */
+  export type SegmentedControlItem = SegmentItem & {
+    label?: string;
+    icon?: ComponentType;
+  };
+
   let _uid = 0;
 </script>
 
@@ -14,18 +27,7 @@
    * control needs an accessible name via `label`. Colors are themeable CSS
    * custom properties (`--ds-segment-*`).
    */
-  import type { ComponentType } from "svelte";
-  import { createSegmentedControl, type SegmentItem } from "./create-segmented-control";
-
-  /**
-   * A segment, with an optional display `label` (falls back to `value`) and an
-   * optional `icon` (any Svelte component, e.g. a lucide-svelte icon or a custom
-   * `<Icon>` wrapper).
-   */
-  export type SegmentedControlItem = SegmentItem & {
-    label?: string;
-    icon?: ComponentType;
-  };
+  import { createSegmentedControl } from "./create-segmented-control";
 
   export let items: SegmentedControlItem[];
   export let value: string | null = null;

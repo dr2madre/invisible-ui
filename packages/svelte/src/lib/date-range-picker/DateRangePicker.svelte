@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+  let _uid = 0;
+</script>
+
 <script lang="ts">
   /**
    * DateRangePicker — a field that opens a range `Calendar` in a popover.
@@ -64,6 +68,9 @@
     end = null;
     onChange?.(null, null);
   };
+
+  // The combobox names the panel it controls; the panel exists only while open.
+  const popupId = `dsDateRangePicker-${++_uid}-popup`;
 </script>
 
 <div class="date-picker" class:date-picker--disabled={disabled}>
@@ -95,6 +102,8 @@
       aria-label={label ?? $t("dateRangePicker.label")}
       placeholder={placeholder ?? $t("dateRangePicker.placeholder")}
       value={displayValue}
+      aria-controls={popupId}
+      aria-expanded={$isOpen}
       use:triggerAction
     />
     {#if clearable && start && !disabled}
@@ -112,7 +121,7 @@
   </div>
 
   {#if $isOpen}
-    <div class="date-picker__popover date-picker__popover--wide" use:contentAction>
+    <div class="date-picker__popover date-picker__popover--wide" id={popupId} use:contentAction>
       <Calendar
         mode="range"
         rangeStart={start}

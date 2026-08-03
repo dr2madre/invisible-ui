@@ -1,4 +1,9 @@
 <script context="module" lang="ts">
+  import type { RadioItem } from "./create-radio-group";
+
+  /** An item, with an optional display label (falls back to `value`). */
+  export type RadioGroupItem = RadioItem & { label?: string };
+
   let _uid = 0;
 </script>
 
@@ -14,10 +19,7 @@
    * group needs an accessible name via `label`. Colors are themeable CSS custom
    * properties (`--ds-radio-*`).
    */
-  import { createRadioGroup, type Orientation, type RadioItem } from "./create-radio-group";
-
-  /** An item, with an optional display label (falls back to `value`). */
-  export type RadioGroupItem = RadioItem & { label?: string };
+  import { createRadioGroup, type Orientation } from "./create-radio-group";
 
   export let items: RadioGroupItem[];
   export let value: string | null = null;

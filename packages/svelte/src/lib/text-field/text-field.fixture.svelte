@@ -17,6 +17,8 @@
   $: field.setFlags({ disabled, invalid, hasDescription: !!description });
 </script>
 
+<!-- labelAction applies the `for` attribute at runtime. -->
+<!-- svelte-ignore a11y-label-has-associated-control -->
 <label use:labelAction>Name</label>
 <input use:controlAction on:input={(e) => setValue(e.currentTarget.value)} />
 {#if description}

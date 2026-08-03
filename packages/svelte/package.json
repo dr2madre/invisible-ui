@@ -413,6 +413,7 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "check": "svelte-check --tsconfig ./tsconfig.check.json --threshold warning",
     "tokens:build": "style-dictionary build --config style-dictionary.config.json"
   },
   "peerDependencies": {
@@ -429,6 +430,7 @@
     "@testing-library/user-event": "^14.6.1",
     "jsdom": "^29.1.1",
     "svelte": "^5.56.4",
+    "svelte-check": "^4.7.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vite": "^6.4.3",
