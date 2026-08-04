@@ -35,17 +35,23 @@
 </script>
 
 <nav class="pagination" use:rootAction aria-label={resolvedLabel}>
-  <button class="pagination__control" use:prevAction aria-label="Go to previous page">‹</button>
+  <button class="pagination__control" use:prevAction aria-label={$t("pagination.previous")}
+    >‹</button
+  >
   {#each $items as item, i (typeof item === "number" ? `p${item}` : `e${i}`)}
     {#if item === "ellipsis"}
       <span class="pagination__ellipsis" aria-hidden="true">…</span>
     {:else}
-      <button class="pagination__page" use:pageAction={item} aria-label={`Go to page ${item}`}>
+      <button
+        class="pagination__page"
+        use:pageAction={item}
+        aria-label={$t("pagination.page", { page: item })}
+      >
         {item}
       </button>
     {/if}
   {/each}
-  <button class="pagination__control" use:nextAction aria-label="Go to next page">›</button>
+  <button class="pagination__control" use:nextAction aria-label={$t("pagination.next")}>›</button>
 </nav>
 
 <style>

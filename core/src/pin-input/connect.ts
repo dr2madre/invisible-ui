@@ -17,6 +17,11 @@ export interface PinInputApi {
 export interface ConnectOptions {
   /** Current resolved state. */
   state: PinInputState;
+  /**
+   * Accessible name for a cell, by zero-based index. Defaults to English;
+   * adapters pass their translated catalog through here.
+   */
+  cellLabel?: (index: number, length: number) => string;
   /** Request a new per-cell values array; the adapter owns how state updates. */
   setValues: (values: string[]) => void;
   /** Move DOM focus to the cell at the given index (adapter-provided). */
@@ -35,6 +40,7 @@ export function connect({
   state,
   setValues,
   focus,
+  cellLabel = (index, length) => `Character ${index + 1} of ${length}`,
   normalize = identityNormalize,
 }: ConnectOptions): PinInputApi {
   const { values, length, type, mask, disabled } = state;
@@ -56,7 +62,7 @@ export function connect({
         inputmode: type === "numeric" ? "numeric" : "text",
         autocomplete: index === 0 ? "one-time-code" : "off",
         maxlength: 1,
-        "aria-label": `Character ${index + 1} of ${length}`,
+        "aria-label": cellLabel(index, length),
         disabled: disabled || undefined,
         "data-index": index,
         "data-disabled": disabled ? "" : undefined,

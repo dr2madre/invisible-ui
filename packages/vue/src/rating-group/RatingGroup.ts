@@ -1,6 +1,7 @@
 import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useRatingGroup } from "./use-rating-group";
+import { useI18n } from "../i18n/i18n";
 
 export interface RatingGroupProps {
   /** Accessible name for the rating group (required). */
@@ -67,7 +68,9 @@ export const RatingGroup = defineComponent({
       },
     }));
 
-    const starLabel = (position: number) => `${position} ${position === 1 ? "star" : "stars"}`;
+    const i18n = useI18n();
+    const starLabel = (position: number) =>
+      i18n.value.t(position === 1 ? "rating.star" : "rating.stars", { count: position });
 
     return () =>
       h("div", { class: "rating-field" }, [
