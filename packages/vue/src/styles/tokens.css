@@ -258,6 +258,13 @@
   );
   --ds-color-neutral-text: var(--ds-neutral-700);
 
+  /* Status and brand colours painted as text on the page background, as
+     opposed to the *-text tokens above, which sit on a tinted *-surface. The
+     light theme keeps the base colours, which clear AA on the background. */
+  --ds-color-secondary-body-text: var(--ds-color-secondary);
+  --ds-color-danger-body-text: var(--ds-color-danger);
+  --ds-color-success-body-text: var(--ds-color-success);
+
   --ds-color-emphasis-surface: var(--ds-neutral-800);
   --ds-color-on-emphasis: var(--ds-neutral-50);
   --ds-color-emphasis-border: var(--ds-neutral-700);
@@ -360,6 +367,24 @@
       var(--ds-neutral-50)
     );
     --ds-color-neutral-text: var(--ds-neutral-200);
+
+    /* On the dark background the base colours measure below 3:1, so the text
+       forms lighten: 5.6:1 for the brand, 6.7:1 danger, 6.8:1 success. */
+    --ds-color-secondary-body-text: color-mix(
+      in srgb,
+      var(--ds-color-secondary) 62%,
+      var(--ds-neutral-50)
+    );
+    --ds-color-danger-body-text: color-mix(
+      in srgb,
+      var(--ds-feedback-danger) 48%,
+      var(--ds-neutral-50)
+    );
+    --ds-color-success-body-text: color-mix(
+      in srgb,
+      var(--ds-feedback-success) 50%,
+      var(--ds-neutral-50)
+    );
 
     --ds-color-emphasis-surface: var(--ds-neutral-100);
     --ds-color-on-emphasis: var(--ds-neutral-900);

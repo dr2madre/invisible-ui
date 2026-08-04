@@ -5,8 +5,10 @@
   const labelStyle = "font-size: 0.875rem; font-weight: 600;";
   const helpStyle =
     "margin: 0; font-size: 0.8125rem; color: var(--ds-color-text-secondary, #64748b);";
-  const okStyle = "margin: 0; font-size: 0.8125rem; color: var(--ds-color-success, #16a34a);";
-  const errStyle = "margin: 0; font-size: 0.8125rem; color: var(--ds-color-danger, #dc2626);";
+  const okStyle =
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-success-body-text, #16a34a);";
+  const errStyle =
+    "margin: 0; font-size: 0.8125rem; color: var(--ds-color-danger-body-text, #dc2626);";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.5rem;">

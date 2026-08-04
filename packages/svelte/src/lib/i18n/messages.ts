@@ -79,6 +79,9 @@ export const en = {
   "stepper.label": "Progress",
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
+  "carousel.choose": "Choose slide",
+  "combobox.show": "Show options",
+  "combobox.hide": "Close options",
   // Data
   "table.views": "Views",
   "table.pagination": "Table pages",

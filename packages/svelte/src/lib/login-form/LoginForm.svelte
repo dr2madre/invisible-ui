@@ -137,7 +137,7 @@
   .login__forgot {
     align-self: flex-end;
     font-size: 0.8125rem;
-    color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-secondary-body-text, #7b52cc);
     /* Underlined so it doesn't rely on color alone, and a visible focus ring. */
     text-decoration: underline;
     text-underline-offset: 2px;

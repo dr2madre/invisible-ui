@@ -80,7 +80,7 @@
 }
 .select__error {
   font-size: 0.8125rem;
-  color: var(--ds-color-danger, #dc2626);
+  color: var(--ds-color-danger-body-text, #dc2626);
 }
 
 .select__chevron {
