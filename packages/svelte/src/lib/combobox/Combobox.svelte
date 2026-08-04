@@ -11,6 +11,7 @@
    * filters the list; choosing an option fills the input. Themeable via
    * `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).
    */
+  import { combobox as core } from "@design-system/core";
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
@@ -71,7 +72,7 @@
     onInputValueChange: handleInputValueChange,
   });
   const {
-    labelAction,
+    state: comboboxState,
     controlAction,
     inputAction,
     listboxAction,
@@ -119,8 +120,13 @@
   {#if name}
     <input type="hidden" {name} value={$selectedValue ?? ""} />
   {/if}
-  <!-- svelte-ignore a11y_label_has_associated_control -->
-  <label class="combobox__label" use:labelAction>{label}</label>
+  <!-- The ids are declared here as well as applied by the actions, so the
+       server-rendered input already has a name and names its popup. -->
+  <label
+    class="combobox__label"
+    for={core.inputId($comboboxState.id)}
+    id={core.labelId($comboboxState.id)}>{label}</label
+  >
 
   <div class="combobox__control" class:combobox__control--disabled={disabled} use:controlAction>
     {#if searchable}
@@ -184,7 +190,17 @@
     </button>
   </div>
 
-  <ul class="combobox__listbox" use:portal use:listboxAction>
+  <!-- The role is declared here as well as applied by the action: the options
+       below carry theirs statically, and a role="option" outside a listbox is
+       invalid markup before hydration. -->
+  <ul
+    class="combobox__listbox"
+    id={core.listboxId($comboboxState.id)}
+    role="listbox"
+    aria-labelledby={core.labelId($comboboxState.id)}
+    use:portal
+    use:listboxAction
+  >
     {#each $visible as item (item.value)}
       <li
         class="combobox__option"

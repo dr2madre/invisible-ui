@@ -11,6 +11,7 @@
    * state and announces the message. Colors and sizing are themeable CSS custom
    * properties (`--ds-field-*`).
    */
+  import { textField as core } from "@design-system/core";
   import { createTextField } from "./create-text-field";
   import Icon from "../icon/Icon.svelte";
 
@@ -44,7 +45,14 @@
     hasDescription: !!description,
     onValueChange,
   });
-  const { labelAction, controlAction, descriptionAction, errorAction, setValue } = field;
+  const {
+    state: fieldState,
+    labelAction,
+    controlAction,
+    descriptionAction,
+    errorAction,
+    setValue,
+  } = field;
 
   // Keep the headless state in sync with reactive props so the wiring
   // (aria-invalid, aria-describedby, disabled…) stays correct.
@@ -71,10 +79,15 @@
   class:field--success={!!success && !error}
   class:field--disabled={disabled}
 >
-  <!-- The label is tied to the control at runtime via the headless primitive's
-       `for`/`id` wiring (labelAction), which the compiler can't see statically. -->
-  <!-- svelte-ignore a11y_label_has_associated_control -->
-  <label class="field__label" use:labelAction>
+  <!-- The ids are declared here as well as applied by the actions, so the
+       server-rendered markup already ties the label to its control: before
+       hydration the field would otherwise be a control with no name. -->
+  <label
+    class="field__label"
+    for={core.controlId($fieldState.id)}
+    id={core.labelId($fieldState.id)}
+    use:labelAction
+  >
     {label}{#if required}<span class="field__required" aria-hidden="true"> *</span>{/if}
   </label>
 
@@ -90,6 +103,7 @@
       {name}
       {placeholder}
       {value}
+      id={core.controlId($fieldState.id)}
       on:input={onInput}
       use:controlAction
     />
@@ -103,10 +117,12 @@
   </div>
 
   {#if description}
-    <p class="field__description" use:descriptionAction>{description}</p>
+    <p class="field__description" id={core.descriptionId($fieldState.id)} use:descriptionAction>
+      {description}
+    </p>
   {/if}
   {#if error}
-    <p class="field__error" use:errorAction>
+    <p class="field__error" id={core.errorId($fieldState.id)} use:errorAction>
       <span class="field__msg-icon" aria-hidden="true">
         <Icon size="1em">
           <path

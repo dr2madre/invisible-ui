@@ -34,13 +34,18 @@
 
   const { t } = getI18n();
 
+  // One name per cell, written into the markup and handed to the core, so the
+  // server-rendered cells already carry it.
+  const cellLabel = (index: number, count: number) =>
+    get(t)("pinInput.cell", { index: index + 1, length: count });
+
   const { rootAction, inputAction, values } = createPinInput({
     value,
     length,
     type,
     mask,
     disabled,
-    cellLabel: (index, count) => get(t)("pinInput.cell", { index: index + 1, length: count }),
+    cellLabel,
     onValueChange,
     onComplete,
   });
@@ -48,8 +53,11 @@
   const cells = Array.from({ length }, (_, i) => i);
 </script>
 
+<!-- The role is declared here as well as applied by the action, so the
+     label on this element is legal before hydration. -->
 <div
   class="pin-input"
+  role="group"
   use:rootAction
   aria-label={label}
   data-invalid={invalid ? "" : undefined}
@@ -63,6 +71,7 @@
       class="pin-input__cell"
       type={mask ? "password" : "text"}
       value={$values[i]}
+      aria-label={cellLabel(i, length)}
       aria-invalid={invalid ? "true" : undefined}
       use:inputAction={i}
     />
