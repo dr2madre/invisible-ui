@@ -13,16 +13,18 @@ diff.
   of **static** component demos (no overlays, no date-dependent surfaces, no
   looping animation), via Playwright `toHaveScreenshot()`.
 - Config: `playwright.config.ts` disables animations and allows a small
-  `maxDiffPixelRatio` to absorb sub-pixel anti-aliasing. Visual specs run in
-  their own Playwright project (`--project=visual`), separate from the functional
-  e2e gate.
+  `maxDiffPixelRatio` (0.4%) to absorb sub-pixel anti-aliasing. Keep it well
+  under the share of an image a single component state occupies: at the earlier
+  2% a restored selected-page style, 1.95% of the pagination shot, compared as
+  no change. Visual specs run in their own Playwright project
+  (`--project=visual`), separate from the functional e2e gate.
 - Baselines live in `e2e/visual.spec.ts-snapshots/` and are committed.
 
 ## Commands
 
 ```sh
 pnpm visual          # compare against committed baselines
-pnpm visual:update   # regenerate baselines (after an intended visual change)
+pnpm visual:update   # rewrite every baseline (after an intended visual change)
 ```
 
 (Both build the docs site first via the Playwright `webServer`.)
