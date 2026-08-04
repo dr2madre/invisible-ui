@@ -309,7 +309,7 @@ export const Combobox = defineComponent({
                 class: "combobox__chevron",
                 type: "button",
                 tabindex: -1,
-                "aria-label": open.value ? "Close options" : "Show options",
+                "aria-label": open.value ? t("combobox.hide") : t("combobox.show"),
                 disabled: props.disabled,
                 onMousedown: (event: MouseEvent) => event.preventDefault(),
                 onPointerdown: onChevronPointerdown,

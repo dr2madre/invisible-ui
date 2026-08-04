@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, it } from "vitest";
 import Fixture from "./localized-labels.fixture.svelte";
+import IconOnlyFixture from "./icon-only-labels.fixture.svelte";
 
 // Pagination controls, rating stars and the PIN cells used to carry English
 // written into the markup, so an app switching locale kept announcing it.
@@ -28,5 +29,16 @@ describe("localized labels", () => {
       "Carattere 3 di 4",
       "Carattere 4 di 4",
     ]);
+  });
+});
+
+// Two names exist only for assistive technology, since the controls they sit
+// on show a dot and a chevron: they used to be written into the components,
+// with no prop to reach them.
+describe("names for controls with no visible text", () => {
+  it("translate the carousel's slide chooser and the combobox chevron", () => {
+    render(IconOnlyFixture);
+    expect(screen.getByRole("group", { name: "Scegli slide" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mostra opzioni" })).toBeInTheDocument();
   });
 });
