@@ -42,7 +42,7 @@ export interface LoginFormProps {
 export const LoginForm = defineComponent({
   name: "LoginForm",
   props: {
-    heading: { type: String, default: "Sign in" },
+    heading: { type: String, default: undefined },
     subheading: { type: String, default: undefined },
     submitLabel: { type: String, default: undefined },
     forgotHref: { type: String, default: "#" },
@@ -70,7 +70,7 @@ export const LoginForm = defineComponent({
         slots.logo ? h("div", { class: "login__logo" }, slots.logo()) : null,
 
         h("div", { class: "login__head" }, [
-          h("h2", { class: "login__heading" }, props.heading),
+          h("h2", { class: "login__heading" }, props.heading ?? t("loginForm.heading")),
           props.subheading ? h("p", { class: "login__subheading" }, props.subheading) : null,
         ]),
 

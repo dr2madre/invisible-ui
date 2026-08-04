@@ -13,6 +13,7 @@ import type { Placement } from "../internal/floating";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { useHoverPreview } from "./use-hover-preview";
 import { usePopover } from "./use-popover";
+import { useI18n } from "../i18n/i18n";
 
 export interface PopoverProps {
   /** Opening contract: an intentional click, or a hover/focus preview. */
@@ -70,6 +71,7 @@ export const Popover = defineComponent({
   },
   setup(props, { emit, slots }) {
     const teleportDisabled = useHydratedTeleport();
+    const i18n = useI18n();
     const notify = (next: boolean) => {
       emit("update:open", next);
       props.onOpenChange?.(next);
@@ -167,7 +169,7 @@ export const Popover = defineComponent({
       h(
         Button,
         { variant: props.triggerVariant, ...api.value.triggerProps, ref: setTriggerRef },
-        { default: () => slots.trigger?.() ?? "Open" },
+        { default: () => slots.trigger?.() ?? i18n.value.t("dialog.trigger") },
       ),
       open.value
         ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [

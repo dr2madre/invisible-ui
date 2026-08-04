@@ -97,7 +97,7 @@ export const Dialog = defineComponent({
       const triggerNode = h(
         Button,
         { variant: props.triggerVariant, ...api.value.triggerProps, ref: setTriggerRef },
-        { default: () => slots.trigger?.() ?? props.trigger ?? "Open" },
+        { default: () => slots.trigger?.() ?? props.trigger ?? t("dialog.trigger") },
       );
 
       if (!open.value) return [triggerNode, null];

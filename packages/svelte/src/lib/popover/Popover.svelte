@@ -25,6 +25,9 @@
   import { portal } from "../internal/portal";
   import { createHoverCard } from "../hover-card/create-hover-card";
   import Button from "../button/Button.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Opening contract: an intentional click, or a hover/focus preview. */
   export let trigger: "click" | "hover" = "click";
@@ -75,7 +78,7 @@
   </span>
 {:else}
   <Button variant={triggerVariant} action={triggerAction}>
-    <slot name="trigger">Open</slot>
+    <slot name="trigger">{$t("dialog.trigger")}</slot>
   </Button>
 {/if}
 

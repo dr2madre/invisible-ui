@@ -134,7 +134,7 @@ export const SearchDialog = defineComponent({
       const triggerNode = h(
         Button,
         { variant: props.triggerVariant, ...dialogApi.value.triggerProps, ref: setTriggerRef },
-        { default: () => slots.trigger?.() ?? props.trigger ?? "Search…" },
+        { default: () => slots.trigger?.() ?? props.trigger ?? t("searchDialog.trigger") },
       );
 
       if (!open.value) return [triggerNode, null];

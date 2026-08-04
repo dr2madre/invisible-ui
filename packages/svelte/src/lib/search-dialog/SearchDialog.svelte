@@ -102,7 +102,7 @@
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot name="trigger">Search…</slot>
+  <slot name="trigger">{$t("searchDialog.trigger")}</slot>
 </Button>
 
 {#if $isOpen}
