@@ -204,6 +204,85 @@
         "left",
         "right"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-text-field",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "success",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "type",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `value`.",
+        "Emits: bubbling `input` CustomEvent with `detail.value`."
+      ]
     }
   }
 }

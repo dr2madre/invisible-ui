@@ -1,5 +1,7 @@
 import type { TextFieldContext, TextFieldState } from "./types";
 
+// The prefix has to differ from the one core/field mints, or a page holding
+// both gives two controls the same id and the labels cross over.
 let idCounter = 0;
 
 /** Build the initial state from user context. */
@@ -11,7 +13,7 @@ export function initialState(context: TextFieldContext = {}): TextFieldState {
     required: context.required ?? false,
     invalid: context.invalid ?? false,
     hasDescription: context.hasDescription ?? false,
-    id: context.id ?? `ds-field-${++idCounter}`,
+    id: context.id ?? `ds-text-field-${++idCounter}`,
   };
 }
 

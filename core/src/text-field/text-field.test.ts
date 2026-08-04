@@ -20,7 +20,7 @@ describe("text-field state", () => {
     expect(state.value).toBe("");
     expect(state.disabled).toBe(false);
     expect(state.invalid).toBe(false);
-    expect(state.id).toMatch(/^ds-field-\d+$/);
+    expect(state.id).toMatch(/^ds-text-field-\d+$/);
   });
 
   it("derives part ids from a base id", () => {
@@ -82,5 +82,14 @@ describe("text-field connect", () => {
     connect({ state: stateFor({ disabled: true }), setValue }).setValue("b");
     connect({ state: stateFor({ readOnly: true }), setValue }).setValue("c");
     expect(setValue).not.toHaveBeenCalled();
+  });
+});
+
+describe("generated ids", () => {
+  it("do not collide with the field primitive's", async () => {
+    // Both mint an id from their own counter, so a shared prefix would give a
+    // page holding a Field and a TextField two controls with the same id.
+    const field = await import("../field/state");
+    expect(initialState().id).not.toBe(field.initialState().id);
   });
 });

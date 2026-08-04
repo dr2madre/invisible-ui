@@ -107,6 +107,52 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-field",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "field-id",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": []
     }
   }
 }

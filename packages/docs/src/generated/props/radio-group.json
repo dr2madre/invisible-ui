@@ -131,6 +131,49 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-radio-group",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `value`.",
+        "Emits: bubbling `change` CustomEvent with `detail.value`."
+      ]
     }
   }
 }

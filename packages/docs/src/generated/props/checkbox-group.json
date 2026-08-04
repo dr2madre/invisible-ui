@@ -117,6 +117,43 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-checkbox-group",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": false,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `value` (string[]).",
+        "Emits: bubbling `change` CustomEvent with `detail.value` (string[])."
+      ]
     }
   }
 }

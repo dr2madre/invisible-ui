@@ -173,6 +173,15 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-textarea",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [],
+      "notes": []
     }
   }
 }
