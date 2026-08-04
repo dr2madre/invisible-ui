@@ -5,6 +5,9 @@ import { LocaleProvider } from "./i18n";
 import { Pagination } from "../pagination/Pagination";
 import { RatingGroup } from "../rating-group/RatingGroup";
 import { PinInput } from "../pin-input/PinInput";
+import { Dialog } from "../dialog/Dialog";
+import { Collapsible } from "../collapsible/Collapsible";
+import { LoginForm } from "../login-form/LoginForm";
 import { Carousel } from "../carousel/Carousel";
 import { Combobox } from "../combobox/Combobox";
 
@@ -54,6 +57,39 @@ describe("localized labels", () => {
       "Carattere 3 di 4",
       "Carattere 4 di 4",
     ]);
+  });
+});
+
+// The text a component shows when the consumer passes none: overridable by a
+// prop, and now translated like everything else.
+const Defaults = defineComponent({
+  setup() {
+    return () =>
+      h(
+        LocaleProvider,
+        {
+          locale: "it",
+          messages: {
+            "dialog.trigger": "Apri",
+            "collapsible.toggle": "Mostra",
+            "loginForm.heading": "Accedi",
+          },
+        },
+        () => [
+          h(Dialog, { title: "Condividi" }, () => "Contenuto"),
+          h(Collapsible, null, () => "Dettagli"),
+          h(LoginForm),
+        ],
+      );
+  },
+});
+
+describe("built-in defaults", () => {
+  it("come from the catalog", () => {
+    render(Defaults);
+    expect(screen.getByRole("button", { name: "Apri" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mostra" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Accedi" })).toBeInTheDocument();
   });
 });
 

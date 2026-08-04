@@ -92,7 +92,7 @@
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot name="trigger">Open</slot>
+  <slot name="trigger">{$t("dialog.trigger")}</slot>
 </Button>
 
 {#if $isOpen}

@@ -14,7 +14,7 @@
 
   const { t } = getI18n();
 
-  export let heading = "Sign in";
+  export let heading: string | undefined = undefined;
   export let subheading: string | undefined = undefined;
   /** Submit button label. Defaults to the i18n catalog's "Sign in". */
   export let submitLabel: string | undefined = undefined;
@@ -45,7 +45,7 @@
   {/if}
 
   <div class="login__head">
-    <h2 class="login__heading">{heading}</h2>
+    <h2 class="login__heading">{heading ?? $t("loginForm.heading")}</h2>
     {#if subheading}<p class="login__subheading">{subheading}</p>{/if}
   </div>
 

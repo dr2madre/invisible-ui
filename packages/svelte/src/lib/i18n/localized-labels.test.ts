@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, it } from "vitest";
 import Fixture from "./localized-labels.fixture.svelte";
+import DefaultsFixture from "./defaults.fixture.svelte";
 import IconOnlyFixture from "./icon-only-labels.fixture.svelte";
 
 // Pagination controls, rating stars and the PIN cells used to carry English
@@ -29,6 +30,17 @@ describe("localized labels", () => {
       "Carattere 3 di 4",
       "Carattere 4 di 4",
     ]);
+  });
+});
+
+// The text a component shows when the consumer passes none: overridable by a
+// prop, and now translated like everything else.
+describe("built-in defaults", () => {
+  it("come from the catalog", () => {
+    render(DefaultsFixture);
+    expect(screen.getByRole("button", { name: "Apri" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mostra" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Accedi" })).toBeInTheDocument();
   });
 });
 

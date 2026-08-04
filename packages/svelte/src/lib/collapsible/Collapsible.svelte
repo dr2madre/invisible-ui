@@ -12,6 +12,9 @@
    */
   import { createCollapsible } from "./create-collapsible";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { t } = getI18n();
 
   /** Initial open state. */
   export let open = false;
@@ -31,7 +34,9 @@
 
 <div class="collapsible" use:rootAction>
   <button class="collapsible__trigger" use:triggerAction>
-    <span class="collapsible__label"><slot name="trigger">{label ?? "Toggle"}</slot></span>
+    <span class="collapsible__label"
+      ><slot name="trigger">{label ?? $t("collapsible.toggle")}</slot></span
+    >
     <span class="collapsible__icon" aria-hidden="true">
       <Icon size="var(--ds-collapsible-icon-size, 1.1em)">
         <polyline points="6 9 12 15 18 9" />

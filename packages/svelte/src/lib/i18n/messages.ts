@@ -38,6 +38,10 @@ export const en = {
   "inlineNotification.learnMore": "Learn more",
   // Overlays
   "dialog.close": "Close",
+  "dialog.trigger": "Open",
+  "searchDialog.trigger": "Search…",
+  "collapsible.toggle": "Toggle",
+  "loginForm.heading": "Sign in",
   // Shared by the dialog family presets (Alert/Confirm/Prompt — ADR 0005).
   "dialog.confirm": "Confirm",
   "dialog.cancel": "Cancel",

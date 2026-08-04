@@ -1,6 +1,7 @@
 import { defineComponent, h, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useCollapsible } from "./use-collapsible";
+import { useI18n } from "../i18n/i18n";
 
 export interface CollapsibleProps {
   /** Open state; bindable with `v-model:open`. */
@@ -36,6 +37,7 @@ export const Collapsible = defineComponent({
     "update:open": (open: boolean) => typeof open === "boolean",
   },
   setup(props, { emit, slots }) {
+    const i18n = useI18n();
     const { api } = useCollapsible(() => ({
       open: props.open,
       disabled: props.disabled,
@@ -48,7 +50,11 @@ export const Collapsible = defineComponent({
     return () =>
       h("div", { ...api.value.rootProps, class: "collapsible" }, [
         h("button", { ...api.value.triggerProps, class: "collapsible__trigger" }, [
-          h("span", { class: "collapsible__label" }, slots.trigger?.() ?? props.label ?? "Toggle"),
+          h(
+            "span",
+            { class: "collapsible__label" },
+            slots.trigger?.() ?? props.label ?? i18n.value.t("collapsible.toggle"),
+          ),
           h("span", { class: "collapsible__icon", "aria-hidden": "true" }, [
             h(
               Icon,
