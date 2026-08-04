@@ -49,7 +49,7 @@ export const Menubar = defineComponent({
           "aria-orientation": "horizontal",
           onKeydown: onMenubarKeydown,
         },
-        menus.map((entry, index) => {
+        menus.value.map((entry, index) => {
           const { api, open, triggerRef, menuRef } = entry.menu;
 
           return h("div", { class: "menubar__menu", key: entry.value }, [

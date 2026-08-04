@@ -90,7 +90,13 @@ with one exception recorded here: `core/calendar` now reads an empty value
 and an empty focused date as nothing selected, since the empty string reached
 the date formatters as an invalid date. Every adapter gains that reading.
 
-Two Vue-side notes worth keeping: `useMenubar` reads its menu list once at
-setup, and trigger listeners that must exist before the first user gesture
-are declared as prop bags the component spreads, since Vue assigns template
-refs after the render that needs them.
+One Vue-side note worth keeping: trigger listeners that must exist before the
+first user gesture are declared as prop bags the component spreads, since Vue
+assigns template refs after the render that needs them.
+
+`useMenubar` read its menu list once at setup, so a menubar built from data
+that arrived later kept the first list until it remounted. Each menu now owns
+an effect scope created the first time its position exists, and the composable
+returns the menus as a computed, so the bar follows the list as it grows,
+shrinks or reorders. Scopes for dropped positions stop with the list, and all
+of them stop with the owning scope.

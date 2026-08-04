@@ -160,9 +160,6 @@ the findings from the full port.
   Representative stateful, overlay and date components are also rendered in a
   server runtime and hydrated in a separate client runtime without mismatches.
   Body-level Teleports stay in place through hydration and move after mount.
-- `useMenubar` reads the structure of its menu list once during setup; item and
-  disabled state remain reactive, but adding, removing or reordering top-level
-  menus requires remounting it.
 - Styles are global and opt-in. Class names match the other adapters so the
   same design tokens produce the same visual language.
 

@@ -1,4 +1,15 @@
-import { computed, ref, toValue, type ComputedRef, type MaybeRefOrGetter, type Ref } from "vue";
+import {
+  computed,
+  effectScope,
+  onScopeDispose,
+  ref,
+  toValue,
+  watch,
+  type ComputedRef,
+  type EffectScope,
+  type MaybeRefOrGetter,
+  type Ref,
+} from "vue";
 import {
   useDropdownMenu,
   type MenuItem,
@@ -31,8 +42,8 @@ export interface MenubarEntry extends MenubarMenu {
 }
 
 export interface UseMenubar {
-  /** The menus, each ready to render. */
-  menus: MenubarEntry[];
+  /** The menus, each ready to render; follows the option list. */
+  menus: ComputedRef<MenubarEntry[]>;
   /** Index of the trigger that is the current tab stop (roving tabindex). */
   focusedIndex: ComputedRef<number>;
   /** Record a trigger as focused, keeping the roving tab stop in step. */
@@ -51,47 +62,84 @@ export interface UseMenubar {
  * between triggers (or, while a menu is open, to switch the open menu),
  * Home/End, hover-to-switch while open, and one menu open at a time.
  *
- * Each menu owns a composable instance, so the list of menus is read once at
- * setup; their `items` and `disabled` stay reactive.
+ * Each menu owns a composable instance, created in its own effect scope the
+ * first time that position exists, so adding, removing or reordering top-level
+ * menus works without remounting. Scopes for positions the list no longer has
+ * are stopped, and all of them stop with the owning scope.
  */
 export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMenubar {
   const resolved = computed(() => toValue(options));
-  const configs = resolved.value.menus;
-  const count = configs.length;
 
-  const dropdowns = configs.map((config, index) =>
-    useDropdownMenu(() => {
-      const current = resolved.value.menus[index] ?? config;
-      return {
-        items: current.items,
-        disabled: current.disabled,
-        onSelect: (itemValue: string) => resolved.value.onSelect?.(current.value, itemValue),
-      };
-    }),
+  // One dropdown per position, built on demand. A composable cannot be called
+  // outside a setup unless it owns a scope, so each instance gets one.
+  const dropdowns: UseDropdownMenu[] = [];
+  const scopes: EffectScope[] = [];
+
+  const dropdownAt = (index: number): UseDropdownMenu => {
+    const existing = dropdowns[index];
+    if (existing) return existing;
+    const scope = effectScope(true);
+    const instance = scope.run(() =>
+      useDropdownMenu(() => {
+        const current = resolved.value.menus[index];
+        return {
+          items: current?.items ?? [],
+          disabled: current?.disabled,
+          onSelect: (itemValue: string) =>
+            current && resolved.value.onSelect?.(current.value, itemValue),
+        };
+      }),
+    )!;
+    scopes[index] = scope;
+    dropdowns[index] = instance;
+    return instance;
+  };
+
+  const menus = computed(() =>
+    resolved.value.menus.map((config, index) => ({ ...config, menu: dropdownAt(index) })),
   );
+
+  // Positions the list dropped keep no live watchers behind them.
+  const release = (from: number) => {
+    for (let index = from; index < scopes.length; index += 1) {
+      scopes[index]?.stop();
+      delete scopes[index];
+      delete dropdowns[index];
+    }
+    scopes.length = from;
+    dropdowns.length = from;
+  };
+
+  const count = () => resolved.value.menus.length;
+
+  watch(count, (total) => release(total));
+
+  onScopeDispose(() => release(0), true);
 
   const focusedIndex = ref(0);
 
-  const openIndex = () => dropdowns.findIndex((dropdown) => dropdown.open.value);
+  const openIndex = () => menus.value.findIndex((entry) => entry.menu.open.value);
 
   const closeAllExcept = (keep: number) => {
-    dropdowns.forEach((dropdown, index) => {
-      if (index !== keep && dropdown.open.value) dropdown.api.value.closeMenu();
+    menus.value.forEach((entry, index) => {
+      if (index !== keep && entry.menu.open.value) entry.menu.api.value.closeMenu();
     });
   };
 
   const openAt = (index: number) => {
     closeAllExcept(index);
-    dropdowns[index]?.api.value.openMenu("first");
+    menus.value[index]?.menu.api.value.openMenu("first");
   };
 
   const focusTrigger = (index: number) => {
     focusedIndex.value = index;
-    (dropdowns[index]?.triggerRef as Ref<HTMLElement | null> | undefined)?.value?.focus();
+    (menus.value[index]?.menu.triggerRef as Ref<HTMLElement | null> | undefined)?.value?.focus();
   };
 
   const move = (from: number, direction: 1 | -1) => {
-    const next = (from + direction + count) % count;
+    const total = count();
+    if (total === 0) return;
+    const next = (from + direction + total) % total;
     focusedIndex.value = next;
     if (openIndex() !== -1) openAt(next);
     else focusTrigger(next);
@@ -120,14 +168,14 @@ export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMen
       case "End":
         if (open === -1) {
           event.preventDefault();
-          focusTrigger(count - 1);
+          focusTrigger(count() - 1);
         }
         break;
     }
   };
 
   return {
-    menus: configs.map((config, index) => ({ ...config, menu: dropdowns[index]! })),
+    menus,
     focusedIndex: computed(() => focusedIndex.value),
     setFocusedIndex: (index: number) => {
       focusedIndex.value = index;
