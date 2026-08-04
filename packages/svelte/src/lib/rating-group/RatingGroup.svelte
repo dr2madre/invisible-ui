@@ -12,6 +12,7 @@
    * The group needs an accessible name via `label`; each star is a radio
    * labelled "N star(s)". Themeable via `--ds-rating-*`.
    */
+  import { getI18n } from "../i18n/create-i18n";
   import { createRatingGroup } from "./create-rating-group";
   import Icon from "../icon/Icon.svelte";
 
@@ -35,7 +36,9 @@
   let hovered = 0;
 
   const labelId = `ds-rating-${++_uid}`;
-  const starLabel = (n: number) => `${n} ${n === 1 ? "star" : "stars"}`;
+  const { t } = getI18n();
+  const starLabel = (n: number, translate: typeof $t) =>
+    translate(n === 1 ? "rating.star" : "rating.stars", { count: n });
 </script>
 
 <div class="rating-field">
@@ -67,7 +70,7 @@
           value={item.value}
           checked={$selected === item.position}
           {disabled}
-          aria-label={starLabel(item.position)}
+          aria-label={starLabel(item.position, $t)}
           on:change={() => setValue(item.position)}
         />
         <Icon size="var(--ds-rating-size, 1.5rem)">

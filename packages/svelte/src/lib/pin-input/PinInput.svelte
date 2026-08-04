@@ -9,6 +9,8 @@
    * are themeable via `--ds-pin-input-*`.
    */
   import { createPinInput, type PinInputType } from "./create-pin-input";
+  import { get } from "svelte/store";
+  import { getI18n } from "../i18n/create-i18n";
 
   export let value = "";
   export let length = 6;
@@ -30,12 +32,15 @@
   /** Called once all cells are filled. */
   export let onComplete: ((value: string) => void) | undefined = undefined;
 
+  const { t } = getI18n();
+
   const { rootAction, inputAction, values } = createPinInput({
     value,
     length,
     type,
     mask,
     disabled,
+    cellLabel: (index, count) => get(t)("pinInput.cell", { index: index + 1, length: count }),
     onValueChange,
     onComplete,
   });
