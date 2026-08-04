@@ -565,9 +565,11 @@
     border-color: var(--ds-color-focus-ring, #2563eb);
     box-shadow: var(--ds-focus-ring-shadow);
   }
+  /* Days from the neighbouring months read as secondary text. The colour
+     alone carries that, at 8.5:1 against 17.5:1 for a day in the month; an
+     opacity on top used to take it to 3.0:1, under the 4.5:1 AA asks. */
   .calendar__day--outside {
     color: var(--ds-color-text-secondary, #94a3b8);
-    opacity: 0.6;
   }
   .calendar__day:global([data-today]) .calendar__daynum {
     font-weight: 700;
