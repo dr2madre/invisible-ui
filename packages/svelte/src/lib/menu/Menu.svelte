@@ -138,7 +138,7 @@
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .menu__item--active {
-    color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-secondary-body-text, #7b52cc);
     background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
     font-weight: 600;
   }

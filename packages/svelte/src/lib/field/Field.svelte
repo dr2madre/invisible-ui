@@ -90,6 +90,6 @@
   .field__error {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-error-color, var(--ds-color-danger-600, #dc2626));
+    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #dc2626));
   }
 </style>

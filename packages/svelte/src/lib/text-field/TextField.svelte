@@ -146,7 +146,7 @@
     color: var(--ds-color-text-disabled, #94a3b8);
   }
   .field__required {
-    color: var(--ds-color-danger, #dc2626);
+    color: var(--ds-color-danger-body-text, #dc2626);
   }
 
   /* Wraps the control so leading/trailing icons can overlay it. */
@@ -232,10 +232,10 @@
     gap: 0.35rem;
   }
   .field__error {
-    color: var(--ds-color-danger, #dc2626);
+    color: var(--ds-color-danger-body-text, #dc2626);
   }
   .field__success {
-    color: var(--ds-color-success, #16a34a);
+    color: var(--ds-color-success-body-text, #16a34a);
   }
   .field__msg-icon {
     display: inline-flex;
