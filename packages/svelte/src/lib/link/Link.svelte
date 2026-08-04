@@ -47,7 +47,7 @@
 
 <style>
   .link {
-    color: var(--ds-link-color, var(--ds-color-secondary, #7b52cc));
+    color: var(--ds-link-color, var(--ds-color-secondary-body-text, #7b52cc));
     text-decoration: underline;
     text-decoration-thickness: var(--ds-link-underline, 1px);
     text-underline-offset: 0.15em;

@@ -9,7 +9,7 @@
   inline-size: var(--ds-avatar-size, 2.5rem);
   block-size: var(--ds-avatar-size, 2.5rem);
   background: var(--ds-avatar-bg, var(--ds-color-surface, #f1f5f9));
-  color: var(--ds-avatar-color, var(--ds-color-text-secondary, #64748b));
+  color: var(--ds-avatar-color, var(--ds-color-text, #0f172a));
   font-weight: 600;
   line-height: 1;
   user-select: none;

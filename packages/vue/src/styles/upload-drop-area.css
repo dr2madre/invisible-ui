@@ -48,7 +48,7 @@
 }
 /* The action word ("browse") reads as the clickable action (link-like, underlined). */
 .upload-drop-area__action {
-  color: var(--ds-color-selected, #7b52cc);
+  color: var(--ds-color-secondary-body-text, #7b52cc);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;

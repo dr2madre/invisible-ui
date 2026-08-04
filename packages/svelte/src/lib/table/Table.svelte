@@ -197,7 +197,7 @@
   /* The actively-sorted column reads as "selected": header label + icon adopt
      the selection color so the current sort is unmistakable. */
   .table__th[data-sort-direction] {
-    color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
+    color: var(--ds-table-sort-active, var(--ds-color-secondary-body-text, #7b52cc));
   }
   .table__th[data-sort-direction] .table__sort-icon {
     color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
