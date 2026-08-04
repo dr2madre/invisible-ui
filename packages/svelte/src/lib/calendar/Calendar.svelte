@@ -261,8 +261,12 @@
           {#if v === "two-month"}
             <h3 class="calendar__month-title">{monthLabel(gm)}</h3>
           {/if}
+          <!-- role="grid" is declared here as well as applied by the action:
+               the rows below are static markup, and a row outside a grid is
+               invalid before hydration. -->
           <div
             class="calendar__grid"
+            role="grid"
             use:gridAction
             aria-label={v === "two-month" ? monthLabel(gm) : (label ?? $t("calendar.label"))}
           >
@@ -280,7 +284,7 @@
 
             {#each monthMatrix(gm.year, gm.month, $calState.weekStartsOn) as week, w (w)}
               {#if !hideOutside || week.some((c) => c.month === gm.month)}
-                <div class="calendar__row calendar__week" use:rowAction>
+                <div class="calendar__row calendar__week" role="row" use:rowAction>
                   {#each week as cell (cell.date)}
                     {@const inMonth = cell.month === gm.month}
                     {#if hideOutside && !inMonth}
@@ -294,7 +298,7 @@
                         rangeEnd &&
                         cell.date > rangeStart &&
                         cell.date < rangeEnd}
-                      <div class="calendar__cell" use:cellAction={cell.date}>
+                      <div class="calendar__cell" role="gridcell" use:cellAction={cell.date}>
                         <button
                           class="calendar__day"
                           class:calendar__day--outside={!inMonth}
@@ -360,6 +364,7 @@
           </button>
           <div
             class="calendar__mini-grid"
+            role="grid"
             use:gridAction
             aria-label={shortMonthName(gm.year, gm.month)}
           >
@@ -376,12 +381,12 @@
             </div>
             {#each monthMatrix(gm.year, gm.month, $calState.weekStartsOn) as week, w (w)}
               {#if week.some((c) => c.month === gm.month)}
-                <div class="calendar__row calendar__mini-week" use:rowAction>
+                <div class="calendar__row calendar__mini-week" role="row" use:rowAction>
                   {#each week as cell (cell.date)}
                     {#if cell.month !== gm.month}
                       <div class="calendar__cell calendar__cell--blank" aria-hidden="true"></div>
                     {:else}
-                      <div class="calendar__cell" use:cellAction={cell.date}>
+                      <div class="calendar__cell" role="gridcell" use:cellAction={cell.date}>
                         <button
                           class="calendar__mini-day"
                           use:dayAction={cell.date}
@@ -402,6 +407,7 @@
   {:else}
     <div
       class="calendar__agenda"
+      role="grid"
       use:gridAction
       aria-label={label ?? $t("calendar.label")}
       data-cols={agendaDays.length}
@@ -410,7 +416,11 @@
         {#each agendaDays as cell (cell.date)}
           {@const dayEvents = eventsByDate[cell.date] ?? []}
           {@const price = prices[cell.date]}
-          <div class="calendar__cell calendar__agenda-col" use:cellAction={cell.date}>
+          <div
+            class="calendar__cell calendar__agenda-col"
+            role="gridcell"
+            use:cellAction={cell.date}
+          >
             <button
               class="calendar__agenda-head"
               use:dayAction={cell.date}

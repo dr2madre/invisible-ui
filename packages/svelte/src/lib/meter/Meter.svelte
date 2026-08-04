@@ -27,7 +27,17 @@
   const { rootAction, indicatorAction, percentage } = createMeter({ value, min, max, low, high });
 </script>
 
-<div class="meter" use:rootAction aria-label={label}>
+<!-- The role is declared here as well as applied by the action, so the
+     server-rendered markup is valid before hydration. -->
+<div
+  class="meter"
+  role="meter"
+  aria-valuemin={min}
+  aria-valuemax={max}
+  aria-valuenow={Math.min(Math.max(value, min), max)}
+  use:rootAction
+  aria-label={label}
+>
   <div class="meter__indicator" use:indicatorAction style="inline-size: {$percentage}%;"></div>
 </div>
 

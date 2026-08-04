@@ -37,7 +37,9 @@
 </script>
 
 {#if shape === "circle"}
-  <div class="progress progress--circle" use:rootAction aria-label={label}>
+  <!-- The role is declared here as well as applied by the action, so the
+       server-rendered markup is valid before hydration. -->
+  <div class="progress progress--circle" role="progressbar" use:rootAction aria-label={label}>
     <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false">
       <circle class="progress__track" cx="18" cy="18" r={R} />
       <circle
@@ -54,7 +56,7 @@
     {/if}
   </div>
 {:else}
-  <div class="progress" use:rootAction aria-label={label}>
+  <div class="progress" role="progressbar" use:rootAction aria-label={label}>
     <div class="progress__indicator" use:indicatorAction style="inline-size: {width}%;"></div>
   </div>
 {/if}
