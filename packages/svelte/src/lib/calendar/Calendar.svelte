@@ -635,7 +635,7 @@
   .calendar__price {
     font-size: 0.7rem;
     font-weight: 600;
-    color: var(--ds-calendar-price, var(--ds-color-success, #15803d));
+    color: var(--ds-calendar-price, var(--ds-color-success-body-text, #15803d));
   }
   .calendar__day:global([data-selected]) .calendar__price,
   .calendar__day:global([data-selected]) .calendar__more {

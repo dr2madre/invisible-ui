@@ -114,7 +114,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--ds-breadcrumb-link-text, var(--ds-color-selected, #7b52cc));
+    color: var(--ds-breadcrumb-link-text, var(--ds-color-secondary-body-text, #7b52cc));
     text-decoration: underline;
     text-underline-offset: 2px;
   }
