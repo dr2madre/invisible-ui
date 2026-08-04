@@ -5,6 +5,8 @@ import { LocaleProvider } from "./i18n";
 import { Pagination } from "../pagination/Pagination";
 import { RatingGroup } from "../rating-group/RatingGroup";
 import { PinInput } from "../pin-input/PinInput";
+import { Carousel } from "../carousel/Carousel";
+import { Combobox } from "../combobox/Combobox";
 
 // Pagination controls, rating stars and the PIN cells used to carry English
 // written into the components, so an app switching locale kept announcing it.
@@ -52,5 +54,39 @@ describe("localized labels", () => {
       "Carattere 3 di 4",
       "Carattere 4 di 4",
     ]);
+  });
+});
+
+// Two names exist only for assistive technology, since the controls they sit
+// on show a dot and a chevron: they used to be written into the components,
+// with no prop to reach them.
+const iconOnlyMessages = {
+  "carousel.choose": "Scegli slide",
+  "combobox.show": "Mostra opzioni",
+  "combobox.hide": "Chiudi opzioni",
+};
+
+const IconOnly = defineComponent({
+  setup() {
+    return () =>
+      h(LocaleProvider, { locale: "it", messages: iconOnlyMessages }, () => [
+        h(Carousel, {
+          items: [
+            { title: "Uno", pastel: "#e5a1ac" },
+            { title: "Due", pastel: "#b8a1e6" },
+          ],
+          label: "Destinazioni",
+          showIndicators: true,
+        }),
+        h(Combobox, { label: "Frutto", items: [{ value: "mela", label: "Mela" }] }),
+      ]);
+  },
+});
+
+describe("names for controls with no visible text", () => {
+  it("translate the carousel's slide chooser and the combobox chevron", () => {
+    render(IconOnly);
+    expect(screen.getByRole("group", { name: "Scegli slide" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mostra opzioni" })).toBeInTheDocument();
   });
 });

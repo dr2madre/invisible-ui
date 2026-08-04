@@ -90,6 +90,10 @@
       : `translateX(calc(var(--ds-carousel-coverflow-spacing, 11rem) * ${offset}))`;
     const rotate = vertical ? `rotateX(${offset * 8}deg)` : `rotateY(${offset * -18}deg)`;
     const scale = Math.max(0, 1 - abs * 0.15);
+    // Coverflow recedes its neighbours on purpose: they fade with distance so
+    // the active slide reads as the one in front. Their text follows the fade,
+    // so a title beside the active slide measures below the AA contrast a body
+    // of text needs. Kept as the effect, decided 2026-08-04.
     const opacity = abs > 2 ? 0 : Math.max(0, 1 - abs * 0.28);
     return [
       `transform: translate(-50%, -50%) ${translate} ${rotate} scale(${scale.toFixed(3)})`,
@@ -179,7 +183,7 @@
   </div>
 
   {#if showIndicators}
-    <div class="carousel__indicators" role="group" aria-label="Choose slide">
+    <div class="carousel__indicators" role="group" aria-label={$t("carousel.choose")}>
       {#each items as _item, i (i)}
         <button class="carousel__dot" use:indicatorAction={i} aria-label={`Go to slide ${i + 1}`}
         ></button>

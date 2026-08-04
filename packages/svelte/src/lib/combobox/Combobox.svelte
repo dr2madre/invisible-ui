@@ -175,7 +175,7 @@
       class="combobox__chevron"
       type="button"
       tabindex="-1"
-      aria-label={$open ? "Close options" : "Show options"}
+      aria-label={$open ? $t("combobox.hide") : $t("combobox.show")}
       {disabled}
       on:mousedown|preventDefault
       on:click={toggle}
