@@ -57,6 +57,28 @@ describe("<ds-radio-group>", () => {
     expect(radio).toHaveAttribute("name", "tier");
   });
 
+  it("accepts items through the property as well", () => {
+    const host = mount(group);
+    host.items = [
+      { value: "solo", label: "Solo" },
+      { value: "duo", label: "Duo" },
+    ];
+
+    expect(screen.getByRole("radio", { name: "Solo" })).toBeInTheDocument();
+    expect(screen.queryByRole("radio", { name: "Free" })).toBeNull();
+    expect(screen.getAllByRole("radio")).toHaveLength(2);
+  });
+
+  it("keeps the group wiring after the items are replaced", async () => {
+    const user = userEvent.setup();
+    const host = mount(group);
+    host.items = [{ value: "duo", label: "Duo" }];
+
+    await user.click(screen.getByRole("radio", { name: "Duo" }));
+    expect(host.value).toBe("duo");
+    expect(screen.getByRole("radio", { name: "Duo" })).toHaveAttribute("name", "plan");
+  });
+
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();

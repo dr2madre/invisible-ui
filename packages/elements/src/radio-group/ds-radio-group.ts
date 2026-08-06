@@ -8,6 +8,9 @@ import {
   upgradeProperty,
 } from "../internal/base";
 
+/** A radio in the group. The label is what the item shows. */
+export type RadioGroupItem = core.RadioItem & { label: string };
+
 /**
  * `<ds-radio-group>` — a group of radios as a custom element.
  *
@@ -26,8 +29,12 @@ import {
  * </ds-radio-group>
  * ```
  *
+ * The `<option>` children are the declarative starting point, read once and
+ * consumed: they are not a live source. Replace the set through the `items`
+ * property, the same escape hatch `<ds-select>` offers.
+ *
  * Attributes: `label` (required), `value`, `name`, `orientation`, `disabled`.
- * Properties: `value`.
+ * Properties: `value`, `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsRadioGroup extends HTMLElementBase {
@@ -35,12 +42,13 @@ export class DsRadioGroup extends HTMLElementBase {
 
   #group: HTMLElement | null = null;
   #legend: HTMLElement | null = null;
-  #items: Array<core.RadioItem & { label: string }> = [];
+  #items: RadioGroupItem[] = [];
   #inputs = new Map<string, HTMLInputElement>();
   #labelId = nextId("ds-radio-group-label");
 
   connectedCallback() {
     upgradeProperty(this, "value");
+    upgradeProperty(this, "items");
     if (!this.#group) this.#render();
     this.#sync();
   }
@@ -55,6 +63,17 @@ export class DsRadioGroup extends HTMLElementBase {
   set value(next: string | null) {
     if (next == null) this.removeAttribute("value");
     else this.setAttribute("value", next);
+  }
+
+  get items(): RadioGroupItem[] {
+    return this.#items;
+  }
+  set items(items: RadioGroupItem[]) {
+    this.#items = items;
+    if (this.#group) {
+      this.#renderItems();
+      this.#sync();
+    }
   }
 
   #render() {
@@ -75,6 +94,18 @@ export class DsRadioGroup extends HTMLElementBase {
     const group = document.createElement("div");
     group.className = "radio-group";
     group.setAttribute("aria-labelledby", this.#labelId);
+
+    field.append(legend, group);
+    this.appendChild(field);
+    this.#group = group;
+    this.#legend = legend;
+    this.#renderItems();
+  }
+
+  #renderItems() {
+    const group = this.#group!;
+    for (const label of Array.from(group.querySelectorAll(".radio"))) label.remove();
+    this.#inputs.clear();
 
     for (const item of this.#items) {
       const label = document.createElement("label");
@@ -99,11 +130,6 @@ export class DsRadioGroup extends HTMLElementBase {
       group.appendChild(label);
       this.#inputs.set(item.value, input);
     }
-
-    field.append(legend, group);
-    this.appendChild(field);
-    this.#group = group;
-    this.#legend = legend;
   }
 
   #sync() {
