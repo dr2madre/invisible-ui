@@ -180,8 +180,84 @@
         "name": "ds-textarea",
         "specifier": "@design-system/elements/define"
       },
-      "attributes": [],
-      "notes": []
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "success",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "rows",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "autocomplete",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Properties: `value`.",
+        "Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`."
+      ]
     }
   }
 }

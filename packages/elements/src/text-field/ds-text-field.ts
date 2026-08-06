@@ -213,9 +213,10 @@ abstract class DsTextControl extends HTMLElementBase {
  * `<ds-text-field>` — a single-line text field.
  *
  * Attributes: `label` (required), `value`, `placeholder`, `description`,
- * `error`, `success`, `required`, `disabled`, `readonly`, `name`, `type`.
+ * `error`, `success`, `required`, `disabled`, `readonly`, `name`, `type`,
+ * `autocomplete`.
  * Properties: `value`.
- * Emits: bubbling `input` CustomEvent with `detail.value`.
+ * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */
 export class DsTextField extends DsTextControl {
   protected readonly rootClass = "text-field";
@@ -228,11 +229,17 @@ export class DsTextField extends DsTextControl {
 }
 
 /**
- * `<ds-textarea>` — the multi-line variant, same attributes plus `rows`.
+ * `<ds-textarea>` — the multi-line variant of the text field.
  *
  * Its root carries `textarea`, not `text-field`: the two have separate
  * stylesheets, and only the textarea's grants the control `resize: vertical`
  * and its drag grip.
+ *
+ * Attributes: `label` (required), `value`, `placeholder`, `description`,
+ * `error`, `success`, `required`, `disabled`, `readonly`, `name`, `rows`,
+ * `autocomplete`.
+ * Properties: `value`.
+ * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */
 export class DsTextarea extends DsTextControl {
   protected readonly rootClass = "textarea";
