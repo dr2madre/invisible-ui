@@ -21,7 +21,14 @@ import { lockScroll } from "../internal/scroll-lock";
  * Emits: bubbling `open-change` CustomEvent with `detail.open`.
  */
 export class DsDialog extends HTMLElementBase {
-  static observedAttributes = ["open", "heading", "description"];
+  static observedAttributes = [
+    "open",
+    "heading",
+    "description",
+    "trigger",
+    "trigger-variant",
+    "close-label",
+  ];
 
   #trigger: HTMLButtonElement | null = null;
   #panel: HTMLDialogElement | null = null;
@@ -64,8 +71,6 @@ export class DsDialog extends HTMLElementBase {
     const trigger = document.createElement("button");
     trigger.type = "button";
     trigger.className = "button";
-    trigger.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
-    trigger.textContent = this.getAttribute("trigger") ?? "Open";
 
     const panel = document.createElement("dialog");
     panel.className = "dialog__panel";
@@ -83,7 +88,6 @@ export class DsDialog extends HTMLElementBase {
     const close = document.createElement("button");
     close.type = "button";
     close.className = "dialog__close";
-    close.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");
     close.innerHTML = closeIcon();
 
     header.append(heading, subtitle, close);
@@ -116,6 +120,10 @@ export class DsDialog extends HTMLElementBase {
     this.heading.textContent = this.getAttribute("heading") ?? "";
     this.subtitle.hidden = !describedBy;
     this.subtitle.textContent = this.getAttribute("description") ?? "";
+
+    this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
+    this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
+    this.closeButton.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");
 
     applyProps(this.#trigger!, api.triggerProps);
     applyProps(this.#panel!, api.contentProps);

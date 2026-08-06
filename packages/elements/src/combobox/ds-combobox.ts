@@ -38,13 +38,26 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
  */
 export class DsCombobox extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "empty-text"];
+  static observedAttributes = [
+    "value",
+    "disabled",
+    "empty-text",
+    "label",
+    "name",
+    "placeholder",
+    "clear-label",
+    "searchable",
+    "width",
+  ];
 
   #input: HTMLInputElement | null = null;
   #listbox: HTMLUListElement | null = null;
   #control: HTMLDivElement | null = null;
   #clear: HTMLButtonElement | null = null;
   #hidden: HTMLInputElement | null = null;
+  #root: HTMLDivElement | null = null;
+  #label: HTMLLabelElement | null = null;
+  #lead: HTMLSpanElement | null = null;
 
   #all: ComboboxItem[] = [];
   #state = {
@@ -97,7 +110,6 @@ export class DsCombobox extends HTMLElementBase {
   }
 
   #render() {
-    this.#searchable = boolAttr(this, "searchable", true);
     this.#all = Array.from(this.querySelectorAll("option")).map((option) => ({
       value: option.value,
       label: option.textContent?.trim() || option.value,
@@ -119,19 +131,9 @@ export class DsCombobox extends HTMLElementBase {
 
     const root = document.createElement("div");
     root.className = "combobox";
-    root.dataset.width = this.getAttribute("width") ?? "fixed";
-
-    if (this.getAttribute("name")) {
-      const hidden = document.createElement("input");
-      hidden.type = "hidden";
-      hidden.name = this.getAttribute("name")!;
-      root.appendChild(hidden);
-      this.#hidden = hidden;
-    }
 
     const label = document.createElement("label");
     label.className = "combobox__label";
-    label.textContent = this.getAttribute("label") ?? "";
 
     const control = document.createElement("div");
     control.className = "combobox__control";
@@ -139,15 +141,10 @@ export class DsCombobox extends HTMLElementBase {
     const lead = document.createElement("span");
     lead.className = "combobox__search";
     lead.setAttribute("aria-hidden", "true");
-    if (this.#searchable) lead.innerHTML = searchIcon();
 
     const input = document.createElement("input");
-    input.className = this.#searchable
-      ? "combobox__input"
-      : "combobox__input combobox__input--select-only";
+    input.className = "combobox__input";
     input.type = "text";
-    input.placeholder = this.getAttribute("placeholder") ?? "Search…";
-    input.readOnly = !this.#searchable;
     input.addEventListener("input", () => {
       const text = input.value;
       const items = this.#filter(text);
@@ -160,7 +157,6 @@ export class DsCombobox extends HTMLElementBase {
 
     const clear = document.createElement("button");
     clear.className = "combobox__clear combobox__clear--hidden";
-    clear.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear");
     clear.innerHTML = closeIcon();
 
     const chevron = document.createElement("button");
@@ -191,8 +187,53 @@ export class DsCombobox extends HTMLElementBase {
     this.#listbox = listbox;
     this.#control = control;
     this.#clear = clear;
+    this.#root = root;
+    this.#label = label;
+    this.#lead = lead;
 
+    this.#syncPresentation();
     this.#applyAll();
+  }
+
+  /**
+   * The attributes that shape the control rather than its state. Kept apart
+   * from #applyAll, which also runs on every keystroke: these change only when
+   * the host's attributes do.
+   */
+  #syncPresentation() {
+    const input = this.#input!;
+
+    this.#root!.dataset.width = this.getAttribute("width") ?? "fixed";
+    this.#label!.textContent = this.getAttribute("label") ?? "";
+    input.placeholder = this.getAttribute("placeholder") ?? "Search…";
+    this.#clear!.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear");
+
+    // Select-only mode drops the search glyph, freezes the input and stops the
+    // filtering, so a change has to re-derive the visible item list.
+    const searchable = boolAttr(this, "searchable", true);
+    if (searchable !== this.#searchable) {
+      this.#searchable = searchable;
+      this.#state = { ...this.#state, items: this.#filter(this.#state.inputValue) };
+    }
+    const glyph = searchable ? searchIcon() : "";
+    if (this.#lead!.innerHTML !== glyph) this.#lead!.innerHTML = glyph;
+    input.classList.toggle("combobox__input--select-only", !searchable);
+    input.readOnly = !searchable;
+
+    // The hidden input exists only to carry the value into a native form.
+    const name = this.getAttribute("name");
+    if (name) {
+      if (!this.#hidden) {
+        const hidden = document.createElement("input");
+        hidden.type = "hidden";
+        this.#root!.insertBefore(hidden, this.#root!.firstChild);
+        this.#hidden = hidden;
+      }
+      this.#hidden.name = name;
+    } else {
+      this.#hidden?.remove();
+      this.#hidden = null;
+    }
   }
 
   /** Connect the core over the current state. */
@@ -365,6 +406,8 @@ export class DsCombobox extends HTMLElementBase {
   }
 
   #syncFromAttributes() {
+    this.#syncPresentation();
+
     const attr = this.getAttribute("value");
     if (attr !== this.#state.value) {
       const item = this.#all.find((i) => i.value === attr);

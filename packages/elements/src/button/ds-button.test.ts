@@ -48,6 +48,54 @@ describe("<ds-button>", () => {
     expect(document.querySelector(".button__icon")).not.toBeNull();
   });
 
+  it("the icon attributes drive the glyphs after the first render", () => {
+    mount(`<ds-button>Save</ds-button>`);
+    const host = document.querySelector("ds-button")!;
+    const button = screen.getByRole("button");
+    expect(button.querySelectorAll(".button__icon")).toHaveLength(0);
+
+    host.setAttribute("left-icon", "");
+    host.setAttribute("right-icon", "");
+    expect(button.querySelectorAll(".button__icon")).toHaveLength(2);
+    expect(button.firstElementChild).toHaveClass("button__icon");
+    expect(button.lastElementChild).toHaveClass("button__icon");
+
+    host.removeAttribute("left-icon");
+    host.removeAttribute("right-icon");
+    expect(button.querySelectorAll(".button__icon")).toHaveLength(0);
+  });
+
+  it("keeps the label intact while the icons come and go", () => {
+    mount(`<ds-button>Save</ds-button>`);
+    const host = document.querySelector("ds-button")!;
+
+    host.setAttribute("left-icon", "");
+    host.setAttribute("right-icon", "");
+    host.removeAttribute("left-icon");
+
+    expect(screen.getByRole("button")).toHaveTextContent("Save");
+  });
+
+  it("the icon-only attribute drives the modifier after the first render", () => {
+    mount(`<ds-button>Save</ds-button>`);
+    const host = document.querySelector("ds-button")!;
+    const button = screen.getByRole("button");
+    expect(button).not.toHaveClass("button--icon-only");
+
+    host.setAttribute("icon-only", "");
+    expect(button).toHaveClass("button--icon-only");
+  });
+
+  it("the aria-label attribute reaches the button after the first render", () => {
+    mount(`<ds-button icon-only><svg></svg></ds-button>`);
+    const host = document.querySelector("ds-button")!;
+
+    host.setAttribute("aria-label", "Close");
+    expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
+    // Moved, not copied: the host must not keep announcing it too.
+    expect(host).not.toHaveAttribute("aria-label");
+  });
+
   it("forwards aria-label for icon-only buttons", () => {
     mount(`<ds-button icon-only aria-label="Close"><svg></svg></ds-button>`);
     expect(screen.getByRole("button", { name: "Close" })).toHaveClass("button--icon-only");

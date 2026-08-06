@@ -16,9 +16,19 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  * Activation is the native `click` event.
  */
 export class DsButton extends HTMLElementBase {
-  static observedAttributes = ["variant", "disabled", "type"];
+  static observedAttributes = [
+    "variant",
+    "disabled",
+    "type",
+    "icon-only",
+    "left-icon",
+    "right-icon",
+    "aria-label",
+  ];
 
   #button: HTMLButtonElement | null = null;
+  #leftIcon: HTMLSpanElement | null = null;
+  #rightIcon: HTMLSpanElement | null = null;
 
   connectedCallback() {
     upgradeProperty(this, "disabled");
@@ -39,51 +49,70 @@ export class DsButton extends HTMLElementBase {
   }
 
   #render() {
-    const iconOnly = boolAttr(this, "icon-only");
-    const variant = (this.getAttribute("variant") ?? "default") as core.ButtonVariant;
-
     const button = document.createElement("button");
-    button.className = iconOnly ? "button button--icon-only" : "button";
+    button.className = "button";
 
     // The element's children are the visible label; move them inside.
     const label = document.createDocumentFragment();
     while (this.firstChild) label.appendChild(this.firstChild);
-
-    const showLeft = !iconOnly && (boolAttr(this, "left-icon", variant === "danger") || false);
-    if (showLeft) {
-      const span = document.createElement("span");
-      span.className = "button__icon";
-      span.innerHTML = variant === "danger" ? hazardIcon() : plusIcon();
-      button.appendChild(span);
-    }
-
     button.appendChild(label);
-
-    if (!iconOnly && boolAttr(this, "right-icon")) {
-      const span = document.createElement("span");
-      span.className = "button__icon";
-      span.innerHTML = plusIcon();
-      button.appendChild(span);
-    }
-
-    const ariaLabel = this.getAttribute("aria-label");
-    if (ariaLabel) {
-      button.setAttribute("aria-label", ariaLabel);
-      this.removeAttribute("aria-label");
-    }
 
     this.appendChild(button);
     this.#button = button;
   }
 
   #sync() {
+    const button = this.#button!;
+    const iconOnly = boolAttr(this, "icon-only");
+    const variant = (this.getAttribute("variant") ?? "default") as core.ButtonVariant;
+
+    button.classList.toggle("button--icon-only", iconOnly);
+
+    // The icons bracket the label rather than wrapping it, so they are held by
+    // reference: the label's own nodes are never touched on a re-sync.
+    this.#leftIcon = this.#icon(
+      this.#leftIcon,
+      !iconOnly && boolAttr(this, "left-icon", variant === "danger"),
+      variant === "danger" ? hazardIcon() : plusIcon(),
+      (span) => button.insertBefore(span, button.firstChild),
+    );
+    this.#rightIcon = this.#icon(
+      this.#rightIcon,
+      !iconOnly && boolAttr(this, "right-icon"),
+      plusIcon(),
+      (span) => button.appendChild(span),
+    );
+
+    // The label moves from the host to the button, so removing it from the host
+    // fires this callback again; reading null then means "already moved", not
+    // "cleared". Clearing it therefore needs the button, not the host.
+    const ariaLabel = this.getAttribute("aria-label");
+    if (ariaLabel != null) {
+      button.setAttribute("aria-label", ariaLabel);
+      this.removeAttribute("aria-label");
+    }
+
     const api = core.connect({
-      state: core.initialState({
-        variant: (this.getAttribute("variant") ?? "default") as core.ButtonVariant,
-        disabled: this.disabled,
-      }),
+      state: core.initialState({ variant, disabled: this.disabled }),
       type: (this.getAttribute("type") ?? "button") as "button" | "submit" | "reset",
     });
-    applyProps(this.#button!, api.rootProps);
+    applyProps(button, api.rootProps);
+  }
+
+  #icon(
+    current: HTMLSpanElement | null,
+    show: boolean,
+    glyph: string,
+    place: (span: HTMLSpanElement) => void,
+  ): HTMLSpanElement | null {
+    if (!show) {
+      current?.remove();
+      return null;
+    }
+    const span = current ?? document.createElement("span");
+    span.className = "button__icon";
+    if (span.innerHTML !== glyph) span.innerHTML = glyph;
+    if (!current) place(span);
+    return span;
   }
 }

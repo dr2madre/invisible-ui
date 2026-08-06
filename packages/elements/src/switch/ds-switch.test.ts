@@ -81,6 +81,20 @@ describe("<ds-switch>", () => {
     expect(input.required).toBe(true);
   });
 
+  it("the on-off attribute builds and tears down the track captions", () => {
+    const host = mount(`<ds-switch label="Notifications"></ds-switch>`);
+    const track = document.querySelector(".switch")!;
+    expect(track.querySelector(".switch__on")).toBeNull();
+
+    host.setAttribute("on-off", "");
+    expect(track).toHaveClass("switch--onoff");
+    expect(track.querySelector(".switch__on")).toHaveTextContent("ON");
+
+    host.removeAttribute("on-off");
+    expect(track).not.toHaveClass("switch--onoff");
+    expect(track.querySelector(".switch__on")).toBeNull();
+  });
+
   it("the on-text and off-text attributes drive the track captions", () => {
     const host = mount(`<ds-switch label="Notifications" on-off></ds-switch>`);
     expect(document.querySelector(".switch__on")).toHaveTextContent("ON");

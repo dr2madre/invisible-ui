@@ -275,25 +275,25 @@
         },
         {
           "name": "icon-only",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "left-icon",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "right-icon",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "aria-label",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "forwarded — required for icon-only"
         }
