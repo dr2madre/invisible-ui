@@ -1,5 +1,10 @@
 import { textField as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { hazardIcon, successIcon } from "../internal/icons";
+
+/** Tracks what a message paragraph last rendered, so an unrelated sync (a
+ * `placeholder` change, say) doesn't tear down and rebuild its icon markup. */
+const renderedMessage = new WeakMap<HTMLParagraphElement, string>();
 
 /**
  * Shared body of `<ds-text-field>` and `<ds-textarea>`: the same headless field
@@ -66,12 +71,14 @@ abstract class DsTextControl extends HTMLElementBase {
     }
     control.value = this.getAttribute("value") ?? "";
     // The host re-emits a CustomEvent with a typed detail; stop the native
-    // input here so listeners on the host don't receive the event twice.
-    control.addEventListener("input", (event) => {
-      event.stopPropagation();
-      this.setAttribute("value", control.value);
-      emit(this, "input", { value: control.value });
-    });
+    // events here so listeners on the host don't receive them twice.
+    for (const type of ["input", "change"] as const) {
+      control.addEventListener(type, (event) => {
+        event.stopPropagation();
+        this.setAttribute("value", control.value);
+        emit(this, type, { value: control.value });
+      });
+    }
 
     const wrapper = document.createElement("div");
     wrapper.className = "field__input";
@@ -89,6 +96,7 @@ abstract class DsTextControl extends HTMLElementBase {
     // The ids have to survive attribute changes, so the base id is minted once.
     this.#fieldId ??= core.initialState().id;
 
+    const root = this.#root!;
     const label = this.#label!;
     const control = this.#control!;
     const description = this.getAttribute("description");
@@ -97,10 +105,14 @@ abstract class DsTextControl extends HTMLElementBase {
     const required = boolAttr(this, "required");
     const disabled = boolAttr(this, "disabled");
     const readOnly = boolAttr(this, "readonly");
+    const value = this.getAttribute("value") ?? "";
+
+    root.classList.toggle("text-field--disabled", disabled);
+    root.classList.toggle("text-field--success", Boolean(success) && !error);
 
     const state = core.initialState({
       id: this.#fieldId,
-      value: this.getAttribute("value") ?? "",
+      value,
       required,
       disabled,
       readOnly,
@@ -122,7 +134,9 @@ abstract class DsTextControl extends HTMLElementBase {
     applyProps(control, api.controlProps);
     const placeholder = this.getAttribute("placeholder");
     if (placeholder != null) control.placeholder = placeholder;
-    if (control.value !== this.value) control.value = this.value;
+    // The attribute is the source of truth: typing writes it back, so this
+    // only moves the control when the page sets the attribute itself.
+    if (control.value !== value) control.value = value;
 
     this.#description = this.#paragraph(
       this.#description,
@@ -135,7 +149,13 @@ abstract class DsTextControl extends HTMLElementBase {
       error ?? success,
       error ? "field__error" : "field__success",
       error ? api.errorProps : {},
+      error ? hazardIcon() : successIcon(),
     );
+
+    // Appending an existing child moves it, so re-running this every sync
+    // keeps description before error/success even when error was set first.
+    if (this.#description) root.appendChild(this.#description);
+    if (this.#message) root.appendChild(this.#message);
   }
 
   #paragraph(
@@ -143,16 +163,28 @@ abstract class DsTextControl extends HTMLElementBase {
     text: string | null,
     className: string,
     props: Parameters<typeof applyProps>[1],
+    icon?: string,
   ): HTMLParagraphElement | null {
     if (!text) {
       current?.remove();
       return null;
     }
     const node = current ?? document.createElement("p");
-    node.className = className;
-    node.textContent = text;
+    const key = `${className}:${text}`;
+    if (renderedMessage.get(node) !== key) {
+      node.className = className;
+      node.textContent = "";
+      if (icon) {
+        const glyph = document.createElement("span");
+        glyph.className = "field__msg-icon";
+        glyph.setAttribute("aria-hidden", "true");
+        glyph.innerHTML = icon;
+        node.appendChild(glyph);
+      }
+      node.appendChild(document.createTextNode(text));
+      renderedMessage.set(node, key);
+    }
     applyProps(node, props);
-    if (!node.isConnected) this.#root!.appendChild(node);
     return node;
   }
 }

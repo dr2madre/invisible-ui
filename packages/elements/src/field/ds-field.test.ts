@@ -34,6 +34,13 @@ describe("<ds-field>", () => {
     expect(screen.getByRole("textbox")).toHaveAttribute("aria-required", "true");
   });
 
+  it("keeps description before error however they were set", () => {
+    mount(`<ds-field label="Email" error="Bad"><input /></ds-field>`);
+    document.querySelector("ds-field")!.setAttribute("description", "Desc");
+    const order = Array.from(document.querySelectorAll(".form-field > p")).map((p) => p.className);
+    expect(order).toEqual(["field__description", "field__error"]);
+  });
+
   it("works with a select as the control", () => {
     mount(
       `<ds-field label="Country"><select><option value="it">Italy</option></select></ds-field>`,

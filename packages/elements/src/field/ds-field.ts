@@ -101,6 +101,11 @@ export class DsField extends HTMLElementBase {
       api.descriptionProps,
     );
     this.#error = this.#message(this.#error, error, "field__error", api.errorProps);
+
+    // Appending an existing child moves it, so re-running this every sync
+    // keeps description before error even when error was set first.
+    if (this.#description) root.appendChild(this.#description);
+    if (this.#error) root.appendChild(this.#error);
   }
 
   /** Add, update or drop one of the two message paragraphs. */
@@ -118,7 +123,6 @@ export class DsField extends HTMLElementBase {
     node.className = className;
     node.textContent = text;
     applyProps(node, props);
-    if (!node.isConnected) this.#root!.appendChild(node);
     return node;
   }
 }
