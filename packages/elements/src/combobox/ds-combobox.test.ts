@@ -47,6 +47,15 @@ describe("<ds-combobox>", () => {
     expect(within(listbox()).getByText("No results")).toBeInTheDocument();
   });
 
+  it("the empty-text attribute drives the empty state after the first render", async () => {
+    const user = userEvent.setup();
+    const host = mount();
+    await user.type(input(), "zzz");
+
+    host.setAttribute("empty-text", "Nothing here");
+    expect(within(listbox()).getByText("Nothing here")).toBeInTheDocument();
+  });
+
   it("selects an option on press, filling the input and closing", async () => {
     const user = userEvent.setup();
     const host = mount();

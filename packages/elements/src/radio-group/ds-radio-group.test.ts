@@ -48,6 +48,15 @@ describe("<ds-radio-group>", () => {
     for (const radio of screen.getAllByRole("radio")) expect(radio).toBeDisabled();
   });
 
+  it("the name attribute drives the radios after the first render", () => {
+    const host = mount(group);
+    const radio = screen.getByRole("radio", { name: "Free" });
+    expect(radio).toHaveAttribute("name", "plan");
+
+    host.setAttribute("name", "tier");
+    expect(radio).toHaveAttribute("name", "tier");
+  });
+
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();

@@ -27,7 +27,7 @@ import { checkIcon } from "../internal/icons";
  * Emits: bubbling `change` CustomEvent with `detail.value` (string[]).
  */
 export class DsCheckboxGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "label"];
+  static observedAttributes = ["value", "disabled", "label", "name"];
 
   #fieldset: HTMLFieldSetElement | null = null;
   #legend: HTMLLegendElement | null = null;

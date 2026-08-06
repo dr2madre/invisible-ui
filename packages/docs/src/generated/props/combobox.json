@@ -356,7 +356,7 @@
         },
         {
           "name": "empty-text",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
