@@ -84,7 +84,7 @@ customElements.define("ds-button", DsButton);
 
 ## Tests
 
-126 tests across 14 files: component tests (jsdom, Testing Library, axe on
+130 tests across 14 files: component tests (jsdom, Testing Library, axe on
 every component), a CSS parity suite over 13 sheets, two Node import checks and
 a browser upgrade test for server-rendered light DOM. The parity suite keeps
 the stylesheets byte-identical to the React adapter's, and to the Vue
