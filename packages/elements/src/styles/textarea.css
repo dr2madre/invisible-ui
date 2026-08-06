@@ -20,7 +20,7 @@
   color: var(--ds-color-text-disabled, #94a3b8);
 }
 .textarea .field__required {
-  color: var(--ds-color-danger, #dc2626);
+  color: var(--ds-color-danger-body-text, #dc2626);
 }
 
 .textarea .field__control {
@@ -69,12 +69,32 @@
   cursor: not-allowed;
 }
 
-/* Help and error text match the control's (placeholder) text size. */
+/* Help, error and success text match the control's (placeholder) text size.
+   The flex row and the icon rule carry the leading glyph that `<ds-textarea>`
+   renders in its messages; the Vue Textarea prints the text alone, so those
+   two declarations sit idle there. */
 .textarea .field__description {
   margin: 0;
   color: var(--ds-color-text-secondary, #64748b);
 }
-.textarea .field__error {
+.textarea .field__error,
+.textarea .field__success {
   margin: 0;
-  color: var(--ds-color-danger, #dc2626);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.textarea .field__error {
+  color: var(--ds-color-danger-body-text, #dc2626);
+}
+.textarea .field__success {
+  color: var(--ds-color-success-body-text, #16a34a);
+}
+.textarea .field__msg-icon {
+  display: inline-flex;
+  flex: none;
+}
+/* Success/validated: green border, matching the text field. */
+.textarea--success .field__control {
+  border-color: var(--ds-color-success, #16a34a);
 }
