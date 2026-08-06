@@ -153,7 +153,7 @@
         },
         {
           "name": "name",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
