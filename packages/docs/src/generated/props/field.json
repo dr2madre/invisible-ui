@@ -149,7 +149,7 @@
           "name": "field-id",
           "reactive": false,
           "required": false,
-          "description": ""
+          "description": "read once at mount — see below"
         }
       ],
       "notes": []

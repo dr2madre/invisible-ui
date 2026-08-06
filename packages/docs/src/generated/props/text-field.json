@@ -277,11 +277,17 @@
           "reactive": true,
           "required": false,
           "description": ""
+        },
+        {
+          "name": "autocomplete",
+          "reactive": true,
+          "required": false,
+          "description": ""
         }
       ],
       "notes": [
         "Properties: `value`.",
-        "Emits: bubbling `input` CustomEvent with `detail.value`."
+        "Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`."
       ]
     }
   }

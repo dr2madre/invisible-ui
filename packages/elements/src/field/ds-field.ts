@@ -18,7 +18,12 @@ import { applyProps, boolAttr, HTMLElementBase } from "../internal/base";
  * ```
  *
  * Attributes: `label` (required), `description`, `error`, `required`,
- * `disabled`, `field-id`.
+ * `disabled`, `field-id` (read once at mount, never re-read).
+ *
+ * `field-id` is deliberately not reactive. The label, description and error
+ * ids all derive from it, so changing it after mount would rewrite every
+ * association at once and strand any `aria-describedby` a consumer had
+ * captured. It is read on the first sync and then held.
  */
 export class DsField extends HTMLElementBase {
   static observedAttributes = ["label", "description", "error", "required", "disabled"];

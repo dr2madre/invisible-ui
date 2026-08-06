@@ -18,6 +18,11 @@ import { lockScroll } from "../internal/scroll-lock";
  * `trigger-variant`, `open`, `close-label`, `initial-focus` (CSS selector),
  * `no-outside-close`.
  * Properties: `open` (boolean).
+ *
+ * `initial-focus` and `no-outside-close` are read at the moment they apply —
+ * when the dialog opens, and when a pointer goes down outside it — so they
+ * follow the host without being observed.
+ *
  * Emits: bubbling `open-change` CustomEvent with `detail.open`.
  */
 export class DsDialog extends HTMLElementBase {

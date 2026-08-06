@@ -6,8 +6,10 @@ contexts **without** a framework — plain HTML pages, server-driven stacks
 (HTMX, LiveView, Hotwire, Livewire) and legacy portals. Framework users should
 prefer their native adapter (`@design-system/svelte`, `@design-system/react`).
 
-**Status: proof-of-concept** (ADR 0008) — the same six components as the React
-PoC: Button, Checkbox, Switch, Select, Combobox, Dialog.
+**Status: proof-of-concept** (ADR 0008) — twelve components: Button, Checkbox,
+Switch, Select, Combobox, Dialog, Label, Field, TextField, Textarea,
+RadioGroup, CheckboxGroup. The first six match the React PoC; the forms core
+that follows them has no React counterpart yet.
 
 Both JavaScript entrypoints are safe to import during SSR. The server emits
 declarative `<ds-*>` light-DOM markup; when `@design-system/elements/define`
@@ -48,9 +50,12 @@ customElements.define("ds-button", DsButton);
   boundary to pierce, and server-rendered HTML upgrades in place (no
   Declarative Shadow DOM needed). Style encapsulation is by class namespacing
   (`.checkbox__input`, …), exactly like the other adapters.
-- **Items are `<option>` children.** `<ds-select>` and `<ds-combobox>` read
-  their options from light-DOM `<option>` elements — the most HTML-native API
-  possible, ideal for server-rendered fragments — or from an `items` property.
+- **Items are `<option>` children.** `<ds-select>`, `<ds-combobox>`,
+  `<ds-radio-group>` and `<ds-checkbox-group>` read their options from
+  light-DOM `<option>` elements — the most HTML-native API possible, ideal for
+  server-rendered fragments — or from an `items` property. The children are
+  declarative *initial state*: they are read once and consumed, so rewriting
+  them later changes nothing. Replace the set through `items`.
 - **Events are bubbling `CustomEvent`s** with a typed `detail`: `change`
   (`{value}` / `{checked}`), `input-change`, `open-change`. The native inner
   `change` is stopped so listeners never receive doubles.
@@ -59,6 +64,12 @@ customElements.define("ds-button", DsButton);
 - **Attributes in, properties too**: attributes are the declarative API
   (`checked`, `value`, `open`, `disabled` — observed and reflected);
   `checked` / `value` / `open` / `items` also exist as JS properties.
+- **Every documented attribute is live.** Rewriting an attribute on a mounted
+  element updates it, which is what the server-driven stacks above actually do.
+  Two exceptions are deliberate and documented at the source: `field-id` on
+  `<ds-field>` is read once, because every part id derives from it; and
+  `aria-label` on `<ds-button>` moves to the inner button, so it can be set
+  and changed through the host but not cleared through it.
 
 ## Habitats
 
@@ -73,10 +84,11 @@ customElements.define("ds-button", DsButton);
 
 ## Tests
 
-59 tests: 48 component tests (jsdom, Testing Library, axe on every component),
-an 8-sheet CSS parity suite, two Node import checks and a browser upgrade test
-for server-rendered light DOM. The parity suite keeps the stylesheets
-byte-identical to the React adapter's:
+126 tests across 14 files: component tests (jsdom, Testing Library, axe on
+every component), a CSS parity suite over 13 sheets, two Node import checks and
+a browser upgrade test for server-rendered light DOM. The parity suite keeps
+the stylesheets byte-identical to the React adapter's, and to the Vue
+adapter's where React has no counterpart:
 
 ```sh
 pnpm --filter @design-system/elements test
