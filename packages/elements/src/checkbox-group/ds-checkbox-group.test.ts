@@ -62,6 +62,28 @@ describe("<ds-checkbox-group>", () => {
     expect(box).toHaveAttribute("name", "extras");
   });
 
+  it("accepts items through the property as well", () => {
+    const host = mount(group);
+    host.items = [
+      { value: "anchovy", label: "Anchovy" },
+      { value: "basil", label: "Basil" },
+    ];
+
+    expect(screen.getByRole("checkbox", { name: "Anchovy" })).toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: "Olive" })).toBeNull();
+    expect(screen.getAllByRole("checkbox")).toHaveLength(2);
+  });
+
+  it("keeps the group wiring after the items are replaced", async () => {
+    const user = userEvent.setup();
+    const host = mount(group);
+    host.items = [{ value: "basil", label: "Basil" }];
+
+    await user.click(screen.getByRole("checkbox", { name: "Basil" }));
+    expect(host.value).toEqual(["basil"]);
+    expect(screen.getByRole("checkbox", { name: "Basil" })).toHaveAttribute("name", "toppings");
+  });
+
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();

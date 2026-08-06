@@ -22,8 +22,12 @@ import { checkIcon } from "../internal/icons";
  * </ds-checkbox-group>
  * ```
  *
+ * The `<option>` children are the declarative starting point, read once and
+ * consumed: they are not a live source. Replace the set through the `items`
+ * property, the same escape hatch `<ds-select>` offers.
+ *
  * Attributes: `label` (required), `value`, `name`, `disabled`.
- * Properties: `value` (string[]).
+ * Properties: `value` (string[]), `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value` (string[]).
  */
 export class DsCheckboxGroup extends HTMLElementBase {
@@ -36,6 +40,7 @@ export class DsCheckboxGroup extends HTMLElementBase {
 
   connectedCallback() {
     upgradeProperty(this, "value");
+    upgradeProperty(this, "items");
     if (!this.#fieldset) this.#render();
     this.#sync();
   }
@@ -56,6 +61,17 @@ export class DsCheckboxGroup extends HTMLElementBase {
     this.setAttribute("value", next.join(","));
   }
 
+  get items(): core.CheckboxGroupItem[] {
+    return this.#items;
+  }
+  set items(items: core.CheckboxGroupItem[]) {
+    this.#items = items;
+    if (this.#fieldset) {
+      this.#renderItems();
+      this.#sync();
+    }
+  }
+
   #render() {
     this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
       value: option.value,
@@ -70,6 +86,19 @@ export class DsCheckboxGroup extends HTMLElementBase {
     const legend = document.createElement("legend");
     legend.className = "checkbox-group__label";
     fieldset.appendChild(legend);
+
+    this.appendChild(fieldset);
+    this.#fieldset = fieldset;
+    this.#legend = legend;
+    this.#renderItems();
+  }
+
+  #renderItems() {
+    const fieldset = this.#fieldset!;
+    for (const label of Array.from(fieldset.querySelectorAll(".checkbox-group__item"))) {
+      label.remove();
+    }
+    this.#inputs.clear();
 
     for (const item of this.#items) {
       const label = document.createElement("label");
@@ -97,10 +126,6 @@ export class DsCheckboxGroup extends HTMLElementBase {
       fieldset.appendChild(label);
       this.#inputs.set(item.value, input);
     }
-
-    this.appendChild(fieldset);
-    this.#fieldset = fieldset;
-    this.#legend = legend;
   }
 
   #sync() {
