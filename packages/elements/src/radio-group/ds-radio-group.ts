@@ -1,0 +1,142 @@
+import { radioGroup as core } from "@design-system/core";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
+
+/**
+ * `<ds-radio-group>` — a group of radios as a custom element.
+ *
+ * Light DOM: real `<input type="radio">` items share a `name`, so the browser
+ * owns single selection, the roving tabindex, arrow keys, focus and form
+ * participation. The core owns the selection model and the group's ARIA.
+ *
+ * Items come from light-DOM `<option>` children, the same declarative source
+ * `<ds-select>` reads:
+ *
+ * ```html
+ * <ds-radio-group label="Plan" name="plan" value="pro">
+ *   <option value="free">Free</option>
+ *   <option value="pro">Pro</option>
+ *   <option value="team" disabled>Team</option>
+ * </ds-radio-group>
+ * ```
+ *
+ * Attributes: `label` (required), `value`, `name`, `orientation`, `disabled`.
+ * Properties: `value`.
+ * Emits: bubbling `change` CustomEvent with `detail.value`.
+ */
+export class DsRadioGroup extends HTMLElementBase {
+  static observedAttributes = ["value", "disabled", "orientation", "label"];
+
+  #group: HTMLElement | null = null;
+  #legend: HTMLElement | null = null;
+  #items: Array<core.RadioItem & { label: string }> = [];
+  #inputs = new Map<string, HTMLInputElement>();
+  #labelId = nextId("ds-radio-group-label");
+
+  connectedCallback() {
+    upgradeProperty(this, "value");
+    if (!this.#group) this.#render();
+    this.#sync();
+  }
+
+  attributeChangedCallback() {
+    if (this.#group) this.#sync();
+  }
+
+  get value(): string | null {
+    return this.getAttribute("value");
+  }
+  set value(next: string | null) {
+    if (next == null) this.removeAttribute("value");
+    else this.setAttribute("value", next);
+  }
+
+  #render() {
+    this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
+      value: option.value,
+      label: option.textContent?.trim() || option.value,
+      disabled: option.disabled,
+    }));
+    for (const option of Array.from(this.querySelectorAll("option"))) option.remove();
+
+    const field = document.createElement("div");
+    field.className = "radio-field";
+
+    const legend = document.createElement("span");
+    legend.className = "radio-field__label";
+    legend.id = this.#labelId;
+
+    const group = document.createElement("div");
+    group.className = "radio-group";
+    group.setAttribute("aria-labelledby", this.#labelId);
+
+    for (const item of this.#items) {
+      const label = document.createElement("label");
+      label.className = "radio";
+
+      const input = document.createElement("input");
+      input.className = "radio__input";
+
+      const dot = document.createElement("span");
+      dot.className = "radio__dot";
+      dot.setAttribute("aria-hidden", "true");
+
+      const text = document.createElement("span");
+      text.className = "radio__label";
+      text.textContent = item.label;
+
+      // The host re-emits a CustomEvent with a typed detail; stop the native
+      // change here so listeners on the host don't receive the event twice.
+      input.addEventListener("change", (event) => event.stopPropagation());
+
+      label.append(input, dot, text);
+      group.appendChild(label);
+      this.#inputs.set(item.value, input);
+    }
+
+    field.append(legend, group);
+    this.appendChild(field);
+    this.#group = group;
+    this.#legend = legend;
+  }
+
+  #sync() {
+    const group = this.#group!;
+    const disabled = boolAttr(this, "disabled");
+    const orientation =
+      this.getAttribute("orientation") === "horizontal" ? "horizontal" : "vertical";
+
+    this.#legend!.textContent = this.getAttribute("label") ?? "";
+
+    const api = core.connect({
+      state: core.initialState({
+        items: this.#items,
+        value: this.value ?? undefined,
+        orientation,
+        disabled,
+      }),
+      name: this.getAttribute("name") ?? undefined,
+      setValue: (next) => {
+        this.value = next;
+        emit(this, "change", { value: next });
+      },
+    });
+
+    applyProps(group, api.rootProps);
+    group.setAttribute("aria-labelledby", this.#labelId);
+    group.dataset.orientation = orientation;
+
+    for (const item of this.#items) {
+      const input = this.#inputs.get(item.value)!;
+      applyProps(input, api.getItemProps(item.value));
+      input.checked = api.value === item.value;
+      input.closest("label")?.classList.toggle("radio--disabled", disabled || !!item.disabled);
+    }
+  }
+}

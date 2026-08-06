@@ -1,0 +1,33 @@
+/* Field, ported from the Svelte adapter. There the block is `.field`, scoped
+   per component by the compiler; this sheet is global and `.field` is the
+   Checkbox / Switch label row, so the root carries `form-field` (with the
+   disabled modifier) and every selector is scoped under it. Child class names
+   stay as in the Svelte markup. */
+
+.form-field {
+  display: grid;
+  gap: var(--ds-field-gap, 0.3rem);
+  inline-size: var(--ds-field-width, 18rem);
+}
+.form-field .field__label {
+  font: inherit;
+  font-weight: var(--ds-field-label-weight, 500);
+  color: var(--ds-field-label-color, var(--ds-color-text, #0f172a));
+}
+.form-field--disabled .field__label {
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+.form-field .field__required {
+  color: var(--ds-field-required-color, var(--ds-color-danger-500, #dc2626));
+  margin-inline-start: 0.15em;
+}
+.form-field .field__description {
+  margin: 0;
+  font-size: 0.875em;
+  color: var(--ds-field-description-color, var(--ds-color-text-secondary, #64748b));
+}
+.form-field .field__error {
+  margin: 0;
+  font-size: 0.875em;
+  color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #dc2626));
+}

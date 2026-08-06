@@ -9,7 +9,20 @@ describe("custom-elements adapter SSR", () => {
       Object.keys(adapter)
         .filter((name) => name.startsWith("Ds"))
         .sort(),
-    ).toEqual(["DsButton", "DsCheckbox", "DsCombobox", "DsDialog", "DsSelect", "DsSwitch"]);
+    ).toEqual([
+      "DsButton",
+      "DsCheckbox",
+      "DsCheckboxGroup",
+      "DsCombobox",
+      "DsDialog",
+      "DsField",
+      "DsLabel",
+      "DsRadioGroup",
+      "DsSelect",
+      "DsSwitch",
+      "DsTextField",
+      "DsTextarea",
+    ]);
   });
 
   it("imports the registration entrypoint without browser globals", async () => {

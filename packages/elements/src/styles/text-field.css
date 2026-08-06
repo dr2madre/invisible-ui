@@ -1,0 +1,125 @@
+/* TextField, ported from the Svelte adapter. There the block is `.field`,
+   scoped per component by the compiler; this sheet is global and `.field` is
+   the Checkbox / Switch label row, so the root carries `text-field` (with the
+   state modifiers) and every selector is scoped under it. Child class names
+   stay as in the Svelte markup. */
+
+.text-field {
+  display: grid;
+  gap: var(--ds-field-gap, 0.375rem);
+  inline-size: var(--ds-field-width, 18rem);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+
+.text-field .field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+/* A disabled control dims its label too, so the relationship reads clearly. */
+.text-field--disabled .field__label {
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+.text-field .field__required {
+  color: var(--ds-color-danger-body-text, #dc2626);
+}
+
+/* Wraps the control so leading/trailing icons can overlay it. */
+.text-field .field__input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.text-field .field__icon {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ds-color-text-secondary, #64748b);
+  pointer-events: none;
+}
+.text-field .field__icon svg {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+.text-field .field__icon--left {
+  inset-inline-start: 0.7rem;
+}
+.text-field .field__icon--right {
+  inset-inline-end: 0.7rem;
+}
+/* Compound selectors so the icon padding beats the `.field__control` padding
+   shorthand regardless of source order (otherwise text overlaps the icon). */
+.text-field .field__control.field__control--icon-left {
+  padding-inline-start: 2.3rem;
+}
+.text-field .field__control.field__control--icon-right {
+  padding-inline-end: 2.3rem;
+}
+
+.text-field .field__control {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--ds-field-padding, 0.5rem 0.75rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+  background: var(--ds-color-background, #fff);
+  color: inherit;
+  font: inherit;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+.text-field .field__control::placeholder {
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.text-field .field__control:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+
+/* Invalid: a danger ring (same ring+halo gradation as focus, danger color)
+   around the border, shown whenever the field is in error, on focus or not. */
+.text-field .field__control[data-invalid] {
+  border-color: var(--ds-color-danger, #dc2626);
+  box-shadow:
+    0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626),
+    0 0 0 calc(var(--ds-focus-ring-width, 2px) + var(--ds-focus-halo-width, 3px))
+      color-mix(in srgb, var(--ds-color-danger, #dc2626) 30%, transparent);
+}
+
+.text-field .field__control[data-disabled] {
+  background: var(--ds-color-disabled, #e2e8f0);
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+
+/* Help and error text match the control's (placeholder) text size. */
+.text-field .field__description {
+  margin: 0;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.text-field .field__error,
+.text-field .field__success {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.text-field .field__error {
+  color: var(--ds-color-danger-body-text, #dc2626);
+}
+.text-field .field__success {
+  color: var(--ds-color-success-body-text, #16a34a);
+}
+.text-field .field__msg-icon {
+  display: inline-flex;
+  flex: none;
+}
+/* Success/validated: green check inside the field + green border. */
+.text-field .field__icon--success {
+  color: var(--ds-color-success, #16a34a);
+}
+.text-field--success .field__control {
+  border-color: var(--ds-color-success, #16a34a);
+}

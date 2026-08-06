@@ -44,6 +44,28 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-label",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "for",
+          "reactive": true,
+          "required": false,
+          "description": "id of the control"
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": []
     }
   }
 }

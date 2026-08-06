@@ -1,0 +1,80 @@
+/* Textarea, ported from the Svelte adapter. Like TextField, the Svelte block
+   is `.field`, which is taken by the Checkbox / Switch label row in this
+   global sheet, so the root carries `textarea` (with the state modifiers) and
+   every selector is scoped under it. Child class names stay as in the Svelte
+   markup. */
+
+.textarea {
+  display: grid;
+  gap: var(--ds-field-gap, 0.375rem);
+  inline-size: var(--ds-field-width, 18rem);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+
+.textarea .field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.textarea--disabled .field__label {
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+.textarea .field__required {
+  color: var(--ds-color-danger, #dc2626);
+}
+
+.textarea .field__control {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--ds-field-padding, 0.5rem 0.75rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+  /* A visible drag grip: diagonal stripes tucked into the bottom-right corner,
+     painted over the solid background (the native resize handle still works). */
+  background:
+    repeating-linear-gradient(
+        -45deg,
+        var(--ds-field-grip-color, var(--ds-color-border, #cbd5e1)) 0 1px,
+        transparent 1px 3px
+      )
+      bottom var(--ds-field-grip-inset, 3px) right var(--ds-field-grip-inset, 3px) / 9px 9px
+      no-repeat,
+    var(--ds-color-background, #fff);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+.textarea .field__control::placeholder {
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.textarea .field__control:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+
+.textarea .field__control[data-invalid] {
+  border-color: var(--ds-color-danger, #dc2626);
+}
+.textarea .field__control[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626);
+}
+
+.textarea .field__control[data-disabled] {
+  background: var(--ds-color-disabled, #e2e8f0);
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+
+/* Help and error text match the control's (placeholder) text size. */
+.textarea .field__description {
+  margin: 0;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.textarea .field__error {
+  margin: 0;
+  color: var(--ds-color-danger, #dc2626);
+}
