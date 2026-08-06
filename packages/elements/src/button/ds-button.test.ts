@@ -17,6 +17,15 @@ describe("<ds-button>", () => {
     expect(button).toHaveAttribute("type", "button");
   });
 
+  it("the type attribute drives the button after the first render", () => {
+    mount(`<ds-button>Save</ds-button>`);
+    const host = document.querySelector("ds-button")!;
+    expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+
+    host.setAttribute("type", "submit");
+    expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+  });
+
   it("clicks like a native button and honours disabled", async () => {
     const user = userEvent.setup();
     mount(`<ds-button>Save</ds-button>`);

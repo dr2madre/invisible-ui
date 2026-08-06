@@ -1,5 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { controlId, descriptionId, errorId, labelId } from "./state";
+import { controlId, descriptionId, errorId, labelId, successId } from "./state";
 import type { TextFieldState } from "./types";
 
 /** The public, framework-agnostic API for a connected text field. */
@@ -20,6 +20,8 @@ export interface TextFieldApi {
   descriptionProps: ElementProps;
   /** Props for the error message element (a live region). */
   errorProps: ElementProps;
+  /** Props for the success message element (a live region). */
+  successProps: ElementProps;
 }
 
 export interface ConnectOptions {
@@ -34,21 +36,30 @@ export interface ConnectOptions {
 /**
  * Connect text-field state to prop getters. Follows the WAI-ARIA practices for
  * labelling form controls: a visible `<label>` tied to the control via `for`,
- * supplementary hint and error text linked through `aria-describedby`, and
- * `aria-invalid` / `aria-required` reflecting validation state. The error
- * element is a live region so a newly shown message is announced.
+ * supplementary hint, error and success text linked through
+ * `aria-describedby`, and `aria-invalid` / `aria-required` reflecting
+ * validation state. The error and success elements are live regions, so a
+ * newly shown message is announced.
  */
 export function connect({
   state,
   setValue,
   normalize = identityNormalize,
 }: ConnectOptions): TextFieldApi {
-  const { value, disabled, readOnly, required, invalid, hasDescription, id } = state;
+  const { value, disabled, readOnly, required, invalid, hasDescription, hasSuccess, id } = state;
+
+  // An invalid field shows its error in place of the success message, so the
+  // two are never referenced at once.
+  const showsSuccess = hasSuccess && !invalid;
 
   // Only reference ids whose elements are actually rendered, so screen readers
   // never chase a dangling aria-describedby target.
   const describedBy =
-    [hasDescription ? descriptionId(id) : null, invalid ? errorId(id) : null]
+    [
+      hasDescription ? descriptionId(id) : null,
+      invalid ? errorId(id) : null,
+      showsSuccess ? successId(id) : null,
+    ]
       .filter(Boolean)
       .join(" ") || undefined;
 
@@ -83,6 +94,12 @@ export function connect({
       id: errorId(id),
       role: "alert",
       "data-invalid": invalid ? "" : undefined,
+    }),
+    // Polite, not an alert: confirming that input was accepted is never
+    // urgent enough to cut across whatever is being read.
+    successProps: normalize({
+      id: successId(id),
+      "aria-live": "polite",
     }),
   };
 }

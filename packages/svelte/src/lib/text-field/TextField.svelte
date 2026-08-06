@@ -1,8 +1,9 @@
 <script lang="ts">
   /**
    * TextField — the styled, batteries-included single-line text field. Behaviour
-   * and accessibility (label association, `aria-describedby` for the hint and
-   * error, `aria-invalid` / `aria-required`) come from the headless text field
+   * and accessibility (label association, `aria-describedby` for the hint,
+   * error and success text, `aria-invalid` / `aria-required`) come from the
+   * headless text field
    * (`@design-system/core`); this layer adds the label, control, optional
    * description and error message, and the focus / invalid styling.
    *
@@ -43,6 +44,7 @@
     readOnly,
     invalid: !!error,
     hasDescription: !!description,
+    hasSuccess: !!success,
     onValueChange,
   });
   const {
@@ -51,6 +53,7 @@
     controlAction,
     descriptionAction,
     errorAction,
+    successAction,
     setValue,
   } = field;
 
@@ -62,6 +65,7 @@
     readOnly,
     invalid: !!error,
     hasDescription: !!description,
+    hasSuccess: !!success,
   });
 
   function onInput(event: Event) {
@@ -135,7 +139,7 @@
       {error}
     </p>
   {:else if success}
-    <p class="field__success">
+    <p class="field__success" id={core.successId($fieldState.id)} use:successAction>
       <span class="field__msg-icon" aria-hidden="true">
         <Icon size="1em"><polyline points="20 6 9 17 4 12" /></Icon>
       </span>

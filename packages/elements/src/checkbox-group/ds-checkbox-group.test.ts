@@ -53,6 +53,15 @@ describe("<ds-checkbox-group>", () => {
     expect(screen.getByRole("checkbox", { name: "Olive" })).not.toBeChecked();
   });
 
+  it("the name attribute drives the inputs after the first render", () => {
+    const host = mount(group);
+    const box = screen.getByRole("checkbox", { name: "Olive" });
+    expect(box).toHaveAttribute("name", "toppings");
+
+    host.setAttribute("name", "extras");
+    expect(box).toHaveAttribute("name", "extras");
+  });
+
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();
