@@ -309,13 +309,13 @@
         },
         {
           "name": "trigger",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "opener text"
         },
         {
           "name": "trigger-variant",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
@@ -327,7 +327,7 @@
         },
         {
           "name": "close-label",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },

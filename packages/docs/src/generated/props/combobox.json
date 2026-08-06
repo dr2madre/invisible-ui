@@ -314,7 +314,7 @@
       "attributes": [
         {
           "name": "label",
-          "reactive": false,
+          "reactive": true,
           "required": true,
           "description": ""
         },
@@ -326,19 +326,19 @@
         },
         {
           "name": "searchable",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "width",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "wrap|fill|fixed"
         },
         {
           "name": "placeholder",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
@@ -350,7 +350,7 @@
         },
         {
           "name": "clear-label",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
@@ -362,7 +362,7 @@
         },
         {
           "name": "name",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "submits via a hidden input"
         }

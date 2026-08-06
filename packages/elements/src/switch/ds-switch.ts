@@ -21,6 +21,7 @@ export class DsSwitch extends HTMLElementBase {
     "name",
     "value",
     "required",
+    "on-off",
     "on-text",
     "off-text",
   ];
@@ -56,12 +57,8 @@ export class DsSwitch extends HTMLElementBase {
     input.addEventListener("change", (event) => event.stopPropagation());
 
     const track = document.createElement("span");
-    const onOff = boolAttr(this, "on-off");
-    track.className = onOff ? "switch switch--onoff" : "switch";
+    track.className = "switch";
     track.setAttribute("aria-hidden", "true");
-    if (onOff) {
-      track.innerHTML = `<span class="switch__on"></span><span class="switch__off"></span>`;
-    }
 
     const text = document.createElement("span");
     text.className = "field__label";
@@ -85,11 +82,20 @@ export class DsSwitch extends HTMLElementBase {
     input.required = boolAttr(this, "required");
     this.#text!.textContent = this.getAttribute("label") ?? "";
 
-    // The two captions only exist in the text-in-track variant; `on-off` itself
-    // decides the track's markup, so it stays a first-render attribute.
-    const on = this.#track!.querySelector(".switch__on");
+    // The text-in-track variant carries two captions inside the track; the
+    // plain one carries none, so switching the variant builds or tears them
+    // down rather than just relabelling.
+    const track = this.#track!;
+    const onOff = boolAttr(this, "on-off");
+    track.classList.toggle("switch--onoff", onOff);
+    if (onOff && !track.firstChild) {
+      track.innerHTML = `<span class="switch__on"></span><span class="switch__off"></span>`;
+    } else if (!onOff && track.firstChild) {
+      track.textContent = "";
+    }
+    const on = track.querySelector(".switch__on");
     if (on) on.textContent = this.getAttribute("on-text") ?? "ON";
-    const off = this.#track!.querySelector(".switch__off");
+    const off = track.querySelector(".switch__off");
     if (off) off.textContent = this.getAttribute("off-text") ?? "OFF";
 
     const api = core.connect({
