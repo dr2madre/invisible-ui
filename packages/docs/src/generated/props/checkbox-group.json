@@ -151,7 +151,7 @@
         }
       ],
       "notes": [
-        "Properties: `value` (string[]).",
+        "Properties: `value` (string[]), `items`.",
         "Emits: bubbling `change` CustomEvent with `detail.value` (string[])."
       ]
     }

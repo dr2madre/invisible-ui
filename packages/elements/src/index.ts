@@ -30,6 +30,6 @@ export { DsDialog } from "./dialog/ds-dialog";
 export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";
-export { DsRadioGroup } from "./radio-group/ds-radio-group";
+export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { applyProps, applyDomProps, emit } from "./internal/base";
