@@ -74,6 +74,15 @@ describe("<ds-text-field>", () => {
     expect(document.querySelector(".field__success .field__msg-icon")).not.toBeNull();
   });
 
+  it("keeps the message icon element across a sync the message didn't change", () => {
+    const host = mount(`<ds-text-field label="Email" error="Bad"></ds-text-field>`);
+    const icon = document.querySelector(".field__error .field__msg-icon");
+
+    host.setAttribute("placeholder", "name@example.com");
+
+    expect(document.querySelector(".field__error .field__msg-icon")).toBe(icon);
+  });
+
   it("the description and error stay in reading order however they were set", () => {
     const host = mount(`<ds-text-field label="Email" error="Bad"></ds-text-field>`);
     host.setAttribute("description", "Desc");

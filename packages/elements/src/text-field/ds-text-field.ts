@@ -2,6 +2,10 @@ import { textField as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { hazardIcon, successIcon } from "../internal/icons";
 
+/** Tracks what a message paragraph last rendered, so an unrelated sync (a
+ * `placeholder` change, say) doesn't tear down and rebuild its icon markup. */
+const renderedMessage = new WeakMap<HTMLParagraphElement, string>();
+
 /**
  * Shared body of `<ds-text-field>` and `<ds-textarea>`: the same headless field
  * with a different control element.
@@ -148,8 +152,8 @@ abstract class DsTextControl extends HTMLElementBase {
       error ? hazardIcon() : successIcon(),
     );
 
-    // Appending an existing child moves it, so the two messages keep their
-    // reading order however they were added.
+    // Appending an existing child moves it, so re-running this every sync
+    // keeps description before error/success even when error was set first.
     if (this.#description) root.appendChild(this.#description);
     if (this.#message) root.appendChild(this.#message);
   }
@@ -166,16 +170,20 @@ abstract class DsTextControl extends HTMLElementBase {
       return null;
     }
     const node = current ?? document.createElement("p");
-    node.className = className;
-    node.textContent = "";
-    if (icon) {
-      const glyph = document.createElement("span");
-      glyph.className = "field__msg-icon";
-      glyph.setAttribute("aria-hidden", "true");
-      glyph.innerHTML = icon;
-      node.appendChild(glyph);
+    const key = `${className}:${text}`;
+    if (renderedMessage.get(node) !== key) {
+      node.className = className;
+      node.textContent = "";
+      if (icon) {
+        const glyph = document.createElement("span");
+        glyph.className = "field__msg-icon";
+        glyph.setAttribute("aria-hidden", "true");
+        glyph.innerHTML = icon;
+        node.appendChild(glyph);
+      }
+      node.appendChild(document.createTextNode(text));
+      renderedMessage.set(node, key);
     }
-    node.appendChild(document.createTextNode(text));
     applyProps(node, props);
     return node;
   }
