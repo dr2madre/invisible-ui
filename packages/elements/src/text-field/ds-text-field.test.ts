@@ -161,4 +161,20 @@ describe("<ds-textarea>", () => {
     mount(`<ds-textarea label="Notes"></ds-textarea>`);
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  // Its stylesheet is scoped under `.textarea`; rendering as `.text-field`
+  // silently detached every rule in it, resize and drag grip included.
+  it("roots itself on its own block class, not the text field's", () => {
+    mount(`<ds-textarea label="Notes"></ds-textarea>`);
+    expect(document.querySelector(".textarea")).not.toBeNull();
+    expect(document.querySelector(".text-field")).toBeNull();
+  });
+
+  it("derives its state modifiers from the same block", () => {
+    mount(`<ds-textarea label="Notes" disabled success="Looks good"></ds-textarea>`);
+    expect(document.querySelector(".textarea")).toHaveClass(
+      "textarea--disabled",
+      "textarea--success",
+    );
+  });
 });

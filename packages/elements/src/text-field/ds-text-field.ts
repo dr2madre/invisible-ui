@@ -42,6 +42,12 @@ abstract class DsTextControl extends HTMLElementBase {
   /** The control element this field wraps. */
   protected abstract createControl(): HTMLInputElement | HTMLTextAreaElement;
 
+  /**
+   * Block class on the root element; the state modifiers derive from it. The
+   * two subclasses have separate stylesheets, so they cannot share one name.
+   */
+  protected abstract readonly rootClass: string;
+
   connectedCallback() {
     upgradeProperty(this, "value");
     if (!this.#root) this.#render();
@@ -62,7 +68,7 @@ abstract class DsTextControl extends HTMLElementBase {
 
   #render() {
     const root = document.createElement("div");
-    root.className = "text-field";
+    root.className = this.rootClass;
 
     const label = document.createElement("label");
     label.className = "field__label";
@@ -107,8 +113,8 @@ abstract class DsTextControl extends HTMLElementBase {
     const readOnly = boolAttr(this, "readonly");
     const value = this.getAttribute("value") ?? "";
 
-    root.classList.toggle("text-field--disabled", disabled);
-    root.classList.toggle("text-field--success", Boolean(success) && !error);
+    root.classList.toggle(`${this.rootClass}--disabled`, disabled);
+    root.classList.toggle(`${this.rootClass}--success`, Boolean(success) && !error);
 
     const state = core.initialState({
       id: this.#fieldId,
@@ -212,6 +218,8 @@ abstract class DsTextControl extends HTMLElementBase {
  * Emits: bubbling `input` CustomEvent with `detail.value`.
  */
 export class DsTextField extends DsTextControl {
+  protected readonly rootClass = "text-field";
+
   protected createControl() {
     const input = document.createElement("input");
     input.type = this.getAttribute("type") ?? "text";
@@ -221,8 +229,14 @@ export class DsTextField extends DsTextControl {
 
 /**
  * `<ds-textarea>` — the multi-line variant, same attributes plus `rows`.
+ *
+ * Its root carries `textarea`, not `text-field`: the two have separate
+ * stylesheets, and only the textarea's grants the control `resize: vertical`
+ * and its drag grip.
  */
 export class DsTextarea extends DsTextControl {
+  protected readonly rootClass = "textarea";
+
   protected createControl() {
     return document.createElement("textarea");
   }
