@@ -14,9 +14,20 @@ import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "..
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
 export class DsSwitch extends HTMLElementBase {
-  static observedAttributes = ["checked", "disabled"];
+  static observedAttributes = [
+    "checked",
+    "disabled",
+    "label",
+    "name",
+    "value",
+    "required",
+    "on-text",
+    "off-text",
+  ];
 
   #input: HTMLInputElement | null = null;
+  #track: HTMLSpanElement | null = null;
+  #text: HTMLSpanElement | null = null;
 
   connectedCallback() {
     upgradeProperty(this, "checked");
@@ -42,10 +53,6 @@ export class DsSwitch extends HTMLElementBase {
     const input = document.createElement("input");
     input.className = "switch__input";
     input.type = "checkbox";
-    const name = this.getAttribute("name");
-    if (name) input.name = name;
-    input.value = this.getAttribute("value") ?? "on";
-    input.required = boolAttr(this, "required");
     input.addEventListener("change", (event) => event.stopPropagation());
 
     const track = document.createElement("span");
@@ -54,23 +61,36 @@ export class DsSwitch extends HTMLElementBase {
     track.setAttribute("aria-hidden", "true");
     if (onOff) {
       track.innerHTML = `<span class="switch__on"></span><span class="switch__off"></span>`;
-      track.querySelector(".switch__on")!.textContent = this.getAttribute("on-text") ?? "ON";
-      track.querySelector(".switch__off")!.textContent = this.getAttribute("off-text") ?? "OFF";
     }
 
     const text = document.createElement("span");
     text.className = "field__label";
-    text.textContent = this.getAttribute("label") ?? "";
 
     label.append(input, track, text);
     this.appendChild(label);
     this.#input = input;
+    this.#track = track;
+    this.#text = text;
   }
 
   #sync() {
     const input = this.#input!;
     const disabled = boolAttr(this, "disabled");
     input.closest("label")?.classList.toggle("field--disabled", disabled);
+
+    const name = this.getAttribute("name");
+    if (name) input.name = name;
+    else input.removeAttribute("name");
+    input.value = this.getAttribute("value") ?? "on";
+    input.required = boolAttr(this, "required");
+    this.#text!.textContent = this.getAttribute("label") ?? "";
+
+    // The two captions only exist in the text-in-track variant; `on-off` itself
+    // decides the track's markup, so it stays a first-render attribute.
+    const on = this.#track!.querySelector(".switch__on");
+    if (on) on.textContent = this.getAttribute("on-text") ?? "ON";
+    const off = this.#track!.querySelector(".switch__off");
+    if (off) off.textContent = this.getAttribute("off-text") ?? "OFF";
 
     const api = core.connect({
       state: { checked: this.checked, disabled },

@@ -268,13 +268,13 @@
         },
         {
           "name": "name",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "type",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         }

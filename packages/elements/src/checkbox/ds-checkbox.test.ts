@@ -73,6 +73,22 @@ describe("<ds-checkbox>", () => {
     expect(data.get("news")).toBe("weekly");
   });
 
+  it("the label and form attributes drive the control after the first render", () => {
+    const host = mount(`<ds-checkbox label="Subscribe" name="news"></ds-checkbox>`);
+    const input = screen.getByRole("checkbox") as HTMLInputElement;
+    expect(input.name).toBe("news");
+
+    host.setAttribute("label", "Join the list");
+    host.setAttribute("name", "updates");
+    host.setAttribute("value", "weekly");
+    host.setAttribute("required", "");
+
+    expect(screen.getByRole("checkbox", { name: "Join the list" })).toBe(input);
+    expect(input.name).toBe("updates");
+    expect(input.value).toBe("weekly");
+    expect(input.required).toBe(true);
+  });
+
   it("has no accessibility violations", async () => {
     mount(`<ds-checkbox label="Subscribe"></ds-checkbox>`);
     expect(await axe(document.body)).toHaveNoViolations();

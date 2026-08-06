@@ -90,6 +90,18 @@ describe("<ds-text-field>", () => {
     expect(order).toEqual(["field__description", "field__error"]);
   });
 
+  it("the name and type attributes drive the input after the first render", () => {
+    const host = mount(`<ds-text-field label="Email" name="email"></ds-text-field>`);
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input.name).toBe("email");
+
+    host.setAttribute("name", "address");
+    host.setAttribute("type", "email");
+
+    expect(input.name).toBe("address");
+    expect(input).toHaveAttribute("type", "email");
+  });
+
   it("re-emits the native change as a typed CustomEvent", () => {
     const host = mount(`<ds-text-field label="Email"></ds-text-field>`);
     const input = document.querySelector("input") as HTMLInputElement;
@@ -116,6 +128,14 @@ describe("<ds-textarea>", () => {
     const control = screen.getByRole("textbox", { name: "Notes" });
     expect(control.tagName).toBe("TEXTAREA");
     expect(control).toHaveAttribute("rows", "3");
+  });
+
+  it("the rows attribute drives the textarea after the first render", () => {
+    const host = mount(`<ds-textarea label="Notes" rows="3"></ds-textarea>`);
+    const control = screen.getByRole("textbox");
+
+    host.setAttribute("rows", "8");
+    expect(control).toHaveAttribute("rows", "8");
   });
 
   it("has no accessibility violations", async () => {

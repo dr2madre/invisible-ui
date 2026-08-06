@@ -67,6 +67,37 @@ describe("<ds-select>", () => {
     expect(screen.getByRole("option", { name: "Kiwi" })).toBeInTheDocument();
   });
 
+  it("the label, name and required attributes drive the control after the first render", () => {
+    const host = mount(MARKUP);
+    expect(select().name).toBe("fruit");
+
+    host.setAttribute("label", "Produce");
+    host.setAttribute("name", "produce");
+    host.setAttribute("required", "");
+
+    expect(screen.getByRole("combobox", { name: "Produce" })).toBe(select());
+    expect(select().name).toBe("produce");
+    expect(select().required).toBe(true);
+  });
+
+  it("the presentation attributes drive the root after the first render", () => {
+    const host = mount(MARKUP);
+    const root = document.querySelector(".select") as HTMLElement;
+    expect(root.dataset.width).toBe("wrap");
+
+    host.setAttribute("width", "fill");
+    host.setAttribute("hide-label", "");
+
+    expect(root.dataset.width).toBe("fill");
+    expect(document.querySelector(".select__label")).toHaveClass("select__label--hidden");
+  });
+
+  it("the placeholder attribute drives the empty option after the first render", () => {
+    const host = mount(MARKUP);
+    host.setAttribute("placeholder", "Pick one…");
+    expect(select().querySelector("option[value='']")).toHaveTextContent("Pick one…");
+  });
+
   it("has no accessibility violations", async () => {
     mount(MARKUP);
     expect(await axe(document.body)).toHaveNoViolations();

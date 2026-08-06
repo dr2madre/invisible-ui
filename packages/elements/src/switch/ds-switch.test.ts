@@ -59,6 +59,39 @@ describe("<ds-switch>", () => {
     expect(new FormData(document.querySelector("form")!).get("notify")).toBe("yes");
   });
 
+  it("the label attribute drives the caption after the first render", () => {
+    const host = mount(`<ds-switch label="Notifications"></ds-switch>`);
+    expect(screen.getByRole("switch", { name: "Notifications" })).toBeInTheDocument();
+
+    host.setAttribute("label", "Alerts");
+    expect(screen.getByRole("switch", { name: "Alerts" })).toBeInTheDocument();
+  });
+
+  it("the form attributes drive the input after the first render", () => {
+    const host = mount(`<ds-switch label="Notifications" name="notify"></ds-switch>`);
+    const input = screen.getByRole("switch") as HTMLInputElement;
+    expect(input.name).toBe("notify");
+
+    host.setAttribute("name", "alerts");
+    host.setAttribute("value", "yes");
+    host.setAttribute("required", "");
+
+    expect(input.name).toBe("alerts");
+    expect(input.value).toBe("yes");
+    expect(input.required).toBe(true);
+  });
+
+  it("the on-text and off-text attributes drive the track captions", () => {
+    const host = mount(`<ds-switch label="Notifications" on-off></ds-switch>`);
+    expect(document.querySelector(".switch__on")).toHaveTextContent("ON");
+
+    host.setAttribute("on-text", "SÌ");
+    host.setAttribute("off-text", "NO");
+
+    expect(document.querySelector(".switch__on")).toHaveTextContent("SÌ");
+    expect(document.querySelector(".switch__off")).toHaveTextContent("NO");
+  });
+
   it("has no accessibility violations", async () => {
     mount(`<ds-switch label="Notifications"></ds-switch>`);
     expect(await axe(document.body)).toHaveNoViolations();

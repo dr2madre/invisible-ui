@@ -209,7 +209,7 @@
       "attributes": [
         {
           "name": "label",
-          "reactive": false,
+          "reactive": true,
           "required": true,
           "description": ""
         },
@@ -233,19 +233,19 @@
         },
         {
           "name": "name",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "value",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "required",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         }
