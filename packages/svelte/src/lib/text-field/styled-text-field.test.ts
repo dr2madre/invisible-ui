@@ -37,6 +37,25 @@ describe("Svelte TextField (styled)", () => {
     expect(describedby).toContain(screen.getByRole("alert").id);
   });
 
+  it("links the success message so a screen reader reaches it", () => {
+    render(TextField, { props: { label: "Email", success: "Looks good." } });
+    const input = screen.getByLabelText("Email");
+    const message = screen.getByText("Looks good.");
+
+    expect(input.getAttribute("aria-describedby") ?? "").toContain(message.id);
+    expect(message).toHaveAttribute("aria-live", "polite");
+  });
+
+  it("describes by the error alone when both error and success are given", () => {
+    render(TextField, {
+      props: { label: "Email", error: "Invalid email.", success: "Looks good." },
+    });
+    const describedby = screen.getByLabelText("Email").getAttribute("aria-describedby") ?? "";
+
+    expect(describedby).toBe(screen.getByRole("alert").id);
+    expect(screen.queryByText("Looks good.")).toBeNull();
+  });
+
   it("marks required with aria-required", () => {
     render(TextField, { props: { label: "Username", required: true } });
     expect(screen.getByLabelText(/Username/)).toHaveAttribute("aria-required", "true");

@@ -18,6 +18,11 @@ export interface TextFieldState {
   invalid: boolean;
   /** Whether a description / hint element is present (affects describedby). */
   hasDescription: boolean;
+  /**
+   * Whether a success message element is present (affects describedby). The
+   * message only shows when the field is not invalid, so `invalid` wins.
+   */
+  hasSuccess: boolean;
   /** Base id used to link the label, control, description and error. */
   id: string;
 }
@@ -36,6 +41,8 @@ export interface TextFieldContext {
   invalid?: boolean;
   /** Whether a description / hint element is present. Defaults to `false`. */
   hasDescription?: boolean;
+  /** Whether a success message element is present. Defaults to `false`. */
+  hasSuccess?: boolean;
   /** Base id used to link parts. Auto-generated when omitted. */
   id?: string;
   /** Called whenever the value changes. */

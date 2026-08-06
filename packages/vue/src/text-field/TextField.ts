@@ -70,6 +70,7 @@ export const TextField = defineComponent({
       readOnly: props.readOnly,
       invalid: Boolean(props.error),
       hasDescription: Boolean(props.description),
+      hasSuccess: Boolean(props.success),
       onValueChange: (next: string) => {
         emit("update:modelValue", next);
         props.onValueChange?.(next);
@@ -159,7 +160,7 @@ export const TextField = defineComponent({
                 props.error,
               ])
             : props.success
-              ? h("p", { class: "field__success" }, [
+              ? h("p", { class: "field__success", ...api.value.successProps }, [
                   h("span", { class: "field__msg-icon", "aria-hidden": "true" }, [
                     h(
                       Icon,

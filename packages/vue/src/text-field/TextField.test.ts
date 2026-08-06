@@ -59,6 +59,26 @@ describe("Vue TextField (styled)", () => {
     expect(screen.getByLabelText("Email")).not.toHaveAttribute("aria-invalid");
   });
 
+  it("links the success message so a screen reader reaches it", () => {
+    render(TextField, { props: { label: "Email", success: "Looks good." } });
+    const message = screen.getByText("Looks good.");
+
+    expect(screen.getByLabelText("Email").getAttribute("aria-describedby") ?? "").toContain(
+      message.id,
+    );
+    expect(message).toHaveAttribute("aria-live", "polite");
+  });
+
+  it("describes by the error alone when both error and success are given", () => {
+    render(TextField, {
+      props: { label: "Email", error: "Invalid email.", success: "Looks good." },
+    });
+    const describedby = screen.getByLabelText("Email").getAttribute("aria-describedby") ?? "";
+
+    expect(describedby).toBe(screen.getByRole("alert").id);
+    expect(screen.queryByText("Looks good.")).toBeNull();
+  });
+
   it("disables the control and stays silent", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

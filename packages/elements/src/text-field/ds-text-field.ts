@@ -118,6 +118,7 @@ abstract class DsTextControl extends HTMLElementBase {
       readOnly,
       invalid: Boolean(error),
       hasDescription: Boolean(description),
+      hasSuccess: Boolean(success),
     });
     const api = core.connect({ state, setValue: (next) => this.setAttribute("value", next) });
 
@@ -148,7 +149,7 @@ abstract class DsTextControl extends HTMLElementBase {
       this.#message,
       error ?? success,
       error ? "field__error" : "field__success",
-      error ? api.errorProps : {},
+      error ? api.errorProps : api.successProps,
       error ? hazardIcon() : successIcon(),
     );
 
@@ -169,7 +170,13 @@ abstract class DsTextControl extends HTMLElementBase {
       current?.remove();
       return null;
     }
-    const node = current ?? document.createElement("p");
+    // Error and success share this slot but not their props. Reusing the node
+    // across a switch would strand the error's role and id on the success
+    // message, since applyProps only writes the keys it is handed.
+    const reusable = current?.className === className ? current : null;
+    if (current && !reusable) current.remove();
+
+    const node = reusable ?? document.createElement("p");
     const key = `${className}:${text}`;
     if (renderedMessage.get(node) !== key) {
       node.className = className;
