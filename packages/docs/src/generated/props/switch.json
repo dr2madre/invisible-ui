@@ -308,7 +308,7 @@
         },
         {
           "name": "on-off",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "text-in-track variant"
         },

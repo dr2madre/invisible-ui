@@ -149,6 +149,48 @@ describe("<ds-combobox>", () => {
     expect(document.querySelectorAll(".combobox__option-icon").length).toBeGreaterThan(0);
   });
 
+  it("the presentation attributes drive the control after the first render", () => {
+    const host = mount();
+    const root = document.querySelector(".combobox") as HTMLElement;
+    expect(root.dataset.width).toBe("fixed");
+
+    host.setAttribute("width", "fill");
+    host.setAttribute("label", "Produce");
+    host.setAttribute("placeholder", "Type to filter…");
+    host.setAttribute("clear-label", "Reset");
+
+    expect(root.dataset.width).toBe("fill");
+    expect(input()).toHaveAccessibleName("Produce");
+    expect(input().placeholder).toBe("Type to filter…");
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+  });
+
+  it("the searchable attribute switches the select-only mode after the first render", () => {
+    const host = mount();
+    expect(input().readOnly).toBe(false);
+    expect(document.querySelector(".combobox__search")!.innerHTML).not.toBe("");
+
+    host.setAttribute("searchable", "false");
+    expect(input().readOnly).toBe(true);
+    expect(input()).toHaveClass("combobox__input--select-only");
+    expect(document.querySelector(".combobox__search")!.innerHTML).toBe("");
+
+    host.setAttribute("searchable", "true");
+    expect(input().readOnly).toBe(false);
+    expect(input()).not.toHaveClass("combobox__input--select-only");
+  });
+
+  it("the name attribute creates and drops the hidden form input", () => {
+    const host = mount();
+    expect(document.querySelector("input[type=hidden]")).toHaveAttribute("name", "fruit");
+
+    host.setAttribute("name", "produce");
+    expect(document.querySelector("input[type=hidden]")).toHaveAttribute("name", "produce");
+
+    host.removeAttribute("name");
+    expect(document.querySelector("input[type=hidden]")).toBeNull();
+  });
+
   it("has no accessibility violations when open", async () => {
     const user = userEvent.setup();
     mount();

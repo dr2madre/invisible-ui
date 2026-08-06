@@ -105,6 +105,27 @@ describe("<ds-dialog>", () => {
     expect(screen.getByRole("textbox", { name: "New name" })).toHaveFocus();
   });
 
+  it("the trigger attributes drive the button after the first render", () => {
+    const host = mount();
+    const trigger = screen.getByRole("button", { name: "Open dialog" });
+
+    host.setAttribute("trigger", "Share");
+    host.setAttribute("trigger-variant", "primary");
+
+    expect(trigger).toHaveTextContent("Share");
+    expect(trigger.dataset.variant).toBe("primary");
+  });
+
+  it("the close-label attribute drives the close button after the first render", async () => {
+    const user = userEvent.setup();
+    const host = mount();
+    await user.click(screen.getByRole("button", { name: "Open dialog" }));
+    expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
+
+    host.setAttribute("close-label", "Dismiss");
+    expect(screen.getByRole("button", { name: "Dismiss" })).toBeInTheDocument();
+  });
+
   it("has no accessibility violations when open", async () => {
     const user = userEvent.setup();
     mount();
