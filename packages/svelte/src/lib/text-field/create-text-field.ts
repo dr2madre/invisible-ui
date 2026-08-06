@@ -10,7 +10,10 @@ export type TextFieldContext = core.TextFieldContext;
 
 /** The flags an adapter can update reactively after creation. */
 export type TextFieldFlags = Partial<
-  Pick<TextFieldState, "disabled" | "readOnly" | "required" | "invalid" | "hasDescription">
+  Pick<
+    TextFieldState,
+    "disabled" | "readOnly" | "required" | "invalid" | "hasDescription" | "hasSuccess"
+  >
 >;
 
 export interface CreateTextField {
@@ -32,6 +35,8 @@ export interface CreateTextField {
   descriptionAction: Action<HTMLElement>;
   /** Svelte action for the error message: `<p use:errorAction>`. */
   errorAction: Action<HTMLElement>;
+  /** Svelte action for the success message: `<p use:successAction>`. */
+  successAction: Action<HTMLElement>;
 }
 
 /**
@@ -69,5 +74,6 @@ export function createTextField(context: TextFieldContext = {}): CreateTextField
     controlAction: createPropsAction(api, (a) => a.controlProps),
     descriptionAction: createPropsAction(api, (a) => a.descriptionProps),
     errorAction: createPropsAction(api, (a) => a.errorProps),
+    successAction: createPropsAction(api, (a) => a.successProps),
   };
 }

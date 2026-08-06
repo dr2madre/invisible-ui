@@ -13,6 +13,7 @@ export function initialState(context: TextFieldContext = {}): TextFieldState {
     required: context.required ?? false,
     invalid: context.invalid ?? false,
     hasDescription: context.hasDescription ?? false,
+    hasSuccess: context.hasSuccess ?? false,
     id: context.id ?? `ds-text-field-${++idCounter}`,
   };
 }
@@ -28,3 +29,6 @@ export const descriptionId = (baseId: string) => `${baseId}-description`;
 
 /** Id of the error message element for a base id. */
 export const errorId = (baseId: string) => `${baseId}-error`;
+
+/** Id of the success message element for a base id. */
+export const successId = (baseId: string) => `${baseId}-success`;

@@ -57,6 +57,25 @@ describe("<ds-text-field>", () => {
     expect(root).toHaveClass("text-field--disabled", "text-field--success");
   });
 
+  it("links the success message so a screen reader reaches it", () => {
+    mount(`<ds-text-field label="Email" success="Looks good."></ds-text-field>`);
+    const input = screen.getByRole("textbox");
+    const message = document.querySelector(".field__success")!;
+
+    expect(input.getAttribute("aria-describedby") ?? "").toContain(message.id);
+    expect(message).toHaveAttribute("aria-live", "polite");
+  });
+
+  it("drops the error's role and id when the message turns into a success", () => {
+    const host = mount(`<ds-text-field label="Email" error="Bad"></ds-text-field>`);
+    host.removeAttribute("error");
+    host.setAttribute("success", "Looks good.");
+
+    const message = document.querySelector(".field__success")!;
+    expect(message).not.toHaveAttribute("role");
+    expect(message.id).toBe(screen.getByRole("textbox").getAttribute("aria-describedby"));
+  });
+
   it("the value attribute drives the control after the first render", () => {
     const host = mount(`<ds-text-field label="Email" value="ada"></ds-text-field>`) as DsTextField;
     const input = screen.getByRole("textbox") as HTMLInputElement;
