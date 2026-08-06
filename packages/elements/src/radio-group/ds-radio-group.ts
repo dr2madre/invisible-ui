@@ -31,7 +31,7 @@ import {
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsRadioGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "orientation", "label"];
+  static observedAttributes = ["value", "disabled", "orientation", "label", "name"];
 
   #group: HTMLElement | null = null;
   #legend: HTMLElement | null = null;

@@ -16,7 +16,7 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  * Activation is the native `click` event.
  */
 export class DsButton extends HTMLElementBase {
-  static observedAttributes = ["variant", "disabled"];
+  static observedAttributes = ["variant", "disabled", "type"];
 
   #button: HTMLButtonElement | null = null;
 

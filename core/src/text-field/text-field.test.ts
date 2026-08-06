@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { controlId, descriptionId, errorId, initialState, labelId } from "./state";
+import { controlId, descriptionId, errorId, initialState, labelId, successId } from "./state";
 import type { TextFieldState } from "./types";
 
 const stateFor = (overrides: Partial<TextFieldState> = {}): TextFieldState => ({
@@ -10,6 +10,7 @@ const stateFor = (overrides: Partial<TextFieldState> = {}): TextFieldState => ({
   required: false,
   invalid: false,
   hasDescription: false,
+  hasSuccess: false,
   id: "fld",
   ...overrides,
 });
@@ -28,6 +29,7 @@ describe("text-field state", () => {
     expect(controlId("x")).toBe("x-control");
     expect(descriptionId("x")).toBe("x-description");
     expect(errorId("x")).toBe("x-error");
+    expect(successId("x")).toBe("x-success");
   });
 });
 
@@ -60,6 +62,26 @@ describe("text-field connect", () => {
     expect(api.controlProps["aria-invalid"]).toBe(true);
     expect(api.controlProps["data-invalid"]).toBe("");
     expect(api.errorProps.role).toBe("alert");
+  });
+
+  it("describes by the success id when a success message is present", () => {
+    const api = connect({ state: stateFor({ hasSuccess: true }), setValue: noop });
+    expect(api.controlProps["aria-describedby"]).toBe(successId("fld"));
+    expect(api.successProps.id).toBe(successId("fld"));
+  });
+
+  it("announces the success message politely rather than as an alert", () => {
+    const api = connect({ state: stateFor({ hasSuccess: true }), setValue: noop });
+    expect(api.successProps["aria-live"]).toBe("polite");
+    expect(api.successProps.role).toBeUndefined();
+  });
+
+  it("describes by the error alone when a field is both invalid and successful", () => {
+    const api = connect({
+      state: stateFor({ hasSuccess: true, invalid: true }),
+      setValue: noop,
+    });
+    expect(api.controlProps["aria-describedby"]).toBe(errorId("fld"));
   });
 
   it("reflects required and disabled", () => {

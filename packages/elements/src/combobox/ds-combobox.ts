@@ -38,7 +38,7 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
  */
 export class DsCombobox extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled"];
+  static observedAttributes = ["value", "disabled", "empty-text"];
 
   #input: HTMLInputElement | null = null;
   #listbox: HTMLUListElement | null = null;
@@ -276,7 +276,6 @@ export class DsCombobox extends HTMLElementBase {
         li.setAttribute("role", "option");
         li.setAttribute("aria-selected", "false");
         li.setAttribute("aria-disabled", "true");
-        li.textContent = this.getAttribute("empty-text") ?? "No results";
         listbox.appendChild(li);
       }
       for (const item of this.#state.items) {
@@ -306,6 +305,12 @@ export class DsCombobox extends HTMLElementBase {
         listbox.appendChild(li);
       }
     }
+
+    // Outside the rebuild guard above: the empty state's wording depends on an
+    // attribute, not on the item list, so it has to refresh even when the list
+    // is untouched and the nodes are reused.
+    const emptyNode = listbox.querySelector(".combobox__empty");
+    if (emptyNode) emptyNode.textContent = this.getAttribute("empty-text") ?? "No results";
 
     // Decorate every option node with the connected props (selected/active
     // state, ids, handlers) — listeners are bookkept and replaced in place.
