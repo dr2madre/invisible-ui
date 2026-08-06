@@ -28,10 +28,22 @@ export interface SelectItem {
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsSelect extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "error"];
+  static observedAttributes = [
+    "value",
+    "disabled",
+    "error",
+    "label",
+    "name",
+    "required",
+    "placeholder",
+    "hide-label",
+    "width",
+  ];
 
   #select: HTMLSelectElement | null = null;
   #error: HTMLSpanElement | null = null;
+  #root: HTMLDivElement | null = null;
+  #label: HTMLLabelElement | null = null;
   #errorId = nextId("ds-select-error");
   #items: SelectItem[] = [];
 
@@ -74,14 +86,10 @@ export class DsSelect extends HTMLElementBase {
     const id = nextId("ds-select");
     const root = document.createElement("div");
     root.className = "select";
-    root.dataset.width = this.getAttribute("width") ?? "wrap";
 
     const label = document.createElement("label");
-    label.className = boolAttr(this, "hide-label")
-      ? "select__label select__label--hidden"
-      : "select__label";
+    label.className = "select__label";
     label.htmlFor = id;
-    label.textContent = this.getAttribute("label") ?? "";
 
     const control = document.createElement("span");
     control.className = "select__control";
@@ -89,9 +97,6 @@ export class DsSelect extends HTMLElementBase {
     const select = document.createElement("select");
     select.className = "select__native";
     select.id = id;
-    const name = this.getAttribute("name");
-    if (name) select.name = name;
-    select.required = boolAttr(this, "required");
     select.addEventListener("change", (event) => {
       event.stopPropagation();
       const next = select.value;
@@ -116,7 +121,14 @@ export class DsSelect extends HTMLElementBase {
     this.appendChild(root);
     this.#select = select;
     this.#error = error;
+    this.#root = root;
+    this.#label = label;
     this.#renderOptions();
+  }
+
+  /** Shared by the option rebuild and the sync, which both write it. */
+  #placeholderText() {
+    return this.getAttribute("placeholder") ?? "Select…";
   }
 
   #renderOptions() {
@@ -128,7 +140,7 @@ export class DsSelect extends HTMLElementBase {
     placeholder.value = "";
     placeholder.disabled = true;
     placeholder.hidden = true;
-    placeholder.textContent = this.getAttribute("placeholder") ?? "Select…";
+    placeholder.textContent = this.#placeholderText();
     select.appendChild(placeholder);
 
     for (const item of this.#items) {
@@ -143,6 +155,21 @@ export class DsSelect extends HTMLElementBase {
   #sync() {
     const select = this.#select!;
     select.disabled = boolAttr(this, "disabled");
+
+    this.#root!.dataset.width = this.getAttribute("width") ?? "wrap";
+    this.#label!.textContent = this.getAttribute("label") ?? "";
+    this.#label!.classList.toggle("select__label--hidden", boolAttr(this, "hide-label"));
+
+    const name = this.getAttribute("name");
+    if (name) select.name = name;
+    else select.removeAttribute("name");
+    select.required = boolAttr(this, "required");
+
+    // The placeholder option is rebuilt by #renderOptions, so refresh its text
+    // here too — the attribute can change without the item list moving.
+    const placeholder = select.querySelector<HTMLOptionElement>("option[value='']");
+    if (placeholder) placeholder.textContent = this.#placeholderText();
+
     select.value = this.value ?? "";
     select.classList.toggle("select__native--placeholder", this.value == null);
 

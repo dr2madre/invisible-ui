@@ -26,6 +26,10 @@ abstract class DsTextControl extends HTMLElementBase {
     "required",
     "disabled",
     "readonly",
+    "name",
+    "type",
+    "rows",
+    "autocomplete",
   ];
 
   #root: HTMLElement | null = null;
@@ -71,10 +75,6 @@ abstract class DsTextControl extends HTMLElementBase {
 
     const control = this.createControl();
     control.className = "field__control";
-    for (const attr of ["name", "placeholder", "autocomplete", "rows", "type"] as const) {
-      const value = this.getAttribute(attr);
-      if (value != null) control.setAttribute(attr, value);
-    }
     control.value = this.getAttribute("value") ?? "";
     // The host re-emits a CustomEvent with a typed detail; stop the native
     // events here so listeners on the host don't receive them twice.
@@ -139,6 +139,13 @@ abstract class DsTextControl extends HTMLElementBase {
     }
 
     applyProps(control, api.controlProps);
+    // Forwarded verbatim: the core has no opinion on them, and none collides
+    // with a key in controlProps.
+    for (const attr of ["name", "type", "rows", "autocomplete"] as const) {
+      const next = this.getAttribute(attr);
+      if (next != null) control.setAttribute(attr, next);
+      else control.removeAttribute(attr);
+    }
     const placeholder = this.getAttribute("placeholder");
     if (placeholder != null) control.placeholder = placeholder;
     // The attribute is the source of truth: typing writes it back, so this

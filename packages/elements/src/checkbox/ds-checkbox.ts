@@ -24,9 +24,18 @@ import { checkIcon, dashIcon } from "../internal/icons";
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
 export class DsCheckbox extends HTMLElementBase {
-  static observedAttributes = ["checked", "indeterminate", "disabled"];
+  static observedAttributes = [
+    "checked",
+    "indeterminate",
+    "disabled",
+    "label",
+    "name",
+    "value",
+    "required",
+  ];
 
   #input: HTMLInputElement | null = null;
+  #text: HTMLSpanElement | null = null;
 
   connectedCallback() {
     upgradeProperty(this, "checked");
@@ -54,14 +63,6 @@ export class DsCheckbox extends HTMLElementBase {
     const input = document.createElement("input");
     input.className = "checkbox__input";
     input.type = "checkbox";
-    for (const attr of ["name", "value", "required"] as const) {
-      const v = this.getAttribute(attr);
-      if (attr === "required") {
-        input.required = boolAttr(this, "required");
-      } else if (v != null) {
-        input.setAttribute(attr, v);
-      }
-    }
 
     const box = document.createElement("span");
     box.className = "checkbox";
@@ -71,7 +72,6 @@ export class DsCheckbox extends HTMLElementBase {
 
     const text = document.createElement("span");
     text.className = "field__label";
-    text.textContent = this.getAttribute("label") ?? "";
 
     // The host re-emits a CustomEvent with a typed detail; stop the native
     // change here so listeners on the host don't receive the event twice.
@@ -80,12 +80,21 @@ export class DsCheckbox extends HTMLElementBase {
     label.append(input, box, text);
     this.appendChild(label);
     this.#input = input;
+    this.#text = text;
   }
 
   #sync() {
     const input = this.#input!;
     const disabled = boolAttr(this, "disabled");
     input.closest("label")?.classList.toggle("field--disabled", disabled);
+
+    for (const attr of ["name", "value"] as const) {
+      const next = this.getAttribute(attr);
+      if (next != null) input.setAttribute(attr, next);
+      else input.removeAttribute(attr);
+    }
+    input.required = boolAttr(this, "required");
+    this.#text!.textContent = this.getAttribute("label") ?? "";
 
     const api = core.connect({
       state: { checked: this.checked, disabled },

@@ -284,13 +284,13 @@
       "attributes": [
         {
           "name": "label",
-          "reactive": false,
+          "reactive": true,
           "required": true,
           "description": ""
         },
         {
           "name": "hide-label",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
@@ -302,7 +302,7 @@
         },
         {
           "name": "placeholder",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
@@ -314,19 +314,19 @@
         },
         {
           "name": "width",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": "wrap|fill|fixed"
         },
         {
           "name": "name",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
         {
           "name": "required",
-          "reactive": false,
+          "reactive": true,
           "required": false,
           "description": ""
         },
