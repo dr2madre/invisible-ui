@@ -118,8 +118,3 @@ the native-first stance. The divergences worth a decision:
 | Meter | `<meter>` | Same assessment as Progress. |
 | Separator | `<hr>` | Horizontal case only. |
 | Popover | Popover API (`popover` attribute) | Would remove scripted outside-click/positioning glue; check browser support window against `docs/browser-support.md`. |
-
-## Housekeeping found during the audit
-
-- `inline-notification/InlineNotification.svelte`'s doc comment still calls the
-  component "Alert" — stale from the rename; fix on next touch.
