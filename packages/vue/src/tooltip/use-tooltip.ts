@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UseTooltipOptions {
   /** Preferred placement. Default `"top"`. */
@@ -40,8 +41,6 @@ export interface UseTooltip {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless Tooltip to Vue. ARIA lives in `@design-system/core`
  * (`role="tooltip"`, `aria-describedby` linkage); this composable owns the DOM
@@ -55,7 +54,7 @@ let instanceCount = 0;
  * Escape listener is attached by the post-flush `watch` while open.
  */
 export function useTooltip(options: MaybeRefOrGetter<UseTooltipOptions> = {}): UseTooltip {
-  const id = `ds-tooltip-${++instanceCount}`;
+  const id = useStableId("ds-tooltip");
   const resolved = computed(() => toValue(options));
   const open = ref(false);
 

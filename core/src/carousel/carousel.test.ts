@@ -35,6 +35,11 @@ describe("carousel state", () => {
     expect(canGoPrev(make({ index: 0, loop: true }))).toBe(true);
     expect(canGoNext(make({ index: 2, loop: true }))).toBe(true);
   });
+
+  it("reports no movement for an empty or single-slide loop", () => {
+    expect(canGoNext(make({ count: 0, loop: true }))).toBe(false);
+    expect(canGoPrev(make({ count: 1, loop: true }))).toBe(false);
+  });
 });
 
 describe("carousel connect", () => {

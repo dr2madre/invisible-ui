@@ -1,4 +1,5 @@
 import { defineComponent, h, type PropType } from "vue";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface RadioProps {
   /** The value submitted / reported when this radio is chosen. */
@@ -16,8 +17,6 @@ export interface RadioProps {
 
 // Stable per-instance id for the label association; the same module-counter
 // approach as Select (Vue's own `useId` landed after the ^3.4 peer range).
-let instanceCount = 0;
-
 /**
  * Radio — a single styled radio button paired with its label, ported from the
  * Svelte adapter. Built on a native `<input type="radio">`, so several `Radio`s
@@ -39,7 +38,7 @@ export const Radio = defineComponent({
     onChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   setup(props, { slots }) {
-    const id = `ds-radio-${++instanceCount}`;
+    const id = useStableId("ds-radio");
 
     return () =>
       h("label", { class: ["radio", { "radio--disabled": props.disabled }], for: id }, [

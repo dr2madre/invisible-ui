@@ -1,6 +1,7 @@
 import { radioGroup as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type RadioGroupOrientation = core.Orientation;
 export type RadioItem = core.RadioItem;
@@ -19,8 +20,6 @@ export interface UseRadioGroupOptions {
   onValueChange?: (value: string) => void;
 }
 
-let nameCounter = 0;
-
 /**
  * Connect the headless radio group to Vue. The group is backed by **native**
  * `<input type="radio">` items sharing a `name`: the browser owns single
@@ -33,7 +32,8 @@ export function useRadioGroup(
   options: MaybeRefOrGetter<UseRadioGroupOptions>,
 ): ComputedRef<core.RadioGroupApi> {
   const resolved = computed(() => toValue(options));
-  const name = resolved.value.name ?? `ds-radio-group-${++nameCounter}`;
+  const generatedName = useStableId("ds-radio-group");
+  const name = resolved.value.name ?? generatedName;
   const value = ref<string | null>(resolved.value.value ?? null);
 
   watch(

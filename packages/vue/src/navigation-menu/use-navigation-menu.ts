@@ -12,6 +12,7 @@ import {
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 /** A link inside a navigation menu panel. */
 export interface NavigationMenuLink {
@@ -74,8 +75,6 @@ const FOCUSABLE =
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless navigation menu to Vue. State and ARIA (the open value,
  * `aria-expanded` / `aria-controls`, Escape, ArrowDown) live in
@@ -89,7 +88,7 @@ let instanceCount = 0;
 export function useNavigationMenu(
   options: MaybeRefOrGetter<UseNavigationMenuOptions> = {},
 ): UseNavigationMenu {
-  const id = `ds-navigation-menu-${++instanceCount}`;
+  const id = useStableId("ds-navigation-menu");
   const resolved = computed(() => toValue(options));
 
   const value = ref<string | null>(resolved.value.value ?? null);

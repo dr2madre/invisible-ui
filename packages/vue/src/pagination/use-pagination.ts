@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type PageItem = core.PageItem;
 
@@ -40,8 +41,6 @@ export interface UsePagination {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless pagination to Vue: previous, the visible page numbers
  * (with ellipsis gaps) and next form a single-select roving collection, like
@@ -52,7 +51,7 @@ let instanceCount = 0;
  * container (`rootRef`).
  */
 export function usePagination(options: MaybeRefOrGetter<UsePaginationOptions>): UsePagination {
-  const id = `ds-pagination-${++instanceCount}`;
+  const id = useStableId("ds-pagination");
   const resolved = computed(() => toValue(options));
 
   const pageCount = computed(() => Math.max(resolved.value.pageCount, 1));

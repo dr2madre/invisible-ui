@@ -47,6 +47,14 @@ describe("tabs connect", () => {
     expect(api.getPanelProps("three").hidden).toBe(true);
   });
 
+  it("keeps a tab stop when the controlled value becomes unavailable", () => {
+    const disabled = connect({ state: make({ value: "two" }), setValue: noop });
+    expect(disabled.getTabProps("one").tabindex).toBe(0);
+
+    const missing = connect({ state: make({ value: "missing" }), setValue: noop });
+    expect(missing.getTabProps("one").tabindex).toBe(0);
+  });
+
   it("selects on click but ignores disabled tabs", () => {
     const setValue = vi.fn();
     const api = connect({ state: make(), setValue });

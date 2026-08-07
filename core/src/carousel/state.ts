@@ -37,10 +37,10 @@ export function prevIndex(state: CarouselState): number {
 
 /** Whether moving forward is currently possible. */
 export function canGoNext(state: CarouselState): boolean {
-  return state.loop || state.index < state.count - 1;
+  return state.count > 1 && (state.loop || state.index < state.count - 1);
 }
 
 /** Whether moving back is currently possible. */
 export function canGoPrev(state: CarouselState): boolean {
-  return state.loop || state.index > 0;
+  return state.count > 1 && (state.loop || state.index > 0);
 }

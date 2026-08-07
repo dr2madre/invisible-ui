@@ -117,6 +117,14 @@ describe("calendar connect", () => {
     expect(focused).toEqual(["2024-06-10"]); // -7 days clamped back to min
   });
 
+  it("clamps previous and next period navigation into range", () => {
+    const { api, calls } = harness(
+      base({ focusedDate: "2024-06-10", min: "2024-06-10", max: "2024-06-20" }),
+    );
+    api.goPrev();
+    expect(calls.focus).toEqual(["2024-06-10"]);
+  });
+
   it("marks the focused day as the roving tab stop", () => {
     const { api } = harness(base({ focusedDate: "2024-06-12" }));
     expect(api.getDayProps("2024-06-12").tabindex).toBe(0);

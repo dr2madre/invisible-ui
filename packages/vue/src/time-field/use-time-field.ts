@@ -1,6 +1,7 @@
 import { timeField as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type HourCycle = core.HourCycle;
 export type TimeSegmentType = core.TimeSegmentType;
@@ -28,8 +29,6 @@ export interface UseTimeField {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless time field (a segmented spinbutton) to Vue. The
  * digit-entry and keyboard logic live in `@design-system/core`: arrows
@@ -39,7 +38,7 @@ let instanceCount = 0;
  * between segments, and reports the formatted value when it changes.
  */
 export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}): UseTimeField {
-  const id = `ds-time-field-${++instanceCount}`;
+  const id = useStableId("ds-time-field");
   const resolved = computed(() => toValue(options));
 
   const hourCycle = computed(() => resolved.value.hourCycle ?? 24);

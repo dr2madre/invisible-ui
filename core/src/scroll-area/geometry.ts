@@ -40,7 +40,8 @@ export function scrollbar(metrics: ScrollMetrics): ScrollbarGeometry {
  */
 export function scrollByThumbDrag(deltaPx: number, metrics: ScrollMetrics): number {
   const { scrollPos, scrollSize, clientSize } = metrics;
-  if (clientSize <= 0) return scrollPos;
+  const maxScroll = Math.max(0, scrollSize - clientSize);
+  if (clientSize <= 0) return Math.min(maxScroll, Math.max(0, scrollPos));
   const next = scrollPos + (deltaPx * scrollSize) / clientSize;
-  return Math.min(scrollSize - clientSize, Math.max(0, next));
+  return Math.min(maxScroll, Math.max(0, next));
 }

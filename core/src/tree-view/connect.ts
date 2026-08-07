@@ -81,7 +81,16 @@ export function connect({
 
   // The single tab stop: the focused node, else the selected one, else the
   // first visible enabled node.
-  const tabStop = state.focused ?? selected ?? firstVisible(state);
+  const canReceiveFocus = (value: string | null): value is string => {
+    if (value == null) return false;
+    const node = visibleNode(state, value);
+    return Boolean(node && !node.disabled);
+  };
+  const tabStop = canReceiveFocus(state.focused)
+    ? state.focused
+    : canReceiveFocus(selected)
+      ? selected
+      : firstVisible(state);
 
   const onArrowRight = (value: string) => {
     const node = visibleNode(state, value);
@@ -134,10 +143,13 @@ export function connect({
         "data-disabled": itemDisabled ? "" : undefined,
         "data-value": value,
         onClick: () => {
+          if (itemDisabled) return;
           setFocused(value);
           select(value);
         },
-        onFocus: () => setFocused(value),
+        onFocus: () => {
+          if (!itemDisabled) setFocused(value);
+        },
         onKeyDown: (event: Event) => {
           const key = (event as KeyboardEvent).key;
           switch (key) {

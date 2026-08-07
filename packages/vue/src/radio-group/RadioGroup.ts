@@ -1,4 +1,5 @@
 import { defineComponent, h, type PropType } from "vue";
+import { useStableId } from "../internal/use-stable-id";
 import { useRadioGroup, type RadioGroupOrientation, type RadioItem } from "./use-radio-group";
 
 /** An item, with an optional display label (falls back to `value`). */
@@ -22,8 +23,6 @@ export interface RadioGroupProps {
 
 // Stable per-instance id for the group label association; same module-counter
 // approach as Select (Vue's own `useId` landed after the ^3.4 peer range).
-let instanceCount = 0;
-
 /**
  * RadioGroup: the styled, batteries-included radio group built on **native**
  * `<input type="radio">` items sharing a `name`. The browser provides single
@@ -52,7 +51,7 @@ export const RadioGroup = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit }) {
-    const labelId = `ds-radio-group-label-${++instanceCount}`;
+    const labelId = useStableId("ds-radio-group-label");
 
     const api = useRadioGroup(() => ({
       items: props.items,

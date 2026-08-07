@@ -4,6 +4,7 @@ import type { ButtonVariant } from "../button/use-button";
 import { FeedbackIcon, type FeedbackStatus } from "../feedback-icon/FeedbackIcon";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
+import { useStableId } from "../internal/use-stable-id";
 
 /** A data-driven action button (alternative to the `actions` slot). */
 export interface InlineNotificationAction {
@@ -73,8 +74,6 @@ export interface InlineNotificationProps {
 
 // Stable per-instance title ids, as in Select: a module counter keeps the Vue
 // peer range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * InlineNotification — a banner that communicates a feedback message, ported
  * from the Svelte adapter and composed from the existing building blocks: a
@@ -122,7 +121,7 @@ export const InlineNotification = defineComponent({
   },
   setup(props, { emit, slots }) {
     const i18n = useI18n();
-    const titleId = `ds-alert-${++instanceCount}-title`;
+    const titleId = `${useStableId("ds-alert")}-title`;
 
     // Mirror an externally controlled `open` (dismissing flips it locally).
     const open = ref(props.open);

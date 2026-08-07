@@ -1,6 +1,7 @@
 import { progress as core } from "@design-system/core";
 import { computed, ref, type ComputedRef } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type ProgressApi = core.ProgressApi;
 export type ProgressState = core.ProgressState;
@@ -23,7 +24,9 @@ export interface UseProgress {
  * accessible name, supplied by the consumer (`aria-label`).
  */
 export function useProgress(context: core.ProgressContext = {}): UseProgress {
-  const state = ref<ProgressState>(core.initialState(context));
+  const state = ref<ProgressState>(
+    core.initialState({ ...context, id: context.id ?? useStableId("ds-progress") }),
+  );
 
   const setValue = (value: number | null) => {
     state.value = { ...state.value, value };

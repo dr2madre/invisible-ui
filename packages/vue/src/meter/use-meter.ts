@@ -1,6 +1,7 @@
 import { meter as core } from "@design-system/core";
 import { computed, ref, type ComputedRef } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type MeterApi = core.MeterApi;
 export type MeterState = core.MeterState;
@@ -26,7 +27,9 @@ export interface UseMeter {
  * (`aria-label`).
  */
 export function useMeter(context: MeterContext = {}): UseMeter {
-  const state = ref<MeterState>(core.initialState(context));
+  const state = ref<MeterState>(
+    core.initialState({ ...context, id: context.id ?? useStableId("ds-meter") }),
+  );
 
   const setValue = (value: number) => {
     state.value = { ...state.value, value };

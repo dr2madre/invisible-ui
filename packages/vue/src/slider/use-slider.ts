@@ -1,6 +1,7 @@
 import { slider as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type SliderApi = core.SliderApi;
 export type SliderState = core.SliderState;
@@ -33,7 +34,7 @@ export function useSlider(
   const resolved = computed(() => toValue(options));
   // One seeding pass fixes the id, so later states reuse it instead of drawing
   // a fresh one from the core's counter on every recompute.
-  const seed = core.initialState(resolved.value);
+  const seed = core.initialState({ ...resolved.value, id: useStableId("ds-slider") });
   const value = ref(seed.value);
 
   watch(

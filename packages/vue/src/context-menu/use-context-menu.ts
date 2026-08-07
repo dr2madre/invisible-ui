@@ -12,6 +12,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type MenuItem = core.MenuItem;
 
@@ -57,8 +58,6 @@ const MOVE_TOLERANCE = 10;
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect a headless context menu to Vue: a `role="menu"` summoned by
  * right-click, by the keyboard context-menu key, or by a long press on touch.
@@ -74,7 +73,7 @@ let instanceCount = 0;
  * element exists to point at.
  */
 export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>): UseContextMenu {
-  const id = `ds-context-menu-${++instanceCount}`;
+  const id = useStableId("ds-context-menu");
   const resolved = computed(() => toValue(options));
 
   const open = ref(false);

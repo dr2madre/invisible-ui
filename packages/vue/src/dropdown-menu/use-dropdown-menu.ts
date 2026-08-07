@@ -11,6 +11,7 @@ import {
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating } from "../internal/floating";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type MenuItem = core.MenuItem;
 
@@ -35,8 +36,6 @@ const TYPEAHEAD_RESET = 500;
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless menu (WAI-ARIA menu button) to Vue. Behaviour and
  * accessibility live in `@design-system/core` (open/close, arrow & Home/End
@@ -52,7 +51,7 @@ let instanceCount = 0;
 export function useDropdownMenu(
   options: MaybeRefOrGetter<UseDropdownMenuOptions>,
 ): UseDropdownMenu {
-  const id = `ds-menu-${++instanceCount}`;
+  const id = useStableId("ds-menu");
   const resolved = computed(() => toValue(options));
 
   const open = ref(false);

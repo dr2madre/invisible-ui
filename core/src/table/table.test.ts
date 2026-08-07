@@ -46,6 +46,15 @@ describe("table state — comparison & sorting", () => {
     expect(compareValues(5, null)).toBeLessThan(0);
   });
 
+  it("keeps nullish values at the end when sorting descending", () => {
+    const nullable = [{ value: 2 }, { value: null }, { value: 1 }];
+    expect(sortRows(nullable, { key: "value", direction: "desc" })).toEqual([
+      { value: 2 },
+      { value: 1 },
+      { value: null },
+    ]);
+  });
+
   it("sorts rows ascending and descending, stably", () => {
     const asc = sortRows(rows, { key: "age", direction: "asc" }).map((r) => r.age);
     expect(asc).toEqual([36, 41, 85]);
