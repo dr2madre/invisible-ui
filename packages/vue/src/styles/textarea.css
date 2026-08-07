@@ -69,7 +69,8 @@
   cursor: not-allowed;
 }
 
-/* Help, error and success text match the control's (placeholder) text size. */
+/* Help, error and success text match the control's (placeholder) text size.
+   Error and success messages use a flex row for their leading glyph. */
 .textarea .field__description {
   margin: 0;
   color: var(--ds-color-text-secondary, #64748b);
