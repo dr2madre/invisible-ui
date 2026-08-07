@@ -38,6 +38,20 @@
           "description": ""
         },
         {
+          "name": "invalid",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Domain-level invalid state. Structural time errors are detected automatically."
+        },
+        {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Visible, actionable error text supplied by the application."
+        },
+        {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
@@ -57,6 +71,13 @@
           "default": "undefined",
           "required": false,
           "description": "Called with the formatted value (or `null` while incomplete)."
+        },
+        {
+          "name": "onValidationChange",
+          "type": "((error: TimeValueError | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when structural validation changes; `null` means no structural error."
         }
       ]
     },
@@ -103,6 +124,20 @@
           "description": ""
         },
         {
+          "name": "invalid",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Domain-level invalid state. Structural time errors are detected automatically."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Visible, actionable error text supplied by the application."
+        },
+        {
           "name": "label",
           "type": "string",
           "default": "undefined",
@@ -122,6 +157,13 @@
           "default": "undefined",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "onValidationChange",
+          "type": "(error: TimeValueError | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when structural validation changes; `null` means no structural error."
         }
       ],
       "emits": [

@@ -30,7 +30,15 @@ export const en = {
   "dateRangePicker.clear": "Clear range",
   // Time Field
   "timeField.label": "Time",
+  "timeField.hour": "Hour",
+  "timeField.minute": "Minute",
+  "timeField.second": "Second",
   "timeField.dayPeriod": "AM/PM",
+  "timeField.empty": "Empty",
+  "timeField.invalidFormat": "Enter a time in the expected format.",
+  "timeField.outOfRange": "Enter a time within the allowed range.",
+  "timeField.secondsRequired": "Enter hours, minutes, and seconds.",
+  "timeField.secondsNotAllowed": "Enter hours and minutes only.",
   // Loading
   "loading.label": "Loading…",
   // Alert

@@ -1,10 +1,28 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { bounds, format, pad2, periodOf, segmentId, segments, to12 } from "./state";
-import type { TimeFieldState, TimeParts, TimeSegmentType } from "./types";
+import { bounds, format, from12, pad2, segmentId, segments, to12 } from "./state";
+import type {
+  DayPeriod,
+  TimeFieldState,
+  TimeInputStatus,
+  TimeParts,
+  TimeSegmentType,
+  TimeValueError,
+} from "./types";
+
+export interface TimeFieldMessages {
+  hour: string;
+  minute: string;
+  second: string;
+  dayPeriod: string;
+  empty: string;
+  dayPeriodPlaceholder: string;
+}
 
 export interface TimeFieldApi {
   /** The formatted value (`HH:mm[:ss]`), or `null` when incomplete. */
   value: string | null;
+  status: TimeInputStatus;
+  validationError: TimeValueError | null;
   /** Props for the field container (`role="group"`). */
   rootProps: ElementProps;
   /** Props for a segment (`role="spinbutton"`), by type. */
@@ -19,6 +37,13 @@ export interface ConnectOptions {
   commit: (parts: TimeParts, buffer: string, bufferSeg: TimeSegmentType | null) => void;
   /** Move DOM focus to a segment (adapter-provided). */
   focus?: (seg: TimeSegmentType) => void;
+  /** Domain-level invalid state supplied by the consumer. */
+  invalid?: boolean;
+  /** Prevent editing while preserving readable segment values. */
+  disabled?: boolean;
+  /** Ids of visible description/error elements. */
+  describedBy?: string;
+  messages?: Partial<TimeFieldMessages>;
   normalize?: Normalize;
 }
 
@@ -26,7 +51,16 @@ const PLACEHOLDER: Record<TimeSegmentType, string> = {
   hour: "hh",
   minute: "mm",
   second: "ss",
-  dayPeriod: "AM",
+  dayPeriod: "--",
+};
+
+const DEFAULT_MESSAGES: TimeFieldMessages = {
+  hour: "Hour",
+  minute: "Minute",
+  second: "Second",
+  dayPeriod: "AM/PM",
+  empty: "Empty",
+  dayPeriodPlaceholder: "--",
 };
 
 const wrap = (n: number, mod: number) => ((n % mod) + mod) % mod;
@@ -35,10 +69,15 @@ export function connect({
   state,
   commit,
   focus,
+  invalid = false,
+  disabled = false,
+  describedBy,
+  messages: messageOverrides,
   normalize = identityNormalize,
 }: ConnectOptions): TimeFieldApi {
-  const { parts, hourCycle, withSeconds, buffer, bufferSeg, id } = state;
+  const { parts, hourCycle, withSeconds, buffer, bufferSeg, id, validationError } = state;
   const order = segments(hourCycle, withSeconds);
+  const messages = { ...DEFAULT_MESSAGES, ...messageOverrides };
 
   const displayValue = (seg: TimeSegmentType): number | null => {
     if (seg === "hour")
@@ -48,18 +87,12 @@ export function connect({
     return null;
   };
 
-  const setHourFrom12 = (display: number, period: "AM" | "PM"): number => {
-    const h = display % 12;
-    return period === "PM" ? h + 12 : h;
-  };
-
   const withPart = (seg: TimeSegmentType, raw: number | null): TimeParts => {
     const next: TimeParts = { ...parts };
     if (seg === "hour") {
       if (raw == null) next.hour = null;
       else if (hourCycle === 12) {
-        const period = parts.hour != null ? periodOf(parts.hour) : "AM";
-        next.hour = setHourFrom12(raw, period);
+        next.hour = parts.dayPeriod == null ? raw : from12(raw, parts.dayPeriod);
       } else next.hour = raw;
     } else if (seg === "minute") next.minute = raw;
     else if (seg === "second") next.second = raw;
@@ -67,33 +100,34 @@ export function connect({
   };
 
   const stepNumeric = (seg: TimeSegmentType, dir: 1 | -1) => {
-    const mod = seg === "hour" ? 24 : 60;
-    // hour uses the internal 0–23 domain so 12h wraps through AM/PM correctly.
-    const cur = seg === "hour" ? parts.hour : seg === "minute" ? parts.minute : parts.second;
-    const base = cur == null ? (dir === 1 ? -1 : 0) : cur;
-    const nextRaw = wrap(base + dir, mod);
-    const next: TimeParts = { ...parts };
-    if (seg === "hour") next.hour = nextRaw;
-    else if (seg === "minute") next.minute = nextRaw;
-    else next.second = nextRaw;
-    commit(next, "", null);
+    const { min, max } = bounds(seg, hourCycle);
+    const current = displayValue(seg);
+    const base = current == null ? (dir === 1 ? min - 1 : min) : current;
+    const span = max - min + 1;
+    const nextRaw = min + wrap(base - min + dir, span);
+    commit(withPart(seg, nextRaw), "", null);
   };
 
-  const togglePeriod = (to?: "AM" | "PM") => {
-    const cur = parts.hour ?? 0;
-    const period = to ?? (periodOf(cur) === "AM" ? "PM" : "AM");
-    const next: TimeParts = { ...parts, hour: setHourFrom12(to12(cur), period) };
+  const togglePeriod = (to?: DayPeriod) => {
+    const currentPeriod = parts.dayPeriod;
+    const period = to ?? (currentPeriod === "AM" ? "PM" : "AM");
+    const displayHour =
+      parts.hour == null ? null : currentPeriod == null ? parts.hour : to12(parts.hour);
+    const next: TimeParts = {
+      ...parts,
+      dayPeriod: period,
+      hour: displayHour == null ? null : from12(displayHour, period),
+    };
     commit(next, "", null);
   };
 
   const typeDigit = (seg: TimeSegmentType, digit: string) => {
     const { max } = bounds(seg, hourCycle);
-    let buf = bufferSeg === seg ? buffer + digit : digit;
-    let cand = Number(buf);
-    if (cand > max) {
-      buf = digit;
-      cand = Number(digit);
-    }
+    const buf = bufferSeg === seg ? buffer + digit : digit;
+    const cand = Number(buf);
+    // Keep focus and the previous value instead of silently treating the last
+    // digit as a new value (for example, turning an attempted 25 into 05).
+    if (cand > max) return;
     // 12h hour: a lone 0 isn't valid yet — keep buffering for a second digit.
     const tooSmall = seg === "hour" && hourCycle === 12 && cand === 0;
     const full = !tooSmall && (buf.length >= 2 || cand * 10 > max);
@@ -108,7 +142,10 @@ export function connect({
   };
 
   const clear = (seg: TimeSegmentType) => {
-    if (seg === "dayPeriod") return;
+    if (seg === "dayPeriod") {
+      commit({ ...parts, dayPeriod: null }, "", null);
+      return;
+    }
     commit(withPart(seg, null), "", null);
   };
 
@@ -119,6 +156,7 @@ export function connect({
   };
 
   const onKeyDown = (seg: TimeSegmentType) => (event: Event) => {
+    if (disabled) return;
     const e = event as KeyboardEvent;
     switch (e.key) {
       case "ArrowUp":
@@ -168,6 +206,7 @@ export function connect({
   const onBeforeInput = (seg: TimeSegmentType) => (event: Event) => {
     const e = event as InputEvent;
     e.preventDefault?.();
+    if (disabled) return;
     if ((e.inputType ?? "").startsWith("delete")) {
       clear(seg);
       return;
@@ -185,36 +224,58 @@ export function connect({
 
   const getSegmentText = (seg: TimeSegmentType): string => {
     if (seg === "dayPeriod") {
-      return parts.hour == null ? PLACEHOLDER.dayPeriod : periodOf(parts.hour);
+      return parts.dayPeriod ?? messages.dayPeriodPlaceholder;
     }
     const v = displayValue(seg);
     return v == null ? PLACEHOLDER[seg] : pad2(v);
   };
 
+  const value = format(parts, withSeconds, hourCycle);
+  const isEmpty =
+    parts.hour == null && parts.minute == null && parts.second == null && parts.dayPeriod == null;
+  const status: TimeInputStatus = validationError
+    ? "invalid"
+    : value != null
+      ? "valid"
+      : isEmpty
+        ? "empty"
+        : "incomplete";
+  const isInvalid = invalid || validationError != null;
+
   return {
-    value: format(parts, withSeconds),
-    rootProps: normalize({ role: "group" }),
+    value,
+    status,
+    validationError,
+    rootProps: normalize({
+      role: "group",
+      "aria-invalid": isInvalid || undefined,
+      "aria-describedby": describedBy,
+      "aria-disabled": disabled || undefined,
+      "data-status": status,
+    }),
     getSegmentText,
     getSegmentProps: (seg: TimeSegmentType) => {
       if (seg === "dayPeriod") {
-        const period = parts.hour == null ? null : periodOf(parts.hour);
+        const period = parts.dayPeriod;
         return normalize({
           role: "spinbutton",
           id: segmentId(id, seg),
-          tabindex: 0,
-          contenteditable: "true",
+          tabindex: disabled ? -1 : 0,
+          contenteditable: disabled ? "false" : "true",
           inputmode: "text",
           spellcheck: false,
           autocapitalize: "none",
           "data-segment": seg,
-          "aria-label": "AM/PM",
-          "aria-valuetext": period ?? "Empty",
+          "aria-label": messages.dayPeriod,
+          "aria-valuetext": period ?? messages.empty,
           "aria-valuemin": 0,
           "aria-valuemax": 1,
-          "aria-valuenow": period === "PM" ? 1 : 0,
+          "aria-valuenow": period == null ? undefined : period === "PM" ? 1 : 0,
           onKeyDown: onKeyDown(seg),
           onBeforeInput: onBeforeInput(seg),
-          onClick: () => togglePeriod(),
+          onClick: () => {
+            if (!disabled) togglePeriod();
+          },
         });
       }
       const { min, max } = bounds(seg, hourCycle);
@@ -222,17 +283,18 @@ export function connect({
       return normalize({
         role: "spinbutton",
         id: segmentId(id, seg),
-        tabindex: 0,
-        contenteditable: "true",
+        tabindex: disabled ? -1 : 0,
+        contenteditable: disabled ? "false" : "true",
         inputmode: "numeric",
         spellcheck: false,
         autocapitalize: "none",
         "data-segment": seg,
-        "aria-label": seg,
+        "aria-label": messages[seg],
         "aria-valuemin": min,
         "aria-valuemax": max,
         "aria-valuenow": v ?? undefined,
-        "aria-valuetext": v == null ? "Empty" : pad2(v),
+        "aria-valuetext": v == null ? messages.empty : pad2(v),
+        "aria-invalid": state.invalidSegment === seg || undefined,
         onKeyDown: onKeyDown(seg),
         onBeforeInput: onBeforeInput(seg),
       });

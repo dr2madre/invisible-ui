@@ -84,7 +84,7 @@ because it is part of the native-first stance (ADR 0003/0005).
 | Tag | plain `<span>` chip | presentational | — | ≠ | No spec component. |
 | Text Input | native `<input>` | native | native | | |
 | Text Area | HTML `<textarea>` | native | native | | |
-| Time Field | `role="spinbutton"` segments | ARIA | hidden input | | Deliberately ARIA (per-segment editing) over native `<input type="time">`. |
+| [Time Field](time-field.md) | `role="spinbutton"` segments | ARIA | hidden input | | Deliberately ARIA (per-segment editing) over native `<input type="time">`; canonical value and validation contract documented. |
 | Toggle Button | native checkbox styled as button | native | native | | APG "toggle button" uses `aria-pressed`; ours is a checkbox by design (form participation). |
 | Toggle Group | `role="group"` visual wrapper | presentational | — | | Children carry their own semantics. |
 | Toolbar | APG Toolbar | ARIA | — | | Roving tabindex. |

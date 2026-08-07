@@ -8,13 +8,33 @@
 
 export type HourCycle = 12 | 24;
 
+export type DayPeriod = "AM" | "PM";
+
 export type TimeSegmentType = "hour" | "minute" | "second" | "dayPeriod";
+
+export type TimeInputStatus = "empty" | "incomplete" | "valid" | "invalid";
+
+export type TimeValueError =
+  "invalid-format" | "out-of-range" | "seconds-required" | "seconds-not-allowed";
 
 /** Resolved time parts (hour is always 0–23 internally; `null` = empty). */
 export interface TimeParts {
   hour: number | null;
   minute: number | null;
   second: number | null;
+  /** Required to publish a value in 12-hour mode; never inferred for empty input. */
+  dayPeriod: DayPeriod | null;
+}
+
+export interface TimeParseResult {
+  status: "empty" | "valid" | "invalid";
+  parts: TimeParts;
+  /** Canonical 24-hour value when valid. */
+  canonical: string | null;
+  error: TimeValueError | null;
+  invalidSegment: Exclude<TimeSegmentType, "dayPeriod"> | null;
+  /** Whether a valid non-canonical value, such as `9:30`, was padded. */
+  normalized: boolean;
 }
 
 /** User-provided options when creating a time field. */
@@ -36,6 +56,8 @@ export interface TimeFieldState {
   parts: TimeParts;
   hourCycle: HourCycle;
   withSeconds: boolean;
+  validationError: TimeValueError | null;
+  invalidSegment: Exclude<TimeSegmentType, "dayPeriod"> | null;
   /** In-progress digit entry for the focused segment. */
   buffer: string;
   bufferSeg: TimeSegmentType | null;
