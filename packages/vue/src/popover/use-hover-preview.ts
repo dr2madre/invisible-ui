@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UseHoverPreviewOptions {
   /** Initial / controlled open state. */
@@ -43,8 +44,6 @@ export interface UseHoverPreview {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * The hover/focus preview behaviour behind `Popover`'s `trigger="hover"` mode
  * (the pattern shipped as HoverCard in the Svelte adapter). ARIA/state live in
@@ -62,7 +61,7 @@ let instanceCount = 0;
 export function useHoverPreview(
   options: MaybeRefOrGetter<UseHoverPreviewOptions> = {},
 ): UseHoverPreview {
-  const id = `ds-hover-preview-${++instanceCount}`;
+  const id = useStableId("ds-hover-preview");
   const resolved = computed(() => toValue(options));
   const open = ref(resolved.value.open ?? false);
 

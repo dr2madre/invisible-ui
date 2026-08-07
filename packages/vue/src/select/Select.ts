@@ -1,6 +1,7 @@
 import { defineComponent, h, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface SelectItem {
   value: string;
@@ -41,8 +42,6 @@ export interface SelectProps {
 // Stable per-instance ids for the label / error association. The React adapter
 // gets these from `useId`; a module counter keeps the Vue peer range at ^3.4
 // (Vue's own `useId` landed in 3.5) and is enough for the client-rendered PoC.
-let instanceCount = 0;
-
 /**
  * Select: a styled **native** `<select>`. The browser owns the popup,
  * keyboard, typeahead, form participation and the platform picker on mobile;
@@ -81,9 +80,8 @@ export const Select = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit }) {
-    const uid = ++instanceCount;
-    const selectId = `ds-select-${uid}`;
-    const errorId = `ds-select-${uid}-error`;
+    const selectId = useStableId("ds-select");
+    const errorId = `${selectId}-error`;
     const i18n = useI18n();
 
     const onChange = (event: Event) => {

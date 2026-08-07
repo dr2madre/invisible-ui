@@ -1,6 +1,7 @@
 import { collapsible as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UseCollapsibleOptions {
   /** Initial (uncontrolled) or current (controlled) open state. */
@@ -24,8 +25,6 @@ export interface UseCollapsible {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless collapsible (WAI-ARIA disclosure pattern) to Vue: one
  * trigger button showing or hiding one content region. Behaviour and
@@ -36,7 +35,7 @@ let instanceCount = 0;
 export function useCollapsible(
   options: MaybeRefOrGetter<UseCollapsibleOptions> = {},
 ): UseCollapsible {
-  const id = `ds-collapsible-${++instanceCount}`;
+  const id = useStableId("ds-collapsible");
   const resolved = computed(() => toValue(options));
 
   const open = ref(resolved.value.open ?? false);

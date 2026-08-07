@@ -57,8 +57,13 @@ export function sortRows<T>(
   return rows
     .map((row, index) => ({ row, index }))
     .sort((a, b) => {
-      const result = compareValues(getValue(a.row, sort.key), getValue(b.row, sort.key));
-      return result !== 0 ? result * factor : a.index - b.index; // stable tiebreak
+      const aValue = getValue(a.row, sort.key);
+      const bValue = getValue(b.row, sort.key);
+      const result = compareValues(aValue, bValue);
+      if (result === 0) return a.index - b.index; // stable tiebreak
+      // Nullish values stay at the end in both directions; only concrete
+      // values reverse for descending order.
+      return aValue == null || bValue == null ? result : result * factor;
     })
     .map((entry) => entry.row);
 }

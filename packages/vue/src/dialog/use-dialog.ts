@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type DialogRole = core.DialogRole;
 
@@ -45,8 +46,6 @@ export interface UseDialog {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless Dialog to Vue on the native `<dialog>` element
  * (ADR 0005).
@@ -64,7 +63,7 @@ let instanceCount = 0;
  * the React effect's lifecycle.
  */
 export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): UseDialog {
-  const id = `ds-dialog-${++instanceCount}`;
+  const id = useStableId("ds-dialog");
   const resolved = computed(() => toValue(options));
   const open = ref(resolved.value.open ?? false);
 

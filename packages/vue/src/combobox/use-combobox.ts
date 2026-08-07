@@ -12,6 +12,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type ComboboxItem = core.ComboboxItem;
 
@@ -68,8 +69,6 @@ const PLACEMENT: Placement = "bottom-start";
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless Combobox to Vue, the adapter's hard case.
  *
@@ -86,7 +85,7 @@ let instanceCount = 0;
  * same shape `useCheckbox` and `useSwitch` follow.
  */
 export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseCombobox {
-  const id = `ds-combobox-${++instanceCount}`;
+  const id = useStableId("ds-combobox");
   const resolved = computed(() => toValue(options));
   const allItems = computed(() => resolved.value.items);
   const filterFn = computed(() => resolved.value.filter ?? defaultFilter);

@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 import { useI18n } from "../i18n/i18n";
 
 export type PinInputType = core.PinInputType;
@@ -59,7 +60,7 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
   const i18n = useI18n();
   // One seeding pass fixes the id, so later states reuse it instead of drawing
   // a fresh one from the core's counter on every recompute.
-  const seed = core.initialState(resolved.value);
+  const seed = core.initialState({ ...resolved.value, id: useStableId("ds-pin-input") });
   const values = ref<string[]>(seed.values);
 
   // The per-cell array is the state's own field: a blank cell in the middle of

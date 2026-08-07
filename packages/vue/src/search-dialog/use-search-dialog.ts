@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { useDialog, type UseDialog } from "../dialog/use-dialog";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface SearchDialogItem extends core.ComboboxItem {
   /**
@@ -93,8 +94,6 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect a headless quick search to Vue: a combobox inside a modal dialog. The
  * modal shell (native `<dialog>` plus `showModal()`, scroll lock, Escape and
@@ -107,7 +106,7 @@ let instanceCount = 0;
 export function useSearchDialog(
   options: MaybeRefOrGetter<UseSearchDialogOptions>,
 ): UseSearchDialog {
-  const id = `ds-search-dialog-${++instanceCount}`;
+  const id = useStableId("ds-search-dialog");
   const resolved = computed(() => toValue(options));
 
   const dialog = useDialog(() => ({

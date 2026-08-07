@@ -48,7 +48,8 @@ export function connect({
     setValue(v);
   };
 
-  const tabStop = value ?? firstEnabled(items);
+  const selectedItem = items.find((item) => item.value === value);
+  const tabStop = selectedItem && !selectedItem.disabled ? selectedItem.value : firstEnabled(items);
 
   const goTo = (target: string | null) => {
     if (target == null) return;

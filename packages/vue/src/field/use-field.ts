@@ -1,6 +1,7 @@
 import { field as core } from "@design-system/core";
 import { computed, toValue, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UseFieldOptions {
   /** Base id linking the parts. Auto-generated when omitted. */
@@ -27,7 +28,11 @@ export function useField(
 ): ComputedRef<core.FieldApi> {
   const resolved = computed(() => toValue(options));
   // `initialState` also assigns the stable base id the part ids derive from.
-  const initial = core.initialState(toValue(options));
+  const generatedId = useStableId("ds-field");
+  const initial = core.initialState({
+    ...resolved.value,
+    id: resolved.value.id ?? generatedId,
+  });
 
   return computed(() =>
     core.connect({

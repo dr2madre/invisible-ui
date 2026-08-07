@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type AccordionType = core.AccordionType;
 export type AccordionItem = core.AccordionItem;
@@ -44,8 +45,6 @@ const sameSet = (a: string[], b: string[]) =>
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless accordion (WAI-ARIA accordion pattern) to Vue: single
  * or multiple expansion, arrow-key movement between headers. Behaviour and
@@ -54,7 +53,7 @@ let instanceCount = 0;
  * moves DOM focus inside the container (`rootRef`).
  */
 export function useAccordion(options: MaybeRefOrGetter<UseAccordionOptions>): UseAccordion {
-  const id = `ds-accordion-${++instanceCount}`;
+  const id = useStableId("ds-accordion");
   const resolved = computed(() => toValue(options));
 
   const value = ref<string[]>(resolved.value.value ?? []);

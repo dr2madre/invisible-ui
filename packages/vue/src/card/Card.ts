@@ -1,4 +1,5 @@
 import { defineComponent, h, type PropType } from "vue";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface CardProps {
   /** `media` (default): image/icon, text and actions. `dashboard`: a metric tile. */
@@ -25,8 +26,6 @@ export interface CardProps {
 
 // Stable per-instance ids for the title association, as in Select: a module
 // counter keeps the Vue peer range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Card: a presentational content container. Three shapes from one component:
  *
@@ -61,7 +60,7 @@ export const Card = defineComponent({
     trend: { type: String as PropType<"up" | "down" | "neutral">, default: "neutral" },
   },
   setup(props, { slots }) {
-    const titleId = `ds-card-${++instanceCount}`;
+    const titleId = useStableId("ds-card");
 
     return () => {
       const labelledBy = props.title ? titleId : undefined;

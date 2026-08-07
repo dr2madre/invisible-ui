@@ -1,6 +1,7 @@
 import { textField as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UseTextFieldOptions {
   /** Initial (uncontrolled) or current (controlled) value. */
@@ -33,7 +34,10 @@ export function useTextField(
 ): ComputedRef<core.TextFieldApi> {
   const resolved = computed(() => toValue(options));
   // `initialState` also assigns the stable base id the part ids derive from.
-  const initial = core.initialState(toValue(options));
+  const initial = core.initialState({
+    ...resolved.value,
+    id: useStableId("ds-text-field"),
+  });
   const value = ref(initial.value);
 
   watch(

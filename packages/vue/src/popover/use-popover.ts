@@ -11,6 +11,7 @@ import {
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface UsePopoverOptions {
   /** Initial / controlled open state. */
@@ -37,8 +38,6 @@ const FOCUSABLE =
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless Popover to Vue. Behaviour and ARIA live in
  * `@design-system/core` (open/close, `aria-haspopup`/`aria-expanded` wiring,
@@ -53,7 +52,7 @@ let instanceCount = 0;
  * the open state and its cleanup runs when the panel goes away.
  */
 export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): UsePopover {
-  const id = `ds-popover-${++instanceCount}`;
+  const id = useStableId("ds-popover");
   const resolved = computed(() => toValue(options));
   const open = ref(resolved.value.open ?? false);
 

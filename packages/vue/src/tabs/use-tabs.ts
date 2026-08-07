@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type ActivationMode = core.ActivationMode;
 export type TabItem = core.TabItem;
@@ -40,8 +41,6 @@ export interface UseTabs {
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
 // range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless tabs (WAI-ARIA tabs pattern) to Vue: roving tabindex,
  * arrow/Home/End navigation, automatic or manual activation. Behaviour and
@@ -50,7 +49,7 @@ let instanceCount = 0;
  * moves DOM focus inside the tab list (`listRef`).
  */
 export function useTabs(options: MaybeRefOrGetter<UseTabsOptions>): UseTabs {
-  const id = `ds-tabs-${++instanceCount}`;
+  const id = useStableId("ds-tabs");
   const resolved = computed(() => toValue(options));
 
   // Default to the first enabled tab so a panel is always shown.

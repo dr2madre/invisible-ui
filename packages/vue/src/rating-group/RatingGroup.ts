@@ -2,6 +2,7 @@ import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useRatingGroup } from "./use-rating-group";
 import { useI18n } from "../i18n/i18n";
+import { useStableId } from "../internal/use-stable-id";
 
 export interface RatingGroupProps {
   /** Accessible name for the rating group (required). */
@@ -22,8 +23,6 @@ export interface RatingGroupProps {
 // Stable per-instance id for the group label association; the same
 // module-counter approach as Select (Vue's own `useId` landed after the ^3.4
 // peer range).
-let instanceCount = 0;
-
 const STAR_POINTS =
   "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2";
 
@@ -52,7 +51,7 @@ export const RatingGroup = defineComponent({
     "update:modelValue": (value: number) => typeof value === "number",
   },
   setup(props, { emit }) {
-    const labelId = `ds-rating-label-${++instanceCount}`;
+    const labelId = useStableId("ds-rating-label");
     // While hovering, stars up to `hovered` show a grey preview; otherwise the
     // selected stars show the selection color.
     const hovered = ref(0);

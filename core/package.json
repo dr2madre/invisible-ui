@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsup",
+    "build": "node scripts/clean-dist.mjs && tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

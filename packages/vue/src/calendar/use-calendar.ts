@@ -9,6 +9,7 @@ import {
   type MaybeRefOrGetter,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type CalendarView = core.CalendarView;
 export type WeekStart = core.WeekStart;
@@ -43,10 +44,6 @@ export interface UseCalendar {
   weekStartsOn: ComputedRef<WeekStart>;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
-let instanceCount = 0;
-
 /**
  * Connect the headless calendar (WAI-ARIA date-grid pattern) to Vue: a roving
  * tab stop on the focused day, arrow / Home / End / PageUp / PageDown
@@ -59,7 +56,7 @@ let instanceCount = 0;
  * by the pending update cannot receive focus before Vue patches the grid.
  */
 export function useCalendar(options: MaybeRefOrGetter<UseCalendarOptions> = {}): UseCalendar {
-  const id = `ds-calendar-${++instanceCount}`;
+  const id = useStableId("ds-calendar");
   const resolved = computed(() => toValue(options));
 
   // An empty string means "nothing selected": a consumer binding a

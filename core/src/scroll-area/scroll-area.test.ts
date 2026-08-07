@@ -46,4 +46,8 @@ describe("scroll-area geometry", () => {
     // …and to the bottom (max scroll = 300).
     expect(scrollByThumbDrag(1000, m)).toBe(300);
   });
+
+  it("never returns a negative position when content does not overflow", () => {
+    expect(scrollByThumbDrag(10, { scrollPos: 0, scrollSize: 100, clientSize: 200 })).toBe(0);
+  });
 });

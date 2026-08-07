@@ -135,6 +135,17 @@ describe("tree connect", () => {
     expect(api.getItemProps("src").tabindex).toBe(-1);
   });
 
+  it("falls back to the first visible node when selection is hidden", () => {
+    const { api } = wire({ selected: "index.ts" });
+    expect(api.getItemProps("src").tabindex).toBe(0);
+  });
+
+  it("does not move roving focus onto a disabled node", () => {
+    const { api, setFocused } = wire();
+    (api.getItemProps("readme").onClick as () => void)();
+    expect(setFocused).not.toHaveBeenCalled();
+  });
+
   it("ArrowRight expands a collapsed parent", () => {
     const { api, setExpanded } = wire();
     (api.getItemProps("src").onKeyDown as (e: Event) => void)(keyEvent("ArrowRight"));

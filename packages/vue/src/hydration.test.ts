@@ -10,6 +10,9 @@ describe("Vue adapter hydration", () => {
     const serverVue = await import("vue");
     const { renderToString } = await import("@vue/server-renderer");
     const { HydrationFixture: ServerFixture } = await import("./hydration.fixture");
+    // A production SSR process serves many requests from the same module
+    // graph. Render one response first to catch module-global id counters.
+    await renderToString(serverVue.createSSRApp(ServerFixture));
     const ssrContext: { teleports?: Record<string, string> } = {};
     const serverHtml = await renderToString(serverVue.createSSRApp(ServerFixture), ssrContext);
 

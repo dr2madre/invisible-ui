@@ -1,4 +1,5 @@
 import { defineComponent, h, type Component, type PropType } from "vue";
+import { useStableId } from "../internal/use-stable-id";
 import { useSegmentedControl, type SegmentItem } from "./use-segmented-control";
 
 /**
@@ -47,8 +48,6 @@ export interface SegmentedControlProps {
 // Stable per-instance id for the group label association; the same
 // module-counter approach as Select (Vue's own `useId` landed after the ^3.4
 // peer range).
-let instanceCount = 0;
-
 /**
  * SegmentedControl — the styled, batteries-included segmented control, ported
  * from the Svelte adapter. A single-select group built on native
@@ -83,7 +82,7 @@ export const SegmentedControl = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit }) {
-    const labelId = `ds-segmented-label-${++instanceCount}`;
+    const labelId = useStableId("ds-segmented-label");
 
     const api = useSegmentedControl(() => ({
       items: props.items,

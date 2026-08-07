@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { normalizeProps } from "../normalize";
+import { useStableId } from "../internal/use-stable-id";
 
 export type TreeNode = core.TreeNode;
 export type TreeApi = core.TreeApi;
@@ -54,7 +55,7 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
   const resolved = computed(() => toValue(options));
   // One seeding pass fixes the id, so later states reuse it instead of drawing
   // a fresh one from the core's counter on every recompute.
-  const seed = core.initialState(resolved.value);
+  const seed = core.initialState({ ...resolved.value, id: useStableId("ds-tree") });
   const expanded = ref<string[]>(seed.expanded);
   const selected = ref<string | null>(seed.selected);
   const focused = ref<string | null>(null);
