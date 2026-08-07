@@ -1,4 +1,5 @@
 import { defineComponent, h, type PropType } from "vue";
+import { HazardGlyph, Icon } from "../icon/Icon";
 import { useTextField } from "../text-field/use-text-field";
 
 export interface TextareaProps {
@@ -13,9 +14,15 @@ export interface TextareaProps {
   description?: string;
   /** Error message; when non-empty the field becomes invalid and announces it. */
   error?: string;
+  /** Success/validated message; shows a confirming caption. */
+  success?: string;
   disabled?: boolean;
   required?: boolean;
   readOnly?: boolean;
+  /** Form field name; the value is submitted under it. */
+  name?: string;
+  /** Native textarea autocomplete hint. */
+  autocomplete?: string;
   /** Called whenever the value changes. */
   onValueChange?: (value: string) => void;
 }
@@ -42,9 +49,12 @@ export const Textarea = defineComponent({
     rows: { type: Number, default: 3 },
     description: { type: String, default: undefined },
     error: { type: String, default: undefined },
+    success: { type: String, default: undefined },
     disabled: { type: Boolean, default: false },
     required: { type: Boolean, default: false },
     readOnly: { type: Boolean, default: false },
+    name: { type: String, default: undefined },
+    autocomplete: { type: String, default: undefined },
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   emits: {
@@ -58,6 +68,7 @@ export const Textarea = defineComponent({
       readOnly: props.readOnly,
       invalid: Boolean(props.error),
       hasDescription: Boolean(props.description),
+      hasSuccess: Boolean(props.success),
       onValueChange: (next: string) => {
         emit("update:modelValue", next);
         props.onValueChange?.(next);
@@ -76,6 +87,7 @@ export const Textarea = defineComponent({
             "textarea",
             {
               "textarea--invalid": Boolean(props.error),
+              "textarea--success": Boolean(props.success) && !props.error,
               "textarea--disabled": props.disabled,
             },
           ],
@@ -90,6 +102,8 @@ export const Textarea = defineComponent({
           h("textarea", {
             ...api.value.controlProps,
             class: "field__control",
+            name: props.name,
+            autocomplete: props.autocomplete,
             placeholder: props.placeholder,
             rows: props.rows,
             value: api.value.value,
@@ -103,8 +117,24 @@ export const Textarea = defineComponent({
               )
             : null,
           props.error
-            ? h("p", { class: "field__error", ...api.value.errorProps }, props.error)
-            : null,
+            ? h("p", { class: "field__error", ...api.value.errorProps }, [
+                h("span", { class: "field__msg-icon", "aria-hidden": "true" }, [
+                  h(Icon, { size: "1em" }, { default: HazardGlyph }),
+                ]),
+                props.error,
+              ])
+            : props.success
+              ? h("p", { class: "field__success", ...api.value.successProps }, [
+                  h("span", { class: "field__msg-icon", "aria-hidden": "true" }, [
+                    h(
+                      Icon,
+                      { size: "1em" },
+                      { default: () => h("polyline", { points: "20 6 9 17 4 12" }) },
+                    ),
+                  ]),
+                  props.success,
+                ])
+              : null,
         ],
       );
   },

@@ -12,8 +12,9 @@ import TextareaDemo from "../../../../demos/TextareaDemo.svelte";
 </Preview>
 
 A styled, multi-line **native `<textarea>`** — user-resizable (vertical), with
-the same label / description / error wiring as `TextField`. Use this (not
-`TextField`) whenever the input can span multiple lines.
+the same label, description, error and success wiring as `TextField`. It
+participates in native forms through `name`. Use this (not `TextField`) whenever
+the input can span multiple lines.
 
 ### Import
 
@@ -25,13 +26,21 @@ the same label / description / error wiring as `TextField`. Use this (not
 
 ### Accessibility
 
-- Label association plus `aria-describedby` (hint and error), `aria-invalid`, `aria-required` come from the shared headless text field.
+- Label association plus `aria-describedby` (hint, error and success), `aria-invalid`, `aria-required` come from the shared headless text field.
 - A non-empty `error` puts the field in the invalid state and announces the message.
+- Error and success messages include a decorative status glyph, so feedback is not conveyed by color alone.
+- When both `error` and `success` are supplied, the error wins.
 
 ### Example
 
 ```svelte
-<Textarea label="Message" rows={5} onValueChange={(v) => (message = v)} />
+<Textarea
+  label="Message"
+  name="message"
+  autocomplete="off"
+  rows={5}
+  onValueChange={(v) => (message = v)}
+/>
 ```
 
 Themeable via `--ds-field-*`.

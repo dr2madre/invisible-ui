@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Textarea from "./Textarea.svelte";
+import FormFixture from "./textarea-form.fixture.svelte";
 
 describe("Svelte Textarea (styled)", () => {
   it("renders a labelled multi-line control", () => {
@@ -26,6 +27,30 @@ describe("Svelte Textarea (styled)", () => {
     expect(screen.getByLabelText("Message")).toHaveAttribute("aria-invalid", "true");
     const error = screen.getByRole("alert");
     expect(screen.getByLabelText("Message").getAttribute("aria-describedby")).toContain(error.id);
+    expect(error.querySelector(".field__msg-icon svg")).toBeInTheDocument();
+  });
+
+  it("submits its value and forwards autocomplete", () => {
+    render(FormFixture);
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    expect(screen.getByLabelText("Message")).toHaveAttribute("autocomplete", "off");
+    expect(new FormData(form).get("message")).toBe("Hello");
+  });
+
+  it("links and announces success feedback", () => {
+    render(Textarea, { props: { label: "Message", success: "Looks good." } });
+    const success = screen.getByText("Looks good.");
+    expect(success).toHaveAttribute("aria-live", "polite");
+    expect(screen.getByLabelText("Message").getAttribute("aria-describedby")).toContain(success.id);
+    expect(success.querySelector(".field__msg-icon svg")).toBeInTheDocument();
+  });
+
+  it("lets the error win over simultaneous success feedback", () => {
+    render(Textarea, {
+      props: { label: "Message", error: "Too short.", success: "Looks good." },
+    });
+    expect(screen.getByRole("alert")).toHaveTextContent("Too short.");
+    expect(screen.queryByText("Looks good.")).not.toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {

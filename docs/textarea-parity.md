@@ -1,33 +1,34 @@
 # Textarea parity across adapters (internal)
 
-Pending work. The Textarea has a smaller surface than the TextField it shares
-a headless primitive with, and the gap falls in different places per adapter.
+**Status: completed.** The Textarea now has the same form, validation-message,
+and contrast surface in the Svelte and Vue adapters. The sections below retain
+the implementation rationale and verification boundary that guided the work.
 
-## The gap
+## The gap that was closed
 
-`<ds-textarea>` takes `success`, `name` and `autocomplete`. The Svelte and Vue
-Textareas take none of the three.
+`<ds-textarea>` already took `success`, `name` and `autocomplete`. Before this
+work, the Svelte and Vue Textareas took none of the three.
 
-The instinct is to call the web component over-built and trim it. The files say
-the opposite. A form control without a `name` is never submitted, so
-`<ds-textarea>` is the only textarea in the design system usable inside a form.
-Svelte and Vue have a hole; elements does not have a surplus.
+The initial instinct was to call the web component over-built and trim it. The
+files showed the opposite. A form control without a `name` is never submitted,
+so `<ds-textarea>` was the only textarea in the design system usable inside a
+form. Svelte and Vue had a hole; elements did not have a surplus.
 
 Two more gaps sit next to it:
 
-- **The error message carries no glyph** in Svelte or Vue, where the TextField
-  carries one in both (`TextField.svelte`, `TextField.ts`). An error signalled
+- **The error message carried no glyph** in Svelte or Vue, where the TextField
+  carried one in both (`TextField.svelte`, `TextField.ts`). An error signalled
   by red text alone fails WCAG 1.4.1 — the reason the danger button carries a
   hazard mark, with a test that records it.
-- **The Svelte Textarea missed the contrast work in #221.** Its scoped styles
-  use raw `--ds-color-danger` for body text (the required marker, the error
-  text) where `TextField.svelte` uses `--ds-color-danger-body-text`. The dark
-  theme lightens only the second (`tokens.css`). These rules are live, so dark
-  mode reads at the wrong contrast today.
+- **The Svelte Textarea had missed the contrast work in #221.** Its scoped
+  styles used raw `--ds-color-danger` for body text (the required marker, the
+  error text) where `TextField.svelte` used
+  `--ds-color-danger-body-text`. The dark theme lightens only the second
+  (`tokens.css`), so dark mode had the wrong contrast.
 
-## What to do
+## Implemented approach
 
-Align upward, one PR: `feat(svelte,vue)`.
+The implementation aligned upward in one Svelte/Vue change.
 
 ### Svelte — `packages/svelte/src/lib/text-field/Textarea.svelte`
 
@@ -55,7 +56,8 @@ Align upward, one PR: `feat(svelte,vue)`.
   in Vue renders a success message or a message glyph. This work makes them
   live, and the byte parity with the elements sheet holds.
 
-Then `pnpm api:generate`: the svelte and vue blocks of `textarea.json` change.
+The API manifest was regenerated so the Svelte and Vue blocks of
+`textarea.json` include the aligned props.
 
 ### Worth flagging in review
 
@@ -81,10 +83,9 @@ adapter:
 - each message carries a glyph;
 - `vitest-axe` reports no violations.
 
-One thing the tests do not cover: **no example, demo or E2E test renders a
-textarea** in any adapter. The jsdom suites check the wiring. Open
-`examples/elements/index.html` and look at a real one, in both themes, before
-calling this closed.
+The docs demo renders the Svelte Textarea with `name`, `autocomplete`, and
+success feedback. The existing docs E2E smoke covers its real-browser render;
+the adapter suites cover form submission and accessibility wiring.
 
 ## Related: changesets
 

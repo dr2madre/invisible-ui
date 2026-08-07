@@ -4,7 +4,7 @@
 
 <script lang="ts">
   /**
-   * Alert — a banner that communicates a feedback message, composed from the
+   * Inline Notification — a banner that communicates a feedback message, composed from the
    * existing building blocks: a FeedbackIcon (status), a title, body text, an
    * optional link, and an optional close button.
    *
@@ -32,7 +32,7 @@
   const titleId = `ds-alert-${++inlineNotificationCount}-title`;
 
   /** A data-driven action button (alternative to the `actions` slot). */
-  interface AlertAction {
+  interface InlineNotificationAction {
     label: string;
     variant?: ButtonVariant;
     onClick?: () => void;
@@ -51,14 +51,14 @@
   /** Link text. Defaults to the i18n catalog's "Learn more". */
   export let linkText: string | undefined = undefined;
   /** Action buttons (alternative to the `actions` slot). */
-  export let actions: AlertAction[] | undefined = undefined;
+  export let actions: InlineNotificationAction[] | undefined = undefined;
   /** Render the close button. Defaults to `false` (not dismissible). */
   export let closable = false;
   /** Close button accessible name. Defaults to the i18n catalog's "Close". */
   export let closeLabel: string | undefined = undefined;
   /**
    * Controls visibility (bindable). Dismissing sets it to `false`; set it back
-   * to `true` to show the alert again.
+   * to `true` to show the notification again.
    */
   export let open = true;
   /** Live-region role. `"status"` (polite) by default; `"alert"` for urgent. */

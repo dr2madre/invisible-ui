@@ -46,7 +46,7 @@
         },
         {
           "name": "actions",
-          "type": "AlertAction[] | undefined",
+          "type": "InlineNotificationAction[] | undefined",
           "default": "undefined",
           "required": false,
           "description": "Action buttons (alternative to the `actions` slot)."

@@ -52,6 +52,13 @@
           "description": "When non-empty the field becomes invalid and announces the message."
         },
         {
+          "name": "success",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Success/validated message; shows a confirming caption."
+        },
+        {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
@@ -71,6 +78,20 @@
           "default": "false",
           "required": false,
           "description": "Make the field read-only."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — the value is submitted under it."
+        },
+        {
+          "name": "autocomplete",
+          "type": "HTMLTextareaAttributes[\"autocomplete\"]",
+          "default": "undefined",
+          "required": false,
+          "description": "Native textarea autocomplete hint."
         },
         {
           "name": "onValueChange",
@@ -138,6 +159,13 @@
           "description": "Error message; when non-empty the field becomes invalid and announces it."
         },
         {
+          "name": "success",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Success/validated message; shows a confirming caption."
+        },
+        {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
@@ -157,6 +185,20 @@
           "default": "false",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; the value is submitted under it."
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Native textarea autocomplete hint."
         },
         {
           "name": "onValueChange",

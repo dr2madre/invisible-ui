@@ -69,10 +69,7 @@
   cursor: not-allowed;
 }
 
-/* Help, error and success text match the control's (placeholder) text size.
-   The flex row and the icon rule carry the leading glyph that `<ds-textarea>`
-   renders in its messages; the Vue Textarea prints the text alone, so those
-   two declarations sit idle there. */
+/* Help, error and success text match the control's (placeholder) text size. */
 .textarea .field__description {
   margin: 0;
   color: var(--ds-color-text-secondary, #64748b);
