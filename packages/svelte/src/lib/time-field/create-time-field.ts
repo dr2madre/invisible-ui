@@ -10,6 +10,15 @@ export type TimeParts = core.TimeParts;
 export type TimeFieldApi = core.TimeFieldApi;
 export type TimeFieldState = core.TimeFieldState;
 export type TimeFieldContext = core.TimeFieldContext;
+export type TimeValueError = core.TimeValueError;
+
+export interface CreateTimeFieldOptions extends TimeFieldContext {
+  invalid?: boolean;
+  disabled?: boolean;
+  describedBy?: string;
+  messages?: Partial<core.TimeFieldMessages>;
+  onValidationChange?: (error: TimeValueError | null) => void;
+}
 
 export interface CreateTimeField {
   state: Readable<TimeFieldState>;
@@ -26,9 +35,10 @@ export interface CreateTimeField {
  * state to a Svelte store, applies connected props via actions, moves DOM focus
  * between segments, and emits `onValueChange` when the formatted value changes.
  */
-export function createTimeField(context: TimeFieldContext): CreateTimeField {
+export function createTimeField(context: CreateTimeFieldOptions): CreateTimeField {
   const state = writable<TimeFieldState>(core.initialState(context));
   const baseId = get(state).id;
+  context.onValidationChange?.(get(state).validationError);
 
   let lastValue = core.connect({
     state: get(state),
@@ -37,8 +47,18 @@ export function createTimeField(context: TimeFieldContext): CreateTimeField {
   }).value;
 
   const commit = (parts: TimeParts, buffer: string, bufferSeg: TimeSegmentType | null) => {
-    state.update((s) => ({ ...s, parts, buffer, bufferSeg }));
-    const next = core.format(parts, get(state).withSeconds);
+    const previousError = get(state).validationError;
+    state.update((s) => ({
+      ...s,
+      parts,
+      buffer,
+      bufferSeg,
+      validationError: null,
+      invalidSegment: null,
+    }));
+    if (previousError) context.onValidationChange?.(null);
+    const current = get(state);
+    const next = core.format(parts, current.withSeconds, current.hourCycle);
     if (next !== lastValue) {
       lastValue = next;
       context.onValueChange?.(next);
@@ -50,7 +70,16 @@ export function createTimeField(context: TimeFieldContext): CreateTimeField {
   };
 
   const api = derived(state, ($state) =>
-    core.connect({ state: $state, commit, focus, normalize: normalizeProps }),
+    core.connect({
+      state: $state,
+      commit,
+      focus,
+      invalid: context.invalid,
+      disabled: context.disabled,
+      describedBy: context.describedBy,
+      messages: context.messages,
+      normalize: normalizeProps,
+    }),
   );
 
   const rootAction = createPropsAction(api, (a) => a.rootProps);

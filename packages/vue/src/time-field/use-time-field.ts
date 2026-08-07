@@ -6,6 +6,8 @@ import { useStableId } from "../internal/use-stable-id";
 export type HourCycle = core.HourCycle;
 export type TimeSegmentType = core.TimeSegmentType;
 export type TimeParts = core.TimeParts;
+export type TimeInputStatus = core.TimeInputStatus;
+export type TimeValueError = core.TimeValueError;
 
 export interface UseTimeFieldOptions {
   /** Initial / controlled value, `"HH:mm"` or `"HH:mm:ss"` (24h), or `null`. */
@@ -14,8 +16,13 @@ export interface UseTimeFieldOptions {
   hourCycle?: HourCycle;
   /** Include a seconds segment. Defaults to false. */
   withSeconds?: boolean;
+  disabled?: boolean;
+  invalid?: boolean;
+  describedBy?: string;
+  messages?: Partial<core.TimeFieldMessages>;
   /** Called with the formatted value, or `null` while a segment is empty. */
   onValueChange?: (value: string | null) => void;
+  onValidationChange?: (error: TimeValueError | null) => void;
 }
 
 export interface UseTimeField {
@@ -25,6 +32,8 @@ export interface UseTimeField {
   segments: ComputedRef<TimeSegmentType[]>;
   /** The resolved parts, for placeholder rendering. */
   parts: ComputedRef<TimeParts>;
+  /** Stable base id used to associate help and error text. */
+  id: string;
 }
 
 // Stable per-instance ids, as in Select: a module counter keeps the Vue peer
@@ -44,22 +53,38 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
   const hourCycle = computed(() => resolved.value.hourCycle ?? 24);
   const withSeconds = computed(() => resolved.value.withSeconds ?? false);
 
-  const parts = ref<TimeParts>(core.parseValue(resolved.value.value));
+  const initial = core.parseTimeValue(resolved.value.value, {
+    hourCycle: hourCycle.value,
+    withSeconds: withSeconds.value,
+  });
+  const parts = ref<TimeParts>(initial.parts);
+  const validationError = ref<TimeValueError | null>(initial.error);
+  const invalidSegment = ref<Exclude<TimeSegmentType, "dayPeriod"> | null>(initial.invalidSegment);
   const buffer = ref("");
   const bufferSeg = ref<TimeSegmentType | null>(null);
 
   // The last value reported, so a commit that leaves the formatted value
   // unchanged (e.g. typing the first of two digits) stays quiet.
-  let lastValue = core.format(parts.value, withSeconds.value);
+  let lastValue = core.format(parts.value, withSeconds.value, hourCycle.value);
+
+  watch(validationError, (error) => resolved.value.onValidationChange?.(error), {
+    immediate: true,
+  });
 
   // Mirror an externally controlled value.
   watch(
-    () => resolved.value.value,
-    (next) => {
-      parts.value = core.parseValue(next);
+    [() => resolved.value.value, hourCycle, withSeconds],
+    ([next, nextHourCycle, nextWithSeconds]) => {
+      const parsed = core.parseTimeValue(next, {
+        hourCycle: nextHourCycle,
+        withSeconds: nextWithSeconds,
+      });
+      parts.value = parsed.parts;
+      validationError.value = parsed.error;
+      invalidSegment.value = parsed.invalidSegment;
       buffer.value = "";
       bufferSeg.value = null;
-      lastValue = core.format(parts.value, withSeconds.value);
+      lastValue = core.format(parts.value, nextWithSeconds, nextHourCycle);
     },
   );
 
@@ -69,9 +94,11 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     nextBufferSeg: TimeSegmentType | null,
   ) => {
     parts.value = nextParts;
+    validationError.value = null;
+    invalidSegment.value = null;
     buffer.value = nextBuffer;
     bufferSeg.value = nextBufferSeg;
-    const next = core.format(nextParts, withSeconds.value);
+    const next = core.format(nextParts, withSeconds.value, hourCycle.value);
     if (next === lastValue) return;
     lastValue = next;
     resolved.value.onValueChange?.(next);
@@ -88,12 +115,18 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
         parts: parts.value,
         hourCycle: hourCycle.value,
         withSeconds: withSeconds.value,
+        validationError: validationError.value,
+        invalidSegment: invalidSegment.value,
         buffer: buffer.value,
         bufferSeg: bufferSeg.value,
         id,
       },
       commit,
       focus,
+      invalid: resolved.value.invalid,
+      disabled: resolved.value.disabled,
+      describedBy: resolved.value.describedBy,
+      messages: resolved.value.messages,
       normalize: normalizeProps,
     }),
   );
@@ -102,5 +135,6 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     api,
     segments: computed(() => core.segments(hourCycle.value, withSeconds.value)),
     parts: computed(() => parts.value),
+    id,
   };
 }

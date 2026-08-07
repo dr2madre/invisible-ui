@@ -1,5 +1,12 @@
 /* TimeField, ported from the Svelte adapter, class names kept identical. */
 
+.time-field-control {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
 .time-field {
   display: inline-flex;
   align-items: center;
@@ -18,6 +25,9 @@
 }
 .time-field--disabled {
   opacity: 0.55;
+}
+.time-field--invalid {
+  border-color: var(--ds-color-danger, #dc2626);
 }
 
 .time-field__separator {
@@ -45,4 +55,9 @@
 }
 .time-field__segment--placeholder {
   color: var(--ds-color-text-secondary, #94a3b8);
+}
+.time-field__error {
+  margin: 0;
+  color: var(--ds-color-danger, #b91c1c);
+  font-size: 0.875rem;
 }

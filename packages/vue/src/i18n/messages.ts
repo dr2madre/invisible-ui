@@ -79,7 +79,15 @@ export const en = {
   "table.columns": "Columns",
   "tag.remove": "Remove",
   "timeField.label": "Time",
+  "timeField.hour": "Hour",
+  "timeField.minute": "Minute",
+  "timeField.second": "Second",
   "timeField.dayPeriod": "AM/PM",
+  "timeField.empty": "Empty",
+  "timeField.invalidFormat": "Enter a time in the expected format.",
+  "timeField.outOfRange": "Enter a time within the allowed range.",
+  "timeField.secondsRequired": "Enter hours, minutes, and seconds.",
+  "timeField.secondsNotAllowed": "Enter hours and minutes only.",
   // Upload Drop Area: prompt first, the styled action word last, so
   // translations like "Trascina qui i file oppure seleziona" keep a natural
   // order.
