@@ -2,6 +2,7 @@ import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import "../define";
+import { DsRadioGroup as DsRadioGroupCtor } from "./ds-radio-group";
 import type { DsRadioGroup } from "./ds-radio-group";
 
 const mount = (html: string) => {
@@ -82,5 +83,30 @@ describe("<ds-radio-group>", () => {
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+// A framework that stamps properties before the definition loads, or before the
+// element connects, would otherwise see its list replaced by the empty set of
+// light-DOM children.
+describe("items assigned before connection", () => {
+  it("survive the first render", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-radio-group") as DsRadioGroup;
+    host.setAttribute("label", "Plan");
+    host.items = [{ value: "solo", label: "Solo" }];
+    document.body.appendChild(host);
+
+    expect(screen.getByRole("radio", { name: "Solo" })).toBeInTheDocument();
+  });
+
+  it("survive an assignment made before the definition loaded", () => {
+    document.body.innerHTML = `<ds-radio-group-later label="Plan"></ds-radio-group-later>`;
+    const host = document.querySelector("ds-radio-group-later") as DsRadioGroup;
+    host.items = [{ value: "duo", label: "Duo" }];
+
+    customElements.define("ds-radio-group-later", class extends DsRadioGroupCtor {});
+
+    expect(screen.getByRole("radio", { name: "Duo" })).toBeInTheDocument();
   });
 });

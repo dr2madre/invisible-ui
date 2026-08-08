@@ -2,6 +2,7 @@ import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import "../define";
+import { DsSelect as DsSelectCtor } from "./ds-select";
 import type { DsSelect } from "./ds-select";
 
 const mount = (html: string) => {
@@ -101,5 +102,30 @@ describe("<ds-select>", () => {
   it("has no accessibility violations", async () => {
     mount(MARKUP);
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+// A framework that stamps properties before the definition loads, or before the
+// element connects, would otherwise see its list replaced by the empty set of
+// light-DOM children.
+describe("items assigned before connection", () => {
+  it("survive the first render", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-select") as DsSelect;
+    host.setAttribute("label", "Fruit");
+    host.items = [{ value: "apple", label: "Apple" }];
+    document.body.appendChild(host);
+
+    expect(screen.getByRole("option", { name: "Apple" })).toBeInTheDocument();
+  });
+
+  it("survive an assignment made before the definition loaded", () => {
+    document.body.innerHTML = `<ds-select-later label="Fruit"></ds-select-later>`;
+    const host = document.querySelector("ds-select-later") as DsSelect;
+    host.items = [{ value: "pear", label: "Pear" }];
+
+    customElements.define("ds-select-later", class extends DsSelectCtor {});
+
+    expect(screen.getByRole("option", { name: "Pear" })).toBeInTheDocument();
   });
 });
