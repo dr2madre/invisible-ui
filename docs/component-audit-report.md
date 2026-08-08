@@ -1,12 +1,26 @@
-# Component audit, phase 2: work report
+# Component audit: remediation report
 
-Work done on branch `fix/audit-phase-2` (2026-08-08 / 2026-08-09), covering
-tasks 5 to 8 of the
-[component audit remediation plan](./component-audit-remediation-plan.md).
-The report has two parts: what this phase resolved, and the new issues that
-emerged while doing the work.
+Tracks the execution of the
+[component audit remediation plan](./component-audit-remediation-plan.md),
+one section per phase, updated as each phase lands. The closing section
+collects the new issues that emerged while doing the work, which are not
+part of the plan.
 
-## Resolved
+## Phase 1: security and custom element correctness
+
+Merged 2026-08-08 (#244), tasks 1 to 4.
+
+- The combobox builds an option's icon through the DOM instead of an HTML
+  string, so consumer data never reaches an HTML parser.
+- Clearing a combobox is one complete transition: state, attribute, visible
+  input, form value, and a single `change` event.
+- Every dialog mints its own ids; an explicit host id still wins.
+- A list assigned before the element connects survives the first render in
+  select, combobox and the two groups.
+
+## Phase 2: accessibility, interaction and SSR
+
+Done on branch `fix/audit-phase-2` (2026-08-08 / 2026-08-09), tasks 5 to 8.
 
 ### 5. Link semantics restored
 
