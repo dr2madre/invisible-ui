@@ -1,5 +1,6 @@
 import { field as core } from "@design-system/core";
 import { derived, writable, type Readable } from "svelte/store";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type FieldApi = core.FieldApi;
@@ -23,7 +24,9 @@ export interface CreateField {
  * to spread onto each part.
  */
 export function createField(context: core.FieldContext = {}): CreateField {
-  const state = writable<FieldState>(core.initialState(context));
+  const state = writable<FieldState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-field") }),
+  );
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, normalize: normalizeProps }),

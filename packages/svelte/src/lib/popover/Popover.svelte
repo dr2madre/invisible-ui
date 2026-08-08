@@ -12,11 +12,12 @@
    * - **`trigger="hover"`** (the pattern formerly shipped as HoverCard): the
    *   card previews on hover **and keyboard focus** of the slotted trigger
    *   (typically a link), with open/close delays; focus never moves into the
-   *   card — Tab reaches its links naturally. The first click/tap opens the
+   *   card, and the card holds nothing focusable. The first click/tap opens the
    *   preview instead of activating the trigger; once open, the default action
    *   (e.g. link navigation) proceeds — so touch users get the popover
    *   contract. Hover content must be **supplementary**: never put essential
-   *   information only in here.
+   *   information only in here. Interactive content belongs to
+   *   `trigger="click"`.
    *
    * Slots: `trigger` (button content, or the focusable element itself in hover
    * mode) and the default slot (the card). Themeable via `--ds-popover-*`.

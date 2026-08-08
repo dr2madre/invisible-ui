@@ -3,6 +3,7 @@ import { autoUpdate, computePosition, flip, offset, shift, type Placement } from
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type ComboboxItem = core.ComboboxItem;
@@ -75,7 +76,7 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
   const filter = context.filter ?? defaultFilter;
 
   const state = writable<ComboboxState>({
-    ...core.initialState(context),
+    ...core.initialState({ ...context, id: context.id ?? stableId("ds-combobox") }),
     items: filter(allItems, context.inputValue ?? ""),
   });
 

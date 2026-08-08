@@ -3,8 +3,6 @@
 
   /** An item, with an optional display label (falls back to `value`). */
   export type RadioGroupItem = RadioItem & { label?: string };
-
-  let _uid = 0;
 </script>
 
 <script lang="ts">
@@ -20,6 +18,7 @@
    * properties (`--ds-radio-*`).
    */
   import { createRadioGroup, type Orientation } from "./create-radio-group";
+  import { stableId } from "../internal/stable-id";
 
   export let items: RadioGroupItem[];
   export let value: string | null = null;
@@ -39,7 +38,7 @@
     name: groupName,
   } = createRadioGroup({ items, value, disabled, orientation, name, onValueChange });
 
-  const labelId = `ds-radio-group-${++_uid}`;
+  const labelId = stableId("ds-radio-group");
 </script>
 
 <div class="radio-field">

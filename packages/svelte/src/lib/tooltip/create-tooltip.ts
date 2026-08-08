@@ -3,6 +3,7 @@ import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { attachFloating, type Placement } from "../internal/floating";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type TooltipApi = core.TooltipApi;
@@ -37,7 +38,9 @@ export interface CreateTooltip {
  * with Escape (dismissable). Focus is never moved into the tooltip.
  */
 export function createTooltip(context: TooltipContext = {}): CreateTooltip {
-  const state = writable<TooltipState>(core.initialState(context));
+  const state = writable<TooltipState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-tooltip") }),
+  );
   const { placement = "top", offset = 6, openDelay = 300, closeDelay = 100 } = context;
 
   const setOpen = (open: boolean) =>

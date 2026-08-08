@@ -3,6 +3,7 @@ import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createDialog } from "../dialog/create-dialog";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export interface SearchDialogItem extends core.ComboboxItem {
@@ -109,7 +110,7 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
   // Empty query: show the suggestions when provided, everything otherwise.
   const visibleFor = (query: string) =>
     query.trim() === "" && allSuggestions.length ? allSuggestions : filter(allItems, query);
-  const base = core.initialState({ items: allItems });
+  const base = core.initialState({ items: allItems, id: stableId("ds-combobox") });
 
   const dialog = createDialog({
     open: context.open,

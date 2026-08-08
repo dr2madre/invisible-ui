@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-  let _uid = 0;
-</script>
-
 <script lang="ts">
   /**
    * DateRangePicker — a field that opens a range `Calendar` in a popover.
@@ -19,6 +15,7 @@
   import type { CalendarView, WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { stableId } from "../internal/stable-id";
 
   const { t } = getI18n();
 
@@ -70,7 +67,7 @@
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
-  const popupId = `dsDateRangePicker-${++_uid}-popup`;
+  const popupId = `${stableId("dsDateRangePicker")}-popup`;
 </script>
 
 <div class="date-picker" class:date-picker--disabled={disabled}>

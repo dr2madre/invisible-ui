@@ -10,6 +10,7 @@ import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type MenuItem = core.MenuItem;
@@ -60,7 +61,9 @@ const TYPEAHEAD_RESET = 500;
  * wrapper) rather than `aria-labelledby`.
  */
 export function createContextMenu(context: ContextMenuContext): CreateContextMenu {
-  const state = writable<MenuState>(core.initialState(context));
+  const state = writable<MenuState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-menu") }),
+  );
   const placement: Placement = context.placement ?? "right-start";
 
   const setOpen = (open: boolean) =>

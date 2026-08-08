@@ -1,7 +1,3 @@
-<script module lang="ts">
-  let _uid = 0;
-</script>
-
 <script lang="ts">
   /**
    * Card — a presentational content container. Three shapes from one component:
@@ -22,6 +18,7 @@
    * becomes a heading (level via `headingLevel`) and labels the card
    * (`aria-labelledby`). Colors/spacing are themeable (`--ds-card-*`).
    */
+  import { stableId } from "../internal/stable-id";
   export let variant: "media" | "dashboard" = "media";
   export let orientation: "vertical" | "horizontal" = "vertical";
   /** Image URL for the media area (ignored when the `icon` slot is used). */
@@ -41,7 +38,7 @@
   /** Dashboard: direction of the change, for coloring. */
   export let trend: "up" | "down" | "neutral" = "neutral";
 
-  const titleId = `ds-card-${++_uid}`;
+  const titleId = stableId("ds-card");
   $: labelledBy = title ? titleId : undefined;
   $: hasMedia = Boolean(imageSrc) || Boolean($$slots.icon) || Boolean($$slots.media);
 </script>

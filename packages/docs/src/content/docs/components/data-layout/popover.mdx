@@ -20,11 +20,12 @@ card, two opening contracts:
 - **`trigger="hover"`** — a preview (the pattern elsewhere called "hover
   card"): the card opens on hover **and keyboard focus** of the slotted
   trigger (typically a link), with `openDelay`/`closeDelay`; **focus never
-  moves in** — Tab reaches its links naturally. Hover does not exist on touch:
-  the first click/tap opens the preview instead of activating the trigger, and
-  once open the default action proceeds (the second tap follows the link).
-  Content must be **supplementary** — never put essential information only
-  here, because a preview is not guaranteed to every input modality.
+  moves in**, and the card holds nothing focusable. Hover does not exist on
+  touch: the first click/tap opens the preview instead of activating the
+  trigger, and once open the default action proceeds (the second tap follows
+  the link). Content must be **supplementary**: never put essential
+  information only here, because a preview is not guaranteed to every input
+  modality. Interactive content belongs to `trigger="click"`.
 
 For a plain text hint, use [Tooltip](/invisible-ui/components/data-layout/tooltip/):
 different job, different role (`role="tooltip"` wired via `aria-describedby`).
@@ -55,9 +56,11 @@ content).
 ### Example
 
 ```svelte
+<!-- Interactive content: focus moves into the panel, Escape returns it. -->
 <Popover>
   <span slot="trigger">Open</span>
   <p>Panel content goes here.</p>
+  <button type="button">Action</button>
 </Popover>
 
 <!-- Preview on hover/focus of a link (supplementary content only). -->

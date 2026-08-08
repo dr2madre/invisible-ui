@@ -2,6 +2,7 @@ import { table as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type SortDirection = core.SortDirection;
@@ -42,7 +43,9 @@ export interface CreateTable {
  * derive the rows to render.
  */
 export function createTable(context: TableContext): CreateTable {
-  const state = writable<TableState>(core.initialState(context));
+  const state = writable<TableState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-table") }),
+  );
 
   const setSort = (sort: SortState | null) => {
     state.update((current) => {

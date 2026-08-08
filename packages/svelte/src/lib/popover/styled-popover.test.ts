@@ -121,6 +121,18 @@ describe("Svelte Popover (trigger=hover)", () => {
     expect(card()).toBeNull();
   });
 
+  // The hover preview is supplementary: nothing inside takes focus.
+  // Interactive content belongs to trigger="click".
+  it("holds no focusable content", async () => {
+    render(HoverFixture);
+    await fireEvent.pointerEnter(triggerWrap());
+
+    const focusable = card()!.querySelectorAll(
+      'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    expect(focusable).toHaveLength(0);
+  });
+
   it("has no accessibility violations when open", async () => {
     const { container } = render(HoverFixture);
     await fireEvent.pointerEnter(triggerWrap());

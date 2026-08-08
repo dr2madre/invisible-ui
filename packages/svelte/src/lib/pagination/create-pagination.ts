@@ -2,6 +2,7 @@ import { pagination as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type PageItem = core.PageItem;
@@ -37,7 +38,9 @@ export interface CreatePagination {
  * state to a Svelte store, applies connected props via actions, and moves focus.
  */
 export function createPagination(context: core.PaginationContext): CreatePagination {
-  const state = writable<PaginationState>(core.initialState(context));
+  const state = writable<PaginationState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-pagination") }),
+  );
 
   const setPage = (next: number) => {
     state.update((current) => {

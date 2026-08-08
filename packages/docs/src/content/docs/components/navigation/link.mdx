@@ -32,3 +32,9 @@ default, with a clear hover and focus treatment.
 
 Set `external` for links that open in a new tab — it adds `target="_blank"` with
 a safe `rel` and a trailing arrow icon. Themeable via `--ds-link-*`.
+
+`href` is required: a link navigates, and an anchor without a destination is
+neither focusable nor announced as a link. For an action that stays on the page,
+use [Button](../../forms/button/), which already carries the button semantics
+and keyboard behavior. A link still forwards its click, for the work that goes
+with a navigation such as analytics.

@@ -3,6 +3,7 @@ import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type CalendarView = core.CalendarView;
@@ -38,7 +39,9 @@ export interface CreateCalendar {
  * the next render so a day in a freshly-shown month can receive focus).
  */
 export function createCalendar(context: CalendarContext): CreateCalendar {
-  const state = writable<CalendarState>(core.initialState(context));
+  const state = writable<CalendarState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-calendar") }),
+  );
   const baseId = get(state).id;
 
   const setValue = (iso: string) =>

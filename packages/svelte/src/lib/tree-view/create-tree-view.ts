@@ -2,6 +2,7 @@ import { treeView as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type TreeNode = core.TreeNode;
@@ -39,7 +40,9 @@ export interface CreateTreeView {
  * moves DOM focus during navigation.
  */
 export function createTreeView(context: TreeContext): CreateTreeView {
-  const state = writable<TreeState>(core.initialState(context));
+  const state = writable<TreeState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-tree") }),
+  );
 
   const setExpanded = (expanded: string[]) => {
     state.update((current) => {

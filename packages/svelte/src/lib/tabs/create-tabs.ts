@@ -2,6 +2,7 @@ import { tabs as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type ActivationMode = core.ActivationMode;
@@ -40,7 +41,9 @@ export interface CreateTabs {
  * Svelte store, applies connected props via actions, and moves DOM focus.
  */
 export function createTabs(context: TabsContext): CreateTabs {
-  const state = writable<TabsState>(core.initialState(context));
+  const state = writable<TabsState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-tabs") }),
+  );
 
   const updateValue = (value: string | null, notify: boolean) => {
     state.update((current) => {

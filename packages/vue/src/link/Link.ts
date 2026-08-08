@@ -4,13 +4,11 @@ export type LinkVariant = "primary" | "subtle";
 
 export interface LinkProps {
   /** Destination URL. */
-  href?: string;
+  href: string;
   /** Open in a new tab (adds target/rel and a trailing arrow icon). */
   external?: boolean;
   /** Tone down to the surrounding text colour (still underlined on hover). */
   variant?: LinkVariant;
-  /** Optional press handler (useful when there is no `href`). */
-  onPress?: (event: MouseEvent) => void;
 }
 
 /**
@@ -20,19 +18,22 @@ export interface LinkProps {
  * Violet and underlined by default (the brand selection colour), with a clear
  * hover/focus treatment. Set `external` for links that open in a new tab: it
  * adds `target="_blank"` plus a safe `rel`, and an arrow icon marks it
- * visually. With no `href` it renders a non-navigating link (e.g. a disabled or
- * JS-driven link) that stays keyboardable when an `onPress` is supplied.
+ * visually.
  *
- * Extra attributes fall through to the `<a>`. Presentational only, themeable
- * via `--ds-link-*`.
+ * `href` is required: a link navigates. An anchor without a destination is not
+ * focusable and carries no link semantics, so an in-page action belongs to
+ * Button.
+ *
+ * Extra attributes fall through to the `<a>`, `onClick` included, for the work
+ * that accompanies a navigation. Presentational only, themeable via
+ * `--ds-link-*`.
  */
 export const Link = defineComponent({
   name: "Link",
   props: {
-    href: { type: String, default: undefined },
+    href: { type: String, required: true },
     external: { type: Boolean, default: false },
     variant: { type: String as PropType<LinkVariant>, default: "primary" },
-    onPress: { type: Function as PropType<(event: MouseEvent) => void>, default: undefined },
   },
   setup(props, { slots }) {
     return () =>
@@ -44,7 +45,6 @@ export const Link = defineComponent({
           href: props.href,
           target: props.external ? "_blank" : undefined,
           rel: props.external ? "noopener noreferrer" : undefined,
-          onClick: props.onPress,
         },
         [
           slots.default?.(),

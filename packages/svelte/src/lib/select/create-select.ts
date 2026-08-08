@@ -4,6 +4,7 @@ import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { ignoreGhostClicks } from "../internal/ghost-click";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type SelectItem = core.SelectItem;
@@ -50,7 +51,9 @@ const TYPEAHEAD_RESET = 500;
  * option scrolled into view. DOM focus stays on the trigger (activedescendant).
  */
 export function createSelect(context: SelectContext): CreateSelect {
-  const state = writable<SelectState>(core.initialState(context));
+  const state = writable<SelectState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-select") }),
+  );
 
   const updateValue = (value: string | null, notify: boolean) =>
     state.update((current) => {

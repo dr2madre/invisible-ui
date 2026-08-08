@@ -53,10 +53,10 @@ const HoverFixture = defineComponent({
         { trigger: "hover", openDelay: 0, closeDelay: 0, onOpenChange: props.onOpenChange },
         {
           trigger: () => h("a", { href: "#ada" }, "@ada"),
+          // Supplementary preview: nothing focusable inside.
           default: () => [
             h("strong", "Ada Lovelace"),
             h("p", "Mathematician, the first programmer."),
-            h("a", { href: "#follow" }, "Follow"),
           ],
         },
       ),
@@ -183,6 +183,18 @@ describe("Vue Popover (trigger=hover)", () => {
 
     await fireEvent.keyDown(document, { key: "Escape" });
     expect(card()).toBeNull();
+  });
+
+  // The hover preview is supplementary: nothing inside takes focus.
+  // Interactive content belongs to trigger="click".
+  it("holds no focusable content", async () => {
+    render(HoverFixture);
+    await fireEvent.pointerEnter(triggerWrap());
+
+    const focusable = card()!.querySelectorAll(
+      'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    expect(focusable).toHaveLength(0);
   });
 
   it("has no accessibility violations when open", async () => {

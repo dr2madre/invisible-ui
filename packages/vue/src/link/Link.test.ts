@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Link } from "./Link";
@@ -43,18 +44,25 @@ describe("Vue Link (styled)", () => {
     expect(document.querySelector(".link__external")).toBeNull();
   });
 
-  it("runs onPress when pressed", async () => {
-    const onPress = vi.fn();
+  it("takes one tab stop and activates on Enter", async () => {
+    const user = userEvent.setup();
+    const pressed = vi.fn();
     // A fragment href keeps jsdom from attempting a document navigation.
-    render(Link, { props: { href: "#guide", onPress }, slots });
-    await fireEvent.click(link());
-    expect(onPress).toHaveBeenCalledTimes(1);
+    render(Link, { props: { href: "#guide", onClick: pressed }, slots });
+
+    await user.tab();
+    expect(link()).toHaveFocus();
+
+    await user.keyboard("{Enter}");
+    expect(pressed).toHaveBeenCalledTimes(1);
   });
 
-  it("renders without an href for a non-navigating link", () => {
-    render(Link, { props: { onPress: vi.fn() }, slots });
-    expect(link()).not.toHaveAttribute("href");
-    expect(link()).toHaveTextContent("Read the guide");
+  it("forwards click for the work that goes with the navigation", async () => {
+    const pressed = vi.fn();
+    render(Link, { props: { href: "#guide", onClick: pressed }, slots });
+
+    await fireEvent.click(link());
+    expect(pressed).toHaveBeenCalledTimes(1);
   });
 
   it("has no accessibility violations", async () => {

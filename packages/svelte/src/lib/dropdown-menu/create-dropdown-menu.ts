@@ -5,6 +5,7 @@ import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { ignoreGhostClicks } from "../internal/ghost-click";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type MenuItem = core.MenuItem;
@@ -35,7 +36,9 @@ const placement: Placement = "bottom-start";
  * the trigger on close, typeahead, and close-on-outside-pointer.
  */
 export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
-  const state = writable<MenuState>(core.initialState(context));
+  const state = writable<MenuState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-menu") }),
+  );
 
   const setOpen = (open: boolean) =>
     state.update((current) => {

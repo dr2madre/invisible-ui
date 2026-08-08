@@ -51,8 +51,8 @@ export interface UseHoverPreview {
  * hover **and** focus with delays, `attachFloating` positioning, and, since the
  * card is non-modal and supplementary, it stays open while the pointer is over
  * the card (hoverable), closes when focus leaves both the trigger and the
- * card, and is Escape-dismissable. Focus is never moved into the card; Tab
- * reaches its links naturally.
+ * card, and is Escape-dismissable. Focus is never moved into the card; the
+ * card holds nothing focusable.
  *
  * The component wires the trigger's pointer/focus events to `show`/`hide`; the
  * card-side listeners (hoverable, focus-leave, Escape) are attached by the

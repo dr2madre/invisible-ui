@@ -1,7 +1,3 @@
-<script lang="ts" context="module">
-  let selectCount = 0;
-</script>
-
 <script lang="ts">
   /**
    * Select — a styled **native** `<select>`. The browser owns the popup,
@@ -19,6 +15,7 @@
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { SelectItem } from "./create-select";
+  import { stableId } from "../internal/stable-id";
 
   const { t } = getI18n();
 
@@ -48,9 +45,8 @@
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
-  const uid = ++selectCount;
-  const selectId = `ds-select-${uid}`;
-  const errorId = `ds-select-${uid}-error`;
+  const selectId = stableId("ds-select");
+  const errorId = `${selectId}-error`;
 
   $: resolvedPlaceholder = placeholder ?? $t("select.placeholder");
   // The native element always has a selection; `""` stands for "nothing yet"
