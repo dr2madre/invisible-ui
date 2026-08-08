@@ -9,10 +9,10 @@
 <a href="#before">before</a>
 <Popover trigger="hover" {openDelay} {closeDelay} {onOpenChange}>
   <a slot="trigger" href="#ada">@ada</a>
+  <!-- Supplementary preview: nothing focusable inside. -->
   <div>
     <strong>Ada Lovelace</strong>
     <p>Mathematician, the first programmer.</p>
-    <a href="#follow">Follow</a>
   </div>
 </Popover>
 <a href="#after">after</a>

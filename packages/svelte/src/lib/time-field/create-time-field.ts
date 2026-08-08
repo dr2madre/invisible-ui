@@ -2,6 +2,7 @@ import { timeField as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type HourCycle = core.HourCycle;
@@ -36,7 +37,9 @@ export interface CreateTimeField {
  * between segments, and emits `onValueChange` when the formatted value changes.
  */
 export function createTimeField(context: CreateTimeFieldOptions): CreateTimeField {
-  const state = writable<TimeFieldState>(core.initialState(context));
+  const state = writable<TimeFieldState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-time-field") }),
+  );
   const baseId = get(state).id;
   context.onValidationChange?.(get(state).validationError);
 

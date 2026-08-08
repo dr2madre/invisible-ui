@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-  let _uid = 0;
-</script>
-
 <script lang="ts">
   /**
    * Radio — a single styled radio button paired with its label. Built on a
@@ -13,6 +9,7 @@
    * The label is the default slot (falling back to the `label` prop). Colors are
    * themeable via `--ds-radio-*`.
    */
+  import { stableId } from "../internal/stable-id";
   /** The value submitted / reported when this radio is chosen. */
   export let value: string;
   /** Group name; radios sharing a name are mutually exclusive. */
@@ -25,7 +22,7 @@
   /** Called with this radio's value when it becomes selected. */
   export let onChange: ((value: string) => void) | undefined = undefined;
 
-  const id = `ds-radio-${++_uid}`;
+  const id = stableId("ds-radio");
 </script>
 
 <label class="radio" class:radio--disabled={disabled} for={id}>

@@ -4,6 +4,7 @@ import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { lockScroll } from "../internal/scroll-lock";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type DialogApi = core.DialogApi;
@@ -59,7 +60,9 @@ export interface CreateDialog {
  * open, so the action's lifecycle tracks the open state.
  */
 export function createDialog(context: DialogContext = {}): CreateDialog {
-  const state = writable<DialogState>(core.initialState(context));
+  const state = writable<DialogState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-dialog") }),
+  );
   const closeOnOutsideClick = context.closeOnOutsideClick ?? true;
 
   const setOpen = (open: boolean) =>

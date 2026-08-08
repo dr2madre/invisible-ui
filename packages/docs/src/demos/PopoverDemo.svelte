@@ -1,4 +1,5 @@
 <script>
+  import Button from "@design-system/svelte/Button.svelte";
   import Popover from "@design-system/svelte/Popover.svelte";
 </script>
 
@@ -6,13 +7,14 @@
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Popover>
       <span slot="trigger">Open popover</span>
-      <div style="display:grid; gap:0.25rem;">
+      <div style="display:grid; gap:0.25rem; justify-items: start;">
         <strong>Popover</strong>
         <span>Non-modal floating panel, positioned with Floating UI.</span>
+        <Button>Action</Button>
       </div>
     </Popover>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
-      <code>trigger="click"</code> (default) — opened intentionally; focus moves in.
+      <code>trigger="click"</code> (default) — opened intentionally; focus moves in, onto the first control.
     </figcaption>
   </figure>
 
@@ -24,7 +26,6 @@
         <div style="display:grid; gap:0.25rem; max-inline-size: 16rem;">
           <strong>Ada Lovelace</strong>
           <span>Mathematician; wrote the first published algorithm.</span>
-          <a href="#follow">Follow</a>
         </div>
       </Popover>
     </span>

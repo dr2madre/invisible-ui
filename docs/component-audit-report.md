@@ -1,0 +1,102 @@
+# Component audit: remediation report
+
+Tracks the execution of the
+[component audit remediation plan](./component-audit-remediation-plan.md),
+one section per phase, updated as each phase lands. The closing section records
+the triage of findings that emerged while doing the work and links confirmed
+defects back to the plan.
+
+## Phase 1: security and custom element correctness
+
+Merged 2026-08-08 (#244), tasks 1 to 4.
+
+- The combobox builds an option's icon through the DOM instead of an HTML
+  string, so consumer data never reaches an HTML parser.
+- Clearing a combobox is one complete transition: state, attribute, visible
+  input, form value, and a single `change` event.
+- Every dialog mints its own ids; an explicit host id still wins.
+- A list assigned before the element connects survives the first render in
+  select, combobox and the two groups.
+
+## Phase 2: accessibility, interaction and SSR
+
+Done on branch `fix/audit-phase-2` (2026-08-08 / 2026-08-09), tasks 5 to 8.
+
+### 5. Link semantics restored
+
+- `href` is required in Svelte and Vue; the handler-only anchor API
+  (`onpress` / `onPress`) is removed. Click events fall through natively for
+  work that accompanies a navigation (e.g. analytics).
+- Consumers (EmptyState, ErrorState), fixtures, API manifests and
+  `link.mdx` updated; action use cases point to Button.
+- Tests cover Tab navigation and Enter activation in both frameworks.
+
+### 6. One accessible Hover Card model
+
+- Contract stated everywhere the same way: the preview is supplementary,
+  holds nothing focusable, and interactive content belongs to the
+  click-triggered Popover.
+- Fixtures and demos lost their interactive descendants; both frameworks
+  now run a "holds no focusable content" test (Svelte Popover hover, Vue
+  Popover hover, Vue HoverCard).
+- Docblocks, `popover.mdx` and the docs demo updated; the click example now
+  shows interactive content and the focus behavior.
+
+### 7. Toolbar roving focus valid after DOM changes
+
+- Svelte and Vue toolbars reconcile their controls through a
+  `MutationObserver` (children plus `disabled` / `aria-disabled` changes):
+  exactly one enabled control keeps `tabindex="0"`, the last focused control
+  is preserved when possible, the first enabled control is the fallback.
+- Six new tests per framework: insertion, removal, disabled-state change,
+  tab-stop preservation, arrow keys skipping disabled controls, Tab entering
+  the toolbar exactly once.
+
+### 8. Deterministic Svelte ids across SSR and hydration
+
+- New `packages/svelte/src/lib/internal/stable-id.ts`: one counter per
+  prefix; on the server the scope resets after each render, in the browser
+  it runs for the life of the page. Repeated requests from one server
+  process serve the ids a fresh client runtime expects.
+- Wired into 26 `create-*` factories (explicit consumer ids stay
+  authoritative) and replaced the 8 module-level `_uid` counters in the
+  styled components.
+- New separate-runtime hydration test: a child Node process without a DOM
+  renders the fixture twice through Vite SSR (the two responses must be
+  identical), then the test hydrates that HTML in jsdom and asserts no
+  hydration warnings, unique ids, resolving `aria-labelledby` /
+  `aria-describedby` / `aria-controls` / `for` references, and a working
+  popover after hydration. The test was mutation-checked: removing the
+  server reset makes it fail.
+
+### Verification
+
+Full monorepo test run green (Svelte 801 tests, all packages), typecheck,
+`api:check` (manifests regenerated), Prettier and ESLint clean on project
+files.
+
+## Findings triaged after Phase 2
+
+1. **Confirmed — ToggleButton (Svelte): `disabled` is not reactive after
+   mount.** The
+   prop is read once at creation; `pressed` has a reactive sync, `disabled`
+   does not, so toggling it later never reaches the DOM. Found on 2026-08-08
+   while writing the Toolbar DOM-change tests (the toolbar fixtures use
+   native buttons to isolate the Toolbar behavior). The Vue version updates
+   correctly. Scheduled as task 11 in Phase 4.
+2. **Not confirmed — Vue hover-preview ids.** `use-hover-preview.ts` already
+   calls `useStableId`, whose counters are scoped to the Vue application
+   context. Each SSR request therefore has an independent scope and a fresh
+   client application reproduces the server ids. The adjacent comment that
+   described a module counter was stale and has been corrected; there is no
+   separate id defect to schedule.
+3. **Not confirmed — inline styles in `PopoverDemo.svelte`.** Inline layout
+   styles are widespread in the documentation demos and no repository rule
+   currently prohibits them. This is not an audit defect. A broader demo-style
+   refactor should happen only after adopting an explicit convention.
+4. **Confirmed, local environment only — repository gates inspect untracked
+   tooling directories.** `pnpm lint` and `pnpm format:check` include
+   `.claude/`, `.github/skills|agents|hooks/` and `.impeccable/`. Project files
+   are clean; CI checks out a clean tree and
+   is unaffected. Those directories must stay uncommitted. Scheduled as task
+   12 in Phase 4.

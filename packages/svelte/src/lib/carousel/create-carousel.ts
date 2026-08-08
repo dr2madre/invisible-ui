@@ -2,6 +2,7 @@ import { carousel as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type Orientation = core.Orientation;
@@ -45,7 +46,9 @@ export interface CreateCarousel {
  * scrolls the active slide into view (gallery mode).
  */
 export function createCarousel(context: CarouselContext): CreateCarousel {
-  const state = writable<CarouselState>(core.initialState(context));
+  const state = writable<CarouselState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-carousel") }),
+  );
 
   const setIndex = (index: number) => {
     state.update((current) => {

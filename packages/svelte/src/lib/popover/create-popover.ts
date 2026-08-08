@@ -5,6 +5,7 @@ import { createPropsAction } from "../internal/connect";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { attachFloating, type Placement } from "../internal/floating";
 import { onOutsidePointerDown } from "../internal/dismiss";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type PopoverApi = core.PopoverApi;
@@ -45,7 +46,9 @@ const FOCUSABLE =
  * the open state.
  */
 export function createPopover(context: PopoverContext = {}): CreatePopover {
-  const state = writable<PopoverState>(core.initialState(context));
+  const state = writable<PopoverState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-popover") }),
+  );
   const { placement = "bottom", offset = 6 } = context;
 
   const setOpen = (open: boolean) =>

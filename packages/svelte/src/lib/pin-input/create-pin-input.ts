@@ -2,6 +2,7 @@ import { pinInput as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type PinInputType = core.PinInputType;
@@ -39,7 +40,9 @@ export interface CreatePinInputContext extends core.PinInputContext {
 }
 
 export function createPinInput(context: CreatePinInputContext = {}): CreatePinInput {
-  const state = writable<PinInputState>(core.initialState(context));
+  const state = writable<PinInputState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-pin-input") }),
+  );
 
   const setValues = (values: string[]) => {
     state.update((current) => {

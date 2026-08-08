@@ -2,6 +2,7 @@ import { collapsible as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type CollapsibleApi = core.CollapsibleApi;
@@ -34,7 +35,9 @@ export interface CreateCollapsible {
  * applies the connected props via actions.
  */
 export function createCollapsible(context: CollapsibleContext = {}): CreateCollapsible {
-  const state = writable<CollapsibleState>(core.initialState(context));
+  const state = writable<CollapsibleState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-collapsible") }),
+  );
 
   const setOpen = (next: boolean) => {
     state.update((current) => {

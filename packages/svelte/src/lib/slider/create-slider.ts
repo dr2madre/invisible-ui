@@ -1,5 +1,6 @@
 import { slider as core } from "@design-system/core";
 import { derived, writable, type Readable } from "svelte/store";
+import { stableId } from "../internal/stable-id";
 
 export type SliderApi = core.SliderApi;
 export type SliderState = core.SliderState;
@@ -23,7 +24,9 @@ export interface CreateSlider {
  * filled percentage (for the styled track fill).
  */
 export function createSlider(context: core.SliderContext = {}): CreateSlider {
-  const state = writable<SliderState>(core.initialState(context));
+  const state = writable<SliderState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-slider") }),
+  );
 
   const setValue = (next: number) => {
     state.update((current) => {

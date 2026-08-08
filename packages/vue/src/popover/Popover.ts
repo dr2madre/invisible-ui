@@ -44,11 +44,12 @@ export interface PopoverProps {
  * - **`trigger="hover"`** (the pattern shipped as HoverCard in the Svelte
  *   adapter): the card previews on hover **and keyboard focus** of the slotted
  *   trigger (typically a link), with open/close delays; focus never moves into
- *   the card, so Tab reaches its links naturally. The first click/tap opens
+ *   the card, and the card holds nothing focusable. The first click/tap opens
  *   the preview instead of activating the trigger; once open, the default
  *   action (e.g. link navigation) proceeds, giving touch users the popover
  *   contract. Hover content must be **supplementary**: never put essential
- *   information only in here.
+ *   information only in here. Interactive content belongs to
+ *   `trigger="click"`.
  *
  * The open state binds two ways: `v-model:open` (the idiomatic Vue form) or
  * the `open` prop plus `onOpenChange`. Slots: `trigger` (button content, or

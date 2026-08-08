@@ -87,7 +87,7 @@ export const ErrorState = defineComponent({
                     key: action.label,
                     href: action.href,
                     target: action.target,
-                    onPress: action.onAction,
+                    onClick: action.onAction,
                   },
                   { default: () => action.label },
                 )

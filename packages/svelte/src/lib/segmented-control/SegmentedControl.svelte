@@ -11,8 +11,6 @@
     label?: string;
     icon?: ComponentType;
   };
-
-  let _uid = 0;
 </script>
 
 <script lang="ts">
@@ -28,6 +26,7 @@
    * custom properties (`--ds-segment-*`).
    */
   import { createSegmentedControl } from "./create-segmented-control";
+  import { stableId } from "../internal/stable-id";
 
   export let items: SegmentedControlItem[];
   export let value: string | null = null;
@@ -64,7 +63,7 @@
     name: groupName,
   } = createSegmentedControl({ items, value, disabled, orientation, name, onValueChange });
 
-  const labelId = `ds-segmented-${++_uid}`;
+  const labelId = stableId("ds-segmented");
 </script>
 
 <div class="segmented-field">

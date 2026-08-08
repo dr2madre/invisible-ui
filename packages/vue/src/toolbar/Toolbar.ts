@@ -1,4 +1,4 @@
-import { defineComponent, h, onMounted, ref, type PropType } from "vue";
+import { defineComponent, h, onBeforeUnmount, onMounted, ref, type PropType } from "vue";
 
 export type ToolbarOrientation = "horizontal" | "vertical";
 
@@ -40,28 +40,35 @@ export const Toolbar = defineComponent({
   setup(props, { slots }) {
     const root = ref<HTMLElement | null>(null);
 
-    /** The enabled controls that belong directly to this toolbar, in DOM order. */
-    const items = (): HTMLElement[] => {
+    /** All controls that belong directly to this toolbar, in DOM order. */
+    const controls = (): HTMLElement[] => {
       const node = root.value;
       if (!node) return [];
       return Array.from(node.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
-        (el) =>
-          el.closest('[role="toolbar"]') === node &&
-          !el.hasAttribute("disabled") &&
-          el.getAttribute("aria-disabled") !== "true",
+        (el) => el.closest('[role="toolbar"]') === node,
       );
     };
 
-    /** Make `index` the single tab stop; everything else leaves the Tab order. */
-    const setTabStop = (list: HTMLElement[], index: number) => {
-      list.forEach((el, i) => (el.tabIndex = i === index ? 0 : -1));
+    /** The enabled controls only: the ones keyboard navigation can reach. */
+    const items = (): HTMLElement[] =>
+      controls().filter(
+        (el) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true",
+      );
+
+    /** The control currently holding the single tab stop. */
+    let tabStop: HTMLElement | null = null;
+
+    /** Make `target` the single tab stop; every other control leaves the Tab order. */
+    const setTabStop = (target: HTMLElement) => {
+      tabStop = target;
+      for (const el of controls()) el.tabIndex = el === target ? 0 : -1;
     };
 
     const focusAt = (index: number) => {
       const list = items();
       if (list.length === 0) return;
       const wrapped = (index + list.length) % list.length;
-      setTabStop(list, wrapped);
+      setTabStop(list[wrapped]!);
       list[wrapped]!.focus();
     };
 
@@ -93,16 +100,32 @@ export const Toolbar = defineComponent({
 
     /** Keep the most recently focused control as the single tab stop. */
     const onFocusin = (event: FocusEvent) => {
-      const list = items();
-      const index = list.indexOf(event.target as HTMLElement);
-      if (index >= 0) setTabStop(list, index);
+      const target = event.target as HTMLElement;
+      if (items().includes(target)) setTabStop(target);
     };
 
-    // The initial roving tab stop lands once the children are in the DOM.
-    onMounted(() => {
+    // Children can be added, removed, or toggle disabled after mount; re-assert
+    // the single tab stop, keeping the last focused control when it is still
+    // enabled and falling back to the first enabled control otherwise.
+    const reconcile = () => {
       const list = items();
-      if (list.length) setTabStop(list, 0);
+      if (list.length === 0) return;
+      setTabStop(tabStop && list.includes(tabStop) ? tabStop : list[0]!);
+    };
+
+    // The roving tab stop lands once the children are in the DOM and stays
+    // valid across DOM changes.
+    let observer: MutationObserver | undefined;
+    onMounted(() => {
+      reconcile();
+      observer = new MutationObserver(reconcile);
+      observer.observe(root.value!, {
+        childList: true,
+        subtree: true,
+        attributeFilter: ["disabled", "aria-disabled"],
+      });
     });
+    onBeforeUnmount(() => observer?.disconnect());
 
     return () =>
       h(

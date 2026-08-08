@@ -2,6 +2,7 @@ import { meter as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type MeterApi = core.MeterApi;
@@ -30,7 +31,9 @@ export interface CreateMeter {
  * actions. The element needs an accessible name, supplied by the consumer.
  */
 export function createMeter(context: core.MeterContext = {}): CreateMeter {
-  const state = writable<MeterState>(core.initialState(context));
+  const state = writable<MeterState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-meter") }),
+  );
 
   const setValue = (value: number) => {
     state.update((current) => ({ ...current, value }));

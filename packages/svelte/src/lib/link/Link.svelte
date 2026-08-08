@@ -5,25 +5,26 @@
    * Violet and underlined by default (the brand selection colour), with a clear
    * hover/focus treatment. Set `external` for links that open in a new tab — it
    * adds `target="_blank"` + safe `rel`, and an arrow icon marks it visually.
-   * When no `href` is given it renders a non-navigating link (e.g. a disabled or
-   * JS-driven link) that is still keyboardable when an `onpress` is supplied.
+   *
+   * `href` is required: a link navigates. An anchor without a destination is not
+   * focusable and carries no link semantics, so an in-page action belongs to
+   * Button. Click events are forwarded for the work that accompanies a
+   * navigation, such as analytics.
    *
    * Presentational only — themeable via `--ds-link-*`.
    */
   /** Destination URL. */
-  export let href: string | undefined = undefined;
+  export let href: string;
   /** Open in a new tab (adds target/rel and a trailing arrow icon). */
   export let external = false;
   /** Tone down to the surrounding text colour (still underlined on hover). */
   export let variant: "primary" | "subtle" = "primary";
-  /** Optional press handler (useful when there is no `href`). */
-  export let onpress: ((event: MouseEvent) => void) | undefined = undefined;
 
   $: rel = external ? "noopener noreferrer" : undefined;
   $: target = external ? "_blank" : undefined;
 </script>
 
-<a class="link" data-variant={variant} {href} {target} {rel} on:click={onpress} {...$$restProps}>
+<a class="link" data-variant={variant} {href} {target} {rel} on:click {...$$restProps}>
   <slot />
   {#if external}
     <svg

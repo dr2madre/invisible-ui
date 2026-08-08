@@ -42,8 +42,9 @@ export interface UseHoverPreview {
   hold: () => void;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
+// Stable per-instance ids are scoped to the Vue application, which keeps SSR
+// requests independent while retaining the Vue ^3.4 peer range (`useId`
+// landed in Vue 3.5).
 /**
  * The hover/focus preview behaviour behind `Popover`'s `trigger="hover"` mode
  * (the pattern shipped as HoverCard in the Svelte adapter). ARIA/state live in
@@ -51,8 +52,8 @@ export interface UseHoverPreview {
  * hover **and** focus with delays, `attachFloating` positioning, and, since the
  * card is non-modal and supplementary, it stays open while the pointer is over
  * the card (hoverable), closes when focus leaves both the trigger and the
- * card, and is Escape-dismissable. Focus is never moved into the card; Tab
- * reaches its links naturally.
+ * card, and is Escape-dismissable. Focus is never moved into the card; the
+ * card holds nothing focusable.
  *
  * The component wires the trigger's pointer/focus events to `show`/`hide`; the
  * card-side listeners (hoverable, focus-leave, Escape) are attached by the

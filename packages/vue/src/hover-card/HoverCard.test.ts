@@ -22,10 +22,10 @@ const Fixture = defineComponent({
         { openDelay: 0, closeDelay: 0, onOpenChange: props.onOpenChange },
         {
           trigger: () => h("a", { href: "#ada" }, "@ada"),
+          // Supplementary preview: nothing focusable inside.
           default: () => [
             h("strong", "Ada Lovelace"),
             h("p", "Mathematician, the first programmer."),
-            h("a", { href: "#follow" }, "Follow"),
           ],
         },
       ),
@@ -77,7 +77,7 @@ describe("Vue HoverCard (styled)", () => {
       props: { openDelay: 0, closeDelay: 50 },
       slots: {
         trigger: () => h("a", { href: "#ada" }, "@ada"),
-        default: () => h("a", { href: "#follow" }, "Follow"),
+        default: () => h("p", "Ada Lovelace"),
       },
     });
 
@@ -132,6 +132,18 @@ describe("Vue HoverCard (styled)", () => {
     });
     await fireEvent.pointerEnter(triggerWrap());
     expect(emitted()["update:open"]).toEqual([[true]]);
+  });
+
+  // The card is supplementary: nothing inside takes focus.
+  // Interactive content belongs to Popover's trigger="click".
+  it("holds no focusable content", async () => {
+    render(Fixture);
+    await fireEvent.pointerEnter(triggerWrap());
+
+    const focusable = card()!.querySelectorAll(
+      'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    expect(focusable).toHaveLength(0);
   });
 
   it("has no accessibility violations when open", async () => {

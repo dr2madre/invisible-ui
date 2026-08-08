@@ -1,12 +1,11 @@
 import { radioGroup as core } from "@design-system/core";
 import { derived, writable, type Readable } from "svelte/store";
+import { stableId } from "../internal/stable-id";
 
 export type Orientation = core.Orientation;
 export type RadioItem = core.RadioItem;
 export type RadioGroupState = core.RadioGroupState;
 export type RadioGroupContext = core.RadioGroupContext;
-
-let _uid = 0;
 
 export interface CreateRadioGroup {
   /** Reactive resolved state. */
@@ -27,7 +26,7 @@ export interface CreateRadioGroup {
  * value. A `name` is generated when one isn't supplied so the radios group.
  */
 export function createRadioGroup(context: RadioGroupContext): CreateRadioGroup {
-  const name = context.name ?? `ds-radio-group-${++_uid}`;
+  const name = context.name ?? stableId("ds-radio-group");
   const state = writable<RadioGroupState>(core.initialState(context));
 
   const setValue = (value: string) => {

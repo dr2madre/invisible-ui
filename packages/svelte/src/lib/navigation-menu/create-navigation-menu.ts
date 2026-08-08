@@ -5,6 +5,7 @@ import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type NavigationMenuApi = core.NavigationMenuApi;
@@ -66,7 +67,9 @@ const FOCUSABLE =
  * panel is open. Plain link items need no wiring.
  */
 export function createNavigationMenu(context: NavigationMenuContext = {}): CreateNavigationMenu {
-  const state = writable<NavigationMenuState>(core.initialState(context));
+  const state = writable<NavigationMenuState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-navigation-menu") }),
+  );
   const { placement = "bottom-start", offset = 8, openDelay = 150, closeDelay = 150 } = context;
 
   const setValue = (value: string | null) =>

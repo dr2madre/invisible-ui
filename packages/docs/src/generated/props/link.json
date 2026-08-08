@@ -11,9 +11,9 @@
       "props": [
         {
           "name": "href",
-          "type": "string | undefined",
-          "default": "undefined",
-          "required": false,
+          "type": "string",
+          "default": null,
+          "required": true,
           "description": "Destination URL."
         },
         {
@@ -29,13 +29,6 @@
           "default": "\"primary\"",
           "required": false,
           "description": "Tone down to the surrounding text colour (still underlined on hover)."
-        },
-        {
-          "name": "onpress",
-          "type": "((event: MouseEvent) => void) | undefined",
-          "default": "undefined",
-          "required": false,
-          "description": "Optional press handler (useful when there is no `href`)."
         }
       ]
     },
@@ -49,8 +42,8 @@
         {
           "name": "href",
           "type": "string",
-          "default": "undefined",
-          "required": false,
+          "default": null,
+          "required": true,
           "description": "Destination URL."
         },
         {
@@ -66,13 +59,6 @@
           "default": "\"primary\"",
           "required": false,
           "description": "Tone down to the surrounding text colour (still underlined on hover)."
-        },
-        {
-          "name": "onPress",
-          "type": "(event: MouseEvent) => void",
-          "default": "undefined",
-          "required": false,
-          "description": "Optional press handler (useful when there is no `href`)."
         }
       ],
       "emits": [],

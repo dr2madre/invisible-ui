@@ -22,7 +22,7 @@ export interface HoverCardProps {
  * typically a link. It opens on hover **and** keyboard focus with open/close
  * delays, stays open while the pointer is over the card, closes when focus
  * leaves trigger and card, and is Escape-dismissable. Focus never moves into
- * the card, so Tab reaches its links naturally.
+ * the card, and the card holds nothing focusable.
  *
  * State and ARIA come from the headless hover card (`@design-system/core`)
  * through `useHoverPreview`, the composable this component shares with
@@ -30,6 +30,7 @@ export interface HoverCardProps {
  * on scroll) is handled via `@floating-ui/dom`.
  *
  * Hover content must be supplementary: keep essential information out of it.
+ * Interactive content belongs to Popover's `trigger="click"`.
  * The open state binds two ways: `v-model:open` or the `open` prop plus
  * `onOpenChange`. Slots: `trigger` (the focusable element) and the default
  * slot (the card). Themeable via `--ds-hover-card-*`.

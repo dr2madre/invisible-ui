@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-  let _uid = 0;
-</script>
-
 <script lang="ts">
   /**
    * RatingGroup — a star rating built on **native** `<input type="radio">`
@@ -15,6 +11,7 @@
   import { getI18n } from "../i18n/create-i18n";
   import { createRatingGroup } from "./create-rating-group";
   import Icon from "../icon/Icon.svelte";
+  import { stableId } from "../internal/stable-id";
 
   /** Accessible name for the rating group. */
   export let label: string;
@@ -35,7 +32,7 @@
   // selected stars show the selection color.
   let hovered = 0;
 
-  const labelId = `ds-rating-${++_uid}`;
+  const labelId = stableId("ds-rating");
   const { t } = getI18n();
   const starLabel = (n: number, translate: typeof $t) =>
     translate(n === 1 ? "rating.star" : "rating.stars", { count: n });

@@ -3,6 +3,7 @@ import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { attachFloating, type Placement } from "../internal/floating";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type HoverCardApi = core.HoverCardApi;
@@ -38,10 +39,12 @@ export interface CreateHoverCard {
  * and — since the card is non-modal and supplementary — it stays open while the
  * pointer is over the card (hoverable), closes when focus leaves both the
  * trigger and the card, and is Escape-dismissable. Focus is never moved into the
- * card; Tab reaches its links naturally.
+ * card; the card holds nothing focusable.
  */
 export function createHoverCard(context: HoverCardContext = {}): CreateHoverCard {
-  const state = writable<HoverCardState>(core.initialState(context));
+  const state = writable<HoverCardState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-hover-card") }),
+  );
   const { placement = "bottom", offset = 8, openDelay = 300, closeDelay = 200 } = context;
 
   const setOpen = (open: boolean) =>

@@ -2,6 +2,7 @@ import { stepper as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type Orientation = core.Orientation;
@@ -39,7 +40,9 @@ export interface CreateStepper {
  * to Svelte stores and applies the connected props via actions.
  */
 export function createStepper(context: StepperContext): CreateStepper {
-  const state = writable<StepperState>(core.initialState(context));
+  const state = writable<StepperState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-stepper") }),
+  );
 
   const setStep = (step: number) => {
     state.update((current) => {

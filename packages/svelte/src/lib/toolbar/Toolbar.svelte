@@ -28,27 +28,35 @@
   const FOCUSABLE =
     'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
 
-  /** The enabled controls that belong directly to this toolbar, in DOM order. */
-  function items(): HTMLElement[] {
+  /** All controls that belong directly to this toolbar, in DOM order. */
+  function controls(): HTMLElement[] {
     if (!root) return [];
     return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
-      (el) =>
-        el.closest('[role="toolbar"]') === root &&
-        !el.hasAttribute("disabled") &&
-        el.getAttribute("aria-disabled") !== "true",
+      (el) => el.closest('[role="toolbar"]') === root,
     );
   }
 
-  /** Make `index` the single tab stop; everything else is removed from Tab. */
-  function setTabStop(list: HTMLElement[], index: number) {
-    list.forEach((el, i) => (el.tabIndex = i === index ? 0 : -1));
+  /** The enabled controls only: the ones keyboard navigation can reach. */
+  function items(): HTMLElement[] {
+    return controls().filter(
+      (el) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true",
+    );
+  }
+
+  /** The control currently holding the single tab stop. */
+  let tabStop: HTMLElement | null = null;
+
+  /** Make `target` the single tab stop; every other control leaves the Tab order. */
+  function setTabStop(target: HTMLElement) {
+    tabStop = target;
+    for (const el of controls()) el.tabIndex = el === target ? 0 : -1;
   }
 
   function focusAt(index: number) {
     const list = items();
     if (list.length === 0) return;
     const wrapped = (index + list.length) % list.length;
-    setTabStop(list, wrapped);
+    setTabStop(list[wrapped]!);
     list[wrapped]!.focus();
   }
 
@@ -80,16 +88,31 @@
 
   /** Keep the most recently focused control as the single tab stop. */
   function onFocusIn(event: FocusEvent) {
-    const list = items();
-    const index = list.indexOf(event.target as HTMLElement);
-    if (index >= 0) setTabStop(list, index);
+    const target = event.target as HTMLElement;
+    if (items().includes(target)) setTabStop(target);
   }
 
-  // Set the initial roving tab stop once mounted. An action (not onMount) keeps
-  // this client-only and SSR-safe — the container renders fine on the server.
-  const initTabStop: Action<HTMLElement> = () => {
+  // Children can be added, removed, or toggle disabled after mount; re-assert
+  // the single tab stop, keeping the last focused control when it is still
+  // enabled and falling back to the first enabled control otherwise.
+  function reconcile() {
     const list = items();
-    if (list.length) setTabStop(list, 0);
+    if (list.length === 0) return;
+    setTabStop(tabStop && list.includes(tabStop) ? tabStop : list[0]!);
+  }
+
+  // Set the roving tab stop once mounted and keep it valid across DOM changes.
+  // An action (not onMount) keeps this client-only and SSR-safe — the container
+  // renders fine on the server.
+  const manageTabStop: Action<HTMLElement> = (node) => {
+    reconcile();
+    const observer = new MutationObserver(reconcile);
+    observer.observe(node, {
+      childList: true,
+      subtree: true,
+      attributeFilter: ["disabled", "aria-disabled"],
+    });
+    return { destroy: () => observer.disconnect() };
   };
 </script>
 
@@ -104,7 +127,7 @@
   data-orientation={orientation}
   data-flat={flat ? "" : undefined}
   bind:this={root}
-  use:initTabStop
+  use:manageTabStop
   on:keydown={onKeyDown}
   on:focusin={onFocusIn}
 >

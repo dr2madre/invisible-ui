@@ -2,6 +2,7 @@ import { accordion as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type AccordionType = core.AccordionType;
@@ -41,7 +42,9 @@ const sameSet = (a: string[], b: string[]) =>
  * Svelte store, applies connected props via actions, and moves DOM focus.
  */
 export function createAccordion(context: AccordionContext): CreateAccordion {
-  const state = writable<AccordionState>(core.initialState(context));
+  const state = writable<AccordionState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-accordion") }),
+  );
 
   const setValue = (next: string[]) => {
     state.update((current) => {

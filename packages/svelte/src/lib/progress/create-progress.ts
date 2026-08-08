@@ -2,6 +2,7 @@ import { progress as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type ProgressApi = core.ProgressApi;
@@ -33,7 +34,9 @@ export interface CreateProgress {
  * needs an accessible name, supplied by the consumer (`aria-label`).
  */
 export function createProgress(context: core.ProgressContext = {}): CreateProgress {
-  const state = writable<ProgressState>(core.initialState(context));
+  const state = writable<ProgressState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-progress") }),
+  );
 
   const setValue = (value: number | null) => {
     state.update((current) => ({ ...current, value }));

@@ -2,6 +2,7 @@ import { textField as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type TextFieldApi = core.TextFieldApi;
@@ -48,7 +49,9 @@ export interface CreateTextField {
  * `onValueChange` (or `setValue`).
  */
 export function createTextField(context: TextFieldContext = {}): CreateTextField {
-  const state = writable<TextFieldState>(core.initialState(context));
+  const state = writable<TextFieldState>(
+    core.initialState({ ...context, id: context.id ?? stableId("ds-text-field") }),
+  );
 
   const setValue = (value: string) => {
     state.update((current) => {

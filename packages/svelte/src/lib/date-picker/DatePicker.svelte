@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-  let _uid = 0;
-</script>
-
 <script lang="ts">
   /**
    * DatePicker — a date input that opens a `Calendar` in a popover. Composes the
@@ -20,6 +16,7 @@
   import type { WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { stableId } from "../internal/stable-id";
 
   const { t } = getI18n();
 
@@ -63,7 +60,7 @@
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
-  const popupId = `dsDatePicker-${++_uid}-popup`;
+  const popupId = `${stableId("dsDatePicker")}-popup`;
 </script>
 
 <div class="date-picker" class:date-picker--disabled={disabled}>
