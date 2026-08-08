@@ -77,7 +77,7 @@
         {#if actions.length}
           {#each actions as action, index (action.label)}
             {#if action.href}
-              <Link href={action.href} target={action.target} on:click={action.onAction}>
+              <Link href={action.href} target={action.target} on:click={() => action.onAction?.()}>
                 {action.label}
               </Link>
             {:else}

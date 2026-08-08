@@ -8,4 +8,4 @@
   export let label = "Read the guide";
 </script>
 
-<Link {href} {external} {variant} on:click={onclick}>{label}</Link>
+<Link {href} {external} {variant} on:click={(event) => onclick?.(event)}>{label}</Link>
