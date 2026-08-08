@@ -2,6 +2,7 @@ import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import "../define";
+import { DsCheckboxGroup as DsCheckboxGroupCtor } from "./ds-checkbox-group";
 import type { DsCheckboxGroup } from "./ds-checkbox-group";
 
 const mount = (html: string) => {
@@ -87,5 +88,42 @@ describe("<ds-checkbox-group>", () => {
   it("has no accessibility violations", async () => {
     mount(group);
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+// A framework that stamps properties before the definition loads, or before the
+// element connects, would otherwise see its list replaced by the empty set of
+// light-DOM children.
+describe("items assigned before connection", () => {
+  it("survive the first render", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-checkbox-group") as DsCheckboxGroup;
+    host.setAttribute("label", "Toppings");
+    host.items = [{ value: "basil", label: "Basil" }];
+    document.body.appendChild(host);
+
+    expect(screen.getByRole("checkbox", { name: "Basil" })).toBeInTheDocument();
+  });
+
+  it("survive an assignment made before the definition loaded", () => {
+    document.body.innerHTML = `<ds-checkbox-group-later label="Toppings"></ds-checkbox-group-later>`;
+    const host = document.querySelector("ds-checkbox-group-later") as DsCheckboxGroup;
+    host.items = [{ value: "sage", label: "Sage" }];
+
+    customElements.define("ds-checkbox-group-later", class extends DsCheckboxGroupCtor {});
+
+    expect(screen.getByRole("checkbox", { name: "Sage" })).toBeInTheDocument();
+  });
+
+  it("keep an assigned empty list rather than the declarative children", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-checkbox-group") as DsCheckboxGroup;
+    host.setAttribute("label", "Toppings");
+    host.innerHTML = `<option value="olive">Olive</option>`;
+    host.items = [];
+    document.body.appendChild(host);
+
+    expect(host.items).toEqual([]);
+    expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
   });
 });

@@ -133,3 +133,36 @@ describe("<ds-dialog>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+// A shared id fallback made every trigger point at whichever dialog mounted
+// first, so the second one could never be reached from its own trigger.
+describe("two dialogs on one page", () => {
+  it("carry distinct ids and resolve their own associations", () => {
+    document.body.innerHTML = `
+      <ds-dialog heading="First" trigger="Open first"></ds-dialog>
+      <ds-dialog heading="Second" trigger="Open second"></ds-dialog>`;
+
+    const hosts = Array.from(document.querySelectorAll("ds-dialog"));
+    const panels = hosts.map((host) => host.querySelector("dialog")!);
+
+    expect(panels[0]!.id).not.toBe(panels[1]!.id);
+    for (const panel of panels) {
+      const titleId = panel.getAttribute("aria-labelledby")!;
+      const title = document.getElementById(titleId);
+      expect(title, `no title for ${titleId}`).not.toBeNull();
+      expect(panel.contains(title)).toBe(true);
+    }
+  });
+
+  it("open and close independently", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `
+      <ds-dialog heading="First" trigger="Open first"></ds-dialog>
+      <ds-dialog heading="Second" trigger="Open second"></ds-dialog>`;
+
+    await user.click(screen.getByRole("button", { name: "Open second" }));
+
+    expect(screen.getByRole("dialog", { name: "Second" })).toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: "First" })).toBeNull();
+  });
+});

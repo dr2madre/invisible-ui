@@ -1,5 +1,12 @@
 import { dialog as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
 import { closeIcon } from "../internal/icons";
 import { lockScroll } from "../internal/scroll-lock";
 
@@ -110,12 +117,17 @@ export class DsDialog extends HTMLElementBase {
   private subtitle!: HTMLParagraphElement;
   private closeButton!: HTMLButtonElement;
 
+  // The ids wire the trigger to the panel and the panel to its title, so two
+  // dialogs on one page need two of them: a shared fallback made every
+  // aria-controls and aria-labelledby resolve to whichever mounted first.
+  #instanceId = nextId("ds-dialog");
+
   #sync() {
     const describedBy = this.getAttribute("description") != null;
     const api = core.connect({
       state: {
         open: this.open,
-        id: this.id || "ds-dialog-el",
+        id: this.id || this.#instanceId,
         role: "dialog",
       },
       setOpen: this.#setOpen,
