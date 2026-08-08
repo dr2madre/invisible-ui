@@ -26,6 +26,20 @@ This library has three pillars. Every contribution upholds them:
   visual styling stays out of the primitives; the recommended (overridable)
   visual defaults live in [`docs/foundations.md`](./docs/foundations.md).
 
+## Running the checks locally
+
+Rebuild after every `git pull`, before running any test:
+
+```sh
+pnpm install && pnpm exec turbo run build
+```
+
+`dist/` is gitignored, so pulling new code leaves the built packages as they
+were. The adapters' tests import the built core, so they fail on code that is
+correct, and the failures point at whatever changed last. CI never shows this:
+its gate builds first. Treat a red suite straight after a sync as a stale build
+until proven otherwise.
+
 ## Branching and merging
 
 1. Create a branch off `main` with a short kebab-case name that describes
