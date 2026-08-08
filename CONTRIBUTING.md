@@ -25,6 +25,9 @@ This library has three pillars. Every contribution upholds them:
 - **Headless**: the core ships behavior and semantics only. Opinionated
   visual styling stays out of the primitives; the recommended (overridable)
   visual defaults live in [`docs/foundations.md`](./docs/foundations.md).
+- **Security**: components are **safe with untrusted data**. Consumer values
+  are treated as data, never as markup or code, and the dependencies stay
+  free of known vulnerabilities.
 
 ## Branching and merging
 
@@ -86,6 +89,24 @@ All prose (documentation, site copy, UI messages) follows
 active voice, positive statements, no em dashes, no metaphors, no promises
 about the future. Translation and terminology notes live in
 [`docs/translation-notes.md`](./docs/translation-notes.md).
+
+## Code comments
+
+A comment records what the code cannot express: a constraint, a platform
+quirk, the reason behind a non-obvious choice. The code shows _what_
+happens; the comment answers _why_.
+
+- Write plainly: short sentences, common words, readable at every level of
+  experience. One or two lines is the norm; component docblocks may run
+  longer when the API needs it.
+- State each fact once, where readers look for it. API rules live in the
+  component docblock; a test or fixture references them with a short note
+  at most.
+- Prop docs are one short sentence naming the value. Constraints the type
+  already expresses (required, allowed values) stay out of the text.
+- Comments describe the code as it stands. Notes that narrate the next
+  line or argue that a change is correct belong in the pull request;
+  history belongs to git.
 
 ## Token naming (headless)
 
