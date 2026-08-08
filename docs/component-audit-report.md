@@ -2,9 +2,9 @@
 
 Tracks the execution of the
 [component audit remediation plan](./component-audit-remediation-plan.md),
-one section per phase, updated as each phase lands. The closing section
-collects the new issues that emerged while doing the work, which are not
-part of the plan.
+one section per phase, updated as each phase lands. The closing section records
+the triage of findings that emerged while doing the work and links confirmed
+defects back to the plan.
 
 ## Phase 1: security and custom element correctness
 
@@ -75,26 +75,28 @@ Full monorepo test run green (Svelte 801 tests, all packages), typecheck,
 `api:check` (manifests regenerated), Prettier and ESLint clean on project
 files.
 
-## Issues found during the work
+## Findings triaged after Phase 2
 
-New findings, not part of the remediation plan. Each needs its own
-decision (issue and, where confirmed, a dedicated fix).
-
-1. **ToggleButton (Svelte): `disabled` is not reactive after mount.** The
+1. **Confirmed — ToggleButton (Svelte): `disabled` is not reactive after
+   mount.** The
    prop is read once at creation; `pressed` has a reactive sync, `disabled`
    does not, so toggling it later never reaches the DOM. Found on 2026-08-08
    while writing the Toolbar DOM-change tests (the toolbar fixtures use
    native buttons to isolate the Toolbar behavior). The Vue version updates
-   correctly.
-2. **Vue: module-counter ids in `use-hover-preview.ts` (to verify).** The
-   composable generates ids from a module counter (kept for the Vue `^3.4`
-   peer range) instead of `useStableId`, so the SSR id drift fixed for
-   Svelte in task 8 may exist for `Popover trigger="hover"` and `HoverCard`
-   in Vue. The Vue hydration test may not cover these components.
-3. **Minor: `PopoverDemo.svelte` styles are inline.** The docs demo is built
-   on `style="…"` attributes throughout, against the project styling
-   convention. Pre-existing debt, left as found.
-4. **Local environment only: `pnpm lint` and `pnpm format:check` fail on
-   untracked tooling directories** (`.claude/`, `.github/skills|agents|hooks/`,
-   `.impeccable/`). Project files are clean; CI checks out a clean tree and
-   is unaffected. Those directories must stay uncommitted.
+   correctly. Scheduled as task 11 in Phase 4.
+2. **Not confirmed — Vue hover-preview ids.** `use-hover-preview.ts` already
+   calls `useStableId`, whose counters are scoped to the Vue application
+   context. Each SSR request therefore has an independent scope and a fresh
+   client application reproduces the server ids. The adjacent comment that
+   described a module counter was stale and has been corrected; there is no
+   separate id defect to schedule.
+3. **Not confirmed — inline styles in `PopoverDemo.svelte`.** Inline layout
+   styles are widespread in the documentation demos and no repository rule
+   currently prohibits them. This is not an audit defect. A broader demo-style
+   refactor should happen only after adopting an explicit convention.
+4. **Confirmed, local environment only — repository gates inspect untracked
+   tooling directories.** `pnpm lint` and `pnpm format:check` include
+   `.claude/`, `.github/skills|agents|hooks/` and `.impeccable/`. Project files
+   are clean; CI checks out a clean tree and
+   is unaffected. Those directories must stay uncommitted. Scheduled as task
+   12 in Phase 4.

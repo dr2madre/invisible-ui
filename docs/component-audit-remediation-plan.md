@@ -206,6 +206,45 @@ Acceptance:
 - existing size limits remain green;
 - the test uses package output, not workspace source files.
 
+## Phase 4: follow-up defects found during implementation
+
+Complete these tasks in a fourth pull request. They were found while Phase 2
+was being implemented and confirmed against the current code after that phase.
+
+### 11. Keep Svelte ToggleButton `disabled` reactive
+
+- Add a state transition that updates `disabled` after creation, matching the
+  existing controlled `pressed` synchronization.
+- Wire the styled ToggleButton prop to that transition without changing
+  uncontrolled pressed-state behavior.
+- Cover both enabling and disabling after mount.
+
+Acceptance:
+
+- changing the Svelte `disabled` prop updates the native input and its styling;
+- a newly disabled ToggleButton cannot change state or call
+  `onPressedChange`;
+- re-enabling restores native keyboard and pointer activation;
+- a ToggleButton inside Toolbar participates correctly in disabled-state
+  reconciliation;
+- Vue behavior remains unchanged and in parity.
+
+### 12. Isolate optional local tooling from repository gates
+
+- Define the repository-owned scope for Prettier and ESLint so optional local
+  agent, hook and skill installations do not enter project checks.
+- Keep those installations untracked; do not reformat or commit third-party
+  tool sources as project code.
+- Preserve strict checks for every tracked source and configuration file.
+
+Acceptance:
+
+- `pnpm lint` and `pnpm format:check` pass on clean project files when the
+  supported local tooling directories are present;
+- an intentionally malformed tracked project file still fails the relevant
+  gate;
+- the local tooling directories remain untracked and CI behavior is unchanged.
+
 ## Targeted browser and assistive technology verification
 
 Add or extend browser tests only for the high-risk flows changed by this plan:
@@ -214,6 +253,7 @@ Add or extend browser tests only for the high-risk flows changed by this plan:
 - Hover Card and interactive Popover focus behavior;
 - two independent Dialog instances;
 - Toolbar child insertion, removal and disabling;
+- ToggleButton disabling and re-enabling after mount, including inside Toolbar;
 - Combobox clear, form value and reconnection;
 - Svelte SSR-to-hydration ID stability;
 - built-package import in a clean consumer.
@@ -259,7 +299,7 @@ This plan does not include:
 
 ## Stop condition
 
-Close this audit when all ten tasks meet their acceptance criteria, the required
+Close this audit when all twelve tasks meet their acceptance criteria, the required
 gates pass, and the targeted keyboard and screen reader checks find no
 reproducible blocker.
 
