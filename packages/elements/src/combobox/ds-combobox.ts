@@ -1,7 +1,7 @@
 import { combobox as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
-import { checkIcon, chevronIcon, closeIcon, searchIcon } from "../internal/icons";
+import { checkIcon, chevronIcon, closeIcon, pathIcon, searchIcon } from "../internal/icons";
 
 export interface ComboboxItem {
   value: string;
@@ -110,12 +110,17 @@ export class DsCombobox extends HTMLElementBase {
   }
 
   #render() {
-    this.#all = Array.from(this.querySelectorAll("option")).map((option) => ({
-      value: option.value,
-      label: option.textContent?.trim() || option.value,
-      disabled: option.disabled,
-      icon: option.getAttribute("icon") ?? undefined,
-    }));
+    // A property assigned before the element connected (or before its
+    // definition loaded) is the consumer's list; the light-DOM <option>
+    // children are the declarative source only when none was assigned.
+    if (this.#all.length === 0) {
+      this.#all = Array.from(this.querySelectorAll("option")).map((option) => ({
+        value: option.value,
+        label: option.textContent?.trim() || option.value,
+        disabled: option.disabled,
+        icon: option.getAttribute("icon") ?? undefined,
+      }));
+    }
     this.textContent = "";
 
     const initialValue = this.getAttribute("value");
@@ -245,13 +250,15 @@ export class DsCombobox extends HTMLElementBase {
         id: this.#id,
       },
       setValue: (value) => {
-        this.#update({ value });
-        const item = this.#all.find((i) => i.value === value);
-        if (item) this.#update({ inputValue: labelOf(item) });
-        if (value != null) {
-          this.setAttribute("value", value);
-          emit(this, "change", { value });
-        }
+        // Clearing is a selection like any other: the state, the attribute, the
+        // visible text and the form value all follow it, and one event says so.
+        // Leaving the attribute behind used to restore the old selection the
+        // next time the element reconnected.
+        const item = value == null ? undefined : this.#all.find((i) => i.value === value);
+        this.#update({ value, inputValue: item ? labelOf(item) : "" });
+        if (value == null) this.removeAttribute("value");
+        else this.setAttribute("value", value);
+        emit(this, "change", { value });
       },
       setOpen: (open) => this.#update({ open }),
       setActiveValue: (activeValue) => this.#update({ activeValue }),
@@ -333,9 +340,9 @@ export class DsCombobox extends HTMLElementBase {
           const iconBox = document.createElement("span");
           iconBox.className = "combobox__option-icon";
           iconBox.setAttribute("aria-hidden", "true");
-          if (item.icon) {
-            iconBox.innerHTML = `<svg class="icon" viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="${item.icon}" /></svg>`;
-          }
+          // The icon is consumer data: built through the DOM so it can only
+          // ever be path data, never markup an HTML parser would run.
+          if (item.icon) iconBox.appendChild(pathIcon(item.icon));
           li.appendChild(iconBox);
         }
 

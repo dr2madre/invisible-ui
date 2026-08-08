@@ -75,12 +75,16 @@ export class DsSelect extends HTMLElementBase {
   }
 
   #render() {
-    // Light-DOM <option> children are the declarative item source.
-    this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
-      value: option.value,
-      label: option.textContent?.trim() || option.value,
-      disabled: option.disabled,
-    }));
+    // A property assigned before the element connected (or before its
+    // definition loaded) is the consumer's list; the light-DOM <option>
+    // children are the declarative source only when none was assigned.
+    if (this.#items.length === 0) {
+      this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
+        value: option.value,
+        label: option.textContent?.trim() || option.value,
+        disabled: option.disabled,
+      }));
+    }
     this.textContent = "";
 
     const id = nextId("ds-select");
