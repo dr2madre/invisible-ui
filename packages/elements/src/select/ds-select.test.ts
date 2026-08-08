@@ -128,4 +128,40 @@ describe("items assigned before connection", () => {
 
     expect(screen.getByRole("option", { name: "Pear" })).toBeInTheDocument();
   });
+
+  it("keep an assigned empty list rather than the declarative children", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-select") as DsSelect;
+    host.setAttribute("label", "Fruit");
+    host.innerHTML = `<option value="apple">Apple</option>`;
+    host.items = [];
+    document.body.appendChild(host);
+
+    expect(host.items).toEqual([]);
+    expect(screen.queryByRole("option", { name: "Apple" })).toBeNull();
+  });
+});
+
+// Rebuilt options carry no selection, so the current value has to be applied
+// to them again, or dropped when the new list stops offering it.
+describe("rebuilding the options", () => {
+  it("retains a value the new list still offers", () => {
+    const host = mount(`<ds-select label="Fruit" value="pear"></ds-select>`);
+    host.items = [
+      { value: "apple", label: "Apple" },
+      { value: "pear", label: "Pear" },
+    ];
+
+    expect(host.value).toBe("pear");
+    expect(select().value).toBe("pear");
+  });
+
+  it("clears a value the new list no longer offers", () => {
+    const host = mount(`<ds-select label="Fruit" value="pear"></ds-select>`);
+    host.items = [{ value: "apple", label: "Apple" }];
+
+    expect(host.value).toBeNull();
+    expect(host.hasAttribute("value")).toBe(false);
+    expect(select().value).toBe("");
+  });
 });

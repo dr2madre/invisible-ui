@@ -223,6 +223,19 @@ describe("items assigned before connection", () => {
 
     expect(screen.getByRole("option", { name: "Pear" })).toBeInTheDocument();
   });
+
+  it("keep an assigned empty list rather than the declarative children", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-combobox") as DsCombobox;
+    host.setAttribute("label", "Fruit");
+    host.innerHTML = `<option value="apple">Apple</option>`;
+    host.items = [];
+    document.body.appendChild(host);
+
+    expect(host.items).toEqual([]);
+    expect(screen.queryByRole("option", { name: "Apple" })).toBeNull();
+    expect(document.querySelector(".combobox__empty")).toBeInTheDocument();
+  });
 });
 
 // The option icon is consumer data. It used to be interpolated into an HTML
@@ -269,15 +282,17 @@ describe("clearing the selection", () => {
 
   it("updates the property, the attribute, the input and the form value", async () => {
     const user = userEvent.setup();
-    const host = mount(withValue);
+    // The component submits through a hidden input, so the form it belongs to
+    // is what proves the cleared value reaches the submission.
+    const host = mount(`<form>${withValue}</form>`);
+    const form = document.querySelector("form")!;
 
     await user.click(screen.getByRole("button", { name: "Clear" }));
 
     expect(host.value).toBeNull();
     expect(host.hasAttribute("value")).toBe(false);
     expect((screen.getByRole("combobox") as HTMLInputElement).value).toBe("");
-    expect(new FormData(document.createElement("form")).get("fruit")).toBeNull();
-    expect(host.querySelector<HTMLInputElement>('input[type="hidden"]')!.value).toBe("");
+    expect(new FormData(form).get("fruit")).toBe("");
   });
 
   it("emits exactly one change carrying null", async () => {

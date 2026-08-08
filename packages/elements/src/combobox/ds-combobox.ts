@@ -60,6 +60,7 @@ export class DsCombobox extends HTMLElementBase {
   #lead: HTMLSpanElement | null = null;
 
   #all: ComboboxItem[] = [];
+  #itemsAssigned = false;
   #state = {
     open: false,
     value: null as string | null,
@@ -102,6 +103,7 @@ export class DsCombobox extends HTMLElementBase {
   }
   set items(items: ComboboxItem[]) {
     this.#all = items;
+    this.#itemsAssigned = true;
     if (this.#input) this.#update({ items: this.#filter(this.#state.inputValue) });
   }
 
@@ -112,8 +114,9 @@ export class DsCombobox extends HTMLElementBase {
   #render() {
     // A property assigned before the element connected (or before its
     // definition loaded) is the consumer's list; the light-DOM <option>
-    // children are the declarative source only when none was assigned.
-    if (this.#all.length === 0) {
+    // children are the declarative source only when none was assigned. An
+    // assigned empty list is a list, so the flag tracks the assignment itself.
+    if (!this.#itemsAssigned) {
       this.#all = Array.from(this.querySelectorAll("option")).map((option) => ({
         value: option.value,
         label: option.textContent?.trim() || option.value,

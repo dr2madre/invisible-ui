@@ -109,4 +109,16 @@ describe("items assigned before connection", () => {
 
     expect(screen.getByRole("radio", { name: "Duo" })).toBeInTheDocument();
   });
+
+  it("keep an assigned empty list rather than the declarative children", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-radio-group") as DsRadioGroup;
+    host.setAttribute("label", "Plan");
+    host.innerHTML = `<option value="free">Free</option>`;
+    host.items = [];
+    document.body.appendChild(host);
+
+    expect(host.items).toEqual([]);
+    expect(screen.queryAllByRole("radio")).toHaveLength(0);
+  });
 });

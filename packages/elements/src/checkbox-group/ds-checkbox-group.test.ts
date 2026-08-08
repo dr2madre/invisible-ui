@@ -114,4 +114,16 @@ describe("items assigned before connection", () => {
 
     expect(screen.getByRole("checkbox", { name: "Sage" })).toBeInTheDocument();
   });
+
+  it("keep an assigned empty list rather than the declarative children", () => {
+    document.body.innerHTML = "";
+    const host = document.createElement("ds-checkbox-group") as DsCheckboxGroup;
+    host.setAttribute("label", "Toppings");
+    host.innerHTML = `<option value="olive">Olive</option>`;
+    host.items = [];
+    document.body.appendChild(host);
+
+    expect(host.items).toEqual([]);
+    expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
+  });
 });

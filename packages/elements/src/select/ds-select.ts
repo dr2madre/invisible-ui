@@ -46,6 +46,7 @@ export class DsSelect extends HTMLElementBase {
   #label: HTMLLabelElement | null = null;
   #errorId = nextId("ds-select-error");
   #items: SelectItem[] = [];
+  #itemsAssigned = false;
 
   connectedCallback() {
     upgradeProperty(this, "value");
@@ -71,14 +72,22 @@ export class DsSelect extends HTMLElementBase {
   }
   set items(items: SelectItem[]) {
     this.#items = items;
-    if (this.#select) this.#renderOptions();
+    this.#itemsAssigned = true;
+    if (!this.#select) return;
+    this.#renderOptions();
+    // The rebuilt options start unselected. A value the new list still offers
+    // is reapplied; one it no longer offers is dropped, which removes the
+    // attribute and syncs through attributeChangedCallback.
+    if (this.value != null && !items.some((item) => item.value === this.value)) this.value = null;
+    else this.#sync();
   }
 
   #render() {
     // A property assigned before the element connected (or before its
     // definition loaded) is the consumer's list; the light-DOM <option>
-    // children are the declarative source only when none was assigned.
-    if (this.#items.length === 0) {
+    // children are the declarative source only when none was assigned. An
+    // assigned empty list is a list, so the flag tracks the assignment itself.
+    if (!this.#itemsAssigned) {
       this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
         value: option.value,
         label: option.textContent?.trim() || option.value,

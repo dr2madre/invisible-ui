@@ -36,6 +36,7 @@ export class DsCheckboxGroup extends HTMLElementBase {
   #fieldset: HTMLFieldSetElement | null = null;
   #legend: HTMLLegendElement | null = null;
   #items: core.CheckboxGroupItem[] = [];
+  #itemsAssigned = false;
   #inputs = new Map<string, HTMLInputElement>();
 
   connectedCallback() {
@@ -66,6 +67,7 @@ export class DsCheckboxGroup extends HTMLElementBase {
   }
   set items(items: core.CheckboxGroupItem[]) {
     this.#items = items;
+    this.#itemsAssigned = true;
     if (this.#fieldset) {
       this.#renderItems();
       this.#sync();
@@ -75,8 +77,9 @@ export class DsCheckboxGroup extends HTMLElementBase {
   #render() {
     // A property assigned before the element connected (or before its
     // definition loaded) is the consumer's list; the light-DOM <option>
-    // children are the declarative source only when none was assigned.
-    if (this.#items.length === 0) {
+    // children are the declarative source only when none was assigned. An
+    // assigned empty list is a list, so the flag tracks the assignment itself.
+    if (!this.#itemsAssigned) {
       this.#items = Array.from(this.querySelectorAll("option")).map((option) => ({
         value: option.value,
         label: option.textContent?.trim() || option.value,
