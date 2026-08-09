@@ -40,6 +40,42 @@ test("Switch toggles on click", async ({ page }) => {
   }).toPass({ timeout: 10_000 });
 });
 
+test("Link activates from the keyboard as a native anchor", async ({ page }) => {
+  await page.goto("components/navigation/link/");
+  const link = page.getByRole("link", { name: "getting started guide" });
+  await link.focus();
+  await expect(link).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#$/);
+});
+
+test("Hover Popover previews on keyboard focus without taking it", async ({ page }) => {
+  await page.goto("components/data-layout/popover/");
+  const trigger = page.getByRole("link", { name: "@ada" });
+  await trigger.focus();
+  const card = page.locator(".popover__content");
+  await expect(card).toBeVisible();
+  await expect(trigger).toBeFocused();
+  // Supplementary preview: nothing inside can take focus.
+  await expect(
+    card.locator('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+  ).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(card).toBeHidden();
+});
+
+test("Click Popover moves focus to its first control and returns it on Escape", async ({
+  page,
+}) => {
+  await page.goto("components/data-layout/popover/");
+  const trigger = page.getByRole("button", { name: "Open popover" });
+  await trigger.click();
+  await expect(page.getByRole("button", { name: "Action" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".popover__content")).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
 test("Combobox filters and selects an option", async ({ page }) => {
   await page.goto("components/forms/combobox/");
   const input = page.getByRole("combobox", { name: "Assignee" });

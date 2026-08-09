@@ -105,12 +105,13 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
       document.addEventListener("focusin", onFocusIn);
 
       // Only a keyboard dismiss (Escape) should send focus back to the
-      // trigger; the core's content props do the closing.
+      // trigger; the core's content props do the closing. Capture phase, so
+      // the flag is set before the close handler can tear the panel down.
       let restoreFocus = false;
       const onKeyDown = (event: KeyboardEvent) => {
         if (event.key === "Escape") restoreFocus = true;
       };
-      panel.addEventListener("keydown", onKeyDown);
+      panel.addEventListener("keydown", onKeyDown, true);
 
       // Move focus into the panel (first focusable, else the panel itself).
       (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
@@ -119,7 +120,7 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
         stopFloating();
         stopOutside();
         document.removeEventListener("focusin", onFocusIn);
-        panel.removeEventListener("keydown", onKeyDown);
+        panel.removeEventListener("keydown", onKeyDown, true);
         if (restoreFocus && trigger?.isConnected) trigger.focus();
       });
     },

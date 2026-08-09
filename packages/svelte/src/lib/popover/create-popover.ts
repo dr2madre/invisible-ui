@@ -79,6 +79,16 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
   };
 
   const contentAction: Action<HTMLElement> = (node) => {
+    // Only a keyboard dismiss (Escape) should send focus back to the trigger.
+    // Capture phase, registered before the close handler: closing tears the
+    // panel down synchronously, so the flag must already be set when the
+    // action's destroy runs.
+    let restoreFocus = false;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") restoreFocus = true;
+    };
+    node.addEventListener("keydown", onKeyDown, true);
+
     const base = createPropsAction(api, (a) => a.contentProps)(node);
 
     // Position against the trigger and keep it positioned.
@@ -97,13 +107,6 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
     };
     document.addEventListener("focusin", onFocusIn);
 
-    // Only a keyboard dismiss (Escape) should send focus back to the trigger.
-    let restoreFocus = false;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") restoreFocus = true;
-    };
-    node.addEventListener("keydown", onKeyDown);
-
     // Move focus into the panel (first focusable, else the panel itself).
     const first = node.querySelector<HTMLElement>(FOCUSABLE);
     (first ?? node).focus();
@@ -113,7 +116,7 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
         stopFloating();
         stopOutside();
         document.removeEventListener("focusin", onFocusIn);
-        node.removeEventListener("keydown", onKeyDown);
+        node.removeEventListener("keydown", onKeyDown, true);
         if (restoreFocus && triggerEl?.isConnected) triggerEl.focus();
         base?.destroy?.();
       },
