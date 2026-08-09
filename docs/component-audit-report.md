@@ -75,6 +75,53 @@ Full monorepo test run green (Svelte 801 tests, all packages), typecheck,
 `api:check` (manifests regenerated), Prettier and ESLint clean on project
 files.
 
+## Phase 3: developer experience and release verification
+
+Done on branch `fix/audit-phase-3` (2026-08-09), tasks 9 and 10, plus the
+targeted browser verification for the flows this plan changed.
+
+### 9. Repository checks are line-ending invariant
+
+- `.gitattributes` stores and checks out every text file with LF; binary
+  files are marked as such.
+- The API freshness comparison in `scripts/generate-api.mjs` normalizes line
+  endings before comparing, so a CRLF checkout is not drift. Verified both
+  ways: a manifest converted to CRLF passes the check, a content change
+  still fails it.
+
+### 10. The built core package, verified as a consumer sees it
+
+- The dist emitted by tsup used the extensionless relative specifiers of the
+  sources ("./types", "./button"). Bundlers resolve them, plain Node ESM
+  rejects them, so the packed package could not be imported at all. A
+  post-build step now rewrites every dist specifier to the file it resolves
+  to ("./types.js", "./button/index.js"); the unbundled tree-shakeable shape
+  is unchanged and the size limits stay green, tree-shaken entries included.
+- A new package smoke test (`pnpm --filter @design-system/core run smoke`)
+  packs the package, has npm install the tarball into a temporary consumer,
+  imports the entry in plain Node ESM, and type-checks a consumer file with
+  `nodenext` resolution against the published declarations. The release
+  workflow runs it before publishing. Mutation-checked: the smoke test fails
+  on the unpatched dist.
+
+### Targeted browser verification
+
+- Three new Playwright tests against the docs demos, run in Chromium,
+  Firefox and WebKit: Link keyboard activation; hover Popover previewing on
+  keyboard focus without taking it, with nothing focusable inside; click
+  Popover moving focus to its first control and returning it on Escape.
+- The click test found a real defect the jsdom tests could not see: in the
+  browser, Escape closed the panel but focus fell to the page body instead
+  of returning to the trigger. The close handler tears the panel down
+  synchronously, before the listener that records the keyboard dismiss had
+  run. Fixed in the Svelte adapter (the flag listener now runs in the
+  capture phase, registered first); the Vue composable received the same
+  hardening for parity.
+- SSR-to-hydration id stability and the packed-package import are covered by
+  the phase 2 hydration test and the task 10 smoke test.
+- Still open for the maintainers: the plan's manual keyboard pass and the
+  screen reader pass with NVDA or VoiceOver.
+
 ## Findings triaged after Phase 2
 
 1. **Confirmed — ToggleButton (Svelte): `disabled` is not reactive after

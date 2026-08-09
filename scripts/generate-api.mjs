@@ -628,13 +628,17 @@ function buildManifest(c) {
 const check = process.argv.includes("--check");
 mkdirSync(outDir, { recursive: true });
 
+// The freshness comparison is line-ending invariant: a checkout that mapped
+// LF to CRLF is not drift. Real content drift still fails.
+const normalizeEol = (text) => text.replaceAll("\r\n", "\n");
+
 const stale = [];
 for (const c of components) {
   if (!existsSync(c.sveltePath)) continue;
   const json = JSON.stringify(buildManifest(c), null, 2) + "\n";
   const outPath = resolve(outDir, `${c.slug}.json`);
   const current = existsSync(outPath) ? readFileSync(outPath, "utf8") : "";
-  if (current !== json) {
+  if (normalizeEol(current) !== json) {
     if (check) stale.push(c.slug);
     else writeFileSync(outPath, json);
   }

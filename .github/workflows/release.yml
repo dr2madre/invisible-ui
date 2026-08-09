@@ -41,6 +41,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Verify the packed core package as a consumer
+        run: |
+          pnpm exec turbo run build --filter=@design-system/core
+          pnpm --filter @design-system/core run smoke
+
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:

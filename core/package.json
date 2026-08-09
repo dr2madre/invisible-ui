@@ -28,7 +28,8 @@
     }
   },
   "scripts": {
-    "build": "node scripts/clean-dist.mjs && tsup",
+    "build": "node scripts/clean-dist.mjs && tsup && node scripts/patch-esm-specifiers.mjs",
+    "smoke": "node scripts/smoke-package.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

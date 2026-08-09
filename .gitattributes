@@ -1,0 +1,8 @@
+# Line-ending policy: every text file is stored and checked out with LF, so
+# the formatting and API freshness checks see the same bytes on every
+# platform.
+* text=auto eol=lf
+
+# Binary files stay untouched.
+*.png binary
+*.pyc binary
