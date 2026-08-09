@@ -208,8 +208,9 @@ Acceptance:
 
 ## Phase 4: follow-up defects found during implementation
 
-Complete these tasks in a fourth pull request. They were found while Phase 2
-was being implemented and confirmed against the current code after that phase.
+Complete these tasks in a fourth pull request. They were found while Phases 2
+and 3 were being implemented, and confirmed against the current code after the
+phase that surfaced them.
 
 ### 11. Keep Svelte ToggleButton `disabled` reactive
 
@@ -244,6 +245,68 @@ Acceptance:
 - an intentionally malformed tracked project file still fails the relevant
   gate;
 - the local tooling directories remain untracked and CI behavior is unchanged.
+
+### 13. Verify the high-risk focus contracts in a browser
+
+jsdom tests stay useful for state, callbacks, attributes and logic. They are
+not conclusive when the behavior depends on:
+
+- removal of the active node;
+- a portal or a teleport;
+- native event order;
+- Escape dismissal;
+- focus restoration;
+- an outside press or a focus leave.
+
+Add risk-based Playwright coverage without duplicating the unit tests
+wholesale.
+
+Cover at least:
+
+- Svelte Popover: opening, focus inside the panel, Escape, closing and the
+  return to the trigger;
+- the Popover closed by an outside press, with no arbitrary focus restoration;
+- the Popover closed by a focus leave, with no return to the trigger;
+- Dialog: assert explicitly where focus lands after Escape;
+- other overlays only when they carry the same teardown or focus restoration
+  risk.
+
+Acceptance:
+
+- the selected focus contracts are verified in Chromium, Firefox and WebKit;
+- reinstating the Svelte Popover defect makes its end-to-end test fail;
+- the jsdom tests remain in place and stop being presented as the only
+  evidence of browser behavior;
+- the mutations used to verify the tests are not committed.
+
+### 14. Build a Playwright harness for Vue
+
+The documentation site is Svelte and never exercises the Vue adapter. Build a
+real, minimal Vue harness, reusing `examples/vue` where it fits, or a dedicated
+end-to-end fixture where that isolates better.
+
+Requirements:
+
+- it imports `@design-system/vue` as a real consumer;
+- it never routes through Svelte components;
+- it exposes stable content and selectors based on roles and accessible names;
+- the Playwright configuration starts it explicitly;
+- it adds no dependency while the existing infrastructure suffices.
+
+Cover at least the Vue Popover:
+
+- opening moves focus to the first control in the panel;
+- Escape closes it and returns focus to the trigger;
+- an outside press closes it without forcing the return to the trigger;
+- a focus leave closes it without improper restoration.
+
+Acceptance:
+
+- the Vue tests pass in Chromium, Firefox and WebKit;
+- reinstating the faulty bubble-phase listener makes the focus restoration
+  test fail;
+- restoring the fix returns every browser to green;
+- no test declared as Vue runs against the Svelte documentation site.
 
 ## Targeted browser and assistive technology verification
 
@@ -299,7 +362,7 @@ This plan does not include:
 
 ## Stop condition
 
-Close this audit when all twelve tasks meet their acceptance criteria, the required
+Close this audit when all fourteen tasks meet their acceptance criteria, the required
 gates pass, and the targeted keyboard and screen reader checks find no
 reproducible blocker.
 

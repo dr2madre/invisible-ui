@@ -150,7 +150,7 @@ targeted browser verification for the flows this plan changed.
 
 ## Findings from Phase 3
 
-Both were verified against the current code, and neither is scheduled yet.
+Both were verified against the current code and are scheduled in Phase 4.
 
 1. **Confirmed — the jsdom tests do not prove focus restoration.** With the
    popover defect reinstated, the Svelte suite still passes in full,
@@ -158,16 +158,21 @@ Both were verified against the current code, and neither is scheduled yet.
    trigger": in jsdom focus appears to return to the trigger while the real
    browser leaves it on the page body. Focus management therefore needs
    browser coverage to count as verified, and today that coverage exists
-   only for the three flows added in Phase 3. Worth deciding: which focus
-   contracts deserve a browser test, and what the jsdom tests should claim
-   in the meantime.
+   only for the three flows added in Phase 3. Scheduled as task 13 in
+   Phase 4, which selects the focus contracts that earn a browser test.
 2. **Confirmed — the Vue side of the popover focus fix is unverified in a
    browser.** The Vue composable received the same capture-phase hardening
    for parity, but the end-to-end suite runs against the documentation site,
    which is Svelte, so no Vue code path is exercised in a browser. Combined
    with the finding above, the Vue fix currently rests on tests that cannot
-   see this class of defect.
+   see this class of defect. Scheduled as task 14 in Phase 4, which builds a
+   Vue harness Playwright can drive.
 
 Checked and dismissed: the Node ESM specifier defect fixed in task 10 is
 specific to core, the only package whose output stays unbundled. The svelte,
 vue, react and elements bundles import cleanly in plain Node.
+
+Local environment only: the Playwright browser binaries for Firefox and
+WebKit were missing on the development machine, so the first full end-to-end
+run failed to launch them. `pnpm exec playwright install` fixed it. CI
+provisions its own browsers, so this is not a project defect.
