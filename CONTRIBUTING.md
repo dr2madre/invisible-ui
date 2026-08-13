@@ -29,6 +29,32 @@ This library has three pillars. Every contribution upholds them:
   are treated as data, never as markup or code, and the dependencies stay
   free of known vulnerabilities.
 
+## Running the checks locally
+
+Run the checks from the repository root, through Turbo:
+
+```sh
+pnpm install && pnpm test    # or: pnpm typecheck, pnpm lint, pnpm format:check
+```
+
+`dist/` is gitignored, so pulling new code leaves the built packages as they
+were, and the adapters' tests import the built core. Turbo covers this: `test`,
+`typecheck` and `check` all declare `dependsOn: ["^build"]`, so the upstream
+packages are rebuilt first. CI relies on the same graph rather than on a
+separate build step. Run a single package the same way, so the dependency
+still applies:
+
+```sh
+pnpm exec turbo run test --filter=@design-system/svelte
+```
+
+A package's own script (`pnpm --filter <package> test`, or `vitest` inside the
+directory) bypasses Turbo and reads whatever `dist/` happens to hold. So do
+`pnpm e2e`, `pnpm visual` and `pnpm size`: they serve or measure the built
+output without building it. Run `pnpm exec turbo run build` before those, and
+treat a suite that turns red straight after a sync as a stale build until
+proven otherwise.
+
 ## Branching and merging
 
 1. Create a branch off `main` with a short kebab-case name that describes
