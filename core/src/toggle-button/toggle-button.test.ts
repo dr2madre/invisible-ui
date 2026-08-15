@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { initialState, togglePressed } from "./state";
+import { initialState, setDisabled, togglePressed } from "./state";
 
 describe("toggle button state", () => {
   it("defaults to not pressed and not disabled", () => {
@@ -15,6 +15,22 @@ describe("toggle button state", () => {
   it("does not change when disabled", () => {
     const state = { pressed: false, disabled: true };
     expect(togglePressed(state)).toBe(state);
+  });
+
+  it("sets the disabled value and keeps the pressed one", () => {
+    expect(setDisabled({ pressed: true, disabled: false }, true)).toEqual({
+      pressed: true,
+      disabled: true,
+    });
+    expect(setDisabled({ pressed: true, disabled: true }, false)).toEqual({
+      pressed: true,
+      disabled: false,
+    });
+  });
+
+  it("returns the same state when the disabled value is unchanged", () => {
+    const state = { pressed: false, disabled: true };
+    expect(setDisabled(state, true)).toBe(state);
   });
 });
 

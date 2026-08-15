@@ -33,9 +33,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Builds the docs site (and its deps: core + svelte) that Playwright serves.
-      - name: Build docs
-        run: pnpm exec turbo run build --filter=@design-system/docs
+      # Builds the sites Playwright serves: the docs (core + svelte) and the
+      # Vue example, whose harness page carries the Vue adapter tests.
+      - name: Build the served sites
+        run: >
+          pnpm exec turbo run build
+          --filter=@design-system/docs
+          --filter=@design-system/example-vue
 
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}

@@ -24,7 +24,22 @@ try {
     join(consumer, "package.json"),
     JSON.stringify({ name: "core-smoke-consumer", private: true, type: "module" }, null, 2),
   );
-  run("npm", ["install", "--no-audit", "--no-fund", "--ignore-scripts", tarball], consumer);
+  // The cache lives inside the throwaway consumer, so the run never depends on
+  // (or writes to) the machine's shared npm cache. The package has no runtime
+  // dependencies, so nothing is fetched.
+  run(
+    "npm",
+    [
+      "install",
+      "--no-audit",
+      "--no-fund",
+      "--ignore-scripts",
+      "--cache",
+      join(consumer, ".npm-cache"),
+      tarball,
+    ],
+    consumer,
+  );
 
   // Runtime: the entry resolves and behaves in supported Node ESM.
   writeFileSync(

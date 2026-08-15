@@ -44,12 +44,16 @@
   const {
     state: tbState,
     setPressed,
+    setDisabled,
     rootAction,
   } = createToggleButton({
     pressed,
     disabled,
     onPressedChange,
   });
+  // The disabled sync runs first: a control re-enabled and pressed in the same
+  // update accepts the new pressed value, because a disabled control ignores it.
+  $: setDisabled(disabled);
   // Controlled sync: when the `pressed` prop changes, mirror it into the store
   // (a no-op when already equal). This only re-runs on a prop change, never on
   // an internal click, so uncontrolled usage — passing `pressed` once and
