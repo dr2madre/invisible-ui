@@ -182,9 +182,10 @@ Done on branch `fix/audit-phase-4`, tasks 11 to 14.
 
 ### Verification
 
-- `pnpm test` (all packages), `pnpm typecheck`, `pnpm build`, `svelte-check`
-  and `astro check`, `pnpm lint`, `pnpm format:check`, `pnpm api:check`,
-  `pnpm size` and the core smoke test all pass.
+- A frozen install, `pnpm test` (all packages), `pnpm typecheck`, `pnpm build`,
+  `svelte-check` and `astro check`, `pnpm lint`, `pnpm format:check`,
+  `pnpm api:check`, `pnpm size`, the core smoke test and `pnpm audit` all
+  pass. The audit is green after the `nanoid` override fix recorded below.
 - `pnpm e2e` passes in Chromium, Firefox and WebKit: 63 tests.
 - Mutation checks, both reverted before committing: restoring the Svelte
   bubble-phase listener fails the Svelte Escape focus test, and restoring the
@@ -252,13 +253,16 @@ provisions its own browsers, so this is not a project defect.
 
 ## Findings from Phase 4
 
-1. **New, not triaged — `pnpm audit` reports one high advisory.**
-   `eslint-plugin-svelte` pulls `postcss`, which pulls `nanoid` below 3.3.18
-   (GHSA-2v37-7h3g-55p8). It is a development-only transitive dependency of
-   the lint toolchain and reaches no published package. The audit was clean at
-   the plan's baseline, so this appeared afterwards. Left untouched here
-   because a dependency bump is outside tasks 11 to 14 and would change the
-   lockfile; it needs its own change.
+1. **Found and fixed — a repository override pinned a vulnerable `nanoid`.**
+   `pnpm audit` failed with one high advisory, GHSA-2v37-7h3g-55p8, which
+   needs `nanoid` 3.3.18 or later. The version came from this repository:
+   `pnpm.overrides` forced `nanoid@3` to `3.3.17`. The chain is
+   development-only, `eslint-plugin-svelte` to `postcss` to `nanoid`, so no
+   published package carried it, but the gate is required and the pin was
+   ours to correct. The override now reads `3.3.18`; the lockfile was
+   regenerated with pnpm 10.33.0 and changed nothing else, `pnpm why nanoid`
+   confirms the single development chain, and `pnpm audit` reports no known
+   vulnerabilities. The gate is green again.
 2. **Local environment only — `turbo` cannot spawn `pnpm` in this shell.**
    Running `pnpm exec turbo run …` fails with "unable to spawn child process"
    because `pnpm` is reachable through Corepack but not on `PATH`. The root
