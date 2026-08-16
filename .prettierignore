@@ -13,3 +13,11 @@ pnpm-lock.yaml
 
 # Auto-generated API manifests (canonical format is the generator's)
 **/src/generated/**
+
+# Optional local tooling (agents, hooks, skills). These are installed per
+# machine, are never committed, and are not project code.
+.claude/**
+.impeccable/**
+.github/agents/**
+.github/hooks/**
+.github/skills/**

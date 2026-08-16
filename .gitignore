@@ -14,3 +14,10 @@ playwright-report/
 
 # Generated design-token outputs (source: packages/svelte/tokens/tokens.json)
 packages/svelte/dist/tokens/
+
+# Optional local tooling (agents, hooks, skills), installed per machine
+.claude/
+.impeccable/
+.github/agents/
+.github/hooks/
+.github/skills/

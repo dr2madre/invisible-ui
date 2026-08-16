@@ -15,6 +15,8 @@ export interface CreateToggleButton {
   api: Readable<ToggleButtonApi>;
   /** Imperatively set the pressed value (ignored when disabled). */
   setPressed: (value: boolean) => void;
+  /** Imperatively make the control available or unavailable. */
+  setDisabled: (value: boolean) => void;
   /** Imperatively flip the pressed value (ignored when disabled). */
   toggle: () => void;
   /** Svelte action for the native checkbox: `<input type="checkbox" use:rootAction>`. */
@@ -40,11 +42,15 @@ export function createToggleButton(context: ToggleButtonContext = {}): CreateTog
     });
   };
 
+  const setDisabled = (value: boolean) => {
+    state.update((current) => core.setDisabled(current, value));
+  };
+
   const toggle = () => setPressed(!get(state).pressed);
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setPressed, normalize: normalizeProps }),
   );
 
-  return { state, api, setPressed, toggle, rootAction: createRootAction(api) };
+  return { state, api, setPressed, setDisabled, toggle, rootAction: createRootAction(api) };
 }

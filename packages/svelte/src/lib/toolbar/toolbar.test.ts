@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./toolbar.fixture.svelte";
 import DynamicFixture from "./toolbar-dynamic.fixture.svelte";
+import ToggleFixture from "./toolbar-toggle.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -108,5 +109,42 @@ describe("Toolbar (DOM changes)", () => {
     expect(control("Bold")).toHaveFocus();
     await user.tab();
     expect(screen.getByRole("toolbar").contains(document.activeElement)).toBe(false);
+  });
+});
+
+// Toggle buttons are the toolbar's usual content, and their disabled prop is
+// controlled, so the reconciliation has to see the change they make.
+describe("Toolbar (toggle button children)", () => {
+  const control = (name: string) => screen.getByRole("checkbox", { name });
+
+  it("moves the tab stop off a toggle button that becomes disabled", async () => {
+    const { rerender } = render(ToggleFixture);
+    control("Italic").focus();
+    expect(control("Italic")).toHaveAttribute("tabindex", "0");
+
+    await rerender({ italicDisabled: true });
+
+    await waitFor(() => expect(control("Bold")).toHaveAttribute("tabindex", "0"));
+    expect(control("Italic")).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("skips a disabled toggle button with the arrow keys", async () => {
+    const user = userEvent.setup();
+    render(ToggleFixture, { props: { italicDisabled: true } });
+
+    control("Bold").focus();
+    await user.keyboard("{ArrowRight}");
+    expect(control("Align left")).toHaveFocus();
+  });
+
+  it("takes a re-enabled toggle button back into the arrow-key order", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(ToggleFixture, { props: { italicDisabled: true } });
+    await rerender({ italicDisabled: false });
+    await waitFor(() => expect(control("Italic")).toBeEnabled());
+
+    control("Bold").focus();
+    await user.keyboard("{ArrowRight}");
+    expect(control("Italic")).toHaveFocus();
   });
 });

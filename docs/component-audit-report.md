@@ -122,6 +122,80 @@ targeted browser verification for the flows this plan changed.
 - Still open for the maintainers: the plan's manual keyboard pass and the
   screen reader pass with NVDA or VoiceOver.
 
+## Phase 4: follow-up defects found during implementation
+
+Done on branch `fix/audit-phase-4`, tasks 11 to 14.
+
+### 11. Svelte ToggleButton `disabled` is reactive
+
+- `core` gains a pure `setDisabled` transition that changes availability and
+  keeps the pressed value, matching the existing `togglePressed` shape.
+- The Svelte factory exposes `setDisabled`, and the styled component syncs the
+  prop through it. The disabled sync runs before the pressed sync, so a control
+  re-enabled and pressed in the same update accepts the new pressed value.
+- Covered in `core` (transition, including the unchanged-value identity), in
+  the styled component (turning disabled on and off after mount, no
+  `onPressedChange` while disabled, pointer and keyboard restored on re-enable)
+  and in Toolbar, where a toggle button that becomes disabled hands the tab
+  stop over and a re-enabled one rejoins the arrow-key order.
+- Vue was already reactive: its composable recomputes `disabled` on every
+  render. Its behavior is unchanged.
+- Mutation-checked: removing the disabled sync fails six of the new tests.
+
+### 12. Optional local tooling stays out of the repository gates
+
+- Prettier and ESLint now exclude the per-machine tooling directories
+  (`.claude/`, `.impeccable/`, `.github/agents|hooks|skills/`), and `.gitignore`
+  keeps them untracked, which the repository documentation already assumed.
+- `pnpm lint` and `pnpm format:check` pass with those directories present.
+- Verified they still fail on tracked project files: an unformatted file is
+  reported by Prettier, and an unused variable by ESLint.
+
+### 13. High-risk focus contracts verified in a browser
+
+- Three Playwright tests added to the existing docs-driven suite: the click
+  Popover closing on an outside press without pulling focus back, the same
+  panel closing when focus leaves and staying where the user went, and Dialog
+  asserting explicitly that focus is inside the panel while open and back on
+  the trigger after Escape.
+- Together with the Phase 3 tests, the selected contracts (focus in, Escape
+  restore, outside press, focus leave) run in Chromium, Firefox and WebKit.
+- The jsdom tests stay in place. They remain the fast check for state,
+  attributes and callbacks, and are no longer the only evidence for focus
+  behavior.
+
+### 14. A Playwright harness for the Vue adapter
+
+- The Vue example (`examples/vue`) gained a second Vite entry, `harness.html`,
+  mounting a minimal `Harness.vue` that imports `Popover` and `Button` from
+  `@design-system/vue` as any consumer would. No Svelte code is involved and no
+  dependency was added: the example already carried Vue, Vite and the plugin.
+- The Playwright configuration starts it explicitly as a second web server on
+  its own port, with a strict port so a busy port fails loudly instead of
+  drifting to another one.
+- `e2e/vue.spec.ts` drives that page only, selecting by role and accessible
+  name, and covers the four Vue Popover focus contracts: focus moves to the
+  first control on open, Escape closes and returns focus to the trigger, an
+  outside press closes without restoring focus, and a focus leave closes
+  without pulling focus back.
+- The end-to-end workflow now builds the Vue example alongside the docs site.
+
+### Verification
+
+- A frozen install, `pnpm test` (all packages), `pnpm typecheck`, `pnpm build`,
+  `svelte-check` and `astro check`, `pnpm lint`, `pnpm format:check`,
+  `pnpm api:check`, `pnpm size`, the core smoke test and `pnpm audit` all
+  pass. The audit is green after the `nanoid` override fix recorded below.
+- `pnpm e2e` passes in Chromium, Firefox and WebKit: 63 tests.
+- Mutation checks, both reverted before committing: restoring the Svelte
+  bubble-phase listener fails the Svelte Escape focus test, and restoring the
+  Vue one fails the Vue Escape focus test. In both cases only that test fails,
+  which is the expected signal, since the outside-press and focus-leave tests
+  assert that focus is not restored.
+- Not performed, and still open for the maintainers: the manual keyboard pass
+  with visible focus, the screen reader pass with NVDA or VoiceOver, and any
+  touch, zoom or reflow check. Nothing in this phase substitutes for them.
+
 ## Findings triaged after Phase 2
 
 1. **Confirmed — ToggleButton (Svelte): `disabled` is not reactive after
@@ -176,3 +250,27 @@ Local environment only: the Playwright browser binaries for Firefox and
 WebKit were missing on the development machine, so the first full end-to-end
 run failed to launch them. `pnpm exec playwright install` fixed it. CI
 provisions its own browsers, so this is not a project defect.
+
+## Findings from Phase 4
+
+1. **Found and fixed — a repository override pinned a vulnerable `nanoid`.**
+   `pnpm audit` failed with one high advisory, GHSA-2v37-7h3g-55p8, which
+   needs `nanoid` 3.3.18 or later. The version came from this repository:
+   `pnpm.overrides` forced `nanoid@3` to `3.3.17`. The chain is
+   development-only, `eslint-plugin-svelte` to `postcss` to `nanoid`, so no
+   published package carried it, but the gate is required and the pin was
+   ours to correct. The override now reads `3.3.18`; the lockfile was
+   regenerated with pnpm 10.33.0 and changed nothing else, `pnpm why nanoid`
+   confirms the single development chain, and `pnpm audit` reports no known
+   vulnerabilities. The gate is green again.
+2. **Local environment only — `turbo` cannot spawn `pnpm` in this shell.**
+   Running `pnpm exec turbo run …` fails with "unable to spawn child process"
+   because `pnpm` is reachable through Corepack but not on `PATH`. The root
+   scripts (`pnpm build`, `pnpm test`) work, since pnpm puts itself on `PATH`
+   for the scripts it runs, and CI installs pnpm normally. Not a project
+   defect.
+3. **Local environment only — neighbouring ports were occupied.** Ports 4322
+   to 4334 were held by preview servers from another checkout on the same
+   machine, and Vite silently moved to a free port, which left the browser
+   tests waiting on a URL nobody answered. The harness server now uses a
+   strict port, so this fails immediately and legibly instead.

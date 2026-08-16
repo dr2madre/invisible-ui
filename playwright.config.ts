@@ -11,6 +11,11 @@ const executablePath = !process.env.CI && existsSync(localChromium) ? localChrom
 const PORT = 4321;
 const BASE = `http://127.0.0.1:${PORT}/invisible-ui/`;
 
+// The docs site is Svelte, so it never exercises the Vue adapter. The Vue
+// example serves a dedicated harness page for the Vue browser tests.
+const VUE_PORT = 4390;
+export const VUE_BASE = `http://127.0.0.1:${VUE_PORT}/harness.html`;
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -64,10 +69,20 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    command: `pnpm --filter @design-system/docs preview --host 127.0.0.1 --port ${PORT}`,
-    url: BASE,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: [
+    {
+      command: `pnpm --filter @design-system/docs preview --host 127.0.0.1 --port ${PORT}`,
+      url: BASE,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+    {
+      // Strict port: a busy port must fail here, never drift to another one
+      // and leave the tests waiting for a URL that never answers.
+      command: `pnpm --filter @design-system/example-vue preview --host 127.0.0.1 --port ${VUE_PORT} --strictPort`,
+      url: VUE_BASE,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+  ],
 });

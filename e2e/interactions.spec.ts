@@ -76,6 +76,49 @@ test("Click Popover moves focus to its first control and returns it on Escape", 
   await expect(trigger).toBeFocused();
 });
 
+// An outside press moves the user's attention with the pointer, so the panel
+// closes without pulling focus back to the trigger.
+test("Click Popover closes on an outside press without restoring focus", async ({ page }) => {
+  await page.goto("components/data-layout/popover/");
+  const trigger = page.getByRole("button", { name: "Open popover" });
+  const panel = page.locator(".popover__content");
+  await trigger.click();
+  await expect(panel).toBeVisible();
+
+  await page.getByRole("heading", { name: "Popover", exact: true }).click();
+  await expect(panel).toBeHidden();
+  await expect(trigger).not.toBeFocused();
+});
+
+// Focus left on its own, so the panel closes where the user went and never
+// drags focus back to the trigger.
+test("Click Popover closes when focus leaves it, leaving focus where it went", async ({ page }) => {
+  await page.goto("components/data-layout/popover/");
+  const trigger = page.getByRole("button", { name: "Open popover" });
+  const panel = page.locator(".popover__content");
+  await trigger.click();
+  await expect(panel).toBeVisible();
+
+  const outside = page.getByRole("link", { name: "Tooltip" }).first();
+  await outside.focus();
+  await expect(panel).toBeHidden();
+  await expect(outside).toBeFocused();
+  await expect(trigger).not.toBeFocused();
+});
+
+test("Dialog returns focus to its trigger after Escape", async ({ page }) => {
+  await page.goto("components/feedback/dialog/");
+  const trigger = page.getByRole("button", { name: "Open dialog" });
+  await trigger.click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  expect(await dialog.evaluate((node) => node.contains(document.activeElement))).toBe(true);
+
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
 test("Combobox filters and selects an option", async ({ page }) => {
   await page.goto("components/forms/combobox/");
   const input = page.getByRole("combobox", { name: "Assignee" });

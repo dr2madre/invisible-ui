@@ -16,3 +16,12 @@ export function togglePressed(state: ToggleButtonState): ToggleButtonState {
   if (state.disabled) return state;
   return { ...state, pressed: !state.pressed };
 }
+
+/**
+ * Pure transition: make the control available or unavailable. The pressed
+ * value is kept, so a control that comes back keeps what it had.
+ */
+export function setDisabled(state: ToggleButtonState, disabled: boolean): ToggleButtonState {
+  if (state.disabled === disabled) return state;
+  return { ...state, disabled };
+}
