@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Button } from "../button/Button";
@@ -204,5 +204,139 @@ describe("React Dialog (stacked)", () => {
     const remaining = screen.getAllByRole("dialog");
     expect(remaining).toHaveLength(1);
     expect(remaining[0]).toHaveAccessibleName("Edit profile");
+  });
+});
+
+// A multi-step workflow is a composition of the dialog's regions. The step
+// state stays in the application; the dialog only lends the places to put it.
+function Workflow({ step: initialStep = 1 }: { step?: 1 | 2 }) {
+  const [step, setStep] = useState<1 | 2>(initialStep);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const pending = useRef(false);
+
+  // Focus lands on the new step heading, so the reader hears the new context
+  // before its controls, and never stays on a control the step removed.
+  useEffect(() => {
+    if (!pending.current) return;
+    pending.current = false;
+    heading.current?.focus();
+  }, [step]);
+
+  const goTo = (next: 1 | 2) => {
+    pending.current = true;
+    setStep(next);
+  };
+
+  return (
+    <Dialog
+      open
+      title="Set up project"
+      trigger="Set up project"
+      bodyLayout="stack"
+      footerClose
+      headerMeta={`Step ${step} of 2`}
+      footerLead={
+        step === 2 ? (
+          <Button variant="ghost" onClick={() => goTo(1)}>
+            Back
+          </Button>
+        ) : undefined
+      }
+      footer={
+        step === 1 ? (
+          <Button variant="primary" onClick={() => goTo(2)}>
+            Continue
+          </Button>
+        ) : (
+          <Button variant="primary">Create project</Button>
+        )
+      }
+    >
+      <h3 tabIndex={-1} ref={heading}>
+        {step === 1 ? "Choose a template" : "Name the project"}
+      </h3>
+      <label>
+        Name <input type="text" />
+      </label>
+    </Dialog>
+  );
+}
+
+describe("React Dialog (workflow composition)", () => {
+  const panel = () => screen.getByRole("dialog");
+
+  it("renders header metadata before the title, without progress semantics", () => {
+    render(<Workflow />);
+    const meta = panel().querySelector(".dialog__header-meta")!;
+    const title = panel().querySelector(".dialog__title")!;
+
+    expect(meta).toHaveTextContent("Step 1 of 2");
+    expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(meta).not.toHaveAttribute("role");
+    expect(meta).not.toHaveAttribute("aria-live");
+    expect(panel()).toHaveAccessibleName("Set up project");
+  });
+
+  it("keeps one footer action bar, leading actions first in source order", () => {
+    render(<Workflow step={2} />);
+    const footers = panel().querySelectorAll("footer");
+    expect(footers).toHaveLength(1);
+
+    const buttons = Array.from(footers[0]!.querySelectorAll("button")).map((b) =>
+      b.textContent?.trim(),
+    );
+    expect(buttons).toEqual(["Back", "Close", "Create project"]);
+  });
+
+  it("keeps footerClose working alongside footerLead", async () => {
+    const user = userEvent.setup();
+    render(<Workflow step={2} />);
+    const footerClose = within(
+      panel().querySelector<HTMLElement>(".dialog__footer-lead")!,
+    ).getByRole("button", { name: "Close" });
+
+    await user.click(footerClose);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("moves focus to the new step heading, never leaving it on a removed control", async () => {
+    const user = userEvent.setup();
+    render(<Workflow />);
+
+    await user.click(screen.getByRole("button", { name: "Continue" }));
+    expect(screen.getByRole("heading", { name: "Name the project" })).toHaveFocus();
+    expect(screen.queryByRole("button", { name: "Continue" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Back" }));
+    expect(screen.getByRole("heading", { name: "Choose a template" })).toHaveFocus();
+  });
+
+  it("stacks the body sections and keeps the body the only scrolling region", () => {
+    render(<Workflow />);
+    const body = panel().querySelector(".dialog__body")!;
+
+    expect(body).toHaveAttribute("data-layout", "stack");
+    expect(panel().querySelector(":scope > header")).not.toBeNull();
+    expect(panel().querySelector(":scope > footer")).not.toBeNull();
+    expect(body.parentElement).toBe(panel());
+  });
+
+  it("leaves the body untouched by default", async () => {
+    const user = userEvent.setup();
+    render(<Basic />);
+    await user.click(screen.getByRole("button", { name: "Open dialog" }));
+
+    expect(panel().querySelector(".dialog__body")).toHaveAttribute("data-layout", "plain");
+    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog__footer-lead")).toBeNull();
+  });
+
+  it("has no accessibility violations at either step", async () => {
+    const { unmount } = render(<Workflow />);
+    expect(await axe(document.body)).toHaveNoViolations();
+    unmount();
+
+    render(<Workflow step={2} />);
+    expect(await axe(document.body)).toHaveNoViolations();
   });
 });

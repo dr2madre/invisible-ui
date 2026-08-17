@@ -4,6 +4,9 @@ import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "./use-dialog";
 
+/** How the dialog body spaces its direct children. */
+export type DialogBodyLayout = "plain" | "stack";
+
 export interface DialogProps {
   /** Visual variant for the trigger Button. */
   triggerVariant?: ButtonVariant;
@@ -24,12 +27,22 @@ export interface DialogProps {
   closeLabel?: string;
   /** Leading feedback icon, centered against the title block. */
   icon?: ReactNode;
+  /** Content above the title, e.g. "Step 1 of 2". Carries no progress semantics. */
+  headerMeta?: ReactNode;
   /** Leading ghost icon button (e.g. a back affordance). */
   headerLead?: ReactNode;
+  /** Leading footer actions, e.g. Back. */
+  footerLead?: ReactNode;
   /** Trailing action buttons in the footer. */
   footer?: ReactNode;
   /** Show a close/cancel button on the footer's leading edge. */
   footerClose?: boolean;
+  /**
+   * Body layout. `plain` (the default) leaves the body untouched. `stack`
+   * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+   * workflow from inventing its own spacing between sections.
+   */
+  bodyLayout?: DialogBodyLayout;
   /**
    * CSS selector (within the panel) for the element to focus on open. When
    * omitted, focus lands on the panel itself — never on the close button.
@@ -63,9 +76,12 @@ export function Dialog({
   description,
   closeLabel,
   icon,
+  headerMeta,
   headerLead,
+  footerLead,
   footer,
   footerClose = false,
+  bodyLayout = "plain",
   initialFocus,
   closeOnOutsideClick = true,
   onOpenChange,
@@ -98,6 +114,9 @@ export function Dialog({
           <header className="dialog__header">
             {icon && <div className="dialog__header-icon">{icon}</div>}
             {headerLead && <div className="dialog__header-lead">{headerLead}</div>}
+            {/* Consumer content above the title, e.g. "Step 1 of 2". It carries
+                no progress semantics of its own. */}
+            {headerMeta && <div className="dialog__header-meta">{headerMeta}</div>}
 
             <h2
               {...api.titleProps}
@@ -136,14 +155,23 @@ export function Dialog({
             </button>
           </header>
 
-          <div className="dialog__body">{children}</div>
+          <div className="dialog__body" data-layout={bodyLayout}>
+            {children}
+          </div>
 
-          {(footer || footerClose) && (
+          {/* One action bar: the leading group first, so source order matches
+              focus order, then the trailing group. */}
+          {(footer || footerLead || footerClose) && (
             <footer className="dialog__footer">
-              {footerClose && (
-                <Button variant="ghost" {...api.closeProps}>
-                  {resolvedCloseLabel}
-                </Button>
+              {(footerLead || footerClose) && (
+                <div className="dialog__footer-lead">
+                  {footerLead}
+                  {footerClose && (
+                    <Button variant="ghost" {...api.closeProps}>
+                      {resolvedCloseLabel}
+                    </Button>
+                  )}
+                </div>
               )}
               {footer && <div className="dialog__footer-actions">{footer}</div>}
             </footer>

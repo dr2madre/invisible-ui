@@ -166,3 +166,83 @@ describe("two dialogs on one page", () => {
     expect(screen.queryByRole("dialog", { name: "First" })).toBeNull();
   });
 });
+
+// A multi-step workflow is a composition of the dialog's regions. Marked
+// light-DOM children become the regions; the rest stays the body.
+const WORKFLOW_MARKUP = `
+  <ds-dialog heading="Set up project" trigger="Set up project" body-layout="stack" open>
+    <span slot="header-meta">Step 2 of 2</span>
+    <button slot="footer-lead" type="button">Back</button>
+    <button slot="footer" type="button">Create project</button>
+    <h3 tabindex="-1">Name the project</h3>
+    <label>Project name <input type="text" /></label>
+  </ds-dialog>`;
+
+describe("<ds-dialog> workflow composition", () => {
+  const panel = () => screen.getByRole("dialog");
+
+  it("renders header metadata before the title, without progress semantics", () => {
+    mount(WORKFLOW_MARKUP);
+    const meta = panel().querySelector(".dialog__header-meta")!;
+    const title = panel().querySelector(".dialog__title")!;
+
+    expect(meta).toHaveTextContent("Step 2 of 2");
+    expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(meta).not.toHaveAttribute("role");
+    expect(meta).not.toHaveAttribute("aria-live");
+    expect(panel()).toHaveAccessibleName("Set up project");
+  });
+
+  it("keeps one footer action bar, leading actions first in source order", () => {
+    mount(WORKFLOW_MARKUP);
+    const footers = panel().querySelectorAll("footer");
+    expect(footers).toHaveLength(1);
+
+    const buttons = Array.from(footers[0]!.querySelectorAll("button")).map((b) =>
+      b.textContent?.trim(),
+    );
+    expect(buttons).toEqual(["Back", "Create project"]);
+    expect(footers[0]!.querySelector(".dialog__footer-lead")).not.toBeNull();
+    expect(footers[0]!.querySelector(".dialog__footer-actions")).not.toBeNull();
+  });
+
+  it("leaves the unslotted children in the body and strips the marker", () => {
+    mount(WORKFLOW_MARKUP);
+    const body = panel().querySelector(".dialog__body")!;
+
+    expect(body.querySelector("h3")).not.toBeNull();
+    expect(body.querySelector("input")).not.toBeNull();
+    // The regions moved out of the body.
+    expect(body.querySelector("[slot]")).toBeNull();
+    expect(body.textContent).not.toContain("Step 2 of 2");
+    expect(body.textContent).not.toContain("Create project");
+    // The marker is consumed, so it cannot reach a Shadow DOM that does not exist.
+    expect(panel().querySelector("[slot]")).toBeNull();
+  });
+
+  it("applies the body layout and follows a later attribute change", () => {
+    const element = mount(WORKFLOW_MARKUP);
+    const body = panel().querySelector(".dialog__body")!;
+    expect(body).toHaveAttribute("data-layout", "stack");
+
+    element.setAttribute("body-layout", "plain");
+    expect(body).toHaveAttribute("data-layout", "plain");
+  });
+
+  it("keeps the previous behaviour when no child is marked", async () => {
+    const user = userEvent.setup();
+    mount();
+    await user.click(screen.getByRole("button", { name: "Open dialog" }));
+    const body = panel().querySelector(".dialog__body")!;
+
+    expect(body).toHaveTextContent("Body content");
+    expect(body).toHaveAttribute("data-layout", "plain");
+    expect(panel().querySelector("footer")).toBeNull();
+    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+  });
+
+  it("has no accessibility violations with the regions in place", async () => {
+    mount(WORKFLOW_MARKUP);
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+});

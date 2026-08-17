@@ -59,6 +59,13 @@
           "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot."
         },
         {
+          "name": "bodyLayout",
+          "type": "\"plain\" | \"stack\"",
+          "default": "\"plain\"",
+          "required": false,
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
+        },
+        {
           "name": "initialFocus",
           "type": "string | undefined",
           "default": "undefined",
@@ -138,6 +145,13 @@
           "description": "Show a close/cancel button on the footer's leading edge."
         },
         {
+          "name": "bodyLayout",
+          "type": "DialogBodyLayout",
+          "default": "\"plain\"",
+          "required": false,
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
+        },
+        {
           "name": "initialFocus",
           "type": "string",
           "default": "undefined",
@@ -168,7 +182,9 @@
       "slots": [
         "default",
         "footer",
+        "footerLead",
         "headerLead",
+        "headerMeta",
         "icon",
         "trigger"
       ]
@@ -238,11 +254,25 @@
           "description": "Leading feedback icon, centered against the title block."
         },
         {
+          "name": "headerMeta",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Content above the title, e.g. \"Step 1 of 2\". Carries no progress semantics."
+        },
+        {
           "name": "headerLead",
           "type": "ReactNode",
           "default": null,
           "required": false,
           "description": "Leading ghost icon button (e.g. a back affordance)."
+        },
+        {
+          "name": "footerLead",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading footer actions, e.g. Back."
         },
         {
           "name": "footer",
@@ -257,6 +287,13 @@
           "default": "false",
           "required": false,
           "description": "Show a close/cancel button on the footer's leading edge."
+        },
+        {
+          "name": "bodyLayout",
+          "type": "DialogBodyLayout",
+          "default": "\"plain\"",
+          "required": false,
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
         },
         {
           "name": "initialFocus",
@@ -342,6 +379,12 @@
           "reactive": false,
           "required": false,
           "description": ""
+        },
+        {
+          "name": "body-layout",
+          "reactive": true,
+          "required": false,
+          "description": "`plain` by default, or `stack` to space the body's direct sections by `--ds-dialog-body-gap`"
         }
       ],
       "notes": [
