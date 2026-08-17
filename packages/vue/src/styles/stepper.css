@@ -1,6 +1,11 @@
 /* Stepper, ported from the Svelte adapter, class names kept identical. */
 
 .stepper {
+  /* The query container for the narrow presentation below. Size
+     containment removes the intrinsic inline size, so the explicit 100%
+     keeps the nav from collapsing inside flex or grid parents. */
+  container-type: inline-size;
+  inline-size: 100%;
   font: inherit;
   color: var(--ds-color-text, #0f172a);
 }
@@ -60,6 +65,30 @@
   margin-inline: 0;
   background-size: 100% var(--ds-step-connector-dot-gap, 5px);
   background-repeat: repeat-y;
+}
+
+/* Too narrow for one row: the horizontal presentation becomes the vertical
+   one. Same geometry as the rules above, so a connector never stays
+   horizontal pointing at empty space. The DOM order, the focus order and the
+   public `orientation` prop are untouched. */
+@container (max-width: 30rem) {
+  .stepper__list {
+    flex-direction: column;
+  }
+  .stepper__step {
+    flex: none;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .stepper__connector {
+    inline-size: var(--ds-step-connector-thickness, 3px);
+    block-size: auto;
+    min-block-size: 1.25rem;
+    margin-block: 0.25rem;
+    margin-inline: 0;
+    background-size: 100% var(--ds-step-connector-dot-gap, 5px);
+    background-repeat: repeat-y;
+  }
 }
 
 .stepper__trigger {
@@ -132,14 +161,28 @@
   flex-direction: column;
   min-inline-size: 0;
 }
+/* Read by screen readers, shown by the checkmark instead. */
+.stepper__status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* A long or translated label wraps onto more lines. It is never truncated
+   and never pushes the page sideways. */
 .stepper__label {
   font-weight: 600;
   line-height: var(--ds-line-height-tight, 1.2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 .stepper__description {
+  overflow-wrap: anywhere;
   font-size: 0.8125rem;
   color: var(--ds-color-text-secondary, #64748b);
   line-height: var(--ds-line-height, 1.4);

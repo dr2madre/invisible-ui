@@ -70,6 +70,8 @@ export const en = {
   "select.placeholder": "Select…",
   "sheetDialog.close": "Close",
   "stepper.label": "Progress",
+  // Read out for a completed step: the checkmark that shows it is decorative.
+  "stepper.completed": "Completed",
   "switch.on": "ON",
   "switch.off": "OFF",
   "table.views": "Views",

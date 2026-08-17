@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import StepperDemo from "../../../../demos/StepperDemo.svelte";
+import StepperExpandedDemo from "../../../../demos/StepperExpandedDemo.svelte";
 
 <Preview>
   <StepperDemo client:visible />
@@ -13,6 +14,100 @@ import StepperDemo from "../../../../demos/StepperDemo.svelte";
 
 An ordered progress indicator (timeline / steps) with linear gating and
 `aria-current` on the active step.
+
+## Which one communicates a workflow
+
+Three different things get called "progress". Choose by the information the
+user needs, not by how many screens the application happens to have.
+
+| User need                                         | Pattern                                                                             |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Measurable or indeterminate progress of an operation | [Progress](/invisible-ui/components/data-layout/progress/) or [Loading Progress](/invisible-ui/components/feedback/loading-progress/) |
+| A named, meaningful multi-stage sequence           | **Stepper**                                                                          |
+| A short linear flow that only needs the position   | Ordinary contextual text, e.g. `Step 1 of 2`                                          |
+| No orientation benefit                             | No indicator at all                                                                   |
+
+- **Progress** measures advancement of a task or operation: a value against a
+  reference. It is not multi-step navigation. Use
+  [Progress](/invisible-ui/components/data-layout/progress/) for user-driven
+  advancement and
+  [Loading Progress](/invisible-ui/components/feedback/loading-progress/) for
+  system-driven work such as an upload or an export.
+- **Stepper** is for an ordered sequence where the step names, their state and
+  the navigation between them genuinely help orientation.
+- **Compact workflow context** is plain text such as `Step 1 of 2`, placed in
+  the workflow container's metadata region, for instance Dialog's
+  [`headerMeta`](/invisible-ui/components/feedback/dialog/). It is not a
+  component and it must not become one: no `role="progressbar"`, no
+  `aria-current="step"` on isolated prose, and no `aria-live` region by
+  default. A step change is announced by moving focus to the new step heading,
+  which the Dialog workflow guidance describes.
+
+A two-step modal does not need a Stepper. Four named stages with meaningful
+navigation usually do.
+
+## Informational or interactive
+
+A Stepper is not automatically a navigation widget. Today this component always
+renders each step as a `<button>`, so it is the **interactive** shape:
+
+- in `linear` mode (the default) upcoming steps are `disabled` and therefore
+  not focusable, while completed steps stay reachable;
+- in non-linear mode every step is reachable;
+- navigation is the native button behaviour: Tab reaches each enabled step,
+  Enter and Space activate it. There is no roving tabindex and no arrow-key
+  navigation, so the steps behave like the ordinary buttons they are;
+- `disabled` on the whole component locks every step.
+
+A purely informational stepper, where the steps are text rather than controls,
+is **not expressible today**. Do not fake it by disabling every step: a
+disabled button still announces as a button and reads as a control that is
+temporarily unavailable. Until the component gains a way to render
+non-interactive steps, use the compact contextual text above for flows that
+only report a position.
+
+### Accessible states
+
+- The sequence is a `<nav>` with an accessible name wrapping an `<ol>`, so the
+  order is conveyed structurally.
+- The current step carries `aria-current="step"`.
+- A completed step carries the visually hidden word "Completed" alongside its
+  label, because the checkmark that shows the state is decorative. Colour is
+  never the only carrier of the state: complete shows a checkmark, current
+  carries `aria-current`, upcoming shows its number.
+- Focus, selection and completion are separate things: focus is where the
+  keyboard is, `aria-current` marks the step being worked on, and the completed
+  wording marks the ones already done.
+
+### Layout, zoom and translation
+
+Long labels **wrap**: they are never truncated and never push the page
+sideways. `overflow-wrap: anywhere` also breaks a single long token, so a
+translated compound word cannot force horizontal scrolling.
+
+The horizontal presentation stays **one row**. A connector belongs to the step
+it precedes, so distributing steps over several rows would leave a connector
+pointing at empty space. When the component's own container becomes too narrow
+for one row (30rem), a container query switches the presentation to the
+existing vertical geometry: one step per line, vertical connectors between
+consecutive steps. The DOM order, the focus order and the public `orientation`
+prop do not change; the explicit vertical `orientation` behaves the same at
+every width. Logical properties place the sequence correctly in right-to-left
+layouts.
+
+One consumer note: the stepper is an inline-size query container, so it sets
+`inline-size: 100%` on itself. Inside a shrink-to-fit parent (a flex row, a
+grid with `justify-items: start`) give the stepper or its wrapper a real
+width, or the container has nothing to measure.
+
+<Preview>
+  <StepperExpandedDemo client:visible />
+</Preview>
+
+These behaviours are covered by automated geometry tests at a 320 CSS pixel
+viewport and at a wide viewport, in Chromium, Firefox and WebKit. Automated
+geometry is not a substitute for the manual 400% zoom pass or a screen-reader
+pass, which stay with the maintainer.
 
 ### Import
 
@@ -24,8 +119,9 @@ An ordered progress indicator (timeline / steps) with linear gating and
 
 ### Accessibility
 
-- The active step carries `aria-current="step"`; completed/upcoming steps are
-  conveyed for assistive tech. In `linear` mode, locked steps aren't actionable.
+- The active step carries `aria-current="step"`; a completed step adds the
+  visually hidden word "Completed", so the state does not depend on the
+  decorative checkmark. In `linear` mode, locked steps aren't actionable.
 
 ### Example
 

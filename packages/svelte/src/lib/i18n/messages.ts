@@ -85,6 +85,8 @@ export const en = {
   "contextMenu.label": "Context menu",
   "menu.label": "Main",
   "stepper.label": "Progress",
+  // Read out for a completed step: the checkmark that shows it is decorative.
+  "stepper.completed": "Completed",
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",
