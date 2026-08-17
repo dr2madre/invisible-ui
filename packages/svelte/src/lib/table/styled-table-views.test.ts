@@ -139,6 +139,26 @@ describe("Svelte TableSet (controlled views)", () => {
     expect(tab("People")).toHaveAttribute("aria-selected", "true");
   });
 
+  it("resolves an invalid activeView at first render to the first view", () => {
+    const onViewChange = vi.fn();
+    render(Fixture, { props: { activeView: "ghost", onViewChange } });
+
+    expect(tab("People")).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(onViewChange).not.toHaveBeenCalled();
+  });
+
+  it("resolves a later invalid activeView to the first view, without a callback", async () => {
+    const onViewChange = vi.fn();
+    const { rerender } = render(Fixture, { props: { activeView: "orders", onViewChange } });
+    expect(tab("Orders")).toHaveAttribute("aria-selected", "true");
+
+    await rerender({ activeView: "ghost", onViewChange });
+    expect(tab("People")).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(onViewChange).not.toHaveBeenCalled();
+  });
+
   it("keeps the tabs keyboard-navigable after the views are replaced", async () => {
     const user = userEvent.setup();
     const { rerender } = render(Fixture, { props: { views: makeViews() } });

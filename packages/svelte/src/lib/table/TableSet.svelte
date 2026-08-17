@@ -93,10 +93,16 @@
   $: viewList = Array.isArray(views) ? views : [];
   $: hasViews = viewList.length > 0;
 
+  // The requested id is honoured only while it exists in the views; anything
+  // else resolves to the first available view. One source: activeId is always
+  // a valid id (or empty with no views), so the tabs and the panels agree.
+  const resolveViewId = (requested: string | undefined, list: TableViewDef[]) =>
+    list.some((v) => v.id === requested) ? (requested as string) : (list[0]?.id ?? "");
+
   // A tab list drives which view is active. The tabs are created once and fed
   // through the sync helpers, so views can appear, change or disappear after
   // mount without a remount of the set.
-  let activeId = activeView ?? (Array.isArray(views) ? views[0]?.id : undefined) ?? "";
+  let activeId = resolveViewId(activeView, Array.isArray(views) ? views : []);
   const tabs = createTabs({
     items: (Array.isArray(views) ? views : []).map((v) => ({ value: v.id })),
     value: activeId,
@@ -124,7 +130,7 @@
   let lastActiveView = activeView;
   $: if (activeView !== lastActiveView) {
     lastActiveView = activeView;
-    if (activeView !== undefined) activeId = activeView;
+    if (activeView !== undefined) activeId = resolveViewId(activeView, viewList);
   }
 
   // The tabs store follows the resolved active id, never the other way round.

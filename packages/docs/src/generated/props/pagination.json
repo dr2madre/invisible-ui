@@ -14,7 +14,7 @@
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "Current page. Controllable mirror: clicking a page updates it locally and reports through `onPageChange`; a later prop value overwrites the local choice (clamped to `pageCount`) without a callback. The other props keep their initial-value behaviour."
         },
         {
           "name": "pageCount",

@@ -52,3 +52,29 @@ describe("Svelte Pagination", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+// The sync helper itself: no notification, clamped to the current page count.
+describe("createPagination.syncPage", () => {
+  it("updates the page without calling onPageChange, clamping to the bounds", async () => {
+    const { createPagination } = await import("./create-pagination");
+    const { get } = await import("svelte/store");
+    const onPageChange = vi.fn();
+    const pagination = createPagination({ page: 1, pageCount: 3, onPageChange });
+
+    pagination.syncPage(2);
+    expect(get(pagination.page)).toBe(2);
+
+    pagination.syncPage(9);
+    expect(get(pagination.page)).toBe(3);
+
+    pagination.syncPage(0);
+    expect(get(pagination.page)).toBe(1);
+
+    expect(onPageChange).not.toHaveBeenCalled();
+
+    // The notifying path still reports a user-driven change exactly once.
+    pagination.setPage(2);
+    expect(onPageChange).toHaveBeenCalledTimes(1);
+    expect(onPageChange).toHaveBeenCalledWith(2);
+  });
+});

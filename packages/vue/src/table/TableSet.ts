@@ -137,7 +137,13 @@ export const TableSet = defineComponent({
     // the prop, with no remount of the set required.
     const views = computed(() => props.views ?? []);
     const hasViews = computed(() => views.value.length > 0);
-    const activeId = ref(props.activeView ?? views.value[0]?.id ?? "");
+    // The requested id is honoured only while it exists in the views; anything
+    // else resolves to the first available view. One source: activeId is
+    // always a valid id (or empty with no views), so tabs and panels agree.
+    const resolveViewId = (requested: string | undefined, list: TableViewDef[]) =>
+      list.some((view) => view.id === requested) ? (requested as string) : (list[0]?.id ?? "");
+
+    const activeId = ref(resolveViewId(props.activeView, views.value));
 
     // Controllable mirrors, callback-free: a later activeView prop overwrites
     // the local choice; a disappearing active id falls back to the first
@@ -145,7 +151,7 @@ export const TableSet = defineComponent({
     watch(
       () => props.activeView,
       (next) => {
-        if (next !== undefined) activeId.value = next;
+        if (next !== undefined) activeId.value = resolveViewId(next, views.value);
       },
     );
     watch(views, (next) => {

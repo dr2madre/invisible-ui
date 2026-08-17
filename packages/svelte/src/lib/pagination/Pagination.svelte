@@ -12,6 +12,12 @@
 
   const { t } = getI18n();
 
+  /**
+   * Current page. Controllable mirror: clicking a page updates it locally and
+   * reports through `onPageChange`; a later prop value overwrites the local
+   * choice (clamped to `pageCount`) without a callback. The other props keep
+   * their initial-value behaviour.
+   */
   export let page = 1;
   export let pageCount: number;
   export let siblingCount = 1;
