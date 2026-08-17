@@ -11,7 +11,10 @@
     { key: "total", header: "Total", sortable: true, align: "end" },
   ];
 
-  const views: TableViewDef[] = [
+  export let activeView: string | undefined = undefined;
+  export let onViewChange: ((id: string) => void) | undefined = undefined;
+
+  export let views: TableViewDef[] = [
     {
       id: "people",
       label: "People",
@@ -33,4 +36,4 @@
   ];
 </script>
 
-<TableSet {views} title="Workspace" viewsLabel="Data views" />
+<TableSet {views} {activeView} {onViewChange} title="Workspace" viewsLabel="Data views" />

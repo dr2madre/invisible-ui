@@ -63,19 +63,22 @@
     (row.id as string | number) ?? index;
 
   // There is always an active sort: default to the first sortable column.
-  const firstSortable = columns.find((c) => c.sortable)?.key ?? null;
-  const initialSort: SortState | null =
-    sort ?? (firstSortable ? { key: firstSortable, direction: "asc" } : null);
+  const defaultSort = (cols: TableColumnDef[]): SortState | null => {
+    const firstSortable = cols.find((c) => c.sortable)?.key ?? null;
+    return firstSortable ? { key: firstSortable, direction: "asc" } : null;
+  };
 
   const context: TableContext = {
     columns,
-    sort: initialSort,
+    sort: sort ?? defaultSort(columns),
     hiddenColumns,
-    onSortChange,
-    onHiddenColumnsChange,
+    // Arrow wrappers read the prop variables at call time, so replacing a
+    // callback prop makes the next action call the new one, never a stale one.
+    onSortChange: (next) => onSortChange?.(next),
+    onHiddenColumnsChange: (next) => onHiddenColumnsChange?.(next),
   };
   const table = createTable(context);
-  const { api, setSort, toggleColumnVisibility } = table;
+  const { api, setSort, toggleColumnVisibility, syncSort, syncHiddenColumns, syncColumns } = table;
 
   // Two-state toggle (asc ↔ desc): the table is never left unsorted.
   const toggleSort = (key: string) => {
@@ -87,6 +90,34 @@
     }
   };
 
+  // Controllable mirrors. Svelte invalidates object props on every parent
+  // render, so each mirror fires only when the reference actually changed:
+  // an unrelated rerender must not undo a local interaction. A sync never
+  // calls the consumer's callback.
+  let lastSort = sort;
+  $: if (sort !== lastSort) {
+    lastSort = sort;
+    syncSort(sort ?? defaultSort(columns));
+  }
+
+  let lastHidden = hiddenColumns;
+  $: if (hiddenColumns !== lastHidden) {
+    lastHidden = hiddenColumns;
+    syncHiddenColumns(hiddenColumns);
+  }
+
+  // New columns keep the current sort while its key is still sortable;
+  // otherwise the first sortable column takes over, without a callback.
+  let lastColumns = columns;
+  $: if (columns !== lastColumns) {
+    lastColumns = columns;
+    syncColumns(columns);
+    const current = $api.sort;
+    const stillSortable =
+      current != null && columns.some((c) => c.key === current.key && c.sortable);
+    if (!stillSortable) syncSort(defaultSort(columns));
+  }
+
   $: resolvedPaginationLabel = paginationLabel ?? $t("table.pagination");
   $: resolvedLoadMoreLabel = loadMoreLabel ?? $t("table.loadMore");
   $: resolvedLoadingLabel = loadingLabel ?? $t("table.loading");
@@ -96,6 +127,15 @@
 
   let currentView = view;
   let currentPage = page;
+
+  // Primitive mirrors: reflecting the prop never calls the callback, and an
+  // unchanged prop value cannot undo a local interaction.
+  $: currentView = view;
+  let lastPage = page;
+  $: if (page !== lastPage) {
+    lastPage = page;
+    currentPage = page;
+  }
 
   const changePage = (next: number) => {
     currentPage = next;
@@ -120,7 +160,14 @@
   $: shownColumns = columns.filter((c) => $api.isColumnVisible(c.key));
   $: sortedRows = $api.sortRows(rows, getValue);
   $: pageCount = paginated ? Math.max(1, Math.ceil(sortedRows.length / pageSize!)) : 1;
-  $: if (currentPage > pageCount) currentPage = pageCount;
+  // The component clamps once when the data shrinks under the current page,
+  // and reports that page change through the existing callback exactly once.
+  // The consumer's unchanged (now out-of-range) page prop is not reapplied by
+  // unrelated rerenders; a later distinct page prop overwrites the mirror.
+  $: if (currentPage > pageCount) {
+    currentPage = pageCount;
+    onPageChange?.(pageCount);
+  }
   $: visibleRows = paginated
     ? sortedRows.slice((currentPage - 1) * pageSize!, currentPage * pageSize!)
     : sortedRows;

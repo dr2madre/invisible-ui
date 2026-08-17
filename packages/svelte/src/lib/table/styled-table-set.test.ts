@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/svelte";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./table-set.fixture.svelte";
@@ -112,5 +113,188 @@ describe("Svelte TableSet (composed)", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { pageSize: 2, configurable: true } });
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+// Task 5A: the controllable-mirror contract. A later prop change updates the
+// rendered set without a remount; reflecting a prop never calls a callback;
+// a user action calls its callback exactly once. These tests fail if the
+// read-once initialization is reinstated.
+describe("Svelte TableSet (controlled sync)", () => {
+  const header = (name: string) => screen.getByRole("columnheader", { name });
+  const spies = () => ({
+    onPageChange: vi.fn(),
+    onSortChange: vi.fn(),
+    onHiddenColumnsChange: vi.fn(),
+  });
+
+  it("follows a later sort prop without a callback", async () => {
+    const callbacks = spies();
+    const { rerender } = render(Fixture, {
+      props: { sort: { key: "name", direction: "asc" }, ...callbacks },
+    });
+    expect(header("Name")).toHaveAttribute("aria-sort", "ascending");
+
+    await rerender({ sort: { key: "age", direction: "desc" }, ...callbacks });
+    expect(header("Age")).toHaveAttribute("aria-sort", "descending");
+    expect(callbacks.onSortChange).not.toHaveBeenCalled();
+  });
+
+  it("follows a later hiddenColumns prop without a callback", async () => {
+    const callbacks = spies();
+    const { rerender } = render(Fixture, { props: { configurable: true, ...callbacks } });
+    expect(screen.queryByRole("columnheader", { name: "City" })).not.toBeNull();
+
+    await rerender({ configurable: true, hiddenColumns: ["city"], ...callbacks });
+    expect(screen.queryByRole("columnheader", { name: "City" })).toBeNull();
+    expect(callbacks.onHiddenColumnsChange).not.toHaveBeenCalled();
+
+    await rerender({ configurable: true, hiddenColumns: [], ...callbacks });
+    expect(screen.queryByRole("columnheader", { name: "City" })).not.toBeNull();
+  });
+
+  it("keeps a hidden key that is temporarily absent from the columns", async () => {
+    const callbacks = spies();
+    const withoutCity = [
+      { key: "name", header: "Name", sortable: true, hideable: false },
+      { key: "age", header: "Age", sortable: true },
+    ];
+    const { rerender } = render(Fixture, {
+      props: { configurable: true, hiddenColumns: ["city"], ...callbacks },
+    });
+
+    await rerender({
+      configurable: true,
+      hiddenColumns: ["city"],
+      columns: withoutCity,
+      ...callbacks,
+    });
+    expect(screen.queryByRole("columnheader", { name: "City" })).toBeNull();
+
+    // The city column returns: still hidden, because its key was never dropped.
+    const withCity = [...withoutCity, { key: "city", header: "City" }];
+    await rerender({
+      configurable: true,
+      hiddenColumns: ["city"],
+      columns: withCity,
+      ...callbacks,
+    });
+    expect(screen.queryByRole("columnheader", { name: "City" })).toBeNull();
+    expect(callbacks.onHiddenColumnsChange).not.toHaveBeenCalled();
+  });
+
+  it("keeps the current sort when new columns still carry it, else falls back", async () => {
+    const callbacks = spies();
+    const { rerender } = render(Fixture, {
+      props: { sort: { key: "age", direction: "desc" }, ...callbacks },
+    });
+    expect(header("Age")).toHaveAttribute("aria-sort", "descending");
+
+    // Age survives the new column list: the sort is preserved.
+    const reordered = [
+      { key: "age", header: "Age", sortable: true },
+      { key: "name", header: "Name", sortable: true, hideable: false },
+    ];
+    await rerender({ sort: { key: "age", direction: "desc" }, columns: reordered, ...callbacks });
+    expect(header("Age")).toHaveAttribute("aria-sort", "descending");
+
+    // The sorted column disappears: first sortable column, ascending, no callback.
+    const withoutAge = [
+      { key: "name", header: "Name", sortable: true, hideable: false },
+      { key: "city", header: "City", sortable: true },
+    ];
+    await rerender({ sort: { key: "age", direction: "desc" }, columns: withoutAge, ...callbacks });
+    expect(header("Name")).toHaveAttribute("aria-sort", "ascending");
+    expect(callbacks.onSortChange).not.toHaveBeenCalled();
+  });
+
+  it("follows a later page prop without a callback", async () => {
+    const callbacks = spies();
+    const { rerender } = render(Fixture, { props: { pageSize: 2, page: 1, ...callbacks } });
+    // Sorted by name asc: Ada, alan | Barbara, Edsger | Grace.
+    expect(screen.getByRole("table")).toHaveTextContent("Ada");
+
+    await rerender({ pageSize: 2, page: 3, ...callbacks });
+    expect(screen.getByRole("table")).toHaveTextContent("Grace");
+    expect(screen.getByRole("table")).not.toHaveTextContent("Ada");
+    // The pager reflects the controlled page too.
+    expect(screen.getByRole("button", { name: "Go to page 3" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    expect(callbacks.onPageChange).not.toHaveBeenCalled();
+  });
+
+  it("follows a later table/card view prop", async () => {
+    const { rerender } = render(Fixture, { props: {} });
+    expect(screen.getByRole("table")).toBeInTheDocument();
+
+    await rerender({ view: "card" });
+    expect(screen.queryByRole("table")).toBeNull();
+    expect(screen.getByRole("list")).toBeInTheDocument();
+
+    await rerender({ view: "table" });
+    expect(screen.getByRole("table")).toBeInTheDocument();
+  });
+
+  it("clamps once when the rows shrink, reporting one page change", async () => {
+    const callbacks = spies();
+    const twoRows = [
+      { id: 1, name: "Ada", age: 36, city: "London" },
+      { id: 2, name: "Grace", age: 85, city: "New York" },
+    ];
+    const { rerender } = render(Fixture, { props: { pageSize: 2, page: 3, ...callbacks } });
+    expect(callbacks.onPageChange).not.toHaveBeenCalled();
+
+    await rerender({ pageSize: 2, page: 3, rows: twoRows, ...callbacks });
+    expect(callbacks.onPageChange).toHaveBeenCalledTimes(1);
+    expect(callbacks.onPageChange).toHaveBeenCalledWith(1);
+    expect(screen.getByRole("table")).toHaveTextContent("Ada");
+
+    // An unrelated rerender with the same, still out-of-range page prop must
+    // not reapply it or notify again.
+    await rerender({ pageSize: 2, page: 3, rows: twoRows, caption: "People", ...callbacks });
+    expect(callbacks.onPageChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps a local interaction across an unrelated rerender", async () => {
+    const callbacks = spies();
+    const { rerender } = render(Fixture, { props: { ...callbacks } });
+
+    await userEvent.setup().click(within(header("Age")).getByRole("button"));
+    expect(header("Age")).toHaveAttribute("aria-sort", "ascending");
+    expect(callbacks.onSortChange).toHaveBeenCalledTimes(1);
+
+    // Unrelated prop changes; the sort prop stays the same (null).
+    await rerender({ caption: "People again", ...callbacks });
+    expect(header("Age")).toHaveAttribute("aria-sort", "ascending");
+    expect(callbacks.onSortChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls only the replacement callback after a callback prop change", async () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const user = userEvent.setup();
+    const { rerender } = render(Fixture, { props: { onSortChange: first } });
+
+    await user.click(within(header("Age")).getByRole("button"));
+    expect(first).toHaveBeenCalledTimes(1);
+
+    await rerender({ onSortChange: second });
+    await user.click(within(header("Age")).getByRole("button"));
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not remount the view when data props change", async () => {
+    const { rerender } = render(Fixture, { props: {} });
+    const marker = screen.getByRole("table");
+    marker.setAttribute("data-probe", "alive");
+
+    await rerender({
+      rows: [{ id: 9, name: "Katherine", age: 101, city: "Hampton" }],
+    });
+    expect(screen.getByRole("table")).toHaveAttribute("data-probe", "alive");
+    expect(screen.getByRole("table")).toHaveTextContent("Katherine");
   });
 });

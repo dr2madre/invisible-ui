@@ -22,7 +22,7 @@
   /** Called whenever the page changes. */
   export let onPageChange: ((page: number) => void) | undefined = undefined;
 
-  const { rootAction, prevAction, nextAction, pageAction, items } = createPagination({
+  const { rootAction, prevAction, nextAction, pageAction, items, syncPage } = createPagination({
     page,
     pageCount,
     siblingCount,
@@ -30,6 +30,9 @@
     disabled,
     onPageChange,
   });
+
+  // Controlled sync: a later page prop follows without emitting onPageChange.
+  $: syncPage(page);
 
   $: resolvedLabel = label ?? $t("pagination.label");
 </script>

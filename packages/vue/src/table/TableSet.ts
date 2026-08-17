@@ -1,4 +1,4 @@
-import { defineComponent, h, ref, type PropType } from "vue";
+import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useTabs } from "../tabs/use-tabs";
 import type { SortState, TableColumnDef, TableRow } from "./Table";
@@ -22,7 +22,11 @@ export interface TableSetProps {
   rows?: TableRow[];
   /** Distinct views shown as tabs; each supplies its own columns and rows. */
   views?: TableViewDef[];
-  /** The active view id (controlled). Defaults to the first view. */
+  /**
+   * The active view id. Controllable mirror: selecting a tab updates it
+   * locally and reports through `onViewChange`; a later prop value overwrites
+   * the local choice without a callback. Defaults to the first view.
+   */
   activeView?: string;
   /** Accessible name for the views tab list. Defaults to the catalog's "Views". */
   viewsLabel?: string;
@@ -129,13 +133,34 @@ export const TableSet = defineComponent({
   setup(props, { slots }) {
     const i18n = useI18n();
 
-    const views = props.views ?? [];
-    const hasViews = views.length > 0;
-    const activeId = ref(props.activeView ?? views[0]?.id ?? "");
+    // Reactive views: appearing, changing or disappearing after mount follows
+    // the prop, with no remount of the set required.
+    const views = computed(() => props.views ?? []);
+    const hasViews = computed(() => views.value.length > 0);
+    const activeId = ref(props.activeView ?? views.value[0]?.id ?? "");
+
+    // Controllable mirrors, callback-free: a later activeView prop overwrites
+    // the local choice; a disappearing active id falls back to the first
+    // remaining view without onViewChange.
+    watch(
+      () => props.activeView,
+      (next) => {
+        if (next !== undefined) activeId.value = next;
+      },
+    );
+    watch(views, (next) => {
+      if (next.length > 0 && !next.some((view) => view.id === activeId.value)) {
+        activeId.value = next[0]!.id;
+      }
+    });
+
+    // A stable computed identity keeps useTabs' items watch quiet on
+    // unrelated recomputes.
+    const tabItems = computed(() => views.value.map((view) => ({ value: view.id })));
 
     // A tab list drives which view is active (only when `views` is given).
     const tabs = useTabs(() => ({
-      items: views.map((view) => ({ value: view.id })),
+      items: tabItems.value,
       value: activeId.value,
       onValueChange: (id: string) => {
         activeId.value = id;
@@ -177,13 +202,13 @@ export const TableSet = defineComponent({
       const resolvedViewsLabel = props.viewsLabel ?? t("table.views");
 
       const header =
-        (props.title && hasViews) || slots.toolbar || hasViews
+        (props.title && hasViews.value) || slots.toolbar || hasViews.value
           ? h("header", { class: "table-set__header" }, [
-              props.title && hasViews
+              props.title && hasViews.value
                 ? h(`h${props.titleLevel}`, { class: "table-set__title" }, props.title)
                 : null,
               slots.toolbar?.(),
-              hasViews
+              hasViews.value
                 ? h(
                     "div",
                     {
@@ -192,7 +217,7 @@ export const TableSet = defineComponent({
                       class: "table-set__tabs",
                       "aria-label": resolvedViewsLabel,
                     },
-                    views.map((view) =>
+                    views.value.map((view) =>
                       h(
                         "button",
                         {
@@ -208,8 +233,8 @@ export const TableSet = defineComponent({
             ])
           : null;
 
-      const body = hasViews
-        ? views.map((view) =>
+      const body = hasViews.value
+        ? views.value.map((view) =>
             h(
               "div",
               { ...tabs.api.value.getPanelProps(view.id), key: view.id },
