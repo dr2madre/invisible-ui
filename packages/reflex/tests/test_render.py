@@ -112,6 +112,28 @@ def test_dialog_props_are_camel_cased():
     assert "closeOnOutsideClick:false" in p
 
 
+def test_dialog_body_layout_reaches_react():
+    c = ui.dialog("Body", title="Set up project", body_layout="stack")
+    assert 'bodyLayout:"stack"' in props_of(c)
+
+
+def test_dialog_composition_regions_compile_to_jsx_props():
+    """Reflex compiles a component-valued prop to a JSX element, so the
+    workflow regions reach the React adapter as real nodes."""
+    c = ui.dialog(
+        "Body",
+        title="Set up project",
+        body_layout="stack",
+        header_meta=rx.text("Step 2 of 2"),
+        footer_lead=ui.button("Back", variant="ghost"),
+        footer=ui.button("Create project", variant="primary"),
+    )
+    p = props_of(c)
+    assert "headerMeta:(jsx(" in p and "Step 2 of 2" in p
+    assert "footerLead:(jsx(" in p and "Back" in p
+    assert "footer:(jsx(" in p and "Create project" in p
+
+
 def test_every_wrapper_imports_the_react_package_and_stylesheet():
     for factory in (ui.button, ui.checkbox, ui.switch, ui.select, ui.combobox, ui.dialog):
         c = factory(label="x", title="x", items=[]) if factory is not ui.button else factory("x")

@@ -36,16 +36,27 @@
   outline-offset: 2px;
 }
 
-/* Columns: icon | back | titles (1fr) | close. Rows: title / subtitle. The
-     side items span both rows so they center against the title+subtitle block.
-     No column-gap (empty optional columns must not leave phantom space); the
-     present items carry their own margin. */
+/* Columns: icon | back | titles (1fr) | close. Rows: meta / title / subtitle.
+     The side items span all rows so they center against the title block. An
+     absent row takes no height. No column-gap (empty optional columns must not
+     leave phantom space); the present items carry their own margin. */
 .dialog__header {
   display: grid;
   grid-template-columns: auto auto 1fr auto;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto;
   align-items: center;
   padding-block-end: 1rem;
+}
+/* Consumer content above the title. Quiet by default so it reads as context;
+   the content can restyle itself. */
+.dialog__header-meta {
+  grid-column: 3;
+  grid-row: 1;
+  min-inline-size: 0;
+  margin-block-end: 0.25rem;
+  font-size: 0.875rem;
+  line-height: var(--ds-line-height-tight, 1.2);
+  color: var(--ds-color-text-secondary, #64748b);
 }
 .dialog__header-icon {
   grid-column: 1;
@@ -63,7 +74,7 @@
 }
 .dialog__title {
   grid-column: 3;
-  grid-row: 1;
+  grid-row: 2;
   min-inline-size: 0;
   margin: 0;
   font-size: 1.125rem;
@@ -113,7 +124,7 @@
 
 .dialog__subtitle {
   grid-column: 3;
-  grid-row: 2;
+  grid-row: 3;
   min-inline-size: 0;
   margin: 0;
   font-size: 0.875rem;
@@ -126,17 +137,34 @@
   min-block-size: 0;
   overflow-y: auto;
 }
-/* Footer: optional close on the leading edge, the action buttons trailing. */
+/* Opt-in spacing between the body's direct sections, so a workflow does not
+   invent its own. */
+.dialog__body[data-layout="stack"] {
+  display: grid;
+  align-content: start;
+  gap: var(--ds-dialog-body-gap, 1rem);
+}
+/* One action bar: the leading group at the logical start, the trailing group
+   at the logical end. It wraps on narrow widths, and wrapping keeps the
+   source order, so the visual order never contradicts focus order. */
 .dialog__footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   padding-block-start: 1rem;
 }
-.dialog__footer-actions {
+.dialog__footer-lead {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  /* Actions sit on the trailing edge; the close (if any) stays leading. */
+}
+.dialog__footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  /* Actions sit on the trailing edge; the leading group stays at the start. */
   margin-inline-start: auto;
 }

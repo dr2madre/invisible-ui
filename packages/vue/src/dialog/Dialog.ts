@@ -4,6 +4,9 @@ import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "./use-dialog";
 
+/** How the dialog body spaces its direct children. */
+export type DialogBodyLayout = "plain" | "stack";
+
 export interface DialogProps {
   /** Visual variant for the trigger Button. */
   triggerVariant?: ButtonVariant;
@@ -25,6 +28,12 @@ export interface DialogProps {
   /** Show a close/cancel button on the footer's leading edge. */
   footerClose?: boolean;
   /**
+   * Body layout. `plain` (the default) leaves the body untouched. `stack`
+   * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+   * workflow from inventing its own spacing between sections.
+   */
+  bodyLayout?: DialogBodyLayout;
+  /**
    * CSS selector (within the panel) for the element to focus on open. When
    * omitted, focus lands on the panel itself, never on the close button.
    */
@@ -45,10 +54,15 @@ export interface DialogProps {
  *
  * The open state binds two ways: `v-model:open` (the idiomatic Vue form) or the
  * `open` prop plus `onOpenChange`, matching the React adapter. The body is the
- * default slot; `trigger`, `icon`, `headerLead` and `footer` are named slots.
+ * default slot; `trigger`, `icon`, `headerMeta`, `headerLead`, `footerLead` and
+ * `footer` are named slots.
  *
  * Layout: a grid panel with a fixed header and footer and a scrolling body.
  * Themeable via `--ds-dialog-*`.
+ *
+ * Multi-step workflows are a composition, not a separate component: put the
+ * step context in `headerMeta`, Back in `footerLead`, and keep the step state
+ * in the application.
  */
 export const Dialog = defineComponent({
   name: "Dialog",
@@ -62,6 +76,7 @@ export const Dialog = defineComponent({
     description: { type: String, default: undefined },
     closeLabel: { type: String, default: undefined },
     footerClose: { type: Boolean, default: false },
+    bodyLayout: { type: String as PropType<DialogBodyLayout>, default: "plain" },
     initialFocus: { type: String, default: undefined },
     closeOnOutsideClick: { type: Boolean, default: true },
     onOpenChange: { type: Function as PropType<(open: boolean) => void>, default: undefined },
@@ -102,15 +117,22 @@ export const Dialog = defineComponent({
 
       if (!open.value) return [triggerNode, null];
 
+      // One action bar: the leading group first, so source order matches focus
+      // order, then the trailing group.
       const footerNodes: VNode[] = [];
-      if (props.footerClose) {
-        footerNodes.push(
-          h(
-            Button,
-            { variant: "ghost", ...api.value.closeProps },
-            { default: () => resolvedCloseLabel },
-          ),
-        );
+      if (slots.footerLead || props.footerClose) {
+        const leadNodes: VNode[] = [];
+        if (slots.footerLead) leadNodes.push(...slots.footerLead());
+        if (props.footerClose) {
+          leadNodes.push(
+            h(
+              Button,
+              { variant: "ghost", ...api.value.closeProps },
+              { default: () => resolvedCloseLabel },
+            ),
+          );
+        }
+        footerNodes.push(h("div", { class: "dialog__footer-lead" }, leadNodes));
       }
       if (slots.footer) {
         footerNodes.push(h("div", { class: "dialog__footer-actions" }, slots.footer()));
@@ -124,6 +146,12 @@ export const Dialog = defineComponent({
             slots.icon ? h("div", { class: "dialog__header-icon" }, slots.icon()) : null,
             slots.headerLead
               ? h("div", { class: "dialog__header-lead" }, slots.headerLead())
+              : null,
+
+            // Consumer content above the title, e.g. "Step 1 of 2". It carries
+            // no progress semantics of its own.
+            slots.headerMeta
+              ? h("div", { class: "dialog__header-meta" }, slots.headerMeta())
               : null,
 
             h(
@@ -175,7 +203,7 @@ export const Dialog = defineComponent({
             ),
           ]),
 
-          h("div", { class: "dialog__body" }, slots.default?.()),
+          h("div", { class: "dialog__body", "data-layout": props.bodyLayout }, slots.default?.()),
 
           footerNodes.length > 0 ? h("footer", { class: "dialog__footer" }, footerNodes) : null,
         ],

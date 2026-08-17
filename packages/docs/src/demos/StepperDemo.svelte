@@ -11,4 +11,15 @@
   ];
 </script>
 
-<Stepper {steps} {current} label="Checkout" onStepChange={(i) => (current = i)} />
+<div class="stepper-demo">
+  <Stepper {steps} {current} label="Checkout" onStepChange={(i) => (current = i)} />
+</div>
+
+<style>
+  /* The preview is a flex row; the demo takes the full line so the stepper's
+     container query responds to the preview's width. */
+  .stepper-demo {
+    flex: 1 1 100%;
+    min-inline-size: 0;
+  }
+</style>

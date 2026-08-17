@@ -16,11 +16,16 @@
    * the title block.
    *
    * Slots: `trigger` (the trigger button's content), the default slot (the
-   * body), `icon` (leading feedback icon), `headerLead` (leading ghost button)
-   * and `footer` (trailing action buttons). Pass an accessible `title`
+   * body), `icon` (leading feedback icon), `headerMeta` (context above the
+   * title), `headerLead` (leading ghost button), `footerLead` (leading footer
+   * actions) and `footer` (trailing action buttons). Pass an accessible `title`
    * (required; hide it with `hideTitle`), optional `description` (the subtitle)
-   * and `footerClose` for a leading close button in the footer. Colors, radius
+   * and `footerClose` for a close button in the footer. Colors, radius
    * and elevation are themeable via `--ds-dialog-*`.
+   *
+   * Multi-step workflows are a composition, not a separate component: put the
+   * step context in `headerMeta`, Back in `footerLead`, and keep the step state
+   * in the application.
    */
   import { createDialog } from "./create-dialog";
   import Button from "../button/Button.svelte";
@@ -50,6 +55,12 @@
    * The trailing (right) edge holds the action buttons from the `footer` slot.
    */
   export let footerClose = false;
+  /**
+   * Body layout. `plain` (the default) leaves the body untouched. `stack`
+   * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+   * workflow from inventing its own spacing between sections.
+   */
+  export let bodyLayout: "plain" | "stack" = "plain";
   /**
    * CSS selector (within the panel) for the element to focus on open. When
    * omitted, focus lands on the panel itself — never on the close button.
@@ -98,6 +109,11 @@
         <!-- Optional ghost icon-only button (e.g. a back affordance). -->
         <div class="dialog__header-lead"><slot name="headerLead" /></div>
       {/if}
+      {#if $$slots.headerMeta}
+        <!-- Consumer content above the title, e.g. "Step 1 of 2". It carries no
+             progress semantics: the meaning belongs to what the consumer puts here. -->
+        <div class="dialog__header-meta"><slot name="headerMeta" /></div>
+      {/if}
       <h2 class="dialog__title" class:dialog__title--hidden={hideTitle} use:titleAction>{title}</h2>
       {#if description !== undefined}
         <p class="dialog__subtitle" use:descriptionAction>{description}</p>
@@ -114,11 +130,18 @@
         </svg>
       </button>
     </header>
-    <div class="dialog__body"><slot /></div>
-    {#if $$slots.footer || footerClose}
+    <div class="dialog__body" data-layout={bodyLayout}><slot /></div>
+    {#if $$slots.footer || $$slots.footerLead || footerClose}
+      <!-- One action bar: leading actions at the logical start, the trailing
+           group at the logical end. Source order matches focus order. -->
       <footer class="dialog__footer">
-        {#if footerClose}
-          <Button variant="ghost" action={closeAction}>{resolvedCloseLabel}</Button>
+        {#if $$slots.footerLead || footerClose}
+          <div class="dialog__footer-lead">
+            <slot name="footerLead" />
+            {#if footerClose}
+              <Button variant="ghost" action={closeAction}>{resolvedCloseLabel}</Button>
+            {/if}
+          </div>
         {/if}
         {#if $$slots.footer}
           <div class="dialog__footer-actions"><slot name="footer" /></div>
@@ -165,16 +188,27 @@
     outline-offset: 2px;
   }
 
-  /* Columns: icon | back | titles (1fr) | close. Rows: title / subtitle. The
-     side items span both rows so they center against the title+subtitle block.
-     No column-gap (empty optional columns must not leave phantom space); the
-     present items carry their own margin. */
+  /* Columns: icon | back | titles (1fr) | close. Rows: meta / title / subtitle.
+     The side items span all rows so they center against the title block. An
+     absent row takes no height. No column-gap (empty optional columns must not
+     leave phantom space); the present items carry their own margin. */
   .dialog__header {
     display: grid;
     grid-template-columns: auto auto 1fr auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     align-items: center;
     padding-block-end: 1rem;
+  }
+  /* Consumer content above the title. Quiet by default so it reads as context;
+     the content can restyle itself. */
+  .dialog__header-meta {
+    grid-column: 3;
+    grid-row: 1;
+    min-inline-size: 0;
+    margin-block-end: 0.25rem;
+    font-size: 0.875rem;
+    line-height: var(--ds-line-height-tight, 1.2);
+    color: var(--ds-color-text-secondary, #64748b);
   }
   .dialog__header-icon {
     grid-column: 1;
@@ -192,7 +226,7 @@
   }
   .dialog__title {
     grid-column: 3;
-    grid-row: 1;
+    grid-row: 2;
     min-inline-size: 0;
     margin: 0;
     font-size: 1.125rem;
@@ -242,7 +276,7 @@
 
   .dialog__subtitle {
     grid-column: 3;
-    grid-row: 2;
+    grid-row: 3;
     min-inline-size: 0;
     margin: 0;
     font-size: 0.875rem;
@@ -255,18 +289,35 @@
     min-block-size: 0;
     overflow-y: auto;
   }
-  /* Footer: optional close on the leading edge, the action buttons trailing. */
+  /* Opt-in spacing between the body's direct sections, so a workflow does not
+     invent its own. */
+  .dialog__body[data-layout="stack"] {
+    display: grid;
+    align-content: start;
+    gap: var(--ds-dialog-body-gap, 1rem);
+  }
+  /* One action bar: the leading group at the logical start, the trailing group
+     at the logical end. It wraps on narrow widths, and wrapping keeps the
+     source order, so the visual order never contradicts focus order. */
   .dialog__footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     padding-block-start: 1rem;
   }
-  .dialog__footer-actions {
+  .dialog__footer-lead {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
-    /* Actions sit on the trailing edge; the close (if any) stays leading. */
+  }
+  .dialog__footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    /* Actions sit on the trailing edge; the leading group stays at the start. */
     margin-inline-start: auto;
   }
 </style>

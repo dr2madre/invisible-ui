@@ -20,10 +20,19 @@ import { lockScroll } from "../internal/scroll-lock";
  * adds scroll lock, backdrop light-dismiss, `initial-focus` and focus
  * restore — the same contract as the Svelte and React adapters.
  *
+ * Composition regions are marked on light-DOM children with a `slot`
+ * attribute, read once when the element renders (no Shadow DOM, ADR 0008):
+ * `slot="header-meta"` for context above the title, `slot="footer-lead"` for
+ * leading footer actions such as Back, and `slot="footer"` for the trailing
+ * actions. Children without a `slot` attribute stay the body, as before. These
+ * are the equivalents of the `headerMeta`, `footerLead` and `footer` regions in
+ * the Svelte, Vue and React adapters.
+ *
  * Attributes: `heading` (required — the global `title` attribute is a browser
  * tooltip and cannot be used), `description`, `trigger` (opener text),
  * `trigger-variant`, `open`, `close-label`, `initial-focus` (CSS selector),
- * `no-outside-close`.
+ * `no-outside-close`, `body-layout` (`plain` by default, or `stack` to space
+ * the body's direct sections by `--ds-dialog-body-gap`).
  * Properties: `open` (boolean).
  *
  * `initial-focus` and `no-outside-close` are read at the moment they apply —
@@ -40,10 +49,12 @@ export class DsDialog extends HTMLElementBase {
     "trigger",
     "trigger-variant",
     "close-label",
+    "body-layout",
   ];
 
   #trigger: HTMLButtonElement | null = null;
   #panel: HTMLDialogElement | null = null;
+  #body: HTMLDivElement | null = null;
   #cleanup: (() => void) | null = null;
 
   connectedCallback() {
@@ -74,8 +85,30 @@ export class DsDialog extends HTMLElementBase {
     emit(this, "open-change", { open: next });
   };
 
+  // A child marked `slot="…"` belongs to that region; everything else is body
+  // content. The children are read once, here, and moved into place.
+  #takeSlot(name: string): Element[] {
+    const claimed = Array.from(this.children).filter(
+      (child) => child.getAttribute("slot") === name,
+    );
+    for (const child of claimed) child.removeAttribute("slot");
+    return claimed;
+  }
+
+  #region(className: string, children: Element[]): HTMLDivElement | null {
+    if (children.length === 0) return null;
+    const region = document.createElement("div");
+    region.className = className;
+    region.append(...children);
+    return region;
+  }
+
   #render() {
-    // The element's children are the dialog body.
+    // Read the marked regions first, so what stays becomes the body.
+    const metaContent = this.#takeSlot("header-meta");
+    const footerLeadContent = this.#takeSlot("footer-lead");
+    const footerContent = this.#takeSlot("footer");
+
     const body = document.createElement("div");
     body.className = "dialog__body";
     while (this.firstChild) body.appendChild(this.firstChild);
@@ -102,12 +135,30 @@ export class DsDialog extends HTMLElementBase {
     close.className = "dialog__close";
     close.innerHTML = closeIcon();
 
+    // The metadata precedes the title, as in the other adapters.
+    const meta = this.#region("dialog__header-meta", metaContent);
+    if (meta) header.append(meta);
     header.append(heading, subtitle, close);
+
     panel.append(header, body);
+
+    // One action bar: the leading group first, so source order matches focus
+    // order, then the trailing group.
+    const footerLead = this.#region("dialog__footer-lead", footerLeadContent);
+    const footerActions = this.#region("dialog__footer-actions", footerContent);
+    if (footerLead || footerActions) {
+      const footer = document.createElement("footer");
+      footer.className = "dialog__footer";
+      if (footerLead) footer.append(footerLead);
+      if (footerActions) footer.append(footerActions);
+      panel.append(footer);
+    }
+
     this.append(trigger, panel);
 
     this.#trigger = trigger;
     this.#panel = panel;
+    this.#body = body;
     this.heading = heading;
     this.subtitle = subtitle;
     this.closeButton = close;
@@ -138,6 +189,7 @@ export class DsDialog extends HTMLElementBase {
     this.subtitle.hidden = !describedBy;
     this.subtitle.textContent = this.getAttribute("description") ?? "";
 
+    this.#body!.dataset.layout = this.getAttribute("body-layout") ?? "plain";
     this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
     this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
     this.closeButton.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");

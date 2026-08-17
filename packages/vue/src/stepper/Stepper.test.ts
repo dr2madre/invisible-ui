@@ -79,6 +79,19 @@ describe("Vue Stepper", () => {
     );
   });
 
+  // The checkmark that shows the completed state is aria-hidden, so the word
+  // has to reach the accessibility tree. Asserting the accessible name (not the
+  // text content) fails if the state is in the DOM but hidden from that tree.
+  it("puts the completed state in the accessible name, after the label", () => {
+    setup({ current: 2, linear: false });
+
+    expect(screen.getByRole("button", { name: /Account/ })).toHaveAccessibleName(
+      /Account\b.*\bCompleted/i,
+    );
+    expect(screen.getByRole("button", { name: /Payment/ })).not.toHaveAccessibleName(/Completed/i);
+    expect(screen.getByRole("button", { name: /Review/ })).not.toHaveAccessibleName(/Completed/i);
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = setup({ current: 1 });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

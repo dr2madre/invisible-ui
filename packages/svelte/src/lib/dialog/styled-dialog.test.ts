@@ -1,9 +1,10 @@
-import { fireEvent, render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./dialog.fixture.svelte";
 import NestedFixture from "./dialog-nested.fixture.svelte";
+import WorkflowFixture from "./dialog-workflow.fixture.svelte";
 
 // Native <dialog>: backdrop presses target the element itself with
 // coordinates outside its box.
@@ -122,6 +123,102 @@ describe("Svelte Dialog (styled)", () => {
     const user = userEvent.setup();
     render(Fixture);
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+// A multi-step workflow is a composition of the dialog's regions. The step
+// state stays in the application; the dialog only lends the places to put it.
+describe("Svelte Dialog (workflow composition)", () => {
+  const panel = () => screen.getByRole("dialog");
+
+  it("renders header metadata before the title, without progress semantics", () => {
+    render(WorkflowFixture, { props: { open: true } });
+    const meta = panel().querySelector(".dialog__header-meta")!;
+    const title = panel().querySelector(".dialog__title")!;
+
+    expect(meta).toHaveTextContent("Step 1 of 2");
+    expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(meta).not.toHaveAttribute("role");
+    expect(meta).not.toHaveAttribute("aria-live");
+    // The metadata does not take part in naming the dialog.
+    expect(panel()).toHaveAccessibleName("Set up project");
+  });
+
+  it("keeps one footer action bar, leading actions first in source order", async () => {
+    render(WorkflowFixture, { props: { open: true, step: 2 } });
+    const footers = panel().querySelectorAll("footer");
+    expect(footers).toHaveLength(1);
+
+    const buttons = Array.from(footers[0]!.querySelectorAll("button")).map((b) =>
+      b.textContent?.trim(),
+    );
+    expect(buttons).toEqual(["Back", "Close", "Create project"]);
+  });
+
+  it("keeps footerClose working alongside footerLead", async () => {
+    const user = userEvent.setup();
+    render(WorkflowFixture, { props: { open: true, step: 2 } });
+    // The header close carries the same label, so scope to the footer group.
+    const footerClose = within(
+      panel().querySelector<HTMLElement>(".dialog__footer-lead")!,
+    ).getByRole("button", { name: "Close" });
+
+    await user.click(footerClose);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("offers a visible dismissal control at every step", async () => {
+    const { rerender } = render(WorkflowFixture, { props: { open: true, step: 1 } });
+    const dismissals = () => screen.getAllByRole("button", { name: "Close" });
+    // The header close and the footer close are both real, focusable buttons.
+    expect(dismissals().length).toBeGreaterThan(0);
+    dismissals().forEach((button) => expect(button).toBeVisible());
+
+    await rerender({ open: true, step: 2 });
+    expect(dismissals().length).toBeGreaterThan(0);
+    dismissals().forEach((button) => expect(button).toBeVisible());
+  });
+
+  it("moves focus to the new step heading, never leaving it on a removed control", async () => {
+    const user = userEvent.setup();
+    render(WorkflowFixture, { props: { open: true } });
+
+    await user.click(screen.getByRole("button", { name: "Continue" }));
+    const heading = screen.getByRole("heading", { name: "Name the project" });
+    expect(heading).toHaveFocus();
+    expect(screen.queryByRole("button", { name: "Continue" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Back" }));
+    expect(screen.getByRole("heading", { name: "Choose a template" })).toHaveFocus();
+  });
+
+  it("stacks the body sections and keeps the body the only scrolling region", () => {
+    render(WorkflowFixture, { props: { open: true } });
+    const body = panel().querySelector(".dialog__body")!;
+
+    expect(body).toHaveAttribute("data-layout", "stack");
+    // Header and footer are siblings of the body, so they stay put while it scrolls.
+    expect(panel().querySelector(":scope > header")).not.toBeNull();
+    expect(panel().querySelector(":scope > footer")).not.toBeNull();
+    expect(body.parentElement).toBe(panel());
+  });
+
+  it("leaves the body untouched by default", async () => {
+    const user = userEvent.setup();
+    render(Fixture);
+    await user.click(screen.getByRole("button", { name: "Open dialog" }));
+
+    expect(panel().querySelector(".dialog__body")).toHaveAttribute("data-layout", "plain");
+    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog__footer-lead")).toBeNull();
+  });
+
+  it("has no accessibility violations at either step", async () => {
+    const { rerender } = render(WorkflowFixture, { props: { open: true, step: 1 } });
+    expect(await axe(document.body)).toHaveNoViolations();
+
+    await rerender({ open: true, step: 2 });
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });

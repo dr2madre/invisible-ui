@@ -1,0 +1,222 @@
+---
+title: "Form workflows"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import ChoiceCardsDemo from "../../../../demos/ChoiceCardsDemo.svelte";
+
+How to compose a multi-step form from the existing primitives: Field and the
+input components, the selection controls, Button, the status components and
+[Dialog's workflow regions](/invisible-ui/components/feedback/dialog/). This
+page adds no component. It records the decisions that keep a workflow readable,
+operable and honest, and it separates what the library guarantees from what the
+application owns.
+
+Each rule below is marked as a **WCAG 2.2** conformance requirement, a
+**WAI-ARIA APG** recommendation, or an **Invisible UI** usability principle.
+
+## Field structure
+
+One field reads in this order: label, stable instruction, control, validation
+message.
+
+- The label is always present. A placeholder is **not** a label: it disappears
+  on input and is not reliably exposed. (WCAG 2.2, 3.3.2 Labels or
+  Instructions, level A.)
+- An instruction the user needs in order to fill the field stays visible while
+  they type. Losing "at least 12 characters" the moment the field has a value
+  takes the requirement away exactly when it is being used. (Invisible UI
+  usability principle. WCAG requires that necessary labels and instructions are
+  provided and perceivable, not that every optional hint stays on screen.)
+- The description and the validation message are both associated with the
+  control. Field wires them into a single `aria-describedby`, in reading order.
+  (WCAG 2.2, 1.3.1 Info and Relationships, level A.)
+- A validation message names the problem and, when the application knows it,
+  how to fix it. (WCAG 2.2, 3.3.1 Error Identification and 3.3.3 Error
+  Suggestion.)
+- Obsolete text must not pile up in the accessible description. Replace a
+  stale hint, do not add a second one next to it.
+
+The Field components already behave this way: the description keeps rendering
+when an error appears, and both ids are linked. What the application must not
+do is remove the description on input.
+
+## Spacing and grouping
+
+- Inside one field, label, description, control and message sit close together:
+  they are one object.
+- Between fields and between workflow sections, the spacing is larger. In a
+  dialog use `bodyLayout="stack"`, which spaces the body's direct sections by
+  `--ds-dialog-body-gap`. Elsewhere use a grid with a gap on the container.
+- Controls that form a meaningful set take a `fieldset` with a `legend`: a
+  radio group, an address block, a pair of date bounds. (WCAG 2.2, 1.3.1.)
+- Do not invent pixel values inside a component when a semantic token exists.
+
+There is no Stack component and no generic spacing scale in the library today.
+The convention is a container-level `display: grid` with a `gap`, and a
+component-level `--ds-<component>-gap` token where a component owns the
+spacing. That covered every case on this page, so nothing new was added.
+
+## Exclusive choices: Tabs or a radio group
+
+The decision is semantic, not visual.
+
+- **Tabs** switch between peer panels of content. Selecting a tab shows
+  different content; it does not commit a value that a later action submits.
+- **A radio group** chooses one mutually exclusive value, including a workflow
+  mode that a later Continue acts on.
+
+Tabs are not universally wrong in a workflow. They are wrong when the choice is
+a value the user is about to submit, because then the selection has to survive,
+be validated and be reported like any other field value.
+
+<Preview>
+  <ChoiceCardsDemo client:visible />
+</Preview>
+
+The cards above are native radios. The card *is* the label, so:
+
+- the group has an accessible name from the `legend`;
+- the checked option is programmatically determinable, because it is a real
+  radio;
+- Tab enters and leaves the group once, and the arrow keys move the selection
+  inside it, which is the native radio behaviour (WAI-ARIA APG,
+  [Radio Group](https://www.w3.org/WAI/ARIA/apg/patterns/radio/));
+- clicking anywhere on the card selects it;
+- selection shows as a border and an inset outline **and** as the radio's own
+  checked state, so it never depends on colour alone (WCAG 2.2, 1.4.1 Use of
+  Color, level A).
+
+Do not put another control inside a selectable card: a button nested in a label
+makes the click target ambiguous and adds a tab stop that has nothing to do with
+the choice.
+
+**Build the card as the radio's own label, not around it.** `Radio` already
+renders a `<label>`, so wrapping it in a second `<label>` nests one label inside
+another. That is invalid HTML, the click target becomes ambiguous, and an
+automated scan flags it. Put the card content in the `Radio` slot and give the
+card surface its padding, as the example does:
+
+```svelte
+<div class="card" data-selected={mode === option.value ? "" : undefined}>
+  <Radio name="location" value={option.value} checked={mode === option.value} onChange={pick}>
+    <span class="card__label">{option.label}</span>
+    <span class="card__description">{option.description}</span>
+  </Radio>
+</div>
+
+<style>
+  /* The label the Radio renders is the card surface. */
+  .card :global(.radio) {
+    inline-size: 100%;
+    padding: 0.75rem;
+  }
+</style>
+```
+
+## One interaction, one owner
+
+Two controls that change the same thing in overlapping ways leave the user
+guessing. For a filesystem location, either shape works:
+
+- a read-only value with a `Choose…` action next to it; or
+- an editable value with a clear action.
+
+Neither is mandatory. The requirement is that every visible control has a
+distinct, understandable effect and its own accessible name. A clear control
+and a choose control side by side, both able to blank the value, fail that.
+
+## Status, and what it may claim
+
+Four different things are often painted the same colour:
+
+| Meaning                      | How to present it                                                  |
+| ---------------------------- | ------------------------------------------------------------------ |
+| Neutral persistent information | Ordinary content. Not a live region.                              |
+| Successful or configured state | A status message; `role="status"` only when it appears dynamically |
+| Warning needing attention      | Warning styling plus text; `role="status"` when it appears dynamically |
+| A verified failure             | Error styling plus text; `role="alert"` when it demands immediate attention |
+
+- The ARIA role follows the urgency of the update, not the colour of the box.
+  `role="status"` announces politely; `role="alert"` interrupts. (WAI-ARIA APG.)
+- A warning or error carries text or an icon, never colour alone. (WCAG 2.2,
+  1.4.1.)
+- Static information does not need a live region. An unnecessary live region
+  makes a screen reader talk over the user's own work.
+- Copy states only what the application verified. `Configured` means a value is
+  set. It does not mean authenticated, reachable, synchronized or valid, and it
+  must not be written as if it did.
+- "Not yet configured" and "access may be required" are not errors. Style them
+  as an error only after the application has verified a failure.
+
+## Action labels
+
+A label names the effect the user gets, in this context: `Choose…`,
+`Continue`, `Use this project`, `Add remote`, `Continue without a remote`.
+Prefer these over `Submit`, `OK` or a bare `Open` whenever the effect can be
+named. (Invisible UI usability principle, recorded in
+[ADR 0005](/invisible-ui/decisions/).)
+
+Dismissal has no required vocabulary. `Close`, `Cancel`, `Exit` and
+`Discard changes` are all legitimate; which one is right depends on what the
+application actually does. The requirement is that the visible label
+communicates the real effect.
+
+## Avoid
+
+Each of these is a reason, not a look:
+
+- **An instruction that disappears after input.** The requirement is still in
+  force while the user types.
+- **Tabs for a mutually exclusive value that gets submitted.** The choice is a
+  value, so it needs field semantics, validation and reporting.
+- **A dismissal control detached below the primary action row.** It reads as
+  unrelated to the workflow and lands outside the action bar's focus order.
+- **More than one footer.** A dialog has one action bar; a second row splits
+  the actions and the reading order.
+- **Back as the only way out of a modal.** Back navigates. Dismissal is a
+  separate action and must exist at every step.
+- **A warning or error the application has not verified.** It teaches the user
+  to distrust every message.
+- **A clear control and a choose control with the same outcome.** Ambiguous
+  ownership of one value.
+- **Placeholder-only labelling.** No label once the field has content, and
+  unreliable exposure to assistive technology.
+- **A live region for content that never changes.** Noise.
+- **Informational choice cards exposed as several unrelated tab stops.** The
+  choice is one control with one tab stop, not four.
+
+## Who owns the state
+
+Field expresses the semantics of the state handed to it: `required`,
+`disabled`, `invalid`, whether a description and an error exist, and the
+relationships between them. It does not own the value, and it must not grow
+into a schema or form framework.
+
+That leaves a real gap in a production workflow. Nothing in the library today
+owns:
+
+- value, `touched` and `dirty`;
+- synchronous and asynchronous validation, including a `validating` state;
+- form-level errors that belong to no single field;
+- the submission cycle: idle, submitting, succeeded, failed;
+- guarding a duplicate submission without making entered content unavailable;
+- moving focus to the first invalid field or to an error summary;
+- preserving entered values after a failure so the user can retry;
+- the decision whether a workflow may advance to the next step.
+
+Today the application owns all of it, and that is workable: it holds the values
+and passes `error`, `disabled` and `required` down to each Field. The cost is
+that every application rebuilds the same coordination.
+
+[Login Form](/invisible-ui/components/patterns/login-form/) shows the limit.
+It keeps its own email and password values and reports `onSubmit`. A production
+sign-in also needs controlled values, a pending state that guards a second
+submission, per-field errors from the server and a form-level error. Those are
+inputs the component does not accept yet. Authentication, persistence and
+product policy stay outside the component in every case.
+
+A headless, framework-neutral form controller is the candidate answer. It is
+**not implemented**: it is recorded as a decision to take after the state
+ownership audit, so that it is designed against the whole catalogue rather than
+against one wizard.

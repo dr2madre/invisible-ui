@@ -12,6 +12,11 @@ class Dialog(InvisibleUiComponent):
     browser's via ``showModal()``. Children are the body; ``trigger`` is the
     trigger button's label. Bind ``open`` + ``on_open_change`` to drive it from
     Python state.
+
+    Multi-step workflows are a composition: ``header_meta`` holds the step
+    context, ``footer_lead`` holds Back, ``footer`` holds the primary action and
+    ``body_layout="stack"`` spaces the body sections. The step state stays in
+    Python; the dialog never learns about steps.
     """
 
     tag = "Dialog"
@@ -26,6 +31,18 @@ class Dialog(InvisibleUiComponent):
     description: rx.Var[str]
     close_label: rx.Var[str]
     footer_close: rx.Var[bool]
+    # "plain" (default) or "stack": "stack" spaces the body's direct children
+    # by --ds-dialog-body-gap.
+    body_layout: rx.Var[str]
+
+    # Composition regions. Reflex compiles a component-valued prop to a JSX
+    # element, so these take any Reflex component, e.g. rx.text("Step 1 of 2").
+    # Context above the title; carries no progress semantics.
+    header_meta: rx.Var[rx.Component]
+    # Leading footer actions, e.g. Back.
+    footer_lead: rx.Var[rx.Component]
+    # Trailing footer actions.
+    footer: rx.Var[rx.Component]
     # CSS selector (within the panel) for the element to focus on open.
     initial_focus: rx.Var[str]
     close_on_outside_click: rx.Var[bool]

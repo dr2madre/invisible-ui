@@ -9,6 +9,7 @@ import ImportSnippet from "../../../../../components/ImportSnippet.astro";
 import Preview from "../../../../../components/Preview.astro";
 import PropsTable from "../../../../../components/PropsTable.astro";
 import DialogDemo from "../../../../../demos/DialogDemo.svelte";
+import DialogWorkflowDemo from "../../../../../demos/DialogWorkflowDemo.svelte";
 
 <Preview>
   <DialogDemo client:only="svelte" />
@@ -85,6 +86,152 @@ task wants a different shape, not a deeper stack.
 </Dialog>
 ```
 
+## Multi-step workflows
+
+A wizard is a **composition of Dialog**, not a component of its own. The dialog
+lends three regions and one body layout; the step number, the form data and the
+business rules stay in the application.
+
+<Preview>
+  <DialogWorkflowDemo client:only="svelte" />
+</Preview>
+
+- **`headerMeta`** holds the step context above the title, for example
+  `Step 1 of 2`. It is a place to put content, nothing more: it carries no
+  progress role and no live region. Plain text is the right content for a short
+  linear flow; the
+  [Stepper page](/invisible-ui/components/patterns/stepper/) has the decision
+  table for when a flow instead wants a Stepper or a Progress.
+- **`footerLead`** holds leading actions such as Back. With the trailing
+  `footer` it forms **one action bar**: leading actions at the logical start,
+  the primary outcome at the logical end. On narrow widths that single bar can
+  wrap onto more than one line, which is a layout effect, not a second footer.
+  Source order matches focus order, and the logical properties place the bar
+  correctly in right-to-left layouts. A second footer row is never needed.
+- **`bodyLayout="stack"`** spaces the body's direct sections by
+  `--ds-dialog-body-gap` (`1rem` by default), so a workflow does not invent its
+  own spacing. `plain` is the default and leaves the body untouched.
+
+### Back, dismissal and completion are three different actions
+
+- **Back** navigates to the previous step. It never dismisses.
+- **Dismissal** leaves the dialog. It stays available at every step: the header
+  close button is always rendered, and `footerClose` adds one to the footer.
+  Escape also dismisses, and a backdrop press can, but neither replaces a
+  visible, keyboard-focusable control.
+- **Completion** is the primary action of the last step.
+
+Name the dismissal for what it actually does in your flow. `Close` merely
+dismisses; `Cancel` cancels an operation that was never applied; `Exit` leaves
+an ongoing situation; `Discard changes` says the entered work is lost. These are
+examples, not a required vocabulary: the requirement is only that the visible
+label communicates the effect.
+
+If your application writes something before the last step, dismissal must not
+suggest a rollback that does not happen. Defer the side effect, say that it
+stays, or ask for confirmation. Dialog stays neutral here: it cannot know.
+
+`closeLabel` names both the header close button and the `footerClose` button,
+so when you use both they share one accessible name.
+
+### Focus on a step change
+
+Dialog moves focus into the panel on open, and `initialFocus` chooses where.
+Between steps, the application moves focus, because only the application knows
+a step changed:
+
+```svelte
+<script>
+  import { tick } from "svelte";
+
+  let step = 1;
+  let heading;
+
+  const goTo = async (next) => {
+    step = next;
+    await tick();
+    heading.focus();
+  };
+</script>
+
+<Dialog title="Set up project" bodyLayout="stack" initialFocus=".step-heading">
+  <span slot="headerMeta">Step {step} of 2</span>
+  <h3 class="step-heading" tabindex="-1" bind:this={heading}>…</h3>
+</Dialog>
+```
+
+- Move focus to the heading of the new step, or to another deliberate starting
+  point. A static heading takes focus with `tabindex="-1"`, which lets the new
+  context be read before its controls.
+- Never leave focus on a control the previous step removed: the browser drops it
+  to the body and the reader loses their place.
+- Do not focus the primary action because it looks prominent.
+- Going Back needs a destination too, usually the heading of the step you
+  return to.
+- A live region is not needed when focus already moves: the new heading is
+  announced by the move itself.
+
+### Narrow layouts, zoom and translation
+
+The panel is `max-inline-size` bounded and fluid below it, the body is the only
+scrolling region, and the footer wraps. That keeps the workflow usable at 400%
+zoom and at a 320 CSS pixel viewport without two-dimensional scrolling, which
+[WCAG 2.2 Reflow (1.4.10)](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)
+requires. Labels are consumer content, so text expansion in translation is
+handled by the wrapping footer rather than by fixed widths.
+
+Two distinct levels apply to the controls you put in these regions:
+
+- **WCAG 2.2 Target Size (Minimum), 2.5.8, level AA**: at least 24 by 24 CSS
+  pixels, with the spacing, inline and essential exceptions. This is a
+  conformance requirement.
+- Invisible UI **recommends** a larger comfortable target, around 44 pixels, for
+  touch. That is a design-system preference, not a WCAG AA requirement.
+
+### The same regions in every adapter
+
+Svelte and Vue expose the regions as named slots, React as props of the same
+names.
+
+`<ds-dialog>` has no Shadow DOM ([ADR 0008](/invisible-ui/decisions/)), so it
+marks the regions with a `slot` attribute on light-DOM children and reads them
+once when it renders. Children without the attribute stay the body, exactly as
+before, and `body-layout` mirrors `bodyLayout`:
+
+```html
+<ds-dialog heading="Set up project" trigger="Set up project" body-layout="stack">
+  <span slot="header-meta">Step 2 of 2</span>
+  <button slot="footer-lead" type="button">Back</button>
+  <button slot="footer" type="button">Create project</button>
+
+  <h3 tabindex="-1">Name the project</h3>
+  <label>Project name <input type="text" /></label>
+</ds-dialog>
+```
+
+The Reflex wrapper passes the regions as component-valued props, which Reflex
+compiles to JSX elements:
+
+```python
+ui.dialog(
+    "Body",
+    title="Set up project",
+    body_layout="stack",
+    header_meta=rx.text("Step 2 of 2"),
+    footer_lead=ui.button("Back", variant="ghost"),
+    footer=ui.button("Create project", variant="primary"),
+)
+```
+
+### What Dialog guarantees, and what stays yours
+
+Dialog guarantees the modal semantics, the accessible name, focus containment
+while open, Escape, background inertness, focus return to the trigger on close,
+the fixed header and footer with body-only scrolling, and the placement of the
+regions above. The application owns the step state, the step content, the
+labels, the focus destination on a step change, and any side effect its steps
+apply.
+
 ### Import
 
 <ImportSnippet component="dialog" />
@@ -93,7 +240,11 @@ task wants a different shape, not a deeper stack.
 
 <PropsTable component="dialog" />
 
-Slots: `trigger` (the trigger button's content) and the default slot (the body).
+Slots: `trigger` (the trigger button's content), the default slot (the body),
+`icon` (leading feedback icon), `headerMeta` (context above the title),
+`headerLead` (leading ghost button), `footerLead` (leading footer actions) and
+`footer` (trailing action buttons). In React the regions are props of the same
+names; in Vue they are named slots.
 
 ### Accessibility
 

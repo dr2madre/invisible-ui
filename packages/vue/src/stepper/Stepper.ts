@@ -96,10 +96,18 @@ export const Stepper = defineComponent({
                   { class: "stepper__indicator", "aria-hidden": "true" },
                   status === "complete" ? [CheckGlyph()] : String(index + 1),
                 ),
+                // The spaces are text nodes on purpose: without them the parts
+                // run together into one word in the accessible name, which the
+                // Svelte template gets from its own whitespace.
                 h("span", { class: "stepper__text" }, [
                   h("span", { class: "stepper__label" }, step.label),
+                  // After the label, so it reads "Account, completed". The
+                  // checkmark is decorative and says nothing on its own.
+                  status === "complete"
+                    ? [" ", h("span", { class: "stepper__status" }, t("stepper.completed"))]
+                    : null,
                   step.description
-                    ? h("span", { class: "stepper__description" }, step.description)
+                    ? [" ", h("span", { class: "stepper__description" }, step.description)]
                     : null,
                 ]),
               ]),
