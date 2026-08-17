@@ -169,6 +169,7 @@ export default defineConfig({
           label: "Patterns",
           items: [
             "components/patterns/breadcrumb",
+            "components/patterns/form-workflows",
             "components/patterns/login-form",
             "components/patterns/menu",
             "components/patterns/menubar",
