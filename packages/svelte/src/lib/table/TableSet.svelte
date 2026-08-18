@@ -43,7 +43,11 @@
   export let rows: TableRow[] = [];
   /** Distinct views shown as tabs; each supplies its own columns + rows. */
   export let views: TableViewDef[] | undefined = undefined;
-  /** The active view id (controlled). Defaults to the first view. */
+  /**
+   * The active view id. Controllable mirror: selecting a tab updates it
+   * locally and reports through `onViewChange`; a later prop value overwrites
+   * the local choice without a callback. Defaults to the first view.
+   */
   export let activeView: string | undefined = undefined;
   /** Accessible name for the views tab list. Defaults to the i18n catalog's "Views". */
   export let viewsLabel: string | undefined = undefined;
@@ -86,24 +90,51 @@
   export let getRowId: (row: TableRow, index: number) => string | number = (row, index) =>
     (row.id as string | number) ?? index;
 
-  const viewList: TableViewDef[] = Array.isArray(views) ? views : [];
-  const hasViews = viewList.length > 0;
+  $: viewList = Array.isArray(views) ? views : [];
+  $: hasViews = viewList.length > 0;
 
-  // A tab list drives which view is active (only when `views` is given).
-  let activeId = activeView ?? viewList[0]?.id ?? "";
-  const tabs = hasViews
-    ? createTabs({
-        items: viewList.map((v) => ({ value: v.id })),
-        value: activeId,
-        onValueChange: (id) => {
-          activeId = id;
-          onViewChange?.(id);
-        },
-      })
-    : null;
-  const rootAction = tabs?.rootAction;
-  const tabAction = tabs?.tabAction;
-  const panelAction = tabs?.panelAction;
+  // The requested id is honoured only while it exists in the views; anything
+  // else resolves to the first available view. One source: activeId is always
+  // a valid id (or empty with no views), so the tabs and the panels agree.
+  const resolveViewId = (requested: string | undefined, list: TableViewDef[]) =>
+    list.some((v) => v.id === requested) ? (requested as string) : (list[0]?.id ?? "");
+
+  // A tab list drives which view is active. The tabs are created once and fed
+  // through the sync helpers, so views can appear, change or disappear after
+  // mount without a remount of the set.
+  let activeId = resolveViewId(activeView, Array.isArray(views) ? views : []);
+  const tabs = createTabs({
+    items: (Array.isArray(views) ? views : []).map((v) => ({ value: v.id })),
+    value: activeId,
+    onValueChange: (id) => {
+      activeId = id;
+      onViewChange?.(id);
+    },
+  });
+  const { rootAction, tabAction, panelAction, syncValue, setItems } = tabs;
+
+  // Controllable mirrors, callback-free. The views array syncs on reference
+  // change only: Svelte invalidates object props on every parent render, and
+  // an unrelated rerender must not undo a local interaction. When the active
+  // id disappears with the views, the first remaining view takes over without
+  // onViewChange; with no views left, the single-view input renders instead.
+  let lastViews = views;
+  $: if (views !== lastViews) {
+    lastViews = views;
+    setItems(viewList.map((v) => ({ value: v.id })));
+    if (hasViews && !viewList.some((v) => v.id === activeId)) {
+      activeId = viewList[0]!.id;
+    }
+  }
+
+  let lastActiveView = activeView;
+  $: if (activeView !== lastActiveView) {
+    lastActiveView = activeView;
+    if (activeView !== undefined) activeId = resolveViewId(activeView, viewList);
+  }
+
+  // The tabs store follows the resolved active id, never the other way round.
+  $: syncValue(hasViews ? activeId : null);
 
   // The per-view labels (pagination/loadMore/loading/config) are forwarded as-is:
   // when undefined, TableView falls back to the i18n catalog itself.
@@ -117,9 +148,9 @@
         <svelte:element this={`h${titleLevel}`} class="table-set__title">{title}</svelte:element>
       {/if}
       <slot name="toolbar" />
-      {#if hasViews && rootAction && tabAction}
+      {#if hasViews}
         <div class="table-set__tabs" use:rootAction aria-label={resolvedViewsLabel}>
-          {#each views! as v (v.id)}
+          {#each viewList as v (v.id)}
             <button class="table-set__tab" use:tabAction={v.id}>{v.label}</button>
           {/each}
         </div>
@@ -127,8 +158,8 @@
     </header>
   {/if}
 
-  {#if hasViews && panelAction}
-    {#each views! as v (v.id)}
+  {#if hasViews}
+    {#each viewList as v (v.id)}
       <div use:panelAction={v.id}>
         {#if v.id === activeId}
           {#key activeId}

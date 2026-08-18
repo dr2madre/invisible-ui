@@ -27,6 +27,12 @@ export interface CreateTable {
   setSort: (sort: SortState | null) => void;
   /** Show/hide a column. */
   toggleColumnVisibility: (key: string) => void;
+  /** Sync an externally-controlled sort without emitting a change event. */
+  syncSort: (sort: SortState | null) => void;
+  /** Sync externally-controlled hidden columns without emitting a change event. */
+  syncHiddenColumns: (hidden: string[]) => void;
+  /** Replace the column definitions (e.g. when the consumer's columns change). */
+  syncColumns: (columns: TableColumn[]) => void;
   /** Action for a column header `<th>`: `<th use:headerAction={key}>`. */
   headerAction: Action<HTMLElement, string>;
   /** Action for a sort-toggle `<button>`: `<button use:sortButtonAction={key}>`. */
@@ -47,19 +53,33 @@ export function createTable(context: TableContext): CreateTable {
     core.initialState({ ...context, id: context.id ?? stableId("ds-table") }),
   );
 
-  const setSort = (sort: SortState | null) => {
+  const sortEquals = (a: SortState | null, b: SortState | null) =>
+    a === b || (a != null && b != null && a.key === b.key && a.direction === b.direction);
+
+  const hiddenEquals = (a: string[], b: string[]) =>
+    a === b || (a.length === b.length && a.every((key, index) => key === b[index]));
+
+  const updateSort = (sort: SortState | null, notify: boolean) => {
     state.update((current) => {
-      context.onSortChange?.(sort);
+      if (sortEquals(current.sort, sort)) return current;
+      if (notify) context.onSortChange?.(sort);
       return { ...current, sort };
     });
   };
 
-  const setHidden = (hidden: string[]) => {
+  const updateHidden = (hidden: string[], notify: boolean) => {
     state.update((current) => {
-      context.onHiddenColumnsChange?.(hidden);
+      if (hiddenEquals(current.hiddenColumns, hidden)) return current;
+      if (notify) context.onHiddenColumnsChange?.(hidden);
       return { ...current, hiddenColumns: hidden };
     });
   };
+
+  const setSort = (sort: SortState | null) => updateSort(sort, true);
+  const setHidden = (hidden: string[]) => updateHidden(hidden, true);
+
+  const syncColumns = (columns: TableColumn[]) =>
+    state.update((current) => (current.columns === columns ? current : { ...current, columns }));
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setSort, setHidden, normalize: normalizeProps }),
@@ -91,6 +111,9 @@ export function createTable(context: TableContext): CreateTable {
     toggleSort: (key: string) => get(api).toggleSort(key),
     setSort,
     toggleColumnVisibility: (key: string) => get(api).toggleColumnVisibility(key),
+    syncSort: (sort: SortState | null) => updateSort(sort, false),
+    syncHiddenColumns: (hidden: string[]) => updateHidden(hidden, false),
+    syncColumns,
     headerAction,
     sortButtonAction,
     visibilityToggleAction,

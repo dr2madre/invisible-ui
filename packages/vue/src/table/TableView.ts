@@ -1,4 +1,4 @@
-import { defineComponent, h, onScopeDispose, ref, watch, type PropType } from "vue";
+import { computed, defineComponent, h, onScopeDispose, ref, watch, type PropType } from "vue";
 import { Card } from "../card/Card";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Icon } from "../icon/Icon";
@@ -128,17 +128,45 @@ export const TableView = defineComponent({
     const i18n = useI18n();
 
     // There is always an active sort: default to the first sortable column.
-    const firstSortable = props.columns.find((column) => column.sortable)?.key ?? null;
-    const initialSort =
-      props.sort ?? (firstSortable ? { key: firstSortable, direction: "asc" as const } : null);
+    const defaultSort = (columns: TableColumnDef[]): SortState | null => {
+      const firstSortable = columns.find((column) => column.sortable)?.key ?? null;
+      return firstSortable ? { key: firstSortable, direction: "asc" } : null;
+    };
 
-    const { api, setSort, toggleColumnVisibility } = useTable(() => ({
+    // The getter passes the raw sort prop, so the mirror watch inside
+    // useTable sees a later controlled change. A computed default would gain
+    // a new identity on every unrelated recompute and undo local interactions,
+    // so the first-sortable default is applied explicitly instead.
+    const { api, setSort, syncSort, toggleColumnVisibility } = useTable(() => ({
       columns: props.columns,
-      sort: initialSort,
+      sort: props.sort,
       hiddenColumns: props.hiddenColumns,
       onSortChange: props.onSortChange,
       onHiddenColumnsChange: props.onHiddenColumnsChange,
     }));
+    syncSort(props.sort ?? defaultSort(props.columns));
+
+    // An explicit null after mount is normalized back to the default: the
+    // view's contract is that there is always an active sort. No callback.
+    watch(
+      () => props.sort,
+      (next) => {
+        if (next === null) syncSort(defaultSort(props.columns));
+      },
+    );
+
+    // New columns keep the current sort while its key is still sortable;
+    // otherwise the first sortable column takes over, without a callback.
+    watch(
+      () => props.columns,
+      (columns) => {
+        const current = api.value.sort;
+        const stillSortable =
+          current != null &&
+          columns.some((column) => column.key === current.key && column.sortable);
+        if (!stillSortable) syncSort(defaultSort(columns));
+      },
+    );
 
     // Two-state toggle (asc to desc and back): the table is never left unsorted.
     const toggleSort = (key: string) => {
@@ -150,13 +178,49 @@ export const TableView = defineComponent({
       );
     };
 
+    // Controllable mirrors: reflecting a prop never calls a callback, and an
+    // unchanged prop cannot undo a local interaction.
     const currentView = ref(props.view);
     const currentPage = ref(props.page);
+    watch(
+      () => props.view,
+      (next) => {
+        currentView.value = next;
+      },
+    );
+    watch(
+      () => props.page,
+      (next) => {
+        currentPage.value = next;
+      },
+    );
 
     const changePage = (next: number) => {
       currentPage.value = next;
       props.onPageChange?.(next);
     };
+
+    const paginated = computed(() => !props.infinite && props.pageSize != null);
+    const sortedRows = computed(() => api.value.sortRows(props.rows, props.getValue));
+    const pageCount = computed(() =>
+      paginated.value ? Math.max(1, Math.ceil(sortedRows.value.length / props.pageSize!)) : 1,
+    );
+
+    // The component clamps once when the current page falls out of range
+    // (shrunken data, or an out-of-range controlled page), renders the clamped
+    // page immediately and reports it through the existing callback exactly
+    // once. Watching instead of clamping in render keeps state writes out of
+    // the render function; unrelated rerenders reapply nothing.
+    watch(
+      () => [currentPage.value, pageCount.value] as const,
+      ([current, count]) => {
+        if (current > count) {
+          currentPage.value = count;
+          props.onPageChange?.(count);
+        }
+      },
+      { immediate: true },
+    );
 
     // The sentinel drives infinite scroll: it loads more as soon as the bottom
     // of the list comes into view.
@@ -186,17 +250,11 @@ export const TableView = defineComponent({
       const resolvedConfigLabel = props.configLabel ?? t("table.columns");
 
       const titleKey = props.cardTitleKey ?? props.columns[0]?.key;
-      const paginated = !props.infinite && props.pageSize != null;
       const shownColumns = props.columns.filter((column) => api.value.isColumnVisible(column.key));
-      const sortedRows = api.value.sortRows(props.rows, props.getValue);
-      const pageCount = paginated ? Math.max(1, Math.ceil(sortedRows.length / props.pageSize!)) : 1;
-      if (currentPage.value > pageCount) currentPage.value = pageCount;
-      const visibleRows = paginated
-        ? sortedRows.slice(
-            (currentPage.value - 1) * props.pageSize!,
-            currentPage.value * props.pageSize!,
-          )
-        : sortedRows;
+      const renderPage = Math.min(currentPage.value, pageCount.value);
+      const visibleRows = paginated.value
+        ? sortedRows.value.slice((renderPage - 1) * props.pageSize!, renderPage * props.pageSize!)
+        : sortedRows.value;
 
       const cell = (row: TableRow, column: TableColumnDef, value: unknown, rowIndex: number) =>
         slots.cell ? slots.cell({ row, column, value, rowIndex }) : String(value ?? "");
@@ -332,11 +390,11 @@ export const TableView = defineComponent({
               : null,
             h("div", { class: "table-view__sentinel", ref: sentinelRef, "aria-hidden": "true" }),
           ])
-        : paginated && pageCount > 1
+        : paginated.value && pageCount.value > 1
           ? h("div", { class: "table-view__pagination" }, [
               h(Pagination, {
-                page: currentPage.value,
-                pageCount,
+                page: renderPage,
+                pageCount: pageCount.value,
                 label: resolvedPaginationLabel,
                 onPageChange: changePage,
               }),

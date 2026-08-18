@@ -21,6 +21,8 @@ export interface CreatePagination {
   items: Readable<PageItem[]>;
   /** Go to a page (clamped; ignored while disabled). */
   setPage: (page: number) => void;
+  /** Sync an externally-controlled page without emitting a change event. */
+  syncPage: (page: number) => void;
   /** Svelte action for the container: `<nav use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for the previous-page button. */
@@ -49,6 +51,12 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
       return { ...current, page: next };
     });
   };
+
+  const syncPage = (next: number) =>
+    state.update((current) => {
+      const clamped = core.clampPage(next, current.pageCount);
+      return current.page === clamped ? current : { ...current, page: clamped };
+    });
 
   let rootEl: HTMLElement | null = null;
   const focus = (value: string) => {
@@ -91,6 +99,7 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
     page: derived(state, ($state) => $state.page),
     items: derived(api, ($api) => $api.items),
     setPage: (p: number) => get(api).setPage(p),
+    syncPage,
     rootAction,
     prevAction,
     nextAction,

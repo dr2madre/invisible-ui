@@ -12,6 +12,12 @@
 
   const { t } = getI18n();
 
+  /**
+   * Current page. Controllable mirror: clicking a page updates it locally and
+   * reports through `onPageChange`; a later prop value overwrites the local
+   * choice (clamped to `pageCount`) without a callback. The other props keep
+   * their initial-value behaviour.
+   */
   export let page = 1;
   export let pageCount: number;
   export let siblingCount = 1;
@@ -22,7 +28,7 @@
   /** Called whenever the page changes. */
   export let onPageChange: ((page: number) => void) | undefined = undefined;
 
-  const { rootAction, prevAction, nextAction, pageAction, items } = createPagination({
+  const { rootAction, prevAction, nextAction, pageAction, items, syncPage } = createPagination({
     page,
     pageCount,
     siblingCount,
@@ -30,6 +36,9 @@
     disabled,
     onPageChange,
   });
+
+  // Controlled sync: a later page prop follows without emitting onPageChange.
+  $: syncPage(page);
 
   $: resolvedLabel = label ?? $t("pagination.label");
 </script>

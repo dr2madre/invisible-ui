@@ -8,9 +8,9 @@ export type TableApi = core.TableApi;
 
 export interface UseTableOptions {
   columns: TableColumnDef[];
-  /** Active sort (controlled), or `null` for none. */
+  /** Active sort (controllable mirror), or `null` for none. */
   sort?: SortState | null;
-  /** Hidden column keys (controlled). */
+  /** Hidden column keys (controllable mirror). */
   hiddenColumns?: string[];
   /** Called whenever the sort changes (including cleared to `null`). */
   onSortChange?: (sort: SortState | null) => void;
@@ -23,6 +23,8 @@ export interface UseTable {
   api: ComputedRef<TableApi>;
   /** Set the sort directly (or clear it with `null`). */
   setSort: (sort: SortState | null) => void;
+  /** Sync an externally-controlled sort without emitting a change event. */
+  syncSort: (sort: SortState | null) => void;
   /** Show or hide a column (no-op for non-hideable columns). */
   toggleColumnVisibility: (key: string) => void;
 }
@@ -57,12 +59,27 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
     },
   );
 
+  const sortEquals = (a: SortState | null, b: SortState | null) =>
+    a === b || (a != null && b != null && a.key === b.key && a.direction === b.direction);
+
   const setSort = (next: SortState | null) => {
+    if (sortEquals(sort.value, next)) return;
     sort.value = next;
     resolved.value.onSortChange?.(next);
   };
 
+  const syncSort = (next: SortState | null) => {
+    if (!sortEquals(sort.value, next)) sort.value = next;
+  };
+
   const setHidden = (next: string[]) => {
+    if (
+      hiddenColumns.value === next ||
+      (hiddenColumns.value.length === next.length &&
+        hiddenColumns.value.every((key, index) => key === next[index]))
+    ) {
+      return;
+    }
     hiddenColumns.value = next;
     resolved.value.onHiddenColumnsChange?.(next);
   };
@@ -84,6 +101,7 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
   return {
     api,
     setSort,
+    syncSort,
     toggleColumnVisibility: (key: string) => api.value.toggleColumnVisibility(key),
   };
 }
