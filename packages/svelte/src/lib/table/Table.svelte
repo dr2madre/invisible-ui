@@ -17,6 +17,14 @@
 
   /** A row is any record; cells read `row[column.key]` by default. */
   export type TableRow = Record<string, unknown>;
+
+  /**
+   * The default row key: `row.id`, falling back to the index. One shared
+   * constant, so selection code can tell the default apart from a consumer's
+   * own `getRowId` (selection never accepts the index fallback).
+   */
+  export const defaultGetRowId = (row: TableRow, index: number): string | number =>
+    (row.id as string | number) ?? index;
   // eslint-disable-next-line no-import-assign -- false positive: TS type re-export
   export type { SortState };
 </script>
@@ -47,8 +55,15 @@
   /** Reads a row's value for a column (defaults to `row[key]`). */
   export let getValue: (row: TableRow, key: string) => unknown = (row, key) => row[key];
   /** Stable row key (defaults to `row.id`, falling back to the index). */
-  export let getRowId: (row: TableRow, index: number) => string | number = (row, index) =>
-    (row.id as string | number) ?? index;
+  export let getRowId: (row: TableRow, index: number) => string | number = defaultGetRowId;
+  /**
+   * Render a leading structural column for row selection. The content comes
+   * from the `selectionHeader` and `selectionCell` slots; this component stays
+   * free of the selection policy itself.
+   */
+  export let selectionColumn = false;
+  /** Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`. */
+  export let isRowSelected: ((row: TableRow, rowIndex: number) => boolean) | undefined = undefined;
 
   import Icon from "../icon/Icon.svelte";
 
@@ -62,6 +77,11 @@
   {/if}
   <thead class="table__head">
     <tr>
+      {#if selectionColumn}
+        <th class="table__th table__th--selection" scope="col">
+          <slot name="selectionHeader" />
+        </th>
+      {/if}
       {#each columns as column (column.key)}
         <th
           class="table__th"
@@ -97,7 +117,15 @@
   </thead>
   <tbody>
     {#each rows as row, rowIndex (getRowId(row, rowIndex))}
-      <tr class="table__row">
+      <tr
+        class="table__row"
+        data-selected={selectionColumn && isRowSelected?.(row, rowIndex) ? "" : undefined}
+      >
+        {#if selectionColumn}
+          <td class="table__td table__td--selection">
+            <slot name="selectionCell" {row} rowId={getRowId(row, rowIndex)} {rowIndex} />
+          </td>
+        {/if}
         {#each columns as column (column.key)}
           {@const value = getValue(row, column.key)}
           <td class="table__td" data-align={column.align ?? "start"}>
@@ -161,8 +189,21 @@
     text-align: center;
   }
 
+  /* The selection column stays as narrow as its checkbox. */
+  .table__th--selection,
+  .table__td--selection {
+    inline-size: 2.5rem;
+    padding-inline-end: 0;
+  }
+
   .table__row:hover {
     background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f8fafc));
+  }
+  .table__row[data-selected] {
+    background: var(
+      --ds-table-row-selected,
+      color-mix(in srgb, var(--ds-color-selected, #7b52cc) 8%, transparent)
+    );
   }
 
   .table__sort {

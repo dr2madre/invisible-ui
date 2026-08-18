@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import TableSetDemo from "../../../../demos/TableSetDemo.svelte";
+import TableSetSelectionDemo from "../../../../demos/TableSetSelectionDemo.svelte";
 
 <Preview>
   <TableSetDemo client:visible />
@@ -24,10 +25,41 @@ views (each with its own columns + rows).
 
 <PropsTable component="table-set" />
 
+### Row selection
+
+<Preview>
+  <TableSetSelectionDemo client:visible />
+</Preview>
+
+Set `selectionMode` to `single` or `multiple` to add a leading checkbox column.
+The selection is controlled: pass `selectedRowIds` and update it from
+`onSelectedRowIdsChange`. Ids of rows that are on other pages, filtered out, or
+no longer selectable are kept as they are; the component never prunes the
+selection, and switching `selectionMode` never clears it.
+
+- Every row needs a stable, unique id: `row.id` or a custom `getRowId`. The
+  index fallback of the default `getRowId` is not accepted for selection, and
+  ids must be unique across all rows the component receives (uniqueness across
+  unloaded server pages is the consumer's responsibility).
+- `getRowLabel` is required while selection is active: it names each row's
+  checkbox (`Select {name}`). Empty or whitespace-only labels are invalid.
+- Misuse throws in development. In production the component degrades
+  deterministically (the row is not selectable, the first duplicate wins, the
+  checkbox falls back to the id as its name), but those fallbacks are outside
+  the supported contract.
+- The select-all checkbox addresses only the rendered page's selectable rows
+  and is disabled when there are none; `single` mode has no select-all, and
+  re-activating the selected row empties the selection.
+- With tabs (`views`), the forwarded selection is shared across views. For a
+  per-view selection, swap `selectedRowIds` from `onViewChange`.
+
 ### Accessibility
 
 - Card view is a labelled list of `Card`s; the column dropdown is a Popover of
   checkboxes; tabs follow the WAI-ARIA tabs pattern.
+- Selection checkboxes are native inputs with screen-reader-only names; the
+  select-all reflects a partial page with the native `indeterminate` state.
+  Selected rows carry `data-selected` for styling.
 
 ### Example
 

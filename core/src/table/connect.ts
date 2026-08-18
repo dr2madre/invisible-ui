@@ -1,6 +1,14 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { nextSort, sortRows, toggleHidden } from "./state";
-import type { SortState, TableColumn, TableState } from "./types";
+import {
+  clearSelection,
+  nextSort,
+  scopeSelectionState,
+  sortRows,
+  toggleHidden,
+  toggleRowSelection,
+  toggleScopeSelection,
+} from "./state";
+import type { RowId, SelectionMode, SortState, TableColumn, TableState } from "./types";
 
 /** The public, framework-agnostic API for a connected table. */
 export interface TableApi {
@@ -20,6 +28,20 @@ export interface TableApi {
   isColumnVisible(key: string): boolean;
   /** Show/hide a column (no-op for non-hideable columns). */
   toggleColumnVisibility(key: string): void;
+  /** How rows can be selected. */
+  selectionMode: SelectionMode;
+  /** Ids of the selected rows, in the order they were selected. */
+  selectedRowIds: RowId[];
+  /** Whether a row is currently selected. */
+  isRowSelected(id: RowId): boolean;
+  /** Toggle one row, honouring the mode (single: re-toggling empties). */
+  toggleRowSelection(id: RowId): void;
+  /** Empty the selection (no-op when already empty). */
+  clearSelection(): void;
+  /** How much of a scope (the selectable rendered rows) is selected. */
+  getScopeSelectionState(scope: RowId[]): "none" | "some" | "all";
+  /** Toggle a whole scope. Operates only in `multiple` mode. */
+  toggleScopeSelection(scope: RowId[]): void;
   /** Props for the `<th>` of a column header. */
   getColumnHeaderProps(key: string): ElementProps;
   /** Props for the sort-toggle `<button>` inside a sortable header. */
@@ -34,6 +56,8 @@ export interface ConnectOptions {
   setSort: (sort: SortState | null) => void;
   /** Request a new hidden-column set; the adapter owns how state updates. */
   setHidden: (hidden: string[]) => void;
+  /** Request a new selection; the adapter owns how state updates. */
+  setSelectedRowIds?: (ids: RowId[]) => void;
   normalize?: Normalize;
 }
 
@@ -48,9 +72,17 @@ export function connect({
   state,
   setSort,
   setHidden,
+  setSelectedRowIds,
   normalize = identityNormalize,
 }: ConnectOptions): TableApi {
-  const { columns, sort, hiddenColumns } = state;
+  const { columns, sort, hiddenColumns, selectionMode, selectedRowIds } = state;
+
+  const selectedSet = new Set(selectedRowIds);
+  // The pure transitions return the same array on a no-op, so a no-op never
+  // reaches the adapter's setter and can never fire its callback.
+  const applySelection = (next: RowId[]) => {
+    if (next !== selectedRowIds) setSelectedRowIds?.(next);
+  };
 
   const isSortable = (key: string) => columns.find((c) => c.key === key)?.sortable ?? false;
   const isHideable = (key: string) => columns.find((c) => c.key === key)?.hideable ?? true;
@@ -73,6 +105,15 @@ export function connect({
     visibleColumns: columns.filter((c) => isColumnVisible(c.key)),
     isColumnVisible,
     toggleColumnVisibility,
+    selectionMode,
+    selectedRowIds,
+    isRowSelected: (id: RowId) => selectedSet.has(id),
+    toggleRowSelection: (id: RowId) =>
+      applySelection(toggleRowSelection(selectedRowIds, id, selectionMode)),
+    clearSelection: () => applySelection(clearSelection(selectedRowIds)),
+    getScopeSelectionState: (scope: RowId[]) => scopeSelectionState(selectedRowIds, scope),
+    toggleScopeSelection: (scope: RowId[]) =>
+      applySelection(toggleScopeSelection(selectedRowIds, scope, selectionMode)),
     getColumnHeaderProps: (key: string) => {
       const sortable = isSortable(key);
       const active = sort?.key === key;

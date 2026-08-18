@@ -5,6 +5,7 @@
   export let checked: CheckedState = false;
   export let disabled = false;
   export let onCheckedChange: ((c: CheckedState) => void) | undefined = undefined;
+  export let hideLabel = false;
 </script>
 
-<Checkbox {checked} {disabled} {onCheckedChange} label="Accept terms" />
+<Checkbox {checked} {disabled} {onCheckedChange} {hideLabel} label="Accept terms" />

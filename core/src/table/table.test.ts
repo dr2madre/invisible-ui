@@ -1,6 +1,15 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { compareValues, initialState, nextSort, sortRows } from "./state";
+import {
+  clearSelection,
+  compareValues,
+  initialState,
+  nextSort,
+  scopeSelectionState,
+  sortRows,
+  toggleRowSelection,
+  toggleScopeSelection,
+} from "./state";
 import type { TableColumn } from "./types";
 
 const columns: TableColumn[] = [
@@ -131,5 +140,91 @@ describe("table connect — column visibility", () => {
     });
     expect(api.getVisibilityToggleProps("city")["aria-checked"]).toBe(false);
     expect(api.getVisibilityToggleProps("name").disabled).toBe(true); // not hideable
+  });
+});
+
+describe("table state — row selection transitions", () => {
+  it("toggles a row in and out in multiple mode, keeping selection order", () => {
+    expect(toggleRowSelection([], 1, "multiple")).toEqual([1]);
+    expect(toggleRowSelection([2, 1], 3, "multiple")).toEqual([2, 1, 3]);
+    expect(toggleRowSelection([2, 1, 3], 1, "multiple")).toEqual([2, 3]);
+  });
+
+  it("replaces the selection in single mode, and empties it on a re-toggle", () => {
+    expect(toggleRowSelection([], "a", "single")).toEqual(["a"]);
+    expect(toggleRowSelection(["a"], "b", "single")).toEqual(["b"]);
+    expect(toggleRowSelection(["b"], "b", "single")).toEqual([]);
+  });
+
+  it("returns the same array on every no-op", () => {
+    const selected = [1, 2];
+    expect(toggleRowSelection(selected, 3, "none")).toBe(selected);
+    expect(toggleScopeSelection(selected, [3, 4], "none")).toBe(selected);
+    expect(toggleScopeSelection(selected, [3, 4], "single")).toBe(selected);
+    expect(toggleScopeSelection(selected, [], "multiple")).toBe(selected);
+    expect(clearSelection([])).toEqual([]);
+    const empty: (string | number)[] = [];
+    expect(clearSelection(empty)).toBe(empty);
+  });
+
+  it("scope state: an empty scope is none, never a vacuous all", () => {
+    expect(scopeSelectionState([1], [])).toBe("none");
+    expect(scopeSelectionState([], [1, 2])).toBe("none");
+    expect(scopeSelectionState([1], [1, 2])).toBe("some");
+    expect(scopeSelectionState([2, 1], [1, 2])).toBe("all");
+  });
+
+  it("scope toggle appends the missing ids in scope order and preserves off-scope ids", () => {
+    expect(toggleScopeSelection(["z", 2], [1, 2, 3], "multiple")).toEqual(["z", 2, 1, 3]);
+  });
+
+  it("scope toggle removes only the scope when it is fully selected", () => {
+    expect(toggleScopeSelection(["z", 1, 2], [1, 2], "multiple")).toEqual(["z"]);
+  });
+});
+
+describe("table connect — selection API", () => {
+  const wire = (overrides = {}) => {
+    const setSort = vi.fn();
+    const setHidden = vi.fn();
+    const setSelectedRowIds = vi.fn();
+    const api = connect({ state: make(overrides), setSort, setHidden, setSelectedRowIds });
+    return { api, setSelectedRowIds };
+  };
+
+  it("routes row and scope operations through the adapter setter", () => {
+    const { api, setSelectedRowIds } = wire({ selectionMode: "multiple", selectedRowIds: [1] });
+    api.toggleRowSelection(2);
+    expect(setSelectedRowIds).toHaveBeenLastCalledWith([1, 2]);
+
+    api.toggleScopeSelection([1, 2, 3]);
+    expect(setSelectedRowIds).toHaveBeenLastCalledWith([1, 2, 3]);
+
+    api.clearSelection();
+    expect(setSelectedRowIds).toHaveBeenLastCalledWith([]);
+  });
+
+  it("never calls the setter on a no-op", () => {
+    const { api, setSelectedRowIds } = wire({ selectionMode: "none", selectedRowIds: [1] });
+    api.toggleRowSelection(2);
+    api.toggleScopeSelection([2, 3]);
+    expect(setSelectedRowIds).not.toHaveBeenCalled();
+
+    const single = wire({ selectionMode: "single", selectedRowIds: ["a"] });
+    single.api.toggleScopeSelection(["a", "b"]);
+    expect(single.setSelectedRowIds).not.toHaveBeenCalled();
+
+    const empty = wire({ selectionMode: "multiple" });
+    empty.api.clearSelection();
+    expect(empty.setSelectedRowIds).not.toHaveBeenCalled();
+  });
+
+  it("exposes membership and scope state", () => {
+    const { api } = wire({ selectionMode: "multiple", selectedRowIds: [1, 3] });
+    expect(api.isRowSelected(1)).toBe(true);
+    expect(api.isRowSelected(2)).toBe(false);
+    expect(api.getScopeSelectionState([1, 3])).toBe("all");
+    expect(api.getScopeSelectionState([1, 2])).toBe("some");
+    expect(api.getScopeSelectionState([])).toBe("none");
   });
 });

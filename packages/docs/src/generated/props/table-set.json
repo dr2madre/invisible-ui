@@ -229,9 +229,44 @@
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
-          "default": "(row, index) =>",
+          "default": "defaultGetRowId",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "selectionMode",
+          "type": "SelectionMode",
+          "default": "\"none\"",
+          "required": false,
+          "description": "Row selection: off by default. `single` or `multiple` adds the column."
+        },
+        {
+          "name": "selectedRowIds",
+          "type": "RowId[]",
+          "default": "[]",
+          "required": false,
+          "description": "The selected row ids (controlled). Replace the array; do not mutate it."
+        },
+        {
+          "name": "onSelectedRowIdsChange",
+          "type": "((ids: RowId[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the next ids after a user selection action."
+        },
+        {
+          "name": "isRowSelectable",
+          "type": "(row: TableRow) => boolean",
+          "default": "() => true",
+          "required": false,
+          "description": "Marks rows the user may select. Others render without a checkbox."
+        },
+        {
+          "name": "getRowLabel",
+          "type": "((row: TableRow) => string) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active."
         }
       ]
     },
@@ -462,9 +497,44 @@
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
-          "default": "(row: TableRow, index: number) => (row.id as string | number) ?? index",
+          "default": "defaultGetRowId",
           "required": false,
           "description": ""
+        },
+        {
+          "name": "selectionMode",
+          "type": "SelectionMode",
+          "default": "\"none\"",
+          "required": false,
+          "description": "Row selection: off by default. `single` or `multiple` adds the column."
+        },
+        {
+          "name": "selectedRowIds",
+          "type": "RowId[]",
+          "default": "() => []",
+          "required": false,
+          "description": "The selected row ids (controlled). Replace the array; do not mutate it."
+        },
+        {
+          "name": "onSelectedRowIdsChange",
+          "type": "(ids: RowId[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the next ids after a user selection action."
+        },
+        {
+          "name": "isRowSelectable",
+          "type": "(row: TableRow) => boolean",
+          "default": "() => true",
+          "required": false,
+          "description": "Marks rows the user may select. Others render without a checkbox."
+        },
+        {
+          "name": "getRowLabel",
+          "type": "(row: TableRow) => string",
+          "default": "undefined",
+          "required": false,
+          "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active."
         }
       ],
       "emits": [],

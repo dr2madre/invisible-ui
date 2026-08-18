@@ -100,3 +100,54 @@ describe("Vue Checkbox (styled)", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+// Task 5B parity verification: the Vue composable already mirrors checked and
+// reads disabled live; these tests pin that contract, matching the Svelte suite.
+describe("Vue Checkbox (controlled sync parity)", () => {
+  const box = () => screen.getByRole("checkbox", { name: "Accept terms" });
+
+  it("reflects a later checked value, indeterminate included, without a callback", async () => {
+    const onCheckedChange = vi.fn();
+    const { rerender } = render(Checkbox, {
+      props: { label: "Accept terms", checked: false, onCheckedChange },
+    });
+
+    await rerender({ label: "Accept terms", checked: true, onCheckedChange });
+    expect(box()).toBeChecked();
+
+    await rerender({ label: "Accept terms", checked: "indeterminate", onCheckedChange });
+    expect((box() as HTMLInputElement).indeterminate).toBe(true);
+    expect(onCheckedChange).not.toHaveBeenCalled();
+  });
+
+  it("accepts a user action after disabled goes true to false", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    const { rerender } = render(Checkbox, {
+      props: { label: "Accept terms", disabled: true, onCheckedChange },
+    });
+
+    await rerender({ label: "Accept terms", disabled: false, onCheckedChange });
+    await user.click(box());
+    expect(onCheckedChange).toHaveBeenCalledTimes(1);
+    expect(onCheckedChange).toHaveBeenCalledWith(true);
+  });
+
+  it("blocks the action after disabled goes false to true", async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    const { rerender } = render(Checkbox, {
+      props: { label: "Accept terms", disabled: false, onCheckedChange },
+    });
+
+    await rerender({ label: "Accept terms", disabled: true, onCheckedChange });
+    await user.click(box());
+    expect(onCheckedChange).not.toHaveBeenCalled();
+  });
+
+  it("hides the label visually while keeping the accessible name", () => {
+    render(Checkbox, { props: { label: "Accept terms", hideLabel: true } });
+    expect(box()).toHaveAccessibleName("Accept terms");
+    expect(document.querySelector(".field__label--hidden")).not.toBeNull();
+  });
+});

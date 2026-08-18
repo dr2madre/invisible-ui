@@ -112,6 +112,17 @@
   border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
   overflow: hidden;
 }
+.table-view__cards-select-all {
+  display: grid;
+  justify-content: start;
+}
+/* The list item holds the selection checkbox beside the card. */
+.table-view__card-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: start;
+}
 .table-view__cards {
   display: grid;
   gap: 0.75rem;

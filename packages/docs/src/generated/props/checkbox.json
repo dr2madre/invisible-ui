@@ -17,6 +17,13 @@
           "description": "Accessible, visible label; override with the default slot."
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required."
+        },
+        {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
@@ -73,6 +80,13 @@
           "default": null,
           "required": true,
           "description": "Accessible, visible label (required). Override with the default slot for rich content."
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required."
         },
         {
           "name": "modelValue",

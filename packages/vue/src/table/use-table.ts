@@ -5,6 +5,8 @@ import { useStableId } from "../internal/use-stable-id";
 import type { SortState, TableColumnDef } from "./Table";
 
 export type TableApi = core.TableApi;
+export type RowId = core.RowId;
+export type SelectionMode = core.SelectionMode;
 
 export interface UseTableOptions {
   columns: TableColumnDef[];
@@ -16,6 +18,12 @@ export interface UseTableOptions {
   onSortChange?: (sort: SortState | null) => void;
   /** Called whenever the hidden-column set changes. */
   onHiddenColumnsChange?: (hidden: string[]) => void;
+  /** Row selection mode (controllable mirror). Defaults to `none`. */
+  selectionMode?: SelectionMode;
+  /** Selected row ids (controllable mirror). */
+  selectedRowIds?: RowId[];
+  /** Called with the next ids after a user selection action. */
+  onSelectedRowIdsChange?: (ids: RowId[]) => void;
 }
 
 export interface UseTable {
@@ -27,6 +35,8 @@ export interface UseTable {
   syncSort: (sort: SortState | null) => void;
   /** Show or hide a column (no-op for non-hideable columns). */
   toggleColumnVisibility: (key: string) => void;
+  /** Sync externally-controlled selected row ids without emitting a change event. */
+  syncSelectedRowIds: (ids: RowId[]) => void;
 }
 
 /**
@@ -44,6 +54,8 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
   const seed = core.initialState({ ...resolved.value, id: useStableId("ds-table") });
   const sort = ref<SortState | null>(seed.sort);
   const hiddenColumns = ref<string[]>(seed.hiddenColumns);
+  const selectionMode = ref<SelectionMode>(seed.selectionMode);
+  const selectedRowIds = ref<RowId[]>(seed.selectedRowIds);
 
   watch(
     () => resolved.value.sort,
@@ -56,6 +68,21 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
     () => resolved.value.hiddenColumns,
     (next) => {
       if (next) hiddenColumns.value = next;
+    },
+  );
+
+  // Changing the mode never touches the selection and never notifies.
+  watch(
+    () => resolved.value.selectionMode,
+    (next) => {
+      if (next !== undefined) selectionMode.value = next;
+    },
+  );
+
+  watch(
+    () => resolved.value.selectedRowIds,
+    (next) => {
+      if (next) syncSelectedRowIds(next);
     },
   );
 
@@ -84,16 +111,32 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
     resolved.value.onHiddenColumnsChange?.(next);
   };
 
+  const selectionEquals = (a: RowId[], b: RowId[]) =>
+    a === b || (a.length === b.length && a.every((id, index) => id === b[index]));
+
+  const setSelectedRowIds = (next: RowId[]) => {
+    if (selectionEquals(selectedRowIds.value, next)) return;
+    selectedRowIds.value = next;
+    resolved.value.onSelectedRowIdsChange?.(next);
+  };
+
+  const syncSelectedRowIds = (next: RowId[]) => {
+    if (!selectionEquals(selectedRowIds.value, next)) selectedRowIds.value = next;
+  };
+
   const api = computed(() =>
     core.connect({
       state: {
         columns: resolved.value.columns,
         sort: sort.value,
         hiddenColumns: hiddenColumns.value,
+        selectionMode: selectionMode.value,
+        selectedRowIds: selectedRowIds.value,
         id: seed.id,
       },
       setSort,
       setHidden,
+      setSelectedRowIds,
       normalize: normalizeProps,
     }),
   );
@@ -103,5 +146,6 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
     setSort,
     syncSort,
     toggleColumnVisibility: (key: string) => api.value.toggleColumnVisibility(key),
+    syncSelectedRowIds,
   };
 }

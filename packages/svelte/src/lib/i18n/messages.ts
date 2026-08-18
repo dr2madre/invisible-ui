@@ -98,6 +98,9 @@ export const en = {
   "table.loadMore": "Load more",
   "table.loading": "Loading…",
   "table.columns": "Columns",
+  "table.selectRow": "Select {name}",
+  "table.selectPage": "Select all visible rows",
+  "table.selection": "Selection",
   // Misc
   "codeBlock.copy": "Copy code",
   "tag.remove": "Remove",

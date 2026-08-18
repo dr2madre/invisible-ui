@@ -1,5 +1,11 @@
 export type SortDirection = "asc" | "desc";
 
+/** A row's stable identity. */
+export type RowId = string | number;
+
+/** How rows can be selected. */
+export type SelectionMode = "none" | "single" | "multiple";
+
 /** The active sort: which column and which direction. */
 export interface SortState {
   key: string;
@@ -23,6 +29,10 @@ export interface TableState {
   sort: SortState | null;
   /** Keys of columns hidden via configuration. */
   hiddenColumns: string[];
+  /** How rows can be selected. */
+  selectionMode: SelectionMode;
+  /** Ids of the selected rows, in the order they were selected. */
+  selectedRowIds: RowId[];
   /** Base id (styling/labelling hook). */
   id: string;
 }
@@ -40,4 +50,10 @@ export interface TableContext {
   onSortChange?: (sort: SortState | null) => void;
   /** Called whenever the hidden-column set changes. */
   onHiddenColumnsChange?: (hidden: string[]) => void;
+  /** How rows can be selected. Defaults to `"none"`. */
+  selectionMode?: SelectionMode;
+  /** Initially selected row ids. Defaults to none. */
+  selectedRowIds?: RowId[];
+  /** Called whenever the selected row ids change. */
+  onSelectedRowIdsChange?: (ids: RowId[]) => void;
 }

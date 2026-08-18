@@ -6,8 +6,15 @@ import { useI18n } from "../i18n/i18n";
 import { Pagination } from "../pagination/Pagination";
 import { Popover } from "../popover/Popover";
 import { SegmentedControl } from "../segmented-control/SegmentedControl";
-import { Table, type SortState, type TableColumnDef, type TableRow } from "./Table";
-import { useTable } from "./use-table";
+import { fail } from "../internal/dev";
+import {
+  defaultGetRowId,
+  Table,
+  type SortState,
+  type TableColumnDef,
+  type TableRow,
+} from "./Table";
+import { useTable, type RowId, type SelectionMode } from "./use-table";
 
 export interface TableViewProps {
   columns: TableColumnDef[];
@@ -43,6 +50,18 @@ export interface TableViewProps {
   cardDescriptionKey?: string;
   getValue?: (row: TableRow, key: string) => unknown;
   getRowId?: (row: TableRow, index: number) => string | number;
+  /** Row selection mode. Defaults to `none`. */
+  selectionMode?: SelectionMode;
+  /** The selected row ids (controlled). Replace the array; do not mutate it. */
+  selectedRowIds?: RowId[];
+  onSelectedRowIdsChange?: (ids: RowId[]) => void;
+  /** Marks rows the user may select. Others render without a checkbox. */
+  isRowSelectable?: (row: TableRow) => boolean;
+  /**
+   * Names a row for its selection checkbox ("Select {name}"). Optional in the
+   * type, but required at runtime whenever selection is active.
+   */
+  getRowLabel?: (row: TableRow) => string;
 }
 
 /** The two body layouts offered by the view switcher. */
@@ -121,7 +140,21 @@ export const TableView = defineComponent({
     },
     getRowId: {
       type: Function as PropType<(row: TableRow, index: number) => string | number>,
-      default: (row: TableRow, index: number) => (row.id as string | number) ?? index,
+      default: defaultGetRowId,
+    },
+    selectionMode: { type: String as PropType<SelectionMode>, default: "none" },
+    selectedRowIds: { type: Array as PropType<RowId[]>, default: () => [] },
+    onSelectedRowIdsChange: {
+      type: Function as PropType<(ids: RowId[]) => void>,
+      default: undefined,
+    },
+    isRowSelectable: {
+      type: Function as PropType<(row: TableRow) => boolean>,
+      default: () => true,
+    },
+    getRowLabel: {
+      type: Function as PropType<(row: TableRow) => string>,
+      default: undefined,
     },
   },
   setup(props, { slots }) {
@@ -141,8 +174,11 @@ export const TableView = defineComponent({
       columns: props.columns,
       sort: props.sort,
       hiddenColumns: props.hiddenColumns,
+      selectionMode: props.selectionMode,
+      selectedRowIds: props.selectedRowIds,
       onSortChange: props.onSortChange,
       onHiddenColumnsChange: props.onHiddenColumnsChange,
+      onSelectedRowIdsChange: props.onSelectedRowIdsChange,
     }));
     syncSort(props.sort ?? defaultSort(props.columns));
 
@@ -242,6 +278,44 @@ export const TableView = defineComponent({
 
     onScopeDispose(() => (sentinelRef.value = null));
 
+    // Selection needs an id that survives sorting and paging, so the index
+    // fallback of the default getRowId is not accepted here. A missing or
+    // duplicate id is an error in development; in production the row is
+    // simply not selectable (first occurrence wins on duplicates).
+    const selectionIds = computed(() => {
+      const ids = new Map<TableRow, RowId | null>();
+      if (props.selectionMode === "none") return ids;
+      const seen = new Set<RowId>();
+      props.rows.forEach((row, index) => {
+        const id =
+          props.getRowId === defaultGetRowId
+            ? ((row.id as RowId) ?? null)
+            : (props.getRowId(row, index) ?? null);
+        if (id == null) {
+          fail("Row selection needs a stable id: add `row.id` or pass a stable `getRowId`.");
+          ids.set(row, null);
+          return;
+        }
+        if (seen.has(id)) {
+          fail(`Duplicate row id "${String(id)}": row selection needs unique ids.`);
+          ids.set(row, null);
+          return;
+        }
+        seen.add(id);
+        ids.set(row, id);
+      });
+      return ids;
+    });
+
+    const selectionLabel = (row: TableRow, rowId: RowId): string => {
+      const label = props.getRowLabel?.(row);
+      if (label == null || label.trim() === "") {
+        fail("Row selection needs `getRowLabel` returning a non-empty name for every row.");
+        return String(rowId);
+      }
+      return label;
+    };
+
     return () => {
       const { t } = i18n.value;
       const resolvedPaginationLabel = props.paginationLabel ?? t("table.pagination");
@@ -258,6 +332,45 @@ export const TableView = defineComponent({
 
       const cell = (row: TableRow, column: TableColumnDef, value: unknown, rowIndex: number) =>
         slots.cell ? slots.cell({ row, column, value, rowIndex }) : String(value ?? "");
+
+      const selectionActive = props.selectionMode !== "none";
+      // Select-all only ever addresses the rendered slice.
+      const scopeIds =
+        props.selectionMode === "multiple"
+          ? visibleRows.flatMap((row) => {
+              const id = selectionIds.value.get(row);
+              return id != null && props.isRowSelectable(row) ? [id] : [];
+            })
+          : [];
+      const scopeState =
+        props.selectionMode === "multiple" ? api.value.getScopeSelectionState(scopeIds) : "none";
+      const selectAllChecked =
+        scopeState === "all" ? true : scopeState === "some" ? ("indeterminate" as const) : false;
+
+      const selectAllCheckbox = (hideLabel: boolean) =>
+        h(Checkbox, {
+          hideLabel,
+          label: t("table.selectPage"),
+          checked: selectAllChecked,
+          disabled: scopeIds.length === 0,
+          onCheckedChange: () => api.value.toggleScopeSelection(scopeIds),
+        });
+
+      const rowCheckbox = (row: TableRow) => {
+        const id = selectionIds.value.get(row);
+        if (id == null || !props.isRowSelectable(row)) return null;
+        return h(Checkbox, {
+          hideLabel: true,
+          label: t("table.selectRow", { name: selectionLabel(row, id) }),
+          checked: api.value.isRowSelected(id),
+          onCheckedChange: () => api.value.toggleRowSelection(id),
+        });
+      };
+
+      const rowIsSelected = (row: TableRow) => {
+        const id = selectionIds.value.get(row);
+        return id != null && api.value.isRowSelected(id);
+      };
 
       const header =
         props.title || props.allowViewToggle || props.configurable
@@ -313,45 +426,66 @@ export const TableView = defineComponent({
 
       const body =
         currentView.value === "card"
-          ? h(
-              "div",
-              { class: "table-view__cards", role: "list", "aria-label": props.caption },
-              visibleRows.map((row, rowIndex) => {
-                const fieldColumns = shownColumns.filter(
-                  (column) => column.key !== titleKey && column.key !== props.cardDescriptionKey,
-                );
-                return h("div", { key: props.getRowId(row, rowIndex), role: "listitem" }, [
-                  h(
-                    Card,
+          ? [
+              props.selectionMode === "multiple"
+                ? h("div", { class: "table-view__cards-select-all" }, [selectAllCheckbox(false)])
+                : null,
+              h(
+                "div",
+                { class: "table-view__cards", role: "list", "aria-label": props.caption },
+                visibleRows.map((row, rowIndex) => {
+                  const fieldColumns = shownColumns.filter(
+                    (column) => column.key !== titleKey && column.key !== props.cardDescriptionKey,
+                  );
+                  const checkbox = selectionActive ? rowCheckbox(row) : null;
+                  return h(
+                    "div",
                     {
-                      title: titleKey != null ? String(props.getValue(row, titleKey)) : undefined,
-                      description:
-                        props.cardDescriptionKey != null
-                          ? String(props.getValue(row, props.cardDescriptionKey))
-                          : undefined,
+                      key: props.getRowId(row, rowIndex),
+                      role: "listitem",
+                      class: checkbox ? "table-view__card-item" : undefined,
+                      "data-selected": selectionActive && rowIsSelected(row) ? "" : undefined,
                     },
-                    {
-                      default: () =>
-                        h(
-                          "dl",
-                          { class: "table-view__card-fields" },
-                          fieldColumns.map((column) => {
-                            const value = props.getValue(row, column.key);
-                            return h("div", { key: column.key, class: "table-view__card-field" }, [
-                              h("dt", { class: "table-view__card-label" }, column.header),
-                              h(
-                                "dd",
-                                { class: "table-view__card-value" },
-                                cell(row, column, value, rowIndex),
-                              ),
-                            ]);
-                          }),
-                        ),
-                    },
-                  ),
-                ]);
-              }),
-            )
+                    [
+                      checkbox,
+                      h(
+                        Card,
+                        {
+                          title:
+                            titleKey != null ? String(props.getValue(row, titleKey)) : undefined,
+                          description:
+                            props.cardDescriptionKey != null
+                              ? String(props.getValue(row, props.cardDescriptionKey))
+                              : undefined,
+                        },
+                        {
+                          default: () =>
+                            h(
+                              "dl",
+                              { class: "table-view__card-fields" },
+                              fieldColumns.map((column) => {
+                                const value = props.getValue(row, column.key);
+                                return h(
+                                  "div",
+                                  { key: column.key, class: "table-view__card-field" },
+                                  [
+                                    h("dt", { class: "table-view__card-label" }, column.header),
+                                    h(
+                                      "dd",
+                                      { class: "table-view__card-value" },
+                                      cell(row, column, value, rowIndex),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ),
+                        },
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ]
           : h("div", { class: "table-view__card" }, [
               h(
                 Table,
@@ -364,8 +498,23 @@ export const TableView = defineComponent({
                   hideCaption: props.hideCaption || Boolean(props.title),
                   getValue: props.getValue,
                   getRowId: props.getRowId,
+                  selectionColumn: selectionActive,
+                  isRowSelected: selectionActive
+                    ? (row: TableRow) => rowIsSelected(row)
+                    : undefined,
                 },
-                slots.cell ? { cell: slots.cell } : undefined,
+                {
+                  ...(slots.cell ? { cell: slots.cell } : undefined),
+                  ...(selectionActive
+                    ? {
+                        selectionHeader: () =>
+                          props.selectionMode === "multiple"
+                            ? selectAllCheckbox(true)
+                            : h("span", { class: "table-view__sr" }, t("table.selection")),
+                        selectionCell: ({ row }: { row: TableRow }) => rowCheckbox(row),
+                      }
+                    : undefined),
+                },
               ),
             ]);
 

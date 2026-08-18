@@ -31,6 +31,14 @@ export interface TableColumnDef {
 /** A row is any record; cells read `row[column.key]` by default. */
 export type TableRow = Record<string, unknown>;
 
+/**
+ * The default row key: `row.id`, falling back to the index. One shared
+ * constant, so selection code can tell the default apart from a consumer's
+ * own `getRowId` (selection never accepts the index fallback).
+ */
+export const defaultGetRowId = (row: TableRow, index: number): string | number =>
+  (row.id as string | number) ?? index;
+
 export interface TableProps {
   columns: TableColumnDef[];
   rows: TableRow[];
@@ -46,6 +54,14 @@ export interface TableProps {
   getValue?: (row: TableRow, key: string) => unknown;
   /** Stable row key (defaults to `row.id`, falling back to the index). */
   getRowId?: (row: TableRow, index: number) => string | number;
+  /**
+   * Render a leading structural column for row selection. The content comes
+   * from the `selectionHeader` and `selectionCell` slots; this component stays
+   * free of the selection policy itself.
+   */
+  selectionColumn?: boolean;
+  /** Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`. */
+  isRowSelected?: (row: TableRow, rowIndex: number) => boolean;
 }
 
 /**
@@ -74,7 +90,12 @@ export const Table = defineComponent({
     },
     getRowId: {
       type: Function as PropType<(row: TableRow, index: number) => string | number>,
-      default: (row: TableRow, index: number) => (row.id as string | number) ?? index,
+      default: defaultGetRowId,
+    },
+    selectionColumn: { type: Boolean, default: false },
+    isRowSelected: {
+      type: Function as PropType<(row: TableRow, rowIndex: number) => boolean>,
+      default: undefined,
     },
   },
   setup(props, { slots }) {
@@ -126,9 +147,15 @@ export const Table = defineComponent({
             )
           : null,
         h("thead", { class: "table__head" }, [
-          h(
-            "tr",
-            props.columns.map((column) =>
+          h("tr", [
+            props.selectionColumn
+              ? h(
+                  "th",
+                  { class: "table__th table__th--selection", scope: "col" },
+                  slots.selectionHeader ? slots.selectionHeader() : undefined,
+                )
+              : null,
+            ...props.columns.map((column) =>
               h(
                 "th",
                 {
@@ -162,24 +189,41 @@ export const Table = defineComponent({
                   : column.header,
               ),
             ),
-          ),
+          ]),
         ]),
         h(
           "tbody",
-          props.rows.map((row, rowIndex) =>
-            h(
+          props.rows.map((row, rowIndex) => {
+            const rowId = props.getRowId(row, rowIndex);
+            return h(
               "tr",
-              { key: props.getRowId(row, rowIndex), class: "table__row" },
-              props.columns.map((column) => {
-                const value = props.getValue(row, column.key);
-                return h(
-                  "td",
-                  { key: column.key, class: "table__td", "data-align": column.align ?? "start" },
-                  slots.cell ? slots.cell({ row, column, value, rowIndex }) : String(value ?? ""),
-                );
-              }),
-            ),
-          ),
+              {
+                key: rowId,
+                class: "table__row",
+                "data-selected":
+                  props.selectionColumn && props.isRowSelected?.(row, rowIndex) ? "" : undefined,
+              },
+              [
+                props.selectionColumn
+                  ? h(
+                      "td",
+                      { class: "table__td table__td--selection" },
+                      slots.selectionCell
+                        ? slots.selectionCell({ row, rowId, rowIndex })
+                        : undefined,
+                    )
+                  : null,
+                ...props.columns.map((column) => {
+                  const value = props.getValue(row, column.key);
+                  return h(
+                    "td",
+                    { key: column.key, class: "table__td", "data-align": column.align ?? "start" },
+                    slots.cell ? slots.cell({ row, column, value, rowIndex }) : String(value ?? ""),
+                  );
+                }),
+              ],
+            );
+          }),
         ),
       ]);
   },

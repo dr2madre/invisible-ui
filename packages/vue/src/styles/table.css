@@ -51,8 +51,21 @@
   text-align: center;
 }
 
+/* The selection column stays as narrow as its checkbox. */
+.table__th--selection,
+.table__td--selection {
+  inline-size: 2.5rem;
+  padding-inline-end: 0;
+}
+
 .table__row:hover {
   background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f8fafc));
+}
+.table__row[data-selected] {
+  background: var(
+    --ds-table-row-selected,
+    color-mix(in srgb, var(--ds-color-selected, #7b52cc) 8%, transparent)
+  );
 }
 
 .table__sort {

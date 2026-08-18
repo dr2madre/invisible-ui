@@ -6,6 +6,12 @@ import { useCheckbox, type CheckedState } from "./use-checkbox";
 export interface CheckboxProps {
   /** Accessible, visible label (required). Override with the default slot for rich content. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name (for a
+   * checkbox whose meaning is carried by its surroundings, e.g. a selection
+   * column). The label text is always required.
+   */
+  hideLabel?: boolean;
   /** `v-model` value; takes precedence over `checked` when bound. */
   modelValue?: CheckedState;
   checked?: CheckedState;
@@ -38,6 +44,7 @@ export const Checkbox = defineComponent({
   name: "Checkbox",
   props: {
     label: { type: String, required: true },
+    hideLabel: { type: Boolean, default: false },
     modelValue: {
       type: [Boolean, String] as PropType<CheckedState>,
       default: undefined,
@@ -94,7 +101,11 @@ export const Checkbox = defineComponent({
             { default: () => h("line", { x1: "5", y1: "12", x2: "19", y2: "12" }) },
           ),
         ]),
-        h("span", { class: "field__label" }, slots.default ? slots.default() : props.label),
+        h(
+          "span",
+          { class: ["field__label", { "field__label--hidden": props.hideLabel }] },
+          slots.default ? slots.default() : props.label,
+        ),
       ]);
   },
 });
