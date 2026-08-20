@@ -169,6 +169,7 @@ export {
 export { SheetDialog, type SheetDialogProps } from "./sheet-dialog/SheetDialog";
 export { SearchDialog, type SearchDialogProps } from "./search-dialog/SearchDialog";
 export { TableSet, type TableSetProps, type TableViewDef } from "./table/TableSet";
+export { MultiSelect, type MultiSelectProps } from "./multi-select/MultiSelect";
 
 // Composables: the headless layer, for consumers rendering their own markup.
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
@@ -377,6 +378,12 @@ export {
   type UseTable,
   type UseTableOptions,
 } from "./table/use-table";
+export {
+  useMultiSelect,
+  type MultiSelectItem,
+  type UseMultiSelect,
+  type UseMultiSelectOptions,
+} from "./multi-select/use-multi-select";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

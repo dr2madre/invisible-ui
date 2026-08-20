@@ -1,0 +1,61 @@
+---
+title: "Multi Select"
+---
+
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import MultiSelectDemo from "../../../../demos/MultiSelectDemo.svelte";
+
+<Preview>
+  <MultiSelectDemo client:visible />
+</Preview>
+
+A labelled, editable input that filters a **multiselectable** listbox; the
+chosen values render as removable tags in a labelled list. A sibling of
+[Combobox](/components/forms/combobox/) with its own contract: `values` is an
+ordered, unique, controlled `string[]` with `onValuesChange`. Free-form
+values, reordering, drag and drop and async fetching are out of scope.
+
+### Import
+
+<ImportSnippet component="multi-select" />
+
+### Props (selected)
+
+<PropsTable component="multi-select" />
+
+### Behavior
+
+- Enter adds the highlighted option and keeps the popup open for another
+  choice; a selected option stays listed with `aria-selected="true"`, and
+  selecting it again is a no-op. Escape closes without moving focus.
+- A value whose item disappears from `items` stays selected and shows its raw
+  value as the tag label; it is never discarded silently.
+- `max` blocks further additions but never removes existing values.
+  `disabled` blocks everything; `readOnly` permits focus and review only.
+- Backspace edits text. Only with `removeOnBackspace` and an empty input does
+  one Backspace remove the last removable value (disabled values are immune).
+- Removing a tag through its remove button moves focus to the next remove
+  button, else the previous one, else the input.
+
+### Forms
+
+With `name`, one hidden input per selected value is submitted under the same
+name, in selection order: read it with `FormData.getAll(name)`. An empty
+selection contributes no entry. Native `required` constraint validation cannot
+work over hidden inputs, so `required` only exposes `aria-required`;
+validation belongs to Field or application state.
+
+### Accessibility
+
+- The input is a labelled `role="combobox"` over a `aria-multiselectable`
+  listbox; DOM focus stays on the input and the highlighted option travels
+  through `aria-activedescendant`.
+- Tags form a labelled selected-values list (never option semantics); every
+  remove button is an ordinary Tab stop named `Remove <label>` with a visible
+  focus indication and a WCAG 2.5.8 target.
+- Tags and the input wrap without clipping at 320 CSS pixels, with long
+  labels, localization growth and RTL.
+
+Themeable via `--ds-multi-select-*`.

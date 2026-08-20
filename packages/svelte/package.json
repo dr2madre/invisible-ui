@@ -94,6 +94,7 @@
     "src/lib/sheet-dialog/SheetDialog.svelte",
     "src/lib/menubar/Menubar.svelte",
     "src/lib/combobox/Combobox.svelte",
+    "src/lib/multi-select/MultiSelect.svelte",
     "src/lib/search-dialog/SearchDialog.svelte",
     "src/lib/navigation-menu/NavigationMenu.svelte",
     "src/lib/styles/tokens.css"
@@ -390,6 +391,10 @@
     "./Combobox.svelte": {
       "svelte": "./src/lib/combobox/Combobox.svelte",
       "default": "./src/lib/combobox/Combobox.svelte"
+    },
+    "./MultiSelect.svelte": {
+      "svelte": "./src/lib/multi-select/MultiSelect.svelte",
+      "default": "./src/lib/multi-select/MultiSelect.svelte"
     },
     "./SearchDialog.svelte": {
       "svelte": "./src/lib/search-dialog/SearchDialog.svelte",

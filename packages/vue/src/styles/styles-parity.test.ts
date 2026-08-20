@@ -103,6 +103,7 @@ const VUE_SOURCE_SHEETS = [
   "sheet-dialog.css",
   "search-dialog.css",
   "table-set.css",
+  "multi-select.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
