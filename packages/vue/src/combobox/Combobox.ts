@@ -327,7 +327,7 @@ export const Combobox = defineComponent({
           ],
         ),
 
-        scopedTeleport(teleportDisabled.value, i18n.value, [listbox]),
+        scopedTeleport(teleportDisabled.value, i18n.value, controlRef.value, [listbox]),
       ]);
     };
   },

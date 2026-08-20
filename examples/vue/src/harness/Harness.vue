@@ -4,11 +4,16 @@
 import { computed, ref } from "vue";
 import {
   Button,
+  Combobox,
+  ConfirmDialog,
+  DatePicker,
+  Dialog,
   MultiSelect,
   NumberField,
   Popover,
   TableSet,
   TextField,
+  Tooltip,
   type TableRow,
 } from "@design-system/vue";
 
@@ -44,6 +49,14 @@ const onSkillsSubmit = (event: Event) => {
   submittedSkills.value =
     new FormData(event.currentTarget as HTMLFormElement).getAll("skills").join(", ") || "none";
 };
+
+const cityItems = [
+  { value: "london", label: "London" },
+  { value: "milan", label: "Milan" },
+  { value: "tokyo", label: "Tokyo" },
+];
+const dialogSkills = ref<string[]>(["vue"]);
+const compositionOutcome = ref("none");
 
 const price = ref<number | null>(1234.5);
 const committedPrice = ref("none");
@@ -108,6 +121,33 @@ const loadPeople = () => {
         </template>
       </TableSet>
       <p data-testid="selection-readout">Selected: {{ selectedRowIds.join(", ") || "none" }}</p>
+    </section>
+
+    <section class="harness-overlay-composition" aria-label="Overlay composition">
+      <Tooltip text="Update your profile details">
+        <Dialog title="Edit profile" body-layout="stack">
+          <template #trigger>Edit profile</template>
+          <TextField label="Name" />
+          <Combobox label="City" :items="cityItems" />
+          <MultiSelect
+            label="Dialog skills"
+            :items="skillItems"
+            :values="dialogSkills"
+            :on-values-change="(next) => (dialogSkills = next)"
+          />
+          <DatePicker label="Start date" />
+          <template #footer>
+            <ConfirmDialog
+              trigger="Discard"
+              title="Discard changes?"
+              description="Your edits will be lost."
+              confirm-variant="danger"
+              :on-confirm="() => (compositionOutcome = 'discarded')"
+            />
+          </template>
+        </Dialog>
+      </Tooltip>
+      <p data-testid="composition-outcome">Outcome: {{ compositionOutcome }}</p>
     </section>
 
     <section class="harness-number-field" aria-label="Number field">

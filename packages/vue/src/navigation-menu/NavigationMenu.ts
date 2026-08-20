@@ -51,7 +51,7 @@ export const NavigationMenu = defineComponent({
 
     const panel = (item: NavigationMenuItem) => {
       const contentProps = api.value.getContentProps(item.value);
-      return scopedTeleport(teleportDisabled.value, i18n.value, [
+      return scopedTeleport(teleportDisabled.value, i18n.value, null, [
         h(
           "div",
           {

@@ -76,7 +76,7 @@ export const Menubar = defineComponent({
             // (hidden via data-state in CSS) and items are keyed by value, so
             // Vue reuses the same nodes: a node replaced mid-gesture would
             // lose the press that selects it.
-            scopedTeleport(teleportDisabled.value, i18n.value, [
+            scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
               h(
                 "div",
                 {

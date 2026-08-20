@@ -124,7 +124,7 @@ export const Popover = defineComponent({
           slots.trigger?.(),
         ),
         open.value
-          ? scopedTeleport(teleportDisabled.value, i18n.value, [
+          ? scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
               h(
                 "div",
                 {
@@ -167,7 +167,7 @@ export const Popover = defineComponent({
         { default: () => slots.trigger?.() ?? i18n.value.t("dialog.trigger") },
       ),
       open.value
-        ? scopedTeleport(teleportDisabled.value, i18n.value, [
+        ? scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
             h(
               "div",
               { ...api.value.contentProps, ref: panelRef, class: "popover__content" },

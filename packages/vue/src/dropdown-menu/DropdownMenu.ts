@@ -72,7 +72,7 @@ export const DropdownMenu = defineComponent({
         // and items are keyed by value, so Vue reuses the same nodes across
         // open/highlight changes: a node replaced mid-gesture (between
         // pointerdown and pointerup) would lose the press that selects it.
-        scopedTeleport(teleportDisabled.value, i18n.value, [
+        scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
           h(
             "div",
             {
