@@ -153,7 +153,7 @@ export const NotificationRegion = defineComponent({
       // stacking contexts (e.g. a layout's `isolation: isolate`), or its
       // z-index only competes inside them and headers/content paint above the
       // toasts.
-      return scopedTeleport(teleportDisabled.value, i18n.value, [
+      return scopedTeleport(teleportDisabled.value, i18n.value, null, [
         h(
           "div",
           {

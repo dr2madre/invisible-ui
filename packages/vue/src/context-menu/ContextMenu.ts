@@ -58,7 +58,7 @@ export const ContextMenu = defineComponent({
           slots.default?.(),
         ),
         open.value
-          ? scopedTeleport(teleportDisabled.value, i18n.value, [
+          ? scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
               h(
                 "div",
                 {

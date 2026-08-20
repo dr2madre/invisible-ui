@@ -82,6 +82,10 @@ export function connect({
       "data-state": open ? "open" : "closed",
       onKeyDown: (event: Event) => {
         if (closeOnEscape && (event as KeyboardEvent).key === "Escape") {
+          // An overlay inside the dialog (a listbox, a menu, a popover) that
+          // already handled this Escape marks it prevented: closing here too
+          // would pop two layers with one key.
+          if (event.defaultPrevented) return;
           event.preventDefault();
           // Dialogs stack (confirm-on-close): Escape must close only the
           // innermost one, not bubble up and close the whole stack.

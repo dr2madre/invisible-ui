@@ -105,7 +105,7 @@ export const HoverCard = defineComponent({
         slots.trigger?.(),
       ),
       open.value
-        ? scopedTeleport(teleportDisabled.value, i18n.value, [
+        ? scopedTeleport(teleportDisabled.value, i18n.value, triggerRef.value, [
             h(
               "div",
               {

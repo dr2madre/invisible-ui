@@ -9,12 +9,17 @@ import type { Action } from "svelte/action";
 export const portal: Action<HTMLElement, HTMLElement | undefined> = (node, target) => {
   if (typeof document === "undefined") return {};
 
+  // A modal dialog paints in the browser's top layer, above everything in the
+  // body. An overlay that belongs to a control inside the dialog has to stay
+  // in that same layer, or it shows through but cannot be clicked.
+  const host = node.parentElement?.closest("dialog") ?? document.body;
+
   const mount = (dest: HTMLElement) => dest.appendChild(node);
-  mount(target ?? document.body);
+  mount(target ?? host);
 
   return {
     update(next: HTMLElement | undefined) {
-      mount(next ?? document.body);
+      mount(next ?? host);
     },
     destroy() {
       node.parentNode?.removeChild(node);
