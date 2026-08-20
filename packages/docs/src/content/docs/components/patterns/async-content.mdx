@@ -1,0 +1,123 @@
+---
+title: "Async Content"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import AsyncContentDemo from "../../../../demos/AsyncContentDemo.svelte";
+
+<Preview>
+  <AsyncContentDemo client:visible />
+</Preview>
+
+A pattern, not a component: the application runs its requests and owns its
+data; the core derives **one view** to present from three data-free inputs.
+There is no styled wrapper, timer, fetch, cache, retry executor or
+query-library dependency in the library.
+
+```ts
+import { asyncContent } from "@design-system/core";
+
+const view = asyncContent.deriveAsyncView({
+  status, // "idle" | "loading" | "success" | "error"
+  hasContent, // does the app already hold something to show?
+  isEmpty, // explicit: a successful result held nothing
+});
+```
+
+Precedence: `idle` always wins; `loading` is `initial-loading` without content
+and `refreshing` with it; `success` is `empty` only for no content with an
+explicit `isEmpty: true`, otherwise `content`; `error` is `initial-error`
+without content and `stale-error` with it. `isEmpty` counts only after
+success; the core never inspects data, and unknown runtime statuses fall back
+to `idle`.
+
+### Composition per view
+
+- **initial-loading**: `Skeleton` sketches the layout at once; a `Loading`
+  with its built-in no-flash `delay` adds concise status text. The delay lives
+  in Loading; never duplicate timing state around it.
+- **refreshing**: keep the content mounted, add a small non-blocking
+  `Loading` beside it, and never move focus.
+- **empty**: an `EmptyState`, only after a successful and explicitly empty
+  result. A missing `isEmpty` is not emptiness.
+- **initial-error**: an `ErrorState` (`role="alert"`) with the application's
+  retry action. Retry just sets `status` back to `loading`.
+- **stale-error**: keep the content and add an `InlineNotification` with a
+  retry action; never replace loaded content with an error page.
+- **recovery**: obsolete messages unmount by derivation; focus stays where the
+  user left it unless that control no longer exists.
+
+### Svelte
+
+```svelte
+<script>
+  import { asyncContent } from "@design-system/core";
+  let status = "idle";
+  let content = null;
+  let lastResultEmpty = false;
+  $: hasContent = content !== null && content.length > 0;
+  $: view = asyncContent.deriveAsyncView({ status, hasContent, isEmpty: lastResultEmpty });
+</script>
+
+{#if view === "initial-loading"}
+  <Skeleton lines={3} />
+  <Loading label="Loading people" showLabel delay={300} />
+{:else if view === "empty"}
+  <EmptyState title="No people yet" actionLabel="Reload" onAction={load} />
+{:else if view === "initial-error"}
+  <ErrorState title="Loading failed" actionLabel="Retry" onAction={load} />
+{:else if view !== "idle"}
+  {#if view === "stale-error"}
+    <InlineNotification status="danger" title="Refresh failed" description="Showing the last loaded data." />
+  {/if}
+  {#if view === "refreshing"}<Loading label="Refreshing" showLabel />{/if}
+  <PeopleList {content} />
+{/if}
+```
+
+### Vue
+
+```vue
+<script setup lang="ts">
+import { asyncContent } from "@design-system/core";
+import { computed, ref } from "vue";
+
+const status = ref<asyncContent.AsyncStatus>("idle");
+const content = ref<string[] | null>(null);
+const lastResultEmpty = ref(false);
+const view = computed(() =>
+  asyncContent.deriveAsyncView({
+    status: status.value,
+    hasContent: content.value !== null && content.value.length > 0,
+    isEmpty: lastResultEmpty.value,
+  }),
+);
+</script>
+
+<template>
+  <Skeleton v-if="view === 'initial-loading'" :lines="3" />
+  <EmptyState v-else-if="view === 'empty'" title="No people yet" />
+  <ErrorState v-else-if="view === 'initial-error'" title="Loading failed" />
+  <template v-else-if="view !== 'idle'">
+    <InlineNotification v-if="view === 'stale-error'" status="danger" title="Refresh failed" description="Showing the last loaded data." />
+    <Loading v-if="view === 'refreshing'" label="Refreshing" show-label />
+    <PeopleList :content="content" />
+  </template>
+</template>
+```
+
+The derivation is framework-neutral, so React and other consumers use the same
+core call with their own conditional rendering; no adapter component exists or
+is needed.
+
+### Accessibility
+
+- Each view brings at most one announcement surface of its own: Loading and
+  EmptyState are `role="status"`, ErrorState is `role="alert"`, the stale
+  notification is a labelled region. Do not wrap the whole area in a live
+  region.
+- Refreshing and recovery never move focus; content stays mounted through
+  refreshing and stale errors, so the user's place in it survives.
+
+Manual checks that automation does not cover: real screen readers, browser
+zoom and text expansion in real locales, and real touch devices.
