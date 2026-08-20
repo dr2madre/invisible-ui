@@ -45,11 +45,13 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import { calendar, label, popover } from "@design-system/core";',
+      'import { asyncContent, calendar, label, popover } from "@design-system/core";',
       "const state = popover.initialState({});",
       'if (state.open !== false || !state.id) throw new Error("unexpected popover state");',
       'if (typeof label.connect !== "function") throw new Error("label.connect missing");',
       'if (typeof calendar.initialState !== "function") throw new Error("calendar missing");',
+      'const view = asyncContent.deriveAsyncView({ status: "loading", hasContent: true });',
+      'if (view !== "refreshing") throw new Error("unexpected async view");',
       'console.log("runtime import ok");',
     ].join("\n"),
   );
@@ -59,9 +61,15 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { popover } from "@design-system/core";',
+      'import { asyncContent, popover } from "@design-system/core";',
       "const state: popover.PopoverState = popover.initialState({ open: true });",
       'if (!state.open) throw new Error("unreachable");',
+      "const view: asyncContent.AsyncView = asyncContent.deriveAsyncView({",
+      '  status: "success",',
+      "  hasContent: false,",
+      "  isEmpty: true,",
+      "});",
+      'if (view !== "empty") throw new Error("unreachable");',
     ].join("\n"),
   );
   writeFileSync(

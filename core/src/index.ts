@@ -10,6 +10,7 @@ export * as checkboxGroup from "./checkbox-group";
 export * as radioGroup from "./radio-group";
 export * as tabs from "./tabs";
 export * as accordion from "./accordion";
+export * as asyncContent from "./async-content";
 export * as collapsible from "./collapsible";
 export * as progress from "./progress";
 export * as meter from "./meter";
