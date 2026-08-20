@@ -45,13 +45,15 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import { asyncContent, calendar, label, popover } from "@design-system/core";',
+      'import { asyncContent, calendar, label, multiSelect, popover } from "@design-system/core";',
       "const state = popover.initialState({});",
       'if (state.open !== false || !state.id) throw new Error("unexpected popover state");',
       'if (typeof label.connect !== "function") throw new Error("label.connect missing");',
       'if (typeof calendar.initialState !== "function") throw new Error("calendar missing");',
       'const view = asyncContent.deriveAsyncView({ status: "loading", hasContent: true });',
       'if (view !== "refreshing") throw new Error("unexpected async view");',
+      'const ms = multiSelect.initialState({ items: [{ value: "a" }] });',
+      'if (ms.values.length !== 0) throw new Error("unexpected multi-select state");',
       'console.log("runtime import ok");',
     ].join("\n"),
   );
@@ -61,7 +63,7 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { asyncContent, popover } from "@design-system/core";',
+      'import { asyncContent, multiSelect, popover } from "@design-system/core";',
       "const state: popover.PopoverState = popover.initialState({ open: true });",
       'if (!state.open) throw new Error("unreachable");',
       "const view: asyncContent.AsyncView = asyncContent.deriveAsyncView({",
@@ -70,6 +72,8 @@ try {
       "  isEmpty: true,",
       "});",
       'if (view !== "empty") throw new Error("unreachable");',
+      'const values: string[] = multiSelect.addValue([], "a", null);',
+      'if (values[0] !== "a") throw new Error("unreachable");',
     ].join("\n"),
   );
   writeFileSync(
