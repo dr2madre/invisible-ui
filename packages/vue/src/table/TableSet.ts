@@ -1,8 +1,9 @@
 import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useTabs } from "../tabs/use-tabs";
-import type { SortState, TableColumnDef, TableRow } from "./Table";
+import { defaultGetRowId, type SortState, type TableColumnDef, type TableRow } from "./Table";
 import { TableView } from "./TableView";
+import type { RowId, SelectionMode } from "./use-table";
 
 /** A named table view (a tab): its own columns plus rows. */
 export interface TableViewDef {
@@ -64,6 +65,19 @@ export interface TableSetProps {
   cardDescriptionKey?: string;
   getValue?: (row: TableRow, key: string) => unknown;
   getRowId?: (row: TableRow, index: number) => string | number;
+  /** Row selection: off by default. `single` or `multiple` adds the column. */
+  selectionMode?: SelectionMode;
+  /** The selected row ids (controlled). Replace the array; do not mutate it. */
+  selectedRowIds?: RowId[];
+  /** Called with the next ids after a user selection action. */
+  onSelectedRowIdsChange?: (ids: RowId[]) => void;
+  /** Marks rows the user may select. Others render without a checkbox. */
+  isRowSelectable?: (row: TableRow) => boolean;
+  /**
+   * Names a row for its selection checkbox ("Select {name}"). Optional in the
+   * type, but required at runtime whenever selection is active.
+   */
+  getRowLabel?: (row: TableRow) => string;
 }
 
 /**
@@ -127,7 +141,21 @@ export const TableSet = defineComponent({
     },
     getRowId: {
       type: Function as PropType<(row: TableRow, index: number) => string | number>,
-      default: (row: TableRow, index: number) => (row.id as string | number) ?? index,
+      default: defaultGetRowId,
+    },
+    selectionMode: { type: String as PropType<SelectionMode>, default: "none" },
+    selectedRowIds: { type: Array as PropType<RowId[]>, default: () => [] },
+    onSelectedRowIdsChange: {
+      type: Function as PropType<(ids: RowId[]) => void>,
+      default: undefined,
+    },
+    isRowSelectable: {
+      type: Function as PropType<(row: TableRow) => boolean>,
+      default: () => true,
+    },
+    getRowLabel: {
+      type: Function as PropType<(row: TableRow) => string>,
+      default: undefined,
     },
   },
   setup(props, { slots }) {
@@ -199,6 +227,11 @@ export const TableSet = defineComponent({
       cardDescriptionKey: props.cardDescriptionKey,
       getValue: props.getValue,
       getRowId: props.getRowId,
+      selectionMode: props.selectionMode,
+      selectedRowIds: props.selectedRowIds,
+      onSelectedRowIdsChange: props.onSelectedRowIdsChange,
+      isRowSelectable: props.isRowSelectable,
+      getRowLabel: props.getRowLabel,
     });
 
     const cellSlot = () => (slots.cell ? { cell: slots.cell } : undefined);

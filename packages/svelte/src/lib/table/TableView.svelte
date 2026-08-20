@@ -9,14 +9,22 @@
    * Not exported from the package.
    */
   import type { Action } from "svelte/action";
-  import Table, { type TableColumnDef, type TableRow } from "./Table.svelte";
+  import Table, { defaultGetRowId, type TableColumnDef, type TableRow } from "./Table.svelte";
   import Pagination from "../pagination/Pagination.svelte";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Popover from "../popover/Popover.svelte";
   import Checkbox from "../checkbox/Checkbox.svelte";
   import Card from "../card/Card.svelte";
   import Icon from "../icon/Icon.svelte";
-  import { createTable, type SortState, type TableContext } from "./create-table";
+  import {
+    createTable,
+    resolveSelectionIds,
+    type RowId,
+    type SelectionMode,
+    type SortState,
+    type TableContext,
+  } from "./create-table";
+  import { fail } from "../internal/dev";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -59,8 +67,19 @@
   export let cardDescriptionKey: string | undefined = undefined;
 
   export let getValue: (row: TableRow, key: string) => unknown = (row, key) => row[key];
-  export let getRowId: (row: TableRow, index: number) => string | number = (row, index) =>
-    (row.id as string | number) ?? index;
+  export let getRowId: (row: TableRow, index: number) => string | number = defaultGetRowId;
+
+  export let selectionMode: SelectionMode = "none";
+  /** The selected row ids (controlled). Replace the array; do not mutate it. */
+  export let selectedRowIds: RowId[] = [];
+  export let onSelectedRowIdsChange: ((ids: RowId[]) => void) | undefined = undefined;
+  /** Marks rows the user may select. Others render without a checkbox. */
+  export let isRowSelectable: (row: TableRow) => boolean = () => true;
+  /**
+   * Names a row for its selection checkbox ("Select {name}"). Optional in the
+   * type, but required at runtime whenever selection is active.
+   */
+  export let getRowLabel: ((row: TableRow) => string) | undefined = undefined;
 
   // There is always an active sort: default to the first sortable column.
   const defaultSort = (cols: TableColumnDef[]): SortState | null => {
@@ -72,13 +91,25 @@
     columns,
     sort: sort ?? defaultSort(columns),
     hiddenColumns,
+    selectionMode,
+    selectedRowIds,
     // Arrow wrappers read the prop variables at call time, so replacing a
     // callback prop makes the next action call the new one, never a stale one.
     onSortChange: (next) => onSortChange?.(next),
     onHiddenColumnsChange: (next) => onHiddenColumnsChange?.(next),
+    onSelectedRowIdsChange: (next) => onSelectedRowIdsChange?.(next),
   };
   const table = createTable(context);
-  const { api, setSort, toggleColumnVisibility, syncSort, syncHiddenColumns, syncColumns } = table;
+  const {
+    api,
+    setSort,
+    toggleColumnVisibility,
+    syncSort,
+    syncHiddenColumns,
+    syncColumns,
+    syncSelectedRowIds,
+    syncSelectionMode,
+  } = table;
 
   // Two-state toggle (asc ↔ desc): the table is never left unsorted.
   const toggleSort = (key: string) => {
@@ -105,6 +136,15 @@
     lastHidden = hiddenColumns;
     syncHiddenColumns(hiddenColumns);
   }
+
+  let lastSelected = selectedRowIds;
+  $: if (selectedRowIds !== lastSelected) {
+    lastSelected = selectedRowIds;
+    syncSelectedRowIds(selectedRowIds);
+  }
+
+  // Changing the mode never touches the selection and never notifies.
+  $: syncSelectionMode(selectionMode);
 
   // New columns keep the current sort while its key is still sortable;
   // otherwise the first sortable column takes over, without a callback.
@@ -171,6 +211,37 @@
   $: visibleRows = paginated
     ? sortedRows.slice((currentPage - 1) * pageSize!, currentPage * pageSize!)
     : sortedRows;
+
+  $: selectionIds = resolveSelectionIds(rows, selectionMode, getRowId, defaultGetRowId);
+
+  const selectionLabel = (row: TableRow, rowId: RowId): string => {
+    const label = getRowLabel?.(row);
+    if (label == null || label.trim() === "") {
+      fail("Row selection needs `getRowLabel` returning a non-empty name for every row.");
+      return String(rowId);
+    }
+    return label;
+  };
+
+  // Select-all only ever addresses the rendered slice.
+  $: scopeIds =
+    selectionMode === "multiple"
+      ? visibleRows.flatMap((row) => {
+          const id = selectionIds.get(row);
+          return id != null && isRowSelectable(row) ? [id] : [];
+        })
+      : [];
+  $: scopeState = selectionMode === "multiple" ? $api.getScopeSelectionState(scopeIds) : "none";
+  $: selectAllChecked =
+    scopeState === "all" ? true : scopeState === "some" ? ("indeterminate" as const) : false;
+
+  // The fresh function identity on every selection change is the point:
+  // it makes the child table re-evaluate its data-selected attributes.
+  // eslint-disable-next-line svelte/no-reactive-functions
+  $: isSelected = (row: TableRow) => {
+    const id = selectionIds.get(row);
+    return id != null && $api.isRowSelected(id);
+  };
 </script>
 
 <div class="table-view">
@@ -222,12 +293,38 @@
   {/if}
 
   {#if currentView === "card"}
+    {#if selectionMode === "multiple"}
+      <div class="table-view__cards-select-all">
+        <Checkbox
+          label={$t("table.selectPage")}
+          checked={selectAllChecked}
+          disabled={scopeIds.length === 0}
+          onCheckedChange={() => $api.toggleScopeSelection(scopeIds)}
+        />
+      </div>
+    {/if}
     <div class="table-view__cards" role="list" aria-label={caption}>
       {#each visibleRows as row, rowIndex (getRowId(row, rowIndex))}
         {@const fieldColumns = shownColumns.filter(
           (c) => c.key !== titleKey && c.key !== cardDescriptionKey,
         )}
-        <div role="listitem">
+        {@const selectionRowId = selectionIds.get(row) ?? null}
+        {@const selectable = selectionRowId != null && isRowSelectable(row)}
+        <div
+          role="listitem"
+          class:table-view__card-item={selectable}
+          data-selected={selectionRowId != null && $api.isRowSelected(selectionRowId)
+            ? ""
+            : undefined}
+        >
+          {#if selectable && selectionRowId != null}
+            <Checkbox
+              hideLabel
+              label={$t("table.selectRow", { name: selectionLabel(row, selectionRowId) })}
+              checked={$api.isRowSelected(selectionRowId)}
+              onCheckedChange={() => $api.toggleRowSelection(selectionRowId)}
+            />
+          {/if}
           <Card
             title={titleKey != null ? String(getValue(row, titleKey)) : undefined}
             description={cardDescriptionKey != null
@@ -260,7 +357,33 @@
         hideCaption={hideCaption || !!title}
         {getValue}
         {getRowId}
+        selectionColumn={selectionMode !== "none"}
+        isRowSelected={selectionMode !== "none" ? isSelected : undefined}
       >
+        <svelte:fragment slot="selectionHeader">
+          {#if selectionMode === "multiple"}
+            <Checkbox
+              hideLabel
+              label={$t("table.selectPage")}
+              checked={selectAllChecked}
+              disabled={scopeIds.length === 0}
+              onCheckedChange={() => $api.toggleScopeSelection(scopeIds)}
+            />
+          {:else}
+            <span class="table-view__sr">{$t("table.selection")}</span>
+          {/if}
+        </svelte:fragment>
+        <svelte:fragment slot="selectionCell" let:row>
+          {@const selectionRowId = selectionIds.get(row) ?? null}
+          {#if selectionRowId != null && isRowSelectable(row)}
+            <Checkbox
+              hideLabel
+              label={$t("table.selectRow", { name: selectionLabel(row, selectionRowId) })}
+              checked={$api.isRowSelected(selectionRowId)}
+              onCheckedChange={() => $api.toggleRowSelection(selectionRowId)}
+            />
+          {/if}
+        </svelte:fragment>
         <svelte:fragment slot="cell" let:row let:column let:value let:rowIndex>
           <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>
         </svelte:fragment>
@@ -363,6 +486,24 @@
     border: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
+  }
+  .table-view__cards-select-all {
+    display: grid;
+    justify-content: start;
+  }
+  /* The list item holds the selection checkbox beside the card. */
+  .table-view__card-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+    align-items: start;
+  }
+  /* A comfortable touch target around the small box (WCAG 2.5.8): the
+     padding expands the clickable label, the margin cancels the layout
+     shift, and nothing changes visually. */
+  .table-view__card-item :global(.field) {
+    padding: 0.35rem;
+    margin: -0.35rem;
   }
   .table-view__cards {
     display: grid;

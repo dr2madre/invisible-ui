@@ -2,9 +2,12 @@ import { table as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { fail } from "../internal/dev";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
+export type RowId = core.RowId;
+export type SelectionMode = core.SelectionMode;
 export type SortDirection = core.SortDirection;
 export type SortState = core.SortState;
 export type TableColumn = core.TableColumn;
@@ -21,6 +24,8 @@ export interface CreateTable {
   sort: Readable<SortState | null>;
   /** The hidden-column keys. */
   hiddenColumns: Readable<string[]>;
+  /** The selected row ids, in selection order. */
+  selectedRowIds: Readable<RowId[]>;
   /** Cycle a column's sort. */
   toggleSort: (key: string) => void;
   /** Set the sort directly (or clear with `null`). */
@@ -33,12 +38,64 @@ export interface CreateTable {
   syncHiddenColumns: (hidden: string[]) => void;
   /** Replace the column definitions (e.g. when the consumer's columns change). */
   syncColumns: (columns: TableColumn[]) => void;
+  /** Sync externally-controlled selected row ids without emitting a change event. */
+  syncSelectedRowIds: (ids: RowId[]) => void;
+  /** Sync an externally-controlled selection mode. Never touches the selection. */
+  syncSelectionMode: (mode: SelectionMode) => void;
   /** Action for a column header `<th>`: `<th use:headerAction={key}>`. */
   headerAction: Action<HTMLElement, string>;
   /** Action for a sort-toggle `<button>`: `<button use:sortButtonAction={key}>`. */
   sortButtonAction: Action<HTMLElement, string>;
   /** Action for a column-visibility toggle: `<button use:visibilityToggleAction={key}>`. */
   visibilityToggleAction: Action<HTMLElement, string>;
+}
+
+/**
+ * The selection contract keeps ids unique; a controlled value that already
+ * carries duplicates is a consumer error. Development fails, production
+ * keeps the value untouched (selection data is never pruned).
+ */
+function assertUniqueSelection(ids: RowId[]): void {
+  if (new Set(ids).size !== ids.length) {
+    fail("`selectedRowIds` must not contain duplicate ids.");
+  }
+}
+
+/**
+ * Resolve each row's selection id. Selection needs an id that survives
+ * sorting and paging, so the index fallback of the default getRowId is not
+ * accepted here. A missing or duplicate id is an error in development; in
+ * production the row is simply not selectable (first occurrence wins on
+ * duplicates).
+ */
+export function resolveSelectionIds<Row>(
+  rows: Row[],
+  mode: SelectionMode,
+  getRowId: (row: Row, index: number) => string | number,
+  defaultGetRowId: (row: Row, index: number) => string | number,
+): Map<Row, RowId | null> {
+  const ids = new Map<Row, RowId | null>();
+  if (mode === "none") return ids;
+  const seen = new Set<RowId>();
+  rows.forEach((row, index) => {
+    const id =
+      getRowId === defaultGetRowId
+        ? (((row as Record<string, unknown>).id as RowId) ?? null)
+        : (getRowId(row, index) ?? null);
+    if (id == null) {
+      fail("Row selection needs a stable id: add `row.id` or pass a stable `getRowId`.");
+      ids.set(row, null);
+      return;
+    }
+    if (seen.has(id)) {
+      fail(`Duplicate row id "${String(id)}": row selection needs unique ids.`);
+      ids.set(row, null);
+      return;
+    }
+    seen.add(id);
+    ids.set(row, id);
+  });
+  return ids;
 }
 
 /**
@@ -52,6 +109,7 @@ export function createTable(context: TableContext): CreateTable {
   const state = writable<TableState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-table") }),
   );
+  if (context.selectedRowIds) assertUniqueSelection(context.selectedRowIds);
 
   const sortEquals = (a: SortState | null, b: SortState | null) =>
     a === b || (a != null && b != null && a.key === b.key && a.direction === b.direction);
@@ -75,14 +133,37 @@ export function createTable(context: TableContext): CreateTable {
     });
   };
 
+  const selectionEquals = (a: core.RowId[], b: core.RowId[]) =>
+    a === b || (a.length === b.length && a.every((id, index) => id === b[index]));
+
+  const updateSelected = (ids: core.RowId[], notify: boolean) => {
+    state.update((current) => {
+      if (selectionEquals(current.selectedRowIds, ids)) return current;
+      if (notify) context.onSelectedRowIdsChange?.(ids);
+      return { ...current, selectedRowIds: ids };
+    });
+  };
+
   const setSort = (sort: SortState | null) => updateSort(sort, true);
   const setHidden = (hidden: string[]) => updateHidden(hidden, true);
+  const setSelectedRowIds = (ids: core.RowId[]) => updateSelected(ids, true);
+
+  const syncSelectionMode = (mode: core.SelectionMode) =>
+    state.update((current) =>
+      current.selectionMode === mode ? current : { ...current, selectionMode: mode },
+    );
 
   const syncColumns = (columns: TableColumn[]) =>
     state.update((current) => (current.columns === columns ? current : { ...current, columns }));
 
   const api = derived(state, ($state) =>
-    core.connect({ state: $state, setSort, setHidden, normalize: normalizeProps }),
+    core.connect({
+      state: $state,
+      setSort,
+      setHidden,
+      setSelectedRowIds,
+      normalize: normalizeProps,
+    }),
   );
 
   const headerAction: Action<HTMLElement, string> = (node, key) => {
@@ -108,12 +189,18 @@ export function createTable(context: TableContext): CreateTable {
     api,
     sort: derived(state, ($state) => $state.sort),
     hiddenColumns: derived(state, ($state) => $state.hiddenColumns),
+    selectedRowIds: derived(state, ($state) => $state.selectedRowIds),
     toggleSort: (key: string) => get(api).toggleSort(key),
     setSort,
     toggleColumnVisibility: (key: string) => get(api).toggleColumnVisibility(key),
     syncSort: (sort: SortState | null) => updateSort(sort, false),
     syncHiddenColumns: (hidden: string[]) => updateHidden(hidden, false),
     syncColumns,
+    syncSelectedRowIds: (ids: core.RowId[]) => {
+      assertUniqueSelection(ids);
+      updateSelected(ids, false);
+    },
+    syncSelectionMode,
     headerAction,
     sortButtonAction,
     visibilityToggleAction,

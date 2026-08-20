@@ -16,6 +16,11 @@ export interface CreateCheckbox {
   api: Readable<CheckboxApi>;
   /** Imperatively set the checked value (ignored when disabled). */
   setChecked: (value: CheckedState) => void;
+  /** Sync an externally-controlled checked value without emitting a change
+   * event. Works while disabled: reflection is data, not a user action. */
+  syncChecked: (value: CheckedState) => void;
+  /** Sync an externally-controlled disabled value without emitting anything. */
+  syncDisabled: (value: boolean) => void;
   /** Imperatively advance the checked value (ignored when disabled). */
   toggle: () => void;
   /** Svelte action for the root element: `<span use:rootAction>`. */
@@ -39,11 +44,29 @@ export function createCheckbox(context: CheckboxContext = {}): CreateCheckbox {
     });
   };
 
+  const syncChecked = (value: CheckedState) =>
+    state.update((current) =>
+      current.checked === value ? current : { ...current, checked: value },
+    );
+
+  const syncDisabled = (value: boolean) =>
+    state.update((current) =>
+      current.disabled === value ? current : { ...current, disabled: value },
+    );
+
   const toggle = () => setChecked(get(state).checked === true ? false : true);
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setChecked, normalize: normalizeProps }),
   );
 
-  return { state, api, setChecked, toggle, rootAction: createRootAction(api) };
+  return {
+    state,
+    api,
+    setChecked,
+    syncChecked,
+    syncDisabled,
+    toggle,
+    rootAction: createRootAction(api),
+  };
 }

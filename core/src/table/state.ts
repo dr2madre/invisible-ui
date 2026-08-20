@@ -1,4 +1,4 @@
-import type { SortState, TableContext, TableState } from "./types";
+import type { RowId, SelectionMode, SortState, TableContext, TableState } from "./types";
 
 let idCounter = 0;
 
@@ -8,8 +8,64 @@ export function initialState(context: TableContext): TableState {
     columns: context.columns,
     sort: context.sort ?? null,
     hiddenColumns: context.hiddenColumns ?? [],
+    selectionMode: context.selectionMode ?? "none",
+    selectedRowIds: context.selectedRowIds ?? [],
     id: context.id ?? `ds-table-${++idCounter}`,
   };
+}
+
+/**
+ * Pure transition: toggle one row in the selection. In `single` mode a new id
+ * replaces the selection and re-toggling the selected id empties it. A no-op
+ * (mode `none`) returns the same array, so callers can skip their setters.
+ */
+export function toggleRowSelection(selected: RowId[], id: RowId, mode: SelectionMode): RowId[] {
+  if (mode === "none") return selected;
+  const has = selected.includes(id);
+  if (mode === "single") return has ? [] : [id];
+  return has ? selected.filter((existing) => existing !== id) : [...selected, id];
+}
+
+/**
+ * Pure transition: toggle a whole scope (the selectable rows on the rendered
+ * page). Only `multiple` mode operates on a scope; ids outside the scope are
+ * always preserved, and new ids append in scope order. A no-op returns the
+ * same array.
+ */
+export function toggleScopeSelection(
+  selected: RowId[],
+  scope: RowId[],
+  mode: SelectionMode,
+): RowId[] {
+  if (mode !== "multiple" || scope.length === 0) return selected;
+  const selectedSet = new Set(selected);
+  const allSelected = scope.every((id) => selectedSet.has(id));
+  if (allSelected) {
+    const scopeSet = new Set(scope);
+    return selected.filter((id) => !scopeSet.has(id));
+  }
+  const missing: RowId[] = [];
+  const queued = new Set<RowId>();
+  for (const id of scope) {
+    if (selectedSet.has(id) || queued.has(id)) continue;
+    queued.add(id);
+    missing.push(id);
+  }
+  return missing.length === 0 ? selected : [...selected, ...missing];
+}
+
+/** How much of a scope is selected. An empty scope is "none", never "all". */
+export function scopeSelectionState(selected: RowId[], scope: RowId[]): "none" | "some" | "all" {
+  if (scope.length === 0) return "none";
+  const selectedSet = new Set(selected);
+  const count = scope.filter((id) => selectedSet.has(id)).length;
+  if (count === 0) return "none";
+  return count === scope.length ? "all" : "some";
+}
+
+/** Pure transition: empty the selection. Already empty returns the same array. */
+export function clearSelection(selected: RowId[]): RowId[] {
+  return selected.length === 0 ? selected : [];
 }
 
 /** Toggle a column key in/out of the hidden set. */

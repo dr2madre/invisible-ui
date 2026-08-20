@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { TableColumnDef, TableRow } from "./Table.svelte";
+  import { defaultGetRowId, type TableColumnDef, type TableRow } from "./Table.svelte";
 
   /** A named table view (a tab): its own columns + rows. */
   export interface TableViewDef {
@@ -33,7 +33,7 @@
    */
   import TableView from "./TableView.svelte";
   import { createTabs } from "../tabs/create-tabs";
-  import type { SortState } from "./create-table";
+  import type { RowId, SelectionMode, SortState } from "./create-table";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -87,8 +87,21 @@
   export let cardTitleKey: string | undefined = undefined;
   export let cardDescriptionKey: string | undefined = undefined;
   export let getValue: (row: TableRow, key: string) => unknown = (row, key) => row[key];
-  export let getRowId: (row: TableRow, index: number) => string | number = (row, index) =>
-    (row.id as string | number) ?? index;
+  export let getRowId: (row: TableRow, index: number) => string | number = defaultGetRowId;
+
+  /** Row selection: off by default. `single` or `multiple` adds the column. */
+  export let selectionMode: SelectionMode = "none";
+  /** The selected row ids (controlled). Replace the array; do not mutate it. */
+  export let selectedRowIds: RowId[] = [];
+  /** Called with the next ids after a user selection action. */
+  export let onSelectedRowIdsChange: ((ids: RowId[]) => void) | undefined = undefined;
+  /** Marks rows the user may select. Others render without a checkbox. */
+  export let isRowSelectable: (row: TableRow) => boolean = () => true;
+  /**
+   * Names a row for its selection checkbox ("Select {name}"). Optional in the
+   * type, but required at runtime whenever selection is active.
+   */
+  export let getRowLabel: ((row: TableRow) => string) | undefined = undefined;
 
   $: viewList = Array.isArray(views) ? views : [];
   $: hasViews = viewList.length > 0;
@@ -190,6 +203,11 @@
               {cardDescriptionKey}
               {getValue}
               {getRowId}
+              {selectionMode}
+              {selectedRowIds}
+              {onSelectedRowIdsChange}
+              {isRowSelectable}
+              {getRowLabel}
             >
               <svelte:fragment slot="cell" let:row let:column let:value let:rowIndex>
                 <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>
@@ -229,6 +247,11 @@
       {cardDescriptionKey}
       {getValue}
       {getRowId}
+      {selectionMode}
+      {selectedRowIds}
+      {onSelectedRowIdsChange}
+      {isRowSelectable}
+      {getRowLabel}
     >
       <svelte:fragment slot="cell" let:row let:column let:value let:rowIndex>
         <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>

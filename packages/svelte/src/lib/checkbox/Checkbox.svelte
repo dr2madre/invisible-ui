@@ -18,6 +18,12 @@
 
   /** Accessible, visible label (required). Override with the default slot for rich content. */
   export let label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name (for a
+   * checkbox whose meaning is carried by its surroundings, e.g. a selection
+   * column). The label text is always required.
+   */
+  export let hideLabel = false;
   export let checked: CheckedState = false;
   export let disabled = false;
   /** Form field name — the control's value is submitted under this when checked. */
@@ -33,7 +39,25 @@
     state: cbState,
     api,
     setChecked,
-  } = createCheckbox({ checked, disabled, onCheckedChange });
+    syncChecked,
+    syncDisabled,
+    // The arrow wrapper reads the prop variable at call time, so replacing the
+    // callback prop makes the next change call the new one, never a stale one.
+  } = createCheckbox({ checked, disabled, onCheckedChange: (c) => onCheckedChange?.(c) });
+
+  // Controllable mirrors, compared against the last prop value (never against
+  // the store): an uncontrolled consumer whose prop never changes keeps its
+  // internal interactions untouched. A sync never calls onCheckedChange.
+  let lastChecked = checked;
+  $: if (checked !== lastChecked) {
+    lastChecked = checked;
+    syncChecked(checked);
+  }
+  let lastDisabled = disabled;
+  $: if (disabled !== lastDisabled) {
+    lastDisabled = disabled;
+    syncDisabled(disabled);
+  }
 
   function onChange(event: Event) {
     const target = event.currentTarget as HTMLInputElement;
@@ -69,7 +93,7 @@
       <line x1="5" y1="12" x2="19" y2="12" />
     </Icon>
   </span>
-  <span class="field__label"><slot>{label}</slot></span>
+  <span class="field__label" class:field__label--hidden={hideLabel}><slot>{label}</slot></span>
 </label>
 
 <style>
@@ -84,6 +108,19 @@
   }
   .field--disabled .field__label {
     color: var(--ds-color-text-disabled, #94a3b8);
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .field__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   /* The native input is the accessible, focusable control; it's visually

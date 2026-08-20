@@ -61,9 +61,23 @@
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
-          "default": "(row, index) =>",
+          "default": "defaultGetRowId",
           "required": false,
           "description": "Stable row key."
+        },
+        {
+          "name": "selectionColumn",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself."
+        },
+        {
+          "name": "isRowSelected",
+          "type": "((row: TableRow, rowIndex: number) => boolean) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`."
         }
       ]
     },
@@ -126,14 +140,30 @@
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
-          "default": "(row: TableRow, index: number) => (row.id as string | number) ?? index",
+          "default": "defaultGetRowId",
           "required": false,
           "description": "Stable row key (defaults to `row.id`, falling back to the index)."
+        },
+        {
+          "name": "selectionColumn",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself."
+        },
+        {
+          "name": "isRowSelected",
+          "type": "(row: TableRow, rowIndex: number) => boolean",
+          "default": "undefined",
+          "required": false,
+          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`."
         }
       ],
       "emits": [],
       "slots": [
-        "cell"
+        "cell",
+        "selectionCell",
+        "selectionHeader"
       ]
     }
   }
