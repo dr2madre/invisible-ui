@@ -9,6 +9,8 @@
 @import "./tokens.css";
 @import "./button.css";
 @import "./checkbox.css";
+@import "./tag.css";
+@import "./multi-select.css";
 @import "./switch.css";
 @import "./combobox.css";
 @import "./dialog.css";

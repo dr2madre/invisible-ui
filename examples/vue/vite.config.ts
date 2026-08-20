@@ -10,6 +10,8 @@ export default defineConfig({
         // The example itself, plus the page the browser tests drive.
         index: fileURLToPath(new URL("index.html", import.meta.url)),
         harness: fileURLToPath(new URL("harness.html", import.meta.url)),
+        reactHarness: fileURLToPath(new URL("react-harness.html", import.meta.url)),
+        elementsHarness: fileURLToPath(new URL("elements-harness.html", import.meta.url)),
       },
     },
   },

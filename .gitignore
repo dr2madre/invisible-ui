@@ -21,3 +21,4 @@ packages/svelte/dist/tokens/
 .github/agents/
 .github/hooks/
 .github/skills/
+__pycache__/

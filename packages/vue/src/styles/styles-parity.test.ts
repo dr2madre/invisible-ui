@@ -27,6 +27,8 @@ const read = (rel: string) => readFileSync(path(rel), "utf8");
 
 const SHARED_SHEETS = [
   "tokens.css",
+  "tag.css",
+  "multi-select.css",
   "button.css",
   "checkbox.css",
   "switch.css",
@@ -54,7 +56,6 @@ const VUE_SOURCE_SHEETS = [
   "progress.css",
   "loading.css",
   "skeleton.css",
-  "tag.css",
   "count.css",
   "tabs.css",
   "accordion.css",
@@ -103,7 +104,6 @@ const VUE_SOURCE_SHEETS = [
   "sheet-dialog.css",
   "search-dialog.css",
   "table-set.css",
-  "multi-select.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

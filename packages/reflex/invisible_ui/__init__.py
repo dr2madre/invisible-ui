@@ -18,6 +18,7 @@ from .base import InvisibleUiComponent
 from .button import Button, button
 from .checkbox import Checkbox, checkbox
 from .combobox import Combobox, combobox
+from .multi_select import MultiSelect, multi_select
 from .dialog import Dialog, dialog
 from .select import Select, select
 from .switch import Switch, switch
@@ -30,6 +31,8 @@ __all__ = [
     "checkbox",
     "Combobox",
     "combobox",
+    "MultiSelect",
+    "multi_select",
     "Dialog",
     "dialog",
     "Select",

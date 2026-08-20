@@ -58,4 +58,18 @@ validation belongs to Field or application state.
 - Tags and the input wrap without clipping at 320 CSS pixels, with long
   labels, localization growth and RTL.
 
+### Framework mapping
+
+The behavior contract is identical everywhere; only the syntax differs.
+
+- **React**: `MultiSelect` with the same props as Svelte/Vue
+  (`values`/`onValuesChange`).
+- **Elements**: `<ds-multi-select>` in light DOM with `<option>` children or
+  the `items` property; the selection is the `values` property (string array)
+  mirrored as a space-separated `values` attribute; events are `change`
+  (`detail.values`) and `input-change`; `readonly` and `remove-on-backspace`
+  are attributes.
+- **Reflex**: `multi_select(...)` wraps the React component; snake_case props
+  (`remove_on_backspace`, `read_only`) reach React camelCased.
+
 Themeable via `--ds-multi-select-*`.

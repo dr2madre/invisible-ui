@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elements adapter harness</title>
+  </head>
+  <body>
+    <main style="display: grid; gap: 1rem; justify-items: start; padding: 2rem">
+      <h1>Elements adapter harness</h1>
+      <form data-testid="skills-form">
+        <ds-multi-select label="Skills" name="skills" remove-on-backspace values="vue">
+          <option value="svelte">Svelte</option>
+          <option value="vue">Vue</option>
+          <option value="react" disabled>React</option>
+          <option value="elements">Elements</option>
+        </ds-multi-select>
+        <button type="submit">Submit skills</button>
+        <p data-testid="skills-readout">Submitted: none</p>
+      </form>
+      <button type="button" data-testid="reflect">Reflect selection</button>
+      <p data-testid="values-readout">Values: vue</p>
+      <p data-testid="events-readout">Events: none</p>
+    </main>
+    <script type="module" src="/src/harness/elements-main.ts"></script>
+  </body>
+</html>
