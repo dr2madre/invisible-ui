@@ -25,7 +25,7 @@
   import { getI18n } from "../i18n/create-i18n";
   import type { Notifier } from "./create-notifier";
 
-  const { t } = getI18n();
+  const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
   export let notifier: Notifier;
   export let placement:
@@ -107,6 +107,8 @@
   on:focusout={(e) => {
     if (!inside(e.relatedTarget)) focusInside = false;
   }}
+  lang={$i18nLocale}
+  dir={$i18nDir}
   use:portal
 >
   {#each visible as notice (notice.id)}

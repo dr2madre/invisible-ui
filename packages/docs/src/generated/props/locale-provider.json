@@ -18,10 +18,10 @@
         },
         {
           "name": "dir",
-          "type": "Dir",
-          "default": "\"ltr\"",
+          "type": "Dir | undefined",
+          "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "Explicit writing direction; when omitted it derives from the locale."
         },
         {
           "name": "messages",
@@ -49,14 +49,14 @@
         {
           "name": "locale",
           "type": "string",
-          "default": "\"en\"",
+          "default": "core.DEFAULT_LOCALE",
           "required": false,
           "description": "BCP-47 locale tag. Defaults to `\"en\"`."
         },
         {
           "name": "dir",
           "type": "Dir",
-          "default": "\"ltr\"",
+          "default": "undefined",
           "required": false,
           "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
         },
@@ -84,14 +84,14 @@
         {
           "name": "locale",
           "type": "string",
-          "default": "\"en\"",
+          "default": "core.DEFAULT_LOCALE",
           "required": false,
           "description": "BCP-47 locale tag. Defaults to `\"en\"`."
         },
         {
           "name": "dir",
           "type": "Dir",
-          "default": "\"ltr\"",
+          "default": null,
           "required": false,
           "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
         },

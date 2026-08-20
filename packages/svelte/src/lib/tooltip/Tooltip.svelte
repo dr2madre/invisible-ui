@@ -13,8 +13,11 @@
    */
   import { createTooltip, type TooltipContext } from "./create-tooltip";
   import { portal } from "../internal/portal";
+  import { getI18n } from "../i18n/create-i18n";
 
   /** Tooltip label text. */
+  const { locale: i18nLocale, dir: i18nDir } = getI18n();
+
   export let text: string;
   export let placement: TooltipContext["placement"] = "top";
   export let openDelay = 300;
@@ -29,7 +32,9 @@
 </span>
 
 {#if $open}
-  <div class="tooltip__content" use:portal use:tooltipAction>{text}</div>
+  <div class="tooltip__content" lang={$i18nLocale} dir={$i18nDir} use:portal use:tooltipAction>
+    {text}
+  </div>
 {/if}
 
 <style>

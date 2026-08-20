@@ -49,3 +49,21 @@ describe("React adapter SSR", () => {
     });
   }
 });
+
+describe("React adapter SSR — i18n determinism", () => {
+  it("renders locale scopes independently of the host locale, with lang and dir", () => {
+    const italian = renderToString(
+      <adapter.LocaleProvider locale="it-IT">
+        <adapter.Combobox label="Frutta" items={[]} />
+      </adapter.LocaleProvider>,
+    );
+    expect(italian).toContain('lang="it-IT"');
+    const arabic = renderToString(
+      <adapter.LocaleProvider locale="ar-EG">
+        <span>x</span>
+      </adapter.LocaleProvider>,
+    );
+    expect(arabic).toContain('dir="rtl"');
+    expect(arabic).toContain('lang="ar-EG"');
+  });
+});

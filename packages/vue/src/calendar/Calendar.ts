@@ -1,4 +1,4 @@
-import { calendar as core } from "@design-system/core";
+import { calendar as core, i18n as coreI18n } from "@design-system/core";
 import { computed, defineComponent, h, ref, watch, type PropType, type VNodeChild } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
@@ -122,6 +122,9 @@ export const Calendar = defineComponent({
   },
   setup(props, { emit, slots }) {
     const i18n = useI18n();
+    // The explicit prop wins, then the provider's resolved locale; never the
+    // runtime default.
+    const resolvedLocale = computed(() => props.locale ?? i18n.value.locale);
 
     const rangeStart = ref<string | null>(props.rangeStart);
     const rangeEnd = ref<string | null>(props.rangeEnd);
@@ -173,35 +176,39 @@ export const Calendar = defineComponent({
 
     // Intl formatters, recomputed when the locale changes.
     const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-    const titleFmt = computed(
-      () => new Intl.DateTimeFormat(props.locale, { month: "long", year: "numeric" }),
+    const titleFmt = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { month: "long", year: "numeric" }),
     );
-    const rangeFmt = computed(
-      () =>
-        new Intl.DateTimeFormat(props.locale, {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }),
+    const rangeFmt = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
     );
-    const weekdayShort = computed(
-      () => new Intl.DateTimeFormat(props.locale, { weekday: "short" }),
+    const weekdayShort = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { weekday: "short" }),
     );
-    const weekdayLong = computed(() => new Intl.DateTimeFormat(props.locale, { weekday: "long" }));
-    const weekdayNarrow = computed(
-      () => new Intl.DateTimeFormat(props.locale, { weekday: "narrow" }),
+    const weekdayLong = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { weekday: "long" }),
     );
-    const dayFmt = computed(
-      () =>
-        new Intl.DateTimeFormat(props.locale, {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }),
+    const weekdayNarrow = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { weekday: "narrow" }),
     );
-    const yearFmt = computed(() => new Intl.DateTimeFormat(props.locale, { year: "numeric" }));
-    const monthFmt = computed(() => new Intl.DateTimeFormat(props.locale, { month: "long" }));
+    const dayFmt = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
+    );
+    const yearFmt = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { year: "numeric" }),
+    );
+    const monthFmt = computed(() =>
+      coreI18n.dateTimeFormat(resolvedLocale.value, { month: "long" }),
+    );
 
     const reference = computed(() => core.describe(focusedDate.value));
     const order = computed(() => core.weekdayOrder(weekStartsOn.value));

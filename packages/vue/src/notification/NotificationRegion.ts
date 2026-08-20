@@ -4,13 +4,13 @@ import {
   h,
   onUnmounted,
   ref,
-  Teleport,
   TransitionGroup,
   type PropType,
 } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { Notification } from "./Notification";
 import type { Notifier } from "./create-notifier";
 
@@ -153,7 +153,7 @@ export const NotificationRegion = defineComponent({
       // stacking contexts (e.g. a layout's `isolation: isolate`), or its
       // z-index only competes inside them and headers/content paint above the
       // toasts.
-      return h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+      return scopedTeleport(teleportDisabled.value, i18n.value, [
         h(
           "div",
           {

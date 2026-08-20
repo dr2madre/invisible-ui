@@ -68,8 +68,7 @@ export const RatingGroup = defineComponent({
     }));
 
     const i18n = useI18n();
-    const starLabel = (position: number) =>
-      i18n.value.t(position === 1 ? "rating.star" : "rating.stars", { count: position });
+    const starLabel = (position: number) => i18n.value.t("rating.stars", { count: position });
 
     return () =>
       h("div", { class: "rating-field" }, [

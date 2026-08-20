@@ -28,7 +28,7 @@
   import { getI18n } from "../i18n/create-i18n";
   import { createMultiSelect, type MultiSelectItem } from "./create-multi-select";
 
-  const { t } = getI18n();
+  const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
   /** Accessible, visible label (required). */
   export let label: string;
@@ -190,6 +190,8 @@
     role="listbox"
     aria-multiselectable="true"
     aria-labelledby={core.labelId($msState.id)}
+    lang={$i18nLocale}
+    dir={$i18nDir}
     use:portal
     use:listboxAction
   >

@@ -1,3 +1,4 @@
+import { i18n as core } from "@design-system/core";
 import { getContext, setContext } from "svelte";
 import { derived, writable, type Readable } from "svelte/store";
 import { en, type MessageKey, type Messages } from "./messages";
@@ -6,9 +7,9 @@ export type Dir = "ltr" | "rtl";
 export type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;
 
 export interface I18n {
-  /** Active BCP-47 locale (informational; date/number formatting uses Intl). */
+  /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */
   locale: Readable<string>;
-  /** Writing direction; mirror it onto a `dir` attribute. */
+  /** Writing direction: explicit when given, otherwise derived from the locale. */
   dir: Readable<Dir>;
   /** Reactive translator: `$t("calendar.today")`. Falls back to English, then the key. */
   t: Readable<TranslateFn>;
@@ -18,25 +19,28 @@ export interface I18n {
 
 const I18N_KEY = Symbol("ds-i18n");
 
-const interpolate = (str: string, vars?: Record<string, string | number>) =>
-  vars ? str.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`)) : str;
-
 /** Create an i18n store group from initial locale / dir / message overrides. */
 export function createI18n(init: { locale?: string; dir?: Dir; messages?: Messages } = {}): I18n {
-  const locale = writable(init.locale ?? "en");
-  const dir = writable<Dir>(init.dir ?? "ltr");
+  const locale = writable(core.canonicalLocale(init.locale));
+  // An explicit direction wins; without one, direction follows the locale.
+  const explicitDir = writable<Dir | undefined>(init.dir);
   const messages = writable<Messages>(init.messages ?? {});
 
+  const dir = derived(
+    [explicitDir, locale],
+    ([$explicit, $locale]) => $explicit ?? core.localeDirection($locale),
+  );
+
   const t = derived(
-    messages,
-    ($messages): TranslateFn =>
+    [messages, locale],
+    ([$messages, $locale]): TranslateFn =>
       (key, vars) =>
-        interpolate($messages[key] ?? en[key] ?? key, vars),
+        core.translate(en, $messages, $locale, key, vars),
   );
 
   const set: I18n["set"] = (next) => {
-    if (next.locale !== undefined) locale.set(next.locale);
-    if (next.dir !== undefined) dir.set(next.dir);
+    if (next.locale !== undefined) locale.set(core.canonicalLocale(next.locale));
+    if ("dir" in next) explicitDir.set(next.dir);
     if (next.messages !== undefined) messages.set(next.messages);
   };
 

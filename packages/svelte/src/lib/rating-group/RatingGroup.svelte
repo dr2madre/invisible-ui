@@ -34,8 +34,7 @@
 
   const labelId = stableId("ds-rating");
   const { t } = getI18n();
-  const starLabel = (n: number, translate: typeof $t) =>
-    translate(n === 1 ? "rating.star" : "rating.stars", { count: n });
+  const starLabel = (n: number, translate: typeof $t) => translate("rating.stars", { count: n });
 </script>
 
 <div class="rating-field">

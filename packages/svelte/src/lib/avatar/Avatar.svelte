@@ -1,10 +1,30 @@
 <script module lang="ts">
+  // A user-perceived character, not a UTF-16 code unit: an emoji or a
+  // combined character counts as one initial. Falls back to code units where
+  // the runtime has no segmenter.
+  function firstGraphemes(text: string, count: number): string {
+    if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
+      const segments = new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text);
+      let out = "";
+      let taken = 0;
+      for (const segment of segments) {
+        out += segment.segment;
+        taken += 1;
+        if (taken === count) break;
+      }
+      return out;
+    }
+    return text.slice(0, count);
+  }
+
   /** Derive up to two initials from a name (first + last word). */
   export function initialsOf(name: string): string {
     const parts = name.trim().split(/\s+/).filter(Boolean);
     if (parts.length === 0) return "?";
-    if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
-    return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
+    if (parts.length === 1) return firstGraphemes(parts[0]!, 2).toUpperCase();
+    return (
+      firstGraphemes(parts[0]!, 1) + firstGraphemes(parts[parts.length - 1]!, 1)
+    ).toUpperCase();
   }
 </script>
 

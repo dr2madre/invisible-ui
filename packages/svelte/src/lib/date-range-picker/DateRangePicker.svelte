@@ -14,10 +14,11 @@
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
   import type { CalendarView, WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
+  import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
 
-  const { t } = getI18n();
+  const { t, locale: providerLocale } = getI18n();
 
   export let start: string | null = null;
   export let end: string | null = null;
@@ -45,7 +46,8 @@
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
   const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-  $: displayFmt = new Intl.DateTimeFormat(locale, { dateStyle });
+  $: resolvedLocale = locale ?? $providerLocale;
+  $: displayFmt = i18n.dateTimeFormat(resolvedLocale, { dateStyle });
   $: displayValue =
     start && end
       ? displayFmt.formatRange(dt(start), dt(end))

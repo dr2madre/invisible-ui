@@ -1,6 +1,8 @@
-import { defineComponent, h, Teleport, type PropType } from "vue";
+import { defineComponent, h, type PropType } from "vue";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useMenubar, type MenubarMenu } from "./use-menubar";
+import { useI18n } from "../i18n/i18n";
 
 export interface MenubarProps {
   /** Accessible name for the bar. */
@@ -35,6 +37,7 @@ export const Menubar = defineComponent({
     },
   },
   setup(props) {
+    const i18n = useI18n();
     const teleportDisabled = useHydratedTeleport();
     const { menus, focusedIndex, setFocusedIndex, onMenubarKeydown, onTriggerPointerenter } =
       useMenubar(() => ({ menus: props.menus, onSelect: props.onSelect }));
@@ -73,7 +76,7 @@ export const Menubar = defineComponent({
             // (hidden via data-state in CSS) and items are keyed by value, so
             // Vue reuses the same nodes: a node replaced mid-gesture would
             // lose the press that selects it.
-            h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+            scopedTeleport(teleportDisabled.value, i18n.value, [
               h(
                 "div",
                 {

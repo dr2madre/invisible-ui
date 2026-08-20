@@ -1,16 +1,10 @@
-import {
-  defineComponent,
-  h,
-  Teleport,
-  watch,
-  type ComponentPublicInstance,
-  type PropType,
-} from "vue";
+import { defineComponent, h, watch, type ComponentPublicInstance, type PropType } from "vue";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import type { Placement } from "../internal/floating";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useHoverPreview } from "./use-hover-preview";
 import { usePopover } from "./use-popover";
 import { useI18n } from "../i18n/i18n";
@@ -130,7 +124,7 @@ export const Popover = defineComponent({
           slots.trigger?.(),
         ),
         open.value
-          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+          ? scopedTeleport(teleportDisabled.value, i18n.value, [
               h(
                 "div",
                 {
@@ -173,7 +167,7 @@ export const Popover = defineComponent({
         { default: () => slots.trigger?.() ?? i18n.value.t("dialog.trigger") },
       ),
       open.value
-        ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+        ? scopedTeleport(teleportDisabled.value, i18n.value, [
             h(
               "div",
               { ...api.value.contentProps, ref: panelRef, class: "popover__content" },

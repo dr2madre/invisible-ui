@@ -1,29 +1,16 @@
 /**
- * Default (English) message catalog for the React adapter's component strings.
- *
- * Mirrors the Svelte adapter's catalog (`packages/svelte/src/lib/i18n`) but is
- * scoped to the keys the proof-of-concept components actually read — the
- * adapter grows the catalog alongside its component set. Any label prop a
- * consumer passes still wins over the catalog.
- *
- * Keys are dot-namespaced by component; `{name}` placeholders are interpolated
- * by `t(key, { name })`.
+ * The message catalog and its types come from the shared core module: one
+ * source of truth for every adapter, so keys, placeholders and plural forms
+ * cannot drift between frameworks.
  */
-export const en = {
-  "combobox.placeholder": "Search…",
-  "dialog.close": "Close",
-  "combobox.clear": "Clear",
-  "combobox.empty": "No results",
-  "multiSelect.selected": "Selected values",
-  "multiSelect.remove": "Remove {name}",
-  "multiSelect.empty": "No results",
-  "multiSelect.placeholder": "Search\u2026",
-  "select.placeholder": "Select…",
-  "switch.on": "ON",
-  "switch.off": "OFF",
-} as const;
+import { i18n as core } from "@design-system/core";
 
-export type MessageKey = keyof typeof en;
-
-/** Partial overrides supplied by a `LocaleProvider`. */
-export type Messages = Partial<Record<MessageKey, string>>;
+export const en = core.en;
+export type MessageKey = core.MessageKey;
+/** A count message: CLDR plural categories, `other` required. */
+// The empty extension gives the type a local name, so this package's emitted
+// declarations do not have to reference the core's internal module path.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface PluralMessage extends core.PluralMessage {}
+/** Consumer overrides: plain strings, or plural objects for count messages. */
+export type Messages = Partial<Record<MessageKey, string | PluralMessage>>;

@@ -1,3 +1,4 @@
+import { i18n as coreI18n } from "@design-system/core";
 import { computed, defineComponent, h, ref, Teleport, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { WeekStart } from "../calendar/use-calendar";
@@ -91,8 +92,8 @@ export const DatePicker = defineComponent({
     });
 
     const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-    const displayFmt = computed(
-      () => new Intl.DateTimeFormat(props.locale, { dateStyle: props.dateStyle }),
+    const displayFmt = computed(() =>
+      coreI18n.dateTimeFormat(props.locale ?? i18n.value.locale, { dateStyle: props.dateStyle }),
     );
     const displayValue = computed(() =>
       selected.value ? displayFmt.value.format(dt(selected.value)) : "",

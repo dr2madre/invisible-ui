@@ -14,8 +14,11 @@
    */
   import { createMenubar, type MenubarMenu } from "./create-menubar";
   import { portal } from "../internal/portal";
+  import { getI18n } from "../i18n/create-i18n";
 
   /** Accessible name for the menubar. */
+  const { locale: i18nLocale, dir: i18nDir } = getI18n();
+
   export let label: string;
   /** The top-level menus. */
   export let menus: MenubarMenu[];
@@ -47,7 +50,14 @@
 
       <!-- Portalled out of the bar, so the bar's keydown (Arrow switching)
            must be attached here too. -->
-      <div class="menubar__popup" use:portal use:menubarAction use:menu.menuAction>
+      <div
+        class="menubar__popup"
+        lang={$i18nLocale}
+        dir={$i18nDir}
+        use:portal
+        use:menubarAction
+        use:menu.menuAction
+      >
         {#each menu.items as item (item.value)}
           <button class="menubar__item" type="button" use:menu.itemAction={item.value}>
             {item.label ?? item.value}

@@ -1,7 +1,9 @@
-import { defineComponent, h, Teleport, type PropType } from "vue";
+import { defineComponent, h, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useNavigationMenu, type NavigationMenuItem } from "./use-navigation-menu";
+import { useI18n } from "../i18n/i18n";
 
 export interface NavigationMenuProps {
   /** Accessible name for the navigation landmark. */
@@ -33,6 +35,7 @@ export const NavigationMenu = defineComponent({
     },
   },
   setup(props) {
+    const i18n = useI18n();
     const teleportDisabled = useHydratedTeleport();
     const {
       api,
@@ -48,7 +51,7 @@ export const NavigationMenu = defineComponent({
 
     const panel = (item: NavigationMenuItem) => {
       const contentProps = api.value.getContentProps(item.value);
-      return h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+      return scopedTeleport(teleportDisabled.value, i18n.value, [
         h(
           "div",
           {

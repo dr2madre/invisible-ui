@@ -83,3 +83,46 @@ describe("Vue adapter SSR", () => {
     });
   }
 });
+
+describe("Vue adapter SSR — i18n determinism", () => {
+  it("renders two concurrent locale scopes independently of the host locale", async () => {
+    const { renderToString } = await import("@vue/server-renderer");
+    const { createSSRApp, h } = await import("vue");
+    const [it_, en_] = await Promise.all(
+      ["it-IT", "en"].map((locale) =>
+        renderToString(
+          createSSRApp({
+            render: () =>
+              h(
+                adapter.LocaleProvider,
+                { locale },
+                {
+                  default: () => [
+                    h(adapter.Calendar, { value: "2026-01-15", focusedDate: "2026-01-15" }),
+                  ],
+                },
+              ),
+          }),
+        ),
+      ),
+    );
+    expect(it_).toContain("gennaio 2026");
+    expect(it_).toContain('lang="it-IT"');
+    expect(en_).toContain("January 2026");
+    // The Italian render did not leak into the English one.
+    expect(en_).not.toContain("gennaio");
+  });
+
+  it("derives dir from the locale on the server too", async () => {
+    const { renderToString } = await import("@vue/server-renderer");
+    const { createSSRApp, h } = await import("vue");
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(adapter.LocaleProvider, { locale: "ar-EG" }, { default: () => [h("span", "x")] }),
+      }),
+    );
+    expect(html).toContain('dir="rtl"');
+    expect(html).toContain('lang="ar-EG"');
+  });
+});

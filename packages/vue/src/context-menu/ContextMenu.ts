@@ -1,6 +1,7 @@
-import { defineComponent, h, Teleport, type PropType } from "vue";
+import { defineComponent, h, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useContextMenu, type MenuItem } from "./use-context-menu";
 
 export interface ContextMenuProps {
@@ -57,7 +58,7 @@ export const ContextMenu = defineComponent({
           slots.default?.(),
         ),
         open.value
-          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+          ? scopedTeleport(teleportDisabled.value, i18n.value, [
               h(
                 "div",
                 {

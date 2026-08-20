@@ -11,6 +11,7 @@ export * as radioGroup from "./radio-group";
 export * as tabs from "./tabs";
 export * as accordion from "./accordion";
 export * as asyncContent from "./async-content";
+export * as i18n from "./i18n";
 export * as collapsible from "./collapsible";
 export * as progress from "./progress";
 export * as meter from "./meter";

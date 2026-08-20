@@ -1,9 +1,12 @@
 <script lang="ts">
   /**
    * LocaleProvider — sets the i18n context (locale, writing direction, message
-   * overrides) for everything inside it, and applies `dir` to a wrapper so the
-   * CSS logical properties used throughout flip for RTL. Wrap your app (or a
-   * subtree) once; descendant components read their default labels from here.
+   * overrides) for everything inside it, and applies `lang` and `dir` to a
+   * wrapper so assistive technologies use the right language rules and the CSS
+   * logical properties used throughout flip for RTL. Without an explicit
+   * `dir`, the direction follows the locale. Wrap your app (or a subtree)
+   * once; descendant components read their default labels and formatting
+   * locale from here.
    *
    * ```svelte
    * <LocaleProvider locale="ar" dir="rtl" messages={{ "calendar.today": "اليوم" }}>
@@ -15,7 +18,8 @@
   import type { Messages } from "./messages";
 
   export let locale = "en";
-  export let dir: Dir = "ltr";
+  /** Explicit writing direction; when omitted it derives from the locale. */
+  export let dir: Dir | undefined = undefined;
   /** Overrides merged over the English catalog. */
   export let messages: Messages = {};
   /** Render without the wrapping element (you manage `dir` yourself). */
@@ -23,7 +27,7 @@
 
   const i18n = createI18n({ locale, dir, messages });
   setI18nContext(i18n);
-  const { dir: dirStore } = i18n;
+  const { dir: dirStore, locale: localeStore } = i18n;
 
   // Keep the context in sync if the props change at runtime.
   $: i18n.set({ locale, dir, messages });
@@ -32,7 +36,7 @@
 {#if inline}
   <slot />
 {:else}
-  <div class="ds-locale" dir={$dirStore}><slot /></div>
+  <div class="ds-locale" lang={$localeStore} dir={$dirStore}><slot /></div>
 {/if}
 
 <style>

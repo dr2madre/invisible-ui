@@ -45,7 +45,7 @@ try {
   writeFileSync(
     join(consumer, "main.mjs"),
     [
-      'import { asyncContent, calendar, label, multiSelect, popover } from "@design-system/core";',
+      'import { asyncContent, calendar, i18n, label, multiSelect, popover } from "@design-system/core";',
       "const state = popover.initialState({});",
       'if (state.open !== false || !state.id) throw new Error("unexpected popover state");',
       'if (typeof label.connect !== "function") throw new Error("label.connect missing");',
@@ -54,6 +54,9 @@ try {
       'if (view !== "refreshing") throw new Error("unexpected async view");',
       'const ms = multiSelect.initialState({ items: [{ value: "a" }] });',
       'if (ms.values.length !== 0) throw new Error("unexpected multi-select state");',
+      'const month = i18n.dateTimeFormat("it-IT", { month: "long" }).format(new Date(2026, 0, 15));',
+      'if (month !== "gennaio") throw new Error("unexpected i18n formatting");',
+      'if (i18n.localeDirection("ar") !== "rtl") throw new Error("unexpected direction");',
       'console.log("runtime import ok");',
     ].join("\n"),
   );
@@ -63,7 +66,7 @@ try {
   writeFileSync(
     join(consumer, "main.ts"),
     [
-      'import { asyncContent, multiSelect, popover } from "@design-system/core";',
+      'import { asyncContent, i18n, multiSelect, popover } from "@design-system/core";',
       "const state: popover.PopoverState = popover.initialState({ open: true });",
       'if (!state.open) throw new Error("unreachable");',
       "const view: asyncContent.AsyncView = asyncContent.deriveAsyncView({",
@@ -73,6 +76,8 @@ try {
       "});",
       'if (view !== "empty") throw new Error("unreachable");',
       'const values: string[] = multiSelect.addValue([], "a", null);',
+      'const plural: string = i18n.translate(i18n.en, {}, "en", "rating.stars", { count: 2 });',
+      'if (plural !== "2 stars") throw new Error("unreachable");',
       'if (values[0] !== "a") throw new Error("unreachable");',
     ].join("\n"),
   );
@@ -83,6 +88,9 @@ try {
         compilerOptions: {
           module: "nodenext",
           moduleResolution: "nodenext",
+          // The package's declarations use modern Intl types, so a consumer
+          // needs at least the ES2022 library, like the repository itself.
+          target: "es2022",
           strict: true,
           noEmit: true,
         },

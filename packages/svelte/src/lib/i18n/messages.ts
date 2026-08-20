@@ -1,120 +1,16 @@
 /**
- * Default (English) message catalog for component strings. Components read their
- * default labels from here through the i18n context, so an app can localize them
- * once via `LocaleProvider` instead of passing a prop to every component. Any
- * label prop a consumer passes still wins over the catalog.
- *
- * Keys are dot-namespaced by component. `{name}` placeholders are interpolated
- * by `t(key, { name })`.
+ * The message catalog and its types come from the shared core module: one
+ * source of truth for every adapter, so keys, placeholders and plural forms
+ * cannot drift between frameworks.
  */
-export const en = {
-  // Calendar
-  "calendar.previous": "Previous",
-  "calendar.next": "Next",
-  "calendar.today": "Today",
-  "calendar.label": "Calendar",
-  "calendar.viewsLabel": "Calendar view",
-  "calendar.view.month": "Month",
-  "calendar.view.two-month": "2 Months",
-  "calendar.view.week": "Week",
-  "calendar.view.three-day": "3 Days",
-  "calendar.view.day": "Day",
-  "calendar.view.year": "Year",
-  // Date Picker
-  "datePicker.label": "Date",
-  "datePicker.placeholder": "Select a date",
-  "datePicker.clear": "Clear date",
-  // Date Range Picker
-  "dateRangePicker.label": "Date range",
-  "dateRangePicker.placeholder": "Select a range",
-  "dateRangePicker.clear": "Clear range",
-  // Time Field
-  "timeField.label": "Time",
-  "timeField.hour": "Hour",
-  "timeField.minute": "Minute",
-  "timeField.second": "Second",
-  "timeField.dayPeriod": "AM/PM",
-  "timeField.empty": "Empty",
-  "timeField.invalidFormat": "Enter a time in the expected format.",
-  "timeField.outOfRange": "Enter a time within the allowed range.",
-  "timeField.secondsRequired": "Enter hours, minutes, and seconds.",
-  "timeField.secondsNotAllowed": "Enter hours and minutes only.",
-  // Loading
-  "loading.label": "Loading…",
-  // Alert
-  "inlineNotification.close": "Close",
-  "inlineNotification.learnMore": "Learn more",
-  // Overlays
-  "dialog.close": "Close",
-  "dialog.trigger": "Open",
-  "searchDialog.trigger": "Search…",
-  "collapsible.toggle": "Toggle",
-  "loginForm.heading": "Sign in",
-  // Shared by the dialog family presets (Alert/Confirm/Prompt — ADR 0005).
-  "dialog.confirm": "Confirm",
-  "dialog.cancel": "Cancel",
-  "dialog.dismiss": "OK",
-  "sheetDialog.close": "Close",
-  // Notification
-  "notificationRegion.label": "Notifications",
-  // Forms & inputs
-  "combobox.placeholder": "Search…",
-  "combobox.clear": "Clear",
-  "combobox.empty": "No results",
-  "searchDialog.title": "Search",
-  "searchDialog.label": "Search",
-  "searchDialog.placeholder": "Type to search…",
-  "searchDialog.empty": "No results found.",
-  "searchDialog.resultOne": "1 result available",
-  "searchDialog.resultMany": "{count} results available",
-  "searchDialog.loading": "Searching…",
-  "select.placeholder": "Select…",
-  "switch.on": "ON",
-  "switch.off": "OFF",
-  "loginForm.submit": "Sign in",
-  "loginForm.forgot": "Forgot password?",
-  // Navigation
-  "pagination.label": "Pagination",
-  "pagination.previous": "Go to previous page",
-  "pagination.next": "Go to next page",
-  "pagination.page": "Go to page {page}",
-  "rating.star": "{count} star",
-  "rating.stars": "{count} stars",
-  "pinInput.cell": "Character {index} of {length}",
-  "breadcrumb.label": "Breadcrumb",
-  "contextMenu.label": "Context menu",
-  "menu.label": "Main",
-  "stepper.label": "Progress",
-  // Read out for a completed step: the checkmark that shows it is decorative.
-  "stepper.completed": "Completed",
-  "carousel.previous": "Previous slide",
-  "carousel.next": "Next slide",
-  "carousel.choose": "Choose slide",
-  "combobox.show": "Show options",
-  "combobox.hide": "Close options",
-  // Data
-  "table.views": "Views",
-  "table.pagination": "Table pages",
-  "table.loadMore": "Load more",
-  "table.loading": "Loading…",
-  "table.columns": "Columns",
-  "table.selectRow": "Select {name}",
-  "table.selectPage": "Select all visible rows",
-  "table.selection": "Selection",
-  "table.noResults": "No rows match the current filters",
-  "table.clearFilters": "Clear filters",
-  // Misc
-  "codeBlock.copy": "Copy code",
-  "tag.remove": "Remove",
-  "multiSelect.selected": "Selected values",
-  "multiSelect.remove": "Remove {name}",
-  "multiSelect.empty": "No results",
-  "multiSelect.placeholder": "Search\u2026",
-  // Upload Drop Area — prompt first, the styled action word last, so translations
-  // like "Trascina qui i file oppure seleziona" keep a natural order.
-  "uploadDropArea.prompt": "Drag & drop files or",
-  "uploadDropArea.action": "browse",
-} as const;
+import { i18n as core } from "@design-system/core";
 
-export type MessageKey = keyof typeof en;
-export type Messages = Partial<Record<MessageKey, string>>;
+export const en = core.en;
+export type MessageKey = core.MessageKey;
+/** A count message: CLDR plural categories, `other` required. */
+// The empty extension gives the type a local name, so this package's emitted
+// declarations do not have to reference the core's internal module path.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface PluralMessage extends core.PluralMessage {}
+/** Consumer overrides: plain strings, or plural objects for count messages. */
+export type Messages = Partial<Record<MessageKey, string | PluralMessage>>;

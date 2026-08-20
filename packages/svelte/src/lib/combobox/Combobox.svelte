@@ -17,7 +17,7 @@
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
-  const { t } = getI18n();
+  const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
   /** Accessible name for the control. */
   export let label: string;
@@ -198,6 +198,8 @@
     id={core.listboxId($comboboxState.id)}
     role="listbox"
     aria-labelledby={core.labelId($comboboxState.id)}
+    lang={$i18nLocale}
+    dir={$i18nDir}
     use:portal
     use:listboxAction
   >
