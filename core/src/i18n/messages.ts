@@ -78,6 +78,8 @@ export const en = {
     other: "{count} results available",
   },
   "searchDialog.loading": "Searching…",
+  "numberField.increment": "Increase {label}",
+  "numberField.decrement": "Decrease {label}",
   "select.placeholder": "Select…",
   "switch.on": "ON",
   "switch.off": "OFF",
