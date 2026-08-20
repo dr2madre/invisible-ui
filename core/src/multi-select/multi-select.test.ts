@@ -218,6 +218,9 @@ describe("multi select connect — semantics", () => {
     expect(api.inputProps["aria-activedescendant"]).toBe("ms-option-grace");
     const closed = setup().api;
     expect(closed.inputProps["aria-activedescendant"]).toBeUndefined();
+    // A highlight that a filter removed from the items must never dangle.
+    const filtered = setup({ open: true, activeValue: "ghost" }).api;
+    expect(filtered.inputProps["aria-activedescendant"]).toBeUndefined();
   });
 
   it("keeps selected options listed with aria-selected on every option", () => {

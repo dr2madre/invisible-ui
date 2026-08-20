@@ -86,6 +86,10 @@ export function connect({
 
   const inert = disabled || readOnly;
   const isItemDisabled = (v: string) => resolveItem(items, v).disabled ?? false;
+  // Only a currently listed option may be the active descendant: after a
+  // filter removes the highlighted option, the reference must not dangle.
+  const isListed = (v: string | null): v is string =>
+    v != null && items.some((item) => item.value === v);
   const isSelected = (v: string) => values.includes(v);
   const canAdd = (v: string) =>
     !inert && !isItemDisabled(v) && !isSelected(v) && (max == null || values.length < max);
@@ -194,7 +198,8 @@ export function connect({
       "aria-controls": listboxId(id),
       "aria-autocomplete": "list",
       "aria-labelledby": labelId(id),
-      "aria-activedescendant": open && activeValue ? optionId(id, activeValue) : undefined,
+      "aria-activedescendant":
+        open && isListed(activeValue) ? optionId(id, activeValue) : undefined,
       "aria-disabled": disabled || undefined,
       readonly: readOnly || undefined,
       autocomplete: "off",
