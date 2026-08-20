@@ -267,6 +267,41 @@
           "default": "undefined",
           "required": false,
           "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active."
+        },
+        {
+          "name": "filtersActive",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the consumer's filters are active. Filtering itself stays outside."
+        },
+        {
+          "name": "totalRowCount",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Total unfiltered row count when known; `0` means the dataset is empty."
+        },
+        {
+          "name": "filterRevision",
+          "type": "string | number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Changing this (or `filtersActive`) resets the local page to one."
+        },
+        {
+          "name": "onClearFilters",
+          "type": "(() => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Clears the consumer's filters; enables the built-in no-results action."
+        },
+        {
+          "name": "noResultsLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Copy for the no-results state. Defaults to the i18n catalog's message."
         }
       ]
     },
@@ -535,6 +570,41 @@
           "default": "undefined",
           "required": false,
           "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active."
+        },
+        {
+          "name": "filtersActive",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the consumer's filters are active. Filtering itself stays outside."
+        },
+        {
+          "name": "totalRowCount",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "Total unfiltered row count when known; `0` means the dataset is empty."
+        },
+        {
+          "name": "filterRevision",
+          "type": "string | number",
+          "default": "undefined",
+          "required": false,
+          "description": "Changing this (or `filtersActive`) resets the local page to one."
+        },
+        {
+          "name": "onClearFilters",
+          "type": "() => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Clears the consumer's filters; enables the built-in no-results action."
+        },
+        {
+          "name": "noResultsLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Copy for the no-results state. Defaults to the i18n catalog's message."
         }
       ],
       "emits": [],

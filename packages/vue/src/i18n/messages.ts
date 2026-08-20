@@ -82,6 +82,8 @@ export const en = {
   "table.selectRow": "Select {name}",
   "table.selectPage": "Select all visible rows",
   "table.selection": "Selection",
+  "table.noResults": "No rows match the current filters",
+  "table.clearFilters": "Clear filters",
   "tag.remove": "Remove",
   "timeField.label": "Time",
   "timeField.hour": "Hour",

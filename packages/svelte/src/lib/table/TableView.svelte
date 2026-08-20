@@ -8,6 +8,7 @@
    * infinite-scroll). `TableSet` adds the tabs that swap between several views.
    * Not exported from the package.
    */
+  import { tick } from "svelte";
   import type { Action } from "svelte/action";
   import Table, { defaultGetRowId, type TableColumnDef, type TableRow } from "./Table.svelte";
   import Pagination from "../pagination/Pagination.svelte";
@@ -15,6 +16,7 @@
   import Popover from "../popover/Popover.svelte";
   import Checkbox from "../checkbox/Checkbox.svelte";
   import Card from "../card/Card.svelte";
+  import EmptyState from "../empty-state/EmptyState.svelte";
   import Icon from "../icon/Icon.svelte";
   import {
     createTable,
@@ -80,6 +82,17 @@
    * type, but required at runtime whenever selection is active.
    */
   export let getRowLabel: ((row: TableRow) => string) | undefined = undefined;
+
+  /** Whether the consumer's filters are active. Filtering itself stays outside. */
+  export let filtersActive = false;
+  /** Total unfiltered row count when known; `0` means the dataset is empty. */
+  export let totalRowCount: number | undefined = undefined;
+  /** Changing this (or `filtersActive`) resets the local page to one. */
+  export let filterRevision: string | number | undefined = undefined;
+  /** Clears the consumer's filters; enables the built-in no-results action. */
+  export let onClearFilters: (() => void) | undefined = undefined;
+  /** Copy for the no-results state. Defaults to the i18n catalog's message. */
+  export let noResultsLabel: string | undefined = undefined;
 
   // There is always an active sort: default to the first sortable column.
   const defaultSort = (cols: TableColumnDef[]): SortState | null => {
@@ -162,6 +175,7 @@
   $: resolvedLoadMoreLabel = loadMoreLabel ?? $t("table.loadMore");
   $: resolvedLoadingLabel = loadingLabel ?? $t("table.loading");
   $: resolvedConfigLabel = configLabel ?? $t("table.columns");
+  $: resolvedNoResultsLabel = noResultsLabel ?? $t("table.noResults");
 
   $: titleKey = cardTitleKey ?? columns[0]?.key;
 
@@ -181,6 +195,23 @@
     currentPage = next;
     onPageChange?.(next);
   };
+
+  // Filters own their values outside; this component only resets its page
+  // when the filter signal or the explicit revision changes after mount.
+  // The reset never touches the selection and notifies at most once; when
+  // the page is already one, nothing is emitted. Sitting after the page
+  // mirror, the reset wins inside one combined update, while a later page
+  // prop still overwrites the mirror.
+  let lastFiltersActive = filtersActive;
+  let lastFilterRevision = filterRevision;
+  $: if (filtersActive !== lastFiltersActive || filterRevision !== lastFilterRevision) {
+    lastFiltersActive = filtersActive;
+    lastFilterRevision = filterRevision;
+    if (currentPage !== 1) {
+      currentPage = 1;
+      onPageChange?.(1);
+    }
+  }
 
   const viewItems = [
     { value: "table", label: "Table" },
@@ -211,6 +242,24 @@
   $: visibleRows = paginated
     ? sortedRows.slice((currentPage - 1) * pageSize!, currentPage * pageSize!)
     : sortedRows;
+
+  // Zero rows means "no results" only while filters are active and the
+  // dataset itself is not empty; an unknown total counts as not empty.
+  $: noResults = rows.length === 0 && filtersActive && totalRowCount !== 0;
+
+  // The built-in clear action unmounts with the panel, so focus would fall
+  // to the body. When content returns after that action, the view root
+  // takes focus instead.
+  let rootEl: HTMLDivElement | null = null;
+  let focusAfterClear = false;
+  const clearFilters = () => {
+    focusAfterClear = true;
+    onClearFilters?.();
+  };
+  $: if (focusAfterClear && rows.length > 0) {
+    focusAfterClear = false;
+    void tick().then(() => rootEl?.focus());
+  }
 
   $: selectionIds = resolveSelectionIds(rows, selectionMode, getRowId, defaultGetRowId);
 
@@ -244,7 +293,7 @@
   };
 </script>
 
-<div class="table-view">
+<div class="table-view" tabindex="-1" bind:this={rootEl}>
   {#if title || allowViewToggle || configurable}
     <header class="table-view__header">
       {#if title}
@@ -292,7 +341,15 @@
     </header>
   {/if}
 
-  {#if currentView === "card"}
+  {#if noResults}
+    <div class="table-view__no-results">
+      <EmptyState
+        title={resolvedNoResultsLabel}
+        actionLabel={onClearFilters ? $t("table.clearFilters") : undefined}
+        onAction={onClearFilters ? clearFilters : undefined}
+      />
+    </div>
+  {:else if currentView === "card"}
     {#if selectionMode === "multiple"}
       <div class="table-view__cards-select-all">
         <Checkbox
@@ -427,6 +484,17 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+  /* The root takes focus only programmatically, after clearing filters. */
+  .table-view:focus {
+    outline: none;
+  }
+  .table-view__no-results {
+    display: grid;
+    justify-items: center;
+    padding: 2rem 1rem;
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+    border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
   }
   .table-view__header {
     display: flex;

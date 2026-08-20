@@ -15,6 +15,12 @@
   export let page = 1;
   export let view: "table" | "card" = "table";
   export let views: TableViewDef[] | undefined = undefined;
+  export let filtersActive = false;
+  export let totalRowCount: number | undefined = undefined;
+  export let filterRevision: string | number | undefined = undefined;
+  export let onClearFilters: (() => void) | undefined = undefined;
+  export let noResultsLabel: string | undefined = undefined;
+  export let onPageChange: ((page: number) => void) | undefined = undefined;
 
   export let columns: TableColumnDef[] = [
     { key: "name", header: "Name", sortable: true, hideable: false },
@@ -48,6 +54,12 @@
   {isRowSelectable}
   {getRowLabel}
   {getRowId}
+  {filtersActive}
+  {totalRowCount}
+  {filterRevision}
+  {onClearFilters}
+  {noResultsLabel}
+  {onPageChange}
   onSelectedRowIdsChange={bindSelection ? handleChange : onSelectedRowIdsChange}
   title="People"
   caption="People"

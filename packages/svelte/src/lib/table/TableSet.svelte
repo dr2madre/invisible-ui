@@ -103,6 +103,17 @@
    */
   export let getRowLabel: ((row: TableRow) => string) | undefined = undefined;
 
+  /** Whether the consumer's filters are active. Filtering itself stays outside. */
+  export let filtersActive = false;
+  /** Total unfiltered row count when known; `0` means the dataset is empty. */
+  export let totalRowCount: number | undefined = undefined;
+  /** Changing this (or `filtersActive`) resets the local page to one. */
+  export let filterRevision: string | number | undefined = undefined;
+  /** Clears the consumer's filters; enables the built-in no-results action. */
+  export let onClearFilters: (() => void) | undefined = undefined;
+  /** Copy for the no-results state. Defaults to the i18n catalog's message. */
+  export let noResultsLabel: string | undefined = undefined;
+
   $: viewList = Array.isArray(views) ? views : [];
   $: hasViews = viewList.length > 0;
 
@@ -208,6 +219,11 @@
               {onSelectedRowIdsChange}
               {isRowSelectable}
               {getRowLabel}
+              {filtersActive}
+              {totalRowCount}
+              {filterRevision}
+              {onClearFilters}
+              {noResultsLabel}
             >
               <svelte:fragment slot="cell" let:row let:column let:value let:rowIndex>
                 <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>
@@ -252,6 +268,11 @@
       {onSelectedRowIdsChange}
       {isRowSelectable}
       {getRowLabel}
+      {filtersActive}
+      {totalRowCount}
+      {filterRevision}
+      {onClearFilters}
+      {noResultsLabel}
     >
       <svelte:fragment slot="cell" let:row let:column let:value let:rowIndex>
         <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>

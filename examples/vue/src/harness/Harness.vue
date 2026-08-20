@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // End-to-end harness for the Vue adapter. It stays minimal on purpose: the
 // browser tests need real Vue components and stable names, not a showcase.
-import { ref } from "vue";
-import { Button, Popover, TableSet, type TableRow } from "@design-system/vue";
+import { computed, ref } from "vue";
+import { Button, Popover, TableSet, TextField, type TableRow } from "@design-system/vue";
 
 const peopleColumns = [
   { key: "name", header: "Name", sortable: true },
@@ -13,6 +13,13 @@ const peopleColumns = [
 // disabled over an empty scope and must come alive with the data.
 const peopleRows = ref<TableRow[]>([]);
 const selectedRowIds = ref<(string | number)[]>([]);
+const cityFilter = ref("");
+
+const filteredRows = computed(() =>
+  peopleRows.value.filter((row) =>
+    String(row.city).toLowerCase().includes(cityFilter.value.trim().toLowerCase()),
+  ),
+);
 
 const loadPeople = () => {
   peopleRows.value = [
@@ -42,8 +49,12 @@ const loadPeople = () => {
       <Button :on-press="loadPeople">Load people</Button>
       <TableSet
         :columns="peopleColumns"
-        :rows="peopleRows"
+        :rows="filteredRows"
         caption="People"
+        :filters-active="cityFilter.trim() !== ''"
+        :total-row-count="peopleRows.length"
+        :filter-revision="cityFilter.trim().toLowerCase()"
+        :on-clear-filters="() => (cityFilter = '')"
         allow-view-toggle
         card-title-key="name"
         selection-mode="multiple"
@@ -51,7 +62,16 @@ const loadPeople = () => {
         :on-selected-row-ids-change="(ids) => (selectedRowIds = ids)"
         :get-row-label="(row) => String(row.name)"
         :page-size="2"
-      />
+      >
+        <template #toolbar>
+          <TextField
+            label="Filter by city"
+            placeholder="Filter by city"
+            :model-value="cityFilter"
+            :on-value-change="(next) => (cityFilter = next)"
+          />
+        </template>
+      </TableSet>
       <p data-testid="selection-readout">Selected: {{ selectedRowIds.join(", ") || "none" }}</p>
     </section>
   </main>

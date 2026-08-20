@@ -78,6 +78,16 @@ export interface TableSetProps {
    * type, but required at runtime whenever selection is active.
    */
   getRowLabel?: (row: TableRow) => string;
+  /** Whether the consumer's filters are active. Filtering itself stays outside. */
+  filtersActive?: boolean;
+  /** Total unfiltered row count when known; `0` means the dataset is empty. */
+  totalRowCount?: number;
+  /** Changing this (or `filtersActive`) resets the local page to one. */
+  filterRevision?: string | number;
+  /** Clears the consumer's filters; enables the built-in no-results action. */
+  onClearFilters?: () => void;
+  /** Copy for the no-results state. Defaults to the i18n catalog's message. */
+  noResultsLabel?: string;
 }
 
 /**
@@ -157,6 +167,11 @@ export const TableSet = defineComponent({
       type: Function as PropType<(row: TableRow) => string>,
       default: undefined,
     },
+    filtersActive: { type: Boolean, default: false },
+    totalRowCount: { type: Number, default: undefined },
+    filterRevision: { type: [String, Number] as PropType<string | number>, default: undefined },
+    onClearFilters: { type: Function as PropType<() => void>, default: undefined },
+    noResultsLabel: { type: String, default: undefined },
   },
   setup(props, { slots }) {
     const i18n = useI18n();
@@ -232,6 +247,11 @@ export const TableSet = defineComponent({
       onSelectedRowIdsChange: props.onSelectedRowIdsChange,
       isRowSelectable: props.isRowSelectable,
       getRowLabel: props.getRowLabel,
+      filtersActive: props.filtersActive,
+      totalRowCount: props.totalRowCount,
+      filterRevision: props.filterRevision,
+      onClearFilters: props.onClearFilters,
+      noResultsLabel: props.noResultsLabel,
     });
 
     const cellSlot = () => (slots.cell ? { cell: slots.cell } : undefined);
