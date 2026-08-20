@@ -15,6 +15,7 @@
 @import "./dialog.css";
 @import "./select.css";
 @import "./text-field.css";
+@import "./number-field.css";
 @import "./textarea.css";
 @import "./radio-group.css";
 @import "./checkbox-group.css";

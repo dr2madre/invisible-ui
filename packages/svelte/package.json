@@ -43,6 +43,7 @@
     "src/lib/date-picker/DatePicker.svelte",
     "src/lib/date-range-picker/DateRangePicker.svelte",
     "src/lib/time-field/TimeField.svelte",
+    "src/lib/number-field/NumberField.svelte",
     "src/lib/i18n/LocaleProvider.svelte",
     "src/lib/tag/Tag.svelte",
     "src/lib/count/Count.svelte",
@@ -195,6 +196,10 @@
     "./TimeField.svelte": {
       "svelte": "./src/lib/time-field/TimeField.svelte",
       "default": "./src/lib/time-field/TimeField.svelte"
+    },
+    "./NumberField.svelte": {
+      "svelte": "./src/lib/number-field/NumberField.svelte",
+      "default": "./src/lib/number-field/NumberField.svelte"
     },
     "./LocaleProvider.svelte": {
       "svelte": "./src/lib/i18n/LocaleProvider.svelte",
