@@ -3,6 +3,8 @@
 .tag {
   display: inline-flex;
   align-items: center;
+  /* Tall enough for the remove button's 24px target to sit inside the tag. */
+  min-block-size: 1.5rem;
   gap: var(--ds-tag-gap, 0.3rem);
   padding: var(--ds-tag-padding, 0.15rem 0.5rem);
   font: inherit;
