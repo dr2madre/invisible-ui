@@ -15,6 +15,9 @@
   import { createDropdownMenu, type MenuItem } from "./create-dropdown-menu";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+
+  const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
   export let label: string;
   export let items: MenuItem[];
@@ -34,7 +37,7 @@
     </span>
   </button>
 
-  <div class="menu__popup" use:portal use:menuAction>
+  <div class="menu__popup" lang={$i18nLocale} dir={$i18nDir} use:portal use:menuAction>
     {#each items as item (item.value)}
       <button class="menu__item" type="button" use:itemAction={item.value}>
         {item.label ?? item.value}

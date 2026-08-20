@@ -132,10 +132,8 @@
         {$t("searchDialog.loading")}
       {:else if $visible.length === 0}
         {resolvedEmptyText}
-      {:else if $visible.length === 1}
-        {$t("searchDialog.resultOne")}
       {:else}
-        {$t("searchDialog.resultMany", { count: $visible.length })}
+        {$t("searchDialog.results", { count: $visible.length })}
       {/if}
     </div>
 

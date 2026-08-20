@@ -1,10 +1,12 @@
-import { computed, defineComponent, h, ref, Teleport, watch, type PropType } from "vue";
+import { i18n as coreI18n } from "@design-system/core";
+import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { CalendarView, WeekStart } from "../calendar/use-calendar";
 import type { DateStyle } from "../date-picker/DatePicker";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { usePopover } from "../popover/use-popover";
 
 export interface DateRangePickerProps {
@@ -100,8 +102,8 @@ export const DateRangePicker = defineComponent({
     );
 
     const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-    const displayFmt = computed(
-      () => new Intl.DateTimeFormat(props.locale, { dateStyle: props.dateStyle }),
+    const displayFmt = computed(() =>
+      coreI18n.dateTimeFormat(props.locale ?? i18n.value.locale, { dateStyle: props.dateStyle }),
     );
     const displayValue = computed(() => {
       if (start.value && end.value)
@@ -191,7 +193,7 @@ export const DateRangePicker = defineComponent({
         ]),
 
         open.value
-          ? h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+          ? scopedTeleport(teleportDisabled.value, i18n.value, [
               h(
                 "div",
                 {

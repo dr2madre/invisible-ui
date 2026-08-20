@@ -154,9 +154,7 @@ export const SearchDialog = defineComponent({
         ? t("searchDialog.loading")
         : count === 0
           ? resolvedEmptyText
-          : count === 1
-            ? t("searchDialog.resultOne")
-            : t("searchDialog.resultMany", { count });
+          : t("searchDialog.results", { count });
 
       const panel = h(
         "dialog",

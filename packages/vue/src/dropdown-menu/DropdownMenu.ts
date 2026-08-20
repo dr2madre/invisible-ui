@@ -1,8 +1,10 @@
-import { defineComponent, h, Teleport, watch, type PropType } from "vue";
+import { defineComponent, h, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useDropdownMenu, type MenuItem } from "./use-dropdown-menu";
+import { useI18n } from "../i18n/i18n";
 
 export interface DropdownMenuProps {
   /** The trigger button's visible label. */
@@ -35,6 +37,7 @@ export const DropdownMenu = defineComponent({
     onSelect: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   setup(props) {
+    const i18n = useI18n();
     const teleportDisabled = useHydratedTeleport();
     const { api, open, triggerRef, menuRef } = useDropdownMenu(() => ({
       items: props.items,
@@ -69,7 +72,7 @@ export const DropdownMenu = defineComponent({
         // and items are keyed by value, so Vue reuses the same nodes across
         // open/highlight changes: a node replaced mid-gesture (between
         // pointerdown and pointerup) would lose the press that selects it.
-        h(Teleport, { to: "body", disabled: teleportDisabled.value }, [
+        scopedTeleport(teleportDisabled.value, i18n.value, [
           h(
             "div",
             {

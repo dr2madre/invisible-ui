@@ -16,7 +16,7 @@
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
-  const { t } = getI18n();
+  const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
   export let items: MenuItem[];
   export let disabled = false;
@@ -41,7 +41,14 @@
 <!-- Rendered only while open: the popup truly leaves the DOM (and the
      accessibility tree) when the menu is closed. -->
 {#if $open}
-  <div class="context-menu__popup" aria-label={resolvedLabel} use:portal use:menuAction>
+  <div
+    class="context-menu__popup"
+    aria-label={resolvedLabel}
+    lang={$i18nLocale}
+    dir={$i18nDir}
+    use:portal
+    use:menuAction
+  >
     {#each items as item (item.value)}
       <button class="context-menu__item" type="button" use:itemAction={item.value}>
         {item.label ?? item.value}

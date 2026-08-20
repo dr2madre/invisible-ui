@@ -25,13 +25,13 @@
    * Colours, radius and sizing are themeable via `--ds-calendar-*`.
    */
   import { createCalendar, type CalendarView, type WeekStart } from "./create-calendar";
-  import { calendar as core } from "@design-system/core";
+  import { calendar as core, i18n } from "@design-system/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { MessageKey } from "../i18n/messages";
 
-  const { t } = getI18n();
+  const { t, locale: providerLocale } = getI18n();
 
   const {
     describe,
@@ -51,7 +51,7 @@
   export let weekStartsOn: WeekStart = 1;
   export let min: string | undefined = undefined;
   export let max: string | undefined = undefined;
-  /** BCP-47 locale for month/weekday names. Defaults to the runtime locale. */
+  /** BCP-47 locale for month/weekday names. Defaults to the provider's locale. */
   export let locale: string | undefined = undefined;
 
   /** Appointment dots, keyed by their `date`. */
@@ -126,17 +126,19 @@
     label: viewLabels[v] ?? $t(`calendar.view.${v}` as MessageKey),
   }));
 
-  // Intl formatters (recomputed if the locale changes).
+  // Intl formatters through the shared cached factories: the explicit prop
+  // wins, then the provider's resolved locale; never the runtime default.
   const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-  $: titleFmt = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" });
-  $: rangeFmt = new Intl.DateTimeFormat(locale, {
+  $: resolvedLocale = locale ?? $providerLocale;
+  $: titleFmt = i18n.dateTimeFormat(resolvedLocale, { month: "long", year: "numeric" });
+  $: rangeFmt = i18n.dateTimeFormat(resolvedLocale, {
     day: "numeric",
     month: "short",
     year: "numeric",
   });
-  $: weekdayShort = new Intl.DateTimeFormat(locale, { weekday: "short" });
-  $: weekdayLong = new Intl.DateTimeFormat(locale, { weekday: "long" });
-  $: dayFmt = new Intl.DateTimeFormat(locale, {
+  $: weekdayShort = i18n.dateTimeFormat(resolvedLocale, { weekday: "short" });
+  $: weekdayLong = i18n.dateTimeFormat(resolvedLocale, { weekday: "long" });
+  $: dayFmt = i18n.dateTimeFormat(resolvedLocale, {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -179,12 +181,12 @@
     return acc;
   }, {});
 
-  $: yearFmt = new Intl.DateTimeFormat(locale, { year: "numeric" });
-  $: shortMonthFmt = new Intl.DateTimeFormat(locale, { month: "long" });
+  $: yearFmt = i18n.dateTimeFormat(resolvedLocale, { year: "numeric" });
+  $: shortMonthFmt = i18n.dateTimeFormat(resolvedLocale, { month: "long" });
   const shortMonthName = (year: number, month: number) =>
     shortMonthFmt.format(new Date(Date.UTC(year, month - 1, 1)));
   // Narrow weekday initials for the simplified mini-months.
-  $: weekdayNarrow = new Intl.DateTimeFormat(locale, { weekday: "narrow" });
+  $: weekdayNarrow = i18n.dateTimeFormat(resolvedLocale, { weekday: "narrow" });
 
   $: periodTitle = (() => {
     const f = $calState.focusedDate;

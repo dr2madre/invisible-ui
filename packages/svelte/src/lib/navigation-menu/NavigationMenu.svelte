@@ -14,8 +14,11 @@
   import { createNavigationMenu, type NavigationMenuItem } from "./create-navigation-menu";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
+  import { getI18n } from "../i18n/create-i18n";
 
   /** Accessible name for the navigation landmark. */
+  const { locale: i18nLocale, dir: i18nDir } = getI18n();
+
   export let label: string;
   export let items: NavigationMenuItem[];
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
@@ -37,7 +40,13 @@
           </button>
 
           {#if $value === item.value}
-            <div class="navmenu__content" use:portal use:contentAction={item.value}>
+            <div
+              class="navmenu__content"
+              lang={$i18nLocale}
+              dir={$i18nDir}
+              use:portal
+              use:contentAction={item.value}
+            >
               <ul class="navmenu__links">
                 {#each item.links as link (link.href)}
                   <li>

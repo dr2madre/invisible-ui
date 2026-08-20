@@ -12,9 +12,10 @@ import LocaleProviderDemo from "../../../../demos/LocaleProviderDemo.svelte";
 </Preview>
 
 Sets the locale, writing **direction**, and **message overrides** for everything
-inside it. Components read their default labels from this context, so you
-localize once instead of passing a prop to every component; `dir` flips the CSS
-logical properties for RTL.
+inside it. Components read their default labels **and their formatting locale**
+from this context, so you localize once instead of passing a prop to every
+component. The wrapper carries both `lang` and `dir`: assistive technologies
+get the right language rules, and the CSS logical properties flip for RTL.
 
 ### Import
 
@@ -26,6 +27,50 @@ logical properties for RTL.
 
 Any label prop you pass to a component still wins over the catalog. Default
 strings live in the English catalog (`en`); see `MessageKey` for the keys.
+
+### Behavior
+
+- **Precedence**: an explicit component prop (for example Calendar's `locale`)
+  wins over the provider; the provider wins over the library default (`"en"`).
+  The library never formats with the runtime's own locale, so server and
+  client render the same output.
+- **Locale tags** are canonicalized (`IT-it` becomes `it-IT`). A malformed tag
+  logs a warning and falls back to the default.
+- **Direction**: pass `dir` to force it; without it, the direction derives
+  from the locale (`ar`, `he`, `fa`, … become `rtl`). Overlays that render in
+  a portal keep the scope's `lang` and `dir`.
+- **Plural messages**: a count message can be overridden with an object of
+  CLDR plural categories, selected by the locale — `other` is required:
+
+  ```svelte
+  <LocaleProvider
+    locale="ru"
+    messages={{
+      "searchDialog.results": {
+        one: "{count} результат",
+        few: "{count} результата",
+        other: "{count} результатов",
+      },
+    }}
+  >
+    <SearchDialog items={people} />
+  </LocaleProvider>
+  ```
+
+- **Nesting**: a nested provider overrides only its subtree.
+- Changing the locale after mount updates labels and formatting in place: no
+  remount, and no loss of focus, drafts, or values.
+
+### Supported scope
+
+- Dates format on the **Gregorian calendar** in every locale; other calendar
+  systems are not supported.
+- Calendar's week start and Time Field's hour cycle keep their documented
+  defaults (`Monday`, `24`) unless you set them; the resolved locale does not
+  change them implicitly.
+- The library ships English defaults only: translations are yours via
+  `messages`. Component search filters match case-insensitively without
+  locale-specific case rules; pass your own `filter` where you need them.
 
 ### Example
 

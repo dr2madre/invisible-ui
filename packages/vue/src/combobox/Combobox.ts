@@ -1,7 +1,8 @@
-import { defineComponent, h, ref, Teleport, type PropType, type VNode } from "vue";
+import { defineComponent, h, ref, type PropType, type VNode } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
+import { scopedTeleport } from "../internal/locale-teleport";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
 
 /** A combobox option, optionally carrying a leading icon (an SVG path `d`). */
@@ -326,7 +327,7 @@ export const Combobox = defineComponent({
           ],
         ),
 
-        h(Teleport, { to: "body", disabled: teleportDisabled.value }, [listbox]),
+        scopedTeleport(teleportDisabled.value, i18n.value, [listbox]),
       ]);
     };
   },
