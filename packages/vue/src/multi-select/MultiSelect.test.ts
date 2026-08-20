@@ -212,6 +212,16 @@ describe("Vue MultiSelect", () => {
     });
   });
 
+  it("renders hostile labels as text, never as markup", () => {
+    const hostile = '<img src=x onerror="window.__pwned = true">';
+    render(MultiSelect, {
+      props: { label: "People", items: [{ value: "x", label: hostile }], values: ["x"] },
+    });
+    expect(document.querySelector("img")).toBeNull();
+    expect(tagList()).toHaveTextContent(hostile);
+    expect((window as unknown as Record<string, unknown>).__pwned).toBeUndefined();
+  });
+
   it("has no axe violations with values selected", async () => {
     const { container } = setup({ values: ["ada", "grace"] });
     expect(

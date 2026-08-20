@@ -196,6 +196,16 @@ describe("Svelte MultiSelect", () => {
     });
   });
 
+  it("renders hostile labels as text, never as markup", () => {
+    const hostile = '<img src=x onerror="window.__pwned = true">';
+    render(Fixture, {
+      props: { items: [{ value: "x", label: hostile }], values: ["x"] },
+    });
+    expect(document.querySelector("img")).toBeNull();
+    expect(tagList()).toHaveTextContent(hostile);
+    expect((window as unknown as Record<string, unknown>).__pwned).toBeUndefined();
+  });
+
   it("has no axe violations with values selected", async () => {
     const { container } = render(Fixture, { props: { values: ["ada", "grace"] } });
     expect(await axe(container)).toHaveNoViolations();

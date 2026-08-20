@@ -32,6 +32,11 @@ test.describe("Svelte MultiSelect (docs demo)", () => {
     await expect(input).toBeFocused();
     await expect(input).toHaveAttribute("aria-expanded", "true");
     await expect(d.getByRole("button", { name: "Remove Ada Lovelace" })).toBeVisible();
+
+    // Tab closes the popup and moves on through ordinary tab stops.
+    await page.keyboard.press("Tab");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(input).not.toBeFocused();
   });
 
   test("removal moves focus to the next, previous, then the input", async ({ page }) => {
