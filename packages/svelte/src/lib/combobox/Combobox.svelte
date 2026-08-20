@@ -318,8 +318,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: 1.25rem;
-    block-size: 1.25rem;
+    /* The glyph stays small; the pressable area is at least 24px square so
+       a finger or an imprecise pointer can hit it. */
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
     flex: none;
     padding: 0;
     border: 0;

@@ -187,14 +187,25 @@
   gap: 0.4rem;
   margin-block-start: 0.75rem;
 }
+/* The dot the user sees is drawn inside the button, so the button itself
+   can be a 24px square target without growing the dot. */
 .carousel__dot {
-  inline-size: var(--ds-carousel-dot-size, 0.5rem);
-  block-size: var(--ds-carousel-dot-size, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
   padding: 0;
   border: 0;
+  background: none;
+  cursor: pointer;
+}
+.carousel__dot::before {
+  content: "";
+  inline-size: var(--ds-carousel-dot-size, 0.5rem);
+  block-size: var(--ds-carousel-dot-size, 0.5rem);
   border-radius: 50%;
   background: var(--ds-carousel-dot-color, var(--ds-color-border, #cbd5e1));
-  cursor: pointer;
   transition: background-color 120ms ease;
 }
 .carousel__dot[data-selected] {

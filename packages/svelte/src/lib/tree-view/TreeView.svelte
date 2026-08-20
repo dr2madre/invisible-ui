@@ -186,8 +186,10 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    inline-size: 1.1em;
-    block-size: 1.1em;
+    /* The arrow keeps its size; the pressable area is at least 24px square. */
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    font-size: 1.1em;
     margin: 0;
     padding: 0;
     color: inherit;

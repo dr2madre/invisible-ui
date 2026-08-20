@@ -192,6 +192,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    /* The glyph keeps its size; the pressable area is at least 24px square. */
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    flex: none;
     padding: 0.2rem;
     color: var(--ds-color-text-secondary, #64748b);
     background: none;
