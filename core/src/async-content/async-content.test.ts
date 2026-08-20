@@ -45,6 +45,11 @@ describe("async content — view derivation", () => {
     expect(context).toEqual({ status: "success", hasContent: false, isEmpty: true });
   });
 
+  it("requires an explicit boolean true for isEmpty", () => {
+    const truthy = { status: "success", hasContent: false, isEmpty: 1 } as unknown;
+    expect(deriveAsyncView(truthy as AsyncContentContext)).toBe("content");
+  });
+
   it("normalizes an unknown runtime status to the inert idle view", () => {
     const garbage = { status: "banana", hasContent: true } as unknown as AsyncContentContext;
     expect(deriveAsyncView(garbage)).toBe("idle");
