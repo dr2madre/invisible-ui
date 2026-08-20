@@ -1,5 +1,15 @@
-import { computed, defineComponent, h, onScopeDispose, ref, watch, type PropType } from "vue";
+import {
+  computed,
+  defineComponent,
+  h,
+  nextTick,
+  onScopeDispose,
+  ref,
+  watch,
+  type PropType,
+} from "vue";
 import { Card } from "../card/Card";
+import { EmptyState } from "../empty-state/EmptyState";
 import { Checkbox } from "../checkbox/Checkbox";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
@@ -62,6 +72,16 @@ export interface TableViewProps {
    * type, but required at runtime whenever selection is active.
    */
   getRowLabel?: (row: TableRow) => string;
+  /** Whether the consumer's filters are active. Filtering itself stays outside. */
+  filtersActive?: boolean;
+  /** Total unfiltered row count when known; `0` means the dataset is empty. */
+  totalRowCount?: number;
+  /** Changing this (or `filtersActive`) resets the local page to one. */
+  filterRevision?: string | number;
+  /** Clears the consumer's filters; enables the built-in no-results action. */
+  onClearFilters?: () => void;
+  /** Copy for the no-results state. Defaults to the i18n catalog's message. */
+  noResultsLabel?: string;
 }
 
 /** The two body layouts offered by the view switcher. */
@@ -156,6 +176,11 @@ export const TableView = defineComponent({
       type: Function as PropType<(row: TableRow) => string>,
       default: undefined,
     },
+    filtersActive: { type: Boolean, default: false },
+    totalRowCount: { type: Number, default: undefined },
+    filterRevision: { type: [String, Number] as PropType<string | number>, default: undefined },
+    onClearFilters: { type: Function as PropType<() => void>, default: undefined },
+    noResultsLabel: { type: String, default: undefined },
   },
   setup(props, { slots }) {
     const i18n = useI18n();
@@ -224,10 +249,22 @@ export const TableView = defineComponent({
         currentView.value = next;
       },
     );
+    // Filters own their values outside; the view resets its page only when
+    // the filter signal or the explicit revision changes after mount. The
+    // reset never touches the selection and notifies at most once; on page
+    // one nothing is emitted. One combined watch keeps the order fixed: the
+    // page mirror applies first, then the reset wins inside the same update,
+    // while a later page prop still overwrites the mirror.
     watch(
-      () => props.page,
-      (next) => {
-        currentPage.value = next;
+      () => [props.page, props.filtersActive, props.filterRevision] as const,
+      ([page, active, revision], [previousPage, previousActive, previousRevision]) => {
+        if (page !== previousPage) currentPage.value = page;
+        if (active !== previousActive || !Object.is(revision, previousRevision)) {
+          if (currentPage.value !== 1) {
+            currentPage.value = 1;
+            props.onPageChange?.(1);
+          }
+        }
       },
     );
 
@@ -277,6 +314,31 @@ export const TableView = defineComponent({
     );
 
     onScopeDispose(() => (sentinelRef.value = null));
+
+    // The built-in clear action unmounts with the panel, so focus would fall
+    // to the body. When content returns after that action, the view root
+    // takes focus instead.
+    const rootRef = ref<HTMLElement | null>(null);
+    let focusAfterClear = false;
+    const clearFilters = () => {
+      focusAfterClear = true;
+      props.onClearFilters?.();
+    };
+    watch(
+      () => props.rows.length,
+      (length) => {
+        if (focusAfterClear && length > 0) {
+          focusAfterClear = false;
+          void nextTick().then(() => rootRef.value?.focus());
+        }
+      },
+    );
+
+    // Zero rows means "no results" only while filters are active and the
+    // dataset itself is not empty; an unknown total counts as not empty.
+    const noResults = computed(
+      () => props.rows.length === 0 && props.filtersActive && props.totalRowCount !== 0,
+    );
 
     // Selection needs an id that survives sorting and paging, so the index
     // fallback of the default getRowId is not accepted here. A missing or
@@ -424,8 +486,15 @@ export const TableView = defineComponent({
             ])
           : null;
 
-      const body =
-        currentView.value === "card"
+      const body = noResults.value
+        ? h("div", { class: "table-view__no-results" }, [
+            h(EmptyState, {
+              title: props.noResultsLabel ?? t("table.noResults"),
+              actionLabel: props.onClearFilters ? t("table.clearFilters") : undefined,
+              onAction: props.onClearFilters ? clearFilters : undefined,
+            }),
+          ])
+        : currentView.value === "card"
           ? [
               props.selectionMode === "multiple"
                 ? h("div", { class: "table-view__cards-select-all" }, [selectAllCheckbox(false)])
@@ -550,7 +619,7 @@ export const TableView = defineComponent({
             ])
           : null;
 
-      return h("div", { class: "table-view" }, [header, body, footer]);
+      return h("div", { class: "table-view", tabindex: -1, ref: rootRef }, [header, body, footer]);
     };
   },
 });

@@ -101,6 +101,8 @@ export const en = {
   "table.selectRow": "Select {name}",
   "table.selectPage": "Select all visible rows",
   "table.selection": "Selection",
+  "table.noResults": "No rows match the current filters",
+  "table.clearFilters": "Clear filters",
   // Misc
   "codeBlock.copy": "Copy code",
   "tag.remove": "Remove",

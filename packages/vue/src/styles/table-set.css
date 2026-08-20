@@ -53,6 +53,17 @@
   flex-direction: column;
   gap: 0.75rem;
 }
+/* The root takes focus only programmatically, after clearing filters. */
+.table-view:focus {
+  outline: none;
+}
+.table-view__no-results {
+  display: grid;
+  justify-items: center;
+  padding: 2rem 1rem;
+  border: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+  border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
+}
 .table-view__header {
   display: flex;
   align-items: center;

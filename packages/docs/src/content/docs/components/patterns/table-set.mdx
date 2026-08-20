@@ -7,6 +7,7 @@ import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import TableSetDemo from "../../../../demos/TableSetDemo.svelte";
 import TableSetSelectionDemo from "../../../../demos/TableSetSelectionDemo.svelte";
+import TableSetFilterDemo from "../../../../demos/TableSetFilterDemo.svelte";
 
 <Preview>
   <TableSetDemo client:visible />
@@ -54,6 +55,31 @@ selection, and switching `selectionMode` never clears it.
 - With tabs (`views`), the forwarded selection is shared across views. For a
   per-view selection, swap `selectedRowIds` from `onViewChange`.
 
+### Filtering coordination
+
+<Preview>
+  <TableSetFilterDemo client:visible />
+</Preview>
+
+Filtering itself stays in the application: predicates, schemas, query state
+and requests never enter the component. Your filter controls live in the
+`toolbar` slot; the set receives the already-filtered `rows` plus a few
+coordination inputs.
+
+- `filtersActive` says whether any filter is applied. With zero rows it
+  separates two states: `totalRowCount` of `0` is an **empty dataset** (the
+  ordinary empty table), anything else is **no results** (an Empty State with
+  the `noResultsLabel` copy and, when `onClearFilters` is given, a
+  "Clear filters" action).
+- Changing `filtersActive` or the explicit `filterRevision` resets the local
+  page to one and reports it through `onPageChange` exactly once; nothing is
+  emitted on mount, on an unchanged revision, or when already on page one. A
+  new `rows` array by itself never resets the page.
+- The reset never touches the selection: selected ids survive filter changes,
+  disappearing rows and the clear action.
+- After the built-in clear action brings content back, focus moves to the
+  view container (the activated button unmounts with the panel).
+
 ### Accessibility
 
 - Card view is a labelled list of `Card`s; the column dropdown is a Popover of
@@ -61,6 +87,8 @@ selection, and switching `selectionMode` never clears it.
 - Selection checkboxes are native inputs with screen-reader-only names; the
   select-all reflects a partial page with the native `indeterminate` state.
   Selected rows carry `data-selected` for styling.
+- The no-results state is a `role="status"` Empty State; no live region wraps
+  the table itself.
 
 ### Example
 
