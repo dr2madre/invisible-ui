@@ -24,7 +24,7 @@ bottom regardless of score.
 | # | Candidate | Size | Ease | Utility | Score | Why here |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | **Empty State** | component | 5 | 5 | 25 | **Shipped.** Sibling of the existing Error State — same layout, new intent. |
-| 2 | **Number Input** | component | 4 | 5 | 20 | Native-first (`inputmode="decimal"` + spinbutton); the most common form gap. |
+| 2 | **Number Input** | component | 4 | 5 | 20 | **Shipped** as Number Field (`core/number-field` + Svelte/Vue): text input with `inputmode="decimal"` and spinbutton semantics, locale-aware parsing, validate-not-clamp, canonical form value. |
 | 3 | **Sidebar** | pattern | 3 | 5 | 15 | Composition of existing parts (nav, collapsible, sheet on mobile); the most used piece of an app shell. |
 | 4 | **Editable** | component | 4 | 3 | 12 | Small; pairs with the PromptDialog rename story. |
 | 5 | **Multi-select (tag input)** | component | 2 | 4 | 8 | **Shipped** in all adapters as a separate `core/multi-select` sibling (never a `multiple` mode on Combobox). |
@@ -41,7 +41,7 @@ bottom regardless of score.
 | Candidate | What it is | Peer precedent | Status / notes |
 | --- | --- | --- | --- |
 | **Empty State** | "No data yet" view (illustration + message + optional action) — the calm sibling of Error State | most systems | **Shipped** (Svelte): `illustration` slot with themed icon fallback, `actions` slot. Same layout as Error State, different intent (nothing failed). |
-| **Number Input** | Numeric field with +/− steppers, min/max/step, wheel & arrow keys | Ark, MUI, React Aria, Chakra | The most common form gap. Native-first: `inputmode="decimal"` + spinbutton pattern. |
+| **Number Input** | Numeric field with +/− steppers, min/max/step, wheel & arrow keys | Ark, MUI, React Aria, Chakra | **Shipped** as **Number Field**. The native `input[type=number]` was rejected on reproduced evidence (locale separators dropped or blocked, drafts invisible, no caret control); the shipped shape is a text input with `inputmode="decimal"` and `role="spinbutton"`, a repository-owned locale parser over the shared i18n symbols, a draft distinct from the canonical number, validation instead of clamping, drift-free decimal stepping, opt-in wheel, and a hidden input carrying the canonical ASCII form value. Currency/percent/unit/compact/scientific formats, scrub, and arbitrary precision stay deferred. |
 | **Multi-select (tag input)** | Combobox selecting several values, shown as removable tags | Ark (TagsInput), MUI, React Aria | **Shipped.** A separate `core/multi-select` sibling (the decision: never a `multiple` mode on Combobox), with Svelte, Vue, React, Elements and Reflex adapters, ordered unique controlled `values`, removable tags, the opt-in Backspace rule and repeated hidden inputs for forms. |
 | **Range Slider** | Two-thumb min–max slider | Radix, Ark, MUI | Our Slider is a single native `input[type=range]` (no native dual). The first slider primitive that can't stay native. |
 | **Splitter** | Drag-to-resize panes | Ark/Zag, Radix | "Splitter" is the WAI-ARIA spec name ("window splitter") — nobody says it. Pick a human name when building (commonly *Resizable* or *Split Pane*). |
