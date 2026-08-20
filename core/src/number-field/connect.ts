@@ -207,8 +207,9 @@ export function connect({
     const target = e.currentTarget as HTMLElement | null;
     // Focus plus hover: a hovered but unfocused input keeps the page scrolling.
     if (!target || target.ownerDocument.activeElement !== target) return;
-    e.preventDefault();
+    // A purely horizontal wheel gesture keeps its native panning meaning.
     if (e.deltaY === 0) return;
+    e.preventDefault();
     stepBy(e.deltaY < 0 ? 1 : -1);
   };
 
@@ -259,6 +260,7 @@ export function connect({
       role: "spinbutton",
       disabled: disabled || undefined,
       readonly: readOnly || undefined,
+      required: required || undefined,
       "aria-invalid": isInvalid || undefined,
       "aria-required": required || undefined,
       "aria-describedby": describedBy,

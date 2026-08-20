@@ -389,6 +389,9 @@ describe("number-field connect", () => {
     expect(on.commits).toEqual([6]);
     expect(on.wheel(1, true)).toBe(true);
     expect(on.value()).toBe(5);
+    // A horizontal-only gesture keeps scrolling the page.
+    expect(on.wheel(0, true)).toBe(false);
+    expect(on.value()).toBe(5);
   });
 
   it("exposes truthful spinbutton semantics on the input", () => {
@@ -409,6 +412,7 @@ describe("number-field connect", () => {
     expect(props["aria-valuenow"]).toBe(12345.5);
     expect(props["aria-valuetext"]).toBe("12.345,5");
     expect(props["aria-required"]).toBe(true);
+    expect(props.required).toBe(true);
     expect(props["data-state"]).toBe("valid");
     const empty = harness().api().inputProps;
     expect(empty["aria-valuenow"]).toBeUndefined();
