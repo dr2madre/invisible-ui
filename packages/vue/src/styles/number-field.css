@@ -1,0 +1,109 @@
+/* NumberField, ported from the Svelte adapter, class names kept identical. */
+
+.number-field {
+  display: grid;
+  gap: var(--ds-field-gap, 0.375rem);
+  inline-size: var(--ds-field-width, 18rem);
+  max-inline-size: 100%;
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+
+.number-field .field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.number-field--disabled .field__label {
+  color: var(--ds-color-text-disabled, #94a3b8);
+}
+.number-field .field__required {
+  color: var(--ds-color-danger-body-text, #dc2626);
+}
+
+.number-field__group {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: stretch;
+}
+
+.number-field .field__control {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--ds-field-padding, 0.5rem 0.75rem);
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  background: var(--ds-color-background, #fff);
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+.number-field__input {
+  border-radius: 0;
+  border-inline: none;
+  text-align: center;
+}
+.number-field .field__control:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.number-field .field__control[data-invalid] {
+  border-color: var(--ds-color-danger, #dc2626);
+  box-shadow:
+    0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626),
+    0 0 0 calc(var(--ds-focus-ring-width, 2px) + var(--ds-focus-halo-width, 3px))
+      color-mix(in srgb, var(--ds-color-danger, #dc2626) 30%, transparent);
+}
+.number-field .field__control[data-disabled] {
+  background: var(--ds-color-disabled, #e2e8f0);
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+
+.number-field__spin {
+  box-sizing: border-box;
+  min-inline-size: 2.25rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  background: var(--ds-color-background, #fff);
+  color: var(--ds-color-text, #0f172a);
+  font: inherit;
+  font-size: 1.05em;
+  line-height: 1;
+  cursor: pointer;
+}
+.number-field__spin--decrement {
+  border-start-start-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+  border-end-start-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+}
+.number-field__spin--increment {
+  border-start-end-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+  border-end-end-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
+}
+.number-field__spin:hover:not(:disabled) {
+  background: var(--ds-color-state-hover, #f1f5f9);
+}
+.number-field__spin:focus-visible {
+  outline: none;
+  border-color: var(--ds-color-focus-ring, #2563eb);
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.number-field__spin:disabled {
+  color: var(--ds-color-text-disabled, #94a3b8);
+  cursor: not-allowed;
+}
+.number-field--disabled .number-field__spin {
+  background: var(--ds-color-disabled, #e2e8f0);
+}
+
+.number-field .field__description {
+  margin: 0;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+.number-field .field__error {
+  margin: 0;
+  color: var(--ds-color-danger-body-text, #dc2626);
+}

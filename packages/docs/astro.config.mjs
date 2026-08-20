@@ -86,6 +86,7 @@ export default defineConfig({
                     "components/forms/date-picker",
                     "components/forms/date-range-picker",
                     "components/forms/time-field",
+                    "components/forms/number-field",
                   ],
                 },
                 "components/forms/upload-drop-area",

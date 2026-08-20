@@ -256,7 +256,7 @@ export function connect({
       inputmode: "decimal",
       autocomplete: "off",
       autocorrect: "off",
-      spellcheck: false,
+      spellcheck: "false",
       role: "spinbutton",
       disabled: disabled || undefined,
       readonly: readOnly || undefined,

@@ -34,6 +34,7 @@ export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
 export { Dialog, type DialogProps } from "./dialog/Dialog";
 export { TextField, type TextFieldProps } from "./text-field/TextField";
+export { NumberField, type NumberFieldProps } from "./number-field/NumberField";
 export { Textarea, type TextareaProps } from "./textarea/Textarea";
 export { RadioGroup, type RadioGroupItem, type RadioGroupProps } from "./radio-group/RadioGroup";
 export { CheckboxGroup, type CheckboxGroupProps } from "./checkbox-group/CheckboxGroup";
@@ -188,6 +189,11 @@ export {
   type UseDialogOptions,
 } from "./dialog/use-dialog";
 export { useTextField, type UseTextFieldOptions } from "./text-field/use-text-field";
+export {
+  useNumberField,
+  type UseNumberField,
+  type UseNumberFieldOptions,
+} from "./number-field/use-number-field";
 export {
   useRadioGroup,
   type RadioGroupOrientation,

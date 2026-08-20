@@ -17,6 +17,7 @@ const requiredProps: Record<string, Props> = {
   Checkbox: { label: "Accept" },
   CheckboxGroup: { items: [], label: "Options" },
   Combobox: { items: [], label: "Search" },
+  NumberField: { label: "Amount" },
   ConfirmDialog: { title: "Confirm" },
   ContextMenu: { items: [] },
   Dialog: { title: "Dialog" },
@@ -63,9 +64,9 @@ const components = Object.entries(adapter).filter((entry): entry is [string, Com
 
 describe("Vue adapter SSR", () => {
   it("discovers every public component export", () => {
-    // The 74 catalog components plus Icon and LocaleProvider. This count makes
+    // The 75 catalog components plus Icon and LocaleProvider. This count makes
     // a new public component fail loudly until it joins the SSR guarantee.
-    expect(components).toHaveLength(77);
+    expect(components).toHaveLength(78);
   });
 
   for (const [name, component] of components) {
@@ -111,6 +112,19 @@ describe("Vue adapter SSR — i18n determinism", () => {
     expect(en_).toContain("January 2026");
     // The Italian render did not leak into the English one.
     expect(en_).not.toContain("gennaio");
+  });
+
+  it("renders the number field's localized value deterministically on the server", async () => {
+    const { renderToString } = await import("@vue/server-renderer");
+    const { createSSRApp, h } = await import("vue");
+    const html = await renderToString(
+      createSSRApp({
+        render: () => h(adapter.NumberField, { label: "Amount", value: 12345.5, locale: "it-IT" }),
+      }),
+    );
+    expect(html).toContain('value="12.345,5"');
+    expect(html).toContain('role="spinbutton"');
+    expect(html).toContain('inputmode="decimal"');
   });
 
   it("derives dir from the locale on the server too", async () => {

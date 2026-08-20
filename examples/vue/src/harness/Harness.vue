@@ -5,6 +5,7 @@ import { computed, ref } from "vue";
 import {
   Button,
   MultiSelect,
+  NumberField,
   Popover,
   TableSet,
   TextField,
@@ -42,6 +43,17 @@ const onSkillsSubmit = (event: Event) => {
   event.preventDefault();
   submittedSkills.value =
     new FormData(event.currentTarget as HTMLFormElement).getAll("skills").join(", ") || "none";
+};
+
+const price = ref<number | null>(1234.5);
+const committedPrice = ref("none");
+const submittedPrice = ref("none");
+const wheelValue = ref<number | null>(3);
+
+const onPriceSubmit = (event: Event) => {
+  event.preventDefault();
+  submittedPrice.value =
+    String(new FormData(event.currentTarget as HTMLFormElement).get("price") ?? "") || "empty";
 };
 
 const loadPeople = () => {
@@ -98,6 +110,32 @@ const loadPeople = () => {
       <p data-testid="selection-readout">Selected: {{ selectedRowIds.join(", ") || "none" }}</p>
     </section>
 
+    <section class="harness-number-field" aria-label="Number field">
+      <form data-testid="price-form" @submit="onPriceSubmit">
+        <NumberField
+          label="Price"
+          :value="price"
+          locale="it-IT"
+          :min="0"
+          :step="0.5"
+          name="price"
+          :on-value-change="(next) => (price = next)"
+          :on-value-commit="(next) => (committedPrice = next === null ? 'null' : String(next))"
+        />
+        <NumberField
+          label="Wheel amount"
+          :value="wheelValue"
+          change-on-wheel
+          :on-value-change="(next) => (wheelValue = next)"
+        />
+        <NumberField label="Plain amount" :value="3" />
+        <Button type="submit">Submit price</Button>
+        <button type="reset">Reset price</button>
+        <p data-testid="price-committed">Committed: {{ committedPrice }}</p>
+        <p data-testid="price-submitted">Submitted: {{ submittedPrice }}</p>
+      </form>
+    </section>
+
     <section class="harness-multi-select" aria-label="Multi select">
       <form data-testid="skills-form" @submit="onSkillsSubmit">
         <MultiSelect
@@ -122,6 +160,11 @@ main {
   justify-items: start;
   padding: 2rem;
   font-family: system-ui, sans-serif;
+}
+.harness-number-field form {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
 }
 .harness-multi-select form {
   display: grid;

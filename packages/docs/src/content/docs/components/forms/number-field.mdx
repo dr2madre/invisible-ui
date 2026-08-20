@@ -1,0 +1,79 @@
+---
+title: "Number Field"
+---
+
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import NumberFieldDemo from "../../../../demos/NumberFieldDemo.svelte";
+
+<Preview>
+  <NumberFieldDemo client:visible />
+</Preview>
+
+A locale-aware decimal field: a text input with `role="spinbutton"` and
+`inputmode="decimal"`, plus increment/decrement buttons. The field accepts
+plain decimal numbers — the locale's digits or ASCII digits, an optional sign,
+group separators anywhere, one decimal separator. Currency, percent, unit,
+compact, and scientific formats are not supported.
+
+### Import
+
+<ImportSnippet component="number-field" />
+
+### Value and draft
+
+The canonical `value` is a number (or `null` when empty); the text being
+edited is a separate draft. While you type, `onValueChange` follows the draft
+as it parses. On blur, Enter, or a spin action the field **commits**
+(`onValueCommit`): a valid draft is reformatted into the locale's display
+(grouping included), an unparseable draft is kept exactly as typed and flagged
+invalid — nothing is lost or silently corrected. Escape restores the last
+committed value. A form submits the canonical ASCII value (for example
+`1234.5`) through a hidden input, never the localized text.
+
+### Validation, not correction
+
+Typed input that violates `min`, `max`, or `step` keeps the value and reports
+the violation (`aria-invalid` plus a localized message). The spin actions are
+the corrective gesture: they snap to the nearest step multiple in the pressed
+direction and stay inside the bounds. Stepping uses exact decimal arithmetic,
+so ten steps of `0.1` land on `1`, never `0.9999…`.
+
+### Keyboard and wheel
+
+- ArrowUp / ArrowDown step by `step`.
+- Home / End jump to `min` / `max` when both are set; otherwise the keys keep
+  their native caret meaning.
+- Enter commits without blocking form submission; Escape undoes the draft.
+- Every other editing key, selection, and clipboard shortcut stays native.
+- The wheel does nothing by default (the page keeps scrolling). Set
+  `changeOnWheel` to step while the input is focused and hovered.
+
+### Locale
+
+Parsing and display follow the `locale` prop, defaulting to the surrounding
+[Locale Provider](/invisible-ui/components/localization/locale-provider/)
+scope. The locale's own digits and ASCII digits are both accepted.
+
+### Props
+
+<PropsTable component="number-field" />
+
+### Accessibility
+
+- The input is a labelled `role="spinbutton"` with truthful `aria-valuemin`,
+  `aria-valuemax`, `aria-valuenow`, and a localized `aria-valuetext`.
+- The spin buttons are named from the field label ("Increase Price"), stay out
+  of the tab order per the spinbutton pattern, and disable at the bounds;
+  pressing them keeps focus in the input.
+- Description and error text are linked via `aria-describedby`; validation
+  messages are announced politely.
+
+### Example
+
+```svelte
+<NumberField label="Price" value={19.5} min={0} step={0.5} name="price" />
+```
+
+Themeable via `--ds-field-*`.
