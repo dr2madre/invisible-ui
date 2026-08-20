@@ -109,10 +109,14 @@ test.describe("Async Content composition (docs demo)", () => {
     expect(await liveCount()).toBe(0);
   });
 
-  test("works at 320px, in RTL and with reduced motion", async ({ page }) => {
+  test("works at 320px, in RTL, with reduced motion and expanded text", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
+    await page.evaluate(() => {
+      document.documentElement.setAttribute("dir", "rtl");
+      // A text-expansion proxy: twice the root size, like text-only zoom.
+      document.documentElement.style.fontSize = "200%";
+    });
     const d = demo(page);
 
     await d.getByRole("button", { name: "Start request" }).click();
