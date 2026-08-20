@@ -80,7 +80,11 @@ describe("table connect", () => {
   const wire = (overrides = {}) => {
     const setSort = vi.fn();
     const setHidden = vi.fn();
-    return { api: connect({ state: make(overrides), setSort, setHidden }), setSort, setHidden };
+    return {
+      api: connect({ state: make(overrides), setSort, setHidden, setSelectedRowIds: () => {} }),
+      setSort,
+      setHidden,
+    };
   };
 
   it("reflects aria-sort only on sortable columns", () => {
@@ -110,7 +114,10 @@ describe("table connect — column visibility", () => {
   const wire = (overrides = {}) => {
     const setSort = vi.fn();
     const setHidden = vi.fn();
-    return { api: connect({ state: make(overrides), setSort, setHidden }), setHidden };
+    return {
+      api: connect({ state: make(overrides), setSort, setHidden, setSelectedRowIds: () => {} }),
+      setHidden,
+    };
   };
 
   it("filters hidden columns out of visibleColumns", () => {
@@ -180,6 +187,13 @@ describe("table state — row selection transitions", () => {
 
   it("scope toggle removes only the scope when it is fully selected", () => {
     expect(toggleScopeSelection(["z", 1, 2], [1, 2], "multiple")).toEqual(["z"]);
+  });
+});
+
+describe("table state — selection input tolerance", () => {
+  it("a scope with repeated ids never produces duplicate selected ids", () => {
+    expect(toggleScopeSelection([], [1, 1, 2], "multiple")).toEqual([1, 2]);
+    expect(toggleScopeSelection([2], [1, 1], "multiple")).toEqual([2, 1]);
   });
 });
 

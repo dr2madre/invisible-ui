@@ -1,5 +1,6 @@
 import { table as core } from "@design-system/core";
 import { computed, ref, toValue, watch, type ComputedRef, type MaybeRefOrGetter } from "vue";
+import { fail } from "../internal/dev";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 import type { SortState, TableColumnDef } from "./Table";
@@ -47,6 +48,17 @@ export interface UseTable {
  * the connected props with `computed(connect)`. Use the connected API's
  * `sortRows` to derive the rows to render.
  */
+/**
+ * The selection contract keeps ids unique; a controlled value that already
+ * carries duplicates is a consumer error. Development fails, production
+ * keeps the value untouched (selection data is never pruned).
+ */
+function assertUniqueSelection(ids: RowId[]): void {
+  if (new Set(ids).size !== ids.length) {
+    fail("`selectedRowIds` must not contain duplicate ids.");
+  }
+}
+
 export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
   const resolved = computed(() => toValue(options));
   // One seeding pass fixes the id, so later states reuse it instead of drawing
@@ -56,6 +68,7 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
   const hiddenColumns = ref<string[]>(seed.hiddenColumns);
   const selectionMode = ref<SelectionMode>(seed.selectionMode);
   const selectedRowIds = ref<RowId[]>(seed.selectedRowIds);
+  assertUniqueSelection(seed.selectedRowIds);
 
   watch(
     () => resolved.value.sort,
@@ -121,6 +134,7 @@ export function useTable(options: MaybeRefOrGetter<UseTableOptions>): UseTable {
   };
 
   const syncSelectedRowIds = (next: RowId[]) => {
+    assertUniqueSelection(next);
     if (!selectionEquals(selectedRowIds.value, next)) selectedRowIds.value = next;
   };
 

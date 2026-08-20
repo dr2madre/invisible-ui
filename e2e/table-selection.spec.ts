@@ -103,6 +103,28 @@ test.describe("Svelte TableSet row selection (docs demo)", () => {
     expect(await list.getByRole("checkbox", { name: "Select all visible rows" }).count()).toBe(0);
   });
 
+  test("hideLabel checkboxes keep a usable touch target", async ({ page }) => {
+    const demo = selectionDemo(page);
+    const target = async (name: string) => {
+      const box = await control(demo.getByRole("checkbox", { name })).boundingBox();
+      expect(box, name).not.toBeNull();
+      return box!;
+    };
+    // WCAG 2.5.8: pointer targets of at least 24x24 CSS pixels.
+    for (const name of ["Select Ada", "Select all visible rows"]) {
+      const box = await target(name);
+      expect(box.width, name).toBeGreaterThanOrEqual(24);
+      expect(box.height, name).toBeGreaterThanOrEqual(24);
+    }
+    // The card view at 320px must hold the same minimum.
+    await page.setViewportSize({ width: 320, height: 900 });
+    await control(demo.getByRole("radio", { name: "Cards" })).click();
+    await expect(demo.getByRole("list", { name: "Customers" })).toBeVisible();
+    const box = await target("Select Ada");
+    expect(box.width).toBeGreaterThanOrEqual(24);
+    expect(box.height).toBeGreaterThanOrEqual(24);
+  });
+
   test("selection works in right-to-left writing mode", async ({ page }) => {
     await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
     const demo = selectionDemo(page);
@@ -151,6 +173,41 @@ test.describe("Vue TableSet row selection (harness)", () => {
     await control(selectAll).click();
     await expect(page.getByTestId("selection-readout")).toHaveText("Selected: 1, 3");
     await expect(selectAll).toBeChecked();
+  });
+
+  test("Vue card view at 320px stays reachable, named and sized", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.getByRole("button", { name: "Load people" }).click();
+    await control(page.getByRole("radio", { name: "Cards" })).click();
+
+    const list = page.getByRole("list", { name: "People" });
+    await expect(list).toBeVisible();
+    const ada = page.getByRole("checkbox", { name: "Select Ada" });
+    await control(ada).click();
+    await expect(ada).toBeChecked();
+
+    // Select-all sits outside the list with a visible label and the row
+    // target meets the 24px minimum (WCAG 2.5.8).
+    const selectAll = page.getByRole("checkbox", { name: "Select all visible rows" });
+    await expect(selectAll).toBeVisible();
+    expect(await list.getByRole("checkbox", { name: "Select all visible rows" }).count()).toBe(0);
+    const box = await control(ada).boundingBox();
+    expect(box!.width).toBeGreaterThanOrEqual(24);
+    expect(box!.height).toBeGreaterThanOrEqual(24);
+  });
+
+  test("a Vue page change keeps focus and the selection", async ({ page }) => {
+    await page.getByRole("button", { name: "Load people" }).click();
+    await control(page.getByRole("checkbox", { name: "Select Ada" })).click();
+
+    // The Vue pager and clamp are a distinct implementation: the pressed
+    // button keeps focus and the off-page selection is retained.
+    const pageTwo = page.getByRole("button", { name: "Go to page 2" });
+    await pageTwo.click();
+    await expect(pageTwo).toBeFocused();
+    await expect(page.getByTestId("selection-readout")).toHaveText("Selected: 1");
+    await page.getByRole("button", { name: "Go to page 1" }).click();
+    await expect(page.getByRole("checkbox", { name: "Select Ada" })).toBeChecked();
   });
 
   test("a Vue row selects with the keyboard and marks its row", async ({ page }) => {

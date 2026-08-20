@@ -44,7 +44,13 @@ export function toggleScopeSelection(
     const scopeSet = new Set(scope);
     return selected.filter((id) => !scopeSet.has(id));
   }
-  const missing = scope.filter((id) => !selectedSet.has(id));
+  const missing: RowId[] = [];
+  const queued = new Set<RowId>();
+  for (const id of scope) {
+    if (selectedSet.has(id) || queued.has(id)) continue;
+    queued.add(id);
+    missing.push(id);
+  }
   return missing.length === 0 ? selected : [...selected, ...missing];
 }
 

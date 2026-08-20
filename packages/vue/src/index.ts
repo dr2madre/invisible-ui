@@ -369,7 +369,14 @@ export {
   type UseSearchDialog,
   type UseSearchDialogOptions,
 } from "./search-dialog/use-search-dialog";
-export { useTable, type TableApi, type UseTable, type UseTableOptions } from "./table/use-table";
+export {
+  useTable,
+  type RowId,
+  type SelectionMode,
+  type TableApi,
+  type UseTable,
+  type UseTableOptions,
+} from "./table/use-table";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

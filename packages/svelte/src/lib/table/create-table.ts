@@ -51,6 +51,17 @@ export interface CreateTable {
 }
 
 /**
+ * The selection contract keeps ids unique; a controlled value that already
+ * carries duplicates is a consumer error. Development fails, production
+ * keeps the value untouched (selection data is never pruned).
+ */
+function assertUniqueSelection(ids: RowId[]): void {
+  if (new Set(ids).size !== ids.length) {
+    fail("`selectedRowIds` must not contain duplicate ids.");
+  }
+}
+
+/**
  * Resolve each row's selection id. Selection needs an id that survives
  * sorting and paging, so the index fallback of the default getRowId is not
  * accepted here. A missing or duplicate id is an error in development; in
@@ -98,6 +109,7 @@ export function createTable(context: TableContext): CreateTable {
   const state = writable<TableState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-table") }),
   );
+  if (context.selectedRowIds) assertUniqueSelection(context.selectedRowIds);
 
   const sortEquals = (a: SortState | null, b: SortState | null) =>
     a === b || (a != null && b != null && a.key === b.key && a.direction === b.direction);
@@ -184,7 +196,10 @@ export function createTable(context: TableContext): CreateTable {
     syncSort: (sort: SortState | null) => updateSort(sort, false),
     syncHiddenColumns: (hidden: string[]) => updateHidden(hidden, false),
     syncColumns,
-    syncSelectedRowIds: (ids: core.RowId[]) => updateSelected(ids, false),
+    syncSelectedRowIds: (ids: core.RowId[]) => {
+      assertUniqueSelection(ids);
+      updateSelected(ids, false);
+    },
     syncSelectionMode,
     headerAction,
     sortButtonAction,

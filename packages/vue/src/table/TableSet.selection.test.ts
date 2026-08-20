@@ -287,6 +287,61 @@ describe("Vue TableSet — row selection", () => {
     });
   });
 
+  it("calls only the replacement callback after the prop is swapped", async () => {
+    const user = userEvent.setup();
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = setup({ onSelectedRowIdsChange: first });
+    await rerender({ onSelectedRowIdsChange: second });
+    await user.click(rowCheckbox("Ada"));
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it("accepts a controlled give-back without churn or callbacks", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const { rerender } = setup({ selectedRowIds: [], onSelectedRowIdsChange: onChange });
+    await user.click(rowCheckbox("Ada"));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // The parent gives the emitted value back as a fresh array: the mirror
+    // must recognize the same content and stay quiet.
+    await rerender({ selectedRowIds: [1] });
+    expect(rowCheckbox("Ada")).toBeChecked();
+    await user.click(rowCheckbox("Grace"));
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith([1, 2]);
+  });
+
+  it("throws on a controlled selection that carries duplicate ids", () => {
+    expect(() => setup({ selectedRowIds: [1, 1] })).toThrow(
+      /\[ds\] `selectedRowIds` must not contain duplicate ids/,
+    );
+  });
+
+  it("follows rows through sort, paging and card view with a custom getRowId", async () => {
+    const user = userEvent.setup();
+    let selected: unknown[] = [];
+    const getRowId = (row: TableRow) => `k-${String(row.name)}`;
+    const { rerender } = setup({
+      pageSize: 2,
+      getRowId,
+      selectedRowIds: selected,
+      onSelectedRowIdsChange: (ids: unknown[]) => (selected = ids),
+    });
+    await user.click(rowCheckbox("Ada"));
+    await rerender({ selectedRowIds: selected });
+    // Descending sort moves Ada off the page; her id is retained.
+    const nameButton = within(screen.getByRole("columnheader", { name: /Name/ })).getByRole(
+      "button",
+    );
+    await user.click(nameButton);
+    expect(screen.queryByRole("checkbox", { name: "Select Ada" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Go to page 3" }));
+    expect(rowCheckbox("Ada")).toBeChecked();
+    expect(rowCheckbox("Ada").closest("tr")).toHaveAttribute("data-selected");
+  });
+
   it("has no axe violations with selection enabled", async () => {
     const { container } = setup({ selectedRowIds: [1] });
     expect(

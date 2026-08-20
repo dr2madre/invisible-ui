@@ -40,7 +40,8 @@ selection, and switching `selectionMode` never clears it.
 - Every row needs a stable, unique id: `row.id` or a custom `getRowId`. The
   index fallback of the default `getRowId` is not accepted for selection, and
   ids must be unique across all rows the component receives (uniqueness across
-  unloaded server pages is the consumer's responsibility).
+  unloaded server pages is the consumer's responsibility). The controlled
+  `selectedRowIds` holds each id once; duplicates are a consumer error.
 - `getRowLabel` is required while selection is active: it names each row's
   checkbox (`Select {name}`). Empty or whitespace-only labels are invalid.
 - Misuse throws in development. In production the component degrades

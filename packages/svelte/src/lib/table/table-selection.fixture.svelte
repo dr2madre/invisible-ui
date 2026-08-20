@@ -48,7 +48,7 @@
   {isRowSelectable}
   {getRowLabel}
   {getRowId}
-  onSelectedRowIdsChange={handleChange}
+  onSelectedRowIdsChange={bindSelection ? handleChange : onSelectedRowIdsChange}
   title="People"
   caption="People"
 />

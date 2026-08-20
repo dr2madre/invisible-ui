@@ -57,7 +57,7 @@ export interface ConnectOptions {
   /** Request a new hidden-column set; the adapter owns how state updates. */
   setHidden: (hidden: string[]) => void;
   /** Request a new selection; the adapter owns how state updates. */
-  setSelectedRowIds?: (ids: RowId[]) => void;
+  setSelectedRowIds: (ids: RowId[]) => void;
   normalize?: Normalize;
 }
 
@@ -81,7 +81,7 @@ export function connect({
   // The pure transitions return the same array on a no-op, so a no-op never
   // reaches the adapter's setter and can never fire its callback.
   const applySelection = (next: RowId[]) => {
-    if (next !== selectedRowIds) setSelectedRowIds?.(next);
+    if (next !== selectedRowIds) setSelectedRowIds(next);
   };
 
   const isSortable = (key: string) => columns.find((c) => c.key === key)?.sortable ?? false;

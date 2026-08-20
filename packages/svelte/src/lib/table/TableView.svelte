@@ -498,6 +498,13 @@
     gap: 0.5rem;
     align-items: start;
   }
+  /* A comfortable touch target around the small box (WCAG 2.5.8): the
+     padding expands the clickable label, the margin cancels the layout
+     shift, and nothing changes visually. */
+  .table-view__card-item :global(.field) {
+    padding: 0.35rem;
+    margin: -0.35rem;
+  }
   .table-view__cards {
     display: grid;
     gap: 0.75rem;

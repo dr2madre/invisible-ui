@@ -195,6 +195,14 @@
     inline-size: 2.5rem;
     padding-inline-end: 0;
   }
+  /* A comfortable touch target around the small box (WCAG 2.5.8): the
+     padding expands the clickable label, the margin cancels the layout
+     shift, and nothing changes visually. */
+  .table__th--selection :global(.field),
+  .table__td--selection :global(.field) {
+    padding: 0.35rem;
+    margin: -0.35rem;
+  }
 
   .table__row:hover {
     background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f8fafc));

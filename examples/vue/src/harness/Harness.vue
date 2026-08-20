@@ -44,6 +44,8 @@ const loadPeople = () => {
         :columns="peopleColumns"
         :rows="peopleRows"
         caption="People"
+        allow-view-toggle
+        card-title-key="name"
         selection-mode="multiple"
         :selected-row-ids="selectedRowIds"
         :on-selected-row-ids-change="(ids) => (selectedRowIds = ids)"

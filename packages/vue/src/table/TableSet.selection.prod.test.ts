@@ -53,6 +53,49 @@ describe("Vue TableSet — row selection production fallbacks", () => {
     expect(screen.queryByRole("checkbox", { name: "Select Grace" })).not.toBeInTheDocument();
   });
 
+  it("first occurrence wins when duplicate ids share the same page", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    setup(
+      [
+        { id: 1, name: "Ada", age: 36 },
+        { id: 1, name: "Grace", age: 85 },
+        { id: 2, name: "alan", age: 41 },
+      ],
+      { onSelectedRowIdsChange: onChange },
+    );
+    // Both rows render; only the first occurrence of id 1 gets a control.
+    expect(screen.getByText("Grace")).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: "Select Ada" })).toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: "Select Grace" })).not.toBeInTheDocument();
+    // The surviving control works, and select-all holds each id once.
+    await user.click(screen.getByRole("checkbox", { name: "Select Ada" }));
+    expect(onChange).toHaveBeenLastCalledWith([1]);
+    await user.click(screen.getByRole("checkbox", { name: "Select all visible rows" }));
+    expect(onChange).toHaveBeenLastCalledWith([1, 2]);
+  });
+
+  it("renders the same row object twice without any operational control", () => {
+    // Two controls for one id are never acceptable, and two occurrences of
+    // one object cannot be told apart: both stay inert, deterministically.
+    const ada = { id: 1, name: "Ada", age: 36 };
+    setup([ada, ada, { id: 2, name: "alan", age: 41 }]);
+    expect(screen.queryAllByRole("checkbox", { name: "Select Ada" })).toHaveLength(0);
+    expect(screen.getByRole("checkbox", { name: "Select alan" })).toBeInTheDocument();
+  });
+
+  it("keeps the controlled selection untouched even with duplicate ids", () => {
+    // Production never prunes consumer data; the duplicate is the consumer's
+    // to fix and fails in development.
+    const onChange = vi.fn();
+    setup([{ id: 1, name: "Ada", age: 36 }], {
+      selectedRowIds: [1, 1],
+      onSelectedRowIdsChange: onChange,
+    });
+    expect(screen.getByRole("checkbox", { name: "Select Ada" })).toBeChecked();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it("names the checkbox after the row id when the label is invalid", () => {
     setup([{ id: 1, name: "Ada", age: 36 }], { getRowLabel: () => "   " });
     expect(screen.getByRole("checkbox", { name: "Select 1" })).toBeInTheDocument();

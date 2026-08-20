@@ -258,6 +258,52 @@ describe("Svelte TableSet — row selection", () => {
     });
   });
 
+  it("calls only the replacement callback after the prop is swapped", async () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = render(Fixture, { props: { onSelectedRowIdsChange: first } });
+    await rerender({ onSelectedRowIdsChange: second });
+    await fireEvent.click(rowCheckbox("Ada"));
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it("accepts a controlled give-back without churn or callbacks", async () => {
+    const onChange = vi.fn();
+    render(Fixture, {
+      props: { bindSelection: true, onSelectedRowIdsChange: onChange },
+    });
+    await fireEvent.click(rowCheckbox("Ada"));
+    // bindSelection feeds the emitted array back into the prop: the mirror
+    // must recognize the same content and stay quiet.
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(rowCheckbox("Ada")).toBeChecked();
+    await fireEvent.click(rowCheckbox("Grace"));
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith([1, 2]);
+  });
+
+  it("throws on a controlled selection that carries duplicate ids", () => {
+    expect(() => render(Fixture, { props: { selectedRowIds: [1, 1] } })).toThrow(
+      /\[ds\] `selectedRowIds` must not contain duplicate ids/,
+    );
+  });
+
+  it("follows rows through sort, paging and card view with a custom getRowId", async () => {
+    const getRowId = (row: Record<string, unknown>) => `k-${String(row.name)}`;
+    render(Fixture, { props: { pageSize: 2, bindSelection: true, getRowId } });
+    await fireEvent.click(rowCheckbox("Ada"));
+    // Descending sort moves Ada off the page; her id is retained.
+    const nameButton = within(screen.getByRole("columnheader", { name: /Name/ })).getByRole(
+      "button",
+    );
+    await fireEvent.click(nameButton);
+    expect(screen.queryByRole("checkbox", { name: "Select Ada" })).not.toBeInTheDocument();
+    await fireEvent.click(screen.getByRole("button", { name: "Go to page 3" }));
+    expect(rowCheckbox("Ada")).toBeChecked();
+    expect(rowCheckbox("Ada").closest("tr")).toHaveAttribute("data-selected");
+  });
+
   it("has no axe violations with selection enabled", async () => {
     const { container } = render(Fixture, { props: { selectedRowIds: [1] } });
     expect(await axe(container)).toHaveNoViolations();
