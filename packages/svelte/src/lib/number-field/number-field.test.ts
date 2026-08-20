@@ -119,6 +119,15 @@ describe("Svelte NumberField", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("keeps an unfocused invalid draft across a locale change", async () => {
+    const { rerender } = render(Fixture, { props: { value: 5, providerLocale: "en" } });
+    await fireEvent.input(input(), { target: { value: "1..2" } });
+    await fireEvent.blur(input());
+    expect(input().value).toBe("1..2");
+    await rerender({ providerLocale: "it-IT" });
+    expect(input().value).toBe("1..2");
+  });
+
   it("keeps a focused draft across a locale change", async () => {
     const { rerender } = render(Fixture, { props: { providerLocale: "en" } });
     input().focus();

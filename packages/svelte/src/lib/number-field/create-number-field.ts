@@ -141,8 +141,13 @@ export function createNumberField(context: CreateNumberFieldOptions = {}): Creat
       ) {
         return s;
       }
-      // A locale change reformats an idle display; a focused draft is kept.
-      if (locale !== s.locale && !isEditing()) {
+      // A locale change reformats an idle display, but only when it shows the
+      // committed value: a focused draft or a kept invalid draft is user data.
+      if (
+        locale !== s.locale &&
+        !isEditing() &&
+        s.inputValue === core.formatNumber(s.committedValue, s.locale)
+      ) {
         next.inputValue = core.formatNumber(s.committedValue, locale);
       }
       return next;

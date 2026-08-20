@@ -101,9 +101,12 @@ export function useNumberField(
     },
   );
 
-  // A locale change reformats an idle display; a focused draft is kept.
-  watch(locale, (next) => {
-    if (!isEditing()) inputValue.value = core.formatNumber(committedValue.value, next);
+  // A locale change reformats an idle display, but only when it shows the
+  // committed value: a focused draft or a kept invalid draft is user data.
+  watch(locale, (next, previous) => {
+    if (isEditing()) return;
+    if (inputValue.value !== core.formatNumber(committedValue.value, previous)) return;
+    inputValue.value = core.formatNumber(committedValue.value, next);
   });
 
   const api = computed(() =>

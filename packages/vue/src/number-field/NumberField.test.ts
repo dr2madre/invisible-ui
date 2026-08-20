@@ -139,6 +139,17 @@ describe("Vue NumberField (styled)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("keeps an unfocused invalid draft across a locale change", async () => {
+    const { rerender } = render(NumberField, {
+      props: { label: "Amount", value: 5, locale: "en" },
+    });
+    await type("1..2");
+    await fireEvent.blur(input());
+    expect(input().value).toBe("1..2");
+    await rerender({ locale: "it-IT" });
+    expect(input().value).toBe("1..2");
+  });
+
   it("keeps a focused draft across a locale change", async () => {
     const { rerender } = render(NumberField, { props: { label: "Amount", locale: "en" } });
     input().focus();
