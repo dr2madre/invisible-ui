@@ -3,9 +3,9 @@
 Python wrappers over [`@design-system/react`](../react) for
 [Reflex](https://reflex.dev) apps.
 
-**Status: proof-of-concept**, completing technical-roadmap item #6 Part B. Six
-wrappers — Button, Checkbox, Switch, Select, Combobox, Dialog — mirroring the
-React PoC set.
+**Status: proof-of-concept**, completing technical-roadmap item #6 Part B.
+Seven wrappers — Button, Checkbox, Switch, Select, Combobox, MultiSelect,
+Dialog — mirroring the React set.
 
 ## How it works — and the constraint
 

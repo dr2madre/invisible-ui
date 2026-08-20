@@ -161,7 +161,7 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
-- Extend the React adapter from the shared six toward full catalog parity.
+- Extend the React adapter from the shared set (six PoC components plus Multi Select) toward full catalog parity.
 - [x] Extend the API-manifest generator beyond Svelte: it now reads Svelte,
   Vue, React and custom elements (completed in #200).
 - Decide whether the docs site embeds React demos alongside the Svelte islands.

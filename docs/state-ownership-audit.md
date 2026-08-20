@@ -90,8 +90,11 @@ application-owned state is not a gap.
 - **Parity**: **Svelte and Vue both ship all three.** `Table` and `TableSet`
   are public in both; `TableView` is **internal in both** and is reached
   through `TableSet`.
-- **Genuinely missing**: row selection, filtering, and the coordination of
-  sort, filter, selection and pagination as one machine over a data source.
+- **Genuinely missing at audit time**: row selection, filtering, and the
+  coordination of sort, filter, selection and pagination as one machine over a
+  data source. **Shipped since (August 2026)**: controlled row selection (5B)
+  and filtering coordination (5C) per the spec below; the remote-data machine
+  stays with the application by design.
 
 **Controlled contracts are broken today in Table View and Table Set.** The
 **primitive Table's `sort` prop is controlled** and is not affected. Verified
@@ -142,14 +145,16 @@ here and deliberately not fixed in this audit.
 
 - **Primitives**: Combobox, Tag.
 - **`core/`**: the combobox owns a **single** `value: string | null`.
-- **Genuinely missing**: multi-value selection state, that is the selected set,
-  add and remove, duplicate rules, the keyboard contract for removing the last
-  tag with Backspace, and the relationship between the input text and the
-  committed values.
-- **Candidate owner, not approved**: `core/`, as a multi-value mode of the
-  combobox state or a sibling state module. This is a real design round, not a
-  styling exercise.
-- **Parity and coverage**: none, since nothing is implemented.
+- **Genuinely missing at audit time**: multi-value selection state, that is
+  the selected set, add and remove, duplicate rules, the keyboard contract for
+  removing the last tag with Backspace, and the relationship between the input
+  text and the committed values. **Shipped since (August 2026)**:
+  `core/multi-select`, a sibling of the combobox (Tasks 7A–7C), with Svelte,
+  Vue, React, Elements and Reflex adapters.
+- **Owner, decided and shipped**: `core/multi-select`, a sibling state module;
+  the combobox contract stayed single-value and unconditional.
+- **Parity and coverage**: mirrored unit matrices in Svelte, Vue, React and
+  Elements, Reflex render tests, and three-browser harness coverage.
 
 ### Search Dialog
 
@@ -227,7 +232,12 @@ decisions on these points are closed.
 
 - **Existing**: Loading, Skeleton, Empty State, Error State, and the delay
   handling already inside Loading.
-- **Missing, confirmed**: the orchestration deciding which of them is visible.
+- **Missing, confirmed at audit time**: the orchestration deciding which of
+  them is visible. **Shipped since (August 2026)** as
+  `asyncContent.deriveAsyncView` (Task 6A) plus the documented composition
+  pattern (6B): resolved as a pure derivation with the consumer's explicit
+  `isEmpty`, no retry callback and no delay state of its own (Loading keeps
+  the delay).
 - **Owner**: a headless state machine in `core/`, driven by application flags.
   It must never hold the data, the cache or the authorization.
 - **Candidate API**: a state derived from `status` (`idle`, `loading`,
@@ -246,7 +256,10 @@ decisions on these points are closed.
 ### Task 7 brief — Multi-select with tags
 
 - **Existing**: single-value combobox state in `core/`, and Tag for display.
-- **Missing, confirmed**: the multi-value state and its keyboard contract.
+- **Missing, confirmed at audit time**: the multi-value state and its keyboard
+  contract. **Shipped since (August 2026)** as `core/multi-select` with all
+  adapters (Tasks 7A–7C); the recorded decision is a sibling component, never
+  a `multiple` mode of Combobox.
 - **Owner**: `core/`.
 - **Candidate API**: `values: string[]` with `onValuesChange`, `max`, a
   duplicate rule, `removeValue`, and prop getters for each tag's remove
