@@ -112,6 +112,20 @@ test.describe("Elements <ds-multi-select> (harness)", () => {
     await expect(page.getByTestId("skills-readout")).toHaveText("Submitted: vue, elements");
   });
 
+  test("touch selects options and removes tags, in RTL too", async ({ browser }) => {
+    const context = await browser.newContext({ hasTouch: true });
+    const page = await context.newPage();
+    await page.goto(ELEMENTS_BASE);
+    await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
+    await input(page).tap();
+    await page.getByRole("option", { name: "Elements" }).tap();
+    await expect(page.getByRole("button", { name: "Remove Elements" })).toBeVisible();
+    await page.getByRole("button", { name: "Remove Elements" }).tap();
+    await expect(page.getByRole("button", { name: "Remove Elements" })).toHaveCount(0);
+    await expect(page.getByTestId("events-readout")).toHaveText("Events: vue");
+    await context.close();
+  });
+
   test("wraps at 320px and keeps usable remove targets", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 900 });
     await input(page).click();
