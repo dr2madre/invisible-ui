@@ -204,7 +204,7 @@
   // prop still overwrites the mirror.
   let lastFiltersActive = filtersActive;
   let lastFilterRevision = filterRevision;
-  $: if (filtersActive !== lastFiltersActive || filterRevision !== lastFilterRevision) {
+  $: if (filtersActive !== lastFiltersActive || !Object.is(filterRevision, lastFilterRevision)) {
     lastFiltersActive = filtersActive;
     lastFilterRevision = filterRevision;
     if (currentPage !== 1) {

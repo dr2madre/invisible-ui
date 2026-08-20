@@ -103,6 +103,15 @@ describe("Vue TableSet — filtering coordination", () => {
       expect(onPageChange).toHaveBeenLastCalledWith(1);
     });
 
+    it("treats an unchanged NaN revision as unchanged", async () => {
+      const onPageChange = vi.fn();
+      const { rerender } = setup({ pageSize: 2, page: 2, filterRevision: NaN, onPageChange });
+      // An unrelated rerender with the same NaN revision must not reset.
+      await rerender({ loading: false });
+      expect(onPageChange).not.toHaveBeenCalled();
+      expect(bodyNames()).toEqual(["Barbara", "Edsger"]);
+    });
+
     it("never resets on a new rows-array identity alone", async () => {
       const onPageChange = vi.fn();
       const { rerender } = setup({ pageSize: 2, page: 2, filtersActive: true, onPageChange });
@@ -121,6 +130,30 @@ describe("Vue TableSet — filtering coordination", () => {
       await rerender({ page: 2 });
       expect(bodyNames()).toEqual(["Barbara", "Edsger"]);
       expect(onPageChange).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("replacement callbacks", () => {
+    it("calls only the latest onPageChange and onClearFilters", async () => {
+      const user = userEvent.setup();
+      const firstPage = vi.fn();
+      const secondPage = vi.fn();
+      const firstClear = vi.fn();
+      const secondClear = vi.fn();
+      const { rerender } = setup({
+        pageSize: 2,
+        page: 2,
+        filterRevision: "a",
+        onPageChange: firstPage,
+        onClearFilters: firstClear,
+      });
+      await rerender({ onPageChange: secondPage, onClearFilters: secondClear });
+      await rerender({ filterRevision: "b", rows: [], filtersActive: true });
+      expect(firstPage).not.toHaveBeenCalled();
+      expect(secondPage).toHaveBeenCalledTimes(1);
+      await user.click(screen.getByRole("button", { name: "Clear filters" }));
+      expect(firstClear).not.toHaveBeenCalled();
+      expect(secondClear).toHaveBeenCalledTimes(1);
     });
   });
 

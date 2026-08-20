@@ -259,7 +259,7 @@ export const TableView = defineComponent({
       () => [props.page, props.filtersActive, props.filterRevision] as const,
       ([page, active, revision], [previousPage, previousActive, previousRevision]) => {
         if (page !== previousPage) currentPage.value = page;
-        if (active !== previousActive || revision !== previousRevision) {
+        if (active !== previousActive || !Object.is(revision, previousRevision)) {
           if (currentPage.value !== 1) {
             currentPage.value = 1;
             props.onPageChange?.(1);
