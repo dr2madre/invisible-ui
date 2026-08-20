@@ -12,9 +12,11 @@ export function scopedTeleport(
   scope: I18nValue,
   /**
    * The element the overlay belongs to. A modal dialog paints in the browser's
-   * top layer, above everything in the body: an overlay opened from inside one
-   * has to stay in that same layer, or it shows through but cannot be clicked.
-   * Pass `null` for a viewport-level layer that never belongs to a dialog.
+   * top layer, above everything in the body, and makes the rest of the page
+   * inert: an overlay opened from inside one has to stay in that same layer,
+   * or it shows through but cannot be clicked. Pass `null` for a
+   * viewport-level layer that never belongs to a dialog. The dialog does not
+   * have to be open yet.
    */
   anchor: HTMLElement | null,
   children: (VNode | null)[],
