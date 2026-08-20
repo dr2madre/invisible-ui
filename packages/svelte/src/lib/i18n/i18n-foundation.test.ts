@@ -85,6 +85,16 @@ describe("Svelte i18n foundation", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("gives a nested scope's overlay the nested locale, not the outer one", async () => {
+    render(Fixture, { props: { locale: "en", nestedLocale: "ar-EG" } });
+    const nestedInput = screen.getByRole("combobox", { name: "Nested fruit" });
+    await fireEvent.keyDown(nestedInput, { key: "ArrowDown" });
+    const listboxes = document.querySelectorAll(".combobox__listbox");
+    const nestedListbox = listboxes[listboxes.length - 1] as HTMLElement;
+    expect(nestedListbox).toHaveAttribute("dir", "rtl");
+    expect(nestedListbox).toHaveAttribute("lang", "ar-EG");
+  });
+
   it("carries the scope's lang and dir onto portaled overlay roots", async () => {
     render(Fixture, { props: { locale: "ar-EG" } });
     const comboboxInput = screen.getByRole("combobox", { name: "Fruit" });

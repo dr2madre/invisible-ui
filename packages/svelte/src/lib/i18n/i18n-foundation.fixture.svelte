@@ -24,6 +24,7 @@
     <LocaleProvider locale={nestedLocale}>
       <span data-testid="nested-probe"><RatingGroup label="Nested rating" value={2} max={3} /></span
       >
+      <Combobox label="Nested fruit" items={[{ value: "fig", label: "Fig" }]} />
     </LocaleProvider>
   {/if}
 </LocaleProvider>
