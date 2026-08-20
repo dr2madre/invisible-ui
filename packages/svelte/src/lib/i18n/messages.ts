@@ -106,6 +106,10 @@ export const en = {
   // Misc
   "codeBlock.copy": "Copy code",
   "tag.remove": "Remove",
+  "multiSelect.selected": "Selected values",
+  "multiSelect.remove": "Remove {name}",
+  "multiSelect.empty": "No results",
+  "multiSelect.placeholder": "Search\u2026",
   // Upload Drop Area — prompt first, the styled action word last, so translations
   // like "Trascina qui i file oppure seleziona" keep a natural order.
   "uploadDropArea.prompt": "Drag & drop files or",

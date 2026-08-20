@@ -1,0 +1,222 @@
+{
+  "component": "multi-select",
+  "selected": false,
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "MultiSelect",
+        "specifier": "@design-system/svelte/MultiSelect.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label (required)."
+        },
+        {
+          "name": "items",
+          "type": "MultiSelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Ordered list of all options."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": "The selected values (controlled). Replace the array; do not mutate it."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "((values: string[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the next values after a user action."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "((text: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Input placeholder. Defaults to the i18n catalog's \"Search…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Review-only: focus works, opening/adding/removing do not."
+        },
+        {
+          "name": "max",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Cap on additions; never removes existing values."
+        },
+        {
+          "name": "removeOnBackspace",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt in to Backspace removal from an empty input."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; one hidden input per value is submitted under it."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+        },
+        {
+          "name": "emptyText",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Empty-result row text. Defaults to the i18n catalog's \"No results\"."
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "MultiSelect",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label (required)."
+        },
+        {
+          "name": "items",
+          "type": "MultiSelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Ordered list of all options."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": "The selected values (controlled). Replace the array; do not mutate it."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the next values after a user action."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(text: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Review-only: focus works, opening/adding/removing do not."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "Cap on additions; never removes existing values."
+        },
+        {
+          "name": "removeOnBackspace",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt in to Backspace removal from an empty input."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name; one hidden input per value is submitted under it."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Empty-result row text. Defaults to the catalog's \"No results\"."
+        }
+      ],
+      "emits": [],
+      "slots": []
+    }
+  }
+}
