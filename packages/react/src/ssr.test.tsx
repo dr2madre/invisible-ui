@@ -10,6 +10,7 @@ const fixtures: Record<string, ReactElement> = {
   Switch: <adapter.Switch label="Notifications" />,
   Select: <adapter.Select label="Fruit" items={[]} />,
   Combobox: <adapter.Combobox label="Framework" items={[]} />,
+  MultiSelect: <adapter.MultiSelect label="Skills" items={[]} values={["vue"]} />,
   Dialog: <adapter.Dialog title="Details">Dialog body</adapter.Dialog>,
   Icon: (
     <adapter.Icon label="Add">

@@ -21,6 +21,8 @@ const read = (rel: string) => readFileSync(fileURLToPath(new URL(rel, import.met
 
 const REACT_SHEETS = [
   "tokens.css",
+  "tag.css",
+  "multi-select.css",
   "button.css",
   "checkbox.css",
   "switch.css",

@@ -217,6 +217,186 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "MultiSelect",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible, visible label (required)."
+        },
+        {
+          "name": "items",
+          "type": "MultiSelectItem[]",
+          "default": null,
+          "required": true,
+          "description": "Ordered list of all options."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "The selected values (controlled). Replace the array; do not mutate it."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the next values after a user action."
+        },
+        {
+          "name": "onInputValueChange",
+          "type": "(text: string) => void",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Review-only: focus works, opening/adding/removing do not."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Cap on additions; never removes existing values."
+        },
+        {
+          "name": "removeOnBackspace",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt in to Backspace removal from an empty input."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; one hidden input per value is submitted under it."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Empty-result row text. Defaults to the catalog's \"No results\"."
+        }
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-multi-select",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "values",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "remove-on-backspace",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "empty-text",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": ""
+        }
+      ],
+      "notes": [
+        "Emits: `change` (`detail.values: string[]`), `input-change` (`detail.value`)."
+      ]
     }
   }
 }

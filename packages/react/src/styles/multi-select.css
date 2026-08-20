@@ -1,0 +1,123 @@
+/* MultiSelect: an editable input filtering a multiselectable listbox, with
+   the chosen values as removable tags in a labelled, wrapping list. */
+.multi-select {
+  display: grid;
+  gap: var(--ds-multi-select-gap, 0.375rem);
+  inline-size: var(--ds-multi-select-width, 100%);
+  max-inline-size: var(--ds-multi-select-max-width, 24rem);
+  font: inherit;
+  color: var(--ds-color-text, #0f172a);
+}
+.multi-select__label {
+  font-size: var(--ds-multi-select-label-size, 0.875rem);
+  font-weight: 500;
+}
+/* One bordered control holding wrapping tags plus the growing input. */
+.multi-select__control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border-radius: var(--ds-radius-control, 0.375rem);
+  background: var(--ds-color-background, #fff);
+}
+.multi-select__control:focus-within {
+  box-shadow: var(--ds-focus-ring-shadow);
+}
+.multi-select__control--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.multi-select__control--readonly {
+  background: var(--ds-color-neutral-surface, #f8fafc);
+}
+.multi-select__values {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-inline-size: 100%;
+}
+.multi-select__value {
+  display: inline-flex;
+  max-inline-size: 100%;
+}
+/* Long labels wrap inside the tag instead of clipping the control. */
+.multi-select__value .tag {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* The remove button keeps a WCAG 2.5.8 target: the padding expands the
+   clickable area, the margin cancels the layout shift. */
+.multi-select__value .tag__remove {
+  padding: 0.4rem;
+  margin: -0.4rem;
+}
+.multi-select__input {
+  flex: 1 1 8ch;
+  min-inline-size: 8ch;
+  border: 0;
+  padding: 0.25rem 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+}
+.multi-select__input:focus {
+  outline: none;
+}
+.multi-select__input:disabled {
+  cursor: not-allowed;
+}
+
+.multi-select__listbox {
+  position: fixed;
+  z-index: var(--ds-elevation-overlay, 30);
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  max-block-size: min(18rem, 50vh);
+  overflow: auto;
+  border: 1px solid var(--ds-color-border, #e2e8f0);
+  border-radius: var(--ds-radius-surface, 0.5rem);
+  background: var(--ds-color-surface, #fff);
+  box-shadow: var(--ds-elevation-shadow, 0 8px 24px rgb(0 0 0 / 0.12));
+}
+.multi-select__listbox:not([data-state="open"]) {
+  display: none;
+}
+.multi-select__option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--ds-radius-control, 0.375rem);
+  cursor: pointer;
+}
+.multi-select__option[data-active] {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+.multi-select__option[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.multi-select__check {
+  inline-size: 1em;
+  block-size: 1em;
+  color: var(--ds-color-selected, #7b52cc);
+  visibility: hidden;
+  flex: none;
+}
+.multi-select__option[data-state="selected"] .multi-select__check {
+  visibility: visible;
+}
+.multi-select__option-label {
+  overflow-wrap: anywhere;
+}
+.multi-select__empty {
+  padding: 0.4rem 0.5rem;
+  color: var(--ds-color-text-secondary, #64748b);
+}

@@ -134,8 +134,44 @@ def test_dialog_composition_regions_compile_to_jsx_props():
     assert "footer:(jsx(" in p and "Create project" in p
 
 
+def test_multi_select_renders_tag_props_and_triggers():
+    c = ui.multi_select(
+        label="Skills",
+        items=[{"value": "vue", "label": "Vue"}],
+        values=["vue"],
+        max=3,
+        remove_on_backspace=True,
+        read_only=False,
+        name="skills",
+        required=True,
+        on_values_change=LOG,
+        on_input_value_change=LOG,
+    )
+    r = c.render()
+    assert r["name"] == "MultiSelect"
+    p = props_of(c)
+    assert 'label:"Skills"' in p
+    assert 'values:["vue"]' in p
+    assert "max:3" in p
+    # snake_case props reach React camelCased.
+    assert "removeOnBackspace:true" in p
+    assert "readOnly:false" in p
+    assert "required:true" in p
+    assert 'name:"skills"' in p
+    assert "onValuesChange" in p
+    assert "onInputValueChange" in p
+
+
 def test_every_wrapper_imports_the_react_package_and_stylesheet():
-    for factory in (ui.button, ui.checkbox, ui.switch, ui.select, ui.combobox, ui.dialog):
+    for factory in (
+        ui.button,
+        ui.checkbox,
+        ui.switch,
+        ui.select,
+        ui.combobox,
+        ui.multi_select,
+        ui.dialog,
+    ):
         c = factory(label="x", title="x", items=[]) if factory is not ui.button else factory("x")
         imports = c._get_all_imports()
         assert "@design-system/react" in imports

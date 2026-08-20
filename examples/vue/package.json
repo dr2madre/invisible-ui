@@ -10,10 +10,16 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@design-system/elements": "workspace:*",
+    "@design-system/react": "workspace:*",
     "@design-system/vue": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-vue": "^5.2.4",
     "typescript": "^5.9.3",
     "vite": "^6.4.3",

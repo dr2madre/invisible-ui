@@ -17,6 +17,13 @@ export { Checkbox, type CheckboxProps } from "./checkbox/Checkbox";
 export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
+export { MultiSelect, type MultiSelectProps } from "./multi-select/MultiSelect";
+export {
+  useMultiSelect,
+  type MultiSelectItem,
+  type UseMultiSelect,
+  type UseMultiSelectOptions,
+} from "./multi-select/use-multi-select";
 export { Dialog, type DialogProps } from "./dialog/Dialog";
 export { Icon, type IconProps } from "./icon/Icon";
 

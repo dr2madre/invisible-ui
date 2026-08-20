@@ -17,6 +17,7 @@ describe("custom-elements adapter SSR", () => {
       "DsDialog",
       "DsField",
       "DsLabel",
+      "DsMultiSelect",
       "DsRadioGroup",
       "DsSelect",
       "DsSwitch",

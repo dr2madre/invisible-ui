@@ -26,6 +26,7 @@ export { DsCheckbox } from "./checkbox/ds-checkbox";
 export { DsSwitch } from "./switch/ds-switch";
 export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
+export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
 export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";

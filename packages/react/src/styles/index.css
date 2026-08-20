@@ -11,5 +11,7 @@
 @import "./checkbox.css";
 @import "./switch.css";
 @import "./combobox.css";
+@import "./tag.css";
+@import "./multi-select.css";
 @import "./dialog.css";
 @import "./select.css";
