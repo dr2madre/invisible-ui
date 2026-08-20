@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core \u2014 full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "15.5 kB"
+    "limit": "17 kB"
   },
   {
     "name": "@design-system/core \u2014 one primitive, tree-shaken (label)",
@@ -20,6 +20,12 @@
     "name": "@design-system/core \u2014 i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
+    "limit": "3 kB"
+  },
+  {
+    "name": "@design-system/core \u2014 number field only, tree-shaken (with i18n)",
+    "path": "core/dist/index.js",
+    "import": "{ numberField }",
     "limit": "3 kB"
   },
   {

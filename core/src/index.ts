@@ -35,6 +35,7 @@ export * as combobox from "./combobox";
 export * as navigationMenu from "./navigation-menu";
 export * as tooltip from "./tooltip";
 export * as textField from "./text-field";
+export * as numberField from "./number-field";
 // `switch` is a reserved word, so the namespace is `switchControl`.
 export * as switchControl from "./switch";
 export * as calendar from "./calendar";
