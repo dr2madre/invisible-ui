@@ -61,6 +61,41 @@ describe("Svelte Combobox (styled)", () => {
     expect(options[0]).toHaveTextContent("Banana");
   });
 
+  it("puts the text back to the selection when focus leaves", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { value: "banana", onValueChange } });
+    await user.clear(input());
+    await user.type(input(), "ch");
+    expect((input() as HTMLInputElement).value).toBe("ch");
+
+    await user.tab();
+    // "ch" was a filter, never a value: leaving must not imply it was chosen.
+    expect((input() as HTMLInputElement).value).toBe("Banana");
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+    // Nothing was selected, so no value was reported.
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("empties a leftover filter when nothing was ever chosen", async () => {
+    const user = userEvent.setup();
+    render(Fixture);
+    await user.type(input(), "ba");
+    await user.tab();
+    expect((input() as HTMLInputElement).value).toBe("");
+  });
+
+  it("keeps the chosen label when the pointer picks an option", async () => {
+    const user = userEvent.setup();
+    render(Fixture);
+    await user.type(input(), "ba");
+    // Selecting runs on pointer-down, before focus moves: the revert that
+    // follows must not undo the selection.
+    await user.click(screen.getByRole("option", { name: "Banana" }));
+    await user.tab();
+    expect((input() as HTMLInputElement).value).toBe("Banana");
+  });
+
   it("shows an empty state when nothing matches", async () => {
     const user = userEvent.setup();
     render(Fixture);
@@ -123,13 +158,28 @@ describe("Svelte Combobox (styled)", () => {
     expect(input()).toHaveValue("");
   });
 
-  it("closes on Escape", async () => {
+  it("closes on Escape and puts the text back", async () => {
     const user = userEvent.setup();
-    render(Fixture);
+    render(Fixture, { props: { value: "banana" } });
+    await user.clear(input());
     await user.type(input(), "a");
     expect(input()).toHaveAttribute("aria-expanded", "true");
     await user.keyboard("{Escape}");
     expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect((input() as HTMLInputElement).value).toBe("Banana");
+  });
+
+  it("leaves Escape alone while the list is closed, so an outer layer sees it", async () => {
+    const user = userEvent.setup();
+    const onKeyDown = vi.fn();
+    const { container } = render(Fixture, { props: { value: "banana" } });
+    container.addEventListener("keydown", onKeyDown);
+    input().focus();
+    await user.keyboard("{Escape}");
+    // Nothing to close and nothing to undo: the key belongs to whatever wraps
+    // the combobox, a dialog for instance.
+    expect(onKeyDown).toHaveBeenCalled();
+    expect(onKeyDown.mock.calls[0][0].defaultPrevented).toBe(false);
   });
 
   it("has no accessibility violations when open", async () => {

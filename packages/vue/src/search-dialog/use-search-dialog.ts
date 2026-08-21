@@ -154,6 +154,10 @@ export function useSearchDialog(
         open: dialog.open.value,
         value: null,
         inputValue: inputValue.value,
+        // There is no selection here, so there is no text to come back to. The
+        // query survives because of `settleOnBlur: false` below, not by
+        // accident.
+        committedInputValue: "",
         activeValue: activeValue.value,
         items: visible.value,
         disabled: false,
@@ -169,6 +173,11 @@ export function useSearchDialog(
       },
       setActiveValue: (next) => (activeValue.value = next),
       setInputValue: (next) => (inputValue.value = next),
+      setCommittedInputValue: () => {},
+      // A search dialog keeps what was typed and keeps showing it: losing
+      // focus must neither wipe the query nor dismiss the palette, which the
+      // dialog itself owns.
+      settleOnBlur: false,
       normalize: normalizeProps,
     }),
   );

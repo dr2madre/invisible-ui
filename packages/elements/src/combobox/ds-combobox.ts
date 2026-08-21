@@ -65,6 +65,8 @@ export class DsCombobox extends HTMLElementBase {
     open: false,
     value: null as string | null,
     inputValue: "",
+    // The text as it stood at the last selection, so a filter can be undone.
+    committedInputValue: "",
     activeValue: null as string | null,
     items: [] as ComboboxItem[],
   };
@@ -128,10 +130,12 @@ export class DsCombobox extends HTMLElementBase {
 
     const initialValue = this.getAttribute("value");
     const selected = this.#all.find((i) => i.value === initialValue);
+    const initialText = selected ? labelOf(selected) : "";
     this.#state = {
       open: false,
       value: selected ? selected.value : null,
-      inputValue: selected ? labelOf(selected) : "",
+      inputValue: initialText,
+      committedInputValue: initialText,
       activeValue: null,
       items: this.#filter(""),
     };
@@ -258,7 +262,8 @@ export class DsCombobox extends HTMLElementBase {
         // Leaving the attribute behind used to restore the old selection the
         // next time the element reconnected.
         const item = value == null ? undefined : this.#all.find((i) => i.value === value);
-        this.#update({ value, inputValue: item ? labelOf(item) : "" });
+        const text = item ? labelOf(item) : "";
+        this.#update({ value, inputValue: text, committedInputValue: text });
         if (value == null) this.removeAttribute("value");
         else this.setAttribute("value", value);
         emit(this, "change", { value });
@@ -266,6 +271,7 @@ export class DsCombobox extends HTMLElementBase {
       setOpen: (open) => this.#update({ open }),
       setActiveValue: (activeValue) => this.#update({ activeValue }),
       setInputValue: (inputValue) => this.#update({ inputValue, items: this.#filter(inputValue) }),
+      setCommittedInputValue: (committedInputValue) => this.#update({ committedInputValue }),
     });
   }
 
@@ -292,6 +298,7 @@ export class DsCombobox extends HTMLElementBase {
     open: boolean;
     value: string | null;
     inputValue: string;
+    committedInputValue: string;
     activeValue: string | null;
     items: ComboboxItem[];
   };

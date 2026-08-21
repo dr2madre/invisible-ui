@@ -96,13 +96,36 @@ describe("<ds-combobox>", () => {
     expect(document.getElementById(active!)).toHaveAttribute("data-active", "");
   });
 
-  it("closes on Escape", async () => {
+  it("closes on Escape and puts the text back", async () => {
     const user = userEvent.setup();
-    mount();
+    mount(MARKUP.replace("<ds-combobox", '<ds-combobox value="banana"'));
+    await user.clear(input());
     await user.type(input(), "a");
     expect(input()).toHaveAttribute("aria-expanded", "true");
     await user.keyboard("{Escape}");
     expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect(input().value).toBe("Banana");
+  });
+
+  it("puts the text back to the selection when focus leaves", async () => {
+    const user = userEvent.setup();
+    mount(`${MARKUP.replace("<ds-combobox", '<ds-combobox value="banana"')}
+      <button type="button">after</button>`);
+    await user.clear(input());
+    await user.type(input(), "ch");
+    expect(input().value).toBe("ch");
+
+    await user.tab();
+    // "ch" was a filter, never a value: leaving must not imply it was chosen.
+    expect(input().value).toBe("Banana");
+  });
+
+  it("empties a leftover filter when nothing was ever chosen", async () => {
+    const user = userEvent.setup();
+    mount(`${MARKUP}<button type="button">after</button>`);
+    await user.type(input(), "ba");
+    await user.tab();
+    expect(input().value).toBe("");
   });
 
   it("closes when a pointer goes down outside", async () => {

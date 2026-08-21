@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/vue";
+import { fireEvent, render, screen, within } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { nextTick } from "vue";
 import { describe, expect, it, vi } from "vitest";
@@ -85,6 +85,22 @@ describe("Vue SearchDialog", () => {
     const options = within(screen.getByRole("listbox")).getAllByRole("option");
     expect(options).toHaveLength(1);
     expect(options[0]).toHaveTextContent("Save");
+  });
+
+  it("keeps the query when focus leaves the input", async () => {
+    const user = userEvent.setup();
+    setup();
+    await openPalette(user);
+
+    const query = screen.getByRole("combobox");
+    await user.type(query, "sa");
+    // The query is what the user wrote, not the label of a selection: the
+    // results are showing it, so losing focus must not wipe it.
+    // fireEvent, not `.blur()`: inside a modal dialog jsdom does not always
+    // hold focus, and the contract under test is the handler, not the focus.
+    await fireEvent.blur(query);
+    expect((query as HTMLInputElement).value).toBe("sa");
+    expect(within(screen.getByRole("listbox")).getAllByRole("option")).toHaveLength(1);
   });
 
   it("selects a result on click and closes", async () => {
