@@ -261,8 +261,11 @@ names; in Vue they are named slots.
   by its title (`aria-labelledby`) and optionally described (`aria-describedby`).
 - Modal semantics: focus moves into the panel on open, is **trapped** (Tab
   wraps), body scroll is **locked**; **Escape**, the close button, or a backdrop
-  press close it and return focus to the trigger.
-- Portalled to `<body>` to escape ancestor `overflow`/stacking contexts.
+  press close it and return focus to the trigger. In the Svelte adapter the
+  backdrop press always dismisses; the Vue adapter can turn it off with
+  `closeOnOutsideClick` — an adapter gap that is on the parity list.
+- No portal: the native `<dialog>` element's top layer escapes ancestor
+  `overflow` and stacking contexts on its own.
 
 ### Example
 

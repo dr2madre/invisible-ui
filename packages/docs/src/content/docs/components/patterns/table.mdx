@@ -13,7 +13,7 @@ import TableDemo from "../../../../demos/TableDemo.svelte";
 
 The pure data grid: columns, cells and sortable headers with `aria-sort`. It's
 controlled — sorting is reported via `onSortToggle`; for the batteries-included
-shell (config, views, pagination) see [TableSet](/components/table-set/).
+shell (config, views, pagination) see [TableSet](/invisible-ui/components/patterns/table-set/).
 
 ### Import
 
@@ -25,6 +25,18 @@ shell (config, views, pagination) see [TableSet](/components/table-set/).
 
 Use the `cell` slot (`let:row let:column let:value let:rowIndex`) for custom
 cell rendering.
+
+### Row selection column
+
+With `selectionColumn`, the table renders a structural first column and two
+scoped slots to fill it: `selectionHeader` for the `<th>` (the select-all
+control lives here) and `selectionCell` (`let:row let:rowId let:rowIndex`) for
+each row's control. The table itself holds no selection state: pair the slots
+with your own state or use
+[Table Set](/invisible-ui/components/patterns/table-set/), which wires
+controlled row selection on top of this column — see its
+[Row selection](/invisible-ui/components/patterns/table-set/#row-selection)
+section. `isRowSelected` only paints `data-selected` on the row for styling.
 
 ### Accessibility
 
