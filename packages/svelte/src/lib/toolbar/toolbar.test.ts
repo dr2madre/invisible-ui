@@ -46,6 +46,22 @@ describe("Toolbar", () => {
     expect(bold).toHaveFocus();
   });
 
+  it("follows the visual direction in right-to-left text", async () => {
+    const user = userEvent.setup();
+    const { container } = render(Fixture);
+    const toolbar = container.querySelector(".toolbar") as HTMLElement;
+    toolbar.setAttribute("dir", "rtl");
+    const bold = screen.getByRole("checkbox", { name: "Bold" });
+    const italic = screen.getByRole("checkbox", { name: "Italic" });
+
+    bold.focus();
+    // The visual start is on the right, so ArrowLeft walks forward.
+    await user.keyboard("{ArrowLeft}");
+    expect(italic).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(bold).toHaveFocus();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture);
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

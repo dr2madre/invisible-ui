@@ -12,6 +12,7 @@
    * A `label` is required (the toolbar needs an accessible name). Layout gap is
    * themeable via `--ds-toolbar-gap`.
    */
+  import { toolbar as core } from "@design-system/core";
   import type { Action } from "svelte/action";
 
   export let label: string;
@@ -54,36 +55,29 @@
 
   function focusAt(index: number) {
     const list = items();
-    if (list.length === 0) return;
-    const wrapped = (index + list.length) % list.length;
-    setTabStop(list[wrapped]!);
-    list[wrapped]!.focus();
+    const target = list[index];
+    if (!target) return;
+    setTabStop(target);
+    target.focus();
   }
 
   function onKeyDown(event: KeyboardEvent) {
-    const horizontal = orientation === "horizontal";
     const list = items();
     const current = list.indexOf(document.activeElement as HTMLElement);
     if (current === -1) return;
 
-    switch (event.key) {
-      case horizontal ? "ArrowRight" : "ArrowDown":
-        event.preventDefault();
-        focusAt(current + 1);
-        break;
-      case horizontal ? "ArrowLeft" : "ArrowUp":
-        event.preventDefault();
-        focusAt(current - 1);
-        break;
-      case "Home":
-        event.preventDefault();
-        focusAt(0);
-        break;
-      case "End":
-        event.preventDefault();
-        focusAt(list.length - 1);
-        break;
-    }
+    // Which arrows mean what, including in right-to-left text, is shared with
+    // the other adapters; finding the controls and moving focus is ours.
+    const next = core.nextIndex({
+      key: event.key,
+      index: current,
+      count: list.length,
+      orientation,
+      direction: root && getComputedStyle(root).direction === "rtl" ? "rtl" : "ltr",
+    });
+    if (next === null) return;
+    event.preventDefault();
+    focusAt(next);
   }
 
   /** Keep the most recently focused control as the single tab stop. */
