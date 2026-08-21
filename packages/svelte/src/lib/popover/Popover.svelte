@@ -42,6 +42,8 @@
   export let openDelay = 300;
   /** Delay before closing on leave, in ms (`trigger="hover"` only). */
   export let closeDelay = 200;
+  /** Name for the panel. Defaults to being named by the trigger. */
+  export let label: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
@@ -50,13 +52,20 @@
     onOpenChange?.(next);
   };
 
-  const behavior =
+  // Only one primitive is ever built: `??` does not evaluate its right side
+  // when click mode already produced a popover.
+  const popover =
     trigger === "hover"
-      ? createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange })
-      : createPopover({ open, placement, onOpenChange: handleOpenChange });
+      ? undefined
+      : createPopover({ open, placement, label, onOpenChange: handleOpenChange });
+  const behavior =
+    popover ??
+    createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange });
   const { triggerAction, contentAction, open: isOpen, setOpen } = behavior;
 
   $: behavior.setOpen(open);
+  // Hover mode is a different primitive: a preview has no panel name.
+  $: popover?.setLabel(label);
 
   // First activation (a tap, or a click that beat the hover delay) shows the
   // preview instead of the trigger's own action; once open, the default

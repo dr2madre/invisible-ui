@@ -22,6 +22,8 @@ export interface PopoverProps {
   openDelay?: number;
   /** Delay before closing on leave, in ms (`trigger="hover"` only). */
   closeDelay?: number;
+  /** Name for the panel. Defaults to being named by the trigger. */
+  label?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -59,6 +61,7 @@ export const Popover = defineComponent({
     placement: { type: String as PropType<Placement>, default: "bottom" },
     openDelay: { type: Number, default: 300 },
     closeDelay: { type: Number, default: 200 },
+    label: { type: String, default: undefined },
     onOpenChange: { type: Function as PropType<(open: boolean) => void>, default: undefined },
   },
   emits: {
@@ -144,6 +147,7 @@ export const Popover = defineComponent({
     const { api, open, triggerRef, panelRef } = usePopover(() => ({
       open: props.open,
       placement: props.placement,
+      label: props.label,
       onOpenChange: notify,
     }));
 

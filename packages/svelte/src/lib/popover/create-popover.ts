@@ -16,11 +16,15 @@ export interface PopoverContext extends core.PopoverContext {
   placement?: Placement;
   /** Gap between trigger and panel, in px. Default `6`. */
   offset?: number;
+  /** Name for the panel. Defaults to being named by the trigger. */
+  label?: string;
 }
 
 export interface CreatePopover {
   state: Readable<PopoverState>;
   api: Readable<PopoverApi>;
+  /** Update the panel's name (no notification: naming is not an action). */
+  setLabel: (label: string | undefined) => void;
   /** Whether the panel is open. */
   open: Readable<boolean>;
   /** Imperatively set the open state. */
@@ -58,8 +62,12 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
       return { ...current, open };
     });
 
-  const api = derived(state, ($state) =>
-    core.connect({ state: $state, setOpen, normalize: normalizeProps }),
+  // The panel's name can change after mount (a localized label, or one that
+  // follows a selection), so it is mirrored rather than captured.
+  const label = writable<string | undefined>(context.label);
+
+  const api = derived([state, label], ([$state, $label]) =>
+    core.connect({ state: $state, setOpen, label: $label, normalize: normalizeProps }),
   );
 
   let triggerEl: HTMLElement | null = null;
@@ -128,6 +136,7 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
     api,
     open: derived(state, ($state) => $state.open),
     setOpen,
+    setLabel: (next: string | undefined) => label.set(next),
     triggerAction,
     contentAction,
   };

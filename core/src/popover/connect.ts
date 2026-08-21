@@ -21,6 +21,11 @@ export interface ConnectOptions {
   state: PopoverState;
   /** Request the open state to change; the adapter owns how state updates. */
   setOpen: (open: boolean) => void;
+  /**
+   * Name for the panel. Without one the panel falls back to being named by its
+   * trigger, whose visible text is what the user pressed to open it.
+   */
+  label?: string;
   normalize?: Normalize;
 }
 
@@ -33,6 +38,7 @@ export interface ConnectOptions {
 export function connect({
   state,
   setOpen,
+  label,
   normalize = identityNormalize,
 }: ConnectOptions): PopoverApi {
   const { open, id } = state;
@@ -60,6 +66,12 @@ export function connect({
     }),
     contentProps: normalize({
       id: contentId(id),
+      // The trigger announces a dialog, so the panel has to be one and it has
+      // to have a name: an unnamed dialog tells a screen reader nothing about
+      // what just opened.
+      role: "dialog",
+      "aria-label": label,
+      "aria-labelledby": label ? undefined : triggerId(id),
       tabindex: -1,
       "data-state": open ? "open" : "closed",
       onKeyDown: (event: Event) => {

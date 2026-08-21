@@ -52,6 +52,13 @@
           "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
         },
         {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Name for the panel. Defaults to being named by the trigger."
+        },
+        {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
@@ -108,6 +115,13 @@
           "default": "200",
           "required": false,
           "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Name for the panel. Defaults to being named by the trigger."
         },
         {
           "name": "onOpenChange",
