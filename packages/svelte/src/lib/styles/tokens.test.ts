@@ -187,15 +187,27 @@ describe.each([
     expect(contrast("--ds-color-focus-ring", "--ds-color-surface", vars)).toBeGreaterThanOrEqual(3);
   });
 
-  it("the selection glyph meets 3:1 on the checked control fill", () => {
-    // The checkbox paints selection at 10% over the page, then draws the glyph
-    // in the selection text form. Composite the fill the way the browser does.
-    const page = resolve("var(--ds-color-background)", vars);
-    const selection = resolve("var(--ds-color-secondary)", vars);
-    const fill = page.map((channel, i) => Math.round(selection[i] * 0.1 + channel * 0.9)) as RGB;
-    const glyph = resolve("var(--ds-color-selected-text)", vars);
-    const [a, b] = [luminance(glyph), luminance(fill)];
-    expect((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toBeGreaterThanOrEqual(3);
+  it.each(["--ds-color-background", "--ds-color-surface"] as const)(
+    "the selection glyph meets 3:1 on the checked fill composited over %s",
+    (backdrop) => {
+      // The checkbox paints selection at 10% over whatever it sits on (the
+      // page, or a surface inside a dialog or card), then draws the glyph in
+      // the selection text form. Composite the fill the way the browser does.
+      const back = resolve(`var(${backdrop})`, vars);
+      const selection = resolve("var(--ds-color-secondary)", vars);
+      const fill = back.map((channel, i) => Math.round(selection[i] * 0.1 + channel * 0.9)) as RGB;
+      const glyph = resolve("var(--ds-color-selected-text)", vars);
+      const [a, b] = [luminance(glyph), luminance(fill)];
+      expect((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toBeGreaterThanOrEqual(3);
+    },
+  );
+
+  it("the checked radio dot meets 3:1 on the radio fill", () => {
+    // The dot is the state indicator and paints --ds-color-selected-text on
+    // the radio's own fill, which is the page background token.
+    expect(
+      contrast("--ds-color-selected-text", "--ds-color-background", vars),
+    ).toBeGreaterThanOrEqual(3);
   });
 
   it("the switch thumb stays separable from the off track", () => {
@@ -208,13 +220,20 @@ describe.each([
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
     expect(Math.max(against(thumb, track), against(rim, track))).toBeGreaterThanOrEqual(3);
   });
+});
 
-  it("deprecated aliases resolve to their replacement", () => {
-    expect(vars["--ds-color-primary-soft"] ?? lightVars["--ds-color-primary-soft"]).toBe(
-      "var(--ds-color-secondary-surface)",
-    );
-    expect(vars["--ds-color-danger-soft"] ?? lightVars["--ds-color-danger-soft"]).toBe(
-      "var(--ds-color-destructive-surface)",
-    );
+// The aliases are declared once, in the light block: var() indirection makes
+// them follow the replacement's theme value everywhere, so the assertion
+// belongs to that block alone rather than being repeated vacuously per theme.
+describe("deprecated aliases", () => {
+  it.each([
+    ["--ds-color-primary-soft", "--ds-color-secondary-surface"],
+    ["--ds-color-on-primary-soft", "--ds-color-on-secondary-surface"],
+    ["--ds-color-danger-soft", "--ds-color-destructive-surface"],
+    ["--ds-color-on-danger-soft", "--ds-color-on-destructive-surface"],
+  ] as const)("%s resolves to %s", (alias, replacement) => {
+    expect(lightVars[alias]).toBe(`var(${replacement})`);
+    expect(darkVars[alias]).toBeUndefined();
+    expect(darkMediaVars[alias]).toBeUndefined();
   });
 });

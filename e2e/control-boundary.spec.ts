@@ -76,11 +76,20 @@ async function setTheme(page: Page, theme: "light" | "dark") {
   }, theme);
 }
 
+// A dark test that silently measured light values would pass for the wrong
+// reason, so every test first proves the theme really took effect.
+async function assertTheme(page: Page, theme: "light" | "dark") {
+  const back = parseColor(await pageBackground(page));
+  if (theme === "dark") expect(luminance(back)).toBeLessThan(0.2);
+  else expect(luminance(back)).toBeGreaterThan(0.5);
+}
+
 for (const theme of ["light", "dark"] as const) {
   test.describe(`rendered control boundary (${theme})`, () => {
     test("the text field border clears 3:1 against the page", async ({ page }) => {
       await setTheme(page, theme);
       await page.goto("components/forms/text-field/");
+      await assertTheme(page, theme);
       const border = parseColor(await style(page, ".field__control", "border-top-color"));
       const back = parseColor(await pageBackground(page));
       expect(contrast(over(border, back), back)).toBeGreaterThanOrEqual(3);
@@ -89,6 +98,7 @@ for (const theme of ["light", "dark"] as const) {
     test("the switch off track clears 3:1 and its thumb stays separable", async ({ page }) => {
       await setTheme(page, theme);
       await page.goto("components/forms/switch/");
+      await assertTheme(page, theme);
       const track = parseColor(await style(page, ".switch", "background-color"));
       const back = parseColor(await pageBackground(page));
       expect(contrast(over(track, back), back)).toBeGreaterThanOrEqual(3);
@@ -105,9 +115,9 @@ for (const theme of ["light", "dark"] as const) {
           );
       const thumb = parseColor(await pseudo("background-color"));
       const rimShadow = await pseudo("box-shadow");
-      const rim = parseColor(
-        rimShadow.match(/rgba?\([^)]+\)|color\(srgb[^)]+\)/)?.[0] ?? "rgb(0,0,0)",
-      );
+      const rimColor = rimShadow.match(/rgba?\([^)]+\)|color\(srgb[^)]+\)/)?.[0];
+      if (!rimColor) throw new Error(`the thumb has no rim shadow to measure: ${rimShadow}`);
+      const rim = parseColor(rimColor);
       const trackOpaque = over(track, back);
       const best = Math.max(
         contrast(over(thumb, trackOpaque), trackOpaque),
@@ -119,6 +129,7 @@ for (const theme of ["light", "dark"] as const) {
     test("the checkbox border clears 3:1 unchecked and checked", async ({ page }) => {
       await setTheme(page, theme);
       await page.goto("components/forms/checkbox/");
+      await assertTheme(page, theme);
       const back = parseColor(await pageBackground(page));
       const unchecked = parseColor(await style(page, ".checkbox", "border-top-color"));
       expect(contrast(over(unchecked, back), back)).toBeGreaterThanOrEqual(3);
@@ -150,6 +161,7 @@ for (const theme of ["light", "dark"] as const) {
     test("the focus ring clears 3:1 and differs from the resting border", async ({ page }) => {
       await setTheme(page, theme);
       await page.goto("components/forms/text-field/");
+      await assertTheme(page, theme);
       const back = parseColor(await pageBackground(page));
       const resting = parseColor(await style(page, ".field__control", "border-top-color"));
       // Resolve the ring through a probe element so color-mix() computes.

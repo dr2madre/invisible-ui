@@ -448,16 +448,16 @@ const PAIRINGS = [
     what: "text on the emphasis surface",
   },
   {
-    front: "--ds-color-on-primary-soft",
-    back: "--ds-color-primary-soft",
+    front: "--ds-color-on-secondary-surface",
+    back: "--ds-color-secondary-surface",
     min: 4.5,
-    what: "label on the quiet primary fill",
+    what: "label on the secondary action fill",
   },
   {
-    front: "--ds-color-on-danger-soft",
-    back: "--ds-color-danger-soft",
+    front: "--ds-color-on-destructive-surface",
+    back: "--ds-color-destructive-surface",
     min: 4.5,
-    what: "label on the quiet danger fill",
+    what: "label on the destructive action fill",
   },
   {
     front: "--ds-color-info-text",
@@ -636,6 +636,18 @@ function gates(registry, byName, adapters, notes, dtcgPaths) {
     for (const theme of ["light", "dark"]) {
       if (pair[theme] == null)
         problems.push(`the pair "${pair.what}" could not be measured in ${theme}`);
+    }
+  }
+
+  // 4b2. A published pair below its minimum fails the build. The catalog's
+  // "meets/below" words are reporting; this is the gate behind them.
+  for (const pair of registry.pairings) {
+    for (const theme of ["light", "dark"]) {
+      if (pair.passes[theme] === false) {
+        problems.push(
+          `the pair "${pair.what}" measures ${pair[theme]}:1 in ${theme}, below its ${pair.min}:1 minimum`,
+        );
+      }
     }
   }
 

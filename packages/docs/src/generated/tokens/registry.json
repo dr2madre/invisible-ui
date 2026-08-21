@@ -4427,10 +4427,10 @@
       }
     },
     {
-      "front": "--ds-color-on-primary-soft",
-      "back": "--ds-color-primary-soft",
+      "front": "--ds-color-on-secondary-surface",
+      "back": "--ds-color-secondary-surface",
       "min": 4.5,
-      "what": "label on the quiet primary fill",
+      "what": "label on the secondary action fill",
       "light": 5.68,
       "dark": 13.53,
       "passes": {
@@ -4439,10 +4439,10 @@
       }
     },
     {
-      "front": "--ds-color-on-danger-soft",
-      "back": "--ds-color-danger-soft",
+      "front": "--ds-color-on-destructive-surface",
+      "back": "--ds-color-destructive-surface",
       "min": 4.5,
-      "what": "label on the quiet danger fill",
+      "what": "label on the destructive action fill",
       "light": 5.67,
       "dark": 13.34,
       "passes": {

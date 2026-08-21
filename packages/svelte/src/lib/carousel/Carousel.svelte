@@ -401,7 +401,9 @@
     inline-size: var(--ds-carousel-dot-size, 0.5rem);
     block-size: var(--ds-carousel-dot-size, 0.5rem);
     border-radius: 50%;
-    background: var(--ds-carousel-dot-color, var(--ds-color-border, #c7c1b7));
+    /* Each dot is a real button whose whole visible form is this disc, so it
+       takes the control boundary colour, not the divider colour. */
+    background: var(--ds-carousel-dot-color, var(--ds-color-control-border, #757067));
     transition: background-color 120ms ease;
   }
   .carousel__dot:global([data-selected]) {

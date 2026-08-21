@@ -237,9 +237,9 @@
   .button:global([data-variant="secondary"]) {
     background: var(
       --ds-color-secondary-surface,
-      color-mix(in srgb, var(--ds-color-primary, #7a52cc) 10%, #fff)
+      color-mix(in srgb, var(--ds-color-primary, #7a52cc) 15%, #fff)
     );
-    color: var(--ds-color-on-secondary-surface, var(--ds-color-primary, #7a52cc));
+    color: var(--ds-color-on-secondary-surface, var(--ds-color-primary-hover, #6840b7));
     border-color: color-mix(in srgb, var(--ds-color-primary, #7a52cc) 55%, transparent);
   }
   .button:global([data-variant="secondary"]):hover:not(:disabled) {

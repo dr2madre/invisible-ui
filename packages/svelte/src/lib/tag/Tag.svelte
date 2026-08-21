@@ -143,7 +143,7 @@
   }
   .tag:global([data-variant="soft"][data-status="selected"]) {
     --_bg: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 8%, transparent);
-    --_fg: var(--ds-color-selected-text, var(--ds-color-secondary, #7a52cc));
+    --_fg: var(--ds-color-selected-text, #553d7f);
     --_border: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 22%, transparent);
   }
   .tag:global([data-variant="soft"][data-status="info"]) {

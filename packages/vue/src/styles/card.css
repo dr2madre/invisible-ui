@@ -157,10 +157,10 @@
   font-weight: 600;
 }
 .card__change[data-trend="up"] {
-  color: var(--ds-color-success-text, var(--ds-color-success, #3e7523));
+  color: var(--ds-color-success-text, #334e22);
 }
 .card__change[data-trend="down"] {
-  color: var(--ds-color-danger-text, var(--ds-color-danger, #be3b50));
+  color: var(--ds-color-danger-text, #7f313c);
 }
 .card__change[data-trend="neutral"] {
   color: var(--ds-color-text-secondary, #524c44);

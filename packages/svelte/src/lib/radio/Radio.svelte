@@ -75,15 +75,19 @@
     place-content: center;
     flex: none;
   }
+  /* The dot, not the edge, carries the state: the boundary keeps the control
+     border, and the dot takes the selection text form, which clears 3:1 on
+     the page in both themes (the base selection purple measures 2.87:1 on
+     the dark page). */
   .radio__input:checked + .radio__dot {
-    border-color: var(--ds-color-secondary, #7a52cc);
+    border-color: var(--ds-color-control-border, #757067);
   }
   .radio__input:checked + .radio__dot::after {
     content: "";
     inline-size: 0.6rem;
     block-size: 0.6rem;
     border-radius: 50%;
-    background: var(--ds-color-secondary, #7a52cc);
+    background: var(--ds-color-selected-text, #553d7f);
   }
   .radio__input:focus-visible + .radio__dot {
     outline: none;
