@@ -28,6 +28,10 @@ export interface ComboboxApi {
   select(value: string): void;
   /** Clear the selection and input text. */
   clear(): void;
+  /** Put the text back to the last selection's label. */
+  revert(): void;
+  /** Close the list and, unless opted out, put the text back. */
+  commit(): void;
   /** Props for the label element. */
   labelProps: ElementProps;
   /** Props for the input (`role="combobox"`). */
@@ -46,6 +50,15 @@ export interface ConnectOptions {
   setOpen: (open: boolean) => void;
   setActiveValue: (value: string | null) => void;
   setInputValue: (text: string) => void;
+  /** Record the text as chosen, so a later filter can be undone. */
+  setCommittedInputValue: (text: string) => void;
+  /**
+   * Whether leaving the control settles it: close the list and put the text
+   * back. `true` for a control that only takes values from its list. A Search
+   * Dialog passes `false`, because its text is a query the user wrote and its
+   * dismissal belongs to the dialog around it.
+   */
+  settleOnBlur?: boolean;
   normalize?: Normalize;
 }
 
@@ -63,9 +76,11 @@ export function connect({
   setOpen,
   setActiveValue,
   setInputValue,
+  setCommittedInputValue,
+  settleOnBlur = true,
   normalize = identityNormalize,
 }: ConnectOptions): ComboboxApi {
-  const { open, value, inputValue, activeValue, items, disabled, id } = state;
+  const { open, value, inputValue, committedInputValue, activeValue, items, disabled, id } = state;
 
   const isItemDisabled = (v: string) => items.find((i) => i.value === v)?.disabled ?? false;
   const selectedItem = items.find((i) => i.value === value) ?? null;
@@ -85,16 +100,41 @@ export function connect({
     if (disabled || isItemDisabled(v)) return;
     const item = items.find((i) => i.value === v);
     setValue(v);
-    if (item) setInputValue(labelOf(item));
+    if (item) {
+      const label = labelOf(item);
+      setInputValue(label);
+      setCommittedInputValue(label);
+    }
     closeListbox();
   };
   const clear = () => {
     setValue(null);
     setInputValue("");
+    setCommittedInputValue("");
     setActiveValue(null);
+  };
+  /**
+   * Put the text back to what it was at the last selection. Looking the label
+   * up in `items` would not do: that list is the filtered one, so a filter
+   * matching nothing would leave nothing to restore.
+   */
+  const revert = () => {
+    if (committedInputValue !== inputValue) setInputValue(committedInputValue);
+  };
+  /** Settle the control: close the list and put the text back. */
+  const commit = () => {
+    closeListbox();
+    revert();
   };
   const move = (target: string | null) => {
     if (target != null) setActiveValue(target);
+  };
+
+  const onInputBlur = () => {
+    // A consumer whose text is not the label of a selection settles nothing on
+    // blur: closing or rewriting would take away what the user was reading.
+    if (disabled || !settleOnBlur) return;
+    commit();
   };
 
   const onInputKeyDown = (event: Event) => {
@@ -125,7 +165,9 @@ export function connect({
         break;
       case "Escape":
         event.preventDefault();
-        closeListbox();
+        // Closing and putting the text back is one gesture: the user should
+        // never be left reading a filter that matches nothing selected.
+        commit();
         break;
       case "Tab":
         closeListbox();
@@ -144,6 +186,8 @@ export function connect({
     setActive: (v: string) => setActiveValue(v),
     select,
     clear,
+    revert,
+    commit,
     labelProps: normalize({
       id: labelId(id),
       for: inputId(id),
@@ -160,6 +204,7 @@ export function connect({
       autocomplete: "off",
       "data-state": open ? "open" : "closed",
       onKeyDown: onInputKeyDown,
+      onBlur: onInputBlur,
     }),
     listboxProps: normalize({
       id: listboxId(id),

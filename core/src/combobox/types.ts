@@ -23,6 +23,12 @@ export interface ComboboxState {
   value: string | null;
   /** The current text in the input. */
   inputValue: string;
+  /**
+   * The text as it stood at the last selection. The typed text is a filter, so
+   * a control that only takes values from its list puts this back when the
+   * user leaves, rather than keeping a filter nobody chose.
+   */
+  committedInputValue: string;
   /** The active (highlighted) option for `aria-activedescendant`, or `null`. */
   activeValue: string | null;
   /** The currently visible (filtered) items. */

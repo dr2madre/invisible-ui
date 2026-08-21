@@ -109,6 +109,13 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       return { ...current, inputValue, items: filter(allItems, inputValue) };
     });
 
+  const setCommittedInputValue = (committedInputValue: string) =>
+    state.update((current) =>
+      current.committedInputValue === committedInputValue
+        ? current
+        : { ...current, committedInputValue },
+    );
+
   const syncInputValue = (inputValue: string) =>
     state.update((current) =>
       current.inputValue === inputValue
@@ -138,6 +145,7 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       setOpen,
       setActiveValue,
       setInputValue,
+      setCommittedInputValue,
       normalize: normalizeProps,
     }),
   );

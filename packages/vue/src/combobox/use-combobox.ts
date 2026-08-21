@@ -98,6 +98,8 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
   const open = ref(false);
   const value = ref<string | null>(resolved.value.value ?? null);
   const inputValue = ref(labelFor(resolved.value.value ?? null));
+  // The text as it stood at the last selection, so a filter can be undone.
+  const committedInputValue = ref(inputValue.value);
   const activeValue = ref<string | null>(null);
   const visibleItems = shallowRef<ComboboxItem[]>(filterFn.value(allItems.value, ""));
 
@@ -146,6 +148,7 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
         open: open.value,
         value: value.value,
         inputValue: inputValue.value,
+        committedInputValue: committedInputValue.value,
         activeValue: activeValue.value,
         items: visibleItems.value,
         disabled: resolved.value.disabled ?? false,
@@ -155,6 +158,7 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
       setOpen,
       setActiveValue,
       setInputValue,
+      setCommittedInputValue: (next) => (committedInputValue.value = next),
       normalize: normalizeProps,
     }),
   );

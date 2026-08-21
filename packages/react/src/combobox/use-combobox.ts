@@ -69,6 +69,7 @@ interface InternalState {
   open: boolean;
   value: string | null;
   inputValue: string;
+  committedInputValue: string;
   activeValue: string | null;
   items: ComboboxItem[];
 }
@@ -106,6 +107,8 @@ export function useCombobox({
     open: false,
     value,
     inputValue: selectedLabel(value),
+    // The text as it stood at the last selection, so a filter can be undone.
+    committedInputValue: selectedLabel(value),
     activeValue: null,
     items: filter(allItems, ""),
   }));
@@ -119,7 +122,12 @@ export function useCombobox({
   const [lastValue, setLastValue] = useState(value);
   if (value !== lastValue) {
     setLastValue(value);
-    setState((s) => ({ ...s, value, inputValue: selectedLabel(value) }));
+    setState((s) => ({
+      ...s,
+      value,
+      inputValue: selectedLabel(value),
+      committedInputValue: selectedLabel(value),
+    }));
   }
 
   // --- Keep the visible list in step when the item list itself changes.
@@ -165,6 +173,10 @@ export function useCombobox({
     });
   }, []);
 
+  const setCommittedInputValue = useCallback((next: string) => {
+    setState((s) => (s.committedInputValue === next ? s : { ...s, committedInputValue: next }));
+  }, []);
+
   const api = useMemo(
     () =>
       core.connect({
@@ -173,9 +185,10 @@ export function useCombobox({
         setOpen,
         setActiveValue,
         setInputValue,
+        setCommittedInputValue,
         normalize: normalizeProps,
       }),
-    [state, disabled, id, setValue, setOpen, setActiveValue, setInputValue],
+    [state, disabled, id, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue],
   );
 
   // --- Positioning. `whileElementsMounted` is gated on `open` so autoUpdate
