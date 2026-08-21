@@ -23,6 +23,17 @@ export interface CreatePagination {
   setPage: (page: number) => void;
   /** Sync an externally-controlled page without emitting a change event. */
   syncPage: (page: number) => void;
+  /**
+   * Sync the layout and availability props without emitting a change event.
+   * A shrunk page count re-clamps the current page silently: reflection is
+   * data, not a user action.
+   */
+  syncConfig: (config: {
+    pageCount: number;
+    siblingCount: number;
+    boundaryCount: number;
+    disabled: boolean;
+  }) => void;
   /** Svelte action for the container: `<nav use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for the previous-page button. */
@@ -56,6 +67,24 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
     state.update((current) => {
       const clamped = core.clampPage(next, current.pageCount);
       return current.page === clamped ? current : { ...current, page: clamped };
+    });
+
+  const syncConfig = (config: {
+    pageCount: number;
+    siblingCount: number;
+    boundaryCount: number;
+    disabled: boolean;
+  }) =>
+    state.update((current) => {
+      if (
+        current.pageCount === config.pageCount &&
+        current.siblingCount === config.siblingCount &&
+        current.boundaryCount === config.boundaryCount &&
+        current.disabled === config.disabled
+      ) {
+        return current;
+      }
+      return { ...current, ...config, page: core.clampPage(current.page, config.pageCount) };
     });
 
   let rootEl: HTMLElement | null = null;
@@ -100,6 +129,7 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
     items: derived(api, ($api) => $api.items),
     setPage: (p: number) => get(api).setPage(p),
     syncPage,
+    syncConfig,
     rootAction,
     prevAction,
     nextAction,

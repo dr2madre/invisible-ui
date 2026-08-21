@@ -28,17 +28,22 @@
   /** Called whenever the page changes. */
   export let onPageChange: ((page: number) => void) | undefined = undefined;
 
-  const { rootAction, prevAction, nextAction, pageAction, items, syncPage } = createPagination({
-    page,
-    pageCount,
-    siblingCount,
-    boundaryCount,
-    disabled,
-    onPageChange,
-  });
+  const { rootAction, prevAction, nextAction, pageAction, items, syncPage, syncConfig } =
+    createPagination({
+      page,
+      pageCount,
+      siblingCount,
+      boundaryCount,
+      disabled,
+      // The arrow keeps the callback live: a handler swapped after mount is
+      // the one that fires (ADR 0011), never the value captured at creation.
+      onPageChange: (next) => onPageChange?.(next),
+    });
 
   // Controlled sync: a later page prop follows without emitting onPageChange.
   $: syncPage(page);
+  // Layout and availability follow their props the same silent way.
+  $: syncConfig({ pageCount, siblingCount, boundaryCount, disabled });
 
   $: resolvedLabel = label ?? $t("pagination.label");
 </script>
