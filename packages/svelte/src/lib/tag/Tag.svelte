@@ -71,6 +71,8 @@
   .tag {
     display: inline-flex;
     align-items: center;
+    /* Tall enough for the remove button's 24px target to sit inside the tag. */
+    min-block-size: 1.5rem;
     gap: var(--ds-tag-gap, 0.3rem);
     padding: var(--ds-tag-padding, 0.15rem 0.5rem);
     font: inherit;
@@ -107,7 +109,11 @@
     justify-content: center;
     margin: 0;
     margin-inline-end: -0.15rem;
-    padding: 0.1rem;
+    /* The glyph keeps its size; the pressable area is at least 24px square. */
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    flex: none;
+    padding: 0;
     font: inherit;
     color: inherit;
     background: none;

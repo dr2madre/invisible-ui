@@ -27,10 +27,17 @@
     </svelte:fragment>
 
     <svelte:fragment slot="actions">
-      <Button variant="ghost" onpress={() => {}} --ds-button-padding="0">
-        <span style="text-decoration: underline; text-underline-offset: 2px;">Details</span>
+      <Button variant="ghost" onpress={() => {}}>
+        <span class="card-demo__link-text">Details</span>
       </Button>
       <Button variant="primary">Shop now</Button>
     </svelte:fragment>
   </Card>
 </div>
+
+<style>
+  .card-demo__link-text {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
