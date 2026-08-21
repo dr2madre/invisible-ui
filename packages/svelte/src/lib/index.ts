@@ -56,3 +56,8 @@ export type {
   StatusOptions,
 } from "./notification/create-notifier";
 export { normalizeProps } from "./normalize";
+
+// The toolbar ships as a styled component only, with no factory module, so its
+// shared vocabulary is aliased from the core here: a consumer types their own
+// props with it and must not need a direct core dependency.
+export type { ToolbarOrientation } from "./internal/toolbar-types";
