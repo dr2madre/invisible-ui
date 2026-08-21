@@ -1,22 +1,11 @@
 <script module lang="ts">
   import type { SortState } from "./create-table";
 
-  /** A table column definition (display + sorting). */
-  export interface TableColumnDef {
-    /** Stable key; the default accessor into a row. */
-    key: string;
-    /** Header label. */
-    header: string;
-    /** Whether the column can be sorted. */
-    sortable?: boolean;
-    /** Whether the column can be hidden via configuration (used by TableSet). */
-    hideable?: boolean;
-    /** Text alignment for the column's cells/header. Defaults to `start`. */
-    align?: "start" | "center" | "end";
-  }
-
-  /** A row is any record; cells read `row[column.key]` by default. */
-  export type TableRow = Record<string, unknown>;
+  // The column and row vocabulary lives in a plain module so the package
+  // barrel can export it too; this re-export keeps the subpath import working.
+  import type { TableColumnDef, TableRow } from "./column-types";
+  // eslint-disable-next-line no-import-assign -- a type re-export, not an assignment
+  export type { TableColumnDef, TableRow } from "./column-types";
 
   /**
    * The default row key: `row.id`, falling back to the index. One shared

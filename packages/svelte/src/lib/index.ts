@@ -61,3 +61,8 @@ export { normalizeProps } from "./normalize";
 // shared vocabulary is aliased from the core here: a consumer types their own
 // props with it and must not need a direct core dependency.
 export type { ToolbarOrientation } from "./internal/toolbar-types";
+
+// The styled table's column and row vocabulary: consumers type their own
+// `columns` and `rows` with it, so it must be importable from the barrel, the
+// same as in the Vue adapter.
+export type { TableColumnDef, TableRow } from "./table/column-types";
