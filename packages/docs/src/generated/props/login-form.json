@@ -46,16 +46,16 @@
         },
         {
           "name": "providers",
-          "type": "{ id: string",
-          "default": null,
-          "required": true,
+          "type": "{ id: string; label: string }[]",
+          "default": "[]",
+          "required": false,
           "description": "Social providers rendered as white buttons above the fields."
         },
         {
           "name": "onSubmit",
-          "type": "((value: { email: string",
-          "default": null,
-          "required": true,
+          "type": "((value: { email: string; password: string }) => void) | undefined",
+          "default": "undefined",
+          "required": false,
           "description": ""
         },
         {
