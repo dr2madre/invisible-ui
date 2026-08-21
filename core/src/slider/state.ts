@@ -39,7 +39,12 @@ export function percentage(state: SliderState): number {
   return ((state.value - state.min) / span) * 100;
 }
 
-/** Value at a 0–1 fraction of the track (snapped + clamped). */
+/**
+ * Value at a 0–1 fraction of the track (snapped and clamped). The styled
+ * Slider is a native range input and never needs this: it exists for a
+ * consumer drawing its own track, where a pointer position has to become a
+ * value.
+ */
 export function valueFromFraction(state: SliderState, fraction: number): number {
   return snap(state.min + fraction * (state.max - state.min), state.min, state.max, state.step);
 }

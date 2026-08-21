@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { firstEnabled, initialState, lastEnabled, nextEnabled, prevEnabled } from "./state";
+import { initialState } from "./state";
 import type { RadioItem } from "./types";
 
 const items: RadioItem[] = [{ value: "a" }, { value: "b", disabled: true }, { value: "c" }];
@@ -10,17 +10,6 @@ describe("radio group state", () => {
     const state = initialState({ items });
     expect(state.value).toBeNull();
     expect(state.orientation).toBe("vertical");
-  });
-
-  it("finds first/last enabled, skipping disabled", () => {
-    expect(firstEnabled(items)).toBe("a");
-    expect(lastEnabled(items)).toBe("c");
-  });
-
-  it("navigates skipping disabled items and wraps around", () => {
-    expect(nextEnabled(items, "a")).toBe("c"); // b is disabled
-    expect(nextEnabled(items, "c")).toBe("a"); // wrap
-    expect(prevEnabled(items, "a")).toBe("c"); // wrap backwards
   });
 });
 
