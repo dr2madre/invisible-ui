@@ -73,6 +73,11 @@ The `trigger` slot is the opener button's content.
   is trapped; **Escape** / a backdrop press close it and restore focus.
 - Typing filters; **Arrow Up/Down** move the highlight (`aria-activedescendant`),
   **Enter** selects the active result and closes.
+- The query is what the user wrote, so focus leaving the input changes nothing:
+  the text stays and the palette stays open. Dismissal belongs to the dialog
+  (Escape, a backdrop press), not to focus. This is the opposite of the
+  [Combobox](/invisible-ui/components/forms/combobox/), whose text is a filter
+  over a value it must go back to.
 - Grouped results sit in `role="group"` containers named via `aria-label`, so
   screen readers announce the section when entering it; the visible header is
   hidden from AT to avoid double reading.

@@ -149,13 +149,35 @@ describe("React Combobox (styled)", () => {
     expect(input()).toHaveValue("");
   });
 
-  it("closes on Escape", async () => {
+  it("closes on Escape and puts the text back", async () => {
     const user = userEvent.setup();
-    render(<Controlled />);
+    render(<Combobox label="Fruit" items={items} value="banana" />);
+    await user.clear(input());
     await user.type(input(), "a");
     expect(input()).toHaveAttribute("aria-expanded", "true");
     await user.keyboard("{Escape}");
     expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect((input() as HTMLInputElement).value).toBe("Banana");
+  });
+
+  it("puts the text back to the selection when focus leaves", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" items={items} value="banana" />);
+    await user.clear(input());
+    await user.type(input(), "ch");
+    expect((input() as HTMLInputElement).value).toBe("ch");
+
+    await user.tab();
+    // "ch" was a filter, never a value: leaving must not imply it was chosen.
+    expect((input() as HTMLInputElement).value).toBe("Banana");
+  });
+
+  it("empties a leftover filter when nothing was ever chosen", async () => {
+    const user = userEvent.setup();
+    render(<Combobox label="Fruit" items={items} />);
+    await user.type(input(), "ba");
+    await user.tab();
+    expect((input() as HTMLInputElement).value).toBe("");
   });
 
   it("closes when a pointer goes down outside", async () => {

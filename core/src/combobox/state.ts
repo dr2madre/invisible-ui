@@ -11,6 +11,7 @@ export function initialState(context: ComboboxContext): ComboboxState {
     open: false,
     value: context.value ?? null,
     inputValue: context.inputValue ?? "",
+    committedInputValue: context.inputValue ?? "",
     activeValue: null,
     items: context.items,
     disabled: context.disabled ?? false,

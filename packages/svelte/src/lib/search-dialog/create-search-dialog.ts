@@ -166,6 +166,9 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     open: $open,
     value: null,
     inputValue: $q.inputValue,
+    // There is no selection here, so there is no text to come back to. The
+    // query survives because of `settleOnBlur: false` below, not by accident.
+    committedInputValue: "",
     activeValue: $q.activeValue,
     items: $q.items,
     disabled: false,
@@ -185,6 +188,11 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
       },
       setActiveValue,
       setInputValue,
+      setCommittedInputValue: () => {},
+      // A search dialog keeps what was typed and keeps showing it: losing
+      // focus must neither wipe the query nor dismiss the palette, which the
+      // dialog itself owns.
+      settleOnBlur: false,
       normalize: normalizeProps,
     }),
   );

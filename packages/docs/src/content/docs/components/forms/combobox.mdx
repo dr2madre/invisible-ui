@@ -24,6 +24,17 @@ control mirrors the selected one) and the `width` modes (`wrap` / `fill` /
 
 <ImportSnippet component="combobox" />
 
+### Filter versus value
+
+The text you type is a **filter**, not a value: this combobox only takes values
+from its list. So leaving the field settles it — the list closes and the text
+goes back to the selected option's label, or to empty when nothing is selected.
+Escape does the same in one keystroke. Nothing is reported as chosen that was
+not chosen, and a form never carries a label that matches no value.
+
+A [Search Dialog](/invisible-ui/components/feedback/dialog/search-dialog/) works the other
+way round: its text is a query the user wrote, so it is kept.
+
 ### Props
 
 <PropsTable component="combobox" />
