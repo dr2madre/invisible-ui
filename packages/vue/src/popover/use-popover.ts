@@ -20,6 +20,8 @@ export interface UsePopoverOptions {
   placement?: Placement;
   /** Gap between trigger and panel, in px. Default `6`. */
   offset?: number;
+  /** Name for the panel. Defaults to being named by the trigger. */
+  label?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -71,7 +73,12 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
   };
 
   const api = computed(() =>
-    core.connect({ state: { open: open.value, id }, setOpen, normalize: normalizeProps }),
+    core.connect({
+      state: { open: open.value, id },
+      setOpen,
+      label: resolved.value.label,
+      normalize: normalizeProps,
+    }),
   );
 
   const triggerRef = ref<HTMLElement | null>(null);

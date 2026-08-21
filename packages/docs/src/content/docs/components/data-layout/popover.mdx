@@ -44,10 +44,12 @@ content).
 ### Accessibility
 
 - With `trigger="click"`: the trigger carries `aria-haspopup="dialog"` /
-  `aria-expanded` and, while open, `aria-controls`. Non-modal: focus moves into
-  the panel on open; **Escape** closes and returns focus to the trigger; an
-  outside pointer press or focus leaving the panel also closes (without
-  stealing focus back).
+  `aria-expanded` and, while open, `aria-controls`. The panel is the
+  `role="dialog"` it advertises, named by the trigger's own text — pass `label`
+  when the trigger text is not a good name for the panel. Non-modal: focus
+  moves into the panel on open; **Escape** closes and returns focus to the
+  trigger; an outside pointer press or focus leaving the panel also closes
+  (without stealing focus back).
 - With `trigger="hover"`: opening on keyboard focus gives non-pointer users the
   same preview; focus is never moved or trapped; the card stays open while
   hovered (WCAG 1.4.13 hoverable) and **Escape** dismisses it (dismissable).

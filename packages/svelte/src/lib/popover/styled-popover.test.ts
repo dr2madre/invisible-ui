@@ -28,6 +28,18 @@ describe("Svelte Popover (styled)", () => {
     expect(screen.getByRole("button", { name: "Action" })).toHaveFocus();
   });
 
+  it("gives the panel a name, from the trigger by default", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(Fixture);
+    await user.click(screen.getByRole("button", { name: "Open popover" }));
+    // The trigger says it opens a dialog, so the panel is one, named by the
+    // text the user pressed.
+    expect(screen.getByRole("dialog", { name: "Open popover" })).toBeInTheDocument();
+
+    await rerender({ label: "Quick settings" });
+    expect(screen.getByRole("dialog", { name: "Quick settings" })).toBeInTheDocument();
+  });
+
   it("closes on Escape and returns focus to the trigger", async () => {
     const user = userEvent.setup();
     render(Fixture);

@@ -17,13 +17,14 @@ const ClickFixture = defineComponent({
       type: Function as PropType<(open: boolean) => void>,
       default: undefined,
     },
+    label: { type: String, default: undefined },
   },
   setup(props) {
     return () => [
       h("button", { type: "button" }, "before"),
       h(
         Popover,
-        { onOpenChange: props.onOpenChange },
+        { onOpenChange: props.onOpenChange, label: props.label },
         {
           trigger: () => "Open popover",
           default: () => [
@@ -86,6 +87,18 @@ describe("Vue Popover (styled)", () => {
     expect(screen.getByText("Popover body")).toBeInTheDocument();
     // Focus moved to the first focusable inside the panel.
     expect(screen.getByRole("button", { name: "Action" })).toHaveFocus();
+  });
+
+  it("gives the panel a name, from the trigger by default", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(ClickFixture);
+    await user.click(screen.getByRole("button", { name: "Open popover" }));
+    // The trigger says it opens a dialog, so the panel is one, named by the
+    // text the user pressed.
+    expect(screen.getByRole("dialog", { name: "Open popover" })).toBeInTheDocument();
+
+    await rerender({ label: "Quick settings" });
+    expect(screen.getByRole("dialog", { name: "Quick settings" })).toBeInTheDocument();
   });
 
   it("closes on Escape and returns focus to the trigger", async () => {

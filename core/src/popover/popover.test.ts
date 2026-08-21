@@ -21,6 +21,23 @@ describe("popover connect", () => {
     expect(api.contentProps.id).toBe(contentId("p"));
   });
 
+  it("names the panel by its trigger, since the trigger says it opens a dialog", () => {
+    const api = connect({ state: initialState({ id: "p", open: true }), setOpen: () => {} });
+    expect(api.contentProps.role).toBe("dialog");
+    expect(api.contentProps["aria-labelledby"]).toBe(triggerId("p"));
+    expect(api.contentProps["aria-label"]).toBeUndefined();
+  });
+
+  it("lets an explicit label replace the trigger as the panel's name", () => {
+    const api = connect({
+      state: initialState({ id: "p", open: true }),
+      setOpen: () => {},
+      label: "Filters",
+    });
+    expect(api.contentProps["aria-label"]).toBe("Filters");
+    expect(api.contentProps["aria-labelledby"]).toBeUndefined();
+  });
+
   it("reports aria-controls and data-state when open", () => {
     const api = connect({ state: initialState({ id: "p", open: true }), setOpen: () => {} });
     expect(api.triggerProps["aria-expanded"]).toBe(true);
