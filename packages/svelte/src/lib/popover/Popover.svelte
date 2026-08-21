@@ -52,15 +52,20 @@
     onOpenChange?.(next);
   };
 
-  const behavior =
+  // Only one primitive is ever built: `??` does not evaluate its right side
+  // when click mode already produced a popover.
+  const popover =
     trigger === "hover"
-      ? createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange })
+      ? undefined
       : createPopover({ open, placement, label, onOpenChange: handleOpenChange });
+  const behavior =
+    popover ??
+    createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange });
   const { triggerAction, contentAction, open: isOpen, setOpen } = behavior;
 
   $: behavior.setOpen(open);
-  // Hover mode is a different primitive with no panel name of its own.
-  $: if (trigger !== "hover") behavior.setLabel?.(label);
+  // Hover mode is a different primitive: a preview has no panel name.
+  $: popover?.setLabel(label);
 
   // First activation (a tap, or a click that beat the hover delay) shows the
   // preview instead of the trigger's own action; once open, the default
