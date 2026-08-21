@@ -1,0 +1,36 @@
+{
+  "$comment": "The only hand-written part of the token catalog. One entry per token whose role the source comment cannot state on its own. `purpose` is the role sentence shown in the catalog; `stability` is alpha unless a token has been deliberately settled.",
+  "--ds-color-background": {
+    "purpose": "The page behind everything. Nothing is painted under it."
+  },
+  "--ds-color-border": {
+    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The visible edge of a control is a different job and is under review."
+  },
+  "--ds-color-surface": {
+    "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field."
+  },
+  "--ds-color-surface-hover": {
+    "purpose": "The same area while the pointer is over it, or while it is the active row of a list."
+  },
+  "--ds-color-text": {
+    "purpose": "Ordinary reading text on background or surface."
+  },
+  "--ds-color-text-secondary": {
+    "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1."
+  },
+  "--ds-color-disabled": {
+    "purpose": "The fill of a control that cannot be used right now."
+  },
+  "--ds-color-text-disabled": {
+    "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone."
+  },
+  "--ds-color-focus-ring": {
+    "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on."
+  },
+  "--ds-state-hover": {
+    "purpose": "The overlay laid over a control while the pointer is on it."
+  },
+  "--ds-state-pressed": {
+    "purpose": "The overlay laid over a control while it is being pressed."
+  }
+}

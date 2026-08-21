@@ -1,0 +1,4027 @@
+{
+  "tokens": [
+    {
+      "name": "--ds-blue-500",
+      "id": "blue-500",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 39,
+        "dtcg": "palette.blue.500"
+      },
+      "expressions": {
+        "light": "#4067b6",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#4067b6",
+        "dark": "#4067b6"
+      },
+      "hasAlpha": false,
+      "purpose": "Cobalt Blue 500",
+      "group": "Sap Green 600",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-black",
+      "id": "brand-black",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 50,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-950)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-950"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#1c1915",
+        "dark": "#1c1915"
+      },
+      "hasAlpha": false,
+      "purpose": "darkest UI point — warm grey 950",
+      "group": "lightest UI point — white #fff",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-primary",
+      "id": "brand-primary",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 45,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-purple-500)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-primary-hover",
+      "id": "brand-primary-hover",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 46,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-purple-600)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-purple-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#6840b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-secondary",
+      "id": "brand-secondary",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 47,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-purple-500)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": "legacy alias — same hue as primary",
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-secondary-hover",
+      "id": "brand-secondary-hover",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 48,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-purple-600)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-purple-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#6840b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "legacy alias — same hue as primary",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-brand-white",
+      "id": "brand-white",
+      "tier": "brand",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 49,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-0)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": "lightest UI point — white #fff",
+      "group": "legacy alias — same hue as primary",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-background",
+      "id": "color-background",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 168,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-0)",
+        "darkMedia": "var(--ds-neutral-900)",
+        "darkAttr": "var(--ds-neutral-900)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#282420"
+      },
+      "hasAlpha": false,
+      "purpose": "The page behind everything. Nothing is painted under it.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-border",
+      "id": "color-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 172,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-200)",
+        "darkMedia": "var(--ds-neutral-700)",
+        "darkAttr": "var(--ds-neutral-700)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-200"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c7c1b7",
+        "dark": "#413c36"
+      },
+      "hasAlpha": false,
+      "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The visible edge of a control is a different job and is under review.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger",
+      "id": "color-danger",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 198,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-danger)",
+        "darkMedia": "var(--ds-feedback-danger)",
+        "darkAttr": "var(--ds-feedback-danger)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-danger",
+        "--ds-red-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#be3b50",
+        "dark": "#be3b50"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-body-text",
+      "id": "color-danger-body-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 265,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-danger)",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50) )",
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-danger",
+        "--ds-feedback-danger",
+        "--ds-red-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#be3b50",
+        "dark": "#da9aa3"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-border",
+      "id": "color-danger-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 228,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-danger) 45%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-danger) 45%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-feedback-danger)",
+        "fallbackDark": "var(--ds-feedback-danger)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ecc4cb",
+        "dark": "#6c2e36"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-hover",
+      "id": "color-danger-hover",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 199,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-danger-hover)",
+        "darkMedia": "var(--ds-feedback-danger-hover)",
+        "darkAttr": "var(--ds-feedback-danger-hover)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-danger-hover",
+        "--ds-red-700"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ab2e42",
+        "dark": "#ab2e42"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-soft",
+      "id": "color-danger-soft",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 231,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-danger) 10%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-danger) 18%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-danger) 18%, var(--ds-neutral-900))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f9ebee",
+        "dark": "#432829"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft destructive fill: the danger red at 10% over the page, with an accessible (AA) dark-red label on top.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-surface",
+      "id": "color-danger-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 227,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-danger) 22%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-danger) 22%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-neutral-50)",
+        "fallbackDark": "var(--ds-neutral-800)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#faeff1",
+        "dark": "#49292b"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-danger-text",
+      "id": "color-danger-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 253,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-danger) 58%, var(--ds-neutral-900))",
+        "darkMedia": "color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50))",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7f313c",
+        "dark": "#da9aa3"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-disabled",
+      "id": "color-disabled",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 175,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-200)",
+        "darkMedia": "var(--ds-neutral-800)",
+        "darkAttr": "var(--ds-neutral-800)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-200"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c7c1b7",
+        "dark": "#332f2a"
+      },
+      "hasAlpha": false,
+      "purpose": "The fill of a control that cannot be used right now.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-emphasis-border",
+      "id": "color-emphasis-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 270,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-700)",
+        "darkMedia": "var(--ds-neutral-300)",
+        "darkAttr": "var(--ds-neutral-300)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-700"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#413c36",
+        "dark": "#a8a297"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-emphasis-surface",
+      "id": "color-emphasis-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 268,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-800)",
+        "darkMedia": "var(--ds-neutral-100)",
+        "darkAttr": "var(--ds-neutral-100)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-800"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#332f2a",
+        "dark": "#e6e0d8"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-focus-halo",
+      "id": "color-focus-halo",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 183,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-color-focus-ring) 30%, transparent)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#8e6cd4 at 30% alpha",
+        "dark": "#a286db at 30% alpha"
+      },
+      "hasAlpha": true,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-focus-ring",
+      "id": "color-focus-ring",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 178,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0))",
+        "darkAttr": "color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0))",
+        "fallbackLight": null,
+        "fallbackDark": "color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0))"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#8e6cd4",
+        "dark": "#a286db"
+      },
+      "hasAlpha": false,
+      "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-info",
+      "id": "color-info",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 195,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-info)",
+        "darkMedia": "var(--ds-feedback-info)",
+        "darkAttr": "var(--ds-feedback-info)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-info",
+        "--ds-blue-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#4067b6",
+        "dark": "#4067b6"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-info-border",
+      "id": "color-info-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 206,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-info) 30%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900))",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900))",
+        "fallbackLight": "var(--ds-feedback-info)",
+        "fallbackDark": "var(--ds-feedback-info)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c6d1e9",
+        "dark": "#334264"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-info-surface",
+      "id": "color-info-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 205,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900))",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900))",
+        "fallbackLight": "var(--ds-neutral-50)",
+        "fallbackDark": "var(--ds-neutral-800)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f0f3f9",
+        "dark": "#2d3341"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-info-text",
+      "id": "color-info-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 242,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-feedback-info) 48%, var(--ds-neutral-900))",
+        "darkMedia": "color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50))",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-info) 42%, var(--ds-neutral-50))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#344468",
+        "dark": "#a8b8d7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-neutral",
+      "id": "color-neutral",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 200,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-500)",
+        "darkMedia": "var(--ds-neutral-500)",
+        "darkAttr": "var(--ds-neutral-500)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#5e5951",
+        "dark": "#5e5951"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-neutral-border",
+      "id": "color-neutral-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 238,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-200)",
+        "darkMedia": "var(--ds-neutral-700)",
+        "darkAttr": "var(--ds-neutral-700)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-200"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c7c1b7",
+        "dark": "#413c36"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-neutral-surface",
+      "id": "color-neutral-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 237,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-50)",
+        "darkMedia": "var(--ds-neutral-800)",
+        "darkAttr": "var(--ds-neutral-800)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-50"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f4f2ef",
+        "dark": "#332f2a"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-neutral-text",
+      "id": "color-neutral-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 259,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-700)",
+        "darkMedia": "var(--ds-neutral-200)",
+        "darkAttr": "var(--ds-neutral-200)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-700"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#413c36",
+        "dark": "#c7c1b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-danger-soft",
+      "id": "color-on-danger-soft",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 232,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-danger-hover)",
+        "darkMedia": "#fff",
+        "darkAttr": "#fff",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-danger-hover",
+        "--ds-red-700"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ab2e42",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft destructive fill: the danger red at 10% over the page, with an accessible (AA) dark-red label on top.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-emphasis",
+      "id": "color-on-emphasis",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 269,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-50)",
+        "darkMedia": "var(--ds-neutral-900)",
+        "darkAttr": "var(--ds-neutral-900)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-50"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f4f2ef",
+        "dark": "#282420"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-primary",
+      "id": "color-on-primary",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 190,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-0)",
+        "darkMedia": "var(--ds-neutral-0)",
+        "darkAttr": "var(--ds-neutral-0)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-primary-soft",
+      "id": "color-on-primary-soft",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 236,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-primary-hover)",
+        "darkMedia": "#fff",
+        "darkAttr": "#fff",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-primary-hover",
+        "--ds-brand-primary-hover",
+        "--ds-purple-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-secondary",
+      "id": "color-on-secondary",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 193,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-0)",
+        "darkMedia": "var(--ds-neutral-0)",
+        "darkAttr": "var(--ds-neutral-0)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-selected",
+      "id": "color-on-selected",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 99,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-on-secondary, #fff)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-on-secondary",
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Selection color (checked/selected states). Alias of the secondary (violet); distinct in name from the primary ACTION color, even if both are violet in this theme.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-status",
+      "id": "color-on-status",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 201,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-0)",
+        "darkMedia": "var(--ds-neutral-0)",
+        "darkAttr": "var(--ds-neutral-0)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-0"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-on-warning",
+      "id": "color-on-warning",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 202,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-900)",
+        "darkMedia": "var(--ds-neutral-900)",
+        "darkAttr": "var(--ds-neutral-900)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-900"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#282420",
+        "dark": "#282420"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-primary",
+      "id": "color-primary",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 188,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-brand-primary)",
+        "darkMedia": "var(--ds-brand-primary)",
+        "darkAttr": "var(--ds-brand-primary)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-brand-primary",
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-primary-hover",
+      "id": "color-primary-hover",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 189,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-brand-primary-hover)",
+        "darkMedia": "var(--ds-brand-primary-hover)",
+        "darkAttr": "var(--ds-brand-primary-hover)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-brand-primary-hover",
+        "--ds-purple-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#6840b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-primary-soft",
+      "id": "color-primary-soft",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 235,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-0))",
+        "darkMedia": "color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900))",
+        "darkAttr": "color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ebe5f7",
+        "dark": "#342b3a"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-secondary",
+      "id": "color-secondary",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 191,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-brand-secondary)",
+        "darkMedia": "var(--ds-brand-secondary)",
+        "darkAttr": "var(--ds-brand-secondary)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-brand-secondary",
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-secondary-body-text",
+      "id": "color-secondary-body-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 264,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-secondary)",
+        "darkMedia": "color-mix( in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50) )",
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-secondary",
+        "--ds-brand-secondary",
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#a88fd9"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-secondary-hover",
+      "id": "color-secondary-hover",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 192,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-brand-secondary-hover)",
+        "darkMedia": "var(--ds-brand-secondary-hover)",
+        "darkAttr": "var(--ds-brand-secondary-hover)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-brand-secondary-hover",
+        "--ds-purple-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#6840b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-selected",
+      "id": "color-selected",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 98,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-primary, #7a52cc)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-primary",
+        "--ds-brand-primary",
+        "--ds-purple-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Selection color (checked/selected states). Alias of the secondary (violet); distinct in name from the primary ACTION color, even if both are violet in this theme.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-selected-text",
+      "id": "color-selected-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 258,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-color-secondary) 55%, var(--ds-neutral-900) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50) )",
+        "darkAttr": "color-mix(in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#553d7f",
+        "dark": "#a88fd9"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-success",
+      "id": "color-success",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 196,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-success)",
+        "darkMedia": "var(--ds-feedback-success)",
+        "darkAttr": "var(--ds-feedback-success)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-success",
+        "--ds-green-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#3e7523",
+        "dark": "#3e7523"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-success-body-text",
+      "id": "color-success-body-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 266,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-color-success)",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-success) 50%, var(--ds-neutral-50) )",
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-color-success",
+        "--ds-feedback-success",
+        "--ds-green-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#3e7523",
+        "dark": "#99b489"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-success-border",
+      "id": "color-success-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 216,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-success) 30%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-success) 45%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-success) 45%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-feedback-success)",
+        "fallbackDark": "var(--ds-feedback-success)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c5d6bd",
+        "dark": "#324821"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-success-surface",
+      "id": "color-success-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 211,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-success) 8%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-success) 22%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-success) 22%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-neutral-50)",
+        "fallbackDark": "var(--ds-neutral-800)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f0f4ed",
+        "dark": "#2d3621"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-success-text",
+      "id": "color-success-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 247,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-success) 52%, var(--ds-neutral-900) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-success) 50%, var(--ds-neutral-50) )",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-success) 50%, var(--ds-neutral-50))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#334e22",
+        "dark": "#99b489"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-surface",
+      "id": "color-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 173,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-100)",
+        "darkMedia": "var(--ds-neutral-700)",
+        "darkAttr": "var(--ds-neutral-700)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-100"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#e6e0d8",
+        "dark": "#413c36"
+      },
+      "hasAlpha": false,
+      "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-surface-hover",
+      "id": "color-surface-hover",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 174,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-200)",
+        "darkMedia": "var(--ds-neutral-600)",
+        "darkAttr": "var(--ds-neutral-600)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-200"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c7c1b7",
+        "dark": "#524c44"
+      },
+      "hasAlpha": false,
+      "purpose": "The same area while the pointer is over it, or while it is the active row of a list.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-text",
+      "id": "color-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 169,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-900)",
+        "darkMedia": "var(--ds-neutral-50)",
+        "darkAttr": "var(--ds-neutral-50)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-900"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#282420",
+        "dark": "#f4f2ef"
+      },
+      "hasAlpha": false,
+      "purpose": "Ordinary reading text on background or surface.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-text-disabled",
+      "id": "color-text-disabled",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 171,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-400)",
+        "darkMedia": "var(--ds-neutral-600)",
+        "darkAttr": "var(--ds-neutral-600)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-400"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#757067",
+        "dark": "#524c44"
+      },
+      "hasAlpha": false,
+      "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-text-secondary",
+      "id": "color-text-secondary",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 170,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-neutral-600)",
+        "darkMedia": "var(--ds-neutral-300)",
+        "darkAttr": "var(--ds-neutral-300)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-neutral-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#524c44",
+        "dark": "#a8a297"
+      },
+      "hasAlpha": false,
+      "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-warning",
+      "id": "color-warning",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 197,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-feedback-warning)",
+        "darkMedia": "var(--ds-feedback-warning)",
+        "darkAttr": "var(--ds-feedback-warning)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-feedback-warning",
+        "--ds-orange-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c96422",
+        "dark": "#c96422"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-warning-border",
+      "id": "color-warning-border",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 226,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-warning) 30%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-warning) 45%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-warning) 45%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-feedback-warning)",
+        "fallbackDark": "var(--ds-feedback-warning)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#efd1bd",
+        "dark": "#704121"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-warning-surface",
+      "id": "color-warning-surface",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 221,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-warning) 8%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-warning) 22%, var(--ds-neutral-900) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-warning) 22%, var(--ds-neutral-900) )",
+        "fallbackLight": "var(--ds-neutral-50)",
+        "fallbackDark": "var(--ds-neutral-800)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#fbf3ed",
+        "dark": "#4b3220"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-color-warning-text",
+      "id": "color-warning-text",
+      "tier": "semantic",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 252,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-warning) 42%, var(--ds-neutral-900) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-warning) 58%, var(--ds-neutral-50) )",
+        "darkAttr": "color-mix(in srgb, var(--ds-feedback-warning) 58%, var(--ds-neutral-50))",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6c3f21",
+        "dark": "#dba078"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-control-padding-x",
+      "id": "control-padding-x",
+      "tier": "sizing",
+      "ownership": "frontend",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 93,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "0.875rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Shared control sizing so Button / Select / SegmentedControl / TextField / Combobox line up at the same height + font when placed side by side.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-control-padding-y",
+      "id": "control-padding-y",
+      "tier": "sizing",
+      "ownership": "frontend",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 92,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "0.5rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Shared control sizing so Button / Select / SegmentedControl / TextField / Combobox line up at the same height + font when placed side by side.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-elevation-overlay",
+      "id": "elevation-overlay",
+      "tier": "elevation",
+      "ownership": "frontend",
+      "valueType": "shadow",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 272,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "darkMedia": "0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5)",
+        "darkAttr": "0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-feedback-danger",
+      "id": "feedback-danger",
+      "tier": "feedback",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 56,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-red-600)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-red-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#be3b50",
+        "dark": "#be3b50"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "2) Feedback hues.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-feedback-danger-hover",
+      "id": "feedback-danger-hover",
+      "tier": "feedback",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 57,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-red-700)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-red-700"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ab2e42",
+        "dark": "#ab2e42"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "2) Feedback hues.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-feedback-info",
+      "id": "feedback-info",
+      "tier": "feedback",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 53,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-blue-500)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-blue-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#4067b6",
+        "dark": "#4067b6"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "2) Feedback hues.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-feedback-success",
+      "id": "feedback-success",
+      "tier": "feedback",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 54,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-green-600)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-green-600"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#3e7523",
+        "dark": "#3e7523"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "2) Feedback hues.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-feedback-warning",
+      "id": "feedback-warning",
+      "tier": "feedback",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 55,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "var(--ds-orange-500)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [
+        "--ds-orange-500"
+      ],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c96422",
+        "dark": "#c96422"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "2) Feedback hues.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-focus-halo-width",
+      "id": "focus-halo-width",
+      "tier": "focus",
+      "ownership": "frontend",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 182,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "3px",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-focus-ring-offset",
+      "id": "focus-ring-offset",
+      "tier": "focus",
+      "ownership": "frontend",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 181,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "2px",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-focus-ring-shadow",
+      "id": "focus-ring-shadow",
+      "tier": "focus",
+      "ownership": "frontend",
+      "valueType": "shadow",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 186,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "0 0 0 var(--ds-focus-ring-width) var(--ds-color-focus-ring), 0 0 0 calc(var(--ds-focus-ring-width) + var(--ds-focus-halo-width)) var(--ds-color-focus-halo)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-focus-ring-width",
+      "id": "focus-ring-width",
+      "tier": "focus",
+      "ownership": "frontend",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 180,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "2px",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-mono",
+      "id": "font-mono",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "fontFamily",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 107,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Type — system font stacks (native feel, no web-font download, no layout shift). Named by role: sans for UI text, mono for code/numeric.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-sans",
+      "id": "font-sans",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "fontFamily",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 105,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Type — system font stacks (native feel, no web-font download, no layout shift). Named by role: sans for UI text, mono for code/numeric.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h1",
+      "id": "font-size-h1",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 117,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "2.375rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "38px",
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h2",
+      "id": "font-size-h2",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 118,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "2rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "32px",
+      "group": "38px",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h3",
+      "id": "font-size-h3",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 119,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1.75rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "28px",
+      "group": "32px",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h4",
+      "id": "font-size-h4",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 120,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1.5rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "24px",
+      "group": "28px",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h5",
+      "id": "font-size-h5",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 121,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1.25rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "20px",
+      "group": "24px",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-font-size-h6",
+      "id": "font-size-h6",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 122,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "16px",
+      "group": "20px",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-green-600",
+      "id": "green-600",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 38,
+        "dtcg": "palette.green.600"
+      },
+      "expressions": {
+        "light": "#3e7523",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#3e7523",
+        "dark": "#3e7523"
+      },
+      "hasAlpha": false,
+      "purpose": "Sap Green 600",
+      "group": "Burnt Orange 500",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-heading-weight",
+      "id": "heading-weight",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 116,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "700",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-line-height",
+      "id": "line-height",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 111,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1.4",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "140% — base / body",
+      "group": "Line heights (unitless). Base for body copy; tight for the more compact display/UI text — every heading level plus subtitles, buttons and labels.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-line-height-tight",
+      "id": "line-height-tight",
+      "tier": "typography",
+      "ownership": "frontend",
+      "valueType": "typography",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 112,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "1.2",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "120% — headings, subtitles, buttons, labels",
+      "group": "140% — base / body",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-0",
+      "id": "neutral-0",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 68,
+        "dtcg": "palette.grey.0"
+      },
+      "expressions": {
+        "light": "#ffffff",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ffffff",
+        "dark": "#ffffff"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-100",
+      "id": "neutral-100",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 70,
+        "dtcg": "palette.grey.100"
+      },
+      "expressions": {
+        "light": "#e6e0d8",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#e6e0d8",
+        "dark": "#e6e0d8"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-200",
+      "id": "neutral-200",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 71,
+        "dtcg": "palette.grey.200"
+      },
+      "expressions": {
+        "light": "#c7c1b7",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c7c1b7",
+        "dark": "#c7c1b7"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-300",
+      "id": "neutral-300",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 72,
+        "dtcg": "palette.grey.300"
+      },
+      "expressions": {
+        "light": "#a8a297",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#a8a297",
+        "dark": "#a8a297"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-400",
+      "id": "neutral-400",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 73,
+        "dtcg": "palette.grey.400"
+      },
+      "expressions": {
+        "light": "#757067",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#757067",
+        "dark": "#757067"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-50",
+      "id": "neutral-50",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 69,
+        "dtcg": "palette.grey.50"
+      },
+      "expressions": {
+        "light": "#f4f2ef",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#f4f2ef",
+        "dark": "#f4f2ef"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-500",
+      "id": "neutral-500",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 74,
+        "dtcg": "palette.grey.500"
+      },
+      "expressions": {
+        "light": "#5e5951",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#5e5951",
+        "dark": "#5e5951"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-600",
+      "id": "neutral-600",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 75,
+        "dtcg": "palette.grey.600"
+      },
+      "expressions": {
+        "light": "#524c44",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#524c44",
+        "dark": "#524c44"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-700",
+      "id": "neutral-700",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 76,
+        "dtcg": "palette.grey.700"
+      },
+      "expressions": {
+        "light": "#413c36",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#413c36",
+        "dark": "#413c36"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-800",
+      "id": "neutral-800",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 77,
+        "dtcg": "palette.grey.800"
+      },
+      "expressions": {
+        "light": "#332f2a",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#332f2a",
+        "dark": "#332f2a"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-900",
+      "id": "neutral-900",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 78,
+        "dtcg": "palette.grey.900"
+      },
+      "expressions": {
+        "light": "#282420",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#282420",
+        "dark": "#282420"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-neutral-950",
+      "id": "neutral-950",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 79,
+        "dtcg": "palette.grey.950"
+      },
+      "expressions": {
+        "light": "#1c1915",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#1c1915",
+        "dark": "#1c1915"
+      },
+      "hasAlpha": false,
+      "purpose": null,
+      "group": "3) Neutrals (UI) — the palette's \"Warm Grey\" 0–950 ramp.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-orange-500",
+      "id": "orange-500",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 37,
+        "dtcg": "palette.orange.500"
+      },
+      "expressions": {
+        "light": "#c96422",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#c96422",
+        "dark": "#c96422"
+      },
+      "hasAlpha": false,
+      "purpose": "Burnt Orange 500",
+      "group": "Alizarin Red 700",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-pastel-green",
+      "id": "pastel-green",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 64,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "oklch(78.3% 0.129 138.7)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#8dcc7a",
+        "dark": "#8dcc7a"
+      },
+      "hasAlpha": false,
+      "purpose": "#8DCC7A",
+      "group": "#7ABECC",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-pastel-pink",
+      "id": "pastel-pink",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 61,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "oklch(77.7% 0.082 8.5)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#e5a1ac",
+        "dark": "#e5a1ac"
+      },
+      "hasAlpha": false,
+      "purpose": "#E5A1AC",
+      "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-pastel-teal",
+      "id": "pastel-teal",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 63,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "oklch(76.1% 0.071 212.1)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7abecc",
+        "dark": "#7abecc"
+      },
+      "hasAlpha": false,
+      "purpose": "#7ABECC",
+      "group": "#B8A1E6",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-pastel-violet",
+      "id": "pastel-violet",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 62,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "oklch(75.4% 0.1 299.3)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#b8a1e6",
+        "dark": "#b8a1e6"
+      },
+      "hasAlpha": false,
+      "purpose": "#B8A1E6",
+      "group": "#E5A1AC",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-pastel-yellow",
+      "id": "pastel-yellow",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 65,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "oklch(84.1% 0.151 98)",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#e5cb44",
+        "dark": "#e5cb44"
+      },
+      "hasAlpha": false,
+      "purpose": "#E5CB44",
+      "group": "#8DCC7A",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-purple-500",
+      "id": "purple-500",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 40,
+        "dtcg": "palette.purple.500"
+      },
+      "expressions": {
+        "light": "#7a52cc",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#7a52cc",
+        "dark": "#7a52cc"
+      },
+      "hasAlpha": false,
+      "purpose": "Dioxazine Purple 500",
+      "group": "Cobalt Blue 500",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-purple-600",
+      "id": "purple-600",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 41,
+        "dtcg": "palette.purple.600"
+      },
+      "expressions": {
+        "light": "#6840b7",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#6840b7",
+        "dark": "#6840b7"
+      },
+      "hasAlpha": false,
+      "purpose": "Dioxazine Purple 600",
+      "group": "Dioxazine Purple 500",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-radius-control",
+      "id": "radius-control",
+      "tier": "radius",
+      "ownership": "design",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 86,
+        "dtcg": "radius.control"
+      },
+      "expressions": {
+        "light": "0.5rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "buttons, inputs, the close button",
+      "group": "Tier 2 — non-color roles (shape & type) * Radius named for the shape's role, not its size — same in light/dark. Elevation remaps per theme and lives in the semantic blocks below.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-radius-pill",
+      "id": "radius-pill",
+      "tier": "radius",
+      "ownership": "design",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 88,
+        "dtcg": "radius.pill"
+      },
+      "expressions": {
+        "light": "999px",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "fully rounded — toggles, chips",
+      "group": "alerts, notifications, cards",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-radius-surface",
+      "id": "radius-surface",
+      "tier": "radius",
+      "ownership": "design",
+      "valueType": "dimension",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 87,
+        "dtcg": "radius.surface"
+      },
+      "expressions": {
+        "light": "0.75rem",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "alerts, notifications, cards",
+      "group": "buttons, inputs, the close button",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-red-600",
+      "id": "red-600",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 35,
+        "dtcg": "palette.red.600"
+      },
+      "expressions": {
+        "light": "#be3b50",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#be3b50",
+        "dark": "#be3b50"
+      },
+      "hasAlpha": false,
+      "purpose": "Alizarin Red 600",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-red-700",
+      "id": "red-700",
+      "tier": "primitive",
+      "ownership": "design",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 36,
+        "dtcg": "palette.red.700"
+      },
+      "expressions": {
+        "light": "#ab2e42",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#ab2e42",
+        "dark": "#ab2e42"
+      },
+      "hasAlpha": false,
+      "purpose": "Alizarin Red 700",
+      "group": "Alizarin Red 600",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-state-hover",
+      "id": "state-hover",
+      "tier": "state",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 176,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "rgb(0 0 0 / 0.06)",
+        "darkMedia": "rgb(255 255 255 / 0.09)",
+        "darkAttr": "rgb(255 255 255 / 0.09)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#000000 at 6% alpha",
+        "dark": "#ffffff at 9% alpha"
+      },
+      "hasAlpha": true,
+      "purpose": "The overlay laid over a control while the pointer is on it.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    },
+    {
+      "name": "--ds-state-pressed",
+      "id": "state-pressed",
+      "tier": "state",
+      "ownership": "frontend",
+      "valueType": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 177,
+        "dtcg": null
+      },
+      "expressions": {
+        "light": "rgb(0 0 0 / 0.12)",
+        "darkMedia": "rgb(255 255 255 / 0.16)",
+        "darkAttr": "rgb(255 255 255 / 0.16)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#000000 at 12% alpha",
+        "dark": "#ffffff at 16% alpha"
+      },
+      "hasAlpha": true,
+      "purpose": "The overlay laid over a control while it is being pressed.",
+      "group": "Tier 2 — semantic (light)",
+      "stability": "alpha"
+    }
+  ],
+  "pairings": [
+    {
+      "front": "--ds-color-text",
+      "back": "--ds-color-background",
+      "min": 4.5,
+      "what": "body text on the page",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-text",
+      "back": "--ds-color-surface",
+      "min": 4.5,
+      "what": "body text on a surface",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-text-secondary",
+      "back": "--ds-color-background",
+      "min": 4.5,
+      "what": "supporting text on the page",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-text-secondary",
+      "back": "--ds-color-surface",
+      "min": 4.5,
+      "what": "supporting text on a surface",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-on-primary",
+      "back": "--ds-color-primary",
+      "min": 4.5,
+      "what": "primary button label",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-on-primary",
+      "back": "--ds-color-primary-hover",
+      "min": 4.5,
+      "what": "primary button label, hovered",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-on-status",
+      "back": "--ds-color-danger",
+      "min": 4.5,
+      "what": "danger button label",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-on-emphasis",
+      "back": "--ds-color-emphasis-surface",
+      "min": 4.5,
+      "what": "text on the emphasis surface",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-border",
+      "back": "--ds-color-background",
+      "min": 3,
+      "what": "a boundary against the page",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-border",
+      "back": "--ds-color-surface",
+      "min": 3,
+      "what": "a boundary against a surface",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-focus-ring",
+      "back": "--ds-color-background",
+      "min": 3,
+      "what": "the focus ring against the page",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    },
+    {
+      "front": "--ds-color-focus-ring",
+      "back": "--ds-color-surface",
+      "min": 3,
+      "what": "the focus ring against a surface",
+      "light": null,
+      "dark": null,
+      "passes": {
+        "light": false,
+        "dark": false
+      }
+    }
+  ],
+  "counts": {
+    "total": 110,
+    "byTier": {
+      "primitive": 24,
+      "brand": 6,
+      "semantic": 52,
+      "sizing": 2,
+      "elevation": 1,
+      "feedback": 5,
+      "focus": 4,
+      "typography": 11,
+      "radius": 3,
+      "state": 2
+    },
+    "withDarkOverride": 52,
+    "designOwned": 27,
+    "colors": 89
+  },
+  "adapters": {
+    "svelte": 110,
+    "vue": 110,
+    "react": 110,
+    "elements": 110
+  }
+}

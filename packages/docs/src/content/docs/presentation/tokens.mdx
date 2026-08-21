@@ -5,10 +5,10 @@ title: "Tokens"
 import Preview from "../../../components/Preview.astro";
 import PaletteDemo from "../../../demos/PaletteDemo.svelte";
 
-The color tokens of the presentation layer — interface, feedback and action
-colors, straight from the semantic tokens (`--ds-color-*`). Each swatch renders
-its live token, so the palette follows the current theme (light/dark) and any
-override.
+How the theme layer is put together and what to change first. The colors of the
+presentation layer are shown below by function; the complete list of every
+shipped token, with its value in both themes and what it points at, is the
+[token catalog](/invisible-ui/presentation/token-catalog/).
 
 <Preview>
   <PaletteDemo client:only="svelte" />
@@ -55,25 +55,18 @@ primitives and **remap between light/dark**. Components only ever read these:
 ## Surface, text and state roles
 
 Beyond brand and feedback, the semantic layer covers the everyday neutrals —
-each named for its role or state, and each remapping per theme:
+each named for its role or state, and each remapping per theme: the page
+(`--ds-color-background`), an area on it (`--ds-color-surface` and its hover),
+text (`--ds-color-text`, `--ds-color-text-secondary`), the disabled state
+(`--ds-color-disabled`, `--ds-color-text-disabled`), the interaction overlays
+(`--ds-state-hover`, `--ds-state-pressed`) and focus
+(`--ds-color-focus-ring`). Each one's role, value per theme and alias chain is
+listed in the [token catalog](/invisible-ui/presentation/token-catalog/#tk-semantic).
 
-| Token | Role / state |
-| --- | --- |
-| `--ds-color-background` | the page surface |
-| `--ds-color-surface` / `--ds-color-surface-hover` | a control/panel fill and its hover |
-| `--ds-color-text` / `--ds-color-text-secondary` | primary and secondary (medium-emphasis) text |
-| `--ds-color-text-disabled` / `--ds-color-disabled` | the *disabled* state — text and fill |
-| `--ds-state-hover` / `--ds-state-pressed` | interaction overlays (hover, pressed) |
-| `--ds-color-focus-ring` | the focus state |
-
-**Text emphasis (guideline).** Map neutral weights to emphasis levels through
-their role tokens:
-
-| Emphasis | Token |
-| --- | --- |
-| High-emphasis text | `--ds-color-text` (`--ds-neutral-900`) |
-| Medium-emphasis text | `--ds-color-text-secondary` (`--ds-neutral-600`) |
-| Disabled text | `--ds-color-text-disabled` (`--ds-neutral-400`) |
+**Text emphasis (guideline).** Reach emphasis levels through the role tokens,
+never by picking a neutral weight directly: `--ds-color-text` for what is being
+read, `--ds-color-text-secondary` for what supports it, and
+`--ds-color-text-disabled` only on a control that cannot be used.
 
 ## Shape & elevation (non-color)
 
@@ -82,10 +75,13 @@ pixel size:
 
 | Token | Role |
 | --- | --- |
-| `--ds-radius-control` | buttons, inputs, the close button (0.5rem) |
-| `--ds-radius-surface` | alerts, notices, cards (0.75rem) |
-| `--ds-radius-pill` | fully rounded — toggles, chips (999px) |
-| `--ds-elevation-overlay` | the floating overlay shadow (remaps per theme) |
+| `--ds-radius-control` | buttons, inputs, the close button |
+| `--ds-radius-surface` | alerts, notices, cards |
+| `--ds-radius-pill` | fully rounded: toggles, chips |
+| `--ds-elevation-overlay` | the floating overlay shadow, per theme |
+
+The current value of each is in the
+[token catalog](/invisible-ui/presentation/token-catalog/#tk-radius).
 
 Components read these through their per-component override, e.g.
 `var(--ds-button-radius, var(--ds-radius-control, …))` — set the role token to
@@ -104,7 +100,10 @@ restyle a whole class of shapes at once, or the component token for a one-off.
 with `[data-theme="dark"]` / `[data-theme="light"]`.
 
 **Accessibility.** The defaults are checked against WCAG 2 AA (text 4.5:1, icon
-glyphs 3:1) by an automated test over `tokens.css`. If you change the brand or
-feedback hues, re-verify contrast — white text sits on the brand/danger fills and
-on the status icon boxes, while the light Burnt Orange warning uses a **dark**
-`--ds-color-on-warning`.
+glyphs 3:1) by an automated test over `tokens.css`, and every pair the
+components actually stack is measured and published in the
+[token catalog](/invisible-ui/presentation/token-catalog/#tk-contrast) —
+including the pairs that do not reach their target in this alpha. If you change
+the brand or feedback hues, re-verify contrast: white text sits on the
+brand/danger fills and on the status icon boxes, while the light Burnt Orange
+warning uses a **dark** `--ds-color-on-warning`.
