@@ -10,6 +10,12 @@ export interface MeterState {
   low: number | null;
   /** Lower bound of the "high" range, or `null` when unset. */
   high: number | null;
+  /**
+   * Where the good end of the scale is. For battery or a score the good end is
+   * the top; for disk usage or error rate it is the bottom. Defaults to `max`,
+   * so a meter that says nothing keeps reading "more is better".
+   */
+  optimum: number;
   /** Base id (styling/labelling hook). */
   id: string;
 }
@@ -26,6 +32,11 @@ export interface MeterContext {
   low?: number;
   /** Lower bound of the "high" range (values at or above are `high`). */
   high?: number;
+  /**
+   * Where the good end of the scale is. Defaults to `max`. Set it near `min`
+   * for a measure where less is better, such as disk usage.
+   */
+  optimum?: number;
   /** Base id. Auto-generated when omitted. */
   id?: string;
 }

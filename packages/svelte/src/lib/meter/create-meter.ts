@@ -18,6 +18,8 @@ export interface CreateMeter {
   percentage: Readable<number>;
   /** Replace the current value. */
   setValue: (value: number) => void;
+  /** Mirror the whole measured range after mount (no callbacks: it is data). */
+  sync: (context: core.MeterContext) => void;
   /** Svelte action for the meter element: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for the fill/indicator: `<div use:indicatorAction>`. */
@@ -36,7 +38,22 @@ export function createMeter(context: core.MeterContext = {}): CreateMeter {
   );
 
   const setValue = (value: number) => {
-    state.update((current) => ({ ...current, value }));
+    state.update((current) => (current.value === value ? current : { ...current, value }));
+  };
+
+  /** Mirror the measured range after mount: a meter's numbers change. */
+  const sync = (next: core.MeterContext) => {
+    state.update((current) => {
+      const resolved = core.initialState({ ...next, id: current.id });
+      const changed =
+        resolved.value !== current.value ||
+        resolved.min !== current.min ||
+        resolved.max !== current.max ||
+        resolved.low !== current.low ||
+        resolved.high !== current.high ||
+        resolved.optimum !== current.optimum;
+      return changed ? resolved : current;
+    });
   };
 
   const api = derived(state, ($state) =>
@@ -48,6 +65,7 @@ export function createMeter(context: core.MeterContext = {}): CreateMeter {
     api,
     percentage: derived(api, ($api) => $api.percentage),
     setValue,
+    sync,
     rootAction: createPropsAction(api, (a) => a.rootProps),
     indicatorAction: createPropsAction(api, (a) => a.indicatorProps),
   };

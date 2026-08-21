@@ -13,14 +13,14 @@
   border-radius: inherit;
   transition: inline-size 200ms ease;
 }
-.meter__indicator[data-level="low"] {
-  background: var(--ds-meter-fill-low, #e6735c);
+.meter__indicator[data-quality="poor"] {
+  background: var(--ds-meter-fill-poor, #e6735c);
 }
-.meter__indicator[data-level="medium"] {
-  background: var(--ds-meter-fill-medium, var(--ds-color-warning-500, #d97706));
+.meter__indicator[data-quality="suboptimal"] {
+  background: var(--ds-meter-fill-suboptimal, var(--ds-color-warning-500, #d97706));
 }
-.meter__indicator[data-level="high"] {
-  background: var(--ds-meter-fill-high, #8dcc7a);
+.meter__indicator[data-quality="optimal"] {
+  background: var(--ds-meter-fill-optimal, #8dcc7a);
 }
 @media (prefers-reduced-motion: reduce) {
   .meter__indicator {

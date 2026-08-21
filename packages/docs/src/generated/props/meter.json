@@ -45,6 +45,13 @@
           "description": "Threshold marks (tint the fill)."
         },
         {
+          "name": "optimum",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better."
+        },
+        {
           "name": "label",
           "type": "string",
           "default": null,
@@ -94,6 +101,13 @@
           "default": "undefined",
           "required": false,
           "description": "Lower bound of the \"high\" range."
+        },
+        {
+          "name": "optimum",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better."
         },
         {
           "name": "label",

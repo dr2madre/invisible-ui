@@ -38,6 +38,27 @@ describe("Vue Meter (styled)", () => {
     expect(container.querySelector(".meter__indicator")).toHaveAttribute("data-level", "high");
   });
 
+  it("colours by how good the value is, not by which band it sits in", () => {
+    // Battery: full is good, so a high value is the good case.
+    const battery = render(Meter, {
+      props: { value: 90, low: 20, high: 60, label: "Battery" },
+    });
+    expect(battery.container.querySelector(".meter__indicator")).toHaveAttribute(
+      "data-quality",
+      "optimal",
+    );
+    battery.unmount();
+
+    // Disk usage: empty is good, so the same high value is the bad case.
+    const { container } = render(Meter, {
+      props: { value: 90, low: 50, high: 80, optimum: 0, label: "Disk" },
+    });
+    const indicator = container.querySelector(".meter__indicator");
+    expect(indicator).toHaveAttribute("data-quality", "poor");
+    // The band is still reported, it just no longer decides the colour.
+    expect(indicator).toHaveAttribute("data-level", "high");
+  });
+
   it("follows an externally changed value", async () => {
     const { rerender } = render(Meter, { props: { value: 20, label: "Storage" } });
     await rerender({ value: 60 });

@@ -7,7 +7,7 @@
    * per-level colors.
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
-   * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-low|medium|high`).
+   * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-poor|medium|high`).
    */
   import { createMeter } from "./create-meter";
 
@@ -21,10 +21,18 @@
   export let low: number | undefined = undefined;
   /** Lower bound of the "high" range. */
   export let high: number | undefined = undefined;
+  /**
+   * Where the good end of the scale is. Defaults to `max`, so more reads as
+   * better; set it near `min` for a measure where less is better.
+   */
+  export let optimum: number | undefined = undefined;
   /** Accessible name for the meter. */
   export let label: string;
 
-  const { rootAction, indicatorAction, percentage } = createMeter({ value, min, max, low, high });
+  const meter = createMeter({ value, min, max, low, high, optimum });
+  const { rootAction, indicatorAction, percentage } = meter;
+
+  $: meter.sync({ value, min, max, low, high, optimum });
 </script>
 
 <!-- The role is declared here as well as applied by the action, so the
@@ -55,14 +63,14 @@
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
-  .meter__indicator:global([data-level="low"]) {
-    background: var(--ds-meter-fill-low, #e6735c);
+  .meter__indicator:global([data-quality="poor"]) {
+    background: var(--ds-meter-fill-poor, #e6735c);
   }
-  .meter__indicator:global([data-level="medium"]) {
-    background: var(--ds-meter-fill-medium, var(--ds-color-warning-500, #d97706));
+  .meter__indicator:global([data-quality="suboptimal"]) {
+    background: var(--ds-meter-fill-suboptimal, var(--ds-color-warning-500, #d97706));
   }
-  .meter__indicator:global([data-level="high"]) {
-    background: var(--ds-meter-fill-high, #8dcc7a);
+  .meter__indicator:global([data-quality="optimal"]) {
+    background: var(--ds-meter-fill-optimal, #8dcc7a);
   }
   @media (prefers-reduced-motion: reduce) {
     .meter__indicator {

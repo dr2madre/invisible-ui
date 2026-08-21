@@ -12,6 +12,11 @@ export interface MeterProps {
   low?: number;
   /** Lower bound of the "high" range. */
   high?: number;
+  /**
+   * Where the good end of the scale is. Defaults to `max`, so more reads as
+   * better; set it near `min` for a measure where less is better.
+   */
+  optimum?: number;
   /** Accessible name for the meter (required). */
   label: string;
 }
@@ -37,6 +42,7 @@ export const Meter = defineComponent({
     max: { type: Number, default: 100 },
     low: { type: Number, default: undefined },
     high: { type: Number, default: undefined },
+    optimum: { type: Number, default: undefined },
     label: { type: String, required: true },
   },
   setup(props) {
@@ -46,6 +52,7 @@ export const Meter = defineComponent({
       max: props.max,
       low: props.low,
       high: props.high,
+      optimum: props.optimum,
     });
     watch(
       () => props.value,
