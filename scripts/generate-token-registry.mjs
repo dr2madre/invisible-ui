@@ -13,10 +13,10 @@
 //      a role sentence and a stability label for tokens whose source comment
 //      cannot say it
 //
-// Values are never copied into the catalog page: the registry keeps the
+// The page never copies a colour into a specimen: the registry keeps the
 // canonical expression (`var(--ds-neutral-200)`, `color-mix(...)`) and the page
-// paints with the live custom property, reading the resolved value from the
-// browser.
+// paints with the live custom property. The resolved value is worked out here,
+// from the same stylesheet, and shown as text beside the specimen.
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -58,7 +58,11 @@ function parseSheet(css) {
   const open = [];
   let line = 1;
   let buffer = "";
-  let groupComment = null;
+  let bufferStart = 1;
+  let lastEnd = 0;
+  // A comment describes only the run of declarations directly under it: the run
+  // stops at a blank line, at the end of the block, or at the next comment.
+  let group = null;
   for (let i = 0; i < css.length; i++) {
     const char = css[i];
     if (char === "\n") line += 1;
@@ -66,8 +70,8 @@ function parseSheet(css) {
     if (char === "/" && css[i + 1] === "*") {
       const end = css.indexOf("*/", i + 2);
       const skipped = css.slice(i, end === -1 ? css.length : end + 2);
+      const startedOn = line;
       line += (skipped.match(/\n/g) ?? []).length;
-      // The comment above a run of declarations describes them as a group.
       const text = skipped
         .slice(2, -2)
         .split("\n")
@@ -76,26 +80,38 @@ function parseSheet(css) {
         .replace(/=+/g, "")
         .replace(/\s+/g, " ")
         .trim();
-      if (text && !/^[a-z-]+:/.test(text)) groupComment = text;
+      // A comment on the same line as the declaration that just ended belongs
+      // to that declaration: it says nothing about what follows, and it does
+      // not interrupt the run the surrounding comment describes.
+      if (startedOn !== lastEnd) group = text ? { text, nextLine: line + 1 } : null;
       i = end === -1 ? css.length : end + 1;
       continue;
     }
     if (char === "{") {
       const head = buffer.trim();
       buffer = "";
+      group = null;
       open.push({ head, isAtRule: head.startsWith("@") });
       continue;
     }
     if (char === "}") {
       open.pop();
       buffer = "";
+      group = null;
       continue;
     }
     if (char === ";") {
       const declaration = buffer.trim();
+      const startLine = bufferStart;
       buffer = "";
       const match = /^(--ds-[\w-]+)\s*:\s*([\s\S]+)$/.exec(declaration);
-      if (!match) continue;
+      lastEnd = line;
+      if (!match) {
+        group = null;
+        continue;
+      }
+      const inRun = group !== null && startLine === group.nextLine;
+      if (group) group = inRun ? { text: group.text, nextLine: line + 1 } : null;
       const selectors = open.filter((block) => !block.isAtRule).map((block) => block.head);
       const atRules = open.filter((block) => block.isAtRule).map((block) => block.head);
       found.push({
@@ -103,11 +119,14 @@ function parseSheet(css) {
         value: match[2].replace(/\s+/g, " ").trim(),
         selector: selectors[selectors.length - 1] ?? ":root",
         layer: layerOf(selectors[selectors.length - 1] ?? ":root", atRules),
-        line,
-        group: groupComment,
+        line: startLine,
+        group: inRun ? group.text : null,
       });
       continue;
     }
+    // Remember the line the declaration itself starts on, not the line the
+    // previous one ended on.
+    if (buffer.trim() === "" && char.trim() !== "") bufferStart = line;
     buffer += char;
   }
   return found;
@@ -118,10 +137,19 @@ function commentsByLine(css) {
   const out = new Map();
   css.split("\n").forEach((text, index) => {
     const match = /--ds-[\w-]+\s*:[^;]*;\s*\/\*\s*([^*]+?)\s*\*\//.exec(text);
-    if (match) out.set(index + 1, match[1].replace(/\s+/g, " ").trim());
+    if (!match) return;
+    const note = match[1].replace(/\s+/g, " ").trim();
+    // A note that is only a value (`#E5A1AC`) records the colour, not the job
+    // the token does, so it must not be shown as the token's role.
+    if (isJustAValue(note)) return;
+    out.set(index + 1, note);
   });
   return out;
 }
+
+/** True for text that only restates a value: a hex, a length, a bare number. */
+const isJustAValue = (text) =>
+  /^(#[0-9a-fA-F]{3,8}|[\d.]+(px|rem|em|%)?|oklch\([^)]*\))$/.test(text.trim());
 
 const TIERS = [
   { tier: "primitive", test: (n) => /^--ds-(neutral|purple|red|orange|green|blue)-\d+$/.test(n) },
@@ -138,19 +166,56 @@ const TIERS = [
 ];
 const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other";
 
-// Ownership follows docs/tokens.md: the DTCG tiers are design-owned, the
-// runtime theme layer is frontend-owned.
-const ownershipOf = (tier, inDtcg) =>
-  inDtcg ? "design" : tier === "primitive" ? "design" : "frontend";
+/**
+ * The CSS name a DTCG path ships as. `palette.grey.700` becomes
+ * `--ds-neutral-700`, `style.primary.hover` becomes `--ds-brand-primary-hover`,
+ * `style.danger.default` becomes `--ds-feedback-danger`.
+ */
+function cssNameForDtcg(path) {
+  const parts = path.split(".");
+  if (parts[0] === "palette") {
+    const hue = parts[1] === "grey" ? "neutral" : parts[1];
+    return `--ds-${hue}-${parts[2]}`;
+  }
+  if (parts[0] === "radius") return `--ds-radius-${parts[1]}`;
+  if (parts[0] === "style") {
+    const family = ["primary", "secondary", "white", "black"].includes(parts[1])
+      ? "brand"
+      : "feedback";
+    const suffix = parts[2] === "default" ? "" : `-${parts[2]}`;
+    return `--ds-${family}-${parts[1]}${suffix}`;
+  }
+  return null;
+}
 
-function valueTypeOf(name, value) {
+// Ownership is a fact about the sources, not a guess: a token is design-owned
+// when the DTCG file defines it, and part of the theme layer when only the
+// stylesheet does.
+const ownershipOf = (inDtcg) => (inDtcg ? "design" : "frontend");
+
+/**
+ * What kind of value a token holds. A reference counts as a colour only if it
+ * really resolves to one, so a future `--ds-motion-duration: var(--ds-x)` is
+ * never painted as a swatch.
+ */
+function valueTypeOf(name, value, resolvesToColor) {
   if (/^--ds-(font-sans|font-mono)$/.test(name)) return "fontFamily";
   if (/^--ds-font-size|^--ds-line-height|^--ds-heading-weight/.test(name)) return "typography";
   if (name.startsWith("--ds-radius-") || name.startsWith("--ds-control-")) return "dimension";
   if (/^[\d.]+(px|rem|em|%)$/.test(value)) return "dimension";
   if (name.startsWith("--ds-elevation-") || name.endsWith("-shadow")) return "shadow";
-  if (/^(#|rgb|hsl|oklch|color-mix)/.test(value) || value.startsWith("var(--ds-")) return "color";
+  if (resolvesToColor) return "color";
   return "other";
+}
+
+/** The specimen shape the catalog draws this kind of value in. */
+function specimenKindOf(name, valueType) {
+  if (valueType === "color") return "color";
+  if (name.startsWith("--ds-radius-")) return "radius";
+  if (valueType === "shadow") return "shadow";
+  if (valueType === "dimension") return "size";
+  if (valueType === "fontFamily" || valueType === "typography") return "text";
+  return null;
 }
 
 /** Follow `var(--x)` one hop at a time inside the same theme layer. */
@@ -281,8 +346,10 @@ const toHex = (rgb) =>
 const formatColor = (rgb) =>
   rgb[3] === 1 ? toHex(rgb) : `${toHex(rgb)} at ${Math.round(rgb[3] * 100)}% alpha`;
 
-const luminance = (rgb) =>
-  rgb
+// Takes the three colour channels only: a colour carries a fourth (alpha) that
+// must not enter the sum.
+const luminance = ([red, green, blue]) =>
+  [red, green, blue]
     .map((channel) => {
       const c = channel / 255;
       return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
@@ -339,16 +406,106 @@ const PAIRINGS = [
     what: "primary button label, hovered",
   },
   {
+    front: "--ds-color-on-secondary",
+    back: "--ds-color-secondary",
+    min: 4.5,
+    what: "secondary button label",
+  },
+  {
     front: "--ds-color-on-status",
     back: "--ds-color-danger",
     min: 4.5,
     what: "danger button label",
   },
   {
+    front: "--ds-color-on-status",
+    back: "--ds-color-info",
+    min: 4.5,
+    what: "label on the information fill",
+  },
+  {
+    front: "--ds-color-on-status",
+    back: "--ds-color-success",
+    min: 4.5,
+    what: "label on the success fill",
+  },
+  {
+    front: "--ds-color-on-warning",
+    back: "--ds-color-warning",
+    min: 3,
+    what: "the icon on the warning fill",
+  },
+  {
+    front: "--ds-color-on-selected",
+    back: "--ds-color-selected",
+    min: 4.5,
+    what: "label on a selected item",
+  },
+  {
     front: "--ds-color-on-emphasis",
     back: "--ds-color-emphasis-surface",
     min: 4.5,
     what: "text on the emphasis surface",
+  },
+  {
+    front: "--ds-color-on-primary-soft",
+    back: "--ds-color-primary-soft",
+    min: 4.5,
+    what: "label on the quiet primary fill",
+  },
+  {
+    front: "--ds-color-on-danger-soft",
+    back: "--ds-color-danger-soft",
+    min: 4.5,
+    what: "label on the quiet danger fill",
+  },
+  {
+    front: "--ds-color-info-text",
+    back: "--ds-color-info-surface",
+    min: 4.5,
+    what: "information text on its tinted surface",
+  },
+  {
+    front: "--ds-color-success-text",
+    back: "--ds-color-success-surface",
+    min: 4.5,
+    what: "success text on its tinted surface",
+  },
+  {
+    front: "--ds-color-warning-text",
+    back: "--ds-color-warning-surface",
+    min: 4.5,
+    what: "warning text on its tinted surface",
+  },
+  {
+    front: "--ds-color-danger-text",
+    back: "--ds-color-danger-surface",
+    min: 4.5,
+    what: "danger text on its tinted surface",
+  },
+  {
+    front: "--ds-color-neutral-text",
+    back: "--ds-color-neutral-surface",
+    min: 4.5,
+    what: "text on the quiet neutral fill",
+  },
+  {
+    front: "--ds-color-secondary-body-text",
+    back: "--ds-color-background",
+    min: 4.5,
+    what: "brand-coloured text on the page",
+  },
+  {
+    front: "--ds-color-danger-body-text",
+    back: "--ds-color-background",
+    min: 4.5,
+    what: "danger-coloured text on the page",
+  },
+  {
+    front: "--ds-color-success-body-text",
+    back: "--ds-color-background",
+    min: 4.5,
+    what: "success-coloured text on the page",
   },
   {
     front: "--ds-color-border",
@@ -393,7 +550,7 @@ const SPECIMEN_MODULE = "packages/docs/src/lib/token-specimens.ts";
  * Everything that has to stay true between the sources, the registry and the
  * catalog. Returns a list of problems; an empty list is the passing state.
  */
-function gates(registry, byName, adapters, notes) {
+function gates(registry, byName, adapters, notes, dtcgPaths) {
   const problems = [];
   const known = new Set(registry.tokens.map((token) => token.name));
 
@@ -411,19 +568,52 @@ function gates(registry, byName, adapters, notes) {
     }
   }
 
-  // 2. Every alias must land on a token that exists, and never on itself.
+  // 1b. The copies must be identical, so the values the catalog publishes are
+  // the values every adapter ships.
+  for (const [adapter, file] of Object.entries(SHEETS)) {
+    if (adapter === "svelte") continue;
+    if (readFileSync(file, "utf8") !== readFileSync(SHEETS.svelte, "utf8")) {
+      problems.push(
+        `${rel(file)} is not identical to the Svelte copy, so the catalog would publish one adapter's values as everyone's`,
+      );
+    }
+  }
+
+  // 2. Every reference must land on a token that exists, and never on itself.
+  // This covers references buried inside color-mix() and box-shadow, in every
+  // layer, not just aliases that are the whole value.
   for (const token of registry.tokens) {
     for (const step of token.aliasChain) {
       if (step.endsWith("(cycle)")) problems.push(`${token.name} alias chain loops at ${step}`);
-      else if (!known.has(step))
-        problems.push(`${token.name} points at ${step}, which nothing defines`);
+    }
+    for (const [layer, expression] of Object.entries(token.expressions)) {
+      if (!expression) continue;
+      for (const [, referenced] of expression.matchAll(/var\(\s*(--ds-[\w-]+)/g)) {
+        if (referenced === token.name) {
+          problems.push(`${token.name} refers to itself in the ${layer} layer`);
+        } else if (!known.has(referenced)) {
+          problems.push(
+            `${token.name} refers to ${referenced} in the ${layer} layer, which nothing defines`,
+          );
+        }
+      }
+    }
+  }
+
+  // 2b. Every token in the design source must ship as a CSS token, or the two
+  // have quietly diverged.
+  for (const path of dtcgPaths) {
+    const name = cssNameForDtcg(path);
+    if (!name) problems.push(`the design source defines ${path}, which maps to no CSS name`);
+    else if (!known.has(name)) {
+      problems.push(`the design source defines ${path}, but ${name} is not in the stylesheet`);
     }
   }
 
   // 3. Every token needs a role a reader can understand, not just its tier.
   for (const token of registry.tokens) {
     const description = token.purpose ?? token.group;
-    if (!description || /^Tier \d/.test(description)) {
+    if (!description || /^Tier \d/.test(description) || isJustAValue(description)) {
       problems.push(`${token.name} has no role description (add one to token-notes.json)`);
     }
   }
@@ -436,6 +626,19 @@ function gates(registry, byName, adapters, notes) {
     }
   }
 
+  // 4b. Every published pair must name real tokens and produce a number, or the
+  // table would report a failure that is really a missing measurement.
+  for (const pair of registry.pairings) {
+    for (const side of [pair.front, pair.back]) {
+      if (!known.has(side))
+        problems.push(`the pair "${pair.what}" names ${side}, which nothing defines`);
+    }
+    for (const theme of ["light", "dark"]) {
+      if (pair[theme] == null)
+        problems.push(`the pair "${pair.what}" could not be measured in ${theme}`);
+    }
+  }
+
   // 5. Hand-written notes must not describe tokens that no longer exist.
   for (const name of Object.keys(notes)) {
     if (name.startsWith("$")) continue;
@@ -443,7 +646,9 @@ function gates(registry, byName, adapters, notes) {
       problems.push(`token-notes.json describes ${name}, which no longer exists`);
   }
 
-  // 6. Values quoted on the reference pages must match the stylesheet.
+  // 6. Values quoted on the reference pages must match the stylesheet, whether
+  // they are written as a declaration or inside a table cell.
+  const normalize = (value) => value.replace(/\s+/g, "").toLowerCase();
   for (const page of REFERENCE_PAGES) {
     const file = resolve(root, page);
     if (!existsSync(file)) continue;
@@ -456,35 +661,46 @@ function gates(registry, byName, adapters, notes) {
         isExample = false;
         return;
       }
-      if (line.includes("/* example */")) {
+      if (line.includes("/* example */") || line.includes("<!-- example -->")) {
         // Marks the rest of this block as a made-up override, not a quote.
         isExample = true;
         return;
       }
-      if (inFence && isExample) return;
-      const match = /(--ds-[\w-]+):\s*([^;]+);/.exec(line);
-      if (!match || !known.has(match[1])) return;
-      const documented = match[2].trim().toLowerCase();
-      const entry = byName.get(match[1]);
+      if (isExample) return;
+      const named = /(--ds-[\w-]+)/.exec(line);
+      if (!named || !known.has(named[1])) return;
+      const entry = byName.get(named[1]);
       const actual = [entry.light, entry.darkAttr, entry.darkMedia, entry.other]
         .filter(Boolean)
-        .map((value) => value.toLowerCase());
-      if (!actual.includes(documented)) {
-        problems.push(
-          `${page}:${index + 1} documents ${match[1]} as "${documented}", the stylesheet says "${actual[0]}"`,
-        );
+        .map(normalize);
+      const declared = /--ds-[\w-]+:\s*([^;]+);/.exec(line);
+      // A declaration quotes the whole value; a table cell or a sentence quotes
+      // a bare literal, which still has to be one of the token's values.
+      const quoted = declared
+        ? [declared[1]]
+        : (line.match(/#[0-9a-fA-F]{3,8}\b|\b\d+(?:\.\d+)?(?:px|rem|em)\b/g) ?? []);
+      for (const value of quoted) {
+        if (!actual.includes(normalize(value))) {
+          problems.push(
+            `${page}:${index + 1} says ${named[1]} is "${value.trim()}", the stylesheet says "${entry.light ?? entry.other}"`,
+          );
+        }
       }
     });
   }
 
-  // 7. Specimens must paint with the live token, never with a copied value.
-  const specimenModule = resolve(root, SPECIMEN_MODULE);
-  if (existsSync(specimenModule)) {
-    const literal = /(#[0-9a-fA-F]{3,8}\b|oklch\(|\brgba?\(|\b\d+(?:\.\d+)?(?:px|rem|em)\b)/.exec(
-      readFileSync(specimenModule, "utf8"),
-    );
-    if (literal)
-      problems.push(`${SPECIMEN_MODULE} paints a specimen with the literal ${literal[0]}`);
+  // 7. The catalog must paint with the live token, never with a copied value.
+  // That covers the specimen rules and the page's own chrome: the docs site
+  // loads tokens.css, so a `var(--x, #fff)` fallback is only a chance to drift,
+  // and one of them already had drifted.
+  for (const file of [SPECIMEN_MODULE, CATALOG_COMPONENT]) {
+    const path = resolve(root, file);
+    if (!existsSync(path)) continue;
+    const source = readFileSync(path, "utf8").replace(/^\s*\/\/.*$/gm, "");
+    const fallback = /var\(\s*--ds-[\w-]+\s*,/.exec(source);
+    if (fallback) problems.push(`${file} gives a token a hard-coded fallback: ${fallback[0]}`);
+    const literal = /(#[0-9a-fA-F]{3,8}\b|\boklch\(|\brgba?\()/.exec(source);
+    if (literal) problems.push(`${file} contains the copied value ${literal[0]}`);
   }
 
   // 8. Every token must land in a kind the catalog knows how to show.
@@ -494,7 +710,18 @@ function gates(registry, byName, adapters, notes) {
     }
   }
 
-  // 9. Every token the catalog lists must have a specimen shape to show it in.
+  // 9. Two declarations of one token in one layer must at least agree.
+  for (const [name, entry] of byName) {
+    for (const [layer, values] of Object.entries(entry.__collisions ?? {})) {
+      if (new Set(values).size > 1) {
+        problems.push(
+          `${name} is declared ${values.length} times in the ${layer} layer with different values`,
+        );
+      }
+    }
+  }
+
+  // 10. Every token the catalog lists must have a specimen shape to show it in.
   const catalog = resolve(root, CATALOG_COMPONENT);
   if (existsSync(catalog) && !readFileSync(catalog, "utf8").includes("specimenCss")) {
     problems.push(`${CATALOG_COMPONENT} does not use the generated specimen rules`);
@@ -523,8 +750,13 @@ function build() {
   const byName = new Map();
   for (const declaration of declarations) {
     const entry = byName.get(declaration.name) ?? {};
-    // The first declaration in a layer wins, matching the cascade.
-    if (!(declaration.layer in entry)) entry[declaration.layer] = declaration.value;
+    // Two declarations of the same token in the same layer have the same
+    // weight, so the later one is the one that applies. Keep every value seen
+    // so a real disagreement can be reported instead of quietly dropped.
+    entry.__collisions = entry.__collisions ?? {};
+    entry.__collisions[declaration.layer] = entry.__collisions[declaration.layer] ?? [];
+    entry.__collisions[declaration.layer].push(declaration.value);
+    entry[declaration.layer] = declaration.value;
     if (!entry.__line) entry.__line = declaration.line;
     if (!entry.__comment && comments.has(declaration.line))
       entry.__comment = comments.get(declaration.line);
@@ -558,22 +790,18 @@ function build() {
     const tier = tierOf(name);
     // A DTCG name maps to CSS by its own convention: palette.grey.N ships as
     // --ds-neutral-N, style.x.y as --ds-brand-*/--ds-feedback-*.
-    const dtcgPath =
-      [...dtcgNames].find((path) => {
-        const parts = path.split(".");
-        if (parts[0] === "palette" && parts[1] === "grey")
-          return name === `--ds-neutral-${parts[2]}`;
-        if (parts[0] === "palette") return name === `--ds-${parts[1]}-${parts[2]}`;
-        if (parts[0] === "radius") return name === `--ds-radius-${parts[1]}`;
-        return false;
-      }) ?? null;
+    const dtcgPath = [...dtcgNames].find((path) => cssNameForDtcg(path) === name) ?? null;
     const note = notes[name] ?? {};
+    const light = resolveIn("light", name);
+    const dark = resolveIn("dark", name);
+    const valueType = valueTypeOf(name, entry.light ?? entry.other ?? "", Boolean(light));
     return {
       name,
       id: name.replace(/^--ds-/, ""),
       tier,
-      ownership: ownershipOf(tier, Boolean(dtcgPath)),
-      valueType: valueTypeOf(name, entry.light ?? entry.other ?? ""),
+      ownership: ownershipOf(Boolean(dtcgPath)),
+      valueType,
+      specimenKind: specimenKindOf(name, valueType),
       source: { file: rel(SHEETS.svelte), line: entry.__line, dtcg: dtcgPath },
       expressions: {
         light: entry.light ?? entry.other ?? null,
@@ -586,10 +814,8 @@ function build() {
       adapters: Object.entries(adapters)
         .filter(([, names]) => names.has(name))
         .map(([adapter]) => adapter),
-      resolved: { light: resolveIn("light", name), dark: resolveIn("dark", name) },
-      hasAlpha: [resolveIn("light", name), resolveIn("dark", name)].some((value) =>
-        value?.includes("alpha"),
-      ),
+      resolved: { light, dark },
+      hasAlpha: [light, dark].some((value) => value?.includes("alpha")),
       purpose: note.purpose ?? entry.__comment ?? null,
       group: entry.__group ?? null,
       stability: note.stability ?? "alpha",
@@ -633,15 +859,15 @@ function build() {
       colors: tokens.filter((t) => t.valueType === "color").length,
     },
     adapters: Object.fromEntries(Object.entries(adapters).map(([name, set]) => [name, set.size])),
-    __sources: { byName, adapters, notes },
+    __sources: { byName, adapters, notes, dtcgPaths: [...dtcgNames] },
   };
 }
 
 const registry = build();
-const { byName, adapters, notes } = registry.__sources;
+const { byName, adapters, notes, dtcgPaths } = registry.__sources;
 delete registry.__sources;
 
-const problems = gates(registry, byName, adapters, notes);
+const problems = gates(registry, byName, adapters, notes, dtcgPaths);
 if (problems.length > 0) {
   console.error(`Token drift (${problems.length}):`);
   for (const problem of problems) console.error(`  - ${problem}`);

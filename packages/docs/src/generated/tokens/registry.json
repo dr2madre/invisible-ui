@@ -6,6 +6,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 39,
@@ -31,7 +32,7 @@
       },
       "hasAlpha": false,
       "purpose": "Cobalt Blue 500",
-      "group": "Sap Green 600",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
@@ -40,6 +41,7 @@
       "tier": "brand",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 50,
@@ -67,19 +69,20 @@
       },
       "hasAlpha": false,
       "purpose": "darkest UI point — warm grey 950",
-      "group": "lightest UI point — white #fff",
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
       "stability": "alpha"
     },
     {
       "name": "--ds-brand-primary",
       "id": "brand-primary",
       "tier": "brand",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 45,
-        "dtcg": null
+        "dtcg": "style.primary.default"
       },
       "expressions": {
         "light": "var(--ds-purple-500)",
@@ -110,12 +113,13 @@
       "name": "--ds-brand-primary-hover",
       "id": "brand-primary-hover",
       "tier": "brand",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 46,
-        "dtcg": null
+        "dtcg": "style.primary.hover"
       },
       "expressions": {
         "light": "var(--ds-purple-600)",
@@ -146,12 +150,13 @@
       "name": "--ds-brand-secondary",
       "id": "brand-secondary",
       "tier": "brand",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 47,
-        "dtcg": null
+        "dtcg": "style.secondary.default"
       },
       "expressions": {
         "light": "var(--ds-purple-500)",
@@ -182,12 +187,13 @@
       "name": "--ds-brand-secondary-hover",
       "id": "brand-secondary-hover",
       "tier": "brand",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 48,
-        "dtcg": null
+        "dtcg": "style.secondary.hover"
       },
       "expressions": {
         "light": "var(--ds-purple-600)",
@@ -211,7 +217,7 @@
       },
       "hasAlpha": false,
       "purpose": null,
-      "group": "legacy alias — same hue as primary",
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
       "stability": "alpha"
     },
     {
@@ -220,6 +226,7 @@
       "tier": "brand",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 49,
@@ -247,7 +254,7 @@
       },
       "hasAlpha": false,
       "purpose": "lightest UI point — white #fff",
-      "group": "legacy alias — same hue as primary",
+      "group": "1) Brand — customize first. White text sits on these, so keep them dark enough for 4.5:1 when used as button fills.",
       "stability": "alpha"
     },
     {
@@ -256,6 +263,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 168,
@@ -283,7 +291,7 @@
       },
       "hasAlpha": false,
       "purpose": "The page behind everything. Nothing is painted under it.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -292,6 +300,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 172,
@@ -319,7 +328,7 @@
       },
       "hasAlpha": false,
       "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The visible edge of a control is a different job and is under review.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -328,6 +337,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 198,
@@ -355,8 +365,8 @@
         "dark": "#be3b50"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The colour of a message that says something failed, and the fill of an action that destroys something.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -365,6 +375,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 265,
@@ -403,6 +414,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 228,
@@ -427,7 +439,7 @@
         "dark": "#6c2e36"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The edge of the tinted danger surface.",
       "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
       "stability": "alpha"
     },
@@ -437,6 +449,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 199,
@@ -464,8 +477,8 @@
         "dark": "#ab2e42"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The danger fill while the pointer is on it or it is being pressed.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -474,6 +487,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 231,
@@ -508,6 +522,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 227,
@@ -542,6 +557,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 253,
@@ -576,6 +592,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 175,
@@ -603,7 +620,7 @@
       },
       "hasAlpha": false,
       "purpose": "The fill of a control that cannot be used right now.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -612,6 +629,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 270,
@@ -638,8 +656,8 @@
         "dark": "#a8a297"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "purpose": "The edge of the emphasis area.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -648,6 +666,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 268,
@@ -674,8 +693,8 @@
         "dark": "#e6e0d8"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -684,6 +703,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 183,
@@ -718,6 +738,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 178,
@@ -743,7 +764,7 @@
       },
       "hasAlpha": false,
       "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -752,6 +773,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 195,
@@ -779,8 +801,8 @@
         "dark": "#4067b6"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The colour of a message that tells you something, without anything being wrong.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -789,6 +811,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 206,
@@ -813,7 +836,7 @@
         "dark": "#334264"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The edge of the tinted information surface.",
       "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
       "stability": "alpha"
     },
@@ -823,6 +846,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 205,
@@ -857,6 +881,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 242,
@@ -891,6 +916,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 200,
@@ -917,8 +943,8 @@
         "dark": "#5e5951"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The colour of a message that carries no status at all.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -927,6 +953,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 238,
@@ -953,7 +980,7 @@
         "dark": "#413c36"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The edge that goes with the quiet neutral fill.",
       "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
       "stability": "alpha"
     },
@@ -963,6 +990,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 237,
@@ -989,7 +1017,7 @@
         "dark": "#332f2a"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The quiet fill of a control or chip that carries no status: a plain tag, a default button.",
       "group": "Soft primary fill (the \"secondary\" button): primary at 10% with the full primary as label in light; the label flips to white on dark surfaces.",
       "stability": "alpha"
     },
@@ -999,6 +1027,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 259,
@@ -1035,6 +1064,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 232,
@@ -1072,6 +1102,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 269,
@@ -1098,8 +1129,8 @@
         "dark": "#282420"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "purpose": "Text and icons drawn on the emphasis area.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1108,6 +1139,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 190,
@@ -1134,8 +1166,8 @@
         "dark": "#ffffff"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "Text and icons drawn on the primary fill.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1144,6 +1176,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 236,
@@ -1182,6 +1215,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 193,
@@ -1208,8 +1242,8 @@
         "dark": "#ffffff"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "Text and icons drawn on the secondary fill.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1218,6 +1252,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 99,
@@ -1245,7 +1280,7 @@
         "dark": "#ffffff"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "Text and icons drawn on a selected item.",
       "group": "Selection color (checked/selected states). Alias of the secondary (violet); distinct in name from the primary ACTION color, even if both are violet in this theme.",
       "stability": "alpha"
     },
@@ -1255,6 +1290,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 201,
@@ -1281,8 +1317,8 @@
         "dark": "#ffffff"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "Text and icons drawn on a solid status fill: information, success, danger.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1291,6 +1327,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 202,
@@ -1317,8 +1354,8 @@
         "dark": "#282420"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "Text and icons drawn on the warning fill. It is dark, because the light warning colour cannot carry white text.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1327,6 +1364,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 188,
@@ -1354,8 +1392,8 @@
         "dark": "#7a52cc"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The fill of the one action a screen is asking for: the primary button, and the selected state that follows from it.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1364,6 +1402,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 189,
@@ -1391,8 +1430,8 @@
         "dark": "#6840b7"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The same fill while the pointer is on it or it is being pressed.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1401,6 +1440,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 235,
@@ -1435,6 +1475,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 191,
@@ -1462,8 +1503,8 @@
         "dark": "#7a52cc"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The fill of an action that is present but not the one being asked for. Same hue as the primary: secondary is a job, not a second colour.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1472,6 +1513,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 264,
@@ -1510,6 +1552,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 192,
@@ -1537,8 +1580,8 @@
         "dark": "#6840b7"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The secondary fill while the pointer is on it or it is being pressed.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1547,6 +1590,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 98,
@@ -1585,9 +1629,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 258,
+        "line": 254,
         "dtcg": null
       },
       "expressions": {
@@ -1619,6 +1664,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 196,
@@ -1646,8 +1692,8 @@
         "dark": "#3e7523"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The colour of a message that says something worked.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1656,6 +1702,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 266,
@@ -1694,9 +1741,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 216,
+        "line": 212,
         "dtcg": null
       },
       "expressions": {
@@ -1718,7 +1766,7 @@
         "dark": "#324821"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The edge of the tinted success surface.",
       "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
       "stability": "alpha"
     },
@@ -1728,9 +1776,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 211,
+        "line": 207,
         "dtcg": null
       },
       "expressions": {
@@ -1762,9 +1811,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 247,
+        "line": 243,
         "dtcg": null
       },
       "expressions": {
@@ -1796,6 +1846,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 173,
@@ -1823,7 +1874,7 @@
       },
       "hasAlpha": false,
       "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1832,6 +1883,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 174,
@@ -1859,7 +1911,7 @@
       },
       "hasAlpha": false,
       "purpose": "The same area while the pointer is over it, or while it is the active row of a list.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1868,6 +1920,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 169,
@@ -1895,7 +1948,7 @@
       },
       "hasAlpha": false,
       "purpose": "Ordinary reading text on background or surface.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1904,6 +1957,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 171,
@@ -1931,7 +1985,7 @@
       },
       "hasAlpha": false,
       "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1940,6 +1994,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 170,
@@ -1967,7 +2022,7 @@
       },
       "hasAlpha": false,
       "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -1976,6 +2031,7 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 197,
@@ -2003,8 +2059,8 @@
         "dark": "#c96422"
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Focus indicator: a solid inner ring + a transparent halo of the same color.",
+      "purpose": "The colour of a message that says to be careful.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -2013,9 +2069,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 226,
+        "line": 222,
         "dtcg": null
       },
       "expressions": {
@@ -2037,7 +2094,7 @@
         "dark": "#704121"
       },
       "hasAlpha": false,
-      "purpose": null,
+      "purpose": "The edge of the tinted warning surface.",
       "group": "Tinted surfaces derived from the feedback hue, mixed into the page.",
       "stability": "alpha"
     },
@@ -2047,9 +2104,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 221,
+        "line": 217,
         "dtcg": null
       },
       "expressions": {
@@ -2081,9 +2139,10 @@
       "tier": "semantic",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 252,
+        "line": 248,
         "dtcg": null
       },
       "expressions": {
@@ -2115,6 +2174,7 @@
       "tier": "sizing",
       "ownership": "frontend",
       "valueType": "dimension",
+      "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 93,
@@ -2149,6 +2209,7 @@
       "tier": "sizing",
       "ownership": "frontend",
       "valueType": "dimension",
+      "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 92,
@@ -2183,6 +2244,7 @@
       "tier": "elevation",
       "ownership": "frontend",
       "valueType": "shadow",
+      "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 272,
@@ -2207,20 +2269,21 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": null,
-      "group": "Status and brand colours painted as text on the page background, as opposed to the *-text tokens above, which sit on a tinted *-surface. The light theme keeps the base colours, which clear AA on the background.",
+      "purpose": "The shadow under something floating over the page: a menu, a popover, a dialog. It changes between themes, because a shadow reads differently on a dark page.",
+      "group": null,
       "stability": "alpha"
     },
     {
       "name": "--ds-feedback-danger",
       "id": "feedback-danger",
       "tier": "feedback",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 56,
-        "dtcg": null
+        "dtcg": "style.danger.default"
       },
       "expressions": {
         "light": "var(--ds-red-600)",
@@ -2251,12 +2314,13 @@
       "name": "--ds-feedback-danger-hover",
       "id": "feedback-danger-hover",
       "tier": "feedback",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 57,
-        "dtcg": null
+        "dtcg": "style.danger.hover"
       },
       "expressions": {
         "light": "var(--ds-red-700)",
@@ -2287,12 +2351,13 @@
       "name": "--ds-feedback-info",
       "id": "feedback-info",
       "tier": "feedback",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 53,
-        "dtcg": null
+        "dtcg": "style.info.default"
       },
       "expressions": {
         "light": "var(--ds-blue-500)",
@@ -2323,12 +2388,13 @@
       "name": "--ds-feedback-success",
       "id": "feedback-success",
       "tier": "feedback",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 54,
-        "dtcg": null
+        "dtcg": "style.success.default"
       },
       "expressions": {
         "light": "var(--ds-green-600)",
@@ -2359,12 +2425,13 @@
       "name": "--ds-feedback-warning",
       "id": "feedback-warning",
       "tier": "feedback",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 55,
-        "dtcg": null
+        "dtcg": "style.warning.default"
       },
       "expressions": {
         "light": "var(--ds-orange-500)",
@@ -2397,6 +2464,7 @@
       "tier": "focus",
       "ownership": "frontend",
       "valueType": "dimension",
+      "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 182,
@@ -2431,6 +2499,7 @@
       "tier": "focus",
       "ownership": "frontend",
       "valueType": "dimension",
+      "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 181,
@@ -2465,9 +2534,10 @@
       "tier": "focus",
       "ownership": "frontend",
       "valueType": "shadow",
+      "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 186,
+        "line": 184,
         "dtcg": null
       },
       "expressions": {
@@ -2499,6 +2569,7 @@
       "tier": "focus",
       "ownership": "frontend",
       "valueType": "dimension",
+      "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 180,
@@ -2533,9 +2604,10 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "fontFamily",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 107,
+        "line": 106,
         "dtcg": null
       },
       "expressions": {
@@ -2567,9 +2639,10 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "fontFamily",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 105,
+        "line": 103,
         "dtcg": null
       },
       "expressions": {
@@ -2601,6 +2674,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 117,
@@ -2625,7 +2699,7 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "38px",
+      "purpose": null,
       "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
@@ -2635,6 +2709,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 118,
@@ -2659,8 +2734,8 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "32px",
-      "group": "38px",
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
     {
@@ -2669,6 +2744,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 119,
@@ -2693,8 +2769,8 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "28px",
-      "group": "32px",
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
     {
@@ -2703,6 +2779,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 120,
@@ -2727,8 +2804,8 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "24px",
-      "group": "28px",
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
     {
@@ -2737,6 +2814,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 121,
@@ -2761,8 +2839,8 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "20px",
-      "group": "24px",
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
     {
@@ -2771,6 +2849,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 122,
@@ -2795,8 +2874,8 @@
         "dark": null
       },
       "hasAlpha": false,
-      "purpose": "16px",
-      "group": "20px",
+      "purpose": null,
+      "group": "Heading scale (rem, from the 100% base). Bold by default; override a token to re-scale, or a component (e.g. a dialog title) can set its own size.",
       "stability": "alpha"
     },
     {
@@ -2805,6 +2884,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 38,
@@ -2830,7 +2910,7 @@
       },
       "hasAlpha": false,
       "purpose": "Sap Green 600",
-      "group": "Burnt Orange 500",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
@@ -2839,6 +2919,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 116,
@@ -2873,6 +2954,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 111,
@@ -2907,6 +2989,7 @@
       "tier": "typography",
       "ownership": "frontend",
       "valueType": "typography",
+      "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 112,
@@ -2932,7 +3015,7 @@
       },
       "hasAlpha": false,
       "purpose": "120% — headings, subtitles, buttons, labels",
-      "group": "140% — base / body",
+      "group": "Line heights (unitless). Base for body copy; tight for the more compact display/UI text — every heading level plus subtitles, buttons and labels.",
       "stability": "alpha"
     },
     {
@@ -2941,6 +3024,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 68,
@@ -2975,6 +3059,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 70,
@@ -3009,6 +3094,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 71,
@@ -3043,6 +3129,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 72,
@@ -3077,6 +3164,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 73,
@@ -3111,6 +3199,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 69,
@@ -3145,6 +3234,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 74,
@@ -3179,6 +3269,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 75,
@@ -3213,6 +3304,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 76,
@@ -3247,6 +3339,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 77,
@@ -3281,6 +3374,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 78,
@@ -3315,6 +3409,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 79,
@@ -3349,6 +3444,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 37,
@@ -3374,15 +3470,16 @@
       },
       "hasAlpha": false,
       "purpose": "Burnt Orange 500",
-      "group": "Alizarin Red 700",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
       "name": "--ds-pastel-green",
       "id": "pastel-green",
       "tier": "primitive",
-      "ownership": "design",
+      "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 64,
@@ -3407,16 +3504,17 @@
         "dark": "#8dcc7a"
       },
       "hasAlpha": false,
-      "purpose": "#8DCC7A",
-      "group": "#7ABECC",
+      "purpose": null,
+      "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
       "stability": "alpha"
     },
     {
       "name": "--ds-pastel-pink",
       "id": "pastel-pink",
       "tier": "primitive",
-      "ownership": "design",
+      "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 61,
@@ -3441,7 +3539,7 @@
         "dark": "#e5a1ac"
       },
       "hasAlpha": false,
-      "purpose": "#E5A1AC",
+      "purpose": null,
       "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
       "stability": "alpha"
     },
@@ -3449,8 +3547,9 @@
       "name": "--ds-pastel-teal",
       "id": "pastel-teal",
       "tier": "primitive",
-      "ownership": "design",
+      "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 63,
@@ -3475,16 +3574,17 @@
         "dark": "#7abecc"
       },
       "hasAlpha": false,
-      "purpose": "#7ABECC",
-      "group": "#B8A1E6",
+      "purpose": null,
+      "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
       "stability": "alpha"
     },
     {
       "name": "--ds-pastel-violet",
       "id": "pastel-violet",
       "tier": "primitive",
-      "ownership": "design",
+      "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 62,
@@ -3509,16 +3609,17 @@
         "dark": "#b8a1e6"
       },
       "hasAlpha": false,
-      "purpose": "#B8A1E6",
-      "group": "#E5A1AC",
+      "purpose": null,
+      "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
       "stability": "alpha"
     },
     {
       "name": "--ds-pastel-yellow",
       "id": "pastel-yellow",
       "tier": "primitive",
-      "ownership": "design",
+      "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 65,
@@ -3543,8 +3644,8 @@
         "dark": "#e5cb44"
       },
       "hasAlpha": false,
-      "purpose": "#E5CB44",
-      "group": "#8DCC7A",
+      "purpose": null,
+      "group": "Pastels (OKLCH) — soft, low-chroma surfaces for slides, soft destructive backgrounds and lightened status tints.",
       "stability": "alpha"
     },
     {
@@ -3553,6 +3654,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 40,
@@ -3578,7 +3680,7 @@
       },
       "hasAlpha": false,
       "purpose": "Dioxazine Purple 500",
-      "group": "Cobalt Blue 500",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
@@ -3587,6 +3689,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 41,
@@ -3612,7 +3715,7 @@
       },
       "hasAlpha": false,
       "purpose": "Dioxazine Purple 600",
-      "group": "Dioxazine Purple 500",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
@@ -3621,6 +3724,7 @@
       "tier": "radius",
       "ownership": "design",
       "valueType": "dimension",
+      "specimenKind": "radius",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 86,
@@ -3646,7 +3750,7 @@
       },
       "hasAlpha": false,
       "purpose": "buttons, inputs, the close button",
-      "group": "Tier 2 — non-color roles (shape & type) * Radius named for the shape's role, not its size — same in light/dark. Elevation remaps per theme and lives in the semantic blocks below.",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -3655,6 +3759,7 @@
       "tier": "radius",
       "ownership": "design",
       "valueType": "dimension",
+      "specimenKind": "radius",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 88,
@@ -3680,7 +3785,7 @@
       },
       "hasAlpha": false,
       "purpose": "fully rounded — toggles, chips",
-      "group": "alerts, notifications, cards",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -3689,6 +3794,7 @@
       "tier": "radius",
       "ownership": "design",
       "valueType": "dimension",
+      "specimenKind": "radius",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 87,
@@ -3714,7 +3820,7 @@
       },
       "hasAlpha": false,
       "purpose": "alerts, notifications, cards",
-      "group": "buttons, inputs, the close button",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -3723,6 +3829,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 35,
@@ -3757,6 +3864,7 @@
       "tier": "primitive",
       "ownership": "design",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 36,
@@ -3782,7 +3890,7 @@
       },
       "hasAlpha": false,
       "purpose": "Alizarin Red 700",
-      "group": "Alizarin Red 600",
+      "group": "0) Palette scale — the raw named primitives, taken from the project color palette (family + weight). The brand and feedback base tokens below reference these — never a raw value.",
       "stability": "alpha"
     },
     {
@@ -3791,6 +3899,7 @@
       "tier": "state",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 176,
@@ -3816,7 +3925,7 @@
       },
       "hasAlpha": true,
       "purpose": "The overlay laid over a control while the pointer is on it.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     },
     {
@@ -3825,6 +3934,7 @@
       "tier": "state",
       "ownership": "frontend",
       "valueType": "color",
+      "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 177,
@@ -3850,7 +3960,7 @@
       },
       "hasAlpha": true,
       "purpose": "The overlay laid over a control while it is being pressed.",
-      "group": "Tier 2 — semantic (light)",
+      "group": null,
       "stability": "alpha"
     }
   ],
@@ -3860,11 +3970,11 @@
       "back": "--ds-color-background",
       "min": 4.5,
       "what": "body text on the page",
-      "light": null,
-      "dark": null,
+      "light": 15.4,
+      "dark": 13.78,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3872,11 +3982,11 @@
       "back": "--ds-color-surface",
       "min": 4.5,
       "what": "body text on a surface",
-      "light": null,
-      "dark": null,
+      "light": 11.75,
+      "dark": 9.77,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3884,11 +3994,11 @@
       "back": "--ds-color-background",
       "min": 4.5,
       "what": "supporting text on the page",
-      "light": null,
-      "dark": null,
+      "light": 8.48,
+      "dark": 6.07,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3896,10 +4006,10 @@
       "back": "--ds-color-surface",
       "min": 4.5,
       "what": "supporting text on a surface",
-      "light": null,
-      "dark": null,
+      "light": 6.47,
+      "dark": 4.3,
       "passes": {
-        "light": false,
+        "light": true,
         "dark": false
       }
     },
@@ -3908,11 +4018,11 @@
       "back": "--ds-color-primary",
       "min": 4.5,
       "what": "primary button label",
-      "light": null,
-      "dark": null,
+      "light": 5.38,
+      "dark": 5.38,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3920,11 +4030,23 @@
       "back": "--ds-color-primary-hover",
       "min": 4.5,
       "what": "primary button label, hovered",
-      "light": null,
-      "dark": null,
+      "light": 6.99,
+      "dark": 6.99,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-secondary",
+      "back": "--ds-color-secondary",
+      "min": 4.5,
+      "what": "secondary button label",
+      "light": 5.38,
+      "dark": 5.38,
+      "passes": {
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3932,11 +4054,59 @@
       "back": "--ds-color-danger",
       "min": 4.5,
       "what": "danger button label",
-      "light": null,
-      "dark": null,
+      "light": 5.34,
+      "dark": 5.34,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-status",
+      "back": "--ds-color-info",
+      "min": 4.5,
+      "what": "label on the information fill",
+      "light": 5.48,
+      "dark": 5.48,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-status",
+      "back": "--ds-color-success",
+      "min": 4.5,
+      "what": "label on the success fill",
+      "light": 5.56,
+      "dark": 5.56,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-warning",
+      "back": "--ds-color-warning",
+      "min": 3,
+      "what": "the icon on the warning fill",
+      "light": 3.91,
+      "dark": 3.91,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-selected",
+      "back": "--ds-color-selected",
+      "min": 4.5,
+      "what": "label on a selected item",
+      "light": 5.38,
+      "dark": 5.38,
+      "passes": {
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3944,11 +4114,131 @@
       "back": "--ds-color-emphasis-surface",
       "min": 4.5,
       "what": "text on the emphasis surface",
-      "light": null,
-      "dark": null,
+      "light": 11.89,
+      "dark": 11.75,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-primary-soft",
+      "back": "--ds-color-primary-soft",
+      "min": 4.5,
+      "what": "label on the quiet primary fill",
+      "light": 5.68,
+      "dark": 13.53,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-danger-soft",
+      "back": "--ds-color-danger-soft",
+      "min": 4.5,
+      "what": "label on the quiet danger fill",
+      "light": 5.67,
+      "dark": 13.34,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-info-text",
+      "back": "--ds-color-info-surface",
+      "min": 4.5,
+      "what": "information text on its tinted surface",
+      "light": 8.7,
+      "dark": 6.32,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-success-text",
+      "back": "--ds-color-success-surface",
+      "min": 4.5,
+      "what": "success text on its tinted surface",
+      "light": 8.37,
+      "dark": 5.56,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-warning-text",
+      "back": "--ds-color-warning-surface",
+      "min": 4.5,
+      "what": "warning text on its tinted surface",
+      "light": 8.08,
+      "dark": 5.24,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-danger-text",
+      "back": "--ds-color-danger-surface",
+      "min": 4.5,
+      "what": "danger text on its tinted surface",
+      "light": 7.76,
+      "dark": 5.58,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-neutral-text",
+      "back": "--ds-color-neutral-surface",
+      "min": 4.5,
+      "what": "text on the quiet neutral fill",
+      "light": 9.77,
+      "dark": 7.43,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-secondary-body-text",
+      "back": "--ds-color-background",
+      "min": 4.5,
+      "what": "brand-coloured text on the page",
+      "light": 5.38,
+      "dark": 5.57,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-danger-body-text",
+      "back": "--ds-color-background",
+      "min": 4.5,
+      "what": "danger-coloured text on the page",
+      "light": 5.34,
+      "dark": 6.7,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-success-body-text",
+      "back": "--ds-color-background",
+      "min": 4.5,
+      "what": "success-coloured text on the page",
+      "light": 5.56,
+      "dark": 6.78,
+      "passes": {
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3956,8 +4246,8 @@
       "back": "--ds-color-background",
       "min": 3,
       "what": "a boundary against the page",
-      "light": null,
-      "dark": null,
+      "light": 1.79,
+      "dark": 1.41,
       "passes": {
         "light": false,
         "dark": false
@@ -3968,8 +4258,8 @@
       "back": "--ds-color-surface",
       "min": 3,
       "what": "a boundary against a surface",
-      "light": null,
-      "dark": null,
+      "light": 1.36,
+      "dark": 1,
       "passes": {
         "light": false,
         "dark": false
@@ -3980,11 +4270,11 @@
       "back": "--ds-color-background",
       "min": 3,
       "what": "the focus ring against the page",
-      "light": null,
-      "dark": null,
+      "light": 4,
+      "dark": 5.11,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     },
     {
@@ -3992,11 +4282,11 @@
       "back": "--ds-color-surface",
       "min": 3,
       "what": "the focus ring against a surface",
-      "light": null,
-      "dark": null,
+      "light": 3.05,
+      "dark": 3.62,
       "passes": {
-        "light": false,
-        "dark": false
+        "light": true,
+        "dark": true
       }
     }
   ],
@@ -4015,7 +4305,7 @@
       "state": 2
     },
     "withDarkOverride": 52,
-    "designOwned": 27,
+    "designOwned": 31,
     "colors": 89
   },
   "adapters": {

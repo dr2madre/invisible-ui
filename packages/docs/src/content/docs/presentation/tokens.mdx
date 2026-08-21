@@ -80,8 +80,9 @@ pixel size:
 | `--ds-radius-pill` | fully rounded: toggles, chips |
 | `--ds-elevation-overlay` | the floating overlay shadow, per theme |
 
-The current value of each is in the
-[token catalog](/invisible-ui/presentation/token-catalog/#tk-radius).
+The current value of each is in the token catalog, under
+[Radius](/invisible-ui/presentation/token-catalog/#tk-radius) and
+[Elevation](/invisible-ui/presentation/token-catalog/#tk-elevation).
 
 Components read these through their per-component override, e.g.
 `var(--ds-button-radius, var(--ds-radius-control, …))` — set the role token to
@@ -100,10 +101,10 @@ restyle a whole class of shapes at once, or the component token for a one-off.
 with `[data-theme="dark"]` / `[data-theme="light"]`.
 
 **Accessibility.** The defaults are checked against WCAG 2 AA (text 4.5:1, icon
-glyphs 3:1) by an automated test over `tokens.css`, and every pair the
-components actually stack is measured and published in the
-[token catalog](/invisible-ui/presentation/token-catalog/#tk-contrast) —
-including the pairs that do not reach their target in this alpha. If you change
+glyphs 3:1) by an automated test over `tokens.css`, and the
+[token catalog](/invisible-ui/presentation/token-catalog/#tk-contrast) measures
+and publishes each pair it lists, target by target — including the ones that do
+not reach their target in this alpha. If you change
 the brand or feedback hues, re-verify contrast: white text sits on the
 brand/danger fills and on the status icon boxes, while the light Burnt Orange
 warning uses a **dark** `--ds-color-on-warning`.

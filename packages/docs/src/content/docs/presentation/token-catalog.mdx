@@ -17,10 +17,11 @@ hue, [Color palette](/invisible-ui/presentation/color-palette/).
 ## How to read it
 
 - **Specimens** are painted with the live token inside a light and a dark scope,
-  side by side. Nothing on this page is a copied value, so a specimen cannot go
-  stale.
+  side by side, so a specimen cannot go stale: it is the stylesheet painting
+  itself, not a picture of it.
 - **The resolved value** under each specimen is what the expression works out
-  to. A see-through token says so, with its alpha.
+  to, computed from the stylesheet when this page is built. A see-through token
+  says so, with its alpha.
 - **Points at** is the chain of tokens between this one and a raw value. A role
   usually points at one palette step; a palette step points at nothing.
 - **Design owned** means the token also exists in the design source

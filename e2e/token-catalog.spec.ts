@@ -9,6 +9,8 @@ interface Token {
   name: string;
   id: string;
   valueType: string;
+  purpose: string | null;
+  group: string | null;
   resolved: { light: string | null; dark: string | null };
   expressions: { darkAttr: string | null; darkMedia: string | null };
 }
@@ -142,11 +144,31 @@ test("the filter narrows the list and reports the count", async ({ page }) => {
   await page.goto(PAGE);
   const search = page.getByLabel("Filter by name or role");
   await expect(search).toBeVisible();
-  await search.fill("radius");
-  await expect(page.locator("[data-tk-token]:visible")).toHaveCount(3);
-  await expect(page.locator("[data-tk-status]")).toContainText("3 of");
+
+  // A query that matches part of several groups, so hiding whole groups is not
+  // enough to pass: the count reported must equal the cards left on screen.
+  for (const query of ["radius", "primary", "hover", "surface"]) {
+    await search.fill(query);
+    const expected = registry.tokens.filter((token) =>
+      `${token.name} ${token.purpose ?? token.group ?? ""}`.toLowerCase().includes(query),
+    ).length;
+    expect(expected).toBeGreaterThan(0);
+    await expect(page.locator("[data-tk-token]:visible")).toHaveCount(expected);
+    await expect(page.locator("[data-tk-status]")).toContainText(`${expected} of`);
+  }
+
   await search.fill("");
   await expect(page.locator("[data-tk-token]:visible")).toHaveCount(registry.counts.total);
+});
+
+test("the search field is not offered when scripting is off", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto(PAGE);
+  await expect(page.getByLabel("Filter by name or role")).toBeHidden();
+  // The catalog itself must still be there to read.
+  await expect(page.locator("[data-tk-token]")).toHaveCount(registry.counts.total);
+  await context.close();
 });
 
 test("the page reflows at 320 px without scrolling sideways", async ({ page }) => {
