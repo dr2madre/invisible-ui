@@ -3,6 +3,47 @@ import { connect } from "./connect";
 import { format, initialState, parseTimeValue, parseValue, segments } from "./state";
 import type { TimeFieldState, TimeSegmentType } from "./types";
 
+const harness = (state: TimeFieldState) => {
+  let current = state;
+  const focused: TimeSegmentType[] = [];
+  const committed: (string | null)[] = [];
+  const make = () =>
+    connect({
+      state: current,
+      setParts: (parts, buffer, bufferSeg) => {
+        current = { ...current, parts, buffer, bufferSeg };
+      },
+      setCommittedParts: (committedParts) => {
+        current = { ...current, committedParts };
+      },
+      onCommit: (value) => committed.push(value),
+      focus: (seg) => focused.push(seg),
+    });
+  const key = (seg: TimeSegmentType, k: string) => {
+    const handler = make().getSegmentProps(seg).onKeyDown as (e: Event) => void;
+    const seen = { prevented: false, stopped: false };
+    handler({
+      key: k,
+      preventDefault() {
+        seen.prevented = true;
+      },
+      stopPropagation() {
+        seen.stopped = true;
+      },
+    } as unknown as Event);
+    return seen;
+  };
+  return {
+    key,
+    focused,
+    committed,
+    api: make,
+    parts: () => current.parts,
+    value: () => make().value,
+    text: (seg: TimeSegmentType) => make().getSegmentText(seg),
+  };
+};
+
 describe("time-field state", () => {
   it("normalizes complete, semantically valid values", () => {
     expect(parseTimeValue("9:30")).toMatchObject({
@@ -63,30 +104,6 @@ describe("time-field connect", () => {
     ...initialState({ value: "10:20", hourCycle: 24, withSeconds: false }),
     ...over,
   });
-
-  const harness = (state: TimeFieldState) => {
-    let current = state;
-    const focused: TimeSegmentType[] = [];
-    const make = () =>
-      connect({
-        state: current,
-        commit: (parts, buffer, bufferSeg) => {
-          current = { ...current, parts, buffer, bufferSeg };
-        },
-        focus: (seg) => focused.push(seg),
-      });
-    const key = (seg: TimeSegmentType, k: string) => {
-      const handler = make().getSegmentProps(seg).onKeyDown as (e: Event) => void;
-      handler({ key: k, preventDefault() {} } as unknown as Event);
-    };
-    return {
-      key,
-      focused,
-      parts: () => current.parts,
-      value: () => make().value,
-      text: (seg: TimeSegmentType) => make().getSegmentText(seg),
-    };
-  };
 
   it("increments and wraps with ArrowUp/Down", () => {
     const h = harness(base({ parts: { hour: 23, minute: 59, second: null, dayPeriod: null } }));
@@ -166,5 +183,111 @@ describe("time-field connect", () => {
     h.key("hour", "5");
     expect(h.parts().hour).toBe(2);
     expect(h.focused).toEqual([]);
+  });
+});
+
+describe("time-field commit boundary and bounds", () => {
+  const make = (over: Partial<TimeFieldState> = {}) => ({
+    ...initialState({ value: "10:20", hourCycle: 24, withSeconds: false }),
+    ...over,
+  });
+
+  it("reports the finished value once, and stays quiet on a repeat", () => {
+    const h = harness(make());
+    h.key("hour", "ArrowUp");
+    h.api().commit();
+    expect(h.committed).toEqual(["11:20"]);
+    h.api().commit();
+    expect(h.committed).toEqual(["11:20"]);
+  });
+
+  it("does not report anything while the time is still incomplete", () => {
+    const h = harness(make({ parts: { hour: null, minute: null, second: null, dayPeriod: null } }));
+    h.key("hour", "9");
+    h.api().commit();
+    // A lone hour is not a time: nothing to hand to a form yet.
+    expect(h.committed).toEqual([null]);
+  });
+
+  it("commits on Enter without blocking the form", () => {
+    const h = harness(make());
+    h.key("minute", "ArrowUp");
+    // Enter must not block a native submit, so nothing is prevented.
+    expect(h.key("minute", "Enter")).toEqual({ prevented: false, stopped: false });
+    expect(h.committed).toEqual(["10:21"]);
+  });
+
+  it("puts the parts back on Escape, and passes Escape on when there is nothing to undo", () => {
+    const h = harness(make());
+    h.key("hour", "ArrowUp");
+    expect(h.value()).toBe("11:20");
+    expect(h.api().revert()).toBe(true);
+    expect(h.value()).toBe("10:20");
+    // Nothing left to undo: the key belongs to whatever wraps the field.
+    expect(h.api().revert()).toBe(false);
+  });
+
+  it("only swallows Escape when it actually undoes something", () => {
+    const h = harness(make());
+    // Nothing edited yet, so the key must pass through untouched.
+    expect(h.key("minute", "Escape")).toEqual({ prevented: false, stopped: false });
+
+    h.key("minute", "ArrowUp");
+    expect(h.key("minute", "Escape")).toEqual({ prevented: true, stopped: true });
+  });
+
+  it("reports a time outside the accepted range without correcting it", () => {
+    const early = harness(
+      make({ min: "09:00", parts: { hour: 8, minute: 30, second: null, dayPeriod: null } }),
+    );
+    expect(early.api().validationError).toBe("range-underflow");
+    expect(early.api().status).toBe("invalid");
+    // The value is still what the user set: nothing was clamped.
+    expect(early.value()).toBe("08:30");
+
+    const late = harness(
+      make({ max: "17:00", parts: { hour: 18, minute: 0, second: null, dayPeriod: null } }),
+    );
+    expect(late.api().validationError).toBe("range-overflow");
+  });
+
+  it("keeps the arrows wrapping, bounds or not", () => {
+    const h = harness(
+      make({ min: "09:00", parts: { hour: 23, minute: 0, second: null, dayPeriod: null } }),
+    );
+    h.key("hour", "ArrowUp");
+    // 23 wraps to 00 as it always has; the range is reported, not enforced.
+    expect(h.value()).toBe("00:00");
+    expect(h.api().validationError).toBe("range-underflow");
+  });
+
+  it("accepts a time on the boundary itself", () => {
+    const h = harness(
+      make({
+        min: "09:00",
+        max: "17:00",
+        parts: { hour: 9, minute: 0, second: null, dayPeriod: null },
+      }),
+    );
+    expect(h.api().validationError).toBeNull();
+    const end = harness(
+      make({
+        min: "09:00",
+        max: "17:00",
+        parts: { hour: 17, minute: 0, second: null, dayPeriod: null },
+      }),
+    );
+    expect(end.api().validationError).toBeNull();
+  });
+
+  it("compares a seconds value against a bound written without them", () => {
+    const h = harness(
+      make({
+        withSeconds: true,
+        min: "09:00",
+        parts: { hour: 8, minute: 59, second: 59, dayPeriod: null },
+      }),
+    );
+    expect(h.api().validationError).toBe("range-underflow");
   });
 });

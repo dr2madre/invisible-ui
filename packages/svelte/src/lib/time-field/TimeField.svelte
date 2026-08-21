@@ -36,6 +36,12 @@
   /** Form field name — the formatted time (`HH:mm[:ss]`) is submitted under it (via a hidden input). */
   export let name: string | undefined = undefined;
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  /** Called when the user finishes editing: focus leaves the field, or Enter. */
+  export let onValueCommit: ((value: string | null) => void) | undefined = undefined;
+  /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  export let min: string | undefined = undefined;
+  /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  export let max: string | undefined = undefined;
   /** Called when structural validation changes; `null` means no structural error. */
   export let onValidationChange: ((error: TimeValueError | null) => void) | undefined = undefined;
 
@@ -47,6 +53,8 @@
     value,
     hourCycle,
     withSeconds,
+    min,
+    max,
     disabled,
     invalid: invalid || Boolean(error),
     describedBy: errorId,
@@ -58,9 +66,12 @@
       empty: translate("timeField.empty"),
     },
     onValueChange,
+    onValueCommit,
     onValidationChange,
   });
-  const { state: tfState, api, rootAction, segmentAction } = field;
+  const { state: tfState, api, rootAction, segmentAction, fieldAction } = field;
+
+  $: field.syncConfig({ min, max, hourCycle, withSeconds });
 
   $: segments = core.segments($tfState.hourCycle, $tfState.withSeconds);
   const isEmpty = (seg: TimeSegmentType, text: string) =>
@@ -79,6 +90,10 @@
         return $t("timeField.secondsRequired");
       case "seconds-not-allowed":
         return $t("timeField.secondsNotAllowed");
+      case "range-underflow":
+        return $t("timeField.rangeUnderflow", { min: min ?? "" });
+      case "range-overflow":
+        return $t("timeField.rangeOverflow", { max: max ?? "" });
       default:
         return undefined;
     }
@@ -93,6 +108,7 @@
     class:time-field--disabled={disabled}
     class:time-field--invalid={invalid || Boolean(validationMessage)}
     use:rootAction
+    use:fieldAction
     aria-label={label ?? $t("timeField.label")}
     aria-disabled={disabled || undefined}
     aria-invalid={invalid || Boolean(validationMessage) || undefined}

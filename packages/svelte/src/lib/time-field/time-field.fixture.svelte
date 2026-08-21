@@ -9,9 +9,13 @@
   export let invalid = false;
   export let error: string | undefined = undefined;
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  export let onValueCommit: ((value: string | null) => void) | undefined = undefined;
+  export let min: string | undefined = undefined;
+  export let max: string | undefined = undefined;
   export let onValidationChange: ((error: TimeValueError | null) => void) | undefined = undefined;
 </script>
 
+<button type="button">before</button>
 <TimeField
   {value}
   {hourCycle}
@@ -20,6 +24,10 @@
   {invalid}
   {error}
   {onValueChange}
+  {onValueCommit}
+  {min}
+  {max}
   {onValidationChange}
   label="Start time"
 />
+<button type="button">after</button>

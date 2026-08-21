@@ -14,6 +14,25 @@ import TimeFieldDemo from "../../../../demos/TimeFieldDemo.svelte";
 A segmented time input — hour : minute, optional seconds, 12- or 24-hour with an
 AM/PM segment. Each segment is a `role="spinbutton"`.
 
+### Value, commit and bounds
+
+The value is the canonical 24-hour string (`HH:mm[:ss]`) and it is published
+only once every required segment is filled — a half-typed hour is not a time.
+`onValueChange` follows the segments as they fill; **`onValueCommit` fires when
+the user finishes**: focus leaves the whole field (moving between segments is
+ordinary editing), or Enter is pressed. Enter never blocks form submission.
+**Escape** puts the segments back to the last finished value, and passes the key
+on when there is nothing to undo, so a Time Field inside a dialog does not
+swallow it.
+
+`min` and `max` are reported, not enforced: the arrows keep wrapping (23 → 00)
+and an out-of-range time is announced as invalid with the bound in the message.
+Nothing is silently corrected.
+
+```svelte
+<TimeField label="Start" value="08:30" min="09:00" max="17:00" onValueCommit={(v) => check(v)} />
+```
+
 ### Import
 
 <ImportSnippet component="time-field" />

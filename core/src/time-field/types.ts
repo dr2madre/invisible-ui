@@ -15,7 +15,12 @@ export type TimeSegmentType = "hour" | "minute" | "second" | "dayPeriod";
 export type TimeInputStatus = "empty" | "incomplete" | "valid" | "invalid";
 
 export type TimeValueError =
-  "invalid-format" | "out-of-range" | "seconds-required" | "seconds-not-allowed";
+  | "invalid-format"
+  | "out-of-range"
+  | "seconds-required"
+  | "seconds-not-allowed"
+  | "range-underflow"
+  | "range-overflow";
 
 /** Resolved time parts (hour is always 0–23 internally; `null` = empty). */
 export interface TimeParts {
@@ -45,17 +50,32 @@ export interface TimeFieldContext {
   hourCycle?: HourCycle;
   /** Include a seconds segment. Defaults to false. */
   withSeconds?: boolean;
+  /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  min?: string;
+  /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  max?: string;
   /** Base id used to link segments. Auto-generated when omitted. */
   id?: string;
   /** Called with the formatted value when all required segments are filled (else `null`). */
   onValueChange?: (value: string | null) => void;
+  /**
+   * Called when the user finishes editing: focus leaves the field, or Enter is
+   * pressed. A form uses this to validate once, instead of on every keystroke.
+   */
+  onValueCommit?: (value: string | null) => void;
 }
 
 /** Internal, fully-resolved time-field state. */
 export interface TimeFieldState {
   parts: TimeParts;
+  /** The parts as they stood at the last commit; Escape puts these back. */
+  committedParts: TimeParts;
   hourCycle: HourCycle;
   withSeconds: boolean;
+  /** Earliest acceptable time, or `null` when unbounded. */
+  min: string | null;
+  /** Latest acceptable time, or `null` when unbounded. */
+  max: string | null;
   validationError: TimeValueError | null;
   invalidSegment: Exclude<TimeSegmentType, "dayPeriod"> | null;
   /** In-progress digit entry for the focused segment. */

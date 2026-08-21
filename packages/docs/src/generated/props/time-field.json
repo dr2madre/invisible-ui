@@ -73,6 +73,27 @@
           "description": "Called with the formatted value (or `null` while incomplete)."
         },
         {
+          "name": "onValueCommit",
+          "type": "((value: string | null) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the user finishes editing: focus leaves the field, or Enter."
+        },
+        {
+          "name": "min",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+        },
+        {
+          "name": "max",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+        },
+        {
           "name": "onValidationChange",
           "type": "((error: TimeValueError | null) => void) | undefined",
           "default": "undefined",
@@ -164,6 +185,27 @@
           "default": "undefined",
           "required": false,
           "description": "Called when structural validation changes; `null` means no structural error."
+        },
+        {
+          "name": "onValueCommit",
+          "type": "(value: string | null) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the user finishes editing: focus leaves the field, or Enter."
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
         }
       ],
       "emits": [

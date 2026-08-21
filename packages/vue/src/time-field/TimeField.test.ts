@@ -84,6 +84,65 @@ describe("Vue TimeField (styled)", () => {
     expect(onValueChange).toHaveBeenLastCalledWith("09:31");
   });
 
+  it("reports the finished value when focus leaves the field, once", async () => {
+    const onValueCommit = vi.fn();
+    const { container } = render(TimeField, {
+      props: { label: "Start time", value: "09:30", onValueCommit },
+    });
+    await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
+    const field = container.querySelector(".time-field") as HTMLElement;
+
+    // Moving between segments is ordinary editing, not finishing.
+    await fireEvent.focusOut(field, { relatedTarget: seg("hour") });
+    expect(onValueCommit).not.toHaveBeenCalled();
+
+    await fireEvent.focusOut(field, { relatedTarget: document.body });
+    expect(onValueCommit).toHaveBeenCalledTimes(1);
+    expect(onValueCommit).toHaveBeenLastCalledWith("09:31");
+
+    // Leaving again with nothing new to say stays quiet.
+    await fireEvent.focusOut(field, { relatedTarget: document.body });
+    expect(onValueCommit).toHaveBeenCalledTimes(1);
+  });
+
+  it("puts the segments back on Escape, and passes Escape on when there is nothing to undo", async () => {
+    renderField({ value: "09:30" });
+    await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
+    expect(seg("minute")).toHaveTextContent("31");
+    await fireEvent.keyDown(seg("minute"), { key: "Escape" });
+    expect(seg("minute")).toHaveTextContent("30");
+
+    // Nothing left to undo: the key must reach whatever wraps the field.
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      bubbles: true,
+      cancelable: true,
+    });
+    seg("minute").dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it("reports a range violation reached by editing, not only one set up front", async () => {
+    renderField({ value: "09:30", min: "09:00" });
+    expect(screen.queryByText(/no earlier than/)).not.toBeInTheDocument();
+    await fireEvent.keyDown(seg("hour"), { key: "ArrowDown" });
+    expect(seg("hour")).toHaveTextContent("08");
+    expect(screen.getByText("Enter a time no earlier than 09:00.")).toBeVisible();
+  });
+
+  it("reports a time outside the accepted range without correcting it", () => {
+    renderField({ value: "08:30", min: "09:00" });
+    expect(screen.getByText("Enter a time no earlier than 09:00.")).toBeVisible();
+    // The value stands as set: nothing was clamped.
+    expect(seg("hour")).toHaveTextContent("08");
+  });
+
+  it("keeps the arrows wrapping when a bound is set", async () => {
+    renderField({ value: "23:00", min: "09:00" });
+    await fireEvent.keyDown(seg("hour"), { key: "ArrowUp" });
+    expect(seg("hour")).toHaveTextContent("00");
+  });
+
   it("wraps on overflow (59 to 00)", async () => {
     renderField({ value: "09:59" });
     await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });

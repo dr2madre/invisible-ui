@@ -23,8 +23,14 @@ export interface TimeFieldProps {
   /** Form field name; the formatted time is submitted under it. */
   name?: string;
   onValueChange?: (value: string | null) => void;
+  /** Called when the user finishes editing: focus leaves the field, or Enter. */
+  onValueCommit?: (value: string | null) => void;
   /** Called when structural validation changes; `null` means no structural error. */
   onValidationChange?: (error: TimeValueError | null) => void;
+  /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  min?: string;
+  /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  max?: string;
 }
 
 /**
@@ -57,6 +63,12 @@ export const TimeField = defineComponent({
       type: Function as PropType<(error: TimeValueError | null) => void>,
       default: undefined,
     },
+    onValueCommit: {
+      type: Function as PropType<(value: string | null) => void>,
+      default: undefined,
+    },
+    min: { type: String, default: undefined },
+    max: { type: String, default: undefined },
   },
   emits: {
     "update:modelValue": (value: string | null) => value === null || typeof value === "string",
@@ -64,10 +76,12 @@ export const TimeField = defineComponent({
   setup(props, { emit }) {
     const i18n = useI18n();
 
-    const { api, segments, parts, id } = useTimeField(() => ({
+    const { api, segments, parts, onFieldFocusOut, id } = useTimeField(() => ({
       value: props.modelValue !== undefined ? props.modelValue : props.value,
       hourCycle: props.hourCycle,
       withSeconds: props.withSeconds,
+      min: props.min,
+      max: props.max,
       disabled: props.disabled,
       invalid: props.invalid || Boolean(props.error),
       messages: {
@@ -81,6 +95,7 @@ export const TimeField = defineComponent({
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
+      onValueCommit: props.onValueCommit,
       onValidationChange: props.onValidationChange,
     }));
 
@@ -95,6 +110,10 @@ export const TimeField = defineComponent({
           return i18n.value.t("timeField.secondsRequired");
         case "seconds-not-allowed":
           return i18n.value.t("timeField.secondsNotAllowed");
+        case "range-underflow":
+          return i18n.value.t("timeField.rangeUnderflow", { min: props.min ?? "" });
+        case "range-overflow":
+          return i18n.value.t("timeField.rangeOverflow", { max: props.max ?? "" });
         default:
           return undefined;
       }
@@ -125,6 +144,7 @@ export const TimeField = defineComponent({
             "aria-disabled": props.disabled || undefined,
             "aria-describedby": message ? errorId : undefined,
             "aria-invalid": props.invalid || Boolean(message) || undefined,
+            onFocusout: onFieldFocusOut,
           },
           [
             props.name
