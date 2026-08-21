@@ -7,6 +7,7 @@
 //   node scripts/check-changeset.mjs <base-sha-or-ref>
 
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 
 const base = process.argv[2];
 if (!base) {
@@ -14,12 +15,19 @@ if (!base) {
   process.exit(2);
 }
 
-const diff = execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], {
+// Name and status together: a deleted changeset must not satisfy the gate.
+const entries = execFileSync("git", ["diff", "--name-status", `${base}...HEAD`], {
   encoding: "utf8",
 })
   .trim()
   .split("\n")
-  .filter(Boolean);
+  .filter(Boolean)
+  .map((line) => {
+    const [status, ...names] = line.split("\t");
+    // A rename line carries two names; the new one is last.
+    return { status: status[0], file: names.at(-1) };
+  });
+const diff = entries.map((entry) => entry.file);
 
 const CONTRACT = [
   /^packages\/docs\/src\/generated\/api\//,
@@ -33,12 +41,33 @@ if (touched.length === 0) {
   process.exit(0);
 }
 
-const changesets = diff.filter(
-  (file) => /^\.changeset\/.+\.md$/.test(file) && !file.endsWith("README.md"),
+// Only a changeset ADDED by this change counts, and it has to say something:
+// an empty file, or deleting someone else's changeset, satisfies nothing.
+const added = entries.filter(
+  (entry) =>
+    entry.status === "A" &&
+    /^\.changeset\/.+\.md$/.test(entry.file) &&
+    !entry.file.endsWith("README.md"),
 );
-if (changesets.length > 0) {
-  console.log(`Contract change carries a changeset (${changesets.join(", ")}).`);
+const substantial = added.filter((entry) => {
+  try {
+    const text = readFileSync(entry.file, "utf8");
+    // Body text beyond the --- frontmatter block.
+    const body = text.replace(/^---[\s\S]*?---/, "").trim();
+    return body.length > 0;
+  } catch {
+    return false;
+  }
+});
+if (substantial.length > 0) {
+  console.log(
+    `Contract change carries a changeset (${substantial.map((entry) => entry.file).join(", ")}).`,
+  );
   process.exit(0);
+}
+if (added.length > 0) {
+  console.error("The changeset added here is empty; describe the change (docs/api-stability.md).");
+  process.exit(1);
 }
 
 console.error("This change alters the public contract but adds no changeset:");
