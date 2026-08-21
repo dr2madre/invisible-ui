@@ -345,6 +345,10 @@
       "svelte": "./src/lib/table/TableSet.svelte",
       "default": "./src/lib/table/TableSet.svelte"
     },
+    "./TableView.svelte": {
+      "svelte": "./src/lib/table/TableView.svelte",
+      "default": "./src/lib/table/TableView.svelte"
+    },
     "./ScrollArea.svelte": {
       "svelte": "./src/lib/scroll-area/ScrollArea.svelte",
       "default": "./src/lib/scroll-area/ScrollArea.svelte"
