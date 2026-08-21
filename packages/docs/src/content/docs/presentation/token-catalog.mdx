@@ -1,0 +1,48 @@
+---
+title: "Token catalog"
+description: "Every design token the packages ship, with its role, its value in both themes, and what it points at."
+---
+
+import TokenCatalog from "../../../components/TokenCatalog.astro";
+
+The complete list of the custom properties the packages ship, generated from the
+stylesheet itself. Use it to find the token for a job, to see what a token
+resolves to in each theme, and to check what it points at before you override
+it.
+
+This page is the inventory. For how the layers fit together and what to change
+first, read [Tokens](/invisible-ui/presentation/tokens/); for the raw scales by
+hue, [Color palette](/invisible-ui/presentation/color-palette/).
+
+## How to read it
+
+- **Specimens** are painted with the live token inside a light and a dark scope,
+  side by side, so a specimen cannot go stale: it is the stylesheet painting
+  itself, not a picture of it.
+- **The resolved value** under each specimen is what the expression works out
+  to, computed from the stylesheet when this page is built. A see-through token
+  says so, with its alpha.
+- **Points at** is the chain of tokens between this one and a raw value. A role
+  usually points at one palette step; a palette step points at nothing.
+- **Design owned** means the token also exists in the design source
+  (`tokens.json`); **theme layer** means it lives only in the stylesheet.
+- **Alpha** is the stability label. Every token is alpha today: names and values
+  can still change before 1.0.
+
+## Overriding
+
+Set any token on a scope of your own; every component under it follows.
+
+```css
+/* example */
+.my-app {
+  --ds-brand-primary: #1f6feb;
+  --ds-radius-control: 0.25rem;
+}
+```
+
+A role token is the widest lever, a component token the narrowest. Components
+read `var(--ds-button-radius, var(--ds-radius-control, …))`, so setting the role
+restyles a whole class of controls and setting the component token changes one.
+
+<TokenCatalog />

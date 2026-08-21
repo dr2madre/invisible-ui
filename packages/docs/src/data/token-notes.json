@@ -1,0 +1,113 @@
+{
+  "$comment": "The only hand-written part of the token catalog. One entry per token whose role the source comment cannot state on its own: either it has no comment, or the comment above it describes a neighbour. `purpose` is the role sentence shown in the catalog; `stability` is alpha unless a token has been deliberately settled.",
+
+  "--ds-color-background": {
+    "purpose": "The page behind everything. Nothing is painted under it."
+  },
+  "--ds-color-border": {
+    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The visible edge of a control is a different job and is under review."
+  },
+  "--ds-color-surface": {
+    "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field."
+  },
+  "--ds-color-surface-hover": {
+    "purpose": "The same area while the pointer is over it, or while it is the active row of a list."
+  },
+  "--ds-color-text": {
+    "purpose": "Ordinary reading text on background or surface."
+  },
+  "--ds-color-text-secondary": {
+    "purpose": "Text that supports the main text: hints, captions, units. Still has to reach 4.5:1."
+  },
+  "--ds-color-disabled": {
+    "purpose": "The fill of a control that cannot be used right now."
+  },
+  "--ds-color-text-disabled": {
+    "purpose": "The text of a control that cannot be used right now. It is exempt from the contrast minimum, so never carry meaning by this colour alone."
+  },
+  "--ds-color-focus-ring": {
+    "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on."
+  },
+  "--ds-state-hover": {
+    "purpose": "The overlay laid over a control while the pointer is on it."
+  },
+  "--ds-state-pressed": {
+    "purpose": "The overlay laid over a control while it is being pressed."
+  },
+
+  "--ds-color-primary": {
+    "purpose": "The fill of the one action a screen is asking for: the primary button, and the selected state that follows from it."
+  },
+  "--ds-color-primary-hover": {
+    "purpose": "The same fill while the pointer is on it or it is being pressed."
+  },
+  "--ds-color-on-primary": {
+    "purpose": "Text and icons drawn on the primary fill."
+  },
+  "--ds-color-secondary": {
+    "purpose": "The fill of an action that is present but not the one being asked for. Same hue as the primary: secondary is a job, not a second colour."
+  },
+  "--ds-color-secondary-hover": {
+    "purpose": "The secondary fill while the pointer is on it or it is being pressed."
+  },
+  "--ds-color-on-secondary": {
+    "purpose": "Text and icons drawn on the secondary fill."
+  },
+  "--ds-color-info": {
+    "purpose": "The colour of a message that tells you something, without anything being wrong."
+  },
+  "--ds-color-success": {
+    "purpose": "The colour of a message that says something worked."
+  },
+  "--ds-color-warning": {
+    "purpose": "The colour of a message that says to be careful."
+  },
+  "--ds-color-danger": {
+    "purpose": "The colour of a message that says something failed, and the fill of an action that destroys something."
+  },
+  "--ds-color-danger-hover": {
+    "purpose": "The danger fill while the pointer is on it or it is being pressed."
+  },
+  "--ds-color-on-status": {
+    "purpose": "Text and icons drawn on a solid status fill: information, success, danger."
+  },
+  "--ds-color-on-warning": {
+    "purpose": "Text and icons drawn on the warning fill. It is dark, because the light warning colour cannot carry white text."
+  },
+  "--ds-color-emphasis-surface": {
+    "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel."
+  },
+  "--ds-color-on-emphasis": {
+    "purpose": "Text and icons drawn on the emphasis area."
+  },
+  "--ds-color-info-border": {
+    "purpose": "The edge of the tinted information surface."
+  },
+  "--ds-color-success-border": {
+    "purpose": "The edge of the tinted success surface."
+  },
+  "--ds-color-warning-border": {
+    "purpose": "The edge of the tinted warning surface."
+  },
+  "--ds-color-danger-border": {
+    "purpose": "The edge of the tinted danger surface."
+  },
+  "--ds-color-on-selected": {
+    "purpose": "Text and icons drawn on a selected item."
+  },
+  "--ds-color-emphasis-border": {
+    "purpose": "The edge of the emphasis area."
+  },
+  "--ds-color-neutral": {
+    "purpose": "The colour of a message that carries no status at all."
+  },
+  "--ds-color-neutral-surface": {
+    "purpose": "The quiet fill of a control or chip that carries no status: a plain tag, a default button."
+  },
+  "--ds-color-neutral-border": {
+    "purpose": "The edge that goes with the quiet neutral fill."
+  },
+  "--ds-elevation-overlay": {
+    "purpose": "The shadow under something floating over the page: a menu, a popover, a dialog. It changes between themes, because a shadow reads differently on a dark page."
+  }
+}

@@ -30,30 +30,25 @@ OKLCH), so a weight change reads as a predictable lightness change.
 
 The palette feeds the primitive tokens in `tokens.css`. The brand and feedback
 base tokens reference a raw named scale drawn from these hues; the neutrals map
-the Warm Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`:
+the Warm Grey ramp onto `--ds-neutral-0` … `--ds-neutral-950`. Each of those
+tokens, with its current value, is listed in the token catalog: the raw scales
+under [Palette](/invisible-ui/presentation/token-catalog/#tk-primitive), and the
+base tokens that point into them under
+[Brand](/invisible-ui/presentation/token-catalog/#tk-brand) and
+[Feedback](/invisible-ui/presentation/token-catalog/#tk-feedback). Read the
+values there rather than from a copy on this page, so what you read is what
+ships.
+
+To retheme, set your own values for the same names; the semantic
+`--ds-color-*` roles re-derive automatically:
 
 ```css
+/* example */
 :root {
-  /* Brand — Dioxazine Purple */
-  --ds-purple-500: #7a52cc; /* primary */
-  --ds-purple-600: #6840b7; /* primary hover */
-
-  /* Neutrals — Warm Grey 0–950 (text, surfaces, borders) */
-  --ds-neutral-0: #ffffff; /* white */
-  --ds-neutral-50: #f4f2ef;
-  --ds-neutral-100: #e6e0d8;
-  --ds-neutral-200: #c7c1b7;
-  --ds-neutral-300: #a8a297;
-  --ds-neutral-400: #757067;
-  --ds-neutral-500: #5e5951;
-  --ds-neutral-600: #524c44;
-  --ds-neutral-700: #413c36;
-  --ds-neutral-800: #332f2a;
-  --ds-neutral-900: #282420;
-  --ds-neutral-950: #1c1915; /* black — darkest UI point */
+  --ds-neutral-0: #ffffff;
+  --ds-neutral-900: #101828;
+  --ds-purple-500: #1f6feb;
 }
 ```
 
-To retheme, replace these values with your own palette; the semantic
-`--ds-color-*` roles re-derive automatically. See
-[Tokens](/invisible-ui/presentation/tokens/) for the role mapping.
+See [Tokens](/invisible-ui/presentation/tokens/) for the role mapping.

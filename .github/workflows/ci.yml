@@ -34,6 +34,12 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
+      # The token registry the docs catalog reads is generated from the
+      # stylesheet: this fails if it is stale, if the adapters drift apart, or
+      # if a documented value no longer matches the source.
+      - name: Token registry drift
+        run: pnpm tokens:check
+
       # `build` includes the Astro docs build; `test` runs vitest + vitest-axe;
       # `check` is svelte-check over the components (types plus a11y).
       - name: Build, test, typecheck
