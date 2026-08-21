@@ -7,7 +7,8 @@ now on, so the discipline exists before the first release rather than after.
 ## What is public
 
 - **Core**: everything importable from `@design-system/core` — the component
-  namespaces (`connect`, `initialState`, their types), `normalizeProps`'
+  namespaces (each ships its machine's state, transitions and types; most
+  expose `initialState` and `connect`, a few are pure helpers), `normalizeProps`'
   contract (`Normalize`), `ElementProps`, `DomProps`, `i18n`.
 - **Svelte**: the barrel (factories, Api/Context/State types, shared
   vocabularies, `normalizeProps`, the notifier) and the `*.svelte` subpath
@@ -37,10 +38,14 @@ pixel output of the styled layer are not public surface.
   relationships and contrast floors, bug fixes that restore documented
   behaviour, documentation.
 
-The generated gates are the arbiters: a change is breaking if it removes or
-alters entries in the committed API reports, the prop manifests or the token
-registry, and additive if it only adds. The reports diff in review, so the
-classification is visible before merge.
+The generated gates arbitrate **that** the surface changed, not how to
+classify it: any change to the committed API reports, prop manifests or token
+registry shows as a diff and demands a changeset, and the human writing that
+changeset classifies the change against the definitions above. Two public
+surfaces the gates cannot see yet — the documented `data-*` hooks and the
+behavioural contracts (keyboard maps, callback cardinality, commit
+boundaries) — are recorded in the component docs and ADR 0011; changing them
+is classified by the same definitions even though no generated file diffs.
 
 ## Deprecation
 
