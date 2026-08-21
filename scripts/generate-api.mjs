@@ -182,17 +182,44 @@ function inferType(def) {
   return "unknown";
 }
 
+/**
+ * The end of the statement that starts at `from`: the first `;` outside every
+ * bracket pair and string. A prop whose type or default spans lines (a
+ * function type, a long union) ends there, not at the first newline.
+ */
+function statementEnd(src, from) {
+  let depth = 0;
+  let quote = null;
+  for (let i = from; i < src.length; i++) {
+    const ch = src[i];
+    if (quote) {
+      if (ch === "\\") i++;
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") quote = ch;
+    else if (ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ")" || ch === "]" || ch === "}") depth--;
+    else if (ch === ";" && depth === 0) return i;
+  }
+  return src.length;
+}
+
 function parseSvelte(src) {
   const props = [];
   // The JSDoc body uses a tempered token `(?:(?!\*\/)[\s\S])*?` so it can't span
   // across a `*/` — otherwise a comment on a preceding non-prop declaration (e.g.
   // an `interface`) would backtrack to the next documented prop and swallow an
   // undocumented prop in between (this dropped `status` from Alert/Tag/Count/Notice).
-  const re =
-    /(?:\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s*)?export\s+let\s+([A-Za-z_$][\w$]*)\s*([^;\n]*)/g;
+  const re = /(?:\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s*)?export\s+let\s+([A-Za-z_$][\w$]*)/g;
   let m;
   while ((m = re.exec(src))) {
-    const [, jsdocRaw, name, rest] = m;
+    const [, jsdocRaw, name] = m;
+    // The declaration body runs to the statement's own semicolon, wherever
+    // that is: the old single-line cut corrupted every multi-line prop.
+    const end = statementEnd(src, re.lastIndex);
+    const rest = collapse(src.slice(re.lastIndex, end));
+    re.lastIndex = end;
     let type = null;
     let def = null;
     const body = rest.trim();

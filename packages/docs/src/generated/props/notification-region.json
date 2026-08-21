@@ -18,9 +18,9 @@
         },
         {
           "name": "placement",
-          "type": "unknown",
-          "default": null,
-          "required": true,
+          "type": "\"top-start\" | \"top-center\" | \"top-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\"",
+          "default": "\"top-end\"",
+          "required": false,
           "description": ""
         },
         {
