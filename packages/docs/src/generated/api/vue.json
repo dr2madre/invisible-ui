@@ -393,12 +393,12 @@
     {
       "name": "DropdownMenu",
       "kind": "const",
-      "signature": "DropdownMenu: vue.DefineComponent<vue.ExtractPropTypes<{ label: { type: StringConstructor; required: true; }; items: { type: PropType<MenuEntry[]>; required: true; }; disabled: { type: BooleanConstructor; default: boolean; }; onSelect: { type: PropType<(value: string) => void>; default: undefined; }; }>, () => vue.VNode<vue.RendererNode, vue.RendererElement, { [key: string]: any; }>, {}, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {}, string, vue.PublicProps, Readonly<vue.ExtractPropTypes<{ label: { type: StringConstructor; required: true; }; items: { type: PropType<MenuEntry[]>; required: true; }; disabled: { type: BooleanConstructor; default: boolean; }; onSelect: { type: PropType<(value: string) => void>; default: undefined; }; }>> & Readonly<{}>, { onSelect: (value: string) => void; disabled: boolean; }, {}, {}, {}, string, vue.ComponentProvideOptions, true, {}, any>"
+      "signature": "DropdownMenu: vue.DefineComponent<vue.ExtractPropTypes<{ label: { type: StringConstructor; required: true; }; items: { type: PropType<MenuEntry#6d94e591[]>; required: true; }; disabled: { type: BooleanConstructor; default: boolean; }; onSelect: { type: PropType<(value: string) => void>; default: undefined; }; }>, () => vue.VNode<vue.RendererNode, vue.RendererElement, { [key: string]: any; }>, {}, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {}, string, vue.PublicProps, Readonly<vue.ExtractPropTypes<{ label: { type: StringConstructor; required: true; }; items: { type: PropType<MenuEntry#6d94e591[]>; required: true; }; disabled: { type: BooleanConstructor; default: boolean; }; onSelect: { type: PropType<(value: string) => void>; default: undefined; }; }>> & Readonly<{}>, { onSelect: (value: string) => void; disabled: boolean; }, {}, {}, {}, string, vue.ComponentProvideOptions, true, {}, any>"
     },
     {
       "name": "DropdownMenuProps",
       "kind": "interface",
-      "signature": "interface DropdownMenuProps { /** The trigger button's visible label. */ label: string; items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; }"
+      "signature": "interface DropdownMenuProps { /** The trigger button's visible label. */ label: string; items: MenuEntry#6d94e591[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; }"
     },
     {
       "name": "EmptyState",
@@ -608,7 +608,7 @@
     {
       "name": "MenuItem",
       "kind": "type",
-      "signature": "type MenuItem = menu.MenuItem;"
+      "signature": "type MenuItem#ce6798e6 = menu.MenuItem;"
     },
     {
       "name": "MenuProps",
@@ -633,7 +633,7 @@
     {
       "name": "MenubarMenu",
       "kind": "interface",
-      "signature": "interface MenubarMenu { /** Stable value identifying this menu (passed to `onSelect`). */ value: string; /** Visible trigger label. */ label: string; /** The menu's actionable items. */ items: MenuItem[]; /** Disable the whole menu. */ disabled?: boolean; }"
+      "signature": "interface MenubarMenu { /** Stable value identifying this menu (passed to `onSelect`). */ value: string; /** Visible trigger label. */ label: string; /** The menu's actionable items. */ items: MenuItem#ce6798e6[]; /** Disable the whole menu. */ disabled?: boolean; }"
     },
     {
       "name": "MenubarProps",
@@ -1448,7 +1448,7 @@
     {
       "name": "UseDropdownMenuOptions",
       "kind": "interface",
-      "signature": "interface UseDropdownMenuOptions { items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; onOpenChange?: (open: boolean) => void; }"
+      "signature": "interface UseDropdownMenuOptions { items: MenuEntry#6d94e591[]; disabled?: boolean; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "UseFieldOptions",

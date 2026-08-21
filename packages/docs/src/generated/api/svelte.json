@@ -573,7 +573,7 @@
     {
       "name": "CreateDropdownMenu",
       "kind": "interface",
-      "signature": "interface CreateDropdownMenu { state: Readable<MenuState>; api: Readable<MenuApi>; open: Readable<boolean>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateDropdownMenu { state: Readable<MenuState#e1838409>; api: Readable<MenuApi#b1e94252>; open: Readable<boolean>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateField",
@@ -798,7 +798,7 @@
     {
       "name": "I18n",
       "kind": "interface",
-      "signature": "interface I18n { /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */ locale: Readable<string>; /** Writing direction: explicit when given, otherwise derived from the locale. */ dir: Readable<Dir>; /** Reactive translator: `(\"calendar.today\")`. Falls back to English, then the key. */ t: Readable<TranslateFn>; /** Update the locale / dir / message overrides (used by `LocaleProvider`). */ set: (next: { locale?: string; dir?: Dir; messages?: Messages; }) => void; }"
+      "signature": "interface I18n { /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */ locale: Readable<string>; /** Writing direction: explicit when given, otherwise derived from the locale. */ dir: Readable<Dir>; /** Reactive translator: `$t(\"calendar.today\")`. Falls back to English, then the key. */ t: Readable<TranslateFn>; /** Update the locale / dir / message overrides (used by `LocaleProvider`). */ set: (next: { locale?: string; dir?: Dir; messages?: Messages; }) => void; }"
     },
     {
       "name": "LabelApi",
@@ -818,7 +818,7 @@
     {
       "name": "MenuApi",
       "kind": "type",
-      "signature": "type MenuApi = menu.MenuApi;"
+      "signature": "type MenuApi#b1e94252 = menu.MenuApi;"
     },
     {
       "name": "MenuContext",
@@ -833,7 +833,7 @@
     {
       "name": "MenuState",
       "kind": "type",
-      "signature": "type MenuState = menu.MenuState;"
+      "signature": "type MenuState#e1838409 = menu.MenuState;"
     },
     {
       "name": "MenubarContext",

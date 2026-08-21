@@ -19,7 +19,15 @@
 // change to a public type or value shows up as a reviewable diff of this file.
 // Namespaces (the core's per-component machines) are walked one level deep,
 // as `namespace.member`. Build the packages before running this.
+//
+// Known limits, accepted for now: the Svelte `./*.svelte` subpaths carry no
+// declarations, so only their existence is watched (their props live in the
+// prop manifests); JSDoc text and overload order are not part of the
+// signature; whether an export is type-only is not recorded; the reference
+// scan reads the entry file's top-level imports only. All five entries are
+// single-file declaration bundles today, which is what makes that enough.
 
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
@@ -39,14 +47,54 @@ const PACKAGES = [
   { dir: "packages/elements", entry: "packages/elements/dist/index.d.ts" },
 ];
 
+const squeeze = (text) => text.replace(/\s+/g, " ").trim();
+
 // Rollup disambiguates same-named private types with $-suffixes whose numbers
-// shuffle when unrelated code moves. Strip them, so a report diff means a real
-// API change and not a bundling reshuffle.
-const squeeze = (text) =>
-  text
-    .replace(/\$[a-zA-Z0-9]+\b/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+// shuffle when unrelated code moves. Deleting the suffix would let two
+// different types collapse to the same text, so a swapped reference could go
+// unseen. Instead every suffixed name is renamed to something stable that
+// still tells types apart: a namespace takes its exported name, and any other
+// declaration takes a short hash of its own de-suffixed declaration text.
+const contentKey = (text) =>
+  createHash("sha256")
+    .update(squeeze(text).replace(/\$[a-zA-Z0-9]+/g, ""))
+    .digest("hex")
+    .slice(0, 8);
+
+/** name -> stable replacement, for every $-suffixed top-level declaration. */
+function buildRenameMap(source, namespaceNames) {
+  const map = new Map();
+  const add = (name, declarationText, isNamespace) => {
+    if (!name || !/\$[a-zA-Z0-9]+$/.test(name)) return;
+    const base = name.replace(/\$[a-zA-Z0-9]+$/, "");
+    const stable = isNamespace ? namespaceNames.get(name) : undefined;
+    map.set(name, stable ?? `${base}#${contentKey(declarationText)}`);
+  };
+  const visit = (statement) => {
+    // A const arrives as a variable statement whose names sit one level down.
+    if (ts.isVariableStatement(statement)) {
+      for (const declaration of statement.declarationList.declarations) {
+        add(declaration.name?.getText?.(), declaration.getText(), false);
+      }
+      return;
+    }
+    add(statement.name?.getText?.(), statement.getText(), ts.isModuleDeclaration(statement));
+  };
+  for (const statement of source.statements) {
+    visit(statement);
+    // `declare namespace x { ... }` bodies hold the flattened member aliases.
+    if (ts.isModuleDeclaration(statement) && statement.body && ts.isModuleBlock(statement.body)) {
+      for (const inner of statement.body.statements) visit(inner);
+    }
+  }
+  return map;
+}
+
+/** Longest names first, so `x$1a` can never be clobbered by `x$1`. */
+function applyRenames(text, renames) {
+  for (const [from, to] of renames) text = text.split(from).join(to);
+  return text;
+}
 
 function kindOf(symbol) {
   const flags = symbol.getFlags();
@@ -61,12 +109,13 @@ function kindOf(symbol) {
 }
 
 /** Every declaration a symbol has, as one collapsed, deterministic string. */
-function signatureOf(symbol) {
+function signatureOf(symbol, exportedName, renames) {
   const parts = (symbol.getDeclarations() ?? []).map((declaration) => {
     // A namespace body would repeat every member; its members are reported
-    // one by one instead, so the namespace itself reports only its header.
-    if (ts.isModuleDeclaration(declaration)) return `namespace ${symbol.getName()}`;
-    return squeeze(declaration.getText());
+    // one by one instead, so the namespace itself reports only its header,
+    // under the name consumers import, never rollup's internal one.
+    if (ts.isModuleDeclaration(declaration)) return `namespace ${exportedName}`;
+    return applyRenames(squeeze(declaration.getText()), renames);
   });
   return parts.sort().join(" | ");
 }
@@ -81,11 +130,24 @@ function reportPackage({ dir, entry }) {
   const source = program.getSourceFile(entryPath);
   const moduleSymbol = checker.getSymbolAtLocation(source);
 
+  // First pass: which internal namespace name backs which exported name.
+  const namespaceNames = new Map();
+  for (const symbol of checker.getExportsOfModule(moduleSymbol)) {
+    const target =
+      symbol.getFlags() & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+    if (target.getFlags() & ts.SymbolFlags.Module) {
+      namespaceNames.set(target.getName(), symbol.getName());
+    }
+  }
+  const renames = [...buildRenameMap(source, namespaceNames).entries()].sort(
+    (a, b) => b[0].length - a[0].length,
+  );
+
   const symbols = [];
   const record = (name, symbol) => {
     const target =
       symbol.getFlags() & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
-    symbols.push({ name, kind: kindOf(target), signature: signatureOf(target) });
+    symbols.push({ name, kind: kindOf(target), signature: signatureOf(target, name, renames) });
     // Walk one level into a namespace: those members are the real API.
     if (target.getFlags() & ts.SymbolFlags.Module) {
       for (const member of checker.getExportsOfModule(target)) {
@@ -94,7 +156,7 @@ function reportPackage({ dir, entry }) {
         symbols.push({
           name: `${name}.${member.getName()}`,
           kind: kindOf(memberTarget),
-          signature: signatureOf(memberTarget),
+          signature: signatureOf(memberTarget, `${name}.${member.getName()}`, renames),
         });
       }
     }
@@ -130,7 +192,7 @@ function reportPackage({ dir, entry }) {
 const reports = PACKAGES.map(reportPackage);
 
 let stale = false;
-mkdirSync(OUT_DIR, { recursive: true });
+if (!process.argv.includes("--check")) mkdirSync(OUT_DIR, { recursive: true });
 for (const report of reports) {
   const file = resolve(OUT_DIR, `${report.package.split("/").pop()}.json`);
   const serialized = `${JSON.stringify(report, null, 2)}\n`;
