@@ -1,6 +1,7 @@
+import { toolbar as core } from "@design-system/core";
 import { defineComponent, h, onBeforeUnmount, onMounted, ref, type PropType } from "vue";
 
-export type ToolbarOrientation = "horizontal" | "vertical";
+export type ToolbarOrientation = core.ToolbarOrientation;
 
 export interface ToolbarProps {
   /** Accessible name for the toolbar (required). */
@@ -65,37 +66,29 @@ export const Toolbar = defineComponent({
     };
 
     const focusAt = (index: number) => {
-      const list = items();
-      if (list.length === 0) return;
-      const wrapped = (index + list.length) % list.length;
-      setTabStop(list[wrapped]!);
-      list[wrapped]!.focus();
+      const target = items()[index];
+      if (!target) return;
+      setTabStop(target);
+      target.focus();
     };
 
     const onKeydown = (event: KeyboardEvent) => {
-      const horizontal = props.orientation === "horizontal";
       const list = items();
       const current = list.indexOf(document.activeElement as HTMLElement);
       if (current === -1) return;
 
-      switch (event.key) {
-        case horizontal ? "ArrowRight" : "ArrowDown":
-          event.preventDefault();
-          focusAt(current + 1);
-          break;
-        case horizontal ? "ArrowLeft" : "ArrowUp":
-          event.preventDefault();
-          focusAt(current - 1);
-          break;
-        case "Home":
-          event.preventDefault();
-          focusAt(0);
-          break;
-        case "End":
-          event.preventDefault();
-          focusAt(list.length - 1);
-          break;
-      }
+      // Which arrows mean what, including in right-to-left text, is shared
+      // with the other adapters; finding the controls and moving focus is ours.
+      const next = core.nextIndex({
+        key: event.key,
+        index: current,
+        count: list.length,
+        orientation: props.orientation,
+        direction: root.value && getComputedStyle(root.value).direction === "rtl" ? "rtl" : "ltr",
+      });
+      if (next === null) return;
+      event.preventDefault();
+      focusAt(next);
     };
 
     /** Keep the most recently focused control as the single tab stop. */

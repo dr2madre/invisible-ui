@@ -33,6 +33,7 @@ export * as dialog from "./dialog";
 export * as hoverCard from "./hover-card";
 export * as combobox from "./combobox";
 export * as navigationMenu from "./navigation-menu";
+export * as toolbar from "./toolbar";
 export * as tooltip from "./tooltip";
 export * as textField from "./text-field";
 export * as numberField from "./number-field";

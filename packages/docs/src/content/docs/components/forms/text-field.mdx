@@ -17,6 +17,21 @@ A styled single-line text field with label, optional description and error messa
 
 <ImportSnippet component="text-field" />
 
+### Native constraints
+
+`maxlength`, `minlength`, `pattern`, `inputmode`, `autocomplete` and
+`spellcheck` reach the real `<input>`, so the browser enforces and reports them
+itself — a too-short value blocks submission with the platform's own message,
+and a password manager or an SMS code can autofill.
+
+```svelte
+<TextField label="Postcode" maxlength={8} pattern="[A-Z0-9 ]+" autocomplete="postal-code" />
+```
+
+For numeric entry use the
+[Number Field](/invisible-ui/components/forms/number-field/): it parses the
+user's locale and keeps the typed draft, which `type="number"` cannot do.
+
 ### Props
 
 <PropsTable component="text-field" />

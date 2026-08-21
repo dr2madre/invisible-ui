@@ -33,6 +33,11 @@
   export let name: string | undefined = undefined;
   /** Native textarea autocomplete hint. */
   export let autocomplete: HTMLTextareaAttributes["autocomplete"] = undefined;
+  /** Native length limits; the browser enforces them and reports them. */
+  export let maxlength: number | undefined = undefined;
+  export let minlength: number | undefined = undefined;
+  /** Turn spelling correction off for codes and identifiers. */
+  export let spellcheck: boolean | undefined = undefined;
   /** Called whenever the value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
@@ -93,6 +98,9 @@
     {placeholder}
     {rows}
     {value}
+    {maxlength}
+    {minlength}
+    {spellcheck}
     id={core.controlId($fieldState.id)}
     on:input={onInput}
     use:controlAction></textarea>

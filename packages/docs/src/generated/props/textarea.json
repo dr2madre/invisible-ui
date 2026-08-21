@@ -94,6 +94,27 @@
           "description": "Native textarea autocomplete hint."
         },
         {
+          "name": "maxlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Native length limits; the browser enforces them and reports them."
+        },
+        {
+          "name": "minlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "spellcheck",
+          "type": "boolean | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Turn spelling correction off for codes and identifiers."
+        },
+        {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
@@ -199,6 +220,27 @@
           "default": "undefined",
           "required": false,
           "description": "Native textarea autocomplete hint."
+        },
+        {
+          "name": "maxlength",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "Native length limits; the browser enforces them and reports them."
+        },
+        {
+          "name": "minlength",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "spellcheck",
+          "type": "boolean",
+          "default": "undefined",
+          "required": false,
+          "description": "Turn spelling correction off for codes and identifiers."
         },
         {
           "name": "onValueChange",

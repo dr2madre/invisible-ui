@@ -23,6 +23,17 @@ export interface TextFieldProps {
   readOnly?: boolean;
   /** Form field name; the value is submitted under it. */
   name?: string;
+  /** Native length limits; the browser enforces them and reports them. */
+  maxlength?: number;
+  minlength?: number;
+  /** Native format constraint (paired with `title` for the browser's message). */
+  pattern?: string;
+  /** Keyboard hint on touch devices. */
+  inputmode?: "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
+  /** Autofill hint, e.g. `"email"` or `"one-time-code"`. */
+  autocomplete?: string;
+  /** Turn spelling correction off for codes and identifiers. */
+  spellcheck?: boolean;
   /** Called whenever the value changes. */
   onValueChange?: (value: string) => void;
 }
@@ -57,6 +68,15 @@ export const TextField = defineComponent({
     required: { type: Boolean, default: false },
     readOnly: { type: Boolean, default: false },
     name: { type: String, default: undefined },
+    maxlength: { type: Number, default: undefined },
+    minlength: { type: Number, default: undefined },
+    pattern: { type: String, default: undefined },
+    inputmode: {
+      type: String as PropType<TextFieldProps["inputmode"]>,
+      default: undefined,
+    },
+    autocomplete: { type: String, default: undefined },
+    spellcheck: { type: Boolean, default: undefined },
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   emits: {
@@ -125,6 +145,12 @@ export const TextField = defineComponent({
               type: props.type,
               name: props.name,
               placeholder: props.placeholder,
+              maxlength: props.maxlength,
+              minlength: props.minlength,
+              pattern: props.pattern,
+              inputmode: props.inputmode,
+              autocomplete: props.autocomplete,
+              spellcheck: props.spellcheck,
               value: api.value.value,
               onInput,
             }),
