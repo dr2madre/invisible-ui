@@ -134,6 +134,6 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #57534e);
+    color: var(--ds-color-text-secondary, #524c44);
   }
 </style>

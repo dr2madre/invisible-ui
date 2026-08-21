@@ -493,7 +493,7 @@
     display: grid;
     justify-items: center;
     padding: 2rem 1rem;
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
   }
   .table-view__header {
@@ -522,13 +522,13 @@
     justify-content: center;
     inline-size: 2.25rem;
     block-size: 2.25rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     border: 1px solid transparent;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
   }
   .table-view__settings:hover {
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .table-view__sr {
@@ -551,7 +551,7 @@
   }
   /* The table body sits in a bordered card; the footer (pagination) is outside. */
   .table-view__card {
-    border: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+    border: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-table-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
@@ -591,7 +591,7 @@
   }
   .table-view__card-label {
     margin: 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     font-size: 0.8125rem;
   }
   .table-view__card-value {
@@ -612,16 +612,16 @@
   .table-view__status {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     min-block-size: 1rem;
   }
   .table-view__load-more {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-color-text, #0f172a);
-    background: var(--ds-color-surface, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.375rem);
+    color: var(--ds-color-text, #282420);
+    background: var(--ds-color-surface, #e6e0d8);
+    border: 1px solid var(--ds-color-control-border, #757067);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .table-view__load-more:focus-visible {

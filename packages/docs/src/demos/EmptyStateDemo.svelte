@@ -38,7 +38,7 @@
   <!-- Compact size for panels and cards, a learning cue in the default
        slot, and a documentation link in the action group. -->
   <div
-    style="border: 1px solid var(--ds-color-border, #e2e8f0); border-radius: 0.75rem; inline-size: 100%;"
+    style="border: 1px solid var(--ds-color-border, #c7c1b7); border-radius: 0.75rem; inline-size: 100%;"
   >
     <EmptyState
       size="sm"
@@ -48,7 +48,7 @@
         { label: "Learn more", href: "https://en.wikipedia.org/wiki/Bookmark_(digital)" },
       ]}
     >
-      <p style="margin: 0; font-size: 0.875rem; color: var(--ds-color-text-secondary, #64748b);">
+      <p style="margin: 0; font-size: 0.875rem; color: var(--ds-color-text-secondary, #524c44);">
         Star any component and it appears here.
       </p>
     </EmptyState>

@@ -2,7 +2,7 @@
   import Field from "@design-system/svelte/Field.svelte";
 
   const inputStyle =
-    "width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #cbd5e1); border-radius: 0.5rem; font: inherit; background: var(--ds-color-background, #fff); color: inherit; box-sizing: border-box;";
+    "width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #c7c1b7); border-radius: 0.5rem; font: inherit; background: var(--ds-color-background, #fff); color: inherit; box-sizing: border-box;";
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 22rem;">

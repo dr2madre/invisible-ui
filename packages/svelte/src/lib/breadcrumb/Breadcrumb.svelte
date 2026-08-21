@@ -108,30 +108,30 @@
     gap: var(--ds-breadcrumb-gap, 0.5rem);
   }
   .breadcrumb__sep {
-    color: var(--ds-breadcrumb-sep-text, var(--ds-color-text-secondary, #78716c));
+    color: var(--ds-breadcrumb-sep-text, var(--ds-color-text-secondary, #524c44));
   }
   .breadcrumb__link {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--ds-breadcrumb-link-text, var(--ds-color-secondary-body-text, #7b52cc));
+    color: var(--ds-breadcrumb-link-text, var(--ds-color-secondary-body-text, #7a52cc));
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .breadcrumb__link:hover {
-    color: var(--ds-breadcrumb-link-hover, var(--ds-color-secondary-hover, #6d28d9));
+    color: var(--ds-breadcrumb-link-hover, var(--ds-color-secondary-hover, #6840b7));
   }
   .breadcrumb__link:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
-    border-radius: var(--ds-radius-control, 0.25rem);
+    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
+    border-radius: var(--ds-radius-control, 0.5rem);
   }
   /* The current page: a dark grey (not black, not the link color), no link. */
   .breadcrumb__current {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #57534e));
+    color: var(--ds-breadcrumb-current-text, var(--ds-color-text-secondary, #524c44));
     font-weight: 600;
   }
   .breadcrumb__sr {

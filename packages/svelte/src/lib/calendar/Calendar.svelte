@@ -449,7 +449,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
 
   .calendar__header {
@@ -481,9 +481,9 @@
     padding: 0.35rem 0.75rem;
     margin-inline-end: 0.25rem;
     color: inherit;
-    background: var(--ds-color-surface, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.375rem);
+    background: var(--ds-color-surface, #e6e0d8);
+    border: 1px solid var(--ds-color-control-border, #757067);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .calendar__arrow {
@@ -494,8 +494,8 @@
     block-size: 2rem;
     color: inherit;
     background: none;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border: 1px solid var(--ds-color-control-border, #757067);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .calendar__today:focus-visible,
@@ -534,7 +534,7 @@
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     text-transform: uppercase;
     padding-block: 0.25rem;
   }
@@ -557,29 +557,29 @@
     color: inherit;
     background: var(--ds-calendar-day-bg, transparent);
     border: 1px solid transparent;
-    border-radius: var(--ds-calendar-day-radius, var(--ds-radius-control, 0.375rem));
+    border-radius: var(--ds-calendar-day-radius, var(--ds-radius-control, 0.5rem));
     cursor: pointer;
   }
   .calendar__day:hover {
-    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f1f5f9));
+    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f4f2ef));
   }
   .calendar__day:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   /* Days from the neighbouring months read as secondary text. The colour
      alone carries that, at 8.5:1 against 17.5:1 for a day in the month; an
      opacity on top used to take it to 3.0:1, under the 4.5:1 AA asks. */
   .calendar__day--outside {
-    color: var(--ds-color-text-secondary, #94a3b8);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .calendar__day:global([data-today]) .calendar__daynum {
     font-weight: 700;
-    color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
+    color: var(--ds-calendar-today, var(--ds-color-primary, #7a52cc));
   }
   .calendar__day:global([data-selected]) {
-    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
+    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
     color: var(--ds-calendar-selected-text, #fff);
   }
   .calendar__day:global([data-selected]) .calendar__daynum {
@@ -592,7 +592,7 @@
   /* Range mode: endpoints look selected; days between get a soft band. */
   .calendar__day[data-range-start],
   .calendar__day[data-range-end] {
-    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
+    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
     color: var(--ds-calendar-selected-text, #fff);
   }
   .calendar__day[data-range-start] .calendar__daynum,
@@ -618,29 +618,29 @@
     inline-size: 0.4rem;
     block-size: 0.4rem;
     border-radius: 50%;
-    background: var(--ds-calendar-dot, var(--ds-color-primary, #2563eb));
+    background: var(--ds-calendar-dot, var(--ds-color-primary, #7a52cc));
     flex: none;
   }
   .calendar__dot[data-tone="success"] {
-    background: var(--ds-color-success, #16a34a);
+    background: var(--ds-color-success, #3e7523);
   }
   .calendar__dot[data-tone="warning"] {
-    background: var(--ds-color-warning, #d97706);
+    background: var(--ds-color-warning, #c96422);
   }
   .calendar__dot[data-tone="danger"] {
-    background: var(--ds-color-danger, #dc2626);
+    background: var(--ds-color-danger, #be3b50);
   }
   .calendar__dot[data-tone="neutral"] {
-    background: var(--ds-color-text-secondary, #64748b);
+    background: var(--ds-color-text-secondary, #524c44);
   }
   .calendar__more {
     font-size: 0.65rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .calendar__price {
     font-size: 0.7rem;
     font-weight: 600;
-    color: var(--ds-calendar-price, var(--ds-color-success-body-text, #15803d));
+    color: var(--ds-calendar-price, var(--ds-color-success-body-text, #3e7523));
   }
   .calendar__day:global([data-selected]) .calendar__price,
   .calendar__day:global([data-selected]) .calendar__more {
@@ -668,11 +668,11 @@
     color: inherit;
     background: none;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .calendar__mini-title:hover {
-    color: var(--ds-color-primary, #2563eb);
+    color: var(--ds-color-primary, #7a52cc);
   }
   .calendar__mini-title:focus-visible {
     outline: none;
@@ -691,7 +691,7 @@
   .calendar__mini-weekday {
     text-align: center;
     font-size: 0.65rem;
-    color: var(--ds-color-text-secondary, #94a3b8);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .calendar__mini-day {
     inline-size: 100%;
@@ -708,7 +708,7 @@
     cursor: pointer;
   }
   .calendar__mini-day:hover {
-    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f1f5f9));
+    background: var(--ds-calendar-day-hover, var(--ds-color-neutral-surface, #f4f2ef));
   }
   .calendar__mini-day:focus-visible {
     outline: none;
@@ -716,11 +716,11 @@
     outline-offset: -1px;
   }
   .calendar__mini-day:global([data-today]) {
-    color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
+    color: var(--ds-calendar-today, var(--ds-color-primary, #7a52cc));
     font-weight: 700;
   }
   .calendar__mini-day:global([data-selected]) {
-    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
+    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
     color: var(--ds-calendar-selected-text, #fff);
   }
 
@@ -738,8 +738,8 @@
   }
   .calendar__agenda-col {
     flex-direction: column;
-    border: 1px solid var(--ds-color-border, #e2e8f0);
-    border-radius: var(--ds-radius-surface, 0.5rem);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border-radius: var(--ds-radius-surface, 0.75rem);
     overflow: hidden;
   }
   .calendar__agenda-head {
@@ -750,9 +750,9 @@
     padding: 0.4rem;
     font: inherit;
     color: inherit;
-    background: var(--ds-color-neutral-surface, #f8fafc);
+    background: var(--ds-color-neutral-surface, #f4f2ef);
     border: 0;
-    border-block-end: 1px solid var(--ds-color-border, #e2e8f0);
+    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
     cursor: pointer;
   }
   .calendar__agenda-head:focus-visible {
@@ -761,11 +761,11 @@
     outline-offset: -2px;
   }
   .calendar__agenda-head:global([data-selected]) {
-    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #2563eb));
+    background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
     color: var(--ds-calendar-selected-text, #fff);
   }
   .calendar__agenda-head:global([data-today]) .calendar__agenda-num {
-    color: var(--ds-calendar-today, var(--ds-color-primary, #2563eb));
+    color: var(--ds-calendar-today, var(--ds-color-primary, #7a52cc));
     font-weight: 700;
   }
   .calendar__agenda-head:global([data-selected]) .calendar__agenda-num {
@@ -774,7 +774,7 @@
   .calendar__agenda-weekday {
     font-size: 0.7rem;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .calendar__agenda-head:global([data-selected]) .calendar__agenda-weekday {
     color: inherit;
@@ -807,10 +807,10 @@
     margin-block-start: auto;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-calendar-price, var(--ds-color-success, #15803d));
+    color: var(--ds-calendar-price, var(--ds-color-success, #3e7523));
   }
   .calendar__agenda-empty {
-    color: var(--ds-color-text-secondary, #cbd5e1);
+    color: var(--ds-color-text-secondary, #524c44);
     text-align: center;
   }
 </style>

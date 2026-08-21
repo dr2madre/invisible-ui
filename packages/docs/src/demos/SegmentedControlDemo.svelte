@@ -64,7 +64,7 @@
     margin: 0 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

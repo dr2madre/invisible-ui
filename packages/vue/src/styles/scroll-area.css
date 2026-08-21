@@ -3,7 +3,7 @@
 .scroll-area {
   position: relative;
   font: inherit;
-  color: var(--ds-color-text, #0f172a);
+  color: var(--ds-color-text, #282420);
 }
 .scroll-area__viewport {
   max-inline-size: 100%;
@@ -38,11 +38,11 @@
 .scroll-area__thumb {
   position: absolute;
   border-radius: 999px;
-  background: var(--ds-scroll-area-thumb, var(--ds-color-border, #cbd5e1));
+  background: var(--ds-scroll-area-thumb, var(--ds-color-border, #c7c1b7));
   cursor: default;
 }
 .scroll-area__thumb:hover {
-  background: var(--ds-scroll-area-thumb-hover, var(--ds-color-text-secondary, #94a3b8));
+  background: var(--ds-scroll-area-thumb-hover, var(--ds-color-text-secondary, #524c44));
 }
 .scroll-area__bar--v .scroll-area__thumb {
   inline-size: 100%;

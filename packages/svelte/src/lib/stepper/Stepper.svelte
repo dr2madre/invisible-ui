@@ -104,7 +104,7 @@
     container-type: inline-size;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
   .stepper__list {
     display: flex;
@@ -139,7 +139,7 @@
     margin-inline: 0.25rem;
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-color, var(--ds-color-neutral-300, #e7e5e4)) 0 42%,
+      var(--ds-step-connector-color, var(--ds-color-border, #c7c1b7)) 0 42%,
       transparent 48%
     );
     background-size: var(--ds-step-connector-dot-gap, 5px) 100%;
@@ -150,7 +150,7 @@
   .stepper__step[data-status="current"] .stepper__connector {
     background-image: radial-gradient(
       circle,
-      var(--ds-step-connector-active, var(--ds-color-secondary, #7b52cc)) 0 42%,
+      var(--ds-step-connector-active, var(--ds-color-secondary, #7a52cc)) 0 42%,
       transparent 48%
     );
   }
@@ -198,7 +198,7 @@
     text-align: start;
     background: none;
     border: 0;
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .stepper__trigger:disabled {
@@ -221,9 +221,9 @@
     font-weight: 600;
     line-height: 1;
     border-radius: 50%;
-    border: 2px solid var(--ds-step-indicator-border, var(--ds-color-border, #cbd5e1));
-    color: var(--ds-step-indicator-text, var(--ds-color-text-secondary, #64748b));
-    background: var(--ds-step-indicator-bg, var(--ds-color-surface, #fff));
+    border: 2px solid var(--ds-step-indicator-border, var(--ds-color-border, #c7c1b7));
+    color: var(--ds-step-indicator-text, var(--ds-color-text-secondary, #524c44));
+    background: var(--ds-step-indicator-bg, var(--ds-color-surface, #e6e0d8));
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
@@ -231,9 +231,9 @@
   }
   /* Completed: light gray filled circle with a dark check. */
   .stepper__step[data-status="complete"] .stepper__indicator {
-    background: var(--ds-step-complete-bg, var(--ds-color-neutral-200, #e7e5e4));
-    border-color: var(--ds-step-complete-border, var(--ds-color-border, #d6d3d1));
-    color: var(--ds-step-complete-text, var(--ds-color-text, #1c1917));
+    background: var(--ds-step-complete-bg, var(--ds-color-surface, #e6e0d8));
+    border-color: var(--ds-step-complete-border, var(--ds-color-border, #c7c1b7));
+    color: var(--ds-step-complete-text, var(--ds-color-text, #282420));
   }
   /* Current: filled with the selection color. */
   /* Current step: the shared selected look — faint selection fill, selection
@@ -241,17 +241,17 @@
   .stepper__step[data-status="current"] .stepper__indicator {
     background: var(
       --ds-step-current-bg,
-      color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent)
+      color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent)
     );
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
-    color: var(--ds-step-current-text, var(--ds-color-selected, #7b52cc));
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
+    color: var(--ds-step-current-text, var(--ds-color-selected, #7a52cc));
   }
   /* Upcoming: no fill, dashed near-black ring. */
   .stepper__step[data-status="upcoming"] .stepper__indicator {
     background: transparent;
     border-style: dashed;
-    border-color: var(--ds-step-upcoming-border, var(--ds-color-neutral-800, #292524));
-    color: var(--ds-step-upcoming-text, var(--ds-color-neutral-800, #292524));
+    border-color: var(--ds-step-upcoming-border, var(--ds-color-text, #282420));
+    color: var(--ds-step-upcoming-text, var(--ds-color-text, #282420));
   }
 
   .stepper__text {
@@ -282,7 +282,7 @@
   .stepper__description {
     overflow-wrap: anywhere;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     line-height: var(--ds-line-height, 1.4);
   }
 </style>

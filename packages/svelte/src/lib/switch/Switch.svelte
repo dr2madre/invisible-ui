@@ -78,7 +78,7 @@
     cursor: not-allowed;
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
   }
 
   /* The native input is the accessible, focusable control; visually hidden, with
@@ -100,7 +100,9 @@
     inline-size: var(--ds-switch-width, 2.5rem);
     block-size: var(--ds-switch-height, 1.5rem);
     border-radius: var(--ds-radius-pill, 999px);
-    background: var(--ds-color-border, #cbd5e1);
+    /* The track is the switch's whole visible form, so it takes the control
+       boundary colour, not the divider colour. */
+    background: var(--ds-color-control-border, #757067);
     position: relative;
     flex: none;
     transition: background-color 120ms ease;
@@ -114,7 +116,10 @@
     block-size: calc(var(--ds-switch-height, 1.5rem) - 0.25rem);
     border-radius: 50%;
     /* The thumb is always white (it sits on the track in both states). */
-    background: var(--ds-switch-thumb, var(--ds-neutral-0, #fff));
+    background: var(--ds-switch-thumb, var(--ds-neutral-0, #ffffff));
+    /* A page-coloured rim keeps the thumb separable from the track: the track
+       clears 3:1 against the page, so the rim clears it too, in both themes. */
+    box-shadow: 0 0 0 1px var(--ds-color-background, #ffffff);
     transition: translate 150ms ease;
   }
   .switch__input:focus-visible + .switch {
@@ -124,7 +129,7 @@
   }
 
   .switch__input:checked + .switch {
-    background: var(--ds-color-secondary, #7b52cc);
+    background: var(--ds-color-secondary, #7a52cc);
   }
   .switch__input:checked + .switch::after {
     translate: calc(var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)) 0;
@@ -161,7 +166,7 @@
   /* OFF sits on the right (shown while off, thumb on the left). */
   .switch--onoff .switch__off {
     inset-inline-end: 0.5rem;
-    color: var(--ds-switch-onoff-off-text, var(--ds-color-text-secondary, #64748b));
+    color: var(--ds-switch-onoff-off-text, var(--ds-color-text-secondary, #524c44));
     opacity: 1;
   }
   .switch__input:checked + .switch--onoff .switch__on {

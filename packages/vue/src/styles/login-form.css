@@ -7,9 +7,12 @@
   inline-size: min(100%, var(--ds-login-width, 22rem));
   padding: var(--ds-login-padding, 1.75rem);
   background: var(--ds-login-bg, var(--ds-color-background, #fff));
-  border: 1px solid var(--ds-login-border, var(--ds-color-border, #e7e5e4));
+  border: 1px solid var(--ds-login-border, var(--ds-color-border, #c7c1b7));
   border-radius: var(--ds-login-radius, var(--ds-radius-surface, 0.75rem));
-  box-shadow: var(--ds-login-shadow, var(--ds-elevation-overlay, 0 1px 3px rgb(0 0 0 / 0.1)));
+  box-shadow: var(
+    --ds-login-shadow,
+    var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))
+  );
 }
 .login__logo {
   display: flex;
@@ -21,12 +24,12 @@
 .login__heading {
   margin: 0;
   font-size: 1.25rem;
-  color: var(--ds-color-text, #1c1917);
+  color: var(--ds-color-text, #282420);
 }
 .login__subheading {
   margin: 0.25rem 0 0;
   font-size: 0.875rem;
-  color: var(--ds-color-text-secondary, #57534e);
+  color: var(--ds-color-text-secondary, #524c44);
 }
 .login__providers {
   display: flex;
@@ -37,7 +40,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--ds-color-text-secondary, #78716c);
+  color: var(--ds-color-text-secondary, #524c44);
   font-size: 0.8125rem;
 }
 .login__divider::before,
@@ -45,7 +48,7 @@
   content: "";
   flex: 1;
   block-size: 1px;
-  background: var(--ds-color-border, #e7e5e4);
+  background: var(--ds-color-border, #c7c1b7);
 }
 .login__field {
   display: flex;
@@ -55,7 +58,7 @@
 .login__forgot {
   align-self: flex-end;
   font-size: 0.8125rem;
-  color: var(--ds-color-secondary-body-text, #7b52cc);
+  color: var(--ds-color-secondary-body-text, #7a52cc);
   /* Underlined so it carries meaning without color, and a visible focus ring. */
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -63,6 +66,6 @@
 }
 .login__forgot:focus-visible {
   outline: none;
-  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+  box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
   outline-offset: 2px;
 }

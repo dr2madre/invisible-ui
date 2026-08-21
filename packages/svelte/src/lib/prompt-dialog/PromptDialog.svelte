@@ -147,8 +147,8 @@
     max-inline-size: var(--ds-dialog-max-width, 28rem);
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #0f172a);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    color: var(--ds-color-text, #282420);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -169,7 +169,7 @@
   }
   .prompt-dialog__description {
     margin: 0.5rem 0 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .prompt-dialog__field {
     display: grid;
@@ -184,7 +184,7 @@
     inline-size: 100%;
     box-sizing: border-box;
     padding: var(--ds-control-padding-y, 0.5rem) 0.75rem;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     border-radius: var(--ds-radius-control, 0.5rem);
     font: inherit;
     background: var(--ds-color-background, #fff);
@@ -192,7 +192,7 @@
   }
   .prompt-dialog__input:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #7b52cc);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .prompt-dialog__actions {

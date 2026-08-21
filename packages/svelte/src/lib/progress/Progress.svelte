@@ -66,12 +66,12 @@
     inline-size: var(--ds-progress-width, 16rem);
     block-size: var(--ds-progress-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-progress-track, var(--ds-color-border, #e2e8f0));
+    background: var(--ds-progress-track, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-progress-radius, 999px);
   }
   .progress__indicator {
     block-size: 100%;
-    background: var(--ds-progress-fill, var(--ds-color-text, #1c1917));
+    background: var(--ds-progress-fill, var(--ds-color-text, #282420));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
@@ -96,10 +96,10 @@
     stroke-width: var(--ds-progress-circle-stroke, 3.5);
   }
   .progress__track {
-    stroke: var(--ds-progress-track, var(--ds-color-border, #e2e8f0));
+    stroke: var(--ds-progress-track, var(--ds-color-border, #c7c1b7));
   }
   .progress__ring {
-    stroke: var(--ds-progress-fill, var(--ds-color-text, #1c1917));
+    stroke: var(--ds-progress-fill, var(--ds-color-text, #282420));
     stroke-linecap: round;
     transition: stroke-dasharray 200ms ease;
   }

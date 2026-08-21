@@ -14,6 +14,7 @@ export interface TokenEntry {
   specimenKind: SpecimenKind | null;
   ownership: string;
   stability: string;
+  replacedBy: string | null;
   hasAlpha: boolean;
   purpose: string | null;
   group: string | null;

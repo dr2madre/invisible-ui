@@ -217,35 +217,35 @@
   /* default: the baseline, medium-emphasis button — white surface + border. */
   .button:global([data-variant="default"]) {
     background: var(--ds-button-bg, var(--ds-color-background, #fff));
-    color: var(--ds-color-text, #0f172a);
-    border-color: var(--ds-color-border, #cbd5e1);
+    color: var(--ds-color-text, #282420);
+    border-color: var(--ds-color-control-border, #757067);
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
-    background: var(--ds-button-bg-hover, var(--ds-color-surface, #f1f5f9));
+    background: var(--ds-button-bg-hover, var(--ds-color-surface, #e6e0d8));
   }
 
   /* primary: the high-emphasis call to action. */
   .button:global([data-variant="primary"]) {
-    background: var(--ds-color-primary, #2563eb);
+    background: var(--ds-color-primary, #7a52cc);
     color: var(--ds-color-on-primary, #fff);
   }
   .button:global([data-variant="primary"]):hover:not(:disabled) {
-    background: var(--ds-color-primary-hover, #1d4ed8);
+    background: var(--ds-color-primary-hover, #6840b7);
   }
 
   /* secondary: alternative emphasized action — a soft tint of the primary. */
   .button:global([data-variant="secondary"]) {
     background: var(
-      --ds-color-primary-soft,
-      color-mix(in srgb, var(--ds-color-primary, #2563eb) 10%, #fff)
+      --ds-color-secondary-surface,
+      color-mix(in srgb, var(--ds-color-primary, #7a52cc) 15%, #fff)
     );
-    color: var(--ds-color-on-primary-soft, var(--ds-color-primary, #2563eb));
-    border-color: color-mix(in srgb, var(--ds-color-primary, #2563eb) 55%, transparent);
+    color: var(--ds-color-on-secondary-surface, var(--ds-color-primary-hover, #6840b7));
+    border-color: color-mix(in srgb, var(--ds-color-primary, #7a52cc) 55%, transparent);
   }
   .button:global([data-variant="secondary"]):hover:not(:disabled) {
     background: color-mix(
       in srgb,
-      var(--ds-color-primary, #2563eb) 24%,
+      var(--ds-color-primary, #7a52cc) 24%,
       var(--ds-color-background, #fff)
     );
   }
@@ -268,14 +268,14 @@
   /* danger: destructive. The danger red at 10% with an accessible dark-red
      label and a matching border (the hazard icon keeps meaning off color alone). */
   .button:global([data-variant="danger"]) {
-    background: var(--ds-color-danger-soft, color-mix(in srgb, #dc2626 10%, #fff));
-    color: var(--ds-color-on-danger-soft, #b91c1c);
-    border-color: color-mix(in srgb, var(--ds-feedback-danger, #dc2626) 35%, transparent);
+    background: var(--ds-color-destructive-surface, #f9ebee);
+    color: var(--ds-color-on-destructive-surface, #ab2e42);
+    border-color: color-mix(in srgb, var(--ds-feedback-danger, #be3b50) 35%, transparent);
   }
   .button:global([data-variant="danger"]):hover:not(:disabled) {
     background: color-mix(
       in srgb,
-      var(--ds-feedback-danger, #dc2626) 18%,
+      var(--ds-feedback-danger, #be3b50) 18%,
       var(--ds-color-background, #fff)
     );
   }

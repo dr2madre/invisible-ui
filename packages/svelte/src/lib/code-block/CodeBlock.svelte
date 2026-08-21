@@ -73,9 +73,9 @@
 <style>
   .code-block {
     margin: 0;
-    background: var(--ds-code-block-surface, var(--ds-color-surface, #f1f5f9));
-    color: var(--ds-code-block-text, var(--ds-color-text, #0f172a));
-    border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #cbd5e1));
+    background: var(--ds-code-block-surface, var(--ds-color-surface, #e6e0d8));
+    color: var(--ds-code-block-text, var(--ds-color-text, #282420));
+    border: 1px solid var(--ds-code-block-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-code-block-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
@@ -87,7 +87,7 @@
     gap: 0.75rem;
     padding: var(--ds-code-block-header-padding, 0.4rem 0.75rem 0.4rem 1rem);
     font-size: 0.75rem;
-    border-block-end: 1px solid var(--ds-code-block-border, var(--ds-color-border, #cbd5e1));
+    border-block-end: 1px solid var(--ds-code-block-border, var(--ds-color-border, #c7c1b7));
   }
 
   .code-block__lang {
@@ -105,7 +105,7 @@
     color: inherit;
     background: var(--ds-code-block-copy-bg, rgba(0, 0, 0, 0.05));
     border: 1px solid transparent;
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
     transition: background-color 120ms ease;
   }
@@ -127,12 +127,12 @@
   .code-block__code {
     font-family: var(
       --ds-font-mono,
-      ui-monospace,
-      "SFMono-Regular",
-      "SF Mono",
+      SFMono-Regular,
       Menlo,
+      Monaco,
       Consolas,
       "Liberation Mono",
+      "Courier New",
       monospace
     );
     font-size: var(--ds-code-block-font-size, 0.875rem);

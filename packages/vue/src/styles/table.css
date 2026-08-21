@@ -4,7 +4,7 @@
   inline-size: 100%;
   border-collapse: collapse;
   font: inherit;
-  color: var(--ds-color-text, #0f172a);
+  color: var(--ds-color-text, #282420);
   font-size: var(--ds-table-font-size, 0.9375rem);
 }
 
@@ -31,16 +31,16 @@
   text-align: start;
   font-weight: 600;
   /* Medium-dark header labels (not full black). */
-  color: var(--ds-table-header-text, var(--ds-color-text-secondary, #57534e));
+  color: var(--ds-table-header-text, var(--ds-color-text-secondary, #524c44));
   /* Same height as body rows: identical padding + a 1px border (not thicker). */
   padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
   border-block-end: var(--ds-table-header-border, 1px) solid
-    var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+    var(--ds-table-border, var(--ds-color-border, #c7c1b7));
   white-space: nowrap;
 }
 .table__td {
   padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
-  border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #e2e8f0));
+  border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
 }
 .table__th[data-align="end"],
 .table__td[data-align="end"] {
@@ -67,12 +67,12 @@
 }
 
 .table__row:hover {
-  background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f8fafc));
+  background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f4f2ef));
 }
 .table__row[data-selected] {
   background: var(
     --ds-table-row-selected,
-    color-mix(in srgb, var(--ds-color-selected, #7b52cc) 8%, transparent)
+    color-mix(in srgb, var(--ds-color-selected, #7a52cc) 8%, transparent)
   );
 }
 
@@ -108,8 +108,8 @@
 /* The actively-sorted column reads as "selected": header label + icon adopt
    the selection color so the current sort is unmistakable. */
 .table__th[data-sort-direction] {
-  color: var(--ds-table-sort-active, var(--ds-color-secondary-body-text, #7b52cc));
+  color: var(--ds-table-sort-active, var(--ds-color-secondary-body-text, #7a52cc));
 }
 .table__th[data-sort-direction] .table__sort-icon {
-  color: var(--ds-table-sort-active, var(--ds-color-secondary, #7b52cc));
+  color: var(--ds-table-sort-active, var(--ds-color-secondary, #7a52cc));
 }

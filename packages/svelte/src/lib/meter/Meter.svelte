@@ -54,12 +54,12 @@
     inline-size: var(--ds-meter-width, 16rem);
     block-size: var(--ds-meter-height, 0.5rem);
     overflow: hidden;
-    background: var(--ds-meter-track, var(--ds-color-border, #e2e8f0));
+    background: var(--ds-meter-track, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-meter-radius, 999px);
   }
   .meter__indicator {
     block-size: 100%;
-    background: var(--ds-meter-fill, var(--ds-brand-primary, #8dcc7a));
+    background: var(--ds-meter-fill, var(--ds-brand-primary, #7a52cc));
     border-radius: inherit;
     transition: inline-size 200ms ease;
   }
@@ -67,7 +67,7 @@
     background: var(--ds-meter-fill-poor, #e6735c);
   }
   .meter__indicator:global([data-quality="suboptimal"]) {
-    background: var(--ds-meter-fill-suboptimal, var(--ds-color-warning-500, #d97706));
+    background: var(--ds-meter-fill-suboptimal, var(--ds-color-warning, #c96422));
   }
   .meter__indicator:global([data-quality="optimal"]) {
     background: var(--ds-meter-fill-optimal, #8dcc7a);

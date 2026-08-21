@@ -8,6 +8,6 @@
     id="demo-name"
     type="text"
     placeholder="Ada Lovelace"
-    style="padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #cbd5e1); border-radius: 0.5rem; font: inherit;"
+    style="padding: 0.5rem 0.6rem; border: 1px solid var(--ds-color-border, #c7c1b7); border-radius: 0.5rem; font: inherit;"
   />
 </div>

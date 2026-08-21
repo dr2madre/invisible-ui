@@ -73,23 +73,23 @@
   .field__label {
     font: inherit;
     font-weight: var(--ds-field-label-weight, 500);
-    color: var(--ds-field-label-color, var(--ds-color-text, #0f172a));
+    color: var(--ds-field-label-color, var(--ds-color-text, #282420));
   }
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
   }
   .field__required {
-    color: var(--ds-field-required-color, var(--ds-color-danger-500, #dc2626));
+    color: var(--ds-field-required-color, var(--ds-color-danger-body-text, #be3b50));
     margin-inline-start: 0.15em;
   }
   .field__description {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-description-color, var(--ds-color-text-secondary, #64748b));
+    color: var(--ds-field-description-color, var(--ds-color-text-secondary, #524c44));
   }
   .field__error {
     margin: 0;
     font-size: 0.875em;
-    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #dc2626));
+    color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
   }
 </style>

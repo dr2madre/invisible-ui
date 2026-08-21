@@ -12,8 +12,8 @@
   overflow-y: auto;
   padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
   background: var(--ds-color-background, #fff);
-  color: var(--ds-color-text, #0f172a);
-  border: 1px solid var(--ds-color-border, #cbd5e1);
+  color: var(--ds-color-text, #282420);
+  border: 1px solid var(--ds-color-border, #c7c1b7);
   box-shadow: var(
     --ds-elevation-overlay,
     0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -106,7 +106,7 @@
    inner edge of a lateral one. Pointer affordance only (aria-hidden). */
 .sheet-dialog__handle {
   border-radius: 999px;
-  background: var(--ds-sheet-dialog-handle, var(--ds-color-border, #cbd5e1));
+  background: var(--ds-sheet-dialog-handle, var(--ds-color-border, #c7c1b7));
   cursor: grab;
   touch-action: none;
 }
@@ -170,7 +170,7 @@
   border: 0;
   border-radius: var(--ds-radius-control, 0.5rem);
   background: transparent;
-  color: var(--ds-color-text-secondary, #64748b);
+  color: var(--ds-color-text-secondary, #524c44);
   cursor: pointer;
 }
 .sheet-dialog__close:hover {
@@ -184,7 +184,7 @@
 }
 .sheet-dialog__description {
   margin: 0.5rem 0 0;
-  color: var(--ds-color-text-secondary, #64748b);
+  color: var(--ds-color-text-secondary, #524c44);
 }
 .sheet-dialog__body {
   margin-block-start: 1rem;
@@ -199,7 +199,7 @@
   gap: 0.5rem;
   margin-block-start: 1rem;
   padding-block-start: 1rem;
-  border-block-start: 1px solid var(--ds-color-border, #e2e8f0);
+  border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
   /* Counteract the panel's padding so the border spans full width. */
   margin-inline: calc(-1 * var(--ds-dialog-padding-x, 1.5rem));
   padding-inline: var(--ds-dialog-padding-x, 1.5rem);

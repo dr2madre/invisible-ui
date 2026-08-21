@@ -72,7 +72,7 @@
      the child ToggleButton's scoped parts via :global. */
   .toggle-group--segmented {
     gap: 0;
-    border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
   }
@@ -83,10 +83,10 @@
   /* Divider between adjacent toggles (along the layout axis). */
   .toggle-group--segmented[data-orientation="horizontal"]
     :global(.toggle:not(:first-child) .toggle__surface) {
-    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+    border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
   }
   .toggle-group--segmented[data-orientation="vertical"]
     :global(.toggle:not(:first-child) .toggle__surface) {
-    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
+    border-block-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
   }
 </style>

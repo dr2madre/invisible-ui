@@ -114,8 +114,8 @@
     max-inline-size: var(--ds-popover-max-width, 20rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #0f172a);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    color: var(--ds-color-text, #282420);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -127,9 +127,9 @@
      inside it — rather than wrapping the whole card in a thick outer ring. */
   .popover__content:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #7b52cc);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow:
-      inset 0 0 0 1px var(--ds-color-focus-ring, #7b52cc),
+      inset 0 0 0 1px var(--ds-color-focus-ring, #8e6cd4),
       var(
         --ds-elevation-overlay,
         0 10px 15px -3px rgb(0 0 0 / 0.1),

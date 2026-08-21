@@ -172,9 +172,9 @@
     overflow: hidden;
     padding: var(--ds-dialog-padding, 1.25rem 1.5rem);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     line-height: var(--ds-line-height, 1.4);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     border-radius: var(--ds-dialog-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,
@@ -208,7 +208,7 @@
     margin-block-end: 0.25rem;
     font-size: 0.875rem;
     line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .dialog__header-icon {
     grid-column: 1;
@@ -261,7 +261,7 @@
     border: 0;
     border-radius: var(--ds-radius-control, 0.5rem);
     background: transparent;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     cursor: pointer;
   }
   .dialog__close:hover {
@@ -281,7 +281,7 @@
     margin: 0;
     font-size: 0.875rem;
     line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   /* The body is the only scrolling region (the 1fr grid row); header and footer
      stay fixed. min-block-size:0 lets it shrink and scroll. */

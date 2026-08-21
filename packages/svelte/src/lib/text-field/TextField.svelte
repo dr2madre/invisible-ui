@@ -173,7 +173,7 @@
     gap: var(--ds-field-gap, 0.375rem);
     inline-size: var(--ds-field-width, 18rem);
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
 
   .field__label {
@@ -182,10 +182,10 @@
   }
   /* A disabled control dims its label too, so the relationship reads clearly. */
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
   }
   .field__required {
-    color: var(--ds-color-danger-body-text, #dc2626);
+    color: var(--ds-color-danger-body-text, #be3b50);
   }
 
   /* Wraps the control so leading/trailing icons can overlay it. */
@@ -198,7 +198,7 @@
     position: absolute;
     display: inline-flex;
     align-items: center;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     pointer-events: none;
   }
   .field__icon :global(svg) {
@@ -224,7 +224,7 @@
     inline-size: 100%;
     box-sizing: border-box;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     border-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     color: inherit;
@@ -234,34 +234,34 @@
       box-shadow 120ms ease;
   }
   .field__control::placeholder {
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
 
   /* Invalid: a danger ring (same ring+halo gradation as focus, danger color)
      around the border, shown whenever the field is in error — not only on focus. */
   .field__control:global([data-invalid]) {
-    border-color: var(--ds-color-danger, #dc2626);
+    border-color: var(--ds-color-danger, #be3b50);
     box-shadow:
-      0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626),
+      0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50),
       0 0 0 calc(var(--ds-focus-ring-width, 2px) + var(--ds-focus-halo-width, 3px))
-        color-mix(in srgb, var(--ds-color-danger, #dc2626) 30%, transparent);
+        color-mix(in srgb, var(--ds-color-danger, #be3b50) 30%, transparent);
   }
 
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #e2e8f0);
-    color: var(--ds-color-text-disabled, #94a3b8);
+    background: var(--ds-color-disabled, #c7c1b7);
+    color: var(--ds-color-text-disabled, #757067);
     cursor: not-allowed;
   }
 
   /* Help and error text match the control's (placeholder) text size. */
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .field__error,
   .field__success {
@@ -271,10 +271,10 @@
     gap: 0.35rem;
   }
   .field__error {
-    color: var(--ds-color-danger-body-text, #dc2626);
+    color: var(--ds-color-danger-body-text, #be3b50);
   }
   .field__success {
-    color: var(--ds-color-success-body-text, #16a34a);
+    color: var(--ds-color-success-body-text, #3e7523);
   }
   .field__msg-icon {
     display: inline-flex;
@@ -282,9 +282,9 @@
   }
   /* Success/validated: green check inside the field + green border. */
   .field__icon--success {
-    color: var(--ds-color-success, #16a34a);
+    color: var(--ds-color-success, #3e7523);
   }
   .field--success .field__control {
-    border-color: var(--ds-color-success, #16a34a);
+    border-color: var(--ds-color-success, #3e7523);
   }
 </style>

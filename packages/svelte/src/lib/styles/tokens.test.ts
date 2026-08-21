@@ -30,6 +30,12 @@ function pickBlock(re: RegExp): Record<string, string> {
 const primitives = pickBlock(/:root\s*\{([^}]*--ds-neutral-0[^}]*)\}/);
 const lightVars = { ...primitives, ...pickBlock(/\[data-theme="light"\]\s*\{([^}]*)\}/) };
 const darkVars = { ...primitives, ...pickBlock(/\[data-theme="dark"\]\s*\{([^}]*)\}/) };
+// The system-scheme dark block is written by hand too, so its values are
+// checked with the same pairs, not assumed equal to the attribute block.
+const darkMediaVars = {
+  ...primitives,
+  ...pickBlock(/:root:not\(\[data-theme="light"\]\)\s*\{([^}]*)\}/),
+};
 
 function hexToRgb(hex: string): RGB {
   const n = parseInt(hex.slice(1), 16);
@@ -98,6 +104,7 @@ function contrast(fg: string, bg: string, vars: Record<string, string>): number 
 describe.each([
   ["light", lightVars],
   ["dark", darkVars],
+  ["dark (system scheme)", darkMediaVars],
 ])("token contrast (%s)", (_name, vars) => {
   it.each(["info", "success", "warning", "danger", "neutral"] as const)(
     "body text on the %s surface meets 4.5:1",
@@ -153,5 +160,80 @@ describe.each([
     expect(
       contrast("--ds-color-text-secondary", "--ds-color-background", vars),
     ).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("secondary text on a surface meets 4.5:1", () => {
+    expect(
+      contrast("--ds-color-text-secondary", "--ds-color-surface", vars),
+    ).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("the control boundary meets 3:1 on the page", () => {
+    expect(
+      contrast("--ds-color-control-border", "--ds-color-background", vars),
+    ).toBeGreaterThanOrEqual(3);
+  });
+
+  it("the control boundary meets 3:1 on a surface", () => {
+    expect(
+      contrast("--ds-color-control-border", "--ds-color-surface", vars),
+    ).toBeGreaterThanOrEqual(3);
+  });
+
+  it("the focus ring meets 3:1 on the page and on a surface", () => {
+    expect(contrast("--ds-color-focus-ring", "--ds-color-background", vars)).toBeGreaterThanOrEqual(
+      3,
+    );
+    expect(contrast("--ds-color-focus-ring", "--ds-color-surface", vars)).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(["--ds-color-background", "--ds-color-surface"] as const)(
+    "the selection glyph meets 3:1 on the checked fill composited over %s",
+    (backdrop) => {
+      // The checkbox paints selection at 10% over whatever it sits on (the
+      // page, or a surface inside a dialog or card), then draws the glyph in
+      // the selection text form. Composite the fill the way the browser does.
+      const back = resolve(`var(${backdrop})`, vars);
+      const selection = resolve("var(--ds-color-secondary)", vars);
+      const fill = back.map((channel, i) => Math.round(selection[i] * 0.1 + channel * 0.9)) as RGB;
+      const glyph = resolve("var(--ds-color-selected-text)", vars);
+      const [a, b] = [luminance(glyph), luminance(fill)];
+      expect((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toBeGreaterThanOrEqual(3);
+    },
+  );
+
+  it("the checked radio dot meets 3:1 on the radio fill", () => {
+    // The dot is the state indicator and paints --ds-color-selected-text on
+    // the radio's own fill, which is the page background token.
+    expect(
+      contrast("--ds-color-selected-text", "--ds-color-background", vars),
+    ).toBeGreaterThanOrEqual(3);
+  });
+
+  it("the switch thumb stays separable from the off track", () => {
+    // Light: the white thumb against the track. Dark: the page-coloured rim
+    // around the thumb against the track. Both must clear 3:1.
+    const track = resolve("var(--ds-color-control-border)", vars);
+    const thumb = resolve("var(--ds-neutral-0)", vars);
+    const rim = resolve("var(--ds-color-background)", vars);
+    const against = (a: RGB, b: RGB) =>
+      (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
+    expect(Math.max(against(thumb, track), against(rim, track))).toBeGreaterThanOrEqual(3);
+  });
+});
+
+// The aliases are declared once, in the light block: var() indirection makes
+// them follow the replacement's theme value everywhere, so the assertion
+// belongs to that block alone rather than being repeated vacuously per theme.
+describe("deprecated aliases", () => {
+  it.each([
+    ["--ds-color-primary-soft", "--ds-color-secondary-surface"],
+    ["--ds-color-on-primary-soft", "--ds-color-on-secondary-surface"],
+    ["--ds-color-danger-soft", "--ds-color-destructive-surface"],
+    ["--ds-color-on-danger-soft", "--ds-color-on-destructive-surface"],
+  ] as const)("%s resolves to %s", (alias, replacement) => {
+    expect(lightVars[alias]).toBe(`var(${replacement})`);
+    expect(darkVars[alias]).toBeUndefined();
+    expect(darkMediaVars[alias]).toBeUndefined();
   });
 });

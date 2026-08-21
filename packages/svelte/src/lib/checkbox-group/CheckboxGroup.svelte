@@ -81,7 +81,7 @@
   /* Disabled group/item dims its label too. */
   .checkbox-group:disabled .checkbox-group__label,
   .field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
   }
 
   .field {
@@ -115,8 +115,8 @@
     inline-size: var(--ds-checkbox-size, 1.25rem);
     block-size: var(--ds-checkbox-size, 1.25rem);
     padding: var(--ds-checkbox-padding, 0.15rem);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-checkbox-radius, var(--ds-radius-control, 0.375rem));
+    border: 1px solid var(--ds-color-control-border, #757067);
+    border-radius: var(--ds-checkbox-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
     display: inline-flex;
     align-items: center;
@@ -132,9 +132,9 @@
   /* Checked: faint selection-color fill + glyph in the full selection color
      (coherent with the standalone Checkbox), not a solid fill. */
   .checkbox__input:checked + .checkbox {
-    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
-    color: var(--ds-color-secondary, #7b52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
+    color: var(--ds-color-secondary, #7a52cc);
   }
 
   /* The check fills the padded content box; shown only when checked. The glyph

@@ -448,16 +448,16 @@ const PAIRINGS = [
     what: "text on the emphasis surface",
   },
   {
-    front: "--ds-color-on-primary-soft",
-    back: "--ds-color-primary-soft",
+    front: "--ds-color-on-secondary-surface",
+    back: "--ds-color-secondary-surface",
     min: 4.5,
-    what: "label on the quiet primary fill",
+    what: "label on the secondary action fill",
   },
   {
-    front: "--ds-color-on-danger-soft",
-    back: "--ds-color-danger-soft",
+    front: "--ds-color-on-destructive-surface",
+    back: "--ds-color-destructive-surface",
     min: 4.5,
-    what: "label on the quiet danger fill",
+    what: "label on the destructive action fill",
   },
   {
     front: "--ds-color-info-text",
@@ -508,16 +508,16 @@ const PAIRINGS = [
     what: "success-coloured text on the page",
   },
   {
-    front: "--ds-color-border",
+    front: "--ds-color-control-border",
     back: "--ds-color-background",
     min: 3,
-    what: "a boundary against the page",
+    what: "a control's boundary against the page",
   },
   {
-    front: "--ds-color-border",
+    front: "--ds-color-control-border",
     back: "--ds-color-surface",
     min: 3,
-    what: "a boundary against a surface",
+    what: "a control's boundary against a surface",
   },
   {
     front: "--ds-color-focus-ring",
@@ -639,6 +639,35 @@ function gates(registry, byName, adapters, notes, dtcgPaths) {
     }
   }
 
+  // 4b2. A published pair below its minimum fails the build. The catalog's
+  // "meets/below" words are reporting; this is the gate behind them.
+  for (const pair of registry.pairings) {
+    for (const theme of ["light", "dark"]) {
+      if (pair.passes[theme] === false) {
+        problems.push(
+          `the pair "${pair.what}" measures ${pair[theme]}:1 in ${theme}, below its ${pair.min}:1 minimum`,
+        );
+      }
+    }
+  }
+
+  // 4c. A deprecated alias must name a real replacement and must actually
+  // resolve to it, or the deprecation notice would lie.
+  for (const token of registry.tokens) {
+    if (token.stability === "deprecated" && !token.replacedBy) {
+      problems.push(`${token.name} is deprecated but names no replacement`);
+    }
+    if (token.replacedBy) {
+      if (!known.has(token.replacedBy)) {
+        problems.push(
+          `${token.name} says it is replaced by ${token.replacedBy}, which nothing defines`,
+        );
+      } else if (token.expressions.light !== `var(${token.replacedBy})`) {
+        problems.push(`${token.name} does not resolve to its replacement ${token.replacedBy}`);
+      }
+    }
+  }
+
   // 5. Hand-written notes must not describe tokens that no longer exist.
   for (const name of Object.keys(notes)) {
     if (name.startsWith("$")) continue;
@@ -707,6 +736,24 @@ function gates(registry, byName, adapters, notes, dtcgPaths) {
   for (const token of registry.tokens) {
     if (token.valueType === "other") {
       problems.push(`${token.name} has no value type, so the catalog cannot show it`);
+    }
+  }
+
+  // 8b. The two hand-written dark blocks (system scheme and forced attribute)
+  // must agree: a token present in only one of them, or with two different
+  // values, means the two ways of being dark render differently.
+  const squeeze = (value) =>
+    (value ?? "").replace(/\s+/g, " ").replace(/\(\s+/g, "(").replace(/\s+\)/g, ")").trim();
+  for (const [name, entry] of byName) {
+    const media = entry.darkMedia;
+    const attr = entry.darkAttr;
+    if (media == null && attr == null) continue;
+    if (media == null || attr == null) {
+      problems.push(
+        `${name} has a dark value in only one dark block (${media == null ? "attribute" : "media"} only)`,
+      );
+    } else if (squeeze(media) !== squeeze(attr)) {
+      problems.push(`${name} differs between the two dark blocks`);
     }
   }
 
@@ -819,6 +866,7 @@ function build() {
       purpose: note.purpose ?? entry.__comment ?? null,
       group: entry.__group ?? null,
       stability: note.stability ?? "alpha",
+      replacedBy: note.replacedBy ?? null,
     };
   });
 

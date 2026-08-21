@@ -98,6 +98,14 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
                 {token.hasAlpha && <li>see-through</li>}
                 {token.source.dtcg && <li>in the design source</li>}
               </ul>
+              {
+                token.replacedBy && (
+                  <p class="tk-deprecated">
+                    Use <code>{token.replacedBy}</code> instead. This name keeps resolving to it and
+                    goes away before 1.0.
+                  </p>
+                )
+              }
 
               <div class="tk-specimens">
                 {["light", "dark"].map((theme) => (
@@ -133,6 +141,14 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
                     </dd>
                   </Fragment>
                 )}
+                {token.replacedBy && (
+                  <Fragment>
+                    <dt>Replaced by</dt>
+                    <dd>
+                      <code>{token.replacedBy}</code>
+                    </dd>
+                  </Fragment>
+                )}
                 {token.aliasChain.length > 0 && (
                   <Fragment>
                     <dt>Points at</dt>
@@ -161,8 +177,10 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     <h3 id="tk-contrast">Contrast of the pairs components actually use</h3>
     <p class="tk-group-blurb">
       Measured from the stylesheet, not from a screenshot. Normal text needs 4.5:1 and a boundary or a
-      glyph needs 3:1. A pair that does not reach its target is named below the table as well, so the
-      result never depends on reading a colour.
+      glyph needs 3:1. The boundary measured here is <code>--ds-color-control-border</code>, the one
+      that identifies a control; the generic <code>--ds-color-border</code> draws dividers and panel
+      edges, which the criterion does not cover. A pair that does not reach its target is named below
+      the table as well, so the result never depends on reading a colour.
     </p>
     <div class="tk-scroll" role="region" aria-labelledby="tk-contrast" tabindex="0">
       <table class="tk-table">
@@ -359,6 +377,17 @@ const failing = pairings.filter((pair) => pair.passes.light === false || pair.pa
     padding: 0;
     margin: 0;
     list-style: none;
+  }
+  .tk-deprecated {
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    border: 1px solid var(--ds-color-border);
+    border-inline-start: 3px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-control);
+  }
+  .tk-deprecated code {
+    overflow-wrap: anywhere;
   }
   .tk-tags li {
     padding: 0.1rem 0.45rem;

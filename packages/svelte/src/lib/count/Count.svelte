@@ -67,8 +67,8 @@
     font-size: var(--ds-count-font-size, 0.6875rem);
     font-weight: 600;
     line-height: 1;
-    color: var(--_fg, var(--ds-color-on-danger, #fff));
-    background: var(--_bg, var(--ds-color-danger, #dc2626));
+    color: var(--_fg, var(--ds-color-on-status, #fff));
+    background: var(--_bg, var(--ds-color-danger, #be3b50));
     border-radius: 999px;
   }
 
@@ -81,23 +81,23 @@
 
   /* data-status is dynamic → :global on the value to survive Svelte pruning. */
   .count:global([data-status="danger"]) {
-    --_bg: var(--ds-color-danger, #dc2626);
-    --_fg: var(--ds-color-on-danger, #fff);
+    --_bg: var(--ds-color-danger, #be3b50);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral, #475569);
-    --_fg: var(--ds-color-on-neutral, #fff);
+    --_bg: var(--ds-color-neutral, #5e5951);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="info"]) {
-    --_bg: var(--ds-color-info, #2563eb);
-    --_fg: var(--ds-color-on-info, #fff);
+    --_bg: var(--ds-color-info, #4067b6);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="success"]) {
-    --_bg: var(--ds-color-success, #16a34a);
-    --_fg: var(--ds-color-on-success, #fff);
+    --_bg: var(--ds-color-success, #3e7523);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .count:global([data-status="warning"]) {
-    --_bg: var(--ds-color-warning, #d97706);
-    --_fg: var(--ds-color-on-warning, #fff);
+    --_bg: var(--ds-color-warning, #c96422);
+    --_fg: var(--ds-color-on-warning, #282420);
   }
 </style>

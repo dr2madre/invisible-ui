@@ -23,7 +23,7 @@
 /* Disabled group/item dims its label too. */
 .checkbox-group:disabled .checkbox-group__label,
 .checkbox-group__item--disabled .field__label {
-  color: var(--ds-color-text-disabled, #94a3b8);
+  color: var(--ds-color-text-disabled, #757067);
 }
 
 .checkbox-group__item {
