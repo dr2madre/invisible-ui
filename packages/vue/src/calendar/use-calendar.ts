@@ -121,7 +121,6 @@ export function useCalendar(options: MaybeRefOrGetter<UseCalendarOptions> = {}):
         weekStartsOn: resolved.value.weekStartsOn ?? 1,
         min: resolved.value.min ?? null,
         max: resolved.value.max ?? null,
-        monthCount: 2,
         id,
       },
       setValue,

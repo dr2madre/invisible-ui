@@ -25,8 +25,6 @@ export interface CalendarContext {
   min?: string;
   /** Latest selectable date (ISO), inclusive. */
   max?: string;
-  /** Number of months shown by the `two-month` view. Defaults to `2`. */
-  monthCount?: number;
   /** Base id used to link grid elements. Auto-generated when omitted. */
   id?: string;
   onValueChange?: (value: string) => void;
@@ -42,7 +40,6 @@ export interface CalendarState {
   weekStartsOn: WeekStart;
   min: string | null;
   max: string | null;
-  monthCount: number;
   id: string;
 }
 

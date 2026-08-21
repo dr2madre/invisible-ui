@@ -174,7 +174,6 @@ export function initialState(context: CalendarContext): CalendarState {
     weekStartsOn: context.weekStartsOn ?? 1,
     min: context.min ?? null,
     max: context.max ?? null,
-    monthCount: context.monthCount ?? 2,
     id: context.id ?? `ds-calendar-${++idCounter}`,
   };
 }
