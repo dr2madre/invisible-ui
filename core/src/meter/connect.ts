@@ -1,5 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { clamp, level, percentage } from "./state";
+import { clamp, level, percentage, quality } from "./state";
 import type { MeterState } from "./types";
 
 /** The public, framework-agnostic API for a connected meter. */
@@ -11,6 +11,8 @@ export interface MeterApi {
   percentage: number;
   /** Band relative to the low/high thresholds. */
   level: "low" | "medium" | "high";
+  /** How good the value is, given where the good end of the scale is. */
+  quality: "optimal" | "suboptimal" | "poor";
   /** Props for the meter element (`role="meter"` + ARIA value). */
   rootProps: ElementProps;
   /** Props for the visual fill/indicator (styling hooks). */
@@ -34,6 +36,7 @@ export interface ConnectOptions {
 export function connect({ state, normalize = identityNormalize }: ConnectOptions): MeterApi {
   const now = clamp(state.value, state.min, state.max);
   const band = level(state);
+  const howGood = quality(state);
 
   return {
     value: state.value,
@@ -41,15 +44,18 @@ export function connect({ state, normalize = identityNormalize }: ConnectOptions
     max: state.max,
     percentage: percentage(state),
     level: band,
+    quality: howGood,
     rootProps: normalize({
       role: "meter",
       "aria-valuemin": state.min,
       "aria-valuemax": state.max,
       "aria-valuenow": now,
       "data-level": band,
+      "data-quality": howGood,
     }),
     indicatorProps: normalize({
       "data-level": band,
+      "data-quality": howGood,
     }),
   };
 }

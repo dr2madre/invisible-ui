@@ -19,6 +19,23 @@ value in a range — and differs only in meaning: a meter is a **level right
 now** (a snapshot), a progressbar **advances toward completion**. Same anatomy,
 different announcement to assistive tech.
 
+### Which end is the good end
+
+`low` and `high` say where the bands are; `optimum` says which band is the
+good one. A battery is good when it is full, so the default (`optimum = max`)
+is right. Disk usage is good when it is empty, so `optimum={0}` flips the
+judgement — and with it the colour, because the fill is coloured by how good
+the value is (`data-quality`), not by which band it sits in (`data-level`,
+still exposed as a styling hook).
+
+```svelte
+<Meter value={90} label="Battery" low={20} high={60} />
+<Meter value={90} label="Disk usage" low={50} high={80} optimum={0} />
+```
+
+Both read 90, and they are not the same news. Themeable per judgement with
+`--ds-meter-fill-optimal | -suboptimal | -poor`.
+
 ### Import
 
 <ImportSnippet component="meter" />
@@ -35,7 +52,7 @@ different announcement to assistive tech.
 ### Example
 
 ```svelte
-<Meter value={72} label="Disk usage" low={25} high={80} />
+<Meter value={72} label="Disk usage" low={25} high={80} optimum={0} />
 ```
 
 Themeable via `--ds-meter-*`.

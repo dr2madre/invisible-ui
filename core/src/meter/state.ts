@@ -10,6 +10,7 @@ export function initialState(context: MeterContext = {}): MeterState {
     max: context.max ?? 100,
     low: context.low ?? null,
     high: context.high ?? null,
+    optimum: context.optimum ?? context.max ?? 100,
     id: context.id ?? `ds-meter-${++idCounter}`,
   };
 }
@@ -31,4 +32,19 @@ export function level(state: MeterState): "low" | "medium" | "high" {
   if (state.low !== null && v <= state.low) return "low";
   if (state.high !== null && v >= state.high) return "high";
   return "medium";
+}
+
+/**
+ * How good the current value is, which is what a reader actually needs: the
+ * same band means opposite things for battery and for disk usage. Follows the
+ * native `<meter>` rule: whichever band `optimum` sits in is the good one, the
+ * band next to it is middling, and the far one is bad.
+ */
+export function quality(state: MeterState): "optimal" | "suboptimal" | "poor" {
+  const band = level(state);
+  const optimumBand = level({ ...state, value: state.optimum });
+  if (band === optimumBand) return "optimal";
+  // With the good end in the middle, neither outer band is the worst case.
+  if (optimumBand === "medium") return "suboptimal";
+  return band === "medium" ? "suboptimal" : "poor";
 }

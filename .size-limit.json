@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core \u2014 full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "17 kB"
+    "limit": "18 kB"
   },
   {
     "name": "@design-system/core \u2014 one primitive, tree-shaken (label)",
