@@ -319,7 +319,8 @@
       "svelte": "./src/lib/notification/NotificationRegion.svelte",
       "default": "./src/lib/notification/NotificationRegion.svelte"
     },
-    "./tokens.css": "./src/lib/styles/tokens.css"
+    "./tokens.css": "./src/lib/styles/tokens.css",
+    "./package.json": "./package.json"
   },
   "externalReferences": [
     "@design-system/core",

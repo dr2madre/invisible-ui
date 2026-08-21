@@ -36,7 +36,8 @@
       "import": "./dist/define.js"
     },
     "./styles.css": "./src/styles/index.css",
-    "./tokens.css": "./src/styles/tokens.css"
+    "./tokens.css": "./src/styles/tokens.css",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsup",
