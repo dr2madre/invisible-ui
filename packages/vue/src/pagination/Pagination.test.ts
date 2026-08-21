@@ -75,4 +75,19 @@ describe("Vue Pagination (styled)", () => {
     const { container } = render(Pagination, { props: { page: 3, pageCount: 10 } });
     expect(await axe(container)).toHaveNoViolations();
   });
+  it("calls only the replacement callback after the prop is swapped", async () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const user = userEvent.setup();
+    const { rerender } = render(Pagination, {
+      props: { page: 1, pageCount: 5, onPageChange: first },
+    });
+
+    await rerender({ page: 1, pageCount: 5, onPageChange: second });
+    await user.click(screen.getByRole("button", { name: "Go to page 3" }));
+
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledWith(3);
+  });
 });

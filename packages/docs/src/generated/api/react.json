@@ -7,7 +7,8 @@
       "import": "./dist/index.js"
     },
     "./styles.css": "./src/styles/index.css",
-    "./tokens.css": "./src/styles/tokens.css"
+    "./tokens.css": "./src/styles/tokens.css",
+    "./package.json": "./package.json"
   },
   "externalReferences": [
     "@design-system/core",

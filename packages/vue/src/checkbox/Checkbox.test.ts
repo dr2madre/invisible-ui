@@ -150,4 +150,19 @@ describe("Vue Checkbox (controlled sync parity)", () => {
     expect(box()).toHaveAccessibleName("Accept terms");
     expect(document.querySelector(".field__label--hidden")).not.toBeNull();
   });
+  it("calls only the replacement callback after the prop is swapped", async () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const user = userEvent.setup();
+    const { rerender } = render(Checkbox, {
+      props: { label: "Subscribe", checked: false, onCheckedChange: first },
+    });
+
+    await rerender({ label: "Subscribe", checked: false, onCheckedChange: second });
+    await user.click(screen.getByRole("checkbox", { name: "Subscribe" }));
+
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledWith(true);
+  });
 });
