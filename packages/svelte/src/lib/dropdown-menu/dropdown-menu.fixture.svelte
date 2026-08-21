@@ -1,10 +1,10 @@
 <script lang="ts">
   import DropdownMenu from "./DropdownMenu.svelte";
-  import type { MenuItem } from "./create-dropdown-menu";
+  import type { MenuEntry } from "./create-dropdown-menu";
 
   export let disabled = false;
   export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let items: MenuItem[] = [
+  export let items: MenuEntry[] = [
     { value: "new", label: "New file" },
     { value: "open", label: "Open" },
     { value: "rename", label: "Rename", disabled: true },

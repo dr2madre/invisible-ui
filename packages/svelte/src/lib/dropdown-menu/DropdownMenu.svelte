@@ -12,7 +12,8 @@
    * the trigger; `onSelect(value)` runs when an item is chosen. Colors, radius
    * and elevation are themeable CSS custom properties (`--ds-menu-*`).
    */
-  import { createDropdownMenu, type MenuItem } from "./create-dropdown-menu";
+  import { menu as core } from "@design-system/core";
+  import { createDropdownMenu, type MenuEntry } from "./create-dropdown-menu";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -20,13 +21,21 @@
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
   export let label: string;
-  export let items: MenuItem[];
+  export let items: MenuEntry[];
   export let disabled = false;
   /** Called with the chosen item's value. */
   export let onSelect: ((value: string) => void) | undefined = undefined;
 
   const menu = createDropdownMenu({ items, disabled, onSelect });
-  const { triggerAction, menuAction, itemAction } = menu;
+  const { api, triggerAction, menuAction, itemAction } = menu;
+
+  // Separators have no value of their own, so their position is their key.
+  const entryKey = (entry: MenuEntry, index: number) =>
+    core.isSeparator(entry)
+      ? `separator-${index}`
+      : core.isGroup(entry)
+        ? entry.label
+        : entry.value;
 </script>
 
 <div class="menu">
@@ -38,10 +47,35 @@
   </button>
 
   <div class="menu__popup" lang={$i18nLocale} dir={$i18nDir} use:portal use:menuAction>
-    {#each items as item (item.value)}
-      <button class="menu__item" type="button" use:itemAction={item.value}>
-        {item.label ?? item.value}
-      </button>
+    {#each items as entry, index (entryKey(entry, index))}
+      {#if core.isSeparator(entry)}
+        <div class="menu__separator" {...$api.separatorProps}></div>
+      {:else if core.isGroup(entry)}
+        <div class="menu__group" {...$api.getGroupProps(index)}>
+          <div class="menu__group-label" {...$api.getGroupLabelProps(index)}>{entry.label}</div>
+          {#each entry.items as item (item.value)}
+            <button class="menu__item" type="button" use:itemAction={item.value}>
+              <span class="menu__check" aria-hidden="true">
+                {#if item.kind && item.checked}
+                  <Icon size="100%"><polyline points="20 6 9 17 4 12" /></Icon>
+                {/if}
+              </span>
+              {item.label ?? item.value}
+            </button>
+          {/each}
+        </div>
+      {:else}
+        <button class="menu__item" type="button" use:itemAction={entry.value}>
+          {#if entry.kind}
+            <span class="menu__check" aria-hidden="true">
+              {#if entry.checked}
+                <Icon size="100%"><polyline points="20 6 9 17 4 12" /></Icon>
+              {/if}
+            </span>
+          {/if}
+          {entry.label ?? entry.value}
+        </button>
+      {/if}
     {/each}
   </div>
 </div>
@@ -105,6 +139,28 @@
   }
   .menu__popup:global([data-state="closed"]) {
     display: none;
+  }
+
+  .menu__separator {
+    block-size: 1px;
+    margin: 0.3rem 0.15rem;
+    background: var(--ds-color-border, #cbd5e1);
+  }
+  .menu__group-label {
+    padding: 0.35rem 0.55rem 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ds-color-text-secondary, #64748b);
+  }
+  /* The tick sits in a fixed column so labels line up whether or not an item
+     is currently on. */
+  .menu__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    inline-size: 1rem;
+    block-size: 1rem;
   }
 
   .menu__item {

@@ -1,7 +1,9 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
 import {
   firstEnabled,
+  groupLabelId,
   itemId,
+  itemsOf,
   lastEnabled,
   menuId,
   nextEnabled,
@@ -28,6 +30,12 @@ export interface MenuApi {
   menuProps: ElementProps;
   /** Props for a menu item, by value (`role="menuitem"`). */
   getItemProps(value: string): ElementProps;
+  /** Props for a separator line between groups of items. */
+  separatorProps: ElementProps;
+  /** Props for a group wrapper, named by its label. */
+  getGroupProps(index: number): ElementProps;
+  /** Props for the element holding a group's label text. */
+  getGroupLabelProps(index: number): ElementProps;
 }
 
 export interface ConnectOptions {
@@ -56,11 +64,13 @@ export function connect({
 }: ConnectOptions): MenuApi {
   const { open, activeValue, items, disabled, id } = state;
 
-  const isItemDisabled = (v: string) => items.find((i) => i.value === v)?.disabled ?? false;
+  const flatItems = itemsOf(items);
+  const itemOf = (v: string) => flatItems.find((i) => i.value === v);
+  const isItemDisabled = (v: string) => itemOf(v)?.disabled ?? false;
 
   const openMenu = (from: "first" | "last" = "first") => {
     if (disabled || open) return;
-    setActiveValue(from === "first" ? firstEnabled(items) : lastEnabled(items));
+    setActiveValue(from === "first" ? firstEnabled(flatItems) : lastEnabled(flatItems));
     setOpen(true);
   };
 
@@ -96,19 +106,19 @@ export function connect({
     switch (key) {
       case "ArrowDown":
         event.preventDefault();
-        move(nextEnabled(items, activeValue));
+        move(nextEnabled(flatItems, activeValue));
         break;
       case "ArrowUp":
         event.preventDefault();
-        move(prevEnabled(items, activeValue));
+        move(prevEnabled(flatItems, activeValue));
         break;
       case "Home":
         event.preventDefault();
-        move(firstEnabled(items));
+        move(firstEnabled(flatItems));
         break;
       case "End":
         event.preventDefault();
-        move(lastEnabled(items));
+        move(lastEnabled(flatItems));
         break;
       case "Enter":
       case " ":
@@ -151,15 +161,24 @@ export function connect({
       onKeyDown: onMenuKeyDown,
     }),
     getItemProps: (v: string) => {
+      const item = itemOf(v);
       const itemDisabled = isItemDisabled(v);
       const active = activeValue === v;
+      const kind = item?.kind ?? "action";
+      const role =
+        kind === "checkbox" ? "menuitemcheckbox" : kind === "radio" ? "menuitemradio" : "menuitem";
       return normalize({
         id: itemId(id, v),
-        role: "menuitem",
+        role,
         tabindex: -1,
+        // A checkable item always says whether it is on: leaving it out would
+        // read as an ordinary action.
+        "aria-checked": kind === "action" ? undefined : (item?.checked ?? false),
         "aria-disabled": itemDisabled || undefined,
         "data-active": active ? "" : undefined,
         "data-disabled": itemDisabled ? "" : undefined,
+        "data-checked": kind !== "action" && item?.checked ? "" : undefined,
+        "data-kind": kind,
         "data-value": v,
         onClick: () => select(v),
         onMouseEnter: () => {
@@ -167,5 +186,9 @@ export function connect({
         },
       });
     },
+    separatorProps: normalize({ role: "separator" }),
+    getGroupProps: (index: number) =>
+      normalize({ role: "group", "aria-labelledby": groupLabelId(id, index) }),
+    getGroupLabelProps: (index: number) => normalize({ id: groupLabelId(id, index) }),
   };
 }

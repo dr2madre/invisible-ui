@@ -26,6 +26,40 @@ makes sense, you want the Select.
 
 <ImportSnippet component="dropdown-menu" />
 
+### What a menu can hold
+
+`items` takes three kinds of entry, in any order:
+
+- an **action**: `{ value, label }` — activating it runs something.
+- a **checkable item**: add `kind: "checkbox"` or `kind: "radio"` plus
+  `checked`. The item announces itself as `menuitemcheckbox` or
+  `menuitemradio` and always states whether it is on. The menu reports the
+  activation; the application decides the new state, as everywhere else here.
+- a **separator**: `{ type: "separator" }` — a line, never a focus stop.
+- a **group**: `{ type: "group", label, items }` — its items are announced as a
+  named set. Arrow keys walk through grouped items as if they were flat.
+
+```svelte
+<DropdownMenu
+  label="View"
+  items={[
+    {
+      type: "group",
+      label: "Sort by",
+      items: [
+        { value: "name", label: "Name", kind: "radio", checked: sort === "name" },
+        { value: "date", label: "Date", kind: "radio", checked: sort === "date" },
+      ],
+    },
+    { type: "separator" },
+    { value: "compact", label: "Compact rows", kind: "checkbox", checked: compact },
+  ]}
+  onSelect={(v) => apply(v)}
+/>
+```
+
+Submenus are not supported yet: a menu is one level deep.
+
 ### Props
 
 <PropsTable component="dropdown-menu" />
@@ -33,7 +67,9 @@ makes sense, you want the Select.
 ### Accessibility
 
 - Trigger carries `aria-haspopup="menu"` / `aria-expanded`; the popup is
-  `role="menu"` with `role="menuitem"` actions.
+  `role="menu"` with `role="menuitem"`, `role="menuitemcheckbox"` or
+  `role="menuitemradio"` items, `role="separator"` lines and `role="group"`
+  sets named by their label.
 - Open with Enter / Space / ArrowDown (ArrowUp opens to the last item); arrow /
   Home / End move, typeahead jumps, Enter/click activates, Escape / Tab /
   outside-pointer close. DOM focus moves into the menu and returns to the

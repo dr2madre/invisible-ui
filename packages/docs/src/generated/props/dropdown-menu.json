@@ -18,7 +18,7 @@
         },
         {
           "name": "items",
-          "type": "MenuItem[]",
+          "type": "MenuEntry[]",
           "default": null,
           "required": true,
           "description": ""
@@ -55,7 +55,7 @@
         },
         {
           "name": "items",
-          "type": "MenuItem[]",
+          "type": "MenuEntry[]",
           "default": null,
           "required": true,
           "description": ""

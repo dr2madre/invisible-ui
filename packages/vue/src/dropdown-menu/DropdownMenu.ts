@@ -1,15 +1,16 @@
 import { defineComponent, h, watch, type PropType } from "vue";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, Icon } from "../icon/Icon";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
-import { useDropdownMenu, type MenuItem } from "./use-dropdown-menu";
+import { menu as core } from "@design-system/core";
+import { useDropdownMenu, type MenuEntry, type MenuItem } from "./use-dropdown-menu";
 import { useI18n } from "../i18n/i18n";
 
 export interface DropdownMenuProps {
   /** The trigger button's visible label. */
   label: string;
-  items: MenuItem[];
+  items: MenuEntry[];
   disabled?: boolean;
   /** Called with the chosen item's value. */
   onSelect?: (value: string) => void;
@@ -32,7 +33,7 @@ export const DropdownMenu = defineComponent({
   name: "DropdownMenu",
   props: {
     label: { type: String, required: true },
-    items: { type: Array as PropType<MenuItem[]>, required: true },
+    items: { type: Array as PropType<MenuEntry[]>, required: true },
     disabled: { type: Boolean, default: false },
     onSelect: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
@@ -50,6 +51,54 @@ export const DropdownMenu = defineComponent({
       if (!node) return;
       onCleanup(ignoreGhostClicks(node));
     });
+
+    // A checkable item shows a tick in a fixed column so labels line up
+    // whether or not the item is currently on.
+    const itemNode = (item: MenuItem) =>
+      h(
+        "button",
+        {
+          key: item.value,
+          ...api.value.getItemProps(item.value),
+          class: "menu__item",
+          type: "button",
+        },
+        [
+          item.kind
+            ? h(
+                "span",
+                { class: "menu__check", "aria-hidden": "true" },
+                item.checked ? [h(Icon, { size: "100%" }, { default: CheckGlyph })] : [],
+              )
+            : null,
+          item.label ?? item.value,
+        ],
+      );
+
+    const renderEntry = (entry: MenuEntry, index: number) => {
+      if (core.isSeparator(entry)) {
+        return h("div", {
+          key: `separator-${index}`,
+          ...api.value.separatorProps,
+          class: "menu__separator",
+        });
+      }
+      if (core.isGroup(entry)) {
+        return h(
+          "div",
+          { key: entry.label, ...api.value.getGroupProps(index), class: "menu__group" },
+          [
+            h(
+              "div",
+              { ...api.value.getGroupLabelProps(index), class: "menu__group-label" },
+              entry.label,
+            ),
+            ...entry.items.map(itemNode),
+          ],
+        );
+      }
+      return itemNode(entry);
+    };
 
     return () =>
       h("div", { class: "menu" }, [
@@ -84,18 +133,7 @@ export const DropdownMenu = defineComponent({
               // the stylesheet is not loaded (tests, tokens-only setups).
               style: open.value ? undefined : { display: "none" },
             },
-            props.items.map((item) =>
-              h(
-                "button",
-                {
-                  key: item.value,
-                  ...api.value.getItemProps(item.value),
-                  class: "menu__item",
-                  type: "button",
-                },
-                item.label ?? item.value,
-              ),
-            ),
+            props.items.map((entry, index) => renderEntry(entry, index)),
           ),
         ]),
       ]);

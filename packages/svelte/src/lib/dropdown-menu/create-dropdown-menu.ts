@@ -9,6 +9,10 @@ import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
 export type MenuItem = core.MenuItem;
+export type MenuEntry = core.MenuEntry;
+export type MenuGroup = core.MenuGroup;
+export type MenuSeparator = core.MenuSeparator;
+export type MenuItemKind = core.MenuItemKind;
 export type MenuApi = core.MenuApi;
 export type MenuState = core.MenuState;
 export type MenuContext = core.MenuContext;
