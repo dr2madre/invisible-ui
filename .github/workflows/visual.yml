@@ -40,8 +40,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Build both sites Playwright's web servers serve: the docs and the Vue
+      # example (its preview refuses to start without a dist).
       - name: Build docs
-        run: pnpm exec turbo run build --filter=@design-system/docs
+        run: >
+          pnpm exec turbo run build
+          --filter=@design-system/docs
+          --filter=@design-system/example-vue
 
       - name: Compare against baselines
         if: ${{ !inputs.update }}
