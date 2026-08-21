@@ -89,19 +89,13 @@
   export let onRangeChange: ((start: string | null, end: string | null) => void) | undefined =
     undefined;
 
-  // In range mode each click extends/restarts the range; otherwise it's a
-  // single selection. Reuses the core day click (which reports the ISO).
+  // In range mode each click extends or restarts the range; otherwise it's a
+  // single selection. The range rule lives in core so both adapters share it.
   function handleSelect(iso: string) {
     if (mode === "range") {
-      if (!rangeStart || rangeEnd) {
-        rangeStart = iso;
-        rangeEnd = null;
-      } else if (iso < rangeStart) {
-        rangeEnd = rangeStart;
-        rangeStart = iso;
-      } else {
-        rangeEnd = iso;
-      }
+      const next = core.extendRange({ start: rangeStart, end: rangeEnd }, iso);
+      rangeStart = next.start;
+      rangeEnd = next.end;
       onRangeChange?.(rangeStart, rangeEnd);
     } else {
       onValueChange?.(iso);
@@ -296,10 +290,7 @@
                       {@const price = prices[cell.date]}
                       {@const inSpan =
                         mode === "range" &&
-                        rangeStart &&
-                        rangeEnd &&
-                        cell.date > rangeStart &&
-                        cell.date < rangeEnd}
+                        core.isWithinRange({ start: rangeStart, end: rangeEnd }, cell.date)}
                       <div class="calendar__cell" role="gridcell" use:cellAction={cell.date}>
                         <button
                           class="calendar__day"
