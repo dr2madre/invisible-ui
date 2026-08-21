@@ -130,6 +130,14 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     setActiveValue(null);
   };
 
+  // Scrolling inside the menu itself is fine; scrolling the page under it is
+  // not, because the menu is anchored to a point that has just moved.
+  const onScroll = (event: Event) => {
+    if (menuEl && event.target instanceof Node && menuEl.contains(event.target)) return;
+    setOpen(false);
+    setActiveValue(null);
+  };
+
   /** Open (or re-summon) the menu at a viewport point, focusing the first item. */
   const openAt = (x: number, y: number) => {
     const current = get(state);
@@ -225,10 +233,12 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     };
     node.addEventListener("keydown", onKeyDown);
 
-    // The anchor is a fixed viewport point, so a single positioning pass is
-    // enough (no autoUpdate — the menu closes on scroll/outside press).
+    // The anchor is a point in the viewport, not an element: once the page
+    // scrolls under it that point means nothing, so the menu closes instead
+    // of following. One positioning pass is therefore enough.
     reposition();
     document.addEventListener("pointerdown", onOutsidePointer, true);
+    window.addEventListener("scroll", onScroll, true);
 
     // Move DOM focus to the active item (roving) on open and as it changes.
     const unsubscribe = state.subscribe(($state) => {
@@ -241,6 +251,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
       destroy() {
         unsubscribe();
         document.removeEventListener("pointerdown", onOutsidePointer, true);
+        window.removeEventListener("scroll", onScroll, true);
         node.removeEventListener("keydown", onKeyDown);
         clearTimeout(timer);
         if (menuEl === node) menuEl = null;

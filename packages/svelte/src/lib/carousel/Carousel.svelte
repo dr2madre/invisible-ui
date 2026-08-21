@@ -120,13 +120,16 @@
       >
         {#each items as item, i (i)}
           {@const active = i === $index}
+          <!-- A slide the user cannot see is hidden from assistive technology
+               and taken out of the tab order together: anything focusable in
+               it would otherwise be reachable while invisible. -->
+          {@const offscreen = (variant === "slide" || variant === "coverflow") && !active}
           <div
             class="carousel__slide"
             use:slideAction={i}
             style={variant === "coverflow" ? coverflowStyle(i - $index) : undefined}
-            aria-hidden={(variant === "slide" || variant === "coverflow") && !active
-              ? "true"
-              : undefined}
+            aria-hidden={offscreen ? "true" : undefined}
+            inert={offscreen || undefined}
           >
             {#if $$slots.default}
               <slot {item} index={i} {active} />

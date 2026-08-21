@@ -183,6 +183,7 @@ export const Carousel = defineComponent({
                   },
                   props.items.map((item, i) => {
                     const active = i === index;
+                    const offscreen = (variant === "slide" || variant === "coverflow") && !active;
                     return h(
                       "div",
                       {
@@ -190,10 +191,12 @@ export const Carousel = defineComponent({
                         key: i,
                         class: "carousel__slide",
                         style: slideStyle(i),
-                        "aria-hidden":
-                          (variant === "slide" || variant === "coverflow") && !active
-                            ? "true"
-                            : undefined,
+                        // A slide the user cannot see is hidden from assistive
+                        // technology and taken out of the tab order together:
+                        // anything focusable in it would otherwise be
+                        // reachable while invisible.
+                        "aria-hidden": offscreen ? "true" : undefined,
+                        inert: offscreen || undefined,
                       },
                       slots.default
                         ? slots.default({ item, index: i, active })
