@@ -421,6 +421,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "smoke": "node scripts/smoke-package.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "check": "svelte-check --tsconfig ./tsconfig.check.json --threshold warning",
