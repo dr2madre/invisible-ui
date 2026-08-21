@@ -87,6 +87,48 @@
           "description": "Form field name — the value is submitted under it."
         },
         {
+          "name": "maxlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Native length limits; the browser enforces them and reports them."
+        },
+        {
+          "name": "minlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "pattern",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Native format constraint (paired with `title` for the browser's message)."
+        },
+        {
+          "name": "inputmode",
+          "type": "InputMode | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Keyboard hint on touch devices."
+        },
+        {
+          "name": "autocomplete",
+          "type": "HTMLInputAttributes[\"autocomplete\"]",
+          "default": "undefined",
+          "required": false,
+          "description": "Autofill hint, e.g. `\"email\"` or `\"one-time-code\"`."
+        },
+        {
+          "name": "spellcheck",
+          "type": "boolean | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Turn spelling correction off for codes and identifiers."
+        },
+        {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
@@ -185,6 +227,48 @@
           "default": "undefined",
           "required": false,
           "description": "Form field name; the value is submitted under it."
+        },
+        {
+          "name": "maxlength",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": "Native length limits; the browser enforces them and reports them."
+        },
+        {
+          "name": "minlength",
+          "type": "number",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "pattern",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Native format constraint (paired with `title` for the browser's message)."
+        },
+        {
+          "name": "inputmode",
+          "type": "TextFieldProps[\"inputmode\"]",
+          "default": "undefined",
+          "required": false,
+          "description": "Keyboard hint on touch devices."
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Autofill hint, e.g. `\"email\"` or `\"one-time-code\"`."
+        },
+        {
+          "name": "spellcheck",
+          "type": "boolean",
+          "default": "undefined",
+          "required": false,
+          "description": "Turn spelling correction off for codes and identifiers."
         },
         {
           "name": "onValueChange",

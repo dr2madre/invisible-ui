@@ -48,6 +48,37 @@ describe("Vue TextField (styled)", () => {
     expect(describedby).toContain(screen.getByRole("alert").id);
   });
 
+  it("forwards the native constraints and hints to the input", () => {
+    render(TextField, {
+      props: {
+        label: "Postcode",
+        maxlength: 8,
+        minlength: 5,
+        pattern: "[A-Z0-9 ]+",
+        inputmode: "text",
+        autocomplete: "postal-code",
+        spellcheck: false,
+      },
+    });
+    const input = screen.getByLabelText("Postcode");
+    // These are the browser's own constraints: it enforces and reports them,
+    // so they have to reach the real control.
+    expect(input).toHaveAttribute("maxlength", "8");
+    expect(input).toHaveAttribute("minlength", "5");
+    expect(input).toHaveAttribute("pattern", "[A-Z0-9 ]+");
+    expect(input).toHaveAttribute("inputmode", "text");
+    expect(input).toHaveAttribute("autocomplete", "postal-code");
+    expect(input).toHaveAttribute("spellcheck", "false");
+  });
+
+  it("leaves the constraints off when they are not asked for", () => {
+    render(TextField, { props: { label: "Full name" } });
+    const input = screen.getByLabelText("Full name");
+    for (const attribute of ["maxlength", "minlength", "pattern", "inputmode"]) {
+      expect(input).not.toHaveAttribute(attribute);
+    }
+  });
+
   it("marks required with aria-required", () => {
     render(TextField, { props: { label: "Username", required: true } });
     expect(screen.getByLabelText(/Username/)).toHaveAttribute("aria-required", "true");

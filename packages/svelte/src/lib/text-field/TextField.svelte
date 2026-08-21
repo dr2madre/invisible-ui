@@ -12,11 +12,13 @@
    * state and announces the message. Colors and sizing are themeable CSS custom
    * properties (`--ds-field-*`).
    */
+  import type { HTMLInputAttributes } from "svelte/elements";
   import { textField as core } from "@design-system/core";
   import { createTextField } from "./create-text-field";
   import Icon from "../icon/Icon.svelte";
 
   type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
+  type InputMode = "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
 
   /** Visible label, tied to the control. */
   export let label: string;
@@ -34,6 +36,17 @@
   export let readOnly = false;
   /** Form field name — the value is submitted under it. */
   export let name: string | undefined = undefined;
+  /** Native length limits; the browser enforces them and reports them. */
+  export let maxlength: number | undefined = undefined;
+  export let minlength: number | undefined = undefined;
+  /** Native format constraint (paired with `title` for the browser's message). */
+  export let pattern: string | undefined = undefined;
+  /** Keyboard hint on touch devices. */
+  export let inputmode: InputMode | undefined = undefined;
+  /** Autofill hint, e.g. `"email"` or `"one-time-code"`. */
+  export let autocomplete: HTMLInputAttributes["autocomplete"] = undefined;
+  /** Turn spelling correction off for codes and identifiers. */
+  export let spellcheck: boolean | undefined = undefined;
   /** Called whenever the value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
@@ -107,6 +120,12 @@
       {name}
       {placeholder}
       {value}
+      {maxlength}
+      {minlength}
+      {pattern}
+      {inputmode}
+      {autocomplete}
+      {spellcheck}
       id={core.controlId($fieldState.id)}
       on:input={onInput}
       use:controlAction
