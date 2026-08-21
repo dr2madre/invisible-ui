@@ -101,21 +101,6 @@
       "name": "SelectItem",
       "kind": "interface",
       "signature": "interface SelectItem { value: string; label?: string; disabled?: boolean; }"
-    },
-    {
-      "name": "applyDomProps",
-      "kind": "function",
-      "signature": "declare function applyDomProps(el: Element, props: DomProps): void;"
-    },
-    {
-      "name": "applyProps",
-      "kind": "function",
-      "signature": "declare function applyProps(el: Element, props: ElementProps): void;"
-    },
-    {
-      "name": "emit",
-      "kind": "function",
-      "signature": "declare function emit<T>(el: HTMLElement, type: string, detail?: T): void;"
     }
   ]
 }

@@ -826,9 +826,19 @@
       "signature": "type MenuContext = menu.MenuContext;"
     },
     {
+      "name": "MenuEntry",
+      "kind": "type",
+      "signature": "type MenuEntry = menu.MenuEntry;"
+    },
+    {
       "name": "MenuItem",
       "kind": "type",
       "signature": "type MenuItem = menu.MenuItem;"
+    },
+    {
+      "name": "MenuItemKind",
+      "kind": "type",
+      "signature": "type MenuItemKind = menu.MenuItemKind;"
     },
     {
       "name": "MenuState",
@@ -1324,6 +1334,11 @@
       "name": "ToggleButtonState",
       "kind": "type",
       "signature": "type ToggleButtonState = toggleButton.ToggleButtonState;"
+    },
+    {
+      "name": "ToolbarOrientation",
+      "kind": "type",
+      "signature": "type ToolbarOrientation = toolbar.ToolbarOrientation;"
     },
     {
       "name": "TooltipApi",
