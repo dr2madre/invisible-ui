@@ -233,9 +233,20 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
       };
       document.addEventListener("pointerdown", onOutsidePointer, true);
 
+      // Scrolling inside the menu itself is fine; scrolling the page under it
+      // is not, because the menu is anchored to a point that has just moved.
+      const onScroll = (event: Event) => {
+        const target = event.target;
+        if (menuRef.value && target instanceof Node && menuRef.value.contains(target)) return;
+        setOpen(false);
+        setActiveValue(null);
+      };
+      window.addEventListener("scroll", onScroll, true);
+
       onCleanup(() => {
         popup.removeEventListener("keydown", onKeyDown);
         document.removeEventListener("pointerdown", onOutsidePointer, true);
+        window.removeEventListener("scroll", onScroll, true);
         clearTimeout(timer);
       });
     },

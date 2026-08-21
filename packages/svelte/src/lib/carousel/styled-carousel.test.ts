@@ -17,6 +17,17 @@ describe("Svelte Carousel (styled)", () => {
     expect(slides[1]).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("takes an off-screen slide out of the tab order as well", () => {
+    render(Fixture);
+    const slides = document.querySelectorAll(".carousel__slide");
+    // Hidden from assistive technology and inert together: a link inside an
+    // invisible slide must not be reachable by Tab.
+    expect((slides[0] as HTMLElement).inert).toBeFalsy();
+    expect(slides[1]).toHaveAttribute("aria-hidden", "true");
+    expect((slides[1] as HTMLElement).inert).toBe(true);
+    expect((slides[2] as HTMLElement).inert).toBe(true);
+  });
+
   it("renders the built-in slide overlay (title + description)", () => {
     render(Fixture);
     expect(screen.getByText("Peaks")).toBeInTheDocument();

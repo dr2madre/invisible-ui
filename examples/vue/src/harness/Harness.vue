@@ -4,6 +4,7 @@
 import { computed, ref } from "vue";
 import {
   Button,
+  Carousel,
   Combobox,
   ConfirmDialog,
   DatePicker,
@@ -49,6 +50,12 @@ const onSkillsSubmit = (event: Event) => {
   submittedSkills.value =
     new FormData(event.currentTarget as HTMLFormElement).getAll("skills").join(", ") || "none";
 };
+
+const carouselItems = [
+  { title: "First slide", description: "Visible." },
+  { title: "Second slide", description: "Off screen." },
+  { title: "Third slide", description: "Off screen." },
+];
 
 const cityItems = [
   { value: "london", label: "London" },
@@ -121,6 +128,19 @@ const loadPeople = () => {
         </template>
       </TableSet>
       <p data-testid="selection-readout">Selected: {{ selectedRowIds.join(", ") || "none" }}</p>
+    </section>
+
+    <section class="harness-carousel" aria-label="Carousel">
+      <Carousel :items="carouselItems" label="Harness slides">
+        <template #default="{ item, index }">
+          <div>
+            <p>{{ item.title }}</p>
+            <a :href="`#slide-${index}`" :data-testid="`slide-link-${index}`">
+              Link in slide {{ index + 1 }}
+            </a>
+          </div>
+        </template>
+      </Carousel>
     </section>
 
     <section class="harness-overlay-composition" aria-label="Overlay composition">

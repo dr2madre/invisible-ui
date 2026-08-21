@@ -30,6 +30,16 @@ describe("Vue Carousel", () => {
     expect(slides[1]).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("takes an off-screen slide out of the tab order as well", () => {
+    setup();
+    const slides = document.querySelectorAll(".carousel__slide");
+    // Hidden from assistive technology and inert together: a link inside an
+    // invisible slide must not be reachable by Tab.
+    expect(slides[0]).not.toHaveAttribute("inert");
+    expect(slides[1]).toHaveAttribute("inert");
+    expect(slides[2]).toHaveAttribute("inert");
+  });
+
   it("renders the built-in slide overlay (title + description)", () => {
     setup();
     expect(screen.getByText("Peaks")).toBeInTheDocument();

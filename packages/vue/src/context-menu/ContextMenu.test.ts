@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, nextTick, type PropType } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { ContextMenu } from "./ContextMenu";
@@ -116,6 +116,18 @@ describe("Vue ContextMenu (styled)", () => {
     await openAt();
     expect(screen.getByRole("menu")).toBeVisible();
     await user.click(screen.getByRole("button", { name: "after" }));
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+
+  it("closes when the page scrolls under it", async () => {
+    render(Fixture);
+
+    await openAt();
+    expect(screen.getByRole("menu")).toBeVisible();
+    // The menu is anchored to a point in the viewport, so that point stops
+    // meaning anything once the page scrolls.
+    window.dispatchEvent(new Event("scroll"));
+    await nextTick();
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
   });
 
