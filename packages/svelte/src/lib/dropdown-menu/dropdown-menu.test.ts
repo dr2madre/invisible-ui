@@ -56,6 +56,64 @@ describe("Svelte DropdownMenu (styled)", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("renders groups, separators and checkable items", async () => {
+    const user = userEvent.setup();
+    render(Fixture, {
+      props: {
+        items: [
+          {
+            type: "group",
+            label: "Sort by",
+            items: [
+              { value: "name", label: "Name", kind: "radio", checked: true },
+              { value: "date", label: "Date", kind: "radio" },
+            ],
+          },
+          { type: "separator" },
+          { value: "compact", label: "Compact rows", kind: "checkbox", checked: false },
+          { value: "rename", label: "Rename" },
+        ],
+      },
+    });
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+
+    // Each kind announces itself, and a checkable item always says whether
+    // it is on.
+    const name = screen.getByRole("menuitemradio", { name: "Name" });
+    expect(name).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("menuitemradio", { name: "Date" })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
+    expect(screen.getByRole("menuitemcheckbox", { name: "Compact rows" })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
+    expect(screen.getByRole("menuitem", { name: "Rename" })).not.toHaveAttribute("aria-checked");
+
+    // The group carries its own name, and the separator is announced as one.
+    const group = screen.getByRole("group", { name: "Sort by" });
+    expect(group).toContainElement(name);
+    expect(screen.getByRole("separator")).toBeInTheDocument();
+  });
+
+  it("walks through grouped items with the arrow keys, skipping the separator", async () => {
+    const user = userEvent.setup();
+    render(Fixture, {
+      props: {
+        items: [
+          { type: "group", label: "Sort by", items: [{ value: "name", label: "Name" }] },
+          { type: "separator" },
+          { value: "rename", label: "Rename" },
+        ],
+      },
+    });
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+    expect(screen.getByRole("menuitem", { name: "Name" })).toHaveFocus();
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByRole("menuitem", { name: "Rename" })).toHaveFocus();
+  });
+
   it("marks disabled items", async () => {
     const user = userEvent.setup();
     render(Fixture);

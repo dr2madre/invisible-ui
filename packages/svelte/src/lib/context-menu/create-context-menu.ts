@@ -143,7 +143,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     const current = get(state);
     if (current.disabled) return;
     point = { x, y };
-    setActiveValue(core.firstEnabled(current.items));
+    setActiveValue(core.firstEnabled(core.itemsOf(current.items)));
     if (current.open) reposition();
     else setOpen(true);
   };

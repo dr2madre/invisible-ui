@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
-import { initialState, matchItem } from "./state";
+import { initialState, itemsOf, matchItem } from "./state";
 import type { MenuItem, MenuState } from "./types";
 
 const items: MenuItem[] = [
@@ -94,5 +94,66 @@ describe("menu connect", () => {
     const { api, setOpen } = harness({ disabled: true });
     api.openMenu();
     expect(setOpen).not.toHaveBeenCalled();
+  });
+});
+
+describe("menu vocabulary", () => {
+  const entries = [
+    {
+      type: "group" as const,
+      label: "Sort",
+      items: [
+        { value: "name", kind: "radio" as const, checked: true },
+        { value: "date", kind: "radio" as const },
+      ],
+    },
+    { type: "separator" as const },
+    { value: "compact", kind: "checkbox" as const, checked: false },
+    { value: "rename" },
+  ];
+
+  const api = (over: Record<string, unknown> = {}) =>
+    connect({
+      state: { ...initialState({ items: entries, id: "m" }), open: true, ...over },
+      setOpen: () => {},
+      setActiveValue: () => {},
+    });
+
+  it("gives each kind of item the role that describes it", () => {
+    expect(api().getItemProps("name").role).toBe("menuitemradio");
+    expect(api().getItemProps("compact").role).toBe("menuitemcheckbox");
+    expect(api().getItemProps("rename").role).toBe("menuitem");
+  });
+
+  it("always states whether a checkable item is on", () => {
+    expect(api().getItemProps("name")["aria-checked"]).toBe(true);
+    expect(api().getItemProps("date")["aria-checked"]).toBe(false);
+    expect(api().getItemProps("compact")["aria-checked"]).toBe(false);
+    // An action has no checked state at all, so it must not claim one.
+    expect(api().getItemProps("rename")["aria-checked"]).toBeUndefined();
+  });
+
+  it("walks through grouped items and skips separators", () => {
+    expect(itemsOf(entries).map((item) => item.value)).toEqual([
+      "name",
+      "date",
+      "compact",
+      "rename",
+    ]);
+  });
+
+  it("names a group by its own label", () => {
+    const group = api().getGroupProps(0);
+    expect(group.role).toBe("group");
+    expect(group["aria-labelledby"]).toBe(api().getGroupLabelProps(0).id);
+  });
+
+  it("marks a separator as one", () => {
+    expect(api().separatorProps.role).toBe("separator");
+  });
+
+  it("finds grouped items by typeahead", () => {
+    expect(matchItem(entries, "da", null)).toBe("date");
+    expect(matchItem(entries, "co", null)).toBe("compact");
   });
 });

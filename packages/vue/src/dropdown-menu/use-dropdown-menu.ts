@@ -14,9 +14,13 @@ import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
 export type MenuItem = core.MenuItem;
+export type MenuEntry = core.MenuEntry;
+export type MenuGroup = core.MenuGroup;
+export type MenuSeparator = core.MenuSeparator;
+export type MenuItemKind = core.MenuItemKind;
 
 export interface UseDropdownMenuOptions {
-  items: MenuItem[];
+  items: MenuEntry[];
   disabled?: boolean;
   /** Called with the chosen item's value. */
   onSelect?: (value: string) => void;
@@ -61,7 +65,8 @@ export function useDropdownMenu(
   watch(
     () => resolved.value.items,
     (items) => {
-      if (!items.some((item) => item.value === activeValue.value)) activeValue.value = null;
+      const present = core.itemsOf(items).some((item) => item.value === activeValue.value);
+      if (!present) activeValue.value = null;
     },
   );
 

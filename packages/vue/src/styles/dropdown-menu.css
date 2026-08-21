@@ -63,6 +63,28 @@
   display: none;
 }
 
+.menu__separator {
+  block-size: 1px;
+  margin: 0.3rem 0.15rem;
+  background: var(--ds-color-border, #cbd5e1);
+}
+.menu__group-label {
+  padding: 0.35rem 0.55rem 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-color-text-secondary, #64748b);
+}
+/* The tick sits in a fixed column so labels line up whether or not an item
+   is currently on. */
+.menu__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
 .menu__item {
   display: flex;
   align-items: center;

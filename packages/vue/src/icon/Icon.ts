@@ -59,6 +59,9 @@ export const PlusGlyph = () => [
   h("line", { x1: "5", y1: "12", x2: "19", y2: "12" }),
 ];
 
+/** The tick that marks a checkable menu item as on. */
+export const CheckGlyph = () => [h("polyline", { points: "20 6 9 17 4 12" })];
+
 /** The hazard triangle that keeps `danger` from relying on colour alone. */
 export const HazardGlyph = () => [
   h("path", {
