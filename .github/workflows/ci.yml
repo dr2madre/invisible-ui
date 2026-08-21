@@ -14,7 +14,10 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
+      # Full history: the changeset gate diffs the PR against its base.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -33,6 +36,12 @@ jobs:
 
       - name: Format check
         run: pnpm format:check
+
+      # A change to the public contract (API reports, prop manifests, token
+      # registry) must carry a changeset; see docs/api-stability.md.
+      - name: Changeset accompanies contract changes
+        if: github.event_name == 'pull_request'
+        run: node scripts/check-changeset.mjs "${{ github.event.pull_request.base.sha }}"
 
       # The token registry the docs catalog reads is generated from the
       # stylesheet: this fails if it is stale, if the adapters drift apart, or
