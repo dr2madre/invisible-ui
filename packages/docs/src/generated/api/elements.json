@@ -1,0 +1,121 @@
+{
+  "package": "@design-system/elements",
+  "entry": "packages/elements/dist/index.d.ts",
+  "exportMap": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./define": {
+      "types": "./dist/define.d.ts",
+      "import": "./dist/define.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "externalReferences": [
+    "@design-system/core"
+  ],
+  "symbols": [
+    {
+      "name": "ComboboxItem",
+      "kind": "interface",
+      "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
+    },
+    {
+      "name": "DsButton",
+      "kind": "class",
+      "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
+      "name": "DsCheckbox",
+      "kind": "class",
+      "signature": "declare class DsCheckbox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get checked(): checkbox.CheckedState; set checked(value: checkbox.CheckedState); }"
+    },
+    {
+      "name": "DsCheckboxGroup",
+      "kind": "class",
+      "signature": "declare class DsCheckboxGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): string[]; set value(next: string[]); get items(): checkboxGroup.CheckboxGroupItem[]; set items(items: checkboxGroup.CheckboxGroupItem[]); }"
+    },
+    {
+      "name": "DsCombobox",
+      "kind": "class",
+      "signature": "declare class DsCombobox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): ComboboxItem[]; set items(items: ComboboxItem[]); __stateType: { open: boolean; value: string | null; inputValue: string; committedInputValue: string; activeValue: string | null; items: ComboboxItem[]; }; }"
+    },
+    {
+      "name": "DsDialog",
+      "kind": "class",
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
+    },
+    {
+      "name": "DsField",
+      "kind": "class",
+      "signature": "declare class DsField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsLabel",
+      "kind": "class",
+      "signature": "declare class DsLabel extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsMultiSelect",
+      "kind": "class",
+      "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
+    },
+    {
+      "name": "DsRadioGroup",
+      "kind": "class",
+      "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
+    },
+    {
+      "name": "DsSelect",
+      "kind": "class",
+      "signature": "declare class DsSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): SelectItem[]; set items(items: SelectItem[]); }"
+    },
+    {
+      "name": "DsSwitch",
+      "kind": "class",
+      "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
+    },
+    {
+      "name": "DsTextField",
+      "kind": "class",
+      "signature": "declare class DsTextField extends DsTextControl { protected readonly rootClass = \"text-field\"; protected createControl(): HTMLInputElement; }"
+    },
+    {
+      "name": "DsTextarea",
+      "kind": "class",
+      "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
+    },
+    {
+      "name": "MultiSelectItem",
+      "kind": "interface",
+      "signature": "interface MultiSelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "RadioGroupItem",
+      "kind": "type",
+      "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
+    },
+    {
+      "name": "SelectItem",
+      "kind": "interface",
+      "signature": "interface SelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "applyDomProps",
+      "kind": "function",
+      "signature": "declare function applyDomProps(el: Element, props: DomProps): void;"
+    },
+    {
+      "name": "applyProps",
+      "kind": "function",
+      "signature": "declare function applyProps(el: Element, props: ElementProps): void;"
+    },
+    {
+      "name": "emit",
+      "kind": "function",
+      "signature": "declare function emit<T>(el: HTMLElement, type: string, detail?: T): void;"
+    }
+  ]
+}

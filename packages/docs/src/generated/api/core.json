@@ -1,0 +1,2543 @@
+{
+  "package": "@design-system/core",
+  "entry": "core/dist/index.d.ts",
+  "exportMap": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "externalReferences": [],
+  "symbols": [
+    {
+      "name": "DomProps",
+      "kind": "interface",
+      "signature": "interface DomProps { [property: string]: unknown; }"
+    },
+    {
+      "name": "ElementProps",
+      "kind": "interface",
+      "signature": "interface ElementProps { [key: string]: unknown; }"
+    },
+    {
+      "name": "Normalize",
+      "kind": "type",
+      "signature": "type Normalize = <T extends ElementProps>(props: T) => T;"
+    },
+    {
+      "name": "accordion",
+      "kind": "namespace",
+      "signature": "namespace index$u"
+    },
+    {
+      "name": "accordion.AccordionApi",
+      "kind": "type",
+      "signature": "type index$u_AccordionApi = AccordionApi;"
+    },
+    {
+      "name": "accordion.AccordionContext",
+      "kind": "type",
+      "signature": "type index$u_AccordionContext = AccordionContext;"
+    },
+    {
+      "name": "accordion.AccordionItem",
+      "kind": "type",
+      "signature": "type index$u_AccordionItem = AccordionItem;"
+    },
+    {
+      "name": "accordion.AccordionState",
+      "kind": "type",
+      "signature": "type index$u_AccordionState = AccordionState;"
+    },
+    {
+      "name": "accordion.AccordionType",
+      "kind": "type",
+      "signature": "type index$u_AccordionType = AccordionType;"
+    },
+    {
+      "name": "accordion.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: AccordionState; /** Request a new expanded set; the adapter owns how state updates. */ setValue: (value: string[]) => void; /** Move DOM focus to the trigger with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "accordion.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "accordion.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, focus, normalize, }: ConnectOptions): AccordionApi;"
+    },
+    {
+      "name": "accordion.firstEnabled",
+      "kind": "const",
+      "signature": "index$u_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "accordion.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: AccordionContext): AccordionState;"
+    },
+    {
+      "name": "accordion.lastEnabled",
+      "kind": "const",
+      "signature": "index$u_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "accordion.nextEnabled",
+      "kind": "const",
+      "signature": "index$u_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "accordion.panelId",
+      "kind": "const",
+      "signature": "index$u_panelId: typeof panelId"
+    },
+    {
+      "name": "accordion.prevEnabled",
+      "kind": "const",
+      "signature": "index$u_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "accordion.toggleValue",
+      "kind": "const",
+      "signature": "index$u_toggleValue: typeof toggleValue"
+    },
+    {
+      "name": "accordion.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string, value: string) => string"
+    },
+    {
+      "name": "asyncContent",
+      "kind": "namespace",
+      "signature": "namespace index$t"
+    },
+    {
+      "name": "asyncContent.AsyncContentContext",
+      "kind": "type",
+      "signature": "type index$t_AsyncContentContext = AsyncContentContext;"
+    },
+    {
+      "name": "asyncContent.AsyncStatus",
+      "kind": "type",
+      "signature": "type index$t_AsyncStatus = AsyncStatus;"
+    },
+    {
+      "name": "asyncContent.AsyncView",
+      "kind": "type",
+      "signature": "type index$t_AsyncView = AsyncView;"
+    },
+    {
+      "name": "asyncContent.deriveAsyncView",
+      "kind": "const",
+      "signature": "index$t_deriveAsyncView: typeof deriveAsyncView"
+    },
+    {
+      "name": "button",
+      "kind": "namespace",
+      "signature": "namespace index$B"
+    },
+    {
+      "name": "button.ButtonApi",
+      "kind": "type",
+      "signature": "type index$B_ButtonApi = ButtonApi;"
+    },
+    {
+      "name": "button.ButtonContext",
+      "kind": "type",
+      "signature": "type index$B_ButtonContext = ButtonContext;"
+    },
+    {
+      "name": "button.ButtonState",
+      "kind": "type",
+      "signature": "type index$B_ButtonState = ButtonState;"
+    },
+    {
+      "name": "button.ButtonVariant",
+      "kind": "type",
+      "signature": "type index$B_ButtonVariant = ButtonVariant;"
+    },
+    {
+      "name": "button.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: ButtonState; /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** Native `<button>` type. Defaults to `\"button\"` to avoid accidental submits. */ type?: \"button\" | \"submit\" | \"reset\"; /** * Whether the consumer renders a native `<button>` (default). Set `false` * when rendering another element (e.g. `<a>`, `<div>`): the button role, * focusability and Enter/Space activation are then emulated. */ nativeButton?: boolean; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "button.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, onPress, type, nativeButton, normalize, }: ConnectOptions): ButtonApi;"
+    },
+    {
+      "name": "button.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: ButtonContext): ButtonState;"
+    },
+    {
+      "name": "buttonGroup",
+      "kind": "namespace",
+      "signature": "namespace index$A"
+    },
+    {
+      "name": "buttonGroup.ButtonGroupApi",
+      "kind": "type",
+      "signature": "type index$A_ButtonGroupApi = ButtonGroupApi;"
+    },
+    {
+      "name": "buttonGroup.ButtonGroupContext",
+      "kind": "type",
+      "signature": "type index$A_ButtonGroupContext = ButtonGroupContext;"
+    },
+    {
+      "name": "buttonGroup.ButtonGroupState",
+      "kind": "type",
+      "signature": "type index$A_ButtonGroupState = ButtonGroupState;"
+    },
+    {
+      "name": "buttonGroup.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: ButtonGroupState; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "buttonGroup.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "buttonGroup.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): ButtonGroupApi;"
+    },
+    {
+      "name": "buttonGroup.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: ButtonGroupContext): ButtonGroupState;"
+    },
+    {
+      "name": "calendar",
+      "kind": "namespace",
+      "signature": "namespace index$1"
+    },
+    {
+      "name": "calendar.CalendarApi",
+      "kind": "type",
+      "signature": "type index$1_CalendarApi = CalendarApi;"
+    },
+    {
+      "name": "calendar.CalendarContext",
+      "kind": "type",
+      "signature": "type index$1_CalendarContext = CalendarContext;"
+    },
+    {
+      "name": "calendar.CalendarDay",
+      "kind": "type",
+      "signature": "type index$1_CalendarDay = CalendarDay;"
+    },
+    {
+      "name": "calendar.CalendarState",
+      "kind": "type",
+      "signature": "type index$1_CalendarState = CalendarState;"
+    },
+    {
+      "name": "calendar.CalendarView",
+      "kind": "type",
+      "signature": "type index$1_CalendarView = CalendarView;"
+    },
+    {
+      "name": "calendar.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: CalendarState; setValue: (iso: string) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Move DOM focus to the day with the given ISO date (adapter-provided). */ focus?: (iso: string) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "calendar.DateRange",
+      "kind": "type",
+      "signature": "type index$1_DateRange = DateRange;"
+    },
+    {
+      "name": "calendar.WeekStart",
+      "kind": "type",
+      "signature": "type index$1_WeekStart = WeekStart;"
+    },
+    {
+      "name": "calendar.addDays",
+      "kind": "const",
+      "signature": "index$1_addDays: typeof addDays"
+    },
+    {
+      "name": "calendar.addMonths",
+      "kind": "const",
+      "signature": "index$1_addMonths: typeof addMonths"
+    },
+    {
+      "name": "calendar.addYears",
+      "kind": "const",
+      "signature": "index$1_addYears: typeof addYears"
+    },
+    {
+      "name": "calendar.clamp",
+      "kind": "const",
+      "signature": "index$1_clamp: typeof clamp"
+    },
+    {
+      "name": "calendar.compare",
+      "kind": "const",
+      "signature": "index$1_compare: typeof compare"
+    },
+    {
+      "name": "calendar.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, setFocus, setView, focus, normalize, }: ConnectOptions): CalendarApi;"
+    },
+    {
+      "name": "calendar.dayId",
+      "kind": "const",
+      "signature": "index$1_dayId: typeof dayId"
+    },
+    {
+      "name": "calendar.daysInMonth",
+      "kind": "const",
+      "signature": "index$1_daysInMonth: typeof daysInMonth"
+    },
+    {
+      "name": "calendar.describe",
+      "kind": "const",
+      "signature": "index$1_describe: typeof describe"
+    },
+    {
+      "name": "calendar.extendRange",
+      "kind": "const",
+      "signature": "index$1_extendRange: typeof extendRange"
+    },
+    {
+      "name": "calendar.inRange",
+      "kind": "const",
+      "signature": "index$1_inRange: typeof inRange"
+    },
+    {
+      "name": "calendar.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: CalendarContext): CalendarState;"
+    },
+    {
+      "name": "calendar.isSameDay",
+      "kind": "const",
+      "signature": "index$1_isSameDay: typeof isSameDay"
+    },
+    {
+      "name": "calendar.isSameMonth",
+      "kind": "const",
+      "signature": "index$1_isSameMonth: typeof isSameMonth"
+    },
+    {
+      "name": "calendar.isWithinRange",
+      "kind": "const",
+      "signature": "index$1_isWithinRange: typeof isWithinRange"
+    },
+    {
+      "name": "calendar.monthMatrix",
+      "kind": "const",
+      "signature": "index$1_monthMatrix: typeof monthMatrix"
+    },
+    {
+      "name": "calendar.monthsOfYear",
+      "kind": "const",
+      "signature": "index$1_monthsOfYear: typeof monthsOfYear"
+    },
+    {
+      "name": "calendar.rangeDays",
+      "kind": "const",
+      "signature": "index$1_rangeDays: typeof rangeDays"
+    },
+    {
+      "name": "calendar.startOfMonth",
+      "kind": "const",
+      "signature": "index$1_startOfMonth: typeof startOfMonth"
+    },
+    {
+      "name": "calendar.startOfWeek",
+      "kind": "const",
+      "signature": "index$1_startOfWeek: typeof startOfWeek"
+    },
+    {
+      "name": "calendar.toISO",
+      "kind": "const",
+      "signature": "index$1_toISO: typeof toISO"
+    },
+    {
+      "name": "calendar.today",
+      "kind": "const",
+      "signature": "index$1_today: typeof today"
+    },
+    {
+      "name": "calendar.weekDays",
+      "kind": "const",
+      "signature": "index$1_weekDays: typeof weekDays"
+    },
+    {
+      "name": "calendar.weekday",
+      "kind": "const",
+      "signature": "index$1_weekday: typeof weekday"
+    },
+    {
+      "name": "calendar.weekdayOrder",
+      "kind": "const",
+      "signature": "index$1_weekdayOrder: typeof weekdayOrder"
+    },
+    {
+      "name": "carousel",
+      "kind": "namespace",
+      "signature": "namespace index$g"
+    },
+    {
+      "name": "carousel.CarouselApi",
+      "kind": "type",
+      "signature": "type index$g_CarouselApi = CarouselApi;"
+    },
+    {
+      "name": "carousel.CarouselContext",
+      "kind": "type",
+      "signature": "type index$g_CarouselContext = CarouselContext;"
+    },
+    {
+      "name": "carousel.CarouselState",
+      "kind": "type",
+      "signature": "type index$g_CarouselState = CarouselState;"
+    },
+    {
+      "name": "carousel.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: CarouselState; /** Request a new current index; the adapter owns how state updates. */ setIndex: (index: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "carousel.Orientation",
+      "kind": "type",
+      "signature": "type index$g_Orientation = Orientation;"
+    },
+    {
+      "name": "carousel.canGoNext",
+      "kind": "const",
+      "signature": "index$g_canGoNext: typeof canGoNext"
+    },
+    {
+      "name": "carousel.canGoPrev",
+      "kind": "const",
+      "signature": "index$g_canGoPrev: typeof canGoPrev"
+    },
+    {
+      "name": "carousel.clampIndex",
+      "kind": "const",
+      "signature": "index$g_clampIndex: typeof clampIndex"
+    },
+    {
+      "name": "carousel.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setIndex, normalize, }: ConnectOptions): CarouselApi;"
+    },
+    {
+      "name": "carousel.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: CarouselContext): CarouselState;"
+    },
+    {
+      "name": "carousel.nextIndex",
+      "kind": "function",
+      "signature": "declare function nextIndex(state: CarouselState): number;"
+    },
+    {
+      "name": "carousel.prevIndex",
+      "kind": "const",
+      "signature": "index$g_prevIndex: typeof prevIndex"
+    },
+    {
+      "name": "checkbox",
+      "kind": "namespace",
+      "signature": "namespace index$y"
+    },
+    {
+      "name": "checkbox.CheckboxApi",
+      "kind": "type",
+      "signature": "type index$y_CheckboxApi = CheckboxApi;"
+    },
+    {
+      "name": "checkbox.CheckboxContext",
+      "kind": "type",
+      "signature": "type index$y_CheckboxContext = CheckboxContext;"
+    },
+    {
+      "name": "checkbox.CheckboxState",
+      "kind": "type",
+      "signature": "type index$y_CheckboxState = CheckboxState;"
+    },
+    {
+      "name": "checkbox.CheckedState",
+      "kind": "type",
+      "signature": "type index$y_CheckedState = CheckedState;"
+    },
+    {
+      "name": "checkbox.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: CheckboxState; /** Request a new checked value; the adapter owns how state updates. */ setChecked: (value: CheckedState) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "checkbox.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setChecked, normalize, }: ConnectOptions): CheckboxApi;"
+    },
+    {
+      "name": "checkbox.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: CheckboxContext): CheckboxState;"
+    },
+    {
+      "name": "checkbox.nextChecked",
+      "kind": "const",
+      "signature": "index$y_nextChecked: typeof nextChecked"
+    },
+    {
+      "name": "checkboxGroup",
+      "kind": "namespace",
+      "signature": "namespace index$x"
+    },
+    {
+      "name": "checkboxGroup.CheckboxGroupApi",
+      "kind": "type",
+      "signature": "type index$x_CheckboxGroupApi = CheckboxGroupApi;"
+    },
+    {
+      "name": "checkboxGroup.CheckboxGroupContext",
+      "kind": "type",
+      "signature": "type index$x_CheckboxGroupContext = CheckboxGroupContext;"
+    },
+    {
+      "name": "checkboxGroup.CheckboxGroupItem",
+      "kind": "type",
+      "signature": "type index$x_CheckboxGroupItem = CheckboxGroupItem;"
+    },
+    {
+      "name": "checkboxGroup.CheckboxGroupState",
+      "kind": "type",
+      "signature": "type index$x_CheckboxGroupState = CheckboxGroupState;"
+    },
+    {
+      "name": "checkboxGroup.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: CheckboxGroupState; /** Request a new selection; the adapter owns how state updates. */ setValue: (value: string[]) => void; /** Shared form field name applied to every item. */ name?: string; normalize?: Normalize; }"
+    },
+    {
+      "name": "checkboxGroup.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, name, normalize, }: ConnectOptions): CheckboxGroupApi;"
+    },
+    {
+      "name": "checkboxGroup.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: CheckboxGroupContext): CheckboxGroupState;"
+    },
+    {
+      "name": "checkboxGroup.toggleValue",
+      "kind": "function",
+      "signature": "declare function toggleValue(values: string[], value: string): string[];"
+    },
+    {
+      "name": "collapsible",
+      "kind": "namespace",
+      "signature": "namespace index$r"
+    },
+    {
+      "name": "collapsible.CollapsibleApi",
+      "kind": "type",
+      "signature": "type index$r_CollapsibleApi = CollapsibleApi;"
+    },
+    {
+      "name": "collapsible.CollapsibleContext",
+      "kind": "type",
+      "signature": "type index$r_CollapsibleContext = CollapsibleContext;"
+    },
+    {
+      "name": "collapsible.CollapsibleState",
+      "kind": "type",
+      "signature": "type index$r_CollapsibleState = CollapsibleState;"
+    },
+    {
+      "name": "collapsible.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: CollapsibleState; /** Request a new open state; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "collapsible.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setOpen, normalize, }: ConnectOptions): CollapsibleApi;"
+    },
+    {
+      "name": "collapsible.contentId",
+      "kind": "const",
+      "signature": "contentId: (baseId: string) => string"
+    },
+    {
+      "name": "collapsible.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: CollapsibleContext): CollapsibleState;"
+    },
+    {
+      "name": "collapsible.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "combobox",
+      "kind": "namespace",
+      "signature": "namespace index$8"
+    },
+    {
+      "name": "combobox.ComboboxApi",
+      "kind": "type",
+      "signature": "type index$8_ComboboxApi = ComboboxApi;"
+    },
+    {
+      "name": "combobox.ComboboxContext",
+      "kind": "type",
+      "signature": "type index$8_ComboboxContext = ComboboxContext;"
+    },
+    {
+      "name": "combobox.ComboboxItem",
+      "kind": "type",
+      "signature": "type index$8_ComboboxItem = ComboboxItem;"
+    },
+    {
+      "name": "combobox.ComboboxState",
+      "kind": "type",
+      "signature": "type index$8_ComboboxState = ComboboxState;"
+    },
+    {
+      "name": "combobox.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: ComboboxState; setValue: (value: string | null) => void; setOpen: (open: boolean) => void; setActiveValue: (value: string | null) => void; setInputValue: (text: string) => void; /** Record the text as chosen, so a later filter can be undone. */ setCommittedInputValue: (text: string) => void; /** * Whether leaving the control settles it: close the list and put the text * back. `true` for a control that only takes values from its list. A Search * Dialog passes `false`, because its text is a query the user wrote and its * dismissal belongs to the dialog around it. */ settleOnBlur?: boolean; normalize?: Normalize; }"
+    },
+    {
+      "name": "combobox.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue, settleOnBlur, normalize, }: ConnectOptions): ComboboxApi;"
+    },
+    {
+      "name": "combobox.firstEnabled",
+      "kind": "const",
+      "signature": "index$8_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "combobox.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: ComboboxContext): ComboboxState;"
+    },
+    {
+      "name": "combobox.inputId",
+      "kind": "const",
+      "signature": "inputId: (baseId: string) => string"
+    },
+    {
+      "name": "combobox.labelId",
+      "kind": "const",
+      "signature": "labelId: (baseId: string) => string"
+    },
+    {
+      "name": "combobox.labelOf",
+      "kind": "const",
+      "signature": "index$8_labelOf: typeof labelOf"
+    },
+    {
+      "name": "combobox.lastEnabled",
+      "kind": "const",
+      "signature": "index$8_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "combobox.listboxId",
+      "kind": "const",
+      "signature": "index$8_listboxId: typeof listboxId"
+    },
+    {
+      "name": "combobox.nextEnabled",
+      "kind": "const",
+      "signature": "index$8_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "combobox.optionId",
+      "kind": "const",
+      "signature": "index$8_optionId: typeof optionId"
+    },
+    {
+      "name": "combobox.prevEnabled",
+      "kind": "const",
+      "signature": "index$8_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "dialog",
+      "kind": "namespace",
+      "signature": "namespace index$a"
+    },
+    {
+      "name": "dialog.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: DialogState; /** Request the open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; normalize?: Normalize; }"
+    },
+    {
+      "name": "dialog.DialogApi",
+      "kind": "type",
+      "signature": "type index$a_DialogApi = DialogApi;"
+    },
+    {
+      "name": "dialog.DialogContext",
+      "kind": "type",
+      "signature": "type index$a_DialogContext = DialogContext;"
+    },
+    {
+      "name": "dialog.DialogRole",
+      "kind": "type",
+      "signature": "type index$a_DialogRole = DialogRole;"
+    },
+    {
+      "name": "dialog.DialogState",
+      "kind": "type",
+      "signature": "type index$a_DialogState = DialogState;"
+    },
+    {
+      "name": "dialog.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setOpen, describedBy, closeOnEscape, normalize, }: ConnectOptions): DialogApi;"
+    },
+    {
+      "name": "dialog.contentId",
+      "kind": "const",
+      "signature": "contentId: (baseId: string) => string"
+    },
+    {
+      "name": "dialog.descriptionId",
+      "kind": "const",
+      "signature": "descriptionId: (baseId: string) => string"
+    },
+    {
+      "name": "dialog.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: DialogContext): DialogState;"
+    },
+    {
+      "name": "dialog.titleId",
+      "kind": "const",
+      "signature": "index$a_titleId: typeof titleId"
+    },
+    {
+      "name": "dialog.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "field",
+      "kind": "namespace",
+      "signature": "namespace index$n"
+    },
+    {
+      "name": "field.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: FieldState; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "field.FieldApi",
+      "kind": "type",
+      "signature": "type index$n_FieldApi = FieldApi;"
+    },
+    {
+      "name": "field.FieldContext",
+      "kind": "type",
+      "signature": "type index$n_FieldContext = FieldContext;"
+    },
+    {
+      "name": "field.FieldIds",
+      "kind": "type",
+      "signature": "type index$n_FieldIds = FieldIds;"
+    },
+    {
+      "name": "field.FieldState",
+      "kind": "type",
+      "signature": "type index$n_FieldState = FieldState;"
+    },
+    {
+      "name": "field.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): FieldApi;"
+    },
+    {
+      "name": "field.controlId",
+      "kind": "const",
+      "signature": "controlId: (baseId: string) => string"
+    },
+    {
+      "name": "field.descriptionId",
+      "kind": "const",
+      "signature": "descriptionId: (baseId: string) => string"
+    },
+    {
+      "name": "field.errorId",
+      "kind": "const",
+      "signature": "errorId: (baseId: string) => string"
+    },
+    {
+      "name": "field.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: FieldContext): FieldState;"
+    },
+    {
+      "name": "field.labelId",
+      "kind": "const",
+      "signature": "labelId: (baseId: string) => string"
+    },
+    {
+      "name": "hoverCard",
+      "kind": "namespace",
+      "signature": "namespace index$9"
+    },
+    {
+      "name": "hoverCard.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: HoverCardState; normalize?: Normalize; }"
+    },
+    {
+      "name": "hoverCard.HoverCardApi",
+      "kind": "type",
+      "signature": "type index$9_HoverCardApi = HoverCardApi;"
+    },
+    {
+      "name": "hoverCard.HoverCardContext",
+      "kind": "type",
+      "signature": "type index$9_HoverCardContext = HoverCardContext;"
+    },
+    {
+      "name": "hoverCard.HoverCardState",
+      "kind": "type",
+      "signature": "type index$9_HoverCardState = HoverCardState;"
+    },
+    {
+      "name": "hoverCard.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): HoverCardApi;"
+    },
+    {
+      "name": "hoverCard.contentId",
+      "kind": "const",
+      "signature": "contentId: (baseId: string) => string"
+    },
+    {
+      "name": "hoverCard.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: HoverCardContext): HoverCardState;"
+    },
+    {
+      "name": "hoverCard.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "i18n",
+      "kind": "namespace",
+      "signature": "namespace index$s"
+    },
+    {
+      "name": "i18n.DEFAULT_LOCALE",
+      "kind": "const",
+      "signature": "index$s_DEFAULT_LOCALE: typeof DEFAULT_LOCALE"
+    },
+    {
+      "name": "i18n.Dir",
+      "kind": "type",
+      "signature": "type index$s_Dir = Dir;"
+    },
+    {
+      "name": "i18n.MessageKey",
+      "kind": "type",
+      "signature": "type index$s_MessageKey = MessageKey;"
+    },
+    {
+      "name": "i18n.MessageValue",
+      "kind": "type",
+      "signature": "type index$s_MessageValue = MessageValue;"
+    },
+    {
+      "name": "i18n.Messages",
+      "kind": "type",
+      "signature": "type index$s_Messages = Messages;"
+    },
+    {
+      "name": "i18n.NumberSymbols",
+      "kind": "type",
+      "signature": "type index$s_NumberSymbols = NumberSymbols;"
+    },
+    {
+      "name": "i18n.PluralMessage",
+      "kind": "type",
+      "signature": "type index$s_PluralMessage = PluralMessage;"
+    },
+    {
+      "name": "i18n.TranslateVars",
+      "kind": "type",
+      "signature": "type index$s_TranslateVars = TranslateVars;"
+    },
+    {
+      "name": "i18n.canonicalLocale",
+      "kind": "const",
+      "signature": "index$s_canonicalLocale: typeof canonicalLocale"
+    },
+    {
+      "name": "i18n.dateTimeFormat",
+      "kind": "const",
+      "signature": "index$s_dateTimeFormat: typeof dateTimeFormat"
+    },
+    {
+      "name": "i18n.en",
+      "kind": "const",
+      "signature": "index$s_en: typeof en"
+    },
+    {
+      "name": "i18n.foldDigits",
+      "kind": "const",
+      "signature": "index$s_foldDigits: typeof foldDigits"
+    },
+    {
+      "name": "i18n.localeDirection",
+      "kind": "const",
+      "signature": "index$s_localeDirection: typeof localeDirection"
+    },
+    {
+      "name": "i18n.localeHourCycle",
+      "kind": "const",
+      "signature": "index$s_localeHourCycle: typeof localeHourCycle"
+    },
+    {
+      "name": "i18n.localeWeekStart",
+      "kind": "const",
+      "signature": "index$s_localeWeekStart: typeof localeWeekStart"
+    },
+    {
+      "name": "i18n.numberFormat",
+      "kind": "const",
+      "signature": "index$s_numberFormat: typeof numberFormat"
+    },
+    {
+      "name": "i18n.numberSymbols",
+      "kind": "const",
+      "signature": "index$s_numberSymbols: typeof numberSymbols"
+    },
+    {
+      "name": "i18n.pluralRules",
+      "kind": "const",
+      "signature": "index$s_pluralRules: typeof pluralRules"
+    },
+    {
+      "name": "i18n.translate",
+      "kind": "const",
+      "signature": "index$s_translate: typeof translate"
+    },
+    {
+      "name": "identityNormalize",
+      "kind": "const",
+      "signature": "identityNormalize: Normalize"
+    },
+    {
+      "name": "label",
+      "kind": "namespace",
+      "signature": "namespace index$o"
+    },
+    {
+      "name": "label.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: LabelState; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "label.LabelApi",
+      "kind": "type",
+      "signature": "type index$o_LabelApi = LabelApi;"
+    },
+    {
+      "name": "label.LabelContext",
+      "kind": "type",
+      "signature": "type index$o_LabelContext = LabelContext;"
+    },
+    {
+      "name": "label.LabelState",
+      "kind": "type",
+      "signature": "type index$o_LabelState = LabelState;"
+    },
+    {
+      "name": "label.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): LabelApi;"
+    },
+    {
+      "name": "label.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: LabelContext): LabelState;"
+    },
+    {
+      "name": "menu",
+      "kind": "namespace",
+      "signature": "namespace index$d"
+    },
+    {
+      "name": "menu.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: MenuState; /** Request the open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Request a new active value. */ setActiveValue: (value: string | null) => void; /** Run the item's action. */ onSelect?: (value: string) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "menu.MenuApi",
+      "kind": "type",
+      "signature": "type index$d_MenuApi = MenuApi;"
+    },
+    {
+      "name": "menu.MenuContext",
+      "kind": "type",
+      "signature": "type index$d_MenuContext = MenuContext;"
+    },
+    {
+      "name": "menu.MenuEntry",
+      "kind": "type",
+      "signature": "type index$d_MenuEntry = MenuEntry;"
+    },
+    {
+      "name": "menu.MenuGroup",
+      "kind": "type",
+      "signature": "type index$d_MenuGroup = MenuGroup;"
+    },
+    {
+      "name": "menu.MenuItem",
+      "kind": "type",
+      "signature": "type index$d_MenuItem = MenuItem;"
+    },
+    {
+      "name": "menu.MenuItemKind",
+      "kind": "type",
+      "signature": "type index$d_MenuItemKind = MenuItemKind;"
+    },
+    {
+      "name": "menu.MenuSeparator",
+      "kind": "type",
+      "signature": "type index$d_MenuSeparator = MenuSeparator;"
+    },
+    {
+      "name": "menu.MenuState",
+      "kind": "type",
+      "signature": "type index$d_MenuState = MenuState;"
+    },
+    {
+      "name": "menu.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setOpen, setActiveValue, onSelect, normalize, }: ConnectOptions): MenuApi;"
+    },
+    {
+      "name": "menu.firstEnabled",
+      "kind": "const",
+      "signature": "index$d_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "menu.groupLabelId",
+      "kind": "const",
+      "signature": "index$d_groupLabelId: typeof groupLabelId"
+    },
+    {
+      "name": "menu.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: MenuContext): MenuState;"
+    },
+    {
+      "name": "menu.isGroup",
+      "kind": "const",
+      "signature": "index$d_isGroup: typeof isGroup"
+    },
+    {
+      "name": "menu.isSeparator",
+      "kind": "const",
+      "signature": "index$d_isSeparator: typeof isSeparator"
+    },
+    {
+      "name": "menu.itemId",
+      "kind": "const",
+      "signature": "index$d_itemId: typeof itemId"
+    },
+    {
+      "name": "menu.itemsOf",
+      "kind": "const",
+      "signature": "index$d_itemsOf: typeof itemsOf"
+    },
+    {
+      "name": "menu.labelOf",
+      "kind": "const",
+      "signature": "labelOf: (item: MenuItem) => string"
+    },
+    {
+      "name": "menu.lastEnabled",
+      "kind": "const",
+      "signature": "index$d_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "menu.matchItem",
+      "kind": "const",
+      "signature": "index$d_matchItem: typeof matchItem"
+    },
+    {
+      "name": "menu.menuId",
+      "kind": "const",
+      "signature": "index$d_menuId: typeof menuId"
+    },
+    {
+      "name": "menu.nextEnabled",
+      "kind": "const",
+      "signature": "index$d_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "menu.prevEnabled",
+      "kind": "const",
+      "signature": "index$d_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "menu.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "meter",
+      "kind": "namespace",
+      "signature": "namespace index$p"
+    },
+    {
+      "name": "meter.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: MeterState; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "meter.MeterApi",
+      "kind": "type",
+      "signature": "type index$p_MeterApi = MeterApi;"
+    },
+    {
+      "name": "meter.MeterContext",
+      "kind": "type",
+      "signature": "type index$p_MeterContext = MeterContext;"
+    },
+    {
+      "name": "meter.MeterState",
+      "kind": "type",
+      "signature": "type index$p_MeterState = MeterState;"
+    },
+    {
+      "name": "meter.clamp",
+      "kind": "const",
+      "signature": "clamp: (value: number, min: number, max: number) => number"
+    },
+    {
+      "name": "meter.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): MeterApi;"
+    },
+    {
+      "name": "meter.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: MeterContext): MeterState;"
+    },
+    {
+      "name": "meter.level",
+      "kind": "const",
+      "signature": "index$p_level: typeof level"
+    },
+    {
+      "name": "meter.percentage",
+      "kind": "function",
+      "signature": "declare function percentage(state: MeterState): number;"
+    },
+    {
+      "name": "meter.quality",
+      "kind": "const",
+      "signature": "index$p_quality: typeof quality"
+    },
+    {
+      "name": "multiSelect",
+      "kind": "namespace",
+      "signature": "namespace index$c"
+    },
+    {
+      "name": "multiSelect.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: MultiSelectState; /** Request new values; the adapter owns how state updates. */ setValues: (values: string[]) => void; setOpen: (open: boolean) => void; setActiveValue: (value: string | null) => void; setInputValue: (text: string) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "multiSelect.MultiSelectApi",
+      "kind": "type",
+      "signature": "type index$c_MultiSelectApi = MultiSelectApi;"
+    },
+    {
+      "name": "multiSelect.MultiSelectContext",
+      "kind": "type",
+      "signature": "type index$c_MultiSelectContext = MultiSelectContext;"
+    },
+    {
+      "name": "multiSelect.MultiSelectItem",
+      "kind": "type",
+      "signature": "type index$c_MultiSelectItem = MultiSelectItem;"
+    },
+    {
+      "name": "multiSelect.MultiSelectState",
+      "kind": "type",
+      "signature": "type index$c_MultiSelectState = MultiSelectState;"
+    },
+    {
+      "name": "multiSelect.addValue",
+      "kind": "const",
+      "signature": "index$c_addValue: typeof addValue"
+    },
+    {
+      "name": "multiSelect.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValues, setOpen, setActiveValue, setInputValue, normalize, }: ConnectOptions): MultiSelectApi;"
+    },
+    {
+      "name": "multiSelect.firstEnabled",
+      "kind": "const",
+      "signature": "index$c_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "multiSelect.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: MultiSelectContext): MultiSelectState;"
+    },
+    {
+      "name": "multiSelect.inputId",
+      "kind": "const",
+      "signature": "inputId: (baseId: string) => string"
+    },
+    {
+      "name": "multiSelect.labelId",
+      "kind": "const",
+      "signature": "labelId: (baseId: string) => string"
+    },
+    {
+      "name": "multiSelect.labelOf",
+      "kind": "const",
+      "signature": "labelOf: (item: MultiSelectItem) => string"
+    },
+    {
+      "name": "multiSelect.lastEnabled",
+      "kind": "const",
+      "signature": "index$c_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "multiSelect.lastRemovableValue",
+      "kind": "const",
+      "signature": "index$c_lastRemovableValue: typeof lastRemovableValue"
+    },
+    {
+      "name": "multiSelect.listboxId",
+      "kind": "const",
+      "signature": "listboxId: (baseId: string) => string"
+    },
+    {
+      "name": "multiSelect.nextEnabled",
+      "kind": "const",
+      "signature": "index$c_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "multiSelect.optionId",
+      "kind": "const",
+      "signature": "optionId: (baseId: string, value: string) => string"
+    },
+    {
+      "name": "multiSelect.prevEnabled",
+      "kind": "const",
+      "signature": "index$c_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "multiSelect.removeValue",
+      "kind": "const",
+      "signature": "index$c_removeValue: typeof removeValue"
+    },
+    {
+      "name": "multiSelect.resolveItem",
+      "kind": "const",
+      "signature": "index$c_resolveItem: typeof resolveItem"
+    },
+    {
+      "name": "multiSelect.valuesId",
+      "kind": "const",
+      "signature": "index$c_valuesId: typeof valuesId"
+    },
+    {
+      "name": "navigationMenu",
+      "kind": "namespace",
+      "signature": "namespace index$7"
+    },
+    {
+      "name": "navigationMenu.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: NavigationMenuState; /** Request a new open value; the adapter owns how state updates. */ setValue: (value: string | null) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "navigationMenu.NavigationMenuApi",
+      "kind": "type",
+      "signature": "type index$7_NavigationMenuApi = NavigationMenuApi;"
+    },
+    {
+      "name": "navigationMenu.NavigationMenuContext",
+      "kind": "type",
+      "signature": "type index$7_NavigationMenuContext = NavigationMenuContext;"
+    },
+    {
+      "name": "navigationMenu.NavigationMenuState",
+      "kind": "type",
+      "signature": "type index$7_NavigationMenuState = NavigationMenuState;"
+    },
+    {
+      "name": "navigationMenu.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, normalize, }: ConnectOptions): NavigationMenuApi;"
+    },
+    {
+      "name": "navigationMenu.contentId",
+      "kind": "const",
+      "signature": "index$7_contentId: typeof contentId"
+    },
+    {
+      "name": "navigationMenu.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: NavigationMenuContext): NavigationMenuState;"
+    },
+    {
+      "name": "navigationMenu.triggerId",
+      "kind": "const",
+      "signature": "index$7_triggerId: typeof triggerId"
+    },
+    {
+      "name": "numberField",
+      "kind": "namespace",
+      "signature": "namespace index$3"
+    },
+    {
+      "name": "numberField.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: NumberFieldState; /** Replace the editing string (never emits a callback by itself). */ setInputValue: (text: string) => void; /** Apply a new canonical value; the adapter owns `onValueChange`. */ setValue: (value: number | null) => void; /** Record a commit boundary; the adapter owns `onValueCommit`. */ commitValue: (value: number | null) => void; /** Move DOM focus to the input (adapter-provided). */ focus?: () => void; /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<NumberFieldMessages>; normalize?: Normalize; }"
+    },
+    {
+      "name": "numberField.NumberFieldApi",
+      "kind": "type",
+      "signature": "type index$3_NumberFieldApi = NumberFieldApi;"
+    },
+    {
+      "name": "numberField.NumberFieldContext",
+      "kind": "type",
+      "signature": "type index$3_NumberFieldContext = NumberFieldContext;"
+    },
+    {
+      "name": "numberField.NumberFieldError",
+      "kind": "type",
+      "signature": "type index$3_NumberFieldError = NumberFieldError;"
+    },
+    {
+      "name": "numberField.NumberFieldMessages",
+      "kind": "type",
+      "signature": "type index$3_NumberFieldMessages = NumberFieldMessages;"
+    },
+    {
+      "name": "numberField.NumberFieldState",
+      "kind": "type",
+      "signature": "type index$3_NumberFieldState = NumberFieldState;"
+    },
+    {
+      "name": "numberField.NumberInputStatus",
+      "kind": "type",
+      "signature": "type index$3_NumberInputStatus = NumberInputStatus;"
+    },
+    {
+      "name": "numberField.NumberParseResult",
+      "kind": "type",
+      "signature": "type index$3_NumberParseResult = NumberParseResult;"
+    },
+    {
+      "name": "numberField.canonicalString",
+      "kind": "const",
+      "signature": "index$3_canonicalString: typeof canonicalString"
+    },
+    {
+      "name": "numberField.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setInputValue, setValue, commitValue, focus, invalid, describedBy, messages: messageOverrides, normalize, }: ConnectOptions): NumberFieldApi;"
+    },
+    {
+      "name": "numberField.decimalsOf",
+      "kind": "const",
+      "signature": "index$3_decimalsOf: typeof decimalsOf"
+    },
+    {
+      "name": "numberField.decrementId",
+      "kind": "const",
+      "signature": "index$3_decrementId: typeof decrementId"
+    },
+    {
+      "name": "numberField.formatNumber",
+      "kind": "const",
+      "signature": "index$3_formatNumber: typeof formatNumber"
+    },
+    {
+      "name": "numberField.incrementId",
+      "kind": "const",
+      "signature": "index$3_incrementId: typeof incrementId"
+    },
+    {
+      "name": "numberField.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: NumberFieldContext): NumberFieldState;"
+    },
+    {
+      "name": "numberField.inputId",
+      "kind": "const",
+      "signature": "index$3_inputId: typeof inputId"
+    },
+    {
+      "name": "numberField.labelId",
+      "kind": "const",
+      "signature": "index$3_labelId: typeof labelId"
+    },
+    {
+      "name": "numberField.parseNumber",
+      "kind": "const",
+      "signature": "index$3_parseNumber: typeof parseNumber"
+    },
+    {
+      "name": "numberField.readValue",
+      "kind": "const",
+      "signature": "index$3_readValue: typeof readValue"
+    },
+    {
+      "name": "numberField.snapToStep",
+      "kind": "const",
+      "signature": "index$3_snapToStep: typeof snapToStep"
+    },
+    {
+      "name": "numberField.validate",
+      "kind": "const",
+      "signature": "index$3_validate: typeof validate"
+    },
+    {
+      "name": "pagination",
+      "kind": "namespace",
+      "signature": "namespace index$l"
+    },
+    {
+      "name": "pagination.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: PaginationState; /** Request a new page; the adapter owns how state updates. */ setPage: (page: number) => void; /** Move DOM focus to the control with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "pagination.PageItem",
+      "kind": "type",
+      "signature": "type index$l_PageItem = PageItem;"
+    },
+    {
+      "name": "pagination.PaginationApi",
+      "kind": "type",
+      "signature": "type index$l_PaginationApi = PaginationApi;"
+    },
+    {
+      "name": "pagination.PaginationContext",
+      "kind": "type",
+      "signature": "type index$l_PaginationContext = PaginationContext;"
+    },
+    {
+      "name": "pagination.PaginationState",
+      "kind": "type",
+      "signature": "type index$l_PaginationState = PaginationState;"
+    },
+    {
+      "name": "pagination.clampPage",
+      "kind": "const",
+      "signature": "index$l_clampPage: typeof clampPage"
+    },
+    {
+      "name": "pagination.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setPage, focus, normalize, }: ConnectOptions): PaginationApi;"
+    },
+    {
+      "name": "pagination.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: PaginationContext): PaginationState;"
+    },
+    {
+      "name": "pagination.pageItems",
+      "kind": "const",
+      "signature": "index$l_pageItems: typeof pageItems"
+    },
+    {
+      "name": "pinInput",
+      "kind": "namespace",
+      "signature": "namespace index$k"
+    },
+    {
+      "name": "pinInput.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: PinInputState; /** * Accessible name for a cell, by zero-based index. Defaults to English; * adapters pass their translated catalog through here. */ cellLabel?: (index: number, length: number) => string; /** Request a new per-cell values array; the adapter owns how state updates. */ setValues: (values: string[]) => void; /** Move DOM focus to the cell at the given index (adapter-provided). */ focus?: (index: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "pinInput.PinInputApi",
+      "kind": "type",
+      "signature": "type index$k_PinInputApi = PinInputApi;"
+    },
+    {
+      "name": "pinInput.PinInputContext",
+      "kind": "type",
+      "signature": "type index$k_PinInputContext = PinInputContext;"
+    },
+    {
+      "name": "pinInput.PinInputState",
+      "kind": "type",
+      "signature": "type index$k_PinInputState = PinInputState;"
+    },
+    {
+      "name": "pinInput.PinInputType",
+      "kind": "type",
+      "signature": "type index$k_PinInputType = PinInputType;"
+    },
+    {
+      "name": "pinInput.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValues, focus, cellLabel, normalize, }: ConnectOptions): PinInputApi;"
+    },
+    {
+      "name": "pinInput.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: PinInputContext): PinInputState;"
+    },
+    {
+      "name": "pinInput.isComplete",
+      "kind": "const",
+      "signature": "index$k_isComplete: typeof isComplete"
+    },
+    {
+      "name": "pinInput.sanitizeChar",
+      "kind": "const",
+      "signature": "index$k_sanitizeChar: typeof sanitizeChar"
+    },
+    {
+      "name": "pinInput.splitValue",
+      "kind": "const",
+      "signature": "index$k_splitValue: typeof splitValue"
+    },
+    {
+      "name": "pinInput.value",
+      "kind": "const",
+      "signature": "index$k_value: typeof value"
+    },
+    {
+      "name": "popover",
+      "kind": "namespace",
+      "signature": "namespace index$b"
+    },
+    {
+      "name": "popover.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: PopoverState; /** Request the open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** * Name for the panel. Without one the panel falls back to being named by its * trigger, whose visible text is what the user pressed to open it. */ label?: string; normalize?: Normalize; }"
+    },
+    {
+      "name": "popover.PopoverApi",
+      "kind": "type",
+      "signature": "type index$b_PopoverApi = PopoverApi;"
+    },
+    {
+      "name": "popover.PopoverContext",
+      "kind": "type",
+      "signature": "type index$b_PopoverContext = PopoverContext;"
+    },
+    {
+      "name": "popover.PopoverState",
+      "kind": "type",
+      "signature": "type index$b_PopoverState = PopoverState;"
+    },
+    {
+      "name": "popover.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setOpen, label, normalize, }: ConnectOptions): PopoverApi;"
+    },
+    {
+      "name": "popover.contentId",
+      "kind": "const",
+      "signature": "contentId: (baseId: string) => string"
+    },
+    {
+      "name": "popover.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: PopoverContext): PopoverState;"
+    },
+    {
+      "name": "popover.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "progress",
+      "kind": "namespace",
+      "signature": "namespace index$q"
+    },
+    {
+      "name": "progress.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: ProgressState; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "progress.ProgressApi",
+      "kind": "type",
+      "signature": "type index$q_ProgressApi = ProgressApi;"
+    },
+    {
+      "name": "progress.ProgressContext",
+      "kind": "type",
+      "signature": "type index$q_ProgressContext = ProgressContext;"
+    },
+    {
+      "name": "progress.ProgressState",
+      "kind": "type",
+      "signature": "type index$q_ProgressState = ProgressState;"
+    },
+    {
+      "name": "progress.clamp",
+      "kind": "const",
+      "signature": "clamp: (value: number, min: number, max: number) => number"
+    },
+    {
+      "name": "progress.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): ProgressApi;"
+    },
+    {
+      "name": "progress.dataState",
+      "kind": "const",
+      "signature": "index$q_dataState: typeof dataState"
+    },
+    {
+      "name": "progress.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: ProgressContext): ProgressState;"
+    },
+    {
+      "name": "progress.isIndeterminate",
+      "kind": "const",
+      "signature": "index$q_isIndeterminate: typeof isIndeterminate"
+    },
+    {
+      "name": "progress.percentage",
+      "kind": "function",
+      "signature": "declare function percentage(state: ProgressState): number | null;"
+    },
+    {
+      "name": "radioGroup",
+      "kind": "namespace",
+      "signature": "namespace index$w"
+    },
+    {
+      "name": "radioGroup.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: RadioGroupState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Shared form/group name applied to every radio input. */ name?: string; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "radioGroup.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "radioGroup.RadioGroupApi",
+      "kind": "type",
+      "signature": "type index$w_RadioGroupApi = RadioGroupApi;"
+    },
+    {
+      "name": "radioGroup.RadioGroupContext",
+      "kind": "type",
+      "signature": "type index$w_RadioGroupContext = RadioGroupContext;"
+    },
+    {
+      "name": "radioGroup.RadioGroupState",
+      "kind": "type",
+      "signature": "type index$w_RadioGroupState = RadioGroupState;"
+    },
+    {
+      "name": "radioGroup.RadioItem",
+      "kind": "type",
+      "signature": "type index$w_RadioItem = RadioItem;"
+    },
+    {
+      "name": "radioGroup.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, name, normalize, }: ConnectOptions): RadioGroupApi;"
+    },
+    {
+      "name": "radioGroup.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: RadioGroupContext): RadioGroupState;"
+    },
+    {
+      "name": "scrollArea",
+      "kind": "namespace",
+      "signature": "namespace index$j"
+    },
+    {
+      "name": "scrollArea.ScrollMetrics",
+      "kind": "type",
+      "signature": "type index$j_ScrollMetrics = ScrollMetrics;"
+    },
+    {
+      "name": "scrollArea.ScrollOrientation",
+      "kind": "type",
+      "signature": "type index$j_ScrollOrientation = ScrollOrientation;"
+    },
+    {
+      "name": "scrollArea.ScrollbarGeometry",
+      "kind": "type",
+      "signature": "type index$j_ScrollbarGeometry = ScrollbarGeometry;"
+    },
+    {
+      "name": "scrollArea.hasOverflow",
+      "kind": "const",
+      "signature": "index$j_hasOverflow: typeof hasOverflow"
+    },
+    {
+      "name": "scrollArea.scrollByThumbDrag",
+      "kind": "const",
+      "signature": "index$j_scrollByThumbDrag: typeof scrollByThumbDrag"
+    },
+    {
+      "name": "scrollArea.scrollbar",
+      "kind": "const",
+      "signature": "index$j_scrollbar: typeof scrollbar"
+    },
+    {
+      "name": "scrollArea.thumbOffsetFraction",
+      "kind": "const",
+      "signature": "index$j_thumbOffsetFraction: typeof thumbOffsetFraction"
+    },
+    {
+      "name": "scrollArea.thumbSizeFraction",
+      "kind": "const",
+      "signature": "index$j_thumbSizeFraction: typeof thumbSizeFraction"
+    },
+    {
+      "name": "select",
+      "kind": "namespace",
+      "signature": "namespace index$e"
+    },
+    {
+      "name": "select.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: SelectState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Request the open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Request a new active (highlighted) value. */ setActiveValue: (value: string | null) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "select.SelectApi",
+      "kind": "type",
+      "signature": "type index$e_SelectApi = SelectApi;"
+    },
+    {
+      "name": "select.SelectContext",
+      "kind": "type",
+      "signature": "type index$e_SelectContext = SelectContext;"
+    },
+    {
+      "name": "select.SelectItem",
+      "kind": "type",
+      "signature": "type index$e_SelectItem = SelectItem;"
+    },
+    {
+      "name": "select.SelectState",
+      "kind": "type",
+      "signature": "type index$e_SelectState = SelectState;"
+    },
+    {
+      "name": "select.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, setOpen, setActiveValue, normalize, }: ConnectOptions): SelectApi;"
+    },
+    {
+      "name": "select.firstEnabled",
+      "kind": "const",
+      "signature": "index$e_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "select.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: SelectContext): SelectState;"
+    },
+    {
+      "name": "select.labelId",
+      "kind": "const",
+      "signature": "labelId: (baseId: string) => string"
+    },
+    {
+      "name": "select.labelOf",
+      "kind": "const",
+      "signature": "labelOf: (item: SelectItem) => string"
+    },
+    {
+      "name": "select.lastEnabled",
+      "kind": "const",
+      "signature": "index$e_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "select.listboxId",
+      "kind": "const",
+      "signature": "listboxId: (baseId: string) => string"
+    },
+    {
+      "name": "select.matchOption",
+      "kind": "const",
+      "signature": "index$e_matchOption: typeof matchOption"
+    },
+    {
+      "name": "select.nextEnabled",
+      "kind": "const",
+      "signature": "index$e_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "select.optionId",
+      "kind": "const",
+      "signature": "optionId: (baseId: string, value: string) => string"
+    },
+    {
+      "name": "select.prevEnabled",
+      "kind": "const",
+      "signature": "index$e_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "select.triggerId",
+      "kind": "const",
+      "signature": "triggerId: (baseId: string) => string"
+    },
+    {
+      "name": "slider",
+      "kind": "namespace",
+      "signature": "namespace index$m"
+    },
+    {
+      "name": "slider.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: SliderState; /** Request a new value; the adapter owns how state updates. */ setValue: (value: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "slider.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "slider.SliderApi",
+      "kind": "type",
+      "signature": "type index$m_SliderApi = SliderApi;"
+    },
+    {
+      "name": "slider.SliderContext",
+      "kind": "type",
+      "signature": "type index$m_SliderContext = SliderContext;"
+    },
+    {
+      "name": "slider.SliderState",
+      "kind": "type",
+      "signature": "type index$m_SliderState = SliderState;"
+    },
+    {
+      "name": "slider.clamp",
+      "kind": "const",
+      "signature": "clamp: (value: number, min: number, max: number) => number"
+    },
+    {
+      "name": "slider.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, normalize, }: ConnectOptions): SliderApi;"
+    },
+    {
+      "name": "slider.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: SliderContext): SliderState;"
+    },
+    {
+      "name": "slider.percentage",
+      "kind": "const",
+      "signature": "index$m_percentage: typeof percentage"
+    },
+    {
+      "name": "slider.snap",
+      "kind": "const",
+      "signature": "index$m_snap: typeof snap"
+    },
+    {
+      "name": "slider.valueFromFraction",
+      "kind": "const",
+      "signature": "index$m_valueFromFraction: typeof valueFromFraction"
+    },
+    {
+      "name": "stepper",
+      "kind": "namespace",
+      "signature": "namespace index$h"
+    },
+    {
+      "name": "stepper.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: StepperState; /** Request a new current step; the adapter owns how state updates. */ setStep: (step: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "stepper.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "stepper.StepStatus",
+      "kind": "type",
+      "signature": "type index$h_StepStatus = StepStatus;"
+    },
+    {
+      "name": "stepper.StepperApi",
+      "kind": "type",
+      "signature": "type index$h_StepperApi = StepperApi;"
+    },
+    {
+      "name": "stepper.StepperContext",
+      "kind": "type",
+      "signature": "type index$h_StepperContext = StepperContext;"
+    },
+    {
+      "name": "stepper.StepperState",
+      "kind": "type",
+      "signature": "type index$h_StepperState = StepperState;"
+    },
+    {
+      "name": "stepper.canGoTo",
+      "kind": "const",
+      "signature": "index$h_canGoTo: typeof canGoTo"
+    },
+    {
+      "name": "stepper.clampStep",
+      "kind": "const",
+      "signature": "index$h_clampStep: typeof clampStep"
+    },
+    {
+      "name": "stepper.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setStep, normalize, }: ConnectOptions): StepperApi;"
+    },
+    {
+      "name": "stepper.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: StepperContext): StepperState;"
+    },
+    {
+      "name": "stepper.stepStatus",
+      "kind": "const",
+      "signature": "index$h_stepStatus: typeof stepStatus"
+    },
+    {
+      "name": "switchControl",
+      "kind": "namespace",
+      "signature": "namespace index$2"
+    },
+    {
+      "name": "switchControl.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: SwitchState; /** Request a new checked value; the adapter owns how state updates. */ setChecked: (value: boolean) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "switchControl.SwitchApi",
+      "kind": "type",
+      "signature": "type index$2_SwitchApi = SwitchApi;"
+    },
+    {
+      "name": "switchControl.SwitchContext",
+      "kind": "type",
+      "signature": "type index$2_SwitchContext = SwitchContext;"
+    },
+    {
+      "name": "switchControl.SwitchState",
+      "kind": "type",
+      "signature": "type index$2_SwitchState = SwitchState;"
+    },
+    {
+      "name": "switchControl.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setChecked, normalize, }: ConnectOptions): SwitchApi;"
+    },
+    {
+      "name": "switchControl.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: SwitchContext): SwitchState;"
+    },
+    {
+      "name": "table",
+      "kind": "namespace",
+      "signature": "namespace index$f"
+    },
+    {
+      "name": "table.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: TableState; /** Request a new sort; the adapter owns how state updates. */ setSort: (sort: SortState | null) => void; /** Request a new hidden-column set; the adapter owns how state updates. */ setHidden: (hidden: string[]) => void; /** Request a new selection; the adapter owns how state updates. */ setSelectedRowIds: (ids: RowId[]) => void; normalize?: Normalize; }"
+    },
+    {
+      "name": "table.RowId",
+      "kind": "type",
+      "signature": "type index$f_RowId = RowId;"
+    },
+    {
+      "name": "table.SelectionMode",
+      "kind": "type",
+      "signature": "type index$f_SelectionMode = SelectionMode;"
+    },
+    {
+      "name": "table.SortDirection",
+      "kind": "type",
+      "signature": "type index$f_SortDirection = SortDirection;"
+    },
+    {
+      "name": "table.SortState",
+      "kind": "type",
+      "signature": "type index$f_SortState = SortState;"
+    },
+    {
+      "name": "table.TableApi",
+      "kind": "type",
+      "signature": "type index$f_TableApi = TableApi;"
+    },
+    {
+      "name": "table.TableColumn",
+      "kind": "type",
+      "signature": "type index$f_TableColumn = TableColumn;"
+    },
+    {
+      "name": "table.TableContext",
+      "kind": "type",
+      "signature": "type index$f_TableContext = TableContext;"
+    },
+    {
+      "name": "table.TableState",
+      "kind": "type",
+      "signature": "type index$f_TableState = TableState;"
+    },
+    {
+      "name": "table.clearSelection",
+      "kind": "const",
+      "signature": "index$f_clearSelection: typeof clearSelection"
+    },
+    {
+      "name": "table.compareValues",
+      "kind": "const",
+      "signature": "index$f_compareValues: typeof compareValues"
+    },
+    {
+      "name": "table.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setSort, setHidden, setSelectedRowIds, normalize, }: ConnectOptions): TableApi;"
+    },
+    {
+      "name": "table.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: TableContext): TableState;"
+    },
+    {
+      "name": "table.nextSort",
+      "kind": "const",
+      "signature": "index$f_nextSort: typeof nextSort"
+    },
+    {
+      "name": "table.scopeSelectionState",
+      "kind": "const",
+      "signature": "index$f_scopeSelectionState: typeof scopeSelectionState"
+    },
+    {
+      "name": "table.sortRows",
+      "kind": "const",
+      "signature": "index$f_sortRows: typeof sortRows"
+    },
+    {
+      "name": "table.toggleHidden",
+      "kind": "const",
+      "signature": "index$f_toggleHidden: typeof toggleHidden"
+    },
+    {
+      "name": "table.toggleRowSelection",
+      "kind": "const",
+      "signature": "index$f_toggleRowSelection: typeof toggleRowSelection"
+    },
+    {
+      "name": "table.toggleScopeSelection",
+      "kind": "const",
+      "signature": "index$f_toggleScopeSelection: typeof toggleScopeSelection"
+    },
+    {
+      "name": "tabs",
+      "kind": "namespace",
+      "signature": "namespace index$v"
+    },
+    {
+      "name": "tabs.ActivationMode",
+      "kind": "type",
+      "signature": "type index$v_ActivationMode = ActivationMode;"
+    },
+    {
+      "name": "tabs.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: TabsState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Move DOM focus to the tab with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "tabs.Orientation",
+      "kind": "type",
+      "signature": "type Orientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "tabs.TabItem",
+      "kind": "type",
+      "signature": "type index$v_TabItem = TabItem;"
+    },
+    {
+      "name": "tabs.TabsApi",
+      "kind": "type",
+      "signature": "type index$v_TabsApi = TabsApi;"
+    },
+    {
+      "name": "tabs.TabsContext",
+      "kind": "type",
+      "signature": "type index$v_TabsContext = TabsContext;"
+    },
+    {
+      "name": "tabs.TabsState",
+      "kind": "type",
+      "signature": "type index$v_TabsState = TabsState;"
+    },
+    {
+      "name": "tabs.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, focus, normalize, }: ConnectOptions): TabsApi;"
+    },
+    {
+      "name": "tabs.firstEnabled",
+      "kind": "const",
+      "signature": "index$v_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "tabs.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: TabsContext): TabsState;"
+    },
+    {
+      "name": "tabs.lastEnabled",
+      "kind": "const",
+      "signature": "index$v_lastEnabled: typeof lastEnabled"
+    },
+    {
+      "name": "tabs.nextEnabled",
+      "kind": "const",
+      "signature": "index$v_nextEnabled: typeof nextEnabled"
+    },
+    {
+      "name": "tabs.panelId",
+      "kind": "const",
+      "signature": "panelId: (baseId: string, value: string) => string"
+    },
+    {
+      "name": "tabs.prevEnabled",
+      "kind": "const",
+      "signature": "index$v_prevEnabled: typeof prevEnabled"
+    },
+    {
+      "name": "tabs.tabId",
+      "kind": "const",
+      "signature": "index$v_tabId: typeof tabId"
+    },
+    {
+      "name": "textField",
+      "kind": "namespace",
+      "signature": "namespace index$4"
+    },
+    {
+      "name": "textField.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: TextFieldState; /** Request a new value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "textField.TextFieldApi",
+      "kind": "type",
+      "signature": "type index$4_TextFieldApi = TextFieldApi;"
+    },
+    {
+      "name": "textField.TextFieldContext",
+      "kind": "type",
+      "signature": "type index$4_TextFieldContext = TextFieldContext;"
+    },
+    {
+      "name": "textField.TextFieldState",
+      "kind": "type",
+      "signature": "type index$4_TextFieldState = TextFieldState;"
+    },
+    {
+      "name": "textField.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setValue, normalize, }: ConnectOptions): TextFieldApi;"
+    },
+    {
+      "name": "textField.controlId",
+      "kind": "const",
+      "signature": "index$4_controlId: typeof controlId"
+    },
+    {
+      "name": "textField.descriptionId",
+      "kind": "const",
+      "signature": "index$4_descriptionId: typeof descriptionId"
+    },
+    {
+      "name": "textField.errorId",
+      "kind": "const",
+      "signature": "index$4_errorId: typeof errorId"
+    },
+    {
+      "name": "textField.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: TextFieldContext): TextFieldState;"
+    },
+    {
+      "name": "textField.labelId",
+      "kind": "const",
+      "signature": "labelId: (baseId: string) => string"
+    },
+    {
+      "name": "textField.successId",
+      "kind": "const",
+      "signature": "index$4_successId: typeof successId"
+    },
+    {
+      "name": "timeField",
+      "kind": "namespace",
+      "signature": "namespace index"
+    },
+    {
+      "name": "timeField.ConnectOptions",
+      "kind": "type",
+      "signature": "type index_ConnectOptions = ConnectOptions;"
+    },
+    {
+      "name": "timeField.DayPeriod",
+      "kind": "type",
+      "signature": "type index_DayPeriod = DayPeriod;"
+    },
+    {
+      "name": "timeField.HourCycle",
+      "kind": "type",
+      "signature": "type index_HourCycle = HourCycle;"
+    },
+    {
+      "name": "timeField.ParseTimeValueOptions",
+      "kind": "type",
+      "signature": "type index_ParseTimeValueOptions = ParseTimeValueOptions;"
+    },
+    {
+      "name": "timeField.TimeFieldApi",
+      "kind": "type",
+      "signature": "type index_TimeFieldApi = TimeFieldApi;"
+    },
+    {
+      "name": "timeField.TimeFieldContext",
+      "kind": "type",
+      "signature": "type index_TimeFieldContext = TimeFieldContext;"
+    },
+    {
+      "name": "timeField.TimeFieldMessages",
+      "kind": "type",
+      "signature": "type index_TimeFieldMessages = TimeFieldMessages;"
+    },
+    {
+      "name": "timeField.TimeFieldState",
+      "kind": "type",
+      "signature": "type index_TimeFieldState = TimeFieldState;"
+    },
+    {
+      "name": "timeField.TimeInputStatus",
+      "kind": "type",
+      "signature": "type index_TimeInputStatus = TimeInputStatus;"
+    },
+    {
+      "name": "timeField.TimeParseResult",
+      "kind": "type",
+      "signature": "type index_TimeParseResult = TimeParseResult;"
+    },
+    {
+      "name": "timeField.TimeParts",
+      "kind": "type",
+      "signature": "type index_TimeParts = TimeParts;"
+    },
+    {
+      "name": "timeField.TimeSegmentType",
+      "kind": "type",
+      "signature": "type index_TimeSegmentType = TimeSegmentType;"
+    },
+    {
+      "name": "timeField.TimeValueError",
+      "kind": "type",
+      "signature": "type index_TimeValueError = TimeValueError;"
+    },
+    {
+      "name": "timeField.bounds",
+      "kind": "const",
+      "signature": "index_bounds: typeof bounds"
+    },
+    {
+      "name": "timeField.connect",
+      "kind": "const",
+      "signature": "index_connect: typeof connect"
+    },
+    {
+      "name": "timeField.emptyParts",
+      "kind": "const",
+      "signature": "index_emptyParts: typeof emptyParts"
+    },
+    {
+      "name": "timeField.format",
+      "kind": "const",
+      "signature": "index_format: typeof format"
+    },
+    {
+      "name": "timeField.from12",
+      "kind": "const",
+      "signature": "index_from12: typeof from12"
+    },
+    {
+      "name": "timeField.initialState",
+      "kind": "const",
+      "signature": "index_initialState: typeof initialState"
+    },
+    {
+      "name": "timeField.pad2",
+      "kind": "const",
+      "signature": "index_pad2: typeof pad2"
+    },
+    {
+      "name": "timeField.parseTimeValue",
+      "kind": "const",
+      "signature": "index_parseTimeValue: typeof parseTimeValue"
+    },
+    {
+      "name": "timeField.parseValue",
+      "kind": "const",
+      "signature": "index_parseValue: typeof parseValue"
+    },
+    {
+      "name": "timeField.periodOf",
+      "kind": "const",
+      "signature": "index_periodOf: typeof periodOf"
+    },
+    {
+      "name": "timeField.rangeError",
+      "kind": "const",
+      "signature": "index_rangeError: typeof rangeError"
+    },
+    {
+      "name": "timeField.segmentId",
+      "kind": "const",
+      "signature": "index_segmentId: typeof segmentId"
+    },
+    {
+      "name": "timeField.segments",
+      "kind": "const",
+      "signature": "index_segments: typeof segments"
+    },
+    {
+      "name": "timeField.to12",
+      "kind": "const",
+      "signature": "index_to12: typeof to12"
+    },
+    {
+      "name": "toggleButton",
+      "kind": "namespace",
+      "signature": "namespace index$z"
+    },
+    {
+      "name": "toggleButton.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: ToggleButtonState; /** Request a new pressed value; the adapter owns how state actually updates. */ setPressed: (value: boolean) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "toggleButton.ToggleButtonApi",
+      "kind": "type",
+      "signature": "type index$z_ToggleButtonApi = ToggleButtonApi;"
+    },
+    {
+      "name": "toggleButton.ToggleButtonContext",
+      "kind": "type",
+      "signature": "type index$z_ToggleButtonContext = ToggleButtonContext;"
+    },
+    {
+      "name": "toggleButton.ToggleButtonState",
+      "kind": "type",
+      "signature": "type index$z_ToggleButtonState = ToggleButtonState;"
+    },
+    {
+      "name": "toggleButton.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setPressed, normalize, }: ConnectOptions): ToggleButtonApi;"
+    },
+    {
+      "name": "toggleButton.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: ToggleButtonContext): ToggleButtonState;"
+    },
+    {
+      "name": "toggleButton.setDisabled",
+      "kind": "const",
+      "signature": "index$z_setDisabled: typeof setDisabled"
+    },
+    {
+      "name": "toggleButton.togglePressed",
+      "kind": "const",
+      "signature": "index$z_togglePressed: typeof togglePressed"
+    },
+    {
+      "name": "toolbar",
+      "kind": "namespace",
+      "signature": "namespace index$6"
+    },
+    {
+      "name": "toolbar.ToolbarDirection",
+      "kind": "type",
+      "signature": "type index$6_ToolbarDirection = ToolbarDirection;"
+    },
+    {
+      "name": "toolbar.ToolbarMoveOptions",
+      "kind": "type",
+      "signature": "type index$6_ToolbarMoveOptions = ToolbarMoveOptions;"
+    },
+    {
+      "name": "toolbar.ToolbarOrientation",
+      "kind": "type",
+      "signature": "type index$6_ToolbarOrientation = ToolbarOrientation;"
+    },
+    {
+      "name": "toolbar.nextIndex",
+      "kind": "const",
+      "signature": "index$6_nextIndex: typeof nextIndex"
+    },
+    {
+      "name": "tooltip",
+      "kind": "namespace",
+      "signature": "namespace index$5"
+    },
+    {
+      "name": "tooltip.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { state: TooltipState; normalize?: Normalize; }"
+    },
+    {
+      "name": "tooltip.TooltipApi",
+      "kind": "type",
+      "signature": "type index$5_TooltipApi = TooltipApi;"
+    },
+    {
+      "name": "tooltip.TooltipContext",
+      "kind": "type",
+      "signature": "type index$5_TooltipContext = TooltipContext;"
+    },
+    {
+      "name": "tooltip.TooltipState",
+      "kind": "type",
+      "signature": "type index$5_TooltipState = TooltipState;"
+    },
+    {
+      "name": "tooltip.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, normalize }: ConnectOptions): TooltipApi;"
+    },
+    {
+      "name": "tooltip.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context?: TooltipContext): TooltipState;"
+    },
+    {
+      "name": "tooltip.tooltipId",
+      "kind": "const",
+      "signature": "index$5_tooltipId: typeof tooltipId"
+    },
+    {
+      "name": "treeView",
+      "kind": "namespace",
+      "signature": "namespace index$i"
+    },
+    {
+      "name": "treeView.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "treeView.TreeApi",
+      "kind": "type",
+      "signature": "type index$i_TreeApi = TreeApi;"
+    },
+    {
+      "name": "treeView.TreeContext",
+      "kind": "type",
+      "signature": "type index$i_TreeContext = TreeContext;"
+    },
+    {
+      "name": "treeView.TreeNode",
+      "kind": "type",
+      "signature": "type index$i_TreeNode = TreeNode;"
+    },
+    {
+      "name": "treeView.TreeState",
+      "kind": "type",
+      "signature": "type index$i_TreeState = TreeState;"
+    },
+    {
+      "name": "treeView.VisibleNode",
+      "kind": "type",
+      "signature": "type index$i_VisibleNode = VisibleNode;"
+    },
+    {
+      "name": "treeView.connect",
+      "kind": "function",
+      "signature": "declare function connect({ state, setExpanded, setSelected, setFocused, focus, normalize, }: ConnectOptions): TreeApi;"
+    },
+    {
+      "name": "treeView.firstVisible",
+      "kind": "const",
+      "signature": "index$i_firstVisible: typeof firstVisible"
+    },
+    {
+      "name": "treeView.initialState",
+      "kind": "function",
+      "signature": "declare function initialState(context: TreeContext): TreeState;"
+    },
+    {
+      "name": "treeView.lastVisible",
+      "kind": "const",
+      "signature": "index$i_lastVisible: typeof lastVisible"
+    },
+    {
+      "name": "treeView.nextVisible",
+      "kind": "const",
+      "signature": "index$i_nextVisible: typeof nextVisible"
+    },
+    {
+      "name": "treeView.parentOf",
+      "kind": "const",
+      "signature": "index$i_parentOf: typeof parentOf"
+    },
+    {
+      "name": "treeView.prevVisible",
+      "kind": "const",
+      "signature": "index$i_prevVisible: typeof prevVisible"
+    },
+    {
+      "name": "treeView.toggleExpanded",
+      "kind": "const",
+      "signature": "index$i_toggleExpanded: typeof toggleExpanded"
+    },
+    {
+      "name": "treeView.visibleNode",
+      "kind": "const",
+      "signature": "index$i_visibleNode: typeof visibleNode"
+    },
+    {
+      "name": "treeView.visibleNodes",
+      "kind": "const",
+      "signature": "index$i_visibleNodes: typeof visibleNodes"
+    }
+  ]
+}
