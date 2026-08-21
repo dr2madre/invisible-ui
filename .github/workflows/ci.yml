@@ -45,6 +45,12 @@ jobs:
       - name: Build, test, typecheck
         run: pnpm exec turbo run build test typecheck check
 
+      # The public API report is generated from the built declarations: this
+      # fails when an export, a signature or an export map changed without the
+      # committed report changing with it.
+      - name: Public API report drift
+        run: pnpm api:report:check
+
       # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
       - name: Bundle size budget
         run: pnpm size

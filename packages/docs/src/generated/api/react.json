@@ -1,0 +1,263 @@
+{
+  "package": "@design-system/react",
+  "entry": "packages/react/dist/index.d.ts",
+  "exportMap": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "externalReferences": [
+    "@design-system/core",
+    "react"
+  ],
+  "symbols": [
+    {
+      "name": "Button",
+      "kind": "const",
+      "signature": "Button: react.ForwardRefExoticComponent<ButtonProps & react.RefAttributes<HTMLButtonElement>>"
+    },
+    {
+      "name": "ButtonProps",
+      "kind": "interface",
+      "signature": "interface ButtonProps extends NativeButtonProps { /** * Semantic variant, surfaced as `data-variant`: * `default` (baseline) · `primary` (the action that moves the flow forward) · * `secondary` (alternative emphasized action) · `ghost` (low emphasis) · * `danger` (destructive — shows a hazard icon so meaning never rests on * colour alone, WCAG 1.4.1). */ variant?: ButtonVariant; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; /** Called when the button is activated. */ onPress?: (event: Event) => void; /** Show a leading icon. Defaults on for `danger` (the hazard cue). */ leftIcon?: boolean; /** Show a trailing icon. */ rightIcon?: boolean; /** Replace the built-in leading glyph. */ left?: ReactNode; /** Replace the built-in trailing glyph. */ right?: ReactNode; /** * Icon-only button: square, no text — pass a single icon as `children` and an * `ariaLabel`. */ iconOnly?: boolean; /** * Accessible name. Required for icon-only buttons; for buttons with visible * text the text is the name and this is unnecessary. */ ariaLabel?: string; children?: ReactNode; }"
+    },
+    {
+      "name": "ButtonVariant",
+      "kind": "type",
+      "signature": "type ButtonVariant = button.ButtonVariant;"
+    },
+    {
+      "name": "Checkbox",
+      "kind": "function",
+      "signature": "declare function Checkbox({ label, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
+    },
+    {
+      "name": "CheckboxProps",
+      "kind": "interface",
+      "signature": "interface CheckboxProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; checked?: CheckedState; disabled?: boolean; /** Form field name — the value is submitted under it when checked. */ name?: string; /** Value submitted with the form when checked. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; children?: ReactNode; }"
+    },
+    {
+      "name": "CheckedState",
+      "kind": "type",
+      "signature": "type CheckedState = checkbox.CheckedState;"
+    },
+    {
+      "name": "Combobox",
+      "kind": "function",
+      "signature": "declare function Combobox({ label, items, value, searchable, width, placeholder, disabled, clearLabel, emptyText, name, onValueChange, onInputValueChange, icon, }: ComboboxProps): react.JSX.Element;"
+    },
+    {
+      "name": "ComboboxItem",
+      "kind": "type",
+      "signature": "type ComboboxItem = combobox.ComboboxItem;"
+    },
+    {
+      "name": "ComboboxOption",
+      "kind": "interface",
+      "signature": "interface ComboboxOption extends ComboboxItem { icon?: string; }"
+    },
+    {
+      "name": "ComboboxProps",
+      "kind": "interface",
+      "signature": "interface ComboboxProps { /** Accessible name for the control. */ label: string; /** Options. Each may carry a leading `icon`; with the search hidden, the * control mirrors the selected option's icon. */ items: ComboboxOption[]; value?: string | null; /** * With `searchable={false}` the input becomes read-only and the list always * shows every option — a select-only combobox: the advanced Select (styled * popup, per-option icons) without the autocomplete. */ searchable?: boolean; /** * Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits * the longest option, `fill` takes 100% of the container. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Clear button accessible name. Defaults to the catalog's \"Clear\". */ clearLabel?: string; /** Text shown when no option matches. Defaults to the catalog's \"No results\". */ emptyText?: string; /** Form field name — the selected option's value is submitted under it. */ name?: string; onValueChange?: (value: string | null) => void; onInputValueChange?: (text: string) => void; /** Leading icon shown when `searchable={false}` and no option icon applies. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "Dialog",
+      "kind": "function",
+      "signature": "declare function Dialog({ triggerVariant, trigger, open, title, hideTitle, description, closeLabel, icon, headerMeta, headerLead, footerLead, footer, footerClose, bodyLayout, initialFocus, closeOnOutsideClick, onOpenChange, children, }: DialogProps): react.JSX.Element;"
+    },
+    {
+      "name": "DialogProps",
+      "kind": "interface",
+      "signature": "interface DialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the dialog (required). */ title: string; /** * Visually hide the title while keeping it as the dialog's accessible name. * The title text is always required; this only controls whether it is shown. */ hideTitle?: boolean; /** Optional description, wired via `aria-describedby`. */ description?: string; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon, centered against the title block. */ icon?: ReactNode; /** Content above the title, e.g. \"Step 1 of 2\". Carries no progress semantics. */ headerMeta?: ReactNode; /** Leading ghost icon button (e.g. a back affordance). */ headerLead?: ReactNode; /** Leading footer actions, e.g. Back. */ footerLead?: ReactNode; /** Trailing action buttons in the footer. */ footer?: ReactNode; /** Show a close/cancel button on the footer's leading edge. */ footerClose?: boolean; /** * Body layout. `plain` (the default) leaves the body untouched. `stack` * spaces the direct children by `--ds-dialog-body-gap`, which saves a * workflow from inventing its own spacing between sections. */ bodyLayout?: DialogBodyLayout; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button. */ initialFocus?: string; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; onOpenChange?: (open: boolean) => void; /** The dialog body. */ children?: ReactNode; }"
+    },
+    {
+      "name": "DialogRole",
+      "kind": "type",
+      "signature": "type DialogRole = dialog.DialogRole;"
+    },
+    {
+      "name": "Dir",
+      "kind": "type",
+      "signature": "type Dir = \"ltr\" | \"rtl\";"
+    },
+    {
+      "name": "I18nValue",
+      "kind": "interface",
+      "signature": "interface I18nValue { /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */ locale: string; /** Writing direction: explicit when given, otherwise derived from the locale. */ dir: Dir; /** Translator: `t(\"select.placeholder\")`. Falls back to English, then the key. */ t: TranslateFn; }"
+    },
+    {
+      "name": "Icon",
+      "kind": "function",
+      "signature": "declare function Icon({ size, viewBox, strokeWidth, label, className, children, }: IconProps): react.JSX.Element;"
+    },
+    {
+      "name": "IconProps",
+      "kind": "interface",
+      "signature": "interface IconProps { /** Rendered size; `1em` by default so icons scale with the surrounding text. */ size?: string; viewBox?: string; /** Stroke width in viewBox units (glyphs are stroke-based by default). */ strokeWidth?: number | string; /** Accessible name. When omitted the icon is decorative (`aria-hidden`). */ label?: string; /** Extra classes merged onto the `<svg>` (e.g. for stateful styling). */ className?: string; /** The glyph itself: `<path>`, `<line>`, `<polyline>`, … */ children?: ReactNode; }"
+    },
+    {
+      "name": "LocaleProvider",
+      "kind": "function",
+      "signature": "declare function LocaleProvider({ locale, dir, messages, children, }: LocaleProviderProps): react.JSX.Element;"
+    },
+    {
+      "name": "LocaleProviderProps",
+      "kind": "interface",
+      "signature": "interface LocaleProviderProps { /** BCP-47 locale tag. Defaults to `\"en\"`. */ locale?: string; /** Explicit writing direction; when omitted it derives from the locale. */ dir?: Dir; /** Message overrides, merged over the English catalog. */ messages?: Messages; children?: ReactNode; }"
+    },
+    {
+      "name": "MessageKey",
+      "kind": "type",
+      "signature": "type MessageKey = i18n.MessageKey;"
+    },
+    {
+      "name": "Messages",
+      "kind": "type",
+      "signature": "type Messages = Partial<Record<MessageKey, string | PluralMessage>>;"
+    },
+    {
+      "name": "MultiSelect",
+      "kind": "function",
+      "signature": "declare function MultiSelect({ label, items, values, onValuesChange, onInputValueChange, onOpenChange, placeholder, disabled, readOnly, max, removeOnBackspace, name, required, emptyText, }: MultiSelectProps): react.JSX.Element;"
+    },
+    {
+      "name": "MultiSelectItem",
+      "kind": "type",
+      "signature": "type MultiSelectItem = multiSelect.MultiSelectItem;"
+    },
+    {
+      "name": "MultiSelectProps",
+      "kind": "interface",
+      "signature": "interface MultiSelectProps { /** Accessible, visible label (required). */ label: string; /** Ordered list of all options. */ items: MultiSelectItem[]; /** The selected values (controlled). Replace the array; do not mutate it. */ values?: string[]; /** Called with the next values after a user action. */ onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. */ removeOnBackspace?: boolean; /** Form field name; one hidden input per value is submitted under it. */ name?: string; /** * Expose `aria-required` on the input. Native constraint validation cannot * cover hidden multi-value inputs; validation stays with the application. */ required?: boolean; /** Empty-result row text. Defaults to the catalog's \"No results\". */ emptyText?: string; }"
+    },
+    {
+      "name": "Select",
+      "kind": "function",
+      "signature": "declare function Select({ label, hideLabel, items, value, placeholder, disabled, width, name, required, error, onValueChange, }: SelectProps): react.JSX.Element;"
+    },
+    {
+      "name": "SelectItem",
+      "kind": "interface",
+      "signature": "interface SelectItem { value: string; /** Visible label; falls back to `value`. */ label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "SelectProps",
+      "kind": "interface",
+      "signature": "interface SelectProps { /** Accessible name for the control. */ label: string; /** Visually hide the label (kept for assistive tech) — for compact toolbars. */ hideLabel?: boolean; /** Options. Plain text only — see the note on rich options below. */ items: SelectItem[]; /** Selected value. `null` shows the placeholder. */ value?: string | null; /** Shown while nothing is selected. Defaults to the catalog's \"Select…\". */ placeholder?: string; disabled?: boolean; /** * Width behaviour: `wrap` fits the longest option (the native default), * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Form field name — this is a real `<select>`, so it submits natively. */ name?: string; /** Marks the control as required (native validation + announced to AT). */ required?: boolean; /** Error message; when non-empty the select becomes invalid and announces it. */ error?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
+    },
+    {
+      "name": "Switch",
+      "kind": "function",
+      "signature": "declare function Switch({ label, checked, disabled, name, value, required, onOff, onText, offText, onCheckedChange, children, }: SwitchProps): react.JSX.Element;"
+    },
+    {
+      "name": "SwitchProps",
+      "kind": "interface",
+      "signature": "interface SwitchProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; checked?: boolean; disabled?: boolean; /** Form field name — the value is submitted under it when on. */ name?: string; /** Value submitted with the form when on. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Show ON/OFF text inside the track (a wider, labelled variant). */ onOff?: boolean; /** Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\". */ onText?: string; offText?: string; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; children?: ReactNode; }"
+    },
+    {
+      "name": "TranslateFn",
+      "kind": "type",
+      "signature": "type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;"
+    },
+    {
+      "name": "UseButtonOptions",
+      "kind": "interface",
+      "signature": "interface UseButtonOptions { variant?: ButtonVariant; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** * Whether a native `<button>` is rendered (default). Set `false` when * rendering another element: role, focusability and Enter/Space activation * are then emulated by the core. */ nativeButton?: boolean; }"
+    },
+    {
+      "name": "UseCheckboxOptions",
+      "kind": "interface",
+      "signature": "interface UseCheckboxOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: CheckedState; disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; }"
+    },
+    {
+      "name": "UseCombobox",
+      "kind": "interface",
+      "signature": "interface UseCombobox { /** The connected core API: prop bags plus imperative helpers. */ api: combobox.ComboboxApi; /** The currently visible (filtered) items. */ items: ComboboxItem[]; inputValue: string; value: string | null; open: boolean; /** Attach to the input; also the positioning reference. */ inputRef: (node: HTMLInputElement | null) => void; /** Attach to the listbox popup. */ listboxRef: (node: HTMLElement | null) => void; /** Attach to the control wrapper so chevron/clear presses count as \"inside\". */ controlRef: RefObject<HTMLDivElement | null>; /** Absolute-positioning styles for the listbox, from Floating UI. */ floatingStyles: CSSProperties; /** Typing filters, opens and highlights the first match. */ onInputChange: (event: ChangeEvent<HTMLInputElement>) => void; /** Pressing the closed input opens the list. */ onInputPointerDown: (event: PointerEvent<HTMLInputElement>) => void; /** Open showing *all* options, ignoring the current text (the chevron). */ openAll: () => void; setOpen: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseComboboxOptions",
+      "kind": "interface",
+      "signature": "interface UseComboboxOptions { /** Ordered list of all options; filtering is applied here, in the adapter. */ items: ComboboxItem[]; /** Selected value (controlled). `null` for none. */ value?: string | null; disabled?: boolean; /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; an empty query matches all. */ filter?: (items: ComboboxItem[], query: string) => ComboboxItem[]; onValueChange?: (value: string | null) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseDialog",
+      "kind": "interface",
+      "signature": "interface UseDialog { api: dialog.DialogApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger; used to restore focus on close. */ triggerRef: RefObject<HTMLButtonElement | null>; /** Attach to the `<dialog>` panel. Render it only while `open`. */ panelRef: RefObject<HTMLDialogElement | null>; }"
+    },
+    {
+      "name": "UseDialogOptions",
+      "kind": "interface",
+      "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseMultiSelect",
+      "kind": "interface",
+      "signature": "interface UseMultiSelect { /** The connected core API: prop bags plus imperative helpers. */ api: multiSelect.MultiSelectApi; /** The currently visible (filtered) items. */ items: MultiSelectItem[]; inputValue: string; values: string[]; open: boolean; /** Ref callback for the input; also the positioning reference. */ inputRef: RefCallback<HTMLInputElement>; /** Ref callback for the listbox popup. */ listboxRef: RefCallback<HTMLElement>; /** Ref for the control wrapper, so inner presses count as \"inside\". */ controlRef: RefObject<HTMLDivElement | null>; /** The input element, for imperative focus after a removal. */ inputEl: RefObject<HTMLInputElement | null>; /** Absolute-positioning styles for the listbox, from Floating UI. */ floatingStyles: CSSProperties; /** Typing filters, opens and highlights the first match. */ onInputChange: (event: ChangeEvent<HTMLInputElement>) => void; /** Pressing the closed input opens the list. */ onInputPointerDown: () => void; setOpen: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseMultiSelectOptions",
+      "kind": "interface",
+      "signature": "interface UseMultiSelectOptions { /** Ordered list of all options; filtering is applied here, in the adapter. */ items: MultiSelectItem[]; /** Selected values (controlled): ordered, unique. */ values?: string[]; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. Defaults to `false`. */ removeOnBackspace?: boolean; /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; an empty query matches all. */ filter?: (items: MultiSelectItem[], query: string) => MultiSelectItem[]; onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseSwitchOptions",
+      "kind": "interface",
+      "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; }"
+    },
+    {
+      "name": "en",
+      "kind": "const",
+      "signature": "en: { readonly \"calendar.previous\": \"Previous\"; readonly \"calendar.next\": \"Next\"; readonly \"calendar.today\": \"Today\"; readonly \"calendar.label\": \"Calendar\"; readonly \"calendar.viewsLabel\": \"Calendar view\"; readonly \"calendar.view.month\": \"Month\"; readonly \"calendar.view.two-month\": \"2 Months\"; readonly \"calendar.view.week\": \"Week\"; readonly \"calendar.view.three-day\": \"3 Days\"; readonly \"calendar.view.day\": \"Day\"; readonly \"calendar.view.year\": \"Year\"; readonly \"datePicker.label\": \"Date\"; readonly \"datePicker.placeholder\": \"Select a date\"; readonly \"datePicker.clear\": \"Clear date\"; readonly \"dateRangePicker.label\": \"Date range\"; readonly \"dateRangePicker.placeholder\": \"Select a range\"; readonly \"dateRangePicker.clear\": \"Clear range\"; readonly \"timeField.label\": \"Time\"; readonly \"timeField.hour\": \"Hour\"; readonly \"timeField.minute\": \"Minute\"; readonly \"timeField.second\": \"Second\"; readonly \"timeField.dayPeriod\": \"AM/PM\"; readonly \"timeField.empty\": \"Empty\"; readonly \"timeField.invalidFormat\": \"Enter a time in the expected format.\"; readonly \"timeField.outOfRange\": \"Enter a time within the allowed range.\"; readonly \"timeField.secondsRequired\": \"Enter hours, minutes, and seconds.\"; readonly \"timeField.secondsNotAllowed\": \"Enter hours and minutes only.\"; readonly \"timeField.rangeUnderflow\": \"Enter a time no earlier than {min}.\"; readonly \"timeField.rangeOverflow\": \"Enter a time no later than {max}.\"; readonly \"loading.label\": \"Loading\\u2026\"; readonly \"inlineNotification.close\": \"Close\"; readonly \"inlineNotification.learnMore\": \"Learn more\"; readonly \"dialog.close\": \"Close\"; readonly \"dialog.trigger\": \"Open\"; readonly \"searchDialog.trigger\": \"Search\\u2026\"; readonly \"collapsible.toggle\": \"Toggle\"; readonly \"loginForm.heading\": \"Sign in\"; readonly \"dialog.confirm\": \"Confirm\"; readonly \"dialog.cancel\": \"Cancel\"; readonly \"dialog.dismiss\": \"OK\"; readonly \"sheetDialog.close\": \"Close\"; readonly \"notificationRegion.label\": \"Notifications\"; readonly \"combobox.placeholder\": \"Search\\u2026\"; readonly \"combobox.clear\": \"Clear\"; readonly \"combobox.empty\": \"No results\"; readonly \"searchDialog.title\": \"Search\"; readonly \"searchDialog.label\": \"Search\"; readonly \"searchDialog.placeholder\": \"Type to search\\u2026\"; readonly \"searchDialog.empty\": \"No results found.\"; readonly \"searchDialog.resultOne\": \"1 result available\"; readonly \"searchDialog.resultMany\": \"{count} results available\"; readonly \"searchDialog.results\": { readonly one: \"1 result available\"; readonly other: \"{count} results available\"; }; readonly \"searchDialog.loading\": \"Searching\\u2026\"; readonly \"numberField.increment\": \"Increase {label}\"; readonly \"numberField.decrement\": \"Decrease {label}\"; readonly \"numberField.parseError\": \"Enter a number.\"; readonly \"numberField.rangeUnderflow\": \"Enter a number that is at least {min}.\"; readonly \"numberField.rangeOverflow\": \"Enter a number that is at most {max}.\"; readonly \"numberField.stepMismatch\": \"Enter a multiple of {step}.\"; readonly \"select.placeholder\": \"Select\\u2026\"; readonly \"switch.on\": \"ON\"; readonly \"switch.off\": \"OFF\"; readonly \"loginForm.submit\": \"Sign in\"; readonly \"loginForm.forgot\": \"Forgot password?\"; readonly \"pagination.label\": \"Pagination\"; readonly \"pagination.previous\": \"Go to previous page\"; readonly \"pagination.next\": \"Go to next page\"; readonly \"pagination.page\": \"Go to page {page}\"; readonly \"rating.star\": \"{count} star\"; readonly \"rating.stars\": { readonly one: \"{count} star\"; readonly other: \"{count} stars\"; }; readonly \"pinInput.cell\": \"Character {index} of {length}\"; readonly \"breadcrumb.label\": \"Breadcrumb\"; readonly \"contextMenu.label\": \"Context menu\"; readonly \"menu.label\": \"Main\"; readonly \"stepper.label\": \"Progress\"; readonly \"stepper.completed\": \"Completed\"; readonly \"carousel.previous\": \"Previous slide\"; readonly \"carousel.next\": \"Next slide\"; readonly \"carousel.choose\": \"Choose slide\"; readonly \"combobox.show\": \"Show options\"; readonly \"combobox.hide\": \"Close options\"; readonly \"table.views\": \"Views\"; readonly \"table.pagination\": \"Table pages\"; readonly \"table.loadMore\": \"Load more\"; readonly \"table.loading\": \"Loading\\u2026\"; readonly \"table.columns\": \"Columns\"; readonly \"table.selectRow\": \"Select {name}\"; readonly \"table.selectPage\": \"Select all visible rows\"; readonly \"table.selection\": \"Selection\"; readonly \"table.noResults\": \"No rows match the current filters\"; readonly \"table.clearFilters\": \"Clear filters\"; readonly \"codeBlock.copy\": \"Copy code\"; readonly \"tag.remove\": \"Remove\"; readonly \"multiSelect.selected\": \"Selected values\"; readonly \"multiSelect.remove\": \"Remove {name}\"; readonly \"multiSelect.empty\": \"No results\"; readonly \"multiSelect.placeholder\": \"Search\\u2026\"; readonly \"uploadDropArea.prompt\": \"Drag & drop files or\"; readonly \"uploadDropArea.action\": \"browse\"; }"
+    },
+    {
+      "name": "normalizeProps",
+      "kind": "const",
+      "signature": "normalizeProps: Normalize"
+    },
+    {
+      "name": "useButton",
+      "kind": "function",
+      "signature": "declare function useButton({ variant, disabled, type, onPress, nativeButton, }?: UseButtonOptions): button.ButtonApi;"
+    },
+    {
+      "name": "useCheckbox",
+      "kind": "function",
+      "signature": "declare function useCheckbox({ checked, disabled, onCheckedChange, }?: UseCheckboxOptions): checkbox.CheckboxApi;"
+    },
+    {
+      "name": "useCombobox",
+      "kind": "function",
+      "signature": "declare function useCombobox({ items: allItems, value, disabled, filter, onValueChange, onInputValueChange, onOpenChange, }: UseComboboxOptions): UseCombobox;"
+    },
+    {
+      "name": "useDialog",
+      "kind": "function",
+      "signature": "declare function useDialog({ open: openProp, role, describedBy, closeOnEscape, closeOnOutsideClick, initialFocus, onOpenChange, }?: UseDialogOptions): UseDialog;"
+    },
+    {
+      "name": "useDomProps",
+      "kind": "function",
+      "signature": "declare function useDomProps(ref: RefObject<Element | null>, props: DomProps): void;"
+    },
+    {
+      "name": "useI18n",
+      "kind": "function",
+      "signature": "declare function useI18n(): I18nValue;"
+    },
+    {
+      "name": "useMultiSelect",
+      "kind": "function",
+      "signature": "declare function useMultiSelect({ items: allItems, values: controlledValues, disabled, readOnly, max, removeOnBackspace, filter, onValuesChange, onInputValueChange, onOpenChange, }: UseMultiSelectOptions): UseMultiSelect;"
+    },
+    {
+      "name": "useSwitch",
+      "kind": "function",
+      "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, }?: UseSwitchOptions): switchControl.SwitchApi;"
+    }
+  ]
+}

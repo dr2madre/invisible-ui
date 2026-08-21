@@ -1,0 +1,1619 @@
+{
+  "package": "@design-system/svelte",
+  "entry": "packages/svelte/dist/index.d.ts",
+  "exportMap": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./Icon.svelte": {
+      "svelte": "./src/lib/icon/Icon.svelte",
+      "default": "./src/lib/icon/Icon.svelte"
+    },
+    "./FeedbackIcon.svelte": {
+      "svelte": "./src/lib/feedback-icon/FeedbackIcon.svelte",
+      "default": "./src/lib/feedback-icon/FeedbackIcon.svelte"
+    },
+    "./ErrorState.svelte": {
+      "svelte": "./src/lib/error-state/ErrorState.svelte",
+      "default": "./src/lib/error-state/ErrorState.svelte"
+    },
+    "./EmptyState.svelte": {
+      "svelte": "./src/lib/empty-state/EmptyState.svelte",
+      "default": "./src/lib/empty-state/EmptyState.svelte"
+    },
+    "./LoadingGenerationArea.svelte": {
+      "svelte": "./src/lib/loading-generation-area/LoadingGenerationArea.svelte",
+      "default": "./src/lib/loading-generation-area/LoadingGenerationArea.svelte"
+    },
+    "./Button.svelte": {
+      "svelte": "./src/lib/button/Button.svelte",
+      "default": "./src/lib/button/Button.svelte"
+    },
+    "./ButtonGroup.svelte": {
+      "svelte": "./src/lib/button-group/ButtonGroup.svelte",
+      "default": "./src/lib/button-group/ButtonGroup.svelte"
+    },
+    "./InlineNotification.svelte": {
+      "svelte": "./src/lib/inline-notification/InlineNotification.svelte",
+      "default": "./src/lib/inline-notification/InlineNotification.svelte"
+    },
+    "./Checkbox.svelte": {
+      "svelte": "./src/lib/checkbox/Checkbox.svelte",
+      "default": "./src/lib/checkbox/Checkbox.svelte"
+    },
+    "./CheckboxGroup.svelte": {
+      "svelte": "./src/lib/checkbox-group/CheckboxGroup.svelte",
+      "default": "./src/lib/checkbox-group/CheckboxGroup.svelte"
+    },
+    "./Separator.svelte": {
+      "svelte": "./src/lib/separator/Separator.svelte",
+      "default": "./src/lib/separator/Separator.svelte"
+    },
+    "./Toolbar.svelte": {
+      "svelte": "./src/lib/toolbar/Toolbar.svelte",
+      "default": "./src/lib/toolbar/Toolbar.svelte"
+    },
+    "./TreeView.svelte": {
+      "svelte": "./src/lib/tree-view/TreeView.svelte",
+      "default": "./src/lib/tree-view/TreeView.svelte"
+    },
+    "./Avatar.svelte": {
+      "svelte": "./src/lib/avatar/Avatar.svelte",
+      "default": "./src/lib/avatar/Avatar.svelte"
+    },
+    "./AvatarGroup.svelte": {
+      "svelte": "./src/lib/avatar-group/AvatarGroup.svelte",
+      "default": "./src/lib/avatar-group/AvatarGroup.svelte"
+    },
+    "./Card.svelte": {
+      "svelte": "./src/lib/card/Card.svelte",
+      "default": "./src/lib/card/Card.svelte"
+    },
+    "./Skeleton.svelte": {
+      "svelte": "./src/lib/skeleton/Skeleton.svelte",
+      "default": "./src/lib/skeleton/Skeleton.svelte"
+    },
+    "./Loading.svelte": {
+      "svelte": "./src/lib/loading/Loading.svelte",
+      "default": "./src/lib/loading/Loading.svelte"
+    },
+    "./Calendar.svelte": {
+      "svelte": "./src/lib/calendar/Calendar.svelte",
+      "default": "./src/lib/calendar/Calendar.svelte"
+    },
+    "./DatePicker.svelte": {
+      "svelte": "./src/lib/date-picker/DatePicker.svelte",
+      "default": "./src/lib/date-picker/DatePicker.svelte"
+    },
+    "./DateRangePicker.svelte": {
+      "svelte": "./src/lib/date-range-picker/DateRangePicker.svelte",
+      "default": "./src/lib/date-range-picker/DateRangePicker.svelte"
+    },
+    "./TimeField.svelte": {
+      "svelte": "./src/lib/time-field/TimeField.svelte",
+      "default": "./src/lib/time-field/TimeField.svelte"
+    },
+    "./NumberField.svelte": {
+      "svelte": "./src/lib/number-field/NumberField.svelte",
+      "default": "./src/lib/number-field/NumberField.svelte"
+    },
+    "./LocaleProvider.svelte": {
+      "svelte": "./src/lib/i18n/LocaleProvider.svelte",
+      "default": "./src/lib/i18n/LocaleProvider.svelte"
+    },
+    "./Tag.svelte": {
+      "svelte": "./src/lib/tag/Tag.svelte",
+      "default": "./src/lib/tag/Tag.svelte"
+    },
+    "./Count.svelte": {
+      "svelte": "./src/lib/count/Count.svelte",
+      "default": "./src/lib/count/Count.svelte"
+    },
+    "./Code.svelte": {
+      "svelte": "./src/lib/code/Code.svelte",
+      "default": "./src/lib/code/Code.svelte"
+    },
+    "./CodeBlock.svelte": {
+      "svelte": "./src/lib/code-block/CodeBlock.svelte",
+      "default": "./src/lib/code-block/CodeBlock.svelte"
+    },
+    "./Blockquote.svelte": {
+      "svelte": "./src/lib/blockquote/Blockquote.svelte",
+      "default": "./src/lib/blockquote/Blockquote.svelte"
+    },
+    "./Kbd.svelte": {
+      "svelte": "./src/lib/kbd/Kbd.svelte",
+      "default": "./src/lib/kbd/Kbd.svelte"
+    },
+    "./Link.svelte": {
+      "svelte": "./src/lib/link/Link.svelte",
+      "default": "./src/lib/link/Link.svelte"
+    },
+    "./Breadcrumb.svelte": {
+      "svelte": "./src/lib/breadcrumb/Breadcrumb.svelte",
+      "default": "./src/lib/breadcrumb/Breadcrumb.svelte"
+    },
+    "./UploadDropArea.svelte": {
+      "svelte": "./src/lib/upload-drop-area/UploadDropArea.svelte",
+      "default": "./src/lib/upload-drop-area/UploadDropArea.svelte"
+    },
+    "./LoginForm.svelte": {
+      "svelte": "./src/lib/login-form/LoginForm.svelte",
+      "default": "./src/lib/login-form/LoginForm.svelte"
+    },
+    "./Menu.svelte": {
+      "svelte": "./src/lib/menu/Menu.svelte",
+      "default": "./src/lib/menu/Menu.svelte"
+    },
+    "./Popover.svelte": {
+      "svelte": "./src/lib/popover/Popover.svelte",
+      "default": "./src/lib/popover/Popover.svelte"
+    },
+    "./Tooltip.svelte": {
+      "svelte": "./src/lib/tooltip/Tooltip.svelte",
+      "default": "./src/lib/tooltip/Tooltip.svelte"
+    },
+    "./Switch.svelte": {
+      "svelte": "./src/lib/switch/Switch.svelte",
+      "default": "./src/lib/switch/Switch.svelte"
+    },
+    "./ToggleButton.svelte": {
+      "svelte": "./src/lib/toggle-button/ToggleButton.svelte",
+      "default": "./src/lib/toggle-button/ToggleButton.svelte"
+    },
+    "./RadioGroup.svelte": {
+      "svelte": "./src/lib/radio-group/RadioGroup.svelte",
+      "default": "./src/lib/radio-group/RadioGroup.svelte"
+    },
+    "./RatingGroup.svelte": {
+      "svelte": "./src/lib/rating-group/RatingGroup.svelte",
+      "default": "./src/lib/rating-group/RatingGroup.svelte"
+    },
+    "./Radio.svelte": {
+      "svelte": "./src/lib/radio/Radio.svelte",
+      "default": "./src/lib/radio/Radio.svelte"
+    },
+    "./SegmentedControl.svelte": {
+      "svelte": "./src/lib/segmented-control/SegmentedControl.svelte",
+      "default": "./src/lib/segmented-control/SegmentedControl.svelte"
+    },
+    "./Tabs.svelte": {
+      "svelte": "./src/lib/tabs/Tabs.svelte",
+      "default": "./src/lib/tabs/Tabs.svelte"
+    },
+    "./Accordion.svelte": {
+      "svelte": "./src/lib/accordion/Accordion.svelte",
+      "default": "./src/lib/accordion/Accordion.svelte"
+    },
+    "./Collapsible.svelte": {
+      "svelte": "./src/lib/collapsible/Collapsible.svelte",
+      "default": "./src/lib/collapsible/Collapsible.svelte"
+    },
+    "./AspectRatio.svelte": {
+      "svelte": "./src/lib/aspect-ratio/AspectRatio.svelte",
+      "default": "./src/lib/aspect-ratio/AspectRatio.svelte"
+    },
+    "./Progress.svelte": {
+      "svelte": "./src/lib/progress/Progress.svelte",
+      "default": "./src/lib/progress/Progress.svelte"
+    },
+    "./Meter.svelte": {
+      "svelte": "./src/lib/meter/Meter.svelte",
+      "default": "./src/lib/meter/Meter.svelte"
+    },
+    "./Label.svelte": {
+      "svelte": "./src/lib/label/Label.svelte",
+      "default": "./src/lib/label/Label.svelte"
+    },
+    "./Field.svelte": {
+      "svelte": "./src/lib/field/Field.svelte",
+      "default": "./src/lib/field/Field.svelte"
+    },
+    "./ToggleGroup.svelte": {
+      "svelte": "./src/lib/toggle-group/ToggleGroup.svelte",
+      "default": "./src/lib/toggle-group/ToggleGroup.svelte"
+    },
+    "./Slider.svelte": {
+      "svelte": "./src/lib/slider/Slider.svelte",
+      "default": "./src/lib/slider/Slider.svelte"
+    },
+    "./Pagination.svelte": {
+      "svelte": "./src/lib/pagination/Pagination.svelte",
+      "default": "./src/lib/pagination/Pagination.svelte"
+    },
+    "./Stepper.svelte": {
+      "svelte": "./src/lib/stepper/Stepper.svelte",
+      "default": "./src/lib/stepper/Stepper.svelte"
+    },
+    "./Carousel.svelte": {
+      "svelte": "./src/lib/carousel/Carousel.svelte",
+      "default": "./src/lib/carousel/Carousel.svelte"
+    },
+    "./PinInput.svelte": {
+      "svelte": "./src/lib/pin-input/PinInput.svelte",
+      "default": "./src/lib/pin-input/PinInput.svelte"
+    },
+    "./Table.svelte": {
+      "svelte": "./src/lib/table/Table.svelte",
+      "default": "./src/lib/table/Table.svelte"
+    },
+    "./TableSet.svelte": {
+      "svelte": "./src/lib/table/TableSet.svelte",
+      "default": "./src/lib/table/TableSet.svelte"
+    },
+    "./ScrollArea.svelte": {
+      "svelte": "./src/lib/scroll-area/ScrollArea.svelte",
+      "default": "./src/lib/scroll-area/ScrollArea.svelte"
+    },
+    "./TextField.svelte": {
+      "svelte": "./src/lib/text-field/TextField.svelte",
+      "default": "./src/lib/text-field/TextField.svelte"
+    },
+    "./Textarea.svelte": {
+      "svelte": "./src/lib/text-field/Textarea.svelte",
+      "default": "./src/lib/text-field/Textarea.svelte"
+    },
+    "./Select.svelte": {
+      "svelte": "./src/lib/select/Select.svelte",
+      "default": "./src/lib/select/Select.svelte"
+    },
+    "./DropdownMenu.svelte": {
+      "svelte": "./src/lib/dropdown-menu/DropdownMenu.svelte",
+      "default": "./src/lib/dropdown-menu/DropdownMenu.svelte"
+    },
+    "./ContextMenu.svelte": {
+      "svelte": "./src/lib/context-menu/ContextMenu.svelte",
+      "default": "./src/lib/context-menu/ContextMenu.svelte"
+    },
+    "./Dialog.svelte": {
+      "svelte": "./src/lib/dialog/Dialog.svelte",
+      "default": "./src/lib/dialog/Dialog.svelte"
+    },
+    "./AlertDialog.svelte": {
+      "svelte": "./src/lib/alert-dialog/AlertDialog.svelte",
+      "default": "./src/lib/alert-dialog/AlertDialog.svelte"
+    },
+    "./ConfirmDialog.svelte": {
+      "svelte": "./src/lib/confirm-dialog/ConfirmDialog.svelte",
+      "default": "./src/lib/confirm-dialog/ConfirmDialog.svelte"
+    },
+    "./PromptDialog.svelte": {
+      "svelte": "./src/lib/prompt-dialog/PromptDialog.svelte",
+      "default": "./src/lib/prompt-dialog/PromptDialog.svelte"
+    },
+    "./SheetDialog.svelte": {
+      "svelte": "./src/lib/sheet-dialog/SheetDialog.svelte",
+      "default": "./src/lib/sheet-dialog/SheetDialog.svelte"
+    },
+    "./Menubar.svelte": {
+      "svelte": "./src/lib/menubar/Menubar.svelte",
+      "default": "./src/lib/menubar/Menubar.svelte"
+    },
+    "./Combobox.svelte": {
+      "svelte": "./src/lib/combobox/Combobox.svelte",
+      "default": "./src/lib/combobox/Combobox.svelte"
+    },
+    "./MultiSelect.svelte": {
+      "svelte": "./src/lib/multi-select/MultiSelect.svelte",
+      "default": "./src/lib/multi-select/MultiSelect.svelte"
+    },
+    "./SearchDialog.svelte": {
+      "svelte": "./src/lib/search-dialog/SearchDialog.svelte",
+      "default": "./src/lib/search-dialog/SearchDialog.svelte"
+    },
+    "./NavigationMenu.svelte": {
+      "svelte": "./src/lib/navigation-menu/NavigationMenu.svelte",
+      "default": "./src/lib/navigation-menu/NavigationMenu.svelte"
+    },
+    "./Notification.svelte": {
+      "svelte": "./src/lib/notification/Notification.svelte",
+      "default": "./src/lib/notification/Notification.svelte"
+    },
+    "./NotificationRegion.svelte": {
+      "svelte": "./src/lib/notification/NotificationRegion.svelte",
+      "default": "./src/lib/notification/NotificationRegion.svelte"
+    },
+    "./tokens.css": "./src/lib/styles/tokens.css"
+  },
+  "externalReferences": [
+    "@design-system/core",
+    "@floating-ui/dom",
+    "svelte",
+    "svelte/action",
+    "svelte/store"
+  ],
+  "symbols": [
+    {
+      "name": "AccordionApi",
+      "kind": "type",
+      "signature": "type AccordionApi = accordion.AccordionApi;"
+    },
+    {
+      "name": "AccordionContext",
+      "kind": "type",
+      "signature": "type AccordionContext = accordion.AccordionContext;"
+    },
+    {
+      "name": "AccordionItem",
+      "kind": "type",
+      "signature": "type AccordionItem = accordion.AccordionItem;"
+    },
+    {
+      "name": "AccordionState",
+      "kind": "type",
+      "signature": "type AccordionState = accordion.AccordionState;"
+    },
+    {
+      "name": "AccordionType",
+      "kind": "type",
+      "signature": "type AccordionType = accordion.AccordionType;"
+    },
+    {
+      "name": "ActivationMode",
+      "kind": "type",
+      "signature": "type ActivationMode = tabs.ActivationMode;"
+    },
+    {
+      "name": "ButtonApi",
+      "kind": "type",
+      "signature": "type ButtonApi = button.ButtonApi;"
+    },
+    {
+      "name": "ButtonContext",
+      "kind": "type",
+      "signature": "type ButtonContext = button.ButtonContext;"
+    },
+    {
+      "name": "ButtonGroupApi",
+      "kind": "type",
+      "signature": "type ButtonGroupApi = buttonGroup.ButtonGroupApi;"
+    },
+    {
+      "name": "ButtonGroupContext",
+      "kind": "type",
+      "signature": "type ButtonGroupContext = buttonGroup.ButtonGroupContext;"
+    },
+    {
+      "name": "ButtonGroupState",
+      "kind": "type",
+      "signature": "type ButtonGroupState = buttonGroup.ButtonGroupState;"
+    },
+    {
+      "name": "ButtonState",
+      "kind": "type",
+      "signature": "type ButtonState = button.ButtonState;"
+    },
+    {
+      "name": "ButtonVariant",
+      "kind": "type",
+      "signature": "type ButtonVariant = button.ButtonVariant;"
+    },
+    {
+      "name": "CalendarApi",
+      "kind": "type",
+      "signature": "type CalendarApi = calendar.CalendarApi;"
+    },
+    {
+      "name": "CalendarContext",
+      "kind": "type",
+      "signature": "type CalendarContext = calendar.CalendarContext;"
+    },
+    {
+      "name": "CalendarDay",
+      "kind": "type",
+      "signature": "type CalendarDay = calendar.CalendarDay;"
+    },
+    {
+      "name": "CalendarState",
+      "kind": "type",
+      "signature": "type CalendarState = calendar.CalendarState;"
+    },
+    {
+      "name": "CalendarView",
+      "kind": "type",
+      "signature": "type CalendarView = calendar.CalendarView;"
+    },
+    {
+      "name": "CarouselApi",
+      "kind": "type",
+      "signature": "type CarouselApi = carousel.CarouselApi;"
+    },
+    {
+      "name": "CarouselContext",
+      "kind": "type",
+      "signature": "type CarouselContext = carousel.CarouselContext;"
+    },
+    {
+      "name": "CarouselState",
+      "kind": "type",
+      "signature": "type CarouselState = carousel.CarouselState;"
+    },
+    {
+      "name": "CheckboxApi",
+      "kind": "type",
+      "signature": "type CheckboxApi = checkbox.CheckboxApi;"
+    },
+    {
+      "name": "CheckboxContext",
+      "kind": "type",
+      "signature": "type CheckboxContext = checkbox.CheckboxContext;"
+    },
+    {
+      "name": "CheckboxGroupApi",
+      "kind": "type",
+      "signature": "type CheckboxGroupApi = checkboxGroup.CheckboxGroupApi;"
+    },
+    {
+      "name": "CheckboxGroupContext",
+      "kind": "type",
+      "signature": "type CheckboxGroupContext = checkboxGroup.CheckboxGroupContext;"
+    },
+    {
+      "name": "CheckboxGroupItem",
+      "kind": "type",
+      "signature": "type CheckboxGroupItem = checkboxGroup.CheckboxGroupItem;"
+    },
+    {
+      "name": "CheckboxGroupState",
+      "kind": "type",
+      "signature": "type CheckboxGroupState = checkboxGroup.CheckboxGroupState;"
+    },
+    {
+      "name": "CheckboxState",
+      "kind": "type",
+      "signature": "type CheckboxState = checkbox.CheckboxState;"
+    },
+    {
+      "name": "CheckedState",
+      "kind": "type",
+      "signature": "type CheckedState = checkbox.CheckedState;"
+    },
+    {
+      "name": "CollapsibleApi",
+      "kind": "type",
+      "signature": "type CollapsibleApi = collapsible.CollapsibleApi;"
+    },
+    {
+      "name": "CollapsibleContext",
+      "kind": "type",
+      "signature": "type CollapsibleContext = collapsible.CollapsibleContext;"
+    },
+    {
+      "name": "CollapsibleState",
+      "kind": "type",
+      "signature": "type CollapsibleState = collapsible.CollapsibleState;"
+    },
+    {
+      "name": "ComboboxApi",
+      "kind": "type",
+      "signature": "type ComboboxApi = combobox.ComboboxApi;"
+    },
+    {
+      "name": "ComboboxContext",
+      "kind": "interface",
+      "signature": "interface ComboboxContext extends combobox.ComboboxContext { /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; return all items for an empty * query. */ filter?: (items: ComboboxItem[], query: string) => ComboboxItem[]; }"
+    },
+    {
+      "name": "ComboboxItem",
+      "kind": "type",
+      "signature": "type ComboboxItem = combobox.ComboboxItem;"
+    },
+    {
+      "name": "ComboboxState",
+      "kind": "type",
+      "signature": "type ComboboxState = combobox.ComboboxState;"
+    },
+    {
+      "name": "ContextMenuContext",
+      "kind": "interface",
+      "signature": "interface ContextMenuContext { items: menu.MenuItem[]; disabled?: boolean; id?: string; /** Called with the chosen item's value. */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** Preferred placement relative to the pointer. Default `\"right-start\"`. */ placement?: Placement; }"
+    },
+    {
+      "name": "CreateAccordion",
+      "kind": "interface",
+      "signature": "interface CreateAccordion { /** Reactive resolved state. */ state: Readable<AccordionState>; /** Reactive connected API. */ api: Readable<AccordionApi>; /** The expanded item values. */ value: Readable<string[]>; /** Replace the expanded set. */ setValue: (value: string[]) => void; /** Toggle a single item open/closed (ignored when disabled). */ toggle: (value: string) => void; /** Svelte action for the accordion container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for an item wrapper: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Svelte action for a trigger button: `<button use:triggerAction={value}>`. */ triggerAction: Action<HTMLElement, string>; /** Svelte action for a panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateButton",
+      "kind": "interface",
+      "signature": "interface CreateButton { /** Reactive resolved state (`{ disabled }`). */ state: Readable<ButtonState>; /** Reactive connected API (prop getters). */ api: Readable<ButtonApi>; /** Enable/disable the button at runtime. */ setDisabled: (value: boolean) => void; /** Change the semantic variant at runtime. */ setVariant: (value: ButtonVariant) => void; /** Svelte action for the root element: `<button use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateButtonGroup",
+      "kind": "interface",
+      "signature": "interface CreateButtonGroup { /** Reactive resolved state. */ state: Readable<ButtonGroupState>; /** Reactive connected API. */ api: Readable<ButtonGroupApi>; /** Merge new state (orientation, label) — keeps props reactive. */ setState: (partial: Partial<ButtonGroupState>) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateButtonOptions",
+      "kind": "interface",
+      "signature": "interface CreateButtonOptions extends ButtonContext { /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** Native `<button>` type. Defaults to `\"button\"`. */ type?: \"button\" | \"submit\" | \"reset\"; /** Set `false` when rendering a non-native element (`<a>`, `<div>`, …). */ nativeButton?: boolean; }"
+    },
+    {
+      "name": "CreateCalendar",
+      "kind": "interface",
+      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateCarousel",
+      "kind": "interface",
+      "signature": "interface CreateCarousel { /** Reactive resolved state. */ state: Readable<CarouselState>; /** Reactive connected API. */ api: Readable<CarouselApi>; /** Current slide index (0-based). */ index: Readable<number>; /** Advance one slide. */ next: () => void; /** Go back one slide. */ prev: () => void; /** Jump to a slide. */ goTo: (index: number) => void; /** Action for the container: `<section use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Action for the slides track/viewport: `<div use:viewportAction>`. */ viewportAction: Action<HTMLElement>; /** Action for a slide: `<div use:slideAction={index}>`. */ slideAction: Action<HTMLElement, number>; /** Action for the previous button. */ prevAction: Action<HTMLElement>; /** Action for the next button. */ nextAction: Action<HTMLElement>; /** Action for a slide-picker indicator: `<button use:indicatorAction={index}>`. */ indicatorAction: Action<HTMLElement, number>; }"
+    },
+    {
+      "name": "CreateCheckbox",
+      "kind": "interface",
+      "signature": "interface CreateCheckbox { /** Reactive resolved state (`{ checked, disabled }`). */ state: Readable<CheckboxState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<CheckboxApi>; /** Imperatively set the checked value (ignored when disabled). */ setChecked: (value: CheckedState) => void; /** Sync an externally-controlled checked value without emitting a change * event. Works while disabled: reflection is data, not a user action. */ syncChecked: (value: CheckedState) => void; /** Sync an externally-controlled disabled value without emitting anything. */ syncDisabled: (value: boolean) => void; /** Imperatively advance the checked value (ignored when disabled). */ toggle: () => void; /** Svelte action for the root element: `<span use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateCheckboxGroup",
+      "kind": "interface",
+      "signature": "interface CreateCheckboxGroup { /** Reactive resolved state. */ state: Readable<CheckboxGroupState>; /** Reactive connected API. */ api: Readable<CheckboxGroupApi>; /** The selected values. */ value: Readable<string[]>; /** Imperatively replace the selection. */ setValue: (value: string[]) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a single item: `<span use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateCollapsible",
+      "kind": "interface",
+      "signature": "interface CreateCollapsible { /** Reactive resolved state. */ state: Readable<CollapsibleState>; /** Reactive connected API. */ api: Readable<CollapsibleApi>; /** Whether the content is expanded. */ open: Readable<boolean>; /** Set the open state (ignored while disabled). */ setOpen: (open: boolean) => void; /** Toggle the open state (ignored while disabled). */ toggle: () => void; /** Svelte action for the collapsible container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the trigger button: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content: `<div use:contentAction>`. */ contentAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateCombobox",
+      "kind": "interface",
+      "signature": "interface CreateCombobox { state: Readable<ComboboxState>; api: Readable<ComboboxApi>; /** The selected value (or `null`). */ value: Readable<string | null>; /** The current input text. */ inputValue: Readable<string>; /** Whether the popup is open. */ open: Readable<boolean>; /** The currently visible (filtered) items. */ items: Readable<ComboboxItem[]>; /** Svelte action for the label: `<label use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the control wrapper (keeps chevron/clear clicks \"inside\"). */ controlAction: Action<HTMLElement>; /** Svelte action for the input: `<input use:inputAction>`. */ inputAction: Action<HTMLElement>; /** Svelte action for the listbox popup: `<ul use:listboxAction>`. */ listboxAction: Action<HTMLElement>; /** Svelte action for an option: `<li use:optionAction={value}>`. */ optionAction: Action<HTMLElement, string>; /** Svelte action for an optional clear button. */ clearAction: Action<HTMLElement>; /** Open the listbox showing all options (even when a value is selected). */ openAll: () => void; /** Imperatively select a value. */ setValue: (value: string | null) => void; /** Sync an externally-controlled value without emitting a change event. */ syncValue: (value: string | null) => void; /** Sync externally-controlled input text without emitting a change event. */ syncInputValue: (inputValue: string) => void; /** Replace the option list (e.g. when items change). */ setItems: (items: ComboboxItem[]) => void; /** Sync an externally-controlled disabled state. */ setDisabled: (disabled: boolean) => void; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; }"
+    },
+    {
+      "name": "CreateContextMenu",
+      "kind": "interface",
+      "signature": "interface CreateContextMenu { state: Readable<MenuState>; api: Readable<MenuApi>; /** Whether the menu is open. */ open: Readable<boolean>; /** * Svelte action for the region that opens the menu on `contextmenu` * (right-click or the keyboard menu key): `<div use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateDialog",
+      "kind": "interface",
+      "signature": "interface CreateDialog { state: Readable<DialogState>; api: Readable<DialogApi>; /** Whether the dialog is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Svelte action for the title element. */ titleAction: Action<HTMLElement>; /** Svelte action for the description element. */ descriptionAction: Action<HTMLElement>; /** Svelte action for a close button inside the dialog. */ closeAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateDropdownMenu",
+      "kind": "interface",
+      "signature": "interface CreateDropdownMenu { state: Readable<MenuState#e1838409>; api: Readable<MenuApi#b1e94252>; open: Readable<boolean>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateField",
+      "kind": "interface",
+      "signature": "interface CreateField { /** Reactive resolved state. */ state: Readable<FieldState>; /** Reactive connected API (ids + prop bags for each part). */ api: Readable<FieldApi>; /** Merge a partial state (e.g. when error/required change reactively). */ update: (partial: Partial<FieldState>) => void; }"
+    },
+    {
+      "name": "CreateHoverCard",
+      "kind": "interface",
+      "signature": "interface CreateHoverCard { state: Readable<HoverCardState>; api: Readable<HoverCardApi>; open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger (wrap a focusable element). */ triggerAction: Action<HTMLElement>; /** Svelte action for the content card (render only while open). */ contentAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateLabel",
+      "kind": "interface",
+      "signature": "interface CreateLabel { /** Reactive resolved state. */ state: Readable<LabelState>; /** Reactive connected API. */ api: Readable<LabelApi>; /** Svelte action for the label element: `<label use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateMenubar",
+      "kind": "interface",
+      "signature": "interface CreateMenubar { /** Index of the trigger that is the current tab stop (roving tabindex). */ focusedIndex: Readable<number>; /** Action for the `role=\"menubar\"` container (cross-menu keyboard nav). */ menubarAction: Action<HTMLElement>; /** The menus, each ready to render. */ menus: MenubarItem[]; }"
+    },
+    {
+      "name": "CreateMeter",
+      "kind": "interface",
+      "signature": "interface CreateMeter { /** Reactive resolved state. */ state: Readable<MeterState>; /** Reactive connected API. */ api: Readable<MeterApi>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Replace the current value. */ setValue: (value: number) => void; /** Mirror the whole measured range after mount (no callbacks: it is data). */ sync: (context: meter.MeterContext) => void; /** Svelte action for the meter element: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the fill/indicator: `<div use:indicatorAction>`. */ indicatorAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateMultiSelect",
+      "kind": "interface",
+      "signature": "interface CreateMultiSelect { state: Readable<MultiSelectState>; api: Readable<MultiSelectApi>; /** The selected values, ordered by selection. */ values: Readable<string[]>; /** The current input text. */ inputValue: Readable<string>; /** Whether the popup is open. */ open: Readable<boolean>; /** The currently visible (filtered) items. */ items: Readable<MultiSelectItem[]>; /** Svelte action for the label: `<label use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the control wrapper (keeps inner clicks \"inside\"). */ controlAction: Action<HTMLElement>; /** Svelte action for the input: `<input use:inputAction>`. */ inputAction: Action<HTMLElement>; /** Svelte action for the listbox popup: `<ul use:listboxAction>`. */ listboxAction: Action<HTMLElement>; /** Svelte action for an option: `<li use:optionAction={value}>`. */ optionAction: Action<HTMLElement, string>; /** Svelte action for the selected-values (tag) list container. */ valuesListAction: Action<HTMLElement>; /** Imperatively set the selected values (notifies once on a real change). */ setValues: (values: string[]) => void; /** Sync externally-controlled values without emitting a change event. */ syncValues: (values: string[]) => void; /** Sync externally-controlled input text without emitting a change event. */ syncInputValue: (inputValue: string) => void; /** Replace the option list (e.g. when items change). */ setItems: (items: MultiSelectItem[]) => void; /** Sync an externally-controlled disabled state. */ setDisabled: (disabled: boolean) => void; /** Sync an externally-controlled read-only state. */ syncReadOnly: (readOnly: boolean) => void; /** Sync an externally-controlled max. */ syncMax: (max: number | null) => void; /** Sync the externally-controlled Backspace opt-in. */ syncRemoveOnBackspace: (removeOnBackspace: boolean) => void; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; }"
+    },
+    {
+      "name": "CreateNavigationMenu",
+      "kind": "interface",
+      "signature": "interface CreateNavigationMenu { state: Readable<NavigationMenuState>; api: Readable<NavigationMenuApi>; /** The open item's value (or `null`). */ value: Readable<string | null>; /** Imperatively set the open value. */ setValue: (value: string | null) => void; /** Action for a panel item's trigger: `use:triggerAction={value}`. */ triggerAction: Action<HTMLElement, string>; /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */ contentAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateNumberField",
+      "kind": "interface",
+      "signature": "interface CreateNumberField { state: Readable<NumberFieldState>; api: Readable<NumberFieldApi>; /** Reflect an externally controlled value without emitting callbacks. */ syncValue: (value: number | null) => void; /** Reflect constraint/mode props without emitting callbacks. */ syncConfig: (config: NumberFieldConfig) => void; /** Update invalid state, description ids, and localized button names. */ setExtras: (extras: NumberFieldExtras) => void; /** Restore a value and its display unconditionally, without callbacks (form reset). */ reset: (value: number | null) => void; labelAction: Action<HTMLElement>; inputAction: Action<HTMLElement>; incrementAction: Action<HTMLElement>; decrementAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateNumberFieldOptions",
+      "kind": "interface",
+      "signature": "interface CreateNumberFieldOptions extends NumberFieldContext { /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<numberField.NumberFieldMessages>; }"
+    },
+    {
+      "name": "CreatePagination",
+      "kind": "interface",
+      "signature": "interface CreatePagination { /** Reactive resolved state. */ state: Readable<PaginationState>; /** Reactive connected API. */ api: Readable<PaginationApi>; /** Current page (1-based). */ page: Readable<number>; /** Rendered items (page numbers and ellipsis gaps). */ items: Readable<PageItem[]>; /** Go to a page (clamped; ignored while disabled). */ setPage: (page: number) => void; /** Sync an externally-controlled page without emitting a change event. */ syncPage: (page: number) => void; /** Svelte action for the container: `<nav use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the previous-page button. */ prevAction: Action<HTMLElement>; /** Svelte action for the next-page button. */ nextAction: Action<HTMLElement>; /** Svelte action for a numbered page button: `<button use:pageAction={n}>`. */ pageAction: Action<HTMLElement, number>; }"
+    },
+    {
+      "name": "CreatePinInput",
+      "kind": "interface",
+      "signature": "interface CreatePinInput { /** Reactive resolved state. */ state: Readable<PinInputState>; /** Reactive connected API. */ api: Readable<PinInputApi>; /** Per-cell values. */ values: Readable<string[]>; /** The combined value. */ value: Readable<string>; /** Replace the per-cell values. */ setValues: (values: string[]) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a cell input: `<input use:inputAction={index}>`. */ inputAction: Action<HTMLElement, number>; }"
+    },
+    {
+      "name": "CreatePinInputContext",
+      "kind": "interface",
+      "signature": "interface CreatePinInputContext extends pinInput.PinInputContext { /** Accessible name for a cell, by zero-based index. Defaults to the catalog. */ cellLabel?: (index: number, length: number) => string; }"
+    },
+    {
+      "name": "CreatePopover",
+      "kind": "interface",
+      "signature": "interface CreatePopover { state: Readable<PopoverState>; api: Readable<PopoverApi>; /** Update the panel's name (no notification: naming is not an action). */ setLabel: (label: string | undefined) => void; /** Whether the panel is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content panel (render only while open). */ contentAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateProgress",
+      "kind": "interface",
+      "signature": "interface CreateProgress { /** Reactive resolved state. */ state: Readable<ProgressState>; /** Reactive connected API. */ api: Readable<ProgressApi>; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: Readable<number | null>; /** Replace the current value (`null` for indeterminate). */ setValue: (value: number | null) => void; /** Svelte action for the progressbar element: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** * Svelte action for the fill/indicator: `<div use:indicatorAction>`. Typed on * `Element` because the circular variant applies it to an SVG `<circle>`. */ indicatorAction: Action<Element>; }"
+    },
+    {
+      "name": "CreateRadioGroup",
+      "kind": "interface",
+      "signature": "interface CreateRadioGroup { /** Reactive resolved state. */ state: Readable<RadioGroupState>; /** The selected value (or `null`). */ value: Readable<string | null>; /** Imperatively select a value. */ setValue: (value: string) => void; /** Shared form/group name applied to every radio input. */ name: string; }"
+    },
+    {
+      "name": "CreateRatingGroup",
+      "kind": "interface",
+      "signature": "interface CreateRatingGroup { /** Number of stars. */ max: number; /** The stars (1..max). */ items: RatingItem[]; /** The selected rating (or `null`). */ value: Readable<number | null>; /** Imperatively set the rating. */ setValue: (value: number) => void; /** Whether the group is disabled. */ disabled: boolean; /** Shared form/group name applied to every star radio. */ name: string; }"
+    },
+    {
+      "name": "CreateScrollArea",
+      "kind": "interface",
+      "signature": "interface CreateScrollArea { /** Vertical scrollbar geometry (overflow + thumb size/offset fractions). */ vertical: Readable<ScrollbarGeometry>; /** Horizontal scrollbar geometry. */ horizontal: Readable<ScrollbarGeometry>; /** Action for the scrollable viewport: `<div use:viewportAction>`. */ viewportAction: Action<HTMLElement>; /** Action for a scrollbar thumb: `<div use:thumbAction={\"vertical\"}>`. */ thumbAction: Action<HTMLElement, \"vertical\" | \"horizontal\">; }"
+    },
+    {
+      "name": "CreateSearchDialog",
+      "kind": "interface",
+      "signature": "interface CreateSearchDialog { /** Whether the palette is open. */ open: Readable<boolean>; /** Imperatively open/close the palette. */ setOpen: (open: boolean) => void; /** The currently visible (filtered) commands. */ items: Readable<SearchDialogItem[]>; /** The current query text. */ inputValue: Readable<string>; /** Replace the result list (e.g. when results load asynchronously). */ setItems: (items: SearchDialogItem[]) => void; /** Replace the empty-query suggestions. */ setSuggestions: (suggestions: SearchDialogItem[]) => void; /** Action for the trigger button. */ triggerAction: Action<HTMLElement>; /** Action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Action for the dialog title (names the modal). */ titleAction: Action<HTMLElement>; /** Action for the (combobox) search label. */ labelAction: Action<HTMLElement>; /** Action for the search input. */ inputAction: Action<HTMLElement>; /** Action for the results listbox. */ listboxAction: Action<HTMLElement>; /** Action for a result option: `use:optionAction={value}`. */ optionAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateSegmentedControl",
+      "kind": "type",
+      "signature": "type CreateSegmentedControl = CreateRadioGroup;"
+    },
+    {
+      "name": "CreateSelect",
+      "kind": "interface",
+      "signature": "interface CreateSelect { /** Reactive resolved state. */ state: Readable<SelectState>; /** Reactive connected API. */ api: Readable<SelectApi>; /** The selected value (or `null`). */ value: Readable<string | null>; /** Whether the popup is open. */ open: Readable<boolean>; /** Imperatively select a value. */ setValue: (value: string) => void; /** Sync an externally-controlled value without emitting a change event. */ syncValue: (value: string | null) => void; /** Replace the option list (e.g. when items change). */ setItems: (items: SelectItem[]) => void; /** Sync an externally-controlled disabled state. */ setDisabled: (disabled: boolean) => void; /** Svelte action for the label: `<span use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the listbox popup: `<ul use:listboxAction>`. */ listboxAction: Action<HTMLElement>; /** Svelte action for an option: `<li use:optionAction={value}>`. */ optionAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateSheetDialog",
+      "kind": "interface",
+      "signature": "interface CreateSheetDialog extends CreateDialog { /** Current outward drag offset of the panel, in px (0 at rest). */ dragOffset: Readable<number>; /** Whether a drag is in progress (disable the snap transition while true). */ dragging: Readable<boolean>; /** Svelte action for the grab handle that drives the drag-to-dismiss gesture. */ handleAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateSlider",
+      "kind": "interface",
+      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; }"
+    },
+    {
+      "name": "CreateStepper",
+      "kind": "interface",
+      "signature": "interface CreateStepper { /** Reactive resolved state. */ state: Readable<StepperState>; /** Reactive connected API. */ api: Readable<StepperApi>; /** Current step (0-based). */ current: Readable<number>; /** Advance to the next step. */ next: () => void; /** Go back to the previous step. */ prev: () => void; /** Jump to a step (ignored when unreachable). */ goTo: (index: number) => void; /** Svelte action for the container: `<nav use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the ordered list: `<ol use:listAction>`. */ listAction: Action<HTMLElement>; /** Svelte action for a step trigger: `<button use:stepAction={index}>`. */ stepAction: Action<HTMLElement, number>; }"
+    },
+    {
+      "name": "CreateSwitch",
+      "kind": "interface",
+      "signature": "interface CreateSwitch { /** Reactive resolved state (`{ checked, disabled }`). */ state: Readable<SwitchState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<SwitchApi>; /** Imperatively set the checked value (ignored when disabled). */ setChecked: (value: boolean) => void; /** Imperatively flip the checked value (ignored when disabled). */ toggle: () => void; /** Svelte action for the root `<button>`: `<button use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateTable",
+      "kind": "interface",
+      "signature": "interface CreateTable { /** Reactive resolved state. */ state: Readable<TableState>; /** Reactive connected API. */ api: Readable<TableApi>; /** The active sort (or `null`). */ sort: Readable<SortState | null>; /** The hidden-column keys. */ hiddenColumns: Readable<string[]>; /** The selected row ids, in selection order. */ selectedRowIds: Readable<RowId[]>; /** Cycle a column's sort. */ toggleSort: (key: string) => void; /** Set the sort directly (or clear with `null`). */ setSort: (sort: SortState | null) => void; /** Show/hide a column. */ toggleColumnVisibility: (key: string) => void; /** Sync an externally-controlled sort without emitting a change event. */ syncSort: (sort: SortState | null) => void; /** Sync externally-controlled hidden columns without emitting a change event. */ syncHiddenColumns: (hidden: string[]) => void; /** Replace the column definitions (e.g. when the consumer's columns change). */ syncColumns: (columns: TableColumn[]) => void; /** Sync externally-controlled selected row ids without emitting a change event. */ syncSelectedRowIds: (ids: RowId[]) => void; /** Sync an externally-controlled selection mode. Never touches the selection. */ syncSelectionMode: (mode: SelectionMode) => void; /** Action for a column header `<th>`: `<th use:headerAction={key}>`. */ headerAction: Action<HTMLElement, string>; /** Action for a sort-toggle `<button>`: `<button use:sortButtonAction={key}>`. */ sortButtonAction: Action<HTMLElement, string>; /** Action for a column-visibility toggle: `<button use:visibilityToggleAction={key}>`. */ visibilityToggleAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateTabs",
+      "kind": "interface",
+      "signature": "interface CreateTabs { /** Reactive resolved state. */ state: Readable<TabsState>; /** Reactive connected API. */ api: Readable<TabsApi>; /** The selected tab value (or `null`). */ value: Readable<string | null>; /** Imperatively select a tab (ignored when disabled). */ setValue: (value: string) => void; /** Sync an externally-controlled value without emitting a change event. */ syncValue: (value: string | null) => void; /** Replace the tab list (e.g. when items change). */ setItems: (items: TabItem[]) => void; /** Sync the activation mode. */ setActivationMode: (activationMode: ActivationMode) => void; /** Svelte action for the tab list container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a tab trigger: `<button use:tabAction={value}>`. */ tabAction: Action<HTMLElement, string>; /** Svelte action for a tab panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateTextField",
+      "kind": "interface",
+      "signature": "interface CreateTextField { /** Reactive resolved state. */ state: Readable<TextFieldState>; /** Reactive connected API (prop bags for each part). */ api: Readable<TextFieldApi>; /** The current value. */ value: Readable<string>; /** Imperatively set the value (ignored when disabled or read-only). */ setValue: (value: string) => void; /** Merge new state flags (disabled, invalid, …) — keeps props reactive. */ setFlags: (flags: TextFieldFlags) => void; /** Svelte action for the `<label>`: `<label use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the control: `<input use:controlAction>`. */ controlAction: Action<HTMLElement>; /** Svelte action for the description: `<p use:descriptionAction>`. */ descriptionAction: Action<HTMLElement>; /** Svelte action for the error message: `<p use:errorAction>`. */ errorAction: Action<HTMLElement>; /** Svelte action for the success message: `<p use:successAction>`. */ successAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateTimeField",
+      "kind": "interface",
+      "signature": "interface CreateTimeField { state: Readable<TimeFieldState>; api: Readable<TimeFieldApi>; /** Action for the field container: reports when focus leaves the whole field. */ fieldAction: Action<HTMLElement>; /** Mirror bounds and shape after mount (no callbacks: they are data). */ syncConfig: (config: { min?: string; max?: string; hourCycle?: timeField.HourCycle; withSeconds?: boolean; }) => void; /** Svelte action for the field container. */ rootAction: Action<HTMLElement>; /** Svelte action for a segment, by type: `<span use:segmentAction={\"hour\"}>`. */ segmentAction: Action<HTMLElement, TimeSegmentType>; }"
+    },
+    {
+      "name": "CreateToggleButton",
+      "kind": "interface",
+      "signature": "interface CreateToggleButton { /** Reactive resolved state (`{ pressed, disabled }`). */ state: Readable<ToggleButtonState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<ToggleButtonApi>; /** Imperatively set the pressed value (ignored when disabled). */ setPressed: (value: boolean) => void; /** Imperatively make the control available or unavailable. */ setDisabled: (value: boolean) => void; /** Imperatively flip the pressed value (ignored when disabled). */ toggle: () => void; /** Svelte action for the native checkbox: `<input type=\"checkbox\" use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateTooltip",
+      "kind": "interface",
+      "signature": "interface CreateTooltip { state: Readable<TooltipState>; api: Readable<TooltipApi>; open: Readable<boolean>; /** Svelte action for the trigger element. */ triggerAction: Action<HTMLElement>; /** Svelte action for the tooltip element (render only while open). */ tooltipAction: Action<HTMLElement>; }"
+    },
+    {
+      "name": "CreateTreeView",
+      "kind": "interface",
+      "signature": "interface CreateTreeView { /** Reactive resolved state. */ state: Readable<TreeState>; /** Reactive connected API. */ api: Readable<TreeApi>; /** The currently-visible, flattened node list (for rendering). */ visible: Readable<VisibleNode[]>; /** Expanded parent values. */ expanded: Readable<string[]>; /** The selected value (or `null`). */ selected: Readable<string | null>; /** Imperatively expand/collapse a parent. */ toggle: (value: string) => void; /** Imperatively select a value. */ select: (value: string) => void; /** Svelte action for the tree container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a treeitem: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "DialogApi",
+      "kind": "type",
+      "signature": "type DialogApi = dialog.DialogApi;"
+    },
+    {
+      "name": "DialogContext",
+      "kind": "interface",
+      "signature": "interface DialogContext extends dialog.DialogContext { /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop / outside the panel closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; }"
+    },
+    {
+      "name": "DialogRole",
+      "kind": "type",
+      "signature": "type DialogRole = dialog.DialogRole;"
+    },
+    {
+      "name": "DialogState",
+      "kind": "type",
+      "signature": "type DialogState = dialog.DialogState;"
+    },
+    {
+      "name": "Dir",
+      "kind": "type",
+      "signature": "type Dir = \"ltr\" | \"rtl\";"
+    },
+    {
+      "name": "DropAreaOptions",
+      "kind": "interface",
+      "signature": "interface DropAreaOptions { /** Ignore drags entirely (no highlight, no drop). */ disabled?: boolean; /** Called with the DataTransfer of a successful drop. */ onDrop?: (data: DataTransfer, event: DragEvent) => void; /** Called when the drag-over highlight toggles. */ onDragChange?: (dragging: boolean) => void; }"
+    },
+    {
+      "name": "FieldApi",
+      "kind": "type",
+      "signature": "type FieldApi = field.FieldApi;"
+    },
+    {
+      "name": "FieldContext",
+      "kind": "type",
+      "signature": "type FieldContext = field.FieldContext;"
+    },
+    {
+      "name": "FieldState",
+      "kind": "type",
+      "signature": "type FieldState = field.FieldState;"
+    },
+    {
+      "name": "HourCycle",
+      "kind": "type",
+      "signature": "type HourCycle = timeField.HourCycle;"
+    },
+    {
+      "name": "HoverCardApi",
+      "kind": "type",
+      "signature": "type HoverCardApi = hoverCard.HoverCardApi;"
+    },
+    {
+      "name": "HoverCardContext",
+      "kind": "interface",
+      "signature": "interface HoverCardContext extends hoverCard.HoverCardContext { /** Preferred placement of the card. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and card, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `200`. */ closeDelay?: number; }"
+    },
+    {
+      "name": "HoverCardState",
+      "kind": "type",
+      "signature": "type HoverCardState = hoverCard.HoverCardState;"
+    },
+    {
+      "name": "I18n",
+      "kind": "interface",
+      "signature": "interface I18n { /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */ locale: Readable<string>; /** Writing direction: explicit when given, otherwise derived from the locale. */ dir: Readable<Dir>; /** Reactive translator: `$t(\"calendar.today\")`. Falls back to English, then the key. */ t: Readable<TranslateFn>; /** Update the locale / dir / message overrides (used by `LocaleProvider`). */ set: (next: { locale?: string; dir?: Dir; messages?: Messages; }) => void; }"
+    },
+    {
+      "name": "LabelApi",
+      "kind": "type",
+      "signature": "type LabelApi = label.LabelApi;"
+    },
+    {
+      "name": "LabelContext",
+      "kind": "type",
+      "signature": "type LabelContext = label.LabelContext;"
+    },
+    {
+      "name": "LabelState",
+      "kind": "type",
+      "signature": "type LabelState = label.LabelState;"
+    },
+    {
+      "name": "MenuApi",
+      "kind": "type",
+      "signature": "type MenuApi#b1e94252 = menu.MenuApi;"
+    },
+    {
+      "name": "MenuContext",
+      "kind": "type",
+      "signature": "type MenuContext = menu.MenuContext;"
+    },
+    {
+      "name": "MenuItem",
+      "kind": "type",
+      "signature": "type MenuItem = menu.MenuItem;"
+    },
+    {
+      "name": "MenuState",
+      "kind": "type",
+      "signature": "type MenuState#e1838409 = menu.MenuState;"
+    },
+    {
+      "name": "MenubarContext",
+      "kind": "interface",
+      "signature": "interface MenubarContext { menus: MenubarMenu[]; /** Called when an item is activated, with its menu and item values. */ onSelect?: (menuValue: string, itemValue: string) => void; }"
+    },
+    {
+      "name": "MenubarItem",
+      "kind": "interface",
+      "signature": "interface MenubarItem extends MenubarMenu { open: Readable<boolean>; /** Action for this menu's trigger button. */ triggerAction: Action<HTMLElement>; /** Action for this menu's popup. */ menuAction: Action<HTMLElement>; /** Action for a menu item: `use:itemAction={value}`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "MenubarMenu",
+      "kind": "interface",
+      "signature": "interface MenubarMenu { /** Stable value identifying this menu (passed to `onSelect`). */ value: string; /** Visible trigger label. */ label: string; /** The menu's actionable items. */ items: MenuItem[]; /** Disable the whole menu. */ disabled?: boolean; }"
+    },
+    {
+      "name": "MessageKey",
+      "kind": "type",
+      "signature": "type MessageKey = i18n.MessageKey;"
+    },
+    {
+      "name": "Messages",
+      "kind": "type",
+      "signature": "type Messages = Partial<Record<MessageKey, string | PluralMessage>>;"
+    },
+    {
+      "name": "MeterApi",
+      "kind": "type",
+      "signature": "type MeterApi = meter.MeterApi;"
+    },
+    {
+      "name": "MeterContext",
+      "kind": "type",
+      "signature": "type MeterContext = meter.MeterContext;"
+    },
+    {
+      "name": "MeterState",
+      "kind": "type",
+      "signature": "type MeterState = meter.MeterState;"
+    },
+    {
+      "name": "MultiSelectApi",
+      "kind": "type",
+      "signature": "type MultiSelectApi = multiSelect.MultiSelectApi;"
+    },
+    {
+      "name": "MultiSelectContext",
+      "kind": "interface",
+      "signature": "interface MultiSelectContext extends multiSelect.MultiSelectContext { /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; return all items for an * empty query. */ filter?: (items: MultiSelectItem[], query: string) => MultiSelectItem[]; }"
+    },
+    {
+      "name": "MultiSelectItem",
+      "kind": "type",
+      "signature": "type MultiSelectItem = multiSelect.MultiSelectItem;"
+    },
+    {
+      "name": "MultiSelectState",
+      "kind": "type",
+      "signature": "type MultiSelectState = multiSelect.MultiSelectState;"
+    },
+    {
+      "name": "NavigationMenuApi",
+      "kind": "type",
+      "signature": "type NavigationMenuApi = navigationMenu.NavigationMenuApi;"
+    },
+    {
+      "name": "NavigationMenuContext",
+      "kind": "interface",
+      "signature": "interface NavigationMenuContext extends navigationMenu.NavigationMenuContext { /** Preferred placement of the panels. Default `\"bottom-start\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `150`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `150`. */ closeDelay?: number; }"
+    },
+    {
+      "name": "NavigationMenuItem",
+      "kind": "interface",
+      "signature": "interface NavigationMenuItem { value: string; label: string; /** For plain link items. */ href?: string; /** For panel items — the links revealed when opened. */ links?: NavigationMenuLink[]; }"
+    },
+    {
+      "name": "NavigationMenuLink",
+      "kind": "interface",
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+    },
+    {
+      "name": "NavigationMenuState",
+      "kind": "type",
+      "signature": "type NavigationMenuState = navigationMenu.NavigationMenuState;"
+    },
+    {
+      "name": "NotificationAction",
+      "kind": "interface",
+      "signature": "interface NotificationAction { label: string; variant?: ButtonVariant; /** Run when the action is clicked. */ onClick?: () => void; /** Keep the notification open after the action runs. Defaults to `false` (dismiss). */ keepOpen?: boolean; }"
+    },
+    {
+      "name": "NotificationDismissReason",
+      "kind": "type",
+      "signature": "type NotificationDismissReason = \"user\" | \"timeout\" | \"action\" | \"api\";"
+    },
+    {
+      "name": "NotificationItem",
+      "kind": "interface",
+      "signature": "interface NotificationItem extends NotificationOptions { id: string; }"
+    },
+    {
+      "name": "NotificationOptions",
+      "kind": "interface",
+      "signature": "interface NotificationOptions { /** * Stable id. Pass one to `show()` to **replace** an existing notification in * place (e.g. \"Saving…\" → \"Saved\") instead of stacking a new one; omit it * and one is generated. */ id?: string; status?: NotificationStatus; title?: string; /** Body text. */ text?: string; /** * Auto-dismiss delay in ms. `0` (default) keeps the notification until * dismissed — auto-dismiss is opt-in. A snack with no close button should * set one so it can't become a dead end. */ duration?: number; /** Whether to render the close button. Defaults to `true`. */ closable?: boolean; /** Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent. */ role?: \"status\" | \"alert\"; /** Action buttons. */ actions?: NotificationAction[]; /** * High-contrast inverse surface for maximum visibility. Recommended for * transient info outcomes that auto-dismiss (saved, offline, downtime…). */ inverted?: boolean; /** * Snackbar layout: a single compact row — icon, title and an inline action, * vertically centered, in a container that wraps its content. No * description; the icon takes the text color with no box. */ snack?: boolean; /** Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle. */ iconShape?: \"rounded\" | \"round\"; /** FeedbackIcon box override (see Alert): force `\"tint\"`/`\"solid\"` on a tinted surface. */ iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** * Rich content: a Svelte component rendered as the body instead of `text` * (a file preview, an avatar row). Its props go in `componentProps`. */ component?: svelte.ComponentType; /** Props for `component`. */ componentProps?: Record<string, unknown>; /** * Called once when the notification closes, with the reason. Fires for every * path (close button, swipe, timeout, action, or `dismiss()`/`clear()`), not * when a `show()` with the same id merely replaces it. */ onDismiss?: (reason: NotificationDismissReason) => void; }"
+    },
+    {
+      "name": "NotificationPromiseMessages",
+      "kind": "interface",
+      "signature": "interface NotificationPromiseMessages<T> { loading: string; success: string | ((data: T) => string); error: string | ((error: unknown) => string); /** Auto-dismiss delay for the resolved success/error notification. Defaults to `0` (persistent). */ duration?: number; }"
+    },
+    {
+      "name": "NotificationStatus",
+      "kind": "type",
+      "signature": "type NotificationStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
+      "name": "Notifier",
+      "kind": "interface",
+      "signature": "interface Notifier { /** The reactive list of active notifications (oldest first). */ subscribe: Readable<NotificationItem[]>[\"subscribe\"]; /** * Queue a notification; returns its id. If `options.id` matches a live * notification, that one is replaced in place (no new entry, no `onDismiss`). */ show: (options?: NotificationOptions) => string; /** Shorthand for `show({ status: \"info\", title, ...options })`. */ info: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"success\", title, ...options })`. */ success: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"warning\", title, ...options })`. */ warning: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"danger\", title, ...options })`. */ danger: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"neutral\", title, ...options })`. */ neutral: (title: string, options?: StatusOptions) => string; /** Update an existing notice in place. */ update: (id: string, patch: NotificationOptions) => void; /** Remove a notification by id, firing its `onDismiss` with the reason (default `\"api\"`). */ dismiss: (id: string, reason?: NotificationDismissReason) => void; /** Remove all notifications, firing each `onDismiss(\"api\")`. */ clear: () => void; /** * Show a loading notice tied to a promise, then swap it to success or * error when the promise settles. Returns the original promise. */ promise: <T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>) => Promise<T>; }"
+    },
+    {
+      "name": "NumberFieldApi",
+      "kind": "type",
+      "signature": "type NumberFieldApi = numberField.NumberFieldApi;"
+    },
+    {
+      "name": "NumberFieldConfig",
+      "kind": "interface",
+      "signature": "interface NumberFieldConfig { locale?: string; min?: number; max?: number; step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; changeOnWheel?: boolean; }"
+    },
+    {
+      "name": "NumberFieldContext",
+      "kind": "type",
+      "signature": "type NumberFieldContext = numberField.NumberFieldContext;"
+    },
+    {
+      "name": "NumberFieldError",
+      "kind": "type",
+      "signature": "type NumberFieldError = numberField.NumberFieldError;"
+    },
+    {
+      "name": "NumberFieldExtras",
+      "kind": "interface",
+      "signature": "interface NumberFieldExtras { invalid?: boolean; describedBy?: string; messages?: Partial<numberField.NumberFieldMessages>; }"
+    },
+    {
+      "name": "NumberFieldState",
+      "kind": "type",
+      "signature": "type NumberFieldState = numberField.NumberFieldState;"
+    },
+    {
+      "name": "NumberInputStatus",
+      "kind": "type",
+      "signature": "type NumberInputStatus = numberField.NumberInputStatus;"
+    },
+    {
+      "name": "Orientation",
+      "kind": "type",
+      "signature": "type Orientation = radioGroup.Orientation;"
+    },
+    {
+      "name": "PageItem",
+      "kind": "type",
+      "signature": "type PageItem = pagination.PageItem;"
+    },
+    {
+      "name": "PaginationApi",
+      "kind": "type",
+      "signature": "type PaginationApi = pagination.PaginationApi;"
+    },
+    {
+      "name": "PaginationContext",
+      "kind": "type",
+      "signature": "type PaginationContext = pagination.PaginationContext;"
+    },
+    {
+      "name": "PaginationState",
+      "kind": "type",
+      "signature": "type PaginationState = pagination.PaginationState;"
+    },
+    {
+      "name": "PinInputApi",
+      "kind": "type",
+      "signature": "type PinInputApi = pinInput.PinInputApi;"
+    },
+    {
+      "name": "PinInputContext",
+      "kind": "type",
+      "signature": "type PinInputContext = pinInput.PinInputContext;"
+    },
+    {
+      "name": "PinInputState",
+      "kind": "type",
+      "signature": "type PinInputState = pinInput.PinInputState;"
+    },
+    {
+      "name": "PinInputType",
+      "kind": "type",
+      "signature": "type PinInputType = pinInput.PinInputType;"
+    },
+    {
+      "name": "PopoverApi",
+      "kind": "type",
+      "signature": "type PopoverApi = popover.PopoverApi;"
+    },
+    {
+      "name": "PopoverContext",
+      "kind": "interface",
+      "signature": "interface PopoverContext extends popover.PopoverContext { /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; }"
+    },
+    {
+      "name": "PopoverState",
+      "kind": "type",
+      "signature": "type PopoverState = popover.PopoverState;"
+    },
+    {
+      "name": "ProgressApi",
+      "kind": "type",
+      "signature": "type ProgressApi = progress.ProgressApi;"
+    },
+    {
+      "name": "ProgressContext",
+      "kind": "type",
+      "signature": "type ProgressContext = progress.ProgressContext;"
+    },
+    {
+      "name": "ProgressState",
+      "kind": "type",
+      "signature": "type ProgressState = progress.ProgressState;"
+    },
+    {
+      "name": "RadioGroupContext",
+      "kind": "type",
+      "signature": "type RadioGroupContext = radioGroup.RadioGroupContext;"
+    },
+    {
+      "name": "RadioGroupState",
+      "kind": "type",
+      "signature": "type RadioGroupState = radioGroup.RadioGroupState;"
+    },
+    {
+      "name": "RadioItem",
+      "kind": "type",
+      "signature": "type RadioItem = radioGroup.RadioItem;"
+    },
+    {
+      "name": "RatingGroupContext",
+      "kind": "interface",
+      "signature": "interface RatingGroupContext { /** Number of stars. Defaults to `5`. */ max?: number; /** Selected rating (`1..max`), or `null`. */ value?: number | null; disabled?: boolean; /** Form field name — the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
+    },
+    {
+      "name": "RatingItem",
+      "kind": "interface",
+      "signature": "interface RatingItem { value: string; position: number; }"
+    },
+    {
+      "name": "RowId",
+      "kind": "type",
+      "signature": "type RowId = table.RowId;"
+    },
+    {
+      "name": "ScrollOrientation",
+      "kind": "type",
+      "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
+    },
+    {
+      "name": "ScrollbarGeometry",
+      "kind": "type",
+      "signature": "type ScrollbarGeometry = scrollArea.ScrollbarGeometry;"
+    },
+    {
+      "name": "SearchDialogContext",
+      "kind": "interface",
+      "signature": "interface SearchDialogContext { /** The searchable results. */ items: SearchDialogItem[]; /** * Items shown while the query is empty (recents, frequent searches — the * application measures, the dialog displays). They may carry their own * `group` (\"Recent\"). When omitted or empty, an empty query shows all items. */ suggestions?: SearchDialogItem[]; /** Initial open state. */ open?: boolean; /** Filter results against the query. Defaults to case-insensitive substring. */ filter?: (items: SearchDialogItem[], query: string) => SearchDialogItem[]; /** Called when a result is chosen (before the dialog closes). */ onSelect?: (value: string) => void; /** Called whenever the dialog opens/closes. */ onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "SearchDialogItem",
+      "kind": "interface",
+      "signature": "interface SearchDialogItem extends combobox.ComboboxItem { /** * Optional section the result belongs to (\"Pages\", \"Actions\"). Grouped * results render under a section header; ungrouped results come first. */ group?: string; /** * Keyboard-shortcut hint shown right-aligned on the result (\"⌘S\", or * [\"⌘\", \"S\"] for a chord). A label, not a binding: the dialog never * registers shortcuts — live shortcuts belong to the application. */ shortcut?: string | string[]; }"
+    },
+    {
+      "name": "SegmentItem",
+      "kind": "type",
+      "signature": "type SegmentItem = RadioItem;"
+    },
+    {
+      "name": "SegmentedControlContext",
+      "kind": "type",
+      "signature": "type SegmentedControlContext = RadioGroupContext;"
+    },
+    {
+      "name": "SelectApi",
+      "kind": "type",
+      "signature": "type SelectApi = select.SelectApi;"
+    },
+    {
+      "name": "SelectContext",
+      "kind": "type",
+      "signature": "type SelectContext = select.SelectContext;"
+    },
+    {
+      "name": "SelectItem",
+      "kind": "type",
+      "signature": "type SelectItem = select.SelectItem;"
+    },
+    {
+      "name": "SelectState",
+      "kind": "type",
+      "signature": "type SelectState = select.SelectState;"
+    },
+    {
+      "name": "SelectionMode",
+      "kind": "type",
+      "signature": "type SelectionMode = table.SelectionMode;"
+    },
+    {
+      "name": "SheetDialogContext",
+      "kind": "interface",
+      "signature": "interface SheetDialogContext extends Omit<DialogContext, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
+    },
+    {
+      "name": "SheetDialogSide",
+      "kind": "type",
+      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
+    },
+    {
+      "name": "SliderApi",
+      "kind": "type",
+      "signature": "type SliderApi = slider.SliderApi;"
+    },
+    {
+      "name": "SliderContext",
+      "kind": "type",
+      "signature": "type SliderContext = slider.SliderContext;"
+    },
+    {
+      "name": "SliderState",
+      "kind": "type",
+      "signature": "type SliderState = slider.SliderState;"
+    },
+    {
+      "name": "SortDirection",
+      "kind": "type",
+      "signature": "type SortDirection = table.SortDirection;"
+    },
+    {
+      "name": "SortState",
+      "kind": "type",
+      "signature": "type SortState = table.SortState;"
+    },
+    {
+      "name": "StatusOptions",
+      "kind": "type",
+      "signature": "type StatusOptions = Omit<NotificationOptions, \"status\" | \"title\">;"
+    },
+    {
+      "name": "StepStatus",
+      "kind": "type",
+      "signature": "type StepStatus = stepper.StepStatus;"
+    },
+    {
+      "name": "StepperApi",
+      "kind": "type",
+      "signature": "type StepperApi = stepper.StepperApi;"
+    },
+    {
+      "name": "StepperContext",
+      "kind": "type",
+      "signature": "type StepperContext = stepper.StepperContext;"
+    },
+    {
+      "name": "StepperState",
+      "kind": "type",
+      "signature": "type StepperState = stepper.StepperState;"
+    },
+    {
+      "name": "SwitchApi",
+      "kind": "type",
+      "signature": "type SwitchApi = switchControl.SwitchApi;"
+    },
+    {
+      "name": "SwitchContext",
+      "kind": "type",
+      "signature": "type SwitchContext = switchControl.SwitchContext;"
+    },
+    {
+      "name": "SwitchState",
+      "kind": "type",
+      "signature": "type SwitchState = switchControl.SwitchState;"
+    },
+    {
+      "name": "TabItem",
+      "kind": "type",
+      "signature": "type TabItem = tabs.TabItem;"
+    },
+    {
+      "name": "TableApi",
+      "kind": "type",
+      "signature": "type TableApi = table.TableApi;"
+    },
+    {
+      "name": "TableColumn",
+      "kind": "type",
+      "signature": "type TableColumn = table.TableColumn;"
+    },
+    {
+      "name": "TableContext",
+      "kind": "type",
+      "signature": "type TableContext = table.TableContext;"
+    },
+    {
+      "name": "TableState",
+      "kind": "type",
+      "signature": "type TableState = table.TableState;"
+    },
+    {
+      "name": "TabsApi",
+      "kind": "type",
+      "signature": "type TabsApi = tabs.TabsApi;"
+    },
+    {
+      "name": "TabsContext",
+      "kind": "type",
+      "signature": "type TabsContext = tabs.TabsContext;"
+    },
+    {
+      "name": "TabsState",
+      "kind": "type",
+      "signature": "type TabsState = tabs.TabsState;"
+    },
+    {
+      "name": "TextFieldApi",
+      "kind": "type",
+      "signature": "type TextFieldApi = textField.TextFieldApi;"
+    },
+    {
+      "name": "TextFieldContext",
+      "kind": "type",
+      "signature": "type TextFieldContext = textField.TextFieldContext;"
+    },
+    {
+      "name": "TextFieldFlags",
+      "kind": "type",
+      "signature": "type TextFieldFlags = Partial<Pick<TextFieldState, \"disabled\" | \"readOnly\" | \"required\" | \"invalid\" | \"hasDescription\" | \"hasSuccess\">>;"
+    },
+    {
+      "name": "TextFieldState",
+      "kind": "type",
+      "signature": "type TextFieldState = textField.TextFieldState;"
+    },
+    {
+      "name": "TimeFieldApi",
+      "kind": "type",
+      "signature": "type TimeFieldApi = timeField.TimeFieldApi;"
+    },
+    {
+      "name": "TimeFieldContext",
+      "kind": "type",
+      "signature": "type TimeFieldContext = timeField.TimeFieldContext;"
+    },
+    {
+      "name": "TimeFieldState",
+      "kind": "type",
+      "signature": "type TimeFieldState = timeField.TimeFieldState;"
+    },
+    {
+      "name": "TimeParts",
+      "kind": "type",
+      "signature": "type TimeParts = timeField.TimeParts;"
+    },
+    {
+      "name": "TimeSegmentType",
+      "kind": "type",
+      "signature": "type TimeSegmentType = timeField.TimeSegmentType;"
+    },
+    {
+      "name": "ToggleButtonApi",
+      "kind": "type",
+      "signature": "type ToggleButtonApi = toggleButton.ToggleButtonApi;"
+    },
+    {
+      "name": "ToggleButtonContext",
+      "kind": "type",
+      "signature": "type ToggleButtonContext = toggleButton.ToggleButtonContext;"
+    },
+    {
+      "name": "ToggleButtonState",
+      "kind": "type",
+      "signature": "type ToggleButtonState = toggleButton.ToggleButtonState;"
+    },
+    {
+      "name": "TooltipApi",
+      "kind": "type",
+      "signature": "type TooltipApi = tooltip.TooltipApi;"
+    },
+    {
+      "name": "TooltipContext",
+      "kind": "interface",
+      "signature": "interface TooltipContext extends tooltip.TooltipContext { /** Preferred placement. Default `\"top\"`. */ placement?: Placement; /** Gap between trigger and tooltip, in px. Default `6`. */ offset?: number; /** Delay before showing on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before hiding on leave, in ms. Default `100`. */ closeDelay?: number; }"
+    },
+    {
+      "name": "TooltipState",
+      "kind": "type",
+      "signature": "type TooltipState = tooltip.TooltipState;"
+    },
+    {
+      "name": "TranslateFn",
+      "kind": "type",
+      "signature": "type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;"
+    },
+    {
+      "name": "TreeApi",
+      "kind": "type",
+      "signature": "type TreeApi = treeView.TreeApi;"
+    },
+    {
+      "name": "TreeContext",
+      "kind": "type",
+      "signature": "type TreeContext = treeView.TreeContext;"
+    },
+    {
+      "name": "TreeNode",
+      "kind": "type",
+      "signature": "type TreeNode = treeView.TreeNode;"
+    },
+    {
+      "name": "TreeState",
+      "kind": "type",
+      "signature": "type TreeState = treeView.TreeState;"
+    },
+    {
+      "name": "VisibleNode",
+      "kind": "type",
+      "signature": "type VisibleNode = treeView.VisibleNode;"
+    },
+    {
+      "name": "WeekStart",
+      "kind": "type",
+      "signature": "type WeekStart = calendar.WeekStart;"
+    },
+    {
+      "name": "createAccordion",
+      "kind": "function",
+      "signature": "declare function createAccordion(context: AccordionContext): CreateAccordion;"
+    },
+    {
+      "name": "createButton",
+      "kind": "function",
+      "signature": "declare function createButton(options?: CreateButtonOptions): CreateButton;"
+    },
+    {
+      "name": "createButtonGroup",
+      "kind": "function",
+      "signature": "declare function createButtonGroup(context?: ButtonGroupContext): CreateButtonGroup;"
+    },
+    {
+      "name": "createCalendar",
+      "kind": "function",
+      "signature": "declare function createCalendar(context: CalendarContext): CreateCalendar;"
+    },
+    {
+      "name": "createCarousel",
+      "kind": "function",
+      "signature": "declare function createCarousel(context: CarouselContext): CreateCarousel;"
+    },
+    {
+      "name": "createCheckbox",
+      "kind": "function",
+      "signature": "declare function createCheckbox(context?: CheckboxContext): CreateCheckbox;"
+    },
+    {
+      "name": "createCheckboxGroup",
+      "kind": "function",
+      "signature": "declare function createCheckboxGroup(context: CheckboxGroupContext): CreateCheckboxGroup;"
+    },
+    {
+      "name": "createCollapsible",
+      "kind": "function",
+      "signature": "declare function createCollapsible(context?: CollapsibleContext): CreateCollapsible;"
+    },
+    {
+      "name": "createCombobox",
+      "kind": "function",
+      "signature": "declare function createCombobox(context: ComboboxContext): CreateCombobox;"
+    },
+    {
+      "name": "createContextMenu",
+      "kind": "function",
+      "signature": "declare function createContextMenu(context: ContextMenuContext): CreateContextMenu;"
+    },
+    {
+      "name": "createDialog",
+      "kind": "function",
+      "signature": "declare function createDialog(context?: DialogContext): CreateDialog;"
+    },
+    {
+      "name": "createDropdownMenu",
+      "kind": "function",
+      "signature": "declare function createDropdownMenu(context: MenuContext): CreateDropdownMenu;"
+    },
+    {
+      "name": "createField",
+      "kind": "function",
+      "signature": "declare function createField(context?: field.FieldContext): CreateField;"
+    },
+    {
+      "name": "createHoverCard",
+      "kind": "function",
+      "signature": "declare function createHoverCard(context?: HoverCardContext): CreateHoverCard;"
+    },
+    {
+      "name": "createI18n",
+      "kind": "function",
+      "signature": "declare function createI18n(init?: { locale?: string; dir?: Dir; messages?: Messages; }): I18n;"
+    },
+    {
+      "name": "createLabel",
+      "kind": "function",
+      "signature": "declare function createLabel(context?: label.LabelContext): CreateLabel;"
+    },
+    {
+      "name": "createMenubar",
+      "kind": "function",
+      "signature": "declare function createMenubar(context: MenubarContext): CreateMenubar;"
+    },
+    {
+      "name": "createMeter",
+      "kind": "function",
+      "signature": "declare function createMeter(context?: meter.MeterContext): CreateMeter;"
+    },
+    {
+      "name": "createMultiSelect",
+      "kind": "function",
+      "signature": "declare function createMultiSelect(context: MultiSelectContext): CreateMultiSelect;"
+    },
+    {
+      "name": "createNavigationMenu",
+      "kind": "function",
+      "signature": "declare function createNavigationMenu(context?: NavigationMenuContext): CreateNavigationMenu;"
+    },
+    {
+      "name": "createNotifier",
+      "kind": "function",
+      "signature": "declare function createNotifier(): Notifier;"
+    },
+    {
+      "name": "createNumberField",
+      "kind": "function",
+      "signature": "declare function createNumberField(context?: CreateNumberFieldOptions): CreateNumberField;"
+    },
+    {
+      "name": "createPagination",
+      "kind": "function",
+      "signature": "declare function createPagination(context: pagination.PaginationContext): CreatePagination;"
+    },
+    {
+      "name": "createPinInput",
+      "kind": "function",
+      "signature": "declare function createPinInput(context?: CreatePinInputContext): CreatePinInput;"
+    },
+    {
+      "name": "createPopover",
+      "kind": "function",
+      "signature": "declare function createPopover(context?: PopoverContext): CreatePopover;"
+    },
+    {
+      "name": "createProgress",
+      "kind": "function",
+      "signature": "declare function createProgress(context?: progress.ProgressContext): CreateProgress;"
+    },
+    {
+      "name": "createRadioGroup",
+      "kind": "function",
+      "signature": "declare function createRadioGroup(context: RadioGroupContext): CreateRadioGroup;"
+    },
+    {
+      "name": "createRatingGroup",
+      "kind": "function",
+      "signature": "declare function createRatingGroup(context?: RatingGroupContext): CreateRatingGroup;"
+    },
+    {
+      "name": "createScrollArea",
+      "kind": "function",
+      "signature": "declare function createScrollArea(): CreateScrollArea;"
+    },
+    {
+      "name": "createSearchDialog",
+      "kind": "function",
+      "signature": "declare function createSearchDialog(context: SearchDialogContext): CreateSearchDialog;"
+    },
+    {
+      "name": "createSegmentedControl",
+      "kind": "function",
+      "signature": "declare function createSegmentedControl(context: SegmentedControlContext): CreateSegmentedControl;"
+    },
+    {
+      "name": "createSelect",
+      "kind": "function",
+      "signature": "declare function createSelect(context: SelectContext): CreateSelect;"
+    },
+    {
+      "name": "createSheetDialog",
+      "kind": "function",
+      "signature": "declare function createSheetDialog(context?: SheetDialogContext): CreateSheetDialog;"
+    },
+    {
+      "name": "createSlider",
+      "kind": "function",
+      "signature": "declare function createSlider(context?: slider.SliderContext): CreateSlider;"
+    },
+    {
+      "name": "createStepper",
+      "kind": "function",
+      "signature": "declare function createStepper(context: StepperContext): CreateStepper;"
+    },
+    {
+      "name": "createSwitch",
+      "kind": "function",
+      "signature": "declare function createSwitch(context?: SwitchContext): CreateSwitch;"
+    },
+    {
+      "name": "createTable",
+      "kind": "function",
+      "signature": "declare function createTable(context: TableContext): CreateTable;"
+    },
+    {
+      "name": "createTabs",
+      "kind": "function",
+      "signature": "declare function createTabs(context: TabsContext): CreateTabs;"
+    },
+    {
+      "name": "createTextField",
+      "kind": "function",
+      "signature": "declare function createTextField(context?: TextFieldContext): CreateTextField;"
+    },
+    {
+      "name": "createTimeField",
+      "kind": "function",
+      "signature": "declare function createTimeField(context: CreateTimeFieldOptions): CreateTimeField;"
+    },
+    {
+      "name": "createToggleButton",
+      "kind": "function",
+      "signature": "declare function createToggleButton(context?: ToggleButtonContext): CreateToggleButton;"
+    },
+    {
+      "name": "createTooltip",
+      "kind": "function",
+      "signature": "declare function createTooltip(context?: TooltipContext): CreateTooltip;"
+    },
+    {
+      "name": "createTreeView",
+      "kind": "function",
+      "signature": "declare function createTreeView(context: TreeContext): CreateTreeView;"
+    },
+    {
+      "name": "dropArea",
+      "kind": "const",
+      "signature": "dropArea: Action<HTMLElement, DropAreaOptions | undefined>"
+    },
+    {
+      "name": "en",
+      "kind": "const",
+      "signature": "en: { readonly \"calendar.previous\": \"Previous\"; readonly \"calendar.next\": \"Next\"; readonly \"calendar.today\": \"Today\"; readonly \"calendar.label\": \"Calendar\"; readonly \"calendar.viewsLabel\": \"Calendar view\"; readonly \"calendar.view.month\": \"Month\"; readonly \"calendar.view.two-month\": \"2 Months\"; readonly \"calendar.view.week\": \"Week\"; readonly \"calendar.view.three-day\": \"3 Days\"; readonly \"calendar.view.day\": \"Day\"; readonly \"calendar.view.year\": \"Year\"; readonly \"datePicker.label\": \"Date\"; readonly \"datePicker.placeholder\": \"Select a date\"; readonly \"datePicker.clear\": \"Clear date\"; readonly \"dateRangePicker.label\": \"Date range\"; readonly \"dateRangePicker.placeholder\": \"Select a range\"; readonly \"dateRangePicker.clear\": \"Clear range\"; readonly \"timeField.label\": \"Time\"; readonly \"timeField.hour\": \"Hour\"; readonly \"timeField.minute\": \"Minute\"; readonly \"timeField.second\": \"Second\"; readonly \"timeField.dayPeriod\": \"AM/PM\"; readonly \"timeField.empty\": \"Empty\"; readonly \"timeField.invalidFormat\": \"Enter a time in the expected format.\"; readonly \"timeField.outOfRange\": \"Enter a time within the allowed range.\"; readonly \"timeField.secondsRequired\": \"Enter hours, minutes, and seconds.\"; readonly \"timeField.secondsNotAllowed\": \"Enter hours and minutes only.\"; readonly \"timeField.rangeUnderflow\": \"Enter a time no earlier than {min}.\"; readonly \"timeField.rangeOverflow\": \"Enter a time no later than {max}.\"; readonly \"loading.label\": \"Loading\\u2026\"; readonly \"inlineNotification.close\": \"Close\"; readonly \"inlineNotification.learnMore\": \"Learn more\"; readonly \"dialog.close\": \"Close\"; readonly \"dialog.trigger\": \"Open\"; readonly \"searchDialog.trigger\": \"Search\\u2026\"; readonly \"collapsible.toggle\": \"Toggle\"; readonly \"loginForm.heading\": \"Sign in\"; readonly \"dialog.confirm\": \"Confirm\"; readonly \"dialog.cancel\": \"Cancel\"; readonly \"dialog.dismiss\": \"OK\"; readonly \"sheetDialog.close\": \"Close\"; readonly \"notificationRegion.label\": \"Notifications\"; readonly \"combobox.placeholder\": \"Search\\u2026\"; readonly \"combobox.clear\": \"Clear\"; readonly \"combobox.empty\": \"No results\"; readonly \"searchDialog.title\": \"Search\"; readonly \"searchDialog.label\": \"Search\"; readonly \"searchDialog.placeholder\": \"Type to search\\u2026\"; readonly \"searchDialog.empty\": \"No results found.\"; readonly \"searchDialog.resultOne\": \"1 result available\"; readonly \"searchDialog.resultMany\": \"{count} results available\"; readonly \"searchDialog.results\": { readonly one: \"1 result available\"; readonly other: \"{count} results available\"; }; readonly \"searchDialog.loading\": \"Searching\\u2026\"; readonly \"numberField.increment\": \"Increase {label}\"; readonly \"numberField.decrement\": \"Decrease {label}\"; readonly \"numberField.parseError\": \"Enter a number.\"; readonly \"numberField.rangeUnderflow\": \"Enter a number that is at least {min}.\"; readonly \"numberField.rangeOverflow\": \"Enter a number that is at most {max}.\"; readonly \"numberField.stepMismatch\": \"Enter a multiple of {step}.\"; readonly \"select.placeholder\": \"Select\\u2026\"; readonly \"switch.on\": \"ON\"; readonly \"switch.off\": \"OFF\"; readonly \"loginForm.submit\": \"Sign in\"; readonly \"loginForm.forgot\": \"Forgot password?\"; readonly \"pagination.label\": \"Pagination\"; readonly \"pagination.previous\": \"Go to previous page\"; readonly \"pagination.next\": \"Go to next page\"; readonly \"pagination.page\": \"Go to page {page}\"; readonly \"rating.star\": \"{count} star\"; readonly \"rating.stars\": { readonly one: \"{count} star\"; readonly other: \"{count} stars\"; }; readonly \"pinInput.cell\": \"Character {index} of {length}\"; readonly \"breadcrumb.label\": \"Breadcrumb\"; readonly \"contextMenu.label\": \"Context menu\"; readonly \"menu.label\": \"Main\"; readonly \"stepper.label\": \"Progress\"; readonly \"stepper.completed\": \"Completed\"; readonly \"carousel.previous\": \"Previous slide\"; readonly \"carousel.next\": \"Next slide\"; readonly \"carousel.choose\": \"Choose slide\"; readonly \"combobox.show\": \"Show options\"; readonly \"combobox.hide\": \"Close options\"; readonly \"table.views\": \"Views\"; readonly \"table.pagination\": \"Table pages\"; readonly \"table.loadMore\": \"Load more\"; readonly \"table.loading\": \"Loading\\u2026\"; readonly \"table.columns\": \"Columns\"; readonly \"table.selectRow\": \"Select {name}\"; readonly \"table.selectPage\": \"Select all visible rows\"; readonly \"table.selection\": \"Selection\"; readonly \"table.noResults\": \"No rows match the current filters\"; readonly \"table.clearFilters\": \"Clear filters\"; readonly \"codeBlock.copy\": \"Copy code\"; readonly \"tag.remove\": \"Remove\"; readonly \"multiSelect.selected\": \"Selected values\"; readonly \"multiSelect.remove\": \"Remove {name}\"; readonly \"multiSelect.empty\": \"No results\"; readonly \"multiSelect.placeholder\": \"Search\\u2026\"; readonly \"uploadDropArea.prompt\": \"Drag & drop files or\"; readonly \"uploadDropArea.action\": \"browse\"; }"
+    },
+    {
+      "name": "getI18n",
+      "kind": "function",
+      "signature": "declare function getI18n(): I18n;"
+    },
+    {
+      "name": "normalizeProps",
+      "kind": "const",
+      "signature": "normalizeProps: Normalize"
+    },
+    {
+      "name": "setI18nContext",
+      "kind": "function",
+      "signature": "declare function setI18nContext(i18n: I18n): void;"
+    }
+  ]
+}
