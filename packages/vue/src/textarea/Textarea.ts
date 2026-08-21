@@ -23,6 +23,11 @@ export interface TextareaProps {
   name?: string;
   /** Native textarea autocomplete hint. */
   autocomplete?: string;
+  /** Native length limits; the browser enforces them and reports them. */
+  maxlength?: number;
+  minlength?: number;
+  /** Turn spelling correction off for codes and identifiers. */
+  spellcheck?: boolean;
   /** Called whenever the value changes. */
   onValueChange?: (value: string) => void;
 }
@@ -55,6 +60,9 @@ export const Textarea = defineComponent({
     readOnly: { type: Boolean, default: false },
     name: { type: String, default: undefined },
     autocomplete: { type: String, default: undefined },
+    maxlength: { type: Number, default: undefined },
+    minlength: { type: Number, default: undefined },
+    spellcheck: { type: Boolean, default: undefined },
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   emits: {
@@ -104,6 +112,9 @@ export const Textarea = defineComponent({
             class: "field__control",
             name: props.name,
             autocomplete: props.autocomplete,
+            maxlength: props.maxlength,
+            minlength: props.minlength,
+            spellcheck: props.spellcheck,
             placeholder: props.placeholder,
             rows: props.rows,
             value: api.value.value,

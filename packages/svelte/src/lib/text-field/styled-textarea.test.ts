@@ -37,6 +37,16 @@ describe("Svelte Textarea (styled)", () => {
     expect(new FormData(form).get("message")).toBe("Hello");
   });
 
+  it("forwards the native length limits and spellcheck", () => {
+    render(Textarea, {
+      props: { label: "Message", maxlength: 280, minlength: 10, spellcheck: false },
+    });
+    const control = screen.getByLabelText("Message");
+    expect(control).toHaveAttribute("maxlength", "280");
+    expect(control).toHaveAttribute("minlength", "10");
+    expect(control).toHaveAttribute("spellcheck", "false");
+  });
+
   it("links and announces success feedback", () => {
     render(Textarea, { props: { label: "Message", success: "Looks good." } });
     const success = screen.getByText("Looks good.");

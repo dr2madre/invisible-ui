@@ -20,6 +20,15 @@ the input can span multiple lines.
 
 <ImportSnippet component="textarea" />
 
+### Native constraints
+
+`maxlength`, `minlength`, `autocomplete` and `spellcheck` reach the real
+`<textarea>`, so the browser enforces and reports them itself.
+
+```svelte
+<Textarea label="Message" maxlength={280} minlength={10} />
+```
+
 ### Props
 
 <PropsTable component="textarea" />
