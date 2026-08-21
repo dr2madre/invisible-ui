@@ -1,5 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { bounds, format, from12, pad2, segmentId, segments, to12 } from "./state";
+import { bounds, format, from12, pad2, rangeError, segmentId, segments, to12 } from "./state";
 import type {
   DayPeriod,
   TimeFieldState,
@@ -23,6 +23,10 @@ export interface TimeFieldApi {
   value: string | null;
   status: TimeInputStatus;
   validationError: TimeValueError | null;
+  /** Report that editing finished (focus left the field, or Enter). */
+  commit(): void;
+  /** Put the parts back to the last finished state; `false` if nothing to undo. */
+  revert(): boolean;
   /** Props for the field container (`role="group"`). */
   rootProps: ElementProps;
   /** Props for a segment (`role="spinbutton"`), by type. */
@@ -34,7 +38,11 @@ export interface TimeFieldApi {
 export interface ConnectOptions {
   state: TimeFieldState;
   /** Apply new parts + digit-entry buffer (the adapter owns state + onValueChange). */
-  commit: (parts: TimeParts, buffer: string, bufferSeg: TimeSegmentType | null) => void;
+  setParts: (parts: TimeParts, buffer: string, bufferSeg: TimeSegmentType | null) => void;
+  /** Record the parts as finished, so Escape has something to put back. */
+  setCommittedParts: (parts: TimeParts) => void;
+  /** Report that the user finished editing (the adapter owns onValueCommit). */
+  onCommit?: (value: string | null) => void;
   /** Move DOM focus to a segment (adapter-provided). */
   focus?: (seg: TimeSegmentType) => void;
   /** Domain-level invalid state supplied by the consumer. */
@@ -67,7 +75,9 @@ const wrap = (n: number, mod: number) => ((n % mod) + mod) % mod;
 
 export function connect({
   state,
-  commit,
+  setParts,
+  setCommittedParts,
+  onCommit,
   focus,
   invalid = false,
   disabled = false,
@@ -105,7 +115,7 @@ export function connect({
     const base = current == null ? (dir === 1 ? min - 1 : min) : current;
     const span = max - min + 1;
     const nextRaw = min + wrap(base - min + dir, span);
-    commit(withPart(seg, nextRaw), "", null);
+    setParts(withPart(seg, nextRaw), "", null);
   };
 
   const togglePeriod = (to?: DayPeriod) => {
@@ -118,7 +128,7 @@ export function connect({
       dayPeriod: period,
       hour: displayHour == null ? null : from12(displayHour, period),
     };
-    commit(next, "", null);
+    setParts(next, "", null);
   };
 
   const typeDigit = (seg: TimeSegmentType, digit: string) => {
@@ -133,20 +143,20 @@ export function connect({
     const full = !tooSmall && (buf.length >= 2 || cand * 10 > max);
     const next = withPart(seg, tooSmall ? null : cand);
     if (full) {
-      commit(next, "", null);
+      setParts(next, "", null);
       const i = order.indexOf(seg);
       if (i < order.length - 1) focus?.(order[i + 1]!);
     } else {
-      commit(next, buf, seg);
+      setParts(next, buf, seg);
     }
   };
 
   const clear = (seg: TimeSegmentType) => {
     if (seg === "dayPeriod") {
-      commit({ ...parts, dayPeriod: null }, "", null);
+      setParts({ ...parts, dayPeriod: null }, "", null);
       return;
     }
-    commit(withPart(seg, null), "", null);
+    setParts(withPart(seg, null), "", null);
   };
 
   const move = (seg: TimeSegmentType, dir: 1 | -1) => {
@@ -181,6 +191,18 @@ export function connect({
       case "Delete":
         e.preventDefault();
         clear(seg);
+        break;
+      case "Enter":
+        // No preventDefault: native form submission must still happen.
+        commitValue();
+        break;
+      case "Escape":
+        // Only when there is something to undo, so an outer dialog still
+        // closes on the next Escape.
+        if (revert()) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         break;
       default:
         if (seg === "dayPeriod") {
@@ -230,22 +252,49 @@ export function connect({
     return v == null ? PLACEHOLDER[seg] : pad2(v);
   };
 
+  const committedValue = format(state.committedParts, withSeconds, hourCycle);
+
+  /** Report that editing finished. A repeat with nothing new stays quiet. */
+  const commitValue = () => {
+    const current = format(parts, withSeconds, hourCycle);
+    setCommittedParts(parts);
+    if (current !== committedValue) onCommit?.(current);
+  };
+
+  /** Put the parts back to the last finished state (Escape). */
+  const revert = () => {
+    if (
+      format(state.committedParts, withSeconds, hourCycle) ===
+        format(parts, withSeconds, hourCycle) &&
+      state.committedParts === parts
+    ) {
+      return false;
+    }
+    setParts(state.committedParts, "", null);
+    return true;
+  };
+
   const value = format(parts, withSeconds, hourCycle);
+  // A time outside the accepted range is reported, never corrected: the arrows
+  // keep wrapping, and the field says what the value is.
+  const error = validationError ?? rangeError(value, state.min, state.max);
   const isEmpty =
     parts.hour == null && parts.minute == null && parts.second == null && parts.dayPeriod == null;
-  const status: TimeInputStatus = validationError
+  const status: TimeInputStatus = error
     ? "invalid"
     : value != null
       ? "valid"
       : isEmpty
         ? "empty"
         : "incomplete";
-  const isInvalid = invalid || validationError != null;
+  const isInvalid = invalid || error != null;
 
   return {
     value,
     status,
-    validationError,
+    validationError: error,
+    commit: commitValue,
+    revert,
     rootProps: normalize({
       role: "group",
       "aria-invalid": isInvalid || undefined,

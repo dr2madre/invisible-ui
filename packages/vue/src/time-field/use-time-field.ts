@@ -22,12 +22,20 @@ export interface UseTimeFieldOptions {
   messages?: Partial<core.TimeFieldMessages>;
   /** Called with the formatted value, or `null` while a segment is empty. */
   onValueChange?: (value: string | null) => void;
+  /** Called when the user finishes editing: focus leaves the field, or Enter. */
+  onValueCommit?: (value: string | null) => void;
   onValidationChange?: (error: TimeValueError | null) => void;
+  /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  min?: string;
+  /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+  max?: string;
 }
 
 export interface UseTimeField {
   /** Reactive connected API; spread `rootProps` / `getSegmentProps`. */
   api: ComputedRef<core.TimeFieldApi>;
+  /** Bind to the field container's `focusout`: reports the end of editing. */
+  onFieldFocusOut: (event: FocusEvent) => void;
   /** The ordered segments for the current configuration. */
   segments: ComputedRef<TimeSegmentType[]>;
   /** The resolved parts, for placeholder rendering. */
@@ -58,6 +66,7 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     withSeconds: withSeconds.value,
   });
   const parts = ref<TimeParts>(initial.parts);
+  const committedParts = ref<TimeParts>(initial.parts);
   const validationError = ref<TimeValueError | null>(initial.error);
   const invalidSegment = ref<Exclude<TimeSegmentType, "dayPeriod"> | null>(initial.invalidSegment);
   const buffer = ref("");
@@ -88,7 +97,14 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     },
   );
 
-  const commit = (
+  // The bounds are only accepted when they are real times, as in core.
+  const bounds = computed(() => {
+    const valid = (value: string | undefined) =>
+      value && core.parseTimeValue(value).status === "valid" ? value : null;
+    return { min: valid(resolved.value.min), max: valid(resolved.value.max) };
+  });
+
+  const setParts = (
     nextParts: TimeParts,
     nextBuffer: string,
     nextBufferSeg: TimeSegmentType | null,
@@ -113,15 +129,20 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     core.connect({
       state: {
         parts: parts.value,
+        committedParts: committedParts.value,
         hourCycle: hourCycle.value,
         withSeconds: withSeconds.value,
+        min: bounds.value.min,
+        max: bounds.value.max,
         validationError: validationError.value,
         invalidSegment: invalidSegment.value,
         buffer: buffer.value,
         bufferSeg: bufferSeg.value,
         id,
       },
-      commit,
+      setParts,
+      setCommittedParts: (next) => (committedParts.value = next),
+      onCommit: (value) => resolved.value.onValueCommit?.(value),
       focus,
       invalid: resolved.value.invalid,
       disabled: resolved.value.disabled,
@@ -131,10 +152,22 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     }),
   );
 
+  /**
+   * Focus moving between segments is ordinary editing; focus leaving the field
+   * altogether is the user finishing. Only the DOM can tell the difference.
+   */
+  const onFieldFocusOut = (event: FocusEvent) => {
+    const container = event.currentTarget;
+    const next = event.relatedTarget;
+    if (container instanceof Node && next instanceof Node && container.contains(next)) return;
+    api.value.commit();
+  };
+
   return {
     api,
     segments: computed(() => core.segments(hourCycle.value, withSeconds.value)),
     parts: computed(() => parts.value),
+    onFieldFocusOut,
     id,
   };
 }

@@ -6,6 +6,7 @@ import type {
   TimeParseResult,
   TimeParts,
   TimeSegmentType,
+  TimeValueError,
 } from "./types";
 
 let idCounter = 0;
@@ -165,16 +166,40 @@ export function initialState(context: TimeFieldContext): TimeFieldState {
   const hourCycle = context.hourCycle ?? 24;
   const withSeconds = context.withSeconds ?? false;
   const parsed = parseTimeValue(context.value, { hourCycle, withSeconds });
+  const bound = (value: string | undefined) =>
+    value && parseTimeValue(value).status === "valid" ? value : null;
   return {
     parts: parsed.parts,
+    committedParts: parsed.parts,
     hourCycle,
     withSeconds,
-    validationError: parsed.error,
+    min: bound(context.min),
+    max: bound(context.max),
+    validationError:
+      parsed.error ?? rangeError(parsed.canonical, bound(context.min), bound(context.max)),
     invalidSegment: parsed.invalidSegment,
     buffer: "",
     bufferSeg: null,
     id: context.id ?? `ds-time-field-${++idCounter}`,
   };
+}
+
+/**
+ * Whether a complete time falls outside the accepted range. Times compare as
+ * strings once padded, which `format` already guarantees. Nothing is corrected:
+ * the arrows still wrap, and the field reports what the value is.
+ */
+export function rangeError(
+  canonical: string | null,
+  min: string | null,
+  max: string | null,
+): TimeValueError | null {
+  if (canonical == null) return null;
+  // Compare on the same length, so 09:30 and 09:30:00 are the same instant.
+  const trim = (a: string, b: string) => (a.length === b.length ? a : a.slice(0, 5));
+  if (min != null && trim(canonical, min) < trim(min, canonical)) return "range-underflow";
+  if (max != null && trim(canonical, max) > trim(max, canonical)) return "range-overflow";
+  return null;
 }
 
 /** Id of a segment element. */

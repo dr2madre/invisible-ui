@@ -43,6 +43,8 @@ export const en = {
   "timeField.outOfRange": "Enter a time within the allowed range.",
   "timeField.secondsRequired": "Enter hours, minutes, and seconds.",
   "timeField.secondsNotAllowed": "Enter hours and minutes only.",
+  "timeField.rangeUnderflow": "Enter a time no earlier than {min}.",
+  "timeField.rangeOverflow": "Enter a time no later than {max}.",
   // Loading
   "loading.label": "Loading…",
   // Alert

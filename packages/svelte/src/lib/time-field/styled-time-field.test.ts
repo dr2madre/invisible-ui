@@ -66,6 +66,58 @@ describe("Svelte TimeField", () => {
     expect(onValueChange).toHaveBeenLastCalledWith("09:31");
   });
 
+  it("reports the finished value when focus leaves the field, once", async () => {
+    const onValueCommit = vi.fn();
+    render(Fixture, { props: { value: "09:30", onValueCommit } });
+    await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
+    // Moving between segments is ordinary editing, not finishing.
+    await fireEvent.focusOut(seg("minute"), { relatedTarget: seg("hour") });
+    expect(onValueCommit).not.toHaveBeenCalled();
+
+    const after = screen.getByRole("button", { name: "after" });
+    await fireEvent.focusOut(seg("minute"), { relatedTarget: after });
+    expect(onValueCommit).toHaveBeenCalledTimes(1);
+    expect(onValueCommit).toHaveBeenLastCalledWith("09:31");
+
+    // Leaving again with nothing new to say stays quiet.
+    await fireEvent.focusOut(seg("minute"), { relatedTarget: after });
+    expect(onValueCommit).toHaveBeenCalledTimes(1);
+  });
+
+  it("puts the segments back on Escape, and passes Escape on when there is nothing to undo", async () => {
+    render(Fixture, { props: { value: "09:30" } });
+    await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
+    expect(seg("minute")).toHaveTextContent("31");
+
+    await fireEvent.keyDown(seg("minute"), { key: "Escape" });
+    expect(seg("minute")).toHaveTextContent("30");
+
+    // Nothing left to undo: the key belongs to whatever wraps the field.
+    const second = await fireEvent.keyDown(seg("minute"), { key: "Escape" });
+    expect(second).toBe(true);
+  });
+
+  it("reports a time outside the accepted range without correcting it", async () => {
+    render(Fixture, { props: { value: "08:30", min: "09:00" } });
+    expect(screen.getByText("Enter a time no earlier than 09:00.")).toBeVisible();
+    // The value stands as set: nothing was clamped.
+    expect(seg("hour")).toHaveTextContent("08");
+  });
+
+  it("reports a range violation reached by editing, not only one set up front", async () => {
+    render(Fixture, { props: { value: "09:30", min: "09:00" } });
+    expect(screen.queryByText(/no earlier than/)).not.toBeInTheDocument();
+    await fireEvent.keyDown(seg("hour"), { key: "ArrowDown" });
+    expect(seg("hour")).toHaveTextContent("08");
+    expect(screen.getByText("Enter a time no earlier than 09:00.")).toBeVisible();
+  });
+
+  it("keeps the arrows wrapping when a bound is set", async () => {
+    render(Fixture, { props: { value: "23:00", min: "09:00" } });
+    await fireEvent.keyDown(seg("hour"), { key: "ArrowUp" });
+    expect(seg("hour")).toHaveTextContent("00");
+  });
+
   it("wraps on overflow (59 → 00)", async () => {
     render(Fixture, { props: { value: "09:59" } });
     await fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
