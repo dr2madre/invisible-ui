@@ -146,15 +146,10 @@ export const Calendar = defineComponent({
     // ISO date.
     const handleSelect = (iso: string) => {
       if (props.mode === "range") {
-        if (!rangeStart.value || rangeEnd.value) {
-          rangeStart.value = iso;
-          rangeEnd.value = null;
-        } else if (iso < rangeStart.value) {
-          rangeEnd.value = rangeStart.value;
-          rangeStart.value = iso;
-        } else {
-          rangeEnd.value = iso;
-        }
+        // The range rule lives in core so both adapters share it.
+        const next = core.extendRange({ start: rangeStart.value, end: rangeEnd.value }, iso);
+        rangeStart.value = next.start;
+        rangeEnd.value = next.end;
         props.onRangeChange?.(rangeStart.value, rangeEnd.value);
         return;
       }
@@ -381,10 +376,10 @@ export const Calendar = defineComponent({
                         const price = props.prices[cell.date];
                         const inSpan =
                           props.mode === "range" &&
-                          rangeStart.value &&
-                          rangeEnd.value &&
-                          cell.date > rangeStart.value &&
-                          cell.date < rangeEnd.value;
+                          core.isWithinRange(
+                            { start: rangeStart.value, end: rangeEnd.value },
+                            cell.date,
+                          );
 
                         return h(
                           "div",

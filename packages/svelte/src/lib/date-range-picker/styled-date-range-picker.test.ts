@@ -31,6 +31,15 @@ describe("Svelte DateRangePicker", () => {
     expect(screen.queryByRole("grid")).not.toBeInTheDocument();
   });
 
+  it("swaps the ends when the second click lands before the first", async () => {
+    const onChange = vi.fn();
+    render(Fixture, { props: { start: "2026-06-15", onChange } });
+    await fireEvent.click(field());
+    await fireEvent.click(dayButton("2026-06-10"));
+    // The earlier day becomes the start; the day already chosen becomes the end.
+    expect(onChange).toHaveBeenCalledWith("2026-06-10", "2026-06-15");
+  });
+
   it("highlights the endpoints and the days between", async () => {
     render(Fixture, { props: { start: "2026-06-10", end: "2026-06-15" } });
     await fireEvent.click(field());

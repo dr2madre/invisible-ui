@@ -178,5 +178,29 @@ export function initialState(context: CalendarContext): CalendarState {
   };
 }
 
+/** A start and end pair, where the end is missing while a range is half made. */
+export interface DateRange {
+  start: string | null;
+  end: string | null;
+}
+
+/**
+ * The range after the user picks a day. A pick with nothing started, or with a
+ * finished range, starts a new one; a pick before the start becomes the new
+ * start and pushes the old one to the end; otherwise it closes the range.
+ */
+export function extendRange(range: DateRange, picked: string): DateRange {
+  const { start, end } = range;
+  if (!start || end) return { start: picked, end: null };
+  if (picked < start) return { start: picked, end: start };
+  return { start, end: picked };
+}
+
+/** Whether an ISO date falls strictly between the two ends of a range. */
+export function isWithinRange(range: DateRange, iso: string): boolean {
+  const { start, end } = range;
+  return start != null && end != null && iso > start && iso < end;
+}
+
 /** Id of a day cell button for an ISO date. */
 export const dayId = (baseId: string, iso: string) => `${baseId}-day-${iso}`;

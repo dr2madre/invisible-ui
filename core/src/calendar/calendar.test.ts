@@ -4,7 +4,9 @@ import {
   addDays,
   addMonths,
   daysInMonth,
+  extendRange,
   initialState,
+  isWithinRange,
   monthMatrix,
   monthsOfYear,
   rangeDays,
@@ -143,3 +145,48 @@ function stepFocus(state: CalendarState): string {
   api.goNext();
   return focused[0]!;
 }
+
+describe("calendar range picking", () => {
+  it("starts a range on the first pick", () => {
+    expect(extendRange({ start: null, end: null }, "2026-06-10")).toEqual({
+      start: "2026-06-10",
+      end: null,
+    });
+  });
+
+  it("closes the range on a later pick", () => {
+    expect(extendRange({ start: "2026-06-10", end: null }, "2026-06-14")).toEqual({
+      start: "2026-06-10",
+      end: "2026-06-14",
+    });
+  });
+
+  it("swaps the ends when the second pick lands before the first", () => {
+    expect(extendRange({ start: "2026-06-14", end: null }, "2026-06-10")).toEqual({
+      start: "2026-06-10",
+      end: "2026-06-14",
+    });
+  });
+
+  it("restarts once a range is finished", () => {
+    expect(extendRange({ start: "2026-06-10", end: "2026-06-14" }, "2026-06-20")).toEqual({
+      start: "2026-06-20",
+      end: null,
+    });
+  });
+
+  it("treats a pick on the start as closing a same-day range", () => {
+    expect(extendRange({ start: "2026-06-10", end: null }, "2026-06-10")).toEqual({
+      start: "2026-06-10",
+      end: "2026-06-10",
+    });
+  });
+
+  it("reports only the days strictly between the ends", () => {
+    const range = { start: "2026-06-10", end: "2026-06-14" };
+    expect(isWithinRange(range, "2026-06-12")).toBe(true);
+    expect(isWithinRange(range, "2026-06-10")).toBe(false);
+    expect(isWithinRange(range, "2026-06-14")).toBe(false);
+    expect(isWithinRange({ start: "2026-06-10", end: null }, "2026-06-12")).toBe(false);
+  });
+});
