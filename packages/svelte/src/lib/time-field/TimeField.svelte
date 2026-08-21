@@ -157,28 +157,28 @@
     padding: 0.4rem 0.6rem;
     font: inherit;
     font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     border-radius: var(--ds-radius-control, 0.5rem);
   }
   .time-field:focus-within {
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .time-field--disabled {
     opacity: 0.55;
   }
   .time-field--invalid {
-    border-color: var(--ds-color-danger, #dc2626);
+    border-color: var(--ds-color-danger, #be3b50);
   }
 
   .time-field__separator {
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .time-field__segment {
     padding: 0.05rem 0.2rem;
-    border-radius: var(--ds-radius-control, 0.25rem);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: text;
     outline: none;
     min-inline-size: 1.4em;
@@ -193,15 +193,15 @@
   /* Highlight the active segment on any focus (including touch), so it's always
      clear which part is being edited — `:focus-visible` alone misses touch. */
   .time-field__segment:focus {
-    background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7b52cc));
+    background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7a52cc));
     color: var(--ds-time-field-focus-text, #fff);
   }
   .time-field__segment--placeholder {
-    color: var(--ds-color-text-secondary, #94a3b8);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .time-field__error {
     margin: 0;
-    color: var(--ds-color-danger, #b91c1c);
+    color: var(--ds-color-danger, #be3b50);
     font-size: 0.875rem;
   }
 </style>

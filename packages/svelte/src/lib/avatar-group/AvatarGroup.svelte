@@ -102,8 +102,8 @@
     font-weight: 600;
     line-height: 1;
     user-select: none;
-    background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #e2e8f0));
-    color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #475569));
+    background: var(--ds-avatar-group-overflow-bg, var(--ds-color-neutral-surface, #f4f2ef));
+    color: var(--ds-avatar-group-overflow-color, var(--ds-color-text-secondary, #524c44));
   }
   .avatar-group__overflow:global([data-size="sm"]) {
     inline-size: var(--ds-avatar-size, 2rem);

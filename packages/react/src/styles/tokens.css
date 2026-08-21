@@ -170,6 +170,11 @@
   --ds-color-text-secondary: var(--ds-neutral-600);
   --ds-color-text-disabled: var(--ds-neutral-400);
   --ds-color-border: var(--ds-neutral-200);
+  /* The boundary that identifies an interactive control: fields, outlined
+     buttons, check controls, the switch track. It has to reach 3:1 on the page
+     and on a surface; the generic border above stays the quieter line between
+     areas (dividers, table rules, panel edges). */
+  --ds-color-control-border: var(--ds-neutral-400);
   --ds-color-surface: var(--ds-neutral-100);
   --ds-color-surface-hover: var(--ds-neutral-200);
   --ds-color-disabled: var(--ds-neutral-200);
@@ -226,14 +231,30 @@
   );
   --ds-color-danger-surface: color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0));
   --ds-color-danger-border: color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0));
-  /* Soft destructive fill: the danger red at 10% over the page, with an
-     accessible (AA) dark-red label on top. */
-  --ds-color-danger-soft: color-mix(in srgb, var(--ds-feedback-danger) 10%, var(--ds-neutral-0));
-  --ds-color-on-danger-soft: var(--ds-feedback-danger-hover);
-  /* Soft primary fill (the "secondary" button): primary at 10% with the full
-     primary as label in light; the label flips to white on dark surfaces. */
-  --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-0));
-  --ds-color-on-primary-soft: var(--ds-color-primary-hover);
+  /* The destructive action's fill and its label: the danger button. Distinct
+     from --ds-color-danger-surface, which is the status tint under a message.
+     "danger" names the feedback status; "destructive" names the action. */
+  --ds-color-destructive-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-danger) 10%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-on-destructive-surface: var(--ds-feedback-danger-hover);
+  /* The secondary action's fill and its label: the secondary button. A quiet
+     tint of the primary; the label flips to white on dark surfaces. */
+  --ds-color-secondary-surface: color-mix(
+    in srgb,
+    var(--ds-color-primary) 15%,
+    var(--ds-neutral-0)
+  );
+  --ds-color-on-secondary-surface: var(--ds-color-primary-hover);
+  /* Deprecated aliases: the appearance-based "-soft" names keep resolving for
+     alpha consumers. They follow the role tokens above in every theme and will
+     be removed before 1.0. */
+  --ds-color-danger-soft: var(--ds-color-destructive-surface);
+  --ds-color-on-danger-soft: var(--ds-color-on-destructive-surface);
+  --ds-color-primary-soft: var(--ds-color-secondary-surface);
+  --ds-color-on-primary-soft: var(--ds-color-on-secondary-surface);
   --ds-color-neutral-surface: var(--ds-neutral-50);
   --ds-color-neutral-border: var(--ds-neutral-200);
 
@@ -279,9 +300,10 @@
 
     --ds-color-background: var(--ds-neutral-900);
     --ds-color-text: var(--ds-neutral-50);
-    --ds-color-text-secondary: var(--ds-neutral-300);
+    --ds-color-text-secondary: var(--ds-neutral-200);
     --ds-color-text-disabled: var(--ds-neutral-600);
     --ds-color-border: var(--ds-neutral-700);
+    --ds-color-control-border: var(--ds-neutral-300);
     --ds-color-surface: var(--ds-neutral-700);
     --ds-color-surface-hover: var(--ds-neutral-600);
     --ds-color-disabled: var(--ds-neutral-800);
@@ -337,14 +359,18 @@
       var(--ds-feedback-danger) 45%,
       var(--ds-neutral-900)
     );
-    --ds-color-danger-soft: color-mix(
+    --ds-color-destructive-surface: color-mix(
       in srgb,
       var(--ds-feedback-danger) 18%,
       var(--ds-neutral-900)
     );
-    --ds-color-on-danger-soft: #fff;
-    --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900));
-    --ds-color-on-primary-soft: #fff;
+    --ds-color-on-destructive-surface: var(--ds-neutral-0);
+    --ds-color-secondary-surface: color-mix(
+      in srgb,
+      var(--ds-color-primary) 15%,
+      var(--ds-neutral-900)
+    );
+    --ds-color-on-secondary-surface: var(--ds-neutral-0);
     --ds-color-neutral-surface: var(--ds-neutral-800);
     --ds-color-neutral-border: var(--ds-neutral-700);
 
@@ -399,9 +425,10 @@
 
   --ds-color-background: var(--ds-neutral-900);
   --ds-color-text: var(--ds-neutral-50);
-  --ds-color-text-secondary: var(--ds-neutral-300);
+  --ds-color-text-secondary: var(--ds-neutral-200);
   --ds-color-text-disabled: var(--ds-neutral-600);
   --ds-color-border: var(--ds-neutral-700);
+  --ds-color-control-border: var(--ds-neutral-300);
   --ds-color-surface: var(--ds-neutral-700);
   --ds-color-surface-hover: var(--ds-neutral-600);
   --ds-color-disabled: var(--ds-neutral-800);
@@ -457,10 +484,18 @@
     var(--ds-feedback-danger) 45%,
     var(--ds-neutral-900)
   );
-  --ds-color-danger-soft: color-mix(in srgb, var(--ds-feedback-danger) 18%, var(--ds-neutral-900));
-  --ds-color-on-danger-soft: #fff;
-  --ds-color-primary-soft: color-mix(in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-900));
-  --ds-color-on-primary-soft: #fff;
+  --ds-color-destructive-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-danger) 18%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-on-destructive-surface: var(--ds-neutral-0);
+  --ds-color-secondary-surface: color-mix(
+    in srgb,
+    var(--ds-color-primary) 15%,
+    var(--ds-neutral-900)
+  );
+  --ds-color-on-secondary-surface: var(--ds-neutral-0);
   --ds-color-neutral-surface: var(--ds-neutral-800);
   --ds-color-neutral-border: var(--ds-neutral-700);
 
@@ -470,6 +505,23 @@
   --ds-color-warning-text: color-mix(in srgb, var(--ds-feedback-warning) 58%, var(--ds-neutral-50));
   --ds-color-danger-text: color-mix(in srgb, var(--ds-feedback-danger) 48%, var(--ds-neutral-50));
   --ds-color-selected-text: color-mix(in srgb, var(--ds-color-secondary) 62%, var(--ds-neutral-50));
+  /* On the dark background the base colours measure below 3:1, so the text
+     forms lighten, exactly as in the system-scheme block above. */
+  --ds-color-secondary-body-text: color-mix(
+    in srgb,
+    var(--ds-color-secondary) 62%,
+    var(--ds-neutral-50)
+  );
+  --ds-color-danger-body-text: color-mix(
+    in srgb,
+    var(--ds-feedback-danger) 48%,
+    var(--ds-neutral-50)
+  );
+  --ds-color-success-body-text: color-mix(
+    in srgb,
+    var(--ds-feedback-success) 50%,
+    var(--ds-neutral-50)
+  );
   --ds-color-neutral-text: var(--ds-neutral-200);
 
   --ds-color-emphasis-surface: var(--ds-neutral-100);
@@ -483,6 +535,9 @@
  * Tinted feedback surfaces are color-mix-derived; where it's unsupported, fall
  * back to a neutral surface and a solid status border so meaning is preserved. */
 @supports not (background: color-mix(in srgb, red 50%, white)) {
+  /* Flat stand-ins for every token built with color-mix. A browser without
+     color-mix must still get a visible focus ring, readable status text and a
+     filled button, so each mix falls back to the nearest plain primitive. */
   :root,
   [data-theme="light"] {
     --ds-color-info-surface: var(--ds-neutral-50);
@@ -493,6 +548,16 @@
     --ds-color-success-border: var(--ds-feedback-success);
     --ds-color-warning-border: var(--ds-feedback-warning);
     --ds-color-danger-border: var(--ds-feedback-danger);
+    --ds-color-destructive-surface: var(--ds-neutral-50);
+    --ds-color-secondary-surface: var(--ds-neutral-50);
+    --ds-color-info-text: var(--ds-neutral-900);
+    --ds-color-success-text: var(--ds-neutral-900);
+    --ds-color-warning-text: var(--ds-neutral-900);
+    --ds-color-danger-text: var(--ds-neutral-900);
+    --ds-color-selected-text: var(--ds-neutral-900);
+    --ds-color-focus-ring: var(--ds-color-secondary);
+    /* No halo without color-mix: the solid inner ring still marks focus. */
+    --ds-color-focus-halo: transparent;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -505,7 +570,19 @@
       --ds-color-success-border: var(--ds-feedback-success);
       --ds-color-warning-border: var(--ds-feedback-warning);
       --ds-color-danger-border: var(--ds-feedback-danger);
-      --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
+      --ds-color-destructive-surface: var(--ds-neutral-800);
+      --ds-color-secondary-surface: var(--ds-neutral-800);
+      --ds-color-info-text: var(--ds-neutral-50);
+      --ds-color-success-text: var(--ds-neutral-50);
+      --ds-color-warning-text: var(--ds-neutral-50);
+      --ds-color-danger-text: var(--ds-neutral-50);
+      --ds-color-selected-text: var(--ds-neutral-50);
+      --ds-color-secondary-body-text: var(--ds-neutral-50);
+      --ds-color-danger-body-text: var(--ds-neutral-50);
+      --ds-color-success-body-text: var(--ds-neutral-50);
+      /* The pastel violet is the flat stand-in for the lightened ring. */
+      --ds-color-focus-ring: var(--ds-pastel-violet);
+      --ds-color-focus-halo: transparent;
     }
   }
 
@@ -518,6 +595,17 @@
     --ds-color-success-border: var(--ds-feedback-success);
     --ds-color-warning-border: var(--ds-feedback-warning);
     --ds-color-danger-border: var(--ds-feedback-danger);
-    --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
+    --ds-color-destructive-surface: var(--ds-neutral-800);
+    --ds-color-secondary-surface: var(--ds-neutral-800);
+    --ds-color-info-text: var(--ds-neutral-50);
+    --ds-color-success-text: var(--ds-neutral-50);
+    --ds-color-warning-text: var(--ds-neutral-50);
+    --ds-color-danger-text: var(--ds-neutral-50);
+    --ds-color-selected-text: var(--ds-neutral-50);
+    --ds-color-secondary-body-text: var(--ds-neutral-50);
+    --ds-color-danger-body-text: var(--ds-neutral-50);
+    --ds-color-success-body-text: var(--ds-neutral-50);
+    --ds-color-focus-ring: var(--ds-pastel-violet);
+    --ds-color-focus-halo: transparent;
   }
 }

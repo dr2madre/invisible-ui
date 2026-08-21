@@ -220,7 +220,7 @@
   }
   .group:not(:last-child) {
     padding-block-end: 1rem;
-    border-block-end: 1px solid var(--ds-color-border, #e2e8f0);
+    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
   }
   .group__title {
     margin: 0;
@@ -229,7 +229,7 @@
   .group__note {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .rows {
     display: grid;
@@ -251,7 +251,7 @@
   .swatch__chip {
     aspect-ratio: 1;
     border-radius: var(--ds-radius-control, 0.5rem);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
   }
   .swatch__name {
     font-size: 0.8125rem;
@@ -273,18 +273,18 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .tokcol__empty {
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     opacity: 0.5;
   }
   .token {
     font-size: 0.7rem;
     padding: 0.1rem 0.4rem;
-    border-radius: var(--ds-radius-control, 0.375rem);
-    background: var(--ds-color-surface, #f1f5f9);
-    color: var(--ds-color-text, #1c1917);
+    border-radius: var(--ds-radius-control, 0.5rem);
+    background: var(--ds-color-surface, #e6e0d8);
+    color: var(--ds-color-text, #282420);
     word-break: break-all;
   }
 

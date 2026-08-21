@@ -96,7 +96,7 @@
   .tabs__list {
     display: inline-flex;
     gap: 0.25rem;
-    border-block-end: 1px solid var(--ds-color-border, #cbd5e1);
+    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
   }
   .tabs__tab {
     display: inline-flex;
@@ -108,7 +108,7 @@
     cursor: pointer;
     font: inherit;
     /* Idle tabs use full-strength text (not muted grey). */
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     border-block-end: 2px solid transparent;
     margin-block-end: -1px;
     transition:
@@ -135,20 +135,20 @@
     font-weight: 600;
     line-height: 1.4;
     border-radius: var(--ds-radius-pill, 999px);
-    color: var(--ds-color-text-secondary, #64748b);
-    background: var(--ds-color-neutral-surface, #f1f5f9);
+    color: var(--ds-color-text-secondary, #524c44);
+    background: var(--ds-color-neutral-surface, #f4f2ef);
   }
   .tabs__tab:global([data-state="active"]) .tabs__tab-count {
     color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
-    background: var(--ds-color-selected, #7b52cc);
+    background: var(--ds-color-selected, #7a52cc);
   }
   .tabs__tab:global([data-state="active"]) {
     /* Selected tab: the label stays the normal text color; only the underline
        carries the selection color (so the accent can change without recoloring
        the text). */
     font-weight: 700;
-    color: var(--ds-color-text, #1c1917);
-    border-block-end-color: var(--ds-color-selected, #7b52cc);
+    color: var(--ds-color-text, #282420);
+    border-block-end-color: var(--ds-color-selected, #7a52cc);
   }
   .tabs__tab:global(:focus-visible) {
     outline: none;
@@ -161,6 +161,6 @@
   }
   .tabs__panel {
     padding-block: 0.75rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
 </style>

@@ -120,18 +120,18 @@
 
   /* Status is a dynamic attribute, so the value part must be :global. */
   .feedback-icon:global([data-status="info"]) {
-    --_color: var(--ds-color-info, #2563eb);
+    --_color: var(--ds-color-info, #4067b6);
   }
   .feedback-icon:global([data-status="success"]) {
-    --_color: var(--ds-color-success, #16a34a);
+    --_color: var(--ds-color-success, #3e7523);
   }
   .feedback-icon:global([data-status="warning"]) {
-    --_color: var(--ds-color-warning, #d97706);
+    --_color: var(--ds-color-warning, #c96422);
   }
   .feedback-icon:global([data-status="danger"]) {
-    --_color: var(--ds-color-danger, #dc2626);
+    --_color: var(--ds-color-danger, #be3b50);
   }
   .feedback-icon:global([data-status="neutral"]) {
-    --_color: var(--ds-color-neutral, #64748b);
+    --_color: var(--ds-color-neutral, #5e5951);
   }
 </style>

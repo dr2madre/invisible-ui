@@ -65,7 +65,7 @@
     padding: 0.75rem;
     border-radius: 0.75rem;
     /* Pastels are light → dark text reads accessibly. */
-    color: var(--ds-color-text, #1c1917);
+    color: var(--ds-color-text, #282420);
   }
   .slide__title {
     font-weight: 700;
@@ -79,6 +79,6 @@
     align-items: flex-end;
     padding: 0.75rem;
     border-radius: 0.75rem;
-    color: var(--ds-color-text, #1c1917);
+    color: var(--ds-color-text, #282420);
   }
 </style>

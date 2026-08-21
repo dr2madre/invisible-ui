@@ -81,7 +81,7 @@
     line-height: var(--ds-line-height-tight, 1.2);
     white-space: nowrap;
     border: 1px solid var(--_border, transparent);
-    border-radius: var(--ds-tag-radius, var(--ds-radius-control, 0.375rem));
+    border-radius: var(--ds-tag-radius, var(--ds-radius-control, 0.5rem));
     background: var(--_bg);
     color: var(--_fg);
   }
@@ -137,59 +137,59 @@
   /* Soft, status-tinted surface. data-status/data-variant are dynamic, so the
      value part is :global to avoid Svelte's unused-selector pruning. */
   .tag:global([data-variant="soft"][data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral-surface, #f1f5f9);
-    --_fg: var(--ds-color-neutral-text, #334155);
-    --_border: var(--ds-color-neutral-border, #e2e8f0);
+    --_bg: var(--ds-color-neutral-surface, #f4f2ef);
+    --_fg: var(--ds-color-neutral-text, #413c36);
+    --_border: var(--ds-color-neutral-border, #c7c1b7);
   }
   .tag:global([data-variant="soft"][data-status="selected"]) {
-    --_bg: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 8%, transparent);
-    --_fg: var(--ds-color-selected-text, var(--ds-color-secondary, #7b52cc));
-    --_border: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 22%, transparent);
+    --_bg: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 8%, transparent);
+    --_fg: var(--ds-color-selected-text, var(--ds-color-secondary, #7a52cc));
+    --_border: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 22%, transparent);
   }
   .tag:global([data-variant="soft"][data-status="info"]) {
-    --_bg: var(--ds-color-info-surface, #eff6ff);
-    --_fg: var(--ds-color-info-text, #1d4ed8);
-    --_border: var(--ds-color-info-border, #bfdbfe);
+    --_bg: var(--ds-color-info-surface, #f0f3f9);
+    --_fg: var(--ds-color-info-text, #344468);
+    --_border: var(--ds-color-info-border, #c6d1e9);
   }
   .tag:global([data-variant="soft"][data-status="success"]) {
-    --_bg: var(--ds-color-success-surface, #f0fdf4);
-    --_fg: var(--ds-color-success-text, #15803d);
-    --_border: var(--ds-color-success-border, #bbf7d0);
+    --_bg: var(--ds-color-success-surface, #f0f4ed);
+    --_fg: var(--ds-color-success-text, #334e22);
+    --_border: var(--ds-color-success-border, #c5d6bd);
   }
   .tag:global([data-variant="soft"][data-status="warning"]) {
-    --_bg: var(--ds-color-warning-surface, #fffbeb);
-    --_fg: var(--ds-color-warning-text, #b45309);
-    --_border: var(--ds-color-warning-border, #fde68a);
+    --_bg: var(--ds-color-warning-surface, #fbf3ed);
+    --_fg: var(--ds-color-warning-text, #6c3f21);
+    --_border: var(--ds-color-warning-border, #efd1bd);
   }
   .tag:global([data-variant="soft"][data-status="danger"]) {
-    --_bg: var(--ds-color-danger-surface, #fef2f2);
-    --_fg: var(--ds-color-danger-text, #b91c1c);
-    --_border: var(--ds-color-danger-border, #fecaca);
+    --_bg: var(--ds-color-danger-surface, #faeff1);
+    --_fg: var(--ds-color-danger-text, #7f313c);
+    --_border: var(--ds-color-danger-border, #ecc4cb);
   }
 
   /* Solid, filled chip. */
   .tag:global([data-variant="solid"][data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral, #475569);
-    --_fg: var(--ds-color-on-neutral, #fff);
+    --_bg: var(--ds-color-neutral, #5e5951);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="info"]) {
-    --_bg: var(--ds-color-info, #2563eb);
-    --_fg: var(--ds-color-on-info, #fff);
+    --_bg: var(--ds-color-info, #4067b6);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="success"]) {
-    --_bg: var(--ds-color-success, #16a34a);
-    --_fg: var(--ds-color-on-success, #fff);
+    --_bg: var(--ds-color-success, #3e7523);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="warning"]) {
-    --_bg: var(--ds-color-warning, #d97706);
-    --_fg: var(--ds-color-on-warning, #fff);
+    --_bg: var(--ds-color-warning, #c96422);
+    --_fg: var(--ds-color-on-warning, #282420);
   }
   .tag:global([data-variant="solid"][data-status="danger"]) {
-    --_bg: var(--ds-color-danger, #dc2626);
-    --_fg: var(--ds-color-on-danger, #fff);
+    --_bg: var(--ds-color-danger, #be3b50);
+    --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="selected"]) {
-    --_bg: var(--ds-color-secondary, #7b52cc);
+    --_bg: var(--ds-color-secondary, #7a52cc);
     --_fg: var(--ds-color-on-secondary, #fff);
   }
 </style>

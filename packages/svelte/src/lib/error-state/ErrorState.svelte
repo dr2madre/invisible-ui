@@ -109,7 +109,7 @@
     padding: var(--ds-error-state-padding, 3rem 1.5rem);
     max-inline-size: var(--ds-error-state-max-width, 24rem);
     margin-inline: auto;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
   /* A larger status icon than the inline default — this is the focal point. */
   .error-state__icon {
@@ -124,7 +124,7 @@
   }
   .error-state__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .error-state__actions {
     margin-block-start: 0.5rem;

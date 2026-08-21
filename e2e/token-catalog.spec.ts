@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs";
 
 interface Token {
   name: string;
+  replacedBy: string | null;
   id: string;
   valueType: string;
   purpose: string | null;
@@ -169,6 +170,17 @@ test("the search field is not offered when scripting is off", async ({ browser }
   // The catalog itself must still be there to read.
   await expect(page.locator("[data-tk-token]")).toHaveCount(registry.counts.total);
   await context.close();
+});
+
+test("a deprecated token names its replacement on its card", async ({ page }) => {
+  await page.goto(PAGE);
+  const deprecated = registry.tokens.filter((token) => token.replacedBy);
+  expect(deprecated.length).toBeGreaterThan(0);
+  for (const token of deprecated) {
+    const card = page.locator(`[data-tk-token][data-name="${token.name}"]`);
+    await expect(card).toContainText("deprecated");
+    await expect(card).toContainText(token.replacedBy!);
+  }
 });
 
 test("the page reflows at 320 px without scrolling sideways", async ({ page }) => {

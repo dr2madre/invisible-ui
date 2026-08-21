@@ -272,7 +272,7 @@
     padding: 0;
     border: 0;
     border-radius: 999px;
-    background: var(--ds-color-danger, #dc2626);
+    background: var(--ds-color-danger, #be3b50);
     cursor: pointer;
   }
   .nc-dot:focus-visible {

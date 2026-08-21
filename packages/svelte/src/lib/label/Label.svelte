@@ -31,9 +31,9 @@
     font: inherit;
     font-weight: var(--ds-label-font-weight, 500);
     line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-label-color, var(--ds-color-text, #0f172a));
+    color: var(--ds-label-color, var(--ds-color-text, #282420));
   }
   .label__required {
-    color: var(--ds-label-required-color, var(--ds-color-danger-500, #dc2626));
+    color: var(--ds-label-required-color, var(--ds-color-danger-body-text, #be3b50));
   }
 </style>

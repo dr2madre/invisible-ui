@@ -200,7 +200,7 @@
     position: relative;
     inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
 
   /* Positioning context for the arrows so they center on the slides only, not
@@ -227,7 +227,7 @@
     display: flex;
     align-items: flex-end;
     aspect-ratio: var(--ds-carousel-aspect, 16 / 9);
-    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #e2e8f0));
+    background-color: var(--ds-carousel-slide-bg, var(--ds-color-neutral-surface, #f4f2ef));
     background-size: cover;
     background-position: center;
   }
@@ -354,9 +354,9 @@
     inline-size: var(--ds-carousel-arrow-size, 2.25rem);
     block-size: var(--ds-carousel-arrow-size, 2.25rem);
     font-size: 1.1rem;
-    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #0f172a));
-    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #fff));
-    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-border, #e2e8f0));
+    color: var(--ds-carousel-arrow-text, var(--ds-color-text, #282420));
+    background: var(--ds-carousel-arrow-bg, var(--ds-color-surface, #e6e0d8));
+    border: 1px solid var(--ds-carousel-arrow-border, var(--ds-color-control-border, #757067));
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     cursor: pointer;
@@ -401,11 +401,11 @@
     inline-size: var(--ds-carousel-dot-size, 0.5rem);
     block-size: var(--ds-carousel-dot-size, 0.5rem);
     border-radius: 50%;
-    background: var(--ds-carousel-dot-color, var(--ds-color-border, #cbd5e1));
+    background: var(--ds-carousel-dot-color, var(--ds-color-border, #c7c1b7));
     transition: background-color 120ms ease;
   }
   .carousel__dot:global([data-selected]) {
-    background: var(--ds-carousel-dot-active, var(--ds-color-primary, #2563eb));
+    background: var(--ds-carousel-dot-active, var(--ds-color-primary, #7a52cc));
   }
   .carousel__dot:focus-visible {
     outline: none;

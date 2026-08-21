@@ -391,7 +391,7 @@
   .toolbar__label {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .cell__toast {
     position: absolute;
@@ -460,7 +460,7 @@
   .cell--empty {
     background: transparent;
     cursor: default;
-    border: 1px dashed var(--ds-color-border, #e2e8f0);
+    border: 1px dashed var(--ds-color-border, #c7c1b7);
   }
 
   /* White lives apart from the shade grid, among the neutrals. */
@@ -474,7 +474,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .extra {
     display: grid;
@@ -489,7 +489,7 @@
   .cell--white {
     inline-size: 4rem;
     background: #ffffff;
-    border: 1px solid var(--ds-color-border, #e2e8f0);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     color: #1c1917;
   }
 </style>

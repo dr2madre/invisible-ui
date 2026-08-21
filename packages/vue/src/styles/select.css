@@ -6,7 +6,7 @@
   /* wrap (default): the native select already fits its longest option. */
   inline-size: fit-content;
   font: inherit;
-  color: var(--ds-color-text, #0f172a);
+  color: var(--ds-color-text, #282420);
 }
 .select[data-width="fill"] {
   inline-size: 100%;
@@ -47,7 +47,7 @@
     var(--ds-control-padding-y, 0.5rem) var(--ds-control-padding-x, 0.875rem)
   );
   padding-inline-end: calc(var(--ds-control-padding-x, 0.875rem) + 1.6em);
-  border: 1px solid var(--ds-color-border, #cbd5e1);
+  border: 1px solid var(--ds-color-control-border, #757067);
   border-radius: var(--ds-select-radius, var(--ds-radius-control, 0.5rem));
   background: var(--ds-color-background, #fff);
   color: inherit;
@@ -62,25 +62,25 @@
 }
 .select__native--placeholder {
   font-weight: 400;
-  color: var(--ds-color-text-secondary, #64748b);
+  color: var(--ds-color-text-secondary, #524c44);
 }
 .select__native:focus-visible {
   outline: none;
-  border-color: var(--ds-color-focus-ring, #2563eb);
+  border-color: var(--ds-color-focus-ring, #8e6cd4);
   box-shadow: var(--ds-focus-ring-shadow);
 }
 .select__native:disabled {
-  background: var(--ds-color-disabled, #e2e8f0);
-  color: var(--ds-color-text-disabled, #94a3b8);
+  background: var(--ds-color-disabled, #c7c1b7);
+  color: var(--ds-color-text-disabled, #757067);
   cursor: not-allowed;
 }
 /* Invalid: danger border on the control, message underneath. */
 .select__native[data-invalid] {
-  border-color: var(--ds-color-danger, #dc2626);
+  border-color: var(--ds-color-danger, #be3b50);
 }
 .select__error {
   font-size: 0.8125rem;
-  color: var(--ds-color-danger-body-text, #dc2626);
+  color: var(--ds-color-danger-body-text, #be3b50);
 }
 
 .select__chevron {
@@ -91,6 +91,6 @@
   display: inline-flex;
   inline-size: var(--ds-select-icon-size, 1.1em);
   block-size: var(--ds-select-icon-size, 1.1em);
-  color: var(--ds-color-text-secondary, #64748b);
+  color: var(--ds-color-text-secondary, #524c44);
   pointer-events: none;
 }

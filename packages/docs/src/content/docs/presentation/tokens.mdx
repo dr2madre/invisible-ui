@@ -63,6 +63,24 @@ text (`--ds-color-text`, `--ds-color-text-secondary`), the disabled state
 (`--ds-color-focus-ring`). Each one's role, value per theme and alias chain is
 listed in the [token catalog](/invisible-ui/presentation/token-catalog/#tk-semantic).
 
+**Two boundaries.** `--ds-color-border` is the quiet line between areas:
+dividers, table rules, the edge of a panel. `--ds-color-control-border` is the
+boundary that identifies an interactive control — fields, outlined buttons,
+check controls, the switch track — and it reaches 3:1 against the page and
+against a surface in both themes (WCAG 2.2 SC 1.4.11). Style a divider with the
+first and a control with the second; giving dividers the stronger colour makes
+the page shout, and giving controls the quieter one makes them fail the
+criterion.
+
+**Action fills.** The secondary button paints `--ds-color-secondary-surface`
+with `--ds-color-on-secondary-surface` as its label; the danger button paints
+`--ds-color-destructive-surface` with `--ds-color-on-destructive-surface`.
+"Danger" names the feedback status, "destructive" names the action, so the
+status tint under a message (`--ds-color-danger-surface`) and the fill of a
+destructive button stay two different tokens. The earlier `-soft` names remain
+as deprecated aliases that resolve to these roles and will be removed before
+1.0 — the catalog marks each one with its replacement.
+
 **Text emphasis (guideline).** Reach emphasis levels through the role tokens,
 never by picking a neutral weight directly: `--ds-color-text` for what is being
 read, `--ds-color-text-secondary` for what supports it, and

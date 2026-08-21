@@ -96,7 +96,7 @@
     inline-size: var(--ds-menu-width, 15rem);
     padding: var(--ds-menu-padding, 0.75rem);
     background: var(--ds-menu-bg, var(--ds-color-background, #fff));
-    border: 1px solid var(--ds-menu-border, var(--ds-color-border, #e7e5e4));
+    border: 1px solid var(--ds-menu-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem));
   }
   .menu__logo {
@@ -109,7 +109,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ds-color-text-secondary, #78716c);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .menu__list {
     display: flex;
@@ -127,7 +127,7 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-menu-item-text, var(--ds-color-text, #1c1917));
+    color: var(--ds-menu-item-text, var(--ds-color-text, #282420));
     text-decoration: none;
     background: none;
     border: 0;
@@ -138,13 +138,13 @@
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .menu__item--active {
-    color: var(--ds-color-secondary-body-text, #7b52cc);
-    background: color-mix(in srgb, var(--ds-color-secondary, #7b52cc) 10%, transparent);
+    color: var(--ds-color-secondary-body-text, #7a52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
     font-weight: 600;
   }
   .menu__item:focus-visible {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #7b52cc));
+    box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
   }
   .menu__icon {
     display: inline-flex;
@@ -153,6 +153,6 @@
   .menu__footer {
     margin-block-start: auto;
     padding-block-start: 0.5rem;
-    border-block-start: 1px solid var(--ds-color-border, #e7e5e4);
+    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
   }
 </style>

@@ -205,9 +205,9 @@
     padding: var(--ds-loading-generation-area-zone-padding, 0.5rem 0.75rem);
     border-radius: var(--ds-radius-control, 0.5rem);
     background: color-mix(in srgb, var(--ds-color-background, #fff) 78%, transparent);
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     text-align: center;
-    font-size: var(--ds-loading-label-size, 0.8125rem);
+    font-size: var(--ds-loading-label-size, 0.8125em);
     line-height: var(--ds-line-height, 1.4);
   }
   .loading-generation-area__value {
@@ -215,7 +215,7 @@
     font-variant-numeric: tabular-nums;
   }
   .loading-generation-area__detail {
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     font-variant-numeric: tabular-nums;
   }
 

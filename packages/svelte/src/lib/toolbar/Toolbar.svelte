@@ -134,7 +134,7 @@
     align-items: center;
     gap: var(--ds-toolbar-gap, 0.375rem);
     padding: var(--ds-toolbar-padding, 0.25rem);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     border-radius: var(--ds-toolbar-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-color-background, #fff);
   }

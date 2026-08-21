@@ -9,16 +9,16 @@
   block-size: var(--ds-pin-input-size, 2.75rem);
   text-align: center;
   font-size: var(--ds-pin-input-font-size, 1.25rem);
-  border: 1px solid var(--ds-color-border, #cbd5e1);
-  border-radius: var(--ds-pin-input-radius, var(--ds-radius-control, 0.375rem));
+  border: 1px solid var(--ds-color-control-border, #757067);
+  border-radius: var(--ds-pin-input-radius, var(--ds-radius-control, 0.5rem));
   background: var(--ds-color-background, #fff);
-  color: var(--ds-color-text, #0f172a);
+  color: var(--ds-color-text, #282420);
 }
 .pin-input__cell:focus-visible {
   outline: none;
   box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: 1px;
-  border-color: var(--ds-color-focus-ring, #2563eb);
+  border-color: var(--ds-color-focus-ring, #8e6cd4);
 }
 .pin-input__cell[data-disabled] {
   opacity: 0.5;
@@ -27,16 +27,16 @@
 
 /* Validation states color the cell borders (and ring on focus). */
 .pin-input[data-invalid] .pin-input__cell {
-  border-color: var(--ds-color-danger, #dc2626);
+  border-color: var(--ds-color-danger, #be3b50);
 }
 .pin-input[data-invalid] .pin-input__cell:focus-visible {
-  border-color: var(--ds-color-danger, #dc2626);
-  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626);
+  border-color: var(--ds-color-danger, #be3b50);
+  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50);
 }
 .pin-input[data-success] .pin-input__cell {
-  border-color: var(--ds-color-success, #16a34a);
+  border-color: var(--ds-color-success, #3e7523);
 }
 .pin-input[data-success] .pin-input__cell:focus-visible {
-  border-color: var(--ds-color-success, #16a34a);
-  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-success, #16a34a);
+  border-color: var(--ds-color-success, #3e7523);
+  box-shadow: 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-success, #3e7523);
 }

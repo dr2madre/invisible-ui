@@ -113,8 +113,8 @@
   .card {
     box-sizing: border-box;
     background: var(--ds-card-bg, var(--ds-color-background, #fff));
-    color: var(--ds-card-text, var(--ds-color-text, #0f172a));
-    border: 1px solid var(--ds-card-border, var(--ds-color-border, #e2e8f0));
+    color: var(--ds-card-text, var(--ds-color-text, #282420));
+    border: 1px solid var(--ds-card-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-card-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
   }
@@ -129,7 +129,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--ds-card-media-bg, var(--ds-color-neutral-surface, #f1f5f9));
+    background: var(--ds-card-media-bg, var(--ds-color-neutral-surface, #f4f2ef));
   }
   .card__image {
     display: block;
@@ -139,7 +139,7 @@
   }
   .card__media--icon {
     padding: var(--ds-card-icon-padding, 1.5rem);
-    color: var(--ds-card-icon-color, var(--ds-color-text-secondary, #64748b));
+    color: var(--ds-card-icon-color, var(--ds-color-text-secondary, #524c44));
   }
   .card__icon {
     display: inline-flex;
@@ -184,7 +184,7 @@
   }
   .card__description {
     margin: 0;
-    color: var(--ds-card-description-text, var(--ds-color-text-secondary, #475569));
+    color: var(--ds-card-description-text, var(--ds-color-text-secondary, #524c44));
     line-height: var(--ds-line-height, 1.4);
   }
   .card__content {
@@ -247,7 +247,7 @@
     min-inline-size: 0;
   }
   .card--dashboard .card__icon {
-    color: var(--ds-card-icon-color, var(--ds-color-text-secondary, #64748b));
+    color: var(--ds-card-icon-color, var(--ds-color-text-secondary, #524c44));
     inline-size: var(--ds-card-dash-icon-size, 1.75rem);
     block-size: var(--ds-card-dash-icon-size, 1.75rem);
   }
@@ -267,12 +267,12 @@
     font-weight: 600;
   }
   .card__change[data-trend="up"] {
-    color: var(--ds-color-success-text, var(--ds-color-success, #16a34a));
+    color: var(--ds-color-success-text, var(--ds-color-success, #3e7523));
   }
   .card__change[data-trend="down"] {
-    color: var(--ds-color-danger-text, var(--ds-color-danger, #dc2626));
+    color: var(--ds-color-danger-text, var(--ds-color-danger, #be3b50));
   }
   .card__change[data-trend="neutral"] {
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
 </style>

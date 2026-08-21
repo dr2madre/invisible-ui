@@ -128,7 +128,7 @@
     display: inline-flex;
     flex-direction: column;
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
   .date-picker__field {
     display: inline-flex;
@@ -136,11 +136,11 @@
     gap: 0.5rem;
     padding-inline: 0.6rem;
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     border-radius: var(--ds-radius-control, 0.5rem);
   }
   .date-picker__field:focus-within {
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .date-picker--disabled .date-picker__field {
@@ -148,11 +148,11 @@
   }
   .date-picker__icon {
     display: inline-flex;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   /* Once a date is picked, the icon adopts the selection color. */
   .date-picker__icon--active {
-    color: var(--ds-color-secondary, #7b52cc);
+    color: var(--ds-color-secondary, #7a52cc);
   }
   .date-picker__input {
     flex: 1;
@@ -166,7 +166,7 @@
     cursor: pointer;
   }
   .date-picker__input::placeholder {
-    color: var(--ds-color-text-secondary, #94a3b8);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .date-picker__input:disabled {
     cursor: not-allowed;
@@ -180,14 +180,14 @@
     block-size: 1.5rem;
     flex: none;
     padding: 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
     background: none;
     border: 0;
     border-radius: 50%;
     cursor: pointer;
   }
   .date-picker__clear:hover {
-    background: var(--ds-color-neutral-surface, #f1f5f9);
+    background: var(--ds-color-neutral-surface, #f4f2ef);
   }
   .date-picker__clear:focus-visible {
     outline: none;
@@ -199,13 +199,13 @@
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    z-index: var(--ds-popover-z-index, 50);
+    z-index: var(--ds-popover-z-index, 100);
     box-sizing: border-box;
     inline-size: max-content;
     max-inline-size: min(92vw, 22rem);
     padding: var(--ds-popover-padding, 0.875rem 1rem);
     background: var(--ds-color-background, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
     border-radius: var(--ds-popover-radius, var(--ds-radius-surface, 0.75rem));
     box-shadow: var(
       --ds-elevation-overlay,

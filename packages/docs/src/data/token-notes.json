@@ -1,11 +1,10 @@
 {
   "$comment": "The only hand-written part of the token catalog. One entry per token whose role the source comment cannot state on its own: either it has no comment, or the comment above it describes a neighbour. `purpose` is the role sentence shown in the catalog; `stability` is alpha unless a token has been deliberately settled.",
-
   "--ds-color-background": {
     "purpose": "The page behind everything. Nothing is painted under it."
   },
   "--ds-color-border": {
-    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The visible edge of a control is a different job and is under review."
+    "purpose": "The line that separates one area from another: dividers, table rules, the edge of a panel. The edge that identifies a control is --ds-color-control-border."
   },
   "--ds-color-surface": {
     "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field."
@@ -34,7 +33,6 @@
   "--ds-state-pressed": {
     "purpose": "The overlay laid over a control while it is being pressed."
   },
-
   "--ds-color-primary": {
     "purpose": "The fill of the one action a screen is asking for: the primary button, and the selected state that follows from it."
   },
@@ -109,5 +107,40 @@
   },
   "--ds-elevation-overlay": {
     "purpose": "The shadow under something floating over the page: a menu, a popover, a dialog. It changes between themes, because a shadow reads differently on a dark page."
+  },
+  "--ds-color-control-border": {
+    "purpose": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It reaches 3:1 on the page and on a surface; the generic border stays the quieter line between areas."
+  },
+  "--ds-color-secondary-surface": {
+    "purpose": "The secondary action's fill: the quiet tint the secondary button paints."
+  },
+  "--ds-color-on-secondary-surface": {
+    "purpose": "Text and icons drawn on the secondary action's fill."
+  },
+  "--ds-color-destructive-surface": {
+    "purpose": "The destructive action's fill: the danger button. Distinct from the danger status tint, which sits under a message rather than an action."
+  },
+  "--ds-color-on-destructive-surface": {
+    "purpose": "Text and icons drawn on the destructive action's fill."
+  },
+  "--ds-color-primary-soft": {
+    "purpose": "Deprecated name for the secondary action's fill. It keeps resolving, and it goes away before 1.0.",
+    "stability": "deprecated",
+    "replacedBy": "--ds-color-secondary-surface"
+  },
+  "--ds-color-on-primary-soft": {
+    "purpose": "Deprecated name for the label on the secondary action's fill.",
+    "stability": "deprecated",
+    "replacedBy": "--ds-color-on-secondary-surface"
+  },
+  "--ds-color-danger-soft": {
+    "purpose": "Deprecated name for the destructive action's fill. It keeps resolving, and it goes away before 1.0.",
+    "stability": "deprecated",
+    "replacedBy": "--ds-color-destructive-surface"
+  },
+  "--ds-color-on-danger-soft": {
+    "purpose": "Deprecated name for the label on the destructive action's fill.",
+    "stability": "deprecated",
+    "replacedBy": "--ds-color-on-destructive-surface"
   }
 }

@@ -195,7 +195,7 @@
     inline-size: var(--ds-field-width, 18rem);
     max-inline-size: 100%;
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
 
   .field__label {
@@ -203,10 +203,10 @@
     font-weight: 600;
   }
   .number-field--disabled .field__label {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
   }
   .field__required {
-    color: var(--ds-color-danger-body-text, #dc2626);
+    color: var(--ds-color-danger-body-text, #be3b50);
   }
 
   .number-field__group {
@@ -220,7 +220,7 @@
     inline-size: 100%;
     min-inline-size: 0;
     padding: var(--ds-field-padding, 0.5rem 0.75rem);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     background: var(--ds-color-background, #fff);
     color: inherit;
     font: inherit;
@@ -236,19 +236,19 @@
   }
   .field__control:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .field__control:global([data-invalid]) {
-    border-color: var(--ds-color-danger, #dc2626);
+    border-color: var(--ds-color-danger, #be3b50);
     box-shadow:
-      0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #dc2626),
+      0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-danger, #be3b50),
       0 0 0 calc(var(--ds-focus-ring-width, 2px) + var(--ds-focus-halo-width, 3px))
-        color-mix(in srgb, var(--ds-color-danger, #dc2626) 30%, transparent);
+        color-mix(in srgb, var(--ds-color-danger, #be3b50) 30%, transparent);
   }
   .field__control:global([data-disabled]) {
-    background: var(--ds-color-disabled, #e2e8f0);
-    color: var(--ds-color-text-disabled, #94a3b8);
+    background: var(--ds-color-disabled, #c7c1b7);
+    color: var(--ds-color-text-disabled, #757067);
     cursor: not-allowed;
   }
 
@@ -256,9 +256,9 @@
     box-sizing: border-box;
     min-inline-size: 2.25rem;
     padding: 0 0.6rem;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
+    border: 1px solid var(--ds-color-control-border, #757067);
     background: var(--ds-color-background, #fff);
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     font: inherit;
     font-size: 1.05em;
     line-height: 1;
@@ -273,27 +273,27 @@
     border-end-end-radius: var(--ds-field-radius, var(--ds-radius-control, 0.5rem));
   }
   .number-field__spin:hover:not(:disabled) {
-    background: var(--ds-color-state-hover, #f1f5f9);
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
   .number-field__spin:focus-visible {
     outline: none;
-    border-color: var(--ds-color-focus-ring, #2563eb);
+    border-color: var(--ds-color-focus-ring, #8e6cd4);
     box-shadow: var(--ds-focus-ring-shadow);
   }
   .number-field__spin:disabled {
-    color: var(--ds-color-text-disabled, #94a3b8);
+    color: var(--ds-color-text-disabled, #757067);
     cursor: not-allowed;
   }
   .number-field--disabled .number-field__spin {
-    background: var(--ds-color-disabled, #e2e8f0);
+    background: var(--ds-color-disabled, #c7c1b7);
   }
 
   .field__description {
     margin: 0;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .field__error {
     margin: 0;
-    color: var(--ds-color-danger-body-text, #dc2626);
+    color: var(--ds-color-danger-body-text, #be3b50);
   }
 </style>

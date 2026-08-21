@@ -41,10 +41,10 @@
   .multi-select-demo__submit {
     font: inherit;
     padding: 0.45rem 1rem;
-    color: var(--ds-color-text, #0f172a);
-    background: var(--ds-color-surface, #fff);
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.375rem);
+    color: var(--ds-color-text, #282420);
+    background: var(--ds-color-surface, #e6e0d8);
+    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .multi-select-demo__submit:focus-visible {

@@ -70,8 +70,8 @@
 
   .skeleton__bar {
     display: block;
-    background: var(--ds-skeleton-color, var(--ds-neutral-200, #e7e5e4));
-    border-radius: var(--ds-skeleton-radius, var(--ds-radius-control, 0.375rem));
+    background: var(--ds-skeleton-color, var(--ds-neutral-200, #c7c1b7));
+    border-radius: var(--ds-skeleton-radius, var(--ds-radius-control, 0.5rem));
   }
 
   .skeleton__line {

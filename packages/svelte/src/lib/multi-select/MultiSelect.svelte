@@ -222,7 +222,7 @@
     inline-size: var(--ds-multi-select-width, 100%);
     max-inline-size: var(--ds-multi-select-max-width, 24rem);
     font: inherit;
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
   }
   .multi-select__label {
     font-size: var(--ds-multi-select-label-size, 0.875rem);
@@ -235,8 +235,8 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
-    border: 1px solid var(--ds-color-border, #cbd5e1);
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border: 1px solid var(--ds-color-control-border, #757067);
+    border-radius: var(--ds-radius-control, 0.5rem);
     background: var(--ds-color-background, #fff);
   }
   .multi-select__control:focus-within {
@@ -247,7 +247,7 @@
     cursor: not-allowed;
   }
   .multi-select__control--readonly {
-    background: var(--ds-color-neutral-surface, #f8fafc);
+    background: var(--ds-color-neutral-surface, #f4f2ef);
   }
   .multi-select__values {
     display: inline-flex;
@@ -291,16 +291,24 @@
 
   .multi-select__listbox {
     position: fixed;
-    z-index: var(--ds-elevation-overlay, 30);
+    z-index: var(
+      --ds-elevation-overlay,
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1)
+    );
     margin: 0;
     padding: 0.25rem;
     list-style: none;
     max-block-size: min(18rem, 50vh);
     overflow: auto;
-    border: 1px solid var(--ds-color-border, #e2e8f0);
-    border-radius: var(--ds-radius-surface, 0.5rem);
-    background: var(--ds-color-surface, #fff);
-    box-shadow: var(--ds-elevation-shadow, 0 8px 24px rgb(0 0 0 / 0.12));
+    border: 1px solid var(--ds-color-border, #c7c1b7);
+    border-radius: var(--ds-radius-surface, 0.75rem);
+    background: var(--ds-color-surface, #e6e0d8);
+    box-shadow: var(
+      --ds-elevation-overlay,
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1)
+    );
   }
   .multi-select__listbox:not([data-state="open"]) {
     display: none;
@@ -310,7 +318,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.5rem;
-    border-radius: var(--ds-radius-control, 0.375rem);
+    border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
   .multi-select__option:global([data-active]) {
@@ -323,7 +331,7 @@
   .multi-select__check {
     inline-size: 1em;
     block-size: 1em;
-    color: var(--ds-color-selected, #7b52cc);
+    color: var(--ds-color-selected, #7a52cc);
     visibility: hidden;
     flex: none;
   }
@@ -335,6 +343,6 @@
   }
   .multi-select__empty {
     padding: 0.4rem 0.5rem;
-    color: var(--ds-color-text-secondary, #64748b);
+    color: var(--ds-color-text-secondary, #524c44);
   }
 </style>

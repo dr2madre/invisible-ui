@@ -197,7 +197,7 @@
     border: 1px solid var(--_border);
     border-radius: var(--ds-alert-radius, var(--ds-radius-surface, 0.75rem));
     background: var(--_bg);
-    color: var(--_fg, var(--ds-color-text, #0f172a));
+    color: var(--_fg, var(--ds-color-text, #282420));
   }
   /* Pin the close button to the top-right; reserve room so text never runs under it. */
   .inline-notification:has(.inline-notification__close) {
@@ -258,32 +258,32 @@
   /* Soft, status-tinted surface. data-status is dynamic, so the value part is
      :global to avoid the Svelte unused-selector pruning. */
   .inline-notification:global([data-status="info"]) {
-    --_bg: var(--ds-color-info-surface, #eff6ff);
-    --_border: var(--ds-color-info-border, #bfdbfe);
+    --_bg: var(--ds-color-info-surface, #f0f3f9);
+    --_border: var(--ds-color-info-border, #c6d1e9);
   }
   .inline-notification:global([data-status="success"]) {
-    --_bg: var(--ds-color-success-surface, #f0fdf4);
-    --_border: var(--ds-color-success-border, #bbf7d0);
+    --_bg: var(--ds-color-success-surface, #f0f4ed);
+    --_border: var(--ds-color-success-border, #c5d6bd);
   }
   .inline-notification:global([data-status="warning"]) {
-    --_bg: var(--ds-color-warning-surface, #fffbeb);
-    --_border: var(--ds-color-warning-border, #fde68a);
+    --_bg: var(--ds-color-warning-surface, #fbf3ed);
+    --_border: var(--ds-color-warning-border, #efd1bd);
   }
   .inline-notification:global([data-status="danger"]) {
-    --_bg: var(--ds-color-danger-surface, #fef2f2);
-    --_border: var(--ds-color-danger-border, #fecaca);
+    --_bg: var(--ds-color-danger-surface, #faeff1);
+    --_border: var(--ds-color-danger-border, #ecc4cb);
   }
   .inline-notification:global([data-status="neutral"]) {
-    --_bg: var(--ds-color-neutral-surface, #f8fafc);
-    --_border: var(--ds-color-neutral-border, #e2e8f0);
+    --_bg: var(--ds-color-neutral-surface, #f4f2ef);
+    --_border: var(--ds-color-neutral-border, #c7c1b7);
   }
 
   /* Inverted: a high-contrast surface that ignores the status tint (the status
      stays visible via the colored FeedbackIcon). Wins over the rules above. */
   .inline-notification:global([data-inverted]) {
-    --_bg: var(--ds-color-emphasis-surface, #1e293b);
-    --_border: var(--ds-color-emphasis-border, #334155);
-    --_fg: var(--ds-color-on-emphasis, #f8fafc);
+    --_bg: var(--ds-color-emphasis-surface, #332f2a);
+    --_border: var(--ds-color-emphasis-border, #413c36);
+    --_fg: var(--ds-color-on-emphasis, #f4f2ef);
   }
 
   /* Plain (no-surface): transparent background, no border. The colored

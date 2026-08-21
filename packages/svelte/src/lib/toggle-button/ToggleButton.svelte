@@ -126,10 +126,10 @@
     min-inline-size: var(--ds-toggle-size, 2.25rem);
     block-size: var(--ds-toggle-size, 2.25rem);
     padding: 0 var(--ds-toggle-padding-inline, 0.5rem);
-    border: 1px solid var(--ds-toggle-border, var(--ds-color-border, #cbd5e1));
-    border-radius: var(--ds-toggle-radius, var(--ds-radius-control, 0.375rem));
+    border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
+    border-radius: var(--ds-toggle-radius, var(--ds-radius-control, 0.5rem));
     background: var(--ds-toggle-bg, var(--ds-color-background, #fff));
-    color: var(--ds-color-text, #0f172a);
+    color: var(--ds-color-text, #282420);
     transition:
       background-color 120ms ease,
       border-color 120ms ease,
@@ -153,9 +153,9 @@
      content (mirrors the standalone Checkbox — no weight change, which would
      shift width). */
   .toggle__input:checked + .toggle__surface {
-    background: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 10%, transparent);
-    color: var(--ds-color-selected, #7b52cc);
-    border-color: color-mix(in srgb, var(--ds-color-selected, #7b52cc) 35%, transparent);
+    background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
+    color: var(--ds-color-selected, #7a52cc);
+    border-color: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 35%, transparent);
   }
   .toggle--disabled .toggle__surface {
     opacity: 0.5;

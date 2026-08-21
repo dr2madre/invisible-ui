@@ -8,7 +8,7 @@
 <span style="display: flex; align-items: center; gap: 0.625rem;">
   <span
     aria-hidden="true"
-    style="flex: none; inline-size: 2rem; block-size: 2rem; border-radius: 999px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--ds-color-secondary, #7b52cc);"
+    style="flex: none; inline-size: 2rem; block-size: 2rem; border-radius: 999px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--ds-color-secondary, #7a52cc);"
   >
     {name.charAt(0)}
   </span>
