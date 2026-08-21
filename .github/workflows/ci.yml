@@ -51,6 +51,20 @@ jobs:
       - name: Public API report drift
         run: pnpm api:report:check
 
+      # The declarations promise values; the runtime must deliver exactly
+      # them, in both directions, for every package entry.
+      - name: Runtime exports match the declarations
+        run: pnpm api:runtime-check
+
+      # Consumers see the packed tarball, not the workspace: install it into a
+      # throwaway project, import it in plain Node ESM (what SSR does), and
+      # type-check against the published declarations.
+      - name: Packed-package consumer smoke
+        run: >
+          pnpm --filter @design-system/core run smoke &&
+          pnpm --filter @design-system/svelte run smoke &&
+          pnpm --filter @design-system/vue run smoke
+
       # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
       - name: Bundle size budget
         run: pnpm size

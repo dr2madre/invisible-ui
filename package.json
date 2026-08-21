@@ -20,6 +20,7 @@
     "api:check": "node scripts/generate-api.mjs --check",
     "api:report": "node scripts/generate-api-report.mjs",
     "api:report:check": "node scripts/generate-api-report.mjs --check",
+    "api:runtime-check": "node scripts/check-runtime-exports.mjs",
     "tokens:registry": "node scripts/generate-token-registry.mjs",
     "tokens:check": "node scripts/generate-token-registry.mjs --check",
     "changeset": "changeset",
