@@ -49,6 +49,11 @@ jobs:
       - name: Token registry drift
         run: pnpm tokens:check
 
+      # Docs demos feed the visual baselines: what they render must never
+      # depend on the network.
+      - name: Demo determinism
+        run: pnpm demos:check
+
       # `build` includes the Astro docs build; `test` runs vitest + vitest-axe;
       # `check` is svelte-check over the components (types plus a11y).
       - name: Build, test, typecheck
