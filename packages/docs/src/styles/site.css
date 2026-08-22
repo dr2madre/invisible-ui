@@ -96,11 +96,14 @@
 /* A flex child never shrinks below its content on its own: without this,
    one wide demo forces the whole page to scroll sideways on small screens.
    Each demo mounts inside an astro-island with display: contents, so the
-   real flex items are the island's children. */
-.ds-preview > *,
-.ds-preview > astro-island > * {
-  min-inline-size: 0;
-  max-inline-size: 100%;
+   real flex items are the island's children. Only narrow screens need it:
+   with room to spare, demos should keep their natural size and wrap. */
+@media (max-width: 50rem) {
+  .ds-preview > *,
+  .ds-preview > astro-island > * {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
 }
 
 /* ============ Home hero ==================================================== *
