@@ -37,8 +37,10 @@ const rules = tokens
   .filter((token) => SPECIMEN_CATEGORIES.has(token.category) && token.fallbacks.length > 0)
   .map((token) => {
     const property =
+      // The shorthand, so a gradient fallback renders instead of being an
+      // invalid background-color.
       token.category === "color"
-        ? "background-color"
+        ? "background"
         : token.category === "radius"
           ? "border-radius"
           : "box-shadow";

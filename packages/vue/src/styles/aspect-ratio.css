@@ -1,7 +1,8 @@
 /* AspectRatio, ported from the Svelte adapter, class names kept identical. */
 
 .aspect-ratio {
-  aspect-ratio: var(--ds-aspect-ratio, 1);
+  /* Private variable: the component always sets it inline from the prop. */
+  aspect-ratio: var(--_aspect-ratio, 1);
   inline-size: 100%;
   overflow: hidden;
   border-radius: var(--ds-aspect-ratio-radius, 0);

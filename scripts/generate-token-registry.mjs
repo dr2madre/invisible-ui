@@ -150,7 +150,10 @@ function parseUsages(css, file) {
     if (colon === -1) return;
     const property = declaration.slice(0, colon).trim();
     const value = declaration.slice(colon + 1).trim();
-    if (!property || property.startsWith("--") || !/var\(\s*--ds-/.test(value)) return;
+    // Custom-property declarations count too: a component retuning one knob
+    // from another (`--ds-button-icon-min: var(--ds-close-hit-area, …)`) is a
+    // real reading site of the referenced knob.
+    if (!property || !/var\(\s*--ds-/.test(value)) return;
     // Walk each var() with balanced parens to pair a name with its fallback.
     const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
     let match;
@@ -1034,17 +1037,50 @@ function build() {
       else visit(path);
     }
   };
+  // References can also live outside stylesheets: a style attribute in the
+  // markup, or a style object in an adapter's render code. Those are real,
+  // overridable reading sites; they carry no selector, so they are recorded
+  // as inline sites.
+  const collectInline = (adapter, file, text) => {
+    const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
+    let match;
+    while ((match = re.exec(text))) {
+      let depth = 1;
+      let i = match.index + match[0].length;
+      const fallbackStart = match[2] ? i : -1;
+      while (i < text.length && depth > 0) {
+        if (text[i] === "(") depth += 1;
+        else if (text[i] === ")") depth -= 1;
+        i += 1;
+      }
+      const fallback = fallbackStart === -1 ? null : text.slice(fallbackStart, i - 1).trim();
+      usages.push({
+        name: match[1],
+        property: "(inline)",
+        selector: "(inline)",
+        fallback: fallback ? squeeze(fallback) : null,
+        file,
+        adapter,
+      });
+    }
+  };
   walkDir(resolve(root, "packages/svelte/src/lib"), (path) => {
     if (!path.endsWith(".svelte")) return;
     const source = readFileSync(path, "utf8");
-    for (const [, style] of source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+    let markup = source;
+    for (const [block, style] of source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
       collect("svelte", rel(path), style);
+      markup = markup.replace(block, "");
     }
+    collectInline("svelte", rel(path), markup);
   });
   for (const adapter of ["vue", "react", "elements"]) {
     walkDir(resolve(root, `packages/${adapter}/src`), (path) => {
-      if (!path.endsWith(".css") || path.endsWith("tokens.css")) return;
-      collect(adapter, rel(path), readFileSync(path, "utf8"));
+      if (path.endsWith(".css") && !path.endsWith("tokens.css")) {
+        collect(adapter, rel(path), readFileSync(path, "utf8"));
+      } else if (path.endsWith(".ts") && !path.endsWith(".test.ts")) {
+        collectInline(adapter, rel(path), readFileSync(path, "utf8"));
+      }
     });
   }
 

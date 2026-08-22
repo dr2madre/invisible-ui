@@ -24,7 +24,9 @@ export const AspectRatio = defineComponent({
         "div",
         {
           class: "aspect-ratio",
-          style: { "--ds-aspect-ratio": String(props.ratio) },
+          // A private variable: the prop always sets it inline, so an external
+          // custom-property override could never win.
+          style: { "--_aspect-ratio": String(props.ratio) },
           "data-aspect-ratio": "",
         },
         slots.default?.(),

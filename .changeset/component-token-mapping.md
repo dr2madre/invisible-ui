@@ -7,7 +7,7 @@
 
 The component-token tier gets its official mapping and its first defect
 sweep. The registry now extracts every `var(--ds-*)` reference the theme
-layer does not define — 403 knobs across 74 components — with the component,
+layer does not define — 408 knobs across 78 components — with the component,
 the properties controlled, the adapters, every site, the shipped fallback and
 the semantic role it follows; five gates hold the surface together (one knob
 one value family, adapters must agree on defaults, colour knobs must reach a
@@ -20,6 +20,8 @@ calendar range band was Tailwind blue and now follows the selection tint like
 every other selected fill; the calendar price diverged between adapters in
 dark; five knobs gained the missing role chain (calendar selected text,
 feedback icon on solid, time-field focus text, meter optimal and poor fills —
-poor moves from a foreign coral to the danger role); two internal runtime
+poor moves from a foreign coral to the danger role); five internal runtime
 variables that were never knobs move to the private `--_` prefix
-(`--ds-slider-pct`, `--ds-tree-level`).
+(`--ds-slider-pct`, `--ds-tree-level`, `--ds-aspect-ratio`, and Vue's two
+notice-motion timings, all of which the components always set inline, so an
+external override could never win).

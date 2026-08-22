@@ -11,13 +11,15 @@
   export let ratio = 1;
 </script>
 
-<div class="aspect-ratio" style="--ds-aspect-ratio: {ratio};" data-aspect-ratio>
+<!-- The ratio flows through a private variable: the prop always sets it
+     inline, so an external custom-property override could never win. -->
+<div class="aspect-ratio" style="--_aspect-ratio: {ratio};" data-aspect-ratio>
   <slot />
 </div>
 
 <style>
   .aspect-ratio {
-    aspect-ratio: var(--ds-aspect-ratio, 1);
+    aspect-ratio: var(--_aspect-ratio, 1);
     inline-size: 100%;
     overflow: hidden;
     border-radius: var(--ds-aspect-ratio-radius, 0);

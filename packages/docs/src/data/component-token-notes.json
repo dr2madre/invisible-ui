@@ -12,10 +12,6 @@
     "category": "size",
     "purpose": "The ring thickness of the circular progress, in SVG user units."
   },
-  "--ds-aspect-ratio": {
-    "category": "other",
-    "purpose": "The ratio the AspectRatio box keeps."
-  },
   "--ds-carousel-aspect": {
     "category": "other",
     "purpose": "The ratio a slide keeps."

@@ -4271,6 +4271,49 @@
   ],
   "componentTokens": [
     {
+      "name": "--ds-accordion-icon-size",
+      "id": "accordion-icon-size",
+      "component": "accordion",
+      "usedBy": [
+        "accordion",
+        "unknown"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "(inline)"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1.1em"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/accordion/Accordion.svelte",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/accordion/Accordion.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-accordion-radius",
       "id": "accordion-radius",
       "component": "accordion",
@@ -4481,46 +4524,6 @@
         }
       ],
       "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
-      "name": "--ds-aspect-ratio",
-      "id": "aspect-ratio",
-      "component": "aspect-ratio",
-      "usedBy": [
-        "aspect-ratio"
-      ],
-      "category": "other",
-      "categories": [],
-      "properties": [
-        "aspect-ratio"
-      ],
-      "adapters": [
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "1"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/aspect-ratio/AspectRatio.svelte",
-          "selector": ".aspect-ratio",
-          "property": "aspect-ratio",
-          "fallback": "1"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/aspect-ratio.css",
-          "selector": ".aspect-ratio",
-          "property": "aspect-ratio",
-          "fallback": "1"
-        }
-      ],
-      "purpose": "The ratio the AspectRatio box keeps.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -8291,6 +8294,64 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-carousel-coverflow-spacing",
+      "id": "carousel-coverflow-spacing",
+      "component": "carousel",
+      "usedBy": [
+        "carousel",
+        "unknown"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "(inline)"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "11rem",
+        "9rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "9rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "11rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/carousel/Carousel.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "9rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/carousel/Carousel.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "11rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-carousel-dot-active",
       "id": "carousel-dot-active",
       "component": "carousel",
@@ -9416,6 +9477,105 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-close-hit-area",
+      "id": "close-hit-area",
+      "component": "inline-notification",
+      "usedBy": [
+        "inline-notification"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "--ds-button-icon-min"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "2.5rem",
+        "2rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
+          "selector": ".inline-notification:global([data-snack]) .inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack] .inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/inline-notification.css",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2.5rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-close-icon-size",
+      "id": "close-icon-size",
+      "component": "inline-notification",
+      "usedBy": [
+        "inline-notification"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "--ds-button-icon-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/inline-notification.css",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-size",
+          "fallback": "1rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-code-block-border",
       "id": "code-block-border",
       "component": "code-block",
@@ -10112,6 +10272,49 @@
           "selector": ".collapsible__content",
           "property": "padding",
           "fallback": "0.625rem 0.75rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-collapsible-icon-size",
+      "id": "collapsible-icon-size",
+      "component": "collapsible",
+      "usedBy": [
+        "collapsible",
+        "unknown"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "(inline)"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1.1em"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/collapsible/Collapsible.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
         }
       ],
       "purpose": null,
@@ -11514,6 +11717,63 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-empty-state-icon-size",
+      "id": "empty-state-icon-size",
+      "component": "empty-state",
+      "usedBy": [
+        "empty-state"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "--ds-feedback-icon-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "2.5rem",
+        "3.5rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/empty-state/EmptyState.svelte",
+          "selector": ".empty-state[data-size=\"sm\"] .empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/empty-state/EmptyState.svelte",
+          "selector": ".empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/empty-state.css",
+          "selector": ".empty-state[data-size=\"sm\"] .empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/empty-state.css",
+          "selector": ".empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-empty-state-illustration-max-width",
       "id": "empty-state-illustration-max-width",
       "component": "empty-state",
@@ -11762,6 +12022,63 @@
           "selector": ".error-state[data-size=\"sm\"]",
           "property": "gap",
           "fallback": "0.5rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-error-state-icon-size",
+      "id": "error-state-icon-size",
+      "component": "error-state",
+      "usedBy": [
+        "error-state"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "--ds-feedback-icon-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "2.5rem",
+        "3.5rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
+          "selector": ".error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/error-state.css",
+          "selector": ".error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
         }
       ],
       "purpose": null,
@@ -16765,95 +17082,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-notice-motion",
-      "id": "notice-motion",
-      "component": "notification-region",
-      "usedBy": [
-        "notification-region"
-      ],
-      "category": "motion",
-      "categories": [
-        "motion"
-      ],
-      "properties": [
-        "transition"
-      ],
-      "adapters": [
-        "vue"
-      ],
-      "fallbacks": [
-        "200ms"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/notification-region.css",
-          "selector": ".notification-region .notice-enter-active",
-          "property": "transition",
-          "fallback": "200ms"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/notification-region.css",
-          "selector": ".notification-region .notice-enter-active",
-          "property": "transition",
-          "fallback": "200ms"
-        }
-      ],
-      "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
-      "name": "--ds-notice-motion-out",
-      "id": "notice-motion-out",
-      "component": "notification-region",
-      "usedBy": [
-        "notification-region"
-      ],
-      "category": "motion",
-      "categories": [
-        "motion"
-      ],
-      "properties": [
-        "transition"
-      ],
-      "adapters": [
-        "vue"
-      ],
-      "fallbacks": [
-        "350ms"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/notification-region.css",
-          "selector": ".notification-region .notice-leave-active",
-          "property": "transition",
-          "fallback": "350ms"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/notification-region.css",
-          "selector": ".notification-region .notice-leave-active",
-          "property": "transition",
-          "fallback": "350ms"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/notification-region.css",
-          "selector": ".notification-region .notice-move",
-          "property": "transition",
-          "fallback": "350ms"
-        }
-      ],
-      "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
       "name": "--ds-notice-width",
       "id": "notice-width",
       "component": "notification",
@@ -18439,6 +18667,49 @@
           "selector": ".rating__star--preview",
           "property": "color",
           "fallback": "var(--ds-neutral-300, #a8a297)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-rating-size",
+      "id": "rating-size",
+      "component": "rating-group",
+      "usedBy": [
+        "rating-group",
+        "unknown"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "(inline)"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1.5rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/rating-group/RatingGroup.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.5rem"
         }
       ],
       "purpose": null,
