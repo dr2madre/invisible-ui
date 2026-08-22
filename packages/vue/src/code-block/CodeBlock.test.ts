@@ -49,6 +49,18 @@ describe("Vue CodeBlock", () => {
     expect(document.querySelector("pre.code-block__pre")).toHaveTextContent("highlighted markup");
   });
 
+  it("exposes the scroller as a focusable, named region", () => {
+    render(CodeBlock, { props: { code: "pnpm install", language: "bash" } });
+    const region = screen.getByRole("region", { name: "Code sample, bash" });
+    expect(region).toBe(document.querySelector("pre.code-block__pre"));
+    expect(region).toHaveAttribute("tabindex", "0");
+  });
+
+  it("names the scroller without a language too", () => {
+    render(CodeBlock, { props: { code: "pnpm install", copyable: false } });
+    expect(screen.getByRole("region", { name: "Code sample" })).toBeInTheDocument();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(CodeBlock, { props: { code: "pnpm install", language: "bash" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

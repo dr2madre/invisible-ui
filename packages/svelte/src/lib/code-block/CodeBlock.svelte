@@ -12,6 +12,8 @@
    * Accessibility:
    * - The caption labels the region (`aria-label`) so screen-reader users know
    *   what the block contains.
+   * - The code scroller is a focusable, named region, so keyboard users can
+   *   reach it and scroll wide samples.
    * - The copy button has an accessible name and announces success via a polite
    *   live region; it is omitted entirely when `copyable` is false.
    *
@@ -64,7 +66,16 @@
       {/if}
     </figcaption>
   {/if}
-  <pre class="code-block__pre"><code class="code-block__code"><slot>{code}</slot></code></pre>
+  <!-- Wide code scrolls sideways, so the scroller must be reachable and
+       named for keyboard and screen-reader users. -->
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre
+    class="code-block__pre"
+    tabindex="0"
+    role="region"
+    aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
+      class="code-block__code"><slot>{code}</slot></code
+    ></pre>
   <span class="code-block__live" role="status" aria-live="polite">
     {copied ? "Copied to clipboard" : ""}
   </span>
@@ -122,6 +133,12 @@
     margin: 0;
     padding: var(--ds-code-block-padding, 1rem);
     overflow-x: auto;
+  }
+  /* The figure clips overflow, so an outer ring would be invisible here:
+     the ring is drawn inside the scroller instead. */
+  .code-block__pre:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
 
   .code-block__code {

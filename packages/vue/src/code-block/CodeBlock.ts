@@ -29,6 +29,8 @@ const COPIED_DURATION = 2000;
  * Accessibility:
  * - The caption labels the region (`aria-label`) so screen-reader users know
  *   what the block contains.
+ * - The code scroller is a focusable, named region, so keyboard users can
+ *   reach it and scroll wide samples.
  * - The copy button has an accessible name and announces success via a polite
  *   live region; it is omitted entirely when `copyable` is false.
  *
@@ -90,9 +92,18 @@ export const CodeBlock = defineComponent({
                   : null,
               ])
             : null,
-          h("pre", { class: "code-block__pre" }, [
-            h("code", { class: "code-block__code" }, slots.default?.() ?? props.code),
-          ]),
+          // Wide code scrolls sideways, so the scroller must be reachable and
+          // named for keyboard and screen-reader users.
+          h(
+            "pre",
+            {
+              class: "code-block__pre",
+              tabindex: "0",
+              role: "region",
+              "aria-label": props.language ? `Code sample, ${props.language}` : "Code sample",
+            },
+            [h("code", { class: "code-block__code" }, slots.default?.() ?? props.code)],
+          ),
           h(
             "span",
             { class: "code-block__live", role: "status", "aria-live": "polite" },
