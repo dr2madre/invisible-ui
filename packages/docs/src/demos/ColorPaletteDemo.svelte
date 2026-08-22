@@ -319,7 +319,7 @@
           <button
             type="button"
             class="cell dspal--{hue.key}-{s}"
-            aria-label={`${hue.name} ${s} ${hue.hex[s]} — click to copy`}
+            aria-label={`${hue.name} ${s} ${hue.hex[s]}, click to copy`}
             title={hue.hex[s]}
             on:click={() => copy(hue.hex[s], `${hue.key}-${s}`)}
           >
@@ -447,7 +447,6 @@
     padding: 0;
     border: 0;
     cursor: pointer;
-    color: #1c1915;
   }
   .cell:focus-visible {
     outline: none;
