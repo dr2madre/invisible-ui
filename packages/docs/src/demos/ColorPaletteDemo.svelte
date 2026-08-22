@@ -263,13 +263,6 @@
     return `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${H.toFixed(1)})`;
   };
 
-  const isLight = (hex) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return 0.299 * r + 0.587 * g + 0.114 * b > 150;
-  };
-
   const format = (hex) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
@@ -314,22 +307,22 @@
   </div>
 
   <div class="grid">
+    <div class="hue-h" aria-hidden="true"></div>
     {#each hues as hue (hue.key)}
       <div class="hue-h">{hue.name}</div>
     {/each}
 
     {#each shades as s (s)}
+      <div class="shade-h">{s}</div>
       {#each hues as hue (hue.key)}
         {#if hue.hex[s]}
           <button
             type="button"
             class="cell dspal--{hue.key}-{s}"
-            class:cell--ondark={!isLight(hue.hex[s])}
-            aria-label={`${hue.name} ${s} ${hue.hex[s]} — click to copy`}
+            aria-label={`${hue.name} ${s} ${hue.hex[s]}, click to copy`}
             title={hue.hex[s]}
             on:click={() => copy(hue.hex[s], `${hue.key}-${s}`)}
           >
-            <span class="cell__n">{s}</span>
             {#if copiedKey === `${hue.key}-${s}`}
               <span class="cell__toast">
                 <Tag status="neutral" variant="solid">
@@ -424,9 +417,19 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns: auto repeat(12, minmax(0, 1fr));
     gap: 0;
     inline-size: 100%;
+  }
+  .shade-h {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-inline-end: 0.4rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .hue-h {
     text-align: center;
@@ -444,14 +447,6 @@
     padding: 0;
     border: 0;
     cursor: pointer;
-    color: #1c1917;
-  }
-  .cell--ondark {
-    color: #ffffff;
-  }
-  .cell__n {
-    font-size: 0.6875rem;
-    font-weight: 600;
   }
   .cell:focus-visible {
     outline: none;
@@ -490,6 +485,6 @@
     inline-size: 4rem;
     background: #ffffff;
     border: 1px solid var(--ds-color-border, #c7c1b7);
-    color: #1c1917;
+    color: #1c1915;
   }
 </style>

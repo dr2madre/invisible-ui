@@ -64,8 +64,9 @@
     justify-content: space-between;
     padding: 0.75rem;
     border-radius: 0.75rem;
-    /* Pastels are light → dark text reads accessibly. */
-    color: var(--ds-color-text, #282420);
+    /* The pastel background stays light in both themes, so the ink must
+       stay dark too: the theme text role would flip to light in dark mode. */
+    color: var(--ds-neutral-900, #282420);
   }
   .slide__title {
     font-weight: 700;
@@ -79,6 +80,7 @@
     align-items: flex-end;
     padding: 0.75rem;
     border-radius: 0.75rem;
-    color: var(--ds-color-text, #282420);
+    /* Same fixed ink as the slides: the covers are always pastel. */
+    color: var(--ds-neutral-900, #282420);
   }
 </style>
