@@ -524,7 +524,7 @@
 
   .calendar__row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: var(--ds-calendar-gap, 0.25rem);
   }
   .calendar__weekdays {
@@ -729,7 +729,7 @@
 
   /* ---- Agenda views (week / three-day / day) ---- */
   .calendar__agenda-row {
-    grid-template-columns: repeat(var(--cols, 7), 1fr);
+    grid-template-columns: repeat(var(--cols, 7), minmax(0, 1fr));
     gap: var(--ds-calendar-gap, 0.25rem);
     align-items: stretch;
   }

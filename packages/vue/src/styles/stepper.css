@@ -21,6 +21,9 @@
 }
 
 .stepper__step {
+  /* Anchors the hidden status text: unanchored, it would sit at its static
+   position outside any clipping and widen the page. */
+  position: relative;
   display: flex;
   flex: 1;
   align-items: center;

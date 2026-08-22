@@ -69,6 +69,7 @@
     display: grid;
     gap: var(--ds-field-gap, 0.3rem);
     inline-size: var(--ds-field-width, 18rem);
+    max-inline-size: 100%;
   }
   .field__label {
     font: inherit;

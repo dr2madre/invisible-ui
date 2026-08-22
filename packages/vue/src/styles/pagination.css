@@ -2,6 +2,9 @@
 
 .pagination {
   display: inline-flex;
+  /* A long page list must not push the page wider on small screens. */
+  flex-wrap: wrap;
+  max-inline-size: 100%;
   align-items: center;
   gap: var(--ds-pagination-gap, 0.25rem);
 }

@@ -76,6 +76,8 @@
   }
   .navmenu__list {
     display: flex;
+    /* A crowded menu bar wraps to more rows instead of widening the page. */
+    flex-wrap: wrap;
     gap: var(--ds-navmenu-gap, 0.25rem);
     margin: 0;
     padding: 0;

@@ -46,11 +46,15 @@
 <style>
   .number-field-demo {
     display: grid;
+    /* An auto track grows with its widest item; a bounded one lets the
+       fields shrink on small screens. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     justify-items: start;
   }
   .number-field-demo__fields {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     justify-items: start;
   }

@@ -2,8 +2,12 @@
    Svelte's :global() wrappers are unwrapped: this file is already global. */
 .combobox {
   display: grid;
+  /* An auto track grows with its content; a bounded one lets the input
+     row shrink with the control on small screens. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--ds-combobox-gap, 0.375rem);
   inline-size: var(--ds-combobox-width, 16rem);
+  max-inline-size: 100%;
   font: inherit;
   color: var(--ds-color-text, #282420);
 }

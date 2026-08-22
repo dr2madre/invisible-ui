@@ -170,7 +170,14 @@ export const Carousel = defineComponent({
           h("div", { class: "carousel__stage" }, [
             h(
               "div",
-              { ...api.value.getViewportProps(), ref: viewportRef, class: "carousel__viewport" },
+              {
+                ...api.value.getViewportProps(),
+                ref: viewportRef,
+                class: "carousel__viewport",
+                // The gallery viewport is a real scroller, so keyboard users
+                // must be able to focus it; arrow keys bubble to the root.
+                tabindex: variant === "gallery" ? "0" : undefined,
+              },
               [
                 h(
                   "div",

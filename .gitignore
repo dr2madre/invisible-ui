@@ -22,3 +22,6 @@ packages/svelte/dist/tokens/
 .github/hooks/
 .github/skills/
 __pycache__/
+
+# Visual baselines are authoritative only from the pinned Linux container.
+e2e/visual.spec.ts-snapshots/*-darwin.png

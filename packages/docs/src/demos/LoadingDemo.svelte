@@ -26,7 +26,7 @@
 <div class="demo">
   <section>
     <p class="demo__caption">Variants — dots, typing, spinner, morph</p>
-    <div style="display: flex; gap: 1.25rem; align-items: center;">
+    <div class="demo__row">
       <Loading />
       <Loading variant="typing" label="Waiting for a reply" />
       <Loading variant="spinner" />
@@ -46,7 +46,7 @@
 
   <section>
     <p class="demo__caption">In buttons — including successive steps via loadingStatus</p>
-    <div style="display: flex; gap: 0.5rem; align-items: center;">
+    <div class="demo__row demo__row--tight">
       <Button variant="primary">
         <svelte:fragment slot="left"><Loading variant="morph" decorative /></svelte:fragment>
         Saving…
@@ -98,6 +98,15 @@
     flex-direction: column;
     gap: 1.75rem;
     inline-size: 100%;
+  }
+  .demo__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: center;
+  }
+  .demo__row--tight {
+    gap: 0.5rem;
   }
   .demo__caption {
     margin: 0 0 0.625rem;

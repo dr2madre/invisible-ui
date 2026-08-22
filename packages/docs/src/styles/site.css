@@ -93,6 +93,15 @@
   border: 1px solid var(--ds-color-border, #cbd5e1);
   border-radius: var(--ds-radius-surface, 0.75rem);
 }
+/* A flex child never shrinks below its content on its own: without this,
+   one wide demo forces the whole page to scroll sideways on small screens.
+   Each demo mounts inside an astro-island with display: contents, so the
+   real flex items are the island's children. */
+.ds-preview > *,
+.ds-preview > astro-island > * {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
 
 /* ============ Home hero ==================================================== *
  * The cover IS the visual title (like the README): big, on the left, with the
