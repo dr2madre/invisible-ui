@@ -76,3 +76,11 @@
   padding-block: 0.75rem;
   color: var(--ds-color-text-secondary, #524c44);
 }
+
+/* Forced colors: the tab row is a scroller, so the ring must be drawn
+   inside the tab or its top and bottom are clipped away. */
+@media (forced-colors: active) {
+  .tabs__tab:focus-visible {
+    outline-offset: -2px;
+  }
+}

@@ -155,3 +155,8 @@
   box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: 2px;
 }
+
+/* Forced colors drops the thumb's shadow ring, so the focus ring the theme
+   forces on the input is what remains: it surrounds the whole control,
+   like the native one. The thumb stays findable on its own, since its
+   border survives this mode while fills do not. */

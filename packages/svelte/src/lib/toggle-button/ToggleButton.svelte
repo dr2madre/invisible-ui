@@ -165,11 +165,11 @@
   }
   /* Forced colors: the focus sits on the hidden input, so the outline the
      theme forces there lands on something nobody can see. Draw it on the
-     visible part instead. */
+     visible part instead, inside it: the row around it clips. */
   @media (forced-colors: active) {
     .toggle__input:focus-visible + .toggle__surface {
       outline: var(--ds-focus-ring-width, 2px) solid Highlight;
-      outline-offset: 2px;
+      outline-offset: -2px;
     }
   }
 </style>
