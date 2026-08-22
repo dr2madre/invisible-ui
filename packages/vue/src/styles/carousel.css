@@ -78,6 +78,10 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
+.carousel__viewport:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+}
 .carousel[data-variant="gallery"] .carousel__viewport::-webkit-scrollbar {
   display: none;
 }

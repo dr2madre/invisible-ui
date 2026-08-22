@@ -60,6 +60,12 @@
     gap: 2rem;
     align-items: flex-start;
   }
+  /* A flex child never shrinks below its content on its own; capped, the
+     wide controls inside can scroll within themselves on small screens. */
+  .demos > :global(*) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
   .cap {
     margin: 0 0 0.5rem;
     font-size: 0.75rem;

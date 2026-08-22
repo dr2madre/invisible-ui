@@ -131,6 +131,9 @@
 <style>
   .toolbar {
     display: inline-flex;
+    /* A crowded toolbar wraps to more rows instead of widening the page. */
+    flex-wrap: wrap;
+    max-inline-size: 100%;
     align-items: center;
     gap: var(--ds-toolbar-gap, 0.375rem);
     padding: var(--ds-toolbar-padding, 0.25rem);

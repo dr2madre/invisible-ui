@@ -111,7 +111,15 @@
   aria-label={label}
 >
   <div class="carousel__stage">
-    <div class="carousel__viewport" bind:this={viewportEl} use:viewportAction>
+    <!-- The gallery viewport is a real scroller, so keyboard users must be
+         able to focus it; arrow keys bubble to the root and move the index. -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <div
+      class="carousel__viewport"
+      tabindex={variant === "gallery" ? 0 : undefined}
+      bind:this={viewportEl}
+      use:viewportAction
+    >
       <div
         class="carousel__track"
         style={variant === "slide"
@@ -273,6 +281,10 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+  }
+  .carousel__viewport:focus-visible {
+    outline: none;
+    box-shadow: var(--ds-focus-ring-shadow);
   }
   .carousel[data-variant="gallery"] .carousel__viewport::-webkit-scrollbar {
     display: none;

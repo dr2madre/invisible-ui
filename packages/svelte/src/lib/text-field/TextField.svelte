@@ -172,6 +172,7 @@
     display: grid;
     gap: var(--ds-field-gap, 0.375rem);
     inline-size: var(--ds-field-width, 18rem);
+    max-inline-size: 100%;
     font: inherit;
     color: var(--ds-color-text, #282420);
   }

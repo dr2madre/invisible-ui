@@ -27,7 +27,11 @@
   justify-self: start;
   border: 1px solid var(--ds-color-control-border, #757067);
   border-radius: var(--ds-segment-radius, var(--ds-radius-control, 0.5rem));
-  overflow: hidden;
+  /* Segments that cannot fit scroll inside the control instead of
+     widening the page; focusing a clipped segment scrolls it into view. */
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 /* Vertical: stack the segments into a column (e.g. a sidebar). */
 .segmented--vertical {
@@ -43,6 +47,9 @@
   border-block-start: none;
 }
 .segment {
+  /* Anchors the hidden radio: unanchored, it would sit at its static
+     position outside any clipping and widen the page. */
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;

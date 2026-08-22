@@ -96,6 +96,10 @@
   .tabs__list {
     display: inline-flex;
     gap: 0.25rem;
+    /* A tab row that cannot fit scrolls inside itself; the tabs stay one
+       row, and focusing a clipped tab scrolls it into view. */
+    max-inline-size: 100%;
+    overflow-x: auto;
     border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
   }
   .tabs__tab {

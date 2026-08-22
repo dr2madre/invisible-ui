@@ -55,11 +55,15 @@
 <style>
   .locale-demo {
     display: grid;
+    /* An auto track grows with its widest item; a bounded one lets the
+       calendar shrink on small screens. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     justify-items: start;
   }
   .locale-demo__content {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     justify-items: start;
   }
