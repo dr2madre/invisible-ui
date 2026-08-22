@@ -119,10 +119,10 @@ try {
       "}",
       "if (missing.length) {",
       '  console.error("shipped components with unresolvable imports:");',
-      "  for (const entry of missing) console.error(\" \", entry);",
+      '  for (const entry of missing) console.error(" ", entry);',
       "  process.exit(1);",
       "}",
-      'console.log(`all ${files.length} shipped components resolve their imports`);',
+      "console.log(`all ${files.length} shipped components resolve their imports`);",
     ].join("\n"),
   );
   run(process.execPath, [join(consumer, "resolve-all.mjs")], consumer);
