@@ -118,7 +118,7 @@ export const TreeView = defineComponent({
               ...api.value.getItemProps(node.value),
               key: node.value,
               class: ["tree__item", { "tree__item--selected": isSelected }],
-              style: { "--ds-tree-level": String(node.level) },
+              style: { "--_tree-level": String(node.level) },
             },
             [
               node.hasChildren

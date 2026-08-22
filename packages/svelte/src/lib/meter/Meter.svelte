@@ -64,13 +64,13 @@
     transition: inline-size 200ms ease;
   }
   .meter__indicator:global([data-quality="poor"]) {
-    background: var(--ds-meter-fill-poor, #e6735c);
+    background: var(--ds-meter-fill-poor, var(--ds-color-danger, #be3b50));
   }
   .meter__indicator:global([data-quality="suboptimal"]) {
     background: var(--ds-meter-fill-suboptimal, var(--ds-color-warning, #c96422));
   }
   .meter__indicator:global([data-quality="optimal"]) {
-    background: var(--ds-meter-fill-optimal, #8dcc7a);
+    background: var(--ds-meter-fill-optimal, var(--ds-pastel-green, #8dcc7a));
   }
   @media (prefers-reduced-motion: reduce) {
     .meter__indicator {

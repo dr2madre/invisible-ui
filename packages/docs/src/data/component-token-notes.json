@@ -1,0 +1,49 @@
+{
+  "$comment": "Hand-written metadata for component tokens (the fallback-only override surface). Everything else in the registry is generated from usage. `category` overrides the inferred value family; `stability` marks internal/deprecated exceptions; `component` overrides the prefix-derived grouping; `acceptedDivergence` names a reviewed reason for per-adapter fallback differences.",
+  "--ds-toggle-bg-hover": {
+    "category": "color"
+  },
+  "--ds-carousel-overlay-bg": {
+    "category": "color",
+    "purpose": "The gradient scrim under a slide's caption.",
+    "acceptedLiteral": "A fixed black scrim: it sits on arbitrary imagery, not on a themed surface."
+  },
+  "--ds-progress-circle-stroke": {
+    "category": "size",
+    "purpose": "The ring thickness of the circular progress, in SVG user units."
+  },
+  "--ds-carousel-aspect": {
+    "category": "other",
+    "purpose": "The ratio a slide keeps."
+  },
+  "--ds-calendar-day-bg": {
+    "acceptedLiteral": "A day at rest paints nothing; the tint appears only on hover and selection."
+  },
+  "--ds-card-actions-border": {
+    "acceptedLiteral": "The actions row divider is invisible until a variant turns it on."
+  },
+  "--ds-carousel-overlay-text": {
+    "acceptedLiteral": "White on the fixed black scrim above; no themed surface is involved."
+  },
+  "--ds-close-color": {
+    "acceptedLiteral": "Inherits the surrounding text colour on purpose."
+  },
+  "--ds-code-block-copy-bg": {
+    "acceptedLiteral": "A translucent neutral overlay on the code surface; candidate for a dedicated overlay role after alpha."
+  },
+  "--ds-code-block-copy-hover": {
+    "acceptedLiteral": "Same overlay one step stronger; same candidate role."
+  },
+  "--ds-dialog-overlay": {
+    "acceptedLiteral": "The modal scrim: the darkest warm neutral at half alpha, deliberately theme-independent."
+  },
+  "--ds-scroll-area-track": {
+    "acceptedLiteral": "The track paints nothing; only the thumb is visible."
+  },
+  "--ds-skeleton-highlight": {
+    "acceptedLiteral": "The shimmer highlight is a translucent white sweep by design."
+  },
+  "--ds-tree-bg": {
+    "acceptedLiteral": "The tree canvas paints nothing and inherits the page."
+  }
+}

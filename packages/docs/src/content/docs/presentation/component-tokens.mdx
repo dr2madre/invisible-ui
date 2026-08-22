@@ -1,0 +1,30 @@
+---
+title: "Component tokens"
+description: "The per-component theming knobs: every custom property a component reads, with its shipped default and the role it follows."
+---
+
+import ComponentTokenCatalog from "../../../components/ComponentTokenCatalog.astro";
+
+The third theming tier. Where [semantic tokens](/invisible-ui/presentation/tokens/)
+name a role the whole system shares, a component token names one knob on one
+component: `--ds-button-radius`, `--ds-field-gap`, `--ds-dialog-max-width`.
+
+Two things make this tier different from the
+[token catalog](/invisible-ui/presentation/token-catalog/):
+
+- **The theme stylesheet defines none of these.** A component reads
+  `var(--ds-button-radius, var(--ds-radius-control, 0.5rem))`; the fallback
+  written at the point of use is the shipped default. Set the custom property
+  on any scope — `:root`, a page, one widget — and the component follows. A
+  few components retune one knob from another in their own styles; those
+  reading sites are in the registry like any other.
+- **Many knobs follow a role.** When the fallback chains through a semantic
+  token, retheming the role restyles the knob for free, and the knob exists
+  only for the one-off case. Set the role first; reach for the knob when one
+  component must differ from its class.
+
+Everything below is generated from the component sources — stylesheets,
+markup and render code alike — so the list and the code move together. The whole tier is
+**alpha**: names can still change before 1.0.
+
+<ComponentTokenCatalog />

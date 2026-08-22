@@ -104,7 +104,7 @@
   /* Solid box: full status color with a contrasting glyph. */
   .feedback-icon:global([data-box="solid"]) {
     background: var(--_color);
-    color: var(--ds-feedback-icon-on-solid, #fff);
+    color: var(--ds-feedback-icon-on-solid, var(--ds-color-on-status, #ffffff));
   }
   /* Full circle. */
   .feedback-icon:global([data-shape="round"]) {

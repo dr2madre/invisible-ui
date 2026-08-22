@@ -14,10 +14,12 @@ shipped token, with its value in both themes and what it points at, is the
   <PaletteDemo client:only="svelte" />
 </Preview>
 
-## Two tiers
+## Three tiers
 
 Theming ships as `tokens.css` — **primitives** (the raw palette) feed
-**semantic** tokens (roles) that the components consume:
+**semantic** tokens (roles) that the components consume — plus a third tier of
+per-component knobs that live in the components themselves (see
+[Component tokens](/invisible-ui/presentation/component-tokens/)):
 
 ```js
 import "@design-system/svelte/tokens.css";
@@ -105,6 +107,8 @@ The current value of each is in the token catalog, under
 Components read these through their per-component override, e.g.
 `var(--ds-button-radius, var(--ds-radius-control, …))` — set the role token to
 restyle a whole class of shapes at once, or the component token for a one-off.
+Every such knob is listed in
+[Component tokens](/invisible-ui/presentation/component-tokens/).
 
 ## Customizing — in order of effort
 

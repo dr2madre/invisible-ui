@@ -9,7 +9,7 @@ describe("Vue AspectRatio", () => {
   it("applies the default 1:1 ratio via a custom property", () => {
     const { container } = render(AspectRatio, { slots: { default: media } });
     const box = container.querySelector("[data-aspect-ratio]")!;
-    expect(box.getAttribute("style")).toContain("--ds-aspect-ratio: 1");
+    expect(box.getAttribute("style")).toContain("--_aspect-ratio: 1");
   });
 
   it("applies a custom ratio", () => {
@@ -18,7 +18,7 @@ describe("Vue AspectRatio", () => {
       slots: { default: media },
     });
     const box = container.querySelector("[data-aspect-ratio]")!;
-    expect(box.getAttribute("style")).toContain("--ds-aspect-ratio: 1.777");
+    expect(box.getAttribute("style")).toContain("--_aspect-ratio: 1.777");
   });
 
   it("renders slotted media", () => {

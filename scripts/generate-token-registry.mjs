@@ -18,9 +18,9 @@
 // paints with the live custom property. The resolved value is worked out here,
 // from the same stylesheet, and shown as text beside the specimen.
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
@@ -34,6 +34,7 @@ const SHEETS = {
   elements: resolve(root, "packages/elements/src/styles/tokens.css"),
 };
 const NOTES = resolve(root, "packages/docs/src/data/token-notes.json");
+const COMPONENT_NOTES = resolve(root, "packages/docs/src/data/component-token-notes.json");
 const OUT = resolve(root, "packages/docs/src/generated/tokens/registry.json");
 
 /** Which theme layer a declaration block represents. */
@@ -129,6 +130,78 @@ function parseSheet(css) {
     if (buffer.trim() === "" && char.trim() !== "") bufferStart = line;
     buffer += char;
   }
+  return found;
+}
+
+const squeeze = (text) => text.replace(/\s+/g, " ").trim();
+
+/**
+ * Every CSS declaration (any property) that references a `--ds-*` custom
+ * property, with the selector, the property and each reference's own fallback.
+ * This is how the component-token surface is discovered: those names exist
+ * only inside `var()` references, never as definitions.
+ */
+function parseUsages(css, file) {
+  const found = [];
+  const open = [];
+  let buffer = "";
+  const record = (declaration, selector) => {
+    const colon = declaration.indexOf(":");
+    if (colon === -1) return;
+    const property = declaration.slice(0, colon).trim();
+    const value = declaration.slice(colon + 1).trim();
+    // Custom-property declarations count too: a component retuning one knob
+    // from another (`--ds-button-icon-min: var(--ds-close-hit-area, …)`) is a
+    // real reading site of the referenced knob.
+    if (!property || !/var\(\s*--ds-/.test(value)) return;
+    // Walk each var() with balanced parens to pair a name with its fallback.
+    const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
+    let match;
+    while ((match = re.exec(value))) {
+      let depth = 1;
+      let i = match.index + match[0].length;
+      const fallbackStart = match[2] ? i : -1;
+      while (i < value.length && depth > 0) {
+        if (value[i] === "(") depth += 1;
+        else if (value[i] === ")") depth -= 1;
+        i += 1;
+      }
+      const fallback = fallbackStart === -1 ? null : value.slice(fallbackStart, i - 1).trim();
+      found.push({
+        name: match[1],
+        property,
+        selector: squeeze(selector),
+        fallback: fallback ? squeeze(fallback).replace(/\(\s+/g, "(").replace(/\s+\)/g, ")") : null,
+        file,
+      });
+    }
+  };
+  for (let i = 0; i < css.length; i++) {
+    const char = css[i];
+    if (char === "/" && css[i + 1] === "*") {
+      const end = css.indexOf("*/", i + 2);
+      i = end === -1 ? css.length : end + 1;
+      continue;
+    }
+    if (char === "{") {
+      open.push(buffer.trim());
+      buffer = "";
+      continue;
+    }
+    if (char === "}") {
+      open.pop();
+      buffer = "";
+      continue;
+    }
+    if (char === ";") {
+      record(buffer, open.filter((head) => !head.startsWith("@")).at(-1) ?? "");
+      buffer = "";
+      continue;
+    }
+    buffer += char;
+  }
+  // A block's last declaration may have no trailing semicolon.
+  if (buffer.trim()) record(buffer, open.filter((head) => !head.startsWith("@")).at(-1) ?? "");
   return found;
 }
 
@@ -365,6 +438,42 @@ function contrast(a, b) {
   return (light + 0.05) / (dark + 0.05);
 }
 
+// Which family of values a CSS property consumes. One component token must
+// stay inside one family: the same knob driving a colour somewhere and a
+// length somewhere else cannot be themed coherently.
+const PROPERTY_CATEGORY = [
+  [
+    /^(background(-color)?|color|border(-\w+)*-color|fill|stroke|caret-color|outline-color|text-decoration-color|accent-color)$/,
+    "color",
+  ],
+  [/^(box-shadow|text-shadow)$/, "shadow"],
+  [/^border(-\w+)*-radius$/, "radius"],
+  [/^(inline-size|block-size|width|height|min-|max-)/, "size"],
+  [
+    /^(padding|margin|gap|inset|top|right|bottom|left|row-gap|column-gap|translate|border(-\w+)*-width|outline-(width|offset)|text-underline-offset|flex-basis|background-size|background-position)/,
+    "size",
+  ],
+  [/^(font|line-height|letter-spacing|text-transform|font-\w+)/, "type"],
+  [/^(transition|animation)(-\w+)?$/, "motion"],
+  [/^z-index$/, "layer"],
+  [/^(opacity)$/, "opacity"],
+  [
+    /^(grid|flex|place|align|justify|display|position|overflow|cursor|content|visibility|pointer-events|aspect-ratio|object-fit|list-style|white-space|text-align|vertical-align|user-select|touch-action|appearance|resize|scrollbar|clip|mask|filter|backdrop|will-change|contain|order|border(-\w+)*-style|text-overflow|word-break|overflow-wrap|hyphens|direction|writing-mode|columns?|stroke-\w+|transform(-\w+)?|rotate|scale|counter|quotes|outline$|border$|border-block\w*$|border-inline\w*$|text-decoration$|background$|font$|inset-\w+|max-block-size|min-block-size|max-inline-size|min-inline-size)/,
+    "other",
+  ],
+];
+const categoryOf = (property) => {
+  for (const [pattern, category] of PROPERTY_CATEGORY) {
+    if (pattern.test(property)) return category;
+  }
+  return "other";
+};
+
+// A shorthand carries several families at once; a knob may legitimately feed
+// one, so shorthands never conflict with anything.
+const SHORTHAND =
+  /^(border(-block|-inline)?(-start|-end)?|outline|background|font|transition|animation|inset|flex|grid-\w+|text-decoration)$/;
+
 // The pairs the components actually put on top of each other. `min` is the
 // success criterion that applies: 4.5 for normal text (1.4.3), 3 for a
 // boundary or a glyph (1.4.11).
@@ -550,7 +659,7 @@ const SPECIMEN_MODULE = "packages/docs/src/lib/token-specimens.ts";
  * Everything that has to stay true between the sources, the registry and the
  * catalog. Returns a list of problems; an empty list is the passing state.
  */
-function gates(registry, byName, adapters, notes, dtcgPaths) {
+function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
   const problems = [];
   const known = new Set(registry.tokens.map((token) => token.name));
 
@@ -768,6 +877,99 @@ function gates(registry, byName, adapters, notes, dtcgPaths) {
     }
   }
 
+  // ct-1. One knob, one value family: a component token driving a colour in
+  // one place and a length in another cannot be themed coherently.
+  for (const token of registry.componentTokens) {
+    if (token.category === "MIXED") {
+      problems.push(
+        `${token.name} drives incompatible value families (${token.categories.join(", ")})`,
+      );
+    }
+  }
+
+  // ct-2. The adapters must agree on a knob's defaults: for each component and
+  // property, the set of fallbacks must be the same in every adapter that has
+  // the site. A reviewed exception is named in the notes.
+  for (const token of registry.componentTokens) {
+    if (componentNotes[token.name]?.acceptedDivergence) continue;
+    const perKey = new Map();
+    for (const site of token.sites) {
+      const component =
+        /src\/lib\/([\w-]+)\//.exec(site.file)?.[1] ??
+        /src\/styles\/([\w-]+)\.css/.exec(site.file)?.[1] ??
+        "unknown";
+      const key = `${component}|${site.property}`;
+      const entry = perKey.get(key) ?? new Map();
+      const set = entry.get(site.adapter) ?? new Set();
+      set.add(site.fallback ?? "(none)");
+      entry.set(site.adapter, set);
+      perKey.set(key, entry);
+    }
+    for (const [key, perAdapter] of perKey) {
+      const shapes = new Set([...perAdapter.values()].map((set) => [...set].sort().join(" || ")));
+      if (shapes.size > 1) {
+        problems.push(`${token.name} has diverging fallbacks between adapters at ${key}`);
+      }
+    }
+  }
+
+  // ct-3. A public colour knob must reach a semantic role through its
+  // fallback, unless the literal is a reviewed design decision.
+  for (const token of registry.componentTokens) {
+    if (token.category !== "color" || token.stability === "internal") continue;
+    if (token.parents.length > 0) continue;
+    if (componentNotes[token.name]?.acceptedLiteral) continue;
+    problems.push(
+      `${token.name} is a colour knob whose fallback reaches no semantic role (add the role, or record acceptedLiteral)`,
+    );
+  }
+
+  // ct-4. A knob's prefix must name a component that exists (or a reviewed
+  // shared family), so a typo cannot mint a phantom surface.
+  {
+    const dirs = readdirSync(resolve(root, "packages/svelte/src/lib"), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+    const families = new Set([
+      ...dirs,
+      ...dirs.map((dir) => dir.replace(/-view$|-group$|-region$/, "")),
+      "field",
+      "step",
+      "segment",
+      "toggle",
+      "menu",
+      "login",
+      "table",
+      "dialog",
+      "snack",
+      "navmenu",
+      "alert",
+      "rating",
+      "close",
+      "control",
+      "notice",
+    ]);
+    for (const token of registry.componentTokens) {
+      const parts = token.id.split("-");
+      let matched = false;
+      for (let i = parts.length; i > 0 && !matched; i--) {
+        if (families.has(parts.slice(0, i).join("-"))) matched = true;
+      }
+      if (!matched) problems.push(`${token.name} matches no component or reviewed family prefix`);
+    }
+  }
+
+  // ct-5. Hand-written component notes must not outlive their token.
+  {
+    const knownComponent = new Set(registry.componentTokens.map((token) => token.name));
+    for (const name of Object.keys(componentNotes)) {
+      if (name.startsWith("$")) continue;
+      if (!knownComponent.has(name)) {
+        problems.push(`component-token-notes.json describes ${name}, which nothing uses`);
+      }
+    }
+  }
+
   // 10. Every token the catalog lists must have a specimen shape to show it in.
   const catalog = resolve(root, CATALOG_COMPONENT);
   if (existsSync(catalog) && !readFileSync(catalog, "utf8").includes("specimenCss")) {
@@ -817,6 +1019,70 @@ function build() {
   }
 
   const notes = existsSync(NOTES) ? JSON.parse(readFileSync(NOTES, "utf8")) : {};
+  const componentNotes = existsSync(COMPONENT_NOTES)
+    ? JSON.parse(readFileSync(COMPONENT_NOTES, "utf8"))
+    : {};
+
+  // The component-token surface: every var(--ds-*) reference whose name the
+  // theme layer does not define. Svelte styles live inside .svelte files; the
+  // other adapters ship plain stylesheets.
+  const usages = [];
+  const collect = (adapter, file, css) => {
+    for (const usage of parseUsages(css, file)) usages.push({ ...usage, adapter });
+  };
+  const walkDir = (dir, visit) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) walkDir(path, visit);
+      else visit(path);
+    }
+  };
+  // References can also live outside stylesheets: a style attribute in the
+  // markup, or a style object in an adapter's render code. Those are real,
+  // overridable reading sites; they carry no selector, so they are recorded
+  // as inline sites.
+  const collectInline = (adapter, file, text) => {
+    const re = /var\(\s*(--ds-[\w-]+)\s*(,)?/g;
+    let match;
+    while ((match = re.exec(text))) {
+      let depth = 1;
+      let i = match.index + match[0].length;
+      const fallbackStart = match[2] ? i : -1;
+      while (i < text.length && depth > 0) {
+        if (text[i] === "(") depth += 1;
+        else if (text[i] === ")") depth -= 1;
+        i += 1;
+      }
+      const fallback = fallbackStart === -1 ? null : text.slice(fallbackStart, i - 1).trim();
+      usages.push({
+        name: match[1],
+        property: "(inline)",
+        selector: "(inline)",
+        fallback: fallback ? squeeze(fallback) : null,
+        file,
+        adapter,
+      });
+    }
+  };
+  walkDir(resolve(root, "packages/svelte/src/lib"), (path) => {
+    if (!path.endsWith(".svelte")) return;
+    const source = readFileSync(path, "utf8");
+    let markup = source;
+    for (const [block, style] of source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+      collect("svelte", rel(path), style);
+      markup = markup.replace(block, "");
+    }
+    collectInline("svelte", rel(path), markup);
+  });
+  for (const adapter of ["vue", "react", "elements"]) {
+    walkDir(resolve(root, `packages/${adapter}/src`), (path) => {
+      if (path.endsWith(".css") && !path.endsWith("tokens.css")) {
+        collect(adapter, rel(path), readFileSync(path, "utf8"));
+      } else if (path.endsWith(".ts") && !path.endsWith(".test.ts")) {
+        collectInline(adapter, rel(path), readFileSync(path, "utf8"));
+      }
+    });
+  }
 
   // One lookup per theme: dark falls back through the attribute block, the
   // media block, then the light value, which is what the cascade does.
@@ -870,6 +1136,110 @@ function build() {
     };
   });
 
+  // Aggregate the raw usages into one entry per undefined --ds-* name.
+  const componentTokens = [];
+  {
+    const definedNames = new Set(byName.keys());
+    const byToken = new Map();
+    for (const usage of usages) {
+      if (definedNames.has(usage.name)) continue;
+      const entry = byToken.get(usage.name) ?? {
+        name: usage.name,
+        id: usage.name.replace(/^--ds-/, ""),
+        properties: new Set(),
+        adapters: new Set(),
+        fallbacks: new Map(),
+        sites: [],
+      };
+      entry.properties.add(usage.property);
+      entry.adapters.add(usage.adapter);
+      if (usage.fallback != null) {
+        const perAdapter = entry.fallbacks.get(usage.adapter) ?? new Set();
+        perAdapter.add(usage.fallback);
+        entry.fallbacks.set(usage.adapter, perAdapter);
+      }
+      entry.sites.push({
+        adapter: usage.adapter,
+        file: usage.file,
+        selector: usage.selector,
+        property: usage.property,
+        fallback: usage.fallback,
+      });
+      byToken.set(usage.name, entry);
+    }
+    for (const entry of [...byToken.values()].sort((a, b) => (a.name < b.name ? -1 : 1))) {
+      const note = componentNotes[entry.name] ?? {};
+      const fallbackValues = [...new Set([...entry.fallbacks.values()].flatMap((set) => [...set]))];
+      // The parent semantic role, when every fallback resolves through one.
+      const parents = new Set();
+      for (const value of fallbackValues) {
+        for (const [, ref] of (value ?? "").matchAll(/var\(\s*(--ds-[\w-]+)/g)) {
+          if (definedNames.has(ref)) parents.add(ref);
+        }
+      }
+      const categories = [
+        ...new Set(
+          [...entry.properties]
+            .filter((property) => !SHORTHAND.test(property))
+            .map((property) => categoryOf(property))
+            .filter((category) => category !== "other"),
+        ),
+      ].sort();
+      // A knob used only inside shorthands still has a family: read it off the
+      // shape of its fallback value.
+      if (categories.length === 0) {
+        const shapes = new Set(
+          fallbackValues.map((value) => {
+            const v = (value ?? "").trim();
+            if (
+              /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
+                v,
+              )
+            )
+              return "color";
+            if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
+            if (/^[\d.]+m?s\b/.test(v)) return "motion";
+            if (/^var\(--ds-radius/.test(v)) return "radius";
+            if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
+            return "other";
+          }),
+        );
+        shapes.delete("other");
+        if (shapes.size === 1) categories.push([...shapes][0]);
+      }
+      const fileComponents = [
+        ...new Set(
+          entry.sites.map((site) => {
+            const m =
+              /src\/lib\/([\w-]+)\//.exec(site.file) ??
+              /src\/styles\/([\w-]+)\.css/.exec(site.file);
+            return m ? m[1] : "unknown";
+          }),
+        ),
+      ].sort();
+      componentTokens.push({
+        name: entry.name,
+        id: entry.id,
+        component: note.component ?? fileComponents[0],
+        usedBy: fileComponents,
+        category:
+          note.category ??
+          (categories.length === 1 ? categories[0] : categories.length === 0 ? "other" : "MIXED"),
+        categories,
+        properties: [...entry.properties].sort(),
+        adapters: [...entry.adapters].sort(),
+        fallbacks: fallbackValues.sort(),
+        parents: [...parents].sort(),
+        sites: entry.sites.sort((a, b) =>
+          `${a.file}${a.selector}` < `${b.file}${b.selector}` ? -1 : 1,
+        ),
+        purpose: note.purpose ?? null,
+        stability: note.stability ?? "alpha",
+        replacedBy: note.replacedBy ?? null,
+      });
+    }
+  }
+
   const pairings = PAIRINGS.map((pair) => {
     const measure = (theme) => {
       const front = resolveColor(lookup(theme)(pair.front), lookup(theme));
@@ -894,6 +1264,7 @@ function build() {
   return {
     // No timestamp: the registry must be reproducible so --check is meaningful.
     tokens,
+    componentTokens,
     pairings,
     counts: {
       total: tokens.length,
@@ -907,15 +1278,15 @@ function build() {
       colors: tokens.filter((t) => t.valueType === "color").length,
     },
     adapters: Object.fromEntries(Object.entries(adapters).map(([name, set]) => [name, set.size])),
-    __sources: { byName, adapters, notes, dtcgPaths: [...dtcgNames] },
+    __sources: { byName, adapters, notes, dtcgPaths: [...dtcgNames], componentNotes },
   };
 }
 
 const registry = build();
-const { byName, adapters, notes, dtcgPaths } = registry.__sources;
+const { byName, adapters, notes, dtcgPaths, componentNotes } = registry.__sources;
 delete registry.__sources;
 
-const problems = gates(registry, byName, adapters, notes, dtcgPaths);
+const problems = gates(registry, byName, adapters, notes, dtcgPaths, componentNotes);
 if (problems.length > 0) {
   console.error(`Token drift (${problems.length}):`);
   for (const problem of problems) console.error(`  - ${problem}`);

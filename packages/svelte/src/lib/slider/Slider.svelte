@@ -59,7 +59,7 @@
       class="slider"
       class:slider--disabled={disabled}
       data-orientation={orientation}
-      style="--ds-slider-pct: {$percentage}%"
+      style="--_slider-pct: {$percentage}%"
     >
       <input
         class="slider__input"
@@ -192,16 +192,16 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--ds-slider-pct, 0%),
-      var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--ds-slider-pct, 0%)
+      var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--_slider-pct, 0%),
+      var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--_slider-pct, 0%)
     );
   }
   .slider[data-orientation="vertical"] .slider__input::-webkit-slider-runnable-track {
     inline-size: var(--ds-slider-thickness, 0.375rem);
     background: linear-gradient(
       to top,
-      var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--ds-slider-pct, 0%),
-      var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--ds-slider-pct, 0%)
+      var(--ds-slider-range, var(--ds-color-secondary, #7a52cc)) var(--_slider-pct, 0%),
+      var(--ds-slider-track, var(--ds-color-border, #c7c1b7)) var(--_slider-pct, 0%)
     );
   }
   .slider__input::-webkit-slider-thumb {

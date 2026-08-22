@@ -17,9 +17,7 @@
   /* Indent by depth; level is 1-based. */
   padding-block: var(--ds-tree-item-padding-block, 0.3rem);
   padding-inline-end: 0.5rem;
-  padding-inline-start: calc(
-    0.4rem + (var(--ds-tree-level, 1) - 1) * var(--ds-tree-indent, 1.1rem)
-  );
+  padding-inline-start: calc(0.4rem + (var(--_tree-level, 1) - 1) * var(--ds-tree-indent, 1.1rem));
   border-radius: var(--ds-tree-item-radius, var(--ds-radius-control, 0.5rem));
   cursor: pointer;
   user-select: none;

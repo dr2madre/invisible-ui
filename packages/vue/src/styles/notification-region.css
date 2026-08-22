@@ -1,7 +1,7 @@
 /* NotificationRegion, ported from the Svelte adapter, class names kept
    identical. The Svelte fly/FLIP transitions map to Vue `TransitionGroup`
    classes (`notice-*`) below; the component sets the durations through
-   `--ds-notice-motion` / `--ds-notice-motion-out` (0ms under reduced motion). */
+   `--_notice-motion` / `--_notice-motion-out` (0ms under reduced motion). */
 
 .notification-region {
   position: fixed;
@@ -62,18 +62,18 @@
    so a dismissal never snaps. The move class is the FLIP reflow. */
 .notification-region .notice-enter-active {
   transition:
-    transform var(--ds-notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1),
-    opacity var(--ds-notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1);
+    transform var(--_notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1),
+    opacity var(--_notice-motion, 200ms) cubic-bezier(0.33, 1, 0.68, 1);
 }
 .notification-region .notice-leave-active {
   transition:
-    transform var(--ds-notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0),
-    opacity var(--ds-notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0);
+    transform var(--_notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0),
+    opacity var(--_notice-motion-out, 350ms) cubic-bezier(0.32, 0, 0.67, 0);
   /* Take the leaving slot out of the flow so the FLIP reflow starts at once. */
   position: absolute;
 }
 .notification-region .notice-move {
-  transition: transform var(--ds-notice-motion-out, 350ms) cubic-bezier(0.33, 1, 0.68, 1);
+  transition: transform var(--_notice-motion-out, 350ms) cubic-bezier(0.33, 1, 0.68, 1);
 }
 .notification-region .notice-enter-from,
 .notification-region .notice-leave-to {

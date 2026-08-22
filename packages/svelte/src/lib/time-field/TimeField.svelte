@@ -194,7 +194,7 @@
      clear which part is being edited — `:focus-visible` alone misses touch. */
   .time-field__segment:focus {
     background: var(--ds-time-field-focus-bg, var(--ds-color-secondary, #7a52cc));
-    color: var(--ds-time-field-focus-text, #fff);
+    color: var(--ds-time-field-focus-text, var(--ds-color-on-secondary, #ffffff));
   }
   .time-field__segment--placeholder {
     color: var(--ds-color-text-secondary, #524c44);

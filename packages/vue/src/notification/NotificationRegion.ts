@@ -47,7 +47,7 @@ export interface NotificationRegionProps {
  *
  * Notifications enter and leave with a fly/fade transition and the stack
  * reflows via the `TransitionGroup` move class (the enter/leave/move CSS lives
- * in the region's stylesheet, driven by `--ds-notice-motion*`). Motion is
+ * in the region's stylesheet, driven by the private `--_notice-motion*` variables). Motion is
  * disabled when the user prefers reduced motion.
  *
  * The region spans the full window height and stacks every notification
@@ -164,8 +164,10 @@ export const NotificationRegion = defineComponent({
             "aria-label": props.label ?? t("notificationRegion.label"),
             style: {
               padding: props.inset,
-              "--ds-notice-motion": `${motion.value}ms`,
-              "--ds-notice-motion-out": `${motionOut.value}ms`,
+              // Private variables: always set inline from the props, so an
+              // external custom-property override could never win.
+              "--_notice-motion": `${motion.value}ms`,
+              "--_notice-motion-out": `${motionOut.value}ms`,
             },
             onPointerover: () => {
               pointerInside.value = true;

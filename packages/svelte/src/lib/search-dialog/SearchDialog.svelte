@@ -197,7 +197,7 @@
 
 <style>
   .search-dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
   }
   .search-dialog__panel {
     margin-block-start: var(--ds-search-dialog-inset-top, 12vh);

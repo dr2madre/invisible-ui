@@ -6,13 +6,13 @@ describe("AspectRatio", () => {
   it("applies the default 1:1 ratio via a custom property", () => {
     const { container } = render(Fixture);
     const box = container.querySelector("[data-aspect-ratio]")!;
-    expect(box.getAttribute("style")).toContain("--ds-aspect-ratio: 1");
+    expect(box.getAttribute("style")).toContain("--_aspect-ratio: 1");
   });
 
   it("applies a custom ratio", () => {
     const { container } = render(Fixture, { props: { ratio: 16 / 9 } });
     const box = container.querySelector("[data-aspect-ratio]")!;
-    expect(box.getAttribute("style")).toContain("--ds-aspect-ratio: 1.777");
+    expect(box.getAttribute("style")).toContain("--_aspect-ratio: 1.777");
   });
 
   it("renders slotted media", () => {

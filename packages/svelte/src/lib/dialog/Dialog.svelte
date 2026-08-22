@@ -153,7 +153,7 @@
 
 <style>
   .dialog__panel::backdrop {
-    background: var(--ds-dialog-overlay, rgb(15 23 42 / 0.5));
+    background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
   }
   .dialog__panel {
     /* The UA centers a :modal dialog via margin auto; CSS resets zero it. */

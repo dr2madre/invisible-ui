@@ -98,7 +98,7 @@ export const Slider = defineComponent({
             {
               class: ["slider", { "slider--disabled": props.disabled }],
               "data-orientation": props.orientation,
-              style: { "--ds-slider-pct": `${percentage}%` },
+              style: { "--_slider-pct": `${percentage}%` },
             },
             [
               h("input", {
