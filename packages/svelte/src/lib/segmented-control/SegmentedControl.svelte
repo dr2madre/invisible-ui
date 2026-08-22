@@ -226,4 +226,13 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: -2px;
   }
+  /* Forced colors: the focus sits on the hidden input, so the outline the
+     theme forces there lands on something nobody can see. Draw it on the
+     visible part instead. */
+  @media (forced-colors: active) {
+    .segment:has(.segment__input:focus-visible) {
+      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline-offset: 2px;
+    }
+  }
 </style>

@@ -148,4 +148,13 @@
   .checkbox__input:checked + .checkbox :global(.checkbox__check) {
     display: block;
   }
+  /* Forced colors: the focus sits on the hidden input, so the outline the
+     theme forces there lands on something nobody can see. Draw it on the
+     visible part instead. */
+  @media (forced-colors: active) {
+    .checkbox__input:focus-visible + .checkbox {
+      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline-offset: 2px;
+    }
+  }
 </style>

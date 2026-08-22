@@ -73,3 +73,12 @@
   border-style: solid;
   box-shadow: var(--ds-focus-ring-shadow, 0 0 0 2px var(--ds-color-focus-ring, #8e6cd4));
 }
+
+/* Forced colors: the focus sits on the hidden file input, and shadows
+   are dropped, so the visible area carries the ring itself. */
+@media (forced-colors: active) {
+  .upload-drop-area:focus-within {
+    outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+    outline-offset: 2px;
+  }
+}

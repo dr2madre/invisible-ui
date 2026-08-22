@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { readdirSync, statSync } from "node:fs";
+import { join, relative } from "node:path";
 
 // Windows High Contrast (forced colors) replaces the author's colours with the
 // user's palette and drops most backgrounds. A control whose only boundary is
@@ -61,4 +63,73 @@ test.describe("forced colors", () => {
     await context.close();
     expect(invisible).toEqual([]);
   });
+
+  // Every focusable control on every built component page must show a focus
+  // indicator the platform preserves. A box-shadow does not survive forced
+  // colors, so a control whose ring is only a shadow fails here.
+  test("every reachable control shows a focus indicator", async ({ browser }) => {
+    test.setTimeout(600_000);
+    const context = await browser.newContext({ forcedColors: "active" });
+    const page = await context.newPage();
+    const unfocusable: string[] = [];
+
+    for (const url of componentPages()) {
+      await page.goto(`components/${url}`);
+      await page.waitForLoadState("load");
+      const found = await page.evaluate(() => {
+        const out: string[] = [];
+        const selector =
+          "button, input, select, textarea, a[href], [tabindex]:not([tabindex='-1'])";
+        for (const element of document.querySelectorAll<HTMLElement>(selector)) {
+          const className = (element.className || "").toString();
+          // The documentation theme's own chrome is not the library under test.
+          if (/\bsl-|pagefind|astro-/.test(className)) continue;
+          if (element.closest("header, nav.sidebar, .right-sidebar, .copy, .expressive-code"))
+            continue;
+          if ((element as HTMLInputElement).disabled) continue;
+          const box = element.getBoundingClientRect();
+          const hidden = box.width < 2 || box.height < 2;
+          element.focus();
+          if (!element.matches(":focus-visible")) continue;
+          // A hidden input paints nothing itself: its ring belongs to the
+          // visible partner beside it or around it.
+          const ringOn = (node: Element | null | undefined) => {
+            if (!node) return false;
+            const style = getComputedStyle(node);
+            return style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0;
+          };
+          // A hidden input's own outline paints nothing: only a partner counts.
+          const candidates: (Element | null)[] = hidden ? [] : [element];
+          if (hidden) {
+            candidates.push(element.nextElementSibling);
+            let ancestor: Element | null = element.parentElement;
+            for (let up = 0; up < 3 && ancestor; up += 1) {
+              candidates.push(ancestor);
+              ancestor = ancestor.parentElement;
+            }
+          }
+          const ringed = candidates.some(ringOn);
+          if (!ringed) {
+            out.push(`${element.tagName.toLowerCase()}.${className.split(" ")[0] || "(none)"}`);
+          }
+        }
+        return [...new Set(out)];
+      });
+      for (const entry of found) unfocusable.push(`${url} :: ${entry}`);
+    }
+
+    await context.close();
+    expect(unfocusable, unfocusable.join("\n")).toEqual([]);
+  });
 });
+
+const PAGES_ROOT = "packages/docs/dist/components";
+
+const componentPages = (): string[] => {
+  const walk = (dir: string): string[] =>
+    readdirSync(dir).flatMap((entry) => {
+      const path = join(dir, entry);
+      return statSync(path).isDirectory() ? walk(path) : entry === "index.html" ? [path] : [];
+    });
+  return walk(PAGES_ROOT).map((path) => relative(PAGES_ROOT, path).replace(/index\.html$/, ""));
+};

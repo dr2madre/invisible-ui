@@ -609,3 +609,21 @@
     --ds-color-focus-halo: transparent;
   }
 }
+
+/* ============================================================================
+ * Focus in forced colors (Windows High Contrast)
+ * ==========================================================================
+ * The theme draws its focus ring with a box-shadow, and forced colors drops
+ * every shadow: the ring would simply vanish. Outlines survive, so anything
+ * focused gets one in the platform's own highlight colour. `!important` is
+ * how this beats the components' own `outline: none`, and it applies only
+ * here, where the platform already owns every colour on the page. The
+ * outline is drawn inside the control so a scrolling container can never
+ * clip it away.
+ */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: var(--ds-focus-ring-width, 2px) solid Highlight !important;
+    outline-offset: -2px !important;
+  }
+}
