@@ -93,13 +93,15 @@ export const CodeBlock = defineComponent({
               ])
             : null,
           // Wide code scrolls sideways, so the scroller must be reachable and
-          // named for keyboard and screen-reader users.
+          // named for keyboard and screen-reader users. A named group, not a
+          // landmark: several code blocks on one page would all claim the
+          // same place in the landmark list.
           h(
             "pre",
             {
               class: "code-block__pre",
               tabindex: "0",
-              role: "region",
+              role: "group",
               "aria-label": props.language ? `Code sample, ${props.language}` : "Code sample",
             },
             [h("code", { class: "code-block__code" }, slots.default?.() ?? props.code)],

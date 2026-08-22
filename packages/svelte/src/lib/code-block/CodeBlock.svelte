@@ -67,12 +67,14 @@
     </figcaption>
   {/if}
   <!-- Wide code scrolls sideways, so the scroller must be reachable and
-       named for keyboard and screen-reader users. -->
+       named for keyboard and screen-reader users. A named group, not a
+       landmark: several code blocks on one page would all claim the same
+       place in the landmark list. -->
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <pre
     class="code-block__pre"
     tabindex="0"
-    role="region"
+    role="group"
     aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
       class="code-block__code"><slot>{code}</slot></code
     ></pre>

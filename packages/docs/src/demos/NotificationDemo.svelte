@@ -54,5 +54,7 @@
   </figure>
 </div>
 
-<NotificationRegion notifier={snacks} placement="bottom-center" inset="3rem" />
-<NotificationRegion notifier={toasts} placement="top-end" />
+<!-- Two regions on one page need two names, or they are the same entry twice
+     in the landmark list. -->
+<NotificationRegion notifier={snacks} placement="bottom-center" inset="3rem" label="Snackbars" />
+<NotificationRegion notifier={toasts} placement="top-end" label="Toasts" />

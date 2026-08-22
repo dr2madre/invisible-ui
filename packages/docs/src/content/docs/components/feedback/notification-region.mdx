@@ -41,7 +41,9 @@ they are exactly where the user may not be looking.
 ### Accessibility
 
 - An accessible landmark: `role="region"` with a label; each Notification
-  inside is its own live region.
+  inside is its own live region. Mounting more than one region on a page
+  means giving each its own `label`: two landmarks with the same name are
+  the same entry twice in the landmark list.
 - Notifications enter/leave with a fly/fade transition and the stack reflows
   via FLIP, disabled under reduced motion.
 

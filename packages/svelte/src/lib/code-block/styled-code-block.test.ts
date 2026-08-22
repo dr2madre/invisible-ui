@@ -3,6 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./code-block.fixture.svelte";
 
+// Only the duplicate-landmark rule: the others judge a whole page, not a
+// fragment rendered on its own.
+const landmarkRules = { runOnly: { type: "rule", values: ["landmark-unique"] } };
+
 describe("Svelte CodeBlock (styled)", () => {
   beforeEach(() => {
     Object.assign(navigator, { clipboard: { writeText: vi.fn().mockResolvedValue(undefined) } });
@@ -33,16 +37,24 @@ describe("Svelte CodeBlock (styled)", () => {
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 
-  it("exposes the scroller as a focusable, named region", () => {
+  it("exposes the scroller as a focusable, named group", () => {
     render(Fixture, { props: { language: "bash" } });
-    const region = screen.getByRole("region", { name: "Code sample, bash" });
-    expect(region).toBe(document.querySelector("pre.code-block__pre"));
-    expect(region).toHaveAttribute("tabindex", "0");
+    const scroller = screen.getByRole("group", { name: "Code sample, bash" });
+    expect(scroller).toBe(document.querySelector("pre.code-block__pre"));
+    expect(scroller).toHaveAttribute("tabindex", "0");
   });
 
   it("names the scroller without a language too", () => {
     render(Fixture, { props: { language: undefined, copyable: false } });
-    expect(screen.getByRole("region", { name: "Code sample" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Code sample" })).toBeInTheDocument();
+  });
+
+  it("keeps two identical blocks off the landmark list", async () => {
+    const { container } = render(Fixture, { props: { language: "bash" } });
+    render(Fixture, { props: { language: "bash" } });
+    expect(document.querySelectorAll("pre.code-block__pre")).toHaveLength(2);
+    expect(document.querySelectorAll("[role=region]")).toHaveLength(0);
+    expect(await axe(container.ownerDocument.body, landmarkRules)).toHaveNoViolations();
   });
 
   it("has no accessibility violations", async () => {
