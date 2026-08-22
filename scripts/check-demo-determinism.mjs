@@ -86,4 +86,6 @@ if (failures.length > 0) {
   for (const failure of [...new Set(failures)].sort()) console.error("  " + failure);
   process.exit(1);
 }
-console.log(`Demo determinism: ${files.length} docs source files, nothing loaded from the network.`);
+console.log(
+  `Demo determinism: ${files.length} docs source files, nothing loaded from the network.`,
+);
