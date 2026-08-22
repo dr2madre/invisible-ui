@@ -73,8 +73,8 @@
     class="code-block__pre"
     tabindex="0"
     role="region"
-    aria-label={language ? `Code: ${language}` : "Code"}><code class="code-block__code"
-      ><slot>{code}</slot></code
+    aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
+      class="code-block__code"><slot>{code}</slot></code
     ></pre>
   <span class="code-block__live" role="status" aria-live="polite">
     {copied ? "Copied to clipboard" : ""}

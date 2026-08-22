@@ -100,7 +100,7 @@ export const CodeBlock = defineComponent({
               class: "code-block__pre",
               tabindex: "0",
               role: "region",
-              "aria-label": props.language ? `Code: ${props.language}` : "Code",
+              "aria-label": props.language ? `Code sample, ${props.language}` : "Code sample",
             },
             [h("code", { class: "code-block__code" }, slots.default?.() ?? props.code)],
           ),

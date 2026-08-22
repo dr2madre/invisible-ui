@@ -35,14 +35,14 @@ describe("Svelte CodeBlock (styled)", () => {
 
   it("exposes the scroller as a focusable, named region", () => {
     render(Fixture, { props: { language: "bash" } });
-    const region = screen.getByRole("region", { name: "Code: bash" });
+    const region = screen.getByRole("region", { name: "Code sample, bash" });
     expect(region).toBe(document.querySelector("pre.code-block__pre"));
     expect(region).toHaveAttribute("tabindex", "0");
   });
 
   it("names the scroller without a language too", () => {
     render(Fixture, { props: { language: undefined, copyable: false } });
-    expect(screen.getByRole("region", { name: "Code" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Code sample" })).toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {
