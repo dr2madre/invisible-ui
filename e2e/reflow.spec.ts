@@ -20,6 +20,9 @@ const componentPages = (): string[] => {
 };
 
 test("every component page reflows at 320 CSS pixels without page scroll", async ({ page }) => {
+  // Walking every page with a hydration pause outgrows the default budget,
+  // most of all on the slower engines.
+  test.setTimeout(240_000);
   await page.setViewportSize({ width: 320, height: 900 });
   const overflowing: string[] = [];
 
