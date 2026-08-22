@@ -95,26 +95,26 @@ function parseSheet(css) {
       open.push({ head, isAtRule: head.startsWith("@") });
       continue;
     }
-    if (char === "}") {
-      open.pop();
-      buffer = "";
-      group = null;
-      continue;
-    }
-    if (char === ";") {
+    // A declaration ends at a semicolon, or at the brace that closes its
+    // block when the last one has no semicolon.
+    if (char === "}" || char === ";") {
+      const closing = char === "}";
       const declaration = buffer.trim();
       const startLine = bufferStart;
       buffer = "";
       const match = /^(--ds-[\w-]+)\s*:\s*([\s\S]+)$/.exec(declaration);
       lastEnd = line;
+      const selectorsNow = open.filter((block) => !block.isAtRule).map((block) => block.head);
+      const atRulesNow = open.filter((block) => block.isAtRule).map((block) => block.head);
+      if (closing) open.pop();
       if (!match) {
         group = null;
         continue;
       }
       const inRun = group !== null && startLine === group.nextLine;
       if (group) group = inRun ? { text: group.text, nextLine: line + 1 } : null;
-      const selectors = open.filter((block) => !block.isAtRule).map((block) => block.head);
-      const atRules = open.filter((block) => block.isAtRule).map((block) => block.head);
+      const selectors = selectorsNow;
+      const atRules = atRulesNow;
       found.push({
         name: match[1],
         value: match[2].replace(/\s+/g, " ").trim(),
@@ -123,6 +123,8 @@ function parseSheet(css) {
         line: startLine,
         group: inRun ? group.text : null,
       });
+      // A comment describes a run inside one block; the block just ended.
+      if (closing) group = null;
       continue;
     }
     // Remember the line the declaration itself starts on, not the line the
@@ -189,6 +191,9 @@ function parseUsages(css, file) {
       continue;
     }
     if (char === "}") {
+      // The last declaration in a block may end at the brace, with no
+      // semicolon: read it before the block closes.
+      if (buffer.trim()) record(buffer, open.filter((head) => !head.startsWith("@")).at(-1) ?? "");
       open.pop();
       buffer = "";
       continue;
@@ -466,6 +471,23 @@ const categoryOf = (property) => {
   for (const [pattern, category] of PROPERTY_CATEGORY) {
     if (pattern.test(property)) return category;
   }
+  return "other";
+};
+
+// The value family a fallback belongs to, read off its shape. Used where the
+// property alone cannot say it (a knob seen only inside shorthands).
+const shapeOfValue = (value) => {
+  const v = (value ?? "").trim();
+  if (
+    /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
+      v,
+    )
+  )
+    return "color";
+  if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
+  if (/^[\d.]+m?s\b/.test(v)) return "motion";
+  if (/^var\(--ds-radius/.test(v)) return "radius";
+  if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
   return "other";
 };
 
@@ -1188,24 +1210,24 @@ function build() {
       // A knob used only inside shorthands still has a family: read it off the
       // shape of its fallback value.
       if (categories.length === 0) {
-        const shapes = new Set(
-          fallbackValues.map((value) => {
-            const v = (value ?? "").trim();
-            if (
-              /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
-                v,
-              )
-            )
-              return "color";
-            if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
-            if (/^[\d.]+m?s\b/.test(v)) return "motion";
-            if (/^var\(--ds-radius/.test(v)) return "radius";
-            if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
-            return "other";
-          }),
-        );
+        const shapes = new Set(fallbackValues.map((value) => shapeOfValue(value)));
         shapes.delete("other");
         if (shapes.size === 1) categories.push([...shapes][0]);
+        // Two different shapes behind the same knob is the same defect ct-1
+        // catches for longhands: record both so the gate can see it.
+        else if (shapes.size > 1) categories.push(...[...shapes].sort());
+      }
+      // A knob read through both a longhand and a shorthand must agree with
+      // itself: a colour longhand and a length shorthand is still one knob
+      // pulling two ways.
+      if (categories.length === 1 && [...entry.properties].some((p) => SHORTHAND.test(p))) {
+        const shorthandShapes = new Set(
+          fallbackValues.map((value) => shapeOfValue(value)).filter((shape) => shape !== "other"),
+        );
+        for (const shape of shorthandShapes) {
+          if (!categories.includes(shape)) categories.push(shape);
+        }
+        categories.sort();
       }
       const fileComponents = [
         ...new Set(
