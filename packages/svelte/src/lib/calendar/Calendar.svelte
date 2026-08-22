@@ -580,7 +580,7 @@
   }
   .calendar__day:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
-    color: var(--ds-calendar-selected-text, #fff);
+    color: var(--ds-calendar-selected-text, var(--ds-color-on-primary, #ffffff));
   }
   .calendar__day:global([data-selected]) .calendar__daynum {
     color: inherit;
@@ -593,14 +593,17 @@
   .calendar__day[data-range-start],
   .calendar__day[data-range-end] {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
-    color: var(--ds-calendar-selected-text, #fff);
+    color: var(--ds-calendar-selected-text, var(--ds-color-on-primary, #ffffff));
   }
   .calendar__day[data-range-start] .calendar__daynum,
   .calendar__day[data-range-end] .calendar__daynum {
     color: inherit;
   }
   .calendar__day[data-in-range] {
-    background: var(--ds-calendar-range-band, rgba(37, 99, 235, 0.12));
+    background: var(
+      --ds-calendar-range-band,
+      color-mix(in srgb, var(--ds-color-selected, #7a52cc) 12%, transparent)
+    );
     border-radius: 0;
   }
 
@@ -721,7 +724,7 @@
   }
   .calendar__mini-day:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
-    color: var(--ds-calendar-selected-text, #fff);
+    color: var(--ds-calendar-selected-text, var(--ds-color-on-primary, #ffffff));
   }
 
   /* ---- Agenda views (week / three-day / day) ---- */
@@ -762,7 +765,7 @@
   }
   .calendar__agenda-head:global([data-selected]) {
     background: var(--ds-calendar-selected-bg, var(--ds-color-primary, #7a52cc));
-    color: var(--ds-calendar-selected-text, #fff);
+    color: var(--ds-calendar-selected-text, var(--ds-color-on-primary, #ffffff));
   }
   .calendar__agenda-head:global([data-today]) .calendar__agenda-num {
     color: var(--ds-calendar-today, var(--ds-color-primary, #7a52cc));
@@ -807,7 +810,7 @@
     margin-block-start: auto;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--ds-calendar-price, var(--ds-color-success, #3e7523));
+    color: var(--ds-calendar-price, var(--ds-color-success-body-text, #3e7523));
   }
   .calendar__agenda-empty {
     color: var(--ds-color-text-secondary, #524c44);

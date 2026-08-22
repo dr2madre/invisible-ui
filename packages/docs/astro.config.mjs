@@ -194,6 +194,7 @@ export default defineConfig({
             { label: "Color palette", link: "/presentation/color-palette/" },
             { label: "Tokens", link: "/presentation/tokens/" },
             { label: "Token catalog", link: "/presentation/token-catalog/" },
+            { label: "Component tokens", link: "/presentation/component-tokens/" },
             { label: "Layout", link: "/presentation/layout/" },
           ],
         },

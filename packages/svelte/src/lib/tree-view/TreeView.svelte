@@ -55,7 +55,7 @@
     <li
       class="tree__item"
       class:tree__item--selected={isSelected}
-      style="--ds-tree-level: {node.level}"
+      style="--_tree-level: {node.level}"
       use:itemAction={node.value}
     >
       {#if node.hasChildren}
@@ -124,7 +124,7 @@
     padding-block: var(--ds-tree-item-padding-block, 0.3rem);
     padding-inline-end: 0.5rem;
     padding-inline-start: calc(
-      0.4rem + (var(--ds-tree-level, 1) - 1) * var(--ds-tree-indent, 1.1rem)
+      0.4rem + (var(--_tree-level, 1) - 1) * var(--ds-tree-indent, 1.1rem)
     );
     border-radius: var(--ds-tree-item-radius, var(--ds-radius-control, 0.5rem));
     cursor: pointer;
