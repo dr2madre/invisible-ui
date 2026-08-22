@@ -3,7 +3,8 @@ import { readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 // WCAG 1.4.10 (Reflow): at 320 CSS pixels the page presents without
-// horizontal scrolling. This walks every built component page at that width
+// horizontal scrolling. A wide width is checked too, since the docs relax
+// demo widths only below a breakpoint. This walks every built component page at that width
 // and fails on any page-level overflow, so one wide demo or one unbounded
 // component cannot push the whole page sideways again. Wide content may
 // still scroll inside its own container; only the page itself is held flat.
@@ -19,23 +20,31 @@ const componentPages = (): string[] => {
   return walk(PAGES_ROOT).map((path) => relative(PAGES_ROOT, path).replace(/index\.html$/, ""));
 };
 
-test("every component page reflows at 320 CSS pixels without page scroll", async ({ page }) => {
-  // Walking every page with a hydration pause outgrows the default budget,
-  // most of all on the slower engines.
-  test.setTimeout(240_000);
-  await page.setViewportSize({ width: 320, height: 900 });
-  const overflowing: string[] = [];
+// Both a narrow phone and a laptop: the docs relax demo widths below a
+// breakpoint, so a page can be flat at one width and scroll at the other.
+const WIDTHS = [320, 1024];
 
-  for (const url of componentPages()) {
-    await page.goto(`components/${url}`);
-    // The demos hydrate on visibility; give the islands a beat to settle.
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(150);
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    );
-    if (overflow > 1) overflowing.push(`${url} :: ${overflow}px`);
-  }
+for (const width of WIDTHS) {
+  test(`every component page reflows at ${width} CSS pixels without page scroll`, async ({
+    page,
+  }) => {
+    // Walking every page with a hydration pause outgrows the default budget,
+    // most of all on the slower engines.
+    test.setTimeout(240_000);
+    await page.setViewportSize({ width, height: 900 });
+    const overflowing: string[] = [];
 
-  expect(overflowing, overflowing.join("\n")).toEqual([]);
-});
+    for (const url of componentPages()) {
+      await page.goto(`components/${url}`);
+      // The demos hydrate on visibility; give the islands a beat to settle.
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForTimeout(150);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      if (overflow > 1) overflowing.push(`${url} :: ${overflow}px`);
+    }
+
+    expect(overflowing, overflowing.join("\n")).toEqual([]);
+  });
+}

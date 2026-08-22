@@ -34,11 +34,24 @@ const components = [
   ["forms", "label"],
 ] as const;
 
+// A baseline may only depend on what this repository serves. Anything the
+// page fetches from another host is recorded and fails the test, whether the
+// URL was written in the source or assembled at runtime.
+const LOCAL = new Set(["127.0.0.1", "localhost"]);
+
 for (const [group, name] of components) {
   test(`visual: ${name}`, async ({ page }) => {
+    const remote: string[] = [];
+    await page.route("**/*", (route) => {
+      const host = new URL(route.request().url()).hostname;
+      if (LOCAL.has(host)) return route.continue();
+      remote.push(route.request().url());
+      return route.abort();
+    });
     await page.goto(`components/${group}/${name}/`, { waitUntil: "networkidle" });
     const preview = page.locator(".ds-preview").first();
     await expect(preview).toBeVisible();
+    expect(remote, remote.join("\n")).toEqual([]);
     await expect(preview).toHaveScreenshot(`${name}.png`);
   });
 }
