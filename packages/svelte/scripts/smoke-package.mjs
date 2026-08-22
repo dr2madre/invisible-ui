@@ -81,6 +81,52 @@ try {
   );
   run(process.execPath, [join(consumer, "main.mjs")], consumer);
 
+  // Every shipped component must be able to find what it imports: the
+  // packed package once shipped the .svelte files without their sibling
+  // modules, which only a bundling consumer would have discovered.
+  writeFileSync(
+    join(consumer, "resolve-all.mjs"),
+    [
+      'import { createRequire } from "node:module";',
+      'import { readFileSync, readdirSync, statSync } from "node:fs";',
+      'import { dirname, join, resolve } from "node:path";',
+      "const require = createRequire(import.meta.url);",
+      'const root = dirname(require.resolve("@design-system/svelte/package.json"));',
+      "const files = [];",
+      "const walk = (dir) => {",
+      "  for (const entry of readdirSync(dir)) {",
+      "    const path = join(dir, entry);",
+      "    if (statSync(path).isDirectory()) walk(path);",
+      '    else if (entry.endsWith(".svelte")) files.push(path);',
+      "  }",
+      "};",
+      'walk(join(root, "src"));',
+      "const missing = [];",
+      "for (const file of files) {",
+      '  const source = readFileSync(file, "utf8");',
+      '  for (const match of source.matchAll(/from "(\\.[^"]+)"/g)) {',
+      "    const target = resolve(dirname(file), match[1]);",
+      '    const found = ["", ".ts", ".js", ".svelte", "/index.ts"].some((suffix) => {',
+      "      try {",
+      "        statSync(target + suffix);",
+      "        return true;",
+      "      } catch {",
+      "        return false;",
+      "      }",
+      "    });",
+      "    if (!found) missing.push(`${file} -> ${match[1]}`);",
+      "  }",
+      "}",
+      "if (missing.length) {",
+      '  console.error("shipped components with unresolvable imports:");',
+      '  for (const entry of missing) console.error(" ", entry);',
+      "  process.exit(1);",
+      "}",
+      "console.log(`all ${files.length} shipped components resolve their imports`);",
+    ].join("\n"),
+  );
+  run(process.execPath, [join(consumer, "resolve-all.mjs")], consumer);
+
   // Types: TypeScript resolves the declarations through the package exports.
   writeFileSync(
     join(consumer, "main.ts"),
