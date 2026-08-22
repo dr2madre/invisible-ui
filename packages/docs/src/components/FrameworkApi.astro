@@ -26,7 +26,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     props.length > 0 && (
-      <div class="framework-api__scroll">
+      <div class="framework-api__scroll" role="region" aria-label="Props" tabindex="0">
         <table>
           <thead>
             <tr>
@@ -63,7 +63,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     attributes.length > 0 && (
-      <div class="framework-api__scroll">
+      <div class="framework-api__scroll" role="region" aria-label="Attributes" tabindex="0">
         <table>
           <thead>
             <tr>
@@ -106,7 +106,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     emits.length > 0 && (
-      <div class="framework-api__scroll">
+      <div class="framework-api__scroll" role="region" aria-label="Events" tabindex="0">
         <table>
           <thead>
             <tr>
@@ -162,6 +162,14 @@ const empty = props.length === 0 && attributes.length === 0;
 <style>
   .framework-api__scroll {
     overflow-x: auto;
+  }
+  /* Starlight makes every markdown table its own scroller; inside this named,
+     focusable region the wrapper must be the only scrolling element. */
+  .framework-api__scroll :global(table) {
+    display: table;
+    overflow: visible;
+    min-inline-size: 100%;
+    inline-size: max-content;
   }
   .framework-api__required {
     color: var(--sl-color-red, #dc2626);
