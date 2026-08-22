@@ -100,6 +100,9 @@
   }
 
   .rating__star {
+    /* Anchors the hidden input: unanchored, it would sit at its static
+       position outside any clipping and widen the page. */
+    position: relative;
     display: inline-flex;
     /* Darker outline so empty stars stay visible. */
     color: var(--ds-rating-empty-color, var(--ds-neutral-400, #757067));

@@ -100,7 +100,9 @@
        row, and focusing a clipped tab scrolls it into view. */
     max-inline-size: 100%;
     overflow-x: auto;
-    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+    /* The rule is drawn inside the scroll area: a border would sit outside
+       the clip, where the tabs' underline could never reach it. */
+    box-shadow: inset 0 -1px 0 var(--ds-color-border, #c7c1b7);
   }
   .tabs__tab {
     display: inline-flex;
@@ -114,7 +116,6 @@
     /* Idle tabs use full-strength text (not muted grey). */
     color: var(--ds-color-text, #282420);
     border-block-end: 2px solid transparent;
-    margin-block-end: -1px;
     transition:
       color 120ms ease,
       border-color 120ms ease;
@@ -154,10 +155,11 @@
     color: var(--ds-color-text, #282420);
     border-block-end-color: var(--ds-color-selected, #7a52cc);
   }
+  /* The list clips its children, so an outer ring would be cut off:
+     the ring is drawn inside the tab instead. */
   .tabs__tab:global(:focus-visible) {
     outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: 2px;
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .tabs__tab:global([data-disabled]) {
     opacity: 0.5;

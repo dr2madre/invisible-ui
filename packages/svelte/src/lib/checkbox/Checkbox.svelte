@@ -98,6 +98,9 @@
 
 <style>
   .field {
+    /* Anchors the hidden label: unanchored, it would sit at its static
+       position outside any clipping and widen the page. */
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: var(--ds-checkbox-gap, 0.5rem);
