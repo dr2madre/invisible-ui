@@ -1,12 +1,13 @@
 import { tooltip as core } from "@design-system/core";
 import {
   computed,
+  onScopeDispose,
   ref,
   toValue,
-  watch,
   type ComputedRef,
   type MaybeRefOrGetter,
   type Ref,
+  watch,
 } from "vue";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
@@ -78,6 +79,8 @@ export function useTooltip(options: MaybeRefOrGetter<UseTooltipOptions> = {}): U
     clearTimeout(showTimer);
     clearTimeout(hideTimer);
   };
+  // A pending hover must not open something after the component is gone.
+  onScopeDispose(hold);
   const show = (delay = resolved.value.openDelay ?? 300) => {
     hold();
     if (delay <= 0) return setOpen(true);

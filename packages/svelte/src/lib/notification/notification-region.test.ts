@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { get } from "svelte/store";
 import { createNotifier } from "./create-notifier";
 import NotificationRegion from "./NotificationRegion.svelte";
 
@@ -13,6 +14,21 @@ function pointer(type: string, x: number, timeStamp?: number) {
 }
 const stubWidth = (el: HTMLElement, value: number) =>
   Object.defineProperty(el, "offsetWidth", { configurable: true, value });
+
+const stubMotion = (reduce: boolean) => {
+  window.matchMedia = ((q: string) => ({
+    matches: reduce && q.includes("reduce"),
+    media: q,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    onchange: null,
+    dispatchEvent() {
+      return false;
+    },
+  })) as unknown as typeof window.matchMedia;
+};
 
 describe("NotificationRegion", () => {
   it("is a labelled region", () => {
@@ -36,6 +52,35 @@ describe("NotificationRegion", () => {
     expect(screen.getByText("Second")).toBeInTheDocument();
   });
 
+  it("does not remember every notification it has ever shown", async () => {
+    const notifier = createNotifier();
+    render(NotificationRegion, { props: { notifier, duration: 0 } });
+
+    // A region lives as long as the app around it. Paint order is assigned per
+    // notification, so a region that never forgets keeps counting: the slot of
+    // a fresh notification drifts one step lower every time.
+    const slotOfNewest = () => {
+      const slots = document.querySelectorAll<HTMLElement>(".notice-slot");
+      return Number(slots[slots.length - 1]?.style.zIndex ?? "0");
+    };
+
+    const id = notifier.show({ title: "First", text: "one", duration: 0 });
+    await screen.findByText("First");
+    const first = slotOfNewest();
+    notifier.dismiss(id, "user");
+
+    for (let round = 0; round < 40; round += 1) {
+      const next = notifier.show({ title: `Round ${round}`, text: "x", duration: 0 });
+      await screen.findByText(`Round ${round}`);
+      notifier.dismiss(next, "user");
+    }
+
+    const last = notifier.show({ title: "Last", text: "z", duration: 0 });
+    await screen.findByText("Last");
+    expect(first - slotOfNewest(), "the paint order drifted with the count").toBeLessThan(12);
+    notifier.dismiss(last, "user");
+  });
+
   it("keeps the newest visible: past maxVisible the oldest leave", async () => {
     const notifier = createNotifier();
     render(NotificationRegion, { props: { notifier, duration: 0, maxVisible: 2 } });
@@ -53,18 +98,7 @@ describe("NotificationRegion", () => {
   it("swiping a notification far enough dismisses it (reduced motion → immediate)", async () => {
     const notifier = createNotifier();
     // Reduced motion so the dismiss fires synchronously (no exit transition).
-    window.matchMedia = ((q: string) => ({
-      matches: q.includes("reduce"),
-      media: q,
-      addEventListener() {},
-      removeEventListener() {},
-      addListener() {},
-      removeListener() {},
-      onchange: null,
-      dispatchEvent() {
-        return false;
-      },
-    })) as unknown as typeof window.matchMedia;
+    stubMotion(true);
 
     render(NotificationRegion, { props: { notifier, duration: 0 } });
     notifier.show({ title: "Swipe me", duration: 0 });
@@ -78,6 +112,32 @@ describe("NotificationRegion", () => {
     await fireEvent(window, pointer("pointerup", 380, 30));
 
     expect(screen.queryByText("Swipe me")).not.toBeInTheDocument();
+  });
+
+  it("keeps a swipe the user finished when the region goes away mid-animation", async () => {
+    const notifier = createNotifier();
+    // Real motion this time: the dismissal waits for the exit animation, which
+    // is exactly the window in which the region can be taken away. Stated
+    // here because another test in this file prefers reduced motion.
+    stubMotion(false);
+    const { unmount } = render(NotificationRegion, { props: { notifier, duration: 0 } });
+    const id = notifier.show({ title: "Swipe me", duration: 0 });
+    await screen.findByText("Swipe me");
+    const slot = document.querySelector<HTMLElement>(".notice-slot")!;
+    stubWidth(slot, 320);
+
+    await fireEvent(slot, pointer("pointerdown", 200, 0));
+    await fireEvent(window, pointer("pointermove", 260, 10));
+    await fireEvent(window, pointer("pointermove", 380, 20));
+    await fireEvent(window, pointer("pointerup", 380, 30));
+    unmount();
+    await new Promise((resolve) => setTimeout(resolve, 260));
+
+    const left = get(notifier);
+    expect(
+      left.some((notice) => notice.id === id),
+      "the user asked for it to go, so it must be gone from the queue",
+    ).toBe(false);
   });
 
   it("a small swipe does not dismiss (stays under the threshold)", async () => {

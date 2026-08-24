@@ -3,10 +3,23 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./navigation-menu.fixture.svelte";
+import Dynamic from "./navigation-menu-dynamic.fixture.svelte";
 
 const trigger = (name: string) => screen.getByRole("button", { name });
 
 describe("Svelte NavigationMenu (styled)", () => {
+  it("keeps a pending hover when another item goes away", async () => {
+    const { rerender } = render(Dynamic);
+    const products = screen.getByRole("button", { name: "Products" });
+    await fireEvent.pointerEnter(products);
+    // The second item is dropped while the first item's hover is still
+    // waiting: the timers belong to the menu, so this used to cancel it.
+    await rerender({ dropLast: true });
+    // Past the component's 150ms hover delay.
+    await new Promise((resolve) => setTimeout(resolve, 220));
+    expect(products).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("renders a nav landmark with triggers and plain links", () => {
     render(Fixture);
     expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();

@@ -19,6 +19,7 @@
    *
    * Colors are themeable CSS custom properties (`--ds-code-block-*`).
    */
+  import type { Action } from "svelte/action";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -48,9 +49,18 @@
       // fail silently rather than throwing in the user's face.
     }
   }
+
+  // An action (not a lifecycle hook) keeps this client-only and SSR-safe:
+  // the copy confirmation timer is dropped when the block goes away.
+  const dropTimer: Action = () => ({ destroy: () => clearTimeout(timer) });
 </script>
 
-<figure class="code-block" role="group" aria-label={language ? `Code: ${language}` : "Code"}>
+<figure
+  class="code-block"
+  role="group"
+  aria-label={language ? `Code: ${language}` : "Code"}
+  use:dropTimer
+>
   {#if language || copyable}
     <figcaption class="code-block__header">
       {#if language}<span class="code-block__lang">{language}</span>{/if}

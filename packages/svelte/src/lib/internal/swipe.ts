@@ -53,17 +53,39 @@ export const swipeDismiss: Action<HTMLElement, SwipeDismissOptions | undefined> 
     node.style.opacity = opacity < 1 ? String(opacity) : "";
   };
 
+  // The animation that finishes a swipe outlives the gesture, so its handles
+  // are kept. Taking the element away cancels the animation, never the
+  // dismissal: the user already asked for that, and the notifier that hears
+  // about it lives outside this element.
+  let settleFrame: number | undefined;
+  let settleTimer: ReturnType<typeof setTimeout> | undefined;
+  let settleAfter: (() => void) | undefined;
   const settle = (dx: number, opacity: number, after?: () => void) => {
     if (reduce) {
       after?.();
       return;
     }
+    stopSettle();
     node.dataset.swipeOut = "";
-    requestAnimationFrame(() => setDrag(dx, opacity));
-    window.setTimeout(() => {
+    settleAfter = after;
+    settleFrame = requestAnimationFrame(() => setDrag(dx, opacity));
+    settleTimer = setTimeout(() => {
       delete node.dataset.swipeOut;
-      after?.();
+      const done = settleAfter;
+      settleAfter = undefined;
+      settleTimer = undefined;
+      done?.();
     }, DURATION);
+  };
+  /** Stop the animation. A dismissal already asked for is not undone. */
+  const stopSettle = (run = false) => {
+    if (settleFrame !== undefined) cancelAnimationFrame(settleFrame);
+    clearTimeout(settleTimer);
+    settleFrame = undefined;
+    settleTimer = undefined;
+    const pending = settleAfter;
+    settleAfter = undefined;
+    if (run) pending?.();
   };
 
   const onMove = (event: PointerEvent) => {
@@ -143,6 +165,8 @@ export const swipeDismiss: Action<HTMLElement, SwipeDismissOptions | undefined> 
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
+      // The element is going: finish what the user started, drop the rest.
+      stopSettle(true);
     },
   };
 };

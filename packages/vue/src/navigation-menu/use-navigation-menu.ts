@@ -2,12 +2,13 @@ import { navigationMenu as core } from "@design-system/core";
 import {
   computed,
   nextTick,
+  onScopeDispose,
   ref,
   toValue,
-  watch,
   type ComputedRef,
   type MaybeRefOrGetter,
   type Ref,
+  watch,
 } from "vue";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
@@ -125,6 +126,8 @@ export function useNavigationMenu(
     clearTimeout(openTimer);
     clearTimeout(closeTimer);
   };
+  // A pending hover must not open something after the component is gone.
+  onScopeDispose(hold);
   const scheduleClose = () => {
     hold();
     closeTimer = setTimeout(() => setValue(null), resolved.value.closeDelay ?? 150);

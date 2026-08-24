@@ -1,4 +1,4 @@
-import { defineComponent, h, ref, type PropType } from "vue";
+import { defineComponent, h, onScopeDispose, ref, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 
 export type LoadingVariant = "dots" | "spinner" | "bar" | "typing" | "morph";
@@ -104,15 +104,17 @@ export const Loading = defineComponent({
   setup(props) {
     const i18n = useI18n();
 
-    // No-flash delay: stay hidden until `delay` ms pass. A client-only timer
-    // keeps this SSR-safe; assigning after teardown is a harmless no-op,
-    // matching the rest of the codebase's SSR-safe pattern.
+    // No-flash delay: stay hidden until `delay` ms pass. The timer only runs
+    // in the browser, so this stays SSR-safe, and it is dropped on teardown
+    // rather than left to hold the component until it fires.
     const visible = ref(props.delay <= 0);
+    let revealTimer: ReturnType<typeof setTimeout> | undefined;
     if (props.delay > 0 && typeof window !== "undefined") {
-      setTimeout(() => {
+      revealTimer = setTimeout(() => {
         visible.value = true;
       }, props.delay);
     }
+    onScopeDispose(() => clearTimeout(revealTimer));
 
     return () => {
       if (!visible.value) return null;

@@ -74,7 +74,21 @@
   // instead of momentarily tying with a neighbour when indexes shift.
   const paintOrder = new SvelteMap<string, number>();
   let seq = 0;
-  $: for (const n of visible) if (!paintOrder.has(n.id)) paintOrder.set(n.id, ++seq);
+  // How many dismissed notifications keep their slot: enough to cover the ones
+  // still animating out, not enough to grow for the life of the region.
+  const RECENT = 8;
+  $: {
+    for (const n of visible) if (!paintOrder.has(n.id)) paintOrder.set(n.id, ++seq);
+    const showing = new Set(visible.map((n) => n.id));
+    const gone = [...paintOrder.keys()].filter((id) => !showing.has(id));
+    for (const id of gone.slice(0, Math.max(0, gone.length - RECENT))) paintOrder.delete(id);
+    // The numbers are then closed up again, so what is left is what is on
+    // screen plus a few on their way out. Counting on for the life of the
+    // region would push the paint order out of its range.
+    let renumbered = 0;
+    for (const id of [...paintOrder.keys()]) paintOrder.set(id, ++renumbered);
+    seq = renumbered;
+  }
   const zOf = (id: string) => 100000 - (paintOrder.get(id) ?? 0);
 
   // Pause the WHOLE stack while any notification is hovered or holds focus, so

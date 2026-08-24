@@ -12,6 +12,7 @@
    * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
    * own content in the default slot to replace it entirely.
    */
+  import type { Action } from "svelte/action";
   import { dropArea } from "../drop-area/drop-area";
   import { getI18n } from "../i18n/create-i18n";
   import Loading from "../loading/Loading.svelte";
@@ -48,11 +49,15 @@
   function onOpen() {
     if (disabled) return;
     opening = true;
-    // `once` auto-removes it after the dialog closes (window refocus); the
-    // change/cancel paths also clear it early. No lifecycle hook needed (keeps
-    // the component SSR-safe).
+    // `once` removes it when the window is focused again, and the
+    // change/cancel paths clear it early: neither happens if the component
+    // goes away while the picker is still open, so unmounting clears it too.
     window.addEventListener("focus", resolveOpen, { once: true });
   }
+
+  // An action (not a lifecycle hook) keeps this client-only and SSR-safe: a
+  // picker left open when the area goes away drops its listener here.
+  const dropListener: Action = () => ({ destroy: resolveOpen });
 
   const emit = (list: FileList | null | undefined) => {
     if (!list || !list.length) return;
@@ -68,6 +73,7 @@
 <!-- The drag target is the generic dropArea action (shared, Tree-ready); this
      component adds the upload business: the file input and its picker. -->
 <label
+  use:dropListener
   class="upload-drop-area"
   class:upload-drop-area--disabled={disabled}
   class:upload-drop-area--opening={opening}
