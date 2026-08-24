@@ -25,6 +25,12 @@ export default defineConfig({
   use: {
     baseURL: BASE,
     trace: "on-first-retry",
+    // The runner's own settings must not decide what the tests see: a machine
+    // in another time zone, another language or with dark mode on would
+    // otherwise compare different pixels and format different numbers.
+    colorScheme: "light",
+    locale: "en-GB",
+    timezoneId: "UTC",
   },
   // Visual snapshots: disable animations and tolerate sub-pixel anti-aliasing so
   // baselines stay stable across runs. Authoritative baselines are generated in
