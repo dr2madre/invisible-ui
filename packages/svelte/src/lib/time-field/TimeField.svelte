@@ -115,7 +115,7 @@
     aria-describedby={validationMessage ? errorId : undefined}
   >
     {#if name}
-      <input type="hidden" {name} value={$api.value ?? ""} />
+      <input type="hidden" {name} value={$api.value ?? ""} disabled={disabled || undefined} />
     {/if}
     {#each segments as seg, i (seg)}
       {#if i > 0}

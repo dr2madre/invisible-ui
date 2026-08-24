@@ -158,6 +158,23 @@ describe("<ds-combobox>", () => {
     expect(new FormData(document.querySelector("form")!).get("fruit")).toBe("banana");
   });
 
+  it("stops submitting when it is disabled after it has rendered", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<form>${MARKUP}</form>`;
+    const form = document.querySelector("form")!;
+    await user.type(input(), "ban");
+    await user.click(within(listbox()).getByRole("option", { name: "Banana" }));
+    expect(new FormData(form).get("fruit")).toBe("banana");
+
+    // An attribute set later is the case a framework adapter cannot have: only
+    // an element reads its own attributes after it is already on the page.
+    const element = document.querySelector("ds-combobox")!;
+    element.setAttribute("disabled", "");
+    expect([...new FormData(form).keys()]).toEqual([]);
+    element.removeAttribute("disabled");
+    expect(new FormData(form).get("fruit")).toBe("banana");
+  });
+
   it("select-only mode: read-only trigger, never filters", async () => {
     const user = userEvent.setup();
     mount(`<ds-combobox label="Priority" searchable="false" value="high">

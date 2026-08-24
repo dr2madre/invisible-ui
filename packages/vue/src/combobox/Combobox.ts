@@ -239,7 +239,12 @@ export const Combobox = defineComponent({
 
       return h("div", { class: "combobox", "data-width": props.width }, [
         props.name
-          ? h("input", { type: "hidden", name: props.name, value: selectedValue.value ?? "" })
+          ? h("input", {
+              type: "hidden",
+              name: props.name,
+              value: selectedValue.value ?? "",
+              disabled: props.disabled || undefined,
+            })
           : null,
 
         h("label", { ...api.value.labelProps, class: "combobox__label" }, props.label),

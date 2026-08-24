@@ -3,8 +3,9 @@
 
   export let value: string | null = null;
   export let name = "due";
+  export let disabled = false;
 </script>
 
 <form data-testid="form">
-  <DatePicker label="Due date" {name} {value} />
+  <DatePicker label="Due date" {name} {value} {disabled} />
 </form>

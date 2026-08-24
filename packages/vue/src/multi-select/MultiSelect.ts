@@ -125,7 +125,13 @@ export const MultiSelect = defineComponent({
       return h("div", { class: "multi-select" }, [
         props.name
           ? values.value.map((value) =>
-              h("input", { key: value, type: "hidden", name: props.name, value }),
+              h("input", {
+                key: value,
+                type: "hidden",
+                name: props.name,
+                value,
+                disabled: props.disabled || undefined,
+              }),
             )
           : null,
         h("label", { class: "multi-select__label", ...api.value.labelProps }, props.label),

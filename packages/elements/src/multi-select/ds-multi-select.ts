@@ -284,6 +284,8 @@ export class DsMultiSelect extends HTMLElementBase {
         hidden.type = "hidden";
         hidden.name = name;
         hidden.value = value;
+        // A disabled control sends nothing, like every native one.
+        hidden.disabled = boolAttr(this, "disabled");
         this.#hiddenHost!.appendChild(hidden);
       }
     }

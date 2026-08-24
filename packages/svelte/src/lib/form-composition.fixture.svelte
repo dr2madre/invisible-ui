@@ -17,6 +17,7 @@
   export let onAmountCommit: ((value: number | null) => void) | undefined = undefined;
   /** Render the same composed form twice to prove ids and payloads stay apart. */
   export let second = false;
+  export let allDisabled = false;
 
   const countries = [
     { value: "it", label: "Italy" },
@@ -34,12 +35,26 @@
 </script>
 
 <form data-testid="composed-form">
-  <TextField label="Name" name="name" value="Ada" error={nameError} onValueChange={onNameChange} />
-  <Checkbox label="Subscribe" name="subscribe" value="yes" checked />
-  <Select label="Country" name="country" value="it" items={countries} />
-  <Combobox label="Fruit" name="fruit" value="pear" items={fruits} />
-  <MultiSelect label="Skills" name="skills" values={["svelte", "vue"]} items={skills} />
+  <TextField
+    label="Name"
+    name="name"
+    value="Ada"
+    error={nameError}
+    onValueChange={onNameChange}
+    disabled={allDisabled}
+  />
+  <Checkbox label="Subscribe" name="subscribe" value="yes" checked disabled={allDisabled} />
+  <Select label="Country" name="country" value="it" items={countries} disabled={allDisabled} />
+  <Combobox label="Fruit" name="fruit" value="pear" items={fruits} disabled={allDisabled} />
+  <MultiSelect
+    label="Skills"
+    name="skills"
+    values={["svelte", "vue"]}
+    items={skills}
+    disabled={allDisabled}
+  />
   <NumberField
+    disabled={allDisabled}
     label="Amount"
     name="amount"
     value={1234.5}
@@ -49,8 +64,8 @@
     onValueChange={onAmountChange}
     onValueCommit={onAmountCommit}
   />
-  <TimeField label="Time" name="time" value="09:30" error={timeError} />
-  <DatePicker label="Due date" name="due" value="2026-06-15" />
+  <TimeField label="Time" name="time" value="09:30" error={timeError} disabled={allDisabled} />
+  <DatePicker label="Due date" name="due" value="2026-06-15" disabled={allDisabled} />
   <button type="reset">Reset</button>
 </form>
 

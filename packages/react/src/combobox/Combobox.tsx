@@ -161,7 +161,14 @@ export function Combobox({
 
   return (
     <div className="combobox" data-width={width}>
-      {name && <input type="hidden" name={name} value={selectedValue ?? ""} />}
+      {name && (
+        <input
+          type="hidden"
+          name={name}
+          value={selectedValue ?? ""}
+          disabled={disabled || undefined}
+        />
+      )}
 
       <label {...api.labelProps} className="combobox__label">
         {label}

@@ -35,6 +35,7 @@ const Fixture = defineComponent({
     amountError: { type: String, default: undefined },
     timeError: { type: String, default: undefined },
     second: { type: Boolean, default: false },
+    allDisabled: { type: Boolean, default: false },
     onNameChange: { type: Function as PropType<(v: string) => void>, default: undefined },
     onAmountChange: {
       type: Function as PropType<(v: number | null) => void>,
@@ -49,22 +50,43 @@ const Fixture = defineComponent({
     return () => [
       h("form", { "data-testid": "composed-form" }, [
         h(TextField, {
+          disabled: props.allDisabled,
           label: "Name",
           name: "name",
           value: "Ada",
           error: props.nameError,
           onValueChange: props.onNameChange,
         }),
-        h(Checkbox, { label: "Subscribe", name: "subscribe", value: "yes", checked: true }),
-        h(Select, { label: "Country", name: "country", value: "it", items: countries }),
-        h(Combobox, { label: "Fruit", name: "fruit", value: "pear", items: fruits }),
+        h(Checkbox, {
+          disabled: props.allDisabled,
+          label: "Subscribe",
+          name: "subscribe",
+          value: "yes",
+          checked: true,
+        }),
+        h(Select, {
+          disabled: props.allDisabled,
+          label: "Country",
+          name: "country",
+          value: "it",
+          items: countries,
+        }),
+        h(Combobox, {
+          disabled: props.allDisabled,
+          label: "Fruit",
+          name: "fruit",
+          value: "pear",
+          items: fruits,
+        }),
         h(MultiSelect, {
+          disabled: props.allDisabled,
           label: "Skills",
           name: "skills",
           values: ["svelte", "vue"],
           items: skills,
         }),
         h(NumberField, {
+          disabled: props.allDisabled,
           label: "Amount",
           name: "amount",
           value: 1234.5,
@@ -74,15 +96,40 @@ const Fixture = defineComponent({
           onValueChange: props.onAmountChange,
           onValueCommit: props.onAmountCommit,
         }),
-        h(TimeField, { label: "Time", name: "time", value: "09:30", error: props.timeError }),
-        h(DatePicker, { label: "Due date", name: "due", value: "2026-06-15" }),
+        h(TimeField, {
+          disabled: props.allDisabled,
+          label: "Time",
+          name: "time",
+          value: "09:30",
+          error: props.timeError,
+        }),
+        h(DatePicker, {
+          disabled: props.allDisabled,
+          label: "Due date",
+          name: "due",
+          value: "2026-06-15",
+        }),
         h("button", { type: "reset" }, "Reset"),
       ]),
       props.second
         ? h("form", { "data-testid": "second-form" }, [
-            h(TextField, { label: "Name", name: "name", value: "Grace" }),
-            h(NumberField, { label: "Amount", name: "amount", value: 2, locale: "it-IT" }),
-            h(MultiSelect, { label: "Skills", name: "skills", values: ["react"], items: skills }),
+            h(TextField, {
+              label: "Name",
+              name: "name",
+              value: "Grace",
+            }),
+            h(NumberField, {
+              label: "Amount",
+              name: "amount",
+              value: 2,
+              locale: "it-IT",
+            }),
+            h(MultiSelect, {
+              label: "Skills",
+              name: "skills",
+              values: ["react"],
+              items: skills,
+            }),
           ])
         : null,
     ];
@@ -106,6 +153,12 @@ describe("Vue form composition", () => {
       ["time", "09:30"],
       ["due", "2026-06-15"],
     ]);
+  });
+
+  it("sends nothing at all while every control is disabled", () => {
+    render(Fixture, { props: { allDisabled: true } });
+    const form = screen.getByTestId("composed-form") as HTMLFormElement;
+    expect(entries(form)).toEqual([]);
   });
 
   it("keeps focus and drafts when application errors are inserted mid-edit", async () => {

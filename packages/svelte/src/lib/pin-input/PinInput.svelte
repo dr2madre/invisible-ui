@@ -64,7 +64,7 @@
   data-success={!invalid && success ? "" : undefined}
 >
   {#if name}
-    <input type="hidden" {name} value={$values.join("")} />
+    <input type="hidden" {name} value={$values.join("")} disabled={disabled || undefined} />
   {/if}
   {#each cells as i (i)}
     <input

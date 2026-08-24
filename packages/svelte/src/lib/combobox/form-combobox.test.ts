@@ -8,4 +8,10 @@ describe("Combobox — form participation (hidden input)", () => {
     const form = screen.getByTestId("form") as HTMLFormElement;
     expect(new FormData(form).get("fruit")).toBe("pear");
   });
+
+  it("sends nothing while disabled, like a native control", () => {
+    render(Fixture, { props: { value: "pear", disabled: true } });
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    expect([...new FormData(form).keys()]).toEqual([]);
+  });
 });

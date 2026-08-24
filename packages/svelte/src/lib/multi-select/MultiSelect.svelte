@@ -132,7 +132,7 @@
 <div class="multi-select">
   {#if name}
     {#each $selectedValues as value (value)}
-      <input type="hidden" {name} {value} />
+      <input type="hidden" {name} {value} disabled={disabled || undefined} />
     {/each}
   {/if}
   <!-- The ids are declared here as well as applied by the actions, so the
