@@ -947,7 +947,7 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
       // Same values in a different order is still a divergence: two states
       // swapped between adapters would cancel out in a set comparison.
       const orders = new Set(
-        [...perAdapterOrder.get(token.name)?.get(key)?.values() ?? []].map((list) =>
+        [...(perAdapterOrder.get(token.name)?.get(key)?.values() ?? [])].map((list) =>
           list.join(" -> "),
         ),
       );
