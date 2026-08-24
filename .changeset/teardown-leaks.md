@@ -9,6 +9,9 @@ the dialog was still up; the notification region remembered every
 notification it had ever shown, so its paint order drifted lower with
 the count; a pending hover no longer opens a Vue tooltip, popover or
 navigation panel that has already gone; the Svelte navigation menu drops
-its hover timers when its trigger does; the copy confirmation in the
-Svelte code block is cleared with the block; and a swipe interrupted by
-teardown no longer calls back into what is no longer there.
+its hover timers when its last trigger does; the Vue loading indicator
+drops its reveal timer on teardown (the Svelte one renders nothing until
+it fires, so it has no element to hang a cleanup on); the copy
+confirmation in the Svelte code block is cleared with the block; and a
+swipe interrupted mid-animation stops animating without dropping the
+dismissal the user already asked for.

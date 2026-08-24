@@ -133,8 +133,10 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
         node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("keydown", onKeyDown);
         if (triggerEls[value as string] === node) delete triggerEls[value as string];
-        // A pending hover must not open a panel that is no longer there.
-        clearTimers();
+        // The timers belong to the menu, not to one trigger: only clear them
+        // when the last trigger goes, or dropping one item would cancel a
+        // hover the user started on another.
+        if (Object.keys(triggerEls).length === 0) clearTimers();
         base?.destroy?.();
       },
     };
