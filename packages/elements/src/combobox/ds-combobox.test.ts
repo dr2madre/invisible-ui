@@ -128,6 +128,39 @@ describe("<ds-combobox>", () => {
     expect(input().value).toBe("");
   });
 
+  it("stays usable after being taken out of the page and put back while open", async () => {
+    const user = userEvent.setup();
+    mount(`${MARKUP}<button type="button">outside</button>`);
+    const host = document.querySelector("ds-combobox") as DsCombobox;
+    await user.type(input(), "a");
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    // A server-driven swap moves the element while its list is open: what the
+    // removal took away has to come back, or nothing can close the list.
+    const parent = host.parentElement!;
+    host.remove();
+    parent.appendChild(host);
+
+    // Moving a node blurs it, so the keys that close the list would have
+    // nowhere to go.
+    expect(document.activeElement).toBe(input());
+    await user.keyboard("{Escape}");
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("can still be dismissed by pointer after reconnecting while open", async () => {
+    const user = userEvent.setup();
+    mount(`${MARKUP}<button type="button">outside</button>`);
+    const host = document.querySelector("ds-combobox") as DsCombobox;
+    await user.type(input(), "a");
+    const parent = host.parentElement!;
+    host.remove();
+    parent.appendChild(host);
+
+    await user.click(screen.getByRole("button", { name: "outside" }));
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("closes when a pointer goes down outside", async () => {
     const user = userEvent.setup();
     document.body.innerHTML = `${MARKUP}<button type="button">outside</button>`;

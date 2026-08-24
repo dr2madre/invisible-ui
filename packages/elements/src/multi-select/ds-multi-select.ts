@@ -80,10 +80,22 @@ export class DsMultiSelect extends HTMLElementBase {
   #reflectingValues = false;
 
   connectedCallback() {
+    // Taken out of the page and put back while open (a server-driven swap, a
+    // list that reorders): the listbox is still open, but the listener and
+    // the repositioning went with the removal, so they are set up again.
+    const reopen = this.#state.open;
     upgradeProperty(this, "values");
     upgradeProperty(this, "items");
     if (!this.#input) this.#render();
     this.#syncFromAttributes();
+    if (reopen) {
+      this.#setupOpen();
+      // Being moved blurs whatever was focused, and the keys that close the
+      // list live on the input: without this it can only be dismissed by
+      // pointer. Focus is only taken back if the move is what lost it.
+      const active = this.ownerDocument.activeElement;
+      if (active === null || active === this.ownerDocument.body) this.#input?.focus();
+    }
   }
 
   disconnectedCallback() {
@@ -388,11 +400,15 @@ export class DsMultiSelect extends HTMLElementBase {
   }
 
   #setupOpen() {
+    // Opening is reachable while detached, so there may be a listener and a
+    // subscription still in place: never stack a second pair on top.
+    this.#teardownOpen();
     const input = this.#input!;
     const listbox = this.#listbox!;
-    listbox.style.minWidth = `${this.#control?.offsetWidth ?? input.offsetWidth}px`;
-
     const reposition = () => {
+      // Measured here rather than once: reconnecting can land in a subtree
+      // that is not laid out yet, where the width reads as zero.
+      listbox.style.minWidth = `${this.#control?.offsetWidth ?? input.offsetWidth}px`;
       computePosition(input, listbox, {
         placement: "bottom-start",
         strategy: "fixed",
