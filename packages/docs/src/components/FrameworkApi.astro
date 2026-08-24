@@ -26,7 +26,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     props.length > 0 && (
-      <div class="framework-api__scroll" role="region" aria-label="Props" tabindex="0">
+      <div class="framework-api__scroll" role="group" aria-label="Props table" tabindex="0">
         <table>
           <thead>
             <tr>
@@ -63,7 +63,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     attributes.length > 0 && (
-      <div class="framework-api__scroll" role="region" aria-label="Attributes" tabindex="0">
+      <div class="framework-api__scroll" role="group" aria-label="Attributes table" tabindex="0">
         <table>
           <thead>
             <tr>
@@ -106,7 +106,7 @@ const empty = props.length === 0 && attributes.length === 0;
 
   {
     emits.length > 0 && (
-      <div class="framework-api__scroll" role="region" aria-label="Events" tabindex="0">
+      <div class="framework-api__scroll" role="group" aria-label="Events table" tabindex="0">
         <table>
           <thead>
             <tr>

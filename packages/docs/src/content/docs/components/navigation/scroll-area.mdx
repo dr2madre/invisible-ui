@@ -28,6 +28,9 @@ The scrollable content is the default slot.
 ### Accessibility
 
 - Native scrolling (keyboard works); custom scrollbars are decorative.
+- With a `label` the viewport becomes a landmark, so it appears in the
+  landmark list: give each scroll area on a page its own name. Without a
+  `label` it is a plain scroller and claims no place in that list.
 
 ### Example
 

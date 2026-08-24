@@ -3,7 +3,7 @@
 </script>
 
 <NavigationMenu
-  label="Main"
+  label="Example product menu"
   items={[
     {
       value: "products",

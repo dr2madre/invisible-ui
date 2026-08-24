@@ -49,16 +49,26 @@ describe("Vue CodeBlock", () => {
     expect(document.querySelector("pre.code-block__pre")).toHaveTextContent("highlighted markup");
   });
 
-  it("exposes the scroller as a focusable, named region", () => {
+  it("exposes the scroller as a focusable, named group", () => {
     render(CodeBlock, { props: { code: "pnpm install", language: "bash" } });
-    const region = screen.getByRole("region", { name: "Code sample, bash" });
-    expect(region).toBe(document.querySelector("pre.code-block__pre"));
-    expect(region).toHaveAttribute("tabindex", "0");
+    const scroller = screen.getByRole("group", { name: "Code sample, bash" });
+    expect(scroller).toBe(document.querySelector("pre.code-block__pre"));
+    expect(scroller).toHaveAttribute("tabindex", "0");
   });
 
   it("names the scroller without a language too", () => {
     render(CodeBlock, { props: { code: "pnpm install", copyable: false } });
-    expect(screen.getByRole("region", { name: "Code sample" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Code sample" })).toBeInTheDocument();
+  });
+
+  it("keeps two identical blocks off the landmark list", async () => {
+    render(CodeBlock, { props: { code: "pnpm install", language: "bash" } });
+    render(CodeBlock, { props: { code: "pnpm install", language: "bash" } });
+    expect(document.querySelectorAll("pre.code-block__pre")).toHaveLength(2);
+    expect(document.querySelectorAll("[role=region]")).toHaveLength(0);
+    expect(
+      await axe(document.body, { runOnly: { type: "rule", values: ["landmark-unique"] } }),
+    ).toHaveNoViolations();
   });
 
   it("has no accessibility violations", async () => {

@@ -28,8 +28,9 @@
 <TableSet
   {columns}
   rows={filtered}
-  title="Customers"
-  caption="Customers"
+  title="Customers with filters"
+  paginationLabel="Customers with filters pages"
+  caption="Customers with filters"
   pageSize={3}
   selectionMode="multiple"
   {selectedRowIds}

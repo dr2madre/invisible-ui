@@ -29,8 +29,9 @@
 <TableSet
   {columns}
   {rows}
-  title="Customers"
-  caption="Customers"
+  title="Customers with selection"
+  paginationLabel="Customers with selection pages"
+  caption="Customers with selection"
   allowViewToggle
   cardTitleKey="name"
   cardDescriptionKey="city"
