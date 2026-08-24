@@ -7,7 +7,7 @@
    * per-level colors.
    *
    * Provide a `label` for the accessible name. Colors, height and radius are
-   * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-poor|medium|high`).
+   * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-poor|suboptimal|optimal`).
    */
   import { createMeter } from "./create-meter";
 

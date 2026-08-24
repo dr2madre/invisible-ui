@@ -83,8 +83,12 @@ function parseSheet(css) {
         .trim();
       // A comment on the same line as the declaration that just ended belongs
       // to that declaration: it says nothing about what follows, and it does
-      // not interrupt the run the surrounding comment describes.
-      if (startedOn !== lastEnd) group = text ? { text, nextLine: line + 1 } : null;
+      // not interrupt the run the surrounding comment describes. A pending
+      // declaration counts as ended, since one without a semicolon has not
+      // been read yet.
+      const sameLineAsDeclaration =
+        startedOn === lastEnd || (buffer.includes(":") && startedOn === bufferStart);
+      if (!sameLineAsDeclaration) group = text ? { text, nextLine: line + 1 } : null;
       i = end === -1 ? css.length : end + 1;
       continue;
     }
@@ -95,26 +99,26 @@ function parseSheet(css) {
       open.push({ head, isAtRule: head.startsWith("@") });
       continue;
     }
-    if (char === "}") {
-      open.pop();
-      buffer = "";
-      group = null;
-      continue;
-    }
-    if (char === ";") {
+    // A declaration ends at a semicolon, or at the brace that closes its
+    // block when the last one has no semicolon.
+    if (char === "}" || char === ";") {
+      const closing = char === "}";
       const declaration = buffer.trim();
       const startLine = bufferStart;
       buffer = "";
       const match = /^(--ds-[\w-]+)\s*:\s*([\s\S]+)$/.exec(declaration);
       lastEnd = line;
+      const selectorsNow = open.filter((block) => !block.isAtRule).map((block) => block.head);
+      const atRulesNow = open.filter((block) => block.isAtRule).map((block) => block.head);
+      if (closing) open.pop();
       if (!match) {
         group = null;
         continue;
       }
       const inRun = group !== null && startLine === group.nextLine;
       if (group) group = inRun ? { text: group.text, nextLine: line + 1 } : null;
-      const selectors = open.filter((block) => !block.isAtRule).map((block) => block.head);
-      const atRules = open.filter((block) => block.isAtRule).map((block) => block.head);
+      const selectors = selectorsNow;
+      const atRules = atRulesNow;
       found.push({
         name: match[1],
         value: match[2].replace(/\s+/g, " ").trim(),
@@ -123,6 +127,8 @@ function parseSheet(css) {
         line: startLine,
         group: inRun ? group.text : null,
       });
+      // A comment describes a run inside one block; the block just ended.
+      if (closing) group = null;
       continue;
     }
     // Remember the line the declaration itself starts on, not the line the
@@ -189,6 +195,9 @@ function parseUsages(css, file) {
       continue;
     }
     if (char === "}") {
+      // The last declaration in a block may end at the brace, with no
+      // semicolon: read it before the block closes.
+      if (buffer.trim()) record(buffer, open.filter((head) => !head.startsWith("@")).at(-1) ?? "");
       open.pop();
       buffer = "";
       continue;
@@ -209,7 +218,7 @@ function parseUsages(css, file) {
 function commentsByLine(css) {
   const out = new Map();
   css.split("\n").forEach((text, index) => {
-    const match = /--ds-[\w-]+\s*:[^;]*;\s*\/\*\s*([^*]+?)\s*\*\//.exec(text);
+    const match = /--ds-[\w-]+\s*:[^;}]*[;}]?\s*\/\*\s*([^*]+?)\s*\*\//.exec(text);
     if (!match) return;
     const note = match[1].replace(/\s+/g, " ").trim();
     // A note that is only a value (`#E5A1AC`) records the colour, not the job
@@ -466,6 +475,44 @@ const categoryOf = (property) => {
   for (const [pattern, category] of PROPERTY_CATEGORY) {
     if (pattern.test(property)) return category;
   }
+  return "other";
+};
+
+// The place a rule is about: the states and variants named in its selector,
+// with the spelling of the elements removed. `.menu .submenu:hover` and
+// `nav.menu .submenu:hover` are the same place; so are a Svelte scoped
+// selector and its ported twin.
+const placeOf = (selector) =>
+  (selector ?? "")
+    .replace(/:global\(([^)]*)\)/g, "$1")
+    .split(/\s+|>|\+|~/)
+    .flatMap((part) => part.match(/(\[[^\]]+\]|:[\w-]+(\([^)]*\))?)/g) ?? [])
+    .sort()
+    .join(" ");
+
+// The value family a fallback belongs to, read off its shape. Used where the
+// property alone cannot say it (a knob seen only inside shorthands).
+const shapeOfValue = (value, resolve) => {
+  let v = (value ?? "").trim();
+  // A default is usually written as another token: read what that one is.
+  const alias = /^var\(\s*(--ds-[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/.exec(v);
+  if (
+    alias &&
+    !/^--ds-(color|neutral|pastel|brand|feedback|state|radius|elevation)/.test(alias[1])
+  ) {
+    const target = resolve?.(alias[1]) ?? alias[2];
+    if (target) v = target.trim();
+  }
+  if (
+    /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
+      v,
+    )
+  )
+    return "color";
+  if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
+  if (/^[\d.]+m?s\b/.test(v)) return "motion";
+  if (/^var\(--ds-radius/.test(v)) return "radius";
+  if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
   return "other";
 };
 
@@ -890,6 +937,12 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
   // ct-2. The adapters must agree on a knob's defaults: for each component and
   // property, the set of fallbacks must be the same in every adapter that has
   // the site. A reviewed exception is named in the notes.
+  //
+  // Sets alone would miss a swap: two states trading values cancel out. So
+  // where the adapters describe the same places, each place is compared on
+  // its own. Which place a rule is about comes from the state in its
+  // selector, never from the selector's spelling: the same row is `.menu` in
+  // the Svelte component and `nav.menu` in the ported sheet.
   for (const token of registry.componentTokens) {
     if (componentNotes[token.name]?.acceptedDivergence) continue;
     const perKey = new Map();
@@ -900,15 +953,41 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
         "unknown";
       const key = `${component}|${site.property}`;
       const entry = perKey.get(key) ?? new Map();
-      const set = entry.get(site.adapter) ?? new Set();
-      set.add(site.fallback ?? "(none)");
-      entry.set(site.adapter, set);
+      const perAdapter = entry.get(site.adapter) ?? { values: new Set(), byPlace: new Map() };
+      const value = site.fallback ?? "(none)";
+      perAdapter.values.add(value);
+      const place = placeOf(site.selector);
+      const atPlace = perAdapter.byPlace.get(place) ?? new Set();
+      atPlace.add(value);
+      perAdapter.byPlace.set(place, atPlace);
+      entry.set(site.adapter, perAdapter);
       perKey.set(key, entry);
     }
-    for (const [key, perAdapter] of perKey) {
-      const shapes = new Set([...perAdapter.values()].map((set) => [...set].sort().join(" || ")));
+    for (const [key, entry] of perKey) {
+      const shapes = new Set(
+        [...entry.values()].map((perAdapter) => [...perAdapter.values].sort().join(" || ")),
+      );
       if (shapes.size > 1) {
         problems.push(`${token.name} has diverging fallbacks between adapters at ${key}`);
+        continue;
+      }
+      // Only where every adapter names the same places is a per-place
+      // comparison meaningful; otherwise the sets above are all we can say.
+      const placeSets = [...entry.values()].map((perAdapter) =>
+        [...perAdapter.byPlace.keys()].sort().join(" || "),
+      );
+      if (new Set(placeSets).size > 1) continue;
+      for (const place of [...entry.values()][0].byPlace.keys()) {
+        const atPlace = new Set(
+          [...entry.values()].map((perAdapter) =>
+            [...(perAdapter.byPlace.get(place) ?? [])].sort().join(" || "),
+          ),
+        );
+        if (atPlace.size > 1) {
+          problems.push(
+            `${token.name} has different fallbacks between adapters at ${key} for ${place || "the default state"}`,
+          );
+        }
       }
     }
   }
@@ -1141,6 +1220,14 @@ function build() {
   {
     const definedNames = new Set(byName.keys());
     const byToken = new Map();
+    // What a name is worth, for reading a value's shape: a theme token's own
+    // declaration, or another knob's default.
+    const valueOf = (name) => {
+      const defined = byName.get(name);
+      if (defined) return defined.light ?? defined.darkMedia ?? null;
+      const knob = usages.find((usage) => usage.name === name && usage.fallback);
+      return knob?.fallback ?? null;
+    };
     for (const usage of usages) {
       if (definedNames.has(usage.name)) continue;
       const entry = byToken.get(usage.name) ?? {
@@ -1188,24 +1275,29 @@ function build() {
       // A knob used only inside shorthands still has a family: read it off the
       // shape of its fallback value.
       if (categories.length === 0) {
-        const shapes = new Set(
-          fallbackValues.map((value) => {
-            const v = (value ?? "").trim();
-            if (
-              /^(#|rgb|hsl|oklch|color-mix|var\(--ds-color|var\(--ds-neutral|var\(--ds-pastel|var\(--ds-brand|var\(--ds-feedback|var\(--ds-state|transparent)/.test(
-                v,
-              )
-            )
-              return "color";
-            if (/^[\d.]+(px|rem|em|%|ch|vw|vh)\b/.test(v)) return "size";
-            if (/^[\d.]+m?s\b/.test(v)) return "motion";
-            if (/^var\(--ds-radius/.test(v)) return "radius";
-            if (/^var\(--ds-elevation|^0 \d+px/.test(v)) return "shadow";
-            return "other";
-          }),
-        );
+        const shapes = new Set(fallbackValues.map((value) => shapeOfValue(value, valueOf)));
         shapes.delete("other");
         if (shapes.size === 1) categories.push([...shapes][0]);
+        // Two different shapes behind the same knob is the same defect ct-1
+        // catches for longhands: record both so the gate can see it.
+        else if (shapes.size > 1) categories.push(...[...shapes].sort());
+      }
+      // A knob read through both a longhand and a shorthand must agree with
+      // itself: a colour longhand and a length shorthand is still one knob
+      // pulling two ways.
+      if (categories.length === 1 && [...entry.properties].some((p) => SHORTHAND.test(p))) {
+        // Only the shorthand sites' own defaults: a longhand's value has
+        // already had its say through the property.
+        const shorthandShapes = new Set(
+          entry.sites
+            .filter((site) => SHORTHAND.test(site.property))
+            .map((site) => shapeOfValue(site.fallback, valueOf))
+            .filter((shape) => shape !== "other"),
+        );
+        for (const shape of shorthandShapes) {
+          if (!categories.includes(shape)) categories.push(shape);
+        }
+        categories.sort();
       }
       const fileComponents = [
         ...new Set(
@@ -1282,28 +1374,41 @@ function build() {
   };
 }
 
-const registry = build();
-const { byName, adapters, notes, dtcgPaths, componentNotes } = registry.__sources;
-delete registry.__sources;
+// The pieces the tests exercise directly. Everything below runs only when
+// this file is the program, so importing it costs nothing.
+export { parseSheet, parseUsages, shapeOfValue, placeOf };
 
-const problems = gates(registry, byName, adapters, notes, dtcgPaths, componentNotes);
-if (problems.length > 0) {
-  console.error(`Token drift (${problems.length}):`);
-  for (const problem of problems) console.error(`  - ${problem}`);
-  process.exit(1);
+const invokedDirectly = process.argv[1]?.endsWith("generate-token-registry.mjs") ?? false;
+if (!invokedDirectly) {
+  // Imported for its parts.
+} else {
+  main();
 }
 
-const serialized = `${JSON.stringify(registry, null, 2)}\n`;
+function main() {
+  const registry = build();
+  const { byName, adapters, notes, dtcgPaths, componentNotes } = registry.__sources;
+  delete registry.__sources;
 
-if (process.argv.includes("--check")) {
-  const current = existsSync(OUT) ? readFileSync(OUT, "utf8") : "";
-  if (current !== serialized) {
-    console.error("Stale token registry (run `pnpm tokens:registry`).");
+  const problems = gates(registry, byName, adapters, notes, dtcgPaths, componentNotes);
+  if (problems.length > 0) {
+    console.error(`Token drift (${problems.length}):`);
+    for (const problem of problems) console.error(`  - ${problem}`);
     process.exit(1);
   }
-  console.log(`Token registry up to date (${registry.counts.total} tokens).`);
-} else {
-  mkdirSync(dirname(OUT), { recursive: true });
-  writeFileSync(OUT, serialized);
-  console.log(`Wrote ${rel(OUT)} (${registry.counts.total} tokens).`);
+
+  const serialized = `${JSON.stringify(registry, null, 2)}\n`;
+
+  if (process.argv.includes("--check")) {
+    const current = existsSync(OUT) ? readFileSync(OUT, "utf8") : "";
+    if (current !== serialized) {
+      console.error("Stale token registry (run `pnpm tokens:registry`).");
+      process.exit(1);
+    }
+    console.log(`Token registry up to date (${registry.counts.total} tokens).`);
+  } else {
+    mkdirSync(dirname(OUT), { recursive: true });
+    writeFileSync(OUT, serialized);
+    console.log(`Wrote ${rel(OUT)} (${registry.counts.total} tokens).`);
+  }
 }

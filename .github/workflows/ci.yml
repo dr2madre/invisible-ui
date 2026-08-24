@@ -49,6 +49,11 @@ jobs:
       - name: Token registry drift
         run: pnpm tokens:check
 
+      # The registry's own reading and comparing rules, on fixtures: a bug
+      # that is a no-op on today's sources would otherwise stay invisible.
+      - name: Token registry rules
+        run: pnpm tokens:test
+
       # Docs demos feed the visual baselines: what they render must never
       # depend on the network.
       - name: Demo determinism

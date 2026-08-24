@@ -39,19 +39,34 @@ const components = [
 // URL was written in the source or assembled at runtime.
 const LOCAL = new Set(["127.0.0.1", "localhost"]);
 
+// A few demos are compared in dark as well: their colours come from role
+// tokens that change with the theme, so a light shot alone would not see a
+// wrong one.
+const darkToo = new Set(["meter"]);
+
 for (const [group, name] of components) {
-  test(`visual: ${name}`, async ({ page }) => {
-    const remote: string[] = [];
-    await page.route("**/*", (route) => {
-      const host = new URL(route.request().url()).hostname;
-      if (LOCAL.has(host)) return route.continue();
-      remote.push(route.request().url());
-      return route.abort();
+  for (const theme of darkToo.has(name) ? (["light", "dark"] as const) : (["light"] as const)) {
+    const label = theme === "dark" ? `${name} dark` : name;
+    test(`visual: ${label}`, async ({ page }) => {
+      const remote: string[] = [];
+      await page.route("**/*", (route) => {
+        const host = new URL(route.request().url()).hostname;
+        if (LOCAL.has(host)) return route.continue();
+        remote.push(route.request().url());
+        return route.abort();
+      });
+      // Before the first paint: a theme set later animates its way in, and
+      // the shot would catch the transition.
+      await page.addInitScript((value) => {
+        document.addEventListener("DOMContentLoaded", () =>
+          document.documentElement.setAttribute("data-theme", value),
+        );
+      }, theme);
+      await page.goto(`components/${group}/${name}/`, { waitUntil: "networkidle" });
+      const preview = page.locator(".ds-preview").first();
+      await expect(preview).toBeVisible();
+      expect(remote, remote.join("\n")).toEqual([]);
+      await expect(preview).toHaveScreenshot(`${label.replace(/ /g, "-")}.png`);
     });
-    await page.goto(`components/${group}/${name}/`, { waitUntil: "networkidle" });
-    const preview = page.locator(".ds-preview").first();
-    await expect(preview).toBeVisible();
-    expect(remote, remote.join("\n")).toEqual([]);
-    await expect(preview).toHaveScreenshot(`${name}.png`);
-  });
+  }
 }

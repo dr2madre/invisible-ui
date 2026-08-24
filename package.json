@@ -23,6 +23,7 @@
     "api:runtime-check": "node scripts/check-runtime-exports.mjs",
     "tokens:registry": "node scripts/generate-token-registry.mjs",
     "tokens:check": "node scripts/generate-token-registry.mjs --check",
+    "tokens:test": "node --test \"scripts/*.test.mjs\"",
     "demos:check": "node scripts/check-demo-determinism.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
