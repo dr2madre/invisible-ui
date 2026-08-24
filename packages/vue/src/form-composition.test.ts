@@ -114,20 +114,17 @@ const Fixture = defineComponent({
       props.second
         ? h("form", { "data-testid": "second-form" }, [
             h(TextField, {
-              disabled: props.allDisabled,
               label: "Name",
               name: "name",
               value: "Grace",
             }),
             h(NumberField, {
-              disabled: props.allDisabled,
               label: "Amount",
               name: "amount",
               value: 2,
               locale: "it-IT",
             }),
             h(MultiSelect, {
-              disabled: props.allDisabled,
               label: "Skills",
               name: "skills",
               values: ["react"],
@@ -161,8 +158,6 @@ describe("Vue form composition", () => {
   it("sends nothing at all while every control is disabled", () => {
     render(Fixture, { props: { allDisabled: true } });
     const form = screen.getByTestId("composed-form") as HTMLFormElement;
-    // Native controls have always behaved this way; the hidden-input families
-    // used to submit their value regardless.
     expect(entries(form)).toEqual([]);
   });
 

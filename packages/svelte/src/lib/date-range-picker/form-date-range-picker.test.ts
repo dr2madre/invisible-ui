@@ -10,4 +10,10 @@ describe("DateRangePicker — form participation (hidden inputs)", () => {
     expect(data.get("from")).toBe("2026-06-10");
     expect(data.get("to")).toBe("2026-06-15");
   });
+
+  it("sends nothing while disabled, like a native control", () => {
+    render(Fixture, { props: { start: "2026-03-04", end: "2026-03-08", disabled: true } });
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    expect([...new FormData(form).keys()]).toEqual([]);
+  });
 });

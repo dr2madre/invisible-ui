@@ -10,7 +10,7 @@ describe("TimeField — form participation (hidden input)", () => {
   });
 
   it("sends nothing while disabled, like a native control", () => {
-    render(Fixture, { props: { ...{ value: "09:30" }, disabled: true } });
+    render(Fixture, { props: { value: "09:30", disabled: true } });
     const form = screen.getByTestId("form") as HTMLFormElement;
     expect([...new FormData(form).keys()]).toEqual([]);
   });

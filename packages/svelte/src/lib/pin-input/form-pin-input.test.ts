@@ -10,7 +10,7 @@ describe("PinInput — native form participation", () => {
   });
 
   it("sends nothing while disabled, like a native control", () => {
-    render(Fixture, { props: { ...{ value: "1234" }, disabled: true } });
+    render(Fixture, { props: { value: "1234", disabled: true } });
     const form = screen.getByTestId("form") as HTMLFormElement;
     expect([...new FormData(form).keys()]).toEqual([]);
   });

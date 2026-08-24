@@ -10,6 +10,12 @@ import Fixture from "./form-composition.fixture.svelte";
 const entries = (form: HTMLFormElement) => [...new FormData(form).entries()];
 
 describe("Svelte form composition", () => {
+  it("sends nothing at all while every control is disabled", () => {
+    render(Fixture, { props: { allDisabled: true } });
+    const form = screen.getByTestId("composed-form") as HTMLFormElement;
+    expect([...new FormData(form).entries()]).toEqual([]);
+  });
+
   it("serializes exactly the accepted values in source order", () => {
     render(Fixture, {});
     const form = screen.getByTestId("composed-form") as HTMLFormElement;

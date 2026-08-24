@@ -194,6 +194,20 @@ describe("Svelte MultiSelect", () => {
       const form = screen.getByTestId("fixture-form") as HTMLFormElement;
       expect(new FormData(form).getAll("people")).toEqual([]);
     });
+
+    it("sends nothing while disabled, like a native control", () => {
+      render(Fixture, { props: { name: "people", values: ["grace", "ada"], disabled: true } });
+      const form = screen.getByTestId("fixture-form") as HTMLFormElement;
+      expect([...new FormData(form).keys()]).toEqual([]);
+    });
+
+    it("still sends its values while read-only", () => {
+      // Frozen is not the same as disabled: the platform still submits a
+      // read-only control, and these two live a few lines apart in the source.
+      render(Fixture, { props: { name: "people", values: ["grace", "ada"], readOnly: true } });
+      const form = screen.getByTestId("fixture-form") as HTMLFormElement;
+      expect(new FormData(form).getAll("people")).toEqual(["grace", "ada"]);
+    });
   });
 
   it("renders hostile labels as text, never as markup", () => {
