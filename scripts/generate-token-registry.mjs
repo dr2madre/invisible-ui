@@ -912,9 +912,11 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
   // ct-2. The adapters must agree on a knob's defaults: for each component and
   // property, the set of fallbacks must be the same in every adapter that has
   // the site. A reviewed exception is named in the notes.
+  const perAdapterOrder = new Map();
   for (const token of registry.componentTokens) {
     if (componentNotes[token.name]?.acceptedDivergence) continue;
     const perKey = new Map();
+    const perOrder = new Map();
     for (const site of token.sites) {
       const component =
         /src\/lib\/([\w-]+)\//.exec(site.file)?.[1] ??
@@ -926,11 +928,31 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
       set.add(site.fallback ?? "(none)");
       entry.set(site.adapter, set);
       perKey.set(key, entry);
+      // The order the values appear in, ignoring a value repeated next to
+      // itself: one adapter may split a rule the other keeps together.
+      const orderEntry = perOrder.get(key) ?? new Map();
+      const list = orderEntry.get(site.adapter) ?? [];
+      const value = site.fallback ?? "(none)";
+      if (!list.includes(value)) list.push(value);
+      orderEntry.set(site.adapter, list);
+      perOrder.set(key, orderEntry);
     }
+    perAdapterOrder.set(token.name, perOrder);
     for (const [key, perAdapter] of perKey) {
       const shapes = new Set([...perAdapter.values()].map((set) => [...set].sort().join(" || ")));
       if (shapes.size > 1) {
         problems.push(`${token.name} has diverging fallbacks between adapters at ${key}`);
+        continue;
+      }
+      // Same values in a different order is still a divergence: two states
+      // swapped between adapters would cancel out in a set comparison.
+      const orders = new Set(
+        [...perAdapterOrder.get(token.name)?.get(key)?.values() ?? []].map((list) =>
+          list.join(" -> "),
+        ),
+      );
+      if (orders.size > 1) {
+        problems.push(`${token.name} has the same fallbacks in a different order at ${key}`);
       }
     }
   }
