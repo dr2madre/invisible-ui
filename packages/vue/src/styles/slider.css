@@ -156,7 +156,28 @@
   outline-offset: 2px;
 }
 
-/* Forced colors drops the thumb's shadow ring, so the focus ring the theme
-   forces on the input is what remains: it surrounds the whole control,
-   like the native one. The thumb stays findable on its own, since its
-   border survives this mode while fills do not. */
+/* Forced colors drops every fill and every shadow. The ring the theme forces
+   on the input is what remains of the focus indicator, surrounding the whole
+   control like the native one, and the track and thumb take borders so the
+   control itself does not vanish. */
+@media (forced-colors: active) {
+  /* The control carries a boundary of its own as well: its track and thumb are
+     pseudo-elements, which nothing outside the browser can inspect. */
+  .slider__input {
+    border: 1px solid CanvasText;
+  }
+  .slider__input::-webkit-slider-runnable-track {
+    border: 1px solid CanvasText;
+  }
+  .slider__input::-webkit-slider-thumb {
+    border-color: CanvasText;
+    background: Highlight;
+  }
+  .slider__input::-moz-range-track {
+    border: 1px solid CanvasText;
+  }
+  .slider__input::-moz-range-thumb {
+    border-color: CanvasText;
+    background: Highlight;
+  }
+}

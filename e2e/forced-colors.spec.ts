@@ -12,57 +12,128 @@ import { join, relative } from "node:path";
 // Emulation is Chromium-only, so this supports (never replaces) the manual
 // Windows pass.
 
-const PAGES = [
-  "components/forms/combobox/",
-  "components/forms/number-field/",
-  "components/forms/select/",
-  "components/patterns/table-set/",
-  "components/feedback/dialog/",
-  "components/data-layout/tabs/",
-];
+// Every built component page. A hand-written list is how this sweep came to
+// name a page that does not exist, and how it came to leave out the controls
+// whose indicator is drawn with a background: a checkbox, a radio, a switch.
+/** The roles this sweep exists to measure, and how many it found. */
+// Options live only while a list is open, and no page shows one by itself, so
+// they are not part of what this sweep can promise to measure.
+const TALLY_ROLES = ["input", "button", "textarea", "select", "tab"] as const;
 
 test.describe("forced colors", () => {
   test.skip(({ browserName }) => browserName !== "chromium", "emulation is Chromium-only");
 
   test("every control keeps a visible boundary", async ({ browser }) => {
+    test.setTimeout(600_000);
     const context = await browser.newContext({ forcedColors: "active" });
     const page = await context.newPage();
     const invisible: string[] = [];
-
-    for (const url of PAGES) {
-      await page.goto(url);
-      await page.waitForLoadState("domcontentloaded");
-      const found = await page.evaluate(() => {
-        const out: string[] = [];
-        const selector = "button, input, select, textarea, [role=option], [role=tab]";
-        for (const element of document.querySelectorAll(selector)) {
-          const className = (element.className || "").toString();
-          if (/\bsl-|pagefind|astro/.test(className)) continue;
-          // The documentation theme's own chrome (code-block copy buttons)
-          // is not the library under test.
-          if (element.closest(".copy, .expressive-code, header, nav")) continue;
-          const rect = element.getBoundingClientRect();
-          if (rect.width < 2 || rect.height < 2) continue;
-          const style = getComputedStyle(element);
-          const hasBorder =
-            parseFloat(style.borderTopWidth) > 0 ||
-            parseFloat(style.borderBottomWidth) > 0 ||
-            parseFloat(style.borderLeftWidth) > 0 ||
-            parseFloat(style.borderRightWidth) > 0;
-          const hasOutline = style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0;
-          // Text carries its own shape, so a bare text button still reads.
-          const hasText = (element.textContent ?? "").trim().length > 0;
-          if (!hasBorder && !hasOutline && !hasText) {
-            out.push(`${element.tagName.toLowerCase()}.${className.split(" ")[0] || "(none)"}`);
+    const tally: Record<string, number> = {};
+    try {
+      for (const url of componentPages()) {
+        const response = await page.goto(`components/${url}`);
+        // A page that does not exist reports no problems at all: this list used
+        // to name one, and the roles only it carries were never measured.
+        expect(response?.ok(), `components/${url} did not load`).toBeTruthy();
+        await page.waitForLoadState("load");
+        // The demos mount when they scroll into view, and some render nothing
+        // at all before that.
+        await page.evaluate(async () => {
+          for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+            window.scrollTo(0, y);
+            await new Promise((resolve) => requestAnimationFrame(resolve));
           }
+          window.scrollTo(0, 0);
+        });
+        // A demo that mounts on visibility has to fetch its island first: the
+        // scroll only starts that, and the empty check cannot see it, because a
+        // server-rendered island is never empty.
+        await page.waitForLoadState("networkidle");
+        await expect
+          .poll(() => page.evaluate(() => document.querySelectorAll("astro-island:empty").length))
+          .toBe(0);
+        const found = await page.evaluate(() => {
+          const out: string[] = [];
+          const seen: Record<string, number> = {};
+          const selector = "button, input, select, textarea, [role=option], [role=tab]";
+          for (const element of document.querySelectorAll(selector)) {
+            const className = (element.className || "").toString();
+            if (/\bsl-|pagefind|astro/.test(className)) continue;
+            // The documentation theme's own chrome (code-block copy buttons)
+            // is not the library under test.
+            if (element.closest(".copy, .expressive-code, header, nav")) continue;
+            const rect = element.getBoundingClientRect();
+            if (rect.width < 2 || rect.height < 2) continue;
+            const role = element.getAttribute("role") ?? element.tagName.toLowerCase();
+            seen[role] = (seen[role] ?? 0) + 1;
+            const style = getComputedStyle(element);
+            const hasBorder =
+              parseFloat(style.borderTopWidth) > 0 ||
+              parseFloat(style.borderBottomWidth) > 0 ||
+              parseFloat(style.borderLeftWidth) > 0 ||
+              parseFloat(style.borderRightWidth) > 0;
+            const hasOutline = style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0;
+            // Some controls are drawn entirely by a pseudo-element: a carousel
+            // dot is a disc on ::before, and a border there is a real boundary.
+            const borderOn = (pseudo: string) => {
+              const drawn = getComputedStyle(element, pseudo);
+              return (
+                parseFloat(drawn.borderTopWidth) > 0 ||
+                parseFloat(drawn.borderBottomWidth) > 0 ||
+                parseFloat(drawn.borderLeftWidth) > 0 ||
+                parseFloat(drawn.borderRightWidth) > 0
+              );
+            };
+            const hasDrawnBorder = borderOn("::before") || borderOn("::after");
+            // Text carries its own shape, so a bare text button still reads, and
+            // so does a glyph: forced colors keeps strokes and fills visible.
+            const hasText = (element.textContent ?? "").trim().length > 0;
+            const hasGlyph = element.querySelector("svg") !== null;
+            // A field's boundary usually belongs to the box drawn around it.
+            let hasFrame = false;
+            for (let a = element.parentElement, up = 0; a && up < 2; a = a.parentElement, up += 1) {
+              const parent = getComputedStyle(a);
+              if (
+                parseFloat(parent.borderTopWidth) > 0 ||
+                parseFloat(parent.borderBottomWidth) > 0 ||
+                parseFloat(parent.borderLeftWidth) > 0 ||
+                parseFloat(parent.borderRightWidth) > 0
+              ) {
+                hasFrame = true;
+                break;
+              }
+            }
+            if (
+              !hasBorder &&
+              !hasOutline &&
+              !hasText &&
+              !hasGlyph &&
+              !hasFrame &&
+              !hasDrawnBorder
+            ) {
+              out.push(`${element.tagName.toLowerCase()}.${className.split(" ")[0] || "(none)"}`);
+            }
+          }
+          return { problems: [...new Set(out)], seen };
+        });
+        for (const [role, count] of Object.entries(found.seen)) {
+          tally[role] = (tally[role] ?? 0) + count;
         }
-        return [...new Set(out)];
-      });
-      for (const entry of found) invisible.push(`${url} :: ${entry}`);
-    }
+        // Not every page has a control: an avatar page is a page of avatars.
+        // What must hold is that the sweep keeps measuring each role overall.
+        for (const entry of found.problems) invisible.push(`${url} :: ${entry}`);
+      }
 
-    await context.close();
-    expect(invisible).toEqual([]);
+      expect(invisible, invisible.join("\n")).toEqual([]);
+      // A silent pass is the failure mode: a page that stops mounting, or a role
+      // that stops rendering, would otherwise leave this green while measuring
+      // less than it did before.
+      for (const role of TALLY_ROLES) {
+        expect(tally[role] ?? 0, `no ${role} was measured anywhere`).toBeGreaterThan(0);
+      }
+    } finally {
+      await context.close();
+    }
   });
 
   // Every focusable control on every built component page must show a focus
