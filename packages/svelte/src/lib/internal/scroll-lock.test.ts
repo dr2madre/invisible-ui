@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { lockScroll } from "./scroll-lock";
+// The same file under a different specifier: a second copy of the module, the
+// way two adapters or two installed versions would each load their own.
+import { lockScroll as lockScrollElsewhere } from "./scroll-lock?copy";
 
 // Two overlays can be open at once, and they do not close in the order they
 // opened. Each of these cases used to leave the page unscrollable for good, or
@@ -8,6 +11,10 @@ import { lockScroll } from "./scroll-lock";
 afterEach(() => {
   document.body.style.overflow = "";
   document.body.style.paddingRight = "";
+  // The count lives on the body, so a test that fails mid-lock must not leave
+  // it there for the next one.
+  delete document.body.dataset.dsScrollLocks;
+  delete document.body.dataset.dsScrollLockPrevious;
 });
 
 describe("scroll lock", () => {
@@ -52,6 +59,18 @@ describe("scroll lock", () => {
     second();
     first();
     expect(document.body.style.paddingRight).toBe("");
+  });
+
+  it("counts locks taken by another copy of this module", () => {
+    // Two adapters in one app, or two installed copies of one package, each
+    // load their own module: the count has to be shared or the page stays
+    // locked when the first one lets go.
+    const first = lockScroll();
+    const second = lockScrollElsewhere();
+    first();
+    expect(document.body.style.overflow, "the other copy still holds one").toBe("hidden");
+    second();
+    expect(document.body.style.overflow).toBe("");
   });
 
   it("ignores a cleanup called twice", () => {

@@ -9,20 +9,22 @@
  * unavailable.
  *
  * Locks are counted, because more than one overlay can be open and they do not
- * close in the order they opened. The page is restored by the last one to let
- * go, to exactly what it looked like before the first one took hold.
+ * close in the order they opened: the page is restored by the last one to let
+ * go, to exactly what it looked like before the first one took hold. The count
+ * lives on the body rather than in this module, so overlays from two adapters,
+ * or from two copies of one package, still count together.
  */
-/** How many overlays are holding the page still right now. */
-let holders = 0;
-/** What the page looked like before the first of them took hold. */
-let before: { overflow: string; paddingRight: string } | null = null;
+/** How many overlays are holding the page still, and what it looked like. */
+const COUNT = "dsScrollLocks";
+const PREVIOUS = "dsScrollLockPrevious";
 
 export function lockScroll(): () => void {
   if (typeof document === "undefined") return () => {};
 
   const { body } = document;
+  const holders = Number(body.dataset[COUNT] ?? "0");
   if (holders === 0) {
-    before = { overflow: body.style.overflow, paddingRight: body.style.paddingRight };
+    body.dataset[PREVIOUS] = JSON.stringify([body.style.overflow, body.style.paddingRight]);
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     body.style.overflow = "hidden";
     if (scrollbarWidth > 0) {
@@ -30,17 +32,25 @@ export function lockScroll(): () => void {
       body.style.paddingRight = `${current + scrollbarWidth}px`;
     }
   }
-  holders += 1;
+  body.dataset[COUNT] = String(holders + 1);
 
   let released = false;
   return () => {
     // A cleanup called twice must not let go of someone else's lock.
     if (released) return;
     released = true;
-    holders -= 1;
-    if (holders > 0 || !before) return;
-    body.style.overflow = before.overflow;
-    body.style.paddingRight = before.paddingRight;
-    before = null;
+    const left = Number(body.dataset[COUNT] ?? "1") - 1;
+    if (left > 0) {
+      body.dataset[COUNT] = String(left);
+      return;
+    }
+    const [overflow, paddingRight] = JSON.parse(body.dataset[PREVIOUS] ?? '["",""]') as [
+      string,
+      string,
+    ];
+    body.style.overflow = overflow;
+    body.style.paddingRight = paddingRight;
+    delete body.dataset[COUNT];
+    delete body.dataset[PREVIOUS];
   };
 }
