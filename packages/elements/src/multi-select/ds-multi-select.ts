@@ -80,10 +80,15 @@ export class DsMultiSelect extends HTMLElementBase {
   #reflectingValues = false;
 
   connectedCallback() {
+    // Taken out of the page and put back while open (a server-driven swap, a
+    // list that reorders): the listbox is still open, but the listener and
+    // the repositioning went with the removal, so they are set up again.
+    const reopen = this.#state.open;
     upgradeProperty(this, "values");
     upgradeProperty(this, "items");
     if (!this.#input) this.#render();
     this.#syncFromAttributes();
+    if (reopen) this.#setupOpen();
   }
 
   disconnectedCallback() {

@@ -346,6 +346,23 @@ describe("clearing the selection", () => {
     expect(seen).toEqual([null]);
   });
 
+  it("can still be dismissed after reconnecting while open", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `${MARKUP}<button type="button">outside</button>`;
+    const host = document.querySelector("ds-combobox")!;
+    await user.type(input(), "a");
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    // A server-driven swap moves the element while its list is open: what the
+    // removal took away has to come back, or nothing can close the list.
+    const parent = host.parentElement!;
+    host.remove();
+    parent.appendChild(host);
+
+    await user.click(screen.getByRole("button", { name: "outside" }));
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("does not bring the selection back when the element reconnects", async () => {
     const user = userEvent.setup();
     const host = mount(withValue);

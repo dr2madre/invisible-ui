@@ -150,6 +150,23 @@ describe("<ds-multi-select>", () => {
     expect(screen.getByRole("button", { name: "Remove ghost" })).toBeInTheDocument();
   });
 
+  it("can still be dismissed after reconnecting while open", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `${MARKUP}<button type="button">outside</button>`;
+    const host = document.querySelector("ds-multi-select")!;
+    await user.click(input());
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    // A server-driven swap moves the element while its list is open: what the
+    // removal took away has to come back, or nothing can close the list.
+    const parent = host.parentElement!;
+    host.remove();
+    parent.appendChild(host);
+
+    await user.click(screen.getByRole("button", { name: "outside" }));
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("exposes aria-required only when asked and stays light DOM", () => {
     const host = mount();
     expect(host.shadowRoot).toBeNull();
