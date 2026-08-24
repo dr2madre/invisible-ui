@@ -426,4 +426,15 @@
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
   }
+  /* Forced colors: the disc is a fill, and fills flatten away, so it takes a
+     border there. The selected one is filled with the highlight so it still
+     reads as the current slide. */
+  @media (forced-colors: active) {
+    .carousel__dot::before {
+      border: 1px solid CanvasText;
+    }
+    .carousel__dot:global([data-selected])::before {
+      background: Highlight;
+    }
+  }
 </style>
