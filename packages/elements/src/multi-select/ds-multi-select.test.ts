@@ -150,7 +150,7 @@ describe("<ds-multi-select>", () => {
     expect(screen.getByRole("button", { name: "Remove ghost" })).toBeInTheDocument();
   });
 
-  it("can still be dismissed after reconnecting while open", async () => {
+  it("stays usable after being taken out of the page and put back while open", async () => {
     const user = userEvent.setup();
     document.body.innerHTML = `${MARKUP}<button type="button">outside</button>`;
     const host = document.querySelector("ds-multi-select")!;
@@ -163,7 +163,10 @@ describe("<ds-multi-select>", () => {
     host.remove();
     parent.appendChild(host);
 
-    await user.click(screen.getByRole("button", { name: "outside" }));
+    // Moving a node blurs it, so the keys that close the list would have
+    // nowhere to go.
+    expect(document.activeElement).toBe(input());
+    await user.keyboard("{Escape}");
     expect(input()).toHaveAttribute("aria-expanded", "false");
   });
 
