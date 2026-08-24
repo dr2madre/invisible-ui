@@ -68,6 +68,49 @@ describe("dialog connect", () => {
     expect(setOpen).toHaveBeenCalledWith(false);
   });
 
+  it("leaves an Escape another layer already handled alone", () => {
+    // A listbox or a menu inside the dialog marks the key prevented: closing
+    // here as well would pop two layers with one press.
+    const handled = {
+      key: "Escape",
+      defaultPrevented: true,
+      preventDefault() {},
+      stopPropagation() {},
+    } as unknown as Event;
+    const setOpen = vi.fn();
+    (
+      connect({ state: initialState({ open: true }), setOpen }).contentProps.onKeyDown as (
+        e: Event,
+      ) => void
+    )(handled);
+    expect(setOpen).not.toHaveBeenCalled();
+  });
+
+  it("keeps Escape from reaching the dialog underneath", () => {
+    // Dialogs stack: the innermost one closes, the one behind it stays.
+    const stopPropagation = vi.fn();
+    const escape = {
+      key: "Escape",
+      defaultPrevented: false,
+      preventDefault() {},
+      stopPropagation,
+    } as unknown as Event;
+    const setOpen = vi.fn();
+    (
+      connect({ state: initialState({ open: true }), setOpen }).contentProps.onKeyDown as (
+        e: Event,
+      ) => void
+    )(escape);
+    expect(setOpen).toHaveBeenCalledWith(false);
+    expect(stopPropagation, "the dialog underneath must not see it").toHaveBeenCalled();
+  });
+
+  it("does not report a close for a dialog that is already closed", () => {
+    const setOpen = vi.fn();
+    connect({ state: initialState({ open: false }), setOpen }).closeDialog();
+    expect(setOpen).not.toHaveBeenCalled();
+  });
+
   it("closes on Escape, unless closeOnEscape is false", () => {
     const escape = { key: "Escape", preventDefault() {}, stopPropagation() {} } as unknown as Event;
 

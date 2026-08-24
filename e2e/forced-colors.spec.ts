@@ -18,7 +18,7 @@ const PAGES = [
   "components/forms/select/",
   "components/patterns/table-set/",
   "components/feedback/dialog/",
-  "components/data-layout/tabs/",
+  "components/navigation/tabs/",
 ];
 
 test.describe("forced colors", () => {
@@ -29,11 +29,28 @@ test.describe("forced colors", () => {
     const page = await context.newPage();
     const invisible: string[] = [];
 
+    let checked = 0;
     for (const url of PAGES) {
-      await page.goto(url);
-      await page.waitForLoadState("domcontentloaded");
+      const response = await page.goto(url);
+      // A page that does not exist reports no problems at all: this list used
+      // to name one, and the roles only it carries were never measured.
+      expect(response?.ok(), `${url} did not load`).toBeTruthy();
+      await page.waitForLoadState("load");
+      // The demos mount when they scroll into view, and some render nothing
+      // at all before that.
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+          window.scrollTo(0, y);
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+        }
+        window.scrollTo(0, 0);
+      });
+      await expect
+        .poll(() => page.evaluate(() => document.querySelectorAll("astro-island:empty").length))
+        .toBe(0);
       const found = await page.evaluate(() => {
         const out: string[] = [];
+        let seen = 0;
         const selector = "button, input, select, textarea, [role=option], [role=tab]";
         for (const element of document.querySelectorAll(selector)) {
           const className = (element.className || "").toString();
@@ -43,6 +60,7 @@ test.describe("forced colors", () => {
           if (element.closest(".copy, .expressive-code, header, nav")) continue;
           const rect = element.getBoundingClientRect();
           if (rect.width < 2 || rect.height < 2) continue;
+          seen += 1;
           const style = getComputedStyle(element);
           const hasBorder =
             parseFloat(style.borderTopWidth) > 0 ||
@@ -50,19 +68,38 @@ test.describe("forced colors", () => {
             parseFloat(style.borderLeftWidth) > 0 ||
             parseFloat(style.borderRightWidth) > 0;
           const hasOutline = style.outlineStyle !== "none" && parseFloat(style.outlineWidth) > 0;
-          // Text carries its own shape, so a bare text button still reads.
+          // Text carries its own shape, so a bare text button still reads, and
+          // so does a glyph: forced colors keeps strokes and fills visible.
           const hasText = (element.textContent ?? "").trim().length > 0;
-          if (!hasBorder && !hasOutline && !hasText) {
+          const hasGlyph = element.querySelector("svg") !== null;
+          // A field's boundary usually belongs to the box drawn around it.
+          let hasFrame = false;
+          for (let a = element.parentElement, up = 0; a && up < 2; a = a.parentElement, up += 1) {
+            const parent = getComputedStyle(a);
+            if (
+              parseFloat(parent.borderTopWidth) > 0 ||
+              parseFloat(parent.borderBottomWidth) > 0 ||
+              parseFloat(parent.borderLeftWidth) > 0 ||
+              parseFloat(parent.borderRightWidth) > 0
+            ) {
+              hasFrame = true;
+              break;
+            }
+          }
+          if (!hasBorder && !hasOutline && !hasText && !hasGlyph && !hasFrame) {
             out.push(`${element.tagName.toLowerCase()}.${className.split(" ")[0] || "(none)"}`);
           }
         }
-        return [...new Set(out)];
+        return { problems: [...new Set(out)], seen };
       });
-      for (const entry of found) invisible.push(`${url} :: ${entry}`);
+      checked += found.seen;
+      expect(found.seen, `${url} showed no controls at all`).toBeGreaterThan(0);
+      for (const entry of found.problems) invisible.push(`${url} :: ${entry}`);
     }
 
     await context.close();
-    expect(invisible).toEqual([]);
+    expect(invisible, invisible.join("\n")).toEqual([]);
+    expect(checked, "no control was actually examined").toBeGreaterThan(30);
   });
 
   // Every focusable control on every built component page must show a focus

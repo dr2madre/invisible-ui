@@ -61,6 +61,29 @@ describe("pagination connect", () => {
     expect(setPage).toHaveBeenCalledWith(6);
   });
 
+  it("clamps a page asked for outside the range", () => {
+    const setPage = vi.fn();
+    const api = connect({ state: make({ page: 5 }), setPage });
+    api.setPage(999);
+    expect(setPage).toHaveBeenLastCalledWith(20);
+    api.setPage(-3);
+    expect(setPage).toHaveBeenLastCalledWith(1);
+  });
+
+  it("does not report the page it is already on", () => {
+    const setPage = vi.fn();
+    connect({ state: make({ page: 5 }), setPage }).setPage(5);
+    expect(setPage).not.toHaveBeenCalled();
+  });
+
+  it("goes nowhere while disabled", () => {
+    const setPage = vi.fn();
+    const api = connect({ state: make({ page: 5, disabled: true }), setPage });
+    api.setPage(7);
+    expect(setPage).not.toHaveBeenCalled();
+    expect(api.rootProps["data-disabled"]).toBe("");
+  });
+
   it("puts the single tab stop on the current page", () => {
     const api = connect({ state: make({ page: 5 }), setPage: noop });
     expect(api.getPageProps(5).tabindex).toBe(0);
