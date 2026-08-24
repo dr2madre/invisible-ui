@@ -36,6 +36,35 @@ describe("NotificationRegion", () => {
     expect(screen.getByText("Second")).toBeInTheDocument();
   });
 
+  it("does not remember every notification it has ever shown", async () => {
+    const notifier = createNotifier();
+    render(NotificationRegion, { props: { notifier, duration: 0 } });
+
+    // A region lives as long as the app around it. Paint order is assigned per
+    // notification, so a region that never forgets keeps counting: the slot of
+    // a fresh notification drifts one step lower every time.
+    const slotOfNewest = () => {
+      const slots = document.querySelectorAll<HTMLElement>(".notice-slot");
+      return Number(slots[slots.length - 1]?.style.zIndex ?? "0");
+    };
+
+    const id = notifier.show({ title: "First", text: "one", duration: 0 });
+    await screen.findByText("First");
+    const first = slotOfNewest();
+    notifier.dismiss(id, "user");
+
+    for (let round = 0; round < 40; round += 1) {
+      const next = notifier.show({ title: `Round ${round}`, text: "x", duration: 0 });
+      await screen.findByText(`Round ${round}`);
+      notifier.dismiss(next, "user");
+    }
+
+    const last = notifier.show({ title: "Last", text: "z", duration: 0 });
+    await screen.findByText("Last");
+    expect(first - slotOfNewest(), "the paint order drifted with the count").toBeLessThan(12);
+    notifier.dismiss(last, "user");
+  });
+
   it("keeps the newest visible: past maxVisible the oldest leave", async () => {
     const notifier = createNotifier();
     render(NotificationRegion, { props: { notifier, duration: 0, maxVisible: 2 } });

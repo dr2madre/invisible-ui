@@ -133,6 +133,8 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
         node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("keydown", onKeyDown);
         if (triggerEls[value as string] === node) delete triggerEls[value as string];
+        // A pending hover must not open a panel that is no longer there.
+        clearTimers();
         base?.destroy?.();
       },
     };

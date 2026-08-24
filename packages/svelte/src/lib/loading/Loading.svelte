@@ -88,7 +88,9 @@
 
   // No-flash delay: stay hidden until `delay` ms pass. A client-only timer (no
   // lifecycle hook) keeps this SSR-safe; assigning after teardown is a harmless
-  // no-op, matching the rest of the codebase's SSR-safe pattern.
+  // no-op, matching the rest of the codebase's SSR-safe pattern. There is
+  // nothing to hang a cleanup on either: until the timer fires this component
+  // renders nothing at all.
   let visible = delay <= 0;
   if (delay > 0 && typeof window !== "undefined") {
     setTimeout(() => (visible = true), delay);

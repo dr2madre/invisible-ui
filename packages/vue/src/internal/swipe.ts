@@ -60,17 +60,27 @@ export function swipeDismiss(
     node.style.opacity = opacity < 1 ? String(opacity) : "";
   };
 
+  // The animation that finishes a swipe outlives the gesture, so its handles
+  // are kept: a region taken away mid-swipe must not call back into it.
+  let settleFrame: number | undefined;
+  let settleTimer: ReturnType<typeof setTimeout> | undefined;
   const settle = (dx: number, opacity: number, after?: () => void) => {
     if (reduce) {
       after?.();
       return;
     }
     node.dataset.swipeOut = "";
-    requestAnimationFrame(() => setDrag(dx, opacity));
-    window.setTimeout(() => {
+    settleFrame = requestAnimationFrame(() => setDrag(dx, opacity));
+    settleTimer = setTimeout(() => {
       delete node.dataset.swipeOut;
       after?.();
     }, DURATION);
+  };
+  const stopSettle = () => {
+    if (settleFrame !== undefined) cancelAnimationFrame(settleFrame);
+    clearTimeout(settleTimer);
+    settleFrame = undefined;
+    settleTimer = undefined;
   };
 
   const onMove = (event: PointerEvent) => {
@@ -150,6 +160,7 @@ export function swipeDismiss(
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
+      stopSettle();
     },
   };
 }
