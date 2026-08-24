@@ -118,7 +118,7 @@
 
 <div class="combobox" data-width={width}>
   {#if name}
-    <input type="hidden" {name} value={$selectedValue ?? ""} />
+    <input type="hidden" {name} value={$selectedValue ?? ""} disabled={disabled || undefined} />
   {/if}
   <!-- The ids are declared here as well as applied by the actions, so the
        server-rendered input already has a name and names its popup. -->

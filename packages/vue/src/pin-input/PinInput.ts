@@ -82,7 +82,14 @@ export const PinInput = defineComponent({
           "data-success": !props.invalid && props.success ? "" : undefined,
         },
         [
-          props.name ? h("input", { type: "hidden", name: props.name, value: value.value }) : null,
+          props.name
+            ? h("input", {
+                type: "hidden",
+                name: props.name,
+                value: value.value,
+                disabled: props.disabled || undefined,
+              })
+            : null,
           ...values.value.map((cell, index) =>
             h("input", {
               ...api.value.getInputProps(index),

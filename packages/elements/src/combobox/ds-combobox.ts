@@ -242,6 +242,8 @@ export class DsCombobox extends HTMLElementBase {
         this.#hidden = hidden;
       }
       this.#hidden.name = name;
+      // A disabled control sends nothing, like every native one.
+      this.#hidden.disabled = boolAttr(this, "disabled");
     } else {
       this.#hidden?.remove();
       this.#hidden = null;

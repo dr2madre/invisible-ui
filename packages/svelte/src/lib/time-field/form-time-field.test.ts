@@ -8,4 +8,10 @@ describe("TimeField — form participation (hidden input)", () => {
     const form = screen.getByTestId("form") as HTMLFormElement;
     expect(new FormData(form).get("time")).toBe("09:30");
   });
+
+  it("sends nothing while disabled, like a native control", () => {
+    render(Fixture, { props: { ...{ value: "09:30" }, disabled: true } });
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    expect([...new FormData(form).keys()]).toEqual([]);
+  });
 });

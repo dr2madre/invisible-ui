@@ -67,7 +67,7 @@
 
 <div class="date-picker" class:date-picker--disabled={disabled}>
   {#if name}
-    <input type="hidden" {name} value={value ?? ""} />
+    <input type="hidden" {name} value={value ?? ""} disabled={disabled || undefined} />
   {/if}
   <div class="date-picker__field">
     <span class="date-picker__icon" class:date-picker__icon--active={value} aria-hidden="true">

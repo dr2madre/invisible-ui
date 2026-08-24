@@ -148,7 +148,12 @@ export const TimeField = defineComponent({
           },
           [
             props.name
-              ? h("input", { type: "hidden", name: props.name, value: api.value.value ?? "" })
+              ? h("input", {
+                  type: "hidden",
+                  name: props.name,
+                  value: api.value.value ?? "",
+                  disabled: props.disabled || undefined,
+                })
               : null,
             ...segments.value.flatMap((seg, index) => {
               const text = api.value.getSegmentText(seg);

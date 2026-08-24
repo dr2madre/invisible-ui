@@ -135,7 +135,13 @@ export function MultiSelect({
     <div className="multi-select">
       {name
         ? selectedValues.map((value) => (
-            <input key={value} type="hidden" name={name} value={value} />
+            <input
+              key={value}
+              type="hidden"
+              name={name}
+              value={value}
+              disabled={disabled || undefined}
+            />
           ))
         : null}
       <label className="multi-select__label" {...api.labelProps}>

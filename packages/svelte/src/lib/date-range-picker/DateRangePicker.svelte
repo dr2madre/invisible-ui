@@ -74,10 +74,10 @@
 
 <div class="date-picker" class:date-picker--disabled={disabled}>
   {#if startName}
-    <input type="hidden" name={startName} value={start ?? ""} />
+    <input type="hidden" name={startName} value={start ?? ""} disabled={disabled || undefined} />
   {/if}
   {#if endName}
-    <input type="hidden" name={endName} value={end ?? ""} />
+    <input type="hidden" name={endName} value={end ?? ""} disabled={disabled || undefined} />
   {/if}
   <div class="date-picker__field">
     <span

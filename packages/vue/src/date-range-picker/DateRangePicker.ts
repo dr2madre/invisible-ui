@@ -125,10 +125,20 @@ export const DateRangePicker = defineComponent({
     return () =>
       h("div", { class: ["date-picker", { "date-picker--disabled": props.disabled }] }, [
         props.startName
-          ? h("input", { type: "hidden", name: props.startName, value: start.value ?? "" })
+          ? h("input", {
+              type: "hidden",
+              name: props.startName,
+              value: start.value ?? "",
+              disabled: props.disabled || undefined,
+            })
           : null,
         props.endName
-          ? h("input", { type: "hidden", name: props.endName, value: end.value ?? "" })
+          ? h("input", {
+              type: "hidden",
+              name: props.endName,
+              value: end.value ?? "",
+              disabled: props.disabled || undefined,
+            })
           : null,
         h("div", { class: "date-picker__field" }, [
           h(

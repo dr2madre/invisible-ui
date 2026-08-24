@@ -110,7 +110,12 @@ export const DatePicker = defineComponent({
     return () =>
       h("div", { class: ["date-picker", { "date-picker--disabled": props.disabled }] }, [
         props.name
-          ? h("input", { type: "hidden", name: props.name, value: selected.value ?? "" })
+          ? h("input", {
+              type: "hidden",
+              name: props.name,
+              value: selected.value ?? "",
+              disabled: props.disabled || undefined,
+            })
           : null,
         h("div", { class: "date-picker__field" }, [
           h(

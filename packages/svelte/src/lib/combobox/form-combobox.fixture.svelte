@@ -3,6 +3,7 @@
 
   export let value: string | null = null;
   export let name = "fruit";
+  export let disabled = false;
 </script>
 
 <form data-testid="form">
@@ -10,6 +11,7 @@
     label="Fruit"
     {name}
     {value}
+    {disabled}
     items={[
       { value: "apple", label: "Apple" },
       { value: "pear", label: "Pear" },
