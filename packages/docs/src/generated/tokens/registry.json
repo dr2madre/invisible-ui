@@ -24129,7 +24129,9 @@
         "toggle-button"
       ],
       "category": "color",
-      "categories": [],
+      "categories": [
+        "color"
+      ],
       "properties": [
         "background"
       ],
