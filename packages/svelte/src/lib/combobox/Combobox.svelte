@@ -442,4 +442,13 @@
     color: var(--ds-color-text-secondary, #524c44);
     cursor: default;
   }
+  /* Forced colors: the active option is marked by a tint alone, and tints flatten away.
+     Keyboard focus stays in the input, so the list must show which
+     option it is on. The list scrolls, so the ring goes inside. */
+  @media (forced-colors: active) {
+    .combobox__option:global([data-active]) {
+      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline-offset: -2px;
+    }
+  }
 </style>

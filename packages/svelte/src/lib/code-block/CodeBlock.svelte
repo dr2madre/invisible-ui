@@ -182,4 +182,11 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  /* Forced colors: the figure clips, so the ring goes inside the
+     scroller or its edges are cut off. */
+  @media (forced-colors: active) {
+    .code-block__pre:focus-visible {
+      outline-offset: -2px;
+    }
+  }
 </style>

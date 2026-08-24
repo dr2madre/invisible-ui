@@ -122,6 +122,24 @@ Every such knob is listed in
 **Theme switch.** Follows `prefers-color-scheme` by default; force it per subtree
 with `[data-theme="dark"]` / `[data-theme="light"]`.
 
+**Forced colors (Windows High Contrast).** The theme paints its focus ring with
+a shadow, and forced colors drops every shadow, so `tokens.css` restores a real
+outline in the platform's own `Highlight` colour on whatever has keyboard focus
+(`:focus-visible`). Only the outline is forced: each component keeps the offset
+it already declares, so a control inside a scrolling row draws the ring within
+itself and one with text at its edge does not draw across it. Controls whose
+focus lives on a visually hidden input (checkbox, radio, switch, segmented
+control, rating, toggle button, upload area) carry their own outline on the
+visible part, and a combobox, multi-select or search list rings the option the
+keyboard is on, since its tint would otherwise flatten away.
+
+The rule is `!important`, which is what beats the components' own
+`outline: none`. To replace it, use `!important` at a higher specificity than
+`:focus-visible`, for example `.my-button:focus-visible`. If you replace the
+focus tokens, keep an outline: a shadow alone disappears in this mode. Our
+checks emulate forced colors in Chromium, which supports but does not replace a
+pass on real Windows High Contrast.
+
 **Accessibility.** The defaults are checked against WCAG 2 AA (text 4.5:1, icon
 glyphs 3:1) by an automated test over `tokens.css`, and the
 [token catalog](/invisible-ui/presentation/token-catalog/#tk-contrast) measures

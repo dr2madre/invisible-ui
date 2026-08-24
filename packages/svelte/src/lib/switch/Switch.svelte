@@ -181,4 +181,13 @@
   .switch__input:checked + .switch--onoff.switch::after {
     translate: calc(var(--ds-switch-onoff-width, 3.75rem) - var(--ds-switch-height, 1.5rem)) 0;
   }
+  /* Forced colors: the focus sits on the hidden input, so the outline the
+     theme forces there lands on something nobody can see. Draw it on the
+     visible part instead. */
+  @media (forced-colors: active) {
+    .switch__input:focus-visible + .switch {
+      outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+      outline-offset: 2px;
+    }
+  }
 </style>
