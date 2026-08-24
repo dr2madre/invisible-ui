@@ -92,7 +92,7 @@ test.describe("Svelte TableSet row selection (docs demo)", () => {
       expect(await cards.isChecked()).toBe(true);
     }).toPass({ timeout: 10_000 });
 
-    const list = demo.getByRole("list", { name: "Customers" });
+    const list = demo.getByRole("list", { name: "Customers with selection", exact: true });
     await expect(list).toBeVisible();
     const ada = demo.getByRole("checkbox", { name: "Select Ada" });
     await ensureChecked(ada);
@@ -119,7 +119,9 @@ test.describe("Svelte TableSet row selection (docs demo)", () => {
     // The card view at 320px must hold the same minimum.
     await page.setViewportSize({ width: 320, height: 900 });
     await control(demo.getByRole("radio", { name: "Cards" })).click();
-    await expect(demo.getByRole("list", { name: "Customers" })).toBeVisible();
+    await expect(
+      demo.getByRole("list", { name: "Customers with selection", exact: true }),
+    ).toBeVisible();
     const box = await target("Select Ada");
     expect(box.width).toBeGreaterThanOrEqual(24);
     expect(box.height).toBeGreaterThanOrEqual(24);

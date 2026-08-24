@@ -6,7 +6,11 @@ export interface ScrollAreaProps {
   orientation?: ScrollOrientation;
   /** Max size of the viewport (the scroll constraint), e.g. `"12rem"`. */
   maxHeight?: string;
-  /** Optional accessible name; makes the viewport a labelled scroll region. */
+  /**
+   * Optional accessible name; makes the viewport a labelled scroll region.
+   * The name is yours to choose, so two scroll areas on a page should not
+   * share one: the landmark list would show the same entry twice.
+   */
   label?: string;
 }
 

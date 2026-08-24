@@ -36,15 +36,44 @@ interface Violation {
   first: string;
 }
 
+// These rules read the accessibility tree, which does not vary by engine, so
+// one browser is enough for a sweep this wide.
+test.skip(({ browserName }) => browserName !== "chromium", "one engine is enough for axe");
+
 test("the whole catalog is free of automated accessibility violations", async ({ page }) => {
   test.setTimeout(600_000);
   const failures: string[] = [];
 
   for (const url of allPages()) {
-    await page.goto(url);
+    const response = await page.goto(url);
+    expect(response?.ok(), `${url} did not load`).toBeTruthy();
     await page.waitForLoadState("load");
-    // Expressive Code settles its scrollable-block attributes on idle.
-    await page.waitForTimeout(400);
+    // The demos mount when they scroll into view, so walk the page to the
+    // bottom: a demo that never mounts is a demo never checked, and a
+    // half-mounted one reports colours it does not really paint.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForLoadState("networkidle");
+    await expect
+      .poll(() => page.evaluate(() => document.querySelectorAll("astro-island:empty").length))
+      .toBe(0);
+    // Expressive Code settles its scrollable-block attributes on idle, and
+    // until it has, a sample can still be a landmark. Wait for the state the
+    // sweep depends on instead of guessing how long that takes.
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => document.querySelectorAll('.expressive-code pre[role="region"]').length,
+        ),
+      )
+      .toBe(0);
+    // Contrast is measured on painted pixels, so the fonts must be in place.
+    await page.evaluate(() => document.fonts.ready);
     await page.addScriptTag({ content: AXE });
     const violations = (await page.evaluate(async (rules) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,7 +99,6 @@ test("a code sample that starts scrolling is named, and stops being named when i
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("components/forms/button/");
   await page.waitForLoadState("load");
-  await page.waitForTimeout(600);
 
   const state = () =>
     page.evaluate(() =>
@@ -82,6 +110,13 @@ test("a code sample that starts scrolling is named, and stops being named when i
       })),
     );
 
+  // Settled means every block agrees with itself: focusable exactly when it
+  // scrolls, named exactly when focusable.
+  const settled = (blocks: Awaited<ReturnType<typeof state>>) =>
+    blocks.length > 1 &&
+    blocks.every((block) => block.focusable === block.scrolls && block.named === block.scrolls);
+  await expect.poll(async () => settled(await state())).toBe(true);
+
   const wide = await state();
   expect(wide.length).toBeGreaterThan(1);
   for (const block of wide) {
@@ -92,12 +127,22 @@ test("a code sample that starts scrolling is named, and stops being named when i
 
   // Narrow enough that blocks which fit at desktop start scrolling.
   await page.setViewportSize({ width: 380, height: 900 });
-  await page.waitForTimeout(800);
+  await expect.poll(async () => settled(await state())).toBe(true);
   const narrow = await state();
   expect(narrow.some((block) => block.scrolls)).toBe(true);
   for (const block of narrow) {
     expect(block.focusable).toBe(block.scrolls);
     expect(block.named).toBe(block.scrolls);
+    expect(block.role).toBe(block.scrolls ? "group" : null);
+  }
+
+  // And back: a block that stops scrolling gives all three attributes up.
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect.poll(async () => settled(await state())).toBe(true);
+  const wideAgain = await state();
+  expect(wideAgain.some((block) => !block.scrolls)).toBe(true);
+  for (const block of wideAgain) {
+    expect(block.focusable).toBe(block.scrolls);
     expect(block.role).toBe(block.scrolls ? "group" : null);
   }
 });

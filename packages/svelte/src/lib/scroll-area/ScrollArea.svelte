@@ -15,7 +15,11 @@
   export let orientation: ScrollOrientation = "vertical";
   /** Max size of the viewport (the scroll constraint), e.g. `"12rem"`. */
   export let maxHeight = "12rem";
-  /** Optional accessible name; makes the viewport a labelled scroll region. */
+  /**
+   * Optional accessible name; makes the viewport a labelled scroll region.
+   * The name is yours to choose, so two scroll areas on a page should not
+   * share one: the landmark list would show the same entry twice.
+   */
   export let label: string | undefined = undefined;
 
   const { vertical, horizontal, viewportAction, thumbAction } = createScrollArea();

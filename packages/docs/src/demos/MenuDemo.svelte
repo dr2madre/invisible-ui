@@ -17,4 +17,4 @@
 </script>
 
 <!-- The docs site already has a nav named "Main": the demo names its own. -->
-<Menu {sections} value={active} onSelect={(v) => (active = v)} label="Example product" />
+<Menu {sections} value={active} onSelect={(v) => (active = v)} label="Example product sidebar" />

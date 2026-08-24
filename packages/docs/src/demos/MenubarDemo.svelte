@@ -3,7 +3,7 @@
 </script>
 
 <Menubar
-  label="Example product"
+  label="Example product menubar"
   menus={[
     {
       value: "file",

@@ -15,7 +15,9 @@ test.describe("Svelte TableSet filtering coordination (docs demo)", () => {
 
   test("no-results appears with a status role and clears back to content", async ({ page }) => {
     const demo = filterDemo(page);
-    await expect(demo.getByRole("table", { name: "Customers" })).toBeVisible();
+    await expect(
+      demo.getByRole("table", { name: "Customers with filters", exact: true }),
+    ).toBeVisible();
     expect(await demo.locator("[role='status']").count()).toBe(0);
 
     await demo.getByRole("textbox", { name: "Filter by city" }).fill("zzz");
@@ -27,7 +29,9 @@ test.describe("Svelte TableSet filtering coordination (docs demo)", () => {
     expect(await demo.locator("[aria-live]").count()).toBe(0);
 
     await demo.getByRole("button", { name: "Clear filters" }).click();
-    await expect(demo.getByRole("table", { name: "Customers" })).toBeVisible();
+    await expect(
+      demo.getByRole("table", { name: "Customers with filters", exact: true }),
+    ).toBeVisible();
     // Focus lands on the view container: the pressed button is gone.
     await expect(demo.locator(".table-view")).toBeFocused();
   });
