@@ -102,8 +102,11 @@ test.describe("Async Content composition (docs demo)", () => {
     expect(await liveCount()).toBe(1);
 
     await d.getByRole("button", { name: "Fail" }).click();
-    // The stale notification is a labelled region, not an extra live element.
-    expect(await liveCount()).toBeLessThanOrEqual(1);
+    // The refreshing indicator has unmounted, so the one live element left is
+    // the stale notification, and it stays polite: the data is still on screen,
+    // so nothing here interrupts what is being read.
+    expect(await liveCount()).toBe(1);
+    await expect(d.locator("[role='alert']")).toHaveCount(0);
 
     await d.getByRole("button", { name: "Succeed with data" }).click();
     expect(await liveCount()).toBe(0);

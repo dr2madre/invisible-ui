@@ -127,17 +127,20 @@ for (const consumer of [svelte, vue]) {
       const scope = await consumer.open(page);
       await scope.getByRole("button", { name: "Edit profile" }).click();
       const editor = dialog(page, "Edit profile");
-      const remove = editor.getByRole("button", { name: /^Remove / }).first();
+      const removeButtons = editor.getByRole("button", { name: /^Remove / });
+      const before = await removeButtons.count();
+      expect(before, "the hand-off needs a neighbour to hand off to").toBeGreaterThan(1);
+      const remove = removeButtons.first();
       const removeName = await remove.getAttribute("aria-label");
+      const nextName = await removeButtons.nth(1).getAttribute("aria-label");
       await remove.click();
-      // Focus moves along the tag chain (or to the input when none remain),
-      // never to the document body.
+      // The next tag's remove button by name, so the user keeps their place.
       const focused = await page.evaluate(() => {
         const el = document.activeElement as HTMLElement | null;
         return { tag: el?.tagName ?? "", name: el?.getAttribute("aria-label") ?? el?.id ?? "" };
       });
-      expect(focused.tag).not.toBe("BODY");
-      expect(focused.name).not.toBe(removeName);
+      expect(focused.name, `focus went to ${focused.tag}`).toBe(nextName);
+      expect(nextName).not.toBe(removeName);
       await expect(editor).toBeVisible();
       // The panel fits the narrow viewport; its body scrolls instead.
       const box = await editor.boundingBox();

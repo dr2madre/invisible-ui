@@ -26,15 +26,10 @@ test("every knob in the registry has a card on the page", async ({ page }) => {
   }
 });
 
-test("a knob that follows a role repaints with the dark theme", async ({ page }) => {
-  // --ds-calendar-range-band falls back through --ds-color-selected: its
-  // specimen must resolve, and follow the theme, without the knob ever being
-  // defined anywhere.
-  await page.addInitScript(() => {
-    document.addEventListener("DOMContentLoaded", () =>
-      document.documentElement.setAttribute("data-theme", "dark"),
-    );
-  });
+test("a knob that follows a role resolves in both panes", async ({ page }) => {
+  // --ds-calendar-range-band is never defined anywhere: it falls back through
+  // --ds-color-selected, which keeps the same purple in both themes, so what
+  // is checked is that both panes resolve through the chain.
   await page.goto(PAGE);
   const card = page.locator('[data-ctk-token][data-name="--ds-calendar-range-band"]');
   const read = (theme: string) =>
@@ -44,8 +39,6 @@ test("a knob that follows a role repaints with the dark theme", async ({ page })
   const light = await read("light");
   const dark = await read("dark");
   expect(light).not.toBe("rgba(0, 0, 0, 0)");
-  // selected keeps the same purple in both themes today, so equality is the
-  // honest expectation; what matters is that both resolve through the chain.
   expect(dark).not.toBe("rgba(0, 0, 0, 0)");
 });
 
@@ -55,15 +48,21 @@ test("the filter narrows the knobs and reports the count", async ({ page }) => {
   await expect(search).toBeVisible();
   for (const query of ["radius", "calendar", "selected"]) {
     await search.fill(query);
+    // The same haystack the page builds, so the count can be exact. Only
+    // `purpose` is lowered, exactly as the card's `data-role` does it.
     const expected = registry.componentTokens.filter((token) =>
-      `${token.name} ${token.parents.join(" ")}`.toLowerCase().includes(query),
+      `${token.name} ${token.component} ${(token.purpose ?? "").toLowerCase()} ${token.parents.join(" ")}`.includes(
+        query,
+      ),
     ).length;
-    const visible = await page.locator("[data-ctk-token]:visible").count();
-    // data-role carries component and purpose too, so the page may match more
-    // than the name+parents lower bound, never fewer.
-    expect(visible).toBeGreaterThanOrEqual(expected);
+    expect(expected, `the query "${query}" must match something`).toBeGreaterThan(0);
+    expect(expected, `the query "${query}" must not match everything`).toBeLessThan(
+      registry.componentTokens.length,
+    );
+    await expect(page.locator("[data-ctk-token]:visible")).toHaveCount(expected);
+    // And the status line reports that same number, not just the total.
     await expect(page.locator("[data-ctk-status]")).toContainText(
-      `of ${registry.componentTokens.length}`,
+      `${expected} of ${registry.componentTokens.length}`,
     );
   }
 });

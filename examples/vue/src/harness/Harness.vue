@@ -62,7 +62,8 @@ const cityItems = [
   { value: "milan", label: "Milan" },
   { value: "tokyo", label: "Tokyo" },
 ];
-const dialogSkills = ref<string[]>(["vue"]);
+// Three, so removing one still leaves a neighbour to hand focus to.
+const dialogSkills = ref<string[]>(["svelte", "vue", "react"]);
 const compositionOutcome = ref("none");
 
 const price = ref<number | null>(1234.5);

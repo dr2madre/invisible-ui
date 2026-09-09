@@ -18,7 +18,8 @@
   ];
 
   let name = "";
-  let skillValues = ["svelte"];
+  // Three, so removing one still leaves a neighbour to hand focus to.
+  let skillValues = ["svelte", "vue", "react"];
   let outcome = "none";
 </script>
 

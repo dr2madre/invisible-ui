@@ -168,6 +168,20 @@ describe("tree connect", () => {
     expect(rise.focus).toHaveBeenCalledWith("src");
   });
 
+  it("a disabled tree disables every node in it, and selects none of them", () => {
+    const state = make({ disabled: true });
+    expect(visibleNodes(state).every((node) => node.disabled)).toBe(true);
+    expect(firstVisible(state)).toBeNull();
+
+    const setSelected = vi.fn();
+    const api = connect({ state, setSelected, setExpanded: vi.fn(), setFocused: vi.fn() });
+    // A node the fixture really has: an absent value returns on `!node` and
+    // never reaches the disabled branch, so it would pass either way.
+    api.select("src");
+    api.select("package.json");
+    expect(setSelected).not.toHaveBeenCalled();
+  });
+
   it("Enter/Space select; disabled nodes never select", () => {
     const enter = wire({ expanded: ["src"] });
     (enter.api.getItemProps("lib").onKeyDown as (e: Event) => void)(keyEvent("Enter"));

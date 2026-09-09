@@ -60,7 +60,9 @@ test("the whole catalog is free of automated accessibility violations", async ({
     });
     await page.waitForLoadState("networkidle");
     await expect
-      .poll(() => page.evaluate(() => document.querySelectorAll("astro-island:empty").length))
+      .poll(() => page.evaluate(() => document.querySelectorAll("astro-island:empty").length), {
+        message: `${url} left islands unmounted`,
+      })
       .toBe(0);
     // Expressive Code settles its scrollable-block attributes on idle, and
     // until it has, a sample can still be a landmark. Wait for the state the
