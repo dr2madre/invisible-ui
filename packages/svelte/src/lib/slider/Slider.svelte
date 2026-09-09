@@ -32,11 +32,31 @@
   /** Called whenever the value changes. */
   export let onValueChange: ((value: number) => void) | undefined = undefined;
 
+  // The arrow wrapper reads the prop at call time, so a callback replaced
+  // after mount is the one that gets called.
   const {
     value: sliderValue,
     percentage,
     setValue,
-  } = createSlider({ value, min, max, step, orientation, disabled, onValueChange });
+    syncValue,
+  } = createSlider({
+    value,
+    min,
+    max,
+    step,
+    orientation,
+    disabled,
+    onValueChange: (next) => onValueChange?.(next),
+  });
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own interactions. A sync
+  // never reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));

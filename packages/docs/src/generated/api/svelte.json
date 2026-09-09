@@ -553,7 +553,7 @@
     {
       "name": "CreateCheckboxGroup",
       "kind": "interface",
-      "signature": "interface CreateCheckboxGroup { /** Reactive resolved state. */ state: Readable<CheckboxGroupState>; /** Reactive connected API. */ api: Readable<CheckboxGroupApi>; /** The selected values. */ value: Readable<string[]>; /** Imperatively replace the selection. */ setValue: (value: string[]) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a single item: `<span use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateCheckboxGroup { /** Reactive resolved state. */ state: Readable<CheckboxGroupState>; /** Reactive connected API. */ api: Readable<CheckboxGroupApi>; /** The selected values. */ value: Readable<string[]>; /** Imperatively replace the selection. */ setValue: (value: string[]) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string[]) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a single item: `<span use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateCollapsible",
@@ -633,7 +633,7 @@
     {
       "name": "CreatePinInput",
       "kind": "interface",
-      "signature": "interface CreatePinInput { /** Reactive resolved state. */ state: Readable<PinInputState>; /** Reactive connected API. */ api: Readable<PinInputApi>; /** Per-cell values. */ values: Readable<string[]>; /** The combined value. */ value: Readable<string>; /** Replace the per-cell values. */ setValues: (values: string[]) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a cell input: `<input use:inputAction={index}>`. */ inputAction: Action<HTMLElement, number>; }"
+      "signature": "interface CreatePinInput { /** Reactive resolved state. */ state: Readable<PinInputState>; /** Reactive connected API. */ api: Readable<PinInputApi>; /** Per-cell values. */ values: Readable<string[]>; /** The combined value. */ value: Readable<string>; /** Replace the per-cell values. */ setValues: (values: string[]) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string) => void; /** Svelte action for the group container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a cell input: `<input use:inputAction={index}>`. */ inputAction: Action<HTMLElement, number>; }"
     },
     {
       "name": "CreatePinInputContext",
@@ -653,12 +653,12 @@
     {
       "name": "CreateRadioGroup",
       "kind": "interface",
-      "signature": "interface CreateRadioGroup { /** Reactive resolved state. */ state: Readable<RadioGroupState>; /** The selected value (or `null`). */ value: Readable<string | null>; /** Imperatively select a value. */ setValue: (value: string) => void; /** Shared form/group name applied to every radio input. */ name: string; }"
+      "signature": "interface CreateRadioGroup { /** Reactive resolved state. */ state: Readable<RadioGroupState>; /** The selected value (or `null`). */ value: Readable<string | null>; /** Imperatively select a value. */ setValue: (value: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Shared form/group name applied to every radio input. */ name: string; }"
     },
     {
       "name": "CreateRatingGroup",
       "kind": "interface",
-      "signature": "interface CreateRatingGroup { /** Number of stars. */ max: number; /** The stars (1..max). */ items: RatingItem[]; /** The selected rating (or `null`). */ value: Readable<number | null>; /** Imperatively set the rating. */ setValue: (value: number) => void; /** Whether the group is disabled. */ disabled: boolean; /** Shared form/group name applied to every star radio. */ name: string; }"
+      "signature": "interface CreateRatingGroup { /** Number of stars. */ max: number; /** The stars (1..max). */ items: RatingItem[]; /** The selected rating (or `null`). */ value: Readable<number | null>; /** Imperatively set the rating. */ setValue: (value: number) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: number | null) => void; /** Whether the group is disabled. */ disabled: boolean; /** Shared form/group name applied to every star radio. */ name: string; }"
     },
     {
       "name": "CreateScrollArea",
@@ -688,7 +688,7 @@
     {
       "name": "CreateSlider",
       "kind": "interface",
-      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; }"
+      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: number) => void; }"
     },
     {
       "name": "CreateStepper",
@@ -698,7 +698,7 @@
     {
       "name": "CreateSwitch",
       "kind": "interface",
-      "signature": "interface CreateSwitch { /** Reactive resolved state (`{ checked, disabled }`). */ state: Readable<SwitchState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<SwitchApi>; /** Imperatively set the checked value (ignored when disabled). */ setChecked: (value: boolean) => void; /** Imperatively flip the checked value (ignored when disabled). */ toggle: () => void; /** Svelte action for the root `<button>`: `<button use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+      "signature": "interface CreateSwitch { /** Reactive resolved state (`{ checked, disabled }`). */ state: Readable<SwitchState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<SwitchApi>; /** Imperatively set the checked value (ignored when disabled). */ setChecked: (value: boolean) => void; /** Reflect a controlled `checked` prop without reporting a change. */ syncChecked: (value: boolean) => void; /** Reflect a controlled `disabled` prop without reporting a change. */ syncDisabled: (value: boolean) => void; /** Imperatively flip the checked value (ignored when disabled). */ toggle: () => void; /** Svelte action for the root `<button>`: `<button use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateTable",
@@ -718,12 +718,12 @@
     {
       "name": "CreateTimeField",
       "kind": "interface",
-      "signature": "interface CreateTimeField { state: Readable<TimeFieldState>; api: Readable<TimeFieldApi>; /** Action for the field container: reports when focus leaves the whole field. */ fieldAction: Action<HTMLElement>; /** Mirror bounds and shape after mount (no callbacks: they are data). */ syncConfig: (config: { min?: string; max?: string; hourCycle?: timeField.HourCycle; withSeconds?: boolean; }) => void; /** Svelte action for the field container. */ rootAction: Action<HTMLElement>; /** Svelte action for a segment, by type: `<span use:segmentAction={\"hour\"}>`. */ segmentAction: Action<HTMLElement, TimeSegmentType>; }"
+      "signature": "interface CreateTimeField { state: Readable<TimeFieldState>; api: Readable<TimeFieldApi>; /** Action for the field container: reports when focus leaves the whole field. */ fieldAction: Action<HTMLElement>; /** Mirror bounds and shape after mount (no callbacks: they are data). */ /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; syncConfig: (config: { min?: string; max?: string; hourCycle?: timeField.HourCycle; withSeconds?: boolean; }) => void; /** Svelte action for the field container. */ rootAction: Action<HTMLElement>; /** Svelte action for a segment, by type: `<span use:segmentAction={\"hour\"}>`. */ segmentAction: Action<HTMLElement, TimeSegmentType>; }"
     },
     {
       "name": "CreateToggleButton",
       "kind": "interface",
-      "signature": "interface CreateToggleButton { /** Reactive resolved state (`{ pressed, disabled }`). */ state: Readable<ToggleButtonState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<ToggleButtonApi>; /** Imperatively set the pressed value (ignored when disabled). */ setPressed: (value: boolean) => void; /** Imperatively make the control available or unavailable. */ setDisabled: (value: boolean) => void; /** Imperatively flip the pressed value (ignored when disabled). */ toggle: () => void; /** Svelte action for the native checkbox: `<input type=\"checkbox\" use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+      "signature": "interface CreateToggleButton { /** Reactive resolved state (`{ pressed, disabled }`). */ state: Readable<ToggleButtonState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<ToggleButtonApi>; /** Imperatively set the pressed value (ignored when disabled). */ setPressed: (value: boolean) => void; /** Reflect a controlled `pressed` prop without reporting a change. */ syncPressed: (value: boolean) => void; /** Imperatively make the control available or unavailable. */ setDisabled: (value: boolean) => void; /** Imperatively flip the pressed value (ignored when disabled). */ toggle: () => void; /** Svelte action for the native checkbox: `<input type=\"checkbox\" use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateTooltip",

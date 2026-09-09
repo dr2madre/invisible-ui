@@ -65,13 +65,24 @@
       dayPeriod: translate("timeField.dayPeriod"),
       empty: translate("timeField.empty"),
     },
-    onValueChange,
-    onValueCommit,
-    onValidationChange,
+    // The arrow wrappers read the props at call time, so a callback replaced
+    // after mount is the one that gets called.
+    onValueChange: (next) => onValueChange?.(next),
+    onValueCommit: (next) => onValueCommit?.(next),
+    onValidationChange: (next) => onValidationChange?.(next),
   });
   const { state: tfState, api, rootAction, segmentAction, fieldAction } = field;
 
   $: field.syncConfig({ min, max, hourCycle, withSeconds });
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own typing. A sync never
+  // reports a change.
+  let lastValueProp = value;
+  $: if (value !== lastValueProp) {
+    lastValueProp = value;
+    field.syncValue(value);
+  }
 
   $: segments = core.segments($tfState.hourCycle, $tfState.withSeconds);
   const isEmpty = (seg: TimeSegmentType, text: string) =>

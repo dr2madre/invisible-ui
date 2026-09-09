@@ -32,11 +32,30 @@
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
+  // The arrow wrapper reads the prop at call time, so a callback replaced
+  // after mount is the one that gets called.
   const {
     state: radioState,
     setValue,
+    syncValue,
     name: groupName,
-  } = createRadioGroup({ items, value, disabled, orientation, name, onValueChange });
+  } = createRadioGroup({
+    items,
+    value,
+    disabled,
+    orientation,
+    name,
+    onValueChange: (next) => onValueChange?.(next),
+  });
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own interactions. A sync
+  // never reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   const labelId = stableId("ds-radio-group");
 </script>

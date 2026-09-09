@@ -39,16 +39,27 @@
   const cellLabel = (index: number, count: number) =>
     get(t)("pinInput.cell", { index: index + 1, length: count });
 
-  const { rootAction, inputAction, values } = createPinInput({
+  // The arrow wrappers read the props at call time, so a callback replaced
+  // after mount is the one that gets called.
+  const { rootAction, inputAction, values, syncValue } = createPinInput({
     value,
     length,
     type,
     mask,
     disabled,
     cellLabel,
-    onValueChange,
-    onComplete,
+    onValueChange: (next) => onValueChange?.(next),
+    onComplete: (next) => onComplete?.(next),
   });
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own typing. A sync never
+  // reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   const cells = Array.from({ length }, (_, i) => i);
 </script>

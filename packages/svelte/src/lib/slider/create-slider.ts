@@ -15,6 +15,8 @@ export interface CreateSlider {
   percentage: Readable<number>;
   /** Set the value (snapped + clamped; ignored while disabled). */
   setValue: (value: number) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: number) => void;
 }
 
 /**
@@ -37,10 +39,19 @@ export function createSlider(context: core.SliderContext = {}): CreateSlider {
     });
   };
 
+  // Reflecting a controlled prop snaps it the same way a user action would,
+  // so the control never shows a value it could not reach.
+  const syncValue = (next: number) =>
+    state.update((current) => {
+      const snapped = core.snap(next, current.min, current.max, current.step);
+      return current.value === snapped ? current : { ...current, value: snapped };
+    });
+
   return {
     state,
     value: derived(state, ($state) => $state.value),
     percentage: derived(state, ($state) => core.percentage($state)),
     setValue,
+    syncValue,
   };
 }

@@ -25,8 +25,25 @@
   /** Called whenever the rating changes. */
   export let onValueChange: ((value: number) => void) | undefined = undefined;
 
-  const rating = createRatingGroup({ max, value, disabled, name, onValueChange });
-  const { items, setValue, name: groupName, value: selected } = rating;
+  // The arrow wrapper reads the prop at call time, so a callback replaced
+  // after mount is the one that gets called.
+  const rating = createRatingGroup({
+    max,
+    value,
+    disabled,
+    name,
+    onValueChange: (next) => onValueChange?.(next),
+  });
+  const { items, setValue, syncValue, name: groupName, value: selected } = rating;
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own interactions. A sync
+  // never reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   // While hovering, stars up to `hovered` show a grey preview; otherwise the
   // selected stars show the selection color.

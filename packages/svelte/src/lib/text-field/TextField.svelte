@@ -58,7 +58,9 @@
     invalid: !!error,
     hasDescription: !!description,
     hasSuccess: !!success,
-    onValueChange,
+    // The arrow wrapper reads the prop at call time, so a callback replaced
+    // after mount is the one that gets called.
+    onValueChange: (next) => onValueChange?.(next),
   });
   const {
     state: fieldState,

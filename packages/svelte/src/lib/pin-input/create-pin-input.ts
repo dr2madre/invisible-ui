@@ -21,6 +21,8 @@ export interface CreatePinInput {
   value: Readable<string>;
   /** Replace the per-cell values. */
   setValues: (values: string[]) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string) => void;
   /** Svelte action for the group container: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for a cell input: `<input use:inputAction={index}>`. */
@@ -53,6 +55,16 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
       return next;
     });
   };
+
+  // The prop is one string; the state holds one character per cell, so the
+  // cells are refilled and any spare ones cleared.
+  const syncValue = (value: string) =>
+    state.update((current) => {
+      const next = current.values.map((_, index) => value[index] ?? "");
+      return next.every((cell, index) => cell === current.values[index])
+        ? current
+        : { ...current, values: next };
+    });
 
   let rootEl: HTMLElement | null = null;
   const focus = (index: number) => {
@@ -98,6 +110,7 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
     values: derived(state, ($state) => $state.values),
     value: derived(state, ($state) => $state.values.join("")),
     setValues,
+    syncValue,
     rootAction,
     inputAction,
   };

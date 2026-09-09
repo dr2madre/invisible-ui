@@ -35,7 +35,28 @@
   /** Called whenever the on/off value changes. */
   export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
 
-  const { state: swState, setChecked } = createSwitch({ checked, disabled, onCheckedChange });
+  // The arrow wrapper reads the prop at call time, so a callback replaced
+  // after mount is the one that gets called.
+  const {
+    state: swState,
+    setChecked,
+    syncChecked,
+    syncDisabled,
+  } = createSwitch({ checked, disabled, onCheckedChange: (c) => onCheckedChange?.(c) });
+
+  // Controllable mirrors, compared against the last prop value (never against
+  // the store): an uncontrolled consumer keeps its own interactions. A sync
+  // never reports a change.
+  let lastChecked = checked;
+  $: if (checked !== lastChecked) {
+    lastChecked = checked;
+    syncChecked(checked);
+  }
+  let lastDisabled = disabled;
+  $: if (disabled !== lastDisabled) {
+    lastDisabled = disabled;
+    syncDisabled(disabled);
+  }
 
   $: resolvedOnText = onText ?? $t("switch.on");
   $: resolvedOffText = offText ?? $t("switch.off");
