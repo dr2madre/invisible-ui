@@ -208,6 +208,55 @@ describe("<ds-combobox>", () => {
     expect(new FormData(form).get("fruit")).toBe("banana");
   });
 
+  it("a control turned off closes the list it had open", async () => {
+    const user = userEvent.setup();
+    // The visible input carries aria-disabled, not the native attribute, so it
+    // stays focusable. A list left open over it could not be dismissed: the
+    // keys that close it live on an input that answers none.
+    const host = mount();
+    await user.type(input(), "a");
+    await user.keyboard("{ArrowDown}");
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+    expect(input().getAttribute("aria-activedescendant")).not.toBeNull();
+
+    host.setAttribute("disabled", "");
+    expect(input()).toHaveAttribute("aria-disabled", "true");
+    expect(input().disabled, "still focusable, so Tab reaches and leaves it").toBe(false);
+    expect(input().readOnly, "and nothing can be typed into it").toBe(true);
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect(input().getAttribute("aria-activedescendant")).toBeNull();
+    expect(listbox()).toHaveAttribute("data-state", "closed");
+  });
+
+  it("a disabled combobox cannot be opened by typing or by the chevron, or cleared", async () => {
+    const user = userEvent.setup();
+    const host = mount();
+    await user.type(input(), "ban");
+    await user.click(within(listbox()).getByRole("option", { name: "Banana" }));
+    expect(host.value).toBe("banana");
+
+    host.setAttribute("disabled", "");
+    // Typing: the visible input is focusable while disabled, and its own
+    // listener used to open and filter the list without asking the core.
+    await user.type(input(), "x");
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect(input()).toHaveValue("Banana");
+
+    // Read only stops a person typing; it does not stop an input event, which
+    // an autofill or a script still delivers.
+    input().value = "ap";
+    input().dispatchEvent(new Event("input", { bubbles: true }));
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+
+    await user.click(screen.getByRole("button", { name: "Show options" }));
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+
+    const clear = document.querySelector<HTMLButtonElement>(".combobox__clear")!;
+    expect(clear.disabled, "a disabled control offers no button that changes it").toBe(true);
+    clear.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
+    expect(host.value, "the value survived a press on the clear button").toBe("banana");
+  });
+
   it("select-only mode: read-only trigger, never filters", async () => {
     const user = userEvent.setup();
     mount(`<ds-combobox label="Priority" searchable="false" value="high">

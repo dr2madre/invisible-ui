@@ -187,6 +187,25 @@ describe("Vue Combobox (styled)", () => {
     expect(activeOption()?.textContent).not.toContain("Cherry");
   });
 
+  it("a control turned off closes the list it had open", async () => {
+    const user = userEvent.setup();
+    const disabled = ref(false);
+    const Host = defineComponent({
+      setup: () => () => h(Combobox, { label: "Fruit", items, disabled: disabled.value }),
+    });
+    render(Host);
+    await user.type(input(), "b");
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    // The input becomes natively disabled, so it takes no key: a list left
+    // open over it could only be dismissed with a pointer.
+    disabled.value = true;
+    await nextTick();
+    expect(input()).toBeDisabled();
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect(listbox()).toHaveAttribute("data-state", "closed");
+  });
+
   it("does not select a disabled option", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

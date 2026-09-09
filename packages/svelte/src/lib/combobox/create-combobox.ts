@@ -136,7 +136,13 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
   };
 
   const setDisabled = (disabled: boolean) =>
-    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
+    state.update((current) => {
+      if (current.disabled === disabled) return current;
+      // A control turned off closes its list: the keys that dismiss it live on
+      // an input that no longer takes any.
+      const closing = disabled && current.open ? { open: false, activeValue: null } : null;
+      return { ...current, ...closing, disabled };
+    });
 
   const api = derived(state, ($state) =>
     core.connect({

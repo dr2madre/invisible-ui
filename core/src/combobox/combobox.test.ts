@@ -239,6 +239,65 @@ describe("combobox commit boundary", () => {
     expect(h.text()).toBe("Banana");
   });
 
+  it("a disabled combobox opens from neither the API nor the arrows", () => {
+    const { api, setOpen, setActiveValue } = setup({
+      state: { ...initialState({ id: "c", items }), disabled: true },
+    });
+    api.openListbox();
+    for (const key of ["ArrowDown", "ArrowUp"]) {
+      (api.inputProps.onKeyDown as (e: unknown) => void)({ key, preventDefault() {} });
+    }
+    expect(setOpen).not.toHaveBeenCalled();
+    expect(setActiveValue).not.toHaveBeenCalled();
+    expect(api.inputProps["aria-expanded"]).toBe(false);
+  });
+
+  it("a disabled combobox answers no key, and cancels none", () => {
+    const openDisabled = () => ({
+      ...initialState({ id: "c", items }),
+      open: true,
+      disabled: true,
+      activeValue: "apple",
+      inputValue: "ba",
+      committedInputValue: "Apple",
+    });
+    for (const key of ["ArrowDown", "ArrowUp", "Enter", "Escape", "Tab", "Home"]) {
+      const h = setup({ state: openDisabled() });
+      const event = {
+        key,
+        defaultPrevented: false,
+        preventDefault() {
+          this.defaultPrevented = true;
+        },
+      };
+      (h.api.inputProps.onKeyDown as (e: unknown) => void)(event);
+      expect(h.setActiveValue, key).not.toHaveBeenCalled();
+      expect(h.setValue, key).not.toHaveBeenCalled();
+      expect(h.setOpen, key).not.toHaveBeenCalled();
+      expect(h.setInputValue, key).not.toHaveBeenCalled();
+      // The key is left to the page: an input that is still focusable keeps
+      // its caret keys.
+      expect(event.defaultPrevented, key).toBe(false);
+    }
+  });
+
+  it("a disabled combobox is not cleared, and takes no highlight from the pointer", () => {
+    const state = { ...initialState({ id: "c", items }), open: true, disabled: true };
+    const { api, setValue, setInputValue, setActiveValue } = setup({
+      state: { ...state, value: "apple", inputValue: "Apple" },
+    });
+    api.clear();
+    expect(setValue).not.toHaveBeenCalled();
+    expect(setInputValue).not.toHaveBeenCalled();
+    expect(api.clearProps.disabled).toBe(true);
+
+    (api.getOptionProps("banana").onMouseEnter as () => void)();
+    expect(
+      setActiveValue,
+      "the pointer moved the highlight of a disabled list",
+    ).not.toHaveBeenCalled();
+  });
+
   it("does nothing while disabled", () => {
     const h = harness({
       value: "apple",
