@@ -6,8 +6,10 @@ project could adopt. It ends with one recommendation. Nothing here is
 implemented: the contract is not decided until a maintainer decides it.
 
 Investigated on 9 September 2026 against `main` at `544cd34`, in Chromium,
-Firefox and WebKit. Every finding marked as reproduced was identical in all
-three engines.
+Firefox and WebKit; the claims were re-checked against `main` at `4033073`
+before this memo was merged, and the corrections that came out of that pass
+are marked where they sit. Every finding marked as reproduced was identical
+in all three engines.
 
 ## Method, and what it is worth
 
@@ -90,7 +92,7 @@ split below.
 | DatePicker | hidden + visible | not native | payload kept, field cleared | payload kept, field cleared |
 | DateRangePicker | hidden x2 + visible | not native | payload kept, field cleared | payload kept, field cleared |
 | **NumberField** | hidden + visible | not native | **restores, silently** | **restores, silently** |
-| UploadDropArea | `input[type=file]` | empties the file list | payload OK, component state stale | not probed |
+| UploadDropArea | `input[type=file]` | empties the file list | payload OK; the stale list is the consumer's | not probed |
 | *any control* | | fires no `input` or `change` | fires nothing | fires nothing |
 
 Three consequences are worth stating plainly.
@@ -235,8 +237,12 @@ already tells them, once.
 
 ### What (c) still requires, in two layers
 
-**Layer 1, emit real DOM defaults.** This fixes the text, checkbox, radio,
-slider and select families by letting the browser's own algorithm work. Pair
+**Layer 1, emit real DOM defaults.** This lets the browser's own algorithm
+work on the checkbox, radio, slider and select families. The text family needs
+Layer 2 as well even though it is a plain input: since the state conventions
+work, the Svelte text controls render the machine's value, so a browser-only
+restore would leave the machine stale and the next render would write the
+pre-reset value back. Pair
 `defaultValue` and `defaultChecked` with `value` and `checked` in Svelte (5.56
 ships setters for exactly this); set the `selected` attribute on the chosen
 option in both adapters; render the textarea's content as child text, not a
@@ -256,9 +262,10 @@ machine a `reset(value)` beside its existing no-notify `syncX` functions.
 passed through the public prop, which Layer 1 reflects into the DOM default.
 It is never the value the user has edited, and never a snapshot taken at
 mount. Native behaves the same way: it restores the current `value` content
-attribute, which an author may change at any time. Both adapters freeze a
-mount snapshot today, so on a controlled form whose prop has moved since
-mount, a reset would install a value the parent never held. (For an
+attribute, which an author may change at any time. The one reset
+implementation that exists today, NumberField, freezes a mount snapshot in
+both adapters, so on a controlled form whose prop has moved since mount, a
+reset would install a value the parent never held. (For an
 uncontrolled control the prop was passed once, so its last value is the mount
 value; the rule changes nothing there, only where it comes from.)
 
@@ -302,16 +309,26 @@ where noted.
 2. **Neither adapter's Select ever emits `selected`**, which is what sends a
    reset to the first real option. Adding the attribute is a pure output change:
    no API, no notification question, no reset listener. (Also Layer 1.)
-3. **The Svelte and Vue reset tests assert nothing.** In both
-   `form-composition.test.ts` files, the test that names reset ends by asserting
-   the payload is unchanged after `form.reset()`, and it passes because the
-   typed value was never committed, so the hidden input never changed. Not
-   because a reset restored anything. Committing before resetting turns a false
-   positive into real coverage, and would then fail, which is the point.
-4. **UploadDropArea is never told about a reset.** The file input empties itself
-   correctly, but the component's visible file list does not, so after a reset it
-   lists files the form will not submit. Nothing to restore, only something to
-   clear.
+3. **The reset tests cover one control in twenty.** In both
+   `form-composition.test.ts` files, the test that names reset is real: an
+   uncommitted edit already moves NumberField's hidden input (its form value
+   derives from the live value), and the assertion passes because the
+   NumberField listener genuinely restores it, with or without a commit first.
+   What the test does not do is touch any other control: it proves the one
+   reset implementation that exists, and nothing about the eighteen that do
+   not. The gap is breadth, not vacuity. (An earlier revision of this memo
+   claimed the opposite; that claim was disproven by execution in both
+   adapters.)
+4. **UploadDropArea holds nothing a reset could clear, and the guidance must
+   say whose problem that is.** The file input empties itself correctly, and
+   the component keeps no file state in either adapter: the list the
+   investigation saw lives in the docs demo, fed through `onFiles`, which is
+   consumer state. Under this contract the consumer clears that list in their
+   own `reset` handler, and the forms guidance must say so. One adjacent
+   defect surfaced while scoping this: a file that arrives by drop reaches
+   only the callback, never `input.files`, so the form never submits it and a
+   reset has nothing to clear; that is a form-participation defect with its
+   own fix, independent of this decision.
 5. **NumberField restores the mount value, not the current default**, in both
    adapters. One line each, and independent of the wider decision, since
    NumberField already restores silently.
