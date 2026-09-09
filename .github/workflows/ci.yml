@@ -84,6 +84,13 @@ jobs:
           pnpm --filter @design-system/svelte run smoke &&
           pnpm --filter @design-system/vue run smoke
 
+      # The same question asked of all five packages at once, plus the docs and
+      # the examples: every entry point a consumer is offered resolves, nothing
+      # undeclared is imported, no test scaffolding ships, and the project's own
+      # consumers reach nothing a consumer could not.
+      - name: Consumers reach only what is published
+        run: pnpm consumers:check
+
       # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
       - name: Bundle size budget
         run: pnpm size

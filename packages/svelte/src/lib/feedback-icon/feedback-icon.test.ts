@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/svelte";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import FeedbackIcon from "./FeedbackIcon.svelte";
-import SlotFixture from "./slot-fixture.svelte";
+import SlotFixture from "./slot.fixture.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 const statuses = ["info", "success", "warning", "danger", "neutral"] as const;
