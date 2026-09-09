@@ -1,3 +1,4 @@
 *.test.ts
 *.fixture.svelte
 vitest-setup.ts
+hydration-ssr-entry.ts
