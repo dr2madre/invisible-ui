@@ -182,12 +182,24 @@ wiring and documentation per control per adapter, across four adapters.
 
 Matches native exactly and ADR 0011 exactly, with no public API growth. The
 consumer's hook is the native `reset` event on the `<form>`: cancelable, so they
-can prevent it, and bubbling, so one handler covers every control. The
-consequence that must be documented: a controlled parent holding the value in
-its own state goes stale, its state still saying `Grace` while the control shows
-`Ada`. That is precisely native's consequence too, and the idiomatic answer in
-React and Vue is the same one, handle the form's reset and reset your own state
-there.
+can prevent it and replace the whole native restore with their own, and
+bubbling, so one handler covers every control.
+
+The timing of that hook matters, and it is the standard's, verified here in
+Chromium, Firefox and WebKit, for `form.reset()` and for a real press on a
+reset button alike. **The event is delivered before the browser runs the
+restore.** Inside the handler every control still holds its pre-reset value,
+and a `FormData` built there carries the pre-reset payload. So the handler is
+the right place to restore the consumer's own state, which is theirs and needs
+no reading, and the wrong place to read the form: a consumer who wants the
+restored values must defer the read to a later task, after the native
+algorithm has finished.
+
+The consequence that must be documented: a controlled parent holding the value
+in its own state goes stale, its state still saying `Grace` while the control
+shows `Ada`. That is precisely native's consequence too, and the idiomatic
+answer in React and Vue is the same one, handle the form's reset and reset your
+own state there.
 
 ### (d) No participation; consumers re-key the form
 
@@ -239,19 +251,27 @@ emitting: NumberField's pattern, generalized. Put the listener in `core/` as one
 shared helper that returns its teardown, so adapters stay thin, and give each
 machine a `reset(value)` beside its existing no-notify `syncX` functions.
 
-**One rule to get right in both layers**: restore the **current** `value` prop,
-not a mount snapshot. Native restores the current `value` content attribute,
-which an author may change at any time. Both adapters freeze it today, so on a
-controlled form whose prop has moved since mount, a reset would install a value
-the parent never held.
+**One rule to get right in both layers**: what a reset restores is the
+**current default**, and the current default is the last value the consumer
+passed through the public prop, which Layer 1 reflects into the DOM default.
+It is never the value the user has edited, and never a snapshot taken at
+mount. Native behaves the same way: it restores the current `value` content
+attribute, which an author may change at any time. Both adapters freeze a
+mount snapshot today, so on a controlled form whose prop has moved since
+mount, a reset would install a value the parent never held. (For an
+uncontrolled control the prop was passed once, so its last value is the mount
+value; the rule changes nothing there, only where it comes from.)
 
 ### What consumers would have to do
 
 Uncontrolled consumers: nothing, reset simply starts working. Controlled
 consumers: add one `reset` handler on the `<form>` restoring their own state,
-the same line they would already need around native controls. Because (c)
-deliberately does not tell them, this has to be documented once in the forms
-guidance and linked from every control page, never left implicit. It ships as a
+the same line they would already need around native controls. Their own state
+they can set right there, in the handler; the form's restored values they can
+only read later, in a task queued past the native algorithm, because the event
+arrives before the restore runs. Because (c) deliberately does not tell them,
+this has to be documented once in the forms guidance and linked from every
+control page, never left implicit. It ships as a
 documented behaviour change with a changeset: anyone who worked around the
 current behaviour sees a difference, and alpha is the right time.
 
