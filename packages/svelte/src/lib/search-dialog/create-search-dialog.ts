@@ -44,6 +44,8 @@ export interface CreateSearchDialog {
   open: Readable<boolean>;
   /** Imperatively open/close the palette. */
   setOpen: (open: boolean) => void;
+  /** Reflect a controlled `open` prop without reporting a change. */
+  syncOpen: (open: boolean) => void;
   /** The currently visible (filtered) commands. */
   items: Readable<SearchDialogItem[]>;
   /** The current query text. */
@@ -222,6 +224,7 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
   return {
     open: dialog.open,
     setOpen: dialog.setOpen,
+    syncOpen: dialog.syncOpen,
     items: derived(query, ($q) => $q.items),
     inputValue: derived(query, ($q) => $q.inputValue),
     setItems,

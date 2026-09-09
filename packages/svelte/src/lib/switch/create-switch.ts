@@ -15,6 +15,10 @@ export interface CreateSwitch {
   api: Readable<SwitchApi>;
   /** Imperatively set the checked value (ignored when disabled). */
   setChecked: (value: boolean) => void;
+  /** Reflect a controlled `checked` prop without reporting a change. */
+  syncChecked: (value: boolean) => void;
+  /** Reflect a controlled `disabled` prop without reporting a change. */
+  syncDisabled: (value: boolean) => void;
   /** Imperatively flip the checked value (ignored when disabled). */
   toggle: () => void;
   /** Svelte action for the root `<button>`: `<button use:rootAction>`. */
@@ -38,11 +42,29 @@ export function createSwitch(context: SwitchContext = {}): CreateSwitch {
     });
   };
 
+  const syncChecked = (value: boolean) =>
+    state.update((current) =>
+      current.checked === value ? current : { ...current, checked: value },
+    );
+
+  const syncDisabled = (value: boolean) =>
+    state.update((current) =>
+      current.disabled === value ? current : { ...current, disabled: value },
+    );
+
   const toggle = () => setChecked(!get(state).checked);
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setChecked, normalize: normalizeProps }),
   );
 
-  return { state, api, setChecked, toggle, rootAction: createRootAction(api) };
+  return {
+    state,
+    api,
+    setChecked,
+    syncChecked,
+    syncDisabled,
+    toggle,
+    rootAction: createRootAction(api),
+  };
 }

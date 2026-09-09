@@ -23,12 +23,27 @@
   /** Called whenever the selected values change. */
   export let onValueChange: ((value: string[]) => void) | undefined = undefined;
 
-  const { state: groupState, setValue } = createCheckboxGroup({
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const {
+    state: groupState,
+    setValue,
+    syncValue,
+  } = createCheckboxGroup({
     items,
     value,
     disabled,
-    onValueChange,
+    onValueChange: (next) => onValueChange?.(next),
   });
+
+  // Controllable mirror, compared against the last prop value (never against
+  // the store). The selection is an array, so it is compared by content: a
+  // parent echoing the reported value back must not churn. A sync never
+  // reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   function onItemChange(itemValue: string, event: Event) {
     const checked = (event.currentTarget as HTMLInputElement).checked;

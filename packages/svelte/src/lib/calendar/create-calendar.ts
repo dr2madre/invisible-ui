@@ -19,6 +19,12 @@ export interface CreateCalendar {
   /** Reactive connected API. */
   api: Readable<CalendarApi>;
   setValue: (iso: string) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (iso: string | null) => void;
+  /** Reflect a controlled `focusedDate` prop without reporting a change. */
+  syncFocus: (iso: string) => void;
+  /** Reflect a controlled `view` prop without reporting a change. */
+  syncView: (view: CalendarView) => void;
   setFocus: (iso: string) => void;
   setView: (view: CalendarView) => void;
   /** Svelte action for the grid container: `<div use:gridAction>`. */
@@ -65,6 +71,16 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
       return { ...s, view };
     });
 
+  // Reflect controlled props without reporting a change.
+  const syncValue = (iso: string | null) =>
+    state.update((s) => (s.value === iso ? s : { ...s, value: iso }));
+
+  const syncFocus = (iso: string) =>
+    state.update((s) => (s.focusedDate === iso ? s : { ...s, focusedDate: iso }));
+
+  const syncView = (view: CalendarView) =>
+    state.update((s) => (s.view === view ? s : { ...s, view }));
+
   const focus = (iso: string) => {
     void tick().then(() => {
       document.getElementById(core.dayId(baseId, iso))?.focus();
@@ -88,5 +104,18 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
     return { destroy: () => handle?.destroy?.() };
   };
 
-  return { state, api, setValue, setFocus, setView, gridAction, rowAction, cellAction, dayAction };
+  return {
+    state,
+    api,
+    setValue,
+    setFocus,
+    setView,
+    syncValue,
+    syncFocus,
+    syncView,
+    gridAction,
+    rowAction,
+    cellAction,
+    dayAction,
+  };
 }

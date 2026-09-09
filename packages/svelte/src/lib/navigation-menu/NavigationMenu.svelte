@@ -23,7 +23,8 @@
   export let items: NavigationMenuItem[];
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
 
-  const nav = createNavigationMenu({ onValueChange });
+  // A live callback reference (ADR 0011).
+  const nav = createNavigationMenu({ onValueChange: (next) => onValueChange?.(next) });
   const { triggerAction, contentAction, value } = nav;
 </script>
 

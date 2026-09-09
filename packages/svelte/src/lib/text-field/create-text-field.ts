@@ -26,6 +26,8 @@ export interface CreateTextField {
   value: Readable<string>;
   /** Imperatively set the value (ignored when disabled or read-only). */
   setValue: (value: string) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string) => void;
   /** Merge new state flags (disabled, invalid, …) — keeps props reactive. */
   setFlags: (flags: TextFieldFlags) => void;
   /** Svelte action for the `<label>`: `<label use:labelAction>`. */
@@ -61,6 +63,11 @@ export function createTextField(context: TextFieldContext = {}): CreateTextField
     });
   };
 
+  // Reflection applies even while disabled or read-only: it is data, not a
+  // user action.
+  const syncValue = (value: string) =>
+    state.update((current) => (current.value === value ? current : { ...current, value }));
+
   const setFlags = (flags: TextFieldFlags) => state.update((current) => ({ ...current, ...flags }));
 
   const api = derived(state, ($state) =>
@@ -72,6 +79,7 @@ export function createTextField(context: TextFieldContext = {}): CreateTextField
     api,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
     setFlags,
     labelAction: createPropsAction(api, (a) => a.labelProps),
     controlAction: createPropsAction(api, (a) => a.controlProps),

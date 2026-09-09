@@ -18,6 +18,8 @@ export interface CreateCollapsible {
   open: Readable<boolean>;
   /** Set the open state (ignored while disabled). */
   setOpen: (open: boolean) => void;
+  /** Reflect a controlled `open` prop without reporting a change. */
+  syncOpen: (open: boolean) => void;
   /** Toggle the open state (ignored while disabled). */
   toggle: () => void;
   /** Svelte action for the collapsible container: `<div use:rootAction>`. */
@@ -47,6 +49,11 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
     });
   };
 
+  // Reflect a controlled `open` prop without reporting a change: opening it
+  // from the outside is not the user asking for it.
+  const syncOpen = (open: boolean) =>
+    state.update((current) => (current.open === open ? current : { ...current, open }));
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setOpen, normalize: normalizeProps }),
   );
@@ -56,6 +63,7 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
     api,
     open: derived(state, ($state) => $state.open),
     setOpen,
+    syncOpen,
     toggle: () => get(api).toggle(),
     rootAction: createPropsAction(api, (a) => a.rootProps),
     triggerAction: createPropsAction(api, (a) => a.triggerProps),

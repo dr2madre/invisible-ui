@@ -41,24 +41,26 @@
   /** Called whenever the pressed value changes. */
   export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
 
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     state: tbState,
-    setPressed,
+    syncPressed,
     setDisabled,
     rootAction,
   } = createToggleButton({
     pressed,
     disabled,
-    onPressedChange,
+    onPressedChange: (next) => onPressedChange?.(next),
   });
   // The disabled sync runs first: a control re-enabled and pressed in the same
   // update accepts the new pressed value, because a disabled control ignores it.
   $: setDisabled(disabled);
-  // Controlled sync: when the `pressed` prop changes, mirror it into the store
-  // (a no-op when already equal). This only re-runs on a prop change, never on
-  // an internal click, so uncontrolled usage — passing `pressed` once and
-  // letting clicks drive it — keeps working unchanged.
-  $: setPressed(pressed);
+  // Controllable mirror, compared against the last prop value (ADR 0011).
+  let lastPressed = pressed;
+  $: if (pressed !== lastPressed) {
+    lastPressed = pressed;
+    syncPressed(pressed);
+  }
 </script>
 
 <label class="toggle" class:toggle--disabled={disabled}>

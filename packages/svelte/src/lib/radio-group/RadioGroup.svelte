@@ -32,11 +32,27 @@
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     state: radioState,
     setValue,
+    syncValue,
     name: groupName,
-  } = createRadioGroup({ items, value, disabled, orientation, name, onValueChange });
+  } = createRadioGroup({
+    items,
+    value,
+    disabled,
+    orientation,
+    name,
+    onValueChange: (next) => onValueChange?.(next),
+  });
+
+  // Controllable mirror, compared against the last prop value (ADR 0011).
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   const labelId = stableId("ds-radio-group");
 </script>

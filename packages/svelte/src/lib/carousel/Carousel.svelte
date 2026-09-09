@@ -54,7 +54,8 @@
   const context: CarouselContext = {
     count: items.length,
     loop,
-    onIndexChange,
+    // A live callback reference (ADR 0011).
+    onIndexChange: (next) => onIndexChange?.(next),
   };
 
   const carousel = createCarousel(context);

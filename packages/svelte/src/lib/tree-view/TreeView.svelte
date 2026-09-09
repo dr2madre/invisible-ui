@@ -34,8 +34,9 @@
     expanded,
     selected,
     disabled,
-    onExpandedChange,
-    onSelectedChange,
+    // Live callback references (ADR 0011).
+    onExpandedChange: (next) => onExpandedChange?.(next),
+    onSelectedChange: (next) => onSelectedChange?.(next),
   };
 
   const tree = createTreeView(context);
@@ -45,7 +46,23 @@
     visible,
     expanded: expandedStore,
     selected: selectedStore,
+    syncExpanded,
+    syncSelected,
   } = tree;
+
+  // Controllable mirrors, compared against the last prop values (ADR 0011):
+  // the expanded set is compared by content, so a parent echoing it back does
+  // not churn. A sync never reports a change.
+  let lastExpanded = expanded;
+  $: if (expanded !== lastExpanded) {
+    lastExpanded = expanded;
+    syncExpanded(expanded);
+  }
+  let lastSelected = selected;
+  $: if (selected !== lastSelected) {
+    lastSelected = selected;
+    syncSelected(selected);
+  }
 </script>
 
 <ul class="tree" use:rootAction aria-label={label}>

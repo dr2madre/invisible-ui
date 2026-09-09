@@ -65,13 +65,21 @@
       dayPeriod: translate("timeField.dayPeriod"),
       empty: translate("timeField.empty"),
     },
-    onValueChange,
-    onValueCommit,
-    onValidationChange,
+    // Live callback references (ADR 0011).
+    onValueChange: (next) => onValueChange?.(next),
+    onValueCommit: (next) => onValueCommit?.(next),
+    onValidationChange: (next) => onValidationChange?.(next),
   });
   const { state: tfState, api, rootAction, segmentAction, fieldAction } = field;
 
   $: field.syncConfig({ min, max, hourCycle, withSeconds });
+
+  // Controllable mirror, compared against the last prop value (ADR 0011).
+  let lastValueProp = value;
+  $: if (value !== lastValueProp) {
+    lastValueProp = value;
+    field.syncValue(value);
+  }
 
   $: segments = core.segments($tfState.hourCycle, $tfState.withSeconds);
   const isEmpty = (seg: TimeSegmentType, text: string) =>

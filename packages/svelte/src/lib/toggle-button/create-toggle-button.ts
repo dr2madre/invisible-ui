@@ -15,6 +15,8 @@ export interface CreateToggleButton {
   api: Readable<ToggleButtonApi>;
   /** Imperatively set the pressed value (ignored when disabled). */
   setPressed: (value: boolean) => void;
+  /** Reflect a controlled `pressed` prop without reporting a change. */
+  syncPressed: (value: boolean) => void;
   /** Imperatively make the control available or unavailable. */
   setDisabled: (value: boolean) => void;
   /** Imperatively flip the pressed value (ignored when disabled). */
@@ -46,11 +48,25 @@ export function createToggleButton(context: ToggleButtonContext = {}): CreateTog
     state.update((current) => core.setDisabled(current, value));
   };
 
+  // Reflection applies even while disabled: it is data, not a user action.
+  const syncPressed = (value: boolean) =>
+    state.update((current) =>
+      current.pressed === value ? current : { ...current, pressed: value },
+    );
+
   const toggle = () => setPressed(!get(state).pressed);
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setPressed, normalize: normalizeProps }),
   );
 
-  return { state, api, setPressed, setDisabled, toggle, rootAction: createRootAction(api) };
+  return {
+    state,
+    api,
+    setPressed,
+    syncPressed,
+    setDisabled,
+    toggle,
+    rootAction: createRootAction(api),
+  };
 }

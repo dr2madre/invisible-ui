@@ -22,6 +22,10 @@ export interface CreateTreeView {
   expanded: Readable<string[]>;
   /** The selected value (or `null`). */
   selected: Readable<string | null>;
+  /** Reflect a controlled `expanded` prop without reporting a change. */
+  syncExpanded: (expanded: string[]) => void;
+  /** Reflect a controlled `selected` prop without reporting a change. */
+  syncSelected: (value: string | null) => void;
   /** Imperatively expand/collapse a parent. */
   toggle: (value: string) => void;
   /** Imperatively select a value. */
@@ -58,6 +62,20 @@ export function createTreeView(context: TreeContext): CreateTreeView {
       return { ...current, selected: value };
     });
   };
+
+  const sameValues = (a: readonly string[], b: readonly string[]) =>
+    a.length === b.length && a.every((entry, index) => entry === b[index]);
+
+  // Reflect controlled props without reporting a change.
+  const syncExpanded = (expanded: string[]) =>
+    state.update((current) =>
+      sameValues(current.expanded, expanded) ? current : { ...current, expanded },
+    );
+
+  const syncSelected = (value: string | null) =>
+    state.update((current) =>
+      current.selected === value ? current : { ...current, selected: value },
+    );
 
   const setFocused = (value: string) => {
     state.update((current) =>
@@ -111,6 +129,8 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     visible: derived(state, ($state) => core.visibleNodes($state)),
     expanded: derived(state, ($state) => $state.expanded),
     selected: derived(state, ($state) => $state.selected),
+    syncExpanded,
+    syncSelected,
     // Imperative helpers read the connected API's current value.
     toggle: (value: string) => get(api).toggle(value),
     select: (value: string) => get(api).select(value),

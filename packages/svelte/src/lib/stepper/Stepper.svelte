@@ -42,14 +42,27 @@
     linear,
     orientation,
     disabled,
-    onStepChange,
+    // A live callback reference (ADR 0011).
+    onStepChange: (next) => onStepChange?.(next),
   };
 
   const stepper = createStepper(context);
-  const { rootAction, listAction, stepAction, current: currentStore } = stepper;
+  const { rootAction, listAction, stepAction, current: currentStore, syncStep } = stepper;
 
-  const statusOf = (index: number) =>
-    index < $currentStore ? "complete" : index === $currentStore ? "current" : "upcoming";
+  // Controllable mirror, compared against the last prop value (ADR 0011): a
+  // sync never reports a change.
+  let lastCurrent = current;
+  $: if (current !== lastCurrent) {
+    lastCurrent = current;
+    syncStep(current);
+  }
+
+  // One status per step, recomputed when the step changes: read through a
+  // plain function the template never recomputed it, so a step reflected from
+  // the outside kept the status it had at mount.
+  $: statuses = steps.map((_, index) =>
+    index < $currentStore ? "complete" : index === $currentStore ? "current" : "upcoming",
+  );
 
   $: resolvedLabel = label ?? $t("stepper.label");
 </script>
@@ -57,7 +70,7 @@
 <nav class="stepper" use:rootAction aria-label={resolvedLabel}>
   <ol class="stepper__list" use:listAction>
     {#each steps as step, index (index)}
-      {@const status = statusOf(index)}
+      {@const status = statuses[index]}
       <li class="stepper__step" data-status={status}>
         {#if index > 0}
           <span class="stepper__connector" aria-hidden="true"></span>

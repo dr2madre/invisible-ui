@@ -69,7 +69,13 @@
     descriptionAction,
   } = dialog;
 
-  $: dialog.setOpen(open);
+  // Controllable mirror through the no-notify sync: opening from the outside
+  // is not the user asking for it, so it reports nothing (ADR 0011).
+  let lastOpen = open;
+  $: if (open !== lastOpen) {
+    lastOpen = open;
+    dialog.syncOpen(open);
+  }
 
   $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
   $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");

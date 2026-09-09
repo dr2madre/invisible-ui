@@ -24,6 +24,8 @@ export interface CreateStepper {
   prev: () => void;
   /** Jump to a step (ignored when unreachable). */
   goTo: (index: number) => void;
+  /** Reflect a controlled prop without reporting a change. */
+  syncStep: (step: number) => void;
   /** Svelte action for the container: `<nav use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for the ordered list: `<ol use:listAction>`. */
@@ -52,6 +54,10 @@ export function createStepper(context: StepperContext): CreateStepper {
     });
   };
 
+  // Reflect a controlled `current` prop without reporting a change.
+  const syncStep = (step: number) =>
+    state.update((current) => (current.current === step ? current : { ...current, current: step }));
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setStep, normalize: normalizeProps }),
   );
@@ -72,6 +78,7 @@ export function createStepper(context: StepperContext): CreateStepper {
     next: () => get(api).next(),
     prev: () => get(api).prev(),
     goTo: (index: number) => get(api).goTo(index),
+    syncStep,
     rootAction,
     listAction,
     stepAction,

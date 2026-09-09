@@ -28,6 +28,8 @@ export interface CreateRatingGroup {
   value: Readable<number | null>;
   /** Imperatively set the rating. */
   setValue: (value: number) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: number | null) => void;
   /** Whether the group is disabled. */
   disabled: boolean;
   /** Shared form/group name applied to every star radio. */
@@ -61,6 +63,7 @@ export function createRatingGroup(context: RatingGroupContext = {}): CreateRatin
     items,
     value: derived(radio.value, ($v) => ($v != null ? Number($v) : null)),
     setValue: (value: number) => radio.setValue(String(value)),
+    syncValue: (value: number | null) => radio.syncValue(value != null ? String(value) : null),
     disabled: context.disabled ?? false,
     name: radio.name,
   };

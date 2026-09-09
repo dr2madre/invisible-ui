@@ -25,11 +25,20 @@
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
-  const { rootAction, triggerAction, contentAction } = createCollapsible({
+  const { rootAction, triggerAction, contentAction, syncOpen } = createCollapsible({
     open,
     disabled,
-    onOpenChange,
+    // A live callback reference (ADR 0011).
+    onOpenChange: (next) => onOpenChange?.(next),
   });
+
+  // Controllable mirror, compared against the last prop value (ADR 0011): a
+  // sync never reports a change.
+  let lastOpen = open;
+  $: if (open !== lastOpen) {
+    lastOpen = open;
+    syncOpen(open);
+  }
 </script>
 
 <div class="collapsible" use:rootAction>

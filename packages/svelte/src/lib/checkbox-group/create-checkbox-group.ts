@@ -18,6 +18,8 @@ export interface CreateCheckboxGroup {
   value: Readable<string[]>;
   /** Imperatively replace the selection. */
   setValue: (value: string[]) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string[]) => void;
   /** Svelte action for the group container: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Svelte action for a single item: `<span use:itemAction={value}>`. */
@@ -41,6 +43,12 @@ export function createCheckboxGroup(context: CheckboxGroupContext): CreateCheckb
     });
   };
 
+  const sameValues = (a: readonly string[], b: readonly string[]) =>
+    a.length === b.length && a.every((entry, index) => entry === b[index]);
+
+  const syncValue = (value: string[]) =>
+    state.update((current) => (sameValues(current.value, value) ? current : { ...current, value }));
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, normalize: normalizeProps }),
   );
@@ -58,6 +66,7 @@ export function createCheckboxGroup(context: CheckboxGroupContext): CreateCheckb
     api,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
     rootAction,
     itemAction,
   };

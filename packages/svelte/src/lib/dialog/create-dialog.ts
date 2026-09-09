@@ -33,6 +33,8 @@ export interface CreateDialog {
   open: Readable<boolean>;
   /** Imperatively set the open state. */
   setOpen: (open: boolean) => void;
+  /** Reflect a controlled `open` prop without reporting a change. */
+  syncOpen: (open: boolean) => void;
   /** Svelte action for the trigger: `<button use:triggerAction>`. */
   triggerAction: Action<HTMLElement>;
   /** Svelte action for the dialog panel (render only while open). */
@@ -71,6 +73,11 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
       context.onOpenChange?.(open);
       return { ...current, open };
     });
+
+  // Reflect a controlled `open` prop without reporting a change: opening a
+  // dialog from the outside is not the user asking for it.
+  const syncOpen = (open: boolean) =>
+    state.update((current) => (current.open === open ? current : { ...current, open }));
 
   const api = derived(state, ($state) =>
     core.connect({
@@ -167,6 +174,7 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
     api,
     open: derived(state, ($state) => $state.open),
     setOpen,
+    syncOpen,
     triggerAction,
     contentAction,
     titleAction,

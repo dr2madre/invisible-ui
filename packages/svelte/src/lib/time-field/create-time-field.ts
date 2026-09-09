@@ -27,6 +27,8 @@ export interface CreateTimeField {
   api: Readable<TimeFieldApi>;
   /** Action for the field container: reports when focus leaves the whole field. */
   fieldAction: Action<HTMLElement>;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string | null) => void;
   /** Mirror bounds and shape after mount (no callbacks: they are data). */
   syncConfig: (config: {
     min?: string;
@@ -85,6 +87,39 @@ export function createTimeField(context: CreateTimeFieldOptions): CreateTimeFiel
   const focus = (seg: TimeSegmentType) => {
     document.getElementById(core.segmentId(baseId, seg))?.focus();
   };
+
+  // Reflect a controlled value: the parts are rebuilt from it, and the last
+  // reported value moves with it so the next user action is judged against
+  // what the consumer now holds, not against what it used to hold.
+  const syncValue = (value: string | null) =>
+    state.update((s) => {
+      const resolved = core.initialState({
+        value: value ?? undefined,
+        min: s.min ?? undefined,
+        max: s.max ?? undefined,
+        hourCycle: s.hourCycle,
+        withSeconds: s.withSeconds,
+        id: s.id,
+      });
+      const formatted = core.format(resolved.parts, s.withSeconds, s.hourCycle);
+      lastValue = formatted;
+      // Even when the value matches what is on screen, it becomes the
+      // committed one: a parent echoing the draft back has accepted it, and
+      // Escape must not revert past what the consumer holds.
+      if (formatted === core.format(s.parts, s.withSeconds, s.hourCycle)) {
+        return s.committedParts === resolved.parts ? s : { ...s, committedParts: resolved.parts };
+      }
+      return {
+        ...s,
+        parts: resolved.parts,
+        committedParts: resolved.parts,
+        buffer: "",
+        bufferSeg: null,
+        // The validity of the value now held, not the one before it.
+        validationError: resolved.validationError,
+        invalidSegment: resolved.invalidSegment,
+      };
+    });
 
   /** Mirror the configuration after mount: bounds and shape are data. */
   const syncConfig = (next: {
@@ -158,5 +193,5 @@ export function createTimeField(context: CreateTimeFieldOptions): CreateTimeFiel
     return { destroy: () => node.removeEventListener("focusout", onFocusOut) };
   };
 
-  return { state, api, rootAction, segmentAction, fieldAction, syncConfig };
+  return { state, api, rootAction, segmentAction, fieldAction, syncValue, syncConfig };
 }

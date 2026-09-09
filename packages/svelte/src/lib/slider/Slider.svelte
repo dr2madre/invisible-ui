@@ -32,11 +32,28 @@
   /** Called whenever the value changes. */
   export let onValueChange: ((value: number) => void) | undefined = undefined;
 
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     value: sliderValue,
     percentage,
     setValue,
-  } = createSlider({ value, min, max, step, orientation, disabled, onValueChange });
+    syncValue,
+  } = createSlider({
+    value,
+    min,
+    max,
+    step,
+    orientation,
+    disabled,
+    onValueChange: (next) => onValueChange?.(next),
+  });
+
+  // Controllable mirror, compared against the last prop value (ADR 0011).
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));

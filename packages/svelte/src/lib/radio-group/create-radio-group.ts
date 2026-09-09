@@ -14,6 +14,8 @@ export interface CreateRadioGroup {
   value: Readable<string | null>;
   /** Imperatively select a value. */
   setValue: (value: string) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string | null) => void;
   /** Shared form/group name applied to every radio input. */
   name: string;
 }
@@ -37,10 +39,14 @@ export function createRadioGroup(context: RadioGroupContext): CreateRadioGroup {
     });
   };
 
+  const syncValue = (value: string | null) =>
+    state.update((current) => (current.value === value ? current : { ...current, value }));
+
   return {
     state,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
     name,
   };
 }
