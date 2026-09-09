@@ -13,6 +13,7 @@
    * (`--ds-checkbox-*`).
    */
   import { createCheckbox, type CheckedState } from "./create-checkbox";
+  import { formReset } from "../internal/form-reset";
   import { domProps } from "../internal/dom-props";
   import Icon from "../icon/Icon.svelte";
 
@@ -49,8 +50,12 @@
   // the store): an uncontrolled consumer whose prop never changes keeps its
   // internal interactions untouched. A sync never calls onCheckedChange.
   let lastChecked = checked;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultChecked = checked;
   $: if (checked !== lastChecked) {
     lastChecked = checked;
+    if (checked !== $cbState.checked) defaultChecked = checked;
     syncChecked(checked);
   }
   let lastDisabled = disabled;
@@ -81,8 +86,10 @@
     {required}
     {disabled}
     checked={$cbState.checked === true}
+    defaultChecked={defaultChecked === true}
     use:domProps={$api.rootDomProps}
     on:change={onChange}
+    use:formReset={() => syncChecked(defaultChecked)}
     data-state={dataState}
   />
   <span class="checkbox" aria-hidden="true">

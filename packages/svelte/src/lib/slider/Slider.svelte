@@ -10,6 +10,7 @@
    * themeable via `--ds-slider-*`.
    */
   import { createSlider } from "./create-slider";
+  import { formReset } from "../internal/form-reset";
 
   export let value = 0;
   export let min = 0;
@@ -50,8 +51,12 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $sliderValue) defaultValue = value;
     syncValue(value);
   }
 
@@ -89,7 +94,9 @@
         aria-label={label}
         aria-orientation={orientation}
         value={$sliderValue}
+        {defaultValue}
         on:input={onInput}
+        use:formReset={() => syncValue(defaultValue)}
       />
       {#if tickPositions.length}
         <span class="slider__ticks" aria-hidden="true">

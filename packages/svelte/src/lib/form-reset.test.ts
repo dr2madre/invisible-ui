@@ -2,10 +2,217 @@ import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
+import Checkbox from "./checkbox/Checkbox.svelte";
+import Select from "./select/Select.svelte";
+import Slider from "./slider/Slider.svelte";
+import Switch from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
+import Textarea from "./text-field/Textarea.svelte";
+import ToggleButton from "./toggle-button/ToggleButton.svelte";
+import EchoFixture from "./form-reset.fixture.svelte";
 
 /** Reset resolves one task after the event; wait past it. */
 const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+type Entry = {
+  name: string;
+  component: unknown;
+  props: Record<string, unknown>;
+  /** Drive one committed user edit. */
+  edit: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
+  /** The payload under "f" after the edit, and after a reset. */
+  edited: string | null;
+  restored: string | null;
+  /** What the page shows after the reset. */
+  shows: string;
+  /** The DOM default the control must carry, before and after the edit. */
+  domDefault: () => string;
+  wants: string;
+  /** Read what the page shows. */
+  visible: () => string;
+};
+
+const fruit = [
+  { value: "apple", label: "Apple" },
+  { value: "pear", label: "Pear" },
+];
+
+// One row per control: a reset restores the payload and the visible state,
+// and reports nothing. The deeper rules (a moved default, a cancelled reset,
+// teardown, give-back) are held on the TextField pilot above, which shares
+// the same helper and the same shape.
+const CONTROLS: Entry[] = [
+  {
+    name: "TextField",
+    wants: "Ada",
+    component: TextField,
+    props: { label: "F", name: "f", value: "Ada" },
+    edit: async (user) => {
+      const input = screen.getByRole("textbox", { name: "F" });
+      await user.clear(input);
+      await user.type(input, "Grace");
+    },
+    edited: "Grace",
+    restored: "Ada",
+    shows: "Ada",
+    domDefault: () => (screen.getByRole("textbox", { name: "F" }) as HTMLInputElement).defaultValue,
+    visible: () => (screen.getByRole("textbox", { name: "F" }) as HTMLInputElement).value,
+  },
+  {
+    name: "Textarea",
+    wants: "Ada",
+    component: Textarea,
+    props: { label: "F", name: "f", value: "Ada" },
+    edit: async (user) => {
+      const input = screen.getByRole("textbox", { name: "F" });
+      await user.clear(input);
+      await user.type(input, "Grace");
+    },
+    edited: "Grace",
+    restored: "Ada",
+    shows: "Ada",
+    domDefault: () =>
+      (screen.getByRole("textbox", { name: "F" }) as HTMLTextAreaElement).defaultValue,
+    visible: () => (screen.getByRole("textbox", { name: "F" }) as HTMLTextAreaElement).value,
+  },
+  {
+    name: "Checkbox",
+    wants: "false",
+    component: Checkbox,
+    props: { label: "F", name: "f", checked: false },
+    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    edited: "on",
+    restored: null,
+    shows: "false unchecked",
+    domDefault: () =>
+      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).defaultChecked),
+    // The property and the machine-driven presentation together: native alone
+    // restores the first, only the told machine restores the second.
+    visible: () => {
+      const input = screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement;
+      return `${input.checked} ${input.dataset.state}`;
+    },
+  },
+  {
+    name: "Switch",
+    wants: "true",
+    component: Switch,
+    props: { label: "F", name: "f", checked: true },
+    edit: async (user) => user.click(screen.getByRole("switch", { name: "F" })),
+    edited: null,
+    restored: "on",
+    shows: "true checked",
+    domDefault: () =>
+      String((screen.getByRole("switch", { name: "F" }) as HTMLInputElement).defaultChecked),
+    visible: () => {
+      const input = screen.getByRole("switch", { name: "F" }) as HTMLInputElement;
+      return `${input.checked} ${input.dataset.state}`;
+    },
+  },
+  {
+    name: "ToggleButton",
+    wants: "false",
+    component: ToggleButton,
+    props: { label: "F", name: "f", pressed: false },
+    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    edited: "on",
+    restored: null,
+    shows: "false",
+    domDefault: () =>
+      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).defaultChecked),
+    visible: () =>
+      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked),
+  },
+  {
+    name: "Slider",
+    wants: "30",
+    component: Slider,
+    props: { label: "F", name: "f", value: 30, min: 0, max: 100 },
+    edit: async () => {
+      const input = screen.getByRole("slider", { name: "F" }) as HTMLInputElement;
+      input.value = "70";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    },
+    edited: "70",
+    restored: "30",
+    shows: "30",
+    domDefault: () =>
+      (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).getAttribute("value") ?? "",
+    visible: () => (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).value,
+  },
+  {
+    name: "Select",
+    wants: "pear",
+    component: Select,
+    // The default is the second option: were the selected attribute missing,
+    // a native reset would land on the first.
+    props: { label: "F", name: "f", value: "pear", items: fruit },
+    edit: async (user) => user.selectOptions(screen.getByRole("combobox", { name: "F" }), "apple"),
+    edited: "apple",
+    restored: "pear",
+    shows: "pear",
+    domDefault: () =>
+      [...(screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement).options]
+        .filter((option) => option.defaultSelected)
+        .map((option) => option.value)
+        .join(","),
+    visible: () => (screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement).value,
+  },
+];
+
+describe.each(CONTROLS)("form reset restores $name", (entry) => {
+  it("puts the payload and the page back, and reports nothing", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    const onCheckedChange = vi.fn();
+    const onPressedChange = vi.fn();
+    const rendered = render(entry.component as never, {
+      props: { ...entry.props, onValueChange, onCheckedChange, onPressedChange } as never,
+    });
+    const form = document.createElement("form");
+    const root = rendered.container.firstElementChild!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+
+    expect(entry.domDefault(), "the DOM default must be there from the start").toBe(entry.wants);
+    await entry.edit(user);
+    expect(new FormData(form).get("f")).toBe(entry.edited);
+    expect(entry.domDefault(), "the DOM default must not follow the edit").toBe(entry.wants);
+    const reported =
+      onValueChange.mock.calls.length +
+      onCheckedChange.mock.calls.length +
+      onPressedChange.mock.calls.length;
+    expect(reported, "the edit itself must have been reported").toBeGreaterThan(0);
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("f")).toBe(entry.restored);
+    expect(entry.visible(), "the page must show the restored state").toBe(entry.shows);
+    const after =
+      onValueChange.mock.calls.length +
+      onCheckedChange.mock.calls.length +
+      onPressedChange.mock.calls.length;
+    expect(after, "a reset is not a user change").toBe(reported);
+  });
+});
+
+describe("form reset under a controlled echo", () => {
+  it("an echoed report does not move the default", async () => {
+    render(EchoFixture);
+    const form = screen.getByTestId("echo-form") as HTMLFormElement;
+    const input = screen.getByRole("slider", { name: "F" }) as HTMLInputElement;
+    // The edit is reported, and the parent echoes it back into the prop.
+    input.value = "70";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(new FormData(form).get("f")).toBe("70");
+
+    form.reset();
+    await settled();
+    // The default is what the consumer chose, not what they echoed back.
+    expect(new FormData(form).get("f")).toBe("30");
+    expect(input.value).toBe("30");
+  });
+});
 
 describe("form reset, TextField pilot", () => {
   const mount = (props: Record<string, unknown> = {}) => {

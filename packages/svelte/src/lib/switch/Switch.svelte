@@ -13,6 +13,7 @@
    * CSS custom properties (`--ds-switch-*`).
    */
   import { createSwitch } from "./create-switch";
+  import { formReset } from "../internal/form-reset";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -47,8 +48,12 @@
   // the store): an uncontrolled consumer keeps its own interactions. A sync
   // never reports a change.
   let lastChecked = checked;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultChecked = checked;
   $: if (checked !== lastChecked) {
     lastChecked = checked;
+    if (checked !== $swState.checked) defaultChecked = checked;
     syncChecked(checked);
   }
   let lastDisabled = disabled;
@@ -75,7 +80,9 @@
     {required}
     {disabled}
     checked={$swState.checked}
+    {defaultChecked}
     on:change={onChange}
+    use:formReset={() => syncChecked(defaultChecked)}
     data-state={$swState.checked ? "checked" : "unchecked"}
   />
   <span class="switch" class:switch--onoff={onOff} aria-hidden="true">

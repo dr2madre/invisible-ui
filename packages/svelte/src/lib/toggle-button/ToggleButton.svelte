@@ -18,6 +18,7 @@
    * with `ToggleGroup` for a row of multi-select filter chips.
    */
   import { createToggleButton } from "./create-toggle-button";
+  import { formReset } from "../internal/form-reset";
 
   /**
    * Whether the button is pressed. Controlled: changing it updates the control,
@@ -57,8 +58,12 @@
   $: setDisabled(disabled);
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastPressed = pressed;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultPressed = pressed;
   $: if (pressed !== lastPressed) {
     lastPressed = pressed;
+    if (pressed !== $tbState.pressed) defaultPressed = pressed;
     syncPressed(pressed);
   }
 </script>
@@ -68,6 +73,8 @@
     class="toggle__input"
     use:rootAction
     checked={$tbState.pressed}
+    defaultChecked={defaultPressed}
+    use:formReset={() => syncPressed(defaultPressed)}
     {name}
     {value}
     aria-label={label}

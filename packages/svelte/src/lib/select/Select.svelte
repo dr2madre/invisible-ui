@@ -16,6 +16,7 @@
   import { getI18n } from "../i18n/create-i18n";
   import type { SelectItem } from "./create-select";
   import { stableId } from "../internal/stable-id";
+  import { formReset } from "../internal/form-reset";
 
   const { t } = getI18n();
 
@@ -46,6 +47,24 @@
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
   const selectId = stableId("ds-select");
+  let selectEl: HTMLSelectElement;
+
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported; there is no machine here, the element is the
+  // state (ADR 0012).
+  let lastValue = value;
+  let defaultValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    if ((value ?? "") !== selectEl?.value) defaultValue = value;
+  }
+
+  // The element is already restored by its selected attribute; this puts the
+  // component's own copy back beside it, without reporting.
+  function restore() {
+    lastValue = defaultValue;
+    value = defaultValue;
+  }
   const errorId = `${selectId}-error`;
 
   $: resolvedPlaceholder = placeholder ?? $t("select.placeholder");
@@ -67,6 +86,7 @@
 
   <span class="select__control">
     <select
+      bind:this={selectEl}
       class="select__native"
       class:select__native--placeholder={value == null}
       id={selectId}
@@ -78,11 +98,14 @@
       data-invalid={error ? "" : undefined}
       value={nativeValue}
       on:change={onChange}
+      use:formReset={restore}
     >
       <!-- Placeholder: a hidden, disabled option holding the empty value. -->
       <option value="" disabled hidden>{resolvedPlaceholder}</option>
       {#each items as item (item.value)}
-        <option value={item.value} disabled={item.disabled}>{item.label ?? item.value}</option>
+        <option value={item.value} disabled={item.disabled} selected={item.value === defaultValue}
+          >{item.label ?? item.value}</option
+        >
       {/each}
     </select>
     <span class="select__chevron" aria-hidden="true">
