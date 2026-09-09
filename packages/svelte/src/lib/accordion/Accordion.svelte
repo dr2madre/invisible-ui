@@ -31,14 +31,22 @@
   /** Called whenever the expanded set changes. */
   export let onValueChange: ((value: string[]) => void) | undefined = undefined;
 
-  const { rootAction, itemAction, triggerAction, panelAction } = createAccordion({
+  const { rootAction, itemAction, triggerAction, panelAction, syncValue } = createAccordion({
     items,
     value,
     type,
     collapsible,
     disabled,
-    onValueChange,
+    // A live callback reference (ADR 0011).
+    onValueChange: (next) => onValueChange?.(next),
   });
+  // Controllable mirror, compared against the last prop value (ADR 0011): a
+  // sync never reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 </script>
 
 <div class="accordion" use:rootAction>

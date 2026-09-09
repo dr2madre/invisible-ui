@@ -58,8 +58,7 @@
     invalid: !!error,
     hasDescription: !!description,
     hasSuccess: !!success,
-    // The arrow wrapper reads the prop at call time, so a callback replaced
-    // after mount is the one that gets called.
+    // A live callback reference (ADR 0011).
     onValueChange: (next) => onValueChange?.(next),
   });
   const {
@@ -70,7 +69,15 @@
     errorAction,
     successAction,
     setValue,
+    syncValue,
   } = field;
+
+  // Controllable mirror, compared against the last prop value (ADR 0011).
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
 
   // Keep the headless state in sync with reactive props so the wiring
   // (aria-invalid, aria-describedby, disabled…) stays correct.
@@ -121,7 +128,7 @@
       {type}
       {name}
       {placeholder}
-      {value}
+      value={$fieldState.value}
       {maxlength}
       {minlength}
       {pattern}

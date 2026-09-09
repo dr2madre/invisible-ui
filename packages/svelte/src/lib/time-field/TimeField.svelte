@@ -65,8 +65,7 @@
       dayPeriod: translate("timeField.dayPeriod"),
       empty: translate("timeField.empty"),
     },
-    // The arrow wrappers read the props at call time, so a callback replaced
-    // after mount is the one that gets called.
+    // Live callback references (ADR 0011).
     onValueChange: (next) => onValueChange?.(next),
     onValueCommit: (next) => onValueCommit?.(next),
     onValidationChange: (next) => onValidationChange?.(next),
@@ -75,9 +74,7 @@
 
   $: field.syncConfig({ min, max, hourCycle, withSeconds });
 
-  // Controllable mirror, compared against the last prop value (never against
-  // the store): an uncontrolled consumer keeps its own typing. A sync never
-  // reports a change.
+  // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValueProp = value;
   $: if (value !== lastValueProp) {
     lastValueProp = value;

@@ -63,7 +63,13 @@
     createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange });
   const { triggerAction, contentAction, open: isOpen, setOpen } = behavior;
 
-  $: behavior.setOpen(open);
+  // Controllable mirror through the no-notify sync: opening from the outside
+  // is not the user asking for it, so it reports nothing (ADR 0011).
+  let lastOpen = open;
+  $: if (open !== lastOpen) {
+    lastOpen = open;
+    behavior.syncOpen(open);
+  }
   // Hover mode is a different primitive: a preview has no panel name.
   $: popover?.setLabel(label);
 

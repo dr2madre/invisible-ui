@@ -85,7 +85,13 @@
   $: resolvedPlaceholder = placeholder ?? $t("searchDialog.placeholder");
   $: resolvedEmptyText = emptyText ?? $t("searchDialog.empty");
 
-  $: search.setOpen(open);
+  // Controllable mirror through the no-notify sync: opening from the outside
+  // is not the user asking for it, so it reports nothing (ADR 0011).
+  let lastOpen = open;
+  $: if (open !== lastOpen) {
+    lastOpen = open;
+    search.syncOpen(open);
+  }
   $: setItems(items);
   $: setSuggestions(suggestions);
 

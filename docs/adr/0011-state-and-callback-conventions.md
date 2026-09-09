@@ -75,5 +75,9 @@ identical:
   replacement, give-back without churn).
 - Controlled consumers can hold state anywhere (a store, a URL, a server)
   without the component fighting them.
+- A parent that rejects a reported change by re-sending the value it already
+  had does not move the control back: the prop never changed, so there is
+  nothing to reflect. Rejecting a change means sending a different value, or
+  sending the same one again after the control has moved on.
 - The contract is part of the public API: breaking any of these rules for a
   shipped component is a breaking change, whatever the version number says.

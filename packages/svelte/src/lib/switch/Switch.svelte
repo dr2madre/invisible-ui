@@ -35,8 +35,7 @@
   /** Called whenever the on/off value changes. */
   export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
 
-  // The arrow wrapper reads the prop at call time, so a callback replaced
-  // after mount is the one that gets called.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     state: swState,
     setChecked,

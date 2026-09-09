@@ -24,22 +24,28 @@ interface Case {
   callback: string;
   /** The controlled prop's name, for the give-back check. */
   prop: string;
+  /** What the starting props read as. */
+  reads: string;
+  /** The controlled prop's name, for the give-back check. */
+  prop: string;
   change: { props: Record<string, unknown>; reads: string };
   read: () => string;
   act: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
 }
 
 const checkedRadio = () =>
-  screen
-    .getAllByRole("radio")
-    .find((radio) => (radio as HTMLInputElement).checked)
-    ?.getAttribute("value") ?? "(none)";
+  (
+    screen.getAllByRole("radio").find((radio) => radio.getAttribute("aria-checked") === "true") ??
+    screen.getAllByRole("radio").find((radio) => (radio as HTMLInputElement).checked)
+  )?.getAttribute("value") ?? "(none)";
 
 const cases: Case[] = [
   {
     name: "Switch",
+    reads: "false",
     Component: Switch,
     props: { label: "Wifi", checked: false },
+    prop: "checked",
     prop: "checked",
     callback: "onCheckedChange",
     change: { props: { checked: true }, reads: "true" },
@@ -48,6 +54,7 @@ const cases: Case[] = [
   },
   {
     name: "RadioGroup",
+    reads: "free",
     Component: RadioGroup,
     props: {
       label: "Plan",
@@ -58,6 +65,7 @@ const cases: Case[] = [
       ],
     },
     prop: "value",
+    prop: "value",
     callback: "onValueChange",
     change: { props: { value: "pro" }, reads: "pro" },
     read: checkedRadio,
@@ -65,6 +73,7 @@ const cases: Case[] = [
   },
   {
     name: "CheckboxGroup",
+    reads: "ham",
     Component: CheckboxGroup,
     props: {
       label: "Toppings",
@@ -74,6 +83,7 @@ const cases: Case[] = [
         { value: "olive", label: "Olive" },
       ],
     },
+    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: ["olive"] }, reads: "olive" },
@@ -87,8 +97,10 @@ const cases: Case[] = [
   },
   {
     name: "Slider",
+    reads: "10",
     Component: Slider,
     props: { label: "Volume", value: 10 },
+    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: 60 }, reads: "60" },
@@ -100,11 +112,14 @@ const cases: Case[] = [
   },
   {
     name: "PinInput",
+    reads: "",
     Component: PinInput,
     props: { label: "Code", value: "", length: 4 },
     prop: "value",
+    prop: "value",
     callback: "onValueChange",
-    change: { props: { value: "2222" }, reads: "2222" },
+    // Shorter than the field: the spare cells have to be cleared.
+    change: { props: { value: "22" }, reads: "22" },
     read: () =>
       screen
         .getAllByRole("textbox")
@@ -118,8 +133,10 @@ const cases: Case[] = [
   },
   {
     name: "RatingGroup",
+    reads: "1",
     Component: RatingGroup,
     props: { label: "Stars", value: 1, max: 5 },
+    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: 4 }, reads: "4" },
@@ -128,6 +145,7 @@ const cases: Case[] = [
   },
   {
     name: "SegmentedControl",
+    reads: "list",
     Component: SegmentedControl,
     props: {
       label: "View",
@@ -138,6 +156,7 @@ const cases: Case[] = [
       ],
     },
     prop: "value",
+    prop: "value",
     callback: "onValueChange",
     change: { props: { value: "board" }, reads: "board" },
     read: checkedRadio,
@@ -145,8 +164,10 @@ const cases: Case[] = [
   },
   {
     name: "ToggleButton",
+    reads: "false",
     Component: ToggleButton,
     props: { label: "Bold", pressed: false },
+    prop: "pressed",
     prop: "pressed",
     callback: "onPressedChange",
     change: { props: { pressed: true }, reads: "true" },
@@ -155,8 +176,10 @@ const cases: Case[] = [
   },
   {
     name: "TimeField",
+    reads: "09:30",
     Component: TimeField,
     props: { label: "Time", value: "09:30" },
+    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: "11:45" }, reads: "11:45" },
@@ -172,8 +195,10 @@ const cases: Case[] = [
   },
   {
     name: "TextField",
+    reads: "Ada",
     Component: TextField,
     props: { label: "Name", value: "Ada" },
+    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: "Grace" }, reads: "Grace" },
@@ -186,7 +211,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("reflects a changed value prop", async () => {
     const { rerender } = render(entry.Component as never, { props: { ...entry.props } });
     await rerender({ ...entry.props, ...entry.change.props });
-    expect(entry.read()).toContain(entry.change.reads);
+    expect(entry.read()).toBe(entry.change.reads);
   });
 
   it("reports nothing while reflecting", async () => {

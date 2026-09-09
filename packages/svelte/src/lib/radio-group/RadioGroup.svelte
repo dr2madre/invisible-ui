@@ -32,8 +32,7 @@
   /** Called whenever the selected value changes. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
-  // The arrow wrapper reads the prop at call time, so a callback replaced
-  // after mount is the one that gets called.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     state: radioState,
     setValue,
@@ -48,9 +47,7 @@
     onValueChange: (next) => onValueChange?.(next),
   });
 
-  // Controllable mirror, compared against the last prop value (never against
-  // the store): an uncontrolled consumer keeps its own interactions. A sync
-  // never reports a change.
+  // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
   $: if (value !== lastValue) {
     lastValue = value;

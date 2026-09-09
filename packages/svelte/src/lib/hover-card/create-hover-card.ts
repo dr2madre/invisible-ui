@@ -26,6 +26,8 @@ export interface CreateHoverCard {
   open: Readable<boolean>;
   /** Imperatively set the open state. */
   setOpen: (open: boolean) => void;
+  /** Reflect a controlled `open` prop without reporting a change. */
+  syncOpen: (open: boolean) => void;
   /** Svelte action for the trigger (wrap a focusable element). */
   triggerAction: Action<HTMLElement>;
   /** Svelte action for the content card (render only while open). */
@@ -53,6 +55,10 @@ export function createHoverCard(context: HoverCardContext = {}): CreateHoverCard
       context.onOpenChange?.(open);
       return { ...current, open };
     });
+
+  // Reflect a controlled `open` prop without reporting a change.
+  const syncOpen = (open: boolean) =>
+    state.update((current) => (current.open === open ? current : { ...current, open }));
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, normalize: normalizeProps }),
@@ -168,6 +174,7 @@ export function createHoverCard(context: HoverCardContext = {}): CreateHoverCard
     api,
     open: derived(state, ($state) => $state.open),
     setOpen,
+    syncOpen,
     triggerAction,
     contentAction,
   };

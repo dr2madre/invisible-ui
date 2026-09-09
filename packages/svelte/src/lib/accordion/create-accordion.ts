@@ -20,6 +20,8 @@ export interface CreateAccordion {
   value: Readable<string[]>;
   /** Replace the expanded set. */
   setValue: (value: string[]) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string[]) => void;
   /** Toggle a single item open/closed (ignored when disabled). */
   toggle: (value: string) => void;
   /** Svelte action for the accordion container: `<div use:rootAction>`. */
@@ -65,6 +67,13 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     el?.focus();
   };
 
+  const sameValues = (a: readonly string[], b: readonly string[]) =>
+    a.length === b.length && a.every((entry, index) => entry === b[index]);
+
+  // Reflect a controlled `value` prop without reporting a change.
+  const syncValue = (value: string[]) =>
+    state.update((current) => (sameValues(current.value, value) ? current : { ...current, value }));
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, focus, normalize: normalizeProps }),
   );
@@ -104,6 +113,7 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     api,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
     toggle: (value: string) => get(api).toggle(value),
     rootAction,
     itemAction,

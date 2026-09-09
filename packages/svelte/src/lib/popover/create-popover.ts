@@ -29,6 +29,8 @@ export interface CreatePopover {
   open: Readable<boolean>;
   /** Imperatively set the open state. */
   setOpen: (open: boolean) => void;
+  /** Reflect a controlled `open` prop without reporting a change. */
+  syncOpen: (open: boolean) => void;
   /** Svelte action for the trigger: `<button use:triggerAction>`. */
   triggerAction: Action<HTMLElement>;
   /** Svelte action for the content panel (render only while open). */
@@ -65,6 +67,11 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
   // The panel's name can change after mount (a localized label, or one that
   // follows a selection), so it is mirrored rather than captured.
   const label = writable<string | undefined>(context.label);
+
+  // Reflect a controlled `open` prop without reporting a change: opening a
+  // dialog from the outside is not the user asking for it.
+  const syncOpen = (open: boolean) =>
+    state.update((current) => (current.open === open ? current : { ...current, open }));
 
   const api = derived([state, label], ([$state, $label]) =>
     core.connect({ state: $state, setOpen, label: $label, normalize: normalizeProps }),
@@ -136,6 +143,7 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
     api,
     open: derived(state, ($state) => $state.open),
     setOpen,
+    syncOpen,
     setLabel: (next: string | undefined) => label.set(next),
     triggerAction,
     contentAction,

@@ -110,10 +110,39 @@
     min,
     max,
     onValueChange: handleSelect,
-    onFocusChange,
-    onViewChange,
+    // Live callback references (ADR 0011).
+    onFocusChange: (next) => onFocusChange?.(next),
+    onViewChange: (next) => onViewChange?.(next),
   });
-  const { state: calState, api, gridAction, rowAction, cellAction, dayAction } = calendar;
+  const {
+    state: calState,
+    api,
+    gridAction,
+    rowAction,
+    cellAction,
+    dayAction,
+    syncValue,
+    syncFocus,
+    syncView,
+  } = calendar;
+
+  // Controllable mirrors, compared against the last prop values (ADR 0011): a
+  // sync never reports a change.
+  let lastValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    syncValue(value);
+  }
+  let lastFocusedDate = focusedDate;
+  $: if (focusedDate !== lastFocusedDate) {
+    lastFocusedDate = focusedDate;
+    if (focusedDate !== undefined) syncFocus(focusedDate);
+  }
+  let lastView = view;
+  $: if (view !== lastView) {
+    lastView = view;
+    syncView(view);
+  }
 
   $: switcherItems = views.map((v) => ({
     value: v,

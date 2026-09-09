@@ -75,7 +75,13 @@
     dragging,
   } = sheet;
 
-  $: sheet.setOpen(open);
+  // Controllable mirror through the no-notify sync: opening from the outside
+  // is not the user asking for it, so it reports nothing (ADR 0011).
+  let lastOpen = open;
+  $: if (open !== lastOpen) {
+    lastOpen = open;
+    sheet.syncOpen(open);
+  }
 
   $: resolvedCloseLabel = closeLabel ?? $t("sheetDialog.close");
   $: hasHandle = draggable && side !== "top";

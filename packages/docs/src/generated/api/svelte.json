@@ -518,7 +518,7 @@
     {
       "name": "CreateAccordion",
       "kind": "interface",
-      "signature": "interface CreateAccordion { /** Reactive resolved state. */ state: Readable<AccordionState>; /** Reactive connected API. */ api: Readable<AccordionApi>; /** The expanded item values. */ value: Readable<string[]>; /** Replace the expanded set. */ setValue: (value: string[]) => void; /** Toggle a single item open/closed (ignored when disabled). */ toggle: (value: string) => void; /** Svelte action for the accordion container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for an item wrapper: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Svelte action for a trigger button: `<button use:triggerAction={value}>`. */ triggerAction: Action<HTMLElement, string>; /** Svelte action for a panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateAccordion { /** Reactive resolved state. */ state: Readable<AccordionState>; /** Reactive connected API. */ api: Readable<AccordionApi>; /** The expanded item values. */ value: Readable<string[]>; /** Replace the expanded set. */ setValue: (value: string[]) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string[]) => void; /** Toggle a single item open/closed (ignored when disabled). */ toggle: (value: string) => void; /** Svelte action for the accordion container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for an item wrapper: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Svelte action for a trigger button: `<button use:triggerAction={value}>`. */ triggerAction: Action<HTMLElement, string>; /** Svelte action for a panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateButton",
@@ -538,7 +538,7 @@
     {
       "name": "CreateCalendar",
       "kind": "interface",
-      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (iso: string | null) => void; /** Reflect a controlled `focusedDate` prop without reporting a change. */ syncFocus: (iso: string) => void; /** Reflect a controlled `view` prop without reporting a change. */ syncView: (view: CalendarView) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateCarousel",
@@ -558,7 +558,7 @@
     {
       "name": "CreateCollapsible",
       "kind": "interface",
-      "signature": "interface CreateCollapsible { /** Reactive resolved state. */ state: Readable<CollapsibleState>; /** Reactive connected API. */ api: Readable<CollapsibleApi>; /** Whether the content is expanded. */ open: Readable<boolean>; /** Set the open state (ignored while disabled). */ setOpen: (open: boolean) => void; /** Toggle the open state (ignored while disabled). */ toggle: () => void; /** Svelte action for the collapsible container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the trigger button: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content: `<div use:contentAction>`. */ contentAction: Action<HTMLElement>; }"
+      "signature": "interface CreateCollapsible { /** Reactive resolved state. */ state: Readable<CollapsibleState>; /** Reactive connected API. */ api: Readable<CollapsibleApi>; /** Whether the content is expanded. */ open: Readable<boolean>; /** Set the open state (ignored while disabled). */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Toggle the open state (ignored while disabled). */ toggle: () => void; /** Svelte action for the collapsible container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the trigger button: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content: `<div use:contentAction>`. */ contentAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateCombobox",
@@ -573,7 +573,7 @@
     {
       "name": "CreateDialog",
       "kind": "interface",
-      "signature": "interface CreateDialog { state: Readable<DialogState>; api: Readable<DialogApi>; /** Whether the dialog is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Svelte action for the title element. */ titleAction: Action<HTMLElement>; /** Svelte action for the description element. */ descriptionAction: Action<HTMLElement>; /** Svelte action for a close button inside the dialog. */ closeAction: Action<HTMLElement>; }"
+      "signature": "interface CreateDialog { state: Readable<DialogState>; api: Readable<DialogApi>; /** Whether the dialog is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Svelte action for the title element. */ titleAction: Action<HTMLElement>; /** Svelte action for the description element. */ descriptionAction: Action<HTMLElement>; /** Svelte action for a close button inside the dialog. */ closeAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateDropdownMenu",
@@ -588,7 +588,7 @@
     {
       "name": "CreateHoverCard",
       "kind": "interface",
-      "signature": "interface CreateHoverCard { state: Readable<HoverCardState>; api: Readable<HoverCardApi>; open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger (wrap a focusable element). */ triggerAction: Action<HTMLElement>; /** Svelte action for the content card (render only while open). */ contentAction: Action<HTMLElement>; }"
+      "signature": "interface CreateHoverCard { state: Readable<HoverCardState>; api: Readable<HoverCardApi>; open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Svelte action for the trigger (wrap a focusable element). */ triggerAction: Action<HTMLElement>; /** Svelte action for the content card (render only while open). */ contentAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateLabel",
@@ -613,7 +613,7 @@
     {
       "name": "CreateNavigationMenu",
       "kind": "interface",
-      "signature": "interface CreateNavigationMenu { state: Readable<NavigationMenuState>; api: Readable<NavigationMenuApi>; /** The open item's value (or `null`). */ value: Readable<string | null>; /** Imperatively set the open value. */ setValue: (value: string | null) => void; /** Action for a panel item's trigger: `use:triggerAction={value}`. */ triggerAction: Action<HTMLElement, string>; /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */ contentAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateNavigationMenu { state: Readable<NavigationMenuState>; api: Readable<NavigationMenuApi>; /** The open item's value (or `null`). */ value: Readable<string | null>; /** Imperatively set the open value. */ setValue: (value: string | null) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Action for a panel item's trigger: `use:triggerAction={value}`. */ triggerAction: Action<HTMLElement, string>; /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */ contentAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateNumberField",
@@ -643,7 +643,7 @@
     {
       "name": "CreatePopover",
       "kind": "interface",
-      "signature": "interface CreatePopover { state: Readable<PopoverState>; api: Readable<PopoverApi>; /** Update the panel's name (no notification: naming is not an action). */ setLabel: (label: string | undefined) => void; /** Whether the panel is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content panel (render only while open). */ contentAction: Action<HTMLElement>; }"
+      "signature": "interface CreatePopover { state: Readable<PopoverState>; api: Readable<PopoverApi>; /** Update the panel's name (no notification: naming is not an action). */ setLabel: (label: string | undefined) => void; /** Whether the panel is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content panel (render only while open). */ contentAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateProgress",
@@ -668,7 +668,7 @@
     {
       "name": "CreateSearchDialog",
       "kind": "interface",
-      "signature": "interface CreateSearchDialog { /** Whether the palette is open. */ open: Readable<boolean>; /** Imperatively open/close the palette. */ setOpen: (open: boolean) => void; /** The currently visible (filtered) commands. */ items: Readable<SearchDialogItem[]>; /** The current query text. */ inputValue: Readable<string>; /** Replace the result list (e.g. when results load asynchronously). */ setItems: (items: SearchDialogItem[]) => void; /** Replace the empty-query suggestions. */ setSuggestions: (suggestions: SearchDialogItem[]) => void; /** Action for the trigger button. */ triggerAction: Action<HTMLElement>; /** Action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Action for the dialog title (names the modal). */ titleAction: Action<HTMLElement>; /** Action for the (combobox) search label. */ labelAction: Action<HTMLElement>; /** Action for the search input. */ inputAction: Action<HTMLElement>; /** Action for the results listbox. */ listboxAction: Action<HTMLElement>; /** Action for a result option: `use:optionAction={value}`. */ optionAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateSearchDialog { /** Whether the palette is open. */ open: Readable<boolean>; /** Imperatively open/close the palette. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** The currently visible (filtered) commands. */ items: Readable<SearchDialogItem[]>; /** The current query text. */ inputValue: Readable<string>; /** Replace the result list (e.g. when results load asynchronously). */ setItems: (items: SearchDialogItem[]) => void; /** Replace the empty-query suggestions. */ setSuggestions: (suggestions: SearchDialogItem[]) => void; /** Action for the trigger button. */ triggerAction: Action<HTMLElement>; /** Action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Action for the dialog title (names the modal). */ titleAction: Action<HTMLElement>; /** Action for the (combobox) search label. */ labelAction: Action<HTMLElement>; /** Action for the search input. */ inputAction: Action<HTMLElement>; /** Action for the results listbox. */ listboxAction: Action<HTMLElement>; /** Action for a result option: `use:optionAction={value}`. */ optionAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateSegmentedControl",
@@ -688,12 +688,12 @@
     {
       "name": "CreateSlider",
       "kind": "interface",
-      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: number) => void; }"
+      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; /** * Reflect a controlled `value` prop without reporting a change. The value is * snapped to the step, like a user action, so the consumer may hold a value * between two steps while the control shows the nearest one. */ syncValue: (value: number) => void; }"
     },
     {
       "name": "CreateStepper",
       "kind": "interface",
-      "signature": "interface CreateStepper { /** Reactive resolved state. */ state: Readable<StepperState>; /** Reactive connected API. */ api: Readable<StepperApi>; /** Current step (0-based). */ current: Readable<number>; /** Advance to the next step. */ next: () => void; /** Go back to the previous step. */ prev: () => void; /** Jump to a step (ignored when unreachable). */ goTo: (index: number) => void; /** Svelte action for the container: `<nav use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the ordered list: `<ol use:listAction>`. */ listAction: Action<HTMLElement>; /** Svelte action for a step trigger: `<button use:stepAction={index}>`. */ stepAction: Action<HTMLElement, number>; }"
+      "signature": "interface CreateStepper { /** Reactive resolved state. */ state: Readable<StepperState>; /** Reactive connected API. */ api: Readable<StepperApi>; /** Current step (0-based). */ current: Readable<number>; /** Advance to the next step. */ next: () => void; /** Go back to the previous step. */ prev: () => void; /** Jump to a step (ignored when unreachable). */ goTo: (index: number) => void; /** Reflect a controlled prop without reporting a change. */ syncStep: (step: number) => void; /** Svelte action for the container: `<nav use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the ordered list: `<ol use:listAction>`. */ listAction: Action<HTMLElement>; /** Svelte action for a step trigger: `<button use:stepAction={index}>`. */ stepAction: Action<HTMLElement, number>; }"
     },
     {
       "name": "CreateSwitch",
@@ -713,12 +713,12 @@
     {
       "name": "CreateTextField",
       "kind": "interface",
-      "signature": "interface CreateTextField { /** Reactive resolved state. */ state: Readable<TextFieldState>; /** Reactive connected API (prop bags for each part). */ api: Readable<TextFieldApi>; /** The current value. */ value: Readable<string>; /** Imperatively set the value (ignored when disabled or read-only). */ setValue: (value: string) => void; /** Merge new state flags (disabled, invalid, …) — keeps props reactive. */ setFlags: (flags: TextFieldFlags) => void; /** Svelte action for the `<label>`: `<label use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the control: `<input use:controlAction>`. */ controlAction: Action<HTMLElement>; /** Svelte action for the description: `<p use:descriptionAction>`. */ descriptionAction: Action<HTMLElement>; /** Svelte action for the error message: `<p use:errorAction>`. */ errorAction: Action<HTMLElement>; /** Svelte action for the success message: `<p use:successAction>`. */ successAction: Action<HTMLElement>; }"
+      "signature": "interface CreateTextField { /** Reactive resolved state. */ state: Readable<TextFieldState>; /** Reactive connected API (prop bags for each part). */ api: Readable<TextFieldApi>; /** The current value. */ value: Readable<string>; /** Imperatively set the value (ignored when disabled or read-only). */ setValue: (value: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string) => void; /** Merge new state flags (disabled, invalid, …) — keeps props reactive. */ setFlags: (flags: TextFieldFlags) => void; /** Svelte action for the `<label>`: `<label use:labelAction>`. */ labelAction: Action<HTMLElement>; /** Svelte action for the control: `<input use:controlAction>`. */ controlAction: Action<HTMLElement>; /** Svelte action for the description: `<p use:descriptionAction>`. */ descriptionAction: Action<HTMLElement>; /** Svelte action for the error message: `<p use:errorAction>`. */ errorAction: Action<HTMLElement>; /** Svelte action for the success message: `<p use:successAction>`. */ successAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateTimeField",
       "kind": "interface",
-      "signature": "interface CreateTimeField { state: Readable<TimeFieldState>; api: Readable<TimeFieldApi>; /** Action for the field container: reports when focus leaves the whole field. */ fieldAction: Action<HTMLElement>; /** Mirror bounds and shape after mount (no callbacks: they are data). */ /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; syncConfig: (config: { min?: string; max?: string; hourCycle?: timeField.HourCycle; withSeconds?: boolean; }) => void; /** Svelte action for the field container. */ rootAction: Action<HTMLElement>; /** Svelte action for a segment, by type: `<span use:segmentAction={\"hour\"}>`. */ segmentAction: Action<HTMLElement, TimeSegmentType>; }"
+      "signature": "interface CreateTimeField { state: Readable<TimeFieldState>; api: Readable<TimeFieldApi>; /** Action for the field container: reports when focus leaves the whole field. */ fieldAction: Action<HTMLElement>; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Mirror bounds and shape after mount (no callbacks: they are data). */ syncConfig: (config: { min?: string; max?: string; hourCycle?: timeField.HourCycle; withSeconds?: boolean; }) => void; /** Svelte action for the field container. */ rootAction: Action<HTMLElement>; /** Svelte action for a segment, by type: `<span use:segmentAction={\"hour\"}>`. */ segmentAction: Action<HTMLElement, TimeSegmentType>; }"
     },
     {
       "name": "CreateToggleButton",
@@ -733,7 +733,7 @@
     {
       "name": "CreateTreeView",
       "kind": "interface",
-      "signature": "interface CreateTreeView { /** Reactive resolved state. */ state: Readable<TreeState>; /** Reactive connected API. */ api: Readable<TreeApi>; /** The currently-visible, flattened node list (for rendering). */ visible: Readable<VisibleNode[]>; /** Expanded parent values. */ expanded: Readable<string[]>; /** The selected value (or `null`). */ selected: Readable<string | null>; /** Imperatively expand/collapse a parent. */ toggle: (value: string) => void; /** Imperatively select a value. */ select: (value: string) => void; /** Svelte action for the tree container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a treeitem: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateTreeView { /** Reactive resolved state. */ state: Readable<TreeState>; /** Reactive connected API. */ api: Readable<TreeApi>; /** The currently-visible, flattened node list (for rendering). */ visible: Readable<VisibleNode[]>; /** Expanded parent values. */ expanded: Readable<string[]>; /** The selected value (or `null`). */ selected: Readable<string | null>; /** Reflect a controlled `expanded` prop without reporting a change. */ syncExpanded: (expanded: string[]) => void; /** Reflect a controlled `selected` prop without reporting a change. */ syncSelected: (value: string | null) => void; /** Imperatively expand/collapse a parent. */ toggle: (value: string) => void; /** Imperatively select a value. */ select: (value: string) => void; /** Svelte action for the tree container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a treeitem: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "DialogApi",

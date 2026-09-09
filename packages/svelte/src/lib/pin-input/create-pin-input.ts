@@ -56,11 +56,11 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
     });
   };
 
-  // The prop is one string; the state holds one character per cell, so the
-  // cells are refilled and any spare ones cleared.
+  // The prop is one string; the state holds one character per cell. The split
+  // is the machine's, in core, so typing and reflecting agree on it.
   const syncValue = (value: string) =>
     state.update((current) => {
-      const next = current.values.map((_, index) => value[index] ?? "");
+      const next = core.splitValue(value, current.length);
       return next.every((cell, index) => cell === current.values[index])
         ? current
         : { ...current, values: next };

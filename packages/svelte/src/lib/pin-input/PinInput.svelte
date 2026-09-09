@@ -52,9 +52,7 @@
     onComplete: (next) => onComplete?.(next),
   });
 
-  // Controllable mirror, compared against the last prop value (never against
-  // the store): an uncontrolled consumer keeps its own typing. A sync never
-  // reports a change.
+  // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
   $: if (value !== lastValue) {
     lastValue = value;

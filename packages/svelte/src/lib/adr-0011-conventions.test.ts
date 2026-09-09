@@ -2,7 +2,16 @@ import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
+import Accordion from "./accordion/Accordion.svelte";
+import AlertDialog from "./alert-dialog/AlertDialog.svelte";
+import Collapsible from "./collapsible/Collapsible.svelte";
+import Stepper from "./stepper/Stepper.svelte";
+import TreeView from "./tree-view/TreeView.svelte";
 import CheckboxGroup from "./checkbox-group/CheckboxGroup.svelte";
+import ConfirmDialog from "./confirm-dialog/ConfirmDialog.svelte";
+import DialogComponent from "./dialog/Dialog.svelte";
+import Popover from "./popover/Popover.svelte";
+import SheetDialog from "./sheet-dialog/SheetDialog.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import RadioGroup from "./radio-group/RadioGroup.svelte";
 import RatingGroup from "./rating-group/RatingGroup.svelte";
@@ -31,6 +40,8 @@ interface Case {
   callback: string;
   /** The controlled prop's name, for the give-back check. */
   prop: string;
+  /** What the starting props read as. */
+  reads: string;
   /** A different value for the controlled prop, and how it should read. */
   change: { props: Record<string, unknown>; reads: string };
   /** What the control shows now. */
@@ -48,6 +59,7 @@ const checkedRadio = () =>
 const cases: Case[] = [
   {
     name: "Switch",
+    reads: "false",
     Component: SwitchControl,
     props: { label: "Wifi", checked: false },
     prop: "checked",
@@ -59,6 +71,7 @@ const cases: Case[] = [
   },
   {
     name: "RadioGroup",
+    reads: "free",
     Component: RadioGroup,
     props: {
       label: "Plan",
@@ -76,6 +89,7 @@ const cases: Case[] = [
   },
   {
     name: "CheckboxGroup",
+    reads: "ham",
     Component: CheckboxGroup,
     props: {
       label: "Toppings",
@@ -98,6 +112,7 @@ const cases: Case[] = [
   },
   {
     name: "Slider",
+    reads: "10",
     Component: Slider,
     props: { label: "Volume", value: 10 },
     prop: "value",
@@ -113,13 +128,16 @@ const cases: Case[] = [
   },
   {
     name: "PinInput",
+    reads: "",
     Component: PinInput,
     // Starts empty: a full cell cannot take another character, so typing into
     // one would report nothing at all.
     props: { label: "Code", value: "", length: 4 },
     prop: "value",
     callback: "onValueChange",
-    change: { props: { value: "2222" }, reads: "2222" },
+    // Shorter than the field: the spare cells have to be cleared, which is
+    // half of what reflecting a value means here.
+    change: { props: { value: "22" }, reads: "22" },
     read: () =>
       screen
         .getAllByRole("textbox")
@@ -133,6 +151,7 @@ const cases: Case[] = [
   },
   {
     name: "RatingGroup",
+    reads: "1",
     Component: RatingGroup,
     props: { label: "Stars", value: 1, max: 5 },
     prop: "value",
@@ -143,6 +162,7 @@ const cases: Case[] = [
   },
   {
     name: "SegmentedControl",
+    reads: "list",
     Component: SegmentedControl,
     props: {
       label: "View",
@@ -160,6 +180,7 @@ const cases: Case[] = [
   },
   {
     name: "ToggleButton",
+    reads: "false",
     Component: ToggleButton,
     props: { label: "Bold", pressed: false },
     prop: "pressed",
@@ -171,6 +192,7 @@ const cases: Case[] = [
   },
   {
     name: "TimeField",
+    reads: "09:30",
     Component: TimeField,
     props: { label: "Time", value: "09:30" },
     prop: "value",
@@ -189,6 +211,7 @@ const cases: Case[] = [
   },
   {
     name: "TextField",
+    reads: "Ada",
     Component: TextField,
     props: { label: "Name", value: "Ada" },
     prop: "value",
@@ -203,7 +226,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("reflects a changed value prop", async () => {
     const { rerender } = render(entry.Component as never, { props: { ...entry.props } });
     await rerender({ ...entry.props, ...entry.change.props });
-    expect(entry.read()).toContain(entry.change.reads);
+    expect(entry.read()).toBe(entry.change.reads);
   });
 
   it("reports nothing while reflecting", async () => {
@@ -247,5 +270,149 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
     const echoed = Array.isArray(reportedValue) ? [...reportedValue] : reportedValue;
     await rerender({ ...entry.props, [entry.prop]: echoed, [entry.callback]: reported });
     expect(reported).toHaveBeenCalledTimes(timesBefore);
+  });
+});
+
+// A control can render the prop while its own machine keeps a different copy.
+// Nothing above can see that: the page shows the reflected value either way.
+// What gives it away is the user producing the value the machine still holds.
+describe("a reflected value becomes the control's own", () => {
+  it("the text field reports a user retyping the value it used to hold", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(TextField, {
+      props: { label: "Name", value: "Ada", onValueChange: reported },
+    });
+    await rerender({ label: "Name", value: "Grace", onValueChange: reported });
+
+    // In one step, the way a paste or a browser autofill arrives: typing it
+    // character by character would pass through values the machine does not
+    // hold and report on the way.
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    await fireEvent.input(input, { target: { value: "Ada" } });
+
+    // Without a mirror the machine still says "Ada", so this reports nothing
+    // and the consumer never learns the field went back.
+    expect(reported).toHaveBeenCalledWith("Ada");
+  });
+});
+
+// The `open` family is a controllable mirror too, and reflecting it used to
+// report: a parent that opened a dialog was told about a change it made
+// itself. There is no user action to compare here, so the rule under test is
+// the silence.
+describe.each([
+  ["Dialog", DialogComponent, { title: "Edit" }],
+  ["AlertDialog", AlertDialog, { title: "Careful", description: "This cannot be undone." }],
+  ["ConfirmDialog", ConfirmDialog, { title: "Delete?", description: "It goes for good." }],
+  ["SheetDialog", SheetDialog, { title: "Filters" }],
+  ["Popover", Popover, { label: "More" }],
+])("%s reflects open without reporting", (_name, Component, extra) => {
+  it("opens from the outside in silence", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(Component as never, {
+      props: { ...extra, open: false, onOpenChange: reported },
+    });
+    await rerender({ ...extra, open: true, onOpenChange: reported });
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("closes from the outside in silence", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(Component as never, {
+      props: { ...extra, open: true, onOpenChange: reported },
+    });
+    await rerender({ ...extra, open: false, onOpenChange: reported });
+    expect(reported).not.toHaveBeenCalled();
+  });
+});
+
+// Controls whose value is not what a form submits, but is still the
+// consumer's to hold: the same three rules, read off what each one shows.
+describe("more controllable mirrors", () => {
+  it("the collapsible opens from the outside in silence", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(Collapsible, {
+      props: { label: "Details", open: false, onOpenChange: reported },
+    });
+    await rerender({ label: "Details", open: true, onOpenChange: reported });
+    expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("true");
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("the accordion reflects a changed value in silence", async () => {
+    const items = [
+      { value: "one", label: "One" },
+      { value: "two", label: "Two" },
+    ];
+    const reported = vi.fn();
+    const { rerender } = render(Accordion, {
+      props: { items, value: ["one"], onValueChange: reported },
+    });
+    await rerender({ items, value: ["two"], onValueChange: reported });
+    const expanded = screen
+      .getAllByRole("button")
+      .filter((trigger) => trigger.getAttribute("aria-expanded") === "true")
+      .map((trigger) => trigger.textContent?.trim());
+    expect(expanded).toEqual(["Two"]);
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("the stepper reflects a changed step in silence", async () => {
+    const steps = [{ label: "One" }, { label: "Two" }, { label: "Three" }];
+    const reported = vi.fn();
+    const { rerender } = render(Stepper, {
+      props: { steps, current: 0, onStepChange: reported },
+    });
+    await rerender({ steps, current: 2, onStepChange: reported });
+    expect(screen.getAllByRole("listitem").map((step) => step.getAttribute("data-status"))).toEqual(
+      ["complete", "complete", "current"],
+    );
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("the tree reflects a changed selection in silence", async () => {
+    const nodes = [{ value: "fruits", children: [{ value: "apple" }] }, { value: "roots" }];
+    const reported = vi.fn();
+    const { rerender } = render(TreeView, {
+      props: { label: "Produce", nodes, selected: "roots", onSelectedChange: reported },
+    });
+    await rerender({ label: "Produce", nodes, selected: "fruits", onSelectedChange: reported });
+    const selected = screen
+      .getAllByRole("treeitem")
+      .filter((item) => item.getAttribute("aria-selected") === "true")
+      .map((item) => item.textContent?.trim());
+    expect(selected).toEqual(["fruits"]);
+    expect(reported).not.toHaveBeenCalled();
+  });
+});
+
+// ADR 0011 also draws a commit boundary: Escape puts back the committed value.
+// A parent that echoes the draft back has accepted it, so there is nothing
+// left to revert to but that.
+describe("a reflected value is a committed value", () => {
+  it("Escape does not revert past what the consumer holds", async () => {
+    const committed = vi.fn();
+    const { rerender } = render(TimeField, {
+      props: { label: "Time", value: "09:30", onValueCommit: committed },
+    });
+    const minute = screen.getByRole("spinbutton", { name: /^minute$/i });
+    await fireEvent.keyDown(minute, { key: "ArrowUp" });
+    const drafted = screen
+      .getAllByRole("spinbutton")
+      .map((segment) => segment.textContent?.trim())
+      .join(":");
+    expect(drafted).toBe("09:31");
+
+    // The parent takes the draft as its value.
+    await rerender({ label: "Time", value: "09:31", onValueCommit: committed });
+    await fireEvent.keyDown(minute, { key: "Escape" });
+
+    expect(
+      screen
+        .getAllByRole("spinbutton")
+        .map((segment) => segment.textContent?.trim())
+        .join(":"),
+      "Escape reverted to a value the consumer had already replaced",
+    ).toBe("09:31");
   });
 });

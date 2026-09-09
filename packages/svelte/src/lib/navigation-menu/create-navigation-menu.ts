@@ -49,6 +49,8 @@ export interface CreateNavigationMenu {
   value: Readable<string | null>;
   /** Imperatively set the open value. */
   setValue: (value: string | null) => void;
+  /** Reflect a controlled `value` prop without reporting a change. */
+  syncValue: (value: string | null) => void;
   /** Action for a panel item's trigger: `use:triggerAction={value}`. */
   triggerAction: Action<HTMLElement, string>;
   /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */
@@ -78,6 +80,10 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
       context.onValueChange?.(value);
       return { ...current, value };
     });
+
+  // Reflect a controlled `value` prop without reporting a change.
+  const syncValue = (value: string | null) =>
+    state.update((current) => (current.value === value ? current : { ...current, value }));
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, normalize: normalizeProps }),
@@ -183,6 +189,7 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
     api,
     value: derived(state, ($state) => $state.value),
     setValue,
+    syncValue,
     triggerAction,
     contentAction,
   };

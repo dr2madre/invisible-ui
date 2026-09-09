@@ -41,8 +41,7 @@
   /** Called whenever the pressed value changes. */
   export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
 
-  // The arrow wrapper reads the prop at call time, so a callback replaced
-  // after mount is the one that gets called.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     state: tbState,
     syncPressed,
@@ -56,10 +55,7 @@
   // The disabled sync runs first: a control re-enabled and pressed in the same
   // update accepts the new pressed value, because a disabled control ignores it.
   $: setDisabled(disabled);
-  // Controllable mirror, compared against the last prop value (never against
-  // the store): an uncontrolled consumer keeps its own clicks. Reflection goes
-  // through the sync, not the user-action setter, so a controlled parent is
-  // never told about a change it made itself.
+  // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastPressed = pressed;
   $: if (pressed !== lastPressed) {
     lastPressed = pressed;

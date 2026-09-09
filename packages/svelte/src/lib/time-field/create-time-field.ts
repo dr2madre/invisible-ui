@@ -27,9 +27,9 @@ export interface CreateTimeField {
   api: Readable<TimeFieldApi>;
   /** Action for the field container: reports when focus leaves the whole field. */
   fieldAction: Action<HTMLElement>;
-  /** Mirror bounds and shape after mount (no callbacks: they are data). */
   /** Reflect a controlled `value` prop without reporting a change. */
   syncValue: (value: string | null) => void;
+  /** Mirror bounds and shape after mount (no callbacks: they are data). */
   syncConfig: (config: {
     min?: string;
     max?: string;
@@ -102,14 +102,22 @@ export function createTimeField(context: CreateTimeFieldOptions): CreateTimeFiel
         id: s.id,
       });
       const formatted = core.format(resolved.parts, s.withSeconds, s.hourCycle);
-      if (formatted === core.format(s.parts, s.withSeconds, s.hourCycle)) return s;
       lastValue = formatted;
+      // Even when the value matches what is on screen, it becomes the
+      // committed one: a parent echoing the draft back has accepted it, and
+      // Escape must not revert past what the consumer holds.
+      if (formatted === core.format(s.parts, s.withSeconds, s.hourCycle)) {
+        return s.committedParts === resolved.parts ? s : { ...s, committedParts: resolved.parts };
+      }
       return {
         ...s,
         parts: resolved.parts,
         committedParts: resolved.parts,
         buffer: "",
         bufferSeg: null,
+        // The validity of the value now held, not the one before it.
+        validationError: resolved.validationError,
+        invalidSegment: resolved.invalidSegment,
       };
     });
 
