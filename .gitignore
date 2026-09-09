@@ -25,3 +25,7 @@ __pycache__/
 
 # Visual baselines are authoritative only from the pinned Linux container.
 e2e/visual.spec.ts-snapshots/*-darwin.png
+
+# The generated run sheet, at the root where the generator writes it. Anchored:
+# a session report kept under docs/ must not disappear because of its name.
+/a11y-lab-run*.md

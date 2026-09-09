@@ -22,6 +22,7 @@
     "api:report:check": "node scripts/generate-api-report.mjs --check",
     "api:runtime-check": "node scripts/check-runtime-exports.mjs",
     "consumers:check": "node scripts/check-consumer-imports.mjs && node scripts/check-packed-consumers.mjs",
+    "a11y:lab": "node scripts/generate-a11y-lab.mjs",
     "tokens:registry": "node scripts/generate-token-registry.mjs",
     "tokens:check": "node scripts/generate-token-registry.mjs --check",
     "tokens:test": "node --test \"scripts/*.test.mjs\"",
