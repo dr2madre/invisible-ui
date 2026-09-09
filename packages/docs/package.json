@@ -14,7 +14,7 @@
     "@astrojs/svelte": "^9.0.1",
     "@design-system/core": "workspace:*",
     "@design-system/svelte": "workspace:*",
-    "astro": "^7.1.0",
+    "astro": "^7.2.8",
     "svelte": "^5.56.4"
   },
   "devDependencies": {
