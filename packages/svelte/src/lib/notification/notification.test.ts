@@ -72,6 +72,18 @@ describe("Notification", () => {
       expect(onclose).not.toHaveBeenCalled();
     });
 
+    it("a notification taken away mid-countdown never fires", () => {
+      const onclose = vi.fn();
+      const { unmount } = render(Notification, { props: { title: "Hi", duration: 1000, onclose } });
+      vi.advanceTimersByTime(400);
+      unmount();
+      // The timer is gone, not merely ignored: one left running would call
+      // back into a component the page no longer has.
+      expect(vi.getTimerCount(), "the countdown was left running").toBe(0);
+      vi.advanceTimersByTime(5000);
+      expect(onclose).not.toHaveBeenCalled();
+    });
+
     it("holds the countdown while paused, resumes when released", async () => {
       const onclose = vi.fn();
       // The region drives pausing for the whole stack via the `paused` prop.
