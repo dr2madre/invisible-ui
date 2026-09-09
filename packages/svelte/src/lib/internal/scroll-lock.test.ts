@@ -8,7 +8,16 @@ import { lockScroll as lockScrollElsewhere } from "./scroll-lock?copy";
 // opened. Each of these cases used to leave the page unscrollable for good, or
 // let it scroll behind a modal that was still open.
 
+/** Stage a scrollbar of a given width: overlay scrollbars take no room. */
+const withScrollbar = (width: number) => {
+  Object.defineProperty(document.documentElement, "clientWidth", {
+    value: window.innerWidth - width,
+    configurable: true,
+  });
+};
+
 afterEach(() => {
+  Reflect.deleteProperty(document.documentElement, "clientWidth");
   document.body.style.overflow = "";
   document.body.style.paddingRight = "";
   // The count lives on the body, so a test that fails mid-lock must not leave
@@ -52,13 +61,25 @@ describe("scroll lock", () => {
   });
 
   it("compensates for the scrollbar once, not once per overlay", () => {
+    // Nothing here has a scrollbar on its own, and a page without one pads by
+    // nothing: the width has to be staged, or the assertions compare "" to "".
+    withScrollbar(15);
+    document.body.style.paddingRight = "8px";
+
     const first = lockScroll();
-    const withOne = document.body.style.paddingRight;
+    expect(document.body.style.paddingRight, "the page keeps its own padding").toBe("23px");
     const second = lockScroll();
-    expect(document.body.style.paddingRight, "the second overlay must not pad again").toBe(withOne);
+    expect(document.body.style.paddingRight, "the second overlay must not pad again").toBe("23px");
     second();
     first();
+    expect(document.body.style.paddingRight, "and the page gets its padding back").toBe("8px");
+  });
+
+  it("pads by nothing when the scrollbar takes no room", () => {
+    withScrollbar(0);
+    const release = lockScroll();
     expect(document.body.style.paddingRight).toBe("");
+    release();
   });
 
   it("counts locks taken by another copy of this module", () => {

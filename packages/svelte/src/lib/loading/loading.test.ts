@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import Loading from "./Loading.svelte";
 import Fixture from "./loading.fixture.svelte";
 
 const root = () => document.querySelector<HTMLElement>(".loading")!;
@@ -103,5 +104,23 @@ describe("Loading", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture);
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Loading, the no-flash delay", () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+
+  it("shows nothing until the delay has passed", () => {
+    render(Loading, { props: { label: "Loading", delay: 200 } });
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    vi.advanceTimersByTime(200);
+  });
+
+  it("takes its timer with it when it goes", () => {
+    const { unmount } = render(Loading, { props: { label: "Loading", delay: 200 } });
+    expect(vi.getTimerCount(), "the delay is waiting").toBe(1);
+    unmount();
+    expect(vi.getTimerCount(), "an indicator that has gone left a timer running").toBe(0);
   });
 });

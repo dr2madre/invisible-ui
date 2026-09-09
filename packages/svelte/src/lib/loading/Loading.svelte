@@ -21,6 +21,7 @@
    * `--ds-loading-label-size`, `--ds-loading-label-gap`,
    * `--ds-loading-bar-label-gap` and `--ds-loading-duration` (animation speed).
    */
+  import { onDestroy } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -86,13 +87,15 @@
    */
   export let veil = true;
 
-  // No-flash delay: stay hidden until `delay` ms pass. A client-only timer (no
-  // lifecycle hook) keeps this SSR-safe, and until it fires this component
-  // renders nothing, so there is no element to hang a cleanup on. Assigning
-  // after teardown is a no-op.
+  // No-flash delay: stay hidden until `delay` ms pass. The timer is client
+  // only, and it goes when the component goes: one left running would outlive
+  // an indicator the page has already taken away.
   let visible = delay <= 0;
+  let noFlash: ReturnType<typeof setTimeout> | undefined;
   if (delay > 0 && typeof window !== "undefined") {
-    setTimeout(() => (visible = true), delay);
+    noFlash = setTimeout(() => (visible = true), delay);
+    // Inside the browser branch: a server render has no teardown to hook.
+    onDestroy(() => clearTimeout(noFlash));
   }
 
   $: resolvedLabel = label ?? $t("loading.label");
