@@ -153,7 +153,10 @@ test("the filter narrows the list and reports the count", async ({ page }) => {
     const expected = registry.tokens.filter((token) =>
       `${token.name} ${token.purpose ?? token.group ?? ""}`.toLowerCase().includes(query),
     ).length;
-    expect(expected).toBeGreaterThan(0);
+    expect(expected, `the query "${query}" must match something`).toBeGreaterThan(0);
+    expect(expected, `the query "${query}" must not match everything`).toBeLessThan(
+      registry.counts.total,
+    );
     await expect(page.locator("[data-tk-token]:visible")).toHaveCount(expected);
     await expect(page.locator("[data-tk-status]")).toContainText(`${expected} of`);
   }

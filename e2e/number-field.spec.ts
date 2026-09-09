@@ -87,15 +87,34 @@ test("keeps an unparseable draft as typed and reports it", async ({ page }) => {
   await expect(input).toHaveAttribute("aria-invalid", "true");
 });
 
-test("the wheel scrolls the page by default and steps only with the opt-in", async ({ page }) => {
+test("the field does not take the wheel by default, and steps only with the opt-in", async ({
+  page,
+}) => {
   const plain = page.getByRole("spinbutton", { name: "Plain amount" });
   await plain.click();
   await plain.hover();
-  const before = await page.evaluate(() => window.scrollY);
+  // The field must neither change its value nor cancel the gesture. The
+  // observer sits on the field itself, so a wheel that landed somewhere else
+  // leaves the flag unset and fails instead of passing on nothing.
+  await plain.evaluate((element) => {
+    (window as unknown as { __wheelPrevented?: boolean }).__wheelPrevented = undefined;
+    element.addEventListener(
+      "wheel",
+      (event) => {
+        (window as unknown as { __wheelPrevented?: boolean }).__wheelPrevented =
+          event.defaultPrevented;
+      },
+      { once: true, passive: true },
+    );
+  });
   await page.mouse.wheel(0, 240);
   await expect(plain).toHaveValue("3");
-  const after = await page.evaluate(() => window.scrollY);
-  expect(after).toBeGreaterThanOrEqual(before);
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { __wheelPrevented?: boolean }).__wheelPrevented,
+    ),
+    "the field must let the gesture through",
+  ).toBe(false);
 
   const wheel = page.getByRole("spinbutton", { name: "Wheel amount" });
   await wheel.click();
