@@ -142,6 +142,17 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
     resolved.value.onInputValueChange?.(next);
   };
 
+  // A control turned off closes its list: the keys that dismiss it live on an
+  // input that no longer takes any.
+  watch(
+    () => resolved.value.disabled ?? false,
+    (disabled) => {
+      if (!disabled || !open.value) return;
+      open.value = false;
+      activeValue.value = null;
+    },
+  );
+
   const api = computed(() =>
     core.connect({
       state: {

@@ -220,6 +220,15 @@ export function useCombobox({
     [refs],
   );
 
+  // A control turned off closes its list: the keys that dismiss it live on an
+  // input that no longer takes any.
+  useEffect(() => {
+    if (!disabled) return;
+    setState((current) =>
+      current.open ? { ...current, open: false, activeValue: null } : current,
+    );
+  }, [disabled]);
+
   // --- Close when a pointer goes down anywhere outside the control or popup.
   useEffect(() => {
     if (!state.open) return;

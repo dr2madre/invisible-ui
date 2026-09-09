@@ -170,6 +170,7 @@ export class DsCombobox extends HTMLElementBase {
     input.className = "combobox__input";
     input.type = "text";
     input.addEventListener("input", () => {
+      if (boolAttr(this, "disabled")) return;
       const text = input.value;
       const items = this.#filter(text);
       this.#update({ inputValue: text, items, activeValue: core.firstEnabled(items), open: true });
@@ -196,7 +197,7 @@ export class DsCombobox extends HTMLElementBase {
       if (event.timeStamp - this.#lastToggle < 350) return;
       this.#lastToggle = event.timeStamp;
       if (this.#state.open) this.#update({ open: false, activeValue: null });
-      else this.#openAll();
+      else if (!boolAttr(this, "disabled")) this.#openAll();
     });
 
     control.append(lead, input, clear, chevron);
@@ -242,7 +243,16 @@ export class DsCombobox extends HTMLElementBase {
     const glyph = searchable ? searchIcon() : "";
     if (this.#lead!.innerHTML !== glyph) this.#lead!.innerHTML = glyph;
     input.classList.toggle("combobox__input--select-only", !searchable);
-    input.readOnly = !searchable;
+    const disabled = boolAttr(this, "disabled");
+    // A control turned off closes its list: nothing left on the page dismisses
+    // it, and the list would sit over a control that answers nothing.
+    if (disabled && this.#state.open)
+      this.#state = { ...this.#state, open: false, activeValue: null };
+    // Read only rather than disabled: the input stays focusable, so Escape and
+    // Tab can still close a list that was open when the control was turned
+    // off, and typing cannot get into it.
+    input.readOnly = !searchable || disabled;
+    this.#control!.classList.toggle("combobox__control--disabled", disabled);
 
     // The hidden input exists only to carry the value into a native form.
     const name = this.getAttribute("name");

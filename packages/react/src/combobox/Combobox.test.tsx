@@ -130,6 +130,20 @@ describe("React Combobox (styled)", () => {
     expect(activeText()).not.toContain("Cherry");
   });
 
+  it("a control turned off closes the list it had open", async () => {
+    const user = userEvent.setup();
+    // Re-rendered rather than clicked: a click would blur the input, and a
+    // blur closes the list on its own, so the test would pass either way.
+    const { rerender } = render(<Combobox label="Fruit" items={items} disabled={false} />);
+    await user.type(input(), "b");
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+
+    rerender(<Combobox label="Fruit" items={items} disabled={true} />);
+    expect(input()).toBeDisabled();
+    expect(input()).toHaveAttribute("aria-expanded", "false");
+    expect(listbox()).toHaveAttribute("data-state", "closed");
+  });
+
   it("does not select a disabled option", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

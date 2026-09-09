@@ -108,6 +108,7 @@ export function connect({
     closeListbox();
   };
   const clear = () => {
+    if (disabled) return;
     setValue(null);
     setInputValue("");
     setCommittedInputValue("");
@@ -139,6 +140,10 @@ export function connect({
 
   const onInputKeyDown = (event: Event) => {
     const key = (event as KeyboardEvent).key;
+    // A disabled control answers no key, and cancels none: swallowing them
+    // would take the caret keys from an input that is still focusable. It has
+    // no list to dismiss either, because a control turned off closes it.
+    if (disabled) return;
     if (!open) {
       if (key === "ArrowDown" || key === "ArrowUp") {
         event.preventDefault();
@@ -232,13 +237,14 @@ export function connect({
           select(v);
         },
         onMouseEnter: () => {
-          if (!optionDisabled) setActiveValue(v);
+          if (!disabled && !optionDisabled) setActiveValue(v);
         },
       });
     },
     clearProps: normalize({
       type: "button",
       tabindex: -1,
+      disabled: disabled || undefined,
       "data-state": value || inputValue ? "active" : "empty",
       onMouseDown: (event: Event) => {
         event.preventDefault(); // keep focus on the input
