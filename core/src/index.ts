@@ -1,4 +1,5 @@
 export * from "./types";
+export * as formReset from "./form-reset";
 
 // Each component is exported under its own namespace so primitives can share
 // names (`connect`, `initialState`, …) without colliding.

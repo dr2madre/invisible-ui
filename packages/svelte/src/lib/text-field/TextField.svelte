@@ -15,6 +15,7 @@
   import type { HTMLInputAttributes } from "svelte/elements";
   import { textField as core } from "@design-system/core";
   import { createTextField } from "./create-text-field";
+  import { formReset } from "../internal/form-reset";
   import Icon from "../icon/Icon.svelte";
 
   type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
@@ -74,8 +75,13 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported: without that rule, bind:value would drag the
+  // default along with every keystroke (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $fieldState.value) defaultValue = value;
     syncValue(value);
   }
 
@@ -129,6 +135,7 @@
       {name}
       {placeholder}
       value={$fieldState.value}
+      {defaultValue}
       {maxlength}
       {minlength}
       {pattern}
@@ -138,6 +145,7 @@
       id={core.controlId($fieldState.id)}
       on:input={onInput}
       use:controlAction
+      use:formReset={() => syncValue(defaultValue)}
     />
     {#if $$slots.right}
       <span class="field__icon field__icon--right" aria-hidden="true"><slot name="right" /></span>
