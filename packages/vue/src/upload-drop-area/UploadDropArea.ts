@@ -47,16 +47,34 @@ export const UploadDropArea = defineComponent({
   setup(props, { slots }) {
     const i18n = useI18n();
 
+    const inputEl = ref<HTMLInputElement | null>(null);
+
     const emitFiles = (list: FileList | null | undefined) => {
       if (!list || !list.length) return;
       props.onFiles?.(Array.from(list));
+    };
+
+    // A dropped file joins the form the way a picked one does: it becomes the
+    // input's file list, so it submits, and a form reset clears it. A single
+    // file input holds one file, so a multi-file drop keeps the first.
+    const adopt = (dropped: FileList) => {
+      if (typeof DataTransfer === "undefined" || !inputEl.value) {
+        emitFiles(dropped);
+        return;
+      }
+      const kept = new DataTransfer();
+      for (const file of Array.from(dropped).slice(0, props.multiple ? undefined : 1)) {
+        kept.items.add(file);
+      }
+      inputEl.value.files = kept.files;
+      emitFiles(kept.files);
     };
 
     // The drag target is the generic drop area (shared, Tree-ready); this
     // component adds the upload business: the file input and its picker.
     const { dropAreaProps } = useDropArea(() => ({
       disabled: props.disabled,
-      onDrop: (data: DataTransfer) => emitFiles(data.files),
+      onDrop: (data: DataTransfer) => adopt(data.files),
     }));
 
     // The native file dialog can take up to ~1s to appear (the OS builds the
@@ -105,6 +123,7 @@ export const UploadDropArea = defineComponent({
         },
         [
           h("input", {
+            ref: inputEl,
             class: "upload-drop-area__input",
             type: "file",
             accept: props.accept,
