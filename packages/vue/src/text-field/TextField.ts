@@ -1,6 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { HazardGlyph, Icon } from "../icon/Icon";
 import { useTextField } from "./use-text-field";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
 
@@ -83,8 +84,24 @@ export const TextField = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit, slots }) {
+    const control = ref<HTMLInputElement | null>(null);
+    const given = () => props.modelValue ?? props.value ?? "";
+
+    // What the composable is told. It normally follows the prop and the
+    // control's own reports; a reset writes the default straight into it,
+    // which is the composable's silent path (its watch, not its setter).
+    const told = ref(given());
+
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useTextField(() => ({
-      value: props.modelValue ?? props.value,
+      value: told.value,
       disabled: props.disabled,
       required: props.required,
       readOnly: props.readOnly,
@@ -92,6 +109,7 @@ export const TextField = defineComponent({
       hasDescription: Boolean(props.description),
       hasSuccess: Boolean(props.success),
       onValueChange: (next: string) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
@@ -100,6 +118,16 @@ export const TextField = defineComponent({
     const onInput = (event: Event) => {
       api.value.setValue((event.currentTarget as HTMLInputElement).value);
     };
+
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(control, () => ({ value: api.value.value }));
+    useFormReset(
+      () => control.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
 
     return () => {
       // A built-in green check (right) when validated, unless a custom right
@@ -151,7 +179,8 @@ export const TextField = defineComponent({
               inputmode: props.inputmode,
               autocomplete: props.autocomplete,
               spellcheck: props.spellcheck,
-              value: api.value.value,
+              value: fallback.value,
+              ref: control,
               onInput,
             }),
             slots.right
