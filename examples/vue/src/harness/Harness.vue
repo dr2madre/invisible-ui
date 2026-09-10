@@ -15,8 +15,11 @@ import {
   TableSet,
   TextField,
   Tooltip,
+  UploadDropArea,
   type TableRow,
 } from "@design-system/vue";
+
+const droppedNames = ref<string[]>([]);
 
 const peopleColumns = [
   { key: "name", header: "Name", sortable: true },
@@ -209,6 +212,19 @@ const loadPeople = () => {
         />
         <Button type="submit">Submit skills</Button>
         <p data-testid="skills-readout">Submitted: {{ submittedSkills }}</p>
+      </form>
+    </section>
+
+    <!-- Single file by default: a multi-file drop keeps the one the input
+         can hold, the way a picker would. -->
+    <section class="harness-upload" aria-label="Upload">
+      <form data-testid="upload-form">
+        <UploadDropArea
+          name="attachment"
+          caption="One file."
+          :on-files="(files: File[]) => (droppedNames = files.map((file) => file.name))"
+        />
+        <p data-testid="upload-readout">Dropped: {{ droppedNames.join(", ") }}</p>
       </form>
     </section>
   </main>
