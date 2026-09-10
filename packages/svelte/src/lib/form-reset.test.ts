@@ -17,6 +17,8 @@ import EchoFixture from "./form-reset.fixture.svelte";
 import ComposedFixture from "./form-composition.fixture.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import DateRangePicker from "./date-range-picker/DateRangePicker.svelte";
+import TimeField from "./time-field/TimeField.svelte";
+import MultiSelect from "./multi-select/MultiSelect.svelte";
 
 /** Reset resolves one task after the event; wait past it. */
 const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
@@ -126,15 +128,21 @@ const CONTROLS: Entry[] = [
     name: "ToggleButton",
     wants: "false",
     component: ToggleButton,
-    props: { label: "F", name: "f", pressed: false },
+    // `check` renders the machine-driven glyph, which is the surface this row
+    // reads: without it there is nothing but native's own checkedness.
+    props: { label: "F", name: "f", pressed: false, check: true },
     edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
     edited: "on",
     restored: null,
-    shows: "false",
+    shows: "false 0",
     domDefault: () =>
       String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).defaultChecked),
-    visible: () =>
-      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked),
+    // The checkedness is native's to restore; the check glyph is the
+    // machine's, so reading both is what tells the two layers apart.
+    visible: () => {
+      const input = screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement;
+      return `${input.checked} ${document.querySelectorAll(".toggle__check").length}`;
+    },
   },
   {
     name: "Slider",
@@ -148,10 +156,15 @@ const CONTROLS: Entry[] = [
     },
     edited: "70",
     restored: "30",
-    shows: "30",
+    shows: "30 30%",
     domDefault: () =>
       (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).getAttribute("value") ?? "",
-    visible: () => (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).value,
+    // The value is native's to restore; the fill percentage is the machine's.
+    visible: () => {
+      const input = screen.getByRole("slider", { name: "F" }) as HTMLInputElement;
+      const track = document.querySelector<HTMLElement>("[style*='--_slider-pct']")!;
+      return `${input.value} ${track.style.getPropertyValue("--_slider-pct")}`;
+    },
   },
   {
     name: "Select",
@@ -237,17 +250,26 @@ const CONTROLS: Entry[] = [
     component: RatingGroup,
     wants: "2",
     props: { label: "F", name: "f", value: 2, max: 5 },
-    edit: async (user) => user.click(screen.getByRole("radio", { name: "4 stars" })),
+    edit: async (user) => {
+      const star = screen.getByRole("radio", { name: "4 stars" });
+      await user.click(star);
+      // The hover preview replaces the fill while the pointer is on a star.
+      await user.unhover(star);
+    },
     edited: "4",
     restored: "2",
-    shows: "true",
+    shows: "true 2",
     domDefault: () =>
       [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
         .filter((input) => input.defaultChecked)
         .map((input) => input.value)
         .join(","),
-    visible: () =>
-      String((screen.getByRole("radio", { name: "2 stars" }) as HTMLInputElement).checked),
+    // The checkedness is native's to restore; the filled stars are the
+    // machine's.
+    visible: () => {
+      const input = screen.getByRole("radio", { name: "2 stars" }) as HTMLInputElement;
+      return `${input.checked} ${document.querySelectorAll(".rating__star--filled").length}`;
+    },
   },
 ];
 
@@ -419,6 +441,7 @@ describe("form reset under a controlled echo", () => {
     const user = userEvent.setup();
     render(EchoFixture);
     const form = screen.getByTestId("echo-form") as HTMLFormElement;
+    const inForm = within(form);
 
     const initial = {
       text: "Ada",
@@ -445,25 +468,25 @@ describe("form reset under a controlled echo", () => {
     expect(payload()).toEqual(initial);
 
     // One committed edit per control; every report echoes into its prop.
-    const textbox = screen.getByRole("textbox", { name: "Text" });
+    const textbox = inForm.getByRole("textbox", { name: "Text" });
     await user.clear(textbox);
     await user.type(textbox, "Grace");
-    await user.click(screen.getByRole("checkbox", { name: "Check" }));
-    await user.click(screen.getByRole("switch", { name: "Switch" }));
-    await user.click(screen.getByRole("checkbox", { name: "Toggle" }));
-    const range = screen.getByRole("slider", { name: "Slide" }) as HTMLInputElement;
+    await user.click(inForm.getByRole("checkbox", { name: "Check" }));
+    await user.click(inForm.getByRole("switch", { name: "Switch" }));
+    await user.click(inForm.getByRole("checkbox", { name: "Toggle" }));
+    const range = inForm.getByRole("slider", { name: "Slide" }) as HTMLInputElement;
     range.value = "70";
     range.dispatchEvent(new Event("input", { bubbles: true }));
-    await user.selectOptions(screen.getByRole("combobox", { name: "Fruit" }), "apple");
+    await user.selectOptions(inForm.getByRole("combobox", { name: "Fruit" }), "apple");
     await user.click(
-      within(screen.getByRole("radiogroup", { name: "Group" })).getByRole("radio", { name: "b" }),
+      within(inForm.getByRole("radiogroup", { name: "Group" })).getByRole("radio", { name: "b" }),
     );
-    await user.click(screen.getByRole("checkbox", { name: "b" }));
+    await user.click(inForm.getByRole("checkbox", { name: "b" }));
     await user.click(
-      within(screen.getByRole("radiogroup", { name: "Segment" })).getByRole("radio", { name: "b" }),
+      within(inForm.getByRole("radiogroup", { name: "Segment" })).getByRole("radio", { name: "b" }),
     );
-    await user.click(screen.getByRole("radio", { name: "4 stars" }));
-    await user.click(screen.getByRole("radio", { name: "Lone Y" }));
+    await user.click(inForm.getByRole("radio", { name: "4 stars" }));
+    await user.click(inForm.getByRole("radio", { name: "Lone Y" }));
 
     expect(payload()).toEqual({
       text: "Grace",
@@ -487,6 +510,119 @@ describe("form reset under a controlled echo", () => {
   });
 });
 
+describe("form reset under a normalizing echo", () => {
+  it("a parent that sorts the reported selection is still giving it back", async () => {
+    const user = userEvent.setup();
+    render(EchoFixture);
+    const form = screen.getByTestId("sorted-echo-form") as HTMLFormElement;
+    const boxes = () => new FormData(form).getAll("sorted").join(",");
+    expect(boxes()).toBe("b");
+
+    // The machine stores toggle order, the parent stores sorted order: the
+    // same selection, written differently, and still not new intent. (The
+    // payload follows DOM order either way, which is why the order the two
+    // sides disagree on is invisible here and matters only to the compare.)
+    await user.click(within(form).getByRole("checkbox", { name: "a" }));
+    expect(boxes()).toBe("a,b");
+
+    form.reset();
+    await settled();
+    expect(boxes(), "a re-ordered echo must not become the new default").toBe("b");
+  });
+});
+
+describe("form reset when the consumer narrows the selection", () => {
+  it("a prop that is a smaller selection is a new default, not an echo", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(CheckboxGroup, {
+      props: {
+        label: "Boxes",
+        name: "boxes",
+        value: ["a", "b"],
+        items: [{ value: "a" }, { value: "b" }],
+      },
+    });
+    const form = document.createElement("form");
+    const root = document.querySelector(".checkbox-group")!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+    const boxes = () => new FormData(form).getAll("boxes").join(",");
+    expect(boxes()).toBe("a,b");
+
+    // The consumer drops one: fewer values than the control holds, which is
+    // their decision. An echo can only ever be the same selection.
+    await rerender({
+      label: "Boxes",
+      name: "boxes",
+      value: ["a"],
+      items: [{ value: "a" }, { value: "b" }],
+    });
+    expect(boxes()).toBe("a");
+
+    await user.click(within(form).getByRole("checkbox", { name: "b" }));
+    expect(boxes()).toBe("a,b");
+    form.reset();
+    await settled();
+    expect(boxes(), "the narrowed selection is the default now").toBe("a");
+  });
+});
+
+describe("form reset clears what the control was showing", () => {
+  it("a MultiSelect comes back unfiltered, not still narrowed by a query", async () => {
+    const user = userEvent.setup();
+    const rendered = render(MultiSelect, {
+      props: {
+        label: "Skills",
+        name: "skills",
+        values: ["svelte"],
+        items: [
+          { value: "svelte", label: "Svelte" },
+          { value: "vue", label: "Vue" },
+          { value: "react", label: "React" },
+        ],
+      },
+    });
+    const form = document.createElement("form");
+    const root = rendered.container.firstElementChild!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+
+    const input = screen.getByRole("combobox", { name: "Skills" });
+    await user.click(input);
+    await user.type(input, "re");
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+
+    form.reset();
+    await settled();
+    await user.click(input);
+    // The query went with the native restore; the list it filtered has to
+    // come back with it.
+    expect(screen.getAllByRole("option").length, "the filter outlived the reset").toBeGreaterThan(
+      1,
+    );
+  });
+});
+
+describe("form reset without a name", () => {
+  it("a nameless control still comes back, as every native one does", async () => {
+    const user = userEvent.setup();
+    const rendered = render(TimeField, { props: { label: "Time", value: "09:30" } });
+    const form = document.createElement("form");
+    const root = rendered.container.firstElementChild!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+
+    const hour = screen.getAllByRole("spinbutton")[0];
+    hour.focus();
+    await user.keyboard("{ArrowUp}");
+    expect(hour.textContent?.trim()).toBe("10");
+
+    form.reset();
+    await settled();
+    expect(hour.textContent?.trim(), "no name is not no reset").toBe("09");
+  });
+});
+
 describe("form reset on standalone radios", () => {
   it("the checked attribute is the default, and it does not follow the edit", async () => {
     const user = userEvent.setup();
@@ -496,6 +632,72 @@ describe("form reset on standalone radios", () => {
     await user.click(screen.getByRole("radio", { name: "Lone Y" }));
     expect(first.checked).toBe(false);
     expect(first.defaultChecked, "the DOM default must not follow the edit").toBe(true);
+  });
+});
+
+// A reset that put the page back but left the control's own copy of the value
+// at the edit would be invisible until the next prop change: the control would
+// read that change as a give-back of what it thinks it holds, and keep the old
+// default. These are the controls whose visible state native restores on its
+// own, so this is the only place their restore is observable.
+describe.each([
+  {
+    name: "TextField",
+    component: TextField,
+    props: { label: "F", name: "f", value: "Ada" },
+    edit: async (user: ReturnType<typeof userEvent.setup>, text: string) => {
+      const input = screen.getByRole("textbox", { name: "F" });
+      await user.clear(input);
+      await user.type(input, text);
+    },
+    typed: "Grace",
+    other: "Hopper",
+    adopt: (value: string) => ({ label: "F", name: "f", value }),
+  },
+  {
+    name: "Textarea",
+    component: Textarea,
+    props: { label: "F", name: "f", value: "Ada" },
+    edit: async (user: ReturnType<typeof userEvent.setup>, text: string) => {
+      const input = screen.getByRole("textbox", { name: "F" });
+      await user.clear(input);
+      await user.type(input, text);
+    },
+    typed: "Grace",
+    other: "Hopper",
+    adopt: (value: string) => ({ label: "F", name: "f", value }),
+  },
+  {
+    name: "Select",
+    component: Select,
+    props: { label: "F", name: "f", value: "pear", items: fruit },
+    edit: async (user: ReturnType<typeof userEvent.setup>, text: string) =>
+      user.selectOptions(screen.getByRole("combobox", { name: "F" }), text),
+    typed: "apple",
+    other: "pear",
+    adopt: (value: string) => ({ label: "F", name: "f", value, items: fruit }),
+  },
+])("$name after a reset", (entry) => {
+  it("judges the next prop change against what the page now shows", async () => {
+    const user = userEvent.setup();
+    const rendered = render(entry.component as never, { props: entry.props as never });
+    const form = document.createElement("form");
+    const root = rendered.container.firstElementChild!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+
+    await entry.edit(user, entry.typed);
+    form.reset();
+    await settled();
+
+    // The consumer now chooses the very value the user had typed. That is a
+    // new default, and it reads as one only if the reset put the control's
+    // own copy back as well as the page.
+    await rendered.rerender(entry.adopt(entry.typed) as never);
+    await entry.edit(user, entry.other);
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("f")).toBe(entry.typed);
   });
 });
 
@@ -593,6 +795,35 @@ describe("form reset, TextField pilot", () => {
     await settled();
     expect(input, "the new owner must").toHaveValue("Ada");
     other.remove();
+  });
+
+  it("one cancelled reset does not call off another that was not", async () => {
+    const user = userEvent.setup();
+    const renderedField = mount();
+    const { form } = renderedField;
+    const input = screen.getByRole("textbox", { name: "Name" });
+    await user.clear(input);
+    await user.type(input, "Grace");
+
+    // Two resets in the same task, the second cancelled. The first was not,
+    // and the page it restored must not be left disagreeing with the machine.
+    form.reset();
+    form.addEventListener("reset", (event) => event.preventDefault(), { once: true });
+    form.reset();
+    await settled();
+    expect(input).toHaveValue("Ada");
+    expect(new FormData(form).get("name")).toBe("Ada");
+
+    // And the machine agrees with the page, which only the owed restore can
+    // have done: the consumer adopting the old edit is then a new default,
+    // not an echo of what the control still thinks it holds.
+    const { rerender } = renderedField;
+    await rerender({ label: "Name", name: "name", value: "Grace" });
+    await user.clear(input);
+    await user.type(input, "Hopper");
+    form.reset();
+    await settled();
+    expect(input).toHaveValue("Grace");
   });
 
   it("a control that has left the page hears nothing", async () => {

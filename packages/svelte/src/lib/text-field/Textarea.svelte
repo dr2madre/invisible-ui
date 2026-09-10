@@ -74,6 +74,13 @@
     if (value !== $fieldState.value) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   $: field.setFlags({
     disabled,
@@ -119,7 +126,7 @@
     id={core.controlId($fieldState.id)}
     on:input={onInput}
     use:controlAction
-    use:formReset={() => syncValue(defaultValue)}></textarea>
+    use:formReset={restore}></textarea>
 
   {#if description}
     <p class="field__description" id={core.descriptionId($fieldState.id)} use:descriptionAction>

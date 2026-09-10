@@ -84,6 +84,13 @@
     if (value !== $fieldState.value) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   // Keep the headless state in sync with reactive props so the wiring
   // (aria-invalid, aria-describedby, disabled…) stays correct.
@@ -145,7 +152,7 @@
       id={core.controlId($fieldState.id)}
       on:input={onInput}
       use:controlAction
-      use:formReset={() => syncValue(defaultValue)}
+      use:formReset={restore}
     />
     {#if $$slots.right}
       <span class="field__icon field__icon--right" aria-hidden="true"><slot name="right" /></span>

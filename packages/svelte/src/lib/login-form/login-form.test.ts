@@ -33,10 +33,25 @@ describe("LoginForm", () => {
     form.reset();
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(email).toHaveValue("");
+    expect(password).toHaveValue("");
     // The submit reads the component's own state: a reset that left it
     // standing would submit what the page no longer shows.
     await fireEvent.submit(form);
     expect(onSubmit).toHaveBeenCalledWith({ email: "", password: "" });
+  });
+
+  it("a cancelled reset leaves its state alone too", async () => {
+    const onSubmit = vi.fn();
+    render(Fixture, { props: { onSubmit } });
+    const email = document.querySelector<HTMLInputElement>('input[name="email"]')!;
+    await fireEvent.input(email, { target: { value: "a@b.com" } });
+    const form = document.querySelector("form.login") as HTMLFormElement;
+    form.addEventListener("reset", (event) => event.preventDefault(), { once: true });
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(email).toHaveValue("a@b.com");
+    await fireEvent.submit(form);
+    expect(onSubmit).toHaveBeenCalledWith({ email: "a@b.com", password: "" });
   });
 
   it("renders social provider buttons when given", () => {

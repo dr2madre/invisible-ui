@@ -5,15 +5,19 @@ import type { Action } from "svelte/action";
 type Associated = Element & { form: HTMLFormElement | null };
 
 /**
- * The node itself when it can name its form, else the first descendant that
- * can. Resolved when the reset arrives, so a part that comes and goes (a
- * hidden input rendered only under `name`) is found in whatever state it is
- * in at that moment.
+ * The owner to listen for: the node itself when it is form-associated (so a
+ * `form` attribute is honoured), else the form it sits in. Read again when
+ * the reset arrives, so a control moved between forms follows the new one.
+ *
+ * Not the first form-associated descendant: a composite's parts come and go
+ * with `name`, and one of them could name a different owner than the control
+ * the user sees.
  */
-const associated = (node: HTMLElement): Associated | null =>
-  "form" in node
-    ? (node as unknown as Associated)
-    : node.querySelector<HTMLInputElement>("input, select, textarea, button");
+const associated = (node: HTMLElement): Associated | null => {
+  if ("form" in node) return node as unknown as Associated;
+  const enclosing = node.closest("form");
+  return enclosing ? ({ form: enclosing } as Associated) : null;
+};
 
 /**
  * Put the machine back when the owning form resets (ADR 0012). The parameter
@@ -24,6 +28,7 @@ const associated = (node: HTMLElement): Associated | null =>
 export const formReset: Action<HTMLElement, () => void> = (node, restore) => {
   let current = restore;
   const stop = core.onFormReset(
+    node.ownerDocument,
     () => associated(node),
     () => current(),
   );

@@ -100,13 +100,24 @@
   // The reset default follows the prop, except a give-back of what the
   // control itself reported (ADR 0012).
   let defaultValues = values;
+  // The same selection, whatever order each side keeps it in: the machine
+  // stores pick order, a parent may store its own, and a re-ordered echo is
+  // still a give-back.
   const sameValues = (a: string[], b: string[]) =>
-    a.length === b.length && a.every((entry, index) => entry === b[index]);
+    a.length === b.length && a.every((entry) => b.includes(entry));
   $: if (values !== lastValues) {
     lastValues = values;
     if (!sameValues(values, $msState.values)) defaultValues = values;
     syncValues(values);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValues = defaultValues;
+    values = defaultValues;
+    syncValues(defaultValues);
+    syncInputValue("");
+  };
   let lastItems = items;
   $: if (items !== lastItems) {
     lastItems = items;
@@ -186,10 +197,7 @@
       value={$inputValue}
       bind:this={inputEl}
       use:inputAction
-      use:formReset={() => {
-        syncValues(defaultValues);
-        syncInputValue("");
-      }}
+      use:formReset={restore}
     />
   </div>
 

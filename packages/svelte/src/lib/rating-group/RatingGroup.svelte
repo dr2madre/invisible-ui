@@ -46,6 +46,13 @@
     if (value !== $selected) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   // While hovering, stars up to `hovered` show a grey preview; otherwise the
   // selected stars show the selection color.
@@ -65,7 +72,7 @@
     class="rating"
     class:rating--disabled={disabled}
     role="radiogroup"
-    use:formReset={() => syncValue(defaultValue)}
+    use:formReset={restore}
     aria-labelledby={labelId}
     aria-orientation="horizontal"
     on:pointerleave={() => (hovered = 0)}

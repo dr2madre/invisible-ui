@@ -106,6 +106,13 @@
     lastValue = value;
     if (value !== $selectedValue) defaultValue = value;
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    resetValue(defaultValue, labelOf(defaultValue));
+  };
   const labelOf = (target: string | null) => {
     const match = items.find((item) => item.value === target);
     return match ? (match.label ?? match.value) : "";
@@ -167,7 +174,7 @@
       {disabled}
       value={$inputValue}
       use:inputAction
-      use:formReset={() => resetValue(defaultValue, labelOf(defaultValue))}
+      use:formReset={restore}
     />
     <!-- Invisible sizer: with width="wrap" the longest option (or the
          placeholder) sets a stable control width. -->

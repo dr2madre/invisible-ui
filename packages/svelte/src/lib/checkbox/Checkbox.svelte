@@ -58,6 +58,13 @@
     if (checked !== $cbState.checked) defaultChecked = checked;
     syncChecked(checked);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastChecked = defaultChecked;
+    checked = defaultChecked;
+    syncChecked(defaultChecked);
+  };
   let lastDisabled = disabled;
   $: if (disabled !== lastDisabled) {
     lastDisabled = disabled;
@@ -89,7 +96,7 @@
     defaultChecked={defaultChecked === true}
     use:domProps={$api.rootDomProps}
     on:change={onChange}
-    use:formReset={() => syncChecked(defaultChecked)}
+    use:formReset={restore}
     data-state={dataState}
   />
   <span class="checkbox" aria-hidden="true">

@@ -66,6 +66,13 @@
     if (pressed !== $tbState.pressed) defaultPressed = pressed;
     syncPressed(pressed);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastPressed = defaultPressed;
+    pressed = defaultPressed;
+    syncPressed(defaultPressed);
+  };
 </script>
 
 <label class="toggle" class:toggle--disabled={disabled}>
@@ -74,7 +81,7 @@
     use:rootAction
     checked={$tbState.pressed}
     defaultChecked={defaultPressed}
-    use:formReset={() => syncPressed(defaultPressed)}
+    use:formReset={restore}
     {name}
     {value}
     aria-label={label}

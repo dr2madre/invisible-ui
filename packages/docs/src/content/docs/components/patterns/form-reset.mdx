@@ -23,23 +23,33 @@ Three rules to build on:
    form's restored values only in a later task.
 2. **`preventDefault()` replaces the whole restore.** Cancel the event and
    neither the browser nor the library restores anything: the form is yours.
-3. **A controlled parent goes stale by design.** If you hold the value in your
-   own state, a reset restores the control and not your copy: put your state
-   back in your `reset` handler, the same line you would write around a native
-   input. With `bind:value` the library keeps the default pinned to the value
-   you set, not to what the user typed.
+3. **A separate copy of the value goes stale by design.** With `bind:value`
+   the control puts your variable back along with itself. If you keep the
+   value somewhere else, a reset restores the control and not your copy: put
+   it back in your `reset` handler. Restore it in a later task and check
+   `defaultPrevented`, or a handler that runs after yours could cancel the
+   reset and leave your state emptied under an untouched form:
 
 ```svelte
 <form
-  on:reset={() => {
-    // Yours to put back; the controls put themselves back.
-    draft = "";
+  on:reset={(event) => {
+    setTimeout(() => {
+      if (event.defaultPrevented) return;
+      draft = "";
+    }, 0);
   }}
 >
   <TextField label="Name" name="name" value="Ada" />
   <button type="reset">Reset</button>
 </form>
 ```
+
+Two limits worth knowing. Setting the prop to the value the user just typed
+cannot be told apart from the control giving that value back, so it does not
+become the new default. And for one task after the event the form is mixed:
+the plain inputs are already restored, the controls that submit through a
+hidden input are not, which is the other reason to read the form later rather
+than in the handler.
 
 The demo above pairs the library form with a native reference: edit both,
 reset both, and watch the callback counter stay still. The decision and its

@@ -43,7 +43,10 @@ test("a reset restores payload and page, reports nothing, and matches native", a
   const edited = await payload(page, "library-form");
   expect(edited).toEqual({ name: "Grace", notify: "on", fruit: "apple", pin: "9234" });
   const status = page.getByTestId("reset-status");
-  const reported = await status.textContent();
+  const callbacks = async () =>
+    Number(/Change callbacks fired: (\d+)/.exec((await status.textContent()) ?? "")?.[1]);
+  const reported = await callbacks();
+  expect(reported, "the edits themselves must have been reported").toBeGreaterThan(0);
 
   await demo(page).getByRole("button", { name: "Reset the form" }).click();
   // The restore follows the native one by a task; the next frame is past it.
@@ -51,9 +54,8 @@ test("a reset restores payload and page, reports nothing, and matches native", a
   expect(await payload(page, "library-form")).toEqual(mounted);
   await expect(demo(page).getByRole("textbox", { name: "Name" })).toHaveValue("Ada");
   await expect(demo(page).getByRole("checkbox", { name: "Subscribe" })).toBeChecked();
-  await expect(status).toHaveText(
-    (reported ?? "").replace(/Reset events seen: \d+/, "Reset events seen: 1"),
-  );
+  await expect(status).toContainText("Reset events seen: 1");
+  expect(await callbacks(), "a reset is not a user change").toBe(reported);
 
   // The native reference answers the same way.
   const nativeMounted = { name: "Ada", subscribe: "on", fruit: "pear" };

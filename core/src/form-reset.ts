@@ -20,27 +20,34 @@ type Associated = Element & { form: HTMLFormElement | null };
 /**
  * Call `restore` after `anchor()`'s form is reset and the browser has run the
  * native restore. Returns the teardown. `anchor` is read again at event time,
- * so it may resolve a different element as the control re-renders; resolving
- * `null` means the control is not in any form right now, and nothing happens.
+ * so a control that was in no form when it mounted, or has since moved to
+ * another, follows whatever owner it has then; resolving `null` means it is
+ * in no form right now, and nothing happens.
  */
-export function onFormReset(anchor: () => Associated | null, restore: () => void): () => void {
-  const target = anchor();
-  if (!target) return () => {};
-  const doc = target.ownerDocument;
-  let pending: ReturnType<typeof setTimeout> | undefined;
+export function onFormReset(
+  doc: Document,
+  anchor: () => Associated | null,
+  restore: () => void,
+): () => void {
+  const pending = new Set<ReturnType<typeof setTimeout>>();
 
   const onReset = (event: Event) => {
     const owner = anchor()?.form ?? null;
     if (!owner || event.target !== owner) return;
-    clearTimeout(pending);
-    pending = setTimeout(() => {
+    // Each reset is answered on its own: one cancelled event must not call
+    // off a restore an earlier, uncancelled one is still owed. Restoring is
+    // idempotent, so answering twice costs nothing.
+    const timer = setTimeout(() => {
+      pending.delete(timer);
       if (!event.defaultPrevented) restore();
     }, 0);
+    pending.add(timer);
   };
 
   doc.addEventListener("reset", onReset);
   return () => {
-    clearTimeout(pending);
+    for (const timer of pending) clearTimeout(timer);
+    pending.clear();
     doc.removeEventListener("reset", onReset);
   };
 }

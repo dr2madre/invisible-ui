@@ -59,6 +59,13 @@
     if (value !== $sliderValue) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));
@@ -96,7 +103,7 @@
         value={$sliderValue}
         {defaultValue}
         on:input={onInput}
-        use:formReset={() => syncValue(defaultValue)}
+        use:formReset={restore}
       />
       {#if tickPositions.length}
         <span class="slider__ticks" aria-hidden="true">

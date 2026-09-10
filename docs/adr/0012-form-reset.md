@@ -43,14 +43,27 @@ nothing.
 - Two layers implement it. The DOM carries real defaults (`value` and
   `checked` attributes, option `selected`, textarea content) so the browser's
   own algorithm works and server-rendered markup is correct with no script.
-  And each stateful control listens for its owner's `reset` through one shared
-  helper (`core`'s `formReset.onFormReset`) and puts its machine back with the
-  same no-notify writes the state conventions already use.
+  And each control that keeps state of its own listens for its owner's `reset`
+  through one shared helper (`core`'s `formReset.onFormReset`) and puts that
+  state back with the same no-notify writes the state conventions already use.
+  A control that keeps none, like the standalone Radio, needs no listener: its
+  element is its whole state, and the `checked` attribute is the restore.
+- The restore puts the control's own copy of the value back too. A consumer
+  using `bind:value` therefore ends the reset agreeing with the page; a
+  consumer holding a separate copy still has to put that copy back, and the
+  form's `reset` event is where.
 
 ## Consequences
 
 Uncontrolled consumers get working resets with no code. Controlled consumers
-add one `reset` handler per form. A control whose machine was not told would
-show the restored value and hold the old one, so every form-participating
-control registers the listener, and tests hold payload, visible state and
-callback silence together.
+add one `reset` handler per form. A control whose state was not put back would
+show the restored value and hold the old one, so tests hold payload, visible
+state and callback silence together.
+
+Two limits are deliberate. A parent that answers an edit by setting the prop
+to the very value the user typed is indistinguishable from an echo, so that
+value does not become the new default; a parent that means it can say so with
+a different value first, or reset its own state instead. And a form reset in a
+detached subtree restores the DOM but reaches no listener, so the control's
+state waits for the next prop sync; a native-only consumer sees the same
+asymmetry.

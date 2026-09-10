@@ -23,6 +23,7 @@
   let selected: string | null = "pear";
   let radio: string | null = "a";
   let boxes: string[] = ["a"];
+  let sortedBoxes: string[] = ["b"];
   let segment: string | null = "a";
   let stars: number | null = 2;
   let lone = true;
@@ -80,4 +81,16 @@
   <RatingGroup label="Stars" name="stars" value={stars} onValueChange={(v) => (stars = v)} />
   <Radio name="lone" value="x" checked={lone} label="Lone X" onChange={() => (lone = true)} />
   <Radio name="lone" value="y" checked={!lone} label="Lone Y" onChange={() => (lone = false)} />
+</form>
+
+<!-- A normalizing parent: it echoes the reported selection back sorted, which
+     is ordinary and must still count as a give-back. -->
+<form data-testid="sorted-echo-form">
+  <CheckboxGroup
+    label="Sorted"
+    name="sorted"
+    value={sortedBoxes}
+    items={ab}
+    onValueChange={(next) => (sortedBoxes = [...next].sort())}
+  />
 </form>

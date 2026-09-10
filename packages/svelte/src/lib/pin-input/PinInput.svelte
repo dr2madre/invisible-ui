@@ -63,6 +63,13 @@
     if (value !== $values.join("")) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   const cells = Array.from({ length }, (_, i) => i);
 </script>
@@ -73,7 +80,7 @@
   class="pin-input"
   role="group"
   use:rootAction
-  use:formReset={() => syncValue(defaultValue)}
+  use:formReset={restore}
   aria-label={label}
   data-invalid={invalid ? "" : undefined}
   data-success={!invalid && success ? "" : undefined}

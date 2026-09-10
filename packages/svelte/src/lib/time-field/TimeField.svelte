@@ -85,6 +85,13 @@
     if (value !== ($api.value ?? null)) defaultValue = value;
     field.syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValueProp = defaultValue;
+    value = defaultValue;
+    field.syncValue(defaultValue);
+  };
 
   $: segments = core.segments($tfState.hourCycle, $tfState.withSeconds);
   const isEmpty = (seg: TimeSegmentType, text: string) =>
@@ -122,7 +129,7 @@
     class:time-field--invalid={invalid || Boolean(validationMessage)}
     use:rootAction
     use:fieldAction
-    use:formReset={() => field.syncValue(defaultValue)}
+    use:formReset={restore}
     aria-label={label ?? $t("timeField.label")}
     aria-disabled={disabled || undefined}
     aria-invalid={invalid || Boolean(validationMessage) || undefined}

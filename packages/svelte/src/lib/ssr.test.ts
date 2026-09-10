@@ -87,7 +87,9 @@ describe("SSR — the markup carries the form-reset defaults", () => {
   });
 
   it("a checked control carries the checked attribute, an unchecked one does not", () => {
-    expect(html(Checkbox, { label: "On", name: "on", checked: true })).toMatch(/checked/);
+    // The attribute, not the styling hook: data-state="checked" is in the
+    // markup too, and would answer a looser pattern.
+    expect(html(Checkbox, { label: "On", name: "on", checked: true })).toMatch(/checked=""/);
     expect(html(Switch, { label: "Off", name: "off", checked: false })).not.toMatch(/checked=/);
   });
 
