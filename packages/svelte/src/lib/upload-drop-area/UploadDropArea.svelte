@@ -64,6 +64,22 @@
     onFiles?.(Array.from(list));
   };
 
+  // A dropped file joins the form the way a picked one does: it becomes the
+  // input's file list, so it submits, and a form reset clears it. A single
+  // file input holds one file, so a multi-file drop keeps the first.
+  const adopt = (dropped: FileList) => {
+    if (typeof DataTransfer === "undefined") {
+      onFiles?.(Array.from(dropped));
+      return;
+    }
+    const kept = new DataTransfer();
+    for (const file of Array.from(dropped).slice(0, multiple ? undefined : 1)) {
+      kept.items.add(file);
+    }
+    input.files = kept.files;
+    emit(kept.files);
+  };
+
   function onInput(event: Event) {
     resolveOpen();
     emit((event.currentTarget as HTMLInputElement).files);
@@ -78,7 +94,7 @@
   class:upload-drop-area--disabled={disabled}
   class:upload-drop-area--opening={opening}
   aria-busy={opening ? "true" : undefined}
-  use:dropArea={{ disabled, onDrop: (data) => emit(data.files) }}
+  use:dropArea={{ disabled, onDrop: (data) => adopt(data.files) }}
 >
   <input
     bind:this={input}
