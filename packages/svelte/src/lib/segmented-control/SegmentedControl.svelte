@@ -26,6 +26,7 @@
    * custom properties (`--ds-segment-*`).
    */
   import { createSegmentedControl } from "./create-segmented-control";
+  import { formReset } from "../internal/form-reset";
   import { stableId } from "../internal/stable-id";
 
   export let items: SegmentedControlItem[];
@@ -74,8 +75,12 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $segmentState.value) defaultValue = value;
     syncValue(value);
   }
 
@@ -90,6 +95,7 @@
     class="segmented"
     class:segmented--vertical={orientation === "vertical"}
     role="radiogroup"
+    use:formReset={() => syncValue(defaultValue)}
     aria-labelledby={labelId}
     aria-orientation={orientation}
     data-orientation={orientation}
@@ -108,6 +114,7 @@
           name={groupName}
           value={item.value}
           checked={$segmentState.value === item.value}
+          defaultChecked={defaultValue === item.value}
           disabled={disabled || item.disabled}
           aria-label={showLabel ? undefined : (item.label ?? item.value)}
           on:change={() => setValue(item.value)}

@@ -19,6 +19,7 @@
    */
   import { createRadioGroup, type Orientation } from "./create-radio-group";
   import { stableId } from "../internal/stable-id";
+  import { formReset } from "../internal/form-reset";
 
   export let items: RadioGroupItem[];
   export let value: string | null = null;
@@ -49,8 +50,12 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $radioState.value) defaultValue = value;
     syncValue(value);
   }
 
@@ -62,6 +67,7 @@
   <div
     class="radio-group"
     role="radiogroup"
+    use:formReset={() => syncValue(defaultValue)}
     aria-labelledby={labelId}
     aria-orientation={orientation}
     data-orientation={orientation}
@@ -74,6 +80,7 @@
           name={groupName}
           value={item.value}
           checked={$radioState.value === item.value}
+          defaultChecked={defaultValue === item.value}
           disabled={disabled || item.disabled}
           on:change={() => setValue(item.value)}
           data-state={$radioState.value === item.value ? "checked" : "unchecked"}

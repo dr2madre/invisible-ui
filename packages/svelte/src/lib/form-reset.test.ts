@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -9,6 +9,10 @@ import Switch from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
 import Textarea from "./text-field/Textarea.svelte";
 import ToggleButton from "./toggle-button/ToggleButton.svelte";
+import CheckboxGroup from "./checkbox-group/CheckboxGroup.svelte";
+import RadioGroup from "./radio-group/RadioGroup.svelte";
+import RatingGroup from "./rating-group/RatingGroup.svelte";
+import SegmentedControl from "./segmented-control/SegmentedControl.svelte";
 import EchoFixture from "./form-reset.fixture.svelte";
 
 /** Reset resolves one task after the event; wait past it. */
@@ -23,6 +27,8 @@ type Entry = {
   /** The payload under "f" after the edit, and after a reset. */
   edited: string | null;
   restored: string | null;
+  /** How to read the payload; groups submit several values under one name. */
+  payload?: (form: HTMLFormElement) => string | null;
   /** What the page shows after the reset. */
   shows: string;
   /** The DOM default the control must carry, before and after the edit. */
@@ -158,6 +164,84 @@ const CONTROLS: Entry[] = [
         .join(","),
     visible: () => (screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement).value,
   },
+  {
+    name: "RadioGroup",
+    component: RadioGroup,
+    wants: "a",
+    props: { label: "F", name: "f", value: "a", items: [{ value: "a" }, { value: "b" }] },
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "b" })),
+    edited: "b",
+    restored: "a",
+    shows: "true checked",
+    domDefault: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((input) => input.defaultChecked)
+        .map((input) => input.value)
+        .join(","),
+    visible: () => {
+      const input = screen.getByRole("radio", { name: "a" }) as HTMLInputElement;
+      return `${input.checked} ${input.dataset.state}`;
+    },
+  },
+  {
+    name: "SegmentedControl",
+    component: SegmentedControl,
+    wants: "a",
+    props: { label: "F", name: "f", value: "a", items: [{ value: "a" }, { value: "b" }] },
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "b" })),
+    edited: "b",
+    restored: "a",
+    shows: "true checked",
+    domDefault: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((input) => input.defaultChecked)
+        .map((input) => input.value)
+        .join(","),
+    visible: () => {
+      const input = screen.getByRole("radio", { name: "a" }) as HTMLInputElement;
+      return `${input.checked} ${input.dataset.state}`;
+    },
+  },
+  {
+    name: "CheckboxGroup",
+    component: CheckboxGroup,
+    wants: "a",
+    props: { label: "F", name: "f", value: ["a"], items: [{ value: "a" }, { value: "b" }] },
+    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "b" })),
+    edited: "a,b",
+    restored: "a",
+    payload: (form) => {
+      const all = new FormData(form).getAll("f");
+      return all.length ? all.join(",") : null;
+    },
+    shows: "false unchecked",
+    domDefault: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=checkbox]")]
+        .filter((input) => input.defaultChecked)
+        .map((input) => input.value)
+        .join(","),
+    visible: () => {
+      const input = screen.getByRole("checkbox", { name: "b" }) as HTMLInputElement;
+      return `${input.checked} ${input.dataset.state}`;
+    },
+  },
+  {
+    name: "RatingGroup",
+    component: RatingGroup,
+    wants: "2",
+    props: { label: "F", name: "f", value: 2, max: 5 },
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "4 stars" })),
+    edited: "4",
+    restored: "2",
+    shows: "true",
+    domDefault: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((input) => input.defaultChecked)
+        .map((input) => input.value)
+        .join(","),
+    visible: () =>
+      String((screen.getByRole("radio", { name: "2 stars" }) as HTMLInputElement).checked),
+  },
 ];
 
 describe.each(CONTROLS)("form reset restores $name", (entry) => {
@@ -175,8 +259,10 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
     form.append(root);
 
     expect(entry.domDefault(), "the DOM default must be there from the start").toBe(entry.wants);
+    const payload =
+      entry.payload ?? ((host: HTMLFormElement) => new FormData(host).get("f") as string | null);
     await entry.edit(user);
-    expect(new FormData(form).get("f")).toBe(entry.edited);
+    expect(payload(form)).toBe(entry.edited);
     expect(entry.domDefault(), "the DOM default must not follow the edit").toBe(entry.wants);
     const reported =
       onValueChange.mock.calls.length +
@@ -186,7 +272,7 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
 
     form.reset();
     await settled();
-    expect(new FormData(form).get("f")).toBe(entry.restored);
+    expect(payload(form)).toBe(entry.restored);
     expect(entry.visible(), "the page must show the restored state").toBe(entry.shows);
     const after =
       onValueChange.mock.calls.length +
@@ -197,20 +283,87 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
 });
 
 describe("form reset under a controlled echo", () => {
-  it("an echoed report does not move the default", async () => {
+  it("an echoed report never moves a default, and a reset undoes every edit", async () => {
+    const user = userEvent.setup();
     render(EchoFixture);
     const form = screen.getByTestId("echo-form") as HTMLFormElement;
-    const input = screen.getByRole("slider", { name: "F" }) as HTMLInputElement;
-    // The edit is reported, and the parent echoes it back into the prop.
-    input.value = "70";
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    expect(new FormData(form).get("f")).toBe("70");
+
+    const initial = {
+      text: "Ada",
+      check: null,
+      switch: "on",
+      toggle: null,
+      slide: "30",
+      fruit: "pear",
+      group: "a",
+      boxes: "a",
+      segment: "a",
+      stars: "2",
+      lone: "x",
+    };
+    const payload = () => {
+      const data = new FormData(form);
+      return Object.fromEntries(
+        Object.keys(initial).map((key) => {
+          const all = data.getAll(key);
+          return [key, all.length ? all.join(",") : null];
+        }),
+      );
+    };
+    expect(payload()).toEqual(initial);
+
+    // One committed edit per control; every report echoes into its prop.
+    const textbox = screen.getByRole("textbox", { name: "Text" });
+    await user.clear(textbox);
+    await user.type(textbox, "Grace");
+    await user.click(screen.getByRole("checkbox", { name: "Check" }));
+    await user.click(screen.getByRole("switch", { name: "Switch" }));
+    await user.click(screen.getByRole("checkbox", { name: "Toggle" }));
+    const range = screen.getByRole("slider", { name: "Slide" }) as HTMLInputElement;
+    range.value = "70";
+    range.dispatchEvent(new Event("input", { bubbles: true }));
+    await user.selectOptions(screen.getByRole("combobox", { name: "Fruit" }), "apple");
+    await user.click(
+      within(screen.getByRole("radiogroup", { name: "Group" })).getByRole("radio", { name: "b" }),
+    );
+    await user.click(screen.getByRole("checkbox", { name: "b" }));
+    await user.click(
+      within(screen.getByRole("radiogroup", { name: "Segment" })).getByRole("radio", { name: "b" }),
+    );
+    await user.click(screen.getByRole("radio", { name: "4 stars" }));
+    await user.click(screen.getByRole("radio", { name: "Lone Y" }));
+
+    expect(payload()).toEqual({
+      text: "Grace",
+      check: "on",
+      switch: null,
+      toggle: "on",
+      slide: "70",
+      fruit: "apple",
+      group: "b",
+      boxes: "a,b",
+      segment: "b",
+      stars: "4",
+      lone: "y",
+    });
 
     form.reset();
     await settled();
-    // The default is what the consumer chose, not what they echoed back.
-    expect(new FormData(form).get("f")).toBe("30");
-    expect(input.value).toBe("30");
+    // Every default survived its own echo: the whole form is back where the
+    // consumer put it.
+    expect(payload()).toEqual(initial);
+  });
+});
+
+describe("form reset on standalone radios", () => {
+  it("the checked attribute is the default, and it does not follow the edit", async () => {
+    const user = userEvent.setup();
+    render(EchoFixture);
+    const first = screen.getByRole("radio", { name: "Lone X" }) as HTMLInputElement;
+    expect(first.defaultChecked).toBe(true);
+    await user.click(screen.getByRole("radio", { name: "Lone Y" }));
+    expect(first.checked).toBe(false);
+    expect(first.defaultChecked, "the DOM default must not follow the edit").toBe(true);
   });
 });
 

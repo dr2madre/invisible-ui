@@ -11,6 +11,7 @@
    * CSS custom properties (`--ds-checkbox-*`).
    */
   import { createCheckboxGroup, type CheckboxGroupItem } from "./create-checkbox-group";
+  import { formReset } from "../internal/form-reset";
   import Icon from "../icon/Icon.svelte";
 
   export let items: CheckboxGroupItem[];
@@ -40,8 +41,14 @@
   // parent echoing the reported value back must not churn. A sync never
   // reports a change.
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
+  const sameValues = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((entry, index) => entry === b[index]);
   $: if (value !== lastValue) {
     lastValue = value;
+    if (!sameValues(value, $groupState.value)) defaultValue = value;
     syncValue(value);
   }
 
@@ -52,7 +59,7 @@
   }
 </script>
 
-<fieldset class="checkbox-group" {disabled}>
+<fieldset class="checkbox-group" {disabled} use:formReset={() => syncValue(defaultValue)}>
   <legend class="checkbox-group__label">{label}</legend>
 
   {#each items as item (item.value)}
@@ -64,6 +71,7 @@
         value={item.value}
         disabled={disabled || item.disabled}
         checked={$groupState.value.includes(item.value)}
+        defaultChecked={defaultValue.includes(item.value)}
         on:change={(event) => onItemChange(item.value, event)}
         data-state={$groupState.value.includes(item.value) ? "checked" : "unchecked"}
       />

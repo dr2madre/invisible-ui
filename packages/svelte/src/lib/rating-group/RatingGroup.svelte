@@ -10,6 +10,7 @@
    */
   import { getI18n } from "../i18n/create-i18n";
   import { createRatingGroup } from "./create-rating-group";
+  import { formReset } from "../internal/form-reset";
   import Icon from "../icon/Icon.svelte";
   import { stableId } from "../internal/stable-id";
 
@@ -37,8 +38,12 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $selected) defaultValue = value;
     syncValue(value);
   }
 
@@ -60,6 +65,7 @@
     class="rating"
     class:rating--disabled={disabled}
     role="radiogroup"
+    use:formReset={() => syncValue(defaultValue)}
     aria-labelledby={labelId}
     aria-orientation="horizontal"
     on:pointerleave={() => (hovered = 0)}
@@ -79,6 +85,7 @@
           name={groupName}
           value={item.value}
           checked={$selected === item.position}
+          defaultChecked={defaultValue === item.position}
           {disabled}
           aria-label={starLabel(item.position, $t)}
           on:change={() => setValue(item.position)}

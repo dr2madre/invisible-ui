@@ -23,16 +23,30 @@
   export let onChange: ((value: string) => void) | undefined = undefined;
 
   const id = stableId("ds-radio");
+  let inputEl: HTMLInputElement;
+
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported. The element is the whole state, so the checked
+  // attribute alone carries the reset; there is nothing else to put back
+  // (ADR 0012).
+  let lastChecked = checked;
+  let defaultChecked = checked;
+  $: if (checked !== lastChecked) {
+    lastChecked = checked;
+    if (checked !== inputEl?.checked) defaultChecked = checked;
+  }
 </script>
 
 <label class="radio" class:radio--disabled={disabled} for={id}>
   <input
+    bind:this={inputEl}
     {id}
     class="radio__input"
     type="radio"
     {name}
     {value}
     {checked}
+    {defaultChecked}
     {disabled}
     on:change={() => onChange?.(value)}
   />
