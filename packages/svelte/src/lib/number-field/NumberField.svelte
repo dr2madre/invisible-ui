@@ -8,9 +8,9 @@
    * input, and the field styling. Themeable via `--ds-field-*`.
    */
   import { numberField as core } from "@design-system/core";
-  import type { Action } from "svelte/action";
   import { getI18n } from "../i18n/create-i18n";
   import { createNumberField } from "./create-number-field";
+  import { formReset } from "../internal/form-reset";
   import type { NumberFieldError } from "./create-number-field";
 
   const { t, locale: providerLocale } = getI18n();
@@ -45,7 +45,6 @@
 
   $: resolvedLocale = locale ?? $providerLocale;
 
-  const initialValue = value;
   const field = createNumberField({
     value,
     locale: locale ?? $providerLocale,
@@ -80,8 +79,13 @@
 
   // Last-prop mirror: only a value the parent actually changed reflects.
   let lastValue = value;
+  // The reset default follows the prop. The write-back moves lastValue first,
+  // so this mirror only ever fires for a consumer's own change: the give-back
+  // is filtered by construction (ADR 0012).
+  let defaultValue = value;
   $: if (!Object.is(value, lastValue)) {
     lastValue = value;
+    defaultValue = value;
     syncValue(value);
   }
   $: syncConfig({
@@ -104,18 +108,6 @@
       decrement: $t("numberField.decrement", { label }),
     },
   });
-
-  // Form reset restores the mount value and display without callbacks.
-  // An action (not onMount) keeps this client-only and SSR-safe.
-  const resetAction: Action<HTMLInputElement> = (node) => {
-    const owner =
-      node.form ??
-      (form ? (node.ownerDocument.getElementById(form) as HTMLFormElement | null) : null);
-    if (!owner) return;
-    const onReset = () => field.reset(initialValue);
-    owner.addEventListener("reset", onReset);
-    return { destroy: () => owner.removeEventListener("reset", onReset) };
-  };
 
   function onInput(event: Event) {
     $api.setDraft((event.currentTarget as HTMLInputElement).value);
@@ -162,9 +154,10 @@
       class="field__control number-field__input"
       id={core.inputId(baseId)}
       value={$fieldState.inputValue}
+      {form}
       on:input={onInput}
       use:inputAction
-      use:resetAction
+      use:formReset={() => field.reset(defaultValue)}
     />
     <button class="number-field__spin number-field__spin--increment" use:incrementAction>
       <span aria-hidden="true">+</span>
