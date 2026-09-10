@@ -1,8 +1,9 @@
 import { numberField as core } from "@design-system/core";
-import { defineComponent, h, onMounted, onUnmounted, ref, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useStableId } from "../internal/use-stable-id";
 import { useNumberField, type NumberFieldError } from "./use-number-field";
+import { useFormReset } from "../internal/form-reset";
 
 export interface NumberFieldProps {
   /** Visible label, tied to the control. */
@@ -104,24 +105,31 @@ export const NumberField = defineComponent({
         decrement: i18n.value.t("numberField.decrement", { label: props.label }),
       },
       onValueChange: (next: number | null) => {
+        reported.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
       onValueCommit: props.onValueCommit,
     }));
 
-    const initialValue = props.modelValue !== undefined ? props.modelValue : (props.value ?? null);
     const inputEl = ref<HTMLInputElement | null>(null);
-    let owner: HTMLFormElement | null = null;
-    // Form reset restores the mount value and display without callbacks.
-    const onReset = () => reset(initialValue);
-    onMounted(() => {
-      owner =
-        inputEl.value?.form ??
-        (props.form ? (document.getElementById(props.form) as HTMLFormElement | null) : null);
-      owner?.addEventListener("reset", onReset);
+    const given = () => (props.modelValue !== undefined ? props.modelValue : (props.value ?? null));
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012). It used to be a mount snapshot, so
+    // a reset put back a value a controlled parent had already moved past.
+    const fallback = ref(given());
+    // A give-back is a prop that equals what the control just reported. It
+    // cannot be tested against the composable's own value: that is computed
+    // from the very prop being judged, so it has already moved.
+    const reported = ref<number | null | undefined>(undefined);
+    watch(given, (next) => {
+      if (next !== reported.value) fallback.value = next;
     });
-    onUnmounted(() => owner?.removeEventListener("reset", onReset));
+
+    useFormReset(
+      () => inputEl.value,
+      () => reset(fallback.value),
+    );
 
     const onInput = (event: Event) => {
       api.value.setDraft((event.currentTarget as HTMLInputElement).value);

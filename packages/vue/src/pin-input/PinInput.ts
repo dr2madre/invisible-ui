@@ -1,5 +1,6 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { usePinInput, type PinInputType } from "./use-pin-input";
+import { useFormReset } from "../internal/form-reset";
 
 export interface PinInputProps {
   /** `v-model` value; takes precedence over `value` when bound. */
@@ -57,18 +58,39 @@ export const PinInput = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit }) {
-    const { api, values, value, rootRef } = usePinInput(() => ({
-      value: props.modelValue ?? props.value,
+    const given = () => props.modelValue ?? props.value;
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    const reported = ref<string | undefined>(undefined);
+
+    const { api, values, value, reset, rootRef } = usePinInput(() => ({
+      value: given(),
       length: props.length,
       type: props.type,
       mask: props.mask,
       disabled: props.disabled,
       onValueChange: (next: string) => {
+        reported.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
       onComplete: (next: string) => props.onComplete?.(next),
     }));
+
+    // A give-back is a prop that equals what the control just reported. It
+    // cannot be tested against the composable's own value: that is computed
+    // from the very prop being judged, so it has already moved.
+    watch(given, (next) => {
+      if (next !== reported.value) fallback.value = next;
+    });
+
+    // The composable's own silent restore. Feeding the joined value back
+    // through its value option would re-split it from the first cell.
+    useFormReset(
+      () => rootRef.value,
+      () => reset(fallback.value ?? ""),
+    );
 
     return () =>
       h(

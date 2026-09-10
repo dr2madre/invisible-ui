@@ -219,7 +219,8 @@ describe("Vue NumberField (styled)", () => {
 
     await type("77");
     form.reset();
-    await Promise.resolve();
+    // The restore follows the native one by a task (ADR 0012).
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(new FormData(form).get("amount")).toBe("1234.5");
 
     await rerender({ disabled: true });

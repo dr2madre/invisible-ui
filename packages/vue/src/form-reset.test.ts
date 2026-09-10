@@ -4,6 +4,13 @@ import { defineComponent, h, reactive, ref } from "vue";
 import { describe, expect, it, vi } from "vitest";
 
 import { Checkbox } from "./checkbox/Checkbox";
+import { Combobox } from "./combobox/Combobox";
+import { DatePicker } from "./date-picker/DatePicker";
+import { DateRangePicker } from "./date-range-picker/DateRangePicker";
+import { MultiSelect } from "./multi-select/MultiSelect";
+import { NumberField } from "./number-field/NumberField";
+import { PinInput } from "./pin-input/PinInput";
+import { TimeField } from "./time-field/TimeField";
 import { CheckboxGroup } from "./checkbox-group/CheckboxGroup";
 import { RadioGroup } from "./radio-group/RadioGroup";
 import { RatingGroup } from "./rating-group/RatingGroup";
@@ -270,12 +277,152 @@ describe.each(CONTROLS)("Vue form reset restores $name", (entry) => {
       onPressedChange.mock.calls.length;
     expect(after, "a reset is not a user change").toBe(reported);
 
+    // A render caused by something else must not put the page back to the
+    // default: the attribute is patched by every render, and the property
+    // has to be written again after it.
+    await entry.edit(user);
+    live.label = "F ";
+    await settled();
+    expect(payload(form), "an unrelated render undid the edit").toBe(entry.edited);
+    live.label = "F";
+    await settled();
+
+    form.reset();
+    await settled();
+
     // The consumer now chooses the very value the user had. That reads as a
     // new default only if the reset put the control's own state back: a
     // control that still thought it held that value would call it an echo.
     entry.adopt(live);
     await settled();
     expect(entry.domDefault(), "the adopted value did not become the default").toBe(entry.adopted);
+  });
+});
+
+// The composite families submit through hidden inputs, which a native reset
+// never touches: their payload comes back only because the control was told.
+describe("Vue form reset, the composite families", () => {
+  const day = (iso: string) => document.querySelector<HTMLButtonElement>(`[data-date="${iso}"]`)!;
+
+  it("Combobox comes back to its value and its text", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(Combobox, {
+      label: "Fruit",
+      name: "fruit",
+      value: "pear",
+      items: fruit,
+    });
+    const input = screen.getByRole("combobox", { name: "Fruit" });
+    await user.clear(input);
+    await user.type(input, "App");
+    await user.click(screen.getByRole("option", { name: /Apple/ }));
+    expect(new FormData(form).get("fruit")).toBe("apple");
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("fruit")).toBe("pear");
+    expect(input).toHaveValue("Pear");
+  });
+
+  it("MultiSelect comes back to its selection, unfiltered", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(MultiSelect, {
+      label: "Skills",
+      name: "skills",
+      values: ["vue"],
+      items: [
+        { value: "vue", label: "Vue" },
+        { value: "react", label: "React" },
+      ],
+    });
+    const input = screen.getByRole("combobox", { name: "Skills" });
+    await user.click(input);
+    await user.click(screen.getByRole("option", { name: "React" }));
+    expect(new FormData(form).getAll("skills").join(",")).toBe("vue,react");
+
+    await user.type(input, "re");
+    form.reset();
+    await settled();
+    expect(new FormData(form).getAll("skills").join(",")).toBe("vue");
+    await user.click(input);
+    expect(screen.getAllByRole("option").length, "the filter outlived the reset").toBe(2);
+  });
+
+  it("PinInput comes back to the split default", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(PinInput, { label: "Code", name: "pin", length: 4, value: "1234" });
+    const cells = screen.getAllByRole("textbox");
+    await user.click(cells[0]!);
+    await user.keyboard("{Backspace}9");
+    expect(new FormData(form).get("pin")).not.toBe("1234");
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("pin")).toBe("1234");
+    expect(cells[0]).toHaveValue("1");
+  });
+
+  it("TimeField comes back across its segments", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(TimeField, { label: "Time", name: "time", value: "09:30" });
+    const hour = screen.getAllByRole("spinbutton")[0]!;
+    hour.focus();
+    await user.keyboard("{ArrowUp}");
+    expect(new FormData(form).get("time")).toBe("10:30");
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("time")).toBe("09:30");
+    expect(hour.textContent?.trim()).toBe("09");
+  });
+
+  it("NumberField comes back to the current default, not the mount value", async () => {
+    const { form, live } = inForm(NumberField, { label: "Amount", name: "amount", value: 10 });
+    const input = screen.getByRole("spinbutton", { name: "Amount" }) as HTMLInputElement;
+
+    // The consumer moves the prop after mount: the default moves with it.
+    live.value = 25;
+    await settled();
+    input.value = "77";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await settled();
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("amount"), "the new prop value, never the mount one").toBe("25");
+  });
+
+  it("DatePicker comes back to its date", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(DatePicker, { label: "Due", name: "due", value: "2026-06-15" });
+    await user.click(screen.getByRole("combobox", { name: "Due" }));
+    await user.click(day("2026-06-20"));
+    expect(new FormData(form).get("due")).toBe("2026-06-20");
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("due")).toBe("2026-06-15");
+  });
+
+  it("DateRangePicker brings both ends back", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(DateRangePicker, {
+      label: "Window",
+      startName: "from",
+      endName: "to",
+      start: "2026-06-01",
+      end: "2026-06-10",
+    });
+    await user.click(screen.getByRole("combobox", { name: "Window" }));
+    await user.click(day("2026-06-15"));
+    await user.click(day("2026-06-20"));
+    expect(new FormData(form).get("from")).toBe("2026-06-15");
+
+    form.reset();
+    await settled();
+    const restored = new FormData(form);
+    expect(restored.get("from")).toBe("2026-06-01");
+    expect(restored.get("to")).toBe("2026-06-10");
   });
 });
 
@@ -410,6 +557,46 @@ describe("Vue form reset, TextField pilot", () => {
     await settled();
     expect(input).toHaveValue("Grace");
     expect(new FormData(form).get("name")).toBe("Grace");
+  });
+
+  it("a control moved into another form follows its new owner", async () => {
+    const user = userEvent.setup();
+    const { form } = inForm(TextField, { label: "Name", name: "name", value: "Ada" });
+    const other = document.createElement("form");
+    document.body.append(other);
+    const input = screen.getByRole("textbox", { name: "Name" });
+    await user.clear(input);
+    await user.type(input, "Grace");
+
+    other.append(form.firstElementChild!);
+    form.reset();
+    await settled();
+    expect(input, "the old owner must not reach it").toHaveValue("Grace");
+
+    other.reset();
+    await settled();
+    expect(input, "the new owner must").toHaveValue("Ada");
+    other.remove();
+  });
+
+  it("one cancelled reset does not call off another that was not", async () => {
+    const user = userEvent.setup();
+    const { form, live } = inForm(TextField, { label: "Name", name: "name", value: "Ada" });
+    const input = screen.getByRole("textbox", { name: "Name" });
+    await user.clear(input);
+    await user.type(input, "Grace");
+
+    form.reset();
+    form.addEventListener("reset", (event) => event.preventDefault(), { once: true });
+    form.reset();
+    await settled();
+    expect(input).toHaveValue("Ada");
+
+    // And the state agrees with the page, which only the owed restore can
+    // have done: adopting the old edit is then a new default.
+    live.value = "Grace";
+    await settled();
+    expect(input.getAttribute("value")).toBe("Grace");
   });
 
   it("a control that has left the page hears nothing", async () => {

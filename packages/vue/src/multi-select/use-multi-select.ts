@@ -60,6 +60,8 @@ export interface UseMultiSelect {
   /** Pressing the closed input opens the list. */
   onInputPointerDown: () => void;
   setOpen: (open: boolean) => void;
+  /** Restore the selection and clear the filter, without callbacks. */
+  reset: (values: string[]) => void;
 }
 
 const defaultFilter = (items: MultiSelectItem[], query: string) => {
@@ -136,6 +138,17 @@ export function useMultiSelect(options: MaybeRefOrGetter<UseMultiSelectOptions>)
 
   const setActiveValue = (next: string | null) => {
     activeValue.value = next;
+  };
+
+  /**
+   * Put the selection back and clear the filter, without notifying: the
+   * form-reset restore.
+   */
+  const reset = (next: string[]) => {
+    assertUniqueValues(next);
+    values.value = next;
+    inputValue.value = "";
+    visibleItems.value = filterFn.value(allItems.value, "");
   };
 
   const setInputValue = (next: string) => {
@@ -274,6 +287,7 @@ export function useMultiSelect(options: MaybeRefOrGetter<UseMultiSelectOptions>)
     floatingStyles,
     onInputChange,
     onInputPointerDown,
+    reset,
     setOpen,
   };
 }

@@ -1,8 +1,9 @@
-import { defineComponent, h, nextTick, ref, type PropType } from "vue";
+import { defineComponent, h, nextTick, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
 import { Tag } from "../tag/Tag";
 import { useMultiSelect, type MultiSelectItem } from "./use-multi-select";
+import { useFormReset } from "../internal/form-reset";
 
 export interface MultiSelectProps {
   /** Accessible, visible label (required). */
@@ -77,6 +78,23 @@ export const MultiSelect = defineComponent({
   setup(props) {
     const i18n = useI18n();
 
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported. The same selection in another order is still
+    // a give-back (ADR 0012).
+    const same = (a: string[], b: string[]) =>
+      a.length === b.length && a.every((entry) => b.includes(entry));
+    const fallback = ref([...props.values]);
+    // A give-back is a prop that equals what the control just reported. It
+    // cannot be tested against the composable's own value: that is computed
+    // from the very prop being judged, so it has already moved.
+    const reported = ref<string[]>([]);
+    watch(
+      () => props.values,
+      (next) => {
+        if (!same(next, reported.value)) fallback.value = [...next];
+      },
+    );
+
     const multiSelect = useMultiSelect(() => ({
       items: props.items,
       values: props.values,
@@ -84,10 +102,18 @@ export const MultiSelect = defineComponent({
       readOnly: props.readOnly,
       max: props.max,
       removeOnBackspace: props.removeOnBackspace,
-      onValuesChange: props.onValuesChange,
+      onValuesChange: (next: string[]) => {
+        reported.value = next;
+        props.onValuesChange?.(next);
+      },
       onInputValueChange: props.onInputValueChange,
       onOpenChange: props.onOpenChange,
     }));
+    useFormReset(
+      () => multiSelect.inputRef.value,
+      () => multiSelect.reset([...fallback.value]),
+    );
+
     const {
       api,
       items: visible,

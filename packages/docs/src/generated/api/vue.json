@@ -1489,7 +1489,7 @@
     {
       "name": "UseMultiSelect",
       "kind": "interface",
-      "signature": "interface UseMultiSelect { /** The connected core API: prop bags plus imperative helpers. */ api: ComputedRef<multiSelect.MultiSelectApi>; /** The currently visible (filtered) items. */ items: ComputedRef<MultiSelectItem[]>; inputValue: ComputedRef<string>; values: ComputedRef<string[]>; open: ComputedRef<boolean>; /** Template ref for the input; also the positioning reference. */ inputRef: Ref<HTMLInputElement | null>; /** Template ref for the listbox popup. */ listboxRef: Ref<HTMLElement | null>; /** Template ref for the control wrapper, so inner presses count as \"inside\". */ controlRef: Ref<HTMLElement | null>; /** Absolute-positioning styles for the listbox, from Floating UI. */ floatingStyles: ComputedRef<Record<string, string>>; /** Typing filters, opens and highlights the first match. */ onInputChange: (event: Event) => void; /** Pressing the closed input opens the list. */ onInputPointerDown: () => void; setOpen: (open: boolean) => void; }"
+      "signature": "interface UseMultiSelect { /** The connected core API: prop bags plus imperative helpers. */ api: ComputedRef<multiSelect.MultiSelectApi>; /** The currently visible (filtered) items. */ items: ComputedRef<MultiSelectItem[]>; inputValue: ComputedRef<string>; values: ComputedRef<string[]>; open: ComputedRef<boolean>; /** Template ref for the input; also the positioning reference. */ inputRef: Ref<HTMLInputElement | null>; /** Template ref for the listbox popup. */ listboxRef: Ref<HTMLElement | null>; /** Template ref for the control wrapper, so inner presses count as \"inside\". */ controlRef: Ref<HTMLElement | null>; /** Absolute-positioning styles for the listbox, from Floating UI. */ floatingStyles: ComputedRef<Record<string, string>>; /** Typing filters, opens and highlights the first match. */ onInputChange: (event: Event) => void; /** Pressing the closed input opens the list. */ onInputPointerDown: () => void; setOpen: (open: boolean) => void; /** Restore the selection and clear the filter, without callbacks. */ reset: (values: string[]) => void; }"
     },
     {
       "name": "UseMultiSelectOptions",
@@ -1529,7 +1529,7 @@
     {
       "name": "UsePinInput",
       "kind": "interface",
-      "signature": "interface UsePinInput { /** Reactive connected API; spread `api.value.rootProps` / `getInputProps(i)`. */ api: ComputedRef<PinInputApi>; /** Per-cell values. */ values: ComputedRef<string[]>; /** The combined value. */ value: ComputedRef<string>; /** Replace the per-cell values. */ setValues: (values: string[]) => void; /** Template ref for the container; scopes the focus movement between cells. */ rootRef: Ref<HTMLElement | null>; }"
+      "signature": "interface UsePinInput { /** Reactive connected API; spread `api.value.rootProps` / `getInputProps(i)`. */ api: ComputedRef<PinInputApi>; /** Per-cell values. */ values: ComputedRef<string[]>; /** The combined value. */ value: ComputedRef<string>; /** Replace the per-cell values. */ setValues: (values: string[]) => void; /** Restore a value across the cells without callbacks (form reset). */ reset: (value: string) => void; /** Template ref for the container; scopes the focus movement between cells. */ rootRef: Ref<HTMLElement | null>; }"
     },
     {
       "name": "UsePinInputOptions",
@@ -1639,7 +1639,7 @@
     {
       "name": "UseTimeField",
       "kind": "interface",
-      "signature": "interface UseTimeField { /** Reactive connected API; spread `rootProps` / `getSegmentProps`. */ api: ComputedRef<timeField.TimeFieldApi>; /** Bind to the field container's `focusout`: reports the end of editing. */ onFieldFocusOut: (event: FocusEvent) => void; /** The ordered segments for the current configuration. */ segments: ComputedRef<TimeSegmentType[]>; /** The resolved parts, for placeholder rendering. */ parts: ComputedRef<TimeParts>; /** Stable base id used to associate help and error text. */ id: string; }"
+      "signature": "interface UseTimeField { /** Reactive connected API; spread `rootProps` / `getSegmentProps`. */ api: ComputedRef<timeField.TimeFieldApi>; /** Bind to the field container's `focusout`: reports the end of editing. */ onFieldFocusOut: (event: FocusEvent) => void; /** The ordered segments for the current configuration. */ segments: ComputedRef<TimeSegmentType[]>; /** The resolved parts, for placeholder rendering. */ parts: ComputedRef<TimeParts>; /** Restore a value across the segments without callbacks (form reset). */ reset: (value: string | null | undefined) => void; /** Stable base id used to associate help and error text. */ id: string; }"
     },
     {
       "name": "UseTimeFieldOptions",

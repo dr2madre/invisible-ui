@@ -40,6 +40,8 @@ export interface UseTimeField {
   segments: ComputedRef<TimeSegmentType[]>;
   /** The resolved parts, for placeholder rendering. */
   parts: ComputedRef<TimeParts>;
+  /** Restore a value across the segments without callbacks (form reset). */
+  reset: (value: string | null | undefined) => void;
   /** Stable base id used to associate help and error text. */
   id: string;
 }
@@ -104,6 +106,25 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     return { min: valid(resolved.value.min), max: valid(resolved.value.max) };
   });
 
+  /**
+   * Put the segments back to a value without notifying: the form-reset
+   * restore. The committed parts move with them, so an Escape afterwards
+   * settles on what the reset put there, not on what it replaced.
+   */
+  const reset = (next: string | null | undefined) => {
+    const parsed = core.parseTimeValue(next, {
+      hourCycle: hourCycle.value,
+      withSeconds: withSeconds.value,
+    });
+    parts.value = parsed.parts;
+    committedParts.value = parsed.parts;
+    validationError.value = parsed.error;
+    invalidSegment.value = parsed.invalidSegment;
+    buffer.value = "";
+    bufferSeg.value = null;
+    lastValue = core.format(parts.value, withSeconds.value, hourCycle.value);
+  };
+
   const setParts = (
     nextParts: TimeParts,
     nextBuffer: string,
@@ -167,6 +188,7 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
     api,
     segments: computed(() => core.segments(hourCycle.value, withSeconds.value)),
     parts: computed(() => parts.value),
+    reset,
     onFieldFocusOut,
     id,
   };

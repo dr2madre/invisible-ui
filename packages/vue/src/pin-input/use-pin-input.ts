@@ -43,6 +43,8 @@ export interface UsePinInput {
   value: ComputedRef<string>;
   /** Replace the per-cell values. */
   setValues: (values: string[]) => void;
+  /** Restore a value across the cells without callbacks (form reset). */
+  reset: (value: string) => void;
   /** Template ref for the container; scopes the focus movement between cells. */
   rootRef: Ref<HTMLElement | null>;
 }
@@ -89,6 +91,11 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
     },
   );
 
+  /** Put the cells back without notifying: the form-reset restore. */
+  const reset = (next: string) => {
+    values.value = core.splitValue(next, state.value.length);
+  };
+
   const setValues = (next: string[]) => {
     values.value = next;
     const value = next.join("");
@@ -123,6 +130,7 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
     values: computed(() => api.value.values),
     value: computed(() => api.value.value),
     setValues,
+    reset,
     rootRef,
   };
 }

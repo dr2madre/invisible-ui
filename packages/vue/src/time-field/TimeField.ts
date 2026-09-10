@@ -1,4 +1,4 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import {
   useTimeField,
@@ -6,6 +6,7 @@ import {
   type TimeSegmentType,
   type TimeValueError,
 } from "./use-time-field";
+import { useFormReset } from "../internal/form-reset";
 
 export interface TimeFieldProps {
   /** Value as `"HH:mm"` or `"HH:mm:ss"` (24h); bindable with `v-model`. */
@@ -76,8 +77,15 @@ export const TimeField = defineComponent({
   setup(props, { emit }) {
     const i18n = useI18n();
 
-    const { api, segments, parts, onFieldFocusOut, id } = useTimeField(() => ({
-      value: props.modelValue !== undefined ? props.modelValue : props.value,
+    const root = ref<HTMLElement | null>(null);
+    const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    const reported = ref<string | null | undefined>(undefined);
+
+    const { api, segments, parts, reset, onFieldFocusOut, id } = useTimeField(() => ({
+      value: given(),
       hourCycle: props.hourCycle,
       withSeconds: props.withSeconds,
       min: props.min,
@@ -92,12 +100,27 @@ export const TimeField = defineComponent({
         empty: i18n.value.t("timeField.empty"),
       },
       onValueChange: (next: string | null) => {
+        reported.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
       onValueCommit: props.onValueCommit,
       onValidationChange: props.onValidationChange,
     }));
+
+    // A give-back is a prop that equals what the control just reported. It
+    // cannot be tested against the composable's own value: that is computed
+    // from the very prop being judged, so it has already moved.
+    watch(given, (next) => {
+      if (next !== reported.value) fallback.value = next;
+    });
+
+    // The composable's own silent restore: its value watch would also clear
+    // a buffer the user is still typing into.
+    useFormReset(
+      () => root.value,
+      () => reset(fallback.value),
+    );
 
     const errorId = `${id}-error`;
     const validationMessage = (error: TimeValueError | null): string | undefined => {
@@ -128,7 +151,7 @@ export const TimeField = defineComponent({
 
     return () => {
       const message = props.error ?? validationMessage(api.value.validationError);
-      return h("div", { class: "time-field-control" }, [
+      return h("div", { class: "time-field-control", ref: root }, [
         h(
           "div",
           {

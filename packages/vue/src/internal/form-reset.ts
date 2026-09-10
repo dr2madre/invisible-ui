@@ -1,5 +1,5 @@
 import { formReset as core } from "@design-system/core";
-import { onMounted, onUnmounted, watchPostEffect, type Ref } from "vue";
+import { onMounted, onUnmounted, onUpdated, type Ref } from "vue";
 
 /** An element that can name its form owner. */
 type Associated = Element & { form: HTMLFormElement | null };
@@ -33,14 +33,16 @@ export function useFormReset(anchor: () => Element | null, restore: () => void):
 /**
  * Keep a control's DOM property on the state while its attribute stays the
  * default. Vue writes the attribute alongside the property whenever `value`
- * or `checked` is a vnode prop, so the state is written here instead, after
- * the render that set the attribute.
+ * or `checked` is a vnode prop, so the state is written here instead.
+ *
+ * After every render, not only when the state changes: a render caused by
+ * anything else patches the attribute, and takes the property with it.
  */
 export function useLiveDom(
   element: Ref<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>,
   read: () => { value?: string; checked?: boolean },
 ): void {
-  watchPostEffect(() => {
+  const apply = () => {
     const node = element.value;
     if (!node) return;
     const next = read();
@@ -48,5 +50,10 @@ export function useLiveDom(
     if (next.checked !== undefined && "checked" in node && node.checked !== next.checked) {
       (node as HTMLInputElement).checked = next.checked;
     }
-  });
+  };
+  // Every render patches the attribute and takes the property with it, and
+  // a state change is itself a render: the component's own output reads the
+  // state, so both moments are this pair.
+  onMounted(apply);
+  onUpdated(apply);
 }

@@ -6,6 +6,7 @@ import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { usePopover } from "../popover/use-popover";
+import { useFormReset } from "../internal/form-reset";
 
 /** Intl date style used for the field display. */
 export type DateStyle = "full" | "long" | "medium" | "short";
@@ -85,11 +86,24 @@ export const DatePicker = defineComponent({
       return raw ? raw : null;
     });
     const selected = ref<string | null>(bound.value);
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref<string | null>(bound.value);
 
     // Mirror an externally controlled value, as the other composables do.
     watch(bound, (next) => {
+      if (next !== selected.value) fallback.value = next;
       selected.value = next;
     });
+
+    // The picker holds its own selection: putting it back is the restore,
+    // and it reports nothing.
+    useFormReset(
+      () => triggerRef.value,
+      () => {
+        selected.value = fallback.value;
+      },
+    );
 
     const dt = (iso: string) => new Date(`${iso}T00:00:00`);
     const displayFmt = computed(() =>

@@ -66,6 +66,20 @@ const cityItems = [
 const dialogSkills = ref<string[]>(["svelte", "vue", "react"]);
 const compositionOutcome = ref("none");
 
+// The reset section's own state: a controlled parent that echoes every
+// report back, which must not move the defaults.
+const resetName = ref("Ada");
+const resetFruit = ref<string | null>("pear");
+const resetSeen = ref(0);
+const resetReports = ref(0);
+const resetFruitItems = [
+  { value: "apple", label: "Apple" },
+  { value: "pear", label: "Pear" },
+];
+const onFormReset = () => {
+  resetSeen.value += 1;
+};
+
 const price = ref<number | null>(1234.5);
 const committedPrice = ref("none");
 const submittedPrice = ref("none");
@@ -194,6 +208,38 @@ const loadPeople = () => {
         <button type="reset">Reset price</button>
         <p data-testid="price-committed">Committed: {{ committedPrice }}</p>
         <p data-testid="price-submitted">Submitted: {{ submittedPrice }}</p>
+      </form>
+    </section>
+
+    <!-- The reset contract (ADR 0012), client-only by construction: the
+         payload, the page and the callback count across a reset. -->
+    <section class="harness-form-reset" aria-label="Form reset">
+      <form data-testid="reset-form" @reset="onFormReset">
+        <TextField
+          label="Reset name"
+          name="resetName"
+          :value="resetName"
+          :on-value-change="
+            (next: string) => {
+              resetName = next;
+              resetReports += 1;
+            }
+          "
+        />
+        <Combobox
+          label="Reset fruit"
+          name="resetFruit"
+          :items="resetFruitItems"
+          :value="resetFruit"
+          :on-value-change="
+            (next: string | null) => {
+              resetFruit = next;
+              resetReports += 1;
+            }
+          "
+        />
+        <Button type="reset">Reset the form</Button>
+        <p data-testid="reset-readout">Resets: {{ resetSeen }}. Reports: {{ resetReports }}.</p>
       </form>
     </section>
 

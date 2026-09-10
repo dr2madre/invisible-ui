@@ -8,6 +8,7 @@ import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { usePopover } from "../popover/use-popover";
+import { useFormReset } from "../internal/form-reset";
 
 export interface DateRangePickerProps {
   /** Range start (ISO `YYYY-MM-DD`), or `null`. */
@@ -87,17 +88,34 @@ export const DateRangePicker = defineComponent({
     const start = ref<string | null>(asDate(props.start));
     const end = ref<string | null>(asDate(props.end));
 
+    // The reset defaults follow the props, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const defaultStart = ref<string | null>(asDate(props.start));
+    const defaultEnd = ref<string | null>(asDate(props.end));
+
     // Mirror the externally controlled endpoints.
     watch(
       () => props.start,
       (next) => {
+        if (asDate(next) !== start.value) defaultStart.value = asDate(next);
         start.value = asDate(next);
       },
     );
     watch(
       () => props.end,
       (next) => {
+        if (asDate(next) !== end.value) defaultEnd.value = asDate(next);
         end.value = asDate(next);
+      },
+    );
+
+    // The picker holds both endpoints: putting them back is the restore,
+    // and it reports nothing.
+    useFormReset(
+      () => triggerRef.value,
+      () => {
+        start.value = defaultStart.value;
+        end.value = defaultEnd.value;
       },
     );
 
