@@ -18,6 +18,7 @@
     type TimeValueError,
   } from "./create-time-field";
   import { timeField as core } from "@design-system/core";
+  import { formReset } from "../internal/form-reset";
   import { getI18n } from "../i18n/create-i18n";
   import { get } from "svelte/store";
 
@@ -76,8 +77,12 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValueProp = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValueProp) {
     lastValueProp = value;
+    if (value !== ($api.value ?? null)) defaultValue = value;
     field.syncValue(value);
   }
 
@@ -117,6 +122,7 @@
     class:time-field--invalid={invalid || Boolean(validationMessage)}
     use:rootAction
     use:fieldAction
+    use:formReset={() => field.syncValue(defaultValue)}
     aria-label={label ?? $t("timeField.label")}
     aria-disabled={disabled || undefined}
     aria-invalid={invalid || Boolean(validationMessage) || undefined}

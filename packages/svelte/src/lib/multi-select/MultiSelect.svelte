@@ -27,6 +27,7 @@
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
   import { createMultiSelect, type MultiSelectItem } from "./create-multi-select";
+  import { formReset } from "../internal/form-reset";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
@@ -84,6 +85,7 @@
     optionAction,
     valuesListAction,
     syncValues,
+    syncInputValue,
     setItems,
     setDisabled,
     syncReadOnly,
@@ -95,8 +97,14 @@
   // unrelated rerender must not undo a local interaction, and a sync never
   // calls the consumer's callback.
   let lastValues = values;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValues = values;
+  const sameValues = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((entry, index) => entry === b[index]);
   $: if (values !== lastValues) {
     lastValues = values;
+    if (!sameValues(values, $msState.values)) defaultValues = values;
     syncValues(values);
   }
   let lastItems = items;
@@ -178,6 +186,10 @@
       value={$inputValue}
       bind:this={inputEl}
       use:inputAction
+      use:formReset={() => {
+        syncValues(defaultValues);
+        syncInputValue("");
+      }}
     />
   </div>
 

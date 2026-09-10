@@ -14,9 +14,16 @@ import RadioGroup from "./radio-group/RadioGroup.svelte";
 import RatingGroup from "./rating-group/RatingGroup.svelte";
 import SegmentedControl from "./segmented-control/SegmentedControl.svelte";
 import EchoFixture from "./form-reset.fixture.svelte";
+import ComposedFixture from "./form-composition.fixture.svelte";
+import PinInput from "./pin-input/PinInput.svelte";
+import DateRangePicker from "./date-range-picker/DateRangePicker.svelte";
 
 /** Reset resolves one task after the event; wait past it. */
 const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+/** A calendar day, addressed by its ISO date. */
+const dayButton = (iso: string) =>
+  document.querySelector<HTMLButtonElement>(`[data-date="${iso}"]`)!;
 
 type Entry = {
   name: string;
@@ -279,6 +286,131 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
       onCheckedChange.mock.calls.length +
       onPressedChange.mock.calls.length;
     expect(after, "a reset is not a user change").toBe(reported);
+  });
+});
+
+describe("form reset across the composed form", () => {
+  it("every family comes back: the whole payload equals the mount payload", async () => {
+    const user = userEvent.setup();
+    render(ComposedFixture);
+    const form = screen.getByTestId("composed-form") as HTMLFormElement;
+    const payload = () =>
+      Object.fromEntries(
+        ["name", "subscribe", "country", "fruit", "amount", "time", "due"].map((key) => [
+          key,
+          new FormData(form).get(key),
+        ]),
+      );
+    const skills = () => new FormData(form).getAll("skills").join(",");
+    const mount = payload();
+    expect(mount).toEqual({
+      name: "Ada",
+      subscribe: "yes",
+      country: "it",
+      fruit: "pear",
+      amount: "1234.5",
+      time: "09:30",
+      due: "2026-06-15",
+    });
+    expect(skills()).toBe("svelte,vue");
+
+    // One committed edit per family.
+    const name = screen.getByRole("textbox", { name: "Name" });
+    await user.clear(name);
+    await user.type(name, "Grace");
+    await user.click(screen.getByRole("checkbox", { name: "Subscribe" }));
+    await user.selectOptions(screen.getByRole("combobox", { name: "Country" }), "fr");
+    const fruit = screen.getByRole("combobox", { name: "Fruit" });
+    await user.clear(fruit);
+    await user.type(fruit, "App");
+    await user.click(screen.getByRole("option", { name: /Apple/ }));
+    const skillsInput = screen.getByRole("combobox", { name: "Skills" });
+    await user.click(skillsInput);
+    await user.click(screen.getByRole("option", { name: "React" }));
+    const amount = screen.getByRole("spinbutton", { name: "Amount" });
+    await user.clear(amount);
+    await user.type(amount, "7");
+    const hour = screen.getAllByRole("spinbutton", { name: /hour/i })[0];
+    hour.focus();
+    await user.keyboard("{ArrowUp}");
+    await user.click(screen.getByRole("combobox", { name: "Due date" }));
+    await user.click(dayButton("2026-06-20"));
+
+    expect(payload()).toEqual({
+      name: "Grace",
+      subscribe: null,
+      country: "fr",
+      fruit: "apple",
+      amount: "7",
+      time: "10:30",
+      due: "2026-06-20",
+    });
+    expect(skills()).toBe("svelte,vue,react");
+
+    form.reset();
+    await settled();
+    expect(payload(), "the whole form is back where it mounted").toEqual(mount);
+    expect(skills()).toBe("svelte,vue");
+
+    // The committed text came back too: an Escape after the reset settles on
+    // the restored label, not on the one the reset replaced.
+    await user.clear(fruit);
+    await user.type(fruit, "zzz");
+    await user.keyboard("{Escape}");
+    expect((fruit as HTMLInputElement).value).toBe("Pear");
+  });
+});
+
+describe("form reset on the remaining composites", () => {
+  const wrap = (rendered: { container: HTMLElement }) => {
+    const form = document.createElement("form");
+    const root = rendered.container.firstElementChild!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+    return form;
+  };
+
+  it("PinInput comes back to the split default", async () => {
+    const user = userEvent.setup();
+    const rendered = render(PinInput, {
+      props: { label: "Code", name: "pin", length: 4, value: "1234" },
+    });
+    const form = wrap(rendered);
+    const cells = screen.getAllByRole("textbox");
+    await user.click(cells[0]);
+    await user.keyboard("{Backspace}9");
+    expect(new FormData(form).get("pin")).not.toBe("1234");
+
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("pin")).toBe("1234");
+    expect((cells[0] as HTMLInputElement).value).toBe("1");
+  });
+
+  it("DateRangePicker brings both ends back", async () => {
+    const user = userEvent.setup();
+    const rendered = render(DateRangePicker, {
+      props: {
+        label: "Window",
+        startName: "from",
+        endName: "to",
+        start: "2026-06-01",
+        end: "2026-06-10",
+      },
+    });
+    const form = wrap(rendered);
+    await user.click(screen.getByRole("combobox", { name: "Window" }));
+    await user.click(dayButton("2026-06-15"));
+    await user.click(dayButton("2026-06-20"));
+    const edited = new FormData(form);
+    expect(edited.get("from")).toBe("2026-06-15");
+    expect(edited.get("to")).toBe("2026-06-20");
+
+    form.reset();
+    await settled();
+    const restored = new FormData(form);
+    expect(restored.get("from")).toBe("2026-06-01");
+    expect(restored.get("to")).toBe("2026-06-10");
   });
 });
 

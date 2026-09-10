@@ -39,7 +39,16 @@
   }
 </script>
 
-<form class="login" on:submit={submit}>
+<form
+  class="login"
+  on:submit={submit}
+  on:reset={() => {
+    // The controlled parent's own duty on a reset (ADR 0012): the fields put
+    // themselves back, this state is ours to put back.
+    email = "";
+    password = "";
+  }}
+>
   {#if $$slots.logo}
     <div class="login__logo"><slot name="logo" /></div>
   {/if}

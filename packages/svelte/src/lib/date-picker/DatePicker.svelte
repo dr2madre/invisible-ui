@@ -18,6 +18,7 @@
   import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
+  import { formReset } from "../internal/form-reset";
 
   const { t, locale: providerLocale } = getI18n();
 
@@ -50,22 +51,40 @@
   $: displayFmt = i18n.dateTimeFormat(resolvedLocale, { dateStyle });
   $: displayValue = value ? displayFmt.format(dt(value)) : "";
 
+  // The reset default follows the prop. The write-backs move lastValue
+  // first, so the mirror only ever fires for a consumer's own change: the
+  // give-back is filtered by construction (ADR 0012).
+  let lastValue = value;
+  let defaultValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    defaultValue = value;
+  }
+
   const pick = (iso: string) => {
+    lastValue = iso;
     value = iso;
     onValueChange?.(iso);
     setOpen(false);
   };
 
   const clear = () => {
+    lastValue = null;
     value = null;
     onValueChange?.(null);
+  };
+
+  // The prop is the whole state here; putting it back reports nothing.
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
   const popupId = `${stableId("dsDatePicker")}-popup`;
 </script>
 
-<div class="date-picker" class:date-picker--disabled={disabled}>
+<div class="date-picker" class:date-picker--disabled={disabled} use:formReset={restore}>
   {#if name}
     <input type="hidden" {name} value={value ?? ""} disabled={disabled || undefined} />
   {/if}

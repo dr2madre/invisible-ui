@@ -22,6 +22,23 @@ describe("LoginForm", () => {
     expect(onSubmit).toHaveBeenCalledWith({ email: "a@b.com", password: "secret" });
   });
 
+  it("a reset empties its own state, not only the fields", async () => {
+    const onSubmit = vi.fn();
+    render(Fixture, { props: { onSubmit } });
+    const email = document.querySelector<HTMLInputElement>('input[name="email"]')!;
+    const password = document.querySelector<HTMLInputElement>('input[name="password"]')!;
+    await fireEvent.input(email, { target: { value: "a@b.com" } });
+    await fireEvent.input(password, { target: { value: "secret" } });
+    const form = document.querySelector("form.login") as HTMLFormElement;
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(email).toHaveValue("");
+    // The submit reads the component's own state: a reset that left it
+    // standing would submit what the page no longer shows.
+    await fireEvent.submit(form);
+    expect(onSubmit).toHaveBeenCalledWith({ email: "", password: "" });
+  });
+
   it("renders social provider buttons when given", () => {
     render(Fixture, { props: { providers: [{ id: "google", label: "Google" }] } });
     expect(document.body.textContent).toContain("Continue with Google");
