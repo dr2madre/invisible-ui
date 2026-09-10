@@ -9,6 +9,7 @@
    * are themeable via `--ds-pin-input-*`.
    */
   import { createPinInput, type PinInputType } from "./create-pin-input";
+  import { formReset } from "../internal/form-reset";
   import { get } from "svelte/store";
   import { getI18n } from "../i18n/create-i18n";
 
@@ -54,10 +55,21 @@
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $values.join("")) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   const cells = Array.from({ length }, (_, i) => i);
 </script>
@@ -68,6 +80,7 @@
   class="pin-input"
   role="group"
   use:rootAction
+  use:formReset={restore}
   aria-label={label}
   data-invalid={invalid ? "" : undefined}
   data-success={!invalid && success ? "" : undefined}

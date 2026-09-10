@@ -69,7 +69,8 @@ describe("Svelte form composition", () => {
     expect(onAmountChange).toHaveBeenCalledTimes(1);
     const form = screen.getByTestId("composed-form") as HTMLFormElement;
     form.reset();
-    await Promise.resolve();
+    // The restore follows the native one by a task (ADR 0012).
+    await new Promise((resolve) => setTimeout(resolve, 0));
     // Reset restores the mount payload without emitting any callback.
     expect(onAmountChange).toHaveBeenCalledTimes(1);
     expect(onAmountCommit).not.toHaveBeenCalled();

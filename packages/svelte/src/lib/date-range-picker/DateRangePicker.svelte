@@ -17,6 +17,7 @@
   import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
+  import { formReset } from "../internal/form-reset";
 
   const { t, locale: providerLocale } = getI18n();
 
@@ -55,7 +56,25 @@
         ? `${displayFmt.format(dt(start))} – …`
         : "";
 
+  // The reset default follows the props. The write-backs move the mirrors
+  // first, so they only ever fire for a consumer's own change: the give-back
+  // is filtered by construction (ADR 0012).
+  let lastStart = start;
+  let lastEnd = end;
+  let defaultStart = start;
+  let defaultEnd = end;
+  $: if (start !== lastStart) {
+    lastStart = start;
+    defaultStart = start;
+  }
+  $: if (end !== lastEnd) {
+    lastEnd = end;
+    defaultEnd = end;
+  }
+
   const handleRange = (s: string | null, e: string | null) => {
+    lastStart = s;
+    lastEnd = e;
     start = s;
     end = e;
     onChange?.(s, e);
@@ -63,16 +82,26 @@
   };
 
   const clear = () => {
+    lastStart = null;
+    lastEnd = null;
     start = null;
     end = null;
     onChange?.(null, null);
+  };
+
+  // The props are the whole state here; putting them back reports nothing.
+  const restore = () => {
+    lastStart = defaultStart;
+    lastEnd = defaultEnd;
+    start = defaultStart;
+    end = defaultEnd;
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
   const popupId = `${stableId("dsDateRangePicker")}-popup`;
 </script>
 
-<div class="date-picker" class:date-picker--disabled={disabled}>
+<div class="date-picker" class:date-picker--disabled={disabled} use:formReset={restore}>
   {#if startName}
     <input type="hidden" name={startName} value={start ?? ""} disabled={disabled || undefined} />
   {/if}

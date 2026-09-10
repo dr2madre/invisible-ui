@@ -37,9 +37,20 @@
     event.preventDefault();
     onSubmit?.({ email, password });
   }
+
+  // The controlled parent's own duty on a reset (ADR 0012): the fields put
+  // themselves back, this state is ours. A task later, so a handler that
+  // cancels the reset cancels this too.
+  function onReset(event: Event) {
+    setTimeout(() => {
+      if (event.defaultPrevented) return;
+      email = "";
+      password = "";
+    }, 0);
+  }
 </script>
 
-<form class="login" on:submit={submit}>
+<form class="login" on:submit={submit} on:reset={onReset}>
   {#if $$slots.logo}
     <div class="login__logo"><slot name="logo" /></div>
   {/if}

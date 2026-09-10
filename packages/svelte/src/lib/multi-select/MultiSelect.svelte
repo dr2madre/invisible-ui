@@ -27,6 +27,7 @@
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
   import { createMultiSelect, type MultiSelectItem } from "./create-multi-select";
+  import { formReset } from "../internal/form-reset";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
@@ -84,6 +85,7 @@
     optionAction,
     valuesListAction,
     syncValues,
+    syncInputValue,
     setItems,
     setDisabled,
     syncReadOnly,
@@ -95,10 +97,27 @@
   // unrelated rerender must not undo a local interaction, and a sync never
   // calls the consumer's callback.
   let lastValues = values;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValues = values;
+  // The same selection, whatever order each side keeps it in: the machine
+  // stores pick order, a parent may store its own, and a re-ordered echo is
+  // still a give-back.
+  const sameValues = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((entry) => b.includes(entry));
   $: if (values !== lastValues) {
     lastValues = values;
+    if (!sameValues(values, $msState.values)) defaultValues = values;
     syncValues(values);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValues = defaultValues;
+    values = defaultValues;
+    syncValues(defaultValues);
+    syncInputValue("");
+  };
   let lastItems = items;
   $: if (items !== lastItems) {
     lastItems = items;
@@ -178,6 +197,7 @@
       value={$inputValue}
       bind:this={inputEl}
       use:inputAction
+      use:formReset={restore}
     />
   </div>
 

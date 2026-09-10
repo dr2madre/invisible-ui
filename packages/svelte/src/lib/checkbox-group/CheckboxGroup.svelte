@@ -11,6 +11,7 @@
    * CSS custom properties (`--ds-checkbox-*`).
    */
   import { createCheckboxGroup, type CheckboxGroupItem } from "./create-checkbox-group";
+  import { formReset } from "../internal/form-reset";
   import Icon from "../icon/Icon.svelte";
 
   export let items: CheckboxGroupItem[];
@@ -40,10 +41,26 @@
   // parent echoing the reported value back must not churn. A sync never
   // reports a change.
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
+  // The same selection, whatever order each side keeps it in: the machine
+  // stores toggle order, a parent may store its own, and a re-ordered echo is
+  // still a give-back.
+  const sameValues = (a: string[], b: string[]) =>
+    a.length === b.length && a.every((entry) => b.includes(entry));
   $: if (value !== lastValue) {
     lastValue = value;
+    if (!sameValues(value, $groupState.value)) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   function onItemChange(itemValue: string, event: Event) {
     const checked = (event.currentTarget as HTMLInputElement).checked;
@@ -52,7 +69,7 @@
   }
 </script>
 
-<fieldset class="checkbox-group" {disabled}>
+<fieldset class="checkbox-group" {disabled} use:formReset={restore}>
   <legend class="checkbox-group__label">{label}</legend>
 
   {#each items as item (item.value)}
@@ -64,6 +81,7 @@
         value={item.value}
         disabled={disabled || item.disabled}
         checked={$groupState.value.includes(item.value)}
+        defaultChecked={defaultValue.includes(item.value)}
         on:change={(event) => onItemChange(item.value, event)}
         data-state={$groupState.value.includes(item.value) ? "checked" : "unchecked"}
       />

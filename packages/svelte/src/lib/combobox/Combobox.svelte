@@ -13,6 +13,7 @@
    */
   import { combobox as core } from "@design-system/core";
   import { createCombobox, type ComboboxItem } from "./create-combobox";
+  import { formReset } from "../internal/form-reset";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -86,6 +87,7 @@
     setOpen,
     syncValue,
     syncInputValue,
+    resetValue,
     setItems,
     setDisabled,
   } = combobox;
@@ -96,6 +98,25 @@
 
   $: selected = items.find((item) => item.value === value);
   $: selectedInputValue = selected ? (selected.label ?? selected.value) : "";
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let lastValue = value;
+  let defaultValue = value;
+  $: if (value !== lastValue) {
+    lastValue = value;
+    if (value !== $selectedValue) defaultValue = value;
+  }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    resetValue(defaultValue, labelOf(defaultValue));
+  };
+  const labelOf = (target: string | null) => {
+    const match = items.find((item) => item.value === target);
+    return match ? (match.label ?? match.value) : "";
+  };
   $: syncValue(value);
   $: syncInputValue(selectedInputValue);
   $: setItems(items);
@@ -153,6 +174,7 @@
       {disabled}
       value={$inputValue}
       use:inputAction
+      use:formReset={restore}
     />
     <!-- Invisible sizer: with width="wrap" the longest option (or the
          placeholder) sets a stable control width. -->

@@ -1,0 +1,56 @@
+---
+title: "Form Reset"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import FormResetDemo from "../../../../demos/FormResetDemo.svelte";
+
+<Preview>
+  <FormResetDemo client:only="svelte" />
+</Preview>
+
+`form.reset()`, a `<button type="reset">` and every other native reset path
+restore each control to its **current default**: the last value you passed
+through its `value` prop. The controls report nothing, because a reset is not
+a user change; the one notification is the form's own `reset` event, which
+you already have.
+
+Three rules to build on:
+
+1. **The event arrives before the restore.** Inside your `reset` handler every
+   control still holds its pre-reset value, and a `FormData` built there
+   carries the pre-reset payload. Restore your own state there; read the
+   form's restored values only in a later task.
+2. **`preventDefault()` replaces the whole restore.** Cancel the event and
+   neither the browser nor the library restores anything: the form is yours.
+3. **A separate copy of the value goes stale by design.** With `bind:value`
+   the control puts your variable back along with itself. If you keep the
+   value somewhere else, a reset restores the control and not your copy: put
+   it back in your `reset` handler. Restore it in a later task and check
+   `defaultPrevented`, or a handler that runs after yours could cancel the
+   reset and leave your state emptied under an untouched form:
+
+```svelte
+<form
+  on:reset={(event) => {
+    setTimeout(() => {
+      if (event.defaultPrevented) return;
+      draft = "";
+    }, 0);
+  }}
+>
+  <TextField label="Name" name="name" value="Ada" />
+  <button type="reset">Reset</button>
+</form>
+```
+
+Two limits worth knowing. Setting the prop to the value the user just typed
+cannot be told apart from the control giving that value back, so it does not
+become the new default. And for one task after the event the form is mixed:
+the plain inputs are already restored, the controls that submit through a
+hidden input are not, which is the other reason to read the form later rather
+than in the handler.
+
+The demo above pairs the library form with a native reference: edit both,
+reset both, and watch the callback counter stay still. The decision and its
+evidence live in ADR 0012 and `docs/form-reset-contract.md`.

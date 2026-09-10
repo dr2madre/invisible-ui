@@ -14,6 +14,7 @@
   import type { HTMLTextareaAttributes } from "svelte/elements";
   import Icon from "../icon/Icon.svelte";
   import { createTextField } from "./create-text-field";
+  import { formReset } from "../internal/form-reset";
 
   /** Visible label, tied to the control. */
   export let label: string;
@@ -65,10 +66,21 @@
 
   // Controllable mirror, compared against the last prop value: see ADR 0011.
   let lastValue = value;
+  // The reset default follows the prop, except a give-back of what the
+  // control itself reported (ADR 0012).
+  let defaultValue = value;
   $: if (value !== lastValue) {
     lastValue = value;
+    if (value !== $fieldState.value) defaultValue = value;
     syncValue(value);
   }
+  // The restore puts the control's own copy back beside the machine's, so a
+  // later prop change is judged against what the page now shows (ADR 0012).
+  const restore = () => {
+    lastValue = defaultValue;
+    value = defaultValue;
+    syncValue(defaultValue);
+  };
 
   $: field.setFlags({
     disabled,
@@ -107,12 +119,14 @@
     {placeholder}
     {rows}
     value={$fieldState.value}
+    {defaultValue}
     {maxlength}
     {minlength}
     {spellcheck}
     id={core.controlId($fieldState.id)}
     on:input={onInput}
-    use:controlAction></textarea>
+    use:controlAction
+    use:formReset={restore}></textarea>
 
   {#if description}
     <p class="field__description" id={core.descriptionId($fieldState.id)} use:descriptionAction>

@@ -18,6 +18,11 @@
      ids wire labels, descriptions, panels and triggers. -->
 <main>
   <TextField label="Full name" description="Shown on the profile." />
+  <!-- A named form: the reset contract must survive the SSR-then-hydrate path. -->
+  <form data-testid="hydrated-form">
+    <TextField label="City" name="city" value="Turin" />
+    <Select label="Fruit choice" name="fruit" items={fruit} value="pear" />
+  </form>
   <Select label="Fruit" items={fruit} value="apple" />
   <Tabs label="Settings" items={tabItems} value="account" />
   <Popover>

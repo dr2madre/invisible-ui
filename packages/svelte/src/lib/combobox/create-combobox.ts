@@ -48,6 +48,8 @@ export interface CreateCombobox {
   setValue: (value: string | null) => void;
   /** Sync an externally-controlled value without emitting a change event. */
   syncValue: (value: string | null) => void;
+  /** Restore value and text together without notifying (form reset). */
+  resetValue: (value: string | null, label: string) => void;
   /** Sync externally-controlled input text without emitting a change event. */
   syncInputValue: (inputValue: string) => void;
   /** Replace the option list (e.g. when items change). */
@@ -115,6 +117,21 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
         ? current
         : { ...current, committedInputValue },
     );
+
+  /**
+   * Put value and text back in one step, without notifying: the form-reset
+   * restore. Committed text follows too, or an Escape after a reset would
+   * revert to the text the reset replaced.
+   */
+  const resetValue = (value: string | null, label: string) =>
+    state.update((current) => ({
+      ...current,
+      value,
+      inputValue: label,
+      committedInputValue: label,
+      items: filter(allItems, ""),
+      activeValue: null,
+    }));
 
   const syncInputValue = (inputValue: string) =>
     state.update((current) =>
@@ -302,6 +319,7 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     openAll,
     setValue,
     syncValue,
+    resetValue,
     syncInputValue,
     setItems,
     setDisabled,

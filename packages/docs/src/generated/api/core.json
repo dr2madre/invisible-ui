@@ -791,6 +791,16 @@
       "signature": "labelId#66f596e4: (baseId: string) => string"
     },
     {
+      "name": "formReset",
+      "kind": "namespace",
+      "signature": "namespace formReset"
+    },
+    {
+      "name": "formReset.onFormReset",
+      "kind": "const",
+      "signature": "formReset_onFormReset: typeof onFormReset"
+    },
+    {
       "name": "hoverCard",
       "kind": "namespace",
       "signature": "namespace hoverCard"

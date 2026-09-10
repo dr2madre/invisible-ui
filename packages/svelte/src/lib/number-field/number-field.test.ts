@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/svelte";
 import { describe, expect, it, vi } from "vitest";
 import FormFixture from "./form-number-field.fixture.svelte";
 import Fixture from "./number-field.fixture.svelte";
+import NumberField from "./NumberField.svelte";
 
 const input = (name = "Amount") => screen.getByRole("spinbutton", { name }) as HTMLInputElement;
 const increment = (name = "Increase Amount") =>
@@ -184,14 +185,53 @@ describe("Svelte NumberField", () => {
     expect(new FormData(owner).get("outside")).toBe("2");
   });
 
-  it("restores the mount value on form reset without callbacks", async () => {
+  it("restores the current default on form reset without callbacks", async () => {
     render(FormFixture, {});
     await fireEvent.input(input(), { target: { value: "77" } });
     expect(input().value).toBe("77");
     const form = screen.getByTestId("form") as HTMLFormElement;
     form.reset();
-    await Promise.resolve();
+    // The restore follows the native one by a task, so a cancellation decided
+    // by any listener can still stop it.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(input().value).toBe("1234,5");
     expect(new FormData(form).get("amount")).toBe("1234.5");
+  });
+
+  it("the default is the prop's last value, not a mount snapshot", async () => {
+    const onValueChange = vi.fn();
+    const { rerender } = render(NumberField, {
+      props: { label: "Amount", name: "amount", value: 10, onValueChange },
+    });
+    const form = document.createElement("form");
+    const root = document.querySelector(".number-field")!.closest("div")!;
+    root.parentElement!.insertBefore(form, root);
+    form.append(root);
+
+    // The consumer moves the prop after mount: the default moves with it,
+    // and the move reports nothing.
+    await rerender({ label: "Amount", name: "amount", value: 25, onValueChange });
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    await fireEvent.input(input(), { target: { value: "77" } });
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(new FormData(form).get("amount"), "the new prop value, never the mount one").toBe("25");
+    expect(input().value).toBe("25");
+    expect(onValueChange, "a reset is not a user change").toHaveBeenCalledTimes(1);
+  });
+
+  it("a cancelled reset restores nothing, even from a later listener", async () => {
+    render(FormFixture, {});
+    await fireEvent.input(input(), { target: { value: "77" } });
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    // Registered after the control's own listener, which must still honour it.
+    form.ownerDocument.addEventListener("reset", (event) => event.preventDefault(), {
+      once: true,
+    });
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(input().value).toBe("77");
   });
 });
