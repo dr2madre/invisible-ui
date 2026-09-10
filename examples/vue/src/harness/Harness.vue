@@ -200,6 +200,19 @@ const loadPeople = () => {
       </form>
     </section>
 
+    <!-- Single file by default: a multi-file drop keeps the one the input
+         can hold, the way a picker would. -->
+    <section class="harness-upload" aria-label="Upload">
+      <form data-testid="upload-form">
+        <UploadDropArea
+          name="attachment"
+          caption="One file."
+          :on-files="(files: File[]) => (droppedNames = files.map((file) => file.name))"
+        />
+        <p data-testid="upload-readout">Dropped: {{ droppedNames.join(", ") }}</p>
+      </form>
+    </section>
+
     <section class="harness-multi-select" aria-label="Multi select">
       <form data-testid="skills-form" @submit="onSkillsSubmit">
         <MultiSelect
@@ -212,19 +225,6 @@ const loadPeople = () => {
         />
         <Button type="submit">Submit skills</Button>
         <p data-testid="skills-readout">Submitted: {{ submittedSkills }}</p>
-      </form>
-    </section>
-
-    <!-- Single file by default: a multi-file drop keeps the one the input
-         can hold, the way a picker would. -->
-    <section class="harness-upload" aria-label="Upload">
-      <form data-testid="upload-form">
-        <UploadDropArea
-          name="attachment"
-          caption="One file."
-          :on-files="(files: File[]) => (droppedNames = files.map((file) => file.name))"
-        />
-        <p data-testid="upload-readout">Dropped: {{ droppedNames.join(", ") }}</p>
       </form>
     </section>
   </main>
