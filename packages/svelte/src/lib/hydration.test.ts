@@ -65,6 +65,21 @@ describe("Svelte adapter hydration", () => {
     const controls = trigger.getAttribute("aria-controls")!;
     expect(document.getElementById(controls)).not.toBeNull();
 
+    // The reset contract survives the SSR-then-hydrate path: the attributes
+    // the server emitted are still the defaults, and the machine follows.
+    const form = host.querySelector<HTMLFormElement>('[data-testid="hydrated-form"]')!;
+    const city = form.querySelector<HTMLInputElement>('input[name="city"]')!;
+    expect(city.getAttribute("value")).toBe("Turin");
+    city.value = "Rome";
+    city.dispatchEvent(new Event("input", { bubbles: true }));
+    await tick();
+    expect(new FormData(form).get("city")).toBe("Rome");
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(new FormData(form).get("city")).toBe("Turin");
+    expect(city.value).toBe("Turin");
+    expect(new FormData(form).get("fruit")).toBe("pear");
+
     unmount(app);
   }, 60_000);
 });

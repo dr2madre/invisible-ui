@@ -6,7 +6,12 @@ import Combobox from "./combobox/Combobox.svelte";
 import Meter from "./meter/Meter.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import Progress from "./progress/Progress.svelte";
+import Checkbox from "./checkbox/Checkbox.svelte";
+import Select from "./select/Select.svelte";
+import Slider from "./slider/Slider.svelte";
+import Switch from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
+import Textarea from "./text-field/Textarea.svelte";
 
 // SSR guarantee: every component (via its fixture, which supplies valid props)
 // must server-render to an HTML string without touching the DOM. Overlays and
@@ -60,4 +65,47 @@ describe("SSR — the markup is valid before hydration", () => {
       for (const pattern of patterns) expect(body).toMatch(pattern);
     });
   }
+});
+
+// The reset contract's server half (ADR 0012): the emitted markup must carry
+// the default a no-script form restores from. The attributes come from the
+// state bindings, which equal the prop at render time; the compiler's own
+// default setters emit nothing on the server, which is why the state bindings
+// have to stay beside them.
+describe("SSR — the markup carries the form-reset defaults", () => {
+  const html = (component: unknown, props: Record<string, unknown>) =>
+    render(component as Parameters<typeof render>[0], { props: props as never }).body;
+
+  it("a text input carries its value", () => {
+    expect(html(TextField, { label: "Name", name: "name", value: "Ada" })).toMatch(/value="Ada"/);
+  });
+
+  it("a textarea carries its text", () => {
+    expect(html(Textarea, { label: "Bio", name: "bio", value: "Hello" })).toMatch(
+      />Hello<\/textarea>/,
+    );
+  });
+
+  it("a checked control carries the checked attribute, an unchecked one does not", () => {
+    expect(html(Checkbox, { label: "On", name: "on", checked: true })).toMatch(/checked/);
+    expect(html(Switch, { label: "Off", name: "off", checked: false })).not.toMatch(/checked=/);
+  });
+
+  it("a slider carries its value", () => {
+    expect(html(Slider, { label: "Vol", name: "vol", value: 30 })).toMatch(/value="30"/);
+  });
+
+  it("the chosen option carries selected, the placeholder does not win it", () => {
+    const body = html(Select, {
+      label: "Fruit",
+      name: "fruit",
+      value: "pear",
+      items: [
+        { value: "apple", label: "Apple" },
+        { value: "pear", label: "Pear" },
+      ],
+    });
+    expect(body).toMatch(/<option value="pear"[^>]*selected/);
+    expect(body).not.toMatch(/<option value="apple"[^>]*selected/);
+  });
 });

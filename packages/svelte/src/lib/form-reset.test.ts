@@ -574,6 +574,27 @@ describe("form reset, TextField pilot", () => {
     expect(new FormData(form).get("name")).toBe("Grace");
   });
 
+  it("a control moved into another form follows its new owner", async () => {
+    const user = userEvent.setup();
+    const { form } = mount();
+    const other = document.createElement("form");
+    document.body.append(other);
+    const input = screen.getByRole("textbox", { name: "Name" });
+    await user.clear(input);
+    await user.type(input, "Grace");
+
+    // The move: the control now belongs to the second form.
+    other.append(form.firstElementChild!);
+    form.reset();
+    await settled();
+    expect(input, "the old owner must not reach it").toHaveValue("Grace");
+
+    other.reset();
+    await settled();
+    expect(input, "the new owner must").toHaveValue("Ada");
+    other.remove();
+  });
+
   it("a control that has left the page hears nothing", async () => {
     const { form, unmount } = mount();
     unmount();
