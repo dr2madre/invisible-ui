@@ -1,6 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useStableId } from "../internal/use-stable-id";
 import { useRadioGroup, type RadioGroupOrientation, type RadioItem } from "./use-radio-group";
+import { useFormReset } from "../internal/form-reset";
 
 /** An item, with an optional display label (falls back to `value`). */
 export type RadioGroupItem = RadioItem & { label?: string };
@@ -53,20 +54,42 @@ export const RadioGroup = defineComponent({
   setup(props, { emit }) {
     const labelId = useStableId("ds-radio-group-label");
 
+    const root = ref<HTMLElement | null>(null);
+    const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    const same = (a: unknown, b: unknown) => a === b;
+    watch(given, (next) => {
+      if (!same(next, told.value)) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useRadioGroup(() => ({
       items: props.items,
-      value: props.modelValue !== undefined ? props.modelValue : props.value,
+      value: told.value,
       disabled: props.disabled,
       orientation: props.orientation,
       name: props.name,
       onValueChange: (next: string) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
     }));
 
+    useFormReset(
+      () => root.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
+
     return () =>
-      h("div", { class: "radio-field" }, [
+      h("div", { class: "radio-field", ref: root }, [
         h("span", { class: "radio-field__label", id: labelId }, props.label),
         h(
           "div",
@@ -82,7 +105,7 @@ export const RadioGroup = defineComponent({
                 h("input", {
                   ...api.value.getItemProps(item.value),
                   class: "radio__input",
-                  checked: api.value.value === item.value,
+                  checked: fallback.value === item.value,
                 }),
                 h("span", { class: "radio__dot", "aria-hidden": "true" }),
                 h("span", { class: "radio__label" }, item.label ?? item.value),

@@ -1,6 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { HazardGlyph, Icon } from "../icon/Icon";
 import { useTextField } from "../text-field/use-text-field";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 export interface TextareaProps {
   /** Visible label, tied to the control. */
@@ -69,8 +70,21 @@ export const Textarea = defineComponent({
     "update:modelValue": (value: string) => typeof value === "string",
   },
   setup(props, { emit }) {
+    const control = ref<HTMLTextAreaElement | null>(null);
+    const given = () => props.modelValue ?? props.value ?? "";
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useTextField(() => ({
-      value: props.modelValue ?? props.value,
+      value: told.value,
       disabled: props.disabled,
       required: props.required,
       readOnly: props.readOnly,
@@ -78,10 +92,21 @@ export const Textarea = defineComponent({
       hasDescription: Boolean(props.description),
       hasSuccess: Boolean(props.success),
       onValueChange: (next: string) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
     }));
+
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(control, () => ({ value: api.value.value }));
+    useFormReset(
+      () => control.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
 
     const onInput = (event: Event) => {
       api.value.setValue((event.currentTarget as HTMLTextAreaElement).value);
@@ -107,19 +132,25 @@ export const Textarea = defineComponent({
               ? h("span", { class: "field__required", "aria-hidden": "true" }, " *")
               : null,
           ]),
-          h("textarea", {
-            ...api.value.controlProps,
-            class: "field__control",
-            name: props.name,
-            autocomplete: props.autocomplete,
-            maxlength: props.maxlength,
-            minlength: props.minlength,
-            spellcheck: props.spellcheck,
-            placeholder: props.placeholder,
-            rows: props.rows,
-            value: api.value.value,
-            onInput,
-          }),
+          // A textarea's default is its child text, not a value attribute:
+          // the default goes in the content, the state in the property.
+          h(
+            "textarea",
+            {
+              ...api.value.controlProps,
+              class: "field__control",
+              name: props.name,
+              autocomplete: props.autocomplete,
+              maxlength: props.maxlength,
+              minlength: props.minlength,
+              spellcheck: props.spellcheck,
+              placeholder: props.placeholder,
+              rows: props.rows,
+              ref: control,
+              onInput,
+            },
+            fallback.value,
+          ),
           props.description
             ? h(
                 "p",

@@ -1,6 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useSwitch } from "./use-switch";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 export interface SwitchProps {
   /** Accessible, visible label (required). Override with the default slot for rich content. */
@@ -58,15 +59,39 @@ export const Switch = defineComponent({
     "update:modelValue": (checked: boolean) => typeof checked === "boolean",
   },
   setup(props, { emit, slots }) {
+    const input = ref<HTMLInputElement | null>(null);
+    const given = () => props.modelValue ?? props.checked;
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useSwitch(() => ({
-      checked: props.modelValue ?? props.checked,
+      checked: told.value,
       disabled: props.disabled,
       onCheckedChange: (next: boolean) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onCheckedChange?.(next);
       },
     }));
     const i18n = useI18n();
+
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(input, () => ({ checked: api.value.checked }));
+    useFormReset(
+      () => input.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
 
     return () => {
       const { t } = i18n.value;
@@ -74,11 +99,12 @@ export const Switch = defineComponent({
       return h("label", { class: props.disabled ? "field field--disabled" : "field" }, [
         h("input", {
           ...api.value.rootProps,
+          ref: input,
           class: "switch__input",
           name: props.name,
           value: props.value,
           required: props.required,
-          checked: api.value.checked,
+          checked: fallback.value,
         }),
         h(
           "span",

@@ -1,6 +1,7 @@
-import { defineComponent, h, type Component, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type Component, type PropType } from "vue";
 import { useStableId } from "../internal/use-stable-id";
 import { useSegmentedControl, type SegmentItem } from "./use-segmented-control";
+import { useFormReset } from "../internal/form-reset";
 
 /**
  * A segment, with an optional display `label` (falls back to `value`) and an
@@ -84,20 +85,42 @@ export const SegmentedControl = defineComponent({
   setup(props, { emit }) {
     const labelId = useStableId("ds-segmented-label");
 
+    const root = ref<HTMLElement | null>(null);
+    const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    const same = (a: unknown, b: unknown) => a === b;
+    watch(given, (next) => {
+      if (!same(next, told.value)) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useSegmentedControl(() => ({
       items: props.items,
-      value: props.modelValue !== undefined ? props.modelValue : props.value,
+      value: told.value,
       disabled: props.disabled,
       orientation: props.orientation,
       name: props.name,
       onValueChange: (next: string) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
     }));
 
+    useFormReset(
+      () => root.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
+
     return () =>
-      h("div", { class: "segmented-field" }, [
+      h("div", { class: "segmented-field", ref: root }, [
         h(
           "span",
           {
@@ -137,7 +160,7 @@ export const SegmentedControl = defineComponent({
                 h("input", {
                   ...api.value.getItemProps(item.value),
                   class: "segment__input",
-                  checked: api.value.value === item.value,
+                  checked: fallback.value === item.value,
                   "aria-label": showLabel ? undefined : text,
                 }),
                 item.icon

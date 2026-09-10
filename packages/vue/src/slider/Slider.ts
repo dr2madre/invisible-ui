@@ -1,5 +1,6 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useSlider, type SliderOrientation } from "./use-slider";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 export interface SliderProps {
   /** `v-model` value; takes precedence over `value` when bound. */
@@ -67,18 +68,42 @@ export const Slider = defineComponent({
     "update:modelValue": (value: number) => typeof value === "number",
   },
   setup(props, { emit, slots }) {
+    const input = ref<HTMLInputElement | null>(null);
+    const given = () => props.modelValue ?? props.value;
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useSlider(() => ({
-      value: props.modelValue ?? props.value,
+      value: told.value,
       min: props.min,
       max: props.max,
       step: props.step,
       orientation: props.orientation,
       disabled: props.disabled,
       onValueChange: (next: number) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
     }));
+
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(input, () => ({ value: String(api.value.value) }));
+    useFormReset(
+      () => input.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
 
     return () => {
       const { value, min, max, step, percentage } = api.value;
@@ -103,10 +128,13 @@ export const Slider = defineComponent({
             [
               h("input", {
                 ...api.value.inputProps,
+                ref: input,
                 class: "slider__input",
                 name: props.name,
                 "aria-label": props.label,
-                value,
+                // The attribute is the default; `useLiveDom` writes the
+                // property the user drags.
+                value: fallback.value,
               }),
               tickPositions.length
                 ? h(

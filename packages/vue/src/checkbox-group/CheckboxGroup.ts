@@ -1,6 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useCheckboxGroup, type CheckboxGroupItem } from "./use-checkbox-group";
+import { useFormReset } from "../internal/form-reset";
 
 export interface CheckboxGroupProps {
   items: CheckboxGroupItem[];
@@ -43,19 +44,43 @@ export const CheckboxGroup = defineComponent({
     "update:modelValue": (value: string[]) => Array.isArray(value),
   },
   setup(props, { emit }) {
+    const root = ref<HTMLElement | null>(null);
+    const given = () => props.modelValue ?? props.value;
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    // The same selection, whatever order each side keeps it in.
+    const same = (a: string[], b: string[]) =>
+      a.length === b.length && a.every((entry) => b.includes(entry));
+    watch(given, (next) => {
+      if (!same(next, told.value)) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useCheckboxGroup(() => ({
       items: props.items,
-      value: props.modelValue ?? props.value,
+      value: told.value,
       disabled: props.disabled,
       name: props.name,
       onValueChange: (next: string[]) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onValueChange?.(next);
       },
     }));
 
+    useFormReset(
+      () => root.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
+
     return () =>
-      h("fieldset", { class: "checkbox-group", ...api.value.rootProps }, [
+      h("fieldset", { class: "checkbox-group", ref: root, ...api.value.rootProps }, [
         h("legend", { class: "checkbox-group__label" }, props.label),
         ...props.items.map((item) =>
           h(
@@ -71,7 +96,7 @@ export const CheckboxGroup = defineComponent({
               h("input", {
                 ...api.value.getItemProps(item.value),
                 class: "checkbox__input",
-                checked: api.value.isChecked(item.value),
+                checked: fallback.value.includes(item.value),
               }),
               // Same painted box as the standalone Checkbox, so `checkbox.css`
               // covers the visuals and both render identically.

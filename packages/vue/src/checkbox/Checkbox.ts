@@ -1,7 +1,8 @@
-import { defineComponent, h, ref, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useDomProps } from "../use-dom-props";
 import { useCheckbox, type CheckedState } from "./use-checkbox";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 export interface CheckboxProps {
   /** Accessible, visible label (required). Override with the default slot for rich content. */
@@ -63,10 +64,23 @@ export const Checkbox = defineComponent({
     "update:modelValue": (checked: CheckedState) => typeof checked !== "undefined",
   },
   setup(props, { emit, slots }) {
+    const given = () => props.modelValue ?? props.checked;
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useCheckbox(() => ({
-      checked: props.modelValue ?? props.checked,
+      checked: told.value,
       disabled: props.disabled,
       onCheckedChange: (next: CheckedState) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onCheckedChange?.(next);
       },
@@ -78,6 +92,16 @@ export const Checkbox = defineComponent({
     // by the core and applied generically; nothing component-specific here.
     useDomProps(input, () => api.value.rootDomProps);
 
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(input, () => ({ checked: api.value.checked === true }));
+    useFormReset(
+      () => input.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
+
     return () =>
       h("label", { class: props.disabled ? "field field--disabled" : "field" }, [
         h("input", {
@@ -87,7 +111,7 @@ export const Checkbox = defineComponent({
           name: props.name,
           value: props.value,
           required: props.required,
-          checked: api.value.checked === true,
+          checked: fallback.value === true,
         }),
         h("span", { class: "checkbox", "aria-hidden": "true" }, [
           h(

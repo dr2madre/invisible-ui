@@ -1,5 +1,6 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { useToggleButton } from "./use-toggle-button";
+import { useFormReset, useLiveDom } from "../internal/form-reset";
 
 export interface ToggleButtonProps {
   /**
@@ -59,21 +60,46 @@ export const ToggleButton = defineComponent({
     "update:modelValue": (pressed: boolean) => typeof pressed === "boolean",
   },
   setup(props, { emit, slots }) {
+    const input = ref<HTMLInputElement | null>(null);
+    const given = () => props.modelValue ?? props.pressed;
+    // What the composable is told: a reset writes the default here, which is
+    // its silent path (the watch, not the setter).
+    const told = ref(given());
+    // The reset default follows the prop, except a give-back of what the
+    // control itself reported (ADR 0012).
+    const fallback = ref(given());
+    watch(given, (next) => {
+      if (next !== told.value) fallback.value = next;
+      told.value = next;
+    });
+
     const api = useToggleButton(() => ({
-      pressed: props.modelValue ?? props.pressed,
+      pressed: told.value,
       disabled: props.disabled,
       onPressedChange: (next: boolean) => {
+        told.value = next;
         emit("update:modelValue", next);
         props.onPressedChange?.(next);
       },
     }));
 
+    // The attribute carries the default, so a native reset and a no-script
+    // render both have one; the property carries what the user sees.
+    useLiveDom(input, () => ({ checked: api.value.pressed }));
+    useFormReset(
+      () => input.value,
+      () => {
+        told.value = fallback.value;
+      },
+    );
+
     return () =>
       h("label", { class: ["toggle", { "toggle--disabled": props.disabled }] }, [
         h("input", {
           ...api.value.rootProps,
+          ref: input,
           class: "toggle__input",
-          checked: api.value.pressed,
+          checked: fallback.value,
           name: props.name,
           value: props.value,
           "aria-label": props.label,
