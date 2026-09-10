@@ -1,0 +1,46 @@
+---
+title: "Form Reset"
+---
+
+import Preview from "../../../../components/Preview.astro";
+import FormResetDemo from "../../../../demos/FormResetDemo.svelte";
+
+<Preview>
+  <FormResetDemo client:only="svelte" />
+</Preview>
+
+`form.reset()`, a `<button type="reset">` and every other native reset path
+restore each control to its **current default**: the last value you passed
+through its `value` prop. The controls report nothing, because a reset is not
+a user change; the one notification is the form's own `reset` event, which
+you already have.
+
+Three rules to build on:
+
+1. **The event arrives before the restore.** Inside your `reset` handler every
+   control still holds its pre-reset value, and a `FormData` built there
+   carries the pre-reset payload. Restore your own state there; read the
+   form's restored values only in a later task.
+2. **`preventDefault()` replaces the whole restore.** Cancel the event and
+   neither the browser nor the library restores anything: the form is yours.
+3. **A controlled parent goes stale by design.** If you hold the value in your
+   own state, a reset restores the control and not your copy: put your state
+   back in your `reset` handler, the same line you would write around a native
+   input. With `bind:value` the library keeps the default pinned to the value
+   you set, not to what the user typed.
+
+```svelte
+<form
+  on:reset={() => {
+    // Yours to put back; the controls put themselves back.
+    draft = "";
+  }}
+>
+  <TextField label="Name" name="name" value="Ada" />
+  <button type="reset">Reset</button>
+</form>
+```
+
+The demo above pairs the library form with a native reference: edit both,
+reset both, and watch the callback counter stay still. The decision and its
+evidence live in ADR 0012 and `docs/form-reset-contract.md`.
