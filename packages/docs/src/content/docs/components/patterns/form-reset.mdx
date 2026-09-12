@@ -31,6 +31,7 @@ Three rules to build on:
    reset and leave your state emptied under an untouched form:
 
 ```svelte
+<!-- Svelte -->
 <form
   on:reset={(event) => {
     setTimeout(() => {
@@ -44,12 +45,58 @@ Three rules to build on:
 </form>
 ```
 
-Two limits worth knowing. Setting the prop to the value the user just typed
+```vue
+<!-- Vue: the same rule, and v-model is the common case here. A control bound
+     with v-model puts your ref back along with itself; anything else you
+     keep is yours to restore. -->
+<template>
+  <form @reset="onReset">
+    <TextField label="Name" name="name" v-model="name" />
+    <button type="reset">Reset</button>
+  </form>
+</template>
+
+<script setup lang="ts">
+const name = ref("Ada");
+const draft = ref("");
+
+const onReset = (event: Event) => {
+  setTimeout(() => {
+    if (event.defaultPrevented) return;
+    draft.value = "";
+  }, 0);
+};
+</script>
+```
+
+## Reading the restored values
+
+The event is not the moment to read the form. A `FormData` built in the
+handler is the payload the user is resetting away from, and for one task after
+that the form is mixed: the plain inputs are already restored, the controls
+that submit through a hidden input are not. Read it in a later task, and it is
+whole:
+
+```ts
+form.addEventListener("reset", (event) => {
+  new FormData(form).get("name"); // the pre-reset value: this is not the read you want
+  setTimeout(() => {
+    if (event.defaultPrevented) return;
+    new FormData(form).get("name"); // restored, every control included
+  }, 0);
+});
+```
+
+One limit worth knowing: setting the prop to the value the user just typed
 cannot be told apart from the control giving that value back, so it does not
-become the new default. And for one task after the event the form is mixed:
-the plain inputs are already restored, the controls that submit through a
-hidden input are not, which is the other reason to read the form later rather
-than in the handler.
+become the new default. Choose a different value first, or reset your own
+state instead.
+
+## Which adapters do this
+
+Svelte and Vue. The contract is binding on every adapter (ADR 0012), and the
+React and custom-element packages **have not implemented it yet**: their form
+controls do not restore on a reset, so do not rely on this behaviour there.
 
 The demo above pairs the library form with a native reference: edit both,
 reset both, and watch the callback counter stay still. The decision and its

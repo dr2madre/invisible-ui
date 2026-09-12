@@ -161,6 +161,15 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
+- **Form reset (ADR 0012) is required, and is not implemented in React.** Every
+  React control that submits a value must carry a real DOM default that follows
+  its value prop, and must put its own state back when its owner's `reset`
+  event arrives, silently. Until it does, the React package does not have form
+  parity, whatever the component count says. The shape the other adapters
+  landed on is in `packages/svelte/src/lib/internal/form-reset.ts` and
+  `packages/vue/src/internal/form-reset.ts`, both over one `core` helper
+  (`formReset.onFormReset`); React's own shape is an open question, since
+  `value`/`checked` there are already controlled by the framework.
 - Extend the React adapter from the shared set (six PoC components plus Multi Select) toward full catalog parity.
 - [x] Extend the API-manifest generator beyond Svelte: it now reads Svelte,
   Vue, React and custom elements (completed in #200).

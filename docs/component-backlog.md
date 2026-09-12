@@ -91,6 +91,11 @@ Batch order (by typical consumer demand):
 | 4 — data & nav | Tabs, Accordion, Card, Table, Pagination, Breadcrumb, Avatar |
 | 5 — the long tail | date/time family, carousel, tree view, stepper, the rest |
 
+A port is not done until it resets: **ADR 0012** is part of parity, not a
+later pass. A control that submits a value carries a DOM default that follows
+its value prop and puts its own state back when its owner's `reset` event
+arrives, silently. Svelte and Vue do; React and Elements do not yet.
+
 Parity became a goal on 2026-08-02, starting with Vue. Progress is
 tracked on the public [Framework support] page
 (`packages/docs/src/content/docs/frameworks.mdx`).

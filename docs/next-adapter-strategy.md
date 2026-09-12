@@ -129,6 +129,17 @@ recorded in `docs/adr/0008-web-components-adapter.md`.
 4. **ADR 0008** records the outcome and the decision rule for further
    framework adapters ("demand-driven, core stays untouched").
 
+**Still open: form reset (ADR 0012).** The elements package does not reset yet.
+Its controls submit through a hidden input, and a native reset leaves those
+untouched, so the payload survives a reset the user asked for; nor do they
+carry a DOM default that a reset could restore. The contract is binding, so
+this is a gap in form participation, not a nice-to-have: the elements are not
+form-equivalent until each one carries a default that follows its attribute
+and puts its own state back on its owner's `reset` event, silently. Point 3's
+`ElementInternals` route is the interesting one here, since
+`setFormValue` has a reset hook of its own (`formResetCallback`) that the
+other adapters do not get.
+
 ## Sources
 
 [Vue 2025→2026 review](https://vueschool.io/articles/news/vue-js-2025-in-review-and-a-peek-into-2026/) ·
