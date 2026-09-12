@@ -1,5 +1,11 @@
 # The form reset contract
 
+**Status: decided and implemented.** The recommendation below was accepted as
+ADR 0012 and is in the Svelte and Vue adapters. This memo is kept as the
+evidence behind that decision, so it goes on describing the state of things
+before it: where it says nothing is implemented, that is what was true when it
+was written.
+
 A decision memo. It records what `form.reset()` does to Invisible UI controls
 today, what the HTML standard says it should do, and the four contracts the
 project could adopt. It ends with one recommendation. Nothing here is

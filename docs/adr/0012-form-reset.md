@@ -4,9 +4,22 @@ Date: 2026-09-09
 
 ## Status
 
-Accepted. Binding for every adapter, present and future: Svelte and Vue
-implement it now; React and Elements must implement it before their form
-controls are called equivalent.
+Accepted, and binding for every adapter, present and future. Being binding is
+not being implemented: the table says where it holds today.
+
+| Adapter | Contract |
+| --- | --- |
+| Svelte | Implemented. |
+| Vue | Implemented. |
+| React | **Required, not implemented.** Its form controls do not reset yet. |
+| Elements | **Required, not implemented.** Same. |
+| Any future adapter | Required before its form controls are called equivalent. |
+
+A package that has not implemented it must not be described as having form
+parity, and a control that submits a value is not finished until it resets.
+The requirement is carried in `docs/adapters-roadmap.md` (React),
+`docs/next-adapter-strategy.md` (Elements) and `docs/component-backlog.md`
+(adapter parity), so that a port cannot reach "done" without it.
 
 ## Context
 
