@@ -161,11 +161,16 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
-- **Form reset (ADR 0012) is required, and is not implemented in React.** Every
-  React control that submits a value must carry a real DOM default that follows
-  its value prop, and must put its own state back when its owner's `reset`
-  event arrives, silently. Until it does, the React package does not have form
-  parity, whatever the component count says. The shape the other adapters
+- **Form reset (ADR 0012) is required, and is not implemented in React.** What
+  happens today is uneven rather than absent: React writes the `checked`
+  attribute, so a checkbox and a switch do restore their payload, while the
+  select and anything submitting through a hidden input restore nothing, and
+  **no** control puts its own state back, so one can submit a value the
+  component no longer holds. Every React control that submits a value must
+  carry a real DOM default that follows its value prop, and must put its own
+  state back when its owner's `reset` event arrives, silently. Until it does,
+  the React package does not have form parity, whatever the component count
+  says. The shape the other adapters
   landed on is in `packages/svelte/src/lib/internal/form-reset.ts` and
   `packages/vue/src/internal/form-reset.ts`, both over one `core` helper
   (`formReset.onFormReset`); React's own shape is an open question, since

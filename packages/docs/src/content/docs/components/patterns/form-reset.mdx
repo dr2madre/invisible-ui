@@ -57,6 +57,8 @@ Three rules to build on:
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 const name = ref("Ada");
 const draft = ref("");
 
@@ -69,6 +71,15 @@ const onReset = (event: Event) => {
 </script>
 ```
 
+One limit worth knowing: setting the prop to the value the user just typed
+cannot be told apart from the control giving that value back, so it does not
+become the new default. Choose a different value first, or reset your own
+state instead.
+
+The demo above pairs the library form with a native reference: edit both,
+reset both, and watch the callback counter stay still. The decision and its
+evidence live in ADR 0012 and `docs/form-reset-contract.md`.
+
 ## Reading the restored values
 
 The event is not the moment to read the form. A `FormData` built in the
@@ -77,27 +88,36 @@ that the form is mixed: the plain inputs are already restored, the controls
 that submit through a hidden input are not. Read it in a later task, and it is
 whole:
 
+Once, though, is not enough. Your handler is on the form and the controls
+listen on the document, so the browser runs yours first and the timer you
+queue there runs before theirs. One task later the plain inputs are back and
+the hidden-input controls are not; the task after that, the form is whole:
+
 ```ts
 form.addEventListener("reset", (event) => {
-  new FormData(form).get("name"); // the pre-reset value: this is not the read you want
+  new FormData(form).get("name"); // the pre-reset value: not the read you want
   setTimeout(() => {
-    if (event.defaultPrevented) return;
-    new FormData(form).get("name"); // restored, every control included
+    // The plain inputs are back here, the composite ones are not yet.
+    setTimeout(() => {
+      if (event.defaultPrevented) return;
+      new FormData(form).get("name"); // restored, every control included
+      new FormData(form).get("code"); // the pin input too
+    }, 0);
   }, 0);
 });
 ```
 
-One limit worth knowing: setting the prop to the value the user just typed
-cannot be told apart from the control giving that value back, so it does not
-become the new default. Choose a different value first, or reset your own
-state instead.
+Your own state does not need any of this: restore it in the handler, where a
+single deferral is enough to see whether the reset was cancelled.
 
 ## Which adapters do this
 
 Svelte and Vue. The contract is binding on every adapter (ADR 0012), and the
-React and custom-element packages **have not implemented it yet**: their form
-controls do not restore on a reset, so do not rely on this behaviour there.
+React and custom-element packages **have not implemented it yet**. What they
+do today is uneven, which is the reason not to rely on any of it: some of
+their controls happen to restore their payload, because the framework writes
+the attribute a native reset reads; none of them puts its own state back, so
+the control can submit one value while the component holds another; and the
+selects and the controls that submit through a hidden input restore nothing.
 
-The demo above pairs the library form with a native reference: edit both,
-reset both, and watch the callback counter stay still. The decision and its
-evidence live in ADR 0012 and `docs/form-reset-contract.md`.
+
