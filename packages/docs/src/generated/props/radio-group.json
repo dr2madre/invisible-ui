@@ -127,7 +127,7 @@
       "emits": [
         {
           "name": "update:modelValue",
-          "payload": "value: string"
+          "payload": "value: string | null"
         }
       ],
       "slots": []

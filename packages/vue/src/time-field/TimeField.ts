@@ -115,11 +115,18 @@ export const TimeField = defineComponent({
       if (next !== reported.value) fallback.value = next;
     });
 
-    // The composable's own silent restore: its value watch would also clear
-    // a buffer the user is still typing into.
+    // The composable's own silent restore: the value watch leaves the
+    // committed parts where they were, so an Escape after a reset would put
+    // the pre-reset time back.
     useFormReset(
       () => root.value,
-      () => reset(fallback.value),
+      () => {
+        reset(fallback.value);
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
+      },
     );
 
     const errorId = `${id}-error`;

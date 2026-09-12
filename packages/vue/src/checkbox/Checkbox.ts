@@ -99,6 +99,10 @@ export const Checkbox = defineComponent({
       () => input.value,
       () => {
         told.value = fallback.value;
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
       },
     );
 
@@ -111,7 +115,7 @@ export const Checkbox = defineComponent({
           name: props.name,
           value: props.value,
           required: props.required,
-          checked: fallback.value === true,
+          "^checked": fallback.value === true ? "" : undefined,
         }),
         h("span", { class: "checkbox", "aria-hidden": "true" }, [
           h(

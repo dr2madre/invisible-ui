@@ -85,11 +85,17 @@ export const PinInput = defineComponent({
       if (next !== reported.value) fallback.value = next;
     });
 
-    // The composable's own silent restore. Feeding the joined value back
-    // through its value option would re-split it from the first cell.
+    // The composable's own silent restore: this control passes the prop
+    // straight through, so its value watch never fires on a reset.
     useFormReset(
       () => rootRef.value,
-      () => reset(fallback.value ?? ""),
+      () => {
+        reset(fallback.value ?? "");
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value ?? "");
+      },
     );
 
     return () =>

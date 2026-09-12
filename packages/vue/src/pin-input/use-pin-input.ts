@@ -91,7 +91,11 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
     },
   );
 
-  /** Put the cells back without notifying: the form-reset restore. */
+  /**
+   * Put the cells back without notifying: the form-reset restore. The value
+   * watch does the same work, but only when the prop changes, and a restore
+   * does not change it.
+   */
   const reset = (next: string) => {
     values.value = core.splitValue(next, state.value.length);
   };

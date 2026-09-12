@@ -120,6 +120,38 @@ test("a later listener's cancellation is honoured on a real click", async ({ pag
   expect((await payload(page, "library-form")).name).toBe("Grace");
 });
 
+// Writing the value property on every render would collapse the selection to
+// the end of the field: the default has to travel as an attribute instead, so
+// that what the user is editing stays the browser's own.
+test("Vue: typing into the middle of a field keeps the caret there", async ({ page }) => {
+  await page.goto(VUE_BASE);
+  const field = page.getByRole("textbox", { name: "Reset name" });
+  await expect(field).toHaveValue("Ada");
+  await field.click();
+  const at = (index: number) =>
+    page.evaluate((i) => {
+      const el = document.querySelector(
+        '[data-testid="reset-form"] input[name="resetName"]',
+      ) as HTMLInputElement;
+      el.setSelectionRange(i, i);
+    }, index);
+  const caret = () =>
+    page.evaluate(() => {
+      const el = document.querySelector(
+        '[data-testid="reset-form"] input[name="resetName"]',
+      ) as HTMLInputElement;
+      return `${el.value}|${el.selectionStart}`;
+    });
+
+  await at(1);
+  await field.press("X");
+  expect(await caret(), "the first character landed at the caret").toBe("AXda|2");
+  // The second one is the one that catches a property written per render: the
+  // caret would be at the end by now.
+  await field.press("Y");
+  expect(await caret(), "and so did the next").toBe("AXYda|3");
+});
+
 // The Vue adapter's own surface, driven client-only in the harness. The same
 // three things together: payload, page, and callback silence.
 test("Vue: a reset restores payload and page, and reports nothing", async ({ page }) => {

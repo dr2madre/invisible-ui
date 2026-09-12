@@ -1,7 +1,7 @@
 import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useRatingGroup } from "./use-rating-group";
-import { useFormReset } from "../internal/form-reset";
+import { useFormReset, useLiveChecked } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -49,7 +49,8 @@ export const RatingGroup = defineComponent({
     onValueChange: { type: Function as PropType<(value: number) => void>, default: undefined },
   },
   emits: {
-    "update:modelValue": (value: number) => typeof value === "number",
+    // The restore can put "nothing rated" back, so the model can be null.
+    "update:modelValue": (value: number | null) => value === null || typeof value === "number",
   },
   setup(props, { emit }) {
     const labelId = useStableId("ds-rating-label");
@@ -86,7 +87,18 @@ export const RatingGroup = defineComponent({
       () => root.value,
       () => {
         told.value = fallback.value;
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
       },
+    );
+
+    // The attributes are the defaults; the properties follow the state.
+    useLiveChecked(
+      root,
+      () => value.value,
+      (item) => items.value.some((entry) => entry.value === item && entry.position === value.value),
     );
 
     const i18n = useI18n();
@@ -123,7 +135,7 @@ export const RatingGroup = defineComponent({
                 h("input", {
                   ...api.value.getItemProps(item.value),
                   class: "rating__input",
-                  checked: fallback.value === item.position,
+                  "^checked": fallback.value === item.position ? "" : undefined,
                   "aria-label": starLabel(item.position),
                 }),
                 h(Icon, { size: "var(--ds-rating-size, 1.5rem)" }, () => [

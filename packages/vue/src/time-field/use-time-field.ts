@@ -108,8 +108,9 @@ export function useTimeField(options: MaybeRefOrGetter<UseTimeFieldOptions> = {}
 
   /**
    * Put the segments back to a value without notifying: the form-reset
-   * restore. The committed parts move with them, so an Escape afterwards
-   * settles on what the reset put there, not on what it replaced.
+   * restore. The committed parts move with them, which the value watch does
+   * not do, so an Escape afterwards settles on what the reset put there
+   * rather than on what it replaced.
    */
   const reset = (next: string | null | undefined) => {
     const parsed = core.parseTimeValue(next, {

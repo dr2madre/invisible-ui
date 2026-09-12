@@ -1,7 +1,7 @@
 import { defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useCheckboxGroup, type CheckboxGroupItem } from "./use-checkbox-group";
-import { useFormReset } from "../internal/form-reset";
+import { useFormReset, useLiveChecked } from "../internal/form-reset";
 
 export interface CheckboxGroupProps {
   items: CheckboxGroupItem[];
@@ -76,7 +76,18 @@ export const CheckboxGroup = defineComponent({
       () => root.value,
       () => {
         told.value = fallback.value;
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
       },
+    );
+
+    // The attributes are the defaults; the properties follow the state.
+    useLiveChecked(
+      root,
+      () => api.value.value,
+      (value) => api.value.isChecked(value),
     );
 
     return () =>
@@ -96,7 +107,7 @@ export const CheckboxGroup = defineComponent({
               h("input", {
                 ...api.value.getItemProps(item.value),
                 class: "checkbox__input",
-                checked: fallback.value.includes(item.value),
+                "^checked": fallback.value.includes(item.value) ? "" : undefined,
               }),
               // Same painted box as the standalone Checkbox, so `checkbox.css`
               // covers the visuals and both render identically.

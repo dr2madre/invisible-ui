@@ -78,7 +78,8 @@ export const Select = defineComponent({
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   emits: {
-    "update:modelValue": (value: string) => typeof value === "string",
+    // The restore can put "nothing selected" back, so the model can be null.
+    "update:modelValue": (value: string | null) => value === null || typeof value === "string",
   },
   setup(props, { emit }) {
     const selectId = useStableId("ds-select");
@@ -113,6 +114,10 @@ export const Select = defineComponent({
       () => control.value,
       () => {
         shown.value = fallback.value;
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
       },
     );
 
@@ -122,7 +127,6 @@ export const Select = defineComponent({
       const selected = shown.value;
       // The native element always has a selection; `""` stands for "nothing
       // yet" (the hidden, disabled placeholder option) and maps to `null`.
-      const nativeValue = fallback.value ?? "";
 
       return h("div", { class: "select", "data-width": props.width }, [
         h(
@@ -147,7 +151,8 @@ export const Select = defineComponent({
               "aria-invalid": props.error ? "true" : undefined,
               "aria-describedby": props.error ? errorId : undefined,
               "data-invalid": props.error ? "" : undefined,
-              value: nativeValue,
+              // No value here: a select's default is which option carries
+              // `selected`, and the property is written from the state.
               onChange,
             },
             [

@@ -54,6 +54,8 @@ export interface UseCombobox {
   onInputPointerDown: () => void;
   /** Open showing *all* options, ignoring the current text (the chevron). */
   openAll: () => void;
+  /** Restore the value, its text and the closed list, without callbacks. */
+  reset: (value: string | null) => void;
   setOpen: (open: boolean) => void;
 }
 
@@ -118,6 +120,21 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
     visibleItems.value = filterFn.value(items, inputValue.value);
     if (!items.some((item) => item.value === activeValue.value)) activeValue.value = null;
   });
+
+  /**
+   * Put the value, the text and the text-as-committed back in one step,
+   * without notifying: the form-reset restore. The committed text goes too,
+   * or an Escape afterwards would revert to the text the reset replaced. The
+   * list closes and its highlight goes with it.
+   */
+  const reset = (next: string | null) => {
+    value.value = next;
+    inputValue.value = labelFor(next);
+    committedInputValue.value = inputValue.value;
+    visibleItems.value = filterFn.value(allItems.value, "");
+    activeValue.value = null;
+    open.value = false;
+  };
 
   const setValue = (next: string | null) => {
     if (value.value === next) return;
@@ -299,6 +316,7 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
     onInputChange,
     onInputPointerDown,
     openAll,
+    reset,
     setOpen,
   };
 }

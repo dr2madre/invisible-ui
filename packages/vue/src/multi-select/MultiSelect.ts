@@ -87,11 +87,13 @@ export const MultiSelect = defineComponent({
     // A give-back is a prop that equals what the control just reported. It
     // cannot be tested against the composable's own value: that is computed
     // from the very prop being judged, so it has already moved.
-    const reported = ref<string[]>([]);
+    // Undefined, not []: an empty selection is a selection, and a consumer
+    // clearing one would otherwise read as a give-back of itself.
+    const reported = ref<string[] | undefined>(undefined);
     watch(
       () => props.values,
       (next) => {
-        if (!same(next, reported.value)) fallback.value = [...next];
+        if (!reported.value || !same(next, reported.value)) fallback.value = [...next];
       },
     );
 

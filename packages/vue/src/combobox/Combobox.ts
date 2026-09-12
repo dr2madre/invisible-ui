@@ -124,13 +124,6 @@ export const Combobox = defineComponent({
       onInputValueChange: props.onInputValueChange,
     }));
 
-    useFormReset(
-      () => inputRef.value,
-      () => {
-        told.value = fallback.value;
-      },
-    );
-
     const {
       api,
       items: visible,
@@ -146,6 +139,21 @@ export const Combobox = defineComponent({
       openAll,
       setOpen,
     } = combobox;
+
+    useFormReset(
+      () => inputRef.value,
+      () => {
+        told.value = fallback.value;
+        // The composable's own silent restore: its value watch returns early
+        // when the value is unchanged, which would leave the typed text and
+        // the open list standing.
+        combobox.reset(fallback.value);
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
+      },
+    );
 
     // The chevron toggles the list (showing all options when opening), so a
     // selected value can be changed without clearing it first. iOS Safari can

@@ -128,7 +128,13 @@ export const NumberField = defineComponent({
 
     useFormReset(
       () => inputEl.value,
-      () => reset(fallback.value),
+      () => {
+        reset(fallback.value);
+        // The control's own copy of the value goes back too, which in Vue
+        // is the v-model binding. Not the change callback: a reset is not a
+        // user change (ADR 0012).
+        emit("update:modelValue", fallback.value);
+      },
     );
 
     const onInput = (event: Event) => {

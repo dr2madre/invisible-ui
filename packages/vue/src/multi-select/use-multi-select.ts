@@ -149,6 +149,10 @@ export function useMultiSelect(options: MaybeRefOrGetter<UseMultiSelectOptions>)
     values.value = next;
     inputValue.value = "";
     visibleItems.value = filterFn.value(allItems.value, "");
+    // The list closes and its highlight goes with it, or a reset leaves an
+    // open popup pointing at an option that is no longer where it was.
+    activeValue.value = null;
+    open.value = false;
   };
 
   const setInputValue = (next: string) => {
