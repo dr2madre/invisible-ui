@@ -227,6 +227,50 @@ describe("Vue NumberField (styled)", () => {
     expect(new FormData(form).has("amount")).toBe(false);
   });
 
+  it("resets to the current default after the prop moves, silently", async () => {
+    const onValueChange = vi.fn();
+    const onValueCommit = vi.fn();
+    const Fixture = defineComponent({
+      props: { value: { type: Number, default: 10 } },
+      setup(props) {
+        return () =>
+          h("form", { "data-testid": "form" }, [
+            h(NumberField, {
+              label: "Amount",
+              name: "amount",
+              value: props.value,
+              onValueChange,
+              onValueCommit,
+            }),
+          ]);
+      },
+    });
+    const { rerender } = render(Fixture);
+    const form = screen.getByTestId("form") as HTMLFormElement;
+    expect(new FormData(form).get("amount")).toBe("10");
+    expect(input().value).toBe("10");
+
+    // The consumer moves the prop after mount: reflection reports nothing,
+    // and the default moves with it.
+    await rerender({ value: 25 });
+    expect(new FormData(form).get("amount")).toBe("25");
+    expect(input().value).toBe("25");
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    await type("77");
+    expect(new FormData(form).get("amount")).toBe("77");
+    const reported = onValueChange.mock.calls.length;
+    expect(reported).toBeGreaterThan(0);
+
+    form.reset();
+    // The restore follows the native one by a task (ADR 0012).
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(new FormData(form).get("amount"), "the current default, not the mount value").toBe("25");
+    expect(input().value, "the page and the payload must agree").toBe("25");
+    expect(onValueChange, "a reset is not a user change").toHaveBeenCalledTimes(reported);
+    expect(onValueCommit).not.toHaveBeenCalled();
+  });
+
   it("honors an outside form owner via the form attribute", () => {
     const Fixture = defineComponent({
       setup() {

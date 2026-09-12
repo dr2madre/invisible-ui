@@ -8,7 +8,6 @@ import { Combobox } from "./combobox/Combobox";
 import { DatePicker } from "./date-picker/DatePicker";
 import { DateRangePicker } from "./date-range-picker/DateRangePicker";
 import { MultiSelect } from "./multi-select/MultiSelect";
-import { NumberField } from "./number-field/NumberField";
 import { PinInput } from "./pin-input/PinInput";
 import { TimeField } from "./time-field/TimeField";
 import { CheckboxGroup } from "./checkbox-group/CheckboxGroup";
@@ -301,6 +300,8 @@ describe.each(CONTROLS)("Vue form reset restores $name", (entry) => {
 
 // The composite families submit through hidden inputs, which a native reset
 // never touches: their payload comes back only because the control was told.
+// The number field is here too, in its own suite: it is the one that already
+// had a reset, and the whole scenario lives beside the rest of its behaviour.
 describe("Vue form reset, the composite families", () => {
   const day = (iso: string) => document.querySelector<HTMLButtonElement>(`[data-date="${iso}"]`)!;
 
@@ -374,22 +375,6 @@ describe("Vue form reset, the composite families", () => {
     await settled();
     expect(new FormData(form).get("time")).toBe("09:30");
     expect(hour.textContent?.trim()).toBe("09");
-  });
-
-  it("NumberField comes back to the current default, not the mount value", async () => {
-    const { form, live } = inForm(NumberField, { label: "Amount", name: "amount", value: 10 });
-    const input = screen.getByRole("spinbutton", { name: "Amount" }) as HTMLInputElement;
-
-    // The consumer moves the prop after mount: the default moves with it.
-    live.value = 25;
-    await settled();
-    input.value = "77";
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    await settled();
-
-    form.reset();
-    await settled();
-    expect(new FormData(form).get("amount"), "the new prop value, never the mount one").toBe("25");
   });
 
   it("DatePicker comes back to its date", async () => {
