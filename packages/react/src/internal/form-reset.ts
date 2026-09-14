@@ -8,50 +8,49 @@ type Anchored = Element & { form: HTMLFormElement | null };
  * Put a control back to its current default when its form is reset, quietly:
  * a reset is not a user change, so no callback fires (ADR 0012).
  *
- * The restore is read from a ref, so a component whose restore closes over
- * fresh state does not resubscribe on every render.
+ * The restore and the anchor are both read from refs, so a component whose
+ * restore closes over fresh state, or whose ref is a different object each
+ * render, stays subscribed: resubscribing would drop a restore already waiting
+ * on its timer.
  */
 export function useFormReset(anchor: RefObject<Anchored | null>, restore: () => void): void {
-  const latest = useRef(restore);
-  latest.current = restore;
+  const latest = useRef({ anchor, restore });
+  latest.current = { anchor, restore };
 
   useEffect(
     () =>
       core.onFormReset(
         document,
-        () => anchor.current,
-        () => latest.current(),
+        () => latest.current.anchor.current,
+        () => latest.current.restore(),
       ),
-    [anchor],
+    [],
   );
 }
 
 /**
  * Write the DOM default a form reset restores: the `checked` and `value`
- * attributes React only sets when the element first renders, and the
- * `selected` attribute on a native option.
+ * attributes, and the `selected` attribute on a native option.
  *
- * React owns `checked` and `value` as properties on a controlled element and
- * never touches the defaults again, so a page that changes them leaves the
- * browser's own reset pointing at the value the element first had.
+ * React writes those attributes when an element first renders, from the value
+ * it is given, and a controlled element's value can move afterwards without
+ * them. A checkbox, a switch and a select's options keep whatever default they
+ * are handed; a text box does not, because React keeps its default in step
+ * with the value it renders, so a control holding one of those passes no
+ * dependency list and writes its default after every render.
  */
-export function useFormDefault(
-  ref: RefObject<Element | null>,
-  apply: (node: never) => void,
+export function useFormDefault<T extends Element>(
+  ref: RefObject<T | null>,
+  apply: (node: T) => void,
   deps?: readonly unknown[],
 ): void {
   const latest = useRef(apply);
   latest.current = apply;
 
-  // The caller lists what the default is made of; `apply` itself is read from
-  // the ref, so a fresh closure every render does not re-run this. With no
-  // list at all the default is written after every render, which is what a
-  // control needs when React keeps a default of its own in step with the
-  // value it renders.
   useEffect(
     () => {
       const node = ref.current;
-      if (node) latest.current(node as never);
+      if (node) latest.current(node);
     },
     deps === undefined ? undefined : [ref, ...deps],
   );

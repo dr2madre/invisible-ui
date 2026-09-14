@@ -120,6 +120,14 @@ test("the page's own choice becomes the default a reset restores", async ({ page
   expect(defaults.checked, "the page's choice did not become the default").toEqual([]);
   expect(defaults.selected).toEqual(["apple"]);
 
+  // A user edit on top, so the payload before the reset is neither the
+  // mounted values nor the chosen ones: coming back to the chosen ones is
+  // then something the reset had to do.
+  await press(page.getByRole("switch", { name: "Notifications" }));
+  await page.getByLabel("Fruit").selectOption("pear");
+  expect((await payload(page)).resetFruit).toBe("pear");
+  expect((await payload(page)).resetNotify).toBe("on");
+
   await page.getByRole("button", { name: "Reset the form" }).click();
   await page.waitForTimeout(50);
 

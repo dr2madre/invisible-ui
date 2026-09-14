@@ -253,8 +253,8 @@ export function useMultiSelect({
 
   // The values travel in hidden inputs, whose values are their own defaults,
   // so a form reset leaves them exactly where they were: the whole restore
-  // happens here. The query goes with the selection, since the browser has
-  // just emptied the box it was typed into.
+  // happens here, the query included. Nothing else clears that box, because
+  // React keeps a controlled box's default equal to the text it renders.
   useFormReset(inputEl, () => {
     setState((s) => ({
       ...s,

@@ -209,11 +209,14 @@ describe("React form reset restores Select", () => {
   };
 
   const select = () => screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement;
-  const selectedDefault = () =>
-    [...select().options]
-      .filter((option) => option.defaultSelected)
-      .map((option) => option.value)
-      .join(",");
+  /**
+   * The values of the options carrying `selected`. A list, not a joined
+   * string: "the placeholder is the default" and "no option is the default"
+   * both read as an empty string, and only one of them is right.
+   */
+  const selectedDefaults = () =>
+    [...select().options].filter((option) => option.defaultSelected).map((option) => option.value);
+  const selectedDefault = () => selectedDefaults().join(",");
 
   it("carries the DOM default, so the browser's own reset lands on it", async () => {
     const user = userEvent.setup();
@@ -259,6 +262,72 @@ describe("React form reset restores Select", () => {
 
     await resetAndSettle(form);
     expect(payload(form)).toBe("apple");
+  });
+
+  it("keeps its own copy, so the next render does not undo the reset", async () => {
+    const user = userEvent.setup();
+    const Controlled = () => {
+      const [value, setValue] = useState<string | null>("pear");
+      const [tick, setTick] = useState(0);
+      return (
+        <>
+          <Form>
+            <Select label="F" name="f" items={fruit} value={value} onValueChange={setValue} />
+          </Form>
+          <button type="button" onClick={() => setTick(tick + 1)}>
+            Render again
+          </button>
+        </>
+      );
+    };
+    render(<Controlled />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    await user.selectOptions(select(), "apple");
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("pear");
+
+    // A page holding its own copy is stale after a reset, and this is where
+    // that shows: a control that had not put its own copy back would be
+    // written over with the edit the reset had just undone.
+    await user.click(screen.getByRole("button", { name: "Render again" }));
+    expect(payload(form), "the next render undid the reset").toBe("pear");
+    expect(select().value).toBe("pear");
+  });
+
+  it("comes back to no selection at all, rather than inventing one", async () => {
+    const user = userEvent.setup();
+    const Page = () => {
+      const [value, setValue] = useState<string | null>(null);
+      return (
+        <Form>
+          <Select
+            label="F"
+            name="f"
+            items={fruit}
+            value={value}
+            onValueChange={setValue}
+            required
+          />
+        </Form>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    expect(select().value).toBe("");
+    expect(form.checkValidity(), "nothing is chosen, and the control is required").toBe(false);
+    expect(selectedDefaults(), "with nothing chosen the placeholder is the default").toEqual([""]);
+
+    await user.selectOptions(select(), "apple");
+    expect(selectedDefaults(), "the DOM default must not follow the edit").toEqual([""]);
+    await resetAndSettle(form);
+
+    // Left to itself the reset algorithm picks the first option that can be
+    // chosen, which would answer a required control with a value nobody chose.
+    expect(select().value, "the reset invented a selection").toBe("");
+    expect(String(new FormData(form).get("f") ?? "")).toBe("");
+    expect(form.checkValidity(), "an invalid form was made valid by a reset").toBe(false);
   });
 
   it("does not move the default when the page echoes the user's own choice", async () => {
@@ -464,7 +533,6 @@ describe("React form reset restores the composite families", () => {
 
     await resetAndSettle(form);
     expect(input().value, "the restore left the query in the box").toBe("");
-    expect(payload(form)).toBe("pear");
   });
 });
 
@@ -472,25 +540,29 @@ describe("React form reset restores the composite families", () => {
 // never hydrates still resets correctly: the browser does all of it. These
 // two hold that ground, and hold it for markup that is hydrated afterwards.
 describe("form reset on server-rendered markup", () => {
-  const Fixture = () => (
+  const Fixture = ({ fruitValue }: { fruitValue: string | null }) => (
     <Form>
       <Checkbox label="C" name="f" checked />
-      <Switch label="S" name="s" checked />
-      <Select label="F" name="fruit" items={fruit} value="pear" />
+      <Select label="F" name="fruit" items={fruit} value={fruitValue} />
     </Form>
   );
 
-  it("puts the defaults in the markup, with no script at all", () => {
-    const html = renderToString(<Fixture />);
-    document.body.innerHTML = html;
+  /**
+   * The no-script half of the contract rests on React's own server output,
+   * not on anything this adapter does: effects never run there, so the
+   * defaults have to be in the markup React writes. This pins that, because
+   * the promise is ours even when the mechanism is not.
+   */
+  it("leaves the defaults in the markup, and resets with no script at all", () => {
+    document.body.innerHTML = renderToString(<Fixture fruitValue="pear" />);
     const form = screen.getByTestId("host") as HTMLFormElement;
 
     expect(
       [...form.querySelectorAll<HTMLInputElement>("input")]
         .filter((input) => input.defaultChecked)
         .map((input) => input.name),
-      "the server's markup must carry the checked defaults",
-    ).toEqual(["f", "s"]);
+      "the server's markup must carry the checked default",
+    ).toEqual(["f"]);
     expect(
       [...form.querySelectorAll<HTMLOptionElement>("option")]
         .filter((option) => option.defaultSelected)
@@ -499,11 +571,25 @@ describe("form reset on server-rendered markup", () => {
     ).toEqual(["pear"]);
 
     // Nothing has hydrated: this is the browser's own reset, on its own.
-    const box = screen.getByRole("checkbox", { name: "C" }) as HTMLInputElement;
-    box.click();
+    (screen.getByRole("checkbox", { name: "C" }) as HTMLInputElement).click();
     expect(payload(form)).toBe(null);
     form.reset();
     expect(payload(form), "a page that never hydrates still resets").toBe("on");
+  });
+
+  it("marks the placeholder as the default when nothing is selected", () => {
+    document.body.innerHTML = renderToString(<Fixture fruitValue={null} />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const select = screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement;
+
+    expect(
+      [...select.options].filter((option) => option.defaultSelected).map((option) => option.value),
+      "with nothing chosen the placeholder is the default",
+    ).toEqual([""]);
+
+    select.value = "apple";
+    form.reset();
+    expect(select.value, "the reset invented a selection").toBe("");
   });
 
   it("keeps them after hydration", async () => {
@@ -526,6 +612,18 @@ describe("form reset on server-rendered markup", () => {
     const form = screen.getByTestId("host") as HTMLFormElement;
     const box = () => screen.getByRole("checkbox", { name: "C" }) as HTMLInputElement;
     expect(box().defaultChecked, "hydration must not write a different default").toBe(true);
+
+    // The page moves the value after hydration, which is the only way the
+    // client's own default write is reached: the server's markup carried the
+    // first one, and React never writes that attribute again.
+    await act(async () => {
+      root?.render(<Hydrated checked={false} />);
+    });
+    expect(box().defaultChecked, "the client must keep the DOM default in step").toBe(false);
+    await act(async () => {
+      root?.render(<Hydrated checked />);
+    });
+    expect(box().defaultChecked).toBe(true);
 
     await user.click(box());
     expect(payload(form)).toBe(null);

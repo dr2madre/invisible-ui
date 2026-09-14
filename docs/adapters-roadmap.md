@@ -162,9 +162,12 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 ## Follow-ups (beyond the PoC)
 
 - **Form reset (ADR 0012) is implemented in React.** All five form-bearing
-  components (Checkbox, Switch, Select, Combobox, MultiSelect) carry a DOM
-  default that follows their value prop, and put their own state back when
-  their form is reset, silently. What it was before: React writes the `checked`
+  components (Checkbox, Switch, Select, Combobox, MultiSelect) put their own
+  state back when their form is reset, silently. The three built on a native
+  control also carry a DOM default that follows their value prop; the combobox
+  and the multi select submit through hidden inputs, whose value is its own
+  default, so a reset leaves those alone and the component's restore is the
+  whole of it, as in every other adapter. What it was before: React writes the `checked`
   attribute when an element first renders, so a checkbox and a switch restored
   the value they had at mount and nothing else; the select and everything
   submitting through a hidden input restored nothing; and no control put its
