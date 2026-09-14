@@ -94,7 +94,7 @@ Batch order (by typical consumer demand):
 A port is not done until it resets: **ADR 0012** is part of parity, not a
 later pass. A control that submits a value carries a DOM default that follows
 its value prop and puts its own state back when its owner's `reset` event
-arrives, silently. Svelte, Vue and the custom elements do; React does not yet.
+arrives, silently. Every adapter the project ships does.
 
 Parity became a goal on 2026-08-02, starting with Vue. Progress is
 tracked on the public [Framework support] page

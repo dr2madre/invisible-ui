@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { useSwitch } from "./use-switch";
 
@@ -45,13 +45,15 @@ export function Switch({
   onCheckedChange,
   children,
 }: SwitchProps) {
-  const api = useSwitch({ checked, disabled, onCheckedChange });
+  const ref = useRef<HTMLInputElement>(null);
+  const api = useSwitch({ checked, disabled, onCheckedChange, controlRef: ref });
   const { t } = useI18n();
 
   return (
     <label className={disabled ? "field field--disabled" : "field"}>
       <input
         {...api.rootProps}
+        ref={ref}
         className="switch__input"
         name={name}
         value={value}

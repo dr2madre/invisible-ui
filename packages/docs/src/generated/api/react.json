@@ -173,7 +173,7 @@
     {
       "name": "UseCheckboxOptions",
       "kind": "interface",
-      "signature": "interface UseCheckboxOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: CheckedState; disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; }"
+      "signature": "interface UseCheckboxOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: CheckedState; disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
       "name": "UseCombobox",
@@ -208,7 +208,7 @@
     {
       "name": "UseSwitchOptions",
       "kind": "interface",
-      "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; }"
+      "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
       "name": "en",
@@ -228,7 +228,7 @@
     {
       "name": "useCheckbox",
       "kind": "function",
-      "signature": "declare function useCheckbox({ checked, disabled, onCheckedChange, }?: UseCheckboxOptions): checkbox.CheckboxApi;"
+      "signature": "declare function useCheckbox({ checked, disabled, onCheckedChange, controlRef, }?: UseCheckboxOptions): checkbox.CheckboxApi;"
     },
     {
       "name": "useCombobox",
@@ -258,7 +258,7 @@
     {
       "name": "useSwitch",
       "kind": "function",
-      "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, }?: UseSwitchOptions): switchControl.SwitchApi;"
+      "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, controlRef, }?: UseSwitchOptions): switchControl.SwitchApi;"
     }
   ]
 }

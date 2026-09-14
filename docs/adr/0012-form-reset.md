@@ -5,23 +5,24 @@ Date: 2026-09-09
 ## Status
 
 Accepted, and binding for every adapter, present and future. Being binding is
-not being implemented: the table says where it holds today.
+not being implemented: the table says where it holds today. Every adapter the
+project ships now implements it.
 
 | Adapter | Contract |
 | --- | --- |
 | Svelte | Implemented. |
 | Vue | Implemented. |
-| React | **Required, not implemented.** Its form controls do not reset yet. |
+| React | Implemented. |
 | Elements | Implemented. |
 | Any future adapter | Required before its form controls are called equivalent. |
 
 A package that has not implemented it must not be described as having form
 parity, and a control that submits a value is not finished until it resets.
-The requirement is carried in `docs/adapters-roadmap.md` (React) and
-`docs/component-backlog.md` (adapter parity), so that a port cannot reach
-"done" without it. `docs/next-adapter-strategy.md` records how the elements
-closed it, including why `ElementInternals.formResetCallback` was measured and
-not taken.
+The requirement is carried in `docs/component-backlog.md` (adapter parity), so
+that a port cannot reach "done" without it. `docs/next-adapter-strategy.md`
+records how the elements closed it, including why
+`ElementInternals.formResetCallback` was measured and not taken, and
+`docs/adapters-roadmap.md` records what React had to do differently.
 
 ## Context
 
