@@ -56,7 +56,7 @@ export function Select({
   label,
   hideLabel = false,
   items,
-  value: valueProp = null,
+  value = null,
   placeholder,
   disabled = false,
   width = "wrap",
@@ -74,16 +74,16 @@ export function Select({
   // The resolved selection, mirroring the prop: the same controllable shape
   // the checkbox and the switch have, and the one a reset needs, since a
   // control with no copy of its own has nothing to put back.
-  const [value, setValue] = useState(valueProp);
-  const [lastProp, setLastProp] = useState(valueProp);
+  const [selected, setSelected] = useState(value);
+  const [lastProp, setLastProp] = useState(value);
   // What a form reset restores. It follows the prop, except when the prop only
   // hands back what the control already holds: that is the page echoing a
   // choice, and an echo is not a new default (ADR 0012).
-  const [defaultValue, setDefaultValue] = useState(valueProp);
-  if (valueProp !== lastProp) {
-    setLastProp(valueProp);
-    if (valueProp !== value) setDefaultValue(valueProp);
-    setValue(valueProp);
+  const [defaultValue, setDefaultValue] = useState(value);
+  if (value !== lastProp) {
+    setLastProp(value);
+    if (value !== selected) setDefaultValue(value);
+    setSelected(value);
   }
 
   // React writes `selected` when an option first renders and never again, so
@@ -100,17 +100,17 @@ export function Select({
     },
     [defaultValue, items],
   );
-  useFormReset(ref, () => setValue(defaultValue));
+  useFormReset(ref, () => setSelected(defaultValue));
 
   const resolvedPlaceholder = placeholder ?? t("select.placeholder");
   // The native element always has a selection; `""` stands for "nothing yet"
   // (the hidden, disabled placeholder option) and maps to `value = null`.
-  const nativeValue = value ?? "";
+  const nativeValue = selected ?? "";
 
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const next = event.currentTarget.value;
     if (next === "") return;
-    setValue(next);
+    setSelected(next);
     onValueChange?.(next);
   };
 
@@ -126,7 +126,7 @@ export function Select({
       <span className="select__control">
         <select
           className={
-            value == null ? "select__native select__native--placeholder" : "select__native"
+            selected == null ? "select__native select__native--placeholder" : "select__native"
           }
           ref={ref}
           id={selectId}
