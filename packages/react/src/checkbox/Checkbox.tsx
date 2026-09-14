@@ -39,8 +39,8 @@ export function Checkbox({
   onCheckedChange,
   children,
 }: CheckboxProps) {
-  const api = useCheckbox({ checked, disabled, onCheckedChange });
   const ref = useRef<HTMLInputElement>(null);
+  const api = useCheckbox({ checked, disabled, onCheckedChange, controlRef: ref });
 
   // Properties HTML has no attribute for (here: `indeterminate`) are declared
   // by the core and applied generically — nothing component-specific here.
