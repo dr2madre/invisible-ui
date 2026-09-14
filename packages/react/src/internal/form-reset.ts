@@ -38,15 +38,21 @@ export function useFormReset(anchor: RefObject<Anchored | null>, restore: () => 
 export function useFormDefault(
   ref: RefObject<Element | null>,
   apply: (node: never) => void,
-  deps: readonly unknown[],
+  deps?: readonly unknown[],
 ): void {
   const latest = useRef(apply);
   latest.current = apply;
 
-  useEffect(() => {
-    const node = ref.current;
-    if (node) latest.current(node as never);
-    // The caller lists what the default is made of; `apply` itself is read
-    // from the ref, so a fresh closure every render does not re-run this.
-  }, [ref, ...deps]);
+  // The caller lists what the default is made of; `apply` itself is read from
+  // the ref, so a fresh closure every render does not re-run this. With no
+  // list at all the default is written after every render, which is what a
+  // control needs when React keeps a default of its own in step with the
+  // value it renders.
+  useEffect(
+    () => {
+      const node = ref.current;
+      if (node) latest.current(node as never);
+    },
+    deps === undefined ? undefined : [ref, ...deps],
+  );
 }

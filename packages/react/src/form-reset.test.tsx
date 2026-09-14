@@ -1,12 +1,29 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState, type ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { Checkbox } from "./checkbox/Checkbox";
+import { Combobox } from "./combobox/Combobox";
+import { MultiSelect } from "./multi-select/MultiSelect";
+import { Select } from "./select/Select";
 import { Switch } from "./switch/Switch";
 
-/** The restore runs one task after the reset event; wait past it. */
-const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+const fruit = [
+  { value: "apple", label: "Apple" },
+  { value: "pear", label: "Pear" },
+];
+
+/**
+ * Reset the form and wait past the restore, which runs one task after the
+ * event. The wait is inside `act` because the restore sets state from a timer,
+ * outside anything React is already tracking, and the render it causes has to
+ * land before the assertions read the DOM.
+ */
+const resetAndSettle = (form: HTMLFormElement) =>
+  act(async () => {
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  });
 
 const payload = (form: HTMLFormElement) => {
   const all = new FormData(form).getAll("f").map(String);
@@ -101,8 +118,7 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     expect(defaultsOf(), "the DOM default must not follow the edit").toBe("on");
     expect(reported, "the edit itself must have been reported").toHaveBeenCalledTimes(1);
 
-    form.reset();
-    await settled();
+    await resetAndSettle(form);
     expect(payload(form)).toBe("on");
     expect(entry.visible(), "the page must agree with the payload").toBe(true);
     expect(reported, "a reset is not a user change").toHaveBeenCalledTimes(1);
@@ -123,8 +139,7 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     form.addEventListener("reset", (event) => event.preventDefault());
 
     await entry.toggle(user);
-    form.reset();
-    await settled();
+    await resetAndSettle(form);
 
     expect(payload(form), "a cancelled reset must leave the edit alone").toBe(null);
     expect(entry.visible()).toBe(false);
@@ -149,8 +164,7 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     await user.click(screen.getByRole("button", { name: "Turn it off" }));
     expect(defaultsOf(), "a value the page chose is the new default").toBe("");
 
-    form.reset();
-    await settled();
+    await resetAndSettle(form);
     expect(payload(form)).toBe(null);
   });
 
@@ -165,8 +179,289 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     await entry.toggle(user);
     expect(defaultsOf(), "an echo became the default").toBe("on");
 
-    form.reset();
-    await settled();
+    await resetAndSettle(form);
     expect(payload(form)).toBe("on");
+  });
+});
+
+// The controls the table above does not fit: a select with no state of its
+// own, and the two whose payload travels in hidden inputs a reset never
+// touches.
+describe("React form reset restores Select", () => {
+  const Page = ({ onChange }: { onChange: (next: string) => void }) => {
+    const [value, setValue] = useState<string | null>("pear");
+    return (
+      <Form>
+        <Select
+          label="F"
+          name="f"
+          items={fruit}
+          value={value}
+          onValueChange={(next) => {
+            setValue(next);
+            onChange(next);
+          }}
+        />
+      </Form>
+    );
+  };
+
+  const select = () => screen.getByRole("combobox", { name: "F" }) as HTMLSelectElement;
+  const selectedDefault = () =>
+    [...select().options]
+      .filter((option) => option.defaultSelected)
+      .map((option) => option.value)
+      .join(",");
+
+  it("carries the DOM default, so the browser's own reset lands on it", async () => {
+    const user = userEvent.setup();
+    const reported = vi.fn();
+    render(<Page onChange={reported} />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    // Were the attribute missing, a reset would land on the first option.
+    expect(selectedDefault(), "the DOM default must be there from the start").toBe("pear");
+    expect(payload(form)).toBe("pear");
+
+    await user.selectOptions(select(), "apple");
+    expect(payload(form)).toBe("apple");
+    expect(selectedDefault(), "the DOM default must not follow the edit").toBe("pear");
+    expect(reported).toHaveBeenCalledTimes(1);
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("pear");
+    expect(select().value).toBe("pear");
+    expect(reported, "a reset is not a user change").toHaveBeenCalledTimes(1);
+  });
+
+  it("moves the default when the page chooses a value of its own", async () => {
+    const user = userEvent.setup();
+    const Controlled = () => {
+      const [value, setValue] = useState<string | null>("pear");
+      return (
+        <>
+          <Form>
+            <Select label="F" name="f" items={fruit} value={value} onValueChange={setValue} />
+          </Form>
+          <button type="button" onClick={() => setValue("apple")}>
+            Choose apple
+          </button>
+        </>
+      );
+    };
+    render(<Controlled />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    await user.click(screen.getByRole("button", { name: "Choose apple" }));
+    expect(selectedDefault()).toBe("apple");
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("apple");
+  });
+
+  it("does not move the default when the page echoes the user's own choice", async () => {
+    const user = userEvent.setup();
+    render(<Page onChange={() => {}} />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    // The page mirrors the report back into the prop: an echo, not a choice.
+    await user.selectOptions(select(), "apple");
+    expect(selectedDefault(), "an echo became the default").toBe("pear");
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("pear");
+  });
+});
+
+describe("React form reset restores the composite families", () => {
+  it("puts Combobox back to the current default", async () => {
+    const user = userEvent.setup();
+    const reported = vi.fn();
+    const Page = () => {
+      const [value, setValue] = useState<string | null>("pear");
+      return (
+        <Form>
+          <Combobox
+            label="F"
+            name="f"
+            items={fruit}
+            value={value}
+            onValueChange={(next) => {
+              setValue(next);
+              reported(next);
+            }}
+          />
+        </Form>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const input = () => screen.getByRole("combobox", { name: "F" }) as HTMLInputElement;
+
+    expect(payload(form)).toBe("pear");
+    expect(input().value).toBe("Pear");
+
+    await user.click(input());
+    await user.click(screen.getByRole("option", { name: "Apple" }));
+    expect(payload(form)).toBe("apple");
+    expect(reported).toHaveBeenCalledTimes(1);
+
+    await resetAndSettle(form);
+    expect(payload(form), "the hidden input is restored by the control alone").toBe("pear");
+    expect(input().value, "the text must agree with the payload").toBe("Pear");
+    expect(reported, "a reset is not a user change").toHaveBeenCalledTimes(1);
+
+    // Escape abandons what is being typed and settles on the last selection.
+    // After a reset that is the restored one.
+    await user.click(input());
+    await user.keyboard("xyz");
+    await user.keyboard("{Escape}");
+    expect(input().value, "Escape went back to the value the reset undid").toBe("Pear");
+  });
+
+  it("puts the Combobox text back before the restore, not after it", async () => {
+    const user = userEvent.setup();
+    const Page = () => {
+      const [value, setValue] = useState<string | null>("pear");
+      return (
+        <Form>
+          <Combobox label="F" name="f" items={fruit} value={value} onValueChange={setValue} />
+        </Form>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const input = () => screen.getByRole("combobox", { name: "F" }) as HTMLInputElement;
+
+    await user.click(input());
+    await user.click(screen.getByRole("option", { name: "Apple" }));
+
+    // The browser's own reset runs before anything this library does. With no
+    // default behind the visible box it would empty it, and the text would
+    // blink back a task later when the restore arrives.
+    form.reset();
+    expect(input().value, "the browser had nothing to put back").toBe("Pear");
+  });
+
+  it("takes a value the page chooses for the Combobox as the new default", async () => {
+    const user = userEvent.setup();
+    const Page = () => {
+      const [value, setValue] = useState<string | null>("pear");
+      return (
+        <>
+          <Form>
+            <Combobox label="F" name="f" items={fruit} value={value} onValueChange={setValue} />
+          </Form>
+          <button type="button" onClick={() => setValue("apple")}>
+            Choose apple
+          </button>
+        </>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    await user.click(screen.getByRole("button", { name: "Choose apple" }));
+    await resetAndSettle(form);
+    expect(payload(form), "a value the page chose is the new default").toBe("apple");
+  });
+
+  it("takes values the page chooses for the MultiSelect as the new default", async () => {
+    const user = userEvent.setup();
+    const Page = () => {
+      const [values, setValues] = useState<string[]>(["pear"]);
+      return (
+        <>
+          <Form>
+            <MultiSelect
+              label="F"
+              name="f"
+              items={fruit}
+              values={values}
+              onValuesChange={setValues}
+            />
+          </Form>
+          <button type="button" onClick={() => setValues(["apple"])}>
+            Choose apple
+          </button>
+        </>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    await user.click(screen.getByRole("button", { name: "Choose apple" }));
+    await resetAndSettle(form);
+    expect(payload(form), "values the page chose are the new default").toBe("apple");
+  });
+
+  it("puts MultiSelect back to the current default", async () => {
+    const user = userEvent.setup();
+    const reported = vi.fn();
+    const Page = () => {
+      const [values, setValues] = useState<string[]>(["pear"]);
+      return (
+        <Form>
+          <MultiSelect
+            label="F"
+            name="f"
+            items={fruit}
+            values={values}
+            onValuesChange={(next) => {
+              setValues(next);
+              reported(next);
+            }}
+          />
+        </Form>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const input = () => screen.getByRole("combobox", { name: "F" }) as HTMLInputElement;
+
+    expect(payload(form)).toBe("pear");
+
+    await user.click(input());
+    await user.click(screen.getByRole("option", { name: "Apple" }));
+    expect(payload(form)).toBe("pear,apple");
+    expect(reported).toHaveBeenCalledTimes(1);
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("pear");
+    expect(reported, "a reset is not a user change").toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByRole("button", { name: /Remove Pear/ }),
+      "the tag list must agree with the payload",
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Remove Apple/ })).toBeNull();
+  });
+
+  it("clears the query the multi select was typing", async () => {
+    const user = userEvent.setup();
+    const Page = () => {
+      const [values, setValues] = useState<string[]>(["pear"]);
+      return (
+        <Form>
+          <MultiSelect
+            label="F"
+            name="f"
+            items={fruit}
+            values={values}
+            onValuesChange={setValues}
+          />
+        </Form>
+      );
+    };
+    render(<Page />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const input = () => screen.getByRole("combobox", { name: "F" }) as HTMLInputElement;
+
+    await user.click(input());
+    await user.keyboard("App");
+    expect(input().value).toBe("App");
+
+    await resetAndSettle(form);
+    expect(input().value, "the restore left the query in the box").toBe("");
+    expect(payload(form)).toBe("pear");
   });
 });

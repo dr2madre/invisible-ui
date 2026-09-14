@@ -13,6 +13,7 @@ import {
   type RefObject,
 } from "react";
 import { fail } from "../internal/dev";
+import { useFormReset } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";
 
 export type MultiSelectItem = core.MultiSelectItem;
@@ -136,9 +137,14 @@ export function useMultiSelect({
   // the Svelte adapter's reactive statements). Reflection never calls back;
   // a give-back with equal content never churns.
   const [lastValues, setLastValues] = useState(controlledValues);
+  const [defaultValues, setDefaultValues] = useState(controlledValues);
   if (controlledValues !== lastValues) {
     setLastValues(controlledValues);
     assertUniqueValues(controlledValues);
+    // The default a reset restores follows the prop, except when the prop
+    // only hands back what the control already holds: that is the page
+    // echoing a selection, and an echo is not a new default (ADR 0012).
+    if (!valuesEqual(state.values, controlledValues)) setDefaultValues(controlledValues);
     setState((s) =>
       valuesEqual(s.values, controlledValues) ? s : { ...s, values: controlledValues },
     );
@@ -244,6 +250,20 @@ export function useMultiSelect({
     },
     [refs],
   );
+
+  // The values travel in hidden inputs, whose values are their own defaults,
+  // so a form reset leaves them exactly where they were: the whole restore
+  // happens here. The query goes with the selection, since the browser has
+  // just emptied the box it was typed into.
+  useFormReset(inputEl, () => {
+    setState((s) => ({
+      ...s,
+      values: defaultValues,
+      inputValue: "",
+      items: latest.current.filter(latest.current.allItems, ""),
+      activeValue: null,
+    }));
+  });
 
   // --- Close when a pointer goes down anywhere outside the control or popup.
   useEffect(() => {

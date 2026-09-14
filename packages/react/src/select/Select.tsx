@@ -1,5 +1,6 @@
-import { useId, type ChangeEvent } from "react";
+import { useId, useRef, useState, type ChangeEvent } from "react";
 import { Icon } from "../icon/Icon";
+import { useFormDefault } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 
 export interface SelectItem {
@@ -68,6 +69,29 @@ export function Select({
   const selectId = `ds-select-${uid}`;
   const errorId = `ds-select-${uid}-error`;
   const { t } = useI18n();
+  const ref = useRef<HTMLSelectElement>(null);
+
+  // What a form reset restores. It follows the value prop, except when the
+  // prop only hands back what the control already shows: that is the page
+  // echoing a choice, and an echo is not a new default (ADR 0012).
+  const [defaultValue, setDefaultValue] = useState(value);
+  const [lastProp, setLastProp] = useState(value);
+  if (value !== lastProp) {
+    setLastProp(value);
+    if ((value ?? "") !== (ref.current?.value ?? "")) setDefaultValue(value);
+  }
+
+  // React writes `selected` when an option first renders and never again, so
+  // without this the browser's own reset points at the mounted selection. This
+  // control holds no state of its own: a page that keeps its own copy puts
+  // that copy back in its own reset handler, as the guidance says.
+  useFormDefault(
+    ref,
+    (node: HTMLSelectElement) => {
+      for (const option of node.options) option.defaultSelected = option.value === defaultValue;
+    },
+    [defaultValue, items],
+  );
 
   const resolvedPlaceholder = placeholder ?? t("select.placeholder");
   // The native element always has a selection; `""` stands for "nothing yet"
@@ -93,6 +117,7 @@ export function Select({
           className={
             value == null ? "select__native select__native--placeholder" : "select__native"
           }
+          ref={ref}
           id={selectId}
           name={name}
           disabled={disabled}

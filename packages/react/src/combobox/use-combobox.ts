@@ -12,6 +12,7 @@ import {
   type ChangeEvent,
   type RefObject,
 } from "react";
+import { useFormDefault, useFormReset } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";
 
 export type ComboboxItem = core.ComboboxItem;
@@ -120,8 +121,13 @@ export function useCombobox({
   // --- Controlled sync: mirror the `value` prop, and the text that goes with
   // it, without an effect (matches the Svelte adapter's reactive statements).
   const [lastValue, setLastValue] = useState(value);
+  const [defaultValue, setDefaultValue] = useState(value);
   if (value !== lastValue) {
     setLastValue(value);
+    // The default a reset restores follows the prop, except when the prop
+    // only hands back what the control already holds: that is the page
+    // echoing a selection, and an echo is not a new default (ADR 0012).
+    if (value !== state.value) setDefaultValue(value);
     setState((s) => ({
       ...s,
       value,
@@ -219,6 +225,32 @@ export function useCombobox({
     },
     [refs],
   );
+
+  // The value travels in a hidden input, whose value is its own default, so a
+  // form reset leaves it exactly where it was: the whole restore happens here.
+  // The text goes back with the selection, and so does the text an Escape
+  // would settle on.
+  useFormReset(inputEl, () => {
+    const text = selectedLabel(defaultValue);
+    setState((s) => ({
+      ...s,
+      value: defaultValue,
+      inputValue: text,
+      committedInputValue: text,
+      items: latest.current.filter(latest.current.allItems, ""),
+      activeValue: null,
+    }));
+  });
+
+  // The text the browser's own reset puts back into the visible box, so it
+  // does not blink through an empty one on the way to the restore.
+  //
+  // Written after every render on purpose: React keeps a text box's default in
+  // step with its value, and it does that in whichever render writes the
+  // value, which is not always one this control can name in advance.
+  useFormDefault(inputEl, (node: HTMLInputElement) => {
+    node.defaultValue = selectedLabel(defaultValue);
+  });
 
   // A control turned off closes its list: the keys that dismiss it live on an
   // input that no longer takes any.
