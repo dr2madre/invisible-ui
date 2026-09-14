@@ -1,6 +1,8 @@
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState, type ReactNode } from "react";
+import { hydrateRoot, type Root } from "react-dom/client";
+import { renderToString } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { Checkbox } from "./checkbox/Checkbox";
 import { Combobox } from "./combobox/Combobox";
@@ -463,5 +465,83 @@ describe("React form reset restores the composite families", () => {
     await resetAndSettle(form);
     expect(input().value, "the restore left the query in the box").toBe("");
     expect(payload(form)).toBe("pear");
+  });
+});
+
+// Server-rendered markup carries the defaults as attributes, and a page that
+// never hydrates still resets correctly: the browser does all of it. These
+// two hold that ground, and hold it for markup that is hydrated afterwards.
+describe("form reset on server-rendered markup", () => {
+  const Fixture = () => (
+    <Form>
+      <Checkbox label="C" name="f" checked />
+      <Switch label="S" name="s" checked />
+      <Select label="F" name="fruit" items={fruit} value="pear" />
+    </Form>
+  );
+
+  it("puts the defaults in the markup, with no script at all", () => {
+    const html = renderToString(<Fixture />);
+    document.body.innerHTML = html;
+    const form = screen.getByTestId("host") as HTMLFormElement;
+
+    expect(
+      [...form.querySelectorAll<HTMLInputElement>("input")]
+        .filter((input) => input.defaultChecked)
+        .map((input) => input.name),
+      "the server's markup must carry the checked defaults",
+    ).toEqual(["f", "s"]);
+    expect(
+      [...form.querySelectorAll<HTMLOptionElement>("option")]
+        .filter((option) => option.defaultSelected)
+        .map((option) => option.value),
+      "the server's markup must carry the selected option",
+    ).toEqual(["pear"]);
+
+    // Nothing has hydrated: this is the browser's own reset, on its own.
+    const box = screen.getByRole("checkbox", { name: "C" }) as HTMLInputElement;
+    box.click();
+    expect(payload(form)).toBe(null);
+    form.reset();
+    expect(payload(form), "a page that never hydrates still resets").toBe("on");
+  });
+
+  it("keeps them after hydration", async () => {
+    const user = userEvent.setup();
+    // A page that hydrates and then moves the value, which is where the two
+    // layers can hide each other: the markup's default is right, and a client
+    // that wrote the wrong one over it would still look right until a render.
+    const Hydrated = ({ checked }: { checked: boolean }) => (
+      <Form>
+        <Checkbox label="C" name="f" checked={checked} />
+      </Form>
+    );
+    document.body.innerHTML = `<div id="app">${renderToString(<Hydrated checked />)}</div>`;
+    const host = document.querySelector<HTMLElement>("#app")!;
+    let root: Root | undefined;
+    await act(async () => {
+      root = hydrateRoot(host, <Hydrated checked />);
+    });
+
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const box = () => screen.getByRole("checkbox", { name: "C" }) as HTMLInputElement;
+    expect(box().defaultChecked, "hydration must not write a different default").toBe(true);
+
+    await user.click(box());
+    expect(payload(form)).toBe(null);
+    expect(box().defaultChecked, "the default must not follow the edit").toBe(true);
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe("on");
+    expect(box().checked).toBe(true);
+
+    // A render for a reason of its own, after the reset: the component's own
+    // copy has to have come back, or this writes the edit in again.
+    await act(async () => {
+      root?.render(<Hydrated checked />);
+    });
+    expect(payload(form), "the next render undid the reset").toBe("on");
+
+    await act(async () => root?.unmount());
   });
 });
