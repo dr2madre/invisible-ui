@@ -110,6 +110,13 @@ form.addEventListener("reset", (event) => {
 Your own state does not need any of this: restore it in the handler, where a
 single deferral is enough to see whether the reset was cancelled.
 
+In React this is not optional politeness, it is the whole of your side of the
+contract. Svelte's `bind:value` and Vue's `v-model` let a control hand the
+restored value back to the state that fed it; React has no such channel, so
+after a reset your state still holds what the user typed, and the next render
+writes it back over the control. One `reset` handler that puts your own state
+back is all it takes, and it is the same handler you would write anyway.
+
 ## Which adapters do this
 
 All of them: Svelte, Vue, React and the custom elements. The rule is the same
