@@ -161,20 +161,24 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
-- **Form reset (ADR 0012) is required, and is not implemented in React.** What
-  happens today is uneven rather than absent: React writes the `checked`
-  attribute, so a checkbox and a switch do restore their payload, while the
-  select and anything submitting through a hidden input restore nothing, and
-  **no** control puts its own state back, so one can submit a value the
-  component no longer holds. Every React control that submits a value must
-  carry a real DOM default that follows its value prop, and must put its own
-  state back when its owner's `reset` event arrives, silently. Until it does,
-  the React package does not have form parity, whatever the component count
-  says. The shape the other adapters
-  landed on is in `packages/svelte/src/lib/internal/form-reset.ts` and
-  `packages/vue/src/internal/form-reset.ts`, both over one `core` helper
-  (`formReset.onFormReset`); React's own shape is an open question, since
-  `value`/`checked` there are already controlled by the framework.
+- **Form reset (ADR 0012) is implemented in React.** All five form-bearing
+  components (Checkbox, Switch, Select, Combobox, MultiSelect) carry a DOM
+  default that follows their value prop, and put their own state back when
+  their form is reset, silently. What it was before: React writes the `checked`
+  attribute when an element first renders, so a checkbox and a switch restored
+  the value they had at mount and nothing else; the select and everything
+  submitting through a hidden input restored nothing; and no control put its
+  own state back, so one could submit a value the component no longer held.
+
+  Two things are React's own, and neither is guesswork: the hooks take the
+  element they render on (`controlRef`), because without it a control cannot
+  say which form it belongs to, and a headless consumer rendering their own
+  markup keeps today's behaviour until they pass a ref. And React keeps a
+  controlled text box's `defaultValue` in step with the value it renders, in
+  whichever render writes that value, so the combobox writes its own default
+  after every render instead of only when the default moves. A checkbox, a
+  switch and a select's options keep the default they are given, which was
+  measured rather than assumed.
 - Extend the React adapter from the shared set (six PoC components plus Multi Select) toward full catalog parity.
 - [x] Extend the API-manifest generator beyond Svelte: it now reads Svelte,
   Vue, React and custom elements (completed in #200).
