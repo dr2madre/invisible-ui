@@ -40,7 +40,13 @@ export const Menu = defineComponent({
           label: props.label,
           onSelect: props.onSelect,
         },
-        slots,
+        // Named rather than passed through, so the generated props table still
+        // lists what this component promises: `logo` for the brand, `footer`
+        // for whatever sits under the destinations.
+        {
+          logo: slots.logo ? () => slots.logo?.() : undefined,
+          footer: slots.footer ? () => slots.footer?.() : undefined,
+        },
       );
   },
 });

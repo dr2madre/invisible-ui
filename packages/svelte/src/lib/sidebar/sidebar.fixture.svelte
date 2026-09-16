@@ -14,6 +14,13 @@
   export let closeOnNavigate = true;
   export let renderTrigger = true;
   export let returnFocusTo: string | undefined = undefined;
+  export let withSlots = false;
+  export let duplicateLabels = false;
+
+  const duplicates: SidebarSection[] = [
+    { label: "Tools", items: [{ value: "a", label: "A" }] },
+    { label: "Tools", items: [{ value: "b", label: "B" }] },
+  ];
 
   const sections: SidebarSection[] = [
     {
@@ -35,18 +42,25 @@
   ];
 </script>
 
-<Sidebar
-  {sections}
-  {value}
-  {mode}
-  {collapsed}
-  {open}
-  {openGroups}
-  {onSelect}
-  {onCollapsedChange}
-  {onOpenChange}
-  {onOpenGroupsChange}
-  {closeOnNavigate}
-  {renderTrigger}
-  {returnFocusTo}
-/>
+{#if withSlots}
+  <Sidebar {sections} {value} {mode} {collapsed} {open} {onSelect}>
+    <span slot="logo">Brand</span>
+    <span slot="footer">Signed in</span>
+  </Sidebar>
+{:else}
+  <Sidebar
+    sections={duplicateLabels ? duplicates : sections}
+    {value}
+    {mode}
+    {collapsed}
+    {open}
+    {openGroups}
+    {onSelect}
+    {onCollapsedChange}
+    {onOpenChange}
+    {onOpenGroupsChange}
+    {closeOnNavigate}
+    {renderTrigger}
+    {returnFocusTo}
+  />
+{/if}

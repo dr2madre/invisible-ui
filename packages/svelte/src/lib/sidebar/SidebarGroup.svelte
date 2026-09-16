@@ -1,16 +1,20 @@
 <script lang="ts">
   /**
    * One collapsible section of a Sidebar: a disclosure button over a list of
-   * items. The wiring (`aria-expanded`, `aria-controls`, disabled handling)
-   * comes from the headless collapsible, so this file only places the chevron
-   * and the list.
+   * items. The wiring (`aria-expanded`, `aria-controls`) comes from the
+   * headless collapsible; this file places the chevron and the list.
    *
-   * The open state belongs to the Sidebar, which is the only thing that knows
-   * whether the consumer is controlling it.
+   * The section holds no state of its own: what it shows is the `open` prop,
+   * and a press is a request the Sidebar answers. A set the application
+   * controls therefore moves only when the application moves it, and nothing
+   * flickers in between (ADR 0011).
    */
-  import { tick } from "svelte";
-  import { createCollapsible } from "../collapsible/create-collapsible";
+  import { collapsible as core } from "@design-system/core";
+  import { writable } from "svelte/store";
   import Icon from "../icon/Icon.svelte";
+  import { createPropsAction } from "../internal/connect";
+  import { normalizeProps } from "../normalize";
+  import { stableId } from "../internal/stable-id";
 
   /** Section heading, and the trigger's accessible name. */
   export let label: string;
@@ -19,28 +23,21 @@
   export let collapsed = false;
   export let onToggle: (() => void) | undefined = undefined;
 
-  let lastOpen = open;
+  const id = stableId("ds-sidebar-group");
+  const api = writable(connect(open));
 
-  const { triggerAction, contentAction, syncOpen } = createCollapsible({
-    open,
-    onOpenChange: () => {
-      // This section holds no state of its own: the press is a request, and
-      // the Sidebar decides what the open set becomes. Once the Sidebar has had
-      // its say, the disclosure goes wherever `open` now says, so a set the
-      // application controls moves only when the application moves it
-      // (ADR 0011). The wait is needed because the report arrives while the
-      // press is still being applied.
-      onToggle?.();
-      tick().then(() => syncOpen(open));
-    },
-  });
-
-  // Controllable mirror, compared against the last value seen (ADR 0011): a
-  // sync never reports a change.
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    syncOpen(open);
+  function connect(isOpen: boolean) {
+    return core.connect({
+      state: { open: isOpen, disabled: false, id },
+      setOpen: () => onToggle?.(),
+      normalize: normalizeProps,
+    });
   }
+
+  $: api.set(connect(open));
+
+  const triggerAction = createPropsAction(api, (a) => a.triggerProps);
+  const contentAction = createPropsAction(api, (a) => a.contentProps);
 </script>
 
 <div class="sidebar__section" data-state={open ? "open" : "closed"}>

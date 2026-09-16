@@ -27,6 +27,9 @@
   export let onSelect: ((value: string) => void) | undefined = undefined;
 </script>
 
+<!-- The slots are forwarded, and named here so the generated props table
+     still lists them: `logo` for the brand, `footer` for whatever sits under
+     the destinations. -->
 <Sidebar {sections} {value} {label} {onSelect}>
   <slot name="logo" slot="logo" />
   <slot name="footer" slot="footer" />

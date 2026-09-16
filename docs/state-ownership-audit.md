@@ -185,8 +185,10 @@ here and deliberately not fixed in this audit.
 
 - **Primitives**: navigation markup, Collapsible, Sheet Dialog on small
   viewports.
-- **Owned today**: the landmark and its name, the list structure, which
-  sections are open, the rail, and the drawer's open state. The base was
+- **Owned today**: the landmark and its name, the list structure, and a
+  mirror of the rail, the drawer and the open sections: each moves on the
+  user's press and reports it once, and follows the prop when the application
+  moves it (ADR 0011). The base was
   already shipped under the name `Menu`, which carried the landmark, the
   sections and `aria-current`; it is `Sidebar` now, and `Menu` is a deprecated
   alias (ADR 0013).

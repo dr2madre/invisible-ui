@@ -52,7 +52,15 @@ A section becomes a disclosure with `collapsible: true` and a `label`.
   and not from a screen reader: every destination keeps its accessible name,
   and a tooltip shows it on hover or focus.
 - As a drawer the navigation is a modal sheet: focus moves in and is trapped,
-  Escape closes, and focus returns to the trigger.
+  and Escape closes it. Focus returns to the trigger, or, when the button
+  belongs to your page, to whatever `returnFocusTo` names.
+
+### Styling hooks
+
+The root carries `data-mode` (`inline` or `drawer`), `data-side`, and
+`data-collapsed` while the rail is closed. Each destination carries
+`data-current` when it is the current one, and each collapsible section carries
+`data-state` (`open` or `closed`).
 
 ### Sections that open themselves
 

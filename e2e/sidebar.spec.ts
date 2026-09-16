@@ -17,15 +17,23 @@ test.describe("Sidebar (docs demo)", () => {
       "page",
     );
 
-    // Navigation, not a menu: no destination is taken out of the tab order,
-    // which is what a roving tabindex would do. Whether Tab then stops on a
-    // button is the platform's own setting, and Safari's differs.
-    expect(
-      await sidebar.evaluate((nav) =>
-        [...nav.querySelectorAll("a, button")].some((el) => el.hasAttribute("tabindex")),
-      ),
-      "a destination was taken out of the tab order",
-    ).toBe(false);
+    // Navigation, not a menu: destinations are links and buttons inside a
+    // list, with no menu roles and nothing taken out of the tab order. Whether
+    // Tab then stops on a button is the platform's own setting, and Safari's
+    // differs, so the shape is what is held here.
+    const shape = await sidebar.evaluate((nav) => {
+      const controls = [...nav.querySelectorAll("li > a, li > button, li > * > a")];
+      return {
+        count: controls.length,
+        roles: controls.filter((el) => el.hasAttribute("role")).length,
+        removed: controls.filter((el) => el.hasAttribute("tabindex")).length,
+      };
+    });
+    expect(shape.count, "the destinations are links and buttons inside list items").toBeGreaterThan(
+      0,
+    );
+    expect(shape.roles, "a destination was given a role of its own").toBe(0);
+    expect(shape.removed, "a destination was taken out of the tab order").toBe(0);
 
     const reports = sidebar.getByRole("button", { name: "Reports" });
     await expect(reports).toHaveAttribute("aria-expanded", "false");
@@ -43,11 +51,15 @@ test.describe("Sidebar (docs demo)", () => {
     const expand = sidebar.getByRole("button", { name: "Expand the navigation" });
     await expect(expand).toHaveAttribute("aria-pressed", "true");
     // The names are out of sight, and still every destination has one.
-    await expect(sidebar.getByRole("button", { name: "Search" })).toBeAttached();
+    const item = sidebar.getByRole("button", { name: "Search" });
+    await expect(item).toBeAttached();
     expect(
-      await sidebar.getByRole("button", { name: "Search" }).evaluate((el) => el.clientWidth),
-      "a name out of sight takes no room",
-    ).toBeLessThan(50);
+      await item.evaluate((el) => {
+        const label = el.querySelector("span:last-child") as HTMLElement;
+        return { width: label.getBoundingClientRect().width, text: label.textContent };
+      }),
+      "the name is still there, and takes no room",
+    ).toEqual({ width: 1, text: "Search" });
 
     await expand.click();
     await expect(sidebar.getByRole("button", { name: "Collapse the navigation" })).toBeVisible();

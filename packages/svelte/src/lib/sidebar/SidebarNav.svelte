@@ -23,6 +23,10 @@
   export let onToggleCollapsed: (() => void) | undefined = undefined;
   export let collapseLabel = "";
   export let expandLabel = "";
+  /** Whether the Sidebar was given these slots: a forwarded slot always looks
+      present from in here, so the answer has to come from outside. */
+  export let hasLogo = false;
+  export let hasFooter = false;
 </script>
 
 <nav
@@ -33,7 +37,7 @@
   data-side={side}
   data-collapsed={collapsed ? "" : undefined}
 >
-  {#if $$slots.logo}
+  {#if hasLogo}
     <div class="sidebar__logo"><slot name="logo" /></div>
   {/if}
 
@@ -53,7 +57,7 @@
     </button>
   {/if}
 
-  {#each sections as section, s (sectionId(section, s))}
+  {#each sections as section, s (s)}
     {@const id = sectionId(section, s)}
     {#if section.collapsible && section.label}
       <SidebarGroup
@@ -76,7 +80,7 @@
     {/if}
   {/each}
 
-  {#if $$slots.footer}
+  {#if hasFooter}
     <div class="sidebar__footer"><slot name="footer" /></div>
   {/if}
 </nav>

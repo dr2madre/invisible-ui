@@ -1,8 +1,7 @@
-import { collapsible as collapsibleCore } from "@design-system/core";
 import { computed, defineComponent, h, ref, watch, type Component, type PropType } from "vue";
+import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
-import { normalizeProps } from "../normalize";
-import { useStableId } from "../internal/use-stable-id";
+import { SidebarGroup } from "./SidebarGroup";
 import { SheetDialog } from "../sheet-dialog/SheetDialog";
 import { Tooltip } from "../tooltip/Tooltip";
 import type { SheetDialogSide } from "../sheet-dialog/use-sheet-dialog";
@@ -56,48 +55,6 @@ export interface SidebarProps {
   renderTrigger?: boolean;
   returnFocusTo?: string;
 }
-
-/** One collapsible section: the disclosure wiring comes from the core. */
-const SidebarGroup = defineComponent({
-  name: "SidebarGroup",
-  props: {
-    label: { type: String, required: true },
-    open: { type: Boolean, default: false },
-    collapsed: { type: Boolean, default: false },
-    onToggle: { type: Function as PropType<() => void>, default: undefined },
-  },
-  setup(props, { slots }) {
-    const id = useStableId("ds-sidebar-group");
-    // This section holds no state of its own: what it shows is the prop, and a
-    // press is a request the Sidebar answers. A set the application controls
-    // therefore moves only when the application moves it (ADR 0011).
-    const api = computed(() =>
-      collapsibleCore.connect({
-        state: { open: props.open, disabled: false, id },
-        setOpen: () => props.onToggle?.(),
-        normalize: normalizeProps,
-      }),
-    );
-
-    return () => {
-      const { triggerProps, contentProps } = api.value;
-      return h("div", { class: "sidebar__section", "data-state": props.open ? "open" : "closed" }, [
-        h("button", { ...triggerProps, class: "sidebar__group" }, [
-          h(
-            "span",
-            { class: ["sidebar__group-label", { "sidebar__label--hidden": props.collapsed }] },
-            props.label,
-          ),
-          h("span", {
-            class: ["sidebar__chevron", { "sidebar__chevron--open": props.open }],
-            "aria-hidden": "true",
-          }),
-        ]),
-        h("div", { ...contentProps, class: "sidebar__group-content" }, slots.default?.()),
-      ]);
-    };
-  },
-});
 
 /**
  * Sidebar: the application's side navigation, ported from the Svelte adapter.
@@ -174,6 +131,25 @@ export const Sidebar = defineComponent({
 
     const openIds = computed(() => props.openGroups ?? ownGroups.value);
 
+    // Controllable mirrors (ADR 0011): the press moves the control and reports
+    // once, and a prop moving from outside is reflected without a report.
+    const collapsed = ref(props.collapsed);
+    watch(
+      () => props.collapsed,
+      (next) => {
+        collapsed.value = next;
+      },
+    );
+    const drawerOpen = ref(props.open);
+    watch(
+      () => props.open,
+      (next) => {
+        drawerOpen.value = next;
+      },
+    );
+    // The rail exists only inline: a drawer is never a column of icons.
+    const isRail = computed(() => props.mode === "inline" && collapsed.value);
+
     const toggleGroup = (id: string) => {
       const next = openIds.value.includes(id)
         ? openIds.value.filter((open) => open !== id)
@@ -182,11 +158,16 @@ export const Sidebar = defineComponent({
       props.onOpenGroupsChange?.(next);
     };
 
+    const setCollapsed = (next: boolean) => {
+      collapsed.value = next;
+      props.onCollapsedChange?.(next);
+    };
+
     const pressGroup = (id: string) => {
       // Pressing a section while the rail is collapsed opens the bar first: its
       // items would otherwise expand into a column too narrow to read them.
-      if (props.collapsed) {
-        props.onCollapsedChange?.(false);
+      if (isRail.value) {
+        setCollapsed(false);
         if (!openIds.value.includes(id)) toggleGroup(id);
         return;
       }
@@ -194,7 +175,8 @@ export const Sidebar = defineComponent({
     };
 
     const closeDrawer = () => {
-      if (props.mode !== "drawer" || !props.closeOnNavigate || !props.open) return;
+      if (props.mode !== "drawer" || !props.closeOnNavigate || !drawerOpen.value) return;
+      drawerOpen.value = false;
       props.onOpenChange?.(false);
     };
 
@@ -202,7 +184,7 @@ export const Sidebar = defineComponent({
       const current = entry.value === props.value;
       const label = h(
         "span",
-        { class: props.collapsed ? "sidebar__label--hidden" : "sidebar__label" },
+        { class: isRail.value ? "sidebar__label--hidden" : "sidebar__label" },
         entry.label,
       );
       const content = [
@@ -230,7 +212,7 @@ export const Sidebar = defineComponent({
           );
       // The rail hides names from sight, never from a screen reader, and the
       // tooltip gives them back to whoever is looking.
-      return props.collapsed
+      return isRail.value
         ? h(Tooltip, { text: entry.label, placement: "right" }, { default: () => node })
         : node;
     };
@@ -238,22 +220,22 @@ export const Sidebar = defineComponent({
     const list = (section: SidebarSection) =>
       h(
         "ul",
-        { class: ["sidebar__list", { "sidebar__list--collapsed": props.collapsed }] },
+        { class: ["sidebar__list", { "sidebar__list--collapsed": isRail.value }] },
         section.items.map((entry) => h("li", { key: entry.value }, [item(entry)])),
       );
 
     const nav = (mode: "inline" | "drawer") => {
       const { t } = i18n.value;
       const resolvedLabel = props.label ?? t("sidebar.label");
-      const collapsed = mode === "drawer" ? false : props.collapsed;
+      const railed = mode === "inline" && collapsed.value;
       return h(
         "nav",
         {
-          class: ["sidebar", { "sidebar--collapsed": collapsed }],
+          class: ["sidebar", { "sidebar--collapsed": railed }],
           "aria-label": resolvedLabel,
           "data-mode": mode,
           "data-side": props.side,
-          "data-collapsed": collapsed ? "" : undefined,
+          "data-collapsed": railed ? "" : undefined,
         },
         [
           slots.logo ? h("div", { class: "sidebar__logo" }, slots.logo()) : null,
@@ -263,15 +245,24 @@ export const Sidebar = defineComponent({
                 {
                   type: "button",
                   class: "sidebar__rail-toggle",
-                  "aria-pressed": collapsed,
-                  onClick: () => props.onCollapsedChange?.(!collapsed),
+                  "aria-pressed": railed,
+                  onClick: () => setCollapsed(!railed),
                 },
                 [
-                  h("span", { class: "sidebar__icon", "aria-hidden": "true" }),
+                  h("span", { class: "sidebar__icon", "aria-hidden": "true" }, [
+                    h(
+                      Icon,
+                      { size: "1em" },
+                      {
+                        default: () =>
+                          h("polyline", { points: railed ? "9 18 15 12 9 6" : "15 18 9 12 15 6" }),
+                      },
+                    ),
+                  ]),
                   h(
                     "span",
                     { class: "sidebar__label--hidden" },
-                    collapsed ? t("sidebar.expand") : t("sidebar.collapse"),
+                    railed ? t("sidebar.expand") : t("sidebar.collapse"),
                   ),
                 ],
               )
@@ -285,20 +276,17 @@ export const Sidebar = defineComponent({
                     key: id,
                     label: section.label,
                     open: openIds.value.includes(id),
-                    collapsed,
+                    collapsed: railed,
                     onToggle: () => pressGroup(id),
                   },
                   { default: () => [list(section)] },
                 )
-              : h("div", { class: "sidebar__section", key: id }, [
+              : h("div", { class: "sidebar__section", key: index }, [
                   section.label
                     ? h(
                         "p",
                         {
-                          class: [
-                            "sidebar__section-label",
-                            { "sidebar__label--hidden": collapsed },
-                          ],
+                          class: ["sidebar__section-label", { "sidebar__label--hidden": railed }],
                         },
                         section.label,
                       )
@@ -323,12 +311,15 @@ export const Sidebar = defineComponent({
       return h(
         SheetDialog,
         {
-          open: props.open,
+          open: drawerOpen.value,
           renderTrigger: props.renderTrigger,
           returnFocusTo: props.returnFocusTo,
           side: sheetSide.value,
           title: props.title ?? props.label ?? t("sidebar.label"),
-          onOpenChange: (next: boolean) => props.onOpenChange?.(next),
+          onOpenChange: (next: boolean) => {
+            drawerOpen.value = next;
+            props.onOpenChange?.(next);
+          },
         },
         {
           trigger: () => slots.trigger?.() ?? t("sidebar.open"),

@@ -131,16 +131,37 @@
       },
       "props": [
         {
-          "name": "label",
-          "type": "string",
+          "name": "sections",
+          "type": "SidebarSection[]",
           "default": null,
           "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
           "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
         },
         {
-          "name": "open",
-          "type": "boolean",
-          "default": "false",
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "mode",
+          "type": "\"inline\" | \"drawer\"",
+          "default": "\"inline\"",
           "required": false,
           "description": ""
         },
@@ -152,8 +173,71 @@
           "description": ""
         },
         {
-          "name": "onToggle",
-          "type": "() => void",
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "openGroups",
+          "type": "string[]",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenGroupsChange",
+          "type": "(openGroups: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "closeOnNavigate",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "side",
+          "type": "\"inline-start\" | \"inline-end\"",
+          "default": "\"inline-start\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string",
           "default": "undefined",
           "required": false,
           "description": ""
@@ -161,7 +245,6 @@
       ],
       "emits": [],
       "slots": [
-        "default",
         "footer",
         "logo",
         "trigger"

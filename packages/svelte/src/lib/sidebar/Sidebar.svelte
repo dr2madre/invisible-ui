@@ -85,8 +85,12 @@
   // current item moves. Controlled, the application owns the set, so a change
   // of `value` moves nothing and reports nothing (ADR 0013).
   let lastValue = value;
-  $: if (openGroups === undefined && value !== lastValue) {
+  $: if (value !== lastValue) {
     lastValue = value;
+    if (openGroups === undefined) openCurrentSection();
+  }
+
+  function openCurrentSection() {
     const holder = sections
       .map((section, index) => ({ section, id: sectionId(section, index) }))
       .find(({ section }) => section.collapsible && holdsCurrent(section, value));
@@ -94,6 +98,8 @@
   }
 
   $: openIds = openGroups ?? ownGroups;
+  // The rail exists only inline: a drawer is never a column of icons.
+  $: isRail = mode === "inline" && collapsed;
 
   const toggleGroup = (id: string) => {
     const next = openIds.includes(id) ? openIds.filter((open) => open !== id) : [...openIds, id];
@@ -104,7 +110,7 @@
   const pressGroup = (id: string) => {
     // Pressing a section while the rail is collapsed opens the bar first: its
     // items would otherwise expand into a column too narrow to read them.
-    if (collapsed) {
+    if (isRail) {
       collapsed = false;
       onCollapsedChange?.(false);
       if (!openIds.includes(id)) toggleGroup(id);
@@ -147,6 +153,8 @@
       {openIds}
       {onSelect}
       label={resolvedLabel}
+      hasLogo={Boolean($$slots.logo)}
+      hasFooter={Boolean($$slots.footer)}
       mode="drawer"
       {side}
       collapsed={false}
@@ -167,6 +175,8 @@
     {collapsed}
     {side}
     label={resolvedLabel}
+    hasLogo={Boolean($$slots.logo)}
+    hasFooter={Boolean($$slots.footer)}
     mode="inline"
     collapseLabel={$t("sidebar.collapse")}
     expandLabel={$t("sidebar.expand")}

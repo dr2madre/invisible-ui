@@ -159,7 +159,6 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
         el.removeEventListener("pointerdown", onPointerDown);
         if (el.open) el.close();
         releaseScroll();
-        // Return focus to where it was (the trigger, usually).
         // Where focus goes back to: what the consumer named, else this
         // dialog's own trigger, else whatever held focus when it opened.
         const named = resolved.value.returnFocusTo

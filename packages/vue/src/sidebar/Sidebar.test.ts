@@ -32,8 +32,15 @@ describe("Vue Sidebar", () => {
   it("is a labelled navigation landmark of links and buttons", () => {
     mount();
     expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();
-    // Navigation, not a menu: every destination is reachable with Tab.
-    expect(screen.queryByRole("menu")).toBeNull();
+    // Navigation, not a menu: destinations are links and buttons in a list,
+    // with no menu roles and nothing taken out of the tab order.
+    const items = screen.getAllByRole("listitem");
+    expect(items.length).toBeGreaterThan(0);
+    for (const entry of items) {
+      const control = entry.querySelector("a, button")!;
+      expect(control.getAttribute("role")).toBeNull();
+      expect(control.hasAttribute("tabindex")).toBe(false);
+    }
     expect(screen.getByRole("button", { name: "Home" })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("button", { name: "Search" })).not.toHaveAttribute("aria-current");
   });
@@ -133,13 +140,20 @@ describe("Vue Sidebar rail", () => {
   });
 
   it("keeps every destination's name while the labels are out of sight", () => {
-    mount({ collapsed: true, value: "daily" });
+    const { container } = mount({ collapsed: true, value: "daily" });
     expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
     const current = screen.getByRole("link", { name: "Daily" });
     expect(current, "the rail still says which destination you are on").toHaveAttribute(
       "aria-current",
       "page",
     );
+    // Out of sight is the whole point of the rail: the class that takes the
+    // name off the page is how, and the names above prove it is still read.
+    expect(
+      container.querySelectorAll(".sidebar__item .sidebar__label--hidden").length,
+      "the names are still taking room",
+    ).toBeGreaterThan(0);
+    expect(container.querySelector(".sidebar__item .sidebar__label")).toBeNull();
   });
 
   it("opens the bar before the section, when a section is pressed collapsed", async () => {
@@ -207,19 +221,111 @@ describe("Vue Sidebar as a drawer", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  it("renders no trigger of its own when the application owns that button", async () => {
-    const { rerender } = mount({ mode: "drawer", renderTrigger: false, returnFocusTo: "#opener" });
-    expect(screen.queryByRole("button", { name: "Open the navigation" })).toBeNull();
+  it("renders no trigger of its own, and hands focus to the named button", async () => {
+    const opener = document.createElement("button");
+    opener.id = "opener";
+    document.body.appendChild(opener);
+    // Focus is elsewhere when the drawer opens, so only the named element can
+    // be where it comes back to.
+    const elsewhere = document.createElement("button");
+    document.body.appendChild(elsewhere);
+    elsewhere.focus();
 
-    await rerender({
+    const props = {
       sections,
       value: "home",
       mode: "drawer",
       renderTrigger: false,
       returnFocusTo: "#opener",
-      open: true,
-    });
+    };
+    const { rerender } = render(Sidebar, { props });
+    expect(screen.queryByRole("button", { name: "Open the navigation" })).toBeNull();
+
+    await rerender({ ...props, open: true });
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("navigation")).toBeInTheDocument();
+
+    await rerender({ ...props, open: false });
+    expect(document.activeElement, "focus went back to the named button").toBe(opener);
+    opener.remove();
+    elsewhere.remove();
+  });
+});
+
+// The same edges review found in the Svelte adapter, held here too.
+describe("Vue Sidebar, the edges review found", () => {
+  it("closes the drawer it opened itself when a destination is followed", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    // No `open` binding: the drawer's own trigger owns it, and following a
+    // destination still has to close it.
+    render(Sidebar, { props: { sections, mode: "drawer", onOpenChange } });
+
+    await user.click(screen.getByRole("button", { name: "Open the navigation" }));
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("answers the rail toggle itself, and reports it once", async () => {
+    const user = userEvent.setup();
+    const onCollapsedChange = vi.fn();
+    render(Sidebar, { props: { sections, onCollapsedChange } });
+    const toggle = screen.getByRole("button", { name: /the navigation/i });
+
+    await user.click(toggle);
+    expect(toggle, "the control moves on its own press").toHaveAttribute("aria-pressed", "true");
+    expect(onCollapsedChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("leaves the rail alone in a drawer, where there is none", async () => {
+    const user = userEvent.setup();
+    const onCollapsedChange = vi.fn();
+    const onOpenGroupsChange = vi.fn();
+    render(Sidebar, {
+      props: { sections, mode: "drawer", collapsed: true, onCollapsedChange, onOpenGroupsChange },
+    });
+
+    await user.click(screen.getByRole("button", { name: "Open the navigation" }));
+    await user.click(group());
+
+    expect(onCollapsedChange, "a drawer has no rail to expand").not.toHaveBeenCalled();
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["reports"]);
+  });
+
+  it("expands the bar and opens the section, in one press", async () => {
+    const user = userEvent.setup();
+    const onCollapsedChange = vi.fn();
+    const onOpenGroupsChange = vi.fn();
+    render(Sidebar, {
+      props: { sections, value: "home", collapsed: true, onCollapsedChange, onOpenGroupsChange },
+    });
+
+    await user.click(group());
+    expect(onCollapsedChange).toHaveBeenCalledTimes(1);
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["reports"]);
+    // And both actually happened, not merely reported.
+    expect(group()).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("link", { name: "Daily" })).toBeVisible();
+  });
+
+  it("renders two sections that share a label", () => {
+    render(Sidebar, {
+      props: {
+        sections: [
+          { label: "Tools", items: [{ value: "a", label: "A" }] },
+          { label: "Tools", items: [{ value: "b", label: "B" }] },
+        ],
+      },
+    });
+    expect(screen.getAllByText("Tools")).toHaveLength(2);
+  });
+
+  it("puts a glyph in the rail toggle and the section chevron", () => {
+    const { container } = render(Sidebar, { props: { sections, onCollapsedChange: () => {} } });
+    // An empty <svg> is not a glyph: the shape inside it is.
+    expect(container.querySelector(".sidebar__rail-toggle svg > *")).not.toBeNull();
+    expect(container.querySelector(".sidebar__chevron svg > *")).not.toBeNull();
   });
 });

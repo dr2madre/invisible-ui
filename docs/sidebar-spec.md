@@ -6,8 +6,10 @@ ADR 0013; this file is the design record behind it.
 
 ## What it composes, extends and replaces
 
-- **Composes**: Collapsible (each section), Sheet Dialog (the drawer), Tooltip
-  (names in the rail), Link, Icon.
+- **Composes**: the headless collapsible (each section), Sheet Dialog (the
+  drawer), Tooltip (names in the rail) and Icon. Destinations are plain `<a>`
+  and `<button>` elements, not a Link component: a link here is whatever the
+  application's router hands it.
 - **Extends**: the `Menu` organism that already carried this pattern, which
   gains the sections, the rail and the drawer.
 - **Replaces**: `Menu` as the name of that organism, freeing the word for the
