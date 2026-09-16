@@ -185,13 +185,19 @@ here and deliberately not fixed in this audit.
 
 - **Primitives**: navigation markup, Collapsible, Sheet Dialog on small
   viewports.
-- **Owned today**: nothing; the pattern is not implemented.
-- **Application, certainly**: the active destination and the routing. Menu,
-  Collapsible and Sheet Dialog must not own either.
-- **Still to decide, at the pattern level**: the desktop and mobile
-  presentation, and the collapse and open coordination. Both are pattern-design
-  decisions, not preassigned to the application.
-- **Genuinely missing**: only the documented composition, not new state.
+- **Owned today**: the landmark and its name, the list structure, which
+  sections are open, the rail, and the drawer's open state. The base was
+  already shipped under the name `Menu`, which carried the landmark, the
+  sections and `aria-current`; it is `Sidebar` now, and `Menu` is a deprecated
+  alias (ADR 0013).
+- **Application, certainly**: the active destination and the routing, and the
+  breakpoint policy. Sidebar, Collapsible and Sheet Dialog own none of them.
+- **Decided since**: the desktop and mobile presentations (a rail, and a
+  drawer over Sheet Dialog), and the coordination between the current
+  destination and the open sections: uncontrolled, the section holding the
+  current destination opens silently; controlled, the application decides and
+  a change of the current destination reports nothing (ADR 0013).
+- **Genuinely missing**: nothing at the primitive level.
 
 ## Documentation drift found
 
