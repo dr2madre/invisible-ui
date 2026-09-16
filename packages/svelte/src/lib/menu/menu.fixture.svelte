@@ -3,6 +3,7 @@
 
   export let value: string | null = "home";
   export let onSelect: ((value: string) => void) | undefined = undefined;
+  export let withSlots = false;
 
   const sections: MenuSection[] = [
     {
@@ -17,4 +18,11 @@
   ];
 </script>
 
-<Menu {sections} {value} {onSelect} />
+{#if withSlots}
+  <Menu {sections} {value} {onSelect}>
+    <span slot="logo">Brand</span>
+    <span slot="footer">Signed in</span>
+  </Menu>
+{:else}
+  <Menu {sections} {value} {onSelect} />
+{/if}

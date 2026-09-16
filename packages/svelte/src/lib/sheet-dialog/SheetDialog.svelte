@@ -28,6 +28,15 @@
 
   /** Visual variant for the trigger Button. */
   export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
+  /**
+   * Whether this component renders its own trigger button. Turn it off when
+   * the button belongs somewhere this panel cannot reach, an application
+   * header for instance: drive `open` yourself and name `returnFocusTo`, since
+   * there is no trigger left for focus to go back to (ADR 0013).
+   */
+  export let renderTrigger = true;
+  /** CSS selector for the element focus returns to when there is no trigger. */
+  export let returnFocusTo: string | undefined = undefined;
   /** Which edge the panel is anchored to. */
   export let side: SheetDialogSide = "right";
   /**
@@ -61,6 +70,7 @@
     side,
     describedBy: description !== undefined,
     initialFocus,
+    returnFocusTo,
     onOpenChange: handleOpenChange,
   });
   const {
@@ -97,9 +107,11 @@
             : undefined;
 </script>
 
-<Button variant={triggerVariant} action={triggerAction}>
-  <slot name="trigger">{$t("dialog.trigger")}</slot>
-</Button>
+{#if renderTrigger}
+  <Button variant={triggerVariant} action={triggerAction}>
+    <slot name="trigger">{$t("dialog.trigger")}</slot>
+  </Button>
+{/if}
 
 {#if $isOpen}
   <dialog

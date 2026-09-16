@@ -42,6 +42,7 @@ export * from "./search-dialog";
 export * from "./hover-card";
 export * from "./menubar";
 export * from "./navigation-menu";
+export * from "./sidebar";
 export * from "./text-field";
 export * from "./number-field";
 export { createNotifier } from "./notification/create-notifier";

@@ -24,6 +24,13 @@ export interface DialogContext extends core.DialogContext {
    * screen reader announces the dialog without snapping focus to a "✕".
    */
   initialFocus?: string;
+  /**
+   * CSS selector (anywhere in the page) for the element focus goes back to on
+   * close. Only needed when the dialog has no trigger of its own: without it
+   * focus returns to whatever held it when the dialog opened, which is right
+   * when a button opened it and wrong when something else did (ADR 0013).
+   */
+  returnFocusTo?: string;
 }
 
 export interface CreateDialog {
@@ -155,8 +162,12 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
         if (dialogEl.open) dialogEl.close();
         base?.destroy?.();
         releaseScroll();
-        // Return focus to where it was (the trigger, usually).
-        const restore = triggerEl ?? previouslyFocused;
+        // Where focus goes back to: what the consumer named, else this
+        // dialog's own trigger, else whatever held focus when it opened.
+        const named = context.returnFocusTo
+          ? document.querySelector<HTMLElement>(context.returnFocusTo)
+          : null;
+        const restore = named ?? triggerEl ?? previouslyFocused;
         if (restore?.isConnected) restore.focus();
       },
     };

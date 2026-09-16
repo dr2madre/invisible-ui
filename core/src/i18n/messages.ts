@@ -106,6 +106,13 @@ export const en = {
   "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
   "contextMenu.label": "Context menu",
+  // The sidebar's landmark name. `menu.label` is the same name under the
+  // component's former spelling: it stays, and an override of it still wins,
+  // until the deprecation completes (ADR 0013).
+  "sidebar.label": "Main",
+  "sidebar.collapse": "Collapse the navigation",
+  "sidebar.expand": "Expand the navigation",
+  "sidebar.open": "Open the navigation",
   "menu.label": "Main",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.

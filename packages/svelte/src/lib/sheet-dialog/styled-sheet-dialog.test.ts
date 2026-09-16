@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
+import { tick } from "svelte";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./sheet-dialog.fixture.svelte";
@@ -170,5 +171,45 @@ describe("Svelte SheetDialog (styled)", () => {
     render(Fixture, { props: { side: "bottom", draggable: true } });
     await user.click(screen.getByRole("button", { name: "Open panel" }));
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("SheetDialog without a trigger of its own", () => {
+  it("renders no trigger, opens from outside, and returns focus where it was told", async () => {
+    const opener = document.createElement("button");
+    opener.id = "opener";
+    opener.textContent = "Open it";
+    document.body.appendChild(opener);
+    // Focus is somewhere else when the panel opens, so only the named element
+    // can be where it comes back to.
+    const elsewhere = document.createElement("button");
+    elsewhere.textContent = "elsewhere";
+    document.body.appendChild(elsewhere);
+    elsewhere.focus();
+
+    const { rerender } = render(Fixture, {
+      props: { renderTrigger: false, returnFocusTo: "#opener" },
+    });
+    expect(
+      screen.queryByRole("button", { name: "Open panel" }),
+      "no trigger of its own",
+    ).toBeNull();
+
+    await rerender({ renderTrigger: false, returnFocusTo: "#opener", open: true });
+    await tick();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    // The panel takes focus, so the return is a real move, not a no-op.
+    expect(document.activeElement).not.toBe(opener);
+
+    await rerender({ renderTrigger: false, returnFocusTo: "#opener", open: false });
+    await tick();
+    expect(document.activeElement, "focus went back to the named element").toBe(opener);
+    opener.remove();
+    elsewhere.remove();
+  });
+
+  it("still renders its own trigger by default", () => {
+    render(Fixture);
+    expect(screen.getByRole("button", { name: "Open panel" })).toBeInTheDocument();
   });
 });
