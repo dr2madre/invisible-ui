@@ -138,6 +138,12 @@ export { Collapsible, type CollapsibleProps } from "./collapsible/Collapsible";
 export { HoverCard, type HoverCardProps } from "./hover-card/HoverCard";
 export { ContextMenu, type ContextMenuProps } from "./context-menu/ContextMenu";
 export { Menu, type MenuEntry, type MenuProps, type MenuSection } from "./menu/Menu";
+export {
+  Sidebar,
+  type SidebarItem,
+  type SidebarProps,
+  type SidebarSection,
+} from "./sidebar/Sidebar";
 export { Menubar, type MenubarProps } from "./menubar/Menubar";
 export { NavigationMenu, type NavigationMenuProps } from "./navigation-menu/NavigationMenu";
 export { AspectRatio, type AspectRatioProps } from "./aspect-ratio/AspectRatio";

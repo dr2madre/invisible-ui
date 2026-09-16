@@ -76,10 +76,7 @@
         }
       ],
       "emits": [],
-      "slots": [
-        "footer",
-        "logo"
-      ]
+      "slots": []
     }
   }
 }

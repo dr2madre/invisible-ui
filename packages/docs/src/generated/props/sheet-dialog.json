@@ -17,6 +17,20 @@
           "description": "Visual variant for the trigger Button."
         },
         {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013)."
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector for the element focus returns to when there is no trigger."
+        },
+        {
           "name": "side",
           "type": "SheetDialogSide",
           "default": "\"right\"",
@@ -143,6 +157,20 @@
           "default": "undefined",
           "required": false,
           "description": "CSS selector (within the panel) for the element to focus on open, e.g. `\"input\"` to land on a form's first field instead of the close button."
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013)."
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "CSS selector for the element focus returns to when there is no trigger."
         },
         {
           "name": "onOpenChange",

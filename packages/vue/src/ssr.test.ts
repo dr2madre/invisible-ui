@@ -29,6 +29,7 @@ const requiredProps: Record<string, Props> = {
   Menubar: { label: "Application", menus: [] },
   MultiSelect: { label: "Skills", items: [] },
   Menu: { sections: [] },
+  Sidebar: { sections: [] },
   Meter: { label: "Storage" },
   NavigationMenu: { label: "Primary", items: [] },
   NotificationRegion: { notifier: adapter.createNotifier() },
@@ -64,9 +65,9 @@ const components = Object.entries(adapter).filter((entry): entry is [string, Com
 
 describe("Vue adapter SSR", () => {
   it("discovers every public component export", () => {
-    // The 75 catalog components plus Icon and LocaleProvider. This count makes
+    // The 76 catalog components plus Icon and LocaleProvider. This count makes
     // a new public component fail loudly until it joins the SSR guarantee.
-    expect(components).toHaveLength(78);
+    expect(components).toHaveLength(79);
   });
 
   for (const [name, component] of components) {
