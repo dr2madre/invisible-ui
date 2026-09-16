@@ -13,9 +13,11 @@ import {
   NumberField,
   Popover,
   TableSet,
+  Sidebar,
   TextField,
   Tooltip,
   UploadDropArea,
+  type SidebarSection,
   type TableRow,
 } from "@design-system/vue";
 
@@ -82,6 +84,20 @@ const resetFruitItems = [
 const onFormReset = () => {
   resetSeen.value += 1;
 };
+
+// The drawer with its trigger outside it: the button belongs to the page, and
+// focus has to come back to it (ADR 0013).
+const sidebarOpen = ref(false);
+const sidebarChoice = ref("none");
+const sidebarSections: SidebarSection[] = [
+  {
+    label: "Workspace",
+    items: [
+      { value: "overview", label: "Overview" },
+      { value: "reports", label: "Reports overview" },
+    ],
+  },
+];
 
 const price = ref<number | null>(1234.5);
 const committedPrice = ref("none");
@@ -257,6 +273,43 @@ const loadPeople = () => {
         <Button type="reset">Reset the form</Button>
         <p data-testid="reset-readout">Resets: {{ resetSeen }}. Reports: {{ resetReports }}.</p>
       </form>
+    </section>
+
+    <section class="harness-sidebar" aria-label="Sidebar drawer">
+      <button
+        type="button"
+        id="sidebar-opener"
+        data-testid="sidebar-opener"
+        @click="sidebarOpen = true"
+      >
+        Open the navigation
+      </button>
+      <Sidebar
+        mode="drawer"
+        label="Harness navigation"
+        :sections="sidebarSections"
+        :value="sidebarChoice === 'none' ? null : sidebarChoice"
+        :open="sidebarOpen"
+        :render-trigger="false"
+        return-focus-to="#sidebar-opener"
+        :on-open-change="(next) => (sidebarOpen = next)"
+        :on-select="(next) => (sidebarChoice = next)"
+      />
+      <!-- Opened without the opener holding focus, the way a route change
+           would: only `return-focus-to` can say where focus goes back to. -->
+      <button
+        type="button"
+        data-testid="sidebar-open-elsewhere"
+        @click="
+          (event) => {
+            (event.currentTarget as HTMLElement).blur();
+            sidebarOpen = true;
+          }
+        "
+      >
+        Open from elsewhere
+      </button>
+      <p data-testid="sidebar-readout">Chosen: {{ sidebarChoice }}</p>
     </section>
 
     <section class="harness-multi-select" aria-label="Multi select">
