@@ -21,6 +21,8 @@
   import type { SheetDialogSide } from "../sheet-dialog/create-sheet-dialog";
   import SidebarNav from "./SidebarNav.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { fail } from "../internal/dev";
+  import { canRail, resolveSections } from "./identity";
   import type { SidebarSection } from "./types";
 
   const { t, dir } = getI18n();
@@ -60,10 +62,23 @@
   /** Where focus goes when a drawer with no trigger of its own closes. */
   export let returnFocusTo: string | undefined = undefined;
 
-  const sectionId = (section: SidebarSection, index: number) =>
-    section.id ?? section.label ?? String(index);
   const holdsCurrent = (section: SidebarSection, current: string | null) =>
     current != null && section.items.some((item) => item.value === current);
+
+  // Resolved once per render: a collapsible section answers to its own id, and
+  // a mistake there is loud in development and deterministic in production.
+  $: entries = resolveSections(sections);
+
+  // The rail is only offered when every destination shows something without
+  // its label. Otherwise it would hide the name and leave an empty control.
+  $: railable = canRail(sections);
+  $: if (collapsed && !railable) {
+    fail(
+      "a collapsed sidebar needs an icon on every destination: without one a " +
+        "destination shows nothing at all once the labels are out of sight",
+    );
+  }
+  $: isRail = mode === "inline" && collapsed && railable;
 
   $: resolvedLabel = label ?? $t("sidebar.label");
   // The drawer's edge follows the writing direction, so one `side` value is
@@ -72,38 +87,44 @@
     start === rtl ? "right" : "left";
   $: sheetSide = edge(side === "inline-start", $dir === "rtl");
 
-  // The ids this component keeps open while the consumer is not controlling
-  // them.
-  let ownGroups = sections
-    .map((section, index) => ({ section, id: sectionId(section, index) }))
+  // The ids this component keeps open. While the application controls the set
+  // this copy follows it, so handing `openGroups` back as undefined starts
+  // from what is on screen rather than from what the component last held by
+  // itself (ADR 0013).
+  let ownGroups = resolveSections(sections)
     .filter(
       ({ section }) => section.collapsible && (section.defaultOpen || holdsCurrent(section, value)),
     )
     .map(({ id }) => id);
 
-  // Uncontrolled only: the section holding the current item opens whenever the
-  // current item moves. Controlled, the application owns the set, so a change
-  // of `value` moves nothing and reports nothing (ADR 0013).
-  let lastValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (openGroups === undefined) openCurrentSection();
-  }
+  // Which collapsible section holds the current destination. It moves when the
+  // current destination moves and when the sections themselves change, and
+  // both have to open it: a destination nobody can see is the same problem
+  // either way.
+  $: holderId =
+    entries.find(({ section }) => section.collapsible && holdsCurrent(section, value))?.id ?? null;
 
-  function openCurrentSection() {
-    const holder = sections
-      .map((section, index) => ({ section, id: sectionId(section, index) }))
-      .find(({ section }) => section.collapsible && holdsCurrent(section, value));
-    if (holder && !ownGroups.includes(holder.id)) ownGroups = [...ownGroups, holder.id];
+  // Uncontrolled only: that section opens, silently. Controlled, the
+  // application owns the set, so nothing moves and nothing is reported
+  // (ADR 0013).
+  let lastHolder = holderId;
+  $: if (holderId !== lastHolder) {
+    lastHolder = holderId;
+    if (holderId && !ownGroups.includes(holderId)) ownGroups = [...ownGroups, holderId];
   }
 
   $: openIds = openGroups ?? ownGroups;
-  // The rail exists only inline: a drawer is never a column of icons.
-  $: isRail = mode === "inline" && collapsed;
+  // While the application controls the set, the component's own copy is that
+  // set, which is what keeps a controlled sidebar still and what a return to
+  // uncontrolled continues from. It is the only rule needed: anything the
+  // component writes to its copy meanwhile is replaced by this.
+  $: if (openGroups !== undefined) ownGroups = openGroups;
 
   const toggleGroup = (id: string) => {
     const next = openIds.includes(id) ? openIds.filter((open) => open !== id) : [...openIds, id];
-    if (openGroups === undefined) ownGroups = next;
+    // Uncontrolled, this is the new set; controlled, the line above puts the
+    // application's set straight back, so the press only asks.
+    ownGroups = next;
     onOpenGroupsChange?.(next);
   };
 
@@ -147,9 +168,8 @@
   >
     <slot name="trigger" slot="trigger">{$t("sidebar.open")}</slot>
     <SidebarNav
-      {sections}
+      {entries}
       {value}
-      {sectionId}
       {openIds}
       {onSelect}
       label={resolvedLabel}
@@ -167,12 +187,11 @@
   </SheetDialog>
 {:else}
   <SidebarNav
-    {sections}
+    {entries}
     {value}
-    {sectionId}
     {openIds}
     {onSelect}
-    {collapsed}
+    collapsed={isRail}
     {side}
     label={resolvedLabel}
     hasLogo={Boolean($$slots.logo)}
@@ -180,7 +199,7 @@
     mode="inline"
     collapseLabel={$t("sidebar.collapse")}
     expandLabel={$t("sidebar.expand")}
-    onToggleCollapsed={onCollapsedChange ? toggleCollapsed : undefined}
+    onToggleCollapsed={onCollapsedChange && railable ? toggleCollapsed : undefined}
     onPressGroup={pressGroup}
   >
     <slot name="logo" slot="logo" />

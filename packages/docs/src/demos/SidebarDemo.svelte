@@ -1,5 +1,6 @@
 <script>
   import Sidebar from "@design-system/svelte/Sidebar.svelte";
+  import Dot from "./SidebarDemoIcon.svelte";
 
   let active = "home";
   let collapsed = false;
@@ -7,9 +8,9 @@
     {
       label: "Main",
       items: [
-        { value: "home", label: "Home" },
-        { value: "search", label: "Search" },
-        { value: "alerts", label: "Alerts" },
+        { icon: Dot, value: "home", label: "Home" },
+        { icon: Dot, value: "search", label: "Search" },
+        { icon: Dot, value: "alerts", label: "Alerts" },
       ],
     },
     {
@@ -17,11 +18,11 @@
       label: "Reports",
       collapsible: true,
       items: [
-        { value: "daily", label: "Daily" },
-        { value: "weekly", label: "Weekly" },
+        { icon: Dot, value: "daily", label: "Daily" },
+        { icon: Dot, value: "weekly", label: "Weekly" },
       ],
     },
-    { label: "More", items: [{ value: "settings", label: "Settings" }] },
+    { label: "More", items: [{ icon: Dot, value: "settings", label: "Settings" }] },
   ];
 </script>
 

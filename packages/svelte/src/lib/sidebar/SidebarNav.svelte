@@ -6,16 +6,16 @@
   import Icon from "../icon/Icon.svelte";
   import SidebarGroup from "./SidebarGroup.svelte";
   import SidebarItems from "./SidebarItems.svelte";
-  import type { SidebarSection } from "./types";
+  import type { ResolvedSection } from "./identity";
 
-  export let sections: SidebarSection[];
+  /** The sections with the name each answers to in `openGroups`. */
+  export let entries: ResolvedSection[];
   export let label: string;
   export let value: string | null = null;
   export let collapsed = false;
   export let mode: "inline" | "drawer" = "inline";
   export let side: "inline-start" | "inline-end" = "inline-start";
   export let openIds: string[];
-  export let sectionId: (section: SidebarSection, index: number) => string;
   export let onSelect: ((value: string) => void) | undefined = undefined;
   export let onNavigate: (() => void) | undefined = undefined;
   export let onPressGroup: ((id: string) => void) | undefined = undefined;
@@ -57,8 +57,9 @@
     </button>
   {/if}
 
-  {#each sections as section, s (s)}
-    {@const id = sectionId(section, s)}
+  <!-- Keyed by the name the section answers to, which the resolver makes
+       unique: two sections may share a label, never an identity. -->
+  {#each entries as { section, id } (id)}
     {#if section.collapsible && section.label}
       <SidebarGroup
         label={section.label}

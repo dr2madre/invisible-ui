@@ -1,4 +1,4 @@
-import type { ComponentType } from "svelte";
+import type { Component } from "vue";
 
 /** One destination in the sidebar. */
 export interface SidebarItem {
@@ -7,11 +7,12 @@ export interface SidebarItem {
   /** Renders the item as a link. Without it the item reports `onSelect`. */
   href?: string;
   /**
-   * Optional leading icon component (rendered as `<svelte:component>`). The
+   * Optional leading icon (any Vue component). Wrap it in `markRaw()` so Vue
+   * keeps it out of the reactive proxy it builds for the `sections` prop. The
    * rail is only offered when every destination has one: an icon is the whole
    * of what a destination shows once the labels are out of sight.
    */
-  icon?: ComponentType;
+  icon?: Component;
 }
 
 /** A group of destinations under an optional heading. */

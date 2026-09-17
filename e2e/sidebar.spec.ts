@@ -61,6 +61,26 @@ test.describe("Sidebar (docs demo)", () => {
       "the name is still there, and takes no room",
     ).toEqual({ width: 1, text: "Search" });
 
+    // And every destination still shows something: a rail of controls with a
+    // name and nothing to see would be worse than no rail at all.
+    const shown = await sidebar.evaluate((nav) =>
+      [...nav.querySelectorAll(".sidebar__item")]
+        // Only what the rail actually shows: a closed section's destinations
+        // are in the page but not on it.
+        .filter((entry) => entry.getBoundingClientRect().width > 0)
+        .map((entry) => {
+          const glyph = entry.querySelector("svg")?.getBoundingClientRect();
+          return {
+            name: entry.textContent?.trim(),
+            shows: Boolean(glyph && glyph.width > 0 && glyph.height > 0),
+          };
+        }),
+    );
+    expect(shown.length, "the rail shows no destinations at all").toBeGreaterThan(0);
+    expect(shown, "a destination in the rail with nothing to show").toEqual(
+      shown.map(({ name }) => ({ name, shows: true })),
+    );
+
     await expand.click();
     await expect(sidebar.getByRole("button", { name: "Collapse the navigation" })).toBeVisible();
   });

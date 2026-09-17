@@ -295,3 +295,156 @@ describe("Sidebar, the edges review found", () => {
     expect(screen.getByRole("link", { name: "Daily" })).toBeVisible();
   });
 });
+
+// A rail shows icons. A destination with none would show nothing at all, so
+// the rail is only offered when every destination carries one (ADR 0013).
+describe("Sidebar without an icon on every destination", () => {
+  it("renders no rail toggle at all", () => {
+    render(Fixture, { props: { withoutIcons: true, onCollapsedChange: () => {} } });
+    expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
+  });
+
+  it("stays open, labels and all, even when asked to collapse", () => {
+    // Development says why; production keeps the sidebar usable.
+    expect(() => render(Fixture, { props: { withoutIcons: true, collapsed: true } })).toThrow(
+      /needs an icon on every destination/,
+    );
+    // A render that throws never returns, so the library never learns about
+    // the markup it already put in the page: clear it by hand.
+    document.body.innerHTML = "";
+  });
+
+  it("offers the rail as soon as every destination shows something", () => {
+    render(Fixture, { props: { onCollapsedChange: () => {} } });
+    expect(screen.getByRole("button", { name: /the navigation/i })).toBeInTheDocument();
+  });
+
+  it("shows a glyph for every destination in the rail", () => {
+    const { container } = render(Fixture, { props: { collapsed: true } });
+    const items = [...container.querySelectorAll(".sidebar__item")];
+    expect(items.length).toBeGreaterThan(0);
+    for (const item of items) {
+      expect(item.querySelector("svg"), "a destination with nothing to show").not.toBeNull();
+    }
+  });
+});
+
+// A label is not an identity: two sections may share one, and the id is what
+// each answers to in `openGroups` (ADR 0013).
+describe("Sidebar section identity", () => {
+  it("opens two sections that share a label independently", async () => {
+    const user = userEvent.setup();
+    const onOpenGroupsChange = vi.fn();
+    render(Fixture, { props: { duplicateLabels: true, onOpenGroupsChange } });
+    const [first, second] = screen.getAllByRole("button", { name: "Tools" });
+
+    await user.click(first!);
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["tools-a"]);
+    expect(first).toHaveAttribute("aria-expanded", "true");
+    expect(second, "the other section opened with it").toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("refuses two collapsible sections with the same id", () => {
+    expect(() => render(Fixture, { props: { duplicateIds: true } })).toThrow(
+      /share the id "tools"/,
+    );
+    document.body.innerHTML = "";
+  });
+
+  it("refuses a collapsible section with no id", () => {
+    expect(() => render(Fixture, { props: { missingId: true } })).toThrow(
+      /collapsible sidebar section needs an id/,
+    );
+    document.body.innerHTML = "";
+  });
+
+  it("still takes the plain sections the former name shipped", () => {
+    // No ids anywhere, nothing collapsible: exactly what Menu accepted.
+    render(Fixture, { props: { withoutIcons: true } });
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+  });
+});
+
+describe("Sidebar when the sections themselves change", () => {
+  it("opens the section the current destination moved into, silently", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Fixture, { props: { value: "home", onOpenGroupsChange } });
+    expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+
+    // The current destination does not move; the sections do, and it is now
+    // inside the collapsible one.
+    await rerender({ value: "home", movedIntoGroup: true, onOpenGroupsChange });
+    expect(
+      screen.getByRole("button", { name: "Reports" }),
+      "the current destination was left inside a closed section",
+    ).toHaveAttribute("aria-expanded", "true");
+    expect(
+      onOpenGroupsChange,
+      "moving the sections is not the user opening one",
+    ).not.toHaveBeenCalled();
+  });
+
+  it("moves nothing and reports nothing while the set is controlled", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Fixture, {
+      props: { value: "home", openGroups: [], onOpenGroupsChange },
+    });
+
+    await rerender({ value: "home", movedIntoGroup: true, openGroups: [], onOpenGroupsChange });
+    expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+});
+
+describe("Sidebar when the application stops controlling the set", () => {
+  it("keeps the set that was on screen", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Fixture, {
+      props: { openGroups: ["reports"], onOpenGroupsChange },
+    });
+    expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+
+    // Handed back: what was open stays open, rather than the component
+    // reverting to whatever it held before the application took over.
+    await rerender({ openGroups: undefined, onOpenGroupsChange });
+    expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+
+  it("brings nothing back that the application never opened", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Fixture, {
+      props: { value: "home", openGroups: [], onOpenGroupsChange },
+    });
+
+    // While the application controls the set, the current destination moves
+    // into the closed section and nothing happens, as it must not.
+    await rerender({ value: "daily", openGroups: [], onOpenGroupsChange });
+    expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+
+    // Handed back, the set is still the application's last one: what happened
+    // while it was in charge cannot surface afterwards.
+    await rerender({ value: "daily", openGroups: undefined, onOpenGroupsChange });
+    expect(
+      screen.getByRole("button", { name: "Reports" }),
+      "a section opened that the application had kept closed",
+    ).toHaveAttribute("aria-expanded", "false");
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+});

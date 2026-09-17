@@ -2,14 +2,25 @@ import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { h, markRaw } from "vue";
 import { Sidebar, type SidebarSection } from "./Sidebar";
+
+// A destination's icon: the rail needs every destination to show something
+// once the labels are out of sight.
+const Dot = markRaw({
+  name: "Dot",
+  render: () =>
+    h("svg", { viewBox: "0 0 24 24", width: 16, height: 16, "aria-hidden": "true" }, [
+      h("circle", { cx: 12, cy: 12, r: 8, fill: "currentColor" }),
+    ]),
+});
 
 const sections: SidebarSection[] = [
   {
     label: "Main",
     items: [
-      { value: "home", label: "Home" },
-      { value: "search", label: "Search" },
+      { value: "home", label: "Home", icon: Dot },
+      { value: "search", label: "Search", icon: Dot },
     ],
   },
   {
@@ -17,11 +28,16 @@ const sections: SidebarSection[] = [
     label: "Reports",
     collapsible: true,
     items: [
-      { value: "daily", label: "Daily", href: "/daily" },
-      { value: "weekly", label: "Weekly", href: "/weekly" },
+      { value: "daily", label: "Daily", href: "/daily", icon: Dot },
+      { value: "weekly", label: "Weekly", href: "/weekly", icon: Dot },
     ],
   },
 ];
+
+const withoutIcons: SidebarSection[] = sections.map((section) => ({
+  ...section,
+  items: section.items.map(({ icon: _icon, ...item }) => item),
+})) as SidebarSection[];
 
 const mount = (props: Record<string, unknown> = {}) =>
   render(Sidebar, { props: { sections, value: "home", ...props } });
@@ -322,10 +338,172 @@ describe("Vue Sidebar, the edges review found", () => {
     expect(screen.getAllByText("Tools")).toHaveLength(2);
   });
 
+  it("puts a glyph on every destination in the rail", () => {
+    const { container } = render(Sidebar, { props: { sections, collapsed: true } });
+    const items = [...container.querySelectorAll(".sidebar__item")];
+    expect(items.length).toBeGreaterThan(0);
+    for (const item of items) {
+      expect(item.querySelector("svg"), "a destination with nothing to show").not.toBeNull();
+    }
+  });
+
   it("puts a glyph in the rail toggle and the section chevron", () => {
     const { container } = render(Sidebar, { props: { sections, onCollapsedChange: () => {} } });
     // An empty <svg> is not a glyph: the shape inside it is.
     expect(container.querySelector(".sidebar__rail-toggle svg > *")).not.toBeNull();
     expect(container.querySelector(".sidebar__chevron svg > *")).not.toBeNull();
+  });
+});
+
+// A rail shows icons. A destination with none would show nothing at all, so
+// the rail is only offered when every destination carries one (ADR 0013).
+describe("Vue Sidebar without an icon on every destination", () => {
+  it("renders no rail toggle at all", () => {
+    render(Sidebar, { props: { sections: withoutIcons, onCollapsedChange: () => {} } });
+    expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
+  });
+
+  it("says why, and keeps the sidebar usable, when asked to collapse", () => {
+    expect(() => render(Sidebar, { props: { sections: withoutIcons, collapsed: true } })).toThrow(
+      /needs an icon on every destination/,
+    );
+  });
+
+  it("offers the rail as soon as every destination shows something", () => {
+    render(Sidebar, { props: { sections, onCollapsedChange: () => {} } });
+    expect(screen.getByRole("button", { name: /the navigation/i })).toBeInTheDocument();
+  });
+});
+
+// A label is not an identity: the id is what a section answers to in
+// `openGroups` (ADR 0013).
+describe("Vue Sidebar section identity", () => {
+  const twins: SidebarSection[] = [
+    { id: "tools-a", label: "Tools", collapsible: true, items: [{ value: "a", label: "A" }] },
+    { id: "tools-b", label: "Tools", collapsible: true, items: [{ value: "b", label: "B" }] },
+  ];
+
+  it("opens two sections that share a label independently", async () => {
+    const user = userEvent.setup();
+    const onOpenGroupsChange = vi.fn();
+    render(Sidebar, { props: { sections: twins, onOpenGroupsChange } });
+    const [first, second] = screen.getAllByRole("button", { name: "Tools" });
+
+    await user.click(first!);
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["tools-a"]);
+    expect(first).toHaveAttribute("aria-expanded", "true");
+    expect(second, "the other section opened with it").toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("refuses two collapsible sections with the same id", () => {
+    expect(() =>
+      render(Sidebar, {
+        props: {
+          sections: [
+            { id: "tools", label: "Tools", collapsible: true, items: [{ value: "a", label: "A" }] },
+            { id: "tools", label: "Tools", collapsible: true, items: [{ value: "b", label: "B" }] },
+          ],
+        },
+      }),
+    ).toThrow(/share the id "tools"/);
+    document.body.innerHTML = "";
+  });
+
+  it("refuses a collapsible section with no id", () => {
+    expect(() =>
+      render(Sidebar, {
+        props: {
+          sections: [{ label: "Tools", collapsible: true, items: [{ value: "a", label: "A" }] }],
+        },
+      }),
+    ).toThrow(/collapsible sidebar section needs an id/);
+    document.body.innerHTML = "";
+  });
+
+  it("still takes the plain sections the former name shipped", () => {
+    render(Sidebar, { props: { sections: withoutIcons } });
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+  });
+});
+
+describe("Vue Sidebar when the sections themselves change", () => {
+  // The current destination does not move; the sections do, and it is now
+  // inside the collapsible one.
+  const moved: SidebarSection[] = [
+    { label: "Main", items: [{ value: "search", label: "Search", icon: Dot }] },
+    {
+      id: "reports",
+      label: "Reports",
+      collapsible: true,
+      items: [
+        { value: "home", label: "Home", icon: Dot },
+        { value: "daily", label: "Daily", href: "/daily", icon: Dot },
+      ],
+    },
+  ];
+
+  it("opens the section the current destination moved into, silently", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, value: "home", onOpenGroupsChange },
+    });
+    expect(group()).toHaveAttribute("aria-expanded", "false");
+
+    await rerender({ sections: moved, value: "home", onOpenGroupsChange });
+    expect(group(), "the current destination was left inside a closed section").toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(
+      onOpenGroupsChange,
+      "moving the sections is not the user opening one",
+    ).not.toHaveBeenCalled();
+  });
+
+  it("moves nothing and reports nothing while the set is controlled", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, value: "home", openGroups: [], onOpenGroupsChange },
+    });
+
+    await rerender({ sections: moved, value: "home", openGroups: [], onOpenGroupsChange });
+    expect(group()).toHaveAttribute("aria-expanded", "false");
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+});
+
+describe("Vue Sidebar when the application stops controlling the set", () => {
+  it("keeps the set that was on screen", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, value: "home", openGroups: ["reports"], onOpenGroupsChange },
+    });
+    expect(group()).toHaveAttribute("aria-expanded", "true");
+
+    await rerender({ sections, value: "home", openGroups: undefined, onOpenGroupsChange });
+    expect(group()).toHaveAttribute("aria-expanded", "true");
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
+  });
+
+  it("brings nothing back that the application never opened", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, value: "home", openGroups: [], onOpenGroupsChange },
+    });
+
+    // While the application controls the set, the current destination moves
+    // into the closed section and nothing happens, as it must not.
+    await rerender({ sections, value: "daily", openGroups: [], onOpenGroupsChange });
+    expect(group()).toHaveAttribute("aria-expanded", "false");
+
+    // Handed back, the set is still the application's last one: what happened
+    // while it was in charge cannot surface afterwards.
+    await rerender({ sections, value: "daily", openGroups: undefined, onOpenGroupsChange });
+    expect(group(), "a section opened that the application had kept closed").toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(onOpenGroupsChange).not.toHaveBeenCalled();
   });
 });

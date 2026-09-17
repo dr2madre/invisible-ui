@@ -1039,7 +1039,7 @@
     {
       "name": "SidebarItem",
       "kind": "interface",
-      "signature": "interface SidebarItem { value: string; label: string; /** Renders the item as a link. Without it the item reports `onSelect`. */ href?: string; /** * Optional leading icon (any Vue component). Wrap it in `markRaw()` so Vue * keeps it out of the reactive proxy it builds for the `sections` prop. */ icon?: Component; }"
+      "signature": "interface SidebarItem { value: string; label: string; /** Renders the item as a link. Without it the item reports `onSelect`. */ href?: string; /** * Optional leading icon (any Vue component). Wrap it in `markRaw()` so Vue * keeps it out of the reactive proxy it builds for the `sections` prop. The * rail is only offered when every destination has one: an icon is the whole * of what a destination shows once the labels are out of sight. */ icon?: Component; }"
     },
     {
       "name": "SidebarProps",
@@ -1048,8 +1048,8 @@
     },
     {
       "name": "SidebarSection",
-      "kind": "interface",
-      "signature": "interface SidebarSection { /** Optional section heading. */ label?: string; items: SidebarItem[]; /** * Turns the heading into a disclosure. Needs a `label`: without one there is * nothing to press. Plain sections stay exactly as they were. */ collapsible?: boolean; /** Identifies the section in `openGroups`. Falls back to the label. */ id?: string; /** Open on first render. A section holding the current item opens anyway. */ defaultOpen?: boolean; }"
+      "kind": "type",
+      "signature": "type SidebarSection = SidebarPlainSection | SidebarCollapsibleSection;"
     },
     {
       "name": "Skeleton",

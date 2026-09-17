@@ -103,9 +103,32 @@ consumer's override does. `sidebar.collapse`, `sidebar.expand` and
 
 | State | Uncontrolled | Controlled |
 | --- | --- | --- |
-| `openGroups` | the component keeps the set; the section holding `value` opens whenever `value` moves, silently | the application decides; a press reports and changes nothing; a `value` change moves nothing and reports nothing |
+| `openGroups` | the component keeps the set; the section holding the current destination opens whenever that section changes, by `value` moving or by `sections` changing, silently | the application decides; a press reports and changes nothing; neither a `value` change nor a `sections` change moves anything or reports anything |
 | `collapsed` | no toggle is rendered | `onCollapsedChange` given: the toggle appears and reports every press |
 | `open` (drawer) | closed | the application drives it; `closeOnNavigate` reports a close when a destination is followed |
+
+## Two contracts worth naming
+
+**`openGroups` is a deliberate exception to ADR 0011.** Controlled, a press
+reports the request and leaves the visible state alone. Every other control
+here answers its own press; this one waits, because two sections opening at
+once is worse than a press that waits.
+
+**Handing the set back is supported.** The component's own copy follows
+`openGroups` while the application controls it, so passing `undefined`
+afterwards continues from the set on screen.
+
+## Identity and the rail, in one line each
+
+A collapsible section must carry an `id`: it is the name the section answers to
+in `openGroups`, and a label is not an identity. Missing or repeated ids throw
+in development; production falls back to the section's position rather than
+sharing a name.
+
+The rail is offered only when every destination carries an icon. Otherwise
+collapsing would leave controls with an accessible name and nothing to see, so
+the toggle is not rendered, `collapsed` keeps the labels, and development says
+why.
 
 ## Excluded from v1
 

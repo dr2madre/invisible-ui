@@ -28,7 +28,17 @@ Formerly called `Menu`, which is still exported and still works; see
 
 <PropsTable component="sidebar" />
 
-A section becomes a disclosure with `collapsible: true` and a `label`.
+A section becomes a disclosure with `collapsible: true`, a `label` and an
+`id`. The id is the name it answers to in `openGroups`: two sections may share
+a label, and sharing a name would mean sharing an open state. A missing or
+repeated id is an error in development.
+
+### The rail needs an icon on every destination
+
+Collapsing hides the labels, so a destination with no icon would be a control
+with an accessible name and nothing to see. Rather than invent a glyph, the
+component declines: with any destination lacking an icon the toggle is not
+rendered, `collapsed` keeps the labels, and development says why.
 
 ### What stays with your application
 
@@ -65,9 +75,14 @@ The root carries `data-mode` (`inline` or `drawer`), `data-side`, and
 ### Sections that open themselves
 
 Left alone, the section holding the current destination opens, so the page
-never hides where you are. Pass `openGroups` and that stops: the set is yours,
-a press is reported through `onOpenGroupsChange` and changes nothing until you
-say so, and a change of `value` moves nothing.
+never hides where you are, whether the destination moved or the sections did.
+Pass `openGroups` and that stops: the set is yours, a press is reported through
+`onOpenGroupsChange` and changes nothing until you say so, and neither a change
+of `value` nor a change of `sections` moves anything.
+
+This is the one place a control here does not answer its own press
+(ADR 0011 and ADR 0013). Handing the set back as `undefined` is supported: the
+sidebar continues from what was on screen.
 
 ```svelte
 <Sidebar

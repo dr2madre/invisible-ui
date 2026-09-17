@@ -63,11 +63,42 @@ anything else did. The other dialog variants keep their trigger: this is the
 one place the page owns that button.
 
 **One authority per state.** Uncontrolled, the section holding the current
-destination opens by itself, whenever the current destination moves, and no
-callback is reported for it: it is not the user opening a section. Controlled
-(`openGroups` given), the application decides everything: a press is reported
-and changes nothing on its own, and a change of the current destination moves
-nothing and reports nothing.
+destination opens by itself, and no callback is reported for it: it is not the
+user opening a section. That section is recomputed whenever the current
+destination moves **and** whenever the sections themselves change, because a
+destination hidden inside a closed section is the same problem either way.
+Controlled (`openGroups` given), the application decides everything: a press is
+reported and changes nothing on its own, and neither a change of the current
+destination nor a change of the sections moves anything or reports anything.
+
+**`openGroups` is a deliberate exception to ADR 0011's controllable mirror.**
+Every other control here answers its own press and reports it once. This one
+does not: while the set is controlled, a press emits the request and leaves the
+visible state alone, because two sections opening at once is worse than a press
+that waits for an answer. The exception is written here so it is a decision and
+not an inconsistency.
+
+**Handing the set back is supported.** While the application controls
+`openGroups`, the component keeps its own copy in step with it, so passing
+`undefined` afterwards continues from the set that was on screen rather than
+from whatever the component held before the application took over. That is a
+contract, not an accident, and it has a test.
+
+**A collapsible section needs an id.** The id is the name the section answers
+to in `openGroups`; a label is not an identity, and two sections that share one
+would open together. The type requires it for `collapsible: true` and leaves
+plain sections exactly as they were, which is what the former name shipped.
+A missing or repeated id is a consumer mistake: development throws, and
+production falls back deterministically rather than sharing, a section with no
+id answering to its position and a repeated id keeping the first section while
+the later ones answer to theirs.
+
+**The rail is only offered when every destination shows something.** Collapsing
+hides the labels, so a destination with no icon would be an empty control with
+an accessible name and nothing to see. Rather than invent a glyph or an
+initial, the component declines: with any destination lacking an icon no rail
+toggle is rendered, a `collapsed` sidebar stays open with its labels, and
+development says why.
 
 ## Consequences
 

@@ -1,39 +1,20 @@
-import { computed, defineComponent, h, ref, watch, type Component, type PropType } from "vue";
+import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
+import { fail } from "../internal/dev";
+import { canRail, resolveSections } from "./identity";
 import { SidebarGroup } from "./SidebarGroup";
+import type { SidebarItem, SidebarSection } from "./types";
+
+export type {
+  SidebarItem,
+  SidebarSection,
+  SidebarPlainSection,
+  SidebarCollapsibleSection,
+} from "./types";
 import { SheetDialog } from "../sheet-dialog/SheetDialog";
 import { Tooltip } from "../tooltip/Tooltip";
 import type { SheetDialogSide } from "../sheet-dialog/use-sheet-dialog";
-
-/** One destination in the sidebar. */
-export interface SidebarItem {
-  value: string;
-  label: string;
-  /** Renders the item as a link. Without it the item reports `onSelect`. */
-  href?: string;
-  /**
-   * Optional leading icon (any Vue component). Wrap it in `markRaw()` so Vue
-   * keeps it out of the reactive proxy it builds for the `sections` prop.
-   */
-  icon?: Component;
-}
-
-/** A labelled group of destinations. */
-export interface SidebarSection {
-  /** Optional section heading. */
-  label?: string;
-  items: SidebarItem[];
-  /**
-   * Turns the heading into a disclosure. Needs a `label`: without one there is
-   * nothing to press. Plain sections stay exactly as they were.
-   */
-  collapsible?: boolean;
-  /** Identifies the section in `openGroups`. Falls back to the label. */
-  id?: string;
-  /** Open on first render. A section holding the current item opens anyway. */
-  defaultOpen?: boolean;
-}
 
 export interface SidebarProps {
   sections: SidebarSection[];
@@ -97,36 +78,58 @@ export const Sidebar = defineComponent({
   setup(props, { slots }) {
     const i18n = useI18n();
 
-    const sectionId = (section: SidebarSection, index: number) =>
-      section.id ?? section.label ?? String(index);
     const holdsCurrent = (section: SidebarSection) =>
       props.value != null && section.items.some((item) => item.value === props.value);
 
+    // Resolved once per render: a collapsible section answers to its own id,
+    // and a mistake there is loud in development and deterministic in
+    // production.
+    const entries = computed(() => resolveSections(props.sections));
+    // The rail is only offered when every destination shows something without
+    // its label. Otherwise it would hide the name and leave an empty control.
+    const railable = computed(() => canRail(props.sections));
+
     // The ids this component keeps open while the consumer is not controlling
     // them.
+    // The ids this component keeps open. While the application controls the
+    // set this copy follows it, so handing `openGroups` back as undefined
+    // starts from what is on screen (ADR 0013).
     const ownGroups = ref(
-      props.sections
-        .map((section, index) => ({ section, id: sectionId(section, index) }))
+      resolveSections(props.sections)
         .filter(
           ({ section }) => section.collapsible && (section.defaultOpen || holdsCurrent(section)),
         )
         .map(({ id }) => id),
     );
 
-    // Uncontrolled only: the section holding the current item opens whenever
-    // the current item moves. Controlled, the application owns the set, so a
-    // change of `value` moves nothing and reports nothing (ADR 0013).
+    // Which collapsible section holds the current destination. It moves when
+    // the current destination moves and when the sections themselves change,
+    // and both have to open it: a destination nobody can see is the same
+    // problem either way.
+    const holderId = computed(
+      () =>
+        entries.value.find(({ section }) => section.collapsible && holdsCurrent(section))?.id ??
+        null,
+    );
+
+    // Uncontrolled only: that section opens, silently. Controlled, the
+    // application owns the set, so nothing moves and nothing is reported
+    // (ADR 0013).
+    watch(holderId, (id) => {
+      if (!id) return;
+      if (!ownGroups.value.includes(id)) ownGroups.value = [...ownGroups.value, id];
+    });
+
+    // While the application controls the set, this copy is that set, which is
+    // what keeps a controlled sidebar still and what a return to uncontrolled
+    // continues from. It is the only rule needed: anything the component
+    // writes to its copy meanwhile is replaced by this.
     watch(
-      () => props.value,
-      () => {
-        if (props.openGroups !== undefined) return;
-        const holder = props.sections
-          .map((section, index) => ({ section, id: sectionId(section, index) }))
-          .find(({ section }) => section.collapsible && holdsCurrent(section));
-        if (holder && !ownGroups.value.includes(holder.id)) {
-          ownGroups.value = [...ownGroups.value, holder.id];
-        }
+      () => props.openGroups,
+      (next) => {
+        if (next !== undefined) ownGroups.value = next;
       },
+      { immediate: true },
     );
 
     const openIds = computed(() => props.openGroups ?? ownGroups.value);
@@ -147,14 +150,29 @@ export const Sidebar = defineComponent({
         drawerOpen.value = next;
       },
     );
-    // The rail exists only inline: a drawer is never a column of icons.
-    const isRail = computed(() => props.mode === "inline" && collapsed.value);
+    // The rail exists only inline, and only when every destination shows
+    // something without its label.
+    const isRail = computed(() => props.mode === "inline" && collapsed.value && railable.value);
+    watch(
+      () => collapsed.value && !railable.value,
+      (refused) => {
+        if (refused) {
+          fail(
+            "a collapsed sidebar needs an icon on every destination: without one a " +
+              "destination shows nothing at all once the labels are out of sight",
+          );
+        }
+      },
+      { immediate: true },
+    );
 
     const toggleGroup = (id: string) => {
       const next = openIds.value.includes(id)
         ? openIds.value.filter((open) => open !== id)
         : [...openIds.value, id];
-      if (props.openGroups === undefined) ownGroups.value = next;
+      // Uncontrolled, this is the new set; controlled, the watch above puts
+      // the application's set straight back, so the press only asks.
+      ownGroups.value = next;
       props.onOpenGroupsChange?.(next);
     };
 
@@ -227,7 +245,7 @@ export const Sidebar = defineComponent({
     const nav = (mode: "inline" | "drawer") => {
       const { t } = i18n.value;
       const resolvedLabel = props.label ?? t("sidebar.label");
-      const railed = mode === "inline" && collapsed.value;
+      const railed = mode === "inline" && collapsed.value && railable.value;
       return h(
         "nav",
         {
@@ -239,7 +257,7 @@ export const Sidebar = defineComponent({
         },
         [
           slots.logo ? h("div", { class: "sidebar__logo" }, slots.logo()) : null,
-          mode === "inline" && props.onCollapsedChange
+          mode === "inline" && props.onCollapsedChange && railable.value
             ? h(
                 "button",
                 {
@@ -267,8 +285,9 @@ export const Sidebar = defineComponent({
                 ],
               )
             : null,
-          ...props.sections.map((section, index) => {
-            const id = sectionId(section, index);
+          // Keyed by the name the section answers to, which the resolver
+          // makes unique: two sections may share a label, never an identity.
+          ...entries.value.map(({ section, id }) => {
             return section.collapsible && section.label
               ? h(
                   SidebarGroup,
@@ -281,7 +300,7 @@ export const Sidebar = defineComponent({
                   },
                   { default: () => [list(section)] },
                 )
-              : h("div", { class: "sidebar__section", key: index }, [
+              : h("div", { class: "sidebar__section", key: id }, [
                   section.label
                     ? h(
                         "p",
