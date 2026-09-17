@@ -13,39 +13,44 @@ export interface ResolvedSection {
  * A collapsible section must carry an `id`, and no two may carry the same one:
  * sharing a name means sharing an open state, so two sections would open
  * together. Both are consumer mistakes, so both throw in development. In
- * production the fallback is deterministic rather than shared: a section with
- * no id answers to its position, and a repeated id keeps the first section and
- * gives the later ones their position instead.
+ * production the fallback is deterministic and never shared: a section with no
+ * id answers to its position, and a name already taken is answered to by the
+ * first section that claimed it, the later ones getting a numbered spelling of
+ * it. Plain sections claim their names too, because the list is keyed by them.
  */
 export function resolveSections(sections: SidebarSection[]): ResolvedSection[] {
   const taken = new Set<string>();
-  return sections.map((section, index) => ({ section, id: resolveId(section, index, taken) }));
-}
 
-function resolveId(section: SidebarSection, index: number, taken: Set<string>): string {
-  if (!section.collapsible) return section.id ?? String(index);
+  /** The candidate, or the first spelling of it nothing else answers to. */
+  const claim = (candidate: string) => {
+    let id = candidate;
+    for (let n = 2; taken.has(id); n += 1) id = `${candidate}#${n}`;
+    taken.add(id);
+    return id;
+  };
 
-  const declared = section.id;
-  if (!declared) {
-    fail(
-      `a collapsible sidebar section needs an id ("${section.label}" has none): ` +
-        "it is the name the section answers to in openGroups",
-    );
-    const positional = String(index);
-    taken.add(positional);
-    return positional;
-  }
-  if (taken.has(declared)) {
-    fail(
-      `two collapsible sidebar sections share the id "${declared}": ` +
-        "sharing a name means sharing an open state",
-    );
-    const positional = `${declared}#${index}`;
-    taken.add(positional);
-    return positional;
-  }
-  taken.add(declared);
-  return declared;
+  return sections.map((section, index) => {
+    // A plain section is never named in `openGroups`, but it is still one of
+    // the list's keys, so its name has to be its own too.
+    if (!section.collapsible) return { section, id: claim(section.id ?? String(index)) };
+
+    const declared = section.id;
+    if (!declared) {
+      fail(
+        `a collapsible sidebar section needs an id ("${section.label}" has none): ` +
+          "it is the name the section answers to in openGroups",
+      );
+      return { section, id: claim(String(index)) };
+    }
+    if (taken.has(declared)) {
+      fail(
+        `two collapsible sidebar sections share the id "${declared}": ` +
+          "sharing a name means sharing an open state",
+      );
+      return { section, id: claim(declared) };
+    }
+    return { section, id: claim(declared) };
+  });
 }
 
 /** Whether the rail can be offered: every destination must show something. */

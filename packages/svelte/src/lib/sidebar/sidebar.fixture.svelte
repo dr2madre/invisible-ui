@@ -23,6 +23,8 @@
   export let missingId = false;
   /** Moves the current destination inside the collapsible section. */
   export let movedIntoGroup = false;
+  /** Exactly the shape the former name accepted: no ids, no icons, no groups. */
+  export let legacyShape = false;
 
   // Two collapsible sections under one label, told apart by their ids.
   const duplicates: SidebarSection[] = [
@@ -73,7 +75,18 @@
     },
   ];
 
-  $: sections = movedIntoGroup ? moved : withoutIcons ? withoutTheIcons : withIcons;
+  const legacy: SidebarSection[] = [
+    { label: "Main", items: [{ value: "inbox", label: "Inbox" }] },
+    { items: [{ value: "settings", label: "Settings", href: "/settings" }] },
+  ];
+
+  $: sections = legacyShape
+    ? legacy
+    : movedIntoGroup
+      ? moved
+      : withoutIcons
+        ? withoutTheIcons
+        : withIcons;
   $: chosen = duplicateIds ? sameIds : missingId ? noId : duplicateLabels ? duplicates : sections;
 </script>
 

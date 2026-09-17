@@ -177,7 +177,7 @@
           "type": "(collapsed: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "Given, the rail toggle is rendered and reports every press, as long as every destination carries an icon: without one there would be nothing to show once the labels are hidden."
         },
         {
           "name": "open",

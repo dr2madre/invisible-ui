@@ -246,15 +246,12 @@ describe("Sidebar, the edges review found", () => {
     render(Fixture, { props: { openGroups: [], onOpenGroupsChange } });
     const group = screen.getByRole("button", { name: "Reports" });
 
-    // Read straight after the press, before anything settles: a section that
-    // flips and flips back announces a state nobody asked for.
-    group.click();
+    await user.click(group);
     expect(group, "the section moved before the application answered").toHaveAttribute(
       "aria-expanded",
       "false",
     );
-    await user.click(group);
-    expect(group).toHaveAttribute("aria-expanded", "false");
+    expect(onOpenGroupsChange, "the press still asks").toHaveBeenCalledWith(["reports"]);
   });
 
   it("leaves the rail alone in a drawer, where there is none", async () => {
@@ -299,6 +296,16 @@ describe("Sidebar, the edges review found", () => {
 // A rail shows icons. A destination with none would show nothing at all, so
 // the rail is only offered when every destination carries one (ADR 0013).
 describe("Sidebar without an icon on every destination", () => {
+  it("says nothing about a rail in a drawer, where there is none", async () => {
+    const user = userEvent.setup();
+    // A page that keeps one collapsed flag across breakpoints narrows to a
+    // drawer: there is no rail to refuse, so there is nothing to say.
+    render(Fixture, { props: { withoutIcons: true, mode: "drawer", collapsed: true } });
+    await user.click(screen.getByRole("button", { name: "Open the navigation" }));
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+  });
+
   it("renders no rail toggle at all", () => {
     render(Fixture, { props: { withoutIcons: true, onCollapsedChange: () => {} } });
     expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
@@ -359,10 +366,11 @@ describe("Sidebar section identity", () => {
   });
 
   it("still takes the plain sections the former name shipped", () => {
-    // No ids anywhere, nothing collapsible: exactly what Menu accepted.
-    render(Fixture, { props: { withoutIcons: true } });
+    // No ids, nothing collapsible, no icons: exactly what Menu accepted.
+    render(Fixture, { props: { legacyShape: true } });
     expect(screen.getByRole("navigation")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Inbox" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
   });
 });
 
@@ -406,8 +414,11 @@ describe("Sidebar when the sections themselves change", () => {
 describe("Sidebar when the application stops controlling the set", () => {
   it("keeps the set that was on screen", async () => {
     const onOpenGroupsChange = vi.fn();
+    // One array, held by the application and never replaced: the ordinary
+    // shape, and the one a fresh literal per render would hide.
+    const controlled = ["reports"];
     const { rerender } = render(Fixture, {
-      props: { openGroups: ["reports"], onOpenGroupsChange },
+      props: { openGroups: controlled, onOpenGroupsChange },
     });
     expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
       "aria-expanded",
@@ -424,22 +435,44 @@ describe("Sidebar when the application stops controlling the set", () => {
     expect(onOpenGroupsChange).not.toHaveBeenCalled();
   });
 
-  it("brings nothing back that the application never opened", async () => {
+  it("brings back nothing the application refused, after a press", async () => {
+    const user = userEvent.setup();
     const onOpenGroupsChange = vi.fn();
+    const controlled: string[] = [];
     const { rerender } = render(Fixture, {
-      props: { value: "home", openGroups: [], onOpenGroupsChange },
+      props: { value: "home", openGroups: controlled, onOpenGroupsChange },
+    });
+    const group = () => screen.getByRole("button", { name: "Reports" });
+
+    // The user presses, the application declines: the section stays closed.
+    await user.click(group());
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["reports"]);
+    expect(group()).toHaveAttribute("aria-expanded", "false");
+
+    // Handed back, the set is still the application's: a press it refused
+    // cannot surface afterwards.
+    await rerender({ value: "home", openGroups: undefined, onOpenGroupsChange });
+    expect(group(), "a section the application refused opened after the handback").toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+  });
+
+  it("brings back nothing the current destination opened while controlled", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const controlled: string[] = [];
+    const { rerender } = render(Fixture, {
+      props: { value: "home", openGroups: controlled, onOpenGroupsChange },
     });
 
-    // While the application controls the set, the current destination moves
-    // into the closed section and nothing happens, as it must not.
-    await rerender({ value: "daily", openGroups: [], onOpenGroupsChange });
+    // The current destination moves into the closed section: nothing happens,
+    // as it must not, and nothing is remembered either.
+    await rerender({ value: "daily", openGroups: controlled, onOpenGroupsChange });
     expect(screen.getByRole("button", { name: "Reports" })).toHaveAttribute(
       "aria-expanded",
       "false",
     );
 
-    // Handed back, the set is still the application's last one: what happened
-    // while it was in charge cannot surface afterwards.
     await rerender({ value: "daily", openGroups: undefined, onOpenGroupsChange });
     expect(
       screen.getByRole("button", { name: "Reports" }),

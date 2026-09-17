@@ -5,6 +5,8 @@ import { describe, expect, it, vi } from "vitest";
 import Accordion from "./accordion/Accordion.svelte";
 import AlertDialog from "./alert-dialog/AlertDialog.svelte";
 import Collapsible from "./collapsible/Collapsible.svelte";
+import Sidebar from "./sidebar/Sidebar.svelte";
+import Dot from "./sidebar/sidebar-icon.fixture.svelte";
 import Stepper from "./stepper/Stepper.svelte";
 import TreeView from "./tree-view/TreeView.svelte";
 import CheckboxGroup from "./checkbox-group/CheckboxGroup.svelte";
@@ -338,6 +340,37 @@ describe("more controllable mirrors", () => {
     expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("true");
     expect(reported).not.toHaveBeenCalled();
   });
+
+  it("the sidebar's rail reflects a changed prop in silence", async () => {
+    const sections = [{ label: "Main", items: [{ value: "home", label: "Home", icon: Dot }] }];
+    const reported = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, collapsed: false, onCollapsedChange: reported },
+    });
+    const toggle = () => screen.getByRole("button", { name: /the navigation/i });
+    expect(toggle().getAttribute("aria-pressed")).toBe("false");
+
+    await rerender({ sections, collapsed: true, onCollapsedChange: reported });
+    expect(toggle().getAttribute("aria-pressed")).toBe("true");
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("the sidebar's drawer reflects a changed prop in silence", async () => {
+    const sections = [{ label: "Main", items: [{ value: "home", label: "Home" }] }];
+    const reported = vi.fn();
+    const { rerender } = render(Sidebar, {
+      props: { sections, mode: "drawer", open: false, onOpenChange: reported },
+    });
+    expect(screen.queryByRole("dialog")).toBeNull();
+
+    await rerender({ sections, mode: "drawer", open: true, onOpenChange: reported });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  // `openGroups` is deliberately not here: ADR 0013 records it as the one
+  // exception, where a controlled press reports and moves nothing. Its own
+  // suite holds that.
 
   it("the accordion reflects a changed value in silence", async () => {
     const items = [

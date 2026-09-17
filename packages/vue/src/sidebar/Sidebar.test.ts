@@ -358,6 +358,18 @@ describe("Vue Sidebar, the edges review found", () => {
 // A rail shows icons. A destination with none would show nothing at all, so
 // the rail is only offered when every destination carries one (ADR 0013).
 describe("Vue Sidebar without an icon on every destination", () => {
+  it("says nothing about a rail in a drawer, where there is none", async () => {
+    const user = userEvent.setup();
+    // A page that keeps one collapsed flag across breakpoints narrows to a
+    // drawer: there is no rail to refuse, so there is nothing to say.
+    render(Sidebar, {
+      props: { sections: withoutIcons, mode: "drawer", collapsed: true },
+    });
+    await user.click(screen.getByRole("button", { name: "Open the navigation" }));
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+  });
+
   it("renders no rail toggle at all", () => {
     render(Sidebar, { props: { sections: withoutIcons, onCollapsedChange: () => {} } });
     expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
@@ -421,9 +433,15 @@ describe("Vue Sidebar section identity", () => {
   });
 
   it("still takes the plain sections the former name shipped", () => {
-    render(Sidebar, { props: { sections: withoutIcons } });
+    // No ids, nothing collapsible, no icons: exactly what Menu accepted.
+    const legacy: SidebarSection[] = [
+      { label: "Main", items: [{ value: "inbox", label: "Inbox" }] },
+      { items: [{ value: "settings", label: "Settings", href: "/settings" }] },
+    ];
+    render(Sidebar, { props: { sections: legacy } });
     expect(screen.getByRole("navigation")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Inbox" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /the navigation/i })).toBeNull();
   });
 });
 
@@ -476,8 +494,11 @@ describe("Vue Sidebar when the sections themselves change", () => {
 describe("Vue Sidebar when the application stops controlling the set", () => {
   it("keeps the set that was on screen", async () => {
     const onOpenGroupsChange = vi.fn();
+    // One array, held by the application and never replaced: the ordinary
+    // shape, and the one a fresh literal per render would hide.
+    const controlled = ["reports"];
     const { rerender } = render(Sidebar, {
-      props: { sections, value: "home", openGroups: ["reports"], onOpenGroupsChange },
+      props: { sections, value: "home", openGroups: controlled, onOpenGroupsChange },
     });
     expect(group()).toHaveAttribute("aria-expanded", "true");
 
@@ -486,19 +507,35 @@ describe("Vue Sidebar when the application stops controlling the set", () => {
     expect(onOpenGroupsChange).not.toHaveBeenCalled();
   });
 
-  it("brings nothing back that the application never opened", async () => {
+  it("brings back nothing the application refused, after a press", async () => {
+    const user = userEvent.setup();
     const onOpenGroupsChange = vi.fn();
+    const controlled: string[] = [];
     const { rerender } = render(Sidebar, {
-      props: { sections, value: "home", openGroups: [], onOpenGroupsChange },
+      props: { sections, value: "home", openGroups: controlled, onOpenGroupsChange },
     });
 
-    // While the application controls the set, the current destination moves
-    // into the closed section and nothing happens, as it must not.
-    await rerender({ sections, value: "daily", openGroups: [], onOpenGroupsChange });
+    await user.click(group());
+    expect(onOpenGroupsChange).toHaveBeenCalledWith(["reports"]);
     expect(group()).toHaveAttribute("aria-expanded", "false");
 
-    // Handed back, the set is still the application's last one: what happened
-    // while it was in charge cannot surface afterwards.
+    await rerender({ sections, value: "home", openGroups: undefined, onOpenGroupsChange });
+    expect(group(), "a section the application refused opened after the handback").toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+  });
+
+  it("brings back nothing the current destination opened while controlled", async () => {
+    const onOpenGroupsChange = vi.fn();
+    const controlled: string[] = [];
+    const { rerender } = render(Sidebar, {
+      props: { sections, value: "home", openGroups: controlled, onOpenGroupsChange },
+    });
+
+    await rerender({ sections, value: "daily", openGroups: controlled, onOpenGroupsChange });
+    expect(group()).toHaveAttribute("aria-expanded", "false");
+
     await rerender({ sections, value: "daily", openGroups: undefined, onOpenGroupsChange });
     expect(group(), "a section opened that the application had kept closed").toHaveAttribute(
       "aria-expanded",

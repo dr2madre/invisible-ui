@@ -122,8 +122,9 @@ afterwards continues from the set on screen.
 
 A collapsible section must carry an `id`: it is the name the section answers to
 in `openGroups`, and a label is not an identity. Missing or repeated ids throw
-in development; production falls back to the section's position rather than
-sharing a name.
+in development; in production every section still ends up with a name of its
+own, the first claim winning and anything else taking a numbered spelling of
+what it asked for.
 
 The rail is offered only when every destination carries an icon. Otherwise
 collapsing would leave controls with an accessible name and nothing to see, so

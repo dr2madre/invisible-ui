@@ -89,9 +89,11 @@ to in `openGroups`; a label is not an identity, and two sections that share one
 would open together. The type requires it for `collapsible: true` and leaves
 plain sections exactly as they were, which is what the former name shipped.
 A missing or repeated id is a consumer mistake: development throws, and
-production falls back deterministically rather than sharing, a section with no
-id answering to its position and a repeated id keeping the first section while
-the later ones answer to theirs.
+production falls back deterministically and never shares. A section with no id
+answers to its position, a name already claimed stays with the section that
+claimed it first, and anything else takes a numbered spelling of what it asked
+for. Plain sections claim their names too, because the rendered list is keyed
+by them.
 
 **The rail is only offered when every destination shows something.** Collapsing
 hides the labels, so a destination with no icon would be an empty control with

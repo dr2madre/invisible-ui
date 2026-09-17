@@ -39,7 +39,11 @@
   export let mode: "inline" | "drawer" = "inline";
   /** The rail: labels hidden from sight, icons kept. */
   export let collapsed = false;
-  /** Given, the rail toggle is rendered and reports every press. */
+  /**
+   * Given, the rail toggle is rendered and reports every press, as long as
+   * every destination carries an icon: without one there would be nothing to
+   * show once the labels are hidden.
+   */
   export let onCollapsedChange: ((collapsed: boolean) => void) | undefined = undefined;
   /** Whether the drawer is open (`mode="drawer"`). */
   export let open = false;
@@ -72,7 +76,7 @@
   // The rail is only offered when every destination shows something without
   // its label. Otherwise it would hide the name and leave an empty control.
   $: railable = canRail(sections);
-  $: if (collapsed && !railable) {
+  $: if (mode === "inline" && collapsed && !railable) {
     fail(
       "a collapsed sidebar needs an icon on every destination: without one a " +
         "destination shows nothing at all once the labels are out of sight",
@@ -91,6 +95,8 @@
   // this copy follows it, so handing `openGroups` back as undefined starts
   // from what is on screen rather than from what the component last held by
   // itself (ADR 0013).
+  // Resolved again here rather than read from `entries`: this runs while the
+  // component is being set up, before any reactive statement has.
   let ownGroups = resolveSections(sections)
     .filter(
       ({ section }) => section.collapsible && (section.defaultOpen || holdsCurrent(section, value)),
@@ -110,21 +116,23 @@
   let lastHolder = holderId;
   $: if (holderId !== lastHolder) {
     lastHolder = holderId;
-    if (holderId && !ownGroups.includes(holderId)) ownGroups = [...ownGroups, holderId];
+    if (openGroups === undefined && holderId && !ownGroups.includes(holderId)) {
+      ownGroups = [...ownGroups, holderId];
+    }
   }
 
   $: openIds = openGroups ?? ownGroups;
-  // While the application controls the set, the component's own copy is that
-  // set, which is what keeps a controlled sidebar still and what a return to
-  // uncontrolled continues from. It is the only rule needed: anything the
-  // component writes to its copy meanwhile is replaced by this.
+  // While the application controls the set, the component's copy is that set,
+  // so handing `openGroups` back continues from what was on screen. Nothing
+  // else writes the copy meanwhile, or a set the application refused could
+  // surface after the handback.
   $: if (openGroups !== undefined) ownGroups = openGroups;
 
   const toggleGroup = (id: string) => {
     const next = openIds.includes(id) ? openIds.filter((open) => open !== id) : [...openIds, id];
-    // Uncontrolled, this is the new set; controlled, the line above puts the
-    // application's set straight back, so the press only asks.
-    ownGroups = next;
+    // Uncontrolled this is the new set; controlled the component writes
+    // nothing, so the press only asks and the copy stays the application's.
+    if (openGroups === undefined) ownGroups = next;
     onOpenGroupsChange?.(next);
   };
 

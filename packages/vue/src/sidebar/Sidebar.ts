@@ -58,6 +58,11 @@ export const Sidebar = defineComponent({
     onSelect: { type: Function as PropType<(value: string) => void>, default: undefined },
     mode: { type: String as PropType<"inline" | "drawer">, default: "inline" },
     collapsed: { type: Boolean, default: false },
+    /**
+     * Given, the rail toggle is rendered and reports every press, as long as
+     * every destination carries an icon: without one there would be nothing to
+     * show once the labels are hidden.
+     */
     onCollapsedChange: {
       type: Function as PropType<(collapsed: boolean) => void>,
       default: undefined,
@@ -116,14 +121,14 @@ export const Sidebar = defineComponent({
     // application owns the set, so nothing moves and nothing is reported
     // (ADR 0013).
     watch(holderId, (id) => {
-      if (!id) return;
+      if (props.openGroups !== undefined || !id) return;
       if (!ownGroups.value.includes(id)) ownGroups.value = [...ownGroups.value, id];
     });
 
-    // While the application controls the set, this copy is that set, which is
-    // what keeps a controlled sidebar still and what a return to uncontrolled
-    // continues from. It is the only rule needed: anything the component
-    // writes to its copy meanwhile is replaced by this.
+    // While the application controls the set, this copy is that set, so
+    // handing `openGroups` back continues from what was on screen. Nothing
+    // else writes the copy meanwhile, or a set the application refused could
+    // surface after the handback.
     watch(
       () => props.openGroups,
       (next) => {
@@ -154,7 +159,7 @@ export const Sidebar = defineComponent({
     // something without its label.
     const isRail = computed(() => props.mode === "inline" && collapsed.value && railable.value);
     watch(
-      () => collapsed.value && !railable.value,
+      () => props.mode === "inline" && collapsed.value && !railable.value,
       (refused) => {
         if (refused) {
           fail(
@@ -170,9 +175,9 @@ export const Sidebar = defineComponent({
       const next = openIds.value.includes(id)
         ? openIds.value.filter((open) => open !== id)
         : [...openIds.value, id];
-      // Uncontrolled, this is the new set; controlled, the watch above puts
-      // the application's set straight back, so the press only asks.
-      ownGroups.value = next;
+      // Uncontrolled this is the new set; controlled the component writes
+      // nothing, so the press only asks and the copy stays the application's.
+      if (props.openGroups === undefined) ownGroups.value = next;
       props.onOpenGroupsChange?.(next);
     };
 
