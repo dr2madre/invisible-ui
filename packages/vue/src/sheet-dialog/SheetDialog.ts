@@ -66,6 +66,15 @@ export const SheetDialog = defineComponent({
     description: { type: String, default: undefined },
     closeLabel: { type: String, default: undefined },
     initialFocus: { type: String, default: undefined },
+    /**
+     * Whether this component renders its own trigger button. Turn it off when
+     * the button belongs somewhere this panel cannot reach, an application
+     * header for instance: drive `open` yourself and name `returnFocusTo`,
+     * since there is no trigger left for focus to go back to (ADR 0013).
+     */
+    renderTrigger: { type: Boolean, default: true },
+    /** CSS selector for the element focus returns to when there is no trigger. */
+    returnFocusTo: { type: String, default: undefined },
     onOpenChange: { type: Function as PropType<(open: boolean) => void>, default: undefined },
   },
   emits: {
@@ -80,6 +89,7 @@ export const SheetDialog = defineComponent({
         side: props.side,
         describedBy: props.description !== undefined,
         initialFocus: props.initialFocus,
+        returnFocusTo: props.returnFocusTo,
         onOpenChange: (next: boolean) => {
           emit("update:open", next);
           props.onOpenChange?.(next);
@@ -108,11 +118,13 @@ export const SheetDialog = defineComponent({
       const resolvedCloseLabel = props.closeLabel ?? t("sheetDialog.close");
       const hasHandle = props.draggable && props.side !== "top";
 
-      const triggerNode = h(
-        Button,
-        { variant: props.triggerVariant, ...api.value.triggerProps, ref: setTriggerRef },
-        { default: () => slots.trigger?.() ?? props.trigger ?? t("dialog.trigger") },
-      );
+      const triggerNode = props.renderTrigger
+        ? h(
+            Button,
+            { variant: props.triggerVariant, ...api.value.triggerProps, ref: setTriggerRef },
+            { default: () => slots.trigger?.() ?? props.trigger ?? t("dialog.trigger") },
+          )
+        : null;
 
       if (!open.value) return [triggerNode, null];
 

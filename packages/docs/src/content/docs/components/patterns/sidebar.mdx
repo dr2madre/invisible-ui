@@ -1,0 +1,115 @@
+---
+title: "Sidebar"
+---
+
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import SidebarDemo from "../../../../demos/SidebarDemo.svelte";
+
+<Preview>
+  <SidebarDemo client:only="svelte" />
+</Preview>
+
+The application's side navigation: an optional logo, labelled sections of
+items (icon and label), and a footer. Items are links when given an `href`,
+otherwise buttons that report `onSelect`. Sections can collapse, the bar itself
+can collapse to a rail of icons, and on a narrow viewport the same navigation
+goes inside a sheet.
+
+Formerly called `Menu`, which is still exported and still works; see
+[Menu](/invisible-ui/components/patterns/menu/).
+
+### Import
+
+<ImportSnippet component="sidebar" />
+
+### Props
+
+<PropsTable component="sidebar" />
+
+A section becomes a disclosure with `collapsible: true`, a `label` and an
+`id`. The id is the name it answers to in `openGroups`: two sections may share
+a label, and sharing a name would mean sharing an open state. A missing or
+repeated id is an error in development.
+
+### The rail needs an icon on every destination
+
+Collapsing hides the labels, so a destination with no icon would be a control
+with an accessible name and nothing to see. Rather than invent a glyph, the
+component declines: with any destination lacking an icon the toggle is not
+rendered, `collapsed` keeps the labels, and development says why.
+
+### What stays with your application
+
+- **The routing.** Items with an `href` are ordinary links. Nothing here
+  intercepts a press or knows about a router.
+- **The current destination.** You pass `value`; the component marks it with
+  `aria-current="page"` and never works it out for itself.
+- **The breakpoint policy.** You pass `mode`. The component reads no media
+  query, so the viewport where navigation becomes a drawer is yours to choose.
+
+### Accessibility
+
+- A `<nav>` landmark with a name (`label`, or the catalog's "Main"). Two
+  landmarks of the same kind on one page need different names.
+- Items are links and buttons in a list, so Tab reaches every one of them.
+  There is no roving tabindex and no `role="menu"`: this is navigation, not a
+  menu of actions.
+- A collapsible section is a disclosure button over its list
+  (`aria-expanded`, `aria-controls`).
+- The rail toggle is `aria-pressed`, because collapsing hides names from sight
+  and not from a screen reader: every destination keeps its accessible name,
+  and a tooltip shows it on hover or focus.
+- As a drawer the navigation is a modal sheet: focus moves in and is trapped,
+  and Escape closes it. Focus returns to the trigger, or, when the button
+  belongs to your page, to whatever `returnFocusTo` names.
+
+### Styling hooks
+
+The root carries `data-mode` (`inline` or `drawer`), `data-side`, and
+`data-collapsed` while the rail is closed. Each destination carries
+`data-current` when it is the current one, and each collapsible section carries
+`data-state` (`open` or `closed`).
+
+### Sections that open themselves
+
+Left alone, the section holding the current destination opens, so the page
+never hides where you are, whether the destination moved or the sections did.
+Pass `openGroups` and that stops: the set is yours, a press is reported through
+`onOpenGroupsChange` and changes nothing until you say so, and neither a change
+of `value` nor a change of `sections` moves anything.
+
+This is the one place a control here does not answer its own press
+(ADR 0011 and ADR 0013). Handing the set back as `undefined` is supported: the
+sidebar continues from what was on screen.
+
+```svelte
+<Sidebar
+  {sections}
+  value={current}
+  openGroups={open}
+  onOpenGroupsChange={(next) => (open = next)}
+/>
+```
+
+### The drawer, and where its button lives
+
+By default the drawer renders its own trigger where you place the component.
+When the button belongs to your header instead, turn the trigger off, drive
+`open` yourself, and name the element focus should return to.
+
+```svelte
+<button id="menu-button" on:click={() => (open = true)}>Menu</button>
+
+<Sidebar
+  {sections}
+  mode="drawer"
+  {open}
+  renderTrigger={false}
+  returnFocusTo="#menu-button"
+  onOpenChange={(next) => (open = next)}
+/>
+```
+
+Themeable via `--ds-sidebar-*`; the former `--ds-menu-*` names still work.

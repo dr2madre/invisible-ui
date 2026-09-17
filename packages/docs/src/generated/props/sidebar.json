@@ -1,0 +1,254 @@
+{
+  "component": "sidebar",
+  "selected": false,
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "Sidebar",
+        "specifier": "@design-system/svelte/Sidebar.svelte"
+      },
+      "props": [
+        {
+          "name": "sections",
+          "type": "SidebarSection[]",
+          "default": null,
+          "required": true,
+          "description": "Groups of items, rendered in order with an optional heading each."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it."
+        },
+        {
+          "name": "label",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
+        },
+        {
+          "name": "onSelect",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when an item without an `href` is activated."
+        },
+        {
+          "name": "mode",
+          "type": "\"inline\" | \"drawer\"",
+          "default": "\"inline\"",
+          "required": false,
+          "description": "How this viewport shows the navigation. The application decides."
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "The rail: labels hidden from sight, icons kept."
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "((collapsed: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Given, the rail toggle is rendered and reports every press."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the drawer is open (`mode=\"drawer\"`)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "openGroups",
+          "type": "string[] | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Which sections are open, by id. Given it, the application owns the set and this component only reports presses; left out, the component keeps the set itself and opens the section holding the current item."
+        },
+        {
+          "name": "onOpenGroupsChange",
+          "type": "((openGroups: string[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "closeOnNavigate",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether following an item closes the drawer."
+        },
+        {
+          "name": "side",
+          "type": "\"inline-start\" | \"inline-end\"",
+          "default": "\"inline-start\"",
+          "required": false,
+          "description": "Which edge the drawer comes from. Follows the writing direction."
+        },
+        {
+          "name": "title",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The drawer's accessible name. Falls back to `label`."
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the drawer renders its own trigger button."
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Where focus goes when a drawer with no trigger of its own closes."
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "Sidebar",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "sections",
+          "type": "SidebarSection[]",
+          "default": null,
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "mode",
+          "type": "\"inline\" | \"drawer\"",
+          "default": "\"inline\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Given, the rail toggle is rendered and reports every press, as long as every destination carries an icon: without one there would be nothing to show once the labels are hidden."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "openGroups",
+          "type": "string[]",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "onOpenGroupsChange",
+          "type": "(openGroups: string[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "closeOnNavigate",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "side",
+          "type": "\"inline-start\" | \"inline-end\"",
+          "default": "\"inline-start\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [],
+      "slots": [
+        "footer",
+        "logo",
+        "trigger"
+      ]
+    }
+  }
+}

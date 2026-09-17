@@ -34,6 +34,15 @@ const LEGACY_PLURAL_OVERRIDES: Record<string, { one: string; other: string }> = 
   "rating.stars": { one: "rating.star", other: "rating.stars" },
 };
 
+/**
+ * Keys that were renamed. A consumer who overrode the old spelling keeps its
+ * translation until the deprecation completes; the catalog default comes from
+ * the new key, so an untouched consumer sees no difference.
+ */
+const LEGACY_KEY_ALIASES: Record<string, string> = {
+  "sidebar.label": "menu.label",
+};
+
 function selectPlural(message: PluralMessage, count: number, locale: string): string {
   const category = pluralRules(locale).select(count) as keyof PluralMessage;
   return message[category] ?? message.other;
@@ -65,6 +74,13 @@ export function translate(
     if (typeof legacyOverride === "string" && (message === undefined || legacyKey !== key)) {
       message = legacyOverride;
     }
+  }
+
+  // A consumer's override of the former key answers for the new one, and only
+  // an override: the old key's catalog entry must not win over the new key's.
+  if (message === undefined) {
+    const alias = LEGACY_KEY_ALIASES[key];
+    if (alias) message = overrides[alias];
   }
 
   message ??= catalog[key] ?? key;

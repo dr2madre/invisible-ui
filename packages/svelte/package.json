@@ -171,6 +171,10 @@
       "svelte": "./src/lib/menu/Menu.svelte",
       "default": "./src/lib/menu/Menu.svelte"
     },
+    "./Sidebar.svelte": {
+      "svelte": "./src/lib/sidebar/Sidebar.svelte",
+      "default": "./src/lib/sidebar/Sidebar.svelte"
+    },
     "./Popover.svelte": {
       "svelte": "./src/lib/popover/Popover.svelte",
       "default": "./src/lib/popover/Popover.svelte"

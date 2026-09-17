@@ -1,28 +1,39 @@
-import { render, fireEvent } from "@testing-library/svelte";
+import { render, screen } from "@testing-library/svelte";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./menu.fixture.svelte";
 
-describe("Menu", () => {
-  it("renders a labelled navigation landmark with sections", () => {
+// Menu is the former name of Sidebar (ADR 0013). What it promised keeps
+// working until the removal: the same props, the same slots, the landmark and
+// its name, the current item, and the callback. Class names were never public
+// surface, so they are not held here.
+describe("Menu, the deprecated name of Sidebar", () => {
+  it("renders the same labelled navigation landmark", () => {
     render(Fixture);
-    expect(document.querySelector("nav.menu")).toHaveAttribute("aria-label", "Main");
-    expect(document.querySelectorAll(".menu__section")).toHaveLength(2);
+    expect(screen.getByRole("navigation")).toHaveAttribute("aria-label", "Main");
+    expect(screen.getAllByRole("list")).toHaveLength(2);
   });
 
-  it("marks the active item with aria-current", () => {
+  it("marks the current destination with aria-current", () => {
     render(Fixture);
-    const active = document.querySelector(".menu__item--active")!;
-    expect(active).toHaveAttribute("aria-current", "page");
-    expect(active).toHaveTextContent("Home");
+    const current = screen.getByRole("button", { name: "Home" });
+    expect(current).toHaveAttribute("aria-current", "page");
   });
 
-  it("emits onSelect when a non-link item is clicked", async () => {
+  it("reports onSelect when an item without an href is activated", async () => {
+    const user = userEvent.setup();
     const onSelect = vi.fn();
     render(Fixture, { props: { onSelect } });
-    const items = document.querySelectorAll<HTMLButtonElement>("button.menu__item");
-    await fireEvent.click(items[1]);
+    await user.click(screen.getByRole("button", { name: "Search" }));
     expect(onSelect).toHaveBeenCalledWith("search");
+    expect(onSelect).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps rendering the logo and footer slots", () => {
+    render(Fixture, { props: { withSlots: true } });
+    expect(screen.getByText("Brand")).toBeInTheDocument();
+    expect(screen.getByText("Signed in")).toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {

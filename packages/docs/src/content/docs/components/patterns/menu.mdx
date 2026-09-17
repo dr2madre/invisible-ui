@@ -11,6 +11,14 @@ import MenuDemo from "../../../../demos/MenuDemo.svelte";
   <MenuDemo client:visible />
 </Preview>
 
+**Deprecated: this is [Sidebar](/invisible-ui/components/patterns/sidebar/)
+under its former name.** The name belongs to the WAI-ARIA menu family that
+[Dropdown Menu](/invisible-ui/components/data-layout/dropdown-menu/),
+Context Menu and Menubar are built on, and which this component never used
+(ADR 0013). Import `Sidebar` instead: same props, same slots, same behaviour,
+and `--ds-menu-*` still themes it. This export keeps working until the removal,
+one release cycle away.
+
 A sidebar navigation organism: a logo header, labelled sections of items
 (icon + label), and a footer slot. Items are links when given an `href`,
 otherwise buttons that emit `onSelect`. The active item is marked with

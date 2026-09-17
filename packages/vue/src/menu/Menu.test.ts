@@ -19,11 +19,15 @@ const sections: MenuSection[] = [
 const renderMenu = (props: Record<string, unknown> = {}) =>
   render(Menu, { props: { sections, value: "home", ...props } });
 
-describe("Vue Menu (sidebar navigation)", () => {
-  it("renders a labelled navigation landmark with its sections", () => {
+// Menu is the former name of Sidebar (ADR 0013). What it promised keeps
+// working until the removal: the same props, the same slots, the landmark and
+// its name, the current entry, and the callback. Class names were never public
+// surface, so they are not held here.
+describe("Menu, the deprecated name of Sidebar", () => {
+  it("renders the same labelled navigation landmark", () => {
     renderMenu();
     expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();
-    expect(document.querySelectorAll(".menu__section")).toHaveLength(2);
+    expect(screen.getAllByRole("list")).toHaveLength(2);
   });
 
   it("takes an explicit label over the catalog default", () => {
@@ -31,11 +35,9 @@ describe("Vue Menu (sidebar navigation)", () => {
     expect(screen.getByRole("navigation", { name: "Sidebar" })).toBeInTheDocument();
   });
 
-  it("marks the active entry with aria-current", () => {
+  it("marks the current destination with aria-current", () => {
     renderMenu();
-    const active = document.querySelector(".menu__item--active")!;
-    expect(active).toHaveAttribute("aria-current", "page");
-    expect(active).toHaveTextContent("Home");
+    expect(screen.getByRole("button", { name: "Home" })).toHaveAttribute("aria-current", "page");
   });
 
   it("renders entries with an href as links", () => {
@@ -49,15 +51,16 @@ describe("Vue Menu (sidebar navigation)", () => {
     renderMenu({ onSelect });
     await user.click(screen.getByRole("button", { name: "Search" }));
     expect(onSelect).toHaveBeenCalledWith("search");
+    expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
-  it("renders the logo and footer slots", () => {
+  it("keeps rendering the logo and footer slots", () => {
     render(Menu, {
       props: { sections },
       slots: { logo: () => "Acme", footer: () => "v1.0" },
     });
-    expect(document.querySelector(".menu__logo")).toHaveTextContent("Acme");
-    expect(document.querySelector(".menu__footer")).toHaveTextContent("v1.0");
+    expect(screen.getByText("Acme")).toBeInTheDocument();
+    expect(screen.getByText("v1.0")).toBeInTheDocument();
   });
 
   it("has no accessibility violations", async () => {

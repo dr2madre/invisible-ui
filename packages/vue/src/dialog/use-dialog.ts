@@ -31,6 +31,13 @@ export interface UseDialogOptions {
    * screen reader announces the dialog without snapping focus to a "✕".
    */
   initialFocus?: string;
+  /**
+   * CSS selector (anywhere in the page) for the element focus goes back to on
+   * close. Only needed when the dialog has no trigger of its own: without it
+   * focus returns to whatever held it when the dialog opened, which is right
+   * when a button opened it and wrong when something else did (ADR 0013).
+   */
+  returnFocusTo?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -152,8 +159,12 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
         el.removeEventListener("pointerdown", onPointerDown);
         if (el.open) el.close();
         releaseScroll();
-        // Return focus to where it was (the trigger, usually).
-        const restore = triggerRef.value ?? previouslyFocused;
+        // Where focus goes back to: what the consumer named, else this
+        // dialog's own trigger, else whatever held focus when it opened.
+        const named = resolved.value.returnFocusTo
+          ? document.querySelector<HTMLElement>(resolved.value.returnFocusTo)
+          : null;
+        const restore = named ?? triggerRef.value ?? previouslyFocused;
         if (restore?.isConnected) restore.focus();
       });
     },

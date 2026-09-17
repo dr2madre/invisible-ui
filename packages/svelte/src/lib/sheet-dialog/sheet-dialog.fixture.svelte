@@ -5,6 +5,8 @@
   export let side: "top" | "right" | "bottom" | "left" = "right";
   export let draggable = false;
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  export let renderTrigger = true;
+  export let returnFocusTo: string | undefined = undefined;
 </script>
 
 <button type="button">before</button>
@@ -13,6 +15,8 @@
   {side}
   {draggable}
   {onOpenChange}
+  {renderTrigger}
+  {returnFocusTo}
   title="Filters"
   description="Refine the results."
 >

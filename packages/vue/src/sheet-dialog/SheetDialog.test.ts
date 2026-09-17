@@ -197,3 +197,48 @@ describe("Vue SheetDialog", () => {
     expect(await axe(document.body, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue SheetDialog without a trigger of its own", () => {
+  it("renders no trigger, opens from outside, and returns focus where it was told", async () => {
+    const opener = document.createElement("button");
+    opener.id = "opener";
+    opener.textContent = "Open it";
+    document.body.appendChild(opener);
+    // Focus is somewhere else when the panel opens, so only the named element
+    // can be where it comes back to.
+    const elsewhere = document.createElement("button");
+    elsewhere.textContent = "elsewhere";
+    document.body.appendChild(elsewhere);
+    elsewhere.focus();
+
+    const { rerender } = setup({ renderTrigger: false, returnFocusTo: "#opener" });
+    expect(screen.queryByRole("button", { name: "Open panel" })).toBeNull();
+
+    await rerender({
+      title: "Filters",
+      description: "Refine the results.",
+      renderTrigger: false,
+      returnFocusTo: "#opener",
+      open: true,
+    });
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(document.activeElement).not.toBe(opener);
+
+    await rerender({
+      title: "Filters",
+      description: "Refine the results.",
+      renderTrigger: false,
+      returnFocusTo: "#opener",
+      open: false,
+    });
+    expect(document.activeElement, "focus went back to the named element").toBe(opener);
+
+    opener.remove();
+    elsewhere.remove();
+  });
+
+  it("still renders its own trigger by default", () => {
+    setup();
+    expect(screen.getByRole("button", { name: "Open panel" })).toBeInTheDocument();
+  });
+});
