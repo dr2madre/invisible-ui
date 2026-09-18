@@ -1686,6 +1686,71 @@
       "signature": "declare function initialState#16c1104b(context: RadioGroupContext): RadioGroupState;"
     },
     {
+      "name": "rangeSlider",
+      "kind": "namespace",
+      "signature": "namespace rangeSlider"
+    },
+    {
+      "name": "rangeSlider.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions#c9a574a4 { /** Current resolved state. */ state: RangeSliderState; /** Request a new raw value for one thumb; the adapter owns how state * updates. */ setValue: (index: 0 | 1, raw: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+    },
+    {
+      "name": "rangeSlider.Orientation",
+      "kind": "type",
+      "signature": "type Orientation#1e024838 = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "rangeSlider.RangeSliderApi",
+      "kind": "type",
+      "signature": "type rangeSlider_RangeSliderApi = RangeSliderApi;"
+    },
+    {
+      "name": "rangeSlider.RangeSliderContext",
+      "kind": "type",
+      "signature": "type rangeSlider_RangeSliderContext = RangeSliderContext;"
+    },
+    {
+      "name": "rangeSlider.RangeSliderState",
+      "kind": "type",
+      "signature": "type rangeSlider_RangeSliderState = RangeSliderState;"
+    },
+    {
+      "name": "rangeSlider.alignMinDistance",
+      "kind": "const",
+      "signature": "rangeSlider_alignMinDistance: typeof alignMinDistance"
+    },
+    {
+      "name": "rangeSlider.clampPair",
+      "kind": "const",
+      "signature": "rangeSlider_clampPair: typeof clampPair"
+    },
+    {
+      "name": "rangeSlider.connect",
+      "kind": "function",
+      "signature": "declare function connect#7871b75e({ state, setValue, normalize, }: ConnectOptions#c9a574a4): RangeSliderApi;"
+    },
+    {
+      "name": "rangeSlider.initialState",
+      "kind": "function",
+      "signature": "declare function initialState#43e340d9(context?: RangeSliderContext): RangeSliderState;"
+    },
+    {
+      "name": "rangeSlider.normalizePair",
+      "kind": "const",
+      "signature": "rangeSlider_normalizePair: typeof normalizePair"
+    },
+    {
+      "name": "rangeSlider.percentages",
+      "kind": "const",
+      "signature": "rangeSlider_percentages: typeof percentages"
+    },
+    {
+      "name": "rangeSlider.snap",
+      "kind": "const",
+      "signature": "rangeSlider_snap: typeof snap"
+    },
+    {
       "name": "scrollArea",
       "kind": "namespace",
       "signature": "namespace scrollArea"
@@ -1872,8 +1937,8 @@
     },
     {
       "name": "slider.snap",
-      "kind": "const",
-      "signature": "slider_snap: typeof snap"
+      "kind": "function",
+      "signature": "declare function snap#60aa3f29(value: number, min: number, max: number, step: number): number;"
     },
     {
       "name": "slider.valueFromFraction",

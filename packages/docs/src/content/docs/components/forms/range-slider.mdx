@@ -1,0 +1,84 @@
+---
+title: "Range Slider"
+---
+
+import ImportSnippet from "../../../../components/ImportSnippet.astro";
+import Preview from "../../../../components/Preview.astro";
+import PropsTable from "../../../../components/PropsTable.astro";
+import RangeSliderDemo from "../../../../demos/RangeSliderDemo.svelte";
+
+<Preview>
+  <RangeSliderDemo client:visible />
+</Preview>
+
+A two-thumb slider built on two native `<input type="range">` elements sharing
+one track — each thumb keeps the browser's own slider role, keyboard control,
+pointer drag and form participation.
+
+A separate component from [Slider](./slider), not a mode on it: the value is a
+pair, and every operation (the clamp, the dependent bound, reporting) works on
+the pair as a whole.
+
+### Import
+
+<ImportSnippet component="range-slider" />
+
+### Props
+
+<PropsTable component="range-slider" />
+
+### Behaviour
+
+- **The thumbs never cross.** Dragging one past the other clamps it at the
+  other's value (minus `minDistance`, when given) instead of swapping which
+  thumb is which. DOM order, tab order and thumb identity never change, even
+  when both values are equal.
+- **One action reports the complete pair, once.** `onValueChange` receives
+  `[lower, upper]`; reflecting a controlled `value` prop back reports nothing,
+  and neither does a native form reset.
+- **`minDistance` snaps to the step grid**, so a clamped value always lands on
+  a value the user could have reached themselves.
+- **Pointer presses reach the nearer thumb.** Two overlapping range inputs
+  hit-test by stacking order, so the thumb nearer the pointer is raised before
+  the press lands. A drag already in progress is never interrupted.
+
+### Accessibility
+
+- Two native `<input type="range">` elements: the browser provides each thumb's
+  slider role, ARIA value, Arrow / Home / End / PageUp / PageDown control,
+  pointer dragging and form submission.
+- `label` names the group; `thumbLabels` names each thumb, because there is no
+  universal wording for "the lower one" to fall back to.
+- Each thumb reports the bound it may not cross, both as an explicit
+  `aria-valuemin` / `aria-valuemax` override and as `aria-valuetext`, so the
+  reason the arrows stop moving is announced and not only implied.
+- The thumb is 24 × 24 CSS pixels by default, the smallest pointer target
+  WCAG 2.2 accepts.
+
+### Forms
+
+Both thumbs submit under the same `name`, in order:
+
+```js
+new FormData(form).getAll("price"); // ["20", "80"]
+```
+
+A native reset restores the current default pair, reported to nobody.
+
+### Example
+
+```svelte
+<RangeSlider
+  value={[20, 80]}
+  min={0}
+  max={100}
+  step={5}
+  minDistance={10}
+  label="Price range"
+  thumbLabels={["Minimum price", "Maximum price"]}
+  showValue
+  showRange
+/>
+```
+
+Themeable via `--ds-range-slider-*`.

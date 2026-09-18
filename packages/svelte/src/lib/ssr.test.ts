@@ -6,6 +6,7 @@ import Combobox from "./combobox/Combobox.svelte";
 import Meter from "./meter/Meter.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import Progress from "./progress/Progress.svelte";
+import RangeSlider from "./range-slider/RangeSlider.svelte";
 import Checkbox from "./checkbox/Checkbox.svelte";
 import Select from "./select/Select.svelte";
 import Slider from "./slider/Slider.svelte";
@@ -44,6 +45,15 @@ describe("SSR — the markup is valid before hydration", () => {
     ["Calendar", Calendar, { label: "Calendar" }, [/role="grid"/, /role="row"/, /role="gridcell"/]],
     ["Meter", Meter, { label: "Disk usage", value: 40 }, [/role="meter"/, /aria-valuenow="40"/]],
     ["Progress", Progress, { label: "Upload", value: 30 }, [/role="progressbar"/]],
+    [
+      // The dependent-bound override is the whole point of this component's
+      // design (see the private spike record); it must be there before
+      // hydration too, not only once the browser mounts it.
+      "RangeSlider",
+      RangeSlider,
+      { value: [20, 80], minDistance: 5, label: "Price", thumbLabels: ["Min", "Max"] },
+      [/type="range"/, /aria-valuemin="0"/, /aria-valuemax="75"/, /aria-valuemin="25"/],
+    ],
     [
       "PinInput",
       PinInput,

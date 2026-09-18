@@ -99,6 +99,7 @@ export {
   type AvatarGroupProps,
 } from "./avatar-group/AvatarGroup";
 export { Slider, type SliderProps } from "./slider/Slider";
+export { RangeSlider, type RangeSliderProps } from "./range-slider/RangeSlider";
 export { RatingGroup, type RatingGroupProps } from "./rating-group/RatingGroup";
 export {
   SegmentedControl,
@@ -255,6 +256,12 @@ export {
   type SliderState,
   type UseSliderOptions,
 } from "./slider/use-slider";
+export {
+  useRangeSlider,
+  type RangeSliderApi,
+  type RangeSliderOrientation,
+  type UseRangeSliderOptions,
+} from "./range-slider/use-range-slider";
 export {
   useRatingGroup,
   type RatingItem,

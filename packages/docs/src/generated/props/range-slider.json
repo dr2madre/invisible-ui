@@ -1,0 +1,250 @@
+{
+  "component": "range-slider",
+  "selected": false,
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "RangeSlider",
+        "specifier": "@design-system/svelte/RangeSlider.svelte"
+      },
+      "props": [
+        {
+          "name": "value",
+          "type": "readonly [number, number]",
+          "default": "[0, 100]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "minDistance",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap the two thumbs may not close. They may touch; they never cross."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group."
+        },
+        {
+          "name": "thumbLabels",
+          "type": "readonly [string, string]",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`."
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the current values to the side of the track."
+        },
+        {
+          "name": "showRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the min and max reference values under the ends of the track."
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show tick marks at each step (only when the count is reasonable)."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "default": "(v) => String(v)",
+          "required": false,
+          "description": "Format a displayed value (e.g. add a unit)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: readonly [number, number]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the complete pair whenever it changes."
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "RangeSlider",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "modelValue",
+          "type": "readonly [number, number]",
+          "default": "undefined",
+          "required": false,
+          "description": "`v-model` value; takes precedence over `value` when bound."
+        },
+        {
+          "name": "value",
+          "type": "readonly [number, number]",
+          "default": "() => [0, 100]",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "minDistance",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The gap the two thumbs may not close. They may touch; they never cross."
+        },
+        {
+          "name": "orientation",
+          "type": "RangeSliderOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group (required)."
+        },
+        {
+          "name": "thumbLabels",
+          "type": "readonly [string, string]",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the current values to the side of the track."
+        },
+        {
+          "name": "showRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the min and max reference values under the ends of the track."
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show tick marks at each step (only when the count is reasonable)."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "default": "(value: number) => String(value)",
+          "required": false,
+          "description": "Format a displayed value (e.g. add a unit)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: readonly [number, number]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the complete pair whenever it changes."
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: readonly [number, number]"
+        }
+      ],
+      "slots": [
+        "icon"
+      ]
+    }
+  }
+}

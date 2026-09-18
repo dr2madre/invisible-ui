@@ -87,6 +87,10 @@ export const en = {
   "numberField.rangeOverflow": "Enter a number that is at most {max}.",
   "numberField.stepMismatch": "Enter a multiple of {step}.",
   "select.placeholder": "Select…",
+  // A thumb's value together with the live bound it may not cross,
+  // since the number alone does not say why arrows stop moving there.
+  "rangeSlider.lowerText": "{value}, minimum; may not exceed {bound}",
+  "rangeSlider.upperText": "{value}, maximum; may not go below {bound}",
   "switch.on": "ON",
   "switch.off": "OFF",
   "loginForm.submit": "Sign in",
