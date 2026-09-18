@@ -8,6 +8,7 @@ import { RadioGroup } from "./radio-group/RadioGroup";
 import { RatingGroup } from "./rating-group/RatingGroup";
 import { SegmentedControl } from "./segmented-control/SegmentedControl";
 import { Slider } from "./slider/Slider";
+import { RangeSlider } from "./range-slider/RangeSlider";
 import { Switch } from "./switch/Switch";
 import { TextField } from "./text-field/TextField";
 import { TimeField } from "./time-field/TimeField";
@@ -102,6 +103,28 @@ const cases: Case[] = [
     act: async () => {
       const input = screen.getByRole("slider") as HTMLInputElement;
       await fireEvent.update(input, "20");
+    },
+  },
+  {
+    name: "RangeSlider",
+    reads: "20,80",
+    Component: RangeSlider,
+    props: {
+      label: "Price",
+      thumbLabels: ["Minimum price", "Maximum price"],
+      value: [20, 80],
+    },
+    prop: "value",
+    callback: "onValueChange",
+    change: { props: { value: [30, 70] }, reads: "30,70" },
+    read: () =>
+      screen
+        .getAllByRole("slider")
+        .map((thumb) => (thumb as HTMLInputElement).value)
+        .join(","),
+    act: async () => {
+      const lower = screen.getByRole("slider", { name: "Minimum price" });
+      await fireEvent.update(lower, "35");
     },
   },
   {
