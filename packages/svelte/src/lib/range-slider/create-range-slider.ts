@@ -1,5 +1,5 @@
 import { rangeSlider as core } from "@design-system/core";
-import { derived, writable, type Readable } from "svelte/store";
+import { derived, get, writable, type Readable } from "svelte/store";
 import { normalizeProps } from "../normalize";
 import { stableId } from "../internal/stable-id";
 
@@ -48,22 +48,25 @@ export function createRangeSlider(context: core.RangeSliderContext = {}): Create
     core.initialState({ ...context, id: context.id ?? stableId("ds-range-slider") }),
   );
 
+  // Work out the next state, commit it, and only then report. Reporting from
+  // inside `update` would hand the consumer a store that still holds the old
+  // value, and swallow anything the consumer writes from its own handler:
+  // the updater's return value lands afterwards and wins.
   const setValue = (index: 0 | 1, raw: number) => {
-    state.update((current) => {
-      if (current.disabled) return current;
-      const next = core.clampPair(
-        current.value,
-        index,
-        raw,
-        current.min,
-        current.max,
-        current.step,
-        current.minDistance,
-      );
-      if (next[0] === current.value[0] && next[1] === current.value[1]) return current;
-      context.onValueChange?.(next);
-      return { ...current, value: next };
-    });
+    const current = get(state);
+    if (current.disabled) return;
+    const next = core.clampPair(
+      current.value,
+      index,
+      raw,
+      current.min,
+      current.max,
+      current.step,
+      current.minDistance,
+    );
+    if (next[0] === current.value[0] && next[1] === current.value[1]) return;
+    state.set({ ...current, value: next });
+    context.onValueChange?.(next);
   };
 
   // Reflecting a controlled prop is normalized the same way a user's own
