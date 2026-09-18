@@ -25,8 +25,13 @@ reflected into the state whenever it changes) with the same wiring.
 
 - **Reflection never emits.** Applying a prop change to internal state must not
   fire the change callback. Only a user action reports.
-- **One action, one callback.** A single user action emits at most one call of
-  one callback, unless a component documents an explicit exception.
+- **One action, one call per callback.** A single user action emits at most one
+  call of each callback whose own piece of state actually changed. A day
+  selection and the focus it moves are two different pieces of state, each
+  with its own callback (`onValueChange`, `onFocusChange`): one action may
+  report through both, but never through the same callback twice, and never
+  through a callback whose state did not move. This is how React Aria's
+  `Calendar` and Radix's `Combobox` already work, not a local convention.
 - **No pruning.** Data the consumer owns through a controlled prop is never
   filtered, deduplicated or truncated by the component. A selection may
   reference rows that are filtered out, on another page, or no longer
@@ -71,7 +76,7 @@ identical:
 
 - A new adapter has a checklist instead of an archaeology project; the
   behaviour is testable in core once, and per-adapter tests only prove the
-  wiring (reflection without callbacks, one action one callback, live
+  wiring (reflection without callbacks, one call per callback per action, live
   replacement, give-back without churn).
 - Controlled consumers can hold state anywhere (a store, a URL, a server)
   without the component fighting them.

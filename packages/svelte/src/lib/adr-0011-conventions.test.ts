@@ -252,7 +252,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
     await entry.act(user);
 
     expect(stale, "the callback it was mounted with must not be called").not.toHaveBeenCalled();
-    expect(fresh, "the callback in force must be").toHaveBeenCalled();
+    expect(fresh, "the callback in force must be called exactly once").toHaveBeenCalledTimes(1);
   });
 
   it("does not churn when a controlled parent echoes the value back", async () => {
@@ -263,15 +263,17 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
 
     const user = userEvent.setup();
     await entry.act(user);
-    expect(reported).toHaveBeenCalled();
+    // One user action, one call (ADR 0011): pinning this to a literal 1, not a
+    // captured `timesBefore`, is what makes a double-report fail right here
+    // instead of only "not growing further" against its own already-wrong count.
+    expect(reported).toHaveBeenCalledTimes(1);
     const reportedValue = reported.mock.calls.at(-1)?.[0];
-    const timesBefore = reported.mock.calls.length;
 
     // A controlled parent hands the reported value straight back, as a fresh
     // object where the value is one: reflecting it must report nothing.
     const echoed = Array.isArray(reportedValue) ? [...reportedValue] : reportedValue;
     await rerender({ ...entry.props, [entry.prop]: echoed, [entry.callback]: reported });
-    expect(reported).toHaveBeenCalledTimes(timesBefore);
+    expect(reported).toHaveBeenCalledTimes(1);
   });
 });
 
