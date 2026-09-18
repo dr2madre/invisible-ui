@@ -75,9 +75,11 @@ describe("React Checkbox (styled)", () => {
   });
 
   it("participates in a form with name and value", () => {
-    render(<Checkbox label="Subscribe" name="news" value="weekly" checked />);
+    render(<Checkbox label="Subscribe" name="news" value="weekly" checked required />);
     expect(input()).toHaveAttribute("name", "news");
     expect(input()).toHaveAttribute("value", "weekly");
+    // Required is the browser's own validation, so it has to reach the input.
+    expect(input()).toBeRequired();
   });
 
   it("has no accessibility violations", async () => {

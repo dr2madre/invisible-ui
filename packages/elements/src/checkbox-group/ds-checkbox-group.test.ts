@@ -54,6 +54,16 @@ describe("<ds-checkbox-group>", () => {
     expect(screen.getByRole("checkbox", { name: "Olive" })).not.toBeChecked();
   });
 
+  it("disables every box when the group is disabled", () => {
+    // The sibling radio group has held this since it shipped; a disabled group
+    // that still answers presses would submit values nobody could see chosen.
+    mount(group.replace('name="toppings"', 'name="toppings" disabled'));
+    for (const box of screen.getAllByRole("checkbox")) expect(box).toBeDisabled();
+    expect(document.querySelectorAll(".checkbox-group__item--disabled").length).toBe(
+      screen.getAllByRole("checkbox").length,
+    );
+  });
+
   it("the name attribute drives the inputs after the first render", () => {
     const host = mount(group);
     const box = screen.getByRole("checkbox", { name: "Olive" });

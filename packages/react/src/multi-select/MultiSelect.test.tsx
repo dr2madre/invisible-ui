@@ -240,8 +240,17 @@ describe("React MultiSelect", () => {
     });
 
     it("contributes nothing while the selection is empty", () => {
-      setup({ name: "people" });
-      expect(new FormData(currentForm()).getAll("people")).toEqual([]);
+      const { rerender } = setup({ name: "people" });
+      // An empty list under one name proves little on its own: the same
+      // reading appears when the name never arrives. The pair is the claim.
+      expect([...new FormData(currentForm()).keys()]).toEqual([]);
+      rerender(
+        <form data-testid="fixture-form" onSubmit={(event) => event.preventDefault()}>
+          <MultiSelect label="People" items={items} name="people" values={["ada"]} />
+          <button type="submit">Submit</button>
+        </form>,
+      );
+      expect(new FormData(currentForm()).getAll("people")).toEqual(["ada"]);
     });
 
     it("sends nothing while disabled, like a native control", () => {

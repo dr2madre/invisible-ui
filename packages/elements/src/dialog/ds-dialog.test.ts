@@ -92,8 +92,11 @@ describe("<ds-dialog>", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
     await user.keyboard("{Escape}");
-    expect(onOpenChange).toHaveBeenCalledWith({ open: false });
+    expect(onOpenChange).toHaveBeenLastCalledWith({ open: false });
     expect(host.open).toBe(false);
+    // One action, one report: closing answers the native close event as well
+    // as the state change, and only one of them is the user's doing.
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
   });
 
   it("honours initial-focus", async () => {

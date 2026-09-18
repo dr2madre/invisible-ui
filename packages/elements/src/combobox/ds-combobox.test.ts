@@ -91,7 +91,9 @@ describe("<ds-combobox>", () => {
     input().focus();
     await user.keyboard("{ArrowDown}");
     const active = input().getAttribute("aria-activedescendant");
-    expect(active).toBeTruthy();
+    // Which option, not merely that there is one: the first press lands on the
+    // first option in the list.
+    expect(document.getElementById(active ?? "")).toHaveTextContent("Apple");
     expect(document.activeElement).toBe(input());
     expect(document.getElementById(active!)).toHaveAttribute("data-active", "");
   });
@@ -217,7 +219,10 @@ describe("<ds-combobox>", () => {
     await user.type(input(), "a");
     await user.keyboard("{ArrowDown}");
     expect(input()).toHaveAttribute("aria-expanded", "true");
-    expect(input().getAttribute("aria-activedescendant")).not.toBeNull();
+    expect(
+      document.getElementById(input().getAttribute("aria-activedescendant") ?? ""),
+      "the highlight is on no option in particular",
+    ).toHaveAttribute("data-active", "");
 
     host.setAttribute("disabled", "");
     expect(input()).toHaveAttribute("aria-disabled", "true");

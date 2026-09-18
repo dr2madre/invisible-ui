@@ -44,14 +44,21 @@ describe("React Dialog (styled)", () => {
     expect(panel).toHaveFocus();
   });
 
-  it("is a native <dialog> shown modally (the inert background is the browser's)", async () => {
+  it("is a native <dialog> opened with showModal, which the browser makes modal", async () => {
     const user = userEvent.setup();
+    const shown = vi.spyOn(HTMLDialogElement.prototype, "showModal");
     render(<Basic />);
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     const panel = screen.getByRole("dialog") as HTMLDialogElement;
     expect(panel.tagName).toBe("DIALOG");
     expect(panel.open).toBe(true);
+    // `showModal` is what makes the platform put the panel in the top layer
+    // and the rest of the page inert. jsdom stubs it, so what is held here is
+    // that this is the method used, and not `show()`: the modality itself
+    // belongs to the browser tests.
+    expect(shown).toHaveBeenCalledTimes(1);
+    shown.mockRestore();
   });
 
   it("opens and closes when the open prop changes", () => {
@@ -134,7 +141,10 @@ describe("React Dialog (styled)", () => {
     expect(onOpenChange).toHaveBeenCalledWith(true);
 
     await user.keyboard("{Escape}");
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    // One action, one report: closing a dialog answers the native close event
+    // as well as the state change, and only one of them is the user's doing.
+    expect(onOpenChange).toHaveBeenCalledTimes(2);
   });
 
   it("keeps a hidden title as the accessible name", async () => {
