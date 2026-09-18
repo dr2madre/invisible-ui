@@ -26,8 +26,6 @@ interface Case {
   prop: string;
   /** What the starting props read as. */
   reads: string;
-  /** The controlled prop's name, for the give-back check. */
-  prop: string;
   change: { props: Record<string, unknown>; reads: string };
   read: () => string;
   act: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
@@ -45,7 +43,6 @@ const cases: Case[] = [
     reads: "false",
     Component: Switch,
     props: { label: "Wifi", checked: false },
-    prop: "checked",
     prop: "checked",
     callback: "onCheckedChange",
     change: { props: { checked: true }, reads: "true" },
@@ -65,7 +62,6 @@ const cases: Case[] = [
       ],
     },
     prop: "value",
-    prop: "value",
     callback: "onValueChange",
     change: { props: { value: "pro" }, reads: "pro" },
     read: checkedRadio,
@@ -84,7 +80,6 @@ const cases: Case[] = [
       ],
     },
     prop: "value",
-    prop: "value",
     callback: "onValueChange",
     change: { props: { value: ["olive"] }, reads: "olive" },
     read: () =>
@@ -101,7 +96,6 @@ const cases: Case[] = [
     Component: Slider,
     props: { label: "Volume", value: 10 },
     prop: "value",
-    prop: "value",
     callback: "onValueChange",
     change: { props: { value: 60 }, reads: "60" },
     read: () => (screen.getByRole("slider") as HTMLInputElement).value,
@@ -115,7 +109,6 @@ const cases: Case[] = [
     reads: "",
     Component: PinInput,
     props: { label: "Code", value: "", length: 4 },
-    prop: "value",
     prop: "value",
     callback: "onValueChange",
     // Shorter than the field: the spare cells have to be cleared.
@@ -137,7 +130,6 @@ const cases: Case[] = [
     Component: RatingGroup,
     props: { label: "Stars", value: 1, max: 5 },
     prop: "value",
-    prop: "value",
     callback: "onValueChange",
     change: { props: { value: 4 }, reads: "4" },
     read: checkedRadio,
@@ -156,7 +148,6 @@ const cases: Case[] = [
       ],
     },
     prop: "value",
-    prop: "value",
     callback: "onValueChange",
     change: { props: { value: "board" }, reads: "board" },
     read: checkedRadio,
@@ -168,7 +159,6 @@ const cases: Case[] = [
     Component: ToggleButton,
     props: { label: "Bold", pressed: false },
     prop: "pressed",
-    prop: "pressed",
     callback: "onPressedChange",
     change: { props: { pressed: true }, reads: "true" },
     read: () => String((screen.getByRole("checkbox") as HTMLInputElement).checked),
@@ -179,7 +169,6 @@ const cases: Case[] = [
     reads: "09:30",
     Component: TimeField,
     props: { label: "Time", value: "09:30" },
-    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: "11:45" }, reads: "11:45" },
@@ -198,7 +187,6 @@ const cases: Case[] = [
     reads: "Ada",
     Component: TextField,
     props: { label: "Name", value: "Ada" },
-    prop: "value",
     prop: "value",
     callback: "onValueChange",
     change: { props: { value: "Grace" }, reads: "Grace" },
@@ -235,7 +223,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
     await entry.act(user);
 
     expect(stale, "the callback it was mounted with must not be called").not.toHaveBeenCalled();
-    expect(fresh, "the callback in force must be").toHaveBeenCalled();
+    expect(fresh, "the callback in force must be called exactly once").toHaveBeenCalledTimes(1);
   });
 
   it("does not churn when a controlled parent echoes the value back", async () => {
@@ -246,14 +234,16 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
 
     const user = userEvent.setup();
     await entry.act(user);
-    expect(reported).toHaveBeenCalled();
+    // One user action, one call (ADR 0011): pinning this to a literal 1, not a
+    // captured `timesBefore`, is what makes a double-report fail right here
+    // instead of only "not growing further" against its own already-wrong count.
+    expect(reported).toHaveBeenCalledTimes(1);
     const reportedValue = reported.mock.calls.at(-1)?.[0];
-    const timesBefore = reported.mock.calls.length;
 
     // A controlled parent hands the reported value straight back, as a fresh
     // object where the value is one: reflecting it must report nothing.
     const echoed = Array.isArray(reportedValue) ? [...reportedValue] : reportedValue;
     await rerender({ ...entry.props, [entry.prop]: echoed, [entry.callback]: reported });
-    expect(reported).toHaveBeenCalledTimes(timesBefore);
+    expect(reported).toHaveBeenCalledTimes(1);
   });
 });
