@@ -2,8 +2,8 @@
 
 .range-slider-field {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.25rem;
   /* A definite length, so the track still has room where the container sizes
      itself to its content; capped so a narrower one still fits. Set
      --ds-range-slider-length to 100% to fill instead. */
@@ -13,9 +13,32 @@
 .range-slider-field--disabled {
   opacity: 0.5;
 }
+.range-slider-field__row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
 .range-slider-field__icon {
   display: inline-flex;
   flex: none;
+  color: var(--ds-color-text-secondary, #524c44);
+}
+.range-slider-field__icon svg {
+  inline-size: 1.2em;
+  block-size: 1.2em;
+}
+.range-slider-field__value {
+  flex: none;
+  text-align: end;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--ds-color-text, #282420);
+}
+.range-slider-field__range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
   color: var(--ds-color-text-secondary, #524c44);
 }
 .range-slider {
@@ -128,18 +151,6 @@
   background: var(--ds-color-background, #fff);
   transform: translate(-50%, -50%);
 }
-.range-slider__value {
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  color: var(--ds-color-text-secondary, #524c44);
-}
-.range-slider__range-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--ds-color-text-secondary, #524c44);
-}
-
 /* Forced colors drops every fill and every shadow. The ring the theme forces
    on each thumb is what remains of its focus indicator, and the track and
    thumb take borders so neither vanishes. */

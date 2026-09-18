@@ -189,87 +189,93 @@ export const RangeSlider = defineComponent({
         "div",
         { class: ["range-slider-field", { "range-slider-field--disabled": props.disabled }] },
         [
-          slots.icon
-            ? h("span", { class: "range-slider-field__icon", "aria-hidden": "true" }, slots.icon())
-            : null,
-          h(
-            "div",
-            {
-              class: ["range-slider", { "range-slider--disabled": props.disabled }],
-              "data-orientation": props.orientation,
-              "aria-label": props.label,
-              role: "group",
-              style: {
-                "--_range-lower-pct": `${percentages[0]}%`,
-                "--_range-upper-pct": `${percentages[1]}%`,
-              },
-            },
-            [
-              h(
-                "div",
-                {
-                  class: "range-slider__track",
-                  ref: track,
-                  onPointermove: onTrackPointerMove,
+          h("div", { class: "range-slider-field__row" }, [
+            slots.icon
+              ? h(
+                  "span",
+                  { class: "range-slider-field__icon", "aria-hidden": "true" },
+                  slots.icon(),
+                )
+              : null,
+            h(
+              "div",
+              {
+                class: ["range-slider", { "range-slider--disabled": props.disabled }],
+                "data-orientation": props.orientation,
+                "aria-label": props.label,
+                role: "group",
+                style: {
+                  "--_range-lower-pct": `${percentages[0]}%`,
+                  "--_range-upper-pct": `${percentages[1]}%`,
                 },
-                [
-                  h("span", { class: "range-slider__range", "aria-hidden": "true" }),
-                  tickPositions.length
-                    ? h(
-                        "span",
-                        { class: "range-slider__ticks", "aria-hidden": "true" },
-                        tickPositions.map((position) =>
-                          h("span", {
-                            key: position,
-                            class: "range-slider__tick",
-                            style: { "--_tick-pct": `${position}%` },
-                          }),
-                        ),
-                      )
-                    : null,
-                  h("input", {
-                    ...api.value.getThumbProps(0),
-                    ref: lowerInput,
-                    class: "range-slider__input",
-                    name: props.name,
-                    "aria-label": props.thumbLabels[0],
-                    "aria-valuetext": t("rangeSlider.lowerText", {
-                      value: props.format(value[0]),
-                      bound: props.format(value[1] - minDistance),
+              },
+              [
+                h(
+                  "div",
+                  {
+                    class: "range-slider__track",
+                    ref: track,
+                    onPointermove: onTrackPointerMove,
+                  },
+                  [
+                    h("span", { class: "range-slider__range", "aria-hidden": "true" }),
+                    tickPositions.length
+                      ? h(
+                          "span",
+                          { class: "range-slider__ticks", "aria-hidden": "true" },
+                          tickPositions.map((position) =>
+                            h("span", {
+                              key: position,
+                              class: "range-slider__tick",
+                              style: { "--_tick-pct": `${position}%` },
+                            }),
+                          ),
+                        )
+                      : null,
+                    h("input", {
+                      ...api.value.getThumbProps(0),
+                      ref: lowerInput,
+                      class: "range-slider__input",
+                      name: props.name,
+                      "aria-label": props.thumbLabels[0],
+                      "aria-valuetext": t("rangeSlider.lowerText", {
+                        value: props.format(value[0]),
+                        bound: props.format(value[1] - minDistance),
+                      }),
+                      // The attribute is the default; `useLiveDom` writes the
+                      // property the user drags.
+                      "^value": fallback.value[0],
+                      onInput: (event: Event) =>
+                        api.value.setValue(0, Number((event.target as HTMLInputElement).value)),
                     }),
-                    // The attribute is the default; `useLiveDom` writes the
-                    // property the user drags.
-                    "^value": fallback.value[0],
-                    onInput: (event: Event) =>
-                      api.value.setValue(0, Number((event.target as HTMLInputElement).value)),
-                  }),
-                  h("input", {
-                    ...api.value.getThumbProps(1),
-                    ref: upperInput,
-                    class: "range-slider__input",
-                    name: props.name,
-                    "aria-label": props.thumbLabels[1],
-                    "aria-valuetext": t("rangeSlider.upperText", {
-                      value: props.format(value[1]),
-                      bound: props.format(value[0] + minDistance),
+                    h("input", {
+                      ...api.value.getThumbProps(1),
+                      ref: upperInput,
+                      class: "range-slider__input",
+                      name: props.name,
+                      "aria-label": props.thumbLabels[1],
+                      "aria-valuetext": t("rangeSlider.upperText", {
+                        value: props.format(value[1]),
+                        bound: props.format(value[0] + minDistance),
+                      }),
+                      "^value": fallback.value[1],
+                      onInput: (event: Event) =>
+                        api.value.setValue(1, Number((event.target as HTMLInputElement).value)),
                     }),
-                    "^value": fallback.value[1],
-                    onInput: (event: Event) =>
-                      api.value.setValue(1, Number((event.target as HTMLInputElement).value)),
-                  }),
-                ],
-              ),
-              props.showValue
-                ? h(
-                    "span",
-                    { class: "range-slider__value" },
-                    `${props.format(value[0])} – ${props.format(value[1])}`,
-                  )
-                : null,
-            ],
-          ),
+                  ],
+                ),
+              ],
+            ),
+            props.showValue
+              ? h(
+                  "output",
+                  { class: "range-slider-field__value" },
+                  `${props.format(value[0])} – ${props.format(value[1])}`,
+                )
+              : null,
+          ]),
           props.showRange
-            ? h("div", { class: "range-slider__range-labels" }, [
+            ? h("div", { class: "range-slider-field__range", "aria-hidden": "true" }, [
                 h("span", props.format(min)),
                 h("span", props.format(max)),
               ])

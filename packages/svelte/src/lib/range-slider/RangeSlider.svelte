@@ -117,61 +117,65 @@
 </script>
 
 <div class="range-slider-field" class:range-slider-field--disabled={disabled}>
-  {#if $$slots.icon}
-    <span class="range-slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
-  {/if}
-  <div
-    class="range-slider"
-    class:range-slider--disabled={disabled}
-    aria-label={label}
-    role="group"
-    data-orientation={orientation}
-    style="--_range-lower-pct: {$percentages[0]}%; --_range-upper-pct: {$percentages[1]}%"
-    {...$api.rootProps}
-  >
+  <div class="range-slider-field__row">
+    {#if $$slots.icon}
+      <span class="range-slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
+    {/if}
     <div
-      class="range-slider__track"
-      bind:this={trackEl}
-      use:nearestThumb={{ lower: lowerEl, upper: upperEl }}
+      class="range-slider"
+      class:range-slider--disabled={disabled}
+      aria-label={label}
+      role="group"
+      data-orientation={orientation}
+      style="--_range-lower-pct: {$percentages[0]}%; --_range-upper-pct: {$percentages[1]}%"
+      {...$api.rootProps}
     >
-      <span class="range-slider__range" {...$api.rangeProps}></span>
-      {#if tickPositions.length}
-        <span class="range-slider__ticks" aria-hidden="true">
-          {#each tickPositions as pos (pos)}
-            <span class="range-slider__tick" style="--_tick-pct: {pos}%"></span>
-          {/each}
-        </span>
-      {/if}
-      <input
-        {...$api.getThumbProps(0)}
-        bind:this={lowerEl}
-        class="range-slider__input"
-        {name}
-        aria-label={thumbLabels[0]}
-        aria-valuetext={lowerAriaText}
-        value={$pairValue[0]}
-        defaultValue={defaultValue[0]}
-        on:input={onInput(0)}
-        use:formReset={restore}
-      />
-      <input
-        {...$api.getThumbProps(1)}
-        bind:this={upperEl}
-        class="range-slider__input"
-        {name}
-        aria-label={thumbLabels[1]}
-        aria-valuetext={upperAriaText}
-        value={$pairValue[1]}
-        defaultValue={defaultValue[1]}
-        on:input={onInput(1)}
-      />
+      <div
+        class="range-slider__track"
+        bind:this={trackEl}
+        use:nearestThumb={{ lower: lowerEl, upper: upperEl }}
+      >
+        <span class="range-slider__range" {...$api.rangeProps}></span>
+        {#if tickPositions.length}
+          <span class="range-slider__ticks" aria-hidden="true">
+            {#each tickPositions as pos (pos)}
+              <span class="range-slider__tick" style="--_tick-pct: {pos}%"></span>
+            {/each}
+          </span>
+        {/if}
+        <input
+          {...$api.getThumbProps(0)}
+          bind:this={lowerEl}
+          class="range-slider__input"
+          {name}
+          aria-label={thumbLabels[0]}
+          aria-valuetext={lowerAriaText}
+          value={$pairValue[0]}
+          defaultValue={defaultValue[0]}
+          on:input={onInput(0)}
+          use:formReset={restore}
+        />
+        <input
+          {...$api.getThumbProps(1)}
+          bind:this={upperEl}
+          class="range-slider__input"
+          {name}
+          aria-label={thumbLabels[1]}
+          aria-valuetext={upperAriaText}
+          value={$pairValue[1]}
+          defaultValue={defaultValue[1]}
+          on:input={onInput(1)}
+        />
+      </div>
     </div>
     {#if showValue}
-      <span class="range-slider__value">{format($pairValue[0])} – {format($pairValue[1])}</span>
+      <output class="range-slider-field__value"
+        >{format($pairValue[0])} – {format($pairValue[1])}</output
+      >
     {/if}
   </div>
   {#if showRange}
-    <div class="range-slider__range-labels">
+    <div class="range-slider-field__range" aria-hidden="true">
       <span>{format(min)}</span>
       <span>{format(max)}</span>
     </div>
@@ -181,13 +185,41 @@
 <style>
   .range-slider-field {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 0.25rem;
     /* A definite length, so the track still has room where the container
        sizes itself to its content; capped so a narrower one still fits.
        Set --ds-range-slider-length to 100% to fill instead. */
     inline-size: var(--ds-range-slider-length, 14rem);
     max-inline-size: 100%;
+  }
+  .range-slider-field__row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  .range-slider-field__icon {
+    display: inline-flex;
+    flex: none;
+    color: var(--ds-color-text-secondary, #524c44);
+  }
+  .range-slider-field__icon :global(svg) {
+    inline-size: 1.2em;
+    block-size: 1.2em;
+  }
+  .range-slider-field__value {
+    flex: none;
+    text-align: end;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.875rem;
+    color: var(--ds-color-text, #282420);
+  }
+  .range-slider-field__range {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--ds-color-text-secondary, #524c44);
   }
   .range-slider {
     position: relative;
@@ -298,17 +330,6 @@
     border-radius: 50%;
     background: var(--ds-color-background, #fff);
     transform: translate(-50%, -50%);
-  }
-  .range-slider__value {
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    color: var(--ds-color-text-secondary, #524c44);
-  }
-  .range-slider__range-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--ds-color-text-secondary, #524c44);
   }
   /* Forced colors drops every fill and every shadow. The ring the theme
      forces on each thumb is what remains of its focus indicator, and the
