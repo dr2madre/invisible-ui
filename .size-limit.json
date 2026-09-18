@@ -1,35 +1,41 @@
 [
   {
-    "name": "@design-system/core \u2014 full barrel (all primitives)",
+    "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "18 kB"
+    "limit": "22 kB"
   },
   {
-    "name": "@design-system/core \u2014 one primitive, tree-shaken (label)",
+    "name": "@design-system/core — one primitive, tree-shaken (label)",
     "path": "core/dist/index.js",
     "import": "{ label }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/core \u2014 calendar only, tree-shaken",
+    "name": "@design-system/core — calendar only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ calendar }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@design-system/core \u2014 i18n only, tree-shaken (catalog included)",
+    "name": "@design-system/core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/core \u2014 number field only, tree-shaken (with i18n)",
+    "name": "@design-system/core — number field only, tree-shaken (with i18n)",
     "path": "core/dist/index.js",
     "import": "{ numberField }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/svelte \u2014 adapters barrel",
+    "name": "@design-system/core — range slider only, tree-shaken",
+    "path": "core/dist/index.js",
+    "import": "{ rangeSlider }",
+    "limit": "1.2 kB"
+  },
+  {
+    "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
     "limit": "49 kB"
   }

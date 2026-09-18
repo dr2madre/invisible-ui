@@ -24,6 +24,7 @@ const components = [
   ["forms", "radio-group"],
   ["forms", "segmented-control"],
   ["forms", "slider"],
+  ["forms", "range-slider"],
   ["forms", "rating-group"],
   ["data-layout", "progress"],
   ["data-layout", "meter"],
