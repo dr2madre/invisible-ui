@@ -4,6 +4,7 @@ import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Combobox, type ComboboxProps } from "./Combobox";
+import { LocaleProvider } from "../i18n/i18n";
 
 const items = [
   { value: "apple", label: "Apple" },
@@ -154,6 +155,23 @@ describe("React Combobox (styled)", () => {
     await user.type(input(), "cher");
     await user.click(within(listbox()).getByRole("option", { name: "Cherry" }));
     expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("takes the clear button's name and the empty state from the locale catalog", async () => {
+    const user = userEvent.setup();
+    // The clear button has no visible text: the catalog string is its only
+    // name, and the empty state is the only thing an empty list says.
+    render(
+      <LocaleProvider
+        messages={{ "combobox.clear": "Svuota", "combobox.empty": "Nessun risultato" }}
+      >
+        <Combobox label="Frutta" items={items} />
+      </LocaleProvider>,
+    );
+
+    await user.type(input(), "zzz");
+    expect(screen.getByRole("button", { name: "Svuota" })).toBeInTheDocument();
+    expect(within(listbox()).getByText("Nessun risultato")).toBeInTheDocument();
   });
 
   it("clears the input via the clear button", async () => {

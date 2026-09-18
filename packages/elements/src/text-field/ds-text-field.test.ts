@@ -49,6 +49,31 @@ describe("<ds-text-field>", () => {
     const input = screen.getByRole("textbox");
     expect(input).toHaveAttribute("aria-required", "true");
     expect(input).toBeDisabled();
+    // The marker beside the label is the visible half of the same fact, and
+    // screen readers skip it because `aria-required` already said so.
+    const marker = document.querySelector(".field__required");
+    expect(marker).toHaveTextContent("*");
+    expect(marker).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("freezes a read-only field without disabling it", () => {
+    // Frozen is not disabled: the control still submits and can still be
+    // focused, which is what separates the two attributes.
+    mount(
+      `<ds-text-field label="Email" name="email" value="ada@example.com" readonly></ds-text-field>`,
+    );
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input).toHaveAttribute("readonly");
+    expect(input).not.toBeDisabled();
+  });
+
+  it("forwards the placeholder and autocomplete the page asked for", () => {
+    mount(
+      `<ds-text-field label="Email" placeholder="you@example.com" autocomplete="email"></ds-text-field>`,
+    );
+    const input = screen.getByRole("textbox");
+    expect(input).toHaveAttribute("placeholder", "you@example.com");
+    expect(input).toHaveAttribute("autocomplete", "email");
   });
 
   it("the disabled and success state reach the root as modifier classes", () => {

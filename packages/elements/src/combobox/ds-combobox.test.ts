@@ -219,7 +219,10 @@ describe("<ds-combobox>", () => {
     await user.type(input(), "a");
     await user.keyboard("{ArrowDown}");
     expect(input()).toHaveAttribute("aria-expanded", "true");
-    expect(input().getAttribute("aria-activedescendant")).not.toBeNull();
+    expect(
+      document.getElementById(input().getAttribute("aria-activedescendant") ?? ""),
+      "the highlight is on no option in particular",
+    ).toHaveAttribute("data-active", "");
 
     host.setAttribute("disabled", "");
     expect(input()).toHaveAttribute("aria-disabled", "true");

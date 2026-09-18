@@ -86,6 +86,18 @@ describe("<ds-multi-select>", () => {
     expect(new FormData(form()).getAll("skills")).toEqual(["vue", "svelte"]);
   });
 
+  it("freezes the text box of a read-only control, and shows its placeholder", () => {
+    const host = mount();
+    host.setAttribute("placeholder", "Pick a few");
+    expect(input()).toHaveAttribute("placeholder", "Pick a few");
+
+    host.setAttribute("readonly", "");
+    // Frozen rather than disabled: typing cannot get in, and the control is
+    // still reachable and still submits.
+    expect(input().readOnly).toBe(true);
+    expect(input()).not.toBeDisabled();
+  });
+
   it("sends nothing while disabled, and everything while read-only", () => {
     // The React adapter holds this pair; the platform does the same for native
     // controls, and the two lines live next to each other in the source.
