@@ -20,8 +20,16 @@ describe("React Select (styled)", () => {
 
   it("shows the placeholder while nothing is selected", () => {
     render(<Select label="Fruit" items={items} />);
-    expect(screen.getByRole("combobox")).toHaveValue("");
-    expect(screen.getByRole("combobox")).toHaveClass("select__native--placeholder");
+    const select = screen.getByRole("combobox");
+    expect(select).toHaveValue("");
+    expect(select).toHaveClass("select__native--placeholder");
+
+    // The placeholder is a prompt, not a choice: it sits out of the list and
+    // cannot be picked, so an untouched select submits nothing rather than
+    // the word "Select…".
+    const placeholder = select.querySelector<HTMLOptionElement>("option[value='']")!;
+    expect(placeholder.hidden, "the placeholder is offered as a choice").toBe(true);
+    expect(placeholder.disabled, "the placeholder can be chosen").toBe(true);
   });
 
   it("takes the placeholder from the locale catalog", () => {

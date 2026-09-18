@@ -91,7 +91,9 @@ describe("<ds-combobox>", () => {
     input().focus();
     await user.keyboard("{ArrowDown}");
     const active = input().getAttribute("aria-activedescendant");
-    expect(active).toBeTruthy();
+    // Which option, not merely that there is one: the first press lands on the
+    // first option in the list.
+    expect(document.getElementById(active ?? "")).toHaveTextContent("Apple");
     expect(document.activeElement).toBe(input());
     expect(document.getElementById(active!)).toHaveAttribute("data-active", "");
   });

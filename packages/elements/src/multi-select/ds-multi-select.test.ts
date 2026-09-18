@@ -40,7 +40,10 @@ describe("<ds-multi-select>", () => {
 
     input().focus();
     await user.keyboard("{ArrowDown}");
-    expect(input().getAttribute("aria-activedescendant")).toBeTruthy();
+    // Which option the highlight is on, not merely that it is somewhere.
+    expect(
+      document.getElementById(input().getAttribute("aria-activedescendant") ?? ""),
+    ).toHaveTextContent("Svelte");
     await user.keyboard("{Enter}");
     expect(onChange).toHaveBeenCalledWith({ values: ["svelte"] });
     expect(input()).toHaveAttribute("aria-expanded", "true");
@@ -80,6 +83,20 @@ describe("<ds-multi-select>", () => {
     const host = mount();
     expect(new FormData(form()).getAll("skills")).toEqual([]);
     host.values = ["vue", "svelte"];
+    expect(new FormData(form()).getAll("skills")).toEqual(["vue", "svelte"]);
+  });
+
+  it("sends nothing while disabled, and everything while read-only", () => {
+    // The React adapter holds this pair; the platform does the same for native
+    // controls, and the two lines live next to each other in the source.
+    const host = mount();
+    host.values = ["vue", "svelte"];
+
+    host.setAttribute("disabled", "");
+    expect([...new FormData(form()).keys()]).toEqual([]);
+
+    host.removeAttribute("disabled");
+    host.setAttribute("readonly", "");
     expect(new FormData(form()).getAll("skills")).toEqual(["vue", "svelte"]);
   });
 

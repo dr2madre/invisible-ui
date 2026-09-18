@@ -105,7 +105,9 @@ describe("React Combobox (styled)", () => {
     input().focus();
     await user.keyboard("{ArrowDown}");
     const active = input().getAttribute("aria-activedescendant");
-    expect(active).toBeTruthy();
+    // Which option, not merely that there is one: the first press lands on the
+    // first option in the list.
+    expect(document.getElementById(active ?? "")).toHaveTextContent("Apple");
     // DOM focus never leaves the input: the highlight is conveyed by ARIA only.
     expect(document.activeElement).toBe(input());
     expect(document.getElementById(active!)).toHaveAttribute("data-active", "");

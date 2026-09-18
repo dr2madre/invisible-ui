@@ -31,6 +31,13 @@ describe("<ds-select>", () => {
     mount(MARKUP);
     expect(select()).toHaveValue("");
     expect(select()).toHaveClass("select__native--placeholder");
+
+    // The placeholder is a prompt, not a choice: it sits out of the list and
+    // cannot be picked, so an untouched select submits nothing rather than
+    // the word "Select…".
+    const placeholder = select().querySelector<HTMLOptionElement>("option[value='']")!;
+    expect(placeholder.hidden, "the placeholder is offered as a choice").toBe(true);
+    expect(placeholder.disabled, "the placeholder can be chosen").toBe(true);
   });
 
   it("emits change with the chosen value and reflects it", async () => {
