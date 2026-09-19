@@ -2,6 +2,11 @@
 import { defineConfig, passthroughImageService } from "astro/config";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
+import { fileURLToPath } from "node:url";
+import { buildIdIntegration } from "../../scripts/build-id.mjs";
+
+// Two levels up: the repository root the served build is stamped with.
+const repoRoot = fileURLToPath(new URL("../..", import.meta.url)).replace(/\/$/, "");
 
 // Deployed to GitHub Pages as a project site, served under /invisible-ui/.
 export default defineConfig({
@@ -12,6 +17,8 @@ export default defineConfig({
   // sized — so the docs build stays deterministic across local and CI.
   image: { service: passthroughImageService() },
   integrations: [
+    // Stamps dist with checkout, commit and sources; Playwright checks it first.
+    buildIdIntegration("docs", repoRoot),
     starlight({
       title: "Invisible UI",
       description:
