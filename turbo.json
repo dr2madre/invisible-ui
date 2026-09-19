@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["scripts/source-hash.mjs", "tsconfig.base.json"],
+  "//": "The parity tests in react, vue and elements read another package's stylesheets; those files are declared as task inputs so a cache hit is never replayed over a change to them.",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -8,6 +9,22 @@
     },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@design-system/react#test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/svelte/src/lib/styles/tokens.css"]
+    },
+    "@design-system/vue#test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/react/src/styles/**"]
+    },
+    "@design-system/elements#test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/packages/react/src/styles/**",
+        "$TURBO_ROOT$/packages/vue/src/styles/**"
+      ]
     },
     "typecheck": {
       "dependsOn": ["^build"]

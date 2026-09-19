@@ -16,10 +16,11 @@ const final = resolve(coreDir, "dist/.build-info.json");
 const sourceHash = hashCoreSources(coreDir);
 
 if (process.argv.includes("--verify")) {
-  const recorded = existsSync(pending)
-    ? JSON.parse(readFileSync(pending, "utf8")).sourceHash
-    : null;
-  if (recorded !== sourceHash) {
+  if (!existsSync(pending)) {
+    console.error("no pending build record: run the whole build, not --verify alone.");
+    process.exit(1);
+  }
+  if (JSON.parse(readFileSync(pending, "utf8")).sourceHash !== sourceHash) {
     console.error("core/src changed while the build ran: run the build again.");
     process.exit(1);
   }
