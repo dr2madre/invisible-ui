@@ -6,6 +6,6 @@
     "declaration": false,
     "types": ["vitest/globals", "vite/client", "@testing-library/jest-dom/vitest", "node"]
   },
-  "include": ["src", "vitest-axe.d.ts"],
+  "include": ["src", "vitest-axe.d.ts", "test-modules.d.ts"],
   "exclude": []
 }
