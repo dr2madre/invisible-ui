@@ -50,7 +50,9 @@ const countSubscriptions = async (page: Page) =>
     for (const kind of ["ResizeObserver", "IntersectionObserver", "MutationObserver"] as const) {
       const Original = window[kind];
       if (!Original) continue;
-      class Counted extends (Original as unknown as { new (...args: unknown[]): object }) {
+      class Counted extends (Original as unknown as {
+        new (...args: unknown[]): { disconnect(...args: unknown[]): void };
+      }) {
         constructor(...args: unknown[]) {
           super(...args);
           bump(`observer:${kind}`, 1);

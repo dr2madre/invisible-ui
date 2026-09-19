@@ -17,7 +17,7 @@ describe("Svelte PinInput", () => {
     render(Fixture, { props: { length: 4, onValueChange } });
     const cells = screen.getAllByRole("textbox");
 
-    await user.click(cells[0]);
+    await user.click(cells[0]!);
     await user.keyboard("1");
     expect(onValueChange).toHaveBeenLastCalledWith("1");
     expect(cells[1]).toHaveFocus();
@@ -29,7 +29,7 @@ describe("Svelte PinInput", () => {
     render(Fixture, { props: { length: 4, onValueChange } });
     const cells = screen.getAllByRole("textbox");
 
-    await user.click(cells[0]);
+    await user.click(cells[0]!);
     await user.keyboard("a");
     expect(onValueChange).not.toHaveBeenCalled();
     expect(cells[0]).toHaveValue("");
@@ -40,7 +40,7 @@ describe("Svelte PinInput", () => {
     render(Fixture, { props: { length: 4, value: "12" } });
     const cells = screen.getAllByRole("textbox");
 
-    await user.click(cells[2]);
+    await user.click(cells[2]!);
     await user.keyboard("{Backspace}");
     expect(cells[1]).toHaveFocus();
     expect(cells[1]).toHaveValue("");
@@ -52,7 +52,7 @@ describe("Svelte PinInput", () => {
     render(Fixture, { props: { length: 4, onComplete } });
     const cells = screen.getAllByRole("textbox");
 
-    await user.click(cells[0]);
+    await user.click(cells[0]!);
     await user.paste("1234");
     expect(onComplete).toHaveBeenCalledWith("1234");
     expect(cells[3]).toHaveValue("4");

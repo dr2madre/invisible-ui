@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { defineComponent, h, reactive, ref } from "vue";
+import { defineComponent, h, reactive, ref, type DefineComponent } from "vue";
 import { describe, expect, it, vi } from "vitest";
 
 import { Checkbox } from "./checkbox/Checkbox";
@@ -437,7 +437,7 @@ describe("Vue form reset and v-model", () => {
             label: "Agree",
             name: "agree",
             modelValue: bound.value,
-            "onUpdate:modelValue": (next: boolean) => (bound.value = next),
+            "onUpdate:modelValue": (next: boolean | string) => (bound.value = next === true),
           }),
         ]),
     });
@@ -907,7 +907,7 @@ describe("Vue form reset, TextField pilot", () => {
     document.body.append(form);
     const host = document.createElement("div");
     form.append(host);
-    const rendered = render(TextField as never, {
+    const rendered = render(TextField as unknown as DefineComponent<Record<string, unknown>>, {
       container: host,
       props: { label: "Name", name: "name", modelValue: "Ada", "onUpdate:modelValue": bound },
     });

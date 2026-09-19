@@ -33,7 +33,7 @@ function luminance([r, g, b]: Rgba): number {
       const c = channel / 255;
       return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
     })
-    .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+    .reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i]!, 0);
 }
 
 function contrast(a: Rgba, b: Rgba): number {
