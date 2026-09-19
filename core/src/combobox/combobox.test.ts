@@ -281,6 +281,68 @@ describe("combobox commit boundary", () => {
     }
   });
 
+  it("clears from the keyboard, and hands focus back to the input", () => {
+    // The clear button is the only thing that takes focus off the input, and
+    // it stops being a button the moment it works: whoever pressed it has to
+    // be put back somewhere.
+    const focusInput = vi.fn();
+    const { api, setValue, setInputValue } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+      focusInput,
+    });
+
+    for (const key of ["Enter", " "]) {
+      setValue.mockClear();
+      setInputValue.mockClear();
+      focusInput.mockClear();
+      const event = { key, preventDefault: vi.fn() } as unknown as KeyboardEvent;
+      (api.clearProps.onKeyDown as (e: KeyboardEvent) => void)(event);
+
+      expect(setValue, key).toHaveBeenCalledWith(null);
+      expect(setInputValue, key).toHaveBeenCalledWith("");
+      expect(focusInput, key).toHaveBeenCalledTimes(1);
+      // The page must not scroll on Space, nor submit a form on Enter.
+      expect(event.preventDefault, key).toHaveBeenCalled();
+    }
+  });
+
+  it("leaves every other key on the clear button alone", () => {
+    const { api, setValue } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    for (const key of ["a", "Tab", "Escape", "ArrowDown"]) {
+      const event = { key, preventDefault: vi.fn() } as unknown as KeyboardEvent;
+      (api.clearProps.onKeyDown as (e: KeyboardEvent) => void)(event);
+      expect(setValue, key).not.toHaveBeenCalled();
+      expect(event.preventDefault, key).not.toHaveBeenCalled();
+    }
+  });
+
+  it("puts the clear button in the tab sequence only while it has work to do", () => {
+    const empty = setup();
+    expect(empty.api.clearProps.tabindex, "nothing to clear").toBe(-1);
+
+    const filled = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    expect(filled.api.clearProps.tabindex, "a value to clear").toBe(0);
+
+    const typed = setup({
+      state: { ...initialState({ id: "c", items }), inputValue: "app" },
+    });
+    expect(typed.api.clearProps.tabindex, "text with no selection").toBe(0);
+
+    const off = setup({
+      state: {
+        ...initialState({ id: "c", items }),
+        value: "apple",
+        inputValue: "Apple",
+        disabled: true,
+      },
+    });
+    expect(off.api.clearProps.tabindex, "disabled").toBe(-1);
+  });
+
   it("a disabled combobox is not cleared, and takes no highlight from the pointer", () => {
     const state = { ...initialState({ id: "c", items }), open: true, disabled: true };
     const { api, setValue, setInputValue, setActiveValue } = setup({

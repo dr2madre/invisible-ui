@@ -187,6 +187,7 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
       setActiveValue,
       setInputValue,
       setCommittedInputValue: (next) => (committedInputValue.value = next),
+      focusInput: () => inputRef.value?.focus(),
       normalize: normalizeProps,
     }),
   );

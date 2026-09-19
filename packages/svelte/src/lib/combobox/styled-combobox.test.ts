@@ -172,6 +172,39 @@ describe("Svelte Combobox (styled)", () => {
     expect(input()).toHaveValue("");
   });
 
+  // A selection, not typed text: moving focus to the clear button blurs the
+  // input, and the combobox puts unselected text back to what was committed.
+  // Starting from a chosen value means an empty input can only be the clear
+  // button's doing — with typed text these would pass against a dead button.
+  it.each(["{Enter}", " "])(
+    "clears from the keyboard with %s, and hands focus back",
+    async (key) => {
+      const user = userEvent.setup();
+      render(Fixture, { props: { value: "banana" } });
+      expect(input()).toHaveValue("Banana");
+
+      const clear = screen.getByRole("button", { name: "Clear" });
+      expect(clear, "reachable while there is something to clear").toHaveAttribute("tabindex", "0");
+      clear.focus();
+      expect(clear).toHaveFocus();
+
+      await user.keyboard(key);
+
+      expect(input()).toHaveValue("");
+      // The button it pressed is out of the tree now, so focus cannot stay.
+      expect(input()).toHaveFocus();
+    },
+  );
+
+  it("offers no clear button at all while there is nothing to clear", () => {
+    const { container } = render(Fixture);
+    // It keeps its footprint so the input does not jump, but it is out of the
+    // accessibility tree and out of the tab sequence.
+    expect(screen.queryByRole("button", { name: "Clear" })).toBeNull();
+    const clear = container.querySelector(".combobox__clear") as HTMLElement;
+    expect(clear).toHaveAttribute("tabindex", "-1");
+  });
+
   it("closes on Escape and puts the text back", async () => {
     const user = userEvent.setup();
     render(Fixture, { props: { value: "banana" } });

@@ -189,7 +189,6 @@
       class="combobox__clear"
       class:combobox__clear--hidden={!$inputValue || disabled}
       aria-label={resolvedClearLabel}
-      tabindex={!$inputValue || disabled ? -1 : 0}
       aria-hidden={!$inputValue || disabled ? "true" : undefined}
       use:clearAction
     >

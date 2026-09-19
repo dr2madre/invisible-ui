@@ -59,6 +59,12 @@ export interface ConnectOptions {
    * dismissal belongs to the dialog around it.
    */
   settleOnBlur?: boolean;
+  /**
+   * Put DOM focus back on the input. Called when clearing from the keyboard,
+   * which is the one path that leaves focus on a button that is about to
+   * stop being one; the adapter owns the element, so it owns the call.
+   */
+  focusInput?: () => void;
   normalize?: Normalize;
 }
 
@@ -78,6 +84,7 @@ export function connect({
   setInputValue,
   setCommittedInputValue,
   settleOnBlur = true,
+  focusInput,
   normalize = identityNormalize,
 }: ConnectOptions): ComboboxApi {
   const { open, value, inputValue, committedInputValue, activeValue, items, disabled, id } = state;
@@ -243,12 +250,25 @@ export function connect({
     },
     clearProps: normalize({
       type: "button",
-      tabindex: -1,
+      // In the tab sequence only while it has something to clear: a control
+      // that only takes values from its list, and whose input may be
+      // read-only, would otherwise have no keyboard way to empty itself.
+      tabindex: (value || inputValue) && !disabled ? 0 : -1,
       disabled: disabled || undefined,
       "data-state": value || inputValue ? "active" : "empty",
       onMouseDown: (event: Event) => {
         event.preventDefault(); // keep focus on the input
         clear();
+      },
+      // The pointer never moves focus here, so it has nowhere to send it
+      // back. A key press does, and the button it pressed is the thing that
+      // stops being a button once the text is gone.
+      onKeyDown: (event: Event) => {
+        const key = (event as KeyboardEvent).key;
+        if (key !== "Enter" && key !== " ") return;
+        event.preventDefault();
+        clear();
+        focusInput?.();
       },
     }),
   };

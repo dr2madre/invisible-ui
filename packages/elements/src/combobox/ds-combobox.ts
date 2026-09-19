@@ -311,6 +311,7 @@ export class DsCombobox extends HTMLElementBase {
       setActiveValue: (activeValue) => this.#update({ activeValue }),
       setInputValue: (inputValue) => this.#update({ inputValue, items: this.#filter(inputValue) }),
       setCommittedInputValue: (committedInputValue) => this.#update({ committedInputValue }),
+      focusInput: () => this.#input?.focus(),
     });
   }
 

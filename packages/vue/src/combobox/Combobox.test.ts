@@ -225,6 +225,29 @@ describe("Vue Combobox (styled)", () => {
     expect(input()).toHaveValue("");
   });
 
+  // A selection, not typed text: moving focus to the clear button blurs the
+  // input, and the combobox puts unselected text back to what was committed.
+  // Starting from a chosen value means an empty input can only be the clear
+  // button's doing — with typed text these would pass against a dead button.
+  it.each(["{Enter}", " "])(
+    "clears from the keyboard with %s, and hands focus back",
+    async (key) => {
+      const user = userEvent.setup();
+      render(Combobox, { props: { label: "Fruit", items, value: "banana" } });
+      expect(input()).toHaveValue("Banana");
+
+      const clear = screen.getByRole("button", { name: "Clear" });
+      expect(clear, "reachable while there is something to clear").toHaveAttribute("tabindex", "0");
+      clear.focus();
+      expect(clear).toHaveFocus();
+
+      await user.keyboard(key);
+
+      expect(input()).toHaveValue("");
+      expect(input()).toHaveFocus();
+    },
+  );
+
   it("closes on Escape and puts the text back", async () => {
     const user = userEvent.setup();
     render(Combobox, { props: { label: "Fruit", items, value: "banana" } });
