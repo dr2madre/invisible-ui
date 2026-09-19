@@ -9,8 +9,8 @@ import { hashCoreSources } from "./source-hash.mjs";
 
 // A miniature `core/`: one source, the build inputs the hash covers, and a
 // dist whose build info this test writes by hand.
-function fixture() {
-  const root = mkdtempSync(join(tmpdir(), "core-dist-"));
+function fixture(parent = tmpdir()) {
+  const root = mkdtempSync(join(parent, "core-dist-"));
   const core = join(root, "core");
   mkdirSync(join(core, "src"), { recursive: true });
   mkdirSync(join(core, "scripts"), { recursive: true });
@@ -71,6 +71,19 @@ test("the build config, the tsconfigs and the lockfile count", () => {
     assert.match(checkCoreDist(f.root), /other sources/, rel);
     f.done();
   }
+});
+
+// What the checkout is called must not change what is hashed: a repository
+// cloned under a directory named `src` once dropped every extra input.
+test("a checkout under a directory named src still counts the extra inputs", () => {
+  const parent = mkdtempSync(join(tmpdir(), "home-"));
+  mkdirSync(join(parent, "src"));
+  const f = fixture(join(parent, "src"));
+  f.record();
+  writeFileSync(join(f.root, "pnpm-lock.yaml"), "lockfileVersion: 9\n\npackages: {}\n");
+  assert.match(checkCoreDist(f.root), /other sources/);
+  f.done();
+  rmSync(parent, { recursive: true, force: true });
 });
 
 test("a missing input is reported with the remedy, not a stack", () => {
