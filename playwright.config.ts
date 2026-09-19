@@ -18,6 +18,9 @@ export const VUE_BASE = `http://127.0.0.1:${VUE_PORT}/harness.html`;
 
 export default defineConfig({
   testDir: "./e2e",
+  // Before any test: the servers must serve this checkout, at HEAD, built
+  // from the sources as they are now. A stale or foreign server fails loudly.
+  globalSetup: "./e2e/global-setup.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -77,8 +80,13 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: `pnpm --filter @design-system/docs preview --host 127.0.0.1 --port ${PORT}`,
+      // Not `astro preview`: under an agent it turns itself into a background
+      // daemon and exits, which reads here as the server having died. The
+      // script serves in the foreground through Astro's own API.
+      command: `pnpm --filter @design-system/docs exec node scripts/serve.mjs --host 127.0.0.1 --port ${PORT}`,
       url: BASE,
+      // A server already on the port is reused only because the global setup
+      // then checks whose build it serves.
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
     },
