@@ -1,8 +1,8 @@
 name: CI
 
 # Per-PR quality gate. Every non-browser check lives in scripts/gate.mjs and
-# runs from there, here and locally (`pnpm gate`), so the two can never
-# drift: scripts/gate.test.mjs fails if this workflow runs anything else.
+# runs from there, here and locally (`pnpm gate`). scripts/gate.test.mjs holds
+# this file to one job with these five steps and nothing else.
 
 on:
   pull_request:

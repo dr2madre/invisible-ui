@@ -1,17 +1,14 @@
 #!/usr/bin/env node
-// The whole quality gate, locally, in CI's order.
-//
-// CI runs these same steps in .github/workflows/ci.yml. Running them one by
-// one from memory skips steps: the Range Slider PR went red in CI on the
-// public API report after a local gate that had run every other check.
+// The whole quality gate, locally and in CI, from one list.
 //
 //   pnpm gate                # every step
 //   pnpm gate --from size    # resume at one step
 //   pnpm gate --list         # print the steps
 //
-// The changeset step compares against origin/main locally; CI passes the
-// PR's base commit in DS_GATE_BASE, and an empty value (a manual run with no
-// pull request) skips that one step.
+// The changeset step compares against origin/main when that ref exists; CI
+// passes the pull request's base commit in DS_GATE_BASE, and an empty value
+// (a manual run with no pull request) skips that step. Another ref:
+// DS_GATE_BASE=<ref> pnpm gate.
 //
 // scripts/gate.test.mjs holds .github/workflows/ci.yml to this same entry
 // point, so a check cannot exist in one place and not the other.
@@ -21,7 +18,14 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const base = process.env.DS_GATE_BASE === undefined ? "origin/main" : process.env.DS_GATE_BASE;
+const hasRef = (ref) =>
+  spawnSync("git", ["rev-parse", "--verify", "--quiet", ref], { cwd: root }).status === 0;
+const base =
+  process.env.DS_GATE_BASE === undefined
+    ? hasRef("origin/main")
+      ? "origin/main"
+      : ""
+    : process.env.DS_GATE_BASE;
 
 /** Name, then the command. Order matters: cheap and independent first. */
 export const STEPS = [
@@ -30,7 +34,7 @@ export const STEPS = [
   ["format", "pnpm format:check"],
   ["changeset", base ? `node scripts/check-changeset.mjs ${base}` : null],
   ["tokens", "pnpm tokens:check"],
-  ["tokens-rules", "pnpm tokens:test"],
+  ["scripts-tests", "pnpm scripts:test"],
   ["demos", "pnpm demos:check"],
   ["build-test-typecheck-check", "pnpm exec turbo run build test typecheck check"],
   ["api-manifests", "pnpm api:check"],
@@ -69,15 +73,15 @@ function main() {
   const results = [];
   for (const [name, command] of STEPS.slice(start)) {
     if (!command) {
-      console.log(`\n▶ ${name}: skipped (no base commit given)`);
+      console.log(`\n▶ ${name}: skipped (no base commit: set DS_GATE_BASE=<ref>)`);
       results.push([name, "skipped", "0"]);
       continue;
     }
     const began = Date.now();
     console.log(`\n▶ ${name}: ${command}`);
-    const { status } = spawnSync(command, { cwd: root, stdio: "inherit", shell: true });
+    const { status, signal } = spawnSync(command, { cwd: root, stdio: "inherit", shell: true });
     const seconds = ((Date.now() - began) / 1000).toFixed(0);
-    results.push([name, status === 0 ? "ok" : `FAILED (${status})`, seconds]);
+    results.push([name, status === 0 ? "ok" : `FAILED (${status ?? signal})`, seconds]);
     if (status !== 0) {
       console.error(`\n✖ ${name} failed. Fix it, then resume: pnpm gate --from ${name}`);
       break;

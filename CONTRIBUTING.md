@@ -40,7 +40,8 @@ pnpm gate --from size          # resume at one step
 ```
 
 `scripts/gate.mjs` is the only list of checks; `.github/workflows/ci.yml`
-installs and runs it, nothing else, and a test holds it to that. A check that
+installs and runs it, nothing else, and `scripts/gate.test.mjs` holds the
+workflow to that one job and those steps. A check that
 exists only in the workflow would never run locally; one that exists only
 locally would never block a merge. Browser checks stay separate: `pnpm e2e`
 (three engines) and `pnpm visual` (container baselines).

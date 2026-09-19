@@ -42,7 +42,7 @@ export function checkEnvironment(root, { isAlive = alive } = {}) {
     }
     if (pid && isAlive(pid)) {
       problems.push(
-        `a background astro preview (pid ${pid}) is running from packages/docs. Stop it: pnpm --filter @design-system/docs exec astro preview stop`,
+        `a background astro preview (pid ${pid}) is running from packages/docs. Stop it: pnpm --filter @design-system/docs exec astro preview stop. If that finds nothing, the pid was reused: delete packages/docs/.astro/preview.json.`,
       );
     }
   }
@@ -50,12 +50,14 @@ export function checkEnvironment(root, { isAlive = alive } = {}) {
   return problems;
 }
 
+// A pid this user may not signal belongs to someone else's process, never to
+// a preview this user started: Astro reads it the same way.
 function alive(pid) {
   try {
     process.kill(pid, 0);
     return true;
-  } catch (error) {
-    return error.code === "EPERM";
+  } catch {
+    return false;
   }
 }
 
