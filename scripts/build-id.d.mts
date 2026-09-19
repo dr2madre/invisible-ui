@@ -19,6 +19,7 @@ export function checkoutFingerprint(repoRoot: string): string;
 export function expectedBuildId(site: Site, repoRoot: string): ExpectedBuildId;
 export function buildId(site: Site, repoRoot: string): BuildId;
 export function writeBuildId(site: Site, outDir: string, repoRoot: string): void;
+export function parseStamp(text: string): unknown;
 export function verifyBuildId(
   served: unknown,
   expected: ExpectedBuildId,

@@ -2,25 +2,47 @@
 //
 // Playwright serves `dist` and, before any test, reads `.build-id.json` from
 // the server it reached (e2e/global-setup.ts). A server from another
-// checkout, from another commit, or built from other sources is refused
-// there instead of quietly passing another tree's tests.
+// checkout, or built from other sources, is refused there instead of quietly
+// passing another tree's tests.
 //
-// The stamp names no path: the checkout is a fingerprint (a hash of host and
-// root), so the file can sit on the public docs site.
+// The stamp names no path: the checkout is a fingerprint (a hash of the real
+// root), so the file can sit on the public docs site. The commit is recorded
+// for the message only: Turbo may restore a build made at an older commit,
+// and if the site's inputs are unchanged, that build is this build.
 //
 // Works as an Astro integration (`astro:build:done`) and as a Vite plugin
 // (`closeBundle`), so the docs and the Vue example write the same file.
 
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { hostname } from "node:os";
 import { realpathSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { hashInputs } from "./source-hash.mjs";
 
 export const BUILD_ID_FILE = ".build-id.json";
 
-/** What each served site is built from, relative to the repository root. */
+/**
+ * What each served site is built from, relative to the repository root: its
+ * own files, and for every workspace package it bundles both the sources and
+ * the built output, with the build configuration between them. Core's dist is
+ * represented by its build record, itself a hash of core's sources.
+ */
+const CORE = [
+  "core/src",
+  "core/dist/.build-info.json",
+  "core/tsup.config.ts",
+  "core/tsconfig.json",
+];
+const SHARED = ["tsconfig.base.json", "pnpm-lock.yaml"];
+const bundled = (pkg) => [
+  `${pkg}/src`,
+  `${pkg}/dist`,
+  `${pkg}/tsup.config.ts`,
+  `${pkg}/tsconfig.json`,
+  `${pkg}/package.json`,
+];
+
 export const SITE_INPUTS = {
   docs: [
     "packages/docs/src",
@@ -29,9 +51,10 @@ export const SITE_INPUTS = {
     "packages/docs/ec.config.mjs",
     "packages/docs/svelte.config.js",
     "packages/docs/package.json",
-    "packages/svelte/src",
-    "core/src",
-    "pnpm-lock.yaml",
+    "packages/docs/tsconfig.json",
+    ...bundled("packages/svelte"),
+    ...CORE,
+    ...SHARED,
   ],
   "vue-example": [
     "examples/vue/src",
@@ -41,11 +64,12 @@ export const SITE_INPUTS = {
     "examples/vue/elements-harness.html",
     "examples/vue/vite.config.ts",
     "examples/vue/package.json",
-    "packages/vue/src",
-    "packages/react/src",
-    "packages/elements/src",
-    "core/src",
-    "pnpm-lock.yaml",
+    "examples/vue/tsconfig.json",
+    ...bundled("packages/vue"),
+    ...bundled("packages/react"),
+    ...bundled("packages/elements"),
+    ...CORE,
+    ...SHARED,
   ],
 };
 
@@ -61,7 +85,7 @@ function git(args, cwd) {
   }
 }
 
-/** A short, non-reversible name for "this checkout on this machine". */
+/** A short, non-reversible name for this checkout: a hash of its real path. */
 export function checkoutFingerprint(repoRoot) {
   let root = repoRoot;
   try {
@@ -69,7 +93,7 @@ export function checkoutFingerprint(repoRoot) {
   } catch {
     // An unreadable root still gets a stable name.
   }
-  return createHash("sha256").update(`${hostname()}\0${root}`).digest("hex").slice(0, 16);
+  return createHash("sha256").update(root).digest("hex").slice(0, 16);
 }
 
 /** What the setup expects a served stamp to say for `site`. */
@@ -94,22 +118,42 @@ export function writeBuildId(site, outDir, repoRoot) {
 }
 
 /**
- * Why a served stamp is not acceptable, or null. Identity (checkout, commit)
- * is never negotiable; `allowStale` skips only the inputs rule.
+ * The stamp a server answered with, or null when it answered with something
+ * else: a site with no stamp serves its 404 page, or its index under Vite's
+ * single-page fallback, never JSON.
+ */
+export function parseStamp(text) {
+  try {
+    const value = JSON.parse(text);
+    return value && typeof value === "object" && typeof value.checkout === "string" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+const short = (head) => (typeof head === "string" ? head.slice(0, 7) : "unknown");
+
+/**
+ * Why a served stamp is not acceptable, or null. The checkout and the site
+ * are never negotiable; `allowStale` skips only the inputs rule.
  */
 export function verifyBuildId(served, expected, { allowStale = false } = {}) {
   if (!served || typeof served !== "object") {
     return "no build stamp: the server serves a build from before this check, or another project.";
   }
   if (served.checkout !== expected.checkout) {
-    return "the server serves another checkout. Stop it, then run again.";
+    return "the server serves another checkout. Stop it and run again; if this checkout was moved, rebuild.";
   }
-  if (served.head !== expected.head) {
-    return `the served build is from commit ${String(served.head).slice(0, 7)}, HEAD is ${String(expected.head).slice(0, 7)}. Rebuild.`;
+  if (served.site !== expected.site) {
+    return `the server serves the ${String(served.site)} build, not ${expected.site}.`;
   }
   if (served.inputs !== expected.inputs) {
     if (allowStale) return null;
-    return "a source of this site changed after the served build. Rebuild, or set DS_E2E_ALLOW_STALE=1 knowingly.";
+    const commit =
+      served.head !== expected.head
+        ? ` (built at ${short(served.head)}, HEAD is ${short(expected.head)})`
+        : "";
+    return `a source of this site changed after the served build${commit}. Rebuild; a cached build needs \`pnpm exec turbo run build --force\`. DS_E2E_ALLOW_STALE=1 runs anyway, knowingly.`;
   }
   return null;
 }
@@ -119,7 +163,7 @@ export function buildIdIntegration(site, repoRoot) {
   return {
     name: "build-id",
     hooks: {
-      "astro:build:done": ({ dir }) => writeBuildId(site, new URL(dir).pathname, repoRoot),
+      "astro:build:done": ({ dir }) => writeBuildId(site, fileURLToPath(dir), repoRoot),
     },
   };
 }
@@ -131,7 +175,7 @@ export function buildIdPlugin(site, repoRoot) {
     name: "build-id",
     apply: "build",
     configResolved(config) {
-      outDir = join(config.root, config.build.outDir);
+      outDir = resolve(config.root, config.build.outDir);
     },
     closeBundle() {
       writeBuildId(site, outDir, repoRoot);
