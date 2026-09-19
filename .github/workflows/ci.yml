@@ -1,7 +1,8 @@
 name: CI
 
-# Per-PR quality gate: lint + format check, then builds the whole graph (incl.
-# the docs site), runs the vitest suites and the type checks.
+# Per-PR quality gate. Every non-browser check lives in scripts/gate.mjs and
+# runs from there, here and locally (`pnpm gate`). scripts/gate.test.mjs holds
+# this file to one job with these five steps and nothing else.
 
 on:
   pull_request:
@@ -31,66 +32,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
-
-      - name: Format check
-        run: pnpm format:check
-
-      # A change to the public contract (API reports, prop manifests, token
-      # registry) must carry a changeset; see docs/api-stability.md.
-      - name: Changeset accompanies contract changes
-        if: github.event_name == 'pull_request'
-        run: node scripts/check-changeset.mjs "${{ github.event.pull_request.base.sha }}"
-
-      # The token registry the docs catalog reads is generated from the
-      # stylesheet: this fails if it is stale, if the adapters drift apart, or
-      # if a documented value no longer matches the source.
-      - name: Token registry drift
-        run: pnpm tokens:check
-
-      # The registry's own reading and comparing rules, on fixtures: a bug
-      # that is a no-op on today's sources would otherwise stay invisible.
-      - name: Token registry rules
-        run: pnpm tokens:test
-
-      # Docs demos feed the visual baselines: what they render must never
-      # depend on the network.
-      - name: Demo determinism
-        run: pnpm demos:check
-
-      # `build` includes the Astro docs build; `test` runs vitest + vitest-axe;
-      # `check` is svelte-check over the components (types plus a11y).
-      - name: Build, test, typecheck
-        run: pnpm exec turbo run build test typecheck check
-
-      # The public API report is generated from the built declarations: this
-      # fails when an export, a signature or an export map changed without the
-      # committed report changing with it.
-      - name: Public API report drift
-        run: pnpm api:report:check
-
-      # The declarations promise values; the runtime must deliver exactly
-      # them, in both directions, for every package entry.
-      - name: Runtime exports match the declarations
-        run: pnpm api:runtime-check
-
-      # Consumers see the packed tarball, not the workspace: install it into a
-      # throwaway project, import it in plain Node ESM (what SSR does), and
-      # type-check against the published declarations.
-      - name: Packed-package consumer smoke
-        run: >
-          pnpm --filter @design-system/core run smoke &&
-          pnpm --filter @design-system/svelte run smoke &&
-          pnpm --filter @design-system/vue run smoke
-
-      # The same question asked of all five packages at once, plus the docs and
-      # the examples: every entry point a consumer is offered resolves, nothing
-      # undeclared is imported, no test scaffolding ships, and the project's own
-      # consumers reach nothing a consumer could not.
-      - name: Consumers reach only what is published
-        run: pnpm consumers:check
-
-      # Bundle-size budget (reads the freshly built dist; see .size-limit.json).
-      - name: Bundle size budget
-        run: pnpm size
+      # The same entry point a contributor runs. The changeset step compares
+      # against the PR's base; on a manual run there is none and it is skipped.
+      - name: Gate
+        run: pnpm gate
+        env:
+          DS_GATE_BASE: ${{ github.event.pull_request.base.sha }}

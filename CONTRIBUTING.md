@@ -31,10 +31,25 @@ This library has three pillars. Every contribution upholds them:
 
 ## Running the checks locally
 
-Run the checks from the repository root:
+The whole non-browser gate is one command, the same one CI runs:
 
 ```sh
-pnpm install && pnpm test    # or: pnpm typecheck
+pnpm install && pnpm gate      # every check, in CI's order
+pnpm gate --list               # the steps
+pnpm gate --from size          # resume at one step
+```
+
+`scripts/gate.mjs` is the only list of checks; `.github/workflows/ci.yml`
+installs and runs it, nothing else, and `scripts/gate.test.mjs` holds the
+workflow to that one job and those steps. A check that
+exists only in the workflow would never run locally; one that exists only
+locally would never block a merge. Browser checks stay separate: `pnpm e2e`
+(three engines) and `pnpm visual` (container baselines).
+
+For one suite at a time:
+
+```sh
+pnpm test    # or: pnpm typecheck
 ```
 
 `dist/` is gitignored, so pulling new code leaves the built packages as they

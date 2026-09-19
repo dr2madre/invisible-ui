@@ -9,6 +9,25 @@
     "test": {
       "dependsOn": ["^build"]
     },
+    // The parity tests in react, vue and elements read another package's
+    // stylesheets; declared as inputs so a cache hit is never replayed over
+    // a change to them.
+    "@design-system/react#test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/svelte/src/lib/styles/tokens.css"]
+    },
+    "@design-system/vue#test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/react/src/styles/**"]
+    },
+    "@design-system/elements#test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/packages/react/src/styles/**",
+        "$TURBO_ROOT$/packages/vue/src/styles/**"
+      ]
+    },
     "typecheck": {
       "dependsOn": ["^build"]
     },

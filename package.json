@@ -6,6 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "gate": "node scripts/gate.mjs",
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
@@ -25,7 +26,8 @@
     "a11y:lab": "node scripts/generate-a11y-lab.mjs",
     "tokens:registry": "node scripts/generate-token-registry.mjs",
     "tokens:check": "node scripts/generate-token-registry.mjs --check",
-    "tokens:test": "node --test \"scripts/*.test.mjs\"",
+    "scripts:test": "node --test \"scripts/*.test.mjs\"",
+    "tokens:test": "pnpm scripts:test",
     "demos:check": "node scripts/check-demo-determinism.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
