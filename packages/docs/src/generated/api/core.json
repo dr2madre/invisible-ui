@@ -1726,11 +1726,6 @@
       "signature": "type rangeSlider_RangeSliderState = RangeSliderState;"
     },
     {
-      "name": "rangeSlider.alignMinDistance",
-      "kind": "const",
-      "signature": "rangeSlider_alignMinDistance: typeof alignMinDistance"
-    },
-    {
       "name": "rangeSlider.clampPair",
       "kind": "const",
       "signature": "rangeSlider_clampPair: typeof clampPair"
@@ -1759,6 +1754,16 @@
       "name": "rangeSlider.normalizePair",
       "kind": "const",
       "signature": "rangeSlider_normalizePair: typeof normalizePair"
+    },
+    {
+      "name": "rangeSlider.onGrid",
+      "kind": "const",
+      "signature": "rangeSlider_onGrid: typeof onGrid"
+    },
+    {
+      "name": "rangeSlider.orderBounds",
+      "kind": "const",
+      "signature": "rangeSlider_orderBounds: typeof orderBounds"
     },
     {
       "name": "rangeSlider.percentages",
