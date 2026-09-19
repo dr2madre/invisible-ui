@@ -140,6 +140,16 @@ be credited as an author.
 person must review, understand, and stand behind every change submitted
 under their name.
 
+## Claims and evidence
+
+Every claim the documentation makes about behaviour, accessibility or
+compatibility has a row in [`docs/evidence-register.md`](./docs/evidence-register.md)
+naming the evidence that holds it: a unit test, a browser test on named
+engines, a visual baseline, an executable gate check, or a manual session
+with its date. A pull request that adds or changes a claim changes the row in
+the same pull request. A claim whose only evidence would be a manual session
+is written as not yet verified, and its row says so.
+
 ## Writing
 
 All prose (documentation, site copy, UI messages) follows
