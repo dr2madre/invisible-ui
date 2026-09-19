@@ -1,5 +1,5 @@
 import { rangeSlider as core } from "@design-system/core";
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, onMounted, ref, watch, type PropType } from "vue";
 import { useRangeSlider, type RangeSliderOrientation } from "./use-range-slider";
 import { useFormReset, useLiveDom } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
@@ -118,6 +118,15 @@ export const RangeSlider = defineComponent({
       if (!isSamePair(next, told.value)) fallback.value = normalized(next);
       told.value = next;
     });
+    // The reset default follows the constraints too, so a native reset can
+    // never put back a pair the current constraints would not allow.
+    watch(
+      () => [props.min, props.max, props.step, props.minDistance] as const,
+      () => {
+        const next = normalized(fallback.value);
+        if (!isSamePair(next, fallback.value)) fallback.value = next;
+      },
+    );
 
     const api = useRangeSlider(() => ({
       value: told.value,
@@ -151,30 +160,72 @@ export const RangeSlider = defineComponent({
     );
 
     // Two overlapping native range inputs hit-test by z-order, not by
-    // distance to the pointer, so whichever thumb the next press should
-    // reach must be raised before the press lands. Guarded on
-    // `event.buttons === 0`: while a button is down this must not run, or it
-    // could interrupt a drag already in progress (a native range input keeps
-    // receiving its own pointer events once a drag starts on it, even past
-    // its own bounds).
+    // distance to the pointer, so whichever thumb the next press should reach
+    // must be raised before the press lands. The rule lives in core
+    // (`nearerThumb`, `restingThumb`); this feeds it what only the DOM knows:
+    // the track's box and the input's computed writing direction, which
+    // decide which physical end is `min`. A pointer over the track picks the
+    // nearer thumb along the logical axis, guarded on `event.buttons === 0`
+    // so a drag in progress is never interrupted; with no pointer over the
+    // track the resting rule applies, so a touch, which has no hover before
+    // it, still lands on a thumb that can move.
+    let hovering = false;
+    const raise = (index: 0 | 1) => {
+      const lower = lowerInput.value;
+      const upper = upperInput.value;
+      if (!lower || !upper) return;
+      lower.style.zIndex = index === 0 ? "2" : "1";
+      upper.style.zIndex = index === 1 ? "2" : "1";
+    };
+    const fractions = (): [number, number] | null => {
+      const lower = lowerInput.value;
+      const upper = upperInput.value;
+      if (!lower || !upper) return null;
+      const min = Number(lower.min);
+      const max = Number(lower.max);
+      return [
+        core.valueFraction(Number(lower.value), min, max),
+        core.valueFraction(Number(upper.value), min, max),
+      ];
+    };
+    const rest = () => {
+      const pair = fractions();
+      if (pair) raise(core.restingThumb(pair[0], pair[1]));
+    };
     const onTrackPointerMove = (event: PointerEvent) => {
       if (event.buttons !== 0) return;
       const lower = lowerInput.value;
-      const upper = upperInput.value;
       const node = track.value;
-      if (!lower || !upper || !node) return;
-      const rect = node.getBoundingClientRect();
-      const pct = (event.clientX - rect.left) / rect.width;
-      const min = Number(lower.min);
-      const max = Number(lower.max);
-      const pointerValue = min + pct * (max - min);
-      const lowerValue = Number(lower.value);
-      const upperValue = Number(upper.value);
-      const nearerLower =
-        Math.abs(pointerValue - lowerValue) <= Math.abs(pointerValue - upperValue);
-      lower.style.zIndex = nearerLower ? "2" : "1";
-      upper.style.zIndex = nearerLower ? "1" : "2";
+      const pair = fractions();
+      if (!lower || !node || !pair) return;
+      const styles = getComputedStyle(lower);
+      const axis: core.PointerAxis = {
+        orientation: styles.writingMode.startsWith("vertical") ? "vertical" : "horizontal",
+        rtl: styles.direction === "rtl",
+      };
+      const pointer = core.pointerFraction(
+        axis,
+        node.getBoundingClientRect(),
+        event.clientX,
+        event.clientY,
+      );
+      raise(core.nearerThumb(pointer, pair[0], pair[1]));
     };
+    const onTrackPointerEnter = () => {
+      hovering = true;
+    };
+    const onTrackPointerLeave = () => {
+      hovering = false;
+      rest();
+    };
+    onMounted(rest);
+    watch(
+      () => [api.value.value[0], api.value.value[1], props.orientation] as const,
+      () => {
+        if (!hovering) rest();
+      },
+      { flush: "post" },
+    );
 
     return () => {
       const { t } = i18n.value;
@@ -187,7 +238,10 @@ export const RangeSlider = defineComponent({
 
       return h(
         "div",
-        { class: ["range-slider-field", { "range-slider-field--disabled": props.disabled }] },
+        {
+          class: ["range-slider-field", { "range-slider-field--disabled": props.disabled }],
+          "data-orientation": props.orientation,
+        },
         [
           h("div", { class: "range-slider-field__row" }, [
             slots.icon
@@ -216,6 +270,8 @@ export const RangeSlider = defineComponent({
                     class: "range-slider__track",
                     ref: track,
                     onPointermove: onTrackPointerMove,
+                    onPointerenter: onTrackPointerEnter,
+                    onPointerleave: onTrackPointerLeave,
                   },
                   [
                     h("span", { class: "range-slider__range", "aria-hidden": "true" }),

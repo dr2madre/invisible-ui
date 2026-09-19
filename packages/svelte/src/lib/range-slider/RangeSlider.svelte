@@ -57,6 +57,7 @@
     percentages,
     setValue,
     syncValue,
+    syncConfig,
   } = createRangeSlider({
     value,
     min,
@@ -82,6 +83,12 @@
     if (!isGiveBack) defaultValue = core.normalizePair(value, min, max, step, minDistance);
     syncValue(value);
   }
+  // Constraints changed after mount reach the machine, the DOM and the
+  // dependent bounds without a remount, and report nothing. The reset
+  // default is normalized against them too, so a native reset can never put
+  // back a pair the new constraints would not allow.
+  $: syncConfig({ min, max, step, minDistance, orientation, disabled });
+  $: defaultValue = core.normalizePair(defaultValue, min, max, step, minDistance);
   // The restore puts the control's own copy back beside the machine's, so a
   // later prop change is judged against what the page now shows (ADR 0012).
   const restore = () => {
@@ -106,17 +113,23 @@
       ? Array.from({ length: tickCount + 1 }, (_, i) => (i / tickCount) * 100)
       : [];
 
+  // The bound named is the one the clamp really uses: the effective distance,
+  // rounded up to the step grid and capped at the span.
   $: lowerAriaText = $t("rangeSlider.lowerText", {
     value: format($pairValue[0]),
-    bound: format($pairValue[1] - minDistance),
+    bound: format($pairValue[1] - $api.minDistance),
   });
   $: upperAriaText = $t("rangeSlider.upperText", {
     value: format($pairValue[1]),
-    bound: format($pairValue[0] + minDistance),
+    bound: format($pairValue[0] + $api.minDistance),
   });
 </script>
 
-<div class="range-slider-field" class:range-slider-field--disabled={disabled}>
+<div
+  class="range-slider-field"
+  class:range-slider-field--disabled={disabled}
+  data-orientation={orientation}
+>
   <div class="range-slider-field__row">
     {#if $$slots.icon}
       <span class="range-slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
@@ -133,7 +146,7 @@
       <div
         class="range-slider__track"
         bind:this={trackEl}
-        use:nearestThumb={{ lower: lowerEl, upper: upperEl }}
+        use:nearestThumb={{ lower: lowerEl, upper: upperEl, value: $pairValue, orientation }}
       >
         <span class="range-slider__range" {...$api.rangeProps}></span>
         {#if tickPositions.length}
@@ -240,8 +253,14 @@
     background: var(--ds-color-border, #c7c1b7);
   }
   .range-slider[data-orientation="vertical"] .range-slider__track {
+    /* The row's `flex: 1` would grow the track to the row's width; upright it
+       is a thin bar, and the thumbs' height is what needs the room. */
+    flex: none;
     inline-size: var(--ds-range-slider-track-size, 4px);
-    block-size: 12rem;
+    block-size: var(--ds-range-slider-length, 12rem);
+  }
+  .range-slider-field[data-orientation="vertical"] {
+    inline-size: auto;
   }
   .range-slider__range {
     position: absolute;
@@ -265,6 +284,10 @@
     inset-block-start: 50%;
     transform: translateY(-50%);
     inline-size: 100%;
+    /* The thumb is the pointer target, and the input's own box is what a
+       target-size check measures: engines do not all grow a range input
+       around its thumb, so the thickness is stated. */
+    block-size: var(--ds-range-slider-thumb-size, 1.5rem);
     margin: 0;
     background: transparent;
     appearance: none;
@@ -275,11 +298,14 @@
   .range-slider[data-orientation="vertical"] .range-slider__input {
     writing-mode: vertical-lr;
     direction: rtl;
-    inset-inline-start: 50%;
-    inset-block-start: 0;
+    /* Physical properties on purpose: a logical inset or size on this element
+       resolves in its own writing mode, which is now vertical, so
+       `inline-size` would be its height and `inset-block-start` its left. */
+    top: 0;
+    left: 50%;
     transform: translateX(-50%);
-    inline-size: auto;
-    block-size: 100%;
+    width: var(--ds-range-slider-thumb-size, 1.5rem);
+    height: 100%;
   }
   /* 1.5rem is 24px: the smallest pointer target WCAG 2.2 accepts, and the
      thumb is the only thing a drag can grab. */

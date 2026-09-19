@@ -47,6 +47,27 @@ export function useRangeSlider(
     },
   );
 
+  // A constraint that changed after mount can leave the held pair invalid;
+  // it is normalized silently, as a drag would have been, so the clamp never
+  // reads a pair the new constraints would not allow. Nothing is reported: a
+  // constraint is the application's data, not a user action.
+  watch(
+    () => {
+      const r = resolved.value;
+      return [r.min, r.max, r.step, r.minDistance] as const;
+    },
+    ([min, max, step, minDistance]) => {
+      const next = core.normalizePair(
+        value.value,
+        min ?? 0,
+        max ?? 100,
+        step ?? 1,
+        minDistance ?? 0,
+      );
+      if (next[0] !== value.value[0] || next[1] !== value.value[1]) value.value = next;
+    },
+  );
+
   const setValue = (index: 0 | 1, raw: number) => {
     const current = resolved.value;
     const next = core.clampPair(

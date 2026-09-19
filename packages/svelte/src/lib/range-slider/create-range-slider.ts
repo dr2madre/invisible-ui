@@ -34,7 +34,21 @@ export interface CreateRangeSlider {
    * choice.
    */
   syncValue: (value: readonly [number, number]) => void;
+  /**
+   * Reflect the constraints after mount: `min`, `max`, `step`, `minDistance`,
+   * `orientation`, `disabled`. Reporting nothing, like any reflection: a
+   * constraint is the application's data, not a user action. If the new
+   * constraints leave the current pair invalid it is normalized silently,
+   * the same way a drag would have been.
+   */
+  syncConfig: (config: RangeSliderConfig) => void;
 }
+
+/** The props a consumer may change after mount, besides the value. */
+export type RangeSliderConfig = Pick<
+  RangeSliderState,
+  "min" | "max" | "step" | "minDistance" | "orientation" | "disabled"
+>;
 
 /**
  * Create a headless range slider backed by two native `<input type="range">`
@@ -85,6 +99,47 @@ export function createRangeSlider(context: core.RangeSliderContext = {}): Create
       return { ...current, value: normalized };
     });
 
+  // Every field is compared, not only the value, so a constraint that changed
+  // after mount reaches the machine and the DOM instead of being frozen at
+  // construction. The distance stored is the effective one, already on the
+  // step grid and capped at the span, which is what the clamp reads.
+  const syncConfig = (config: RangeSliderConfig) =>
+    state.update((current) => {
+      const minDistance = core.effectiveMinDistance(
+        config.minDistance,
+        config.min,
+        config.max,
+        config.step,
+      );
+      if (
+        current.min === config.min &&
+        current.max === config.max &&
+        current.step === config.step &&
+        current.minDistance === minDistance &&
+        current.orientation === config.orientation &&
+        current.disabled === config.disabled
+      ) {
+        return current;
+      }
+      const value = core.normalizePair(
+        current.value,
+        config.min,
+        config.max,
+        config.step,
+        config.minDistance,
+      );
+      return {
+        ...current,
+        min: config.min,
+        max: config.max,
+        step: config.step,
+        minDistance,
+        orientation: config.orientation,
+        disabled: config.disabled,
+        value,
+      };
+    });
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, normalize: normalizeProps }),
   );
@@ -96,5 +151,6 @@ export function createRangeSlider(context: core.RangeSliderContext = {}): Create
     percentages: derived(state, ($state) => core.percentages($state)),
     setValue,
     syncValue,
+    syncConfig,
   };
 }

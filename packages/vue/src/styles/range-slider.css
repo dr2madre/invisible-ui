@@ -60,8 +60,14 @@
   background: var(--ds-color-border, #c7c1b7);
 }
 .range-slider[data-orientation="vertical"] .range-slider__track {
+  /* The row's `flex: 1` would grow the track to the row's width; upright it is
+     a thin bar, and the thumbs' height is what needs the room. */
+  flex: none;
   inline-size: var(--ds-range-slider-track-size, 4px);
-  block-size: 12rem;
+  block-size: var(--ds-range-slider-length, 12rem);
+}
+.range-slider-field[data-orientation="vertical"] {
+  inline-size: auto;
 }
 .range-slider__range {
   position: absolute;
@@ -85,6 +91,10 @@
   inset-block-start: 50%;
   transform: translateY(-50%);
   inline-size: 100%;
+  /* The thumb is the pointer target, and the input's own box is what a
+     target-size check measures: engines do not all grow a range input around
+     its thumb, so the thickness is stated. */
+  block-size: var(--ds-range-slider-thumb-size, 1.5rem);
   margin: 0;
   background: transparent;
   appearance: none;
@@ -95,11 +105,14 @@
 .range-slider[data-orientation="vertical"] .range-slider__input {
   writing-mode: vertical-lr;
   direction: rtl;
-  inset-inline-start: 50%;
-  inset-block-start: 0;
+  /* Physical properties on purpose: a logical inset or size on this element
+     resolves in its own writing mode, which is now vertical, so `inline-size`
+     would be its height and `inset-block-start` its left. */
+  top: 0;
+  left: 50%;
   transform: translateX(-50%);
-  inline-size: auto;
-  block-size: 100%;
+  width: var(--ds-range-slider-thumb-size, 1.5rem);
+  height: 100%;
 }
 /* 1.5rem is 24px: the smallest pointer target WCAG 2.2 accepts, and the thumb
    is the only thing a drag can grab. */

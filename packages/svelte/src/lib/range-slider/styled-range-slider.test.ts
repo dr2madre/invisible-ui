@@ -156,6 +156,115 @@ describe("Svelte RangeSlider", () => {
     expect(lower()).toHaveAttribute("aria-valuetext", expect.stringContaining("75"));
   });
 
+  // Constraints changed after mount reach the machine, the DOM, the fill and
+  // the dependent bounds without a remount, report nothing, and where they
+  // leave the pair invalid, normalize it and the reset default together.
+  describe("reflects a constraint changed after mount", () => {
+    it("min", async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, { props: { value: [20, 80], onValueChange } });
+      await rerender({ value: [20, 80], min: 10, onValueChange });
+      expect(lower()).toHaveAttribute("min", "10");
+      expect(upper()).toHaveAttribute("min", "10");
+      expect(lower()).toHaveAttribute("aria-valuemin", "10");
+      // (20 - 10) / 90 and (80 - 10) / 90 of the track.
+      expect(fillPercentages().map((p) => Math.round(parseFloat(p)))).toEqual([11, 78]);
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("max, and a pair it no longer allows is normalized silently, reset default included", async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, { props: { value: [20, 80], onValueChange } });
+      await rerender({ value: [20, 80], max: 50, onValueChange });
+      expect(upper()).toHaveAttribute("max", "50");
+      expect(upper()).toHaveAttribute("aria-valuemax", "50");
+      expect(upper()).toHaveValue("50");
+      expect(lower()).toHaveValue("20");
+      expect(upper().defaultValue, "the reset default follows").toBe("50");
+      expect(onValueChange).not.toHaveBeenCalled();
+
+      const form = screen.getByTestId("form") as HTMLFormElement;
+      await fireEvent.input(lower(), { target: { value: "40" } });
+      form.reset();
+      await new Promise((r) => setTimeout(r, 0));
+      expect(lower()).toHaveValue("20");
+      expect(upper()).toHaveValue("50");
+    });
+
+    it("step, snapping the held pair onto the new grid", async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, { props: { value: [22, 78], onValueChange } });
+      await rerender({ value: [22, 78], step: 5, onValueChange });
+      expect(lower()).toHaveAttribute("step", "5");
+      expect(lower()).toHaveValue("20");
+      expect(upper()).toHaveValue("80");
+      expect(lower().defaultValue).toBe("20");
+      expect(upper().defaultValue).toBe("80");
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("minDistance, pushing the pair apart and moving the dependent bound", async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, { props: { value: [50, 52], onValueChange } });
+      await rerender({ value: [50, 52], minDistance: 10, onValueChange });
+      expect(upper()).toHaveValue("60");
+      expect(lower()).toHaveAttribute("aria-valuemax", "50");
+      expect(upper()).toHaveAttribute("aria-valuemin", "60");
+      expect(upper().defaultValue).toBe("60");
+      expect(onValueChange).not.toHaveBeenCalled();
+      // The bound announced is the effective one too.
+      expect(lower()).toHaveAttribute("aria-valuetext", expect.stringContaining("50"));
+    });
+
+    it("orientation", async () => {
+      const { rerender } = render(Fixture, { props: { value: [20, 80] } });
+      expect(lower()).toHaveAttribute("aria-orientation", "horizontal");
+      await rerender({ value: [20, 80], orientation: "vertical" });
+      expect(lower()).toHaveAttribute("aria-orientation", "vertical");
+      expect(upper()).toHaveAttribute("aria-orientation", "vertical");
+      expect(document.querySelector(".range-slider")).toHaveAttribute(
+        "data-orientation",
+        "vertical",
+      );
+      expect(lower()).toHaveAttribute("data-orientation", "vertical");
+    });
+
+    it("a drag after a constraint change reports a pair the new constraints allow", async () => {
+      // The clamp reads the held pair. If a constraint change left that pair
+      // stale, a later drag would clamp against a bound that no longer exists
+      // and report it: here [40, 80] over a max of 50.
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, { props: { value: [20, 80], onValueChange } });
+      await rerender({ value: [20, 80], max: 50, onValueChange });
+      expect(onValueChange).not.toHaveBeenCalled();
+      await fireEvent.input(lower(), { target: { value: "40" } });
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      expect(onValueChange).toHaveBeenCalledWith([40, 50]);
+    });
+
+    it("disabled, both ways", async () => {
+      const onValueChange = vi.fn();
+      const { rerender } = render(Fixture, {
+        props: { value: [20, 80], name: "price", onValueChange },
+      });
+      await rerender({ value: [20, 80], name: "price", disabled: true, onValueChange });
+      expect(lower()).toBeDisabled();
+      expect(upper()).toBeDisabled();
+      const form = screen.getByTestId("form") as HTMLFormElement;
+      expect(new FormData(form).getAll("price")).toEqual([]);
+
+      await rerender({ value: [20, 80], name: "price", disabled: false, onValueChange });
+      expect(lower()).toBeEnabled();
+      expect(new FormData(form).getAll("price")).toEqual(["20", "80"]);
+
+      // Disabled again: an input event that a real browser would never
+      // deliver to a disabled control still reports nothing here.
+      await rerender({ value: [20, 80], name: "price", disabled: true, onValueChange });
+      await fireEvent.input(lower(), { target: { value: "30" } });
+      expect(onValueChange, "a disabled control reports nothing").not.toHaveBeenCalled();
+    });
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { value: [20, 80] } });
     expect(await axe(container)).toHaveNoViolations();
