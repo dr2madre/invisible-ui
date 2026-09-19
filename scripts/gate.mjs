@@ -27,12 +27,15 @@ const base =
       : ""
     : process.env.DS_GATE_BASE;
 
+/** Steps that run only when their input exists; today, the changeset base. */
+const SKIPPED = new Set(base ? [] : ["changeset"]);
+
 /** Name, then the command. Order matters: cheap and independent first. */
 export const STEPS = [
   ["env", "node scripts/check-env.mjs"],
   ["lint", "pnpm lint"],
   ["format", "pnpm format:check"],
-  ["changeset", base ? `node scripts/check-changeset.mjs ${base}` : null],
+  ["changeset", `node scripts/check-changeset.mjs ${base || "<base>"}`],
   ["tokens", "pnpm tokens:check"],
   ["scripts-tests", "pnpm scripts:test"],
   ["demos", "pnpm demos:check"],
@@ -60,7 +63,9 @@ function main() {
   const args = process.argv.slice(2);
   if (args.includes("--list")) {
     for (const [name, command] of STEPS)
-      console.log(`${name.padEnd(28)} ${command ?? "(skipped: no base commit)"}`);
+      console.log(
+        `${name.padEnd(28)} ${SKIPPED.has(name) ? "(skipped: no base commit)" : command}`,
+      );
     process.exit(0);
   }
   const from = args[args.indexOf("--from") + 1];
@@ -72,7 +77,7 @@ function main() {
 
   const results = [];
   for (const [name, command] of STEPS.slice(start)) {
-    if (!command) {
+    if (SKIPPED.has(name)) {
       console.log(`\n▶ ${name}: skipped (no base commit: set DS_GATE_BASE=<ref>)`);
       results.push([name, "skipped", "0"]);
       continue;

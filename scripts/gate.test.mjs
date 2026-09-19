@@ -11,21 +11,32 @@ const ci = readFileSync(resolve(root, ".github/workflows/ci.yml"), "utf8");
 // The workflow is held to one job that installs and runs the gate. Anything
 // else there (another `run:`, another action, another job, a changed `env:`)
 // would be a check that exists only in CI, or a way around the gate.
-const jobs = ci.slice(ci.indexOf("\njobs:\n") + 1);
+// From `jobs:` to the next top-level key, or the end of the file.
+const jobsStart = ci.indexOf("\njobs:\n") + 1;
+const nextTop = ci.slice(jobsStart + 6).search(/^\w/m);
+const jobs = nextTop === -1 ? ci.slice(jobsStart) : ci.slice(jobsStart, jobsStart + 6 + nextTop);
 const jobNames = [...jobs.matchAll(/^ {2}([\w-]+):\s*$/gm)].map((m) => m[1]);
+const jobKeys = [...jobs.matchAll(/^ {4}([\w-]+):/gm)].map((m) => m[1]);
 const stepKeys = [...jobs.matchAll(/^ {6}- ([\w-]+):/gm)].map((m) => m[1]);
+// Every key inside a step: an `if:`, `continue-on-error:`, `shell:` or
+// `working-directory:` here would change what runs or whether a red gate
+// counts, so the whole set is held.
+const stepInnerKeys = [...jobs.matchAll(/^ {8}([\w-]+):/gm)].map((m) => m[1]);
 const uses = [...jobs.matchAll(/^\s*-?\s*uses:\s*(.+)$/gm)].map((m) => m[1].trim());
 const runs = [...jobs.matchAll(/^\s*-?\s*run:\s*(.+)$/gm)].map((m) => m[1].trim());
 const withs = [...jobs.matchAll(/^ {10}([\w-]+):\s*(.+)$/gm)].map((m) => `${m[1]}: ${m[2].trim()}`);
 
-test("CI has one job", () => {
+test("CI has one job, on one runner, with steps and nothing else", () => {
   assert.deepEqual(jobNames, ["verify"]);
+  assert.deepEqual(jobKeys, ["runs-on", "steps"]);
+  assert.match(jobs, /^ {4}runs-on: ubuntu-latest$/m);
 });
 
 test("CI's steps are checkout, pnpm, Node, install, gate; nothing else", () => {
   assert.deepEqual(stepKeys, ["uses", "name", "name", "name", "name"]);
   assert.deepEqual(uses, ["actions/checkout@v4", "pnpm/action-setup@v4", "actions/setup-node@v4"]);
   assert.deepEqual(runs, ["pnpm install --frozen-lockfile", "pnpm gate"]);
+  assert.deepEqual(stepInnerKeys, ["with", "uses", "uses", "with", "run", "run", "env"]);
 });
 
 test("CI's step settings are only the ones the gate needs", () => {
