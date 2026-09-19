@@ -315,8 +315,11 @@ describe("<ds-combobox>", () => {
     expect(input()).toHaveAccessibleName("Produce");
     expect(input().placeholder).toBe("Type to filter…");
     // With nothing to clear the button is out of the accessibility tree, as in
-    // every other adapter; the attribute still reached it.
-    expect(screen.getByRole("button", { name: "Reset", hidden: true })).toBeInTheDocument();
+    // every other adapter, so it is read by its node: the attribute still
+    // reached it.
+    const clear = document.querySelector(".combobox__clear")!;
+    expect(clear).toHaveAttribute("aria-label", "Reset");
+    expect(clear).toHaveAttribute("aria-hidden", "true");
   });
 
   it("the searchable attribute switches the select-only mode after the first render", () => {
