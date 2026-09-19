@@ -75,15 +75,47 @@ test("the build config, the tsconfigs and the lockfile count", () => {
 
 // What the checkout is called must not change what is hashed: a repository
 // cloned under a directory named `src` once dropped every extra input.
-test("a checkout under a directory named src still counts the extra inputs", () => {
+test("a checkout under a directory named src still counts every extra input", () => {
   const parent = mkdtempSync(join(tmpdir(), "home-"));
   mkdirSync(join(parent, "src"));
-  const f = fixture(join(parent, "src"));
-  f.record();
-  writeFileSync(join(f.root, "pnpm-lock.yaml"), "lockfileVersion: 9\n\npackages: {}\n");
-  assert.match(checkCoreDist(f.root), /other sources/);
-  f.done();
+  for (const [rel, content] of [
+    ["core/package.json", '{ "name": "y" }\n'],
+    ["pnpm-lock.yaml", "lockfileVersion: 9\n\npackages: {}\n"],
+    ["core/tsup.config.ts", "export default { treeshake: false };\n"],
+    ["core/tsconfig.json", '{ "compilerOptions": { "strict": false } }\n'],
+    ["tsconfig.base.json", '{ "compilerOptions": { "target": "es2022" } }\n'],
+    ["core/scripts/patch-esm-specifiers.mjs", "// rewritten\n"],
+    ["core/scripts/clean-dist.mjs", "// rewritten\n"],
+  ]) {
+    const f = fixture(join(parent, "src"));
+    assert.match(f.root, /\/src\//);
+    f.record();
+    writeFileSync(join(f.root, rel), content);
+    assert.match(checkCoreDist(f.root), /other sources/, rel);
+    f.done();
+  }
   rmSync(parent, { recursive: true, force: true });
+});
+
+// The build records the hash under a pending name and renames it only after
+// it has succeeded. A build that failed or was interrupted leaves the pending
+// file, which is not a stamp.
+test("a failed build's dist, with only a pending stamp, is refused", () => {
+  const f = fixture();
+  writeFileSync(
+    join(f.core, "dist/.build-info.pending.json"),
+    JSON.stringify({ sourceHash: hashCoreSources(f.core) }),
+  );
+  assert.match(checkCoreDist(f.root), /no build info/);
+  f.done();
+});
+
+test("a pending stamp beside a canonical one changes nothing", () => {
+  const f = fixture();
+  f.record();
+  writeFileSync(join(f.core, "dist/.build-info.pending.json"), '{ "sourceHash": "stale" }');
+  assert.equal(checkCoreDist(f.root), null);
+  f.done();
 });
 
 test("a missing input is reported with the remedy, not a stack", () => {
