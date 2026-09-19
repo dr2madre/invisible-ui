@@ -43,11 +43,17 @@ way round: its text is a query the user wrote, so it is kept.
 
 - The input is `role="combobox"` with `aria-autocomplete="list"`, `aria-expanded`
   and `aria-controls`; the popup is `role="listbox"` of `role="option"`s. DOM
-  focus stays on the input — the highlight moves via `aria-activedescendant`.
+  focus stays on the input while you type and choose; the highlight moves via
+  `aria-activedescendant`.
 - Typing filters; **Arrow Up/Down** move the highlight, **Enter** selects (filling
   the input), **Escape** closes. Filtering, positioning (flip/shift) and keeping
   the active option in view are handled by the adapter. Provide your own matcher
   via the headless `createCombobox`'s `filter` option.
+- The clear control is a real `<button>`: **Tab** reaches it only while there is
+  something to clear, and **Enter**, **Space** or a pointer press empties the
+  control and returns focus to the input. With `searchable={false}` this is the
+  keyboard's only way to empty a read-only control. What a screen reader's own
+  activation does is not verified before the manual accessibility session.
 
 ### Example
 

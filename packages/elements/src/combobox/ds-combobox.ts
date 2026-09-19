@@ -311,6 +311,7 @@ export class DsCombobox extends HTMLElementBase {
       setActiveValue: (activeValue) => this.#update({ activeValue }),
       setInputValue: (inputValue) => this.#update({ inputValue, items: this.#filter(inputValue) }),
       setCommittedInputValue: (committedInputValue) => this.#update({ committedInputValue }),
+      focusInput: () => this.#input?.focus(),
     });
   }
 
@@ -354,9 +355,13 @@ export class DsCombobox extends HTMLElementBase {
     applyProps(this.querySelector(".combobox__label")!, api.labelProps);
     applyProps(this.#clear!, api.clearProps);
 
-    const empty = !this.#state.inputValue;
-    this.#clear!.classList.toggle("combobox__clear--hidden", empty);
-    this.#clear!.tabIndex = empty ? -1 : 0;
+    // Only the look is decided here, and from core's own rule: clearProps
+    // already carry tabindex and aria-hidden, and a second copy of the rule
+    // would be a second source of truth.
+    this.#clear!.classList.toggle(
+      "combobox__clear--hidden",
+      api.clearProps["aria-hidden"] === "true",
+    );
 
     if (this.#hidden) this.#hidden.value = this.#state.value ?? "";
     // The text the browser's own reset puts back. The hidden input carrying

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/svelte";
+import { fireEvent, render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -170,6 +170,66 @@ describe("Svelte Combobox (styled)", () => {
     await user.type(input(), "app");
     await user.click(screen.getByRole("button", { name: "Clear" }));
     expect(input()).toHaveValue("");
+  });
+
+  // A selection, not typed text: moving focus to the clear button blurs the
+  // input, and the combobox puts unselected text back to what was committed.
+  // Starting from a chosen value means an empty input can only be the clear
+  // button's doing; with typed text these would pass against a dead button.
+  it.each(["{Enter}", " "])(
+    "clears from the keyboard with %s, and hands focus back",
+    async (key) => {
+      const user = userEvent.setup();
+      render(Fixture, { props: { value: "banana" } });
+      expect(input()).toHaveValue("Banana");
+
+      const clear = screen.getByRole("button", { name: "Clear" });
+      expect(clear, "reachable while there is something to clear").toHaveAttribute("tabindex", "0");
+      clear.focus();
+      expect(clear).toHaveFocus();
+
+      await user.keyboard(key);
+
+      expect(input()).toHaveValue("");
+      // The button it pressed is out of the tree now, so focus cannot stay.
+      expect(input()).toHaveFocus();
+    },
+  );
+
+  it("clears on a direct click with no mousedown before it, and hands focus back", async () => {
+    // Assistive activation may dispatch a click on its own, with no pointer
+    // press and no key before it. The click has to be enough by itself.
+    render(Fixture, { props: { value: "banana" } });
+    expect(input()).toHaveValue("Banana");
+
+    await fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(input()).toHaveFocus();
+  });
+
+  it("a pointer press clears once and reports once", async () => {
+    // mousedown keeps focus on the input, the click does the clearing: the
+    // two must add up to one clear, not two.
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { value: "banana", onValueChange } });
+
+    await user.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(null);
+    expect(input()).toHaveFocus();
+  });
+
+  it("offers no clear button at all while there is nothing to clear", () => {
+    const { container } = render(Fixture);
+    // It keeps its footprint so the input does not jump, but it is out of the
+    // accessibility tree and out of the tab sequence.
+    expect(screen.queryByRole("button", { name: "Clear" })).toBeNull();
+    const clear = container.querySelector(".combobox__clear") as HTMLElement;
+    expect(clear).toHaveAttribute("tabindex", "-1");
   });
 
   it("closes on Escape and puts the text back", async () => {

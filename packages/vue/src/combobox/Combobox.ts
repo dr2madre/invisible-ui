@@ -181,7 +181,7 @@ export const Combobox = defineComponent({
 
       const selected = props.items.find((item) => item.value === selectedValue.value);
       const hasIcons = props.items.some((item) => item.icon);
-      const clearHidden = !inputValue.value || props.disabled;
+      const clearHidden = api.value.clearProps["aria-hidden"] === "true";
 
       const checkGlyph = () => h("polyline", { points: "20 6 9 17 4 12" });
 
@@ -321,8 +321,6 @@ export const Combobox = defineComponent({
                 ...api.value.clearProps,
                 class: clearHidden ? "combobox__clear combobox__clear--hidden" : "combobox__clear",
                 "aria-label": resolvedClearLabel,
-                tabindex: clearHidden ? -1 : 0,
-                "aria-hidden": clearHidden ? "true" : undefined,
               },
               [
                 h(

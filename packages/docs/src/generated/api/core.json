@@ -613,12 +613,12 @@
     {
       "name": "combobox.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#7ee0f0f0 { state: ComboboxState; setValue: (value: string | null) => void; setOpen: (open: boolean) => void; setActiveValue: (value: string | null) => void; setInputValue: (text: string) => void; /** Record the text as chosen, so a later filter can be undone. */ setCommittedInputValue: (text: string) => void; /** * Whether leaving the control settles it: close the list and put the text * back. `true` for a control that only takes values from its list. A Search * Dialog passes `false`, because its text is a query the user wrote and its * dismissal belongs to the dialog around it. */ settleOnBlur?: boolean; normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#39e69a4a { state: ComboboxState; setValue: (value: string | null) => void; setOpen: (open: boolean) => void; setActiveValue: (value: string | null) => void; setInputValue: (text: string) => void; /** Record the text as chosen, so a later filter can be undone. */ setCommittedInputValue: (text: string) => void; /** * Whether leaving the control settles it: close the list and put the text * back. `true` for a control that only takes values from its list. A Search * Dialog passes `false`, because its text is a query the user wrote and its * dismissal belongs to the dialog around it. */ settleOnBlur?: boolean; /** * Put DOM focus back on the input. Called when clearing from the keyboard, * which is the one path that leaves focus on a button that is about to * stop being one; the adapter owns the element, so it owns the call. */ focusInput?: () => void; normalize?: Normalize; }"
     },
     {
       "name": "combobox.connect",
       "kind": "function",
-      "signature": "declare function connect#a88fd354({ state, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue, settleOnBlur, normalize, }: ConnectOptions#7ee0f0f0): ComboboxApi;"
+      "signature": "declare function connect#e2d3d4ce({ state, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue, settleOnBlur, focusInput, normalize, }: ConnectOptions#39e69a4a): ComboboxApi;"
     },
     {
       "name": "combobox.firstEnabled",

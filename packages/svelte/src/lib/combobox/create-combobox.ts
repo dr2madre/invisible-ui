@@ -161,6 +161,8 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       return { ...current, ...closing, disabled };
     });
 
+  let inputEl: HTMLElement | null = null;
+
   const api = derived(state, ($state) =>
     core.connect({
       state: $state,
@@ -169,11 +171,11 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
       setActiveValue,
       setInputValue,
       setCommittedInputValue,
+      focusInput: () => inputEl?.focus(),
       normalize: normalizeProps,
     }),
   );
 
-  let inputEl: HTMLElement | null = null;
   let listboxEl: HTMLElement | null = null;
   let controlEl: HTMLElement | null = null;
 
