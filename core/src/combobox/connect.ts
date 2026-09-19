@@ -59,6 +59,12 @@ export interface ConnectOptions {
    * dismissal belongs to the dialog around it.
    */
   settleOnBlur?: boolean;
+  /**
+   * Put DOM focus back on the input. Called when clearing from the keyboard,
+   * which is the one path that leaves focus on a button that is about to
+   * stop being one; the adapter owns the element, so it owns the call.
+   */
+  focusInput?: () => void;
   normalize?: Normalize;
 }
 
@@ -78,6 +84,7 @@ export function connect({
   setInputValue,
   setCommittedInputValue,
   settleOnBlur = true,
+  focusInput,
   normalize = identityNormalize,
 }: ConnectOptions): ComboboxApi {
   const { open, value, inputValue, committedInputValue, activeValue, items, disabled, id } = state;
@@ -243,12 +250,32 @@ export function connect({
     },
     clearProps: normalize({
       type: "button",
-      tabindex: -1,
+      // In the tab sequence, and in the accessibility tree, only while it has
+      // something to clear and the control is enabled: a control that only
+      // takes values from its list, and whose input may be read-only, would
+      // otherwise have no keyboard way to empty itself. One rule decides both,
+      // so the two can never disagree on the same node; adapters draw the
+      // hidden look from `aria-hidden` rather than from a rule of their own.
+      tabindex: (value || inputValue) && !disabled ? 0 : -1,
+      "aria-hidden": (value || inputValue) && !disabled ? undefined : "true",
       disabled: disabled || undefined,
       "data-state": value || inputValue ? "active" : "empty",
+      // A press on the button would move focus off the input before the
+      // click arrives; this keeps it there. It does nothing else: the clear
+      // belongs to the click, which the button itself generates for a
+      // pointer, for Enter and Space, and for a direct activation alike.
       onMouseDown: (event: Event) => {
-        event.preventDefault(); // keep focus on the input
+        event.preventDefault();
+      },
+      onClick: () => {
+        // A disabled button takes no user click; a synthetic one must not
+        // move focus onto a control that is turned off.
+        if (disabled) return;
         clear();
+        // Nothing to do for a pointer, whose focus never left; a key press
+        // or a direct activation leaves focus on a button that has just
+        // stopped being one.
+        focusInput?.();
       },
     }),
   };

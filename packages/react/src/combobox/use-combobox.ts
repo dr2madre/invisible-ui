@@ -183,6 +183,8 @@ export function useCombobox({
     setState((s) => (s.committedInputValue === next ? s : { ...s, committedInputValue: next }));
   }, []);
 
+  const inputEl = useRef<HTMLInputElement | null>(null);
+
   const api = useMemo(
     () =>
       core.connect({
@@ -192,6 +194,7 @@ export function useCombobox({
         setActiveValue,
         setInputValue,
         setCommittedInputValue,
+        focusInput: () => inputEl.current?.focus(),
         normalize: normalizeProps,
       }),
     [state, disabled, id, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue],
@@ -207,7 +210,6 @@ export function useCombobox({
   });
 
   const controlRef = useRef<HTMLDivElement>(null);
-  const inputEl = useRef<HTMLInputElement | null>(null);
   const listboxEl = useRef<HTMLElement | null>(null);
 
   const inputRef = useCallback(

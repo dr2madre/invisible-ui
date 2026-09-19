@@ -281,6 +281,99 @@ describe("combobox commit boundary", () => {
     }
   });
 
+  it("clears on click alone, with no mousedown before it, exactly once", () => {
+    // The button is a real <button>: the browser generates its click for a
+    // pointer, for Enter and Space, and for a direct activation, which is the
+    // route assistive technology may take. So the click is the one path that
+    // has to do the work, and it must not need a mousedown to have happened.
+    const focusInput = vi.fn();
+    const { api, setValue, setInputValue, setCommittedInputValue, setActiveValue } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+      focusInput,
+    });
+
+    (api.clearProps.onClick as () => void)();
+
+    expect(setValue).toHaveBeenCalledTimes(1);
+    expect(setValue).toHaveBeenCalledWith(null);
+    expect(setInputValue).toHaveBeenCalledTimes(1);
+    expect(setInputValue).toHaveBeenCalledWith("");
+    expect(setCommittedInputValue).toHaveBeenCalledWith("");
+    expect(setActiveValue).toHaveBeenCalledWith(null);
+    // Whoever activated it is put back on the input, which is where the
+    // control's own contract keeps DOM focus.
+    expect(focusInput).toHaveBeenCalledTimes(1);
+  });
+
+  it("only keeps focus on the input on mousedown; the clear waits for the click", () => {
+    // A pointer press moves focus to the button by default, which would blur
+    // the input and settle it before the click ever arrives. Preventing that
+    // is all mousedown does: clearing here as well would clear twice.
+    const { api, setValue, setInputValue } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    const event = { preventDefault: vi.fn() } as unknown as MouseEvent;
+    (api.clearProps.onMouseDown as (e: MouseEvent) => void)(event);
+
+    expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    expect(setValue).not.toHaveBeenCalled();
+    expect(setInputValue).not.toHaveBeenCalled();
+  });
+
+  it("does not recreate the button's own key handling", () => {
+    // Enter and Space reach the click through the browser, as on any button.
+    // A hand-written key handler on top of that would fire the clear twice.
+    const { api } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    expect(api.clearProps.onKeyDown).toBeUndefined();
+    expect(api.clearProps.type).toBe("button");
+  });
+
+  it("puts the clear button in the tab sequence only while it has work to do", () => {
+    const empty = setup();
+    expect(empty.api.clearProps.tabindex, "nothing to clear").toBe(-1);
+    expect(empty.api.clearProps["aria-hidden"], "and out of the tree with it").toBe("true");
+
+    const filled = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    expect(filled.api.clearProps.tabindex, "a value to clear").toBe(0);
+    expect(filled.api.clearProps["aria-hidden"], "so it is in the tree").toBeUndefined();
+
+    const typed = setup({
+      state: { ...initialState({ id: "c", items }), inputValue: "app" },
+    });
+    expect(typed.api.clearProps.tabindex, "text with no selection").toBe(0);
+
+    const off = setup({
+      state: {
+        ...initialState({ id: "c", items }),
+        value: "apple",
+        inputValue: "Apple",
+        disabled: true,
+      },
+    });
+    expect(off.api.clearProps.tabindex, "disabled").toBe(-1);
+    expect(off.api.clearProps["aria-hidden"], "disabled: out of the tree").toBe("true");
+  });
+
+  it("a synthetic click on a disabled control neither clears nor moves focus", () => {
+    const focusInput = vi.fn();
+    const { api, setValue } = setup({
+      state: {
+        ...initialState({ id: "c", items }),
+        value: "apple",
+        inputValue: "Apple",
+        disabled: true,
+      },
+      focusInput,
+    });
+    (api.clearProps.onClick as () => void)();
+    expect(setValue).not.toHaveBeenCalled();
+    expect(focusInput).not.toHaveBeenCalled();
+  });
+
   it("a disabled combobox is not cleared, and takes no highlight from the pointer", () => {
     const state = { ...initialState({ id: "c", items }), open: true, disabled: true };
     const { api, setValue, setInputValue, setActiveValue } = setup({

@@ -107,7 +107,7 @@ export function Combobox({
 
   const selected = items.find((item) => item.value === selectedValue);
   const hasIcons = items.some((item) => item.icon);
-  const clearHidden = !inputValue || disabled;
+  const clearHidden = api.clearProps["aria-hidden"] === "true";
 
   // The listbox is portalled to the body, so it must not render before mount.
   const [mounted, setMounted] = useState(false);
@@ -228,8 +228,6 @@ export function Combobox({
           {...api.clearProps}
           className={clearHidden ? "combobox__clear combobox__clear--hidden" : "combobox__clear"}
           aria-label={resolvedClearLabel}
-          tabIndex={clearHidden ? -1 : 0}
-          aria-hidden={clearHidden ? "true" : undefined}
         >
           <Icon size="100%">
             <line x1="18" y1="6" x2="6" y2="18" />

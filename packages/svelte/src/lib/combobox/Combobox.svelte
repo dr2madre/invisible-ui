@@ -74,6 +74,7 @@
   });
   const {
     state: comboboxState,
+    api,
     controlAction,
     inputAction,
     listboxAction,
@@ -187,10 +188,8 @@
          input width stays stable instead of jumping as text is typed/cleared. -->
     <button
       class="combobox__clear"
-      class:combobox__clear--hidden={!$inputValue || disabled}
+      class:combobox__clear--hidden={$api.clearProps["aria-hidden"] === "true"}
       aria-label={resolvedClearLabel}
-      tabindex={!$inputValue || disabled ? -1 : 0}
-      aria-hidden={!$inputValue || disabled ? "true" : undefined}
       use:clearAction
     >
       <Icon size="100%">
