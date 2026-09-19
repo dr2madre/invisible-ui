@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/dom";
+import { fireEvent, screen, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import "../define";
@@ -39,6 +39,30 @@ describe("<ds-combobox>", () => {
     expect(options).toHaveLength(1);
     expect(options[0]).toHaveTextContent("Banana");
     expect(onInput).toHaveBeenLastCalledWith({ value: "ba" });
+  });
+
+  it("clears on a direct click with no mousedown before it, once, and hands focus back", () => {
+    // Assistive activation may dispatch a click on its own, with no pointer
+    // press and no key before it. The click has to be enough by itself, and
+    // it must clear once: the element re-applies its props on every state
+    // change, so a listener that piled up would clear again.
+    const host = mount(`
+      <ds-combobox label="Fruit" name="fruit" value="banana">
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </ds-combobox>`);
+    expect(input()).toHaveValue("Banana");
+    const onChange = vi.fn();
+    host.addEventListener("change", (e) => onChange((e as CustomEvent).detail));
+
+    const clear = screen.getByRole("button", { name: "Clear" });
+    expect(clear, "core decides the tab sequence").toHaveAttribute("tabindex", "0");
+    fireEvent.click(clear);
+
+    expect(input()).toHaveValue("");
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({ value: null });
+    expect(input()).toHaveFocus();
   });
 
   it("shows an empty state when nothing matches", async () => {

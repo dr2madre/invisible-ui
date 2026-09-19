@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -181,6 +181,32 @@ describe("React Combobox (styled)", () => {
     await user.type(input(), "app");
     await user.click(screen.getByRole("button", { name: "Clear" }));
     expect(input()).toHaveValue("");
+  });
+
+  it("clears on a direct click with no mousedown before it, and hands focus back", () => {
+    // Assistive activation may dispatch a click on its own, with no pointer
+    // press and no key before it. The click has to be enough by itself.
+    render(<Combobox label="Fruit" items={items} value="banana" />);
+    expect(input()).toHaveValue("Banana");
+
+    fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(input()).toHaveFocus();
+  });
+
+  it("a pointer press clears once and reports once", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<Controlled value="banana" onValueChange={onValueChange} />);
+    expect(input()).toHaveValue("Banana");
+
+    await user.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(null);
+    expect(input()).toHaveFocus();
   });
 
   it("closes on Escape and puts the text back", async () => {

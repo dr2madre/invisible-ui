@@ -355,9 +355,9 @@ export class DsCombobox extends HTMLElementBase {
     applyProps(this.querySelector(".combobox__label")!, api.labelProps);
     applyProps(this.#clear!, api.clearProps);
 
-    const empty = !this.#state.inputValue;
-    this.#clear!.classList.toggle("combobox__clear--hidden", empty);
-    this.#clear!.tabIndex = empty ? -1 : 0;
+    // Only the look is decided here: core's clearProps already carry the
+    // tabindex, and a second copy of it would be a second source of truth.
+    this.#clear!.classList.toggle("combobox__clear--hidden", !this.#state.inputValue);
 
     if (this.#hidden) this.#hidden.value = this.#state.value ?? "";
     // The text the browser's own reset puts back. The hidden input carrying

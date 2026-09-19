@@ -281,41 +281,53 @@ describe("combobox commit boundary", () => {
     }
   });
 
-  it("clears from the keyboard, and hands focus back to the input", () => {
-    // The clear button is the only thing that takes focus off the input, and
-    // it stops being a button the moment it works: whoever pressed it has to
-    // be put back somewhere.
+  it("clears on click alone, with no mousedown before it, exactly once", () => {
+    // The button is a real <button>: the browser generates its click for a
+    // pointer, for Enter and Space, and for a direct activation, which is the
+    // route assistive technology may take. So the click is the one path that
+    // has to do the work, and it must not need a mousedown to have happened.
     const focusInput = vi.fn();
-    const { api, setValue, setInputValue } = setup({
+    const { api, setValue, setInputValue, setCommittedInputValue, setActiveValue } = setup({
       state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
       focusInput,
     });
 
-    for (const key of ["Enter", " "]) {
-      setValue.mockClear();
-      setInputValue.mockClear();
-      focusInput.mockClear();
-      const event = { key, preventDefault: vi.fn() } as unknown as KeyboardEvent;
-      (api.clearProps.onKeyDown as (e: KeyboardEvent) => void)(event);
+    (api.clearProps.onClick as () => void)();
 
-      expect(setValue, key).toHaveBeenCalledWith(null);
-      expect(setInputValue, key).toHaveBeenCalledWith("");
-      expect(focusInput, key).toHaveBeenCalledTimes(1);
-      // The page must not scroll on Space, nor submit a form on Enter.
-      expect(event.preventDefault, key).toHaveBeenCalled();
-    }
+    expect(setValue).toHaveBeenCalledTimes(1);
+    expect(setValue).toHaveBeenCalledWith(null);
+    expect(setInputValue).toHaveBeenCalledTimes(1);
+    expect(setInputValue).toHaveBeenCalledWith("");
+    expect(setCommittedInputValue).toHaveBeenCalledWith("");
+    expect(setActiveValue).toHaveBeenCalledWith(null);
+    // Whoever activated it is put back on the input, which is where the
+    // control's own contract keeps DOM focus.
+    expect(focusInput).toHaveBeenCalledTimes(1);
   });
 
-  it("leaves every other key on the clear button alone", () => {
-    const { api, setValue } = setup({
+  it("only keeps focus on the input on mousedown; the clear waits for the click", () => {
+    // A pointer press moves focus to the button by default, which would blur
+    // the input and settle it before the click ever arrives. Preventing that
+    // is all mousedown does: clearing here as well would clear twice.
+    const { api, setValue, setInputValue } = setup({
       state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
     });
-    for (const key of ["a", "Tab", "Escape", "ArrowDown"]) {
-      const event = { key, preventDefault: vi.fn() } as unknown as KeyboardEvent;
-      (api.clearProps.onKeyDown as (e: KeyboardEvent) => void)(event);
-      expect(setValue, key).not.toHaveBeenCalled();
-      expect(event.preventDefault, key).not.toHaveBeenCalled();
-    }
+    const event = { preventDefault: vi.fn() } as unknown as MouseEvent;
+    (api.clearProps.onMouseDown as (e: MouseEvent) => void)(event);
+
+    expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    expect(setValue).not.toHaveBeenCalled();
+    expect(setInputValue).not.toHaveBeenCalled();
+  });
+
+  it("does not recreate the button's own key handling", () => {
+    // Enter and Space reach the click through the browser, as on any button.
+    // A hand-written key handler on top of that would fire the clear twice.
+    const { api } = setup({
+      state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
+    });
+    expect(api.clearProps.onKeyDown).toBeUndefined();
+    expect(api.clearProps.type).toBe("button");
   });
 
   it("puts the clear button in the tab sequence only while it has work to do", () => {

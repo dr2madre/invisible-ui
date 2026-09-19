@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 test("Dialog opens from its trigger and closes on Escape", async ({ page }) => {
   await page.goto("components/feedback/dialog/");
@@ -128,21 +128,41 @@ test("Combobox filters and selects an option", async ({ page }) => {
   await expect(input).toHaveValue("Ada Lovelace");
 });
 
-test("a read-only Combobox still empties from the keyboard alone", async ({ page }) => {
-  // searchable={false} makes the input read-only, which is exactly the
-  // configuration where a mouse-only clear button leaves no keyboard way at
-  // all to empty the control. The demo's other combobox starts empty, so its
-  // own clear button stays out of the accessibility tree and this one is the
-  // only "Clear" button reachable at load.
-  await page.goto("components/forms/combobox/");
-  const input = page.getByRole("combobox", { name: "Priority" });
-  await expect(input).toHaveValue("High");
+// searchable={false} makes the input read-only, which is exactly the
+// configuration where a mouse-only clear button left no keyboard way at all to
+// empty the control. The demo's other combobox starts empty, so its own clear
+// button stays out of the accessibility tree and this one is the only "Clear"
+// button reachable at load. The clear is a real <button>: the browser turns
+// Enter, Space and a pointer press into its click, and that click is what
+// clears, so each route is asked in turn.
+for (const [route, activate] of [
+  ["Enter", async (page: Page) => page.keyboard.press("Enter")],
+  ["Space", async (page: Page) => page.keyboard.press("Space")],
+  ["a pointer press", async (page: Page) => page.getByRole("button", { name: "Clear" }).click()],
+] as const) {
+  test(`a read-only Combobox empties through ${route}, and focus lands on the input`, async ({
+    page,
+  }) => {
+    await page.goto("components/forms/combobox/");
+    const input = page.getByRole("combobox", { name: "Priority" });
+    await expect(input).toHaveValue("High");
 
-  const clear = page.getByRole("button", { name: "Clear" });
-  await clear.focus();
-  await expect(clear).toBeFocused();
-  await page.keyboard.press("Enter");
+    const clear = page.getByRole("button", { name: "Clear" });
+    await expect(clear).toHaveAttribute("tabindex", "0");
+    // Once emptied the button goes aria-hidden and the role locator no longer
+    // resolves it, so the node is kept by handle for the check after.
+    const clearNode = (await clear.elementHandle())!;
+    if (route !== "a pointer press") {
+      await clear.focus();
+      await expect(clear).toBeFocused();
+    }
 
-  await expect(input).toHaveValue("");
-  await expect(input).toBeFocused();
-});
+    await activate(page);
+
+    await expect(input).toHaveValue("");
+    await expect(input).toBeFocused();
+    // Nothing left to clear: the button leaves the tab sequence and the tree.
+    expect(await clearNode.getAttribute("tabindex")).toBe("-1");
+    expect(await clearNode.getAttribute("aria-hidden")).toBe("true");
+  });
+}

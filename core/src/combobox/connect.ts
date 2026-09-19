@@ -256,18 +256,18 @@ export function connect({
       tabindex: (value || inputValue) && !disabled ? 0 : -1,
       disabled: disabled || undefined,
       "data-state": value || inputValue ? "active" : "empty",
+      // A press on the button would move focus off the input before the
+      // click arrives; this keeps it there. It does nothing else: the clear
+      // belongs to the click, which the button itself generates for a
+      // pointer, for Enter and Space, and for a direct activation alike.
       onMouseDown: (event: Event) => {
-        event.preventDefault(); // keep focus on the input
-        clear();
-      },
-      // The pointer never moves focus here, so it has nowhere to send it
-      // back. A key press does, and the button it pressed is the thing that
-      // stops being a button once the text is gone.
-      onKeyDown: (event: Event) => {
-        const key = (event as KeyboardEvent).key;
-        if (key !== "Enter" && key !== " ") return;
         event.preventDefault();
+      },
+      onClick: () => {
         clear();
+        // Nothing to do for a pointer, whose focus never left; a key press
+        // or a direct activation leaves focus on a button that has just
+        // stopped being one.
         focusInput?.();
       },
     }),

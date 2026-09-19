@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/svelte";
+import { fireEvent, render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -195,6 +195,33 @@ describe("Svelte Combobox (styled)", () => {
       expect(input()).toHaveFocus();
     },
   );
+
+  it("clears on a direct click with no mousedown before it, and hands focus back", async () => {
+    // Assistive activation may dispatch a click on its own, with no pointer
+    // press and no key before it. The click has to be enough by itself.
+    render(Fixture, { props: { value: "banana" } });
+    expect(input()).toHaveValue("Banana");
+
+    await fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(input()).toHaveFocus();
+  });
+
+  it("a pointer press clears once and reports once", async () => {
+    // mousedown keeps focus on the input, the click does the clearing: the
+    // two must add up to one clear, not two.
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { value: "banana", onValueChange } });
+
+    await user.click(screen.getByRole("button", { name: "Clear" }));
+
+    expect(input()).toHaveValue("");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(null);
+    expect(input()).toHaveFocus();
+  });
 
   it("offers no clear button at all while there is nothing to clear", () => {
     const { container } = render(Fixture);
