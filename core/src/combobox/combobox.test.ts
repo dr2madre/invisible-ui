@@ -333,11 +333,13 @@ describe("combobox commit boundary", () => {
   it("puts the clear button in the tab sequence only while it has work to do", () => {
     const empty = setup();
     expect(empty.api.clearProps.tabindex, "nothing to clear").toBe(-1);
+    expect(empty.api.clearProps["aria-hidden"], "and out of the tree with it").toBe("true");
 
     const filled = setup({
       state: { ...initialState({ id: "c", items }), value: "apple", inputValue: "Apple" },
     });
     expect(filled.api.clearProps.tabindex, "a value to clear").toBe(0);
+    expect(filled.api.clearProps["aria-hidden"], "so it is in the tree").toBeUndefined();
 
     const typed = setup({
       state: { ...initialState({ id: "c", items }), inputValue: "app" },
@@ -353,6 +355,23 @@ describe("combobox commit boundary", () => {
       },
     });
     expect(off.api.clearProps.tabindex, "disabled").toBe(-1);
+    expect(off.api.clearProps["aria-hidden"], "disabled: out of the tree").toBe("true");
+  });
+
+  it("a synthetic click on a disabled control neither clears nor moves focus", () => {
+    const focusInput = vi.fn();
+    const { api, setValue } = setup({
+      state: {
+        ...initialState({ id: "c", items }),
+        value: "apple",
+        inputValue: "Apple",
+        disabled: true,
+      },
+      focusInput,
+    });
+    (api.clearProps.onClick as () => void)();
+    expect(setValue).not.toHaveBeenCalled();
+    expect(focusInput).not.toHaveBeenCalled();
   });
 
   it("a disabled combobox is not cleared, and takes no highlight from the pointer", () => {

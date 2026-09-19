@@ -175,7 +175,7 @@ describe("Svelte Combobox (styled)", () => {
   // A selection, not typed text: moving focus to the clear button blurs the
   // input, and the combobox puts unselected text back to what was committed.
   // Starting from a chosen value means an empty input can only be the clear
-  // button's doing — with typed text these would pass against a dead button.
+  // button's doing; with typed text these would pass against a dead button.
   it.each(["{Enter}", " "])(
     "clears from the keyboard with %s, and hands focus back",
     async (key) => {
