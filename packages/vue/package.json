@@ -37,7 +37,7 @@
     "build": "tsup",
     "smoke": "node scripts/smoke-package.mjs",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json"
   },
   "peerDependencies": {
     "vue": "^3.4.0"

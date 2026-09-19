@@ -1,0 +1,11 @@
+{
+  "//": "The test layer, type-checked with the matcher and Node types the tests use. The package's own tsconfig leaves tests out so they never reach the build.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "node"]
+  },
+  "include": ["src", "vitest-axe.d.ts"],
+  "exclude": []
+}
