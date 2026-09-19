@@ -18,8 +18,8 @@ export const VUE_BASE = `http://127.0.0.1:${VUE_PORT}/harness.html`;
 
 export default defineConfig({
   testDir: "./e2e",
-  // Before any test: the servers must serve this checkout, built from HEAD,
-  // after the last source edit. A stale or foreign server fails loudly.
+  // Before any test: the servers must serve this checkout, at HEAD, built
+  // from the sources as they are now. A stale or foreign server fails loudly.
   globalSetup: "./e2e/global-setup.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

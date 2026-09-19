@@ -7,7 +7,7 @@ const repoRoot = fileURLToPath(new URL("../..", import.meta.url)).replace(/\/$/,
 
 export default defineConfig({
   // The build id lets Playwright refuse a server from another checkout.
-  plugins: [vue(), buildIdPlugin(repoRoot)],
+  plugins: [vue(), buildIdPlugin("vue-example", repoRoot)],
   build: {
     rollupOptions: {
       input: {

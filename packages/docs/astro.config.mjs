@@ -17,8 +17,8 @@ export default defineConfig({
   // sized — so the docs build stays deterministic across local and CI.
   image: { service: passthroughImageService() },
   integrations: [
-    // Stamps dist with root, commit and time; Playwright checks it first.
-    buildIdIntegration(repoRoot),
+    // Stamps dist with checkout, commit and sources; Playwright checks it first.
+    buildIdIntegration("docs", repoRoot),
     starlight({
       title: "Invisible UI",
       description:
