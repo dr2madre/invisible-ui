@@ -18528,7 +18528,8 @@
       ],
       "properties": [
         "block-size",
-        "inline-size"
+        "inline-size",
+        "width"
       ],
       "adapters": [
         "svelte",
@@ -18543,7 +18544,7 @@
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
           "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
-          "property": "inline-size",
+          "property": "width",
           "fallback": "1.5rem"
         },
         {
@@ -18585,7 +18586,7 @@
           "adapter": "vue",
           "file": "packages/vue/src/styles/range-slider.css",
           "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
-          "property": "inline-size",
+          "property": "width",
           "fallback": "1.5rem"
         },
         {
