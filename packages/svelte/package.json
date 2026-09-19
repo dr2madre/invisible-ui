@@ -247,6 +247,10 @@
       "svelte": "./src/lib/slider/Slider.svelte",
       "default": "./src/lib/slider/Slider.svelte"
     },
+    "./RangeSlider.svelte": {
+      "svelte": "./src/lib/range-slider/RangeSlider.svelte",
+      "default": "./src/lib/range-slider/RangeSlider.svelte"
+    },
     "./Pagination.svelte": {
       "svelte": "./src/lib/pagination/Pagination.svelte",
       "default": "./src/lib/pagination/Pagination.svelte"

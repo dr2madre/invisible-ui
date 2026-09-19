@@ -77,6 +77,7 @@ export default defineConfig({
                   items: ["components/forms/combobox", "components/forms/select"],
                 },
                 "components/forms/slider",
+                "components/forms/range-slider",
                 "components/forms/text-area",
                 "components/forms/text-field",
                 {

@@ -44,6 +44,7 @@
 @import "./avatar.css";
 @import "./avatar-group.css";
 @import "./slider.css";
+@import "./range-slider.css";
 @import "./rating-group.css";
 @import "./segmented-control.css";
 @import "./toggle-button.css";

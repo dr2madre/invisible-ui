@@ -16,6 +16,7 @@ export * from "./multi-select";
 export * from "./label";
 export * from "./field";
 export * from "./slider";
+export * from "./range-slider";
 export * from "./pagination";
 export * from "./stepper";
 export * from "./carousel";

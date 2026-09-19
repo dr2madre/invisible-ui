@@ -19,6 +19,7 @@ export * as meter from "./meter";
 export * as label from "./label";
 export * as field from "./field";
 export * as slider from "./slider";
+export * as rangeSlider from "./range-slider";
 export * as pagination from "./pagination";
 export * as pinInput from "./pin-input";
 export * as scrollArea from "./scroll-area";

@@ -18458,6 +18458,261 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-range-slider-length",
+      "id": "range-slider-length",
+      "component": "range-slider",
+      "usedBy": [
+        "range-slider"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "inline-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "14rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-range-slider-thumb-size",
+      "id": "range-slider-thumb-size",
+      "component": "range-slider",
+      "usedBy": [
+        "range-slider"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "block-size",
+        "inline-size",
+        "width"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1.5rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
+          "property": "width",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__input",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
+          "property": "width",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__input",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-range-slider-track-size",
+      "id": "range-slider-track-size",
+      "component": "range-slider",
+      "usedBy": [
+        "range-slider"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "block-size",
+        "inline-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "4px"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "inline-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider__track",
+          "property": "block-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "inline-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider__track",
+          "property": "block-size",
+          "fallback": "4px"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-range-slider-vertical-length",
+      "id": "range-slider-vertical-length",
+      "component": "range-slider",
+      "usedBy": [
+        "range-slider"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "block-size"
+      ],
+      "adapters": [
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "12rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "block-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "block-size",
+          "fallback": "12rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-rating-color",
       "id": "rating-color",
       "component": "rating-group",
