@@ -98,30 +98,39 @@
   };
 
   function onInput(index: 0 | 1) {
-    return (event: Event) =>
-      setValue(index, Number((event.currentTarget as HTMLInputElement).value));
+    return (event: Event) => {
+      const input = event.currentTarget as HTMLInputElement;
+      setValue(index, Number(input.value));
+      // A request the clamp refuses changes no state, so nothing re-renders,
+      // and the native input would stay where the user pushed it, past the
+      // bound. It is put back by hand.
+      const held = String($pairValue[index]);
+      if (input.value !== held) input.value = held;
+    };
   }
 
   let lowerEl: HTMLInputElement | null = null;
   let upperEl: HTMLInputElement | null = null;
   let trackEl: HTMLElement;
 
-  // Tick positions (as %), shown only for a sane number of steps.
-  $: tickCount = step > 0 ? Math.round((max - min) / step) : 0;
+  // Tick positions (as %), one per grid point the arrows can reach, shown
+  // only for a sane number of steps. Spaced by the step, not by dividing the
+  // span: a max the grid does not reach (0-95 on a step of 10) has no tick.
+  $: tickCount = step > 0 ? Math.floor((max - min) / step) : 0;
   $: tickPositions =
     ticks && tickCount > 0 && tickCount <= 20
-      ? Array.from({ length: tickCount + 1 }, (_, i) => (i / tickCount) * 100)
+      ? Array.from({ length: tickCount + 1 }, (_, i) => ((i * step) / (max - min)) * 100)
       : [];
 
-  // The bound named is the one the clamp really uses: the effective distance,
-  // rounded up to the step grid and capped at the span.
+  // The bound named is the one the clamp really uses, read from the same
+  // override core computes, so the text and the attribute never disagree.
   $: lowerAriaText = $t("rangeSlider.lowerText", {
     value: format($pairValue[0]),
-    bound: format($pairValue[1] - $api.minDistance),
+    bound: format(Number($api.getThumbProps(0)["aria-valuemax"])),
   });
   $: upperAriaText = $t("rangeSlider.upperText", {
     value: format($pairValue[1]),
-    bound: format($pairValue[0] + $api.minDistance),
+    bound: format(Number($api.getThumbProps(1)["aria-valuemin"])),
   });
 </script>
 
@@ -244,6 +253,9 @@
   }
   .range-slider__track {
     position: relative;
+    /* The thumbs are raised with inline z-index; kept inside this box so they
+       never paint over a later positioned sibling of the control. */
+    isolation: isolate;
     flex: 1;
     /* A flex item refuses to shrink past its content by default, which would
        push the whole control wider than a narrow container. */
@@ -257,9 +269,14 @@
        is a thin bar, and the thumbs' height is what needs the room. */
     flex: none;
     inline-size: var(--ds-range-slider-track-size, 4px);
-    block-size: var(--ds-range-slider-length, 12rem);
+    /* Its own token: the horizontal length is the field's width, a value
+       that may be a percentage, which an upright track has nothing to
+       resolve against. */
+    block-size: var(--ds-range-slider-vertical-length, 12rem);
   }
-  .range-slider-field[data-orientation="vertical"] {
+  .range-slider-field[data-orientation="vertical"],
+  .range-slider[data-orientation="vertical"] {
+    /* Upright, the control is as wide as its track and label, not its row. */
     inline-size: auto;
   }
   .range-slider__range {
@@ -356,6 +373,16 @@
     border-radius: 50%;
     background: var(--ds-color-background, #fff);
     transform: translate(-50%, -50%);
+  }
+  /* Upright, a tick sits at its grid point from the bottom, like the fill. */
+  .range-slider[data-orientation="vertical"] .range-slider__tick {
+    inset-inline-start: 50%;
+    inset-block-start: auto;
+    inset-block-end: var(--_tick-pct);
+    transform: translate(-50%, 50%);
+  }
+  .range-slider-field--disabled {
+    opacity: 0.5;
   }
   /* Forced colors drops every fill and every shadow. The ring the theme
      forces on each thumb is what remains of its focus indicator, and the

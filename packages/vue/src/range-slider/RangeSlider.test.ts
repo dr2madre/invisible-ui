@@ -30,6 +30,7 @@ const Fixture = defineComponent({
     minDistance: { type: Number, default: 0 },
     disabled: { type: Boolean, default: false },
     orientation: { type: String as PropType<"horizontal" | "vertical">, default: "horizontal" },
+    ticks: { type: Boolean, default: false },
     name: { type: String, default: undefined },
     onValueChange: { type: Function as PropType<(value: Pair) => void>, default: undefined },
   },
@@ -44,6 +45,7 @@ const Fixture = defineComponent({
           minDistance: props.minDistance,
           disabled: props.disabled,
           orientation: props.orientation,
+          ticks: props.ticks,
           name: props.name,
           label: "Price",
           thumbLabels: ["Minimum price", "Maximum price"],
@@ -95,6 +97,8 @@ describe("Vue RangeSlider (styled)", () => {
     // Already at the boundary; the same clamp is not a change.
     await fireEvent.update(lower(), "58");
     expect(onValueChange).not.toHaveBeenCalled();
+    // The native input moved to 58 on its own; the control puts it back.
+    expect(lower()).toHaveValue("55");
   });
 
   it("reflects a controlled value change silently", async () => {
@@ -107,10 +111,15 @@ describe("Vue RangeSlider (styled)", () => {
   });
 
   it("normalizes an invalid controlled value the same way a drag would be", async () => {
-    const { rerender } = render(Fixture, { props: { value: [20, 80] } });
-    await rerender({ value: [90, 10] }); // crossed: upper clamps to lower
+    const onValueChange = vi.fn();
+    const { rerender } = render(Fixture, { props: { value: [20, 80], onValueChange } });
+    await rerender({ value: [90, 10], onValueChange }); // crossed: upper clamps to lower
     expect(lower()).toHaveValue("90");
     expect(upper()).toHaveValue("90");
+    // The next drag clamps against the normalized pair, not the raw one: a
+    // raw [90, 10] would pin the lower thumb under an upper bound of 10.
+    await fireEvent.update(lower(), "50");
+    expect(onValueChange).toHaveBeenLastCalledWith([50, 90]);
   });
 
   it("does not treat a partial echo (one position matches, one does not) as give-back", async () => {
@@ -181,6 +190,44 @@ describe("Vue RangeSlider (styled)", () => {
     form.reset();
     await new Promise((r) => setTimeout(r, 0));
     expect(lower()).toHaveValue("30");
+  });
+
+  it("keeps a float-step dependent bound exactly on the grid", async () => {
+    // 0.9 - 0.3 is 0.6000000000000001 in floating point. Exact equality on
+    // purpose: an off-grid bound reads as garbage to assistive technology and
+    // turns a clamp that changed nothing into a reported change.
+    const onValueChange = vi.fn();
+    render(Fixture, {
+      props: { value: [0.6, 0.9], min: 0, max: 1, step: 0.1, minDistance: 0.3, onValueChange },
+    });
+    expect(lower()).toHaveAttribute("aria-valuemax", "0.6");
+    expect(upper()).toHaveAttribute("aria-valuemin", "0.9");
+    await fireEvent.input(lower(), { target: { value: "0.7" } });
+    await fireEvent.input(upper(), { target: { value: "0.8" } });
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(lower()).toHaveValue("0.6");
+    expect(upper()).toHaveValue("0.9");
+  });
+
+  it("reads reversed bounds as min and max in either order", async () => {
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { value: [30, 70], min: 100, max: 0, onValueChange } });
+    expect(lower()).toHaveAttribute("min", "0");
+    expect(lower()).toHaveAttribute("max", "100");
+    expect(lower()).toHaveValue("30");
+    expect(upper()).toHaveValue("70");
+    // The clamp reads the same ordered bounds, not the raw props.
+    await fireEvent.update(lower(), "50");
+    expect(onValueChange).toHaveBeenLastCalledWith([50, 70]);
+  });
+
+  it("draws one tick per grid point, none for a max the grid does not reach", () => {
+    render(Fixture, { props: { value: [0, 90], min: 0, max: 95, step: 10, ticks: true } });
+    const ticks = Array.from(document.querySelectorAll<HTMLElement>(".range-slider__tick"));
+    expect(ticks).toHaveLength(10);
+    expect(ticks[0].style.getPropertyValue("--_tick-pct")).toBe("0%");
+    // 90 of 95, not 100%: the last tick marks a value the arrows can reach.
+    expect(parseFloat(ticks[9].style.getPropertyValue("--_tick-pct"))).toBeCloseTo(94.74, 1);
   });
 
   it("carries the dependent bound through an explicit aria override", () => {
@@ -271,10 +318,12 @@ describe("Vue RangeSlider (styled)", () => {
     it("a drag after a constraint change reports a pair the new constraints allow", async () => {
       // The clamp reads the held pair. If a constraint change left that pair
       // stale, a later drag would clamp against a bound that no longer exists
-      // and report it: here [40, 80] over a max of 50.
+      // and report it: here [40, 80] over a max of 50. Only the constraint
+      // changes: the value prop keeps its identity, as it does in an app that
+      // changes a bound and nothing else.
       const onValueChange = vi.fn();
       const { rerender } = render(Fixture, { props: { value: [20, 80], onValueChange } });
-      await rerender({ value: [20, 80], max: 50, onValueChange });
+      await rerender({ max: 50 });
       expect(onValueChange).not.toHaveBeenCalled();
       await fireEvent.update(lower(), "40");
       expect(onValueChange).toHaveBeenCalledTimes(1);

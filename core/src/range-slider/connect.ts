@@ -1,5 +1,5 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { clampPair, percentages } from "./state";
+import { clampPair, onGrid, percentages } from "./state";
 import type { RangeSliderState } from "./types";
 
 /** The public, framework-agnostic API for a connected range slider. */
@@ -74,8 +74,12 @@ export function connect({
     setValue(index, raw);
   };
 
+  // The sibling's value and the distance are on the grid; their sum is not in
+  // floating point (0.9 - 0.3 reads 0.6000000000000001), so it is put back.
   const dependentBounds = (index: 0 | 1): { min: number; max: number } =>
-    index === 0 ? { min, max: value[1] - minDistance } : { min: value[0] + minDistance, max };
+    index === 0
+      ? { min, max: onGrid(value[1] - minDistance, step) }
+      : { min: onGrid(value[0] + minDistance, step), max };
 
   return {
     value,

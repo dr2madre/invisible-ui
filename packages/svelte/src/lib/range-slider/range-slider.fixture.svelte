@@ -8,6 +8,7 @@
   export let minDistance = 0;
   export let disabled = false;
   export let orientation: "horizontal" | "vertical" = "horizontal";
+  export let ticks = false;
   export let name: string | undefined = undefined;
   export let onValueChange: ((value: readonly [number, number]) => void) | undefined = undefined;
 </script>
@@ -21,6 +22,7 @@
     {minDistance}
     {disabled}
     {orientation}
+    {ticks}
     {name}
     label="Price"
     thumbLabels={["Minimum price", "Maximum price"]}

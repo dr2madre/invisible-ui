@@ -51,6 +51,9 @@
 }
 .range-slider__track {
   position: relative;
+  /* The thumbs are raised with inline z-index; kept inside this box so they
+     never paint over a later positioned sibling of the control. */
+  isolation: isolate;
   flex: 1;
   /* A flex item refuses to shrink past its content by default, which would
      push the whole control wider than a narrow container. */
@@ -64,9 +67,14 @@
      a thin bar, and the thumbs' height is what needs the room. */
   flex: none;
   inline-size: var(--ds-range-slider-track-size, 4px);
-  block-size: var(--ds-range-slider-length, 12rem);
+  /* Its own token: the horizontal length is the field's width, a value that
+     may be a percentage, which an upright track has nothing to resolve
+     against. */
+  block-size: var(--ds-range-slider-vertical-length, 12rem);
 }
-.range-slider-field[data-orientation="vertical"] {
+.range-slider-field[data-orientation="vertical"],
+.range-slider[data-orientation="vertical"] {
+  /* Upright, the control is as wide as its track and label, not its row. */
   inline-size: auto;
 }
 .range-slider__range {
@@ -163,6 +171,13 @@
   border-radius: 50%;
   background: var(--ds-color-background, #fff);
   transform: translate(-50%, -50%);
+}
+/* Upright, a tick sits at its grid point from the bottom, like the fill. */
+.range-slider[data-orientation="vertical"] .range-slider__tick {
+  inset-inline-start: 50%;
+  inset-block-start: auto;
+  inset-block-end: var(--_tick-pct);
+  transform: translate(-50%, 50%);
 }
 /* Forced colors drops every fill and every shadow. The ring the theme forces
    on each thumb is what remains of its focus indicator, and the track and

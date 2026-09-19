@@ -36,14 +36,31 @@ export interface UseRangeSliderOptions {
 export function useRangeSlider(
   options: MaybeRefOrGetter<UseRangeSliderOptions> = {},
 ): ComputedRef<RangeSliderApi> {
-  const resolved = computed(() => toValue(options));
+  // Reversed bounds read the smaller number as `min`, the same way core and
+  // the Svelte adapter do; every clamp below assumes `min <= max`.
+  const resolved = computed(() => {
+    const given = toValue(options);
+    const [min, max] = core.orderBounds(given.min ?? 0, given.max ?? 100);
+    return { ...given, min, max };
+  });
   const seed = core.initialState({ ...resolved.value, id: useStableId("ds-range-slider") });
   const value = ref<readonly [number, number]>(seed.value);
 
+  // A controlled value is normalized here, on purpose, not as a side effect
+  // of the constraint watch below re-running: the clamp reads this pair, and
+  // a raw [90, 10] would clamp a drag against a bound that is upside down.
   watch(
     () => resolved.value.value,
     (next) => {
-      if (next != null) value.value = next;
+      if (next == null) return;
+      const r = resolved.value;
+      value.value = core.normalizePair(
+        next,
+        r.min ?? 0,
+        r.max ?? 100,
+        r.step ?? 1,
+        r.minDistance ?? 0,
+      );
     },
   );
 
@@ -51,11 +68,16 @@ export function useRangeSlider(
   // it is normalized silently, as a drag would have been, so the clamp never
   // reads a pair the new constraints would not allow. Nothing is reported: a
   // constraint is the application's data, not a user action.
+  // One source per constraint: a getter returning a fresh array would fire on
+  // every option change, value included, and hide a value the watch above
+  // failed to normalize.
   watch(
-    () => {
-      const r = resolved.value;
-      return [r.min, r.max, r.step, r.minDistance] as const;
-    },
+    [
+      () => resolved.value.min,
+      () => resolved.value.max,
+      () => resolved.value.step,
+      () => resolved.value.minDistance,
+    ],
     ([min, max, step, minDistance]) => {
       const next = core.normalizePair(
         value.value,

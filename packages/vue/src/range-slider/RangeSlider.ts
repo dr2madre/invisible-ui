@@ -227,13 +227,25 @@ export const RangeSlider = defineComponent({
       { flush: "post" },
     );
 
+    // A request the clamp refuses changes no state, so nothing re-renders,
+    // and the native input would stay where the user pushed it, past the
+    // bound. It is put back by hand.
+    const onThumbInput = (index: 0 | 1) => (event: Event) => {
+      const input = event.target as HTMLInputElement;
+      api.value.setValue(index, Number(input.value));
+      const held = String(api.value.value[index]);
+      if (input.value !== held) input.value = held;
+    };
+
     return () => {
       const { t } = i18n.value;
-      const { value, min, max, step, minDistance, percentages } = api.value;
-      const tickCount = step > 0 ? Math.round((max - min) / step) : 0;
+      const { value, min, max, step, percentages } = api.value;
+      // One tick per grid point the arrows can reach, spaced by the step: a
+      // max the grid does not reach has no tick.
+      const tickCount = step > 0 ? Math.floor((max - min) / step) : 0;
       const tickPositions =
         props.ticks && tickCount > 0 && tickCount <= MAX_TICKS
-          ? Array.from({ length: tickCount + 1 }, (_, i) => (i / tickCount) * 100)
+          ? Array.from({ length: tickCount + 1 }, (_, i) => ((i * step) / (max - min)) * 100)
           : [];
 
       return h(
@@ -296,13 +308,12 @@ export const RangeSlider = defineComponent({
                       "aria-label": props.thumbLabels[0],
                       "aria-valuetext": t("rangeSlider.lowerText", {
                         value: props.format(value[0]),
-                        bound: props.format(value[1] - minDistance),
+                        bound: props.format(Number(api.value.getThumbProps(0)["aria-valuemax"])),
                       }),
                       // The attribute is the default; `useLiveDom` writes the
                       // property the user drags.
                       "^value": fallback.value[0],
-                      onInput: (event: Event) =>
-                        api.value.setValue(0, Number((event.target as HTMLInputElement).value)),
+                      onInput: onThumbInput(0),
                     }),
                     h("input", {
                       ...api.value.getThumbProps(1),
@@ -312,11 +323,10 @@ export const RangeSlider = defineComponent({
                       "aria-label": props.thumbLabels[1],
                       "aria-valuetext": t("rangeSlider.upperText", {
                         value: props.format(value[1]),
-                        bound: props.format(value[0] + minDistance),
+                        bound: props.format(Number(api.value.getThumbProps(1)["aria-valuemin"])),
                       }),
                       "^value": fallback.value[1],
-                      onInput: (event: Event) =>
-                        api.value.setValue(1, Number((event.target as HTMLInputElement).value)),
+                      onInput: onThumbInput(1),
                     }),
                   ],
                 ),

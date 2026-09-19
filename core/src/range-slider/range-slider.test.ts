@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
 import {
-  alignMinDistance,
   effectiveMinDistance,
   clampPair,
   initialState,
@@ -51,12 +50,36 @@ describe("range slider state", () => {
     // A request of 4 on a step of 10 is a request for at least 4: the next
     // reachable distance is 10, and 0 would let the thumbs sit closer than
     // was asked.
-    expect(alignMinDistance(7, 10)).toBe(10);
-    expect(alignMinDistance(4, 10)).toBe(10);
-    expect(alignMinDistance(10, 10)).toBe(10);
-    expect(alignMinDistance(-3, 10)).toBe(0);
-    expect(alignMinDistance(0, 10)).toBe(0);
-    expect(Object.is(alignMinDistance(0, 10), 0), "+0, not -0").toBe(true);
+    expect(effectiveMinDistance(7, 0, 100, 10)).toBe(10);
+    expect(effectiveMinDistance(4, 0, 100, 10)).toBe(10);
+    expect(effectiveMinDistance(10, 0, 100, 10)).toBe(10);
+    expect(effectiveMinDistance(-3, 0, 100, 10)).toBe(0);
+    expect(effectiveMinDistance(0, 0, 100, 10)).toBe(0);
+    expect(Object.is(effectiveMinDistance(0, 0, 100, 10), 0), "+0, not -0").toBe(true);
+  });
+
+  it("orders reversed bounds instead of building an impossible pair", () => {
+    const s = make({ min: 100, max: 0, value: [30, 70] });
+    expect([s.min, s.max]).toEqual([0, 100]);
+    expect(s.value).toEqual([30, 70]);
+    expect(make({ min: Number.NaN, max: 10 }).min).toBe(0);
+  });
+
+  it("keeps a float-step dependent bound exactly on the grid", () => {
+    // 0.9 - 0.3 is 0.6000000000000001 in floating point: clamping there would
+    // put a thumb off the grid, report a change that is not one, and paint an
+    // unreadable bound. Exact equality on purpose.
+    expect(clampPair([0.6, 0.9], 0, 1, 0, 1, 0.1, 0.3)).toEqual([0.6, 0.9]);
+    expect(clampPair([0.1, 0.4], 0, 1, 0, 1, 0.1, 0.3)).toEqual([0.1, 0.4]);
+    expect(clampPair([0.1, 0.4], 1, 0, 0, 1, 0.1, 0.3)).toEqual([0.1, 0.4]);
+    // 0.2 + 0.1 is 0.30000000000000004: the floor under the upper thumb.
+    expect(clampPair([0.2, 0.5], 1, 0, 0, 1, 0.1, 0.1)).toEqual([0.2, 0.3]);
+    const api = connect({
+      state: make({ min: 0, max: 1, step: 0.1, minDistance: 0.3, value: [0.6, 0.9] }),
+      setValue: () => {},
+    });
+    expect(api.getThumbProps(1)["aria-valuemin"]).toBe(0.9);
+    expect(api.getThumbProps(0)["aria-valuemax"]).toBe(0.6);
   });
 
   it("caps the effective distance at what the grid can hold between min and max", () => {
@@ -219,10 +242,11 @@ describe("normalizePair and clampPair keep the pair's invariants", () => {
     [Number.NEGATIVE_INFINITY, Number.NaN],
   ];
 
+  // Exact, not tolerant: a value is on the grid only if re-snapping it gives
+  // back the same number. A tolerance here once hid a float-drift bound.
   const isOnGrid = (value: number, min: number, step: number) => {
     if (step <= 0) return true;
-    const steps = (value - min) / step;
-    return Math.abs(steps - Math.round(steps)) < 1e-6;
+    return snap(value, min, Number.POSITIVE_INFINITY, step) === value;
   };
 
   const check = (

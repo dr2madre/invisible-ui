@@ -103,8 +103,10 @@ export function createRangeSlider(context: core.RangeSliderContext = {}): Create
   // after mount reaches the machine and the DOM instead of being frozen at
   // construction. The distance stored is the effective one, already on the
   // step grid and capped at the span, which is what the clamp reads.
-  const syncConfig = (config: RangeSliderConfig) =>
+  const syncConfig = (raw: RangeSliderConfig) =>
     state.update((current) => {
+      const [min, max] = core.orderBounds(raw.min, raw.max);
+      const config = { ...raw, min, max };
       const minDistance = core.effectiveMinDistance(
         config.minDistance,
         config.min,

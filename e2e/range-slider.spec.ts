@@ -14,7 +14,9 @@ const valueOf = (thumb: Locator) => thumb.evaluate((el) => Number((el as HTMLInp
 
 test.beforeEach(async ({ page }) => {
   await page.goto(PAGE);
-  await expect(lower(page)).toBeVisible();
+  // Visible is not hydrated: a key pressed before the handlers attach drives
+  // the bare native input, which knows nothing of the clamp.
+  await ready(lower(page));
 });
 
 test("the two thumbs stand in DOM order, lower first", async ({ page }) => {
@@ -233,6 +235,23 @@ test("vertical: a pointer near the top raises the upper thumb, near the bottom t
     );
   expect(await thumbAt(0.3), "the lower thumb sits 30% up the track").toBe("lower");
   expect(await thumbAt(0.7), "the upper thumb sits 70% up the track").toBe("upper");
+
+  // Ticks follow the axis too: one per grid point, spread along the height
+  // at the track's centre line, not piled at its middle.
+  const ticks = await trackOf(low)
+    .locator(".range-slider__tick")
+    .evaluateAll((nodes) =>
+      nodes.map((n) => {
+        const r = n.getBoundingClientRect();
+        return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+      }),
+    );
+  expect(ticks.length).toBe(11);
+  expect(new Set(ticks.map((t) => t.y)).size, "distinct heights").toBe(11);
+  expect(new Set(ticks.map((t) => t.x)).size, "one column").toBe(1);
+  expect(Math.max(...ticks.map((t) => t.y)) - Math.min(...ticks.map((t) => t.y))).toBeGreaterThan(
+    box.height * 0.9,
+  );
 
   await page.mouse.move(x, box.y + box.height * 0.1);
   expect(await onTop(high, low), "top of the track is the max end").toBe(true);

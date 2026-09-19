@@ -5,8 +5,13 @@ let idCounter = 0;
 /** Clamp a value into the `[min, max]` range. */
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-/** Round away floating-point drift from a `step` multiplication. */
-const onGrid = (value: number, step: number): number => {
+/**
+ * Round away floating-point drift from a `step` multiplication or a sum of
+ * two grid values: `0.9 - 0.3` is `0.6000000000000001`, which is not a point
+ * the arrows can land on.
+ */
+export const onGrid = (value: number, step: number): number => {
+  if (step <= 0) return value;
   const decimals = (String(step).split(".")[1] ?? "").length;
   return decimals ? Number(value.toFixed(decimals)) : value;
 };
@@ -57,13 +62,6 @@ export function effectiveMinDistance(
   return Math.min(up, gridSpan);
 }
 
-/** @deprecated Kept for the earlier callers; `effectiveMinDistance` also caps
- * at the span, which this cannot without the bounds. Rounds up, like it. */
-export function alignMinDistance(minDistance: number, step: number): number {
-  if (step <= 0) return Math.max(0, minDistance);
-  return Math.max(0, onGrid(Math.ceil(Math.max(0, minDistance) / step - 1e-9) * step, step));
-}
-
 /**
  * Put one thumb's requested raw value onto the step grid, then clamp it
  * against the *other* thumb's current value plus the required distance.
@@ -91,12 +89,14 @@ export function clampPair(
 ): readonly [number, number] {
   const aligned = effectiveMinDistance(minDistance, min, max, step);
   const requested = snap(raw, min, max, step);
+  // The bound is the sibling's value plus or minus the distance, both on the
+  // grid; their sum is not, in floating point, so it is put back on it.
   if (moved === 0) {
-    const ceiling = value[1] - aligned;
+    const ceiling = onGrid(value[1] - aligned, step);
     const lower = Math.min(requested, ceiling);
     return [Math.max(min, lower), value[1]];
   }
-  const floor = value[0] + aligned;
+  const floor = onGrid(value[0] + aligned, step);
   const upper = Math.max(requested, floor);
   return [value[0], Math.min(max, upper)];
 }
@@ -125,8 +125,9 @@ export function normalizePair(
   const distance = effectiveMinDistance(minDistance, min, max, step);
   let lower = snap(value[0], min, max, step);
   let upper = Math.max(snap(value[1], min, max, step), lower);
-  if (upper - lower < distance) upper = snap(lower + distance, min, max, step);
-  if (upper - lower < distance) {
+  const short = () => onGrid(upper - lower, step) < distance;
+  if (short()) upper = snap(lower + distance, min, max, step);
+  if (short()) {
     // No room above: the pair slides down, `upper` at the top of the track.
     upper = snap(max, min, max, step);
     lower = snap(upper - distance, min, max, step);
@@ -134,10 +135,18 @@ export function normalizePair(
   return [lower, upper];
 }
 
+/** `[min, max]` with the smaller number first; a `NaN` bound falls to 0. */
+export function orderBounds(min: number, max: number): readonly [number, number] {
+  const a = Number.isFinite(min) ? min : 0;
+  const b = Number.isFinite(max) ? max : 0;
+  return a <= b ? [a, b] : [b, a];
+}
+
 /** Build the initial state from user context. */
 export function initialState(context: RangeSliderContext = {}): RangeSliderState {
-  const min = context.min ?? 0;
-  const max = context.max ?? 100;
+  // Reversed bounds are a consumer mistake with one deterministic reading:
+  // the smaller number is `min`. Every invariant below assumes `min <= max`.
+  const [min, max] = orderBounds(context.min ?? 0, context.max ?? 100);
   const step = context.step ?? 1;
   const minDistance = effectiveMinDistance(context.minDistance ?? 0, min, max, step);
   const value = normalizePair(context.value ?? [min, max], min, max, step, minDistance);

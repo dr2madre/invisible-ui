@@ -55,9 +55,11 @@
   <!-- Vertical: min at the bottom, max at the top -->
   <RangeSlider
     value={[30, 70]}
+    step={10}
     orientation="vertical"
     label="Volume range"
     thumbLabels={["Minimum volume", "Maximum volume"]}
+    ticks
     showValue
   />
 

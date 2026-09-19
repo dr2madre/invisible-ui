@@ -68,9 +68,11 @@ the pair as a whole.
   HTML **discourages** this override on a native range input, and the
   attributes being present is not proof that every accessibility tree or
   assistive technology honours them over the input's own `min` and `max`.
-  `aria-valuetext` therefore carries the same constraint as text, which no
-  engine can decline to expose. WAI-ARIA supplies the normative role and state
-  requirements here; the Authoring Practices supply the pattern guidance.
+  `aria-valuetext` therefore carries the same constraint as text: it is
+  permitted on a native range input, so it does not depend on the override
+  being honoured, though what an engine exposes is still the engine's.
+  WAI-ARIA supplies the normative role and state requirements here; the
+  Authoring Practices supply the pattern guidance.
 - What real assistive technology announces, and how touch assistive
   technology reaches stacked thumbs, are **not verified** by the automated
   suites: that validation belongs to the final manual accessibility session
@@ -86,7 +88,7 @@ Both thumbs submit under the same `name`, in order:
 new FormData(form).getAll("price"); // ["20", "80"]
 ```
 
-A native reset restores the current default pair, reported to nobody.
+A native reset restores the current default pair and reports nothing through `onValueChange`; in Vue the `v-model` binding follows the reset, as it does for `Slider`.
 
 ### Example
 
@@ -104,4 +106,4 @@ A native reset restores the current default pair, reported to nobody.
 />
 ```
 
-Themeable via `--ds-range-slider-*`.
+Themeable via `--ds-range-slider-*` (`length` for the horizontal width, `vertical-length` for the upright track, `track-size`, `thumb-size`).
