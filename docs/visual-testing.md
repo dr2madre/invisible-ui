@@ -27,7 +27,27 @@ pnpm visual          # compare against committed baselines
 pnpm visual:update   # rewrite every baseline (after an intended visual change)
 ```
 
-(Both build the docs site first via the Playwright `webServer`.)
+(Neither builds anything: the Playwright `webServer` serves the docs `dist`
+that is already there. Build first with `pnpm build`.)
+
+Before the first test, `e2e/global-setup.ts` reads `.build-id.json` from each
+server it reaches. The docs build and the Vue example build write that file
+with a fingerprint of the checkout (a hash of its real path, never the path),
+the commit, and a hash of everything the site is built from (`SITE_INPUTS` in
+`scripts/build-id.mjs`: the site's own files, and for each workspace package
+it bundles the sources, the built output and the build configuration, plus
+the lockfile). A server that serves another checkout, the other site, or a
+build from other sources is refused with the reason, so a preview left
+running by another worktree can never pass this one's tests.
+
+Content decides, not time or commit: a checkout or a stash that rewrites
+identical files changes nothing, and a build Turbo restores from an older
+commit is accepted when the site's inputs are unchanged, because it is the
+same build. When a source did change, the message names both commits and the
+way out of a cached build (`pnpm exec turbo run build --force`).
+`DS_E2E_ALLOW_STALE=1` skips the sources rule only, never the checkout or the
+site, and the run says when it was used. The rules have their own tests in
+`scripts/build-id.test.mjs`.
 
 ## Determinism — why it's opt-in in CI
 

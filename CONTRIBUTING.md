@@ -63,6 +63,12 @@ adapter's Vitest `globalSetup` recomputes it (`scripts/check-core-dist.mjs`).
 A mismatch stops the run and prints the rebuild command. Set
 `DS_ALLOW_STALE_CORE=1` to run anyway, knowingly; the run then says so.
 
+`pnpm e2e` and `pnpm visual` refuse a server that does not serve this checkout,
+or a build from other sources than the current ones: every served site
+carries a `.build-id.json` that the Playwright global setup reads first (see
+`docs/visual-testing.md`). Stop the foreign server, or rebuild; a build Turbo
+restored from its cache needs `pnpm exec turbo run build --force`.
+
 `pnpm lint` and `pnpm format:check` run ESLint and Prettier over the sources
 directly, so they need no build and are safe at any time.
 
