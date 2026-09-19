@@ -173,3 +173,172 @@ test("the pair survives 320 CSS pixels and 400% zoom without a horizontal scroll
   );
   expect(overflows).toBe(false);
 });
+
+// --- Pointer geometry along the logical axis ---------------------------------
+//
+// The routing rule is core's; what the browser decides is which physical end
+// of a native range is `min` under a writing direction. Measured in a probe
+// before this was written, identical in Chromium, Firefox and WebKit: under
+// `direction: rtl` a native range paints min on the right; under the vertical
+// writing this library uses (`vertical-lr` + `rtl`) it paints min at the
+// bottom. These tests hold the adapter to that.
+
+const trackOf = (thumb: Locator) =>
+  thumb.locator("xpath=ancestor::*[contains(@class, 'range-slider__track')][1]");
+const zIndexOf = (thumb: Locator) => thumb.evaluate((el) => Number(getComputedStyle(el).zIndex));
+const onTop = async (a: Locator, b: Locator) => (await zIndexOf(a)) > (await zIndexOf(b));
+
+/**
+ * The demos hydrate on visibility, and a pointer cannot reach what is below
+ * the fold: bring the slider into view, then wait for the mark hydration
+ * leaves, the stacking order the resting rule writes on mount (before it the
+ * computed z-index is "auto", which is not a number).
+ */
+const ready = async (thumb: Locator) => {
+  // The whole track, not only the thumb: a vertical track is taller than a
+  // thumb, and a pointer cannot be moved to a point outside the viewport.
+  await trackOf(thumb).scrollIntoViewIfNeeded();
+  await expect.poll(() => zIndexOf(thumb)).not.toBeNaN();
+};
+
+test("vertical: a pointer near the top raises the upper thumb, near the bottom the lower", async ({
+  page,
+}) => {
+  const low = page.getByRole("slider", { name: "Minimum volume" });
+  const high = page.getByRole("slider", { name: "Maximum volume" });
+  await ready(low);
+  await expect(low).toHaveAttribute("aria-orientation", "vertical");
+  const box = (await trackOf(low).boundingBox())!;
+  expect(box.height).toBeGreaterThan(box.width);
+  const x = box.x + box.width / 2;
+
+  // The thumbs are painted where the values say, from the bottom up: 30 and
+  // 70 of 100. Found by the browser's own hit test, scanning a thumb's width
+  // around the estimate, since engines place a thumb's centre a little
+  // differently near the ends. A vertical input sized with logical
+  // properties would put both thumbs somewhere else entirely.
+  const thumbAt = (fraction: number) =>
+    page.evaluate(
+      ([px, top, height, f]) => {
+        const estimate = top + height - 12 - f * (height - 24);
+        for (let dy = 0; dy <= 24; dy += 2) {
+          for (const y of [estimate - dy, estimate + dy]) {
+            const hit = document.elementFromPoint(px, y) as HTMLElement | null;
+            if (hit?.tagName === "INPUT") return hit.dataset.thumb ?? null;
+          }
+        }
+        return null;
+      },
+      [x, box.y, box.height, fraction] as const,
+    );
+  expect(await thumbAt(0.3), "the lower thumb sits 30% up the track").toBe("lower");
+  expect(await thumbAt(0.7), "the upper thumb sits 70% up the track").toBe("upper");
+
+  await page.mouse.move(x, box.y + box.height * 0.1);
+  expect(await onTop(high, low), "top of the track is the max end").toBe(true);
+  await page.mouse.move(x, box.y + box.height * 0.9);
+  expect(await onTop(low, high), "bottom of the track is the min end").toBe(true);
+});
+
+test("rtl: a pointer at the physical left raises the upper thumb, since min is on the right", async ({
+  page,
+}) => {
+  const low = page.getByRole("slider", { name: "Minimum budget" });
+  const high = page.getByRole("slider", { name: "Maximum budget" });
+  await ready(low);
+  expect(await low.evaluate((el) => getComputedStyle(el).direction)).toBe("rtl");
+  const box = (await trackOf(low).boundingBox())!;
+  const y = box.y + box.height / 2;
+
+  await page.mouse.move(box.x + box.width * 0.1, y);
+  expect(await onTop(high, low), "left is the max end under rtl").toBe(true);
+  await page.mouse.move(box.x + box.width * 0.9, y);
+  expect(await onTop(low, high), "right is the min end under rtl").toBe(true);
+});
+
+test("switching orientation after mount switches the routing with it", async ({ page }) => {
+  const low = page.getByRole("slider", { name: "Minimum brightness" });
+  const high = page.getByRole("slider", { name: "Maximum brightness" });
+  await ready(low);
+  await expect(low).toHaveAttribute("aria-orientation", "horizontal");
+  let box = (await trackOf(low).boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.1, box.y + box.height / 2);
+  expect(await onTop(low, high), "horizontal: left is min").toBe(true);
+
+  await page.getByRole("button", { name: "Switch to vertical" }).click();
+  await expect(low).toHaveAttribute("aria-orientation", "vertical");
+  await ready(low);
+  box = (await trackOf(low).boundingBox())!;
+  expect(box.height).toBeGreaterThan(box.width);
+  const x = box.x + box.width / 2;
+  await page.mouse.move(x, box.y + box.height * 0.1);
+  expect(await onTop(high, low), "vertical: top is max").toBe(true);
+  await page.mouse.move(x, box.y + box.height * 0.9);
+  expect(await onTop(low, high), "vertical: bottom is min").toBe(true);
+});
+
+// --- Stacked thumbs, with and without a hover --------------------------------
+
+/**
+ * Which thumb the browser's own hit test finds around a position on the
+ * track, with no pointer involved. Engines place a native thumb's centre a
+ * little differently near the ends, so the estimate is scanned a thumb's width
+ * either way and the first input hit wins.
+ */
+const hitThumb = (page: Page, box: { x: number; width: number }, y: number, fraction: number) =>
+  page.evaluate(
+    ([left, width, py, f]) => {
+      const estimate = left + 12 + f * (width - 24);
+      for (let dx = 0; dx <= 24; dx += 2) {
+        for (const x of [estimate - dx, estimate + dx]) {
+          const hit = document.elementFromPoint(x, py) as HTMLElement | null;
+          if (hit?.tagName === "INPUT") return hit.dataset.thumb ?? null;
+        }
+      }
+      return null;
+    },
+    [box.x, box.width, y, fraction] as const,
+  );
+
+test("stacked thumbs are reachable with no hover before the press, by a fixed rule", async ({
+  page,
+}) => {
+  // Keyboard only until the check: the pointer never enters the track, so
+  // no hover rule runs and the resting rule is what decides the top thumb,
+  // as for a touch.
+  await ready(lower(page));
+  await upper(page).focus();
+  await page.keyboard.press("Home"); // clamps at the lower thumb: stacked at 20
+  expect(await valueOf(upper(page))).toBe(await valueOf(lower(page)));
+  const box = (await trackOf(lower(page)).boundingBox())!;
+  const y = box.y + box.height / 2;
+  expect(await hitThumb(page, box, y, 0.2), "stacked mid-track: the upper thumb is on top").toBe(
+    "upper",
+  );
+
+  // Stack them at max: only the lower thumb can still move, so it is on top.
+  await page.keyboard.press("End"); // upper -> 100
+  await lower(page).focus();
+  await page.keyboard.press("End"); // lower -> 100
+  expect(await valueOf(lower(page))).toBe(100);
+  expect(await valueOf(upper(page))).toBe(100);
+  expect(await hitThumb(page, box, y, 1), "stacked at max: the lower thumb is on top").toBe(
+    "lower",
+  );
+});
+
+test("stacked thumbs: the side of the stack the pointer is on picks the thumb", async ({
+  page,
+}) => {
+  await ready(lower(page));
+  await upper(page).focus();
+  await page.keyboard.press("Home"); // stacked at 20
+  const box = (await trackOf(lower(page)).boundingBox())!;
+  const y = box.y + box.height / 2;
+  const centre = box.x + 12 + 0.2 * (box.width - 24);
+
+  await page.mouse.move(centre - 8, y);
+  expect(await onTop(lower(page), upper(page)), "left of the stack: about to drag down").toBe(true);
+  await page.mouse.move(centre + 8, y);
+  expect(await onTop(upper(page), lower(page)), "right of the stack: about to drag up").toBe(true);
+});

@@ -2,6 +2,8 @@
   import RangeSlider from "@design-system/svelte/RangeSlider.svelte";
   import Icon from "@design-system/svelte/Icon.svelte";
   let price = [20, 80];
+  /** @type {"horizontal" | "vertical"} */
+  let orientation = "horizontal";
 </script>
 
 <div class="range-slider-demo">
@@ -49,6 +51,42 @@
       />
     </Icon>
   </RangeSlider>
+
+  <!-- Vertical: min at the bottom, max at the top -->
+  <RangeSlider
+    value={[30, 70]}
+    orientation="vertical"
+    label="Volume range"
+    thumbLabels={["Minimum volume", "Maximum volume"]}
+    showValue
+  />
+
+  <!-- Right-to-left writing: min is on the right -->
+  <div dir="rtl">
+    <RangeSlider
+      value={[20, 80]}
+      label="Budget range"
+      thumbLabels={["Minimum budget", "Maximum budget"]}
+      showValue
+      showRange
+    />
+  </div>
+
+  <!-- A constraint changed after mount: the orientation switches in place -->
+  <div class="range-slider-demo__switch">
+    <RangeSlider
+      value={[40, 60]}
+      {orientation}
+      label="Brightness range"
+      thumbLabels={["Minimum brightness", "Maximum brightness"]}
+    />
+    <button
+      type="button"
+      on:click={() => (orientation = orientation === "horizontal" ? "vertical" : "horizontal")}
+    >
+      Switch to {orientation === "horizontal" ? "vertical" : "horizontal"}
+    </button>
+  </div>
 </div>
 
 <style>
@@ -60,5 +98,10 @@
     /* The preview lays its children out with flex, where an item refuses to
        shrink past its content unless told it may. */
     min-inline-size: 0;
+  }
+  .range-slider-demo__switch {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
   }
 </style>

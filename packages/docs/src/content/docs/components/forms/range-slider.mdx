@@ -36,11 +36,25 @@ the pair as a whole.
 - **One action reports the complete pair, once.** `onValueChange` receives
   `[lower, upper]`; reflecting a controlled `value` prop back reports nothing,
   and neither does a native form reset.
-- **`minDistance` snaps to the step grid**, so a clamped value always lands on
-  a value the user could have reached themselves.
-- **Pointer presses reach the nearer thumb.** Two overlapping range inputs
-  hit-test by stacking order, so the thumb nearer the pointer is raised before
-  the press lands. A drag already in progress is never interrupted.
+- **`minDistance` rounds up to the step grid and is capped at the span.** A
+  distance the grid cannot express is taken as the next reachable one, never
+  a smaller one, so the pair is never closer than was asked; a distance wider
+  than the track leaves exactly one legal pair, `[min, max]`. A clamped value
+  always lands on a value the user could have reached themselves.
+- **Constraints may change after mount.** `min`, `max`, `step`,
+  `minDistance`, `orientation` and `disabled` reach the control without a
+  remount. A pair the new constraints no longer allow is normalized silently,
+  and the form-reset default with it; nothing is reported.
+- **Pointer presses reach the nearer thumb, along the logical axis.** Two
+  overlapping range inputs hit-test by stacking order, so the thumb nearer the
+  pointer is raised before the press lands, in horizontal LTR, horizontal RTL
+  and vertical alike. A drag already in progress is never interrupted.
+- **Stacked thumbs stay operable without a hover.** When both thumbs sit on
+  the same value, a pointer to one side of the stack reaches the thumb that
+  would move that way. With no pointer over the track at all, as with a touch,
+  the upper thumb is on top unless the pair is stacked at `max`, where only
+  the lower one can move; the other thumb is reached by moving the top one
+  off it first.
 
 ### Accessibility
 
@@ -49,9 +63,18 @@ the pair as a whole.
   pointer dragging and form submission.
 - `label` names the group; `thumbLabels` names each thumb, because there is no
   universal wording for "the lower one" to fall back to.
-- Each thumb reports the bound it may not cross, both as an explicit
-  `aria-valuemin` / `aria-valuemax` override and as `aria-valuetext`, so the
-  reason the arrows stop moving is announced and not only implied.
+- Each thumb reports the bound it may not cross in two ways. An explicit
+  `aria-valuemin` / `aria-valuemax` override carries it as numbers; ARIA in
+  HTML **discourages** this override on a native range input, and the
+  attributes being present is not proof that every accessibility tree or
+  assistive technology honours them over the input's own `min` and `max`.
+  `aria-valuetext` therefore carries the same constraint as text, which no
+  engine can decline to expose. WAI-ARIA supplies the normative role and state
+  requirements here; the Authoring Practices supply the pattern guidance.
+- What real assistive technology announces, and how touch assistive
+  technology reaches stacked thumbs, are **not verified** by the automated
+  suites: that validation belongs to the final manual accessibility session
+  (A1).
 - The thumb is 24 × 24 CSS pixels by default, the smallest pointer target
   WCAG 2.2 accepts.
 

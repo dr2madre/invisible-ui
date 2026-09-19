@@ -32,7 +32,7 @@
     "name": "@design-system/core — range slider only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ rangeSlider }",
-    "limit": "1.2 kB"
+    "limit": "1.5 kB"
   },
   {
     "name": "@design-system/svelte — adapters barrel",

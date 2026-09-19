@@ -1691,6 +1691,11 @@
       "signature": "namespace rangeSlider"
     },
     {
+      "name": "rangeSlider.Box",
+      "kind": "type",
+      "signature": "type rangeSlider_Box = Box;"
+    },
+    {
       "name": "rangeSlider.ConnectOptions",
       "kind": "interface",
       "signature": "interface ConnectOptions#c9a574a4 { /** Current resolved state. */ state: RangeSliderState; /** Request a new raw value for one thumb; the adapter owns how state * updates. */ setValue: (index: 0 | 1, raw: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
@@ -1699,6 +1704,11 @@
       "name": "rangeSlider.Orientation",
       "kind": "type",
       "signature": "type Orientation#1e024838 = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "rangeSlider.PointerAxis",
+      "kind": "type",
+      "signature": "type rangeSlider_PointerAxis = PointerAxis;"
     },
     {
       "name": "rangeSlider.RangeSliderApi",
@@ -1731,9 +1741,19 @@
       "signature": "declare function connect#7871b75e({ state, setValue, normalize, }: ConnectOptions#c9a574a4): RangeSliderApi;"
     },
     {
+      "name": "rangeSlider.effectiveMinDistance",
+      "kind": "const",
+      "signature": "rangeSlider_effectiveMinDistance: typeof effectiveMinDistance"
+    },
+    {
       "name": "rangeSlider.initialState",
       "kind": "function",
       "signature": "declare function initialState#43e340d9(context?: RangeSliderContext): RangeSliderState;"
+    },
+    {
+      "name": "rangeSlider.nearerThumb",
+      "kind": "const",
+      "signature": "rangeSlider_nearerThumb: typeof nearerThumb"
     },
     {
       "name": "rangeSlider.normalizePair",
@@ -1746,9 +1766,24 @@
       "signature": "rangeSlider_percentages: typeof percentages"
     },
     {
+      "name": "rangeSlider.pointerFraction",
+      "kind": "const",
+      "signature": "rangeSlider_pointerFraction: typeof pointerFraction"
+    },
+    {
+      "name": "rangeSlider.restingThumb",
+      "kind": "const",
+      "signature": "rangeSlider_restingThumb: typeof restingThumb"
+    },
+    {
       "name": "rangeSlider.snap",
       "kind": "const",
       "signature": "rangeSlider_snap: typeof snap"
+    },
+    {
+      "name": "rangeSlider.valueFraction",
+      "kind": "const",
+      "signature": "rangeSlider_valueFraction: typeof valueFraction"
     },
     {
       "name": "scrollArea",
