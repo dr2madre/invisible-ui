@@ -55,9 +55,13 @@ Everything else reads whatever `dist/` happens to hold. A package's own script
 (`pnpm --filter <package> test`, or `vitest` inside the directory) bypasses
 Turbo; `pnpm e2e` and `pnpm visual` serve the built docs and example apps
 without building them; `pnpm size` measures the built output; and
-`pnpm consumers:check` packs it. Run `pnpm build` before those, and treat a
-suite that turns red straight after a sync as a stale build until proven
-otherwise.
+`pnpm consumers:check` packs it. Run `pnpm build` before those.
+
+The adapters' test suites refuse to start against a stale core: the core build
+records a hash of its sources in `core/dist/.build-info.json`, and each
+adapter's Vitest `globalSetup` recomputes it (`scripts/check-core-dist.mjs`).
+A mismatch stops the run and prints the rebuild command. Set
+`DS_ALLOW_STALE_CORE=1` to run anyway, knowingly; the run then says so.
 
 `pnpm lint` and `pnpm format:check` run ESLint and Prettier over the sources
 directly, so they need no build and are safe at any time.
