@@ -27,7 +27,16 @@ pnpm visual          # compare against committed baselines
 pnpm visual:update   # rewrite every baseline (after an intended visual change)
 ```
 
-(Both build the docs site first via the Playwright `webServer`.)
+(Neither builds anything: the Playwright `webServer` serves the docs `dist`
+that is already there. Build first with `pnpm build`.)
+
+Before the first test, `e2e/global-setup.ts` reads `.build-id.json` from each
+server it reaches. The docs build and the Vue example build write that file
+with the repository root, the commit and the build time. A server that serves
+another checkout, another commit, or a build older than the newest source
+file is refused with the reason, so a preview left running by another
+worktree can never pass this one's tests. `DS_E2E_ALLOW_STALE=1` skips the
+freshness rules only (dirty tree, newer sources), never the identity rules.
 
 ## Determinism — why it's opt-in in CI
 
