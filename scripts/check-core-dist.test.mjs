@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkCoreDist, assertCoreDist } from "./check-core-dist.mjs";
@@ -18,6 +19,9 @@ function fixture() {
   writeFileSync(join(core, "src/index.test.ts"), "test\n");
   writeFileSync(join(core, "package.json"), "{}\n");
   writeFileSync(join(core, "tsup.config.ts"), "export default {};\n");
+  writeFileSync(join(core, "tsconfig.json"), "{}\n");
+  writeFileSync(join(root, "tsconfig.base.json"), "{}\n");
+  writeFileSync(join(root, "pnpm-lock.yaml"), "lockfileVersion: 9\n");
   writeFileSync(join(core, "scripts/clean-dist.mjs"), "");
   writeFileSync(join(core, "scripts/patch-esm-specifiers.mjs"), "");
   writeFileSync(join(core, "dist/index.js"), "export const a = 1;\n");
@@ -52,12 +56,43 @@ test("a test file does not count: tests never reach dist", () => {
   f.done();
 });
 
-test("the build config counts", () => {
+test("the build config, the tsconfigs and the lockfile count", () => {
+  for (const [rel, content] of [
+    ["core/tsup.config.ts", "export default { minify: true };\n"],
+    ["core/tsconfig.json", '{ "compilerOptions": { "strict": true } }\n'],
+    ["tsconfig.base.json", '{ "compilerOptions": { "lib": ["es2023"] } }\n'],
+    ["pnpm-lock.yaml", "lockfileVersion: 9\n\npackages:\n  tsup@8.5.2: {}\n"],
+    ["core/package.json", '{ "name": "x" }\n'],
+    ["core/scripts/patch-esm-specifiers.mjs", "// changed\n"],
+  ]) {
+    const f = fixture();
+    f.record();
+    writeFileSync(join(f.root, rel), content);
+    assert.match(checkCoreDist(f.root), /other sources/, rel);
+    f.done();
+  }
+});
+
+test("a missing input is reported with the remedy, not a stack", () => {
   const f = fixture();
   f.record();
-  writeFileSync(join(f.core, "tsup.config.ts"), "export default { minify: true };\n");
-  assert.match(checkCoreDist(f.root), /other sources/);
+  rmSync(join(f.core, "tsconfig.json"));
+  assert.match(checkCoreDist(f.root), /other sources|could not be read/);
   f.done();
+});
+
+// The hash keeps what tsup compiles. If tsup's entry ever widens (.tsx, .mts),
+// this fails until the hash follows.
+test("the hash's inclusion rule matches tsup's entry", () => {
+  const repo = fileURLToPath(new URL("..", import.meta.url));
+  const tsup = readFileSync(join(repo, "core/tsup.config.ts"), "utf8");
+  assert.match(tsup, /entry: \["src\/\*\*\/\*\.ts", "!src\/\*\*\/\*\.test\.ts"\]/);
+});
+
+test("the real core/dist, when built, passes the guard", () => {
+  const repo = fileURLToPath(new URL("..", import.meta.url));
+  if (!existsSync(join(repo, "core/dist/.build-info.json"))) return;
+  assert.equal(checkCoreDist(repo), null);
 });
 
 test("a dist without build info, or no dist at all, is refused", () => {
@@ -68,10 +103,12 @@ test("a dist without build info, or no dist at all, is refused", () => {
   f.done();
 });
 
-test("assertCoreDist throws, unless the escape hatch is set", () => {
+test("assertCoreDist throws, unless the escape hatch is exactly 1", () => {
   const f = fixture();
   assert.throws(() => assertCoreDist(f.root), /\[core-dist\]/);
   const before = process.env.DS_ALLOW_STALE_CORE;
+  process.env.DS_ALLOW_STALE_CORE = "0";
+  assert.throws(() => assertCoreDist(f.root), /\[core-dist\]/);
   process.env.DS_ALLOW_STALE_CORE = "1";
   const warn = console.warn;
   let warned = "";

@@ -1,11 +1,7 @@
 #!/usr/bin/env node
-// Fail when `core/dist` was not built from the current `core/src`.
-//
-// The adapters resolve `@design-system/core` through its package `exports`,
-// which point at `core/dist`, never at the sources. A test run against an
-// old dist then passes or fails for the wrong reasons: a fix in core stays
-// invisible, or a regression does. Turbo builds core before `pnpm test`;
-// this guard covers every other way a suite is started.
+// Fail when `core/dist` was not built from the current `core/src`: the
+// adapters test the built core (see CONTRIBUTING, "Running the checks
+// locally"), and Turbo rebuilds it only for the tasks that go through Turbo.
 //
 //   node scripts/check-core-dist.mjs            # exit 1 with the remedy
 //   DS_ALLOW_STALE_CORE=1 <any suite>           # run anyway, with a warning
@@ -38,7 +34,13 @@ export function checkCoreDist(root) {
   } catch {
     return `core/dist/.build-info.json is unreadable: run \`${REBUILD}\`.`;
   }
-  if (built !== hashCoreSources(coreDir)) {
+  let current;
+  try {
+    current = hashCoreSources(coreDir);
+  } catch (error) {
+    return `core sources could not be read (${error.message}): run \`${REBUILD}\`.`;
+  }
+  if (built !== current) {
     return `core/dist was built from other sources than the current core/src: run \`${REBUILD}\`.`;
   }
   return null;
@@ -48,7 +50,7 @@ export function checkCoreDist(root) {
 export function assertCoreDist(root) {
   const problem = checkCoreDist(root);
   if (!problem) return;
-  if (process.env.DS_ALLOW_STALE_CORE) {
+  if (process.env.DS_ALLOW_STALE_CORE === "1") {
     console.warn(
       `[core-dist] ${problem}\n[core-dist] DS_ALLOW_STALE_CORE is set: running against a stale core anyway.`,
     );
