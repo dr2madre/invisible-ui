@@ -24,9 +24,8 @@ export const BUILD_ID_FILE = ".build-id.json";
 
 /**
  * What each served site is built from, relative to the repository root: its
- * own files, and for every workspace package it bundles both the sources and
- * the built output, with the build configuration between them. Core's dist is
- * represented by its build record, itself a hash of core's sources.
+ * own files, and for every workspace package it bundles the sources, the
+ * build configuration, and the build record that stands for the dist.
  */
 const CORE = [
   "core/src",
@@ -35,9 +34,11 @@ const CORE = [
   "core/tsconfig.json",
 ];
 const SHARED = ["tsconfig.base.json", "pnpm-lock.yaml"];
+// A package's build record is a hash of the sources its dist was built from
+// (scripts/write-build-info.mjs), so it stands for the dist itself.
 const bundled = (pkg) => [
   `${pkg}/src`,
-  `${pkg}/dist`,
+  `${pkg}/dist/.build-info.json`,
   `${pkg}/tsup.config.ts`,
   `${pkg}/tsconfig.json`,
   `${pkg}/package.json`,

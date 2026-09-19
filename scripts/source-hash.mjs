@@ -2,7 +2,7 @@
 // modification time: a checkout or a stash touches every file without
 // changing what the build would produce.
 //
-// `hashCoreSources` covers `core/dist`; `hashInputs` is the general form.
+// `hashPackageSources` covers a package's dist; `hashInputs` is the general form.
 
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -52,25 +52,31 @@ export function hashInputs(root, entries, keep = (rel) => !isTest(rel)) {
   return hash.digest("hex");
 }
 
-// Beside the sources: tsup's config and the tsconfigs its dts build reads, the
-// build scripts, and the lockfile that pins tsup, esbuild and TypeScript.
-const CORE_EXTRA = [
-  "package.json",
-  "tsup.config.ts",
-  "tsconfig.json",
-  "../tsconfig.base.json",
-  "../pnpm-lock.yaml",
-  "scripts/clean-dist.mjs",
-  "scripts/patch-esm-specifiers.mjs",
-];
-
-/** Under `src`, only the TypeScript tsup compiles; the extra files as listed. */
-const keepForCore = (rel) => {
-  if (isTest(rel)) return false;
-  return rel.startsWith("src/") ? rel.endsWith(".ts") : true;
-};
-
-/** @param {string} coreDir absolute path to `core/` */
-export function hashCoreSources(coreDir) {
-  return hashInputs(coreDir, ["src", ...CORE_EXTRA], keepForCore);
+/**
+ * What shapes a workspace package's dist: everything under `src` except
+ * tests (core: only the TypeScript tsup compiles), the package manifest,
+ * tsup's config, the tsconfigs its dts build reads, and the lockfile that
+ * pins the toolchain. `pkgRel` is the package directory relative to the
+ * repository root ("core", "packages/svelte").
+ */
+export function hashPackageSources(repoRoot, pkgRel) {
+  const entries = [
+    `${pkgRel}/src`,
+    `${pkgRel}/package.json`,
+    `${pkgRel}/tsup.config.ts`,
+    `${pkgRel}/tsconfig.json`,
+    "tsconfig.base.json",
+    "pnpm-lock.yaml",
+  ];
+  if (pkgRel === "core") {
+    entries.push("core/scripts/clean-dist.mjs", "core/scripts/patch-esm-specifiers.mjs");
+  }
+  const keep = pkgRel === "core" ? keepCoreRel(pkgRel) : (rel) => !isTest(rel);
+  return hashInputs(repoRoot, entries, keep);
 }
+
+/** Under core's `src`, only the TypeScript tsup compiles. */
+const keepCoreRel = (pkgRel) => (rel) => {
+  if (isTest(rel)) return false;
+  return rel.startsWith(`${pkgRel}/src/`) ? rel.endsWith(".ts") : true;
+};

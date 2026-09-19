@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkCoreDist, assertCoreDist } from "./check-core-dist.mjs";
-import { hashCoreSources } from "./source-hash.mjs";
+import { hashPackageSources } from "./source-hash.mjs";
 
 // A miniature `core/`: one source, the build inputs the hash covers, and a
 // dist whose build info this test writes by hand.
@@ -28,7 +28,7 @@ function fixture(parent = tmpdir()) {
   const record = () =>
     writeFileSync(
       join(core, "dist/.build-info.json"),
-      JSON.stringify({ sourceHash: hashCoreSources(core) }),
+      JSON.stringify({ sourceHash: hashPackageSources(root, "core") }),
     );
   return { root, core, record, done: () => rmSync(root, { recursive: true, force: true }) };
 }
@@ -104,7 +104,7 @@ test("a failed build's dist, with only a pending stamp, is refused", () => {
   const f = fixture();
   writeFileSync(
     join(f.core, "dist/.build-info.pending.json"),
-    JSON.stringify({ sourceHash: hashCoreSources(f.core) }),
+    JSON.stringify({ sourceHash: hashPackageSources(f.root, "core") }),
   );
   assert.match(checkCoreDist(f.root), /no build info/);
   f.done();
