@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { connect } from "./connect";
 import {
   alignMinDistance,
+  effectiveMinDistance,
   clampPair,
   initialState,
   normalizePair,
@@ -32,10 +33,13 @@ describe("range slider state", () => {
     expect(normalizePair([50, 52], 0, 100, 1, 10)).toEqual([50, 60]);
   });
 
-  it("does not move lower to satisfy an invalid default", () => {
-    // Even when lower is very close to max, only upper (and the clamp) may
-    // give: lower is always taken as given.
-    expect(normalizePair([95, 96], 0, 100, 1, 10)[0]).toBe(95);
+  it("slides the pair down when there is no room above for the distance", () => {
+    // [95, 96] over 0-100 with a distance of 10: upper cannot rise to 105,
+    // so it stops at max and lower is the one that gives. Keeping lower at
+    // 95 would leave the pair 5 apart, which no drag could ever produce.
+    expect(normalizePair([95, 96], 0, 100, 1, 10)).toEqual([90, 100]);
+    // With room above, lower is still taken as given and upper makes room.
+    expect(normalizePair([50, 52], 0, 100, 1, 10)).toEqual([50, 60]);
   });
 
   it("computes percentages, one per thumb", () => {
@@ -43,10 +47,27 @@ describe("range slider state", () => {
     expect(percentages(make({ value: [2, 6], min: 0, max: 8 }))).toEqual([25, 75]);
   });
 
-  it("aligns minDistance onto the step grid", () => {
+  it("rounds minDistance up to the step grid, never down", () => {
+    // A request of 4 on a step of 10 is a request for at least 4: the next
+    // reachable distance is 10, and 0 would let the thumbs sit closer than
+    // was asked.
     expect(alignMinDistance(7, 10)).toBe(10);
-    expect(alignMinDistance(4, 10)).toBe(0);
+    expect(alignMinDistance(4, 10)).toBe(10);
+    expect(alignMinDistance(10, 10)).toBe(10);
     expect(alignMinDistance(-3, 10)).toBe(0);
+    expect(alignMinDistance(0, 10)).toBe(0);
+    expect(Object.is(alignMinDistance(0, 10), 0), "+0, not -0").toBe(true);
+  });
+
+  it("caps the effective distance at what the grid can hold between min and max", () => {
+    expect(effectiveMinDistance(10, 0, 100, 1)).toBe(10);
+    expect(effectiveMinDistance(4, 0, 100, 10)).toBe(10);
+    expect(effectiveMinDistance(250, 0, 100, 1), "wider than the span").toBe(100);
+    expect(effectiveMinDistance(100, 0, 95, 10), "span not on the grid").toBe(90);
+    expect(effectiveMinDistance(0.25, 0, 1, 0.1)).toBe(0.3);
+    expect(effectiveMinDistance(Number.NaN, 0, 100, 1)).toBe(0);
+    expect(effectiveMinDistance(5, 0, 100, 0), "no grid: only the cap").toBe(5);
+    expect(effectiveMinDistance(500, 0, 100, 0)).toBe(100);
   });
 
   it("snaps cleanly for fractional steps", () => {
@@ -165,5 +186,100 @@ describe("range slider connect (two native range inputs)", () => {
     expect(setValue).not.toHaveBeenCalled();
     expect(api.getThumbProps(0).disabled).toBe(true);
     expect(api.getThumbProps(1).disabled).toBe(true);
+  });
+});
+
+// The invariants the pair must hold whatever it was handed. Not exhaustive
+// enumeration, a sweep over the corners: bounds that do not sit on the grid,
+// fractional steps, impossible distances, values off the track, reversed
+// pairs, and inputs that are not numbers at all.
+describe("normalizePair and clampPair keep the pair's invariants", () => {
+  const bounds: Array<[number, number, number]> = [
+    [0, 100, 1],
+    [0, 100, 10],
+    [0, 95, 10],
+    [-50, 50, 5],
+    [0, 1, 0.1],
+    [0, 1, 0.25],
+    [2, 2.5, 0.1],
+    [0, 3, 0],
+    [10, 10, 1],
+  ];
+  const distances = [0, 1, 4, 10, 0.25, 99, 250, -3, Number.NaN];
+  const pairs: Array<[number, number]> = [
+    [0, 100],
+    [95, 96],
+    [96, 95],
+    [50, 50],
+    [-999, 999],
+    [0.23, 0.27],
+    [2.44, 2.46],
+    [Number.NaN, 50],
+    [50, Number.POSITIVE_INFINITY],
+    [Number.NEGATIVE_INFINITY, Number.NaN],
+  ];
+
+  const isOnGrid = (value: number, min: number, step: number) => {
+    if (step <= 0) return true;
+    const steps = (value - min) / step;
+    return Math.abs(steps - Math.round(steps)) < 1e-6;
+  };
+
+  const check = (
+    label: string,
+    [lower, upper]: readonly [number, number],
+    min: number,
+    max: number,
+    step: number,
+    distance: number,
+  ) => {
+    expect(Number.isFinite(lower), `${label}: lower finite`).toBe(true);
+    expect(Number.isFinite(upper), `${label}: upper finite`).toBe(true);
+    expect(lower, `${label}: lower >= min`).toBeGreaterThanOrEqual(min);
+    expect(upper, `${label}: upper <= max`).toBeLessThanOrEqual(max);
+    expect(lower, `${label}: lower <= upper`).toBeLessThanOrEqual(upper);
+    expect(upper - lower + 1e-9, `${label}: distance held`).toBeGreaterThanOrEqual(distance);
+    expect(isOnGrid(lower, min, step), `${label}: lower on grid`).toBe(true);
+    expect(isOnGrid(upper, min, step), `${label}: upper on grid`).toBe(true);
+  };
+
+  it("normalizePair", () => {
+    for (const [min, max, step] of bounds) {
+      for (const requested of distances) {
+        const distance = effectiveMinDistance(requested, min, max, step);
+        expect(distance, `distance finite for ${requested}`).toBeGreaterThanOrEqual(0);
+        expect(distance).toBeLessThanOrEqual(Math.max(0, max - min) + 1e-9);
+        for (const pair of pairs) {
+          const label = `normalize ${JSON.stringify(pair)} in [${min},${max}] step ${step} d ${requested}`;
+          check(label, normalizePair(pair, min, max, step, requested), min, max, step, distance);
+        }
+      }
+    }
+  });
+
+  it("clampPair, from any legal pair and any raw request", () => {
+    for (const [min, max, step] of bounds) {
+      for (const requested of distances) {
+        const distance = effectiveMinDistance(requested, min, max, step);
+        for (const pair of pairs) {
+          const legal = normalizePair(pair, min, max, step, requested);
+          for (const raw of [-1e9, min, (min + max) / 2, max, 1e9, 0.17, Number.NaN]) {
+            for (const moved of [0, 1] as const) {
+              const label = `clamp ${moved} to ${raw} from ${JSON.stringify(legal)} in [${min},${max}] step ${step} d ${requested}`;
+              const after = clampPair(legal, moved, raw, min, max, step, requested);
+              check(label, after, min, max, step, distance);
+              // Only the moved thumb is written.
+              expect(after[1 - moved], `${label}: sibling untouched`).toBe(legal[1 - moved]);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  it("an impossible distance leaves exactly one legal pair, [min, max]", () => {
+    expect(normalizePair([40, 60], 0, 100, 1, 250)).toEqual([0, 100]);
+    expect(clampPair([0, 100], 0, 50, 0, 100, 1, 250)).toEqual([0, 100]);
+    expect(clampPair([0, 100], 1, 50, 0, 100, 1, 250)).toEqual([0, 100]);
   });
 });

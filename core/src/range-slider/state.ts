@@ -5,22 +5,63 @@ let idCounter = 0;
 /** Clamp a value into the `[min, max]` range. */
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-/** Snap a value to the nearest step (anchored at `min`) and clamp it. */
-export function snap(value: number, min: number, max: number, step: number): number {
-  if (step <= 0) return clamp(value, min, max);
-  const snapped = min + Math.round((value - min) / step) * step;
-  // Guard against floating-point drift from the multiplication.
+/** Round away floating-point drift from a `step` multiplication. */
+const onGrid = (value: number, step: number): number => {
   const decimals = (String(step).split(".")[1] ?? "").length;
-  const rounded = decimals ? Number(snapped.toFixed(decimals)) : snapped;
-  return clamp(rounded, min, max);
+  return decimals ? Number(value.toFixed(decimals)) : value;
+};
+
+/**
+ * Snap a value to the nearest step (anchored at `min`) and keep it inside the
+ * bounds. Past `max` the value steps *down* to the last grid point at or below
+ * `max`, not onto `max` itself: a `max` the grid does not reach (95 on a step
+ * of 10) is not a value a native range input ever offers, and landing there
+ * would put the pair off the grid the arrows move on.
+ */
+export function snap(value: number, min: number, max: number, step: number): number {
+  // A value that is not a number has no place on the track; the low end is
+  // the one deterministic answer that is always inside the bounds.
+  const safe = Number.isFinite(value) ? value : min;
+  if (step <= 0) return clamp(safe, min, max);
+  const snapped = onGrid(min + Math.round((safe - min) / step) * step, step);
+  if (snapped > max)
+    return Math.max(min, onGrid(min + Math.floor((max - min) / step) * step, step));
+  return Math.max(min, snapped);
 }
 
-/** `minDistance`, forced onto the step grid: the bound a thumb clamps
- * against must always itself be a point the step could land on, or a clamp
- * and a later re-snap could disagree about which grid point wins. */
+/**
+ * The distance the two thumbs really keep apart. Two rules turn the request
+ * into a distance the pair can actually hold:
+ *
+ * - it is rounded *up* to the step grid, never down: a consumer asking for
+ *   at least 10 on a step of 3 must get 12, not 9, or the pair could sit
+ *   closer than was asked;
+ * - it is capped at the widest distance the grid can hold between `min` and
+ *   `max`, so an impossible request (a distance wider than the span) leaves
+ *   exactly one legal pair, `[min, max]`, instead of an unreachable rule.
+ *
+ * With `step <= 0` there is no grid, and only the cap applies.
+ */
+export function effectiveMinDistance(
+  minDistance: number,
+  min: number,
+  max: number,
+  step: number,
+): number {
+  const span = Math.max(0, max - min);
+  const wanted = Number.isFinite(minDistance) ? Math.max(0, minDistance) : 0;
+  if (step <= 0) return Math.min(wanted, span);
+  const gridSpan = onGrid(Math.floor(span / step) * step, step);
+  // `Math.ceil` of a tiny negative yields -0; `Math.max` with +0 settles it.
+  const up = Math.max(0, onGrid(Math.ceil(wanted / step - 1e-9) * step, step));
+  return Math.min(up, gridSpan);
+}
+
+/** @deprecated Kept for the earlier callers; `effectiveMinDistance` also caps
+ * at the span, which this cannot without the bounds. Rounds up, like it. */
 export function alignMinDistance(minDistance: number, step: number): number {
   if (step <= 0) return Math.max(0, minDistance);
-  return Math.max(0, Math.round(minDistance / step) * step);
+  return Math.max(0, onGrid(Math.ceil(Math.max(0, minDistance) / step - 1e-9) * step, step));
 }
 
 /**
@@ -48,7 +89,7 @@ export function clampPair(
   step: number,
   minDistance: number,
 ): readonly [number, number] {
-  const aligned = alignMinDistance(minDistance, step);
+  const aligned = effectiveMinDistance(minDistance, min, max, step);
   const requested = snap(raw, min, max, step);
   if (moved === 0) {
     const ceiling = value[1] - aligned;
@@ -62,12 +103,17 @@ export function clampPair(
 
 /**
  * Normalize an incoming pair the same way a user's own drag would be
- * normalized: `lower` is taken as given, `upper` is clamped against it. Used
- * both for the initial value and for a controlled prop reflected in from
- * outside, so a consumer's invalid pair (closer together than `minDistance`
- * allows) still resolves to a legal one, deterministically, and the DOM
- * default and the JS state are built from the same call so they cannot
- * disagree.
+ * normalized, and so that the result always satisfies the pair's invariants:
+ * both values finite, on the step grid and inside `[min, max]`,
+ * `lower <= upper`, and `upper - lower` at least the effective distance.
+ *
+ * `lower` is taken as given where that is possible and `upper` is pushed up
+ * to make room; when there is no room above (`[95, 96]` over 0-100 with a
+ * distance of 10), `upper` stops at `max` and `lower` is the one that moves,
+ * down to `max - distance`. Used for the initial value, for a controlled prop
+ * reflected in from outside, and for a constraint that changed after mount,
+ * so the DOM default and the JS state are built from the same call and
+ * cannot disagree.
  */
 export function normalizePair(
   value: readonly [number, number],
@@ -76,10 +122,16 @@ export function normalizePair(
   step: number,
   minDistance: number,
 ): readonly [number, number] {
-  const lower = snap(value[0], min, max, step);
-  const aligned = alignMinDistance(minDistance, step);
-  const upper = Math.max(snap(value[1], min, max, step), Math.min(max, lower + aligned));
-  return [lower, Math.min(max, upper)];
+  const distance = effectiveMinDistance(minDistance, min, max, step);
+  let lower = snap(value[0], min, max, step);
+  let upper = Math.max(snap(value[1], min, max, step), lower);
+  if (upper - lower < distance) upper = snap(lower + distance, min, max, step);
+  if (upper - lower < distance) {
+    // No room above: the pair slides down, `upper` at the top of the track.
+    upper = snap(max, min, max, step);
+    lower = snap(upper - distance, min, max, step);
+  }
+  return [lower, upper];
 }
 
 /** Build the initial state from user context. */
@@ -87,7 +139,7 @@ export function initialState(context: RangeSliderContext = {}): RangeSliderState
   const min = context.min ?? 0;
   const max = context.max ?? 100;
   const step = context.step ?? 1;
-  const minDistance = alignMinDistance(context.minDistance ?? 0, step);
+  const minDistance = effectiveMinDistance(context.minDistance ?? 0, min, max, step);
   const value = normalizePair(context.value ?? [min, max], min, max, step, minDistance);
   return {
     value,
