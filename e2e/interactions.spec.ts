@@ -127,3 +127,22 @@ test("Combobox filters and selects an option", async ({ page }) => {
   await page.getByRole("option", { name: "Ada Lovelace" }).click();
   await expect(input).toHaveValue("Ada Lovelace");
 });
+
+test("a read-only Combobox still empties from the keyboard alone", async ({ page }) => {
+  // searchable={false} makes the input read-only, which is exactly the
+  // configuration where a mouse-only clear button leaves no keyboard way at
+  // all to empty the control. The demo's other combobox starts empty, so its
+  // own clear button stays out of the accessibility tree and this one is the
+  // only "Clear" button reachable at load.
+  await page.goto("components/forms/combobox/");
+  const input = page.getByRole("combobox", { name: "Priority" });
+  await expect(input).toHaveValue("High");
+
+  const clear = page.getByRole("button", { name: "Clear" });
+  await clear.focus();
+  await expect(clear).toBeFocused();
+  await page.keyboard.press("Enter");
+
+  await expect(input).toHaveValue("");
+  await expect(input).toBeFocused();
+});
