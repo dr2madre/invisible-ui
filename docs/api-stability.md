@@ -38,6 +38,22 @@ pixel output of the styled layer are not public surface.
   relationships and contrast floors, bug fixes that restore documented
   behaviour, documentation.
 
+### How a classification is encoded
+
+The classification above says what a change *is*. How it is written in a
+changeset depends on where the package is in its own version history.
+
+- **While a package is 0.x**, a breaking change is encoded as a **minor**
+  changeset. Semantic versioning gives 0.x no major channel that means
+  anything to a consumer, and a `major` entry would publish the package as
+  1.0.0, which says it is stable. The changeset must then say plainly, in its
+  first line, that the change is breaking, and carry the migration: what
+  breaks, what to write instead.
+- **From 1.0.0 on**, a breaking change is encoded as a **major** changeset.
+
+Additive and value-only changes are encoded as `minor` and `patch` in both
+phases. A breaking change is never encoded as a patch.
+
 The generated gates arbitrate **that** the surface changed, not how to
 classify it: any change to the committed API reports, prop manifests or token
 registry shows as a diff and demands a changeset, and the human writing that
