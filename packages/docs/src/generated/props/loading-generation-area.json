@@ -14,56 +14,64 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name. Defaults to the i18n catalog's \"Loading…\"."
+          "description": "Accessible name. Defaults to the i18n catalog's \"Loading…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "decorative",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Hide from assistive tech (the surrounding region announces the state)."
+          "description": "Hide from assistive tech (the surrounding region announces the state).",
+          "descriptionFrom": "source"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place.",
+          "descriptionFrom": "source"
         },
         {
           "name": "field",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Show the dot field as the backdrop."
+          "description": "Show the dot field as the backdrop.",
+          "descriptionFrom": "source"
         },
         {
           "name": "labelPosition",
           "type": "\"center\" | \"top\" | \"bottom\" | \"left\" | \"right\"",
           "default": "\"center\"",
           "required": false,
-          "description": "Where the label/indicator zone sits over the area."
+          "description": "Where the label/indicator zone sits over the area.",
+          "descriptionFrom": "source"
         },
         {
           "name": "status",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Live status message — announced on every change."
+          "description": "Live status message — announced on every change.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "Percentage (0–100), shown as \"N%\"."
+          "description": "Percentage (0–100), shown as \"N%\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "detail",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
+          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\".",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -79,56 +87,64 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name. Defaults to the catalog's \"Loading…\"."
+          "description": "Accessible name. Defaults to the catalog's \"Loading…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "decorative",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Hide from assistive tech (the surrounding region announces the state)."
+          "description": "Hide from assistive tech (the surrounding region announces the state).",
+          "descriptionFrom": "source"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place."
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place.",
+          "descriptionFrom": "source"
         },
         {
           "name": "field",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Show the dot field as the backdrop."
+          "description": "Show the dot field as the backdrop.",
+          "descriptionFrom": "source"
         },
         {
           "name": "labelPosition",
           "type": "LoadingGenerationAreaPosition",
           "default": "\"center\"",
           "required": false,
-          "description": "Where the label/indicator zone sits over the area."
+          "description": "Where the label/indicator zone sits over the area.",
+          "descriptionFrom": "source"
         },
         {
           "name": "status",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Live status message, announced on every change."
+          "description": "Live status message, announced on every change.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "Percentage (0–100), shown as \"N%\"."
+          "description": "Percentage (0–100), shown as \"N%\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "detail",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\"."
+          "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

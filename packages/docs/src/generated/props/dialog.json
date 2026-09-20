@@ -14,70 +14,80 @@
           "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial open state."
+          "description": "Initial open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the dialog."
+          "description": "Accessible title naming the dialog.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "hideTitle",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the title while keeping it as the dialog's accessible name (announced by screen readers via `aria-labelledby`). The title text is always required; this only controls whether it is shown."
+          "description": "Visually hide the title while keeping it as the dialog's accessible name (announced by screen readers via `aria-labelledby`). The title text is always required; this only controls whether it is shown.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional description, wired via `aria-describedby`."
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the close button."
+          "description": "Accessible label for the close button.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "footerClose",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot."
+          "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot.",
+          "descriptionFrom": "source"
         },
         {
           "name": "bodyLayout",
           "type": "\"plain\" | \"stack\"",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "descriptionFrom": "source"
         },
         {
           "name": "initialFocus",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the dialog opens/closes."
+          "description": "Called when the dialog opens/closes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -93,84 +103,96 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the dialog (required)."
+          "description": "Accessible title naming the dialog (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideTitle",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown."
+          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional description, wired via `aria-describedby`."
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "footerClose",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a close/cancel button on the footer's leading edge."
+          "description": "Show a close/cancel button on the footer's leading edge.",
+          "descriptionFrom": "source"
         },
         {
           "name": "bodyLayout",
           "type": "DialogBodyLayout",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "descriptionFrom": "source"
         },
         {
           "name": "initialFocus",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself, never on the close button."
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself, never on the close button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop closes. Default `true`."
+          "description": "Whether pressing the backdrop closes. Default `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [
@@ -202,126 +224,144 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "The trigger button's content."
+          "description": "The trigger button's content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state."
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the dialog (required)."
+          "description": "Accessible title naming the dialog (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideTitle",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown."
+          "description": "Visually hide the title while keeping it as the dialog's accessible name. The title text is always required; this only controls whether it is shown.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Optional description, wired via `aria-describedby`."
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "icon",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Leading feedback icon, centered against the title block."
+          "description": "Leading feedback icon, centered against the title block.",
+          "descriptionFrom": "source"
         },
         {
           "name": "headerMeta",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Content above the title, e.g. \"Step 1 of 2\". Carries no progress semantics."
+          "description": "Content above the title, e.g. \"Step 1 of 2\". Carries no progress semantics.",
+          "descriptionFrom": "source"
         },
         {
           "name": "headerLead",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Leading ghost icon button (e.g. a back affordance)."
+          "description": "Leading ghost icon button (e.g. a back affordance).",
+          "descriptionFrom": "source"
         },
         {
           "name": "footerLead",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Leading footer actions, e.g. Back."
+          "description": "Leading footer actions, e.g. Back.",
+          "descriptionFrom": "source"
         },
         {
           "name": "footer",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Trailing action buttons in the footer."
+          "description": "Trailing action buttons in the footer.",
+          "descriptionFrom": "source"
         },
         {
           "name": "footerClose",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a close/cancel button on the footer's leading edge."
+          "description": "Show a close/cancel button on the footer's leading edge.",
+          "descriptionFrom": "source"
         },
         {
           "name": "bodyLayout",
           "type": "DialogBodyLayout",
           "default": "\"plain\"",
           "required": false,
-          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections."
+          "description": "Body layout. `plain` (the default) leaves the body untouched. `stack` spaces the direct children by `--ds-dialog-body-gap`, which saves a workflow from inventing its own spacing between sections.",
+          "descriptionFrom": "source"
         },
         {
           "name": "initialFocus",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button."
+          "description": "CSS selector (within the panel) for the element to focus on open. When omitted, focus lands on the panel itself — never on the close button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop closes. Default `true`."
+          "description": "Whether pressing the backdrop closes. Default `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "The dialog body."
+          "description": "The dialog body.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -336,55 +376,64 @@
           "name": "heading",
           "reactive": true,
           "required": true,
-          "description": "the global `title` attribute is a browser tooltip and cannot be used"
+          "description": "the global `title` attribute is a browser tooltip and cannot be used",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "trigger",
           "reactive": true,
           "required": false,
-          "description": "opener text"
+          "description": "opener text",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger-variant",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "open",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "close-label",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "initial-focus",
           "reactive": false,
           "required": false,
-          "description": "CSS selector"
+          "description": "CSS selector",
+          "descriptionFrom": "source"
         },
         {
           "name": "no-outside-close",
           "reactive": false,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "body-layout",
           "reactive": true,
           "required": false,
-          "description": "`plain` by default, or `stack` to space the body's direct sections by `--ds-dialog-body-gap`"
+          "description": "`plain` by default, or `stack` to space the body's direct sections by `--ds-dialog-body-gap`",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [

@@ -14,105 +14,120 @@
           "type": "readonly [number, number]",
           "default": "[0, 100]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "minDistance",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "The gap the two thumbs may not close. They may touch; they never cross."
+          "description": "The gap the two thumbs may not close. They may touch; they never cross.",
+          "descriptionFrom": "source"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group."
+          "description": "Accessible name for the group.",
+          "descriptionFrom": "source"
         },
         {
           "name": "thumbLabels",
           "type": "readonly [string, string]",
           "default": null,
           "required": true,
-          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`."
+          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`."
+          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the current values to the side of the track."
+          "description": "Show the current values to the side of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showRange",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the min and max reference values under the ends of the track."
+          "description": "Show the min and max reference values under the ends of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ticks",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show tick marks at each step (only when the count is reasonable)."
+          "description": "Show tick marks at each step (only when the count is reasonable).",
+          "descriptionFrom": "source"
         },
         {
           "name": "format",
           "type": "(value: number) => string",
           "default": "(v) => String(v)",
           "required": false,
-          "description": "Format a displayed value (e.g. add a unit)."
+          "description": "Format a displayed value (e.g. add a unit).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: readonly [number, number]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the complete pair whenever it changes."
+          "description": "Called with the complete pair whenever it changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -128,112 +143,128 @@
           "type": "readonly [number, number]",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "readonly [number, number]",
           "default": "() => [0, 100]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "minDistance",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "The gap the two thumbs may not close. They may touch; they never cross."
+          "description": "The gap the two thumbs may not close. They may touch; they never cross.",
+          "descriptionFrom": "source"
         },
         {
           "name": "orientation",
           "type": "RangeSliderOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group (required)."
+          "description": "Accessible name for the group (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "thumbLabels",
           "type": "readonly [string, string]",
           "default": null,
           "required": true,
-          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`."
+          "description": "Accessible name for each thumb: `[lowerLabel, upperLabel]`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`."
+          "description": "Form field name — both thumbs submit under it, in order: `FormData.getAll(name)` reads `[String(lower), String(upper)]`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the current values to the side of the track."
+          "description": "Show the current values to the side of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showRange",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the min and max reference values under the ends of the track."
+          "description": "Show the min and max reference values under the ends of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ticks",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show tick marks at each step (only when the count is reasonable)."
+          "description": "Show tick marks at each step (only when the count is reasonable).",
+          "descriptionFrom": "source"
         },
         {
           "name": "format",
           "type": "(value: number) => string",
           "default": "(value: number) => String(value)",
           "required": false,
-          "description": "Format a displayed value (e.g. add a unit)."
+          "description": "Format a displayed value (e.g. add a unit).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: readonly [number, number]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the complete pair whenever it changes."
+          "description": "Called with the complete pair whenever it changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

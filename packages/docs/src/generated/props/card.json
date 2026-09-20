@@ -14,70 +14,80 @@
           "type": "\"media\" | \"dashboard\"",
           "default": "\"media\"",
           "required": false,
-          "description": "Media card or metric tile."
+          "description": "Media card or metric tile.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "orientation",
           "type": "\"vertical\" | \"horizontal\"",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Media layout."
+          "description": "Media layout.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "imageSrc",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Media image (falls back to the `icon` slot)."
+          "description": "Media image (falls back to the `icon` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "imageAlt",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Media image (falls back to the `icon` slot)."
+          "description": "Media image (falls back to the `icon` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "title",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Heading (or use the `title` slot)."
+          "description": "Heading (or use the `title` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "headingLevel",
           "type": "2 | 3 | 4 | 5 | 6",
           "default": "3",
           "required": false,
-          "description": "Heading level for the title."
+          "description": "Heading level for the title.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Body text (or the `description` slot)."
+          "description": "Body text (or the `description` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
           "type": "string | number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Dashboard metric value."
+          "description": "Dashboard metric value.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "change",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Dashboard delta (e.g. `\"+12.5%\"`)."
+          "description": "Dashboard delta (e.g. `\"+12.5%\"`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "trend",
           "type": "\"up\" | \"down\" | \"neutral\"",
           "default": "\"neutral\"",
           "required": false,
-          "description": "Tints the change."
+          "description": "Tints the change.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -93,70 +103,80 @@
           "type": "\"media\" | \"dashboard\"",
           "default": "\"media\"",
           "required": false,
-          "description": "`media` (default): image/icon, text and actions. `dashboard`: a metric tile."
+          "description": "`media` (default): image/icon, text and actions. `dashboard`: a metric tile.",
+          "descriptionFrom": "source"
         },
         {
           "name": "orientation",
           "type": "\"vertical\" | \"horizontal\"",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Media card layout. Defaults to `vertical`."
+          "description": "Media card layout. Defaults to `vertical`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "imageSrc",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Image URL for the media area (ignored when the `icon` slot is used)."
+          "description": "Image URL for the media area (ignored when the `icon` slot is used).",
+          "descriptionFrom": "source"
         },
         {
           "name": "imageAlt",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Alt text for the image. Defaults to empty (decorative)."
+          "description": "Alt text for the image. Defaults to empty (decorative).",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Card title; rendered as a heading and used to label the card."
+          "description": "Card title; rendered as a heading and used to label the card.",
+          "descriptionFrom": "source"
         },
         {
           "name": "headingLevel",
           "type": "2 | 3 | 4 | 5 | 6",
           "default": "3",
           "required": false,
-          "description": "Heading level for the title (2-6). Defaults to `3`."
+          "description": "Heading level for the title (2-6). Defaults to `3`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Body description text (override with the `description` slot for rich content)."
+          "description": "Body description text (override with the `description` slot for rich content).",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | number",
           "default": "undefined",
           "required": false,
-          "description": "Dashboard: the large metric value."
+          "description": "Dashboard: the large metric value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "change",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Dashboard: the smaller change/percentage shown beside the value."
+          "description": "Dashboard: the smaller change/percentage shown beside the value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trend",
           "type": "\"up\" | \"down\" | \"neutral\"",
           "default": "\"neutral\"",
           "required": false,
-          "description": "Dashboard: direction of the change, for coloring."
+          "description": "Dashboard: direction of the change, for coloring.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

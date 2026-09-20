@@ -74,6 +74,23 @@ describe("table state — comparison & sorting", () => {
   it("preserves order when unsorted", () => {
     expect(sortRows(rows, null)).toEqual(rows);
   });
+
+  it("keeps equal keys in their original order, in both directions", () => {
+    const rows = [
+      { id: 1, city: "Rome" },
+      { id: 2, city: "Oslo" },
+      { id: 3, city: "Rome" },
+      { id: 4, city: "Oslo" },
+    ];
+    // Equal cities keep their input order (1 before 3, 2 before 4); only the
+    // cities reverse for descending.
+    expect(sortRows(rows, { key: "city", direction: "asc" }).map((r) => r.id)).toEqual([
+      2, 4, 1, 3,
+    ]);
+    expect(sortRows(rows, { key: "city", direction: "desc" }).map((r) => r.id)).toEqual([
+      1, 3, 2, 4,
+    ]);
+  });
 });
 
 describe("table connect", () => {

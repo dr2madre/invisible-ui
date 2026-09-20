@@ -14,266 +14,304 @@
           "type": "TableColumnDef[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "rows",
           "type": "TableRow[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "caption",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hideCaption",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "title",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional title, rendered on the same row as the view controls."
+          "description": "Optional title, rendered on the same row as the view controls.",
+          "descriptionFrom": "source"
         },
         {
           "name": "titleLevel",
           "type": "2 | 3 | 4 | 5 | 6",
           "default": "2",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "pageSize",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "page",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "paginationLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the pagination nav. Defaults to the i18n catalog's \"Table pages\"."
+          "description": "Accessible name for the pagination nav. Defaults to the i18n catalog's \"Table pages\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onPageChange",
           "type": "((page: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "infinite",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hasMore",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onLoadMore",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "loadMoreLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Load-more button text. Defaults to the i18n catalog's \"Load more\"."
+          "description": "Load-more button text. Defaults to the i18n catalog's \"Load more\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "loadingLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Loading status text. Defaults to the i18n catalog's \"Loading…\"."
+          "description": "Loading status text. Defaults to the i18n catalog's \"Loading…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "sort",
           "type": "SortState | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onSortChange",
           "type": "((sort: SortState | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hiddenColumns",
           "type": "string[]",
           "default": "[]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onHiddenColumnsChange",
           "type": "((hidden: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "view",
           "type": "\"table\" | \"card\"",
           "default": "\"table\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "allowViewToggle",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "configurable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "configLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Column-visibility dropdown label. Defaults to the i18n catalog's \"Columns\"."
+          "description": "Column-visibility dropdown label. Defaults to the i18n catalog's \"Columns\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "cardTitleKey",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "cardDescriptionKey",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "getValue",
           "type": "(row: TableRow, key: string) => unknown",
           "default": "(row, key) => row[key]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
           "default": "defaultGetRowId",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "selectionMode",
           "type": "SelectionMode",
           "default": "\"none\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "selectedRowIds",
           "type": "RowId[]",
           "default": "[]",
           "required": false,
-          "description": "The selected row ids (controlled). Replace the array; do not mutate it."
+          "description": "The selected row ids (controlled). Replace the array; do not mutate it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelectedRowIdsChange",
           "type": "((ids: RowId[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "isRowSelectable",
           "type": "(row: TableRow) => boolean",
           "default": "() => true",
           "required": false,
-          "description": "Marks rows the user may select. Others render without a checkbox."
+          "description": "Marks rows the user may select. Others render without a checkbox.",
+          "descriptionFrom": "source"
         },
         {
           "name": "getRowLabel",
           "type": "((row: TableRow) => string) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active."
+          "description": "Names a row for its selection checkbox (\"Select {name}\"). Optional in the type, but required at runtime whenever selection is active.",
+          "descriptionFrom": "source"
         },
         {
           "name": "filtersActive",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the consumer's filters are active. Filtering itself stays outside."
+          "description": "Whether the consumer's filters are active. Filtering itself stays outside.",
+          "descriptionFrom": "source"
         },
         {
           "name": "totalRowCount",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Total unfiltered row count when known; `0` means the dataset is empty."
+          "description": "Total unfiltered row count when known; `0` means the dataset is empty.",
+          "descriptionFrom": "source"
         },
         {
           "name": "filterRevision",
           "type": "string | number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Changing this (or `filtersActive`) resets the local page to one."
+          "description": "Changing this (or `filtersActive`) resets the local page to one.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onClearFilters",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Clears the consumer's filters; enables the built-in no-results action."
+          "description": "Clears the consumer's filters; enables the built-in no-results action.",
+          "descriptionFrom": "source"
         },
         {
           "name": "noResultsLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Copy for the no-results state. Defaults to the i18n catalog's message."
+          "description": "Copy for the no-results state. Defaults to the i18n catalog's message.",
+          "descriptionFrom": "source"
         }
       ]
     }

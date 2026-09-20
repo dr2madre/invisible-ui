@@ -14,42 +14,48 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "This radio's value."
+          "description": "This radio's value.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Group name (shared across radios)."
+          "description": "Group name (shared across radios).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "checked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether this radio is selected."
+          "description": "Whether this radio is selected.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable this radio."
+          "description": "Disable this radio.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Visible label (or use the default slot)."
+          "description": "Visible label (or use the default slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when this radio is chosen."
+          "description": "Called when this radio is chosen.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The value submitted / reported when this radio is chosen."
+          "description": "The value submitted / reported when this radio is chosen.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Group name; radios sharing a name are mutually exclusive."
+          "description": "Group name; radios sharing a name are mutually exclusive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether this radio is selected."
+          "description": "Whether this radio is selected.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Label text, used when the default slot is empty."
+          "description": "Label text, used when the default slot is empty.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with this radio's value when it becomes selected."
+          "description": "Called with this radio's value when it becomes selected.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

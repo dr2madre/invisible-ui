@@ -14,14 +14,16 @@
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": "Divider direction."
+          "description": "Divider direction.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "decorative",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Hide from assistive tech (purely visual)."
+          "description": "Hide from assistive tech (purely visual).",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -37,14 +39,16 @@
           "type": "SeparatorOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "decorative",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Hide from assistive tech (purely visual)."
+          "description": "Hide from assistive tech (purely visual).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

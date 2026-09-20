@@ -14,14 +14,16 @@
           "type": "string[] | undefined",
           "default": "undefined",
           "required": false,
-          "description": "A chord of keys, each rendered as its own keycap and joined by `separator`."
+          "description": "A chord of keys, each rendered as its own keycap and joined by `separator`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "separator",
           "type": "string",
           "default": "\"+\"",
           "required": false,
-          "description": "Separator shown between chord keys. Defaults to \"+\"."
+          "description": "Separator shown between chord keys. Defaults to \"+\".",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -37,14 +39,16 @@
           "type": "string[]",
           "default": "undefined",
           "required": false,
-          "description": "A chord of keys, each rendered as its own keycap and joined by `separator`."
+          "description": "A chord of keys, each rendered as its own keycap and joined by `separator`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "separator",
           "type": "string",
           "default": "\"+\"",
           "required": false,
-          "description": "Separator shown between chord keys. Defaults to \"+\"."
+          "description": "Separator shown between chord keys. Defaults to \"+\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

@@ -557,6 +557,18 @@ function parseMdx(mdx) {
 
 // Curated descriptions survive regeneration: they are read back from the
 // committed manifest, per framework, before the source JSDoc is consulted.
+// Each row says where its description came from, so a curated text that no
+// longer matches the source is visible in the manifest instead of silent:
+// `curated` (committed and different from the source), `source` (the code's
+// own JSDoc), `mdx` (the docs table), `none`.
+function described(prop, curated, fromMdx) {
+  const source = prop.description || "";
+  if (curated && curated !== source)
+    return { ...prop, description: curated, descriptionFrom: "curated" };
+  if (source) return { ...prop, description: source, descriptionFrom: "source" };
+  if (fromMdx) return { ...prop, description: fromMdx, descriptionFrom: "mdx" };
+  return { ...prop, description: "", descriptionFrom: "none" };
+}
 function committedDescriptions(committed, framework, key = "props") {
   const rows = committed?.frameworks?.[framework]?.[key] ?? [];
   return Object.fromEntries(rows.map((row) => [row.name, row.description]));
@@ -578,10 +590,9 @@ function buildManifest(c) {
       name: c.name,
       specifier: `@design-system/svelte/${c.name}.svelte`,
     },
-    props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) => ({
-      ...p,
-      description: svelteDesc[p.name] || mdx?.descriptions[p.name] || p.description || "",
-    })),
+    props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) =>
+      described(p, svelteDesc[p.name], mdx?.descriptions[p.name]),
+    ),
   };
 
   // Vue
@@ -592,10 +603,7 @@ function buildManifest(c) {
     const vueDesc = committedDescriptions(committed, "vue");
     frameworks.vue = {
       import: { kind: "named", name: c.name, specifier: "@design-system/vue" },
-      props: parsed.props.map((p) => ({
-        ...p,
-        description: vueDesc[p.name] || p.description || "",
-      })),
+      props: parsed.props.map((p) => described(p, vueDesc[p.name])),
       emits: parsed.emits,
       slots: parsed.slots,
     };
@@ -611,10 +619,7 @@ function buildManifest(c) {
       frameworks.react = {
         import: { kind: "named", name: c.name, specifier: "@design-system/react" },
         extends: parsed.extends,
-        props: parsed.props.map((p) => ({
-          ...p,
-          description: reactDesc[p.name] || p.description || "",
-        })),
+        props: parsed.props.map((p) => described(p, reactDesc[p.name])),
       };
     }
   }
@@ -636,10 +641,7 @@ function buildManifest(c) {
           name: elementTags.get(className),
           specifier: "@design-system/elements/define",
         },
-        attributes: parsed.attributes.map((a) => ({
-          ...a,
-          description: elementDesc[a.name] || a.description || "",
-        })),
+        attributes: parsed.attributes.map((a) => described(a, elementDesc[a.name])),
         notes: parsed.notes,
       };
     }
@@ -683,4 +685,17 @@ if (check && stale.length) {
   console.error(`Stale API manifests (run \`pnpm api:generate\`):\n  ${stale.join("\n  ")}`);
   process.exit(1);
 }
-console.log(`${check ? "Checked" : "Generated"} ${components.length} API manifests.`);
+const provenance = { curated: 0, source: 0, mdx: 0, none: 0 };
+for (const c of components) {
+  const outPath = resolve(outDir, `${c.slug}.json`);
+  if (!existsSync(outPath)) continue;
+  const manifest = JSON.parse(readFileSync(outPath, "utf8"));
+  for (const framework of Object.values(manifest.frameworks ?? {})) {
+    for (const row of [...(framework.props ?? []), ...(framework.attributes ?? [])]) {
+      if (row.descriptionFrom in provenance) provenance[row.descriptionFrom] += 1;
+    }
+  }
+}
+console.log(
+  `${check ? "Checked" : "Generated"} ${components.length} API manifests. Descriptions: ${provenance.source} from source, ${provenance.curated} curated (differ from source), ${provenance.mdx} from the docs table, ${provenance.none} empty.`,
+);

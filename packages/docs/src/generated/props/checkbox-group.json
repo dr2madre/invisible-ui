@@ -14,42 +14,48 @@
           "type": "CheckboxGroupItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string[]",
           "default": "[]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group (rendered as the legend)."
+          "description": "Accessible name for the group (rendered as the legend).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Shared form field name; each checked item submits its value under it."
+          "description": "Shared form field name; each checked item submits its value under it.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selection changes."
+          "description": "Called whenever the selection changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,49 +71,56 @@
           "type": "CheckboxGroupItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "modelValue",
           "type": "string[]",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string[]",
           "default": "() => []",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group (required; rendered as the legend)."
+          "description": "Accessible name for the group (required; rendered as the legend).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Shared form field name; each checked item submits its value under it."
+          "description": "Shared form field name; each checked item submits its value under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string[]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected values change."
+          "description": "Called whenever the selected values change.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -129,25 +142,29 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

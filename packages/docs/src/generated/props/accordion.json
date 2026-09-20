@@ -14,42 +14,48 @@
           "type": "AccordionEntry[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string[]",
           "default": "[]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "type": "AccordionType",
           "default": "\"single\"",
           "required": false,
-          "description": "One open at a time, or many."
+          "description": "One open at a time, or many.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "collapsible",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "For `single`: allow collapsing the open item."
+          "description": "For `single`: allow collapsing the open item.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the whole accordion."
+          "description": "Disable the whole accordion.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the expanded set changes."
+          "description": "Called whenever the expanded set changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -65,49 +71,56 @@
           "type": "AccordionEntry[]",
           "default": null,
           "required": true,
-          "description": "Ordered list of items."
+          "description": "Ordered list of items.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "string[]",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string[]",
           "default": "() => []",
           "required": false,
-          "description": "Expanded item values. Defaults to none."
+          "description": "Expanded item values. Defaults to none.",
+          "descriptionFrom": "source"
         },
         {
           "name": "type",
           "type": "AccordionType",
           "default": "\"single\"",
           "required": false,
-          "description": "`single` (default): one open at a time. `multiple`: many."
+          "description": "`single` (default): one open at a time. `multiple`: many.",
+          "descriptionFrom": "source"
         },
         {
           "name": "collapsible",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "For `single`: allow collapsing the open item."
+          "description": "For `single`: allow collapsing the open item.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onValueChange",
           "type": "(value: string[]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the expanded set changes."
+          "description": "Called whenever the expanded set changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

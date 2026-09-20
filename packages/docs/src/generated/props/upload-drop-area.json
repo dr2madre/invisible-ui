@@ -14,42 +14,48 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "multiple",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Allow selecting/dropping more than one file."
+          "description": "Allow selecting/dropping more than one file.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name (the underlying file input)."
+          "description": "Form field name (the underlying file input).",
+          "descriptionFrom": "source"
         },
         {
           "name": "caption",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
+          "description": "Optional grey caption under the text (e.g. accepted formats / max size).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onFiles",
           "type": "((files: File[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the selected/dropped files."
+          "description": "Called with the selected/dropped files.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\"."
+          "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "multiple",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Allow selecting/dropping more than one file."
+          "description": "Allow selecting/dropping more than one file.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name (the underlying file input)."
+          "description": "Form field name (the underlying file input).",
+          "descriptionFrom": "source"
         },
         {
           "name": "caption",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional grey caption under the text (e.g. accepted formats / max size)."
+          "description": "Optional grey caption under the text (e.g. accepted formats / max size).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onFiles",
           "type": "(files: File[]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the selected/dropped files."
+          "description": "Called with the selected/dropped files.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

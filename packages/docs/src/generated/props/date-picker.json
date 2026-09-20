@@ -14,98 +14,112 @@
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "locale",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "dateStyle",
           "type": "\"full\" | \"long\" | \"medium\" | \"short\"",
           "default": "\"medium\"",
           "required": false,
-          "description": "`Intl` style for the field display."
+          "description": "`Intl` style for the field display.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the field."
+          "description": "Accessible label for the field.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Shown when empty."
+          "description": "Shown when empty.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the field."
+          "description": "Disable the field.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "clearable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a clear button when a date is set."
+          "description": "Show a clear button when a date is set.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "events",
           "type": "CalendarEvent[]",
           "default": "[]",
           "required": false,
-          "description": "Appointment dots, forwarded to the calendar."
+          "description": "Appointment dots, forwarded to the calendar.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "prices",
           "type": "Record<string, string>",
           "default": "{}",
           "required": false,
-          "description": "Per-day prices, forwarded to the calendar."
+          "description": "Per-day prices, forwarded to the calendar.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the selected ISO date is submitted under it (via a hidden input)."
+          "description": "Form field name — the selected ISO date is submitted under it (via a hidden input).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: string | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the date changes (or is cleared)."
+          "description": "Called when the date changes (or is cleared).",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -121,105 +135,120 @@
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "Selected date (ISO `YYYY-MM-DD`); bindable with `v-model`."
+          "description": "Selected date (ISO `YYYY-MM-DD`); bindable with `v-model`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "locale",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "dateStyle",
           "type": "DateStyle",
           "default": "\"medium\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the field. Defaults to the catalog's \"Date\"."
+          "description": "Accessible label for the field. Defaults to the catalog's \"Date\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "clearable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a clear button once a date is selected."
+          "description": "Show a clear button once a date is selected.",
+          "descriptionFrom": "source"
         },
         {
           "name": "events",
           "type": "CalendarEvent[]",
           "default": "() => []",
           "required": false,
-          "description": "Forwarded to the calendar."
+          "description": "Forwarded to the calendar.",
+          "descriptionFrom": "source"
         },
         {
           "name": "prices",
           "type": "Record<string, string>",
           "default": "() => ({})",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the selected ISO date is submitted under it."
+          "description": "Form field name; the selected ISO date is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string | null) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

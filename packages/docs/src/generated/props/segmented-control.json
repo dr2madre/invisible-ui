@@ -14,70 +14,80 @@
           "type": "SegmentedControlItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": "Layout direction."
+          "description": "Layout direction.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Icon-only segments (each item needs an accessible label)."
+          "description": "Icon-only segments (each item needs an accessible label).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "stacked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Stack icon over label (iOS-style)."
+          "description": "Stack icon over label (iOS-style).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the group label (kept for assistive tech)."
+          "description": "Visually hide the group label (kept for assistive tech).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the selected value is submitted under it."
+          "description": "Form field name — the selected value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -93,77 +103,88 @@
           "type": "SegmentedControlItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "modelValue",
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "SegmentedControlOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": "Layout and arrow-key axis. `horizontal` (default) is a segment bar; `vertical` stacks the segments into a column (e.g. a sidebar). Each segment's content stays a row (icon beside label) unless `stacked` is set."
+          "description": "Layout and arrow-key axis. `horizontal` (default) is a segment bar; `vertical` stacks the segments into a column (e.g. a sidebar). Each segment's content stays a row (icon beside label) unless `stacked` is set.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render only the icon for each segment, hiding the visible label (the label still names the segment via `aria-label`). Items without an icon keep their text."
+          "description": "Render only the icon for each segment, hiding the visible label (the label still names the segment via `aria-label`). Items without an icon keep their text.",
+          "descriptionFrom": "source"
         },
         {
           "name": "stacked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Stack each segment's content vertically: icon on top, label below (e.g. an iOS-style tab). Implies the label stays visible."
+          "description": "Stack each segment's content vertically: icon on top, label below (e.g. an iOS-style tab). Implies the label stays visible.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control (announced by screen readers)."
+          "description": "Accessible name for the control (announced by screen readers).",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label (kept for assistive tech)."
+          "description": "Visually hide the label (kept for assistive tech).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the selected value is submitted under it."
+          "description": "Form field name; the selected value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

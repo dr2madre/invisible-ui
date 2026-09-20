@@ -14,28 +14,32 @@
           "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
           "default": "\"info\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "box",
           "type": "\"tint\" | \"transparent\" | \"solid\"",
           "default": "\"tint\"",
           "required": false,
-          "description": "Box treatment behind the glyph: - `\"tint\"` (default): a soft status-colored chip. - `\"transparent\"`: no box — just the colored glyph. Use on already-tinted surfaces (e.g. inside a colored Alert) so the chip doesn't clash. - `\"solid\"`: a full status-colored box with a contrasting (white) glyph."
+          "description": "Box treatment behind the glyph: - `\"tint\"` (default): a soft status-colored chip. - `\"transparent\"`: no box — just the colored glyph. Use on already-tinted surfaces (e.g. inside a colored Alert) so the chip doesn't clash. - `\"solid\"`: a full status-colored box with a contrasting (white) glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "shape",
           "type": "\"rounded\" | \"round\"",
           "default": "\"rounded\"",
           "required": false,
-          "description": "Box shape — `\"rounded\"` (default) or a full `\"round\"` circle."
+          "description": "Box shape — `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "FeedbackStatus",
           "default": "\"info\"",
           "required": false,
-          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name. When omitted the box is decorative (`aria-hidden`)."
+          "description": "Accessible name. When omitted the box is decorative (`aria-hidden`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "box",
           "type": "\"tint\" | \"transparent\" | \"solid\"",
           "default": "\"tint\"",
           "required": false,
-          "description": "Box treatment behind the glyph: - `\"tint\"` (default): a soft status-colored chip. - `\"transparent\"`: no box — just the colored glyph. Use on already-tinted surfaces (e.g. inside a colored InlineNotification) so the chip doesn't clash. - `\"solid\"`: a full status-colored box with a contrasting (white) glyph."
+          "description": "Box treatment behind the glyph: - `\"tint\"` (default): a soft status-colored chip. - `\"transparent\"`: no box — just the colored glyph. Use on already-tinted surfaces (e.g. inside a colored InlineNotification) so the chip doesn't clash. - `\"solid\"`: a full status-colored box with a contrasting (white) glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "shape",
           "type": "\"rounded\" | \"round\"",
           "default": "\"rounded\"",
           "required": false,
-          "description": "Box shape — `\"rounded\"` (default) or a full `\"round\"` circle."
+          "description": "Box shape — `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

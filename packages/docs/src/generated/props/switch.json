@@ -14,70 +14,80 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label; override with the default slot."
+          "description": "Accessible, visible label; override with the default slot.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "checked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "On/off state."
+          "description": "On/off state.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the control."
+          "description": "Disable the control.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it when on."
+          "description": "Form field name; the value is submitted under it when on.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when on."
+          "description": "Value submitted with the form when on.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOff",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Text shown in the track when on / off (only with `onOff`)."
+          "description": "Text shown in the track when on / off (only with `onOff`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "offText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onCheckedChange",
           "type": "((c: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the value changes."
+          "description": "Called whenever the value changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -93,77 +103,88 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required). Override with the default slot for rich content."
+          "description": "Accessible, visible label (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "boolean",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `checked` when bound."
+          "description": "`v-model` value; takes precedence over `checked` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it when on."
+          "description": "Form field name; the value is submitted under it when on.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`."
+          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOff",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\"."
+          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "offText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onCheckedChange",
           "type": "(checked: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the on/off value changes."
+          "description": "Called whenever the on/off value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -189,77 +210,88 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required). Override with `children` for rich content."
+          "description": "Accessible, visible label (required). Override with `children` for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Form field name — the value is submitted under it when on."
+          "description": "Form field name — the value is submitted under it when on.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`."
+          "description": "Value submitted with the form when on. Defaults to the native `\"on\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOff",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show ON/OFF text inside the track (a wider, labelled variant)."
+          "description": "Show ON/OFF text inside the track (a wider, labelled variant).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onText",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\"."
+          "description": "Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "offText",
           "type": "string",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onCheckedChange",
           "type": "(checked: boolean) => void",
           "default": null,
           "required": false,
-          "description": "Called whenever the on/off value changes."
+          "description": "Called whenever the on/off value changes.",
+          "descriptionFrom": "source"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -274,55 +306,64 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "checked",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "on-off",
           "reactive": true,
           "required": false,
-          "description": "text-in-track variant"
+          "description": "text-in-track variant",
+          "descriptionFrom": "source"
         },
         {
           "name": "on-text",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "off-text",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

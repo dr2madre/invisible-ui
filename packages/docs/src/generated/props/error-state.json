@@ -14,56 +14,64 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The headline — what went wrong, in plain language."
+          "description": "The headline — what went wrong, in plain language.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional secondary line — detail or next step."
+          "description": "Optional secondary line — detail or next step.",
+          "descriptionFrom": "source"
         },
         {
           "name": "status",
           "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"",
           "default": "\"danger\"",
           "required": false,
-          "description": "Feedback status driving the default icon's color and glyph."
+          "description": "Feedback status driving the default icon's color and glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "headingLevel",
           "type": "1 | 2 | 3 | 4 | 5 | 6",
           "default": "2",
           "required": false,
-          "description": "Heading level for the title, so it fits the surrounding document outline."
+          "description": "Heading level for the title, so it fits the surrounding document outline.",
+          "descriptionFrom": "source"
         },
         {
           "name": "actionLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Recovery button label (e.g. \"Try again\"). Omit to render no button."
+          "description": "Recovery button label (e.g. \"Try again\"). Omit to render no button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onAction",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the recovery button is pressed."
+          "description": "Called when the recovery button is pressed.",
+          "descriptionFrom": "source"
         },
         {
           "name": "actions",
           "type": "{ label: string; onAction?: () => void; variant?: ButtonVariant; href?: string; target?: string; }[]",
           "default": "[]",
           "required": false,
-          "description": "Configurable action group: each entry renders a `Button`. The first action gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area."
+          "description": "Configurable action group: each entry renders a `Button`. The first action gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "size",
           "type": "\"md\" | \"sm\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas."
+          "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -79,56 +87,64 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The headline: what went wrong, in plain language."
+          "description": "The headline: what went wrong, in plain language.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional secondary line: detail or next step."
+          "description": "Optional secondary line: detail or next step.",
+          "descriptionFrom": "source"
         },
         {
           "name": "status",
           "type": "FeedbackStatus",
           "default": "\"danger\"",
           "required": false,
-          "description": "Feedback status driving the default icon's color and glyph."
+          "description": "Feedback status driving the default icon's color and glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "headingLevel",
           "type": "1 | 2 | 3 | 4 | 5 | 6",
           "default": "2",
           "required": false,
-          "description": "Heading level for the title, so it fits the surrounding document outline."
+          "description": "Heading level for the title, so it fits the surrounding document outline.",
+          "descriptionFrom": "source"
         },
         {
           "name": "actionLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Recovery button label (e.g. \"Try again\"). Omit to render no button."
+          "description": "Recovery button label (e.g. \"Try again\"). Omit to render no button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onAction",
           "type": "() => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the recovery button is pressed."
+          "description": "Called when the recovery button is pressed.",
+          "descriptionFrom": "source"
         },
         {
           "name": "actions",
           "type": "ErrorStateAction[]",
           "default": "() => []",
           "required": false,
-          "description": "Configurable action group. An entry with `href` renders a `Link` (a direct pathway, e.g. \"Learn more\" documentation); the others render `Button`s: the first gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area."
+          "description": "Configurable action group. An entry with `href` renders a `Link` (a direct pathway, e.g. \"Learn more\" documentation); the others render `Button`s: the first gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",
           "type": "\"md\" | \"sm\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas."
+          "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

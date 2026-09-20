@@ -14,14 +14,16 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Attribution text (or use the `cite` slot)."
+          "description": "Attribution text (or use the `cite` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "citeUrl",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Source URL (sets the `cite` attribute / links the attribution)."
+          "description": "Source URL (sets the `cite` attribute / links the attribution).",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -37,14 +39,16 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Visible attribution text (e.g. an author). Use the `cite` slot for rich content."
+          "description": "Visible attribution text (e.g. an author). Use the `cite` slot for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "citeUrl",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Machine-readable source URL, mapped to the native `cite` attribute (not displayed)."
+          "description": "Machine-readable source URL, mapped to the native `cite` attribute (not displayed).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
