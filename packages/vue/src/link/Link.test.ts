@@ -48,7 +48,7 @@ describe("Vue Link (styled)", () => {
     const user = userEvent.setup();
     const pressed = vi.fn();
     // A fragment href keeps jsdom from attempting a document navigation.
-    render(Link, { props: { href: "#guide", onClick: pressed }, slots });
+    render(Link, { props: { href: "#guide" }, attrs: { onClick: pressed }, slots });
 
     await user.tab();
     expect(link()).toHaveFocus();
@@ -59,7 +59,7 @@ describe("Vue Link (styled)", () => {
 
   it("forwards click for the work that goes with the navigation", async () => {
     const pressed = vi.fn();
-    render(Link, { props: { href: "#guide", onClick: pressed }, slots });
+    render(Link, { props: { href: "#guide" }, attrs: { onClick: pressed }, slots });
 
     await fireEvent.click(link());
     expect(pressed).toHaveBeenCalledTimes(1);

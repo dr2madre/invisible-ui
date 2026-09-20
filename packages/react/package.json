@@ -36,7 +36,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

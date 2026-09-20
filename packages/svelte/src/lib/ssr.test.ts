@@ -1,4 +1,5 @@
 // @vitest-environment node
+import type { Component } from "svelte";
 import { render } from "svelte/server";
 import { describe, expect, it } from "vitest";
 import Calendar from "./calendar/Calendar.svelte";
@@ -29,8 +30,8 @@ describe("SSR — fixtures render to HTML without throwing", () => {
 
   for (const [path, mod] of entries) {
     it(path.replace("./", ""), () => {
-      const Component = (mod as { default: unknown }).default as Parameters<typeof render>[0];
-      const { body } = render(Component);
+      const Component = (mod as { default: unknown }).default as Component<Record<string, unknown>>;
+      const { body } = render(Component, { props: {} });
       expect(typeof body).toBe("string");
     });
   }
@@ -71,7 +72,7 @@ describe("SSR — the markup is valid before hydration", () => {
 
   for (const [name, Component, props, patterns] of cases) {
     it(name, () => {
-      const { body } = render(Component as Parameters<typeof render>[0], { props });
+      const { body } = render(Component as Component<Record<string, unknown>>, { props });
       for (const pattern of patterns) expect(body).toMatch(pattern);
     });
   }

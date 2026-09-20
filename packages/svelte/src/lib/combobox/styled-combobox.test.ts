@@ -253,7 +253,7 @@ describe("Svelte Combobox (styled)", () => {
     // Nothing to close and nothing to undo: the key belongs to whatever wraps
     // the combobox, a dialog for instance.
     expect(onKeyDown).toHaveBeenCalled();
-    expect(onKeyDown.mock.calls[0][0].defaultPrevented).toBe(false);
+    expect(onKeyDown.mock.calls[0]![0].defaultPrevented).toBe(false);
   });
 
   it("has no accessibility violations when open", async () => {

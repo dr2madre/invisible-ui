@@ -49,7 +49,7 @@ describe("Svelte Accordion", () => {
     const user = userEvent.setup();
     render(Fixture);
     const [one, two] = screen.getAllByRole("button");
-    one.focus();
+    one!.focus();
     await user.keyboard("{ArrowDown}");
     expect(two).toHaveFocus();
     await user.keyboard("{Home}");

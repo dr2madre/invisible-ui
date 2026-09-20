@@ -16,6 +16,7 @@
   export let view: "table" | "card" = "table";
   export let views: TableViewDef[] | undefined = undefined;
   export let filtersActive = false;
+  export let loading = false;
   export let totalRowCount: number | undefined = undefined;
   export let filterRevision: string | number | undefined = undefined;
   export let onClearFilters: (() => void) | undefined = undefined;
@@ -63,4 +64,5 @@
   onSelectedRowIdsChange={bindSelection ? handleChange : onSelectedRowIdsChange}
   title="People"
   caption="People"
+  {loading}
 />

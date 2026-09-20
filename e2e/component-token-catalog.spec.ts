@@ -8,6 +8,8 @@ interface ComponentToken {
   name: string;
   id: string;
   category: string;
+  component: string;
+  purpose?: string;
   parents: string[];
   fallbacks: string[];
 }

@@ -250,7 +250,7 @@ describe("Vue Sidebar as a drawer", () => {
     const props = {
       sections,
       value: "home",
-      mode: "drawer",
+      mode: "drawer" as const,
       renderTrigger: false,
       returnFocusTo: "#opener",
     };
@@ -425,7 +425,9 @@ describe("Vue Sidebar section identity", () => {
     expect(() =>
       render(Sidebar, {
         props: {
-          sections: [{ label: "Tools", collapsible: true, items: [{ value: "a", label: "A" }] }],
+          sections: [
+            { label: "Tools", collapsible: true, items: [{ value: "a", label: "A" }] } as never,
+          ],
         },
       }),
     ).toThrow(/collapsible sidebar section needs an id/);

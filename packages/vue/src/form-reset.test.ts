@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { defineComponent, h, reactive, ref } from "vue";
+import { defineComponent, h, reactive, ref, type DefineComponent } from "vue";
 import { describe, expect, it, vi } from "vitest";
 
 import { Checkbox } from "./checkbox/Checkbox";
+import type { CheckedState } from "./checkbox/use-checkbox";
 import { Combobox } from "./combobox/Combobox";
 import { DatePicker } from "./date-picker/DatePicker";
 import { DateRangePicker } from "./date-range-picker/DateRangePicker";
@@ -429,7 +430,7 @@ describe("Vue form reset and v-model", () => {
 
   it("puts a v-model checkbox back too", async () => {
     const user = userEvent.setup();
-    const bound = ref(false);
+    const bound = ref<CheckedState>(false);
     const Host = defineComponent({
       setup: () => () =>
         h("form", { "data-testid": "host" }, [
@@ -437,7 +438,7 @@ describe("Vue form reset and v-model", () => {
             label: "Agree",
             name: "agree",
             modelValue: bound.value,
-            "onUpdate:modelValue": (next: boolean) => (bound.value = next),
+            "onUpdate:modelValue": (next: CheckedState) => (bound.value = next),
           }),
         ]),
     });
@@ -907,7 +908,7 @@ describe("Vue form reset, TextField pilot", () => {
     document.body.append(form);
     const host = document.createElement("div");
     form.append(host);
-    const rendered = render(TextField as never, {
+    const rendered = render(TextField as unknown as DefineComponent<Record<string, unknown>>, {
       container: host,
       props: { label: "Name", name: "name", modelValue: "Ada", "onUpdate:modelValue": bound },
     });

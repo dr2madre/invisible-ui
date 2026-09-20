@@ -17,7 +17,7 @@ type RGB = [number, number, number];
 function declarations(body: string): Record<string, string> {
   const out: Record<string, string> = {};
   for (const [, name, value] of body.matchAll(/(--[\w-]+):\s*([^;]+);/g)) {
-    out[name] = value.trim();
+    if (name && value) out[name] = value.trim();
   }
   return out;
 }
@@ -71,18 +71,18 @@ function resolve(value: string, vars: Record<string, string>): RGB {
   if (v.startsWith("oklch(")) return oklchToRgb(v);
 
   if (v.startsWith("var(")) {
-    const name = v.slice(4, v.indexOf(")")).split(",")[0].trim();
-    return resolve(vars[name], vars);
+    const name = v.slice(4, v.indexOf(")")).split(",")[0]!.trim();
+    return resolve(vars[name]!, vars);
   }
 
   if (v.startsWith("color-mix(")) {
     const inner = v.slice(v.indexOf("(") + 1, v.lastIndexOf(")"));
     const [, a, b] = inner.split(",").map((s) => s.trim()); // skip "in srgb"
-    const [, aColor, aPct] = a.match(/^(.+?)\s+([\d.]+)%$/)!;
+    const [, aColor, aPct] = a!.match(/^(.+?)\s+([\d.]+)%$/)!;
     const p = Number(aPct) / 100;
-    const c1 = resolve(aColor, vars);
-    const c2 = resolve(b, vars);
-    return [0, 1, 2].map((i) => Math.round(p * c1[i] + (1 - p) * c2[i])) as RGB;
+    const c1 = resolve(aColor!, vars);
+    const c2 = resolve(b!, vars);
+    return [0, 1, 2].map((i) => Math.round(p * c1[i]! + (1 - p) * c2[i]!)) as RGB;
   }
 
   throw new Error(`Cannot resolve color: ${value}`);
@@ -93,7 +93,7 @@ function luminance([r, g, b]: RGB): number {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   });
-  return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+  return 0.2126 * ch[0]! + 0.7152 * ch[1]! + 0.0722 * ch[2]!;
 }
 
 function contrast(fg: string, bg: string, vars: Record<string, string>): number {
@@ -195,7 +195,7 @@ describe.each([
       // the selection text form. Composite the fill the way the browser does.
       const back = resolve(`var(${backdrop})`, vars);
       const selection = resolve("var(--ds-color-secondary)", vars);
-      const fill = back.map((channel, i) => Math.round(selection[i] * 0.1 + channel * 0.9)) as RGB;
+      const fill = back.map((channel, i) => Math.round(selection[i]! * 0.1 + channel * 0.9)) as RGB;
       const glyph = resolve("var(--ds-color-selected-text)", vars);
       const [a, b] = [luminance(glyph), luminance(fill)];
       expect((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toBeGreaterThanOrEqual(3);
