@@ -371,7 +371,7 @@ describe.each([
 ])("%s reflects open without reporting", (_name, Component, extra) => {
   it("opens from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as unknown as DefineComponent<Record<string, unknown>>, {
       props: { ...extra, open: false, "onUpdate:open": reported, onOpenChange: reported },
     });
     await rerender({ ...extra, open: true, "onUpdate:open": reported, onOpenChange: reported });
@@ -380,7 +380,7 @@ describe.each([
 
   it("closes from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as unknown as DefineComponent<Record<string, unknown>>, {
       props: { ...extra, open: true, "onUpdate:open": reported, onOpenChange: reported },
     });
     await rerender({ ...extra, open: false, "onUpdate:open": reported, onOpenChange: reported });
