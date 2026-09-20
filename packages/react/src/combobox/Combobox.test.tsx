@@ -335,9 +335,7 @@ describe("React Combobox (select-only — the advanced select)", () => {
   });
 });
 
-// A modal dialog paints in the browser's top layer and makes the rest of the
-// page inert. A list portalled to the body from a control inside the dialog
-// shows through and cannot be clicked, so it goes to the dialog instead.
+// Where an overlay has to go, and why, is in `internal/portal-host.ts`.
 describe("Combobox inside a dialog", () => {
   it("portals its list into the dialog, not the body", async () => {
     const user = userEvent.setup();

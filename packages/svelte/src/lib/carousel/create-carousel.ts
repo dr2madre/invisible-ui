@@ -24,11 +24,12 @@ export interface CreateCarousel {
   /** Jump to a slide. */
   goTo: (index: number) => void;
   /**
-   * Reflect `count` and `loop` changed after mount, silently. A carousel fed
-   * by a fetch or a filter changes its slide count; the index is clamped into
-   * the new count so the active slide never points past the last one.
+   * Reflect `count`, `loop` and `orientation` changed after mount, silently.
+   * A carousel fed by a fetch or a filter changes its slide count; the index
+   * is clamped into the new count so the active slide never points past the
+   * last one. The orientation decides which arrow keys move the carousel.
    */
-  syncConfig: (config: { count: number; loop: boolean }) => void;
+  syncConfig: (config: { count: number; loop: boolean; orientation: Orientation }) => void;
   /** Action for the container: `<section use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Action for the slides track/viewport: `<div use:viewportAction>`. */
@@ -63,18 +64,27 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
     context.onIndexChange?.(index);
   };
 
-  const syncConfig = (config: { count: number; loop: boolean }) =>
-    state.update((current) => {
-      const index = core.clampIndex(current.index, config.count);
-      if (
-        current.count === config.count &&
-        current.loop === config.loop &&
-        current.index === index
-      ) {
-        return current;
-      }
-      return { ...current, count: config.count, loop: config.loop, index };
+  const syncConfig = (config: { count: number; loop: boolean; orientation: Orientation }) => {
+    const current = get(state);
+    const index = core.clampIndex(current.index, config.count);
+    // Writing the same values back would still wake every subscriber, so a
+    // config that changed nothing writes nothing.
+    if (
+      current.count === config.count &&
+      current.loop === config.loop &&
+      current.orientation === config.orientation &&
+      current.index === index
+    ) {
+      return;
+    }
+    state.set({
+      ...current,
+      count: config.count,
+      loop: config.loop,
+      orientation: config.orientation,
+      index,
     });
+  };
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setIndex, normalize: normalizeProps }),

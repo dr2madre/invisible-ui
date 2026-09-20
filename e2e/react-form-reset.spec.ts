@@ -139,8 +139,7 @@ test("the page's own choice becomes the default a reset restores", async ({ page
   await expect(page.getByRole("switch", { name: "Notifications" })).not.toBeChecked();
 });
 
-// A modal dialog paints in the browser's top layer and makes the rest of the
-// page inert: a list portalled to the body shows through and cannot be
+// A list left in the body while a modal dialog is open can be seen but not
 // clicked. Only a real browser can prove the click lands.
 test("a combobox inside a dialog can be used", async ({ page }) => {
   await page.goto(REACT_BASE);

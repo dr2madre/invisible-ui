@@ -104,6 +104,8 @@ export const Carousel = defineComponent({
       count: props.items.length,
       index: props.index,
       loop: props.loop,
+      // Which arrow keys move the carousel is decided here, in core.
+      orientation: props.orientation,
       onIndexChange: (next: number) => {
         emit("update:index", next);
         props.onIndexChange?.(next);
@@ -163,7 +165,6 @@ export const Carousel = defineComponent({
           ...api.value.rootProps,
           class: "carousel",
           "data-variant": variant,
-          "data-orientation": variant === "coverflow" ? props.orientation : undefined,
           "aria-label": props.label,
         },
         [

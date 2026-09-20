@@ -48,11 +48,16 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
 
   const setValues = (values: string[]) => {
     const current = get(state);
-    const next = { ...current, values };
     const value = values.join("");
-    state.set(next);
+    state.set({ ...current, values });
     context.onValueChange?.(value);
-    if (core.isComplete(next)) context.onComplete?.(value);
+    // A consumer that wrote its own value from that handler owns what the
+    // store holds now: a completion is reported only for the value still
+    // there, never for one the store has already contradicted.
+    const committed = get(state);
+    if (committed.values.join("") === value && core.isComplete(committed)) {
+      context.onComplete?.(value);
+    }
   };
 
   // The prop is one string; the state holds one character per cell. The split

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./calendar.fixture.svelte";
@@ -72,5 +73,21 @@ describe("Svelte Calendar (month view)", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture);
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  // A page that refuses the day a person picked and writes its own: the
+  // calendar has to end on the page's day, not on the picked one. The
+  // factory-level order this relies on is asserted in
+  // ../adr-0011-commit-order.test.ts.
+  it("settles on the day the page writes back from its own handler", async () => {
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { onValueChange, putBack: "2026-06-02" } });
+
+    await fireEvent.click(dayButton("2026-06-20"));
+    await tick();
+
+    expect(onValueChange).toHaveBeenCalledWith("2026-06-20");
+    expect(dayButton("2026-06-02")).toHaveAttribute("data-selected", "");
+    expect(dayButton("2026-06-20")).not.toHaveAttribute("data-selected");
   });
 });

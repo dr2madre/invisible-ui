@@ -111,4 +111,32 @@ describe("Svelte Carousel (styled)", () => {
     const { container } = render(Fixture);
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  // The orientation decides the keyboard map: a stack of slides moves with
+  // Up and Down, a row with Left and Right.
+  it("moves a vertical carousel with the up and down keys", async () => {
+    render(Fixture, { props: { orientation: "vertical" } });
+    expect(carousel()).toHaveAttribute("data-orientation", "vertical");
+
+    await fireEvent.keyDown(carousel(), { key: "ArrowDown" });
+    expect(document.querySelectorAll(".carousel__slide")[1]).toHaveAttribute("data-active", "");
+
+    await fireEvent.keyDown(carousel(), { key: "ArrowRight" });
+    expect(
+      document.querySelectorAll(".carousel__slide")[1],
+      "a row's keys do not move a stack",
+    ).toHaveAttribute("data-active", "");
+  });
+
+  it("moves a horizontal carousel with the left and right keys", async () => {
+    render(Fixture);
+    expect(carousel()).toHaveAttribute("data-orientation", "horizontal");
+    await fireEvent.keyDown(carousel(), { key: "ArrowRight" });
+    expect(document.querySelectorAll(".carousel__slide")[1]).toHaveAttribute("data-active", "");
+    await fireEvent.keyDown(carousel(), { key: "ArrowDown" });
+    expect(
+      document.querySelectorAll(".carousel__slide")[1],
+      "a stack's keys do not move a row",
+    ).toHaveAttribute("data-active", "");
+  });
 });

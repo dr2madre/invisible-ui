@@ -3,6 +3,7 @@
 
   export let variant: "slide" | "gallery" = "slide";
   export let loop = false;
+  export let orientation: "horizontal" | "vertical" = "horizontal";
 
   export let items: CarouselSlide[] = [
     { image: "https://example.com/1.jpg", title: "Peaks", description: "Above the clouds." },
@@ -19,7 +20,7 @@
     </article>
   </Carousel>
 {:else}
-  <Carousel {items} variant="slide" {loop} label="Featured photos" />
+  <Carousel {items} variant="slide" {loop} {orientation} label="Featured photos" />
 {/if}
 
 <style>

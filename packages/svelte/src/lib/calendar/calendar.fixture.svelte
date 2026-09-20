@@ -9,6 +9,13 @@
   export let min: string | undefined = undefined;
   export let max: string | undefined = undefined;
   export let onValueChange: ((iso: string) => void) | undefined = undefined;
+  /** When set, the page refuses the chosen day and writes this one instead. */
+  export let putBack: string | null = null;
+
+  function handleValueChange(iso: string) {
+    onValueChange?.(iso);
+    if (putBack) value = putBack;
+  }
 
   const events: CalendarEvent[] = [
     { date: "2026-06-10", label: "Standup", tone: "primary" },
@@ -30,6 +37,6 @@
   {max}
   {events}
   {prices}
-  {onValueChange}
+  onValueChange={handleValueChange}
   locale="en-US"
 />

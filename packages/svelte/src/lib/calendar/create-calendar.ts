@@ -50,26 +50,26 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
   );
   const baseId = get(state).id;
 
-  const setValue = (iso: string) =>
-    state.update((s) => {
-      if (s.value === iso) return s;
-      context.onValueChange?.(iso);
-      return { ...s, value: iso };
-    });
+  const setValue = (iso: string) => {
+    const current = get(state);
+    if (current.value === iso) return;
+    state.set({ ...current, value: iso });
+    context.onValueChange?.(iso);
+  };
 
-  const setFocus = (iso: string) =>
-    state.update((s) => {
-      if (s.focusedDate === iso) return s;
-      context.onFocusChange?.(iso);
-      return { ...s, focusedDate: iso };
-    });
+  const setFocus = (iso: string) => {
+    const current = get(state);
+    if (current.focusedDate === iso) return;
+    state.set({ ...current, focusedDate: iso });
+    context.onFocusChange?.(iso);
+  };
 
-  const setView = (view: CalendarView) =>
-    state.update((s) => {
-      if (s.view === view) return s;
-      context.onViewChange?.(view);
-      return { ...s, view };
-    });
+  const setView = (view: CalendarView) => {
+    const current = get(state);
+    if (current.view === view) return;
+    state.set({ ...current, view });
+    context.onViewChange?.(view);
+  };
 
   // Reflect controlled props without reporting a change.
   const syncValue = (iso: string | null) =>

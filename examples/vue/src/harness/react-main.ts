@@ -139,11 +139,7 @@ function Harness(): ReactElement {
   );
 }
 
-/**
- * A control inside a modal dialog. The dialog paints in the top layer and
- * makes the rest of the page inert, so a list portalled to the body shows
- * through and cannot be clicked: the browser test picks the option.
- */
+/** A control inside a modal dialog: the browser test picks an option in it. */
 function DialogScene(): ReactElement {
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
