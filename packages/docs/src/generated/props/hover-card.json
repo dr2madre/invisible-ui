@@ -1,0 +1,67 @@
+{
+  "component": "hover-card",
+  "selected": false,
+  "frameworks": {
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "HoverCard",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Open state; bindable with `v-model:open`."
+        },
+        {
+          "name": "placement",
+          "type": "Placement",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Preferred placement of the card."
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "default": "8",
+          "required": false,
+          "description": "Gap between trigger and card, in px."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "Delay before opening on hover, in ms."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "200",
+          "required": false,
+          "description": "Delay before closing on leave, in ms."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "undefined",
+          "required": false,
+          "description": ""
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "open: boolean"
+        }
+      ],
+      "slots": [
+        "default",
+        "trigger"
+      ]
+    }
+  }
+}
