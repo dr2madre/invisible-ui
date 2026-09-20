@@ -143,6 +143,23 @@ be credited as an author.
 person must review, understand, and stand behind every change submitted
 under their name.
 
+## Claims and evidence
+
+System-level claims about correctness of behaviour, accessibility and build
+integrity whose evidence spans components or lives outside the page that makes
+the claim have a row in
+[`docs/evidence-register.md`](./docs/evidence-register.md). The row names the
+evidence that holds the claim: a unit test, a browser test on named engines, a
+visual baseline, an executable gate check, or a manual session with its date.
+A pull request that adds or changes such a claim changes the row in the same
+pull request and cites evidence that exists in that pull request. A row may not
+point at a test still waiting on another branch.
+`scripts/check-evidence-register.mjs` runs in the gate and fails on a cited
+file that does not exist or a test count that no longer matches. It cannot
+judge whether a test asserts what the row says, so a reviewer still reads it.
+A claim whose only evidence would be a manual session is written as not yet
+verified, and its row says so.
+
 ## Writing
 
 All prose (documentation, site copy, UI messages) follows
