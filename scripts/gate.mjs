@@ -33,6 +33,7 @@ const SKIPPED = new Set(base ? [] : ["changeset"]);
 /** Name, then the command. Order matters: cheap and independent first. */
 export const STEPS = [
   ["env", "node scripts/check-env.mjs"],
+  ["audit", "pnpm audit"],
   ["lint", "pnpm lint"],
   ["format", "pnpm format:check"],
   ["changeset", `node scripts/check-changeset.mjs ${base || "<base>"}`],
