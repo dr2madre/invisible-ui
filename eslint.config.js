@@ -14,10 +14,10 @@ export default ts.config(
       "**/storybook-static/**",
       "**/node_modules/**",
       "**/*.config.{js,ts,cjs,mjs}",
-      // Optional local tooling (agents, hooks, skills): installed per machine,
-      // never committed, and not project code.
+      // Agent tooling is advisory and not project source. Shared skills may be
+      // committed, while tool-specific state remains local.
+      ".agents/**",
       ".claude/**",
-      ".impeccable/**",
       ".github/agents/**",
       ".github/hooks/**",
       ".github/skills/**",

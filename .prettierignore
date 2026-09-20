@@ -14,10 +14,10 @@ pnpm-lock.yaml
 # Auto-generated API manifests (canonical format is the generator's)
 **/src/generated/**
 
-# Optional local tooling (agents, hooks, skills). These are installed per
-# machine, are never committed, and are not project code.
+# Agent tooling is advisory and not project source. Shared skills may be
+# committed, while tool-specific state remains local.
+.agents/**
 .claude/**
-.impeccable/**
 .github/agents/**
 .github/hooks/**
 .github/skills/**
