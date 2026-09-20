@@ -660,7 +660,11 @@ const rows: Row[] = [
       const f = createTimeField({ value: "10:30", onValueChange: () => spy(f.state) });
       return {
         state: f.state,
-        act: () => get(f.api).getSegmentProps("hour").onKeyDown?.(arrowUp()),
+        act: () =>
+          (
+            get(f.api).getSegmentProps("hour").onKeyDown as
+              ((event: KeyboardEvent) => void) | undefined
+          )?.(arrowUp()),
         putBack: () => f.syncValue("07:15"),
       };
     },
@@ -676,7 +680,10 @@ const rows: Row[] = [
       return {
         state: f.state,
         act: () => {
-          get(f.api).getSegmentProps("hour").onKeyDown?.(arrowUp());
+          (
+            get(f.api).getSegmentProps("hour").onKeyDown as
+              ((event: KeyboardEvent) => void) | undefined
+          )?.(arrowUp());
           get(f.api).commit();
         },
       };
@@ -962,12 +969,17 @@ function reportedCallbacks(): string[] {
     // A factory that hands its whole options bag to another factory reports
     // everything that one reports: those callbacks are its own too. Both
     // spellings count, spread at the call and a rest binding passed on.
-    for (const [, spread] of source.matchAll(SPREAD_INTO_FACTORY)) {
-      names.add(`* ${kebab(spread)}`);
+    for (const match of source.matchAll(SPREAD_INTO_FACTORY)) {
+      const spread = match[1];
+      if (spread) names.add(`* ${kebab(spread)}`);
     }
-    for (const [, rest] of source.matchAll(REST_FROM_BAG)) {
-      for (const [, target, argument] of source.matchAll(FACTORY_CALL)) {
-        if (argument.trim() === rest) names.add(`* ${kebab(target)}`);
+    for (const restMatch of source.matchAll(REST_FROM_BAG)) {
+      const rest = restMatch[1];
+      if (!rest) continue;
+      for (const callMatch of source.matchAll(FACTORY_CALL)) {
+        const target = callMatch[1];
+        const argument = callMatch[2];
+        if (target && argument?.trim() === rest) names.add(`* ${kebab(target)}`);
       }
     }
     found.set(file.key, new Set([...(found.get(file.key) ?? []), ...names]));
