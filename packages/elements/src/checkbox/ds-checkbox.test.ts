@@ -42,17 +42,29 @@ describe("<ds-checkbox>", () => {
   });
 
   it("renders the indeterminate state as a DOM property via rootDomProps", () => {
-    mount(`<ds-checkbox label="Subscribe" indeterminate></ds-checkbox>`);
+    const host = mount(`<ds-checkbox label="Subscribe" indeterminate></ds-checkbox>`);
     expect(input().indeterminate).toBe(true);
     expect(input()).toHaveAttribute("data-state", "indeterminate");
+    expect(host.querySelector("svg.checkbox__check")).not.toBeNull();
+    expect(host.querySelector("svg.checkbox__dash")).not.toBeNull();
   });
 
-  it("is controllable through the checked property", () => {
+  it("moves through unchecked, checked and indeterminate state", () => {
     const host = mount(`<ds-checkbox label="Subscribe"></ds-checkbox>`);
+    expect(input()).not.toBeChecked();
+    expect(input().indeterminate).toBe(false);
+
     host.checked = true;
     expect(input()).toBeChecked();
+    expect(input().indeterminate).toBe(false);
+
     host.checked = "indeterminate";
+    expect(input()).not.toBeChecked();
     expect(input().indeterminate).toBe(true);
+
+    host.checked = false;
+    expect(input()).not.toBeChecked();
+    expect(input().indeterminate).toBe(false);
   });
 
   it("ignores presses when disabled", async () => {
