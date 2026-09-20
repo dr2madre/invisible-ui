@@ -230,7 +230,10 @@ export class DsDialog extends HTMLElementBase {
         event.clientY <= rect.bottom &&
         rect.left <= event.clientX &&
         event.clientX <= rect.right;
-      if (!inside) this.#setOpen(false);
+      if (!inside) {
+        event.preventDefault();
+        this.#setOpen(false);
+      }
     };
 
     panel.addEventListener("cancel", onCancel);

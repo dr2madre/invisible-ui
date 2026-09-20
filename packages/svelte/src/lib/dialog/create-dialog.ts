@@ -138,7 +138,10 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
         event.clientY <= rect.bottom &&
         rect.left <= event.clientX &&
         event.clientX <= rect.right;
-      if (!inside) setOpen(false);
+      if (!inside) {
+        event.preventDefault();
+        setOpen(false);
+      }
     };
     dialogEl.addEventListener("cancel", onCancel);
     dialogEl.addEventListener("close", onClose);

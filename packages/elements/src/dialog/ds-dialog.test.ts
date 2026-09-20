@@ -16,8 +16,12 @@ const mount = (html: string = MARKUP) => {
 
 // Native <dialog>: backdrop presses target the element itself, with
 // coordinates outside its box.
-const pressBackdrop = (panel: HTMLElement) =>
+const pressBackdrop = (panel: HTMLElement) => {
+  let observed: Event | undefined;
+  panel.addEventListener("pointerdown", (event) => (observed = event), { once: true });
   fireEvent.pointerDown(panel, { clientX: -10, clientY: -10 });
+  return observed!;
+};
 
 describe("<ds-dialog>", () => {
   it("is closed by default with the trigger advertising the dialog", () => {
@@ -73,7 +77,8 @@ describe("<ds-dialog>", () => {
     const user = userEvent.setup();
     const host = mount();
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
-    pressBackdrop(screen.getByRole("dialog"));
+    const event = pressBackdrop(screen.getByRole("dialog"));
+    expect(event.defaultPrevented).toBe(true);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     host.setAttribute("no-outside-close", "");
