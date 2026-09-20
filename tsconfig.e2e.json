@@ -1,0 +1,11 @@
+{
+  "//": "The browser test layer: Playwright transpiles these files without checking them, so this config does.",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "types": ["node"],
+    "allowJs": true
+  },
+  "include": ["e2e/**/*.ts", "playwright.config.ts", "scripts/*.d.mts"]
+}

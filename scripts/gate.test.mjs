@@ -26,6 +26,18 @@ const uses = [...jobs.matchAll(/^\s*-?\s*uses:\s*(.+)$/gm)].map((m) => m[1].trim
 const runs = [...jobs.matchAll(/^\s*-?\s*run:\s*(.+)$/gm)].map((m) => m[1].trim());
 const withs = [...jobs.matchAll(/^ {10}([\w-]+):\s*(.+)$/gm)].map((m) => `${m[1]}: ${m[2].trim()}`);
 
+// A step written as a flow mapping (`- { run: ... }`) has no key at column
+// eight; counting list items under `steps:` catches it. Above `jobs:`, only
+// the workflow's name, triggers and permissions may appear: a workflow-level
+// `env:` would reach the gate through the tools it drives.
+test("the workflow has five step items and nothing above jobs but name, triggers and permissions", () => {
+  assert.equal(jobs.match(/^ {6}- /gm)?.length, 5);
+  assert.deepEqual(
+    [...ci.matchAll(/^(\w[\w-]*):/gm)].map((m) => m[1]),
+    ["name", "on", "permissions", "jobs"],
+  );
+});
+
 test("CI has one job, on one runner, with steps and nothing else", () => {
   assert.deepEqual(jobNames, ["verify"]);
   assert.deepEqual(jobKeys, ["runs-on", "steps"]);
@@ -59,6 +71,7 @@ test("the gate lists every check CI used to run one by one, and the API manifest
     "pnpm scripts:test",
     "pnpm demos:check",
     "pnpm exec turbo run build test typecheck check",
+    "pnpm typecheck:e2e",
     "pnpm api:check",
     "pnpm api:report:check",
     "pnpm api:runtime-check",

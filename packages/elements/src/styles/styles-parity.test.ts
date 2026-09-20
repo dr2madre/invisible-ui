@@ -46,6 +46,14 @@ describe("stylesheet parity with the React adapter", () => {
   });
 });
 
+describe("native dialog visibility", () => {
+  it("applies the grid layout only after the dialog is open", () => {
+    const dialog = read("./dialog.css");
+    expect(dialog).toMatch(/\.dialog__panel\[open\]\s*\{[^}]*display:\s*grid/s);
+    expect(dialog).not.toMatch(/\.dialog__panel\s*\{[^}]*display:\s*grid/s);
+  });
+});
+
 describe("stylesheet parity with the Vue adapter", () => {
   it.each(VUE_SHEETS)("%s matches byte for byte", (sheet) => {
     expect(read(`./${sheet}`)).toBe(read(`../../../vue/src/styles/${sheet}`));

@@ -225,9 +225,9 @@ describe("Vue RangeSlider (styled)", () => {
     render(Fixture, { props: { value: [0, 90], min: 0, max: 95, step: 10, ticks: true } });
     const ticks = Array.from(document.querySelectorAll<HTMLElement>(".range-slider__tick"));
     expect(ticks).toHaveLength(10);
-    expect(ticks[0].style.getPropertyValue("--_tick-pct")).toBe("0%");
+    expect(ticks[0]!.style.getPropertyValue("--_tick-pct")).toBe("0%");
     // 90 of 95, not 100%: the last tick marks a value the arrows can reach.
-    expect(parseFloat(ticks[9].style.getPropertyValue("--_tick-pct"))).toBeCloseTo(94.74, 1);
+    expect(parseFloat(ticks[9]!.style.getPropertyValue("--_tick-pct"))).toBeCloseTo(94.74, 1);
   });
 
   it("carries the dependent bound through an explicit aria override", () => {

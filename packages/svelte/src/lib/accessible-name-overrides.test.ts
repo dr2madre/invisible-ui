@@ -64,7 +64,12 @@ describe("accessible names a consumer overrides", () => {
 
   it("the notification's close button takes the given name", () => {
     render(InlineNotification, {
-      props: { title: "Saved", closable: true, closeLabel: "Hide this" },
+      props: {
+        title: "Saved",
+        description: "The record is stored.",
+        closable: true,
+        closeLabel: "Hide this",
+      },
     });
     expect(screen.getByRole("button", { name: "Hide this" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Close" })).not.toBeInTheDocument();
@@ -93,7 +98,7 @@ describe("accessible names a consumer overrides", () => {
   it("the table's column button takes the given name", () => {
     render(TableView, {
       props: {
-        label: "People",
+        caption: "People",
         configurable: true,
         configLabel: "Choose the columns",
         columns: [{ key: "name", header: "Name" }],

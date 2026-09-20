@@ -12,6 +12,7 @@
   export let infinite = false;
   export let hasMore = false;
   export let loading = false;
+  export let caption = "People";
   export let onLoadMore: (() => void) | undefined = undefined;
   export let sort: SortState | null = null;
   export let hiddenColumns: string[] = [];
@@ -52,5 +53,5 @@
   {loading}
   {onLoadMore}
   title="People"
-  caption="People"
+  {caption}
 />

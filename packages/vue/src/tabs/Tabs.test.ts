@@ -34,7 +34,7 @@ describe("Vue Tabs (styled)", () => {
     expect(account).toHaveAttribute("tabindex", "0");
     expect(account).toHaveAttribute("aria-controls", panel.id);
     expect(password).toHaveAttribute("tabindex", "-1");
-    expect(panel).toHaveAttribute("aria-labelledby", account.id);
+    expect(panel).toHaveAttribute("aria-labelledby", account!.id);
   });
 
   it("selects a tab on click, swaps the panel and reports the value", async () => {
@@ -53,7 +53,7 @@ describe("Vue Tabs (styled)", () => {
     render(Tabs, { props: { items, label: "Settings" } });
     const [account, password] = screen.getAllByRole("tab");
 
-    account.focus();
+    account!.focus();
     await user.keyboard("{ArrowRight}");
     expect(password).toHaveFocus();
     expect(password).toHaveAttribute("aria-selected", "true");
@@ -64,7 +64,7 @@ describe("Vue Tabs (styled)", () => {
     render(Tabs, { props: { items, label: "Settings", activationMode: "manual" } });
     const [account, password] = screen.getAllByRole("tab");
 
-    account.focus();
+    account!.focus();
     await user.keyboard("{ArrowRight}");
     expect(password).toHaveFocus();
     expect(account).toHaveAttribute("aria-selected", "true"); // not selected yet
@@ -78,7 +78,7 @@ describe("Vue Tabs (styled)", () => {
     render(Tabs, { props: { items, label: "Settings" } });
     const tabs = screen.getAllByRole("tab");
 
-    tabs[0].focus();
+    tabs[0]!.focus();
     await user.keyboard("{End}");
     expect(tabs[2]).toHaveFocus();
     await user.keyboard("{Home}");

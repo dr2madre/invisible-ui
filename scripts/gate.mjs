@@ -39,6 +39,7 @@ export const STEPS = [
   ["tokens", "pnpm tokens:check"],
   ["scripts-tests", "pnpm scripts:test"],
   ["demos", "pnpm demos:check"],
+  ["typecheck-e2e", "pnpm typecheck:e2e"],
   ["build-test-typecheck-check", "pnpm exec turbo run build test typecheck check"],
   ["api-manifests", "pnpm api:check"],
   ["api-report", "pnpm api:report:check"],

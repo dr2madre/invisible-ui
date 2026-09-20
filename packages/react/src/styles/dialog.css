@@ -11,7 +11,6 @@
        is the only scrolling region, the footer auto-places into an implicit row
        (so an absent footer leaves no trailing gap). The internal gap spaces the
        rows; the padding is the outer inset. */
-  display: grid;
   grid-template-rows: auto 1fr;
   gap: var(--ds-dialog-gap, 1rem);
   inline-size: 100%;
@@ -29,6 +28,10 @@
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1)
   );
+}
+.dialog__panel[open] {
+  /* Keep the platform's closed-dialog display until showModal() sets open. */
+  display: grid;
 }
 .dialog__panel:focus-visible {
   outline: none;
