@@ -66,8 +66,13 @@ test("the counter follows vitest and node:test spellings", () => {
 });
 
 test("the readers take paths and counts out of real register prose", () => {
-  const register = "| unit: 9 tests in `core/src/a.test.ts`, plus `e2e/b.spec.ts` on Chromium |";
-  assert.deepEqual(citedPaths(register), ["core/src/a.test.ts", "e2e/b.spec.ts"]);
+  const register =
+    "| `docs/contract.md` | unit: 9 tests in `core/src/a.test.ts`, plus `e2e/b.spec.ts` on Chromium |";
+  assert.deepEqual(citedPaths(register), [
+    "core/src/a.test.ts",
+    "docs/contract.md",
+    "e2e/b.spec.ts",
+  ]);
   assert.deepEqual(citedCounts(register), [{ path: "core/src/a.test.ts", claimed: 9 }]);
 });
 

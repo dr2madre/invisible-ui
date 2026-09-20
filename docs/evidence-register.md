@@ -7,12 +7,12 @@ of everything the project guarantees. Component props and visual design remain
 specified by the component docs and generated manifests; their local tests are
 not repeated here.
 
-Every path and every test count below is checked by
-`scripts/check-evidence-register.mjs`, which runs in `pnpm gate` as part of
-its `scripts-tests` step. A row that
-cites a file that does not exist, or a count that no longer matches, fails
-the gate. That check cannot tell whether a test asserts what the row says it
-asserts; a reviewer still has to read it.
+Every repository path written in backticks and every explicit test count below
+is checked by `scripts/check-evidence-register.mjs`, which runs in `pnpm gate`
+as part of its `scripts-tests` step. A row that cites a file that does not
+exist, or a count that no longer matches, fails the gate. That check cannot
+tell whether a test asserts what the row says it asserts; a reviewer still has
+to read it.
 
 The manual accessibility session (A1) is a scheduled session with a screen
 reader, touch assistive technology, browser zoom and a real high-contrast
@@ -28,19 +28,19 @@ runs and nothing else), `none yet`.
 
 | Claim | Where it is made | Evidence | Status |
 | --- | --- | --- | --- |
-| Adapter tests run against the current core build, never a stale dist | CONTRIBUTING "Running the checks locally" | gate: `scripts/vitest-core-guard.mjs` is the Vitest `globalSetup` of all four adapters and calls `assertCoreDist` from `scripts/check-core-dist.mjs`; 12 tests in `scripts/check-core-dist.test.mjs` | held |
-| Browser tests run against this checkout's build, never another worktree's | CONTRIBUTING, docs/visual-testing.md | gate: `e2e/global-setup.ts` refuses a foreign or stale server using `scripts/build-id.mjs`; 14 tests in `scripts/build-id.test.mjs`. No browser test exercises the refusal: it runs before the browser starts | held for the unit behaviour |
-| `pnpm gate` is the whole non-browser gate and CI runs nothing else | CONTRIBUTING, `.github/workflows/ci.yml` | gate: 6 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
+| Adapter tests run against the current core build, never a stale dist | `CONTRIBUTING.md`, "Running the checks locally" | gate: `scripts/vitest-core-guard.mjs` is the Vitest `globalSetup` of all four adapters and calls `assertCoreDist` from `scripts/check-core-dist.mjs`; 12 tests in `scripts/check-core-dist.test.mjs` | held |
+| Browser tests run against this checkout's build, never another worktree's | `CONTRIBUTING.md`, `docs/visual-testing.md` | gate: `e2e/global-setup.ts` refuses a foreign or stale server using `scripts/build-id.mjs`; 14 tests in `scripts/build-id.test.mjs`. No browser test exercises the refusal: it runs before the browser starts | held for the unit behaviour |
+| `pnpm gate` is the whole non-browser gate and CI runs nothing else | `CONTRIBUTING.md`, `.github/workflows/ci.yml` | gate: 6 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
 
 ## Component behaviour
 
 | Claim | Where it is made | Evidence | Status |
 | --- | --- | --- | --- |
-| Range Slider: thumbs never cross, `minDistance` rounds up to the grid, the pair is always valid | docs/components/forms/range-slider | unit: 29 tests in `core/src/range-slider/range-slider.test.ts`, 26 in `packages/svelte/src/lib/range-slider/styled-range-slider.test.ts`, 26 in `packages/vue/src/range-slider/RangeSlider.test.ts` | held |
+| Range Slider: thumbs never cross, `minDistance` rounds up to the grid, the pair is always valid | `packages/docs/src/content/docs/components/forms/range-slider.mdx` | unit: 29 tests in `core/src/range-slider/range-slider.test.ts`, 26 in `packages/svelte/src/lib/range-slider/styled-range-slider.test.ts`, 26 in `packages/vue/src/range-slider/RangeSlider.test.ts` | held |
 | Range Slider: pointer routing follows the logical axis (LTR, RTL, vertical) | same | browser: `e2e/range-slider.spec.ts` on Chromium, Firefox and WebKit | held |
 | Range Slider: constraints change after mount without a remount, silently | same | unit: the rerender tests in the two adapter files above | held |
-| Combobox: the clear button activates by pointer, Enter, Space and a direct click | docs/components/forms/combobox | unit in core and all four adapters; browser: `e2e/interactions.spec.ts` on Chromium, Firefox and WebKit | held |
-| Svelte state factories commit their state before reporting a public callback, so handlers read the reported state and their own writes persist | ADR 0011 | unit: the matrix in `packages/svelte/src/lib/adr-0011-commit-order.test.ts`; its completeness test scans the factory sources and refuses an uncovered callback unless the row records a reasoned exemption | held |
+| Combobox: the clear button activates by pointer, Enter, Space and a direct click | `packages/docs/src/content/docs/components/forms/combobox.mdx` | unit: `core/src/combobox/combobox.test.ts`, `packages/svelte/src/lib/combobox/styled-combobox.test.ts`, `packages/vue/src/combobox/Combobox.test.ts`, `packages/react/src/combobox/Combobox.test.tsx` and `packages/elements/src/combobox/ds-combobox.test.ts`; browser: `e2e/interactions.spec.ts` on Chromium, Firefox and WebKit | held |
+| Svelte state factories commit their state before reporting a public callback, so handlers read the reported state and their own writes persist | `docs/adr/0011-state-and-callback-conventions.md` | unit: the matrix in `packages/svelte/src/lib/adr-0011-commit-order.test.ts`; its completeness test scans the factory sources and refuses an uncovered callback unless the row records a reasoned exemption | held |
 
 ## Accessibility
 
@@ -50,13 +50,13 @@ real high-contrast mode renders. Those are the A1 session's to answer.
 
 | Claim | Where it is made | Evidence | Status |
 | --- | --- | --- | --- |
-| Components carry the roles, names and ARIA attributes the WAI-ARIA Authoring Practices pattern named in their docs calls for | every component page | unit: role and attribute tests per component; browser: `e2e/a11y-catalog.spec.ts` runs axe (wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa) over the catalog on Chromium | attributes and axe rules held. Axe does not test pattern conformance: the keyboard model and focus movement are held by the per-component tests, and what is announced is none yet (A1) |
+| Catalog demos pass the configured axe WCAG A and AA rules | every component page | browser: `e2e/a11y-catalog.spec.ts` runs axe (wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa) over the catalog on Chromium | held for the configured automated rules. Axe does not test pattern conformance, keyboard behaviour, focus movement or what a screen reader announces; those remain with component tests and A1 |
 | Range Slider: the dependent bound is exposed through `aria-valuemin` and `aria-valuemax` | same (the docs state that ARIA in HTML discourages this) | unit: attribute assertions in the three files above | the attributes are present; what assistive technology announces: none yet (A1) |
 | Range Slider: stacked thumbs are operable by touch assistive technology | same (the docs state this is unverified) | none yet (A1) | not claimed |
-| The Svelte token palette meets WCAG AA contrast for the pairs it defines | CONTRIBUTING pillars, tokens docs | unit: contrast computed over the Svelte tokens in `packages/svelte/src/lib/styles/tokens.test.ts` | held for the Svelte tokens and the pairs that file lists. The Vue, React and Elements palettes have no equivalent computation, and no axe run enables the `color-contrast` rule |
-| Pointer targets are at least 24 by 24 CSS pixels | component docs | browser: `e2e/target-size.spec.ts` on Chromium, Firefox and WebKit | held for the library's own targets on the catalog pages. The docs theme's own controls are skipped, and an element with no size is skipped, so anything inside a closed menu or dialog is not measured |
+| The Svelte token palette meets WCAG AA contrast for the pairs it defines | `CONTRIBUTING.md`, `docs/tokens.md` | unit: contrast computed over the Svelte tokens in `packages/svelte/src/lib/styles/tokens.test.ts` | held for the Svelte tokens and the pairs that file lists. The Vue, React and Elements palettes have no equivalent computation, and no axe run enables the `color-contrast` rule |
+| Rendered library targets on catalog pages are at least 24 by 24 CSS pixels | component docs | browser: `e2e/target-size.spec.ts` on Chromium, Firefox and WebKit | held for the library's own rendered targets. The docs theme's controls are skipped, and an element with no size is skipped, so anything inside a closed menu or dialog is not measured |
 | Layouts survive 320 CSS pixels wide without horizontal scroll | component docs | browser: `e2e/reflow.spec.ts` at 320 and 1024 CSS pixels on Chromium, Firefox and WebKit | held for the catalog demos. This is a viewport width, not browser zoom: 400% zoom is none yet (A1) |
-| In forced-colors mode every control is still painted and none disappears | component docs | browser: `e2e/forced-colors.spec.ts`, emulated, Chromium only | held for presence only. That spec states that whether each state stays distinguishable is not checked, and several states are carried by a tint alone. A real high-contrast session is none yet (A1) |
+| In emulated forced-colors mode, rendered catalog controls remain present | component docs | browser: `e2e/forced-colors.spec.ts`, emulated, Chromium only | held for presence only. That spec states that whether each state stays distinguishable is not checked, and several states are carried by a tint alone. A real high-contrast session is none yet (A1) |
 
 ## How to add a row
 

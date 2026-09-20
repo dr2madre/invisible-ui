@@ -23,7 +23,7 @@ export function countTests(source) {
 /** Paths a row cites, as `path/like/this.ext` inside backticks. */
 export function citedPaths(register) {
   const paths = new Set();
-  for (const [, path] of register.matchAll(/`([\w./-]+\.(?:ts|tsx|mjs|js|yml|svelte))`/g)) {
+  for (const [, path] of register.matchAll(/`([\w./-]+\.(?:ts|tsx|mjs|js|yml|svelte|md|mdx))`/g)) {
     paths.add(path);
   }
   return [...paths].sort();
