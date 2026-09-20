@@ -77,11 +77,13 @@
       "tsup>esbuild": ">=0.28.1",
       "minimatch@3>brace-expansion": ">=1.1.18 <2.0.0",
       "minimatch@10>brace-expansion": ">=5.0.9",
-      "fast-uri": "^3.1.5",
-      "js-yaml@3": "3.15.1",
-      "js-yaml@4": "4.3.1",
+      "devalue@5": "^5.9.2",
+      "fast-uri": "^3.1.6",
+      "js-yaml@3": "3.15.2",
+      "js-yaml@4": "4.3.2",
       "nanoid@3": "3.3.18",
       "postcss": "^8.5.23",
+      "qs@6": "^6.16.0",
       "undici": "^7.29.0"
     }
   }

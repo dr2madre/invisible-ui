@@ -64,6 +64,7 @@ test("the gate lists every check CI used to run one by one, and the API manifest
   const commands = STEPS.map(([, command]) => command).join("\n");
   for (const required of [
     "node scripts/check-env.mjs",
+    "pnpm audit",
     "pnpm lint",
     "pnpm format:check",
     "node scripts/check-changeset.mjs",
