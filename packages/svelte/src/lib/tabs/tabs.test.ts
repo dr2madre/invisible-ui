@@ -41,7 +41,7 @@ describe("Svelte Tabs", () => {
     render(Fixture);
     const [one, two] = screen.getAllByRole("tab");
 
-    one.focus();
+    one!.focus();
     await user.keyboard("{ArrowRight}");
     expect(two).toHaveFocus();
     expect(two).toHaveAttribute("aria-selected", "true");
@@ -52,7 +52,7 @@ describe("Svelte Tabs", () => {
     render(Fixture, { props: { activationMode: "manual" } });
     const [one, two] = screen.getAllByRole("tab");
 
-    one.focus();
+    one!.focus();
     await user.keyboard("{ArrowRight}");
     expect(two).toHaveFocus();
     expect(one).toHaveAttribute("aria-selected", "true"); // not selected yet
@@ -66,7 +66,7 @@ describe("Svelte Tabs", () => {
     render(Fixture);
     const tabs = screen.getAllByRole("tab");
 
-    tabs[0].focus();
+    tabs[0]!.focus();
     await user.keyboard("{End}");
     expect(tabs[2]).toHaveFocus();
     await user.keyboard("{Home}");

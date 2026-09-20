@@ -203,7 +203,12 @@ describe("Sidebar as a drawer", () => {
     elsewhere.focus();
 
     const onOpenChange = vi.fn();
-    const props = { mode: "drawer", renderTrigger: false, returnFocusTo: "#opener", onOpenChange };
+    const props = {
+      mode: "drawer" as const,
+      renderTrigger: false,
+      returnFocusTo: "#opener",
+      onOpenChange,
+    };
     const { rerender } = render(Fixture, { props });
     expect(screen.queryByRole("button", { name: "Open the navigation" })).toBeNull();
 

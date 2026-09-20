@@ -5,7 +5,7 @@ import Fixture from "./code-block.fixture.svelte";
 
 // Only the duplicate-landmark rule: the others judge a whole page, not a
 // fragment rendered on its own.
-const landmarkRules = { runOnly: { type: "rule", values: ["landmark-unique"] } };
+const landmarkRules = { runOnly: { type: "rule" as const, values: ["landmark-unique"] } };
 
 describe("Svelte CodeBlock (styled)", () => {
   beforeEach(() => {

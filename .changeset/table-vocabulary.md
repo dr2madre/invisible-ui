@@ -1,5 +1,5 @@
 ---
-"@design-system/svelte": patch
+"@design-system/svelte": minor
 ---
 
 The styled table's vocabulary becomes importable the way it already is in the

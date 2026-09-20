@@ -11,7 +11,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { hashCoreSources } from "./source-hash.mjs";
+import { hashPackageSources } from "./source-hash.mjs";
 
 export const REBUILD = "pnpm --filter @design-system/core build";
 
@@ -36,7 +36,7 @@ export function checkCoreDist(root) {
   }
   let current;
   try {
-    current = hashCoreSources(coreDir);
+    current = hashPackageSources(root, "core");
   } catch (error) {
     return `core sources could not be read (${error.message}): run \`${REBUILD}\`.`;
   }

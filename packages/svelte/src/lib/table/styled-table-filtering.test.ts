@@ -104,7 +104,7 @@ describe("Svelte TableSet — filtering coordination", () => {
         props: { pageSize: 2, page: 2, filterRevision: NaN, onPageChange },
       });
       // An unrelated rerender with the same NaN revision must not reset.
-      await rerender({ loading: false });
+      await rerender({ loading: true });
       expect(onPageChange).not.toHaveBeenCalled();
       expect(bodyNames()).toEqual(["Barbara", "Edsger"]);
     });

@@ -353,7 +353,7 @@ describe("form reset across the composed form", () => {
     await user.clear(amount);
     await user.type(amount, "7");
     const hour = screen.getAllByRole("spinbutton", { name: /hour/i })[0];
-    hour.focus();
+    hour!.focus();
     await user.keyboard("{ArrowUp}");
     await user.click(screen.getByRole("combobox", { name: "Due date" }));
     await user.click(dayButton("2026-06-20"));
@@ -399,7 +399,7 @@ describe("form reset on the remaining composites", () => {
     });
     const form = wrap(rendered);
     const cells = screen.getAllByRole("textbox");
-    await user.click(cells[0]);
+    await user.click(cells[0]!);
     await user.keyboard("{Backspace}9");
     expect(new FormData(form).get("pin")).not.toBe("1234");
 
@@ -613,13 +613,13 @@ describe("form reset without a name", () => {
     form.append(root);
 
     const hour = screen.getAllByRole("spinbutton")[0];
-    hour.focus();
+    hour!.focus();
     await user.keyboard("{ArrowUp}");
-    expect(hour.textContent?.trim()).toBe("10");
+    expect(hour!.textContent?.trim()).toBe("10");
 
     form.reset();
     await settled();
-    expect(hour.textContent?.trim(), "no name is not no reset").toBe("09");
+    expect(hour!.textContent?.trim(), "no name is not no reset").toBe("09");
   });
 });
 

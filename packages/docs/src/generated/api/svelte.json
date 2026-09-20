@@ -686,7 +686,7 @@
     {
       "name": "CreateSegmentedControl",
       "kind": "type",
-      "signature": "type CreateSegmentedControl = CreateRadioGroup;"
+      "signature": "CreateSegmentedControl = interface CreateRadioGroup { /** Reactive resolved state. */ state: Readable<RadioGroupState>; /** The selected value (or `null`). */ value: Readable<string | null>; /** Imperatively select a value. */ setValue: (value: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Shared form/group name applied to every radio input. */ name: string; }"
     },
     {
       "name": "CreateSelect",
@@ -1161,12 +1161,12 @@
     {
       "name": "SegmentItem",
       "kind": "type",
-      "signature": "type SegmentItem = RadioItem;"
+      "signature": "SegmentItem = type RadioItem = radioGroup.RadioItem;"
     },
     {
       "name": "SegmentedControlContext",
       "kind": "type",
-      "signature": "type SegmentedControlContext = RadioGroupContext;"
+      "signature": "SegmentedControlContext = type RadioGroupContext = radioGroup.RadioGroupContext;"
     },
     {
       "name": "SelectApi",
