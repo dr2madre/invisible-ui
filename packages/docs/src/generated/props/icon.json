@@ -14,42 +14,48 @@
           "type": "string",
           "default": "\"1em\"",
           "required": false,
-          "description": "Width/height (scales with font-size by default)."
+          "description": "Width/height (scales with font-size by default).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "viewBox",
           "type": "string",
           "default": "\"0 0 24 24\"",
           "required": false,
-          "description": "SVG viewBox."
+          "description": "SVG viewBox.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "strokeWidth",
           "type": "number | string",
           "default": "2",
           "required": false,
-          "description": "Stroke width in viewBox units."
+          "description": "Stroke width in viewBox units.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; when omitted the icon is decorative."
+          "description": "Accessible name; when omitted the icon is decorative.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "animation",
           "type": "\"none\" | \"spin\" | \"pulse\"",
           "default": "\"none\"",
           "required": false,
-          "description": "Built-in animation for the glyph: `spin` (continuous rotation, e.g. a loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect `prefers-reduced-motion` (the icon stays visible, static)."
+          "description": "Built-in animation for the glyph: `spin` (continuous rotation, e.g. a loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect `prefers-reduced-motion` (the icon stays visible, static).",
+          "descriptionFrom": "source"
         },
         {
           "name": "animationDuration",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Animation duration (any CSS time, e.g. \"0.8s\")."
+          "description": "Animation duration (any CSS time, e.g. \"0.8s\").",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -65,28 +71,32 @@
           "type": "string",
           "default": "\"1em\"",
           "required": false,
-          "description": "Rendered size; `1em` by default so icons scale with the surrounding text."
+          "description": "Rendered size; `1em` by default so icons scale with the surrounding text.",
+          "descriptionFrom": "source"
         },
         {
           "name": "viewBox",
           "type": "string",
           "default": "\"0 0 24 24\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "strokeWidth",
           "type": "number | string",
           "default": "2",
           "required": false,
-          "description": "Stroke width in viewBox units (glyphs are stroke-based by default)."
+          "description": "Stroke width in viewBox units (glyphs are stroke-based by default).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`)."
+          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -107,42 +117,48 @@
           "type": "string",
           "default": "\"1em\"",
           "required": false,
-          "description": "Rendered size; `1em` by default so icons scale with the surrounding text."
+          "description": "Rendered size; `1em` by default so icons scale with the surrounding text.",
+          "descriptionFrom": "source"
         },
         {
           "name": "viewBox",
           "type": "string",
           "default": "\"0 0 24 24\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "strokeWidth",
           "type": "number | string",
           "default": "2",
           "required": false,
-          "description": "Stroke width in viewBox units (glyphs are stroke-based by default)."
+          "description": "Stroke width in viewBox units (glyphs are stroke-based by default).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`)."
+          "description": "Accessible name. When omitted the icon is decorative (`aria-hidden`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "className",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Extra classes merged onto the `<svg>` (e.g. for stateful styling)."
+          "description": "Extra classes merged onto the `<svg>` (e.g. for stateful styling).",
+          "descriptionFrom": "source"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "The glyph itself: `<path>`, `<line>`, `<polyline>`, …"
+          "description": "The glyph itself: `<path>`, `<line>`, `<polyline>`, …",
+          "descriptionFrom": "source"
         }
       ]
     }

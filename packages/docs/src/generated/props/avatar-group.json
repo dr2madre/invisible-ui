@@ -14,35 +14,40 @@
           "type": "AvatarGroupItem[]",
           "default": null,
           "required": true,
-          "description": "People (`{ name, src?, alt? }`); `name` is the initials fallback."
+          "description": "People (`{ name, src?, alt? }`); `name` is the initials fallback.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "max",
           "type": "number",
           "default": "4",
           "required": false,
-          "description": "Visible avatars before the \"+N\" chip."
+          "description": "Visible avatars before the \"+N\" chip.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Avatar size."
+          "description": "Avatar size.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "shape",
           "type": "\"circle\" | \"square\"",
           "default": "\"circle\"",
           "required": false,
-          "description": "Avatar shape."
+          "description": "Avatar shape.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group."
+          "description": "Accessible name for the group.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -58,35 +63,40 @@
           "type": "AvatarGroupItem[]",
           "default": null,
           "required": true,
-          "description": "The people in the group."
+          "description": "The people in the group.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "4",
           "required": false,
-          "description": "Maximum avatars to show before collapsing the rest into a \"+N\" chip."
+          "description": "Maximum avatars to show before collapsing the rest into a \"+N\" chip.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "default": "\"md\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "shape",
           "type": "\"circle\" | \"square\"",
           "default": "\"circle\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group (announced by screen readers)."
+          "description": "Accessible name for the group (announced by screen readers).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

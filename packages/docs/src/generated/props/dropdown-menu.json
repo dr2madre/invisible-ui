@@ -14,28 +14,32 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "items",
           "type": "MenuEntry[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onSelect",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the chosen item's value."
+          "description": "Called with the chosen item's value.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The trigger button's visible label."
+          "description": "The trigger button's visible label.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "MenuEntry[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onSelect",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the chosen item's value."
+          "description": "Called with the chosen item's value.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

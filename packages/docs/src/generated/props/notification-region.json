@@ -14,70 +14,80 @@
           "type": "Notifier",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placement",
           "type": "\"top-start\" | \"top-center\" | \"top-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\"",
           "default": "\"top-end\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the region landmark. Defaults to the i18n catalog's \"Notices\"."
+          "description": "Accessible name for the region landmark. Defaults to the i18n catalog's \"Notices\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "maxVisible",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Maximum notices rendered at once. `0` means no limit."
+          "description": "Maximum notices rendered at once. `0` means no limit.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "inset",
           "type": "string",
           "default": "\"1rem\"",
           "required": false,
-          "description": "Distance from the viewport edges, as a CSS length. Default `1rem`."
+          "description": "Distance from the viewport edges, as a CSS length. Default `1rem`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "swipeable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Allow swiping a notification away (pointer/touch). Default `true`."
+          "description": "Allow swiping a notification away (pointer/touch). Default `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "duration",
           "type": "number",
           "default": "200",
           "required": false,
-          "description": "Enter/leave/reflow duration in ms."
+          "description": "Enter/leave/reflow duration in ms.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "exitDuration",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit."
+          "description": "Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit.",
+          "descriptionFrom": "source"
         },
         {
           "name": "easing",
           "type": "(t: number) => number",
           "default": "cubicOut",
           "required": false,
-          "description": "Easing for enter/reflow. Ease-out by default."
+          "description": "Easing for enter/reflow. Ease-out by default.",
+          "descriptionFrom": "source"
         },
         {
           "name": "exitEasing",
           "type": "(t: number) => number",
           "default": "cubicIn",
           "required": false,
-          "description": "Easing for the leave animation. Ease-in by default: starts slow and accelerates away, so a dismissal never snaps."
+          "description": "Easing for the leave animation. Ease-in by default: starts slow and accelerates away, so a dismissal never snaps.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -93,56 +103,64 @@
           "type": "Notifier",
           "default": null,
           "required": true,
-          "description": "The notifier whose queue this region renders."
+          "description": "The notifier whose queue this region renders.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placement",
           "type": "NotificationPlacement",
           "default": "\"top-end\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the region landmark. Defaults to the i18n catalog's \"Notifications\"."
+          "description": "Accessible name for the region landmark. Defaults to the i18n catalog's \"Notifications\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "maxVisible",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Optional cap on notifications rendered at once. `0` (default) means no count cap — the pile fills the window height and clips the oldest at the far edge. Set a number to also limit by count."
+          "description": "Optional cap on notifications rendered at once. `0` (default) means no count cap — the pile fills the window height and clips the oldest at the far edge. Set a number to also limit by count.",
+          "descriptionFrom": "source"
         },
         {
           "name": "inset",
           "type": "string",
           "default": "\"1rem\"",
           "required": false,
-          "description": "Distance from the viewport edges, as a CSS length. Default `1rem`."
+          "description": "Distance from the viewport edges, as a CSS length. Default `1rem`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "swipeable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Allow swiping a notification away (pointer/touch). Default `true`."
+          "description": "Allow swiping a notification away (pointer/touch). Default `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "duration",
           "type": "number",
           "default": "200",
           "required": false,
-          "description": "Enter/reflow duration in ms."
+          "description": "Enter/reflow duration in ms.",
+          "descriptionFrom": "source"
         },
         {
           "name": "exitDuration",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit."
+          "description": "Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

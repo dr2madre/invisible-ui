@@ -14,28 +14,32 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The tooltip label."
+          "description": "The tooltip label.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "placement",
           "type": "TooltipContext[\"placement\"]",
           "default": "\"top\"",
           "required": false,
-          "description": "Preferred placement; flips when there's no room."
+          "description": "Preferred placement; flips when there's no room.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "openDelay",
           "type": "number",
           "default": "300",
           "required": false,
-          "description": "Delay before showing on hover, in ms (focus shows immediately)."
+          "description": "Delay before showing on hover, in ms (focus shows immediately).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "closeDelay",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": "Delay before hiding on leave, in ms."
+          "description": "Delay before hiding on leave, in ms.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Tooltip label text."
+          "description": "Tooltip label text.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placement",
           "type": "Placement",
           "default": "\"top\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "openDelay",
           "type": "number",
           "default": "300",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "closeDelay",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [],

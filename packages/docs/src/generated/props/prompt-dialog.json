@@ -14,112 +14,128 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial open state."
+          "description": "Initial open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title (required)."
+          "description": "Accessible title (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional supporting message shown under the title."
+          "description": "Optional supporting message shown under the title.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label for the input."
+          "description": "Visible label for the input.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Initial / current value."
+          "description": "Initial / current value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Require a non-empty value: the confirm button stays disabled while blank."
+          "description": "Require a non-empty value: the confirm button stays disabled while blank.",
+          "descriptionFrom": "source"
         },
         {
           "name": "confirmValue",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Type-to-confirm: when set, the confirm button stays disabled until the input matches this exact value — e.g. typing a file name to confirm its deletion."
+          "description": "Type-to-confirm: when set, the confirm button stays disabled until the input matches this exact value — e.g. typing a file name to confirm its deletion.",
+          "descriptionFrom": "source"
         },
         {
           "name": "confirmLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "cancelLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "confirmVariant",
           "type": "ButtonVariant",
           "default": "\"primary\"",
           "required": false,
-          "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm)."
+          "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm).",
+          "descriptionFrom": "source"
         },
         {
           "name": "urgent",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005)."
+          "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005).",
+          "descriptionFrom": "source"
         },
         {
           "name": "triggerVariant",
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onConfirm",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the entered value when confirmed (before the dialog closes)."
+          "description": "Called with the entered value when confirmed (before the dialog closes).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`."
+          "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the open state changes."
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -135,119 +151,136 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title (required)."
+          "description": "Accessible title (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional supporting message shown under the title."
+          "description": "Optional supporting message shown under the title.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label for the input."
+          "description": "Visible label for the input.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Initial value the input is seeded with on each open."
+          "description": "Initial value the input is seeded with on each open.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Require a non-empty value: the confirm button stays disabled while blank."
+          "description": "Require a non-empty value: the confirm button stays disabled while blank.",
+          "descriptionFrom": "source"
         },
         {
           "name": "confirmValue",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Type-to-confirm: when set, the confirm button stays disabled until the input matches this exact value, e.g. typing a file name to confirm its deletion."
+          "description": "Type-to-confirm: when set, the confirm button stays disabled until the input matches this exact value, e.g. typing a file name to confirm its deletion.",
+          "descriptionFrom": "source"
         },
         {
           "name": "confirmLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Label of the confirming button; prefer naming the outcome (\"Rename\")."
+          "description": "Label of the confirming button; prefer naming the outcome (\"Rename\").",
+          "descriptionFrom": "source"
         },
         {
           "name": "cancelLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Label of the cancelling button (also the Escape action)."
+          "description": "Label of the cancelling button (also the Escape action).",
+          "descriptionFrom": "source"
         },
         {
           "name": "confirmVariant",
           "type": "ButtonVariant",
           "default": "\"primary\"",
           "required": false,
-          "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm)."
+          "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm).",
+          "descriptionFrom": "source"
         },
         {
           "name": "urgent",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005)."
+          "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onConfirm",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the entered value when confirmed (before the dialog closes)."
+          "description": "Called with the entered value when confirmed (before the dialog closes).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`."
+          "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

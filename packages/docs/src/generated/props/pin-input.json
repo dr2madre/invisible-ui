@@ -14,77 +14,88 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "length",
           "type": "number",
           "default": "6",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "type": "PinInputType",
           "default": "\"numeric\"",
           "required": false,
-          "description": "Allowed characters."
+          "description": "Allowed characters.",
+          "descriptionFrom": "source"
         },
         {
           "name": "mask",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Obscure entered characters."
+          "description": "Obscure entered characters.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable all cells."
+          "description": "Disable all cells.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Validation state — colors the cells (red ring) and signals errors."
+          "description": "Validation state — colors the cells (red ring) and signals errors.",
+          "descriptionFrom": "source"
         },
         {
           "name": "success",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Validation success — colors the cells green (e.g. a verified code)."
+          "description": "Validation success — colors the cells green (e.g. a verified code).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the combined code is submitted under it."
+          "description": "Form field name — the combined code is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible group name."
+          "description": "Accessible group name.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called on every change."
+          "description": "Called on every change.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onComplete",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when all cells are filled."
+          "description": "Called when all cells are filled.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -100,84 +111,96 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "length",
           "type": "number",
           "default": "6",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "type": "PinInputType",
           "default": "\"numeric\"",
           "required": false,
-          "description": "Allowed characters."
+          "description": "Allowed characters.",
+          "descriptionFrom": "source"
         },
         {
           "name": "mask",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render cells masked (like a password)."
+          "description": "Render cells masked (like a password).",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Validation state; colors the cells (red ring) and signals errors."
+          "description": "Validation state; colors the cells (red ring) and signals errors.",
+          "descriptionFrom": "source"
         },
         {
           "name": "success",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Validation success; colors the cells green (e.g. a verified code)."
+          "description": "Validation success; colors the cells green (e.g. a verified code).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the combined code is submitted under it."
+          "description": "Form field name; the combined code is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group of cells (required)."
+          "description": "Accessible name for the group of cells (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the combined value changes."
+          "description": "Called whenever the combined value changes.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onComplete",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called once all cells are filled."
+          "description": "Called once all cells are filled.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

@@ -14,56 +14,64 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label; override with the default slot."
+          "description": "Accessible, visible label; override with the default slot.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required."
+          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
           "required": false,
-          "description": "Checked state (tri-state)."
+          "description": "Checked state (tri-state).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the control."
+          "description": "Disable the control.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it when checked."
+          "description": "Form field name; the value is submitted under it when checked.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when checked."
+          "description": "Value submitted with the form when checked.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onCheckedChange",
           "type": "((c: CheckedState) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the checked value changes."
+          "description": "Called whenever the checked value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -79,63 +87,72 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required). Override with the default slot for rich content."
+          "description": "Accessible, visible label (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required."
+          "description": "Visually hide the label while keeping it as the accessible name (for a checkbox whose meaning is carried by its surroundings, e.g. a selection column). The label text is always required.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "CheckedState",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `checked` when bound."
+          "description": "`v-model` value; takes precedence over `checked` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it when checked."
+          "description": "Form field name; the value is submitted under it when checked.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when checked. Defaults to the native `\"on\"`."
+          "description": "Value submitted with the form when checked. Defaults to the native `\"on\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onCheckedChange",
           "type": "(checked: CheckedState) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the checked value changes."
+          "description": "Called whenever the checked value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -161,56 +178,64 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required). Override with `children` for rich content."
+          "description": "Accessible, visible label (required). Override with `children` for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Form field name — the value is submitted under it when checked."
+          "description": "Form field name — the value is submitted under it when checked.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted with the form when checked. Defaults to the native `\"on\"`."
+          "description": "Value submitted with the form when checked. Defaults to the native `\"on\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the control required for native form validation."
+          "description": "Mark the control required for native form validation.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onCheckedChange",
           "type": "(checked: CheckedState) => void",
           "default": null,
           "required": false,
-          "description": "Called whenever the checked value changes."
+          "description": "Called whenever the checked value changes.",
+          "descriptionFrom": "source"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -225,43 +250,50 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "checked",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "indeterminate",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

@@ -14,28 +14,32 @@
           "type": "MenuItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onSelect",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the chosen item's value."
+          "description": "Called with the chosen item's value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the popup (there is no labelling trigger)."
+          "description": "Accessible name for the popup (there is no labelling trigger).",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "MenuItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onSelect",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the chosen item's value."
+          "description": "Called with the chosen item's value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the popup; no trigger labels it. Defaults to the catalog's \"Context menu\"."
+          "description": "Accessible name for the popup; no trigger labels it. Defaults to the catalog's \"Context menu\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

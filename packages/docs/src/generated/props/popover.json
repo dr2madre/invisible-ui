@@ -14,56 +14,64 @@
           "type": "\"click\" | \"hover\"",
           "default": "\"click\"",
           "required": false,
-          "description": "Opening contract: an intentional click, or a hover/focus preview."
+          "description": "Opening contract: an intentional click, or a hover/focus preview.",
+          "descriptionFrom": "source"
         },
         {
           "name": "triggerVariant",
           "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only)."
+          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial open state."
+          "description": "Initial open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placement",
           "type": "PopoverContext[\"placement\"]",
           "default": "\"bottom\"",
           "required": false,
-          "description": "Preferred placement (Floating UI); flips when there's no room."
+          "description": "Preferred placement (Floating UI); flips when there's no room.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "openDelay",
           "type": "number",
           "default": "300",
           "required": false,
-          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
+          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeDelay",
           "type": "number",
           "default": "200",
           "required": false,
-          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
+          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Name for the panel. Defaults to being named by the trigger."
+          "description": "Name for the panel. Defaults to being named by the trigger.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the panel opens/closes."
+          "description": "Called when the panel opens/closes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -79,56 +87,64 @@
           "type": "\"click\" | \"hover\"",
           "default": "\"click\"",
           "required": false,
-          "description": "Opening contract: an intentional click, or a hover/focus preview."
+          "description": "Opening contract: an intentional click, or a hover/focus preview.",
+          "descriptionFrom": "source"
         },
         {
           "name": "triggerVariant",
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only)."
+          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placement",
           "type": "Placement",
           "default": "\"bottom\"",
           "required": false,
-          "description": "Preferred placement of the panel."
+          "description": "Preferred placement of the panel.",
+          "descriptionFrom": "source"
         },
         {
           "name": "openDelay",
           "type": "number",
           "default": "300",
           "required": false,
-          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only)."
+          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeDelay",
           "type": "number",
           "default": "200",
           "required": false,
-          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only)."
+          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Name for the panel. Defaults to being named by the trigger."
+          "description": "Name for the panel. Defaults to being named by the trigger.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

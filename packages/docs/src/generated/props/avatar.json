@@ -14,35 +14,40 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Provides the accessible name and the initials fallback."
+          "description": "Provides the accessible name and the initials fallback.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "src",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Image URL; when absent or it fails to load, initials are shown."
+          "description": "Image URL; when absent or it fails to load, initials are shown.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "alt",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; defaults to `name`."
+          "description": "Accessible name; defaults to `name`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Avatar size."
+          "description": "Avatar size.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "shape",
           "type": "\"circle\" | \"square\"",
           "default": "\"circle\"",
           "required": false,
-          "description": "Avatar shape."
+          "description": "Avatar shape.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -58,35 +63,40 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Required: accessible name + initials fallback."
+          "description": "Required: accessible name + initials fallback.",
+          "descriptionFrom": "source"
         },
         {
           "name": "src",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Image URL. When absent or it fails to load, initials are shown."
+          "description": "Image URL. When absent or it fails to load, initials are shown.",
+          "descriptionFrom": "source"
         },
         {
           "name": "alt",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; defaults to `name`."
+          "description": "Accessible name; defaults to `name`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "default": "\"md\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "shape",
           "type": "\"circle\" | \"square\"",
           "default": "\"circle\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [],

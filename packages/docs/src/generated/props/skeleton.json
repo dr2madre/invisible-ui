@@ -14,49 +14,56 @@
           "type": "\"text\" | \"circle\" | \"rect\"",
           "default": "\"text\"",
           "required": false,
-          "description": "Shape."
+          "description": "Shape.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "lines",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Lines for the `text` variant (last line shortened)."
+          "description": "Lines for the `text` variant (last line shortened).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "width",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Any CSS length (`circle` uses `width` for both)."
+          "description": "Any CSS length (`circle` uses `width` for both).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "height",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Any CSS length (`circle` uses `width` for both)."
+          "description": "Any CSS length (`circle` uses `width` for both).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "radius",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Border-radius override."
+          "description": "Border-radius override.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "animation",
           "type": "\"pulse\" | \"wave\" | \"none\"",
           "default": "\"pulse\"",
           "required": false,
-          "description": "Shimmer style."
+          "description": "Shimmer style.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "When set, becomes a polite `role=\"status\"`."
+          "description": "When set, becomes a polite `role=\"status\"`.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -72,49 +79,56 @@
           "type": "\"text\" | \"circle\" | \"rect\"",
           "default": "\"text\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "lines",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Number of lines for the `text` variant."
+          "description": "Number of lines for the `text` variant.",
+          "descriptionFrom": "source"
         },
         {
           "name": "width",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Any CSS length (e.g. \"12rem\", \"100%\"). For `circle`, also sets height."
+          "description": "Any CSS length (e.g. \"12rem\", \"100%\"). For `circle`, also sets height.",
+          "descriptionFrom": "source"
         },
         {
           "name": "height",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Any CSS length. Ignored by `text` (uses line height)."
+          "description": "Any CSS length. Ignored by `text` (uses line height).",
+          "descriptionFrom": "source"
         },
         {
           "name": "radius",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Border radius override (any CSS length)."
+          "description": "Border radius override (any CSS length).",
+          "descriptionFrom": "source"
         },
         {
           "name": "animation",
           "type": "\"pulse\" | \"wave\" | \"none\"",
           "default": "\"pulse\"",
           "required": false,
-          "description": "Shimmer animation. Defaults to `pulse`."
+          "description": "Shimmer animation. Defaults to `pulse`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "When set, the skeleton becomes a polite status with this accessible name."
+          "description": "When set, the skeleton becomes a polite status with this accessible name.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

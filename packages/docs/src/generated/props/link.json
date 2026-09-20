@@ -14,21 +14,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Destination URL."
+          "description": "Destination URL.",
+          "descriptionFrom": "source"
         },
         {
           "name": "external",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Open in a new tab (adds target/rel and a trailing arrow icon)."
+          "description": "Open in a new tab (adds target/rel and a trailing arrow icon).",
+          "descriptionFrom": "source"
         },
         {
           "name": "variant",
           "type": "\"primary\" | \"subtle\"",
           "default": "\"primary\"",
           "required": false,
-          "description": "Tone down to the surrounding text colour (still underlined on hover)."
+          "description": "Tone down to the surrounding text colour (still underlined on hover).",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -44,21 +47,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Destination URL."
+          "description": "Destination URL.",
+          "descriptionFrom": "source"
         },
         {
           "name": "external",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Open in a new tab (adds target/rel and a trailing arrow icon)."
+          "description": "Open in a new tab (adds target/rel and a trailing arrow icon).",
+          "descriptionFrom": "source"
         },
         {
           "name": "variant",
           "type": "LinkVariant",
           "default": "\"primary\"",
           "required": false,
-          "description": "Tone down to the surrounding text colour (still underlined on hover)."
+          "description": "Tone down to the surrounding text colour (still underlined on hover).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

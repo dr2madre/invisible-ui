@@ -14,7 +14,8 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a `*` required marker."
+          "description": "Show a `*` required marker.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -30,14 +31,16 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Id of the control this labels (sets `for`)."
+          "description": "Id of the control this labels (sets `for`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a required marker (`*`) after the text."
+          "description": "Show a required marker (`*`) after the text.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -56,13 +59,15 @@
           "name": "for",
           "reactive": true,
           "required": false,
-          "description": "id of the control"
+          "description": "id of the control",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": []

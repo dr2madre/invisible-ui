@@ -14,112 +14,128 @@
           "type": "SidebarSection[]",
           "default": null,
           "required": true,
-          "description": "Groups of items, rendered in order with an optional heading each."
+          "description": "Groups of items, rendered in order with an optional heading each.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "The current destination's value. The application owns it."
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when an item without an `href` is activated."
+          "description": "Called when an item without an `href` is activated.",
+          "descriptionFrom": "source"
         },
         {
           "name": "mode",
           "type": "\"inline\" | \"drawer\"",
           "default": "\"inline\"",
           "required": false,
-          "description": "How this viewport shows the navigation. The application decides."
+          "description": "How this viewport shows the navigation. The application decides.",
+          "descriptionFrom": "source"
         },
         {
           "name": "collapsed",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "The rail: labels hidden from sight, icons kept."
+          "description": "The rail: labels hidden from sight, icons kept.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onCollapsedChange",
           "type": "((collapsed: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Given, the rail toggle is rendered and reports every press."
+          "description": "Given, the rail toggle is rendered and reports every press.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the drawer is open (`mode=\"drawer\"`)."
+          "description": "Whether the drawer is open (`mode=\"drawer\"`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "openGroups",
           "type": "string[] | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Which sections are open, by id. Given it, the application owns the set and this component only reports presses; left out, the component keeps the set itself and opens the section holding the current item."
+          "description": "Which sections are open, by id. Given it, the application owns the set and this component only reports presses; left out, the component keeps the set itself and opens the section holding the current item.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenGroupsChange",
           "type": "((openGroups: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "closeOnNavigate",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether following an item closes the drawer."
+          "description": "Whether following an item closes the drawer.",
+          "descriptionFrom": "source"
         },
         {
           "name": "side",
           "type": "\"inline-start\" | \"inline-end\"",
           "default": "\"inline-start\"",
           "required": false,
-          "description": "Which edge the drawer comes from. Follows the writing direction."
+          "description": "Which edge the drawer comes from. Follows the writing direction.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "The drawer's accessible name. Falls back to `label`."
+          "description": "The drawer's accessible name. Falls back to `label`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "renderTrigger",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether the drawer renders its own trigger button."
+          "description": "Whether the drawer renders its own trigger button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "returnFocusTo",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Where focus goes when a drawer with no trigger of its own closes."
+          "description": "Where focus goes when a drawer with no trigger of its own closes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -135,112 +151,128 @@
           "type": "SidebarSection[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "The current destination's value. The application owns it."
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "mode",
           "type": "\"inline\" | \"drawer\"",
           "default": "\"inline\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "collapsed",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onCollapsedChange",
           "type": "(collapsed: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": "Given, the rail toggle is rendered and reports every press, as long as every destination carries an icon: without one there would be nothing to show once the labels are hidden."
+          "description": "Given, the rail toggle is rendered and reports every press, as long as every destination carries an icon: without one there would be nothing to show once the labels are hidden.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "openGroups",
           "type": "string[]",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenGroupsChange",
           "type": "(openGroups: string[]) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "closeOnNavigate",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "side",
           "type": "\"inline-start\" | \"inline-end\"",
           "default": "\"inline-start\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "title",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "renderTrigger",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "returnFocusTo",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [],

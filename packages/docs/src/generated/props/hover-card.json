@@ -14,42 +14,48 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Open state; bindable with `v-model:open`."
+          "description": "Open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placement",
           "type": "Placement",
           "default": "\"bottom\"",
           "required": false,
-          "description": "Preferred placement of the card."
+          "description": "Preferred placement of the card.",
+          "descriptionFrom": "source"
         },
         {
           "name": "offset",
           "type": "number",
           "default": "8",
           "required": false,
-          "description": "Gap between trigger and card, in px."
+          "description": "Gap between trigger and card, in px.",
+          "descriptionFrom": "source"
         },
         {
           "name": "openDelay",
           "type": "number",
           "default": "300",
           "required": false,
-          "description": "Delay before opening on hover, in ms."
+          "description": "Delay before opening on hover, in ms.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeDelay",
           "type": "number",
           "default": "200",
           "required": false,
-          "description": "Delay before closing on leave, in ms."
+          "description": "Delay before closing on leave, in ms.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [
