@@ -15,8 +15,16 @@ if (!base) {
   process.exit(2);
 }
 
+// Where this branch left the base. The file list and the file contents have
+// to be read at the same commit: `main` moving on after the branch point
+// would otherwise blame this change for someone else's edit, or hide one of
+// its own behind an identical edit already on the base.
+const mergeBase = execFileSync("git", ["merge-base", base, "HEAD"], {
+  encoding: "utf8",
+}).trim();
+
 // Name and status together: a deleted changeset must not satisfy the gate.
-const entries = execFileSync("git", ["diff", "--name-status", `${base}...HEAD`], {
+const entries = execFileSync("git", ["diff", "--name-status", mergeBase, "HEAD"], {
   encoding: "utf8",
 })
   .trim()
@@ -46,7 +54,14 @@ if (touched.length === 0) {
 // for every adapter that ships it. The changesets added must name them all.
 const show = (ref, file) => {
   try {
-    return JSON.parse(execFileSync("git", ["show", `${ref}:${file}`], { encoding: "utf8" }));
+    // A file this change adds is absent from the base: that is an answer,
+    // not a failure, so git's complaint about it stays off the log.
+    return JSON.parse(
+      execFileSync("git", ["show", `${ref}:${file}`], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }),
+    );
   } catch {
     return null;
   }
@@ -59,7 +74,7 @@ for (const file of touched) {
     required.add(`@design-system/${api[1]}`);
     continue;
   }
-  const before = show(base, file);
+  const before = show(mergeBase, file);
   const after = show("HEAD", file);
   if (/\/props\//.test(file)) {
     const frameworks = new Set([
@@ -98,19 +113,22 @@ const added = entries.filter(
 );
 const named = new Set();
 const substantial = added.filter((entry) => {
+  let text;
   try {
-    const text = readFileSync(entry.file, "utf8");
-    const frontmatter = /^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "";
-    for (const line of frontmatter.split("\n")) {
-      const pkg = /^"?(@design-system\/[\w-]+)"?\s*:/.exec(line.trim());
-      if (pkg) named.add(pkg[1]);
-    }
-    // Body text beyond the --- frontmatter block.
-    const body = text.replace(/^---[\s\S]*?---/, "").trim();
-    return body.length > 0;
+    text = readFileSync(entry.file, "utf8");
   } catch {
     return false;
   }
+  // Body text beyond the --- frontmatter block. An empty changeset describes
+  // nothing, so the packages it lists are not spoken for either.
+  const body = text.replace(/^---[\s\S]*?---/, "").trim();
+  if (body.length === 0) return false;
+  const frontmatter = /^---\n([\s\S]*?)\n---/.exec(text)?.[1] ?? "";
+  for (const line of frontmatter.split("\n")) {
+    const pkg = /^"?(@design-system\/[\w-]+)"?\s*:/.exec(line.trim());
+    if (pkg) named.add(pkg[1]);
+  }
+  return true;
 });
 if (substantial.length > 0) {
   const missing = [...required].filter((pkg) => !named.has(pkg)).sort();
