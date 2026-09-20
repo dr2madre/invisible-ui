@@ -44,12 +44,12 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     core.initialState({ ...context, id: context.id ?? stableId("ds-menu") }),
   );
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const setActiveValue = (activeValue: string | null) =>
     state.update((current) =>

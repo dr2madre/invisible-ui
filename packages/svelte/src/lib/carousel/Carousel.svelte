@@ -54,11 +54,15 @@
   const context: CarouselContext = {
     count: items.length,
     loop,
+    orientation,
     // A live callback reference (ADR 0011).
     onIndexChange: (next) => onIndexChange?.(next),
   };
 
   const carousel = createCarousel(context);
+  // The slide count, the loop and the orientation follow the props after
+  // mount (ADR 0011).
+  $: carousel.syncConfig({ count: items.length, loop, orientation });
   const {
     rootAction,
     viewportAction,
@@ -104,10 +108,12 @@
   }
 </script>
 
+<!-- The action below sets data-orientation too. Writing it here as well
+keeps the scoped rule for the vertical coverflow layout. -->
 <section
   class="carousel"
   data-variant={variant}
-  data-orientation={variant === "coverflow" ? orientation : undefined}
+  data-orientation={orientation}
   use:rootAction
   aria-label={label}
 >

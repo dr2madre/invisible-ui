@@ -194,6 +194,9 @@ export const NumberField = defineComponent({
             ),
             h("input", {
               ...api.value.inputProps,
+              // The reset listener anchors on this input, so this input must
+              // name the owning form when the field renders outside it.
+              form: props.form,
               class: "field__control number-field__input",
               ref: inputEl,
               value: inputValue.value,

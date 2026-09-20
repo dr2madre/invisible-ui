@@ -957,3 +957,33 @@ describe("Vue form reset, TextField pilot", () => {
     }
   });
 });
+
+// ADR 0012 across an element boundary: a field that names its form with the
+// `form` attribute sits outside the form element. The reset listener anchors
+// on the visible input, so that input must carry the attribute; the hidden
+// input that submits the value did, and the visible one did not, so the Vue
+// field never heard its form's reset while the Svelte field did.
+describe("Vue NumberField outside its form", () => {
+  it("is restored by the reset of the form it names", async () => {
+    const user = userEvent.setup();
+    render(
+      defineComponent({
+        setup: () => () =>
+          h("div", [
+            h("form", { id: "checkout", "data-testid": "checkout" }),
+            h(NumberField, { label: "Quantity", name: "qty", modelValue: 3, form: "checkout" }),
+          ]),
+      }),
+    );
+    const form = screen.getByTestId("checkout") as HTMLFormElement;
+    const input = screen.getByRole("spinbutton", { name: "Quantity" }) as HTMLInputElement;
+    expect(new FormData(form).get("qty"), "the hidden input joins the form by name").toBe("3");
+    await user.clear(input);
+    await user.type(input, "9");
+    expect(new FormData(form).get("qty")).toBe("9");
+    form.reset();
+    await settled();
+    expect(new FormData(form).get("qty"), "the payload is back").toBe("3");
+    expect(input.value, "the page agrees with the payload").toBe("3");
+  });
+});

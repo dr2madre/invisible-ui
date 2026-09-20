@@ -74,12 +74,12 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
   );
   const { placement = "bottom-start", offset = 8, openDelay = 150, closeDelay = 150 } = context;
 
-  const setValue = (value: string | null) =>
-    state.update((current) => {
-      if (current.value === value) return current;
-      context.onValueChange?.(value);
-      return { ...current, value };
-    });
+  const setValue = (value: string | null) => {
+    const current = get(state);
+    if (current.value === value) return;
+    state.set({ ...current, value });
+    context.onValueChange?.(value);
+  };
 
   // Reflect a controlled `value` prop without reporting a change.
   const syncValue = (value: string | null) =>

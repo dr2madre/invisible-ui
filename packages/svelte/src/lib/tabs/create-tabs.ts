@@ -1,6 +1,6 @@
 import { tabs as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -46,11 +46,10 @@ export function createTabs(context: TabsContext): CreateTabs {
   );
 
   const updateValue = (value: string | null, notify: boolean) => {
-    state.update((current) => {
-      if (current.value === value) return current;
-      if (notify && value != null) context.onValueChange?.(value);
-      return { ...current, value };
-    });
+    const current = get(state);
+    if (current.value === value) return;
+    state.set({ ...current, value });
+    if (notify && value != null) context.onValueChange?.(value);
   };
 
   const setValue = (value: string) => updateValue(value, true);

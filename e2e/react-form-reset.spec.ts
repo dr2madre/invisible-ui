@@ -138,3 +138,20 @@ test("the page's own choice becomes the default a reset restores", async ({ page
   await expect(page.getByRole("checkbox", { name: "Subscribe" })).not.toBeChecked();
   await expect(page.getByRole("switch", { name: "Notifications" })).not.toBeChecked();
 });
+
+// A list left in the body while a modal dialog is open can be seen but not
+// clicked. Only a real browser can prove the click lands.
+test("a combobox inside a dialog can be used", async ({ page }) => {
+  await page.goto(REACT_BASE);
+  const scene = page.getByTestId("dialog-scene");
+  await scene.getByRole("button", { name: "Open the picker" }).click();
+  const dialog = page.getByRole("dialog", { name: "Pick a framework" });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("combobox", { name: "Framework" }).click();
+  const option = page.getByRole("option", { name: "Vue" });
+  await expect(option).toBeVisible();
+  // The list must live inside the dialog, or this click never reaches it.
+  await expect(option.locator("xpath=ancestor::dialog")).toHaveCount(1);
+  await option.click();
+  await expect(page.getByTestId("dialog-readout")).toHaveText("Picked: vue");
+});

@@ -56,11 +56,10 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
   );
 
   const setPage = (next: number) => {
-    state.update((current) => {
-      if (current.page === next) return current;
-      context.onPageChange?.(next);
-      return { ...current, page: next };
-    });
+    const current = get(state);
+    if (current.page === next) return;
+    state.set({ ...current, page: next });
+    context.onPageChange?.(next);
   };
 
   const syncPage = (next: number) =>

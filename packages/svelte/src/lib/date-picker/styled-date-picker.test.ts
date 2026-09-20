@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./date-picker.fixture.svelte";
@@ -53,5 +54,20 @@ describe("Svelte DatePicker", () => {
     const { container } = render(Fixture, { props: { value: "2026-06-15" } });
     await fireEvent.click(field());
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  // A controlled page that refuses the date a person picked and writes its
+  // own. This is the round trip through the prop, not the commit order
+  // inside the factory, which ../adr-0011-commit-order.test.ts asserts.
+  it("settles on the date a controlled page writes back", async () => {
+    const onValueChange = vi.fn();
+    render(Fixture, { props: { value: "2026-06-15", onValueChange, putBack: "2026-06-02" } });
+    await fireEvent.click(field());
+
+    await fireEvent.click(dayButton("2026-06-20"));
+    await tick();
+
+    expect(onValueChange).toHaveBeenCalledWith("2026-06-20");
+    expect(field()).toHaveValue("Jun 2, 2026");
   });
 });

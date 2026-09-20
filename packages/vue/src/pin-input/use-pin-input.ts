@@ -101,10 +101,23 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
   };
 
   const setValues = (next: string[]) => {
+    // A page that hands the same cells straight back is echoing, not
+    // changing. A different number of cells is always a change.
+    if (
+      next.length === values.value.length &&
+      next.every((cell, index) => cell === values.value[index])
+    )
+      return;
     values.value = next;
     const value = next.join("");
     resolved.value.onValueChange?.(value);
-    if (core.isComplete({ ...state.value, values: next })) resolved.value.onComplete?.(value);
+    // A consumer that wrote its own cells from that handler owns what is held
+    // now: a completion is reported only for the value still there, never for
+    // one the state has already contradicted. The Svelte twin does the same.
+    const committed = values.value;
+    if (committed.join("") === value && core.isComplete({ ...state.value, values: committed })) {
+      resolved.value.onComplete?.(value);
+    }
   };
 
   const rootRef = ref<HTMLElement | null>(null);

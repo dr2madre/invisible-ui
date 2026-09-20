@@ -185,6 +185,21 @@ describe("Svelte NumberField", () => {
     expect(new FormData(owner).get("outside")).toBe("2");
   });
 
+  // The reset listener anchors on the visible input, so that input must carry
+  // the `form` attribute. The twin of this test lives in the Vue suite: the
+  // two adapters answer the same reset the same way.
+  it("is restored by the reset of the form it names from outside it", async () => {
+    render(FormFixture, {});
+    const outside = input("Outside");
+    const owner = screen.getByTestId("owner-form") as HTMLFormElement;
+    await fireEvent.input(outside, { target: { value: "9" } });
+    expect(new FormData(owner).get("outside")).toBe("9");
+    owner.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(new FormData(owner).get("outside"), "the payload is back").toBe("2");
+    expect(outside.value, "the page agrees with the payload").toBe("2");
+  });
+
   it("restores the current default on form reset without callbacks", async () => {
     render(FormFixture, {});
     await fireEvent.input(input(), { target: { value: "77" } });

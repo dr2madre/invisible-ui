@@ -42,11 +42,10 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
   );
 
   const setOpen = (next: boolean) => {
-    state.update((current) => {
-      if (current.open === next || current.disabled) return current;
-      context.onOpenChange?.(next);
-      return { ...current, open: next };
-    });
+    const current = get(state);
+    if (current.open === next || current.disabled) return;
+    state.set({ ...current, open: next });
+    context.onOpenChange?.(next);
   };
 
   // Reflect a controlled `open` prop without reporting a change: opening it
