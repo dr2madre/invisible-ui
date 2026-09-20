@@ -1,0 +1,81 @@
+import { expect, test } from "@playwright/test";
+import { VUE_BASE } from "../playwright.config";
+
+const ELEMENTS_BASE = VUE_BASE.replace("harness.html", "elements-harness.html");
+
+test.beforeEach(async ({ page }) => {
+  await page.goto(ELEMENTS_BASE);
+  await expect(page.getByRole("button", { name: "Open stacking dialog" })).toBeVisible();
+});
+
+test("an Elements dialog is absent while closed and covers later controls while modal", async ({
+  page,
+}) => {
+  const host = page.getByTestId("stacking-dialog");
+  const panel = host.locator("dialog");
+  const trigger = page.getByRole("button", { name: "Open stacking dialog" });
+  const background = page.getByTestId("dialog-background");
+  const outsideInput = background.locator("input").first();
+
+  await expect(panel).not.toHaveAttribute("open", "");
+  await expect(panel).toBeHidden();
+  expect(await panel.boundingBox(), "a closed dialog must have no rendered box").toBeNull();
+  await expect(outsideInput).toHaveAccessibleName("Server");
+
+  // Put a real form control directly under the panel and give it the largest
+  // ordinary stacking value. The native top layer still has to win.
+  await background.evaluate((node) => {
+    Object.assign((node as HTMLElement).style, {
+      position: "fixed",
+      inset: "50% auto auto 50%",
+      transform: "translate(-50%, -50%)",
+      zIndex: "2147483647",
+    });
+  });
+  await outsideInput.evaluate((node) => {
+    (window as typeof window & { outsideClicks: number }).outsideClicks = 0;
+    node.addEventListener("click", () => {
+      (window as typeof window & { outsideClicks: number }).outsideClicks += 1;
+    });
+  });
+
+  await trigger.click();
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute("open", "");
+  expect(await panel.evaluate((node) => node.matches(":modal"))).toBe(true);
+  expect(await panel.evaluate((node) => getComputedStyle(node).display)).toBe("grid");
+
+  const inputBox = await outsideInput.boundingBox();
+  expect(inputBox).not.toBeNull();
+  const point = {
+    x: inputBox!.x + inputBox!.width / 2,
+    y: inputBox!.y + inputBox!.height / 2,
+  };
+  expect(
+    await panel.evaluate((dialog, { x, y }) => {
+      const painted = document.elementFromPoint(x, y);
+      return painted === dialog || (painted !== null && dialog.contains(painted));
+    }, point),
+    "the modal top layer must paint above an external control",
+  ).toBe(true);
+
+  await page.mouse.click(point.x, point.y);
+  expect(
+    await page.evaluate(() => (window as typeof window & { outsideClicks: number }).outsideClicks),
+    "the inert background control received a pointer activation",
+  ).toBe(0);
+  await expect(panel).toBeVisible();
+
+  await page.keyboard.press("Tab");
+  expect(
+    await panel.evaluate(
+      (dialog) => dialog === document.activeElement || dialog.contains(document.activeElement),
+    ),
+    "keyboard focus escaped the modal dialog",
+  ).toBe(true);
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
+  expect(await panel.boundingBox(), "a closed dialog regained a rendered box").toBeNull();
+  await expect(trigger).toBeFocused();
+});
