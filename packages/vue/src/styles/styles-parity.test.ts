@@ -35,10 +35,10 @@ const SHARED_SHEETS = [
   "combobox.css",
   "dialog.css",
   "select.css",
+  "text-field.css",
 ];
 
 const VUE_SOURCE_SHEETS = [
-  "text-field.css",
   "textarea.css",
   "radio-group.css",
   "checkbox-group.css",

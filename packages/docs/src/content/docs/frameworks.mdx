@@ -11,11 +11,11 @@ when an adapter grows.
 
 | Technology | Package | Components today | State |
 | --- | --- | --- | --- |
-| **Svelte** | `@design-system/svelte` | All 74 | Complete: every component documented with a live demo. |
-| **React** | `@design-system/react` | 6 (the shared set below) | Working proof of concept. |
-| **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 6 | Working proof of concept; wraps the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
-| **Web components** (plain HTML) | `@design-system/elements` | 6 | Working proof of concept: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
-| **Vue** | `@design-system/vue` | All 74 | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
+| **Svelte** | `@design-system/svelte` | All 80 | Complete: every component documented with a live demo. |
+| **React** | `@design-system/react` | 8 | Expanding adapter with styled components and headless hooks. |
+| **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 7 | Working adapter over the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
+| **Web components** (plain HTML) | `@design-system/elements` | 13 | Expanding adapter: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
+| **Vue** | `@design-system/vue` | All 80 | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
 
 Svelte and Vue carry the whole catalog; the shared set below is where the
 remaining adapters are proven first, one component at a time. When a component
@@ -38,12 +38,13 @@ tokens.
 | [Switch](/invisible-ui/components/forms/switch/) | ✓ | ✓ | ✓ | ✓ |
 | [Select](/invisible-ui/components/forms/select/) | ✓ | ✓ | ✓ | ✓ |
 | [Combobox](/invisible-ui/components/forms/combobox/) | ✓ | ✓ | ✓ | ✓ |
+| [Multi Select](/invisible-ui/components/forms/multi-select/) | ✓ | ✓ | ✓ | ✓ |
+| [Text Input](/invisible-ui/components/forms/text-field/) | ✓ |  | ✓ | ✓ |
 | [Dialog](/invisible-ui/components/feedback/dialog/dialog/) | ✓ | ✓ | ✓ | ✓ |
 
-The set was chosen to prove every behavior family: a plain control, two
-checked controls, a native picker, a full custom popup, and the modal
-lifecycle. Porting all six required **zero changes** to the core, which is
-the measurement behind "write once, use everywhere".
+The original six-component set proved every behavior family: a plain control,
+two checked controls, a native picker, a full custom popup, and the modal
+lifecycle. Multi Select and Text Input extend that measured adapter coverage.
 
 ## Web component interoperability
 

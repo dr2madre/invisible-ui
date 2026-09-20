@@ -36,9 +36,17 @@ user's locale and keeps the typed draft, which `type="number"` cannot do.
 
 <PropsTable component="text-field" />
 
+### Hidden labels
+
+Set `hideLabel` in Svelte, Vue or React, or `hide-label` on
+`<ds-text-field>`, when nearby content already makes the field's purpose clear.
+The component keeps the real `<label>` associated with the input and hides it
+only visually. Do not use a placeholder as the field's only label.
+
 ### Accessibility
 
 - Label association plus `aria-describedby` (hint and error), `aria-invalid`, `aria-required` come from the headless text field.
+- A hidden label remains the input's accessible name.
 - A non-empty `error` puts the field in the invalid state and announces the message.
 
 ### Example

@@ -11,6 +11,19 @@ describe("Svelte TextField (styled)", () => {
     expect(input).toHaveAttribute("type", "text");
   });
 
+  it("visually hides its label without removing the accessible name", async () => {
+    const { rerender } = render(TextField, { props: { label: "Full name", hideLabel: true } });
+    const input = screen.getByRole("textbox", { name: "Full name" });
+    const label = document.querySelector(".field__label");
+
+    expect(input).toHaveAccessibleName("Full name");
+    expect(label).toHaveClass("field__label--hidden");
+
+    await rerender({ hideLabel: false });
+    expect(label).not.toHaveClass("field__label--hidden");
+    expect(input).toHaveAccessibleName("Full name");
+  });
+
   it("reports typed values", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

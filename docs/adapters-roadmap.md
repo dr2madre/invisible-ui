@@ -161,13 +161,14 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
 
 ## Follow-ups (beyond the PoC)
 
-- **Form reset (ADR 0012) is implemented in React.** All five form-bearing
-  components (Checkbox, Switch, Select, Combobox, MultiSelect) put their own
-  state back when their form is reset, silently. The three built on a native
-  control also carry a DOM default that follows their value prop; the combobox
-  and the multi select submit through hidden inputs, whose value is its own
-  default, so a reset leaves those alone and the component's restore is the
-  whole of it, as in every other adapter. What it was before: React writes the `checked`
+- **Form reset (ADR 0012) is implemented in React.** All six form-bearing
+  components (Checkbox, Switch, Select, TextField, Combobox, MultiSelect) put
+  their own state back when their form is reset, silently. The four built on a
+  native control also carry a DOM default that follows their value prop; the
+  combobox and the multi select submit through hidden inputs, whose value is
+  its own default, so a reset leaves those alone and the component's restore
+  is the whole of it, as in every other adapter. What it was before: React
+  writes the `checked`
   attribute when an element first renders, so a checkbox and a switch restored
   the value they had at mount and nothing else; the select and everything
   submitting through a hidden input restored nothing; and no control put its
@@ -178,11 +179,12 @@ focus and focus restore. The Svelte action's lifecycle maps one-to-one onto a
   say which form it belongs to, and a headless consumer rendering their own
   markup keeps today's behaviour until they pass a ref. And React keeps a
   controlled text box's `defaultValue` in step with the value it renders, in
-  whichever render writes that value, so the combobox writes its own default
-  after every render instead of only when the default moves. A checkbox, a
-  switch and a select's options keep the default they are given, which was
-  measured rather than assumed.
-- Extend the React adapter from the shared set (six PoC components plus Multi Select) toward full catalog parity.
+  whichever render writes that value, so TextField and Combobox write their
+  own default after every render instead of only when the default moves. A
+  checkbox, a switch and a select's options keep the default they are given,
+  which was measured rather than assumed.
+- Extend the React adapter from its eight styled components toward full
+  catalog parity.
 - [x] Extend the API-manifest generator beyond Svelte: it now reads Svelte,
   Vue, React and custom elements (completed in #200).
 - Decide whether the docs site embeds React demos alongside the Svelte islands.

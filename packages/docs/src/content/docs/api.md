@@ -46,11 +46,11 @@ come from the package root (`@design-system/svelte`).
 
 ## React adapter: `use*` hooks
 
-The React adapter (`@design-system/react`, a proof-of-concept set: Button,
-Checkbox, Switch, Select, Combobox, Dialog) exposes the same primitives as
-`use*` hooks. The connected API is recomputed each render and its prop bags are
-spread onto JSX; styled components and the hooks ship from the package root,
-styles are opt-in via `@design-system/react/styles.css`.
+The React adapter (`@design-system/react`) includes Button, Checkbox, Switch,
+Select, TextField, Combobox, MultiSelect and Dialog. Its headless primitives
+are exposed as `use*` hooks. The connected API is recomputed each render and
+its prop bags are spread onto JSX; styled components and the hooks ship from
+the package root, styles are opt-in via `@design-system/react/styles.css`.
 
 ```tsx
 import { Checkbox, useCheckbox } from "@design-system/react";
@@ -64,8 +64,9 @@ const api = useCheckbox({ onCheckedChange: save });
 <input {...api.rootProps} checked={api.checked === true} />;
 ```
 
-**Python (Reflex)** apps get the same six components as thin wrappers over the
-React build — `pip` package `invisible-ui`, `import invisible_ui as ui`,
+**Python (Reflex)** apps get seven components as thin wrappers over the React
+build: the original six-component set plus MultiSelect. Use the `invisible-ui`
+package, `import invisible_ui as ui`, and
 `ui.button("Save", variant="primary", on_press=State.save)`. Behaviour runs in
 the browser as the core's JavaScript; Python only wires state and events (ADR
 0006).

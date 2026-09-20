@@ -19,6 +19,7 @@ const renderedMessage = new WeakMap<HTMLParagraphElement, string>();
 abstract class DsTextControl extends HTMLElementBase {
   static observedAttributes = [
     "label",
+    "hide-label",
     "description",
     "error",
     "success",
@@ -150,6 +151,10 @@ abstract class DsTextControl extends HTMLElementBase {
     const api = core.connect({ state, setValue: (next) => this.setAttribute("value", next) });
 
     applyProps(label, api.labelProps);
+    label.classList.toggle(
+      "field__label--hidden",
+      this.rootClass === "text-field" && boolAttr(this, "hide-label"),
+    );
     label.textContent = this.getAttribute("label") ?? "";
     if (required) {
       const marker = document.createElement("span");
@@ -244,9 +249,9 @@ abstract class DsTextControl extends HTMLElementBase {
 /**
  * `<ds-text-field>` — a single-line text field.
  *
- * Attributes: `label` (required), `value`, `placeholder`, `description`,
- * `error`, `success`, `required`, `disabled`, `readonly`, `name`, `type`,
- * `autocomplete`.
+ * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
+ * `description`, `error`, `success`, `required`, `disabled`, `readonly`,
+ * `name`, `type`, `autocomplete`.
  * Properties: `value`.
  * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */

@@ -16,6 +16,19 @@ describe("<ds-text-field>", () => {
     expect(input.tagName).toBe("INPUT");
   });
 
+  it("visually hides its label without removing the accessible name", () => {
+    const host = mount(`<ds-text-field label="Email" hide-label></ds-text-field>`);
+    const input = screen.getByRole("textbox", { name: "Email" });
+    const label = document.querySelector(".field__label");
+
+    expect(input).toHaveAccessibleName("Email");
+    expect(label).toHaveClass("field__label--hidden");
+
+    host.removeAttribute("hide-label");
+    expect(label).not.toHaveClass("field__label--hidden");
+    expect(input).toHaveAccessibleName("Email");
+  });
+
   it("reports typed values through the property and a change event", async () => {
     const user = userEvent.setup();
     const host = mount(`<ds-text-field label="Email"></ds-text-field>`);

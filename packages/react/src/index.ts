@@ -1,8 +1,7 @@
 /**
  * `@design-system/react` — the React adapter over `@design-system/core`.
  *
- * A proof-of-concept set (Button, Checkbox, Switch, Select, Combobox, Dialog)
- * proving the framework-agnostic core drives a second framework; see
+ * Components and hooks driven by the framework-agnostic core; see
  * `docs/adapters-roadmap.md`. Styles are opt-in:
  *
  *   import "@design-system/react/styles.css";
@@ -16,6 +15,7 @@ export { Button, type ButtonProps } from "./button/Button";
 export { Checkbox, type CheckboxProps } from "./checkbox/Checkbox";
 export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
+export { TextField, type TextFieldProps } from "./text-field/TextField";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
 export { MultiSelect, type MultiSelectProps } from "./multi-select/MultiSelect";
 export {
@@ -31,6 +31,7 @@ export { Icon, type IconProps } from "./icon/Icon";
 export { useButton, type ButtonVariant, type UseButtonOptions } from "./button/use-button";
 export { useCheckbox, type CheckedState, type UseCheckboxOptions } from "./checkbox/use-checkbox";
 export { useSwitch, type UseSwitchOptions } from "./switch/use-switch";
+export { useTextField, type UseTextFieldOptions } from "./text-field/use-text-field";
 export {
   useCombobox,
   type ComboboxItem,

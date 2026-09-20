@@ -9,6 +9,7 @@ const fixtures: Record<string, ReactElement> = {
   Checkbox: <adapter.Checkbox label="Accept" />,
   Switch: <adapter.Switch label="Notifications" />,
   Select: <adapter.Select label="Fruit" items={[]} />,
+  TextField: <adapter.TextField label="Name" />,
   Combobox: <adapter.Combobox label="Framework" items={[]} />,
   MultiSelect: <adapter.MultiSelect label="Skills" items={[]} values={["vue"]} />,
   Dialog: <adapter.Dialog title="Details">Dialog body</adapter.Dialog>,

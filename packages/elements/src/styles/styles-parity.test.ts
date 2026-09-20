@@ -29,12 +29,12 @@ const REACT_SHEETS = [
   "select.css",
   "combobox.css",
   "dialog.css",
+  "text-field.css",
 ];
 
 const VUE_SHEETS = [
   "field.css",
   "label.css",
-  "text-field.css",
   "textarea.css",
   "radio-group.css",
   "checkbox-group.css",

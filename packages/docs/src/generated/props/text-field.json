@@ -18,6 +18,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the control's accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "value",
           "type": "string",
           "default": "\"\"",
@@ -168,6 +176,14 @@
           "default": null,
           "required": true,
           "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the control's accessible name.",
           "descriptionFrom": "source"
         },
         {
@@ -326,6 +342,184 @@
         "right"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "TextField",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label and accessible name for the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the control's accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Initial or current value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "type",
+          "type": "InputType",
+          "default": "\"text\"",
+          "required": false,
+          "description": "Native input type.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Native placeholder. It does not replace the label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Hint linked to the control through `aria-describedby`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Error message that marks the control invalid and is announced.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "success",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Confirmation message announced politely when the field is valid.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Prevent interaction and form submission.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Mark the native input as required.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Keep the input focusable and submittable but prevent edits.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Native form field name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Native maximum length constraint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "minLength",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Native minimum length constraint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "pattern",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Native validation pattern.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "inputMode",
+          "type": "InputHTMLAttributes<HTMLInputElement>[\"inputMode\"]",
+          "default": null,
+          "required": false,
+          "description": "Preferred virtual keyboard mode.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "autoComplete",
+          "type": "InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]",
+          "default": null,
+          "required": false,
+          "description": "Native autofill hint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "spellCheck",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Enable or disable browser spelling correction.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called once after a user edit is committed locally.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "left",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Decorative content placed inside the control at the inline start.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "right",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Decorative content placed inside the control at the inline end.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
@@ -337,6 +531,13 @@
           "name": "label",
           "reactive": true,
           "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
           "description": "",
           "descriptionFrom": "none"
         },
