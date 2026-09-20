@@ -13,6 +13,7 @@ import { DsLabel } from "./label/ds-label";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
 import { DsSelect } from "./select/ds-select";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
+import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSwitch } from "./switch/ds-switch";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
@@ -31,6 +32,7 @@ define("ds-label", DsLabel);
 define("ds-field", DsField);
 define("ds-text-field", DsTextField);
 define("ds-textarea", DsTextarea);
+define("ds-search-field", DsSearchField);
 define("ds-radio-group", DsRadioGroup);
 define("ds-checkbox-group", DsCheckboxGroup);
 

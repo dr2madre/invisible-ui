@@ -67,6 +67,8 @@ export const en = {
   "combobox.placeholder": "Search…",
   "combobox.clear": "Clear",
   "combobox.empty": "No results",
+  "searchField.clear": "Clear search",
+  "searchField.submit": "Search",
   "searchDialog.title": "Search",
   "searchDialog.label": "Search",
   "searchDialog.placeholder": "Type to search…",

@@ -41,6 +41,7 @@ const requiredProps: Record<string, Props> = {
   RadioGroup: { items: [], label: "Choice" },
   RatingGroup: { label: "Rating" },
   SearchDialog: { items: [] },
+  SearchField: { label: "Search" },
   SegmentedControl: { items: [], label: "View" },
   Select: { items: [], label: "Option" },
   SheetDialog: { title: "Details" },
@@ -68,7 +69,7 @@ describe("Vue adapter SSR", () => {
   it("discovers every public component export", () => {
     // The 77 catalog components plus Icon and LocaleProvider. This count makes
     // a new public component fail loudly until it joins the SSR guarantee.
-    expect(components).toHaveLength(80);
+    expect(components).toHaveLength(81);
   });
 
   for (const [name, component] of components) {

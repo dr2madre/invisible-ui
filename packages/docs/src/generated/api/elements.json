@@ -69,6 +69,11 @@
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
     },
     {
+      "name": "DsSearchField",
+      "kind": "class",
+      "signature": "declare class DsSearchField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
+    },
+    {
       "name": "DsSelect",
       "kind": "class",
       "signature": "declare class DsSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): SelectItem[]; set items(items: SelectItem[]); }"

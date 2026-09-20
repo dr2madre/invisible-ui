@@ -15,6 +15,7 @@ import { Slider } from "./slider/Slider";
 import { RangeSlider } from "./range-slider/RangeSlider";
 import { Switch } from "./switch/Switch";
 import { TextField } from "./text-field/TextField";
+import { SearchField } from "./search-field/SearchField";
 import { TimeField } from "./time-field/TimeField";
 import { ToggleButton } from "./toggle-button/ToggleButton";
 import { Dialog } from "./dialog/Dialog";
@@ -224,6 +225,17 @@ const cases: Case[] = [
     change: { props: { value: "Grace" }, reads: "Grace" },
     read: () => (screen.getByRole("textbox") as HTMLInputElement).value,
     act: async (user) => user.type(screen.getByRole("textbox"), "!"),
+  },
+  {
+    name: "SearchField",
+    reads: "Ada",
+    Component: SearchField,
+    props: { label: "Search", value: "Ada" },
+    prop: "value",
+    callback: "onValueChange",
+    change: { props: { value: "Grace" }, reads: "Grace" },
+    read: () => (screen.getByRole("searchbox") as HTMLInputElement).value,
+    act: async (user) => user.type(screen.getByRole("searchbox"), "!"),
   },
 ];
 

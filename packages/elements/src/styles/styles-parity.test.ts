@@ -30,6 +30,7 @@ const REACT_SHEETS = [
   "combobox.css",
   "dialog.css",
   "text-field.css",
+  "search-field.css",
 ];
 
 const VUE_SHEETS = [

@@ -36,6 +36,7 @@ const SHARED_SHEETS = [
   "dialog.css",
   "select.css",
   "text-field.css",
+  "search-field.css",
 ];
 
 const VUE_SOURCE_SHEETS = [

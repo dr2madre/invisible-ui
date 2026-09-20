@@ -8,6 +8,7 @@ import Meter from "./meter/Meter.svelte";
 import PinInput from "./pin-input/PinInput.svelte";
 import Progress from "./progress/Progress.svelte";
 import RangeSlider from "./range-slider/RangeSlider.svelte";
+import SearchField from "./search-field/SearchField.svelte";
 import Checkbox from "./checkbox/Checkbox.svelte";
 import Select from "./select/Select.svelte";
 import Slider from "./slider/Slider.svelte";
@@ -62,6 +63,12 @@ describe("SSR — the markup is valid before hydration", () => {
       [/role="group"/, /aria-label="Character 1 of 4"/],
     ],
     ["TextField", TextField, { label: "Email" }, [/<label[^>]+for="/, /<input[^>]+id="/]],
+    [
+      "SearchField",
+      SearchField,
+      { label: "Search" },
+      [/<label[^>]+for="/, /<input[^>]+type="search"/, /<button[^>]+type="submit"/],
+    ],
     [
       "Combobox",
       Combobox,

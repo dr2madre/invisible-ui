@@ -25,6 +25,7 @@ import Slider from "./slider/Slider.svelte";
 import RangeSlider from "./range-slider/RangeSlider.svelte";
 import SwitchControl from "./switch/Switch.svelte";
 import TextField from "./text-field/TextField.svelte";
+import SearchField from "./search-field/SearchField.svelte";
 import TimeField from "./time-field/TimeField.svelte";
 import ToggleButton from "./toggle-button/ToggleButton.svelte";
 
@@ -247,6 +248,17 @@ const cases: Case[] = [
     change: { props: { value: "Grace" }, reads: "Grace" },
     read: () => (screen.getByRole("textbox") as HTMLInputElement).value,
     act: async (user) => user.type(screen.getByRole("textbox"), "!"),
+  },
+  {
+    name: "SearchField",
+    reads: "Ada",
+    Component: SearchField,
+    props: { label: "Search", value: "Ada" },
+    prop: "value",
+    callback: "onValueChange",
+    change: { props: { value: "Grace" }, reads: "Grace" },
+    read: () => (screen.getByRole("searchbox") as HTMLInputElement).value,
+    act: async (user) => user.type(screen.getByRole("searchbox"), "!"),
   },
 ];
 
