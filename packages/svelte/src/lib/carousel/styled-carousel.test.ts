@@ -43,6 +43,48 @@ describe("Svelte Carousel (styled)", () => {
     expect(slideOne).not.toHaveAttribute("data-active");
   });
 
+  // The slide count follows the items after mount (ADR 0011). A carousel fed
+  // by a fetch or a filter once kept the old count: after advancing to the
+  // fifth of five and being given three, no slide was active and Next was
+  // disabled, with no way back for the user.
+  it("follows a shorter list after mount, keeping one active slide in reach", async () => {
+    const five = Array.from({ length: 5 }, (_, i) => ({
+      image: `https://example.com/${i + 1}.jpg`,
+      title: `Slide ${i + 1}`,
+      description: "",
+    }));
+    const { rerender } = render(Fixture, { props: { items: five } });
+    const next = () => screen.getByRole("button", { name: "Next slide" });
+    for (let i = 0; i < 4; i++) await fireEvent.click(next());
+    expect(document.querySelectorAll(".carousel__slide")[4]).toHaveAttribute("data-active");
+    await rerender({ items: five.slice(0, 3) });
+    const slides = document.querySelectorAll(".carousel__slide");
+    expect(slides).toHaveLength(3);
+    expect(document.querySelectorAll(".carousel__slide[data-active]")).toHaveLength(1);
+    expect(slides[2], "the index is clamped to the last slide").toHaveAttribute("data-active");
+    expect(slides[2]).toHaveAttribute("aria-label", "3 of 3");
+    expect(screen.getByRole("button", { name: "Previous slide" })).toBeEnabled();
+  });
+
+  it("follows a longer list after mount, so the labels and Next agree with it", async () => {
+    const { rerender } = render(Fixture);
+    const next = () => screen.getByRole("button", { name: "Next slide" });
+    await fireEvent.click(next());
+    await fireEvent.click(next());
+    expect(next(), "at the end of three").toBeDisabled();
+    const five = Array.from({ length: 5 }, (_, i) => ({
+      image: `https://example.com/${i + 1}.jpg`,
+      title: `Slide ${i + 1}`,
+      description: "",
+    }));
+    await rerender({ items: five });
+    expect(document.querySelectorAll(".carousel__slide")[2]).toHaveAttribute(
+      "aria-label",
+      "3 of 5",
+    );
+    expect(next(), "two more slides are ahead").toBeEnabled();
+  });
+
   it("disables the previous button at the start (no loop)", () => {
     render(Fixture);
     expect(screen.getByRole("button", { name: "Previous slide" })).toBeDisabled();

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Combobox, type ComboboxProps } from "./Combobox";
+import { Dialog } from "../dialog/Dialog";
 import { LocaleProvider } from "../i18n/i18n";
 
 const items = [
@@ -331,5 +332,23 @@ describe("React Combobox (select-only — the advanced select)", () => {
   it("exposes the width mode as a data hook", () => {
     const { container } = render(<Combobox label="Priority" items={iconItems} width="wrap" />);
     expect(container.querySelector(".combobox")).toHaveAttribute("data-width", "wrap");
+  });
+});
+
+// A modal dialog paints in the browser's top layer and makes the rest of the
+// page inert. A list portalled to the body from a control inside the dialog
+// shows through and cannot be clicked, so it goes to the dialog instead.
+describe("Combobox inside a dialog", () => {
+  it("portals its list into the dialog, not the body", async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog open title="Pick">
+        <Combobox label="Framework" items={items} />
+      </Dialog>,
+    );
+    await user.click(screen.getByRole("button", { name: "Show options" }));
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.closest("dialog"), "the list must stay in the dialog's layer").not.toBeNull();
+    expect(listbox.parentElement).not.toBe(document.body);
   });
 });

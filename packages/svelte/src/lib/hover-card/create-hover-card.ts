@@ -49,12 +49,12 @@ export function createHoverCard(context: HoverCardContext = {}): CreateHoverCard
   );
   const { placement = "bottom", offset = 8, openDelay = 300, closeDelay = 200 } = context;
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   // Reflect a controlled `open` prop without reporting a change.
   const syncOpen = (open: boolean) =>

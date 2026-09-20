@@ -82,34 +82,34 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     items: filter(allItems, context.inputValue ?? ""),
   });
 
-  const updateValue = (value: string | null, notify: boolean) =>
-    state.update((current) => {
-      if (current.value === value) return current;
-      if (notify) context.onValueChange?.(value);
-      return { ...current, value };
-    });
+  const updateValue = (value: string | null, notify: boolean) => {
+    const current = get(state);
+    if (current.value === value) return;
+    state.set({ ...current, value });
+    if (notify) context.onValueChange?.(value);
+  };
 
   const setValue = (value: string | null) => updateValue(value, true);
   const syncValue = (value: string | null) => updateValue(value, false);
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const setActiveValue = (activeValue: string | null) =>
     state.update((current) =>
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
 
-  const setInputValue = (inputValue: string) =>
-    state.update((current) => {
-      if (current.inputValue === inputValue) return current;
-      context.onInputValueChange?.(inputValue);
-      return { ...current, inputValue, items: filter(allItems, inputValue) };
-    });
+  const setInputValue = (inputValue: string) => {
+    const current = get(state);
+    if (current.inputValue === inputValue) return;
+    state.set({ ...current, inputValue, items: filter(allItems, inputValue) });
+    context.onInputValueChange?.(inputValue);
+  };
 
   const setCommittedInputValue = (committedInputValue: string) =>
     state.update((current) =>

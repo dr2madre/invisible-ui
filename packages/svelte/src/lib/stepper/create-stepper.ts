@@ -47,11 +47,10 @@ export function createStepper(context: StepperContext): CreateStepper {
   );
 
   const setStep = (step: number) => {
-    state.update((current) => {
-      if (current.current === step) return current;
-      context.onStepChange?.(step);
-      return { ...current, current: step };
-    });
+    const current = get(state);
+    if (current.current === step) return;
+    state.set({ ...current, current: step });
+    context.onStepChange?.(step);
   };
 
   // Reflect a controlled `current` prop without reporting a change.

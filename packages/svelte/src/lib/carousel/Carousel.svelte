@@ -59,6 +59,8 @@
   };
 
   const carousel = createCarousel(context);
+  // The slide count and the loop follow the props after mount (ADR 0011).
+  $: carousel.syncConfig({ count: items.length, loop });
   const {
     rootAction,
     viewportAction,

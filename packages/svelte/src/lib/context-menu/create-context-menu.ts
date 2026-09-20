@@ -66,12 +66,12 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
   );
   const placement: Placement = context.placement ?? "right-start";
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const setActiveValue = (activeValue: string | null) =>
     state.update((current) =>

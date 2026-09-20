@@ -1,6 +1,6 @@
 import { popover as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { attachFloating, type Placement } from "../internal/floating";
@@ -57,12 +57,12 @@ export function createPopover(context: PopoverContext = {}): CreatePopover {
   );
   const { placement = "bottom", offset = 6 } = context;
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   // The panel's name can change after mount (a localized label, or one that
   // follows a selection), so it is mirrored rather than captured.

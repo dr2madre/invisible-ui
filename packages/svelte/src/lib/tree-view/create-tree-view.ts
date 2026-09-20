@@ -49,18 +49,16 @@ export function createTreeView(context: TreeContext): CreateTreeView {
   );
 
   const setExpanded = (expanded: string[]) => {
-    state.update((current) => {
-      context.onExpandedChange?.(expanded);
-      return { ...current, expanded };
-    });
+    const current = get(state);
+    state.set({ ...current, expanded });
+    context.onExpandedChange?.(expanded);
   };
 
   const setSelected = (value: string) => {
-    state.update((current) => {
-      if (current.selected === value) return current;
-      context.onSelectedChange?.(value);
-      return { ...current, selected: value };
-    });
+    const current = get(state);
+    if (current.selected === value) return;
+    state.set({ ...current, selected: value });
+    context.onSelectedChange?.(value);
   };
 
   const sameValues = (a: readonly string[], b: readonly string[]) =>

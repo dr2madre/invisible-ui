@@ -2,7 +2,7 @@
 // the Vue harness. Written without JSX so the Vue example needs no React
 // compiler plugin.
 import "@design-system/react/styles.css";
-import { Checkbox, Combobox, MultiSelect, Select, Switch } from "@design-system/react";
+import { Checkbox, Combobox, Dialog, MultiSelect, Select, Switch } from "@design-system/react";
 import { createElement as h, useState, type ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -135,6 +135,33 @@ function Harness(): ReactElement {
     ),
     h("p", { "data-testid": "values-readout" }, `Values: ${values.join(", ") || "none"}`),
     h(ResetForm),
+    h(DialogScene),
+  );
+}
+
+/**
+ * A control inside a modal dialog. The dialog paints in the top layer and
+ * makes the rest of the page inert, so a list portalled to the body shows
+ * through and cannot be clicked: the browser test picks the option.
+ */
+function DialogScene(): ReactElement {
+  const [open, setOpen] = useState(false);
+  const [picked, setPicked] = useState<string | null>(null);
+  return h(
+    "section",
+    { "data-testid": "dialog-scene" },
+    h("button", { type: "button", onClick: () => setOpen(true) }, "Open the picker"),
+    h(
+      Dialog,
+      { open, title: "Pick a framework", onOpenChange: setOpen },
+      h(Combobox, {
+        label: "Framework",
+        items,
+        value: picked,
+        onValueChange: setPicked,
+      }),
+    ),
+    h("p", { "data-testid": "dialog-readout" }, `Picked: ${picked ?? "none"}`),
   );
 }
 

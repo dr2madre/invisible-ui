@@ -4,7 +4,7 @@
   export let variant: "slide" | "gallery" = "slide";
   export let loop = false;
 
-  const items: CarouselSlide[] = [
+  export let items: CarouselSlide[] = [
     { image: "https://example.com/1.jpg", title: "Peaks", description: "Above the clouds." },
     { image: "https://example.com/2.jpg", title: "Valley", description: "Down by the river." },
     { image: "https://example.com/3.jpg", title: "Forest", description: "Among the pines." },

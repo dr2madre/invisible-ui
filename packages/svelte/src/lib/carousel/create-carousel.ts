@@ -23,6 +23,12 @@ export interface CreateCarousel {
   prev: () => void;
   /** Jump to a slide. */
   goTo: (index: number) => void;
+  /**
+   * Reflect `count` and `loop` changed after mount, silently. A carousel fed
+   * by a fetch or a filter changes its slide count; the index is clamped into
+   * the new count so the active slide never points past the last one.
+   */
+  syncConfig: (config: { count: number; loop: boolean }) => void;
   /** Action for the container: `<section use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /** Action for the slides track/viewport: `<div use:viewportAction>`. */
@@ -51,12 +57,24 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
   );
 
   const setIndex = (index: number) => {
-    state.update((current) => {
-      if (current.index === index) return current;
-      context.onIndexChange?.(index);
-      return { ...current, index };
-    });
+    const current = get(state);
+    if (current.index === index) return;
+    state.set({ ...current, index });
+    context.onIndexChange?.(index);
   };
+
+  const syncConfig = (config: { count: number; loop: boolean }) =>
+    state.update((current) => {
+      const index = core.clampIndex(current.index, config.count);
+      if (
+        current.count === config.count &&
+        current.loop === config.loop &&
+        current.index === index
+      ) {
+        return current;
+      }
+      return { ...current, count: config.count, loop: config.loop, index };
+    });
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setIndex, normalize: normalizeProps }),
@@ -86,6 +104,7 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
     next: () => get(api).next(),
     prev: () => get(api).prev(),
     goTo: (index: number) => get(api).goTo(index),
+    syncConfig,
     rootAction,
     viewportAction,
     slideAction,

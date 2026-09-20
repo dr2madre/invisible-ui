@@ -35,11 +35,10 @@ export function createSwitch(context: SwitchContext = {}): CreateSwitch {
   const state = writable<SwitchState>(core.initialState(context));
 
   const setChecked = (value: boolean) => {
-    state.update((current) => {
-      if (current.disabled || current.checked === value) return current;
-      context.onCheckedChange?.(value);
-      return { ...current, checked: value };
-    });
+    const current = get(state);
+    if (current.disabled || current.checked === value) return;
+    state.set({ ...current, checked: value });
+    context.onCheckedChange?.(value);
   };
 
   const syncChecked = (value: boolean) =>

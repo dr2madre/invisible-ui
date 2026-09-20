@@ -1,6 +1,6 @@
 import { pinInput as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -47,13 +47,12 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
   );
 
   const setValues = (values: string[]) => {
-    state.update((current) => {
-      const next = { ...current, values };
-      const value = values.join("");
-      context.onValueChange?.(value);
-      if (core.isComplete(next)) context.onComplete?.(value);
-      return next;
-    });
+    const current = get(state);
+    const next = { ...current, values };
+    const value = values.join("");
+    state.set(next);
+    context.onValueChange?.(value);
+    if (core.isComplete(next)) context.onComplete?.(value);
   };
 
   // The prop is one string; the state holds one character per cell. The split

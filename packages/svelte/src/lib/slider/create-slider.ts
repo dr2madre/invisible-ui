@@ -1,5 +1,5 @@
 import { slider as core } from "@design-system/core";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { stableId } from "../internal/stable-id";
 
 export type SliderApi = core.SliderApi;
@@ -35,12 +35,11 @@ export function createSlider(context: core.SliderContext = {}): CreateSlider {
   );
 
   const setValue = (next: number) => {
-    state.update((current) => {
-      const snapped = core.snap(next, current.min, current.max, current.step);
-      if (current.disabled || current.value === snapped) return current;
-      context.onValueChange?.(snapped);
-      return { ...current, value: snapped };
-    });
+    const current = get(state);
+    const snapped = core.snap(next, current.min, current.max, current.step);
+    if (current.disabled || current.value === snapped) return;
+    state.set({ ...current, value: snapped });
+    context.onValueChange?.(snapped);
   };
 
   // Reflecting a controlled prop snaps it the same way a user action would,

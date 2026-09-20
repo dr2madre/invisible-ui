@@ -118,30 +118,27 @@ export function createTable(context: TableContext): CreateTable {
     a === b || (a.length === b.length && a.every((key, index) => key === b[index]));
 
   const updateSort = (sort: SortState | null, notify: boolean) => {
-    state.update((current) => {
-      if (sortEquals(current.sort, sort)) return current;
-      if (notify) context.onSortChange?.(sort);
-      return { ...current, sort };
-    });
+    const current = get(state);
+    if (sortEquals(current.sort, sort)) return;
+    state.set({ ...current, sort });
+    if (notify) context.onSortChange?.(sort);
   };
 
   const updateHidden = (hidden: string[], notify: boolean) => {
-    state.update((current) => {
-      if (hiddenEquals(current.hiddenColumns, hidden)) return current;
-      if (notify) context.onHiddenColumnsChange?.(hidden);
-      return { ...current, hiddenColumns: hidden };
-    });
+    const current = get(state);
+    if (hiddenEquals(current.hiddenColumns, hidden)) return;
+    state.set({ ...current, hiddenColumns: hidden });
+    if (notify) context.onHiddenColumnsChange?.(hidden);
   };
 
   const selectionEquals = (a: core.RowId[], b: core.RowId[]) =>
     a === b || (a.length === b.length && a.every((id, index) => id === b[index]));
 
   const updateSelected = (ids: core.RowId[], notify: boolean) => {
-    state.update((current) => {
-      if (selectionEquals(current.selectedRowIds, ids)) return current;
-      if (notify) context.onSelectedRowIdsChange?.(ids);
-      return { ...current, selectedRowIds: ids };
-    });
+    const current = get(state);
+    if (selectionEquals(current.selectedRowIds, ids)) return;
+    state.set({ ...current, selectedRowIds: ids });
+    if (notify) context.onSelectedRowIdsChange?.(ids);
   };
 
   const setSort = (sort: SortState | null) => updateSort(sort, true);

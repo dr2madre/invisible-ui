@@ -1,5 +1,5 @@
 import { radioGroup as core } from "@design-system/core";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { stableId } from "../internal/stable-id";
 
 export type Orientation = core.Orientation;
@@ -32,11 +32,10 @@ export function createRadioGroup(context: RadioGroupContext): CreateRadioGroup {
   const state = writable<RadioGroupState>(core.initialState(context));
 
   const setValue = (value: string) => {
-    state.update((current) => {
-      if (current.value === value) return current;
-      context.onValueChange?.(value);
-      return { ...current, value };
-    });
+    const current = get(state);
+    if (current.value === value) return;
+    state.set({ ...current, value });
+    context.onValueChange?.(value);
   };
 
   const syncValue = (value: string | null) =>

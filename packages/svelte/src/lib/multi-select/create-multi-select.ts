@@ -101,12 +101,12 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
   const valuesEqual = (a: string[], b: string[]) =>
     a === b || (a.length === b.length && a.every((value, index) => value === b[index]));
 
-  const updateValues = (values: string[], notify: boolean) =>
-    state.update((current) => {
-      if (valuesEqual(current.values, values)) return current;
-      if (notify) context.onValuesChange?.(values);
-      return { ...current, values };
-    });
+  const updateValues = (values: string[], notify: boolean) => {
+    const current = get(state);
+    if (valuesEqual(current.values, values)) return;
+    state.set({ ...current, values });
+    if (notify) context.onValuesChange?.(values);
+  };
 
   const setValues = (values: string[]) => updateValues(values, true);
   const syncValues = (values: string[]) => {
@@ -114,24 +114,24 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
     updateValues(values, false);
   };
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const setActiveValue = (activeValue: string | null) =>
     state.update((current) =>
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
 
-  const setInputValue = (inputValue: string) =>
-    state.update((current) => {
-      if (current.inputValue === inputValue) return current;
-      context.onInputValueChange?.(inputValue);
-      return { ...current, inputValue, items: filter(allItems, inputValue) };
-    });
+  const setInputValue = (inputValue: string) => {
+    const current = get(state);
+    if (current.inputValue === inputValue) return;
+    state.set({ ...current, inputValue, items: filter(allItems, inputValue) });
+    context.onInputValueChange?.(inputValue);
+  };
 
   const syncInputValue = (inputValue: string) =>
     state.update((current) =>
