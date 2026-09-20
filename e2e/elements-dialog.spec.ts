@@ -5,6 +5,28 @@ const ELEMENTS_BASE = VUE_BASE.replace("harness.html", "elements-harness.html");
 
 test.beforeEach(async ({ page }) => {
   await page.goto(ELEMENTS_BASE);
+  await page.evaluate(async () => {
+    await Promise.all([
+      customElements.whenDefined("ds-dialog"),
+      customElements.whenDefined("ds-text-field"),
+    ]);
+    const fixture = document.createElement("div");
+    fixture.innerHTML = `
+      <ds-dialog
+        data-testid="stacking-dialog"
+        heading="Example dialog"
+        trigger="Open stacking dialog"
+      >
+        <p>Dialog content</p>
+        <label>Dialog field <input type="text" /></label>
+      </ds-dialog>
+      <form data-testid="dialog-background">
+        <ds-text-field label="Server" value="sql-demo.local"></ds-text-field>
+        <ds-text-field label="Database" value="AdventureWorks"></ds-text-field>
+      </form>
+    `;
+    document.body.append(fixture);
+  });
   await expect(page.getByRole("button", { name: "Open stacking dialog" })).toBeVisible();
 });
 

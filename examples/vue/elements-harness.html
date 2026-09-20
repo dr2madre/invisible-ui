@@ -31,18 +31,6 @@
         <button type="submit">Submit skills</button>
         <p data-testid="skills-readout">Submitted: none</p>
       </form>
-      <ds-dialog
-        data-testid="stacking-dialog"
-        heading="Example dialog"
-        trigger="Open stacking dialog"
-      >
-        <p>Dialog content</p>
-        <label>Dialog field <input type="text" /></label>
-      </ds-dialog>
-      <form data-testid="dialog-background">
-        <ds-text-field label="Server" value="sql-demo.local"></ds-text-field>
-        <ds-text-field label="Database" value="AdventureWorks"></ds-text-field>
-      </form>
       <!-- The reset contract (ADR 0012). The page holds a copy of its own,
            the way a controlled consumer does, and counts what it is told. -->
       <form data-testid="reset-form">
