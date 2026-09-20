@@ -124,7 +124,10 @@ export function useDialog({
         event.clientY <= rect.bottom &&
         rect.left <= event.clientX &&
         event.clientX <= rect.right;
-      if (!inside) setOpen(false);
+      if (!inside) {
+        event.preventDefault();
+        setOpen(false);
+      }
     };
 
     el.addEventListener("cancel", onCancel);

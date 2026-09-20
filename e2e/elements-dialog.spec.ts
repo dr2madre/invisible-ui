@@ -101,3 +101,45 @@ test("an Elements dialog is absent while closed and covers later controls while 
   expect(await panel.boundingBox(), "a closed dialog regained a rendered box").toBeNull();
   await expect(trigger).toBeFocused();
 });
+
+test("an Elements dialog used as a drawer dismisses only from its backdrop", async ({ page }) => {
+  const host = page.getByTestId("stacking-dialog");
+  const panel = host.locator("dialog");
+  const trigger = page.getByRole("button", { name: "Open stacking dialog" });
+
+  await panel.evaluate((node) => {
+    Object.assign(node.style, {
+      inset: "0 0 0 auto",
+      margin: "0",
+      inlineSize: "22rem",
+      maxInlineSize: "calc(100vw - 2rem)",
+      blockSize: "100vh",
+      maxBlockSize: "100vh",
+      borderRadius: "0",
+    });
+  });
+
+  await trigger.click();
+  await expect(panel).toBeVisible();
+
+  const body = panel.locator(".dialog__body");
+  const bodyBox = await body.boundingBox();
+  const panelBox = await panel.boundingBox();
+  expect(bodyBox).not.toBeNull();
+  expect(panelBox).not.toBeNull();
+
+  // Content, blank body space and the panel's own padding are all inside the
+  // drawer. None is a light-dismiss request.
+  await body.getByText("Dialog content").click();
+  await expect(panel).toBeVisible();
+  await page.mouse.click(bodyBox!.x + bodyBox!.width / 2, bodyBox!.y + bodyBox!.height - 4);
+  await expect(panel).toBeVisible();
+  await page.mouse.click(panelBox!.x + panelBox!.width - 4, panelBox!.y + panelBox!.height - 4);
+  await expect(panel).toBeVisible();
+
+  // The page-side area is the native backdrop and still dismisses exactly
+  // once, leaving the trigger as the focus return target.
+  await page.mouse.click(Math.max(1, panelBox!.x / 2), panelBox!.y + panelBox!.height / 2);
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
