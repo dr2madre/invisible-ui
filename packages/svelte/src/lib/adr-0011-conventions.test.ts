@@ -355,6 +355,11 @@ describe.each([
   });
 });
 
+// What the two blocks above assert, named so the gate below counts them:
+// neither is a `cases` entry, because neither has a user action to compare.
+const OPEN_MIRRORS_COVER = ["Dialog", "AlertDialog", "ConfirmDialog", "SheetDialog", "Popover"];
+const MIRRORS_COVER = ["Collapsible", "Sidebar", "Accordion", "Stepper", "TreeView"];
+
 // Controls whose value is not what a form submits, but is still the
 // consumer's to hold: the same three rules, read off what each one shows.
 describe("more controllable mirrors", () => {
@@ -516,45 +521,36 @@ const NOT_A_CASE: Record<string, string> = {
   ScrollArea: "layout only",
   Notification: "display only",
   NotificationRegion: "display only",
-  Stepper: "display of a step the page owns; no callback",
   Menu: "a legacy name for Sidebar (ADR 0013); Sidebar is listed",
-  // The open state of overlays is asserted in this file's dialog block.
-  Dialog: "open reflection: the dialog block below",
-  AlertDialog: "open reflection: the dialog block below",
-  ConfirmDialog: "open reflection: the dialog block below",
-  SheetDialog: "open reflection: the dialog block below",
-  Popover: "open reflection: the dialog block below",
+
   // Covered by their own suites, named here so the coverage is findable.
   Pagination: "pagination.test.ts holds reflection, silence and the live callback",
-  // Recorded gaps: controls with a controlled value and no case yet. Each is
-  // a line of the remediation runbook's Lot 5, not an oversight.
-  Checkbox: "gap (Lot 5)",
-  Radio: "gap (Lot 5)",
-  Textarea: "gap (Lot 5)",
-  ToggleGroup: "gap (Lot 5)",
-  Tabs: "gap (Lot 5)",
-  Accordion: "gap (Lot 5)",
-  Collapsible: "gap (Lot 5)",
-  Select: "gap (Lot 5)",
-  Combobox: "gap (Lot 5)",
-  MultiSelect: "gap (Lot 5)",
-  Calendar: "gap (Lot 5)",
-  DatePicker: "gap (Lot 5)",
-  DateRangePicker: "gap (Lot 5)",
-  NumberField: "gap (Lot 5)",
-  Carousel: "gap (Lot 5)",
-  TreeView: "gap (Lot 5)",
-  UploadDropArea: "gap (Lot 5)",
-  LoginForm: "gap (Lot 5)",
-  Sidebar: "gap (Lot 5); openGroups is a documented exception (ADR 0013)",
-  Tooltip: "gap (Lot 5)",
-  PromptDialog: "gap (Lot 5)",
-  SearchDialog: "gap (Lot 5)",
-  DropdownMenu: "gap (Lot 5)",
-  ContextMenu: "gap (Lot 5)",
-  Menubar: "gap (Lot 5)",
-  NavigationMenu: "gap (Lot 5)",
-  Table: "gap (Lot 5)",
+  // Named omissions: controls with a controlled value and no case written
+  // yet. Every name here is listed in the audit the reason points at, and
+  // the last test in this file checks that it is.
+  Checkbox: "no conventions case yet: docs/state-ownership-audit.md",
+  Radio: "no conventions case yet: docs/state-ownership-audit.md",
+  Textarea: "no conventions case yet: docs/state-ownership-audit.md",
+  ToggleGroup: "no conventions case yet: docs/state-ownership-audit.md",
+  Tabs: "no conventions case yet: docs/state-ownership-audit.md",
+  Select: "no conventions case yet: docs/state-ownership-audit.md",
+  Combobox: "no conventions case yet: docs/state-ownership-audit.md",
+  MultiSelect: "no conventions case yet: docs/state-ownership-audit.md",
+  Calendar: "no conventions case yet: docs/state-ownership-audit.md",
+  DatePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  DateRangePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  NumberField: "no conventions case yet: docs/state-ownership-audit.md",
+  Carousel: "no conventions case yet: docs/state-ownership-audit.md",
+  UploadDropArea: "no conventions case yet: docs/state-ownership-audit.md",
+  LoginForm: "no conventions case yet: docs/state-ownership-audit.md",
+  Tooltip: "no conventions case yet: docs/state-ownership-audit.md",
+  PromptDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  SearchDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  DropdownMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  ContextMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Menubar: "no conventions case yet: docs/state-ownership-audit.md",
+  NavigationMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Table: "no conventions case yet: docs/state-ownership-audit.md",
   TableView: "controlled props not followed today: docs/state-ownership-audit.md, Task 5A",
   TableSet: "controlled props not followed today: docs/state-ownership-audit.md, Task 5A",
 };
@@ -566,12 +562,30 @@ describe("the ADR 0011 gate knows every exported component", () => {
     )
       .map((key) => /^\.\/(.+)\.svelte$/.exec(key)?.[1])
       .filter((name): name is string => Boolean(name));
-    const covered = new Set(cases.map((entry) => entry.name));
+    const covered = new Set([
+      ...cases.map((entry) => entry.name),
+      ...OPEN_MIRRORS_COVER,
+      ...MIRRORS_COVER,
+    ]);
     const missing = exported.filter((name) => !covered.has(name) && !(name in NOT_A_CASE));
     expect(missing, "exported components with neither a case nor a reason").toEqual([]);
     const stale = Object.keys(NOT_A_CASE).filter(
       (name) => !exported.includes(name) || covered.has(name),
     );
     expect(stale, "omissions that no longer exist or are covered after all").toEqual([]);
+  });
+
+  // A reason that points at a document is only worth the document saying so.
+  it("finds every named omission in the audit its reason points at", () => {
+    const audit = readFileSync(
+      resolve(process.cwd(), "../../docs/state-ownership-audit.md"),
+      "utf8",
+    );
+    const listed = Object.entries(NOT_A_CASE)
+      .filter(([, reason]) => reason.startsWith("no conventions case yet:"))
+      .map(([name]) => name);
+    expect(listed.length, "the reason is used at all").toBeGreaterThan(0);
+    const absent = listed.filter((name) => !new RegExp(`^- ${name}$`, "m").test(audit));
+    expect(absent, "named in the test, missing from the audit").toEqual([]);
   });
 });

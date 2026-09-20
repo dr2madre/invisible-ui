@@ -1,5 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import * as adapter from "./index";
 
@@ -14,6 +16,11 @@ import { Switch } from "./switch/Switch";
 import { TextField } from "./text-field/TextField";
 import { TimeField } from "./time-field/TimeField";
 import { ToggleButton } from "./toggle-button/ToggleButton";
+import { Dialog } from "./dialog/Dialog";
+import { AlertDialog } from "./alert-dialog/AlertDialog";
+import { ConfirmDialog } from "./confirm-dialog/ConfirmDialog";
+import { SheetDialog } from "./sheet-dialog/SheetDialog";
+import { Popover } from "./popover/Popover";
 
 // The same conventions as the Svelte suite, over the same controls: the point
 // of ADR 0011 is that both adapters behave alike, so both are asked the same
@@ -278,7 +285,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
 const NOT_A_CASE: Record<string, string> = {
   // No value a consumer controls: display, layout, or a single action.
   Icon: "display only",
-  HoverCard: "gap (Lot 5)",
+  HoverCard: "no conventions case yet: docs/state-ownership-audit.md",
   Menu: "a legacy name for Sidebar (ADR 0013); Sidebar is listed",
   FeedbackIcon: "display only",
   ErrorState: "display only",
@@ -312,57 +319,105 @@ const NOT_A_CASE: Record<string, string> = {
   Notification: "display only",
   NotificationRegion: "display only",
   Stepper: "display of a step the page owns; no callback",
-  // The open state of overlays is asserted in this file's dialog block.
-  Dialog: "open reflection: the dialog block below",
-  AlertDialog: "open reflection: the dialog block below",
-  ConfirmDialog: "open reflection: the dialog block below",
-  SheetDialog: "open reflection: the dialog block below",
-  Popover: "open reflection: the dialog block below",
   // Covered by their own suites, named here so the coverage is findable.
   Pagination: "pagination.test.ts holds reflection, silence and the live callback",
-  // Recorded gaps: controls with a controlled value and no case yet. Each is
-  // a line of the remediation runbook's Lot 5, not an oversight.
-  Checkbox: "gap (Lot 5)",
-  Radio: "gap (Lot 5)",
-  Textarea: "gap (Lot 5)",
-  ToggleGroup: "gap (Lot 5)",
-  Tabs: "gap (Lot 5)",
-  Accordion: "gap (Lot 5)",
-  Collapsible: "gap (Lot 5)",
-  Select: "gap (Lot 5)",
-  Combobox: "gap (Lot 5)",
-  MultiSelect: "gap (Lot 5)",
-  Calendar: "gap (Lot 5)",
-  DatePicker: "gap (Lot 5)",
-  DateRangePicker: "gap (Lot 5)",
-  NumberField: "gap (Lot 5)",
-  Carousel: "gap (Lot 5)",
-  TreeView: "gap (Lot 5)",
-  UploadDropArea: "gap (Lot 5)",
-  LoginForm: "gap (Lot 5)",
+  // Named omissions: controls with a controlled value and no case written
+  // yet. Every name here is listed in the audit the reason points at, and
+  // the last test in this file checks that it is.
+  Checkbox: "no conventions case yet: docs/state-ownership-audit.md",
+  Radio: "no conventions case yet: docs/state-ownership-audit.md",
+  Textarea: "no conventions case yet: docs/state-ownership-audit.md",
+  ToggleGroup: "no conventions case yet: docs/state-ownership-audit.md",
+  Tabs: "no conventions case yet: docs/state-ownership-audit.md",
+  Accordion: "no conventions case yet: docs/state-ownership-audit.md",
+  Collapsible: "no conventions case yet: docs/state-ownership-audit.md",
+  Select: "no conventions case yet: docs/state-ownership-audit.md",
+  Combobox: "no conventions case yet: docs/state-ownership-audit.md",
+  MultiSelect: "no conventions case yet: docs/state-ownership-audit.md",
+  Calendar: "no conventions case yet: docs/state-ownership-audit.md",
+  DatePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  DateRangePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  NumberField: "no conventions case yet: docs/state-ownership-audit.md",
+  Carousel: "no conventions case yet: docs/state-ownership-audit.md",
+  TreeView: "no conventions case yet: docs/state-ownership-audit.md",
+  UploadDropArea: "no conventions case yet: docs/state-ownership-audit.md",
+  LoginForm: "no conventions case yet: docs/state-ownership-audit.md",
   Sidebar: "gap (Lot 5); openGroups is a documented exception (ADR 0013)",
-  Tooltip: "gap (Lot 5)",
-  PromptDialog: "gap (Lot 5)",
-  SearchDialog: "gap (Lot 5)",
-  DropdownMenu: "gap (Lot 5)",
-  ContextMenu: "gap (Lot 5)",
-  Menubar: "gap (Lot 5)",
-  NavigationMenu: "gap (Lot 5)",
-  Table: "gap (Lot 5)",
+  Tooltip: "no conventions case yet: docs/state-ownership-audit.md",
+  PromptDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  SearchDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  DropdownMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  ContextMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Menubar: "no conventions case yet: docs/state-ownership-audit.md",
+  NavigationMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Table: "no conventions case yet: docs/state-ownership-audit.md",
   TableSet: "controlled props not followed today: docs/state-ownership-audit.md, Task 5A",
 };
 
+// The `open` family is a controllable mirror too, and reflecting it used to
+// report: a parent that opened a dialog was told about a change it made
+// itself. There is no user action to compare here, so the rule under test is
+// the silence. The Svelte twin of this block is in
+// packages/svelte/src/lib/adr-0011-conventions.test.ts.
+describe.each([
+  ["Dialog", Dialog, { title: "Edit" }],
+  ["AlertDialog", AlertDialog, { title: "Careful", description: "This cannot be undone." }],
+  ["ConfirmDialog", ConfirmDialog, { title: "Delete?", description: "It goes for good." }],
+  ["SheetDialog", SheetDialog, { title: "Filters" }],
+  ["Popover", Popover, { label: "More" }],
+])("%s reflects open without reporting", (_name, Component, extra) => {
+  it("opens from the outside in silence", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(Component as never, {
+      props: { ...extra, open: false, "onUpdate:open": reported, onOpenChange: reported },
+    });
+    await rerender({ ...extra, open: true, "onUpdate:open": reported, onOpenChange: reported });
+    expect(reported).not.toHaveBeenCalled();
+  });
+
+  it("closes from the outside in silence", async () => {
+    const reported = vi.fn();
+    const { rerender } = render(Component as never, {
+      props: { ...extra, open: true, "onUpdate:open": reported, onOpenChange: reported },
+    });
+    await rerender({ ...extra, open: false, "onUpdate:open": reported, onOpenChange: reported });
+    expect(reported).not.toHaveBeenCalled();
+  });
+});
+
+// What the block above asserts, named so the gate below counts it: it is not
+// a `cases` entry, because there is no user action to compare.
+const OPEN_MIRRORS_COVER = ["Dialog", "AlertDialog", "ConfirmDialog", "SheetDialog", "Popover"];
+
 describe("the ADR 0011 gate knows every exported component", () => {
   it("lists each one as a case or as a named omission, and nothing twice", () => {
-    const exported = Object.keys(adapter).filter(
-      (name) => /^[A-Z]/.test(name) && typeof adapter[name as keyof typeof adapter] === "object",
-    );
-    const covered = new Set(cases.map((entry) => entry.name));
+    // A component is an object or a function here: a functional component is
+    // a plain function, and leaving those out let one slip past this gate.
+    const exported = Object.keys(adapter).filter((name) => {
+      if (!/^[A-Z]/.test(name)) return false;
+      const value = adapter[name as keyof typeof adapter];
+      return typeof value === "object" || typeof value === "function";
+    });
+    const covered = new Set([...cases.map((entry) => entry.name), ...OPEN_MIRRORS_COVER]);
     const missing = exported.filter((name) => !covered.has(name) && !(name in NOT_A_CASE));
     expect(missing, "exported components with neither a case nor a reason").toEqual([]);
     const stale = Object.keys(NOT_A_CASE).filter(
       (name) => !exported.includes(name) || covered.has(name),
     );
     expect(stale, "omissions that no longer exist or are covered after all").toEqual([]);
+  });
+
+  // A reason that points at a document is only worth the document saying so.
+  it("finds every named omission in the audit its reason points at", () => {
+    const audit = readFileSync(
+      resolve(process.cwd(), "../../docs/state-ownership-audit.md"),
+      "utf8",
+    );
+    const listed = Object.entries(NOT_A_CASE)
+      .filter(([, reason]) => reason.startsWith("no conventions case yet:"))
+      .map(([name]) => name);
+    expect(listed.length, "the reason is used at all").toBeGreaterThan(0);
+    const absent = listed.filter((name) => !new RegExp(`^- ${name}$`, "m").test(audit));
+    expect(absent, "named in the test, missing from the audit").toEqual([]);
   });
 });

@@ -62,8 +62,8 @@
           "type": "{ label: string; onAction?: () => void; variant?: ButtonVariant; href?: string; target?: string; }[]",
           "default": "[]",
           "required": false,
-          "description": "Configurable action group: each entry renders a `Button`. The first action gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area.",
-          "descriptionFrom": "curated"
+          "description": "Configurable action group. An entry with `href` renders a `Link` (a direct pathway, e.g. \"Learn more\" documentation); the others render `Button`s: the first gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",

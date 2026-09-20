@@ -8,10 +8,11 @@
  * pointed at one with the `form` attribute, follows its real owner.
  *
  * The restore runs one task later, and only if nothing cancelled the event.
- * The reset event arrives before the browser restores anything and before
- * cancellation is settled, and a microtask is not late enough on a real
- * reset-button press: a task is the first safe moment to read
- * `defaultPrevented` and to follow the native restore.
+ * The event arrives before anything has been restored and before a
+ * cancellation is settled, so the restore waits for a task: that is the
+ * first moment `defaultPrevented` can be trusted and the native restore has
+ * already run. The browser tests in `e2e/` press a real reset button, which
+ * is the only place this timing can be judged.
  */
 
 /** An element that can name its form owner. */

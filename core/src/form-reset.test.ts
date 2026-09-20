@@ -2,9 +2,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { onFormReset } from "./form-reset";
 
-// The ADR 0012 mechanism, tested where it lives. The adapters' suites drive
-// real controls; this holds the four rules of the listener itself, each one
-// proven by a mutation that once survived every test in the repository.
+// The ADR 0012 mechanism, tested where it lives: which form the event came
+// from, whether it was cancelled, which owner the control has now, and
+// whether teardown cancels a restore still waiting. Each one is proven by a
+// mutation that once survived every test in the repository.
+//
+// What a reset does to a control's value, and the silence around it, is not
+// here: the listener holds no value. The adapters' suites drive real
+// controls through a real `form.reset()`, and the browser tests in `e2e/`
+// press a real reset button.
 describe("onFormReset", () => {
   const teardowns: Array<() => void> = [];
   afterEach(() => {

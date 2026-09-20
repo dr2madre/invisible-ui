@@ -78,8 +78,8 @@
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the alert again.",
-          "descriptionFrom": "curated"
+          "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the notification again.",
+          "descriptionFrom": "source"
         },
         {
           "name": "role",
