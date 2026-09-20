@@ -355,7 +355,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "node ../../scripts/write-build-info.mjs packages/svelte && tsup && node ../../scripts/write-build-info.mjs packages/svelte --verify",
     "smoke": "node scripts/smoke-package.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",

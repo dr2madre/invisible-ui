@@ -34,7 +34,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "node ../../scripts/write-build-info.mjs packages/react && tsup && node ../../scripts/write-build-info.mjs packages/react --verify",
     "test": "vitest run",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json"
   },

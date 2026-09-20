@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["scripts/source-hash.mjs", "scripts/build-id.mjs", "tsconfig.base.json"],
+  "globalDependencies": [
+    "scripts/source-hash.mjs",
+    "scripts/build-id.mjs",
+    "scripts/write-build-info.mjs",
+    "tsconfig.base.json"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
