@@ -20,8 +20,8 @@ describe("Vue Skeleton (styled)", () => {
   it("shortens the last of several lines", () => {
     render(Skeleton, { props: { variant: "text", lines: 2, width: "20rem" } });
     const lines = root().querySelectorAll<HTMLElement>(".skeleton__line");
-    expect(lines[0].style.width).toBe("20rem");
-    expect(lines[1].style.width).toBe("60%");
+    expect(lines[0]!.style.width).toBe("20rem");
+    expect(lines[1]!.style.width).toBe("60%");
   });
 
   it("renders a single circle for the circle variant", () => {

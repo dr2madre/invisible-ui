@@ -24,7 +24,14 @@
 // come from source, so they cannot drift; a freshness test runs this with
 // --check.
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import {
+  existsSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  readdirSync,
+  unlinkSync,
+} from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -673,11 +680,13 @@ for (const c of components) {
   }
 }
 
-// Prune manifests for components that no longer exist.
+// Prune manifests for components that no longer exist, so the remedy the
+// check prints really removes what it reports.
 const valid = new Set(components.map((c) => `${c.slug}.json`));
 for (const file of existsSync(outDir) ? readdirSync(outDir) : []) {
   if (file.endsWith(".json") && !valid.has(file)) {
     if (check) stale.push(file);
+    else unlinkSync(resolve(outDir, file));
   }
 }
 

@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import type { Component } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 
 import Accordion from "./accordion/Accordion.svelte";
@@ -172,7 +173,7 @@ const cases: Case[] = [
         .join(""),
     act: async (user) => {
       const cells = screen.getAllByRole("textbox");
-      await user.click(cells[0]);
+      await user.click(cells[0]!);
       await user.keyboard("9");
     },
   },
@@ -185,7 +186,7 @@ const cases: Case[] = [
     callback: "onValueChange",
     change: { props: { value: 4 }, reads: "4" },
     read: checkedRadio,
-    act: async (user) => user.click(screen.getAllByRole("radio")[2]),
+    act: async (user) => user.click(screen.getAllByRole("radio")[2]!),
   },
   {
     name: "SegmentedControl",
@@ -251,14 +252,16 @@ const cases: Case[] = [
 
 describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("reflects a changed value prop", async () => {
-    const { rerender } = render(entry.Component as never, { props: { ...entry.props } });
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
+      props: { ...entry.props },
+    });
     await rerender({ ...entry.props, ...entry.change.props });
     expect(entry.read()).toBe(entry.change.reads);
   });
 
   it("reports nothing while reflecting", async () => {
     const reported = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: reported },
     });
     await rerender({ ...entry.props, ...entry.change.props, [entry.callback]: reported });
@@ -268,7 +271,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("calls the callback it has now, not the one it was mounted with", async () => {
     const stale = vi.fn();
     const fresh = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: stale },
     });
     await rerender({ ...entry.props, [entry.callback]: fresh });
@@ -282,7 +285,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
 
   it("does not churn when a controlled parent echoes the value back", async () => {
     const reported = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: reported },
     });
 
@@ -338,7 +341,7 @@ describe.each([
 ])("%s reflects open without reporting", (_name, Component, extra) => {
   it("opens from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as Component<Record<string, unknown>>, {
       props: { ...extra, open: false, onOpenChange: reported },
     });
     await rerender({ ...extra, open: true, onOpenChange: reported });
@@ -347,7 +350,7 @@ describe.each([
 
   it("closes from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as Component<Record<string, unknown>>, {
       props: { ...extra, open: true, onOpenChange: reported },
     });
     await rerender({ ...extra, open: false, onOpenChange: reported });

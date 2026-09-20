@@ -519,7 +519,7 @@ describe("the current default through the other public paths", () => {
   it("takes a value set through the property as the page's own choice", async () => {
     const user = userEvent.setup();
     const { form, host } = mount(`<ds-text-field label="F" name="f" value="Ada"></ds-text-field>`);
-    const input = screen.getByRole("textbox", { name: "F" });
+    const input = screen.getByRole<HTMLInputElement>("textbox", { name: "F" });
 
     await user.clear(input);
     await user.type(input, "Grace");

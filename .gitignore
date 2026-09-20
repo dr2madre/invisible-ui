@@ -29,3 +29,5 @@ e2e/visual.spec.ts-snapshots/*-darwin.png
 # The generated run sheet, at the root where the generator writes it. Anchored:
 # a session report kept under docs/ must not disappear because of its name.
 /a11y-lab-run*.md
+# A build's pre-build hash record; the build turns it into dist/.build-info.json.
+.build-info.pending.json
