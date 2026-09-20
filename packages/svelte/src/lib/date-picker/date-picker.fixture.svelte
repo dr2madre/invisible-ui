@@ -6,6 +6,21 @@
   export let max: string | undefined = undefined;
   export let clearable = false;
   export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  /** When set, the page refuses the chosen date and writes this one instead. */
+  export let putBack: string | null = null;
+
+  function handleValueChange(next: string | null) {
+    onValueChange?.(next);
+    if (putBack) value = putBack;
+  }
 </script>
 
-<DatePicker {value} {min} {max} {clearable} {onValueChange} locale="en-US" label="Event date" />
+<DatePicker
+  {value}
+  {min}
+  {max}
+  {clearable}
+  onValueChange={handleValueChange}
+  locale="en-US"
+  label="Event date"
+/>

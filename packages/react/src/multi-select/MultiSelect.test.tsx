@@ -4,6 +4,7 @@ import { createElement, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { MultiSelect, type MultiSelectProps } from "./MultiSelect";
+import { Dialog } from "../dialog/Dialog";
 import type { MultiSelectItem } from "./use-multi-select";
 
 const items: MultiSelectItem[] = [
@@ -277,5 +278,21 @@ describe("React MultiSelect", () => {
   it("has no axe violations with values selected", async () => {
     const { container } = setup({ values: ["ada", "grace"] });
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+// Where an overlay has to go, and why, is in `internal/portal-host.ts`.
+describe("MultiSelect inside a dialog", () => {
+  it("portals its list into the dialog, not the body", async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog open title="Pick">
+        <MultiSelect label="Framework" items={items} />
+      </Dialog>,
+    );
+    await user.click(screen.getByRole("combobox", { name: "Framework" }));
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.closest("dialog"), "the list must stay in the dialog's layer").not.toBeNull();
+    expect(listbox.parentElement).not.toBe(document.body);
   });
 });

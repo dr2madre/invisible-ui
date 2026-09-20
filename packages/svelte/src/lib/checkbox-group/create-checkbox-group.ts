@@ -1,6 +1,6 @@
 import { checkboxGroup as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
@@ -37,10 +37,9 @@ export function createCheckboxGroup(context: CheckboxGroupContext): CreateCheckb
   const state = writable<CheckboxGroupState>(core.initialState(context));
 
   const setValue = (value: string[]) => {
-    state.update((current) => {
-      context.onValueChange?.(value);
-      return { ...current, value };
-    });
+    const current = get(state);
+    state.set({ ...current, value });
+    context.onValueChange?.(value);
   };
 
   const sameValues = (a: readonly string[], b: readonly string[]) =>

@@ -1,7 +1,7 @@
 import { dialog as core } from "@design-system/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { lockScroll } from "../internal/scroll-lock";
 import { stableId } from "../internal/stable-id";
@@ -74,12 +74,12 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
   );
   const closeOnOutsideClick = context.closeOnOutsideClick ?? true;
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   // Reflect a controlled `open` prop without reporting a change: opening a
   // dialog from the outside is not the user asking for it.

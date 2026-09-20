@@ -43,12 +43,12 @@ export function createTooltip(context: TooltipContext = {}): CreateTooltip {
   );
   const { placement = "top", offset = 6, openDelay = 300, closeDelay = 100 } = context;
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, normalize: normalizeProps }),

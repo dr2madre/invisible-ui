@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
+import { usePortalHost } from "../internal/portal-host";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useMultiSelect, type MultiSelectItem } from "./use-multi-select";
@@ -95,9 +96,10 @@ export function MultiSelect({
   const listEl = useRef<HTMLUListElement | null>(null);
   const inert = disabled || readOnly;
 
-  // The listbox is portalled to the body, so it must not render before mount.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // The listbox is portalled out of the control, so it must not render before
+  // mount, and it goes to the dialog the control sits in when there is one.
+  const rootEl = useRef<HTMLDivElement | null>(null);
+  const portalHost = usePortalHost(rootEl);
 
   // Removing through a remove button unmounts that button, so focus would
   // fall to the body: move it to the remove button now at the same index
@@ -132,7 +134,7 @@ export function MultiSelect({
     );
 
   return (
-    <div className="multi-select">
+    <div className="multi-select" ref={rootEl}>
       {name
         ? selectedValues.map((value) => (
             <input
@@ -216,7 +218,7 @@ export function MultiSelect({
         />
       </div>
 
-      {mounted &&
+      {portalHost &&
         createPortal(
           <ul
             {...api.listboxProps}
@@ -226,7 +228,7 @@ export function MultiSelect({
           >
             {options}
           </ul>,
-          document.body,
+          portalHost,
         )}
     </div>
   );

@@ -37,11 +37,10 @@ export function createToggleButton(context: ToggleButtonContext = {}): CreateTog
   const state = writable<ToggleButtonState>(core.initialState(context));
 
   const setPressed = (value: boolean) => {
-    state.update((current) => {
-      if (current.disabled || current.pressed === value) return current;
-      context.onPressedChange?.(value);
-      return { ...current, pressed: value };
-    });
+    const current = get(state);
+    if (current.disabled || current.pressed === value) return;
+    state.set({ ...current, pressed: value });
+    context.onPressedChange?.(value);
   };
 
   const setDisabled = (value: boolean) => {

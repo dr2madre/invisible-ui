@@ -1,6 +1,6 @@
 import { textField as core } from "@design-system/core";
 import type { Action } from "svelte/action";
-import { derived, writable, type Readable } from "svelte/store";
+import { get, derived, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -56,11 +56,10 @@ export function createTextField(context: TextFieldContext = {}): CreateTextField
   );
 
   const setValue = (value: string) => {
-    state.update((current) => {
-      if (current.disabled || current.readOnly || current.value === value) return current;
-      context.onValueChange?.(value);
-      return { ...current, value };
-    });
+    const current = get(state);
+    if (current.disabled || current.readOnly || current.value === value) return;
+    state.set({ ...current, value });
+    context.onValueChange?.(value);
   };
 
   // Reflection applies even while disabled or read-only: it is data, not a

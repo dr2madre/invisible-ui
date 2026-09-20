@@ -4,6 +4,7 @@ import { defineComponent, h } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { PinInput } from "./PinInput";
+import { usePinInput } from "./use-pin-input";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -73,6 +74,65 @@ describe("Vue PinInput (styled)", () => {
     expect(cells()[3]).toHaveFocus();
     await user.keyboard("{Home}");
     expect(cells()[0]).toHaveFocus();
+  });
+
+  // One action, two reports: the second has to agree with what the first
+  // left behind. The Svelte twin of this test lives in
+  // packages/svelte/src/lib/adr-0011-commit-order.test.ts.
+  const hosted = (options: Parameters<typeof usePinInput>[0]) => {
+    let field!: ReturnType<typeof usePinInput>;
+    const Host = defineComponent({
+      setup() {
+        field = usePinInput(options);
+        return () => h("div");
+      },
+    });
+    render(Host);
+    return field;
+  };
+
+  it("says nothing about a completion the change handler has already replaced", () => {
+    const seen: string[] = [];
+    const field = hosted({
+      length: 3,
+      onValueChange: (value: string) => {
+        seen.push(`change:${value}`);
+        if (value === "123") field.setValues(["", "", ""]);
+      },
+      onComplete: (value: string) => seen.push(`complete:${value}`),
+    });
+
+    field.setValues(["1", "2", "3"]);
+
+    expect(seen).toEqual(["change:123", "change:"]);
+    expect(field.values.value).toEqual(["", "", ""]);
+  });
+
+  it("announces the completion the change handler leaves alone", () => {
+    const seen: string[] = [];
+    const field = hosted({
+      length: 3,
+      onValueChange: (value: string) => seen.push(`change:${value}`),
+      onComplete: (value: string) => seen.push(`complete:${value}`),
+    });
+
+    field.setValues(["1", "2", "3"]);
+
+    expect(seen).toEqual(["change:123", "complete:123"]);
+  });
+
+  // Fewer cells than there are now, or none at all, is a change like any
+  // other. The Svelte twin is in adr-0011-commit-order.test.ts.
+  it("takes a shorter set of cells, and an empty one", () => {
+    const seen: string[] = [];
+    const field = hosted({ length: 3, value: "123", onValueChange: (v: string) => seen.push(v) });
+
+    field.setValues(["1", "2"]);
+    expect(field.values.value).toEqual(["1", "2"]);
+
+    field.setValues([]);
+    expect(field.values.value).toEqual([]);
+    expect(seen).toEqual(["12", ""]);
   });
 
   it("distributes a pasted code across the cells", async () => {

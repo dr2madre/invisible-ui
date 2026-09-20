@@ -1,8 +1,8 @@
 /**
- * A menu — the button-triggered actions menu (WAI-ARIA menu button pattern): a
+ * A menu: the button-triggered actions menu (WAI-ARIA menu button pattern): a
  * trigger with `aria-haspopup="menu"` opens a `role="menu"` of `role="menuitem"`
  * actions. Unlike a select, items are *actions* (no persistent selection): the
- * menu opens, the user moves through items, activating one runs it and closes
+ * menu opens, the user moves through items, activating one closes the menu, then runs it
  * the menu. DOM focus moves into the menu (roving), so positioning and focus
  * movement are DOM concerns owned by the adapter, not this pure-state primitive.
  */

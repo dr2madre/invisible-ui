@@ -155,8 +155,9 @@ export function createNotifier(): Notifier {
       existed = items.some((n) => n.id === id);
       return items.filter((n) => n.id !== id);
     });
-    if (existed) onDismissById.get(id)?.(reason);
+    const handler = onDismissById.get(id);
     onDismissById.delete(id);
+    if (existed) handler?.(reason);
   };
 
   const show = (options: NotificationOptions = {}): string => {
@@ -183,14 +184,24 @@ export function createNotifier(): Notifier {
     (title: string, options: StatusOptions = {}): string =>
       show({ ...options, status, title });
 
-  const clear = () =>
+  const clear = () => {
+    // The list empties first, then every notification is told (ADR 0011), the
+    // way `dismiss` above does it: a handler reading the list sees it empty,
+    // and one that shows a new notification keeps it.
+    let cleared: NotificationItem[] = [];
     updateStore((items) => {
-      for (const n of items) {
-        onDismissById.get(n.id)?.("api");
-        onDismissById.delete(n.id);
-      }
+      cleared = items;
       return [];
     });
+    for (const n of cleared) {
+      const handler = onDismissById.get(n.id);
+      // Forgotten before the call: a handler that shows a replacement under
+      // the same id registers a new one, and deleting afterwards would throw
+      // that away.
+      onDismissById.delete(n.id);
+      handler?.("api");
+    }
+  };
 
   const promise = async <T>(
     p: Promise<T>,

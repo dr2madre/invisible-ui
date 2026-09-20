@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
+import { tick } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./date-range-picker.fixture.svelte";
@@ -71,5 +72,22 @@ describe("Svelte DateRangePicker", () => {
     const { container } = render(Fixture, { props: { start: "2026-06-10", view: "two-month" } });
     await fireEvent.click(field());
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  // A controlled page that refuses the range a person picked and writes its
+  // own. This is the round trip through the prop, not the commit order
+  // inside the factory, which ../adr-0011-commit-order.test.ts asserts.
+  it("settles on the range a controlled page writes back", async () => {
+    const onChange = vi.fn();
+    render(Fixture, {
+      props: { start: "2026-06-10", onChange, putBack: ["2026-06-01", "2026-06-03"] },
+    });
+    await fireEvent.click(field());
+
+    await fireEvent.click(dayButton("2026-06-15"));
+    await tick();
+
+    expect(onChange).toHaveBeenCalledWith("2026-06-10", "2026-06-15");
+    expect((field() as HTMLInputElement).value).toMatch(/Jun 1\s*.\s*3, 2026/);
   });
 });

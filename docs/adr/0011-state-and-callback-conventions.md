@@ -52,6 +52,15 @@ identical:
 
 ### Callbacks
 
+- **Report after the change is committed.** A component writes its own state
+  first and calls the callback afterwards, never from inside the write. A
+  handler that reads the component at that moment sees the value it was just
+  told about, and a handler that writes its own value from there keeps it:
+  the write is not overtaken by the one still in progress. When one action
+  moves two pieces of state, both are committed before either is reported,
+  so the second report never contradicts the first. A component that closes
+  or clears as part of the action does that first too: a menu is already
+  closed when it says which item was chosen.
 - **Live replacement.** A callback swapped after mount is honoured: adapters
   pass callbacks through a live reference (an arrow wrapper in Svelte, a
   getter in Vue), never by capturing the function once at mount.

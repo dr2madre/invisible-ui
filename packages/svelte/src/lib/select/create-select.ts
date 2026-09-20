@@ -55,22 +55,22 @@ export function createSelect(context: SelectContext): CreateSelect {
     core.initialState({ ...context, id: context.id ?? stableId("ds-select") }),
   );
 
-  const updateValue = (value: string | null, notify: boolean) =>
-    state.update((current) => {
-      if (current.value === value) return current;
-      if (notify && value != null) context.onValueChange?.(value);
-      return { ...current, value };
-    });
+  const updateValue = (value: string | null, notify: boolean) => {
+    const current = get(state);
+    if (current.value === value) return;
+    state.set({ ...current, value });
+    if (notify && value != null) context.onValueChange?.(value);
+  };
 
   const setValue = (value: string) => updateValue(value, true);
   const syncValue = (value: string | null) => updateValue(value, false);
 
-  const setOpen = (open: boolean) =>
-    state.update((current) => {
-      if (current.open === open) return current;
-      context.onOpenChange?.(open);
-      return { ...current, open };
-    });
+  const setOpen = (open: boolean) => {
+    const current = get(state);
+    if (current.open === open) return;
+    state.set({ ...current, open });
+    context.onOpenChange?.(open);
+  };
 
   const setActiveValue = (activeValue: string | null) =>
     state.update((current) =>

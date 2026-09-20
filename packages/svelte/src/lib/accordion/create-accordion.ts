@@ -49,11 +49,10 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
   );
 
   const setValue = (next: string[]) => {
-    state.update((current) => {
-      if (sameSet(current.value, next)) return current;
-      context.onValueChange?.(next);
-      return { ...current, value: next };
-    });
+    const current = get(state);
+    if (sameSet(current.value, next)) return;
+    state.set({ ...current, value: next });
+    context.onValueChange?.(next);
   };
 
   // The container scopes focus movement between header buttons.

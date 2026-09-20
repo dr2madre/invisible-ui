@@ -1,5 +1,6 @@
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { usePortalHost } from "../internal/portal-host";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
@@ -109,9 +110,10 @@ export function Combobox({
   const hasIcons = items.some((item) => item.icon);
   const clearHidden = api.clearProps["aria-hidden"] === "true";
 
-  // The listbox is portalled to the body, so it must not render before mount.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // The listbox is portalled out of the control, so it must not render before
+  // mount, and it goes to the dialog the control sits in when there is one.
+  const rootEl = useRef<HTMLDivElement | null>(null);
+  const portalHost = usePortalHost(rootEl);
 
   // The chevron toggles the list (showing all options when opening), so a
   // selected value can be changed without clearing it first. iOS Safari can
@@ -160,7 +162,7 @@ export function Combobox({
   );
 
   return (
-    <div className="combobox" data-width={width}>
+    <div className="combobox" data-width={width} ref={rootEl}>
       {name && (
         <input
           type="hidden"
@@ -250,7 +252,7 @@ export function Combobox({
         </button>
       </div>
 
-      {mounted && createPortal(listbox, document.body)}
+      {portalHost && createPortal(listbox, portalHost)}
     </div>
   );
 }
