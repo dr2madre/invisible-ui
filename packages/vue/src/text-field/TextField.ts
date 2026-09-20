@@ -8,6 +8,8 @@ type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "num
 export interface TextFieldProps {
   /** Visible label, tied to the control. */
   label: string;
+  /** Visually hide the label while keeping it as the control's accessible name. */
+  hideLabel?: boolean;
   /** `v-model` value; takes precedence over `value` when bound. */
   modelValue?: string;
   value?: string;
@@ -58,6 +60,7 @@ export const TextField = defineComponent({
   name: "TextField",
   props: {
     label: { type: String, required: true },
+    hideLabel: { type: Boolean, default: false },
     modelValue: { type: String, default: undefined },
     value: { type: String, default: "" },
     type: { type: String as PropType<InputType>, default: "text" },
@@ -151,12 +154,19 @@ export const TextField = defineComponent({
           ],
         },
         [
-          h("label", { class: "field__label", ...api.value.labelProps }, [
-            props.label,
-            props.required
-              ? h("span", { class: "field__required", "aria-hidden": "true" }, " *")
-              : null,
-          ]),
+          h(
+            "label",
+            {
+              class: ["field__label", { "field__label--hidden": props.hideLabel }],
+              ...api.value.labelProps,
+            },
+            [
+              props.label,
+              props.required
+                ? h("span", { class: "field__required", "aria-hidden": "true" }, " *")
+                : null,
+            ],
+          ),
           h("div", { class: "field__input" }, [
             slots.left
               ? h(

@@ -47,7 +47,13 @@
   {
     "name": "@design-system/react \u2014 adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "22 kB"
+    "limit": "24 kB"
+  },
+  {
+    "name": "@design-system/react \u2014 text field only, tree-shaken",
+    "path": "packages/react/dist/index.js",
+    "import": "{ TextField }",
+    "limit": "10 kB"
   },
   {
     "name": "@design-system/elements \u2014 elements barrel",

@@ -23,6 +23,8 @@
 
   /** Visible label, tied to the control. */
   export let label: string;
+  /** Visually hide the label while keeping it as the control's accessible name. */
+  export let hideLabel = false;
   export let value = "";
   export let type: InputType = "text";
   export let placeholder: string | undefined = undefined;
@@ -123,6 +125,7 @@
        hydration the field would otherwise be a control with no name. -->
   <label
     class="field__label"
+    class:field__label--hidden={hideLabel}
     for={core.controlId($fieldState.id)}
     id={core.labelId($fieldState.id)}
     use:labelAction
@@ -204,6 +207,17 @@
   .field__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  .field__label--hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   /* A disabled control dims its label too, so the relationship reads clearly. */
   .field--disabled .field__label {
