@@ -2,9 +2,16 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["svelte", "vite/client", "vitest/globals", "@testing-library/jest-dom/vitest", "node"]
+    "types": [
+      "svelte",
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom/vitest",
+      "node"
+    ],
+    "rootDir": "."
   },
-  "include": ["src", "test-types"],
+  "include": ["src", "vitest-setup.ts", "test-types"],
   "exclude": [],
   "//": "Sources and tests alike: svelte-check resolves the .svelte module exports the tests import, which tsc cannot. test-types holds the test layer's declarations, outside what the package ships."
 }

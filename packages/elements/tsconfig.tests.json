@@ -4,8 +4,9 @@
   "compilerOptions": {
     "noEmit": true,
     "declaration": false,
-    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "node"]
+    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "node"],
+    "rootDir": "."
   },
-  "include": ["src", "vitest-axe.d.ts", "test-modules.d.ts"],
+  "include": ["src", "vitest-setup.ts", "vitest-axe.d.ts", "test-modules.d.ts"],
   "exclude": []
 }
