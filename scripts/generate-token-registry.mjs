@@ -808,17 +808,22 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
   }
 
   // 4c. A deprecated alias must name a real replacement and must actually
-  // resolve to it, or the deprecation notice would lie.
-  for (const token of registry.tokens) {
+  // resolve to it, or the deprecation notice would lie. Component tokens
+  // deprecate too; five menu knobs once slipped through with no replacement
+  // because only the theme tier was read here.
+  const knownKnobs = new Set(registry.componentTokens.map((token) => token.name));
+  for (const token of [...registry.tokens, ...registry.componentTokens]) {
     if (token.stability === "deprecated" && !token.replacedBy) {
       problems.push(`${token.name} is deprecated but names no replacement`);
     }
     if (token.replacedBy) {
-      if (!known.has(token.replacedBy)) {
+      if (!known.has(token.replacedBy) && !knownKnobs.has(token.replacedBy)) {
         problems.push(
           `${token.name} says it is replaced by ${token.replacedBy}, which nothing defines`,
         );
-      } else if (token.expressions.light !== `var(${token.replacedBy})`) {
+      } else if (token.expressions && token.expressions.light !== `var(${token.replacedBy})`) {
+        // A theme token is an alias of its replacement. A component knob has
+        // no value of its own; it is read as the replacement's fallback.
         problems.push(`${token.name} does not resolve to its replacement ${token.replacedBy}`);
       }
     }

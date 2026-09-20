@@ -109,15 +109,38 @@ function kindOf(symbol) {
 }
 
 /** Every declaration a symbol has, as one collapsed, deterministic string. */
-function signatureOf(symbol, exportedName, renames) {
-  const parts = (symbol.getDeclarations() ?? []).map((declaration) => {
+function signatureOf(symbol, exportedName, renames, checker) {
+  const parts = (symbol.getDeclarations() ?? []).flatMap((declaration) => {
     // A namespace body would repeat every member; its members are reported
     // one by one instead, so the namespace itself reports only its header,
     // under the name consumers import, never rollup's internal one.
-    if (ts.isModuleDeclaration(declaration)) return `namespace ${exportedName}`;
-    return applyRenames(squeeze(declaration.getText()), renames);
+    if (ts.isModuleDeclaration(declaration)) return [`namespace ${exportedName}`];
+    // The declaration bundle re-exports a namespace member as
+    // `type ns_Name = Name;`. That line says nothing about the type; the
+    // report records what `Name` declares, so a member added to or removed
+    // from the interface behind it is a diff here.
+    const target = aliasTarget(declaration, checker);
+    if (target) {
+      return target.map((d) => `${exportedName} = ${applyRenames(squeeze(d.getText()), renames)}`);
+    }
+    return [applyRenames(squeeze(declaration.getText()), renames)];
   });
   return parts.sort().join(" | ");
+}
+
+/** The declarations behind `type A = B;` when `B` is a bare local reference. */
+function aliasTarget(declaration, checker) {
+  if (!ts.isTypeAliasDeclaration(declaration) || declaration.typeParameters) return null;
+  const type = declaration.type;
+  if (!ts.isTypeReferenceNode(type) || type.typeArguments) return null;
+  const symbol = checker.getSymbolAtLocation(type.typeName);
+  const resolved =
+    symbol && symbol.getFlags() & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+  const declarations = resolved?.getDeclarations() ?? [];
+  // Only what this bundle declares itself; a reference into another package
+  // or the DOM library stays a reference, and shows up in externalReferences.
+  const local = declarations.filter((d) => d.getSourceFile() === declaration.getSourceFile());
+  return local.length ? local : null;
 }
 
 function reportPackage({ dir, entry }) {
@@ -147,7 +170,11 @@ function reportPackage({ dir, entry }) {
   const record = (name, symbol) => {
     const target =
       symbol.getFlags() & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
-    symbols.push({ name, kind: kindOf(target), signature: signatureOf(target, name, renames) });
+    symbols.push({
+      name,
+      kind: kindOf(target),
+      signature: signatureOf(target, name, renames, checker),
+    });
     // Walk one level into a namespace: those members are the real API.
     if (target.getFlags() & ts.SymbolFlags.Module) {
       for (const member of checker.getExportsOfModule(target)) {
@@ -156,7 +183,7 @@ function reportPackage({ dir, entry }) {
         symbols.push({
           name: `${name}.${member.getName()}`,
           kind: kindOf(memberTarget),
-          signature: signatureOf(memberTarget, `${name}.${member.getName()}`, renames),
+          signature: signatureOf(memberTarget, `${name}.${member.getName()}`, renames, checker),
         });
       }
     }

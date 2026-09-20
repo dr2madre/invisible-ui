@@ -33,27 +33,27 @@
     {
       "name": "accordion.AccordionApi",
       "kind": "type",
-      "signature": "type accordion_AccordionApi = AccordionApi;"
+      "signature": "accordion.AccordionApi = interface AccordionApi { /** Currently expanded item values. */ value: string[]; /** Replace the expanded set (disabled items are ignored on toggle). */ setValue(value: string[]): void; /** Toggle a single item open/closed. */ toggle(value: string): void; /** Props for the accordion container. */ rootProps: ElementProps; /** Props for an item wrapper, by value (styling hooks). */ getItemProps(value: string): ElementProps; /** Props for an item's trigger/header button (`<button>`). */ getTriggerProps(value: string): ElementProps; /** Props for an item's panel (`role=\"region\"`). */ getPanelProps(value: string): ElementProps; }"
     },
     {
       "name": "accordion.AccordionContext",
       "kind": "type",
-      "signature": "type accordion_AccordionContext = AccordionContext;"
+      "signature": "accordion.AccordionContext = interface AccordionContext { /** Initially expanded values. Defaults to none. */ value?: string[]; /** Ordered list of items. */ items: AccordionItem[]; /** `single` (default): one open at a time. `multiple`: many. */ type?: AccordionType; /** For `single`: allow collapsing the open item. Defaults to `true`. */ collapsible?: boolean; /** Whether the whole accordion is disabled. Defaults to `false`. */ disabled?: boolean; /** Arrow-key axis for moving between headers. Defaults to `vertical`. */ orientation?: Orientation#1e024838; /** Base id used to link triggers to panels. Auto-generated when omitted. */ id?: string; /** Called whenever the expanded set changes. */ onValueChange?: (value: string[]) => void; }"
     },
     {
       "name": "accordion.AccordionItem",
       "kind": "type",
-      "signature": "type accordion_AccordionItem = AccordionItem;"
+      "signature": "accordion.AccordionItem = interface AccordionItem { value: string; disabled?: boolean; }"
     },
     {
       "name": "accordion.AccordionState",
       "kind": "type",
-      "signature": "type accordion_AccordionState = AccordionState;"
+      "signature": "accordion.AccordionState = interface AccordionState { /** Currently expanded item values. */ value: string[]; items: AccordionItem[]; type: AccordionType; /** For `single`: whether the open item can be collapsed. */ collapsible: boolean; /** Whether the whole accordion is disabled. */ disabled: boolean; orientation: Orientation#1e024838; /** Base id used to link triggers and panels. */ id: string; }"
     },
     {
       "name": "accordion.AccordionType",
       "kind": "type",
-      "signature": "type accordion_AccordionType = AccordionType;"
+      "signature": "accordion.AccordionType = type AccordionType = \"single\" | \"multiple\";"
     },
     {
       "name": "accordion.ConnectOptions",
@@ -118,17 +118,17 @@
     {
       "name": "asyncContent.AsyncContentContext",
       "kind": "type",
-      "signature": "type asyncContent_AsyncContentContext = AsyncContentContext;"
+      "signature": "asyncContent.AsyncContentContext = interface AsyncContentContext { status: AsyncStatus; hasContent: boolean; isEmpty?: boolean; }"
     },
     {
       "name": "asyncContent.AsyncStatus",
       "kind": "type",
-      "signature": "type asyncContent_AsyncStatus = AsyncStatus;"
+      "signature": "asyncContent.AsyncStatus = type AsyncStatus = \"idle\" | \"loading\" | \"success\" | \"error\";"
     },
     {
       "name": "asyncContent.AsyncView",
       "kind": "type",
-      "signature": "type asyncContent_AsyncView = AsyncView;"
+      "signature": "asyncContent.AsyncView = type AsyncView = \"idle\" | \"initial-loading\" | \"content\" | \"refreshing\" | \"empty\" | \"initial-error\" | \"stale-error\";"
     },
     {
       "name": "asyncContent.deriveAsyncView",
@@ -143,22 +143,22 @@
     {
       "name": "button.ButtonApi",
       "kind": "type",
-      "signature": "type button_ButtonApi = ButtonApi;"
+      "signature": "button.ButtonApi = interface ButtonApi { /** Whether the button is disabled. */ disabled: boolean; /** Semantic variant. */ variant: ButtonVariant; /** Props for the root element. */ rootProps: ElementProps; }"
     },
     {
       "name": "button.ButtonContext",
       "kind": "type",
-      "signature": "type button_ButtonContext = ButtonContext;"
+      "signature": "button.ButtonContext = interface ButtonContext { /** Whether the button is disabled. Defaults to `false`. */ disabled?: boolean; /** Semantic variant. Defaults to `\"default\"`. */ variant?: ButtonVariant; }"
     },
     {
       "name": "button.ButtonState",
       "kind": "type",
-      "signature": "type button_ButtonState = ButtonState;"
+      "signature": "button.ButtonState = interface ButtonState { disabled: boolean; variant: ButtonVariant; }"
     },
     {
       "name": "button.ButtonVariant",
       "kind": "type",
-      "signature": "type button_ButtonVariant = ButtonVariant;"
+      "signature": "button.ButtonVariant = type ButtonVariant = \"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\";"
     },
     {
       "name": "button.ConnectOptions",
@@ -183,17 +183,17 @@
     {
       "name": "buttonGroup.ButtonGroupApi",
       "kind": "type",
-      "signature": "type buttonGroup_ButtonGroupApi = ButtonGroupApi;"
+      "signature": "buttonGroup.ButtonGroupApi = interface ButtonGroupApi { /** Props for the group container (`role=\"group\"`). */ groupProps: ElementProps; }"
     },
     {
       "name": "buttonGroup.ButtonGroupContext",
       "kind": "type",
-      "signature": "type buttonGroup_ButtonGroupContext = ButtonGroupContext;"
+      "signature": "buttonGroup.ButtonGroupContext = interface ButtonGroupContext { /** Layout orientation (affects `aria-orientation`). Defaults to `horizontal`. */ orientation?: Orientation#1e024838; /** Accessible name for the group (recommended for `role=\"group\"`). */ label?: string; }"
     },
     {
       "name": "buttonGroup.ButtonGroupState",
       "kind": "type",
-      "signature": "type buttonGroup_ButtonGroupState = ButtonGroupState;"
+      "signature": "buttonGroup.ButtonGroupState = interface ButtonGroupState { orientation: Orientation#1e024838; /** Accessible name for the group. */ label?: string; }"
     },
     {
       "name": "buttonGroup.ConnectOptions",
@@ -223,27 +223,27 @@
     {
       "name": "calendar.CalendarApi",
       "kind": "type",
-      "signature": "type calendar_CalendarApi = CalendarApi;"
+      "signature": "calendar.CalendarApi = interface CalendarApi { view: CalendarView; focusedDate: string; value: string | null; /** Select a date (ignored when out of `[min, max]`). */ setValue(iso: string): void; /** Move focus to a date (clamped into range). */ setFocus(iso: string): void; setView(view: CalendarView): void; /** Step back one period (month / week / 3 days / day / year per the view). */ goPrev(): void; /** Step forward one period. */ goNext(): void; /** Move focus to today (clamped into range). */ goToday(): void; /** Whether a date is selectable. */ isSelectable(iso: string): boolean; /** Props for the grid container (`role=\"grid\"`). */ gridProps: ElementProps; /** Props for a grid row (`role=\"row\"`). */ rowProps: ElementProps; /** Props for a day cell wrapper (`role=\"gridcell\"`). */ getCellProps(iso: string): ElementProps; /** Props for the focusable day button. */ getDayProps(iso: string): ElementProps; }"
     },
     {
       "name": "calendar.CalendarContext",
       "kind": "type",
-      "signature": "type calendar_CalendarContext = CalendarContext;"
+      "signature": "calendar.CalendarContext = interface CalendarContext { /** Selected date (ISO `YYYY-MM-DD`), or `null`. */ value?: string | null; /** The date that drives what is shown / where focus sits. Defaults to `value` then today. */ focusedDate?: string; /** Layout/period. Defaults to `\"month\"`. */ view?: CalendarView; /** First day of the week. Defaults to `1` (Monday). */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** Base id used to link grid elements. Auto-generated when omitted. */ id?: string; onValueChange?: (value: string) => void; onFocusChange?: (focusedDate: string) => void; onViewChange?: (view: CalendarView) => void; }"
     },
     {
       "name": "calendar.CalendarDay",
       "kind": "type",
-      "signature": "type calendar_CalendarDay = CalendarDay;"
+      "signature": "calendar.CalendarDay = interface CalendarDay { /** ISO `YYYY-MM-DD`. */ date: string; /** Day of month (1–31). */ day: number; /** Month (1–12) this day belongs to. */ month: number; /** Full year. */ year: number; /** Day of week (0 = Sunday … 6 = Saturday). */ weekday: WeekStart; }"
     },
     {
       "name": "calendar.CalendarState",
       "kind": "type",
-      "signature": "type calendar_CalendarState = CalendarState;"
+      "signature": "calendar.CalendarState = interface CalendarState { value: string | null; focusedDate: string; view: CalendarView; weekStartsOn: WeekStart; min: string | null; max: string | null; id: string; }"
     },
     {
       "name": "calendar.CalendarView",
       "kind": "type",
-      "signature": "type calendar_CalendarView = CalendarView;"
+      "signature": "calendar.CalendarView = type CalendarView = \"month\" | \"two-month\" | \"week\" | \"three-day\" | \"day\" | \"year\";"
     },
     {
       "name": "calendar.ConnectOptions",
@@ -253,12 +253,12 @@
     {
       "name": "calendar.DateRange",
       "kind": "type",
-      "signature": "type calendar_DateRange = DateRange;"
+      "signature": "calendar.DateRange = interface DateRange { start: string | null; end: string | null; }"
     },
     {
       "name": "calendar.WeekStart",
       "kind": "type",
-      "signature": "type calendar_WeekStart = WeekStart;"
+      "signature": "calendar.WeekStart = type WeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6;"
     },
     {
       "name": "calendar.addDays",
@@ -393,17 +393,17 @@
     {
       "name": "carousel.CarouselApi",
       "kind": "type",
-      "signature": "type carousel_CarouselApi = CarouselApi;"
+      "signature": "carousel.CarouselApi = interface CarouselApi { /** Current slide index (0-based). */ index: number; /** Total number of slides. */ count: number; /** Whether forward/back navigation is currently possible. */ canGoNext: boolean; canGoPrev: boolean; /** Advance one slide (wraps when `loop`). */ next(): void; /** Go back one slide (wraps when `loop`). */ prev(): void; /** Jump to a slide (clamped). */ goTo(index: number): void; /** Props for the carousel container (`role=\"group\"`, `aria-roledescription`). */ rootProps: ElementProps; /** Props for the slides track/viewport. */ getViewportProps(): ElementProps; /** Props for a single slide, by index. */ getSlideProps(index: number): ElementProps; /** Props for the \"previous\" button. */ getPrevProps(): ElementProps; /** Props for the \"next\" button. */ getNextProps(): ElementProps; /** Props for a slide-picker indicator (\"dot\"), by index. */ getIndicatorProps(index: number): ElementProps; }"
     },
     {
       "name": "carousel.CarouselContext",
       "kind": "type",
-      "signature": "type carousel_CarouselContext = CarouselContext;"
+      "signature": "carousel.CarouselContext = interface CarouselContext { /** Total number of slides. */ count: number; /** Initial slide index (0-based). Defaults to `0`. */ index?: number; /** Whether navigation wraps around at the ends. Defaults to `false`. */ loop?: boolean; /** Scroll axis. Defaults to `horizontal`. */ orientation?: Orientation; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the current slide changes. */ onIndexChange?: (index: number) => void; }"
     },
     {
       "name": "carousel.CarouselState",
       "kind": "type",
-      "signature": "type carousel_CarouselState = CarouselState;"
+      "signature": "carousel.CarouselState = interface CarouselState { /** Current slide index (0-based). */ index: number; /** Total number of slides. */ count: number; /** Whether navigation wraps around at the ends. */ loop: boolean; orientation: Orientation; /** Base id used to scope generated ids. */ id: string; }"
     },
     {
       "name": "carousel.ConnectOptions",
@@ -413,7 +413,7 @@
     {
       "name": "carousel.Orientation",
       "kind": "type",
-      "signature": "type carousel_Orientation = Orientation;"
+      "signature": "carousel.Orientation = type Orientation = \"horizontal\" | \"vertical\";"
     },
     {
       "name": "carousel.canGoNext",
@@ -458,22 +458,22 @@
     {
       "name": "checkbox.CheckboxApi",
       "kind": "type",
-      "signature": "type checkbox_CheckboxApi = CheckboxApi;"
+      "signature": "checkbox.CheckboxApi = interface CheckboxApi { /** Current checked value. */ checked: CheckedState; /** Whether the checkbox is disabled. */ disabled: boolean; /** Whether the box is in the mixed / indeterminate state. */ indeterminate: boolean; /** Set the checked value explicitly (ignored when disabled). */ setChecked(value: CheckedState): void; /** Advance the checked value (ignored when disabled). */ toggle(): void; /** * Props for a native `<input type=\"checkbox\">`. The browser owns the * checkbox role, Space activation, focus and form participation. `checked` is * left to the adapter's own controlled-input binding; `indeterminate` has no * attribute at all and is declared in {@link CheckboxApi.rootDomProps}. */ rootProps: ElementProps; /** * DOM properties for the same `<input>`: `indeterminate`, which HTML cannot * express as an attribute. Adapters apply this bag generically — see * {@link DomProps}. */ rootDomProps: DomProps; }"
     },
     {
       "name": "checkbox.CheckboxContext",
       "kind": "type",
-      "signature": "type checkbox_CheckboxContext = CheckboxContext;"
+      "signature": "checkbox.CheckboxContext = interface CheckboxContext { /** Initial / controlled checked value. Defaults to `false`. */ checked?: CheckedState; /** Whether the checkbox is disabled. Defaults to `false`. */ disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; }"
     },
     {
       "name": "checkbox.CheckboxState",
       "kind": "type",
-      "signature": "type checkbox_CheckboxState = CheckboxState;"
+      "signature": "checkbox.CheckboxState = interface CheckboxState { checked: CheckedState; disabled: boolean; }"
     },
     {
       "name": "checkbox.CheckedState",
       "kind": "type",
-      "signature": "type checkbox_CheckedState = CheckedState;"
+      "signature": "checkbox.CheckedState = type CheckedState = boolean | \"indeterminate\";"
     },
     {
       "name": "checkbox.ConnectOptions",
@@ -503,22 +503,22 @@
     {
       "name": "checkboxGroup.CheckboxGroupApi",
       "kind": "type",
-      "signature": "type checkboxGroup_CheckboxGroupApi = CheckboxGroupApi;"
+      "signature": "checkboxGroup.CheckboxGroupApi = interface CheckboxGroupApi { /** The selected values. */ value: string[]; /** Whether the whole group is disabled. */ disabled: boolean; /** Whether a given value is selected. */ isChecked(value: string): boolean; /** Toggle a value (ignored when the group or item is disabled). */ toggle(value: string): void; /** Props for the group container (a native `<fieldset>`). */ rootProps: ElementProps; /** Props for a single item — a native `<input type=\"checkbox\">`, by value. */ getItemProps(value: string): ElementProps; }"
     },
     {
       "name": "checkboxGroup.CheckboxGroupContext",
       "kind": "type",
-      "signature": "type checkboxGroup_CheckboxGroupContext = CheckboxGroupContext;"
+      "signature": "checkboxGroup.CheckboxGroupContext = interface CheckboxGroupContext { /** Initial / controlled selected values. Defaults to `[]`. */ value?: string[]; items: CheckboxGroupItem[]; /** Whether the whole group is disabled. Defaults to `false`. */ disabled?: boolean; /** Called whenever the selected values change. */ onValueChange?: (value: string[]) => void; }"
     },
     {
       "name": "checkboxGroup.CheckboxGroupItem",
       "kind": "type",
-      "signature": "type checkboxGroup_CheckboxGroupItem = CheckboxGroupItem;"
+      "signature": "checkboxGroup.CheckboxGroupItem = interface CheckboxGroupItem { value: string; /** Visible label; falls back to `value`. */ label?: string; disabled?: boolean; }"
     },
     {
       "name": "checkboxGroup.CheckboxGroupState",
       "kind": "type",
-      "signature": "type checkboxGroup_CheckboxGroupState = CheckboxGroupState;"
+      "signature": "checkboxGroup.CheckboxGroupState = interface CheckboxGroupState { /** The selected values (order follows toggle order). */ value: string[]; items: CheckboxGroupItem[]; /** Whether the whole group is disabled. */ disabled: boolean; }"
     },
     {
       "name": "checkboxGroup.ConnectOptions",
@@ -548,17 +548,17 @@
     {
       "name": "collapsible.CollapsibleApi",
       "kind": "type",
-      "signature": "type collapsible_CollapsibleApi = CollapsibleApi;"
+      "signature": "collapsible.CollapsibleApi = interface CollapsibleApi { /** Whether the content is expanded. */ open: boolean; /** Set the open state (ignored while disabled). */ setOpen(open: boolean): void; /** Toggle the open state (ignored while disabled). */ toggle(): void; /** Props for the collapsible container (styling hooks). */ rootProps: ElementProps; /** Props for the trigger button (`<button>`). */ triggerProps: ElementProps; /** Props for the content panel. */ contentProps: ElementProps; }"
     },
     {
       "name": "collapsible.CollapsibleContext",
       "kind": "type",
-      "signature": "type collapsible_CollapsibleContext = CollapsibleContext;"
+      "signature": "collapsible.CollapsibleContext = interface CollapsibleContext { /** Initially open. Defaults to `false`. */ open?: boolean; /** Whether the collapsible is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id used to link the trigger to the content. Auto-generated when omitted. */ id?: string; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "collapsible.CollapsibleState",
       "kind": "type",
-      "signature": "type collapsible_CollapsibleState = CollapsibleState;"
+      "signature": "collapsible.CollapsibleState = interface CollapsibleState { /** Whether the content is expanded. */ open: boolean; /** Whether the collapsible is disabled. */ disabled: boolean; /** Base id used to link the trigger to the content. */ id: string; }"
     },
     {
       "name": "collapsible.ConnectOptions",
@@ -593,22 +593,22 @@
     {
       "name": "combobox.ComboboxApi",
       "kind": "type",
-      "signature": "type combobox_ComboboxApi = ComboboxApi;"
+      "signature": "combobox.ComboboxApi = interface ComboboxApi { open: boolean; value: string | null; inputValue: string; activeValue: string | null; selectedItem: ComboboxItem | null; /** Open the popup, highlighting the selected (or first enabled) option. */ openListbox(): void; /** Close the popup. */ closeListbox(): void; /** Highlight an option without selecting it. */ setActive(value: string): void; /** Select a value (ignored when disabled); fills the input and closes. */ select(value: string): void; /** Clear the selection and input text. */ clear(): void; /** Put the text back to the last selection's label. */ revert(): void; /** Close the list and, unless opted out, put the text back. */ commit(): void; /** Props for the label element. */ labelProps: ElementProps; /** Props for the input (`role=\"combobox\"`). */ inputProps: ElementProps; /** Props for the popup (`role=\"listbox\"`). */ listboxProps: ElementProps; /** Props for an option, by value (`role=\"option\"`). */ getOptionProps(value: string): ElementProps; /** Props for an optional clear button. */ clearProps: ElementProps; }"
     },
     {
       "name": "combobox.ComboboxContext",
       "kind": "type",
-      "signature": "type combobox_ComboboxContext = ComboboxContext;"
+      "signature": "combobox.ComboboxContext = interface ComboboxContext { /** Initial / controlled selected value. Defaults to `null`. */ value?: string | null; /** Initial input text. Defaults to `\"\"`. */ inputValue?: string; /** Ordered list of all options (filtering is applied by the adapter). */ items: ComboboxItem[]; disabled?: boolean; id?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string | null) => void; /** Called whenever the input text changes. */ onInputValueChange?: (text: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "combobox.ComboboxItem",
       "kind": "type",
-      "signature": "type combobox_ComboboxItem = ComboboxItem;"
+      "signature": "combobox.ComboboxItem = interface ComboboxItem { value: string; /** Visible label; falls back to `value`. */ label?: string; disabled?: boolean; }"
     },
     {
       "name": "combobox.ComboboxState",
       "kind": "type",
-      "signature": "type combobox_ComboboxState = ComboboxState;"
+      "signature": "combobox.ComboboxState = interface ComboboxState { /** Whether the listbox popup is open. */ open: boolean; /** The selected value, or `null`. */ value: string | null; /** The current text in the input. */ inputValue: string; /** * The text as it stood at the last selection. The typed text is a filter, so * a control that only takes values from its list puts this back when the * user leaves, rather than keeping a filter nobody chose. */ committedInputValue: string; /** The active (highlighted) option for `aria-activedescendant`, or `null`. */ activeValue: string | null; /** The currently visible (filtered) items. */ items: ComboboxItem[]; /** Whether the whole control is disabled. */ disabled: boolean; /** Base id used to link the label, input, listbox and options. */ id: string; }"
     },
     {
       "name": "combobox.ConnectOptions",
@@ -683,22 +683,22 @@
     {
       "name": "dialog.DialogApi",
       "kind": "type",
-      "signature": "type dialog_DialogApi = DialogApi;"
+      "signature": "dialog.DialogApi = interface DialogApi { open: boolean; /** Open the dialog. */ openDialog(): void; /** Close the dialog. */ closeDialog(): void; /** Toggle the dialog. */ toggle(): void; /** Props for the trigger element. */ triggerProps: ElementProps; /** Props for the dialog panel (`role=\"dialog\"`, `aria-modal`). */ contentProps: ElementProps; /** Props for the title element (names the dialog). */ titleProps: ElementProps; /** Props for the description element (describes the dialog). */ descriptionProps: ElementProps; /** Props for a close button inside the dialog. */ closeProps: ElementProps; }"
     },
     {
       "name": "dialog.DialogContext",
       "kind": "type",
-      "signature": "type dialog_DialogContext = DialogContext;"
+      "signature": "dialog.DialogContext = interface DialogContext { /** Initial / controlled open state. Defaults to `false`. */ open?: boolean; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Accessibility role. Defaults to `\"dialog\"`. */ role?: DialogRole; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "dialog.DialogRole",
       "kind": "type",
-      "signature": "type dialog_DialogRole = DialogRole;"
+      "signature": "dialog.DialogRole = type DialogRole = \"dialog\" | \"alertdialog\";"
     },
     {
       "name": "dialog.DialogState",
       "kind": "type",
-      "signature": "type dialog_DialogState = DialogState;"
+      "signature": "dialog.DialogState = interface DialogState { /** Whether the dialog is open. */ open: boolean; /** Base id linking the trigger, panel, title and description. */ id: string; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role: DialogRole; }"
     },
     {
       "name": "dialog.connect",
@@ -743,22 +743,22 @@
     {
       "name": "field.FieldApi",
       "kind": "type",
-      "signature": "type field_FieldApi = FieldApi;"
+      "signature": "field.FieldApi = interface FieldApi { /** Resolved ids for each part. */ ids: FieldIds; /** Props for the field container (styling hooks). */ rootProps: ElementProps; /** Props for the label element (`<label>`). */ labelProps: ElementProps; /** Props to spread onto the control (id + ARIA wiring). */ controlProps: ElementProps; /** Props for the description element. */ descriptionProps: ElementProps; /** Props for the error message element. */ errorProps: ElementProps; }"
     },
     {
       "name": "field.FieldContext",
       "kind": "type",
-      "signature": "type field_FieldContext = FieldContext;"
+      "signature": "field.FieldContext = interface FieldContext { /** Base id. Auto-generated when omitted. */ id?: string; /** Whether the control is required. Defaults to `false`. */ required?: boolean; /** Whether the field is invalid. Defaults to `false`. */ invalid?: boolean; /** Whether the field is disabled. Defaults to `false`. */ disabled?: boolean; /** Whether a description is present. Defaults to `false`. */ hasDescription?: boolean; /** Whether an error message is present. Defaults to `false`. */ hasError?: boolean; }"
     },
     {
       "name": "field.FieldIds",
       "kind": "type",
-      "signature": "type field_FieldIds = FieldIds;"
+      "signature": "field.FieldIds = interface FieldIds { label: string; control: string; description: string; error: string; }"
     },
     {
       "name": "field.FieldState",
       "kind": "type",
-      "signature": "type field_FieldState = FieldState;"
+      "signature": "field.FieldState = interface FieldState { /** Base id used to derive the label/control/description/error ids. */ id: string; /** Whether the control is required. */ required: boolean; /** Whether the field is in an invalid (error) state. */ invalid: boolean; /** Whether the field is disabled. */ disabled: boolean; /** Whether a description is present (so it can be linked). */ hasDescription: boolean; /** Whether an error message is present (so it can be linked). */ hasError: boolean; }"
     },
     {
       "name": "field.connect",
@@ -813,17 +813,17 @@
     {
       "name": "hoverCard.HoverCardApi",
       "kind": "type",
-      "signature": "type hoverCard_HoverCardApi = HoverCardApi;"
+      "signature": "hoverCard.HoverCardApi = interface HoverCardApi { open: boolean; /** Props for the trigger element. */ triggerProps: ElementProps; /** Props for the content card. */ contentProps: ElementProps; }"
     },
     {
       "name": "hoverCard.HoverCardContext",
       "kind": "type",
-      "signature": "type hoverCard_HoverCardContext = HoverCardContext;"
+      "signature": "hoverCard.HoverCardContext = interface HoverCardContext { /** Initial / controlled open state. Defaults to `false`. */ open?: boolean; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "hoverCard.HoverCardState",
       "kind": "type",
-      "signature": "type hoverCard_HoverCardState = HoverCardState;"
+      "signature": "hoverCard.HoverCardState = interface HoverCardState { /** Whether the card is open. */ open: boolean; /** Base id linking the trigger and the content. */ id: string; }"
     },
     {
       "name": "hoverCard.connect",
@@ -858,37 +858,37 @@
     {
       "name": "i18n.Dir",
       "kind": "type",
-      "signature": "type i18n_Dir = Dir;"
+      "signature": "i18n.Dir = type Dir = \"ltr\" | \"rtl\";"
     },
     {
       "name": "i18n.MessageKey",
       "kind": "type",
-      "signature": "type i18n_MessageKey = MessageKey;"
+      "signature": "i18n.MessageKey = type MessageKey = keyof typeof en;"
     },
     {
       "name": "i18n.MessageValue",
       "kind": "type",
-      "signature": "type i18n_MessageValue = MessageValue;"
+      "signature": "i18n.MessageValue = type MessageValue = string | PluralMessage;"
     },
     {
       "name": "i18n.Messages",
       "kind": "type",
-      "signature": "type i18n_Messages = Messages;"
+      "signature": "i18n.Messages = type Messages = Partial<Record<MessageKey, string | PluralMessage>>;"
     },
     {
       "name": "i18n.NumberSymbols",
       "kind": "type",
-      "signature": "type i18n_NumberSymbols = NumberSymbols;"
+      "signature": "i18n.NumberSymbols = interface NumberSymbols { decimal: string; group: string; minusSign: string; /** The ten digits of the locale's default numbering system, 0 through 9. */ digits: string[]; }"
     },
     {
       "name": "i18n.PluralMessage",
       "kind": "type",
-      "signature": "type i18n_PluralMessage = PluralMessage;"
+      "signature": "i18n.PluralMessage = interface PluralMessage { zero?: string; one?: string; two?: string; few?: string; many?: string; other: string; }"
     },
     {
       "name": "i18n.TranslateVars",
       "kind": "type",
-      "signature": "type i18n_TranslateVars = TranslateVars;"
+      "signature": "i18n.TranslateVars = type TranslateVars = Record<string, string | number>;"
     },
     {
       "name": "i18n.canonicalLocale",
@@ -963,17 +963,17 @@
     {
       "name": "label.LabelApi",
       "kind": "type",
-      "signature": "type label_LabelApi = LabelApi;"
+      "signature": "label.LabelApi = interface LabelApi { /** Props for the label element (`<label>`). */ rootProps: ElementProps; }"
     },
     {
       "name": "label.LabelContext",
       "kind": "type",
-      "signature": "type label_LabelContext = LabelContext;"
+      "signature": "label.LabelContext = interface LabelContext { /** Id of the control to associate with (`for`). */ for?: string; /** Id for the label element itself. */ id?: string; }"
     },
     {
       "name": "label.LabelState",
       "kind": "type",
-      "signature": "type label_LabelState = LabelState;"
+      "signature": "label.LabelState = interface LabelState { /** Id of the control this labels (drives the `for` attribute), or `null`. */ for: string | null; /** Id for the label itself (for `aria-labelledby` on the control), or `null`. */ id: string | null; }"
     },
     {
       "name": "label.connect",
@@ -998,42 +998,42 @@
     {
       "name": "menu.MenuApi",
       "kind": "type",
-      "signature": "type menu_MenuApi = MenuApi;"
+      "signature": "menu.MenuApi = interface MenuApi { open: boolean; activeValue: string | null; /** Open the menu, focusing the first enabled item. */ openMenu(from?: \"first\" | \"last\"): void; /** Close the menu. */ closeMenu(): void; /** Make an item active (focused). */ setActive(value: string): void; /** Activate an item (runs onSelect) and close (ignored when disabled). */ select(value: string): void; /** Props for the trigger button (`aria-haspopup=\"menu\"`). */ triggerProps: ElementProps; /** Props for the menu popup (`role=\"menu\"`). */ menuProps: ElementProps; /** Props for a menu item, by value (`role=\"menuitem\"`). */ getItemProps(value: string): ElementProps; /** Props for a separator line between groups of items. */ separatorProps: ElementProps; /** Props for a group wrapper, named by its label. */ getGroupProps(index: number): ElementProps; /** Props for the element holding a group's label text. */ getGroupLabelProps(index: number): ElementProps; }"
     },
     {
       "name": "menu.MenuContext",
       "kind": "type",
-      "signature": "type menu_MenuContext = MenuContext;"
+      "signature": "menu.MenuContext = interface MenuContext { /** Items, separators and groups, in the order they are shown. */ items: MenuEntry[]; disabled?: boolean; id?: string; /** Called when an item is activated (selected/clicked). */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "menu.MenuEntry",
       "kind": "type",
-      "signature": "type menu_MenuEntry = MenuEntry;"
+      "signature": "menu.MenuEntry = type MenuEntry = MenuItem | MenuSeparator | MenuGroup;"
     },
     {
       "name": "menu.MenuGroup",
       "kind": "type",
-      "signature": "type menu_MenuGroup = MenuGroup;"
+      "signature": "menu.MenuGroup = interface MenuGroup { type: \"group\"; /** Visible label naming the group. */ label: string; items: MenuItem[]; }"
     },
     {
       "name": "menu.MenuItem",
       "kind": "type",
-      "signature": "type menu_MenuItem = MenuItem;"
+      "signature": "menu.MenuItem = interface MenuItem { value: string; /** Visible label; used for typeahead. Falls back to `value`. */ label?: string; disabled?: boolean; /** Defaults to `\"action\"`. */ kind?: MenuItemKind; /** * On/off state for a `checkbox` or `radio` item. The menu reports the * activation and the application decides what the new state is, the same way * every other control here works. */ checked?: boolean; }"
     },
     {
       "name": "menu.MenuItemKind",
       "kind": "type",
-      "signature": "type menu_MenuItemKind = MenuItemKind;"
+      "signature": "menu.MenuItemKind = type MenuItemKind = \"action\" | \"checkbox\" | \"radio\";"
     },
     {
       "name": "menu.MenuSeparator",
       "kind": "type",
-      "signature": "type menu_MenuSeparator = MenuSeparator;"
+      "signature": "menu.MenuSeparator = interface MenuSeparator { type: \"separator\"; }"
     },
     {
       "name": "menu.MenuState",
       "kind": "type",
-      "signature": "type menu_MenuState = MenuState;"
+      "signature": "menu.MenuState = interface MenuState { /** Whether the menu popup is open. */ open: boolean; /** The active (focused) item value, or `null`. */ activeValue: string | null; /** Everything the menu holds, in the order it is shown. */ items: MenuEntry[]; /** Whether the whole menu is disabled. */ disabled: boolean; /** Base id used to link the trigger and menu. */ id: string; }"
     },
     {
       "name": "menu.connect",
@@ -1123,17 +1123,17 @@
     {
       "name": "meter.MeterApi",
       "kind": "type",
-      "signature": "type meter_MeterApi = MeterApi;"
+      "signature": "meter.MeterApi = interface MeterApi { value: number; min: number; max: number; /** Filled fraction as a 0–100 percentage. */ percentage: number; /** Band relative to the low/high thresholds. */ level: \"low\" | \"medium\" | \"high\"; /** How good the value is, given where the good end of the scale is. */ quality: \"optimal\" | \"suboptimal\" | \"poor\"; /** Props for the meter element (`role=\"meter\"` + ARIA value). */ rootProps: ElementProps; /** Props for the visual fill/indicator (styling hooks). */ indicatorProps: ElementProps; }"
     },
     {
       "name": "meter.MeterContext",
       "kind": "type",
-      "signature": "type meter_MeterContext = MeterContext;"
+      "signature": "meter.MeterContext = interface MeterContext { /** Current measured value. Defaults to `0`. */ value?: number; /** Minimum value. Defaults to `0`. */ min?: number; /** Maximum value. Defaults to `100`. */ max?: number; /** Upper bound of the \"low\" range (values at or below are `low`). */ low?: number; /** Lower bound of the \"high\" range (values at or above are `high`). */ high?: number; /** * Where the good end of the scale is. Defaults to `max`. Set it near `min` * for a measure where less is better, such as disk usage. */ optimum?: number; /** Base id. Auto-generated when omitted. */ id?: string; }"
     },
     {
       "name": "meter.MeterState",
       "kind": "type",
-      "signature": "type meter_MeterState = MeterState;"
+      "signature": "meter.MeterState = interface MeterState { /** Current measured value. */ value: number; /** Minimum value. */ min: number; /** Maximum value. */ max: number; /** Upper bound of the \"low\" range, or `null` when unset. */ low: number | null; /** Lower bound of the \"high\" range, or `null` when unset. */ high: number | null; /** * Where the good end of the scale is. For battery or a score the good end is * the top; for disk usage or error rate it is the bottom. Defaults to `max`, * so a meter that says nothing keeps reading \"more is better\". */ optimum: number; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "meter.clamp",
@@ -1178,22 +1178,22 @@
     {
       "name": "multiSelect.MultiSelectApi",
       "kind": "type",
-      "signature": "type multiSelect_MultiSelectApi = MultiSelectApi;"
+      "signature": "multiSelect.MultiSelectApi = interface MultiSelectApi { open: boolean; values: string[]; inputValue: string; activeValue: string | null; /** The selected items in selection order, with raw fallbacks for values * whose item is not currently listed. */ selectedItems: MultiSelectItem[]; /** Whether a value is currently selected. */ isSelected(value: string): boolean; /** Whether a value could be added right now (state and max permitting). */ canAdd(value: string): boolean; /** Open the popup with no pre-highlight (blocked when disabled/read-only). */ openListbox(): void; /** Close the popup. */ closeListbox(): void; /** Highlight an option without selecting it. */ setActive(value: string): void; /** Add the value and keep the popup open for another choice. Reselecting a * selected value is a silent no-op; the filter text is cleared on a real * addition. */ select(value: string): void; /** Remove a selected value (blocked when disabled/read-only or the item is * disabled). */ remove(value: string): void; /** The Backspace policy body: remove the last removable value. */ removeLast(): void; /** Props for the label element. */ labelProps: ElementProps; /** Props for the input (`role=\"combobox\"`). */ inputProps: ElementProps; /** Props for the popup (`role=\"listbox\"`, multiselectable). */ listboxProps: ElementProps; /** Props for an option, by value (`role=\"option\"`). */ getOptionProps(value: string): ElementProps; /** Props for the selected-values (tag) list container. */ valuesListProps: ElementProps; }"
     },
     {
       "name": "multiSelect.MultiSelectContext",
       "kind": "type",
-      "signature": "type multiSelect_MultiSelectContext = MultiSelectContext;"
+      "signature": "multiSelect.MultiSelectContext = interface MultiSelectContext { /** Initial / controlled selected values. Defaults to `[]`. */ values?: string[]; /** Initial input text. Defaults to `\"\"`. */ inputValue?: string; /** Ordered list of all options (filtering is applied by the adapter). */ items: MultiSelectItem[]; disabled?: boolean; readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. Defaults to `false`. */ removeOnBackspace?: boolean; id?: string; /** Called whenever the selected values change. */ onValuesChange?: (values: string[]) => void; /** Called whenever the input text changes. */ onInputValueChange?: (text: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "multiSelect.MultiSelectItem",
       "kind": "type",
-      "signature": "type multiSelect_MultiSelectItem = MultiSelectItem;"
+      "signature": "multiSelect.MultiSelectItem = interface MultiSelectItem { value: string; /** Visible label; falls back to `value`. */ label?: string; disabled?: boolean; }"
     },
     {
       "name": "multiSelect.MultiSelectState",
       "kind": "type",
-      "signature": "type multiSelect_MultiSelectState = MultiSelectState;"
+      "signature": "multiSelect.MultiSelectState = interface MultiSelectState { /** Whether the listbox popup is open. */ open: boolean; /** The selected values, ordered by selection, unique. */ values: string[]; /** The current text in the input (the filter query). */ inputValue: string; /** The active (highlighted) option for `aria-activedescendant`, or `null`. */ activeValue: string | null; /** The currently visible (filtered) items. */ items: MultiSelectItem[]; /** Whether the whole control is disabled. */ disabled: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly: boolean; /** Cap on additions; never removes existing values. `null` means no cap. */ max: number | null; /** Whether Backspace in an empty input removes the last removable value. */ removeOnBackspace: boolean; /** Base id used to link the label, input, listbox, options and tag list. */ id: string; }"
     },
     {
       "name": "multiSelect.addValue",
@@ -1288,17 +1288,17 @@
     {
       "name": "navigationMenu.NavigationMenuApi",
       "kind": "type",
-      "signature": "type navigationMenu_NavigationMenuApi = NavigationMenuApi;"
+      "signature": "navigationMenu.NavigationMenuApi = interface NavigationMenuApi { value: string | null; /** Whether the item with this value is open. */ isOpen(value: string): boolean; /** Open the item with this value. */ open(value: string): void; /** Close any open item. */ close(): void; /** Toggle the item with this value. */ toggle(value: string): void; /** Props for a panel item's trigger (`aria-expanded` / `aria-controls`). */ getTriggerProps(value: string): ElementProps; /** Props for a panel item's content. */ getContentProps(value: string): ElementProps; }"
     },
     {
       "name": "navigationMenu.NavigationMenuContext",
       "kind": "type",
-      "signature": "type navigationMenu_NavigationMenuContext = NavigationMenuContext;"
+      "signature": "navigationMenu.NavigationMenuContext = interface NavigationMenuContext { /** Initial / controlled open value. Defaults to `null`. */ value?: string | null; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Called whenever the open value changes. */ onValueChange?: (value: string | null) => void; }"
     },
     {
       "name": "navigationMenu.NavigationMenuState",
       "kind": "type",
-      "signature": "type navigationMenu_NavigationMenuState = NavigationMenuState;"
+      "signature": "navigationMenu.NavigationMenuState = interface NavigationMenuState { /** The value of the currently open item, or `null`. */ value: string | null; /** Base id used to link triggers and content panels. */ id: string; }"
     },
     {
       "name": "navigationMenu.connect",
@@ -1333,37 +1333,37 @@
     {
       "name": "numberField.NumberFieldApi",
       "kind": "type",
-      "signature": "type numberField_NumberFieldApi = NumberFieldApi;"
+      "signature": "numberField.NumberFieldApi = interface NumberFieldApi { /** The canonical value, or `null`. */ value: number | null; /** The current editing string. */ inputValue: string; /** How the editing string reads right now. */ status: NumberInputStatus; validationError: NumberFieldError | null; /** Canonical ASCII value for form submission (`\"\"` when empty). */ formValue: string; /** Localized display text of the canonical value (`\"\"` when empty). */ formattedValue: string; canIncrement: boolean; canDecrement: boolean; /** Replace the draft as the user types; the canonical value follows. */ setDraft(text: string): void; /** Commit the draft (blur / Enter): reformat when it parses, keep it when it does not. */ commit(): void; /** Restore the last committed value into the draft (Escape). */ revert(): void; /** Spin by one step: snap to the grid, clamp to the bounds, commit. */ stepBy(direction: 1 | -1): void; labelProps: ElementProps; /** Props for the visible text input (`role=\"spinbutton\"`). */ inputProps: ElementProps; incrementProps: ElementProps; decrementProps: ElementProps; /** Props for the hidden input that carries the form value. */ hiddenInputProps: ElementProps; }"
     },
     {
       "name": "numberField.NumberFieldContext",
       "kind": "type",
-      "signature": "type numberField_NumberFieldContext = NumberFieldContext;"
+      "signature": "numberField.NumberFieldContext = interface NumberFieldContext { /** Initial / controlled value. Defaults to `null`. */ value?: number | null; /** BCP-47 locale. Adapters default it to the provider's resolved locale. */ locale?: string; min?: number; max?: number; /** Step for the spin actions. Defaults to `1`. */ step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; /** Opt in to wheel stepping. Defaults to `false`. */ changeOnWheel?: boolean; id?: string; /** Called when the canonical value changes while editing. */ onValueChange?: (value: number | null) => void; /** Called at commit boundaries: blur, Enter and spin actions. */ onValueCommit?: (value: number | null) => void; }"
     },
     {
       "name": "numberField.NumberFieldError",
       "kind": "type",
-      "signature": "type numberField_NumberFieldError = NumberFieldError;"
+      "signature": "numberField.NumberFieldError = type NumberFieldError = \"parse\" | \"range-underflow\" | \"range-overflow\" | \"step-mismatch\";"
     },
     {
       "name": "numberField.NumberFieldMessages",
       "kind": "type",
-      "signature": "type numberField_NumberFieldMessages = NumberFieldMessages;"
+      "signature": "numberField.NumberFieldMessages = interface NumberFieldMessages { /** Accessible name of the increment button. */ increment: string; /** Accessible name of the decrement button. */ decrement: string; }"
     },
     {
       "name": "numberField.NumberFieldState",
       "kind": "type",
-      "signature": "type numberField_NumberFieldState = NumberFieldState;"
+      "signature": "numberField.NumberFieldState = interface NumberFieldState { /** The canonical value, or `null` when empty. */ value: number | null; /** The user's editing string (the draft), distinct from the value. */ inputValue: string; /** The value at the last commit boundary. Escape restores it, and a * commit that lands on it again stays silent. */ committedValue: number | null; /** BCP-47 locale driving parsing and formatting. */ locale: string; min: number | null; max: number | null; /** Step for the spin actions; also validated on typed values. */ step: number; disabled: boolean; /** Review-only: focus works, editing and stepping do not. */ readOnly: boolean; required: boolean; /** Opt-in wheel stepping while the input is focused and hovered. */ changeOnWheel: boolean; /** Base id used to link the label, input and buttons. */ id: string; }"
     },
     {
       "name": "numberField.NumberInputStatus",
       "kind": "type",
-      "signature": "type numberField_NumberInputStatus = NumberInputStatus;"
+      "signature": "numberField.NumberInputStatus = type NumberInputStatus = \"empty\" | \"incomplete\" | \"valid\" | \"invalid\";"
     },
     {
       "name": "numberField.NumberParseResult",
       "kind": "type",
-      "signature": "type numberField_NumberParseResult = NumberParseResult;"
+      "signature": "numberField.NumberParseResult = interface NumberParseResult { status: NumberInputStatus; /** The canonical number the string expresses, or `null`. */ value: number | null; error: NumberFieldError | null; }"
     },
     {
       "name": "numberField.canonicalString",
@@ -1443,22 +1443,22 @@
     {
       "name": "pagination.PageItem",
       "kind": "type",
-      "signature": "type pagination_PageItem = PageItem;"
+      "signature": "pagination.PageItem = type PageItem = number | \"ellipsis\";"
     },
     {
       "name": "pagination.PaginationApi",
       "kind": "type",
-      "signature": "type pagination_PaginationApi = PaginationApi;"
+      "signature": "pagination.PaginationApi = interface PaginationApi { /** Current page (1-based). */ page: number; pageCount: number; /** Rendered items (page numbers and ellipsis gaps). */ items: PageItem[]; /** Go to a page (clamped; ignored while disabled). */ setPage(page: number): void; /** Props for the container (render on a `<nav>`). */ rootProps: ElementProps; /** Props for the \"previous page\" button. */ getPrevProps(): ElementProps; /** Props for the \"next page\" button. */ getNextProps(): ElementProps; /** Props for a numbered page button. */ getPageProps(page: number): ElementProps; }"
     },
     {
       "name": "pagination.PaginationContext",
       "kind": "type",
-      "signature": "type pagination_PaginationContext = PaginationContext;"
+      "signature": "pagination.PaginationContext = interface PaginationContext { /** Current page (1-based). Defaults to `1`. */ page?: number; /** Total number of pages. */ pageCount: number; /** Pages shown on each side of the current page. Defaults to `1`. */ siblingCount?: number; /** Pages always shown at the start and end. Defaults to `1`. */ boundaryCount?: number; /** Whether the control is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the page changes. */ onPageChange?: (page: number) => void; }"
     },
     {
       "name": "pagination.PaginationState",
       "kind": "type",
-      "signature": "type pagination_PaginationState = PaginationState;"
+      "signature": "pagination.PaginationState = interface PaginationState { /** Current page (1-based). */ page: number; /** Total number of pages. */ pageCount: number; /** Pages shown on each side of the current page. */ siblingCount: number; /** Pages always shown at the start and end. */ boundaryCount: number; /** Whether the whole control is disabled. */ disabled: boolean; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "pagination.clampPage",
@@ -1493,22 +1493,22 @@
     {
       "name": "pinInput.PinInputApi",
       "kind": "type",
-      "signature": "type pinInput_PinInputApi = PinInputApi;"
+      "signature": "pinInput.PinInputApi = interface PinInputApi { /** One value per cell. */ values: string[]; /** The combined value. */ value: string; /** Props for the group container (`role=\"group\"`). */ rootProps: ElementProps; /** Props for a single cell `<input>`, by index. */ getInputProps(index: number): ElementProps; }"
     },
     {
       "name": "pinInput.PinInputContext",
       "kind": "type",
-      "signature": "type pinInput_PinInputContext = PinInputContext;"
+      "signature": "pinInput.PinInputContext = interface PinInputContext { /** Initial value; spread across the cells. */ value?: string; /** Number of cells. Defaults to `6`. */ length?: number; /** Allowed characters. Defaults to `numeric`. */ type?: PinInputType; /** Render cells masked. Defaults to `false`. */ mask?: boolean; /** Whether the input is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
     },
     {
       "name": "pinInput.PinInputState",
       "kind": "type",
-      "signature": "type pinInput_PinInputState = PinInputState;"
+      "signature": "pinInput.PinInputState = interface PinInputState { /** One entry per cell (empty string when blank). */ values: string[]; /** Number of cells. */ length: number; /** Allowed characters. */ type: PinInputType; /** Render cells masked (like a password). */ mask: boolean; /** Whether the whole input is disabled. */ disabled: boolean; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "pinInput.PinInputType",
       "kind": "type",
-      "signature": "type pinInput_PinInputType = PinInputType;"
+      "signature": "pinInput.PinInputType = type PinInputType = \"numeric\" | \"alphanumeric\";"
     },
     {
       "name": "pinInput.connect",
@@ -1553,17 +1553,17 @@
     {
       "name": "popover.PopoverApi",
       "kind": "type",
-      "signature": "type popover_PopoverApi = PopoverApi;"
+      "signature": "popover.PopoverApi = interface PopoverApi { open: boolean; /** Open the panel. */ openPopover(): void; /** Close the panel. */ closePopover(): void; /** Toggle the panel. */ toggle(): void; /** Props for the trigger element. */ triggerProps: ElementProps; /** Props for the content panel. */ contentProps: ElementProps; }"
     },
     {
       "name": "popover.PopoverContext",
       "kind": "type",
-      "signature": "type popover_PopoverContext = PopoverContext;"
+      "signature": "popover.PopoverContext = interface PopoverContext { /** Initial / controlled open state. Defaults to `false`. */ open?: boolean; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "popover.PopoverState",
       "kind": "type",
-      "signature": "type popover_PopoverState = PopoverState;"
+      "signature": "popover.PopoverState = interface PopoverState { /** Whether the panel is open. */ open: boolean; /** Base id linking the trigger and the content. */ id: string; }"
     },
     {
       "name": "popover.connect",
@@ -1598,17 +1598,17 @@
     {
       "name": "progress.ProgressApi",
       "kind": "type",
-      "signature": "type progress_ProgressApi = ProgressApi;"
+      "signature": "progress.ProgressApi = interface ProgressApi { /** Current value, or `null` when indeterminate. */ value: number | null; min: number; max: number; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: number | null; /** Whether the bar is indeterminate. */ indeterminate: boolean; /** Props for the progressbar element (`role=\"progressbar\"` + ARIA value). */ rootProps: ElementProps; /** Props for the visual fill/indicator (styling hooks). */ indicatorProps: ElementProps; }"
     },
     {
       "name": "progress.ProgressContext",
       "kind": "type",
-      "signature": "type progress_ProgressContext = ProgressContext;"
+      "signature": "progress.ProgressContext = interface ProgressContext { /** Current value. Omit (or pass `null`) for an indeterminate bar. Defaults to `0`. */ value?: number | null; /** Minimum value. Defaults to `0`. */ min?: number; /** Maximum value. Defaults to `100`. */ max?: number; /** Base id. Auto-generated when omitted. */ id?: string; }"
     },
     {
       "name": "progress.ProgressState",
       "kind": "type",
-      "signature": "type progress_ProgressState = ProgressState;"
+      "signature": "progress.ProgressState = interface ProgressState { /** Current value, or `null` when indeterminate (work of unknown length). */ value: number | null; /** Minimum value. */ min: number; /** Maximum value. */ max: number; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "progress.clamp",
@@ -1658,22 +1658,22 @@
     {
       "name": "radioGroup.RadioGroupApi",
       "kind": "type",
-      "signature": "type radioGroup_RadioGroupApi = RadioGroupApi;"
+      "signature": "radioGroup.RadioGroupApi = interface RadioGroupApi { /** The selected value, or `null`. */ value: string | null; /** Whether the whole group is disabled. */ disabled: boolean; /** Select a value (ignored when the group or item is disabled). */ setValue(value: string): void; /** Props for the group container (`role=\"radiogroup\"`). */ rootProps: ElementProps; /** Props for a single item — a native `<input type=\"radio\">`, by value. */ getItemProps(value: string): ElementProps; }"
     },
     {
       "name": "radioGroup.RadioGroupContext",
       "kind": "type",
-      "signature": "type radioGroup_RadioGroupContext = RadioGroupContext;"
+      "signature": "radioGroup.RadioGroupContext = interface RadioGroupContext { /** Initial / controlled selected value. Defaults to `null`. */ value?: string | null; /** Ordered list of items. */ items: RadioItem[]; /** Layout orientation (affects `aria-orientation`). Defaults to `vertical`. */ orientation?: Orientation#1e024838; /** Whether the whole group is disabled. Defaults to `false`. */ disabled?: boolean; /** Shared form/group name for the native radio inputs (one is generated if omitted). */ name?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "radioGroup.RadioGroupState",
       "kind": "type",
-      "signature": "type radioGroup_RadioGroupState = RadioGroupState;"
+      "signature": "radioGroup.RadioGroupState = interface RadioGroupState { /** The selected value, or `null` when nothing is selected. */ value: string | null; /** Ordered list of items (used for navigation and roving tabindex). */ items: RadioItem[]; orientation: Orientation#1e024838; /** Whether the whole group is disabled. */ disabled: boolean; }"
     },
     {
       "name": "radioGroup.RadioItem",
       "kind": "type",
-      "signature": "type radioGroup_RadioItem = RadioItem;"
+      "signature": "radioGroup.RadioItem = interface RadioItem { value: string; disabled?: boolean; }"
     },
     {
       "name": "radioGroup.connect",
@@ -1693,7 +1693,7 @@
     {
       "name": "rangeSlider.Box",
       "kind": "type",
-      "signature": "type rangeSlider_Box = Box;"
+      "signature": "rangeSlider.Box = interface Box { left: number; top: number; width: number; height: number; }"
     },
     {
       "name": "rangeSlider.ConnectOptions",
@@ -1708,22 +1708,22 @@
     {
       "name": "rangeSlider.PointerAxis",
       "kind": "type",
-      "signature": "type rangeSlider_PointerAxis = PointerAxis;"
+      "signature": "rangeSlider.PointerAxis = interface PointerAxis { orientation: \"horizontal\" | \"vertical\"; /** The input's computed `direction`. Under `rtl` a native range paints * `min` on the right; under the vertical writing this library uses * (`vertical-lr` with `direction: rtl`) it paints `min` at the bottom. * Measured identical in Chromium, Firefox and WebKit. */ rtl: boolean; }"
     },
     {
       "name": "rangeSlider.RangeSliderApi",
       "kind": "type",
-      "signature": "type rangeSlider_RangeSliderApi = RangeSliderApi;"
+      "signature": "rangeSlider.RangeSliderApi = interface RangeSliderApi { value: readonly [number, number]; min: number; max: number; step: number; minDistance: number; /** `[lowerPercentage, upperPercentage]`, each 0-100. */ percentages: readonly [number, number]; /** Request a new raw value for one thumb; clamped against the other and * snapped to the step before it is reported. */ setValue(index: 0 | 1, raw: number): void; /** Props for the slider container (styling hooks). */ rootProps: ElementProps; /** * Props for the decorative fill between the two thumbs. Carries * `aria-hidden`: the two real inputs are what a screen reader sees. There * is no equivalent `trackProps`, because the track is not a separate * decorative element here; the two real inputs sit inside it, so hiding it * would hide them too. */ rangeProps: ElementProps; /** * Props for one thumb's native `<input type=\"range\">`, everything except * `value` and the input handler: those two stay live DOM state, so an * adapter binds them directly instead of routing them through an attribute * sync (the same split `text-field`'s `controlProps` already makes, and * for the same reason: once a user has touched a control, re-setting the * `value` *attribute* no longer updates its live value). Read the current * value from `api.value[index]` and call `api.setValue(index, raw)` on * input instead. * * `min`/`max` are always the state's global bounds on *both* thumbs, never * narrowed: a native thumb renders at `(value - min) / (max - min)` of the * track, so narrowing one thumb's bounds while its value stays still moves * it on screen even though nothing the user did touched it (measured; see * the private spike record). The dependent bound is carried only as an * `aria-valuemin`/`aria-valuemax` override instead. */ getThumbProps(index: 0 | 1): ElementProps; }"
     },
     {
       "name": "rangeSlider.RangeSliderContext",
       "kind": "type",
-      "signature": "type rangeSlider_RangeSliderContext = RangeSliderContext;"
+      "signature": "rangeSlider.RangeSliderContext = interface RangeSliderContext { /** Initial value. Defaults to `[min, max]`. Normalized against * `minDistance` the same way a user's own drag would be: the lower value * is taken as given and the upper value is clamped against it, never the * other way around, so an invalid default (closer together than * `minDistance` allows) still resolves to a legal pair. */ value?: readonly [number, number]; min?: number; max?: number; step?: number; minDistance?: number; orientation?: Orientation#1e024838; disabled?: boolean; id?: string; /** Called whenever the value pair changes. Reports the complete pair, * once, only when it actually changed (ADR 0011): a press that clamps * back to the value it started from is not a change. */ onValueChange?: (value: readonly [number, number]) => void; }"
     },
     {
       "name": "rangeSlider.RangeSliderState",
       "kind": "type",
-      "signature": "type rangeSlider_RangeSliderState = RangeSliderState;"
+      "signature": "rangeSlider.RangeSliderState = interface RangeSliderState { /** `[lower, upper]`. `lower` is always `value[0]`, `upper` is always * `value[1]`: this is a position, not a \"which one is smaller\" rule, so * identity never swaps even when the two touch. */ value: readonly [number, number]; min: number; max: number; /** Step increment. Defaults to `1`. */ step: number; /** The gap the two thumbs may not close. Always a multiple of `step` * (rounded on the way in), so the bound one thumb clamps against is * always itself a point on the step grid. Defaults to `0`: the thumbs may * touch, never cross. */ minDistance: number; orientation: Orientation#1e024838; disabled: boolean; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "rangeSlider.clampPair",
@@ -1798,17 +1798,17 @@
     {
       "name": "scrollArea.ScrollMetrics",
       "kind": "type",
-      "signature": "type scrollArea_ScrollMetrics = ScrollMetrics;"
+      "signature": "scrollArea.ScrollMetrics = interface ScrollMetrics { /** `scrollTop` or `scrollLeft`. */ scrollPos: number; /** `scrollHeight` or `scrollWidth`. */ scrollSize: number; /** `clientHeight` or `clientWidth` (the visible track length). */ clientSize: number; }"
     },
     {
       "name": "scrollArea.ScrollOrientation",
       "kind": "type",
-      "signature": "type scrollArea_ScrollOrientation = ScrollOrientation;"
+      "signature": "scrollArea.ScrollOrientation = type ScrollOrientation = \"vertical\" | \"horizontal\" | \"both\";"
     },
     {
       "name": "scrollArea.ScrollbarGeometry",
       "kind": "type",
-      "signature": "type scrollArea_ScrollbarGeometry = ScrollbarGeometry;"
+      "signature": "scrollArea.ScrollbarGeometry = interface ScrollbarGeometry { /** Whether the content overflows along this axis. */ overflow: boolean; /** Thumb length as a fraction (0..1] of the track. */ sizeFraction: number; /** Thumb start offset as a fraction (0..1) of the track. */ offsetFraction: number; }"
     },
     {
       "name": "scrollArea.hasOverflow",
@@ -1848,22 +1848,22 @@
     {
       "name": "select.SelectApi",
       "kind": "type",
-      "signature": "type select_SelectApi = SelectApi;"
+      "signature": "select.SelectApi = interface SelectApi { open: boolean; value: string | null; activeValue: string | null; /** The selected item, if any (for rendering the trigger's text). */ selectedItem: SelectItem | null; /** Open the popup, highlighting the selected (or first enabled) option. */ openListbox(): void; /** Close the popup. */ closeListbox(): void; /** Highlight an option without selecting it. */ setActive(value: string): void; /** Select a value (ignored when disabled); closes the popup. */ select(value: string): void; /** Props for the label element. */ labelProps: ElementProps; /** Props for the trigger (`role=\"combobox\"`). */ triggerProps: ElementProps; /** Props for the popup (`role=\"listbox\"`). */ listboxProps: ElementProps; /** Props for an option, by value (`role=\"option\"`). */ getOptionProps(value: string): ElementProps; }"
     },
     {
       "name": "select.SelectContext",
       "kind": "type",
-      "signature": "type select_SelectContext = SelectContext;"
+      "signature": "select.SelectContext = interface SelectContext { /** Initial / controlled selected value. Defaults to `null`. */ value?: string | null; /** Ordered list of options. */ items: SelectItem[]; /** Whether the control is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "select.SelectItem",
       "kind": "type",
-      "signature": "type select_SelectItem = SelectItem;"
+      "signature": "select.SelectItem = interface SelectItem { value: string; /** Visible label; used for the trigger text and typeahead. Falls back to `value`. */ label?: string; disabled?: boolean; }"
     },
     {
       "name": "select.SelectState",
       "kind": "type",
-      "signature": "type select_SelectState = SelectState;"
+      "signature": "select.SelectState = interface SelectState { /** Whether the listbox popup is open. */ open: boolean; /** The selected value, or `null`. */ value: string | null; /** The active (highlighted) option for `aria-activedescendant`, or `null`. */ activeValue: string | null; items: SelectItem[]; /** Whether the whole control is disabled. */ disabled: boolean; /** Base id used to link the label, trigger, listbox and options. */ id: string; }"
     },
     {
       "name": "select.connect",
@@ -1943,17 +1943,17 @@
     {
       "name": "slider.SliderApi",
       "kind": "type",
-      "signature": "type slider_SliderApi = SliderApi;"
+      "signature": "slider.SliderApi = interface SliderApi { value: number; min: number; max: number; step: number; /** Filled fraction as a 0–100 percentage. */ percentage: number; /** Set the value (snapped + clamped; ignored while disabled). */ setValue(value: number): void; /** Props for the slider container (styling hooks). */ rootProps: ElementProps; /** * Props for a native `<input type=\"range\">`. The browser owns the slider * role, ARIA value, keyboard control, pointer dragging and form participation; * the live `value` is a DOM property, so adapters bind it directly. */ inputProps: ElementProps; }"
     },
     {
       "name": "slider.SliderContext",
       "kind": "type",
-      "signature": "type slider_SliderContext = SliderContext;"
+      "signature": "slider.SliderContext = interface SliderContext { /** Initial value. Defaults to `min`. */ value?: number; /** Minimum value. Defaults to `0`. */ min?: number; /** Maximum value. Defaults to `100`. */ max?: number; /** Step increment. Defaults to `1`. */ step?: number; /** Orientation. Defaults to `horizontal`. */ orientation?: Orientation#1e024838; /** Whether the slider is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; }"
     },
     {
       "name": "slider.SliderState",
       "kind": "type",
-      "signature": "type slider_SliderState = SliderState;"
+      "signature": "slider.SliderState = interface SliderState { /** Current value (already clamped and snapped to the step). */ value: number; min: number; max: number; /** Step increment. Defaults to `1`. */ step: number; orientation: Orientation#1e024838; disabled: boolean; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "slider.clamp",
@@ -2003,22 +2003,22 @@
     {
       "name": "stepper.StepStatus",
       "kind": "type",
-      "signature": "type stepper_StepStatus = StepStatus;"
+      "signature": "stepper.StepStatus = type StepStatus = \"complete\" | \"current\" | \"upcoming\";"
     },
     {
       "name": "stepper.StepperApi",
       "kind": "type",
-      "signature": "type stepper_StepperApi = StepperApi;"
+      "signature": "stepper.StepperApi = interface StepperApi { /** Current step (0-based). */ current: number; /** Total number of steps. */ count: number; /** Advance to the next step (clamped; ignored while disabled). */ next(): void; /** Go back to the previous step (clamped; ignored while disabled). */ prev(): void; /** Jump to a step (ignored when it isn't reachable). */ goTo(index: number): void; /** Whether a step can be navigated to directly. */ canGoTo(index: number): boolean; /** A step's status relative to the current position. */ status(index: number): StepStatus; /** Props for the container (render on a `<nav>`). */ rootProps: ElementProps; /** Props for the ordered step list (render on an `<ol>`). */ getListProps(): ElementProps; /** Props for a single step's clickable trigger (`<button>`), by index. */ getStepProps(index: number): ElementProps; }"
     },
     {
       "name": "stepper.StepperContext",
       "kind": "type",
-      "signature": "type stepper_StepperContext = StepperContext;"
+      "signature": "stepper.StepperContext = interface StepperContext { /** Total number of steps. */ count: number; /** Current step (0-based). Defaults to `0`. */ current?: number; /** Linear mode. Defaults to `true`. */ linear?: boolean; /** Layout axis. Defaults to `horizontal`. */ orientation?: Orientation#1e024838; /** Whether the control is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the current step changes. */ onStepChange?: (current: number) => void; }"
     },
     {
       "name": "stepper.StepperState",
       "kind": "type",
-      "signature": "type stepper_StepperState = StepperState;"
+      "signature": "stepper.StepperState = interface StepperState { /** Current step (0-based). */ current: number; /** Total number of steps. */ count: number; /** * Linear mode (default): steps ahead of the current one can't be jumped to * (advance via `next`); completed steps remain navigable. Non-linear lets any * step be selected directly. */ linear: boolean; orientation: Orientation#1e024838; /** Whether the whole control is disabled. */ disabled: boolean; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "stepper.canGoTo",
@@ -2058,17 +2058,17 @@
     {
       "name": "switchControl.SwitchApi",
       "kind": "type",
-      "signature": "type switchControl_SwitchApi = SwitchApi;"
+      "signature": "switchControl.SwitchApi = interface SwitchApi { /** Whether the switch is on. */ checked: boolean; /** Whether the switch is disabled. */ disabled: boolean; /** Set the checked value explicitly (ignored when disabled). */ setChecked(value: boolean): void; /** Flip the checked value (ignored when disabled). */ toggle(): void; /** * Props for a native `<input type=\"checkbox\" role=\"switch\">`. The browser * owns Space activation, focus and form participation; `role=\"switch\"` makes * screen readers announce on/off — clearer than a checkbox for settings. The * live `checked` value is a DOM property, so adapters bind it directly. */ rootProps: ElementProps; }"
     },
     {
       "name": "switchControl.SwitchContext",
       "kind": "type",
-      "signature": "type switchControl_SwitchContext = SwitchContext;"
+      "signature": "switchControl.SwitchContext = interface SwitchContext { /** Initial / controlled checked value. Defaults to `false`. */ checked?: boolean; /** Whether the switch is disabled. Defaults to `false`. */ disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: boolean) => void; }"
     },
     {
       "name": "switchControl.SwitchState",
       "kind": "type",
-      "signature": "type switchControl_SwitchState = SwitchState;"
+      "signature": "switchControl.SwitchState = interface SwitchState { checked: boolean; disabled: boolean; }"
     },
     {
       "name": "switchControl.connect",
@@ -2093,42 +2093,42 @@
     {
       "name": "table.RowId",
       "kind": "type",
-      "signature": "type table_RowId = RowId;"
+      "signature": "table.RowId = type RowId = string | number;"
     },
     {
       "name": "table.SelectionMode",
       "kind": "type",
-      "signature": "type table_SelectionMode = SelectionMode;"
+      "signature": "table.SelectionMode = type SelectionMode = \"none\" | \"single\" | \"multiple\";"
     },
     {
       "name": "table.SortDirection",
       "kind": "type",
-      "signature": "type table_SortDirection = SortDirection;"
+      "signature": "table.SortDirection = type SortDirection = \"asc\" | \"desc\";"
     },
     {
       "name": "table.SortState",
       "kind": "type",
-      "signature": "type table_SortState = SortState;"
+      "signature": "table.SortState = interface SortState { key: string; direction: SortDirection; }"
     },
     {
       "name": "table.TableApi",
       "kind": "type",
-      "signature": "type table_TableApi = TableApi;"
+      "signature": "table.TableApi = interface TableApi { /** The active sort, or `null`. */ sort: SortState | null; /** Set the sort directly (or clear with `null`). */ setSort(sort: SortState | null): void; /** Cycle a column's sort (unsorted → asc → desc → unsorted). */ toggleSort(key: string): void; /** Return a new array of rows sorted by the active sort (stable). */ sortRows<T>(rows: T[], getValue?: (row: T, key: string) => unknown): T[]; /** Keys of the hidden columns. */ hiddenColumns: string[]; /** The columns currently shown, in order (hidden ones removed). */ visibleColumns: TableColumn[]; /** Whether a column is currently shown. */ isColumnVisible(key: string): boolean; /** Show/hide a column (no-op for non-hideable columns). */ toggleColumnVisibility(key: string): void; /** How rows can be selected. */ selectionMode: SelectionMode; /** Ids of the selected rows, in the order they were selected. */ selectedRowIds: RowId[]; /** Whether a row is currently selected. */ isRowSelected(id: RowId): boolean; /** Toggle one row, honouring the mode (single: re-toggling empties). */ toggleRowSelection(id: RowId): void; /** Empty the selection (no-op when already empty). */ clearSelection(): void; /** How much of a scope (the selectable rendered rows) is selected. */ getScopeSelectionState(scope: RowId[]): \"none\" | \"some\" | \"all\"; /** Toggle a whole scope. Operates only in `multiple` mode. */ toggleScopeSelection(scope: RowId[]): void; /** Props for the `<th>` of a column header. */ getColumnHeaderProps(key: string): ElementProps; /** Props for the sort-toggle `<button>` inside a sortable header. */ getSortButtonProps(key: string): ElementProps; /** Props for a column-visibility toggle (a checkbox in a config menu). */ getVisibilityToggleProps(key: string): ElementProps; }"
     },
     {
       "name": "table.TableColumn",
       "kind": "type",
-      "signature": "type table_TableColumn = TableColumn;"
+      "signature": "table.TableColumn = interface TableColumn { /** Stable key; also the default accessor into a row. */ key: string; /** Whether the column can be sorted. Defaults to `false`. */ sortable?: boolean; /** Whether the column can be hidden via configuration. Defaults to `true`. */ hideable?: boolean; }"
     },
     {
       "name": "table.TableContext",
       "kind": "type",
-      "signature": "type table_TableContext = TableContext;"
+      "signature": "table.TableContext = interface TableContext { columns: TableColumn[]; /** Initial sort. Defaults to none. */ sort?: SortState | null; /** Initially hidden column keys. Defaults to none. */ hiddenColumns?: string[]; /** Base id. Auto-generated when omitted. */ id?: string; /** Called whenever the sort changes (including cleared to `null`). */ onSortChange?: (sort: SortState | null) => void; /** Called whenever the hidden-column set changes. */ onHiddenColumnsChange?: (hidden: string[]) => void; /** How rows can be selected. Defaults to `\"none\"`. */ selectionMode?: SelectionMode; /** Initially selected row ids. Defaults to none. */ selectedRowIds?: RowId[]; /** Called whenever the selected row ids change. */ onSelectedRowIdsChange?: (ids: RowId[]) => void; }"
     },
     {
       "name": "table.TableState",
       "kind": "type",
-      "signature": "type table_TableState = TableState;"
+      "signature": "table.TableState = interface TableState { columns: TableColumn[]; /** The active sort, or `null` when unsorted. */ sort: SortState | null; /** Keys of columns hidden via configuration. */ hiddenColumns: string[]; /** How rows can be selected. */ selectionMode: SelectionMode; /** Ids of the selected rows, in the order they were selected. */ selectedRowIds: RowId[]; /** Base id (styling/labelling hook). */ id: string; }"
     },
     {
       "name": "table.clearSelection",
@@ -2188,7 +2188,7 @@
     {
       "name": "tabs.ActivationMode",
       "kind": "type",
-      "signature": "type tabs_ActivationMode = ActivationMode;"
+      "signature": "tabs.ActivationMode = type ActivationMode = \"automatic\" | \"manual\";"
     },
     {
       "name": "tabs.ConnectOptions",
@@ -2203,22 +2203,22 @@
     {
       "name": "tabs.TabItem",
       "kind": "type",
-      "signature": "type tabs_TabItem = TabItem;"
+      "signature": "tabs.TabItem = interface TabItem { value: string; disabled?: boolean; }"
     },
     {
       "name": "tabs.TabsApi",
       "kind": "type",
-      "signature": "type tabs_TabsApi = TabsApi;"
+      "signature": "tabs.TabsApi = interface TabsApi { /** The selected tab value, or `null`. */ value: string | null; /** Select a tab (ignored when the tab is disabled). */ setValue(value: string): void; /** Props for the tab list container (`role=\"tablist\"`). */ rootProps: ElementProps; /** Props for a tab trigger, by value (`role=\"tab\"`). */ getTabProps(value: string): ElementProps; /** Props for a tab panel, by value (`role=\"tabpanel\"`). */ getPanelProps(value: string): ElementProps; }"
     },
     {
       "name": "tabs.TabsContext",
       "kind": "type",
-      "signature": "type tabs_TabsContext = TabsContext;"
+      "signature": "tabs.TabsContext = interface TabsContext { /** Initial / controlled selected value. Defaults to the first item. */ value?: string | null; /** Ordered list of tabs. */ items: TabItem[]; /** Layout orientation (affects `aria-orientation` and arrow keys). */ orientation?: Orientation#1e024838; /** * `automatic` (default): arrow keys move focus and select. `manual`: arrow * keys move focus only; Enter/Space selects the focused tab. */ activationMode?: ActivationMode; /** Base id used to link tabs to panels. Auto-generated when omitted. */ id?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "tabs.TabsState",
       "kind": "type",
-      "signature": "type tabs_TabsState = TabsState;"
+      "signature": "tabs.TabsState = interface TabsState { /** The selected tab value, or `null`. */ value: string | null; items: TabItem[]; orientation: Orientation#1e024838; activationMode: ActivationMode; /** Base id used to link tabs and panels. */ id: string; }"
     },
     {
       "name": "tabs.connect",
@@ -2273,17 +2273,17 @@
     {
       "name": "textField.TextFieldApi",
       "kind": "type",
-      "signature": "type textField_TextFieldApi = TextFieldApi;"
+      "signature": "textField.TextFieldApi = interface TextFieldApi { /** Current value. */ value: string; /** Whether the control is disabled. */ disabled: boolean; /** Whether the field is invalid. */ invalid: boolean; /** Set the value (ignored when disabled or read-only). */ setValue(value: string): void; /** Props for the `<label>` (links to the control via `for`). */ labelProps: ElementProps; /** Props for the control (`<input>` / `<textarea>`). */ controlProps: ElementProps; /** Props for the description / hint element. */ descriptionProps: ElementProps; /** Props for the error message element (a live region). */ errorProps: ElementProps; /** Props for the success message element (a live region). */ successProps: ElementProps; }"
     },
     {
       "name": "textField.TextFieldContext",
       "kind": "type",
-      "signature": "type textField_TextFieldContext = TextFieldContext;"
+      "signature": "textField.TextFieldContext = interface TextFieldContext { /** Initial / controlled value. Defaults to `\"\"`. */ value?: string; /** Whether the control is disabled. Defaults to `false`. */ disabled?: boolean; /** Whether the control is read-only. Defaults to `false`. */ readOnly?: boolean; /** Whether the control is required. Defaults to `false`. */ required?: boolean; /** Whether the field is invalid. Defaults to `false`. */ invalid?: boolean; /** Whether a description / hint element is present. Defaults to `false`. */ hasDescription?: boolean; /** Whether a success message element is present. Defaults to `false`. */ hasSuccess?: boolean; /** Base id used to link parts. Auto-generated when omitted. */ id?: string; /** Called whenever the value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "textField.TextFieldState",
       "kind": "type",
-      "signature": "type textField_TextFieldState = TextFieldState;"
+      "signature": "textField.TextFieldState = interface TextFieldState { /** Current value. */ value: string; disabled: boolean; readOnly: boolean; required: boolean; /** Whether the field is in an invalid state (shows the error message). */ invalid: boolean; /** Whether a description / hint element is present (affects describedby). */ hasDescription: boolean; /** * Whether a success message element is present (affects describedby). The * message only shows when the field is not invalid, so `invalid` wins. */ hasSuccess: boolean; /** Base id used to link the label, control, description and error. */ id: string; }"
     },
     {
       "name": "textField.connect",
@@ -2328,67 +2328,67 @@
     {
       "name": "timeField.ConnectOptions",
       "kind": "type",
-      "signature": "type index_ConnectOptions = ConnectOptions;"
+      "signature": "timeField.ConnectOptions = interface ConnectOptions { state: TimeFieldState; /** Apply new parts + digit-entry buffer (the adapter owns state + onValueChange). */ setParts: (parts: TimeParts, buffer: string, bufferSeg: TimeSegmentType | null) => void; /** Record the parts as finished, so Escape has something to put back. */ setCommittedParts: (parts: TimeParts) => void; /** Report that the user finished editing (the adapter owns onValueCommit). */ onCommit?: (value: string | null) => void; /** Move DOM focus to a segment (adapter-provided). */ focus?: (seg: TimeSegmentType) => void; /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Prevent editing while preserving readable segment values. */ disabled?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<TimeFieldMessages>; normalize?: Normalize; }"
     },
     {
       "name": "timeField.DayPeriod",
       "kind": "type",
-      "signature": "type index_DayPeriod = DayPeriod;"
+      "signature": "timeField.DayPeriod = type DayPeriod = \"AM\" | \"PM\";"
     },
     {
       "name": "timeField.HourCycle",
       "kind": "type",
-      "signature": "type index_HourCycle = HourCycle;"
+      "signature": "timeField.HourCycle = type HourCycle = 12 | 24;"
     },
     {
       "name": "timeField.ParseTimeValueOptions",
       "kind": "type",
-      "signature": "type index_ParseTimeValueOptions = ParseTimeValueOptions;"
+      "signature": "timeField.ParseTimeValueOptions = interface ParseTimeValueOptions { /** Require seconds (`true`), reject seconds (`false`), or accept either when omitted. */ withSeconds?: boolean; /** Derive the presentation period for a valid canonical value in 12-hour mode. */ hourCycle?: HourCycle; }"
     },
     {
       "name": "timeField.TimeFieldApi",
       "kind": "type",
-      "signature": "type index_TimeFieldApi = TimeFieldApi;"
+      "signature": "timeField.TimeFieldApi = interface TimeFieldApi { /** The formatted value (`HH:mm[:ss]`), or `null` when incomplete. */ value: string | null; status: TimeInputStatus; validationError: TimeValueError | null; /** Report that editing finished (focus left the field, or Enter). */ commit(): void; /** Put the parts back to the last finished state; `false` if nothing to undo. */ revert(): boolean; /** Props for the field container (`role=\"group\"`). */ rootProps: ElementProps; /** Props for a segment (`role=\"spinbutton\"`), by type. */ getSegmentProps(seg: TimeSegmentType): ElementProps; /** Display text for a segment (padded value or placeholder). */ getSegmentText(seg: TimeSegmentType): string; }"
     },
     {
       "name": "timeField.TimeFieldContext",
       "kind": "type",
-      "signature": "type index_TimeFieldContext = TimeFieldContext;"
+      "signature": "timeField.TimeFieldContext = interface TimeFieldContext { /** Initial / controlled value, `\"HH:mm\"` or `\"HH:mm:ss\"` (24h), or `null`. */ value?: string | null; /** 12- or 24-hour cycle (adds an AM/PM segment when 12). Defaults to 24. */ hourCycle?: HourCycle; /** Include a seconds segment. Defaults to false. */ withSeconds?: boolean; /** Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive. */ min?: string; /** Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive. */ max?: string; /** Base id used to link segments. Auto-generated when omitted. */ id?: string; /** Called with the formatted value when all required segments are filled (else `null`). */ onValueChange?: (value: string | null) => void; /** * Called when the user finishes editing: focus leaves the field, or Enter is * pressed. A form uses this to validate once, instead of on every keystroke. */ onValueCommit?: (value: string | null) => void; }"
     },
     {
       "name": "timeField.TimeFieldMessages",
       "kind": "type",
-      "signature": "type index_TimeFieldMessages = TimeFieldMessages;"
+      "signature": "timeField.TimeFieldMessages = interface TimeFieldMessages { hour: string; minute: string; second: string; dayPeriod: string; empty: string; dayPeriodPlaceholder: string; }"
     },
     {
       "name": "timeField.TimeFieldState",
       "kind": "type",
-      "signature": "type index_TimeFieldState = TimeFieldState;"
+      "signature": "timeField.TimeFieldState = interface TimeFieldState { parts: TimeParts; /** The parts as they stood at the last commit; Escape puts these back. */ committedParts: TimeParts; hourCycle: HourCycle; withSeconds: boolean; /** Earliest acceptable time, or `null` when unbounded. */ min: string | null; /** Latest acceptable time, or `null` when unbounded. */ max: string | null; validationError: TimeValueError | null; invalidSegment: Exclude<TimeSegmentType, \"dayPeriod\"> | null; /** In-progress digit entry for the focused segment. */ buffer: string; bufferSeg: TimeSegmentType | null; id: string; }"
     },
     {
       "name": "timeField.TimeInputStatus",
       "kind": "type",
-      "signature": "type index_TimeInputStatus = TimeInputStatus;"
+      "signature": "timeField.TimeInputStatus = type TimeInputStatus = \"empty\" | \"incomplete\" | \"valid\" | \"invalid\";"
     },
     {
       "name": "timeField.TimeParseResult",
       "kind": "type",
-      "signature": "type index_TimeParseResult = TimeParseResult;"
+      "signature": "timeField.TimeParseResult = interface TimeParseResult { status: \"empty\" | \"valid\" | \"invalid\"; parts: TimeParts; /** Canonical 24-hour value when valid. */ canonical: string | null; error: TimeValueError | null; invalidSegment: Exclude<TimeSegmentType, \"dayPeriod\"> | null; /** Whether a valid non-canonical value, such as `9:30`, was padded. */ normalized: boolean; }"
     },
     {
       "name": "timeField.TimeParts",
       "kind": "type",
-      "signature": "type index_TimeParts = TimeParts;"
+      "signature": "timeField.TimeParts = interface TimeParts { hour: number | null; minute: number | null; second: number | null; /** Required to publish a value in 12-hour mode; never inferred for empty input. */ dayPeriod: DayPeriod | null; }"
     },
     {
       "name": "timeField.TimeSegmentType",
       "kind": "type",
-      "signature": "type index_TimeSegmentType = TimeSegmentType;"
+      "signature": "timeField.TimeSegmentType = type TimeSegmentType = \"hour\" | \"minute\" | \"second\" | \"dayPeriod\";"
     },
     {
       "name": "timeField.TimeValueError",
       "kind": "type",
-      "signature": "type index_TimeValueError = TimeValueError;"
+      "signature": "timeField.TimeValueError = type TimeValueError = \"invalid-format\" | \"out-of-range\" | \"seconds-required\" | \"seconds-not-allowed\" | \"range-underflow\" | \"range-overflow\";"
     },
     {
       "name": "timeField.bounds",
@@ -2473,17 +2473,17 @@
     {
       "name": "toggleButton.ToggleButtonApi",
       "kind": "type",
-      "signature": "type toggleButton_ToggleButtonApi = ToggleButtonApi;"
+      "signature": "toggleButton.ToggleButtonApi = interface ToggleButtonApi { /** Whether the toggle button is currently pressed. */ pressed: boolean; /** Whether the toggle button is disabled. */ disabled: boolean; /** Set the pressed value explicitly (ignored when disabled). */ setPressed(value: boolean): void; /** Flip the pressed value (ignored when disabled). */ toggle(): void; /** * Props for a native `<input type=\"checkbox\">`. A toggle button is an * independent on/off control, so it is a checkbox styled to look like a * button: the browser owns the checkbox role, Space activation, focus and * form participation, while `data-state` (`on`/`off`) and `data-disabled` * drive the button styling. The live `checked` value is a DOM *property*, so * adapters bind it directly rather than via these (attribute-shaped) props. */ rootProps: ElementProps; }"
     },
     {
       "name": "toggleButton.ToggleButtonContext",
       "kind": "type",
-      "signature": "type toggleButton_ToggleButtonContext = ToggleButtonContext;"
+      "signature": "toggleButton.ToggleButtonContext = interface ToggleButtonContext { /** Initial / controlled pressed value. Defaults to `false`. */ pressed?: boolean; /** Whether the toggle button is disabled. Defaults to `false`. */ disabled?: boolean; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; }"
     },
     {
       "name": "toggleButton.ToggleButtonState",
       "kind": "type",
-      "signature": "type toggleButton_ToggleButtonState = ToggleButtonState;"
+      "signature": "toggleButton.ToggleButtonState = interface ToggleButtonState { pressed: boolean; disabled: boolean; }"
     },
     {
       "name": "toggleButton.connect",
@@ -2513,17 +2513,17 @@
     {
       "name": "toolbar.ToolbarDirection",
       "kind": "type",
-      "signature": "type toolbar_ToolbarDirection = ToolbarDirection;"
+      "signature": "toolbar.ToolbarDirection = type ToolbarDirection = \"ltr\" | \"rtl\";"
     },
     {
       "name": "toolbar.ToolbarMoveOptions",
       "kind": "type",
-      "signature": "type toolbar_ToolbarMoveOptions = ToolbarMoveOptions;"
+      "signature": "toolbar.ToolbarMoveOptions = interface ToolbarMoveOptions { /** The key the user pressed. */ key: string; /** Index of the control that has focus. */ index: number; /** How many controls the toolbar holds. */ count: number; orientation?: ToolbarOrientation; /** Defaults to `\"ltr\"`. In right-to-left text the arrows swap sides. */ direction?: ToolbarDirection; }"
     },
     {
       "name": "toolbar.ToolbarOrientation",
       "kind": "type",
-      "signature": "type toolbar_ToolbarOrientation = ToolbarOrientation;"
+      "signature": "toolbar.ToolbarOrientation = type ToolbarOrientation = \"horizontal\" | \"vertical\";"
     },
     {
       "name": "toolbar.nextIndex",
@@ -2543,17 +2543,17 @@
     {
       "name": "tooltip.TooltipApi",
       "kind": "type",
-      "signature": "type tooltip_TooltipApi = TooltipApi;"
+      "signature": "tooltip.TooltipApi = interface TooltipApi { open: boolean; /** Props for the trigger element. */ triggerProps: ElementProps; /** Props for the tooltip element. */ tooltipProps: ElementProps; }"
     },
     {
       "name": "tooltip.TooltipContext",
       "kind": "type",
-      "signature": "type tooltip_TooltipContext = TooltipContext;"
+      "signature": "tooltip.TooltipContext = interface TooltipContext { open?: boolean; id?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "tooltip.TooltipState",
       "kind": "type",
-      "signature": "type tooltip_TooltipState = TooltipState;"
+      "signature": "tooltip.TooltipState = interface TooltipState { /** Whether the tooltip is visible. */ open: boolean; /** Base id used to link the trigger and the tooltip. */ id: string; }"
     },
     {
       "name": "tooltip.connect",
@@ -2583,27 +2583,27 @@
     {
       "name": "treeView.TreeApi",
       "kind": "type",
-      "signature": "type treeView_TreeApi = TreeApi;"
+      "signature": "treeView.TreeApi = interface TreeApi { /** Currently expanded parent values. */ expanded: string[]; /** The selected value, or `null`. */ selected: string | null; /** Expand/collapse a parent node (ignored for leaves/disabled). */ toggle(value: string): void; /** Select a node (ignored when disabled). */ select(value: string): void; /** Props for the tree container (`role=\"tree\"`). */ rootProps: ElementProps; /** Props for a child-list wrapper (`role=\"group\"`). */ getGroupProps(): ElementProps; /** Props for a treeitem, by value (`role=\"treeitem\"`). */ getItemProps(value: string): ElementProps; }"
     },
     {
       "name": "treeView.TreeContext",
       "kind": "type",
-      "signature": "type treeView_TreeContext = TreeContext;"
+      "signature": "treeView.TreeContext = interface TreeContext { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initially expanded parent values. Defaults to none. */ expanded?: string[]; /** Initially selected value. Defaults to none. */ selected?: string | null; /** Whether the whole tree is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id used to scope generated ids. Auto-generated when omitted. */ id?: string; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; }"
     },
     {
       "name": "treeView.TreeNode",
       "kind": "type",
-      "signature": "type treeView_TreeNode = TreeNode;"
+      "signature": "treeView.TreeNode = interface TreeNode { value: string; disabled?: boolean; children?: TreeNode[]; }"
     },
     {
       "name": "treeView.TreeState",
       "kind": "type",
-      "signature": "type treeView_TreeState = TreeState;"
+      "signature": "treeView.TreeState = interface TreeState { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Values of the currently expanded parent nodes. */ expanded: string[]; /** The selected node value, or `null`. Single-select. */ selected: string | null; /** The roving-focus node value, or `null` (defaults to selected / first). */ focused: string | null; /** Whether the whole tree is disabled. */ disabled: boolean; /** Base id used to scope generated ids. */ id: string; }"
     },
     {
       "name": "treeView.VisibleNode",
       "kind": "type",
-      "signature": "type treeView_VisibleNode = VisibleNode;"
+      "signature": "treeView.VisibleNode = interface VisibleNode { value: string; disabled: boolean; /** 1-based depth, for `aria-level`. */ level: number; /** Whether the node has children (is expandable). */ hasChildren: boolean; /** Whether the node is currently expanded. */ expanded: boolean; /** Number of siblings (incl. self), for `aria-setsize`. */ setSize: number; /** 1-based position among siblings, for `aria-posinset`. */ posInSet: number; /** The parent node's value, or `null` at the root. */ parent: string | null; }"
     },
     {
       "name": "treeView.connect",

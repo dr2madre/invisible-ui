@@ -15437,7 +15437,7 @@
       ],
       "purpose": "The former spelling of --ds-sidebar-bg, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
       "stability": "deprecated",
-      "replacedBy": null
+      "replacedBy": "--ds-sidebar-bg"
     },
     {
       "name": "--ds-menu-border",
@@ -15481,7 +15481,7 @@
       ],
       "purpose": "The former spelling of --ds-sidebar-border, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
       "stability": "deprecated",
-      "replacedBy": null
+      "replacedBy": "--ds-sidebar-border"
     },
     {
       "name": "--ds-menu-gap",
@@ -15523,7 +15523,7 @@
       ],
       "purpose": "The former spelling of --ds-sidebar-gap, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
       "stability": "deprecated",
-      "replacedBy": null
+      "replacedBy": "--ds-sidebar-gap"
     },
     {
       "name": "--ds-menu-item-text",
@@ -15567,7 +15567,7 @@
       ],
       "purpose": "The former spelling of --ds-sidebar-item-text, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
       "stability": "deprecated",
-      "replacedBy": null
+      "replacedBy": "--ds-sidebar-item-text"
     },
     {
       "name": "--ds-menu-min-width",
@@ -15961,7 +15961,7 @@
       ],
       "purpose": "The former spelling of --ds-sidebar-width, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
       "stability": "deprecated",
-      "replacedBy": null
+      "replacedBy": "--ds-sidebar-width"
     },
     {
       "name": "--ds-menu-z-index",
