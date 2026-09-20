@@ -519,15 +519,22 @@ const elementTags = new Map(
   ].map((m) => [m[2], m[1]]),
 );
 
-const components = Object.keys(sveltePkg.exports)
+const svelteNames = Object.keys(sveltePkg.exports)
   .map((k) => /^\.\/(.+)\.svelte$/.exec(k)?.[1])
-  .filter(Boolean)
-  .map((name) => ({
-    name,
-    slug: kebab(name),
-    sveltePath: resolve(sveltePkgDir, sveltePkg.exports[`./${name}.svelte`].svelte.slice(2)),
-    mdxPath: resolve(docsComponents, `${kebab(name)}.mdx`),
-  }));
+  .filter(Boolean);
+// A component another adapter ships without a Svelte twin (HoverCard, in
+// Vue) is part of the contract too; it enters the list with no Svelte file.
+const otherNames = [...vueExports.keys(), ...reactExports.keys()].filter(
+  (name) => !svelteNames.includes(name) && /^[A-Z]/.test(name),
+);
+const components = [...svelteNames, ...new Set(otherNames)].map((name) => ({
+  name,
+  slug: kebab(name),
+  sveltePath: svelteNames.includes(name)
+    ? resolve(sveltePkgDir, sveltePkg.exports[`./${name}.svelte`].svelte.slice(2))
+    : null,
+  mdxPath: resolve(docsComponents, `${kebab(name)}.mdx`),
+}));
 
 // --- MDX descriptions (seed / fallback, Svelte only) ----------------------
 
@@ -572,17 +579,18 @@ function buildManifest(c) {
 
   // Svelte
   const svelteDesc = committedDescriptions(committed, "svelte");
-  frameworks.svelte = {
-    import: {
-      kind: "default",
-      name: c.name,
-      specifier: `@design-system/svelte/${c.name}.svelte`,
-    },
-    props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) => ({
-      ...p,
-      description: svelteDesc[p.name] || mdx?.descriptions[p.name] || p.description || "",
-    })),
-  };
+  if (c.sveltePath)
+    frameworks.svelte = {
+      import: {
+        kind: "default",
+        name: c.name,
+        specifier: `@design-system/svelte/${c.name}.svelte`,
+      },
+      props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) => ({
+        ...p,
+        description: svelteDesc[p.name] || mdx?.descriptions[p.name] || p.description || "",
+      })),
+    };
 
   // Vue
   const vueModule = vueExports.get(c.name);
@@ -661,7 +669,7 @@ const normalizeEol = (text) => text.replaceAll("\r\n", "\n");
 
 const stale = [];
 for (const c of components) {
-  if (!existsSync(c.sveltePath)) continue;
+  if (c.sveltePath && !existsSync(c.sveltePath)) continue;
   const json = JSON.stringify(buildManifest(c), null, 2) + "\n";
   const outPath = resolve(outDir, `${c.slug}.json`);
   const current = existsSync(outPath) ? readFileSync(outPath, "utf8") : "";

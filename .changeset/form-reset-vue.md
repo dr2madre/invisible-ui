@@ -1,8 +1,8 @@
 ---
-"@design-system/vue": minor
+"@design-system/vue": major
 ---
 
-Form reset restores the current default, silently (ADR 0012), matching
+Breaking for TypeScript consumers of six controls: `Combobox`, `DatePicker`, `RadioGroup`, `SegmentedControl`, `Select` and `TimeField` widen their `update:modelValue` event from `string` to `string | null`, which is what "nothing selected" restores to; a handler typed `(value: string) => void` no longer compiles, and receives `null` after a form reset. Form reset restores the current default, silently (ADR 0012), matching
 the Svelte adapter. Every Vue control that submits a value tracks a
 default that follows its value prop, except a give-back of what the
 control itself reported, and puts its own state back when its owner's
