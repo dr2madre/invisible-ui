@@ -108,6 +108,8 @@
   }
 </script>
 
+<!-- The action below sets data-orientation too. It is written out as well
+because a scoped rule is kept only when the attribute is visible here. -->
 <section
   class="carousel"
   data-variant={variant}

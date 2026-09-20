@@ -6,8 +6,8 @@ import { useEffect, useState, type RefObject } from "react";
  * dialog is open can be seen but not clicked. The dialog does not have to be
  * open yet. The other adapters answer the same question in
  * `packages/svelte/src/lib/internal/portal.ts` and
- * `packages/vue/src/internal/locale-teleport.ts`, which teleports to the
- * dialog when there is one and leaves the overlay in place otherwise.
+ * `packages/vue/src/internal/locale-teleport.ts`, which sends the overlay to
+ * the dialog when there is one and to the body when there is not.
  *
  * Null until the effect has run, so nothing is portalled during the server
  * render or the first client render.

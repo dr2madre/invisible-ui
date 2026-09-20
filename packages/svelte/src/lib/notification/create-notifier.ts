@@ -183,14 +183,20 @@ export function createNotifier(): Notifier {
     (title: string, options: StatusOptions = {}): string =>
       show({ ...options, status, title });
 
-  const clear = () =>
+  const clear = () => {
+    // The list empties first, then every notification is told (ADR 0011), the
+    // way `dismiss` above does it: a handler reading the list sees it empty,
+    // and one that shows a new notification keeps it.
+    let cleared: NotificationItem[] = [];
     updateStore((items) => {
-      for (const n of items) {
-        onDismissById.get(n.id)?.("api");
-        onDismissById.delete(n.id);
-      }
+      cleared = items;
       return [];
     });
+    for (const n of cleared) {
+      onDismissById.get(n.id)?.("api");
+      onDismissById.delete(n.id);
+    }
+  };
 
   const promise = async <T>(
     p: Promise<T>,

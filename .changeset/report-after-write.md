@@ -1,12 +1,15 @@
 ---
+"@design-system/core": patch
 "@design-system/svelte": patch
 "@design-system/vue": patch
 "@design-system/react": patch
 ---
 
-Five fixes to what a consumer sees.
+Six fixes to what a consumer sees.
 
-Every callback a Svelte factory reports is now reported after that factory's own state is written, not during. A handler reading the control's store saw the value from before the change, and a handler writing to it lost that write without a word; both were silent, and both are gone. "Every" is now a check rather than a claim: a test reads the factory sources, lists every callback they report, and fails until each one is either asserted or named with the reason it cannot be.
+Every callback a Svelte factory reports is now reported after that factory's own state is written, not during. A handler reading the control's store saw the value from before the change, and a handler writing to it lost that write without a word; both were silent, and both are gone. "Every" is a check rather than a claim: a test reads the factory sources and lists every callback it can find them reporting, whether they call it, hand it to core, pull it out of the options or reach it through a string, and fails until each one is either asserted or named with the reason it cannot be.
+
+A menu says which item was chosen after it has closed, in every adapter, because core decides that order. A handler that read the menu saw it still open, and one that reopened it was closed again straight afterwards. The notification list empties before it tells each notification it is gone, so a handler that shows a replacement keeps it.
 
 The Pin Input announces a completion only for a value its state still holds. A page that cleared the field from its own change handler was told the pin was complete, with the cleared cells already in the state. Svelte and Vue answer the same way.
 

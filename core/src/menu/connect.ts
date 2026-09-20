@@ -82,8 +82,11 @@ export function connect({
 
   const select = (v: string) => {
     if (disabled || isItemDisabled(v)) return;
-    onSelect?.(v);
+    // The menu closes first, then says what was chosen (ADR 0011): a handler
+    // that reads the menu sees it closed, and one that opens it again keeps
+    // it open.
     closeMenu();
+    onSelect?.(v);
   };
 
   const move = (target: string | null) => {

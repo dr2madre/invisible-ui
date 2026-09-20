@@ -74,10 +74,10 @@ describe("Svelte DateRangePicker", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  // A page that refuses the range a person picked and writes its own. The
-  // factory-level order this relies on is asserted in
-  // ../adr-0011-commit-order.test.ts.
-  it("settles on the range the page writes back from its own handler", async () => {
+  // A controlled page that refuses the range a person picked and writes its
+  // own. This is the round trip through the prop, not the commit order
+  // inside the factory, which ../adr-0011-commit-order.test.ts asserts.
+  it("settles on the range a controlled page writes back", async () => {
     const onChange = vi.fn();
     render(Fixture, {
       props: { start: "2026-06-10", onChange, putBack: ["2026-06-01", "2026-06-03"] },

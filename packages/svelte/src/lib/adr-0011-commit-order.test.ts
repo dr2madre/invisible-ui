@@ -15,6 +15,7 @@ import { createDropdownMenu } from "./dropdown-menu/create-dropdown-menu";
 import { createHoverCard } from "./hover-card/create-hover-card";
 import { createMultiSelect } from "./multi-select/create-multi-select";
 import { createNavigationMenu } from "./navigation-menu/create-navigation-menu";
+import { createNotifier } from "./notification/create-notifier";
 import { createNumberField } from "./number-field/create-number-field";
 import { createPagination } from "./pagination/create-pagination";
 import { createPinInput } from "./pin-input/create-pin-input";
@@ -22,6 +23,7 @@ import { createPopover } from "./popover/create-popover";
 import { createRadioGroup } from "./radio-group/create-radio-group";
 import { createRangeSlider } from "./range-slider/create-range-slider";
 import { createRatingGroup } from "./rating-group/create-rating-group";
+import { createSearchDialog } from "./search-dialog/create-search-dialog";
 import { createSelect } from "./select/create-select";
 import { createSlider } from "./slider/create-slider";
 import { createStepper } from "./stepper/create-stepper";
@@ -233,6 +235,45 @@ const rows: Row[] = [
     settled: false,
   },
   {
+    // The menu closes before it says what was chosen, so a handler that reads
+    // it sees it closed and one that reopens it keeps it open (core decides
+    // this order for every adapter).
+    name: "ContextMenu select",
+    covers: ["context-menu/onSelect"],
+    build: (spy) => {
+      const f = createContextMenu({ items: labelled, onSelect: () => spy(f.state) });
+      return {
+        state: f.state,
+        act: () => {
+          get(f.api).openMenu();
+          get(f.api).select("a");
+        },
+        putBack: () => get(f.api).openMenu(),
+      };
+    },
+    expected: (s) => (s as { open: boolean }).open,
+    after: false,
+    settled: true,
+  },
+  {
+    name: "DropdownMenu select",
+    covers: ["dropdown-menu/onSelect"],
+    build: (spy) => {
+      const f = createDropdownMenu({ items: labelled, onSelect: () => spy(f.state) });
+      return {
+        state: f.state,
+        act: () => {
+          get(f.api).openMenu();
+          get(f.api).select("a");
+        },
+        putBack: () => get(f.api).openMenu(),
+      };
+    },
+    expected: (s) => (s as { open: boolean }).open,
+    after: false,
+    settled: true,
+  },
+  {
     name: "Dialog",
     covers: ["dialog/onOpenChange"],
     build: (spy) => {
@@ -434,6 +475,19 @@ const rows: Row[] = [
     settled: 5,
   },
   {
+    // It hands its open state to a dialog of its own, so the row drives the
+    // search dialog's own setter, not the dialog's.
+    name: "SearchDialog open",
+    covers: ["search-dialog/onOpenChange"],
+    build: (spy) => {
+      const f = createSearchDialog({ items: labelled, onOpenChange: () => spy(f.open) });
+      return { state: f.open, act: () => f.setOpen(true), putBack: () => f.setOpen(false) };
+    },
+    expected: (s) => s,
+    after: true,
+    settled: false,
+  },
+  {
     name: "Select value",
     covers: ["select/onValueChange"],
     build: (spy) => {
@@ -586,6 +640,22 @@ const rows: Row[] = [
     settled: 7,
   },
   {
+    name: "TimeField commit",
+    covers: ["time-field/onValueCommit"],
+    build: (spy) => {
+      const f = createTimeField({ value: "10:30", onValueCommit: () => spy(f.state) });
+      return {
+        state: f.state,
+        act: () => {
+          get(f.api).getSegmentProps("hour").onKeyDown?.(arrowUp());
+          get(f.api).commit();
+        },
+      };
+    },
+    expected: (s) => (s as { committedParts: { hour: number | null } }).committedParts.hour,
+    after: 11,
+  },
+  {
     name: "ToggleButton",
     covers: ["toggle-button/onPressedChange"],
     build: (spy) => {
@@ -719,31 +789,86 @@ describe("PinInput reports a completion only for the value still committed", () 
   });
 });
 
+// The notifier's callbacks belong to each notification, not to the factory,
+// so the source check below cannot see them. Its two removals are asserted
+// here instead.
+describe("the notifier empties the list before it says so", () => {
+  it("has already removed everything by the time it reports a clear", () => {
+    const notifier = createNotifier();
+    let seen = -1;
+    notifier.show({ title: "One", onDismiss: () => (seen = get(notifier).length) });
+    notifier.show({ title: "Two" });
+
+    notifier.clear();
+
+    expect(seen).toBe(0);
+  });
+
+  it("keeps a notification shown from inside a dismiss handler", () => {
+    const notifier = createNotifier();
+    notifier.show({ title: "One", onDismiss: () => notifier.show({ title: "Replacement" }) });
+
+    notifier.clear();
+
+    expect(get(notifier).map((item) => item.title)).toEqual(["Replacement"]);
+  });
+
+  it("has already removed the one notification a dismiss reports", () => {
+    const notifier = createNotifier();
+    let seen = -1;
+    const id = notifier.show({ title: "One", onDismiss: () => (seen = get(notifier).length) });
+
+    notifier.dismiss(id);
+
+    expect(seen).toBe(0);
+  });
+});
+
 // Callbacks a factory reports without owning a value to commit: the report is
 // the whole event, so there is no committed state for a row to read.
 const NOT_A_ROW: Record<string, string> = {
   "menubar/onSelect": "names the item a person chose; menubar keeps no value of its own",
   "search-dialog/onSelect": "names the result a person chose; the dialog keeps no value of it",
-  "time-field/onValueCommit":
-    "core decides when a commit lands; the TimeField value row covers the setter this adapter owns",
   "time-field/onValidationChange":
     "reported from setParts, the setter the TimeField value row drives, and once at construction",
 };
 
-/** Every `context.on…` a factory calls, as "<factory directory>/<callback>". */
+/**
+ * Every callback a factory can report, as "<factory file>/<callback>". Read
+ * from the sources rather than from a list someone keeps by hand, and read
+ * loosely on purpose: a callback that is called, handed to core, pulled out
+ * of the options or read through a string still counts. A factory that hides
+ * one from this is a factory this table cannot vouch for.
+ */
 function reportedCallbacks(): string[] {
   const lib = resolve(__dirname);
   const found = new Set<string>();
+  const shapes = [
+    // context.onThing?.(…) and context.onThing(…)
+    /\bcontext\.(on[A-Z][A-Za-z]*)\s*(?:\?\.)?\(/g,
+    // context["onThing"]
+    /\bcontext\[\s*["'](on[A-Z][A-Za-z]*)["']\s*\]/g,
+    // onThing: context.onThing, handed to core or to another factory
+    /(on[A-Z][A-Za-z]*)\s*:\s*context\.\1\b/g,
+    // const { onThing } = context
+    /(?:const|let)\s*\{([^}]*)\}\s*=\s*context\b/g,
+  ];
   for (const dir of readdirSync(lib, { withFileTypes: true })) {
     if (!dir.isDirectory()) continue;
-    let source: string;
-    try {
-      source = readFileSync(resolve(lib, dir.name, `create-${dir.name}.ts`), "utf8");
-    } catch {
-      continue;
-    }
-    for (const [, callback] of source.matchAll(/context\.(on[A-Za-z]+)\?\.\(/g)) {
-      found.add(`${dir.name}/${callback}`);
+    const factories = readdirSync(resolve(lib, dir.name)).filter(
+      (name) => name.startsWith("create-") && name.endsWith(".ts") && !name.endsWith(".test.ts"),
+    );
+    for (const file of factories) {
+      const source = readFileSync(resolve(lib, dir.name, file), "utf8");
+      const key = file.replace(/^create-|\.ts$/g, "");
+      for (const shape of shapes) {
+        for (const match of source.matchAll(shape)) {
+          for (const name of match[1]!.split(",")) {
+            const callback = name.split(":")[0]!.trim();
+            if (/^on[A-Z][A-Za-z]*$/.test(callback)) found.add(`${key}/${callback}`);
+          }
+        }
+      }
     }
   }
   return [...found].sort();

@@ -56,10 +56,10 @@ describe("Svelte DatePicker", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  // A page that refuses the date a person picked and writes its own. The
-  // factory-level order this relies on is asserted in
-  // ../adr-0011-commit-order.test.ts.
-  it("settles on the date the page writes back from its own handler", async () => {
+  // A controlled page that refuses the date a person picked and writes its
+  // own. This is the round trip through the prop, not the commit order
+  // inside the factory, which ../adr-0011-commit-order.test.ts asserts.
+  it("settles on the date a controlled page writes back", async () => {
     const onValueChange = vi.fn();
     render(Fixture, { props: { value: "2026-06-15", onValueChange, putBack: "2026-06-02" } });
     await fireEvent.click(field());
