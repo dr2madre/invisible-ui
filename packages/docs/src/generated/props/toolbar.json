@@ -14,21 +14,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "flat",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Borderless presentation: the controls inside lose their individual border/fill at rest (they read as one group, divided only by separators) with a subtle hover overlay."
+          "description": "Borderless presentation: the controls inside lose their individual border/fill at rest (they read as one group, divided only by separators) with a subtle hover overlay.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -44,21 +47,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the toolbar (required)."
+          "description": "Accessible name for the toolbar (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "orientation",
           "type": "ToolbarOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "flat",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Flat presentation: the controls inside lose their individual borders and fill at rest (they read as one group, divided only by separators), with a subtle hover overlay. The toolbar's own frame still groups them."
+          "description": "Flat presentation: the controls inside lose their individual borders and fill at rest (they read as one group, divided only by separators), with a subtle hover overlay. The toolbar's own frame still groups them.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

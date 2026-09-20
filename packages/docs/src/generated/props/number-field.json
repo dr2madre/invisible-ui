@@ -14,112 +14,128 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label, tied to the control."
+          "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "The canonical value; `null` means empty. Bindable through `onValueChange`."
+          "description": "The canonical value; `null` means empty. Bindable through `onValueChange`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "locale",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "BCP-47 locale for parsing and display. Defaults to the provider's locale."
+          "description": "BCP-47 locale for parsing and display. Defaults to the provider's locale.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Step for the spin actions; typed values are validated against it."
+          "description": "Step for the spin actions; typed values are validated against it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "changeOnWheel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt in to wheel stepping while the input is focused and hovered."
+          "description": "Opt in to wheel stepping while the input is focused and hovered.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional hint shown under the control and linked via aria-describedby."
+          "description": "Optional hint shown under the control and linked via aria-describedby.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Error message; when non-empty the field becomes invalid and announces it."
+          "description": "Error message; when non-empty the field becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the canonical ASCII value is submitted under it."
+          "description": "Form field name; the canonical ASCII value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "form",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Id of the owning form when the field renders outside of it."
+          "description": "Id of the owning form when the field renders outside of it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: number | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the canonical value changes while editing."
+          "description": "Called when the canonical value changes while editing.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueCommit",
           "type": "((value: number | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called at commit boundaries: blur, Enter, and spin actions."
+          "description": "Called at commit boundaries: blur, Enter, and spin actions.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -135,119 +151,136 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label, tied to the control."
+          "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "number | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "The canonical value; `null` means empty."
+          "description": "The canonical value; `null` means empty.",
+          "descriptionFrom": "source"
         },
         {
           "name": "locale",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "BCP-47 locale for parsing and display. Defaults to the i18n scope."
+          "description": "BCP-47 locale for parsing and display. Defaults to the i18n scope.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Step for the spin actions; typed values are validated against it."
+          "description": "Step for the spin actions; typed values are validated against it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "changeOnWheel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt in to wheel stepping while the input is focused and hovered."
+          "description": "Opt in to wheel stepping while the input is focused and hovered.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional hint shown under the control and linked via aria-describedby."
+          "description": "Optional hint shown under the control and linked via aria-describedby.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Error message; when non-empty the field becomes invalid and announces it."
+          "description": "Error message; when non-empty the field becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the canonical ASCII value is submitted under it."
+          "description": "Form field name; the canonical ASCII value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "form",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Id of the owning form when the field renders outside of it."
+          "description": "Id of the owning form when the field renders outside of it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: number | null) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the canonical value changes while editing."
+          "description": "Called when the canonical value changes while editing.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueCommit",
           "type": "(value: number | null) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called at commit boundaries: blur, Enter, and spin actions."
+          "description": "Called at commit boundaries: blur, Enter, and spin actions.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

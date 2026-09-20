@@ -88,6 +88,9 @@ importers:
 
   core:
     devDependencies:
+      jsdom:
+        specifier: ^29.1.1
+        version: 29.1.1
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.28)(typescript@5.9.3)(yaml@2.9.0)

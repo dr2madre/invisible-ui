@@ -14,77 +14,88 @@
           "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "renderTrigger",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013)."
+          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013).",
+          "descriptionFrom": "source"
         },
         {
           "name": "returnFocusTo",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector for the element focus returns to when there is no trigger."
+          "description": "CSS selector for the element focus returns to when there is no trigger.",
+          "descriptionFrom": "source"
         },
         {
           "name": "side",
           "type": "SheetDialogSide",
           "default": "\"right\"",
           "required": false,
-          "description": "Which edge the panel is anchored to."
+          "description": "Which edge the panel is anchored to.",
+          "descriptionFrom": "source"
         },
         {
           "name": "draggable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
+          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial open state."
+          "description": "Initial open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the panel (required)."
+          "description": "Accessible title naming the panel (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Optional description, wired via `aria-describedby`."
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\"."
+          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "initialFocus",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector (within the panel) for the element to focus on open — e.g. `\"input\"` to land on a form's first field instead of the close button."
+          "description": "CSS selector (within the panel) for the element to focus on open — e.g. `\"input\"` to land on a form's first field instead of the close button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the open state changes."
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -100,84 +111,96 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup.",
+          "descriptionFrom": "source"
         },
         {
           "name": "side",
           "type": "SheetDialogSide",
           "default": "\"right\"",
           "required": false,
-          "description": "Which edge the panel is anchored to."
+          "description": "Which edge the panel is anchored to.",
+          "descriptionFrom": "source"
         },
         {
           "name": "draggable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`)."
+          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the panel (required)."
+          "description": "Accessible title naming the panel (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional description, wired via `aria-describedby`."
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\"."
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "initialFocus",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector (within the panel) for the element to focus on open, e.g. `\"input\"` to land on a form's first field instead of the close button."
+          "description": "CSS selector (within the panel) for the element to focus on open, e.g. `\"input\"` to land on a form's first field instead of the close button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "renderTrigger",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013)."
+          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013).",
+          "descriptionFrom": "source"
         },
         {
           "name": "returnFocusTo",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "CSS selector for the element focus returns to when there is no trigger."
+          "description": "CSS selector for the element focus returns to when there is no trigger.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the open state changes."
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

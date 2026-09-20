@@ -14,56 +14,64 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "subheading",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "submitLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Submit button label. Defaults to the i18n catalog's \"Sign in\"."
+          "description": "Submit button label. Defaults to the i18n catalog's \"Sign in\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "forgotHref",
           "type": "string | undefined",
           "default": "\"#\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "forgotLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Forgot-password link text. Defaults to the i18n catalog's \"Forgot password?\"."
+          "description": "Forgot-password link text. Defaults to the i18n catalog's \"Forgot password?\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "providers",
           "type": "{ id: string; label: string }[]",
           "default": "[]",
           "required": false,
-          "description": "Social providers rendered as white buttons above the fields."
+          "description": "Social providers rendered as white buttons above the fields.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSubmit",
           "type": "((value: { email: string; password: string }) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onProvider",
           "type": "((id: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -79,56 +87,64 @@
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "subheading",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "submitLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Submit button label. Defaults to the catalog's \"Sign in\"."
+          "description": "Submit button label. Defaults to the catalog's \"Sign in\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "forgotHref",
           "type": "string",
           "default": "\"#\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "forgotLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Forgot-password link text. Defaults to the catalog's \"Forgot password?\"."
+          "description": "Forgot-password link text. Defaults to the catalog's \"Forgot password?\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "providers",
           "type": "LoginFormProvider[]",
           "default": "() => []",
           "required": false,
-          "description": "Social providers rendered as white buttons above the fields."
+          "description": "Social providers rendered as white buttons above the fields.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSubmit",
           "type": "(value: LoginFormValue) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onProvider",
           "type": "(id: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [],

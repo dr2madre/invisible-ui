@@ -14,77 +14,88 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "SelectItem[]",
           "default": null,
           "required": true,
-          "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`."
+          "description": "Options (`{ value, label?, disabled? }`); `label` falls back to `value`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value."
+          "description": "Selected value.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Trigger text when nothing is selected."
+          "description": "Trigger text when nothing is selected.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the control."
+          "description": "Disable the control.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default)."
+          "description": "Width behaviour: `wrap` fits the longest option (plus the trigger padding), `fill` takes 100% of the container, `fixed` uses `--ds-select-width` (16rem by default).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the selected value is submitted under it (via a hidden input)."
+          "description": "Form field name — the selected value is submitted under it (via a hidden input).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Marks the control as required (announced to assistive tech)."
+          "description": "Marks the control as required (announced to assistive tech).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "error",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Error message; when non-empty the select becomes invalid and announces it."
+          "description": "Error message; when non-empty the select becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -100,84 +111,96 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label (kept for assistive tech), for compact toolbars."
+          "description": "Visually hide the label (kept for assistive tech), for compact toolbars.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "SelectItem[]",
           "default": null,
           "required": true,
-          "description": "Options. Plain text only; see the note on rich options below."
+          "description": "Options. Plain text only; see the note on rich options below.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value. `null` shows the placeholder."
+          "description": "Selected value. `null` shows the placeholder.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\"."
+          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`."
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; this is a real `<select>`, so it submits natively."
+          "description": "Form field name; this is a real `<select>`, so it submits natively.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Marks the control as required (native validation + announced to AT)."
+          "description": "Marks the control as required (native validation + announced to AT).",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Error message; when non-empty the select becomes invalid and announces it."
+          "description": "Error message; when non-empty the select becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -201,77 +224,88 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideLabel",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars."
+          "description": "Visually hide the label (kept for assistive tech) — for compact toolbars.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "SelectItem[]",
           "default": null,
           "required": true,
-          "description": "Options. Plain text only — see the note on rich options below."
+          "description": "Options. Plain text only — see the note on rich options below.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value. `null` shows the placeholder."
+          "description": "Selected value. `null` shows the placeholder.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\"."
+          "description": "Shown while nothing is selected. Defaults to the catalog's \"Select…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"wrap\"",
           "required": false,
-          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`."
+          "description": "Width behaviour: `wrap` fits the longest option (the native default), `fill` takes 100% of the container, `fixed` uses `--ds-select-width`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Form field name — this is a real `<select>`, so it submits natively."
+          "description": "Form field name — this is a real `<select>`, so it submits natively.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Marks the control as required (native validation + announced to AT)."
+          "description": "Marks the control as required (native validation + announced to AT).",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Error message; when non-empty the select becomes invalid and announces it."
+          "description": "Error message; when non-empty the select becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": null,
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -286,55 +320,64 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hide-label",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "width",
           "reactive": true,
           "required": false,
-          "description": "wrap|fill|fixed"
+          "description": "wrap|fill|fixed",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "error",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

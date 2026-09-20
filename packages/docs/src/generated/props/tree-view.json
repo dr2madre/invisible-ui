@@ -14,56 +14,64 @@
           "type": "TreeNode[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "expanded",
           "type": "string[]",
           "default": "[]",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "selected",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the tree."
+          "description": "Accessible name for the tree.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "labels",
           "type": "Record<string, string> | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Display labels per value (defaults to the value)."
+          "description": "Display labels per value (defaults to the value).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onExpandedChange",
           "type": "((expanded: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the expanded set changes."
+          "description": "Called when the expanded set changes.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onSelectedChange",
           "type": "((selected: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the selection changes."
+          "description": "Called when the selection changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -79,56 +87,64 @@
           "type": "TreeNode[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "expanded",
           "type": "string[]",
           "default": "() => []",
           "required": false,
-          "description": "Expanded parent values; bindable with `v-model:expanded`."
+          "description": "Expanded parent values; bindable with `v-model:expanded`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "selected",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value; bindable with `v-model:selected`."
+          "description": "Selected value; bindable with `v-model:selected`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the tree (announced by screen readers)."
+          "description": "Accessible name for the tree (announced by screen readers).",
+          "descriptionFrom": "source"
         },
         {
           "name": "labels",
           "type": "Record<string, string>",
           "default": "undefined",
           "required": false,
-          "description": "Optional per-node display labels, keyed by node value."
+          "description": "Optional per-node display labels, keyed by node value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onExpandedChange",
           "type": "(expanded: string[]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the expanded set changes."
+          "description": "Called whenever the expanded set changes.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelectedChange",
           "type": "(selected: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

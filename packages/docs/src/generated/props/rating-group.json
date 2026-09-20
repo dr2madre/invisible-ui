@@ -14,42 +14,48 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible group name."
+          "description": "Accessible group name.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "max",
           "type": "number",
           "default": "5",
           "required": false,
-          "description": "Number of stars."
+          "description": "Number of stars.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "Current rating."
+          "description": "Current rating.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the group."
+          "description": "Disable the group.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the rating is submitted under it."
+          "description": "Form field name — the rating is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the rating changes."
+          "description": "Called when the rating changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,49 +71,56 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the rating group (required)."
+          "description": "Accessible name for the rating group (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "5",
           "required": false,
-          "description": "Number of stars."
+          "description": "Number of stars.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "number | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number | null",
           "default": "null",
           "required": false,
-          "description": "Selected rating (1..max), or null."
+          "description": "Selected rating (1..max), or null.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the rating is submitted under it."
+          "description": "Form field name; the rating is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: number) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the rating changes."
+          "description": "Called whenever the rating changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

@@ -14,42 +14,48 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "The value to show."
+          "description": "The value to show.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "max",
           "type": "number",
           "default": "99",
           "required": false,
-          "description": "Clamp threshold (e.g. `128` → `99+`)."
+          "description": "Clamp threshold (e.g. `128` → `99+`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "dot",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a dot instead of a number."
+          "description": "Render a dot instead of a number.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "showZero",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render when `count` is `0`."
+          "description": "Render when `count` is `0`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "status",
           "type": "CountStatus",
           "default": "\"danger\"",
           "required": false,
-          "description": "Color."
+          "description": "Color.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible description (e.g. \"unread messages\")."
+          "description": "Accessible description (e.g. \"unread messages\").",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "The number to display."
+          "description": "The number to display.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "99",
           "required": false,
-          "description": "Ceiling before showing \"N+\". Defaults to 99."
+          "description": "Ceiling before showing \"N+\". Defaults to 99.",
+          "descriptionFrom": "source"
         },
         {
           "name": "dot",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a bare dot (presence indicator) instead of a number."
+          "description": "Render a bare dot (presence indicator) instead of a number.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showZero",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the bubble even when `count` is 0. Defaults to `false`."
+          "description": "Show the bubble even when `count` is 0. Defaults to `false`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "status",
           "type": "CountStatus",
           "default": "\"danger\"",
           "required": false,
-          "description": "Status color. Defaults to `danger` (the conventional unread red)."
+          "description": "Status color. Defaults to `danger` (the conventional unread red).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Fuller accessible label (e.g. \"3 unread messages\")."
+          "description": "Fuller accessible label (e.g. \"3 unread messages\").",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

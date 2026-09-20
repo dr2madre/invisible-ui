@@ -14,21 +14,24 @@
           "type": "ScrollOrientation",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Scrollable axes."
+          "description": "Scrollable axes.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "maxHeight",
           "type": "string",
           "default": "\"12rem\"",
           "required": false,
-          "description": "Max height of the viewport."
+          "description": "Max height of the viewport.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the region."
+          "description": "Accessible name for the region.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -44,21 +47,24 @@
           "type": "ScrollOrientation",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Which axes scroll. Defaults to `vertical`."
+          "description": "Which axes scroll. Defaults to `vertical`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "maxHeight",
           "type": "string",
           "default": "\"12rem\"",
           "required": false,
-          "description": "Max size of the viewport (the scroll constraint), e.g. `\"12rem\"`."
+          "description": "Max size of the viewport (the scroll constraint), e.g. `\"12rem\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional accessible name; makes the viewport a labelled scroll region."
+          "description": "Optional accessible name; makes the viewport a labelled scroll region.",
+          "descriptionFrom": "curated"
         }
       ],
       "emits": [],

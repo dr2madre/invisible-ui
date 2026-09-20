@@ -14,91 +14,104 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name."
+          "description": "Accessible name.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the value is submitted under it."
+          "description": "Form field name — the value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the current value to the side of the track."
+          "description": "Show the current value to the side of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showRange",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the min and max reference values under the ends of the track."
+          "description": "Show the min and max reference values under the ends of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ticks",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show tick marks at each step (only when the count is reasonable)."
+          "description": "Show tick marks at each step (only when the count is reasonable).",
+          "descriptionFrom": "source"
         },
         {
           "name": "format",
           "type": "(value: number) => string",
           "default": "(v) => String(v)",
           "required": false,
-          "description": "Format the displayed value/range (e.g. add a unit)."
+          "description": "Format the displayed value/range (e.g. add a unit).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the value changes."
+          "description": "Called when the value changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -114,98 +127,112 @@
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "step",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "SliderOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the slider (required)."
+          "description": "Accessible name for the slider (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it."
+          "description": "Form field name; the value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the current value to the side of the track."
+          "description": "Show the current value to the side of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "showRange",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the min and max reference values under the ends of the track."
+          "description": "Show the min and max reference values under the ends of the track.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ticks",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show tick marks at each step (drawn only when the count stays readable)."
+          "description": "Show tick marks at each step (drawn only when the count stays readable).",
+          "descriptionFrom": "source"
         },
         {
           "name": "format",
           "type": "(value: number) => string",
           "default": "(value: number) => String(value)",
           "required": false,
-          "description": "Format the displayed value/range (e.g. add a unit)."
+          "description": "Format the displayed value/range (e.g. add a unit).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: number) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the value changes."
+          "description": "Called whenever the value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

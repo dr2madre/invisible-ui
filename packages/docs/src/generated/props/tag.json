@@ -14,42 +14,48 @@
           "type": "TagStatus",
           "default": "\"neutral\"",
           "required": false,
-          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "variant",
           "type": "\"soft\" | \"solid\"",
           "default": "\"soft\"",
           "required": false,
-          "description": "Tinted background or solid fill."
+          "description": "Tinted background or solid fill.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Chip size."
+          "description": "Chip size.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "removable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a remove button."
+          "description": "Show a remove button.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "removeLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the remove button."
+          "description": "Accessible label for the remove button.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onRemove",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the remove button is pressed."
+          "description": "Called when the remove button is pressed.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "TagStatus",
           "default": "\"neutral\"",
           "required": false,
-          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`."
+          "description": "Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "variant",
           "type": "\"soft\" | \"solid\"",
           "default": "\"soft\"",
           "required": false,
-          "description": "Visual weight: a soft tinted surface (default) or a solid, filled chip."
+          "description": "Visual weight: a soft tinted surface (default) or a solid, filled chip.",
+          "descriptionFrom": "source"
         },
         {
           "name": "size",
           "type": "\"sm\" | \"md\"",
           "default": "\"md\"",
           "required": false,
-          "description": "Size of the chip."
+          "description": "Size of the chip.",
+          "descriptionFrom": "source"
         },
         {
           "name": "removable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a remove (✕) button. Defaults to `false`."
+          "description": "Render a remove (✕) button. Defaults to `false`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "removeLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the remove button. Defaults to the i18n catalog's \"Remove\"."
+          "description": "Accessible name for the remove button. Defaults to the i18n catalog's \"Remove\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onRemove",
           "type": "() => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the remove button is pressed."
+          "description": "Called when the remove button is pressed.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

@@ -14,126 +14,144 @@
           "type": "FeedbackStatus",
           "default": "\"info\"",
           "required": false,
-          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Heading (required)."
+          "description": "Heading (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Body text (required). Override with the default slot for rich content."
+          "description": "Body text (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "href",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
+          "description": "Link href. When set (and no `link` slot is provided) a link is rendered.",
+          "descriptionFrom": "source"
         },
         {
           "name": "linkText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
+          "description": "Link text. Defaults to the i18n catalog's \"Learn more\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "actions",
           "type": "InlineNotificationAction[] | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Action buttons (alternative to the `actions` slot)."
+          "description": "Action buttons (alternative to the `actions` slot).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render the close button. Defaults to `false` (not dismissible)."
+          "description": "Render the close button. Defaults to `false` (not dismissible).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
+          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the alert again."
+          "description": "Controls visibility (bindable). Dismissing sets it to `false`; set it back to `true` to show the notification again.",
+          "descriptionFrom": "source"
         },
         {
           "name": "role",
           "type": "\"status\" | \"alert\" | \"region\"",
           "default": "\"status\"",
           "required": false,
-          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
+          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent.",
+          "descriptionFrom": "source"
         },
         {
           "name": "inverted",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
+          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility.",
+          "descriptionFrom": "source"
         },
         {
           "name": "plain",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconShape",
           "type": "\"rounded\" | \"round\"",
           "default": "\"rounded\"",
           "required": false,
-          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconBox",
           "type": "\"tint\" | \"transparent\" | \"solid\" | undefined",
           "default": "undefined",
           "required": false,
-          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
+          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted alerts and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too.",
+          "descriptionFrom": "source"
         },
         {
           "name": "snack",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
+          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner.",
+          "descriptionFrom": "source"
         },
         {
           "name": "component",
           "type": "import(\"svelte\").ComponentType | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
+          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout.",
+          "descriptionFrom": "source"
         },
         {
           "name": "componentProps",
           "type": "Record<string, unknown>",
           "default": "{}",
           "required": false,
-          "description": "Props passed to `component`."
+          "description": "Props passed to `component`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onclose",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when dismissed."
+          "description": "Called when dismissed.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -149,126 +167,144 @@
           "type": "FeedbackStatus",
           "default": "\"info\"",
           "required": false,
-          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`."
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Heading (required)."
+          "description": "Heading (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Body text (required). Override with the default slot for rich content."
+          "description": "Body text (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
         },
         {
           "name": "href",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Link href. When set (and no `link` slot is provided) a link is rendered."
+          "description": "Link href. When set (and no `link` slot is provided) a link is rendered.",
+          "descriptionFrom": "source"
         },
         {
           "name": "linkText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Link text. Defaults to the i18n catalog's \"Learn more\"."
+          "description": "Link text. Defaults to the i18n catalog's \"Learn more\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "actions",
           "type": "InlineNotificationAction[]",
           "default": "undefined",
           "required": false,
-          "description": "Action buttons (alternative to the `actions` slot)."
+          "description": "Action buttons (alternative to the `actions` slot).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render the close button. Defaults to `false` (not dismissible)."
+          "description": "Render the close button. Defaults to `false` (not dismissible).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\"."
+          "description": "Close button accessible name. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Controls visibility; bindable with `v-model:open`. Dismissing sets it to `false`; set it back to `true` to show the notification again."
+          "description": "Controls visibility; bindable with `v-model:open`. Dismissing sets it to `false`; set it back to `true` to show the notification again.",
+          "descriptionFrom": "source"
         },
         {
           "name": "role",
           "type": "\"status\" | \"alert\" | \"region\"",
           "default": "\"status\"",
           "required": false,
-          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent."
+          "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent.",
+          "descriptionFrom": "source"
         },
         {
           "name": "inverted",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility."
+          "description": "High-contrast inverse surface (opposite of the page) for maximum visibility.",
+          "descriptionFrom": "source"
         },
         {
           "name": "plain",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip."
+          "description": "No-surface variant: drop the tinted background and border (the message sits on the page). The status stays visible via the colored FeedbackIcon chip.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconShape",
           "type": "\"rounded\" | \"round\"",
           "default": "\"rounded\"",
           "required": false,
-          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle."
+          "description": "Shape of the FeedbackIcon box — `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconBox",
           "type": "\"tint\" | \"transparent\" | \"solid\"",
           "default": "undefined",
           "required": false,
-          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted notifications and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too."
+          "description": "FeedbackIcon box override. By default the box is tinted on plain/inverted notifications and transparent on tinted surfaces (so it doesn't clash); set `\"tint\"` or `\"solid\"` to force a visible chip on a tinted surface too.",
+          "descriptionFrom": "source"
         },
         {
           "name": "snack",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner."
+          "description": "Snackbar layout: one compact, vertically-centered row — icon, title and inline actions — in a container that wraps its content. The description is dropped and the icon takes the text color with no box. Meant for the floating `Notification`, not the in-page banner.",
+          "descriptionFrom": "source"
         },
         {
           "name": "component",
           "type": "Component",
           "default": "undefined",
           "required": false,
-          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Vue component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout."
+          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Vue component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout.",
+          "descriptionFrom": "source"
         },
         {
           "name": "componentProps",
           "type": "Record<string, unknown>",
           "default": "() => ({})",
           "required": false,
-          "description": "Props passed to `component`."
+          "description": "Props passed to `component`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onClose",
           "type": "() => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when dismissed."
+          "description": "Called when dismissed.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

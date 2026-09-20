@@ -7,6 +7,22 @@ import { firstEnabled, lastEnabled, nextEnabled, prevEnabled, step } from "./col
 const items = [{ value: "a" }, { value: "b", disabled: true }, { value: "c" }];
 
 describe("collection navigation", () => {
+  it("skips a disabled last entry when looking for the last enabled one", () => {
+    // The last item is disabled: the answer is the one before it, not it.
+    expect(lastEnabled([{ value: "a" }, { value: "b" }, { value: "c", disabled: true }])).toBe("b");
+    expect(
+      lastEnabled([{ value: "a", disabled: true }, { value: "b" }, { value: "c", disabled: true }]),
+    ).toBe("b");
+  });
+
+  it("wraps all the way round to the only enabled entry, from itself", () => {
+    // One enabled item among disabled ones: stepping from it must come back
+    // to it, which needs the full wrap, not one iteration less.
+    const items = [{ value: "a", disabled: true }, { value: "b" }, { value: "c", disabled: true }];
+    expect(step(items, "b", 1)).toBe("b");
+    expect(step(items, "b", -1)).toBe("b");
+  });
+
   it("finds the first and last enabled entry, skipping disabled ones", () => {
     expect(firstEnabled(items)).toBe("a");
     expect(lastEnabled(items)).toBe("c");

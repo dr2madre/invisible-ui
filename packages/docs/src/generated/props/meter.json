@@ -14,49 +14,56 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Current measurement."
+          "description": "Current measurement.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Range bounds."
+          "description": "Range bounds.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": "Range bounds."
+          "description": "Range bounds.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "low",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Threshold marks (tint the fill)."
+          "description": "Threshold marks (tint the fill).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "high",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Threshold marks (tint the fill)."
+          "description": "Threshold marks (tint the fill).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "optimum",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better."
+          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name."
+          "description": "Accessible name.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -72,49 +79,56 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Current measured value."
+          "description": "Current measured value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Minimum value."
+          "description": "Minimum value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": "Maximum value."
+          "description": "Maximum value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "low",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Upper bound of the \"low\" range."
+          "description": "Upper bound of the \"low\" range.",
+          "descriptionFrom": "source"
         },
         {
           "name": "high",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Lower bound of the \"high\" range."
+          "description": "Lower bound of the \"high\" range.",
+          "descriptionFrom": "source"
         },
         {
           "name": "optimum",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better."
+          "description": "Where the good end of the scale is. Defaults to `max`, so more reads as better; set it near `min` for a measure where less is better.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the meter (required)."
+          "description": "Accessible name for the meter (required).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

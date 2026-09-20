@@ -14,119 +14,136 @@
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "end",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "min",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "locale",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "dateStyle",
           "type": "\"full\" | \"long\" | \"medium\" | \"short\"",
           "default": "\"medium\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "view",
           "type": "CalendarView",
           "default": "\"two-month\"",
           "required": false,
-          "description": "Calendar view inside the popover."
+          "description": "Calendar view inside the popover.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label."
+          "description": "Accessible label.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Shown when empty."
+          "description": "Shown when empty.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the field."
+          "description": "Disable the field.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "clearable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a clear button when a range is set."
+          "description": "Show a clear button when a range is set.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "events",
           "type": "CalendarEvent[]",
           "default": "[]",
           "required": false,
-          "description": "Forwarded to the calendar."
+          "description": "Forwarded to the calendar.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "prices",
           "type": "Record<string, string>",
           "default": "{}",
           "required": false,
-          "description": "Forwarded to the calendar."
+          "description": "Forwarded to the calendar.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "startName",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs)."
+          "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "endName",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs)."
+          "description": "Form field names — the start/end ISO dates are submitted under them (via hidden inputs).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onChange",
           "type": "((start: string | null, end: string | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the range changes."
+          "description": "Called when the range changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -142,119 +159,136 @@
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Range start (ISO `YYYY-MM-DD`), or `null`."
+          "description": "Range start (ISO `YYYY-MM-DD`), or `null`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "end",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Range end (ISO `YYYY-MM-DD`), or `null`."
+          "description": "Range end (ISO `YYYY-MM-DD`), or `null`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "locale",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "dateStyle",
           "type": "DateStyle",
           "default": "\"medium\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "view",
           "type": "CalendarView",
           "default": "\"two-month\"",
           "required": false,
-          "description": "Calendar view inside the popover. Defaults to two months side by side."
+          "description": "Calendar view inside the popover. Defaults to two months side by side.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "clearable",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "events",
           "type": "CalendarEvent[]",
           "default": "() => []",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "prices",
           "type": "Record<string, string>",
           "default": "() => ({})",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "startName",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name for the start date, submitted as an ISO value."
+          "description": "Form field name for the start date, submitted as an ISO value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "endName",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name for the end date, submitted as an ISO value."
+          "description": "Form field name for the end date, submitted as an ISO value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onChange",
           "type": "(start: string | null, end: string | null) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

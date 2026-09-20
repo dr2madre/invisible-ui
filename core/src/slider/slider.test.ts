@@ -18,6 +18,11 @@ describe("slider state", () => {
     expect(make({ value: -5 }).value).toBe(0);
   });
 
+  it("gives 0% when the track has no span, instead of dividing by zero", () => {
+    expect(percentage(make({ min: 5, max: 5, value: 5 }))).toBe(0);
+    expect(percentage(make({ min: 10, max: 0, value: 5 }))).toBe(0);
+  });
+
   it("computes percentage", () => {
     expect(percentage(make({ value: 25 }))).toBe(25);
     expect(percentage(make({ value: 4, min: 0, max: 8 }))).toBe(50);

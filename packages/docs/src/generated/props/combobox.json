@@ -14,84 +14,96 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "(ComboboxItem & { icon?: string })[]",
           "default": null,
           "required": true,
-          "description": "Options: `{ value, label?, disabled? }`."
+          "description": "Options: `{ value, label?, disabled? }`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value."
+          "description": "Selected value.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "searchable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "With `searchable={false}` the text input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
+          "description": "With `searchable={false}` the text input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete.",
+          "descriptionFrom": "source"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container."
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem), `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder."
+          "description": "Input placeholder.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the control."
+          "description": "Disable the control.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "clearLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the clear button."
+          "description": "Accessible label for the clear button.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "emptyText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Shown when nothing matches."
+          "description": "Shown when nothing matches.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the selected option's value is submitted under it (via a hidden input)."
+          "description": "Form field name — the selected option's value is submitted under it (via a hidden input).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the selection changes."
+          "description": "Called when the selection changes.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onInputValueChange",
           "type": "((text: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the input text changes."
+          "description": "Called when the input text changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -107,91 +119,104 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "ComboboxOption[]",
           "default": null,
           "required": true,
-          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon."
+          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected value. `null` for none."
+          "description": "Selected value. `null` for none.",
+          "descriptionFrom": "source"
         },
         {
           "name": "searchable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "With `searchable: false` the input becomes read-only and the list always shows every option: a select-only combobox, the advanced Select (styled popup, per-option icons) without the autocomplete."
+          "description": "With `searchable: false` the input becomes read-only and the list always shows every option: a select-only combobox, the advanced Select (styled popup, per-option icons) without the autocomplete.",
+          "descriptionFrom": "source"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container."
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "clearLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\"."
+          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\"."
+          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the selected option's value is submitted under it."
+          "description": "Form field name; the selected option's value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string | null) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onInputValueChange",
           "type": "(text: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [
@@ -217,91 +242,104 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the control."
+          "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "ComboboxOption[]",
           "default": null,
           "required": true,
-          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon."
+          "description": "Options. Each may carry a leading `icon`; with the search hidden, the control mirrors the selected option's icon.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "searchable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "With `searchable={false}` the input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete."
+          "description": "With `searchable={false}` the input becomes read-only and the list always shows every option — a select-only combobox: the advanced Select (styled popup, per-option icons) without the autocomplete.",
+          "descriptionFrom": "source"
         },
         {
           "name": "width",
           "type": "\"wrap\" | \"fill\" | \"fixed\"",
           "default": "\"fixed\"",
           "required": false,
-          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container."
+          "description": "Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits the longest option, `fill` takes 100% of the container.",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "clearLabel",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\"."
+          "description": "Clear button accessible name. Defaults to the catalog's \"Clear\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\"."
+          "description": "Text shown when no option matches. Defaults to the catalog's \"No results\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Form field name — the selected option's value is submitted under it."
+          "description": "Form field name — the selected option's value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string | null) => void",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onInputValueChange",
           "type": "(text: string) => void",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "icon",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Leading icon shown when `searchable={false}` and no option icon applies."
+          "description": "Leading icon shown when `searchable={false}` and no option icon applies.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -316,55 +354,64 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "searchable",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "width",
           "reactive": true,
           "required": false,
-          "description": "wrap|fill|fixed"
+          "description": "wrap|fill|fixed",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "clear-label",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "empty-text",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": "submits via a hidden input"
+          "description": "submits via a hidden input",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [

@@ -14,70 +14,80 @@
           "type": "TableColumnDef[]",
           "default": null,
           "required": true,
-          "description": "Columns (`{ key, header, sortable?, align?, hideable? }`)."
+          "description": "Columns (`{ key, header, sortable?, align?, hideable? }`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "rows",
           "type": "TableRow[]",
           "default": null,
           "required": true,
-          "description": "Row objects keyed by `column.key`."
+          "description": "Row objects keyed by `column.key`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "sort",
           "type": "SortState | null",
           "default": "null",
           "required": false,
-          "description": "Current sort (`{ key, direction }`)."
+          "description": "Current sort (`{ key, direction }`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onSortToggle",
           "type": "((key: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when a sortable header is toggled."
+          "description": "Called when a sortable header is toggled.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "caption",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible caption."
+          "description": "Accessible caption.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "hideCaption",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the caption."
+          "description": "Visually hide the caption.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "getValue",
           "type": "(row: TableRow, key: string) => unknown",
           "default": "(row, key) => row[key]",
           "required": false,
-          "description": "Read a cell value (override for nested/derived data)."
+          "description": "Read a cell value (override for nested/derived data).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
           "default": "defaultGetRowId",
           "required": false,
-          "description": "Stable row key."
+          "description": "Stable row key.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "selectionColumn",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself."
+          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself.",
+          "descriptionFrom": "source"
         },
         {
           "name": "isRowSelected",
           "type": "((row: TableRow, rowIndex: number) => boolean) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`."
+          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -93,70 +103,80 @@
           "type": "TableColumnDef[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "rows",
           "type": "TableRow[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "sort",
           "type": "SortState | null",
           "default": "null",
           "required": false,
-          "description": "The active sort, reflected on the headers (controlled)."
+          "description": "The active sort, reflected on the headers (controlled).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSortToggle",
           "type": "(key: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the column key when a sortable header is activated."
+          "description": "Called with the column key when a sortable header is activated.",
+          "descriptionFrom": "source"
         },
         {
           "name": "caption",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the table (rendered as a `<caption>`)."
+          "description": "Accessible name for the table (rendered as a `<caption>`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "hideCaption",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Visually hide the caption (still available to assistive tech)."
+          "description": "Visually hide the caption (still available to assistive tech).",
+          "descriptionFrom": "source"
         },
         {
           "name": "getValue",
           "type": "(row: TableRow, key: string) => unknown",
           "default": "(row: TableRow, key: string) => row[key]",
           "required": false,
-          "description": "Reads a row's value for a column (defaults to `row[key]`)."
+          "description": "Reads a row's value for a column (defaults to `row[key]`).",
+          "descriptionFrom": "source"
         },
         {
           "name": "getRowId",
           "type": "(row: TableRow, index: number) => string | number",
           "default": "defaultGetRowId",
           "required": false,
-          "description": "Stable row key (defaults to `row.id`, falling back to the index)."
+          "description": "Stable row key (defaults to `row.id`, falling back to the index).",
+          "descriptionFrom": "source"
         },
         {
           "name": "selectionColumn",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself."
+          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself.",
+          "descriptionFrom": "source"
         },
         {
           "name": "isRowSelected",
           "type": "(row: TableRow, rowIndex: number) => boolean",
           "default": "undefined",
           "required": false,
-          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`."
+          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

@@ -14,112 +14,128 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label, tied to the control."
+          "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Field value."
+          "description": "Field value.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Placeholder text."
+          "description": "Placeholder text.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "rows",
           "type": "number",
           "default": "3",
           "required": false,
-          "description": "Visible text rows."
+          "description": "Visible text rows.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Hint shown under the control, linked via `aria-describedby`."
+          "description": "Hint shown under the control, linked via `aria-describedby`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "error",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "When non-empty the field becomes invalid and announces the message."
+          "description": "When non-empty the field becomes invalid and announces the message.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "success",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Success/validated message; shows a confirming caption."
+          "description": "Success/validated message; shows a confirming caption.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the field."
+          "description": "Disable the field.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark as required."
+          "description": "Mark as required.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Make the field read-only."
+          "description": "Make the field read-only.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the value is submitted under it."
+          "description": "Form field name — the value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "autocomplete",
           "type": "HTMLTextareaAttributes[\"autocomplete\"]",
           "default": "undefined",
           "required": false,
-          "description": "Native textarea autocomplete hint."
+          "description": "Native textarea autocomplete hint.",
+          "descriptionFrom": "source"
         },
         {
           "name": "maxlength",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Native length limits; the browser enforces them and reports them."
+          "description": "Native length limits; the browser enforces them and reports them.",
+          "descriptionFrom": "source"
         },
         {
           "name": "minlength",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "spellcheck",
           "type": "boolean | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Turn spelling correction off for codes and identifiers."
+          "description": "Turn spelling correction off for codes and identifiers.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the value changes."
+          "description": "Called whenever the value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -135,119 +151,136 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Visible label, tied to the control."
+          "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "rows",
           "type": "number",
           "default": "3",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional hint shown under the control and linked via aria-describedby."
+          "description": "Optional hint shown under the control and linked via aria-describedby.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Error message; when non-empty the field becomes invalid and announces it."
+          "description": "Error message; when non-empty the field becomes invalid and announces it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "success",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Success/validated message; shows a confirming caption."
+          "description": "Success/validated message; shows a confirming caption.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the value is submitted under it."
+          "description": "Form field name; the value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "autocomplete",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Native textarea autocomplete hint."
+          "description": "Native textarea autocomplete hint.",
+          "descriptionFrom": "source"
         },
         {
           "name": "maxlength",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Native length limits; the browser enforces them and reports them."
+          "description": "Native length limits; the browser enforces them and reports them.",
+          "descriptionFrom": "source"
         },
         {
           "name": "minlength",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "spellcheck",
           "type": "boolean",
           "default": "undefined",
           "required": false,
-          "description": "Turn spelling correction off for codes and identifiers."
+          "description": "Turn spelling correction off for codes and identifiers.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the value changes."
+          "description": "Called whenever the value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -269,73 +302,85 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "description",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "error",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "success",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readonly",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "rows",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "autocomplete",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

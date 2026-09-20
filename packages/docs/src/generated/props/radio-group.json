@@ -14,49 +14,56 @@
           "type": "RadioGroupItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "Orientation",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Layout direction."
+          "description": "Layout direction.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group."
+          "description": "Accessible name for the group.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the selected value is submitted under it (auto-generated for grouping if omitted)."
+          "description": "Form field name — the selected value is submitted under it (auto-generated for grouping if omitted).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -72,56 +79,64 @@
           "type": "RadioGroupItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "modelValue",
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "RadioGroupOrientation",
           "default": "\"vertical\"",
           "required": false,
-          "description": "Layout and arrow-key axis. Defaults to `vertical`."
+          "description": "Layout and arrow-key axis. Defaults to `vertical`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the group (announced by screen readers)."
+          "description": "Accessible name for the group (announced by screen readers).",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the selected value is submitted under it."
+          "description": "Form field name; the selected value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected value changes."
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -143,31 +158,36 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [
