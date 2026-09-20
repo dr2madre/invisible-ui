@@ -27,4 +27,4 @@ apply and say why.
 - [ ] Numeric constraints hold as invariants over generated cases; float arithmetic on grid values is re-gridded and asserted with exact equality
 - [ ] A refused or no-op request still leaves the native control in sync (assert the DOM value, not only the callback)
 - [ ] Each new test fails under a relevant mutation (say which mutations were run)
-- [ ] Every documentation claim matches evidence that exists today, and its row in `docs/evidence-register.md` says which; screen-reader, touch AT, zoom and forced-colors claims wait for the manual session
+- [ ] Every documentation claim matches evidence that exists today; system-level claims with evidence outside their page have a row in `docs/evidence-register.md`; screen-reader, touch AT, zoom and forced-colors claims wait for the manual session

@@ -1,12 +1,11 @@
 # Claim and evidence register
 
-The claims listed here are the ones the project makes about **correctness of
-behaviour, accessibility and build integrity**, with the evidence that holds
-each one today. It is not a list of everything the documentation says: a
-claim about a component's props or its visual design is held by the component
-docs and the generated manifests, not by this file. What belongs here is a
-claim someone could reasonably doubt, where the answer is "because this test
-runs".
+This register records selected **system-level claims about behaviour,
+accessibility and build integrity** whose evidence lives outside the page that
+makes the claim or spans more than one component. It is not an exhaustive list
+of everything the project guarantees. Component props and visual design remain
+specified by the component docs and generated manifests; their local tests are
+not repeated here.
 
 Every path and every test count below is checked by
 `scripts/check-evidence-register.mjs`, which runs in `pnpm gate` as part of
@@ -31,7 +30,7 @@ runs and nothing else), `none yet`.
 | --- | --- | --- | --- |
 | Adapter tests run against the current core build, never a stale dist | CONTRIBUTING "Running the checks locally" | gate: `scripts/vitest-core-guard.mjs` is the Vitest `globalSetup` of all four adapters and calls `assertCoreDist` from `scripts/check-core-dist.mjs`; 12 tests in `scripts/check-core-dist.test.mjs` | held |
 | Browser tests run against this checkout's build, never another worktree's | CONTRIBUTING, docs/visual-testing.md | gate: `e2e/global-setup.ts` refuses a foreign or stale server using `scripts/build-id.mjs`; 14 tests in `scripts/build-id.test.mjs`. No browser test exercises the refusal: it runs before the browser starts | held for the unit behaviour |
-| `pnpm gate` is the whole non-browser gate and CI runs nothing else | CONTRIBUTING, `.github/workflows/ci.yml` | gate: 5 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
+| `pnpm gate` is the whole non-browser gate and CI runs nothing else | CONTRIBUTING, `.github/workflows/ci.yml` | gate: 6 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
 
 ## Component behaviour
 
@@ -41,6 +40,7 @@ runs and nothing else), `none yet`.
 | Range Slider: pointer routing follows the logical axis (LTR, RTL, vertical) | same | browser: `e2e/range-slider.spec.ts` on Chromium, Firefox and WebKit | held |
 | Range Slider: constraints change after mount without a remount, silently | same | unit: the rerender tests in the two adapter files above | held |
 | Combobox: the clear button activates by pointer, Enter, Space and a direct click | docs/components/forms/combobox | unit in core and all four adapters; browser: `e2e/interactions.spec.ts` on Chromium, Firefox and WebKit | held |
+| Svelte state factories commit their state before reporting a public callback, so handlers read the reported state and their own writes persist | ADR 0011 | unit: the matrix in `packages/svelte/src/lib/adr-0011-commit-order.test.ts`; its completeness test scans the factory sources and refuses an uncovered callback unless the row records a reasoned exemption | held |
 
 ## Accessibility
 
