@@ -52,11 +52,50 @@ export function hashInputs(root, entries, keep = (rel) => !isTest(rel)) {
   return hash.digest("hex");
 }
 
+/** Every workspace package directory, by the name its manifest declares. */
+function workspaceDirs(repoRoot) {
+  const dirs = ["core"];
+  const packages = join(repoRoot, "packages");
+  if (existsSync(packages)) {
+    for (const name of readdirSync(packages).sort()) dirs.push(`packages/${name}`);
+  }
+  const byName = new Map();
+  for (const dir of dirs) {
+    const manifest = join(repoRoot, dir, "package.json");
+    if (!existsSync(manifest)) continue;
+    try {
+      const { name } = JSON.parse(readFileSync(manifest, "utf8"));
+      if (name) byName.set(name, dir);
+    } catch {
+      // A manifest that cannot be read names no package.
+    }
+  }
+  return byName;
+}
+
+/**
+ * Workspace packages whose code a package copies into its own dist, read
+ * from the `noExternal` list in its build config. Their build record counts
+ * as an input: a dependency rebuilt from other sources leaves the dependant
+ * holding the old copy.
+ */
+function bundledWorkspaceDeps(repoRoot, pkgRel) {
+  const config = join(repoRoot, pkgRel, "tsup.config.ts");
+  if (!existsSync(config)) return [];
+  const listed = /noExternal:\s*\[([^\]]*)\]/.exec(readFileSync(config, "utf8"));
+  if (!listed) return [];
+  const names = new Set([...listed[1].matchAll(/["']([^"']+)["']/g)].map((match) => match[1]));
+  return [...workspaceDirs(repoRoot)]
+    .filter(([name, dir]) => names.has(name) && dir !== pkgRel)
+    .map(([, dir]) => dir);
+}
+
 /**
  * What shapes a workspace package's dist: everything under `src` except
  * tests (core: only the TypeScript tsup compiles), the package manifest,
- * tsup's config, the tsconfigs its dts build reads, and the lockfile that
- * pins the toolchain. `pkgRel` is the package directory relative to the
+ * tsup's config, the tsconfigs its dts build reads, the lockfile that pins
+ * the toolchain, and the build record of every workspace package it copies
+ * into its own dist. `pkgRel` is the package directory relative to the
  * repository root ("core", "packages/svelte").
  */
 export function hashPackageSources(repoRoot, pkgRel) {
@@ -70,6 +109,9 @@ export function hashPackageSources(repoRoot, pkgRel) {
   ];
   if (pkgRel === "core") {
     entries.push("core/scripts/clean-dist.mjs", "core/scripts/patch-esm-specifiers.mjs");
+  }
+  for (const dep of bundledWorkspaceDeps(repoRoot, pkgRel)) {
+    entries.push(`${dep}/dist/.build-info.json`);
   }
   const keep = pkgRel === "core" ? keepCoreRel(pkgRel) : (rel) => !isTest(rel);
   return hashInputs(repoRoot, entries, keep);

@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkCoreDist, assertCoreDist } from "./check-core-dist.mjs";
 import { hashPackageSources } from "./source-hash.mjs";
+import { PENDING_FILE } from "./write-build-info.mjs";
 
 // A miniature `core/`: one source, the build inputs the hash covers, and a
 // dist whose build info this test writes by hand.
@@ -97,13 +98,15 @@ test("a checkout under a directory named src still counts every extra input", ()
   rmSync(parent, { recursive: true, force: true });
 });
 
-// The build records the hash under a pending name and renames it only after
-// it has succeeded. A build that failed or was interrupted leaves the pending
-// file, which is not a stamp.
+// The build writes the hash to a pending file at the package root and moves
+// it into dist only once the build has succeeded. A build that failed or was
+// interrupted leaves that file behind, and it is not a stamp. Where the
+// pending file lives is asserted here: dist is what the bundler cleans.
 test("a failed build's dist, with only a pending stamp, is refused", () => {
   const f = fixture();
+  assert.equal(PENDING_FILE, ".build-info.pending.json");
   writeFileSync(
-    join(f.core, "dist/.build-info.pending.json"),
+    join(f.core, PENDING_FILE),
     JSON.stringify({ sourceHash: hashPackageSources(f.root, "core") }),
   );
   assert.match(checkCoreDist(f.root), /no build info/);
@@ -113,7 +116,7 @@ test("a failed build's dist, with only a pending stamp, is refused", () => {
 test("a pending stamp beside a canonical one changes nothing", () => {
   const f = fixture();
   f.record();
-  writeFileSync(join(f.core, "dist/.build-info.pending.json"), '{ "sourceHash": "stale" }');
+  writeFileSync(join(f.core, PENDING_FILE), '{ "sourceHash": "stale" }');
   assert.equal(checkCoreDist(f.root), null);
   f.done();
 });

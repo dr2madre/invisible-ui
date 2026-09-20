@@ -4,15 +4,15 @@
 //   node scripts/write-build-info.mjs <package dir>            # before the build
 //   node scripts/write-build-info.mjs <package dir> --verify   # after it
 //
-// The first call records the hash of the sources in a pending file at the
-// package root, before the bundler starts; the second recomputes it, fails
-// the build if a source changed meanwhile, and only then writes
-// `dist/.build-info.json`. A failed or interrupted build leaves no record in
-// dist, and the pending file never sits inside the directory the bundler
-// cleans. Readers: scripts/check-core-dist.mjs (the adapters' test guard) and
-// scripts/build-id.mjs (the served sites' stamp).
+// The first call drops any record the previous build left, then writes the
+// hash of the sources to a pending file at the package root; the second
+// recomputes it, fails the build if a source changed meanwhile, and only
+// then writes `dist/.build-info.json`. A failed or interrupted build leaves
+// no record in dist, and the pending file never sits inside the directory
+// the bundler cleans. Readers: scripts/check-core-dist.mjs (the adapters'
+// test guard) and scripts/build-id.mjs (the served sites' stamp).
 
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { relative, resolve } from "node:path";
 import { hashPackageSources } from "./source-hash.mjs";
@@ -22,8 +22,18 @@ export const BUILD_INFO_FILE = "dist/.build-info.json";
 
 export function recordPending(repoRoot, pkgDir) {
   const sourceHash = hashPackageSources(repoRoot, relative(repoRoot, pkgDir));
+  // The old record goes first. A bundler that cleans its own output leaves
+  // dotfiles in place, so a build that never finishes would otherwise keep
+  // a record still claiming the dist is current.
+  rmSync(resolve(pkgDir, BUILD_INFO_FILE), { force: true });
   writeFileSync(resolve(pkgDir, PENDING_FILE), JSON.stringify({ sourceHash }, null, 2) + "\n");
   return sourceHash;
+}
+
+/** The file the dist must hold for a build to count as finished. */
+function packageEntry(pkgDir) {
+  const manifest = JSON.parse(readFileSync(resolve(pkgDir, "package.json"), "utf8"));
+  return manifest.main ?? "dist/index.js";
 }
 
 /** @returns {string | null} the problem, or null when the record was written */
@@ -31,6 +41,9 @@ export function verifyAndStamp(repoRoot, pkgDir) {
   const pending = resolve(pkgDir, PENDING_FILE);
   if (!existsSync(pending))
     return "no pending build record: run the whole build, not --verify alone.";
+  const entry = packageEntry(pkgDir);
+  if (!existsSync(resolve(pkgDir, entry)))
+    return `the build wrote no ${entry}: run the whole build, not --verify alone.`;
   const recorded = JSON.parse(readFileSync(pending, "utf8")).sourceHash;
   const sourceHash = hashPackageSources(repoRoot, relative(repoRoot, pkgDir));
   if (recorded !== sourceHash) return "sources changed while the build ran: run the build again.";
