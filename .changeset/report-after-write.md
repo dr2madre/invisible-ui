@@ -1,15 +1,27 @@
 ---
-"@design-system/core": patch
+"@design-system/core": minor
 "@design-system/svelte": patch
 "@design-system/vue": patch
 "@design-system/react": patch
 ---
 
-Six fixes to what a consumer sees.
+**Breaking for a consumer of a menu, encoded as a minor while the package is
+0.x.** A menu now reports `onOpenChange(false)` before `onSelect(value)`,
+where it used to report them the other way round. A handler that read the
+menu's open state from inside `onSelect`, or that reopened the menu from
+there, sees the opposite of what it saw before. Migration: a handler that
+wants the menu to stay open calls `openMenu()` from `onSelect`, which now
+works; one that relied on reading `open` as `true` there reads `false`.
+
+ADR 0011 gains the rule this follows: a component writes its state before it
+reports the change. The rule was not written down, which is how eight
+components came to break it.
+
+Eight fixes to what a consumer sees.
 
 Every callback a Svelte factory reports is now reported after that factory's own state is written, not during. A handler reading the control's store saw the value from before the change, and a handler writing to it lost that write without a word; both were silent, and both are gone. "Every" is a check rather than a claim: a test reads the factory sources and lists every callback it can find them reporting, whether they call it, hand it to core, pull it out of the options or reach it through a string, and fails until each one is either asserted or named with the reason it cannot be.
 
-A menu says which item was chosen after it has closed, in every adapter, because core decides that order. A handler that read the menu saw it still open, and one that reopened it was closed again straight afterwards. The notification list empties before it tells each notification it is gone, so a handler that shows a replacement keeps it.
+A menu says which item was chosen after it has closed, in the two adapters that ship one, because core decides that order. A handler that read the menu saw it still open, and one that reopened it was closed again straight afterwards. The notification list empties before it tells each notification it is gone, so a handler that shows a replacement keeps it.
 
 The Pin Input announces a completion only for a value its state still holds. A page that cleared the field from its own change handler was told the pin was complete, with the cleared cells already in the state. Svelte and Vue answer the same way.
 

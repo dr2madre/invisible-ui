@@ -155,8 +155,9 @@ export function createNotifier(): Notifier {
       existed = items.some((n) => n.id === id);
       return items.filter((n) => n.id !== id);
     });
-    if (existed) onDismissById.get(id)?.(reason);
+    const handler = onDismissById.get(id);
     onDismissById.delete(id);
+    if (existed) handler?.(reason);
   };
 
   const show = (options: NotificationOptions = {}): string => {
@@ -193,8 +194,12 @@ export function createNotifier(): Notifier {
       return [];
     });
     for (const n of cleared) {
-      onDismissById.get(n.id)?.("api");
+      const handler = onDismissById.get(n.id);
+      // Forgotten before the call: a handler that shows a replacement under
+      // the same id registers a new one, and deleting afterwards would throw
+      // that away.
       onDismissById.delete(n.id);
+      handler?.("api");
     }
   };
 

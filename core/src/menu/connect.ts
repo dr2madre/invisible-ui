@@ -22,7 +22,7 @@ export interface MenuApi {
   closeMenu(): void;
   /** Make an item active (focused). */
   setActive(value: string): void;
-  /** Activate an item (runs onSelect) and close (ignored when disabled). */
+  /** Activate an item: close, then run onSelect (ignored when disabled). */
   select(value: string): void;
   /** Props for the trigger button (`aria-haspopup="menu"`). */
   triggerProps: ElementProps;
@@ -53,7 +53,7 @@ export interface ConnectOptions {
  * Connect menu state to prop getters following the WAI-ARIA menu button pattern
  * (https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/). DOM focus moves into
  * the menu (the adapter focuses the active item); Escape/Tab close and return
- * focus to the trigger. Items are actions — activating one runs it and closes.
+ * focus to the trigger. Items are actions: activating one closes the menu, then runs it.
  */
 export function connect({
   state,

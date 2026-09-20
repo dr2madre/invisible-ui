@@ -48,8 +48,13 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
 
   const setValues = (values: string[]) => {
     const current = get(state);
-    // A page that hands the cells straight back is echoing, not changing.
-    if (values.every((cell, index) => cell === current.values[index])) return;
+    // A page that hands the same cells straight back is echoing, not
+    // changing. A different number of cells is always a change.
+    if (
+      values.length === current.values.length &&
+      values.every((cell, index) => cell === current.values[index])
+    )
+      return;
     const value = values.join("");
     state.set({ ...current, values });
     context.onValueChange?.(value);

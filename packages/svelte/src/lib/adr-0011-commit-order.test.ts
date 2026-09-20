@@ -11,6 +11,7 @@ import { createCollapsible } from "./collapsible/create-collapsible";
 import { createCombobox } from "./combobox/create-combobox";
 import { createContextMenu } from "./context-menu/create-context-menu";
 import { createDialog } from "./dialog/create-dialog";
+import { dropArea } from "./drop-area/drop-area";
 import { createDropdownMenu } from "./dropdown-menu/create-dropdown-menu";
 import { createHoverCard } from "./hover-card/create-hover-card";
 import { createMultiSelect } from "./multi-select/create-multi-select";
@@ -24,7 +25,9 @@ import { createRadioGroup } from "./radio-group/create-radio-group";
 import { createRangeSlider } from "./range-slider/create-range-slider";
 import { createRatingGroup } from "./rating-group/create-rating-group";
 import { createSearchDialog } from "./search-dialog/create-search-dialog";
+import { createSegmentedControl } from "./segmented-control/create-segmented-control";
 import { createSelect } from "./select/create-select";
+import { createSheetDialog } from "./sheet-dialog/create-sheet-dialog";
 import { createSlider } from "./slider/create-slider";
 import { createStepper } from "./stepper/create-stepper";
 import { createSwitch } from "./switch/create-switch";
@@ -475,8 +478,8 @@ const rows: Row[] = [
     settled: 5,
   },
   {
-    // It hands its open state to a dialog of its own, so the row drives the
-    // search dialog's own setter, not the dialog's.
+    // Its open state is the dialog's: this row drives that setter through
+    // the search dialog's own surface, so the extractor's key has a home.
     name: "SearchDialog open",
     covers: ["search-dialog/onOpenChange"],
     build: (spy) => {
@@ -484,6 +487,32 @@ const rows: Row[] = [
       return { state: f.open, act: () => f.setOpen(true), putBack: () => f.setOpen(false) };
     },
     expected: (s) => s,
+    after: true,
+    settled: false,
+  },
+  {
+    // A segmented control is a radio group with a different default layout,
+    // so its report is the radio group's, reached through its own surface.
+    name: "SegmentedControl",
+    covers: ["segmented-control/onValueChange"],
+    build: (spy) => {
+      const f = createSegmentedControl({ items, onValueChange: () => spy(f.state) });
+      return { state: f.state, act: () => f.setValue("b"), putBack: () => f.setValue("c") };
+    },
+    expected: (s) => (s as { value: string | null }).value,
+    after: "b",
+    settled: "c",
+  },
+  {
+    // A sheet dialog is a dialog that can also be dragged shut, so its open
+    // state is the dialog's, reached through its own surface.
+    name: "SheetDialog",
+    covers: ["sheet-dialog/onOpenChange"],
+    build: (spy) => {
+      const f = createSheetDialog({ onOpenChange: () => spy(f.state) });
+      return { state: f.state, act: () => f.setOpen(true), putBack: () => f.setOpen(false) };
+    },
+    expected: (s) => (s as { open: boolean }).open,
     after: true,
     settled: false,
   },
@@ -712,6 +741,8 @@ const arrowUp = () =>
 // The tooltip opens from its trigger's events after a delay, so it runs the
 // clock instead of calling a setter.
 const TOOLTIP_COVERS = ["tooltip/onOpenChange"];
+// What the drop area block further down asserts.
+const DROP_AREA_COVERS = ["drop-area/onDragChange"];
 
 describe("Tooltip reports after the store write", () => {
   afterEach(() => vi.useRealTimers());
@@ -813,6 +844,24 @@ describe("the notifier empties the list before it says so", () => {
     expect(get(notifier).map((item) => item.title)).toEqual(["Replacement"]);
   });
 
+  it("keeps the replacement's own dismiss handler when the id is reused", () => {
+    const notifier = createNotifier();
+    const fired: string[] = [];
+    notifier.show({
+      title: "One",
+      id: "slot",
+      onDismiss: () => {
+        fired.push("first");
+        notifier.show({ title: "Replacement", id: "slot", onDismiss: () => fired.push("second") });
+      },
+    });
+
+    notifier.clear();
+    notifier.dismiss("slot");
+
+    expect(fired).toEqual(["first", "second"]);
+  });
+
   it("has already removed the one notification a dismiss reports", () => {
     const notifier = createNotifier();
     let seen = -1;
@@ -824,9 +873,65 @@ describe("the notifier empties the list before it says so", () => {
   });
 });
 
+// `setValues` replaces the cells. Fewer cells than there are now, or none at
+// all, is a change like any other: the guard against an echo compares the
+// whole array, not the cells the new one happens to have.
+describe("PinInput takes a shorter set of cells", () => {
+  it("empties the field when it is given no cells", () => {
+    const seen: string[] = [];
+    const f = createPinInput({ length: 3, value: "123", onValueChange: (v) => seen.push(v) });
+
+    f.setValues([]);
+
+    expect(get(f.state).values).toEqual([]);
+    expect(seen).toEqual([""]);
+  });
+
+  it("shortens the field when it is given fewer cells", () => {
+    const seen: string[] = [];
+    const f = createPinInput({ length: 3, value: "123", onValueChange: (v) => seen.push(v) });
+
+    f.setValues(["1", "2"]);
+
+    expect(get(f.state).values).toEqual(["1", "2"]);
+    expect(seen).toEqual(["12"]);
+  });
+
+  it("still says nothing when the same cells come back", () => {
+    const seen: string[] = [];
+    const f = createPinInput({ length: 3, value: "123", onValueChange: (v) => seen.push(v) });
+
+    f.setValues(["1", "2", "3"]);
+
+    expect(seen).toEqual([]);
+  });
+});
+
+// The drop area keeps no store: what it holds is one flag and the attribute
+// that shows it, and both are set before it says the drag changed.
+describe("the drop area marks itself before it reports the drag", () => {
+  it("has already set the attribute by the time it reports", () => {
+    let seenAttribute: string | null = "(not reported)";
+    const node = document.createElement("div");
+    document.body.append(node);
+    const action = dropArea(node, {
+      onDragChange: () => (seenAttribute = node.getAttribute("data-dragover")),
+    });
+
+    node.dispatchEvent(new Event("dragover", { bubbles: true, cancelable: true }));
+
+    expect(seenAttribute).toBe("");
+    action?.destroy?.();
+    node.remove();
+  });
+});
+
 // Callbacks a factory reports without owning a value to commit: the report is
 // the whole event, so there is no committed state for a row to read.
 const NOT_A_ROW: Record<string, string> = {
+  "button/onPress": "a press is the whole event; a button holds no value",
+  "drop-area/onDrop": "hands over the dropped files; the area holds no value of its own",
+  "internal/onDismiss": "a swipe that passed the threshold; the gesture holds no value",
   "menubar/onSelect": "names the item a person chose; menubar keeps no value of its own",
   "search-dialog/onSelect": "names the result a person chose; the dialog keeps no value of it",
   "time-field/onValidationChange":
@@ -836,49 +941,107 @@ const NOT_A_ROW: Record<string, string> = {
 /**
  * Every callback a factory can report, as "<factory file>/<callback>". Read
  * from the sources rather than from a list someone keeps by hand, and read
- * loosely on purpose: a callback that is called, handed to core, pulled out
- * of the options or read through a string still counts. A factory that hides
- * one from this is a factory this table cannot vouch for.
+ * loosely on purpose: a callback that is called, handed to core, spread into
+ * another factory, pulled out of the options or read through a string still
+ * counts, whatever the options bag is called. A factory that hides one from
+ * this is a factory this table cannot vouch for.
  */
 function reportedCallbacks(): string[] {
-  const lib = resolve(__dirname);
-  const found = new Set<string>();
-  const shapes = [
-    // context.onThing?.(…) and context.onThing(…)
-    /\bcontext\.(on[A-Z][A-Za-z]*)\s*(?:\?\.)?\(/g,
-    // context["onThing"]
-    /\bcontext\[\s*["'](on[A-Z][A-Za-z]*)["']\s*\]/g,
-    // onThing: context.onThing, handed to core or to another factory
-    /(on[A-Z][A-Za-z]*)\s*:\s*context\.\1\b/g,
-    // const { onThing } = context
-    /(?:const|let)\s*\{([^}]*)\}\s*=\s*context\b/g,
-  ];
-  for (const dir of readdirSync(lib, { withFileTypes: true })) {
-    if (!dir.isDirectory()) continue;
-    const factories = readdirSync(resolve(lib, dir.name)).filter(
-      (name) => name.startsWith("create-") && name.endsWith(".ts") && !name.endsWith(".test.ts"),
-    );
-    for (const file of factories) {
-      const source = readFileSync(resolve(lib, dir.name, file), "utf8");
-      const key = file.replace(/^create-|\.ts$/g, "");
-      for (const shape of shapes) {
-        for (const match of source.matchAll(shape)) {
-          for (const name of match[1]!.split(",")) {
-            const callback = name.split(":")[0]!.trim();
-            if (/^on[A-Z][A-Za-z]*$/.test(callback)) found.add(`${key}/${callback}`);
-          }
+  const found = new Map<string, Set<string>>();
+  for (const file of factoryFiles()) {
+    const source = readFileSync(file.path, "utf8");
+    const names = new Set<string>();
+    for (const shape of CALLBACK_SHAPES) {
+      for (const match of source.matchAll(shape)) {
+        for (const part of match[1]!.split(",")) {
+          const callback = part.split(":")[0]!.replace("...", "").trim();
+          if (/^on[A-Z][A-Za-z]*$/.test(callback)) names.add(callback);
         }
       }
     }
+    // A factory that hands its whole options bag to another factory reports
+    // everything that one reports: those callbacks are its own too. Both
+    // spellings count, spread at the call and a rest binding passed on.
+    for (const [, spread] of source.matchAll(SPREAD_INTO_FACTORY)) {
+      names.add(`* ${kebab(spread)}`);
+    }
+    for (const [, rest] of source.matchAll(REST_FROM_BAG)) {
+      for (const [, target, argument] of source.matchAll(FACTORY_CALL)) {
+        if (argument.trim() === rest) names.add(`* ${kebab(target)}`);
+      }
+    }
+    found.set(file.key, new Set([...(found.get(file.key) ?? []), ...names]));
   }
-  return [...found].sort();
+  // Resolve a spread into the callbacks of the factory it was spread into.
+  const resolved = new Set<string>();
+  for (const [key, names] of found) {
+    for (const name of names) {
+      if (!name.startsWith("* ")) {
+        resolved.add(`${key}/${name}`);
+        continue;
+      }
+      const target = name.slice(2);
+      const inheritedFrom = found.get(target);
+      // A factory handed to one this does not know about is not something
+      // to pass over quietly.
+      expect(
+        inheritedFrom,
+        `${key} hands its options to ${target}, which was not read`,
+      ).toBeDefined();
+      for (const inherited of inheritedFrom ?? []) {
+        if (!inherited.startsWith("* ")) resolved.add(`${key}/${inherited}`);
+      }
+    }
+  }
+  return [...resolved].sort();
+}
+
+/** The options bag a factory takes, whatever the author called it. */
+const BAG = "(?:context|options|opts|ctx|props)";
+const CALLBACK_SHAPES = [
+  // bag.onThing?.(…) and bag.onThing(…)
+  new RegExp(`\\b${BAG}\\.(on[A-Z][A-Za-z]*)\\s*(?:\\?\\.)?\\(`, "g"),
+  // bag["onThing"]
+  new RegExp(`\\b${BAG}\\[\\s*["'](on[A-Z][A-Za-z]*)["']\\s*\\]`, "g"),
+  // onThing: bag.onThing, handed to core or to another factory
+  new RegExp(`(on[A-Z][A-Za-z]*)\\s*:\\s*${BAG}\\.\\1\\b`, "g"),
+  // const { onThing } = bag, and the rest that carries the others with it
+  new RegExp(`(?:const|let)\\s*\\{([^}]*)\\}\\s*=\\s*${BAG}\\b`, "g"),
+];
+/** `createOther({ ...context })`: the callbacks of `other` are reported too. */
+const SPREAD_INTO_FACTORY = new RegExp(
+  `create([A-Z][A-Za-z]*)\\([^)]*\\.\\.\\.(?:${BAG}|\\w*[Cc]ontext)`,
+  "g",
+);
+/** `const { a, ...rest } = context`, where `rest` is handed on whole. */
+const REST_FROM_BAG = new RegExp(`\\.\\.\\.(\\w+)\\s*\\}\\s*=\\s*${BAG}\\b`, "g");
+const FACTORY_CALL = /create([A-Z][A-Za-z]*)\(([^),]*)\)/g;
+/** `createRadioGroup` lives in `radio-group`. */
+const kebab = (name: string) => name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+
+/** Every factory module under `lib/`, whatever its file is called. */
+function factoryFiles(): Array<{ key: string; path: string }> {
+  const lib = resolve(__dirname);
+  const files: Array<{ key: string; path: string }> = [];
+  for (const dir of readdirSync(lib, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    for (const name of readdirSync(resolve(lib, dir.name))) {
+      if (!name.endsWith(".ts") || name.endsWith(".test.ts") || name.endsWith(".d.ts")) continue;
+      files.push({ key: dir.name, path: resolve(lib, dir.name, name) });
+    }
+  }
+  return files;
 }
 
 // The table above is only worth as much as its completeness. A setter added
 // to a factory, or a factory added to the library, fails here until it is
 // covered or named with the reason it cannot be.
 describe("the table covers every callback the factories report", () => {
-  const covered = new Set([...rows.flatMap((row) => row.covers), ...TOOLTIP_COVERS]);
+  const covered = new Set([
+    ...rows.flatMap((row) => row.covers),
+    ...TOOLTIP_COVERS,
+    ...DROP_AREA_COVERS,
+  ]);
 
   it("leaves no reported callback unasserted", () => {
     const uncovered = reportedCallbacks().filter((key) => !covered.has(key) && !(key in NOT_A_ROW));

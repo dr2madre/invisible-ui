@@ -108,8 +108,8 @@
   }
 </script>
 
-<!-- The action below sets data-orientation too. It is written out as well
-because a scoped rule is kept only when the attribute is visible here. -->
+<!-- The action below sets data-orientation too. Writing it here as well
+keeps the scoped rule for the vertical coverflow layout. -->
 <section
   class="carousel"
   data-variant={variant}

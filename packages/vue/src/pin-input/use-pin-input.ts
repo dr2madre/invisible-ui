@@ -101,8 +101,13 @@ export function usePinInput(options: MaybeRefOrGetter<UsePinInputOptions> = {}):
   };
 
   const setValues = (next: string[]) => {
-    // A page that hands the cells straight back is echoing, not changing.
-    if (next.every((cell, index) => cell === values.value[index])) return;
+    // A page that hands the same cells straight back is echoing, not
+    // changing. A different number of cells is always a change.
+    if (
+      next.length === values.value.length &&
+      next.every((cell, index) => cell === values.value[index])
+    )
+      return;
     values.value = next;
     const value = next.join("");
     resolved.value.onValueChange?.(value);

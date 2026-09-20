@@ -121,6 +121,20 @@ describe("Vue PinInput (styled)", () => {
     expect(seen).toEqual(["change:123", "complete:123"]);
   });
 
+  // Fewer cells than there are now, or none at all, is a change like any
+  // other. The Svelte twin is in adr-0011-commit-order.test.ts.
+  it("takes a shorter set of cells, and an empty one", () => {
+    const seen: string[] = [];
+    const field = hosted({ length: 3, value: "123", onValueChange: (v: string) => seen.push(v) });
+
+    field.setValues(["1", "2"]);
+    expect(field.values.value).toEqual(["1", "2"]);
+
+    field.setValues([]);
+    expect(field.values.value).toEqual([]);
+    expect(seen).toEqual(["12", ""]);
+  });
+
   it("distributes a pasted code across the cells", async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
