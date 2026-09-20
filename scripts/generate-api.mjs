@@ -24,7 +24,14 @@
 // come from source, so they cannot drift; a freshness test runs this with
 // --check.
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import {
+  existsSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  readdirSync,
+  unlinkSync,
+} from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -519,15 +526,22 @@ const elementTags = new Map(
   ].map((m) => [m[2], m[1]]),
 );
 
-const components = Object.keys(sveltePkg.exports)
+const svelteNames = Object.keys(sveltePkg.exports)
   .map((k) => /^\.\/(.+)\.svelte$/.exec(k)?.[1])
-  .filter(Boolean)
-  .map((name) => ({
-    name,
-    slug: kebab(name),
-    sveltePath: resolve(sveltePkgDir, sveltePkg.exports[`./${name}.svelte`].svelte.slice(2)),
-    mdxPath: resolve(docsComponents, `${kebab(name)}.mdx`),
-  }));
+  .filter(Boolean);
+// A component another adapter ships without a Svelte twin (HoverCard, in
+// Vue) is part of the contract too; it enters the list with no Svelte file.
+const otherNames = [...vueExports.keys(), ...reactExports.keys()].filter(
+  (name) => !svelteNames.includes(name) && /^[A-Z]/.test(name),
+);
+const components = [...svelteNames, ...new Set(otherNames)].map((name) => ({
+  name,
+  slug: kebab(name),
+  sveltePath: svelteNames.includes(name)
+    ? resolve(sveltePkgDir, sveltePkg.exports[`./${name}.svelte`].svelte.slice(2))
+    : null,
+  mdxPath: resolve(docsComponents, `${kebab(name)}.mdx`),
+}));
 
 // --- MDX descriptions (seed / fallback, Svelte only) ----------------------
 
@@ -557,6 +571,18 @@ function parseMdx(mdx) {
 
 // Curated descriptions survive regeneration: they are read back from the
 // committed manifest, per framework, before the source JSDoc is consulted.
+// Each row says where its description came from, so a curated text that no
+// longer matches the source is visible in the manifest instead of silent:
+// `curated` (committed and different from the source), `source` (the code's
+// own JSDoc), `mdx` (the docs table), `none`.
+function described(prop, curated, fromMdx) {
+  const source = prop.description || "";
+  if (curated && curated !== source)
+    return { ...prop, description: curated, descriptionFrom: "curated" };
+  if (source) return { ...prop, description: source, descriptionFrom: "source" };
+  if (fromMdx) return { ...prop, description: fromMdx, descriptionFrom: "mdx" };
+  return { ...prop, description: "", descriptionFrom: "none" };
+}
 function committedDescriptions(committed, framework, key = "props") {
   const rows = committed?.frameworks?.[framework]?.[key] ?? [];
   return Object.fromEntries(rows.map((row) => [row.name, row.description]));
@@ -572,17 +598,17 @@ function buildManifest(c) {
 
   // Svelte
   const svelteDesc = committedDescriptions(committed, "svelte");
-  frameworks.svelte = {
-    import: {
-      kind: "default",
-      name: c.name,
-      specifier: `@design-system/svelte/${c.name}.svelte`,
-    },
-    props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) => ({
-      ...p,
-      description: svelteDesc[p.name] || mdx?.descriptions[p.name] || p.description || "",
-    })),
-  };
+  if (c.sveltePath)
+    frameworks.svelte = {
+      import: {
+        kind: "default",
+        name: c.name,
+        specifier: `@design-system/svelte/${c.name}.svelte`,
+      },
+      props: parseSvelte(readFileSync(c.sveltePath, "utf8")).map((p) =>
+        described(p, svelteDesc[p.name], mdx?.descriptions[p.name]),
+      ),
+    };
 
   // Vue
   const vueModule = vueExports.get(c.name);
@@ -592,10 +618,7 @@ function buildManifest(c) {
     const vueDesc = committedDescriptions(committed, "vue");
     frameworks.vue = {
       import: { kind: "named", name: c.name, specifier: "@design-system/vue" },
-      props: parsed.props.map((p) => ({
-        ...p,
-        description: vueDesc[p.name] || p.description || "",
-      })),
+      props: parsed.props.map((p) => described(p, vueDesc[p.name])),
       emits: parsed.emits,
       slots: parsed.slots,
     };
@@ -611,10 +634,7 @@ function buildManifest(c) {
       frameworks.react = {
         import: { kind: "named", name: c.name, specifier: "@design-system/react" },
         extends: parsed.extends,
-        props: parsed.props.map((p) => ({
-          ...p,
-          description: reactDesc[p.name] || p.description || "",
-        })),
+        props: parsed.props.map((p) => described(p, reactDesc[p.name])),
       };
     }
   }
@@ -636,10 +656,7 @@ function buildManifest(c) {
           name: elementTags.get(className),
           specifier: "@design-system/elements/define",
         },
-        attributes: parsed.attributes.map((a) => ({
-          ...a,
-          description: elementDesc[a.name] || a.description || "",
-        })),
+        attributes: parsed.attributes.map((a) => described(a, elementDesc[a.name])),
         notes: parsed.notes,
       };
     }
@@ -661,7 +678,7 @@ const normalizeEol = (text) => text.replaceAll("\r\n", "\n");
 
 const stale = [];
 for (const c of components) {
-  if (!existsSync(c.sveltePath)) continue;
+  if (c.sveltePath && !existsSync(c.sveltePath)) continue;
   const json = JSON.stringify(buildManifest(c), null, 2) + "\n";
   const outPath = resolve(outDir, `${c.slug}.json`);
   const current = existsSync(outPath) ? readFileSync(outPath, "utf8") : "";
@@ -671,11 +688,13 @@ for (const c of components) {
   }
 }
 
-// Prune manifests for components that no longer exist.
+// Prune manifests for components that no longer exist, so the remedy the
+// check prints really removes what it reports.
 const valid = new Set(components.map((c) => `${c.slug}.json`));
 for (const file of existsSync(outDir) ? readdirSync(outDir) : []) {
   if (file.endsWith(".json") && !valid.has(file)) {
     if (check) stale.push(file);
+    else unlinkSync(resolve(outDir, file));
   }
 }
 
@@ -683,4 +702,17 @@ if (check && stale.length) {
   console.error(`Stale API manifests (run \`pnpm api:generate\`):\n  ${stale.join("\n  ")}`);
   process.exit(1);
 }
-console.log(`${check ? "Checked" : "Generated"} ${components.length} API manifests.`);
+const provenance = { curated: 0, source: 0, mdx: 0, none: 0 };
+for (const c of components) {
+  const outPath = resolve(outDir, `${c.slug}.json`);
+  if (!existsSync(outPath)) continue;
+  const manifest = JSON.parse(readFileSync(outPath, "utf8"));
+  for (const framework of Object.values(manifest.frameworks ?? {})) {
+    for (const row of [...(framework.props ?? []), ...(framework.attributes ?? [])]) {
+      if (row.descriptionFrom in provenance) provenance[row.descriptionFrom] += 1;
+    }
+  }
+}
+console.log(
+  `${check ? "Checked" : "Generated"} ${components.length} API manifests. Descriptions: ${provenance.source} from source, ${provenance.curated} curated (differ from source), ${provenance.mdx} from the docs table, ${provenance.none} empty.`,
+);

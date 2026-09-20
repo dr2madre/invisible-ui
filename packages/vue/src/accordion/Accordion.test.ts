@@ -79,7 +79,7 @@ describe("Vue Accordion (styled)", () => {
     render(Accordion, { props: { items } });
     const [shipping, returns] = screen.getAllByRole("button");
 
-    shipping.focus();
+    shipping!.focus();
     await user.keyboard("{ArrowDown}");
     expect(returns).toHaveFocus();
     await user.keyboard("{Home}");

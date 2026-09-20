@@ -1,5 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import type { Component } from "svelte";
 import { describe, expect, it, vi } from "vitest";
 
 import Accordion from "./accordion/Accordion.svelte";
@@ -170,7 +173,7 @@ const cases: Case[] = [
         .join(""),
     act: async (user) => {
       const cells = screen.getAllByRole("textbox");
-      await user.click(cells[0]);
+      await user.click(cells[0]!);
       await user.keyboard("9");
     },
   },
@@ -183,7 +186,7 @@ const cases: Case[] = [
     callback: "onValueChange",
     change: { props: { value: 4 }, reads: "4" },
     read: checkedRadio,
-    act: async (user) => user.click(screen.getAllByRole("radio")[2]),
+    act: async (user) => user.click(screen.getAllByRole("radio")[2]!),
   },
   {
     name: "SegmentedControl",
@@ -249,14 +252,16 @@ const cases: Case[] = [
 
 describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("reflects a changed value prop", async () => {
-    const { rerender } = render(entry.Component as never, { props: { ...entry.props } });
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
+      props: { ...entry.props },
+    });
     await rerender({ ...entry.props, ...entry.change.props });
     expect(entry.read()).toBe(entry.change.reads);
   });
 
   it("reports nothing while reflecting", async () => {
     const reported = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: reported },
     });
     await rerender({ ...entry.props, ...entry.change.props, [entry.callback]: reported });
@@ -266,7 +271,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
   it("calls the callback it has now, not the one it was mounted with", async () => {
     const stale = vi.fn();
     const fresh = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: stale },
     });
     await rerender({ ...entry.props, [entry.callback]: fresh });
@@ -280,7 +285,7 @@ describe.each(cases)("$name follows the ADR 0011 conventions", (entry) => {
 
   it("does not churn when a controlled parent echoes the value back", async () => {
     const reported = vi.fn();
-    const { rerender } = render(entry.Component as never, {
+    const { rerender } = render(entry.Component as Component<Record<string, unknown>>, {
       props: { ...entry.props, [entry.callback]: reported },
     });
 
@@ -336,7 +341,7 @@ describe.each([
 ])("%s reflects open without reporting", (_name, Component, extra) => {
   it("opens from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as Component<Record<string, unknown>>, {
       props: { ...extra, open: false, onOpenChange: reported },
     });
     await rerender({ ...extra, open: true, onOpenChange: reported });
@@ -345,13 +350,18 @@ describe.each([
 
   it("closes from the outside in silence", async () => {
     const reported = vi.fn();
-    const { rerender } = render(Component as never, {
+    const { rerender } = render(Component as Component<Record<string, unknown>>, {
       props: { ...extra, open: true, onOpenChange: reported },
     });
     await rerender({ ...extra, open: false, onOpenChange: reported });
     expect(reported).not.toHaveBeenCalled();
   });
 });
+
+// What the two blocks above assert, named so the gate below counts them:
+// neither is a `cases` entry, because neither has a user action to compare.
+const OPEN_MIRRORS_COVER = ["Dialog", "AlertDialog", "ConfirmDialog", "SheetDialog", "Popover"];
+const MIRRORS_COVER = ["Collapsible", "Sidebar", "Accordion", "Stepper", "TreeView"];
 
 // Controls whose value is not what a form submits, but is still the
 // consumer's to hold: the same three rules, read off what each one shows.
@@ -472,5 +482,113 @@ describe("a reflected value is a committed value", () => {
         .join(":"),
       "Escape reverted to a value the consumer had already replaced",
     ).toBe("09:31");
+  });
+});
+
+// Vitest runs this file from the package directory, and a file that imports
+// components is served under a web URL, so the manifest is read from cwd.
+// Nothing may be forgotten silently: every component the package exports is
+// either a case above or named here with the reason it is not. A component
+// added to the package without a line in either place fails this test.
+const NOT_A_CASE: Record<string, string> = {
+  // No value a consumer controls: display, layout, or a single action.
+  Icon: "display only",
+  FeedbackIcon: "display only",
+  ErrorState: "display only",
+  EmptyState: "display only",
+  LoadingGenerationArea: "display only",
+  Button: "an action, no controlled value",
+  ButtonGroup: "layout only",
+  InlineNotification: "display only; its close is an action",
+  Separator: "display only",
+  Toolbar: "layout only",
+  Avatar: "display only",
+  AvatarGroup: "display only",
+  Card: "layout only",
+  Skeleton: "display only",
+  Loading: "display only",
+  LocaleProvider: "context, no value of its own",
+  Tag: "display only",
+  Count: "display only",
+  Code: "display only",
+  CodeBlock: "display only; copy is an action",
+  Blockquote: "display only",
+  Kbd: "display only",
+  Link: "navigation, no controlled value",
+  Breadcrumb: "navigation, no controlled value",
+  Label: "display only",
+  Field: "layout only",
+  AspectRatio: "layout only",
+  Progress: "display of a value the page owns; no callback",
+  Meter: "display of a value the page owns; no callback",
+  ScrollArea: "layout only",
+  Notification: "display only",
+  NotificationRegion: "display only",
+  Menu: "a legacy name for Sidebar (ADR 0013); Sidebar is listed",
+
+  // Covered by their own suites, named here so the coverage is findable.
+  Pagination: "pagination.test.ts holds reflection, silence and the live callback",
+  // Named omissions: controls with a controlled value and no case written
+  // yet. Every name here is listed in the audit the reason points at, and
+  // the last test in this file checks that it is.
+  Checkbox: "no conventions case yet: docs/state-ownership-audit.md",
+  Radio: "no conventions case yet: docs/state-ownership-audit.md",
+  Textarea: "no conventions case yet: docs/state-ownership-audit.md",
+  ToggleGroup: "no conventions case yet: docs/state-ownership-audit.md",
+  Tabs: "no conventions case yet: docs/state-ownership-audit.md",
+  Select: "no conventions case yet: docs/state-ownership-audit.md",
+  Combobox: "no conventions case yet: docs/state-ownership-audit.md",
+  MultiSelect: "no conventions case yet: docs/state-ownership-audit.md",
+  Calendar: "no conventions case yet: docs/state-ownership-audit.md",
+  DatePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  DateRangePicker: "no conventions case yet: docs/state-ownership-audit.md",
+  NumberField: "no conventions case yet: docs/state-ownership-audit.md",
+  Carousel: "no conventions case yet: docs/state-ownership-audit.md",
+  UploadDropArea: "no conventions case yet: docs/state-ownership-audit.md",
+  LoginForm: "no conventions case yet: docs/state-ownership-audit.md",
+  Tooltip: "no conventions case yet: docs/state-ownership-audit.md",
+  PromptDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  SearchDialog: "no conventions case yet: docs/state-ownership-audit.md",
+  DropdownMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  ContextMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Menubar: "no conventions case yet: docs/state-ownership-audit.md",
+  NavigationMenu: "no conventions case yet: docs/state-ownership-audit.md",
+  Table: "no conventions case yet: docs/state-ownership-audit.md",
+  TableView: "controlled props not followed today: docs/state-ownership-audit.md, Task 5A",
+  TableSet: "controlled props not followed today: docs/state-ownership-audit.md, Task 5A",
+};
+
+describe("the ADR 0011 gate knows every exported component", () => {
+  it("lists each one as a case or as a named omission, and nothing twice", () => {
+    const exported = Object.keys(
+      JSON.parse(readFileSync(resolve(process.cwd(), "package.json"), "utf8")).exports,
+    )
+      .map((key) => /^\.\/(.+)\.svelte$/.exec(key)?.[1])
+      .filter((name): name is string => Boolean(name));
+    const covered = new Set([
+      ...cases.map((entry) => entry.name),
+      ...OPEN_MIRRORS_COVER,
+      ...MIRRORS_COVER,
+    ]);
+    const missing = exported.filter((name) => !covered.has(name) && !(name in NOT_A_CASE));
+    expect(missing, "exported components with neither a case nor a reason").toEqual([]);
+    const stale = Object.keys(NOT_A_CASE).filter(
+      (name) => !exported.includes(name) || covered.has(name),
+    );
+    expect(stale, "omissions that no longer exist or are covered after all").toEqual([]);
+  });
+
+  // A reason that points at a document is only worth the document saying so.
+  it("finds every named omission in the audit its reason points at", () => {
+    const audit = readFileSync(
+      resolve(process.cwd(), "../../docs/state-ownership-audit.md"),
+      "utf8",
+    );
+    const listed = Object.entries(NOT_A_CASE)
+      .filter(([, reason]) => reason.startsWith("no conventions case yet:"))
+      .map(([name]) => name);
+    expect(listed.length, "the reason is used at all").toBeGreaterThan(0);
+    const absent = listed.filter((name) => !new RegExp(`^- ${name}$`, "m").test(audit));
+    expect(absent, "named in the test, missing from the audit").toEqual([]);
   });
 });

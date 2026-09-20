@@ -14,77 +14,88 @@
           "type": "Action<HTMLElement>",
           "default": "() => {}",
           "required": false,
-          "description": "Optional extra Svelte action applied to the underlying `<button>`. Overlay components (Dialog, Popover, …) pass their `triggerAction` here to compose the Button as their trigger."
+          "description": "Optional extra Svelte action applied to the underlying `<button>`. Overlay components (Dialog, Popover, …) pass their `triggerAction` here to compose the Button as their trigger.",
+          "descriptionFrom": "source"
         },
         {
           "name": "variant",
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Loading state: shows an inline spinner in place of the leading icon (or of the glyph, for icon-only buttons), announces `aria-busy` and ignores presses. The label stays visible and the button stays focusable."
+          "description": "Loading state: shows an inline spinner in place of the leading icon (or of the glyph, for icon-only buttons), announces `aria-busy` and ignores presses. The label stays visible and the button stays focusable.",
+          "descriptionFrom": "source"
         },
         {
           "name": "loadingStatus",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Live loading message announced on every change while `loading` — for a succession of backend-reported steps (\"Uploading…\" → \"Processing…\"). It is visually hidden (the button label stays stable); assistive tech hears each step through the spinner's polite status region."
+          "description": "Live loading message announced on every change while `loading` — for a succession of backend-reported steps (\"Uploading…\" → \"Processing…\"). It is visually hidden (the button label stays stable); assistive tech hears each step through the spinner's polite status region.",
+          "descriptionFrom": "source"
         },
         {
           "name": "type",
           "type": "\"button\" | \"submit\" | \"reset\"",
           "default": "\"button\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onpress",
           "type": "((event: Event) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when activated (click, or Enter/Space)."
+          "description": "Called when activated (click, or Enter/Space).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "leftIcon",
           "type": "boolean | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Show a leading icon. Defaults on for `danger`."
+          "description": "Show a leading icon. Defaults on for `danger`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "rightIcon",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a trailing icon."
+          "description": "Show a trailing icon.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Square, icon-only button (pass one icon in the slot + an `ariaLabel`). The CloseButton is a preset of this."
+          "description": "Square, icon-only button (pass one icon in the slot + an `ariaLabel`). The CloseButton is a preset of this.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "ariaLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; required for icon-only buttons."
+          "description": "Accessible name; required for icon-only buttons.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -100,56 +111,64 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Semantic variant, surfaced as `data-variant`: `default` (baseline) · `primary` (the action that moves the flow forward) · `secondary` (alternative emphasized action) · `ghost` (low emphasis) · `danger` (destructive: shows a hazard icon so meaning never rests on colour alone, WCAG 1.4.1)."
+          "description": "Semantic variant, surfaced as `data-variant`: `default` (baseline) · `primary` (the action that moves the flow forward) · `secondary` (alternative emphasized action) · `ghost` (low emphasis) · `danger` (destructive: shows a hazard icon so meaning never rests on colour alone, WCAG 1.4.1).",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "type": "\"button\" | \"submit\" | \"reset\"",
           "default": "\"button\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onPress",
           "type": "(event: Event) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the button is activated."
+          "description": "Called when the button is activated.",
+          "descriptionFrom": "source"
         },
         {
           "name": "leftIcon",
           "type": "boolean",
           "default": "undefined",
           "required": false,
-          "description": "Show a leading icon. Defaults on for `danger` (the hazard cue)."
+          "description": "Show a leading icon. Defaults on for `danger` (the hazard cue).",
+          "descriptionFrom": "source"
         },
         {
           "name": "rightIcon",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a trailing icon."
+          "description": "Show a trailing icon.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Icon-only button: square, no text. Pass a single icon as the default slot and an `ariaLabel`."
+          "description": "Icon-only button: square, no text. Pass a single icon as the default slot and an `ariaLabel`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ariaLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary."
+          "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -174,77 +193,88 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Semantic variant, surfaced as `data-variant`: `default` (baseline) · `primary` (the action that moves the flow forward) · `secondary` (alternative emphasized action) · `ghost` (low emphasis) · `danger` (destructive — shows a hazard icon so meaning never rests on colour alone, WCAG 1.4.1)."
+          "description": "Semantic variant, surfaced as `data-variant`: `default` (baseline) · `primary` (the action that moves the flow forward) · `secondary` (alternative emphasized action) · `ghost` (low emphasis) · `danger` (destructive — shows a hazard icon so meaning never rests on colour alone, WCAG 1.4.1).",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "type": "\"button\" | \"submit\" | \"reset\"",
           "default": "\"button\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onPress",
           "type": "(event: Event) => void",
           "default": null,
           "required": false,
-          "description": "Called when the button is activated."
+          "description": "Called when the button is activated.",
+          "descriptionFrom": "source"
         },
         {
           "name": "leftIcon",
           "type": "boolean",
           "default": null,
           "required": false,
-          "description": "Show a leading icon. Defaults on for `danger` (the hazard cue)."
+          "description": "Show a leading icon. Defaults on for `danger` (the hazard cue).",
+          "descriptionFrom": "source"
         },
         {
           "name": "rightIcon",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a trailing icon."
+          "description": "Show a trailing icon.",
+          "descriptionFrom": "source"
         },
         {
           "name": "left",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Replace the built-in leading glyph."
+          "description": "Replace the built-in leading glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "right",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": "Replace the built-in trailing glyph."
+          "description": "Replace the built-in trailing glyph.",
+          "descriptionFrom": "source"
         },
         {
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Icon-only button: square, no text — pass a single icon as `children` and an `ariaLabel`."
+          "description": "Icon-only button: square, no text — pass a single icon as `children` and an `ariaLabel`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "ariaLabel",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary."
+          "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary.",
+          "descriptionFrom": "source"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -259,43 +289,50 @@
           "name": "variant",
           "reactive": true,
           "required": false,
-          "description": "default|primary|secondary|ghost|danger"
+          "description": "default|primary|secondary|ghost|danger",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "type",
           "reactive": true,
           "required": false,
-          "description": "button|submit|reset"
+          "description": "button|submit|reset",
+          "descriptionFrom": "source"
         },
         {
           "name": "icon-only",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "left-icon",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "right-icon",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "aria-label",
           "reactive": true,
           "required": false,
-          "description": "forwarded — required for icon-only"
+          "description": "forwarded — required for icon-only",
+          "descriptionFrom": "source"
         }
       ],
       "notes": []

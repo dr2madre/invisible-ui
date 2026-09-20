@@ -14,7 +14,8 @@
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Width ÷ height (e.g. `16 / 9`)."
+          "description": "Width ÷ height (e.g. `16 / 9`).",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -30,7 +31,8 @@
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Width-to-height ratio, e.g. `16 / 9`, `4 / 3`, `1`."
+          "description": "Width-to-height ratio, e.g. `16 / 9`, `4 / 3`, `1`.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

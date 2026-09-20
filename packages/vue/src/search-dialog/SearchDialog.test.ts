@@ -161,7 +161,7 @@ describe("Vue SearchDialog", () => {
     expect(groups).toHaveLength(2);
     expect(groups[0]).toHaveAccessibleName("Pages");
     expect(groups[1]).toHaveAccessibleName("Actions");
-    expect(within(groups[0]).getAllByRole("option")).toHaveLength(2);
+    expect(within(groups[0]!).getAllByRole("option")).toHaveLength(2);
     // Ungrouped items come first in the flat traversal order.
     const options = within(screen.getByRole("listbox")).getAllByRole("option");
     expect(options[0]).toHaveTextContent("Help");

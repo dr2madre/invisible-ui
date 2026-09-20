@@ -72,9 +72,12 @@ Turbo; `pnpm e2e` and `pnpm visual` serve the built docs and example apps
 without building them; `pnpm size` measures the built output; and
 `pnpm consumers:check` packs it. Run `pnpm build` before those.
 
-The adapters' test suites refuse to start against a stale core: the core build
-records a hash of its sources in `core/dist/.build-info.json`, and each
-adapter's Vitest `globalSetup` recomputes it (`scripts/check-core-dist.mjs`).
+Every package build records a hash of the sources its dist was built from in
+`dist/.build-info.json` (`scripts/write-build-info.mjs`, recorded before the
+bundler runs and confirmed after it). The adapters' test suites refuse to
+start against a stale core: each adapter's Vitest `globalSetup` recomputes
+core's hash (`scripts/check-core-dist.mjs`), and the served sites' stamps read
+the adapters' records.
 A mismatch stops the run and prints the rebuild command. Set
 `DS_ALLOW_STALE_CORE=1` to run anyway, knowingly; the run then says so.
 

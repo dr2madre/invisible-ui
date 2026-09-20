@@ -134,6 +134,24 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     expect(reported, "rendering again is not a user change either").toHaveBeenCalledTimes(1);
   });
 
+  it("leaves the control alone when another form is reset", async () => {
+    const user = userEvent.setup();
+    const reported = vi.fn();
+    render(
+      <>
+        <Page start={true} onChange={reported} />
+        <form data-testid="other" />
+      </>,
+    );
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    await entry.toggle(user);
+    expect(payload(form)).toBe(null);
+    await resetAndSettle(screen.getByTestId("other") as HTMLFormElement);
+    expect(payload(form), "another form's reset is not this control's").toBe(null);
+    expect(entry.visible()).toBe(false);
+    expect(reported).toHaveBeenCalledTimes(1);
+  });
+
   it("restores nothing when the reset is cancelled", async () => {
     const user = userEvent.setup();
     render(<Page start={true} onChange={() => {}} />);

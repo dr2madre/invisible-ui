@@ -14,21 +14,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the menubar."
+          "description": "Accessible name for the menubar.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "menus",
           "type": "MenubarMenu[]",
           "default": null,
           "required": true,
-          "description": "Top-level menus: `{ value, label, items, disabled? }`."
+          "description": "Top-level menus: `{ value, label, items, disabled? }`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onSelect",
           "type": "((menuValue: string, itemValue: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when an item is activated."
+          "description": "Called when an item is activated.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -44,21 +47,24 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the bar."
+          "description": "Accessible name for the bar.",
+          "descriptionFrom": "source"
         },
         {
           "name": "menus",
           "type": "MenubarMenu[]",
           "default": null,
           "required": true,
-          "description": "The top-level menus."
+          "description": "The top-level menus.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "(menuValue: string, itemValue: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the chosen item's menu value and item value."
+          "description": "Called with the chosen item's menu value and item value.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

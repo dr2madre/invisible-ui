@@ -14,28 +14,32 @@
           "type": "string",
           "default": "\"en\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "dir",
           "type": "Dir | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Explicit writing direction; when omitted it derives from the locale."
+          "description": "Explicit writing direction; when omitted it derives from the locale.",
+          "descriptionFrom": "source"
         },
         {
           "name": "messages",
           "type": "Messages",
           "default": "{}",
           "required": false,
-          "description": "Overrides merged over the English catalog."
+          "description": "Overrides merged over the English catalog.",
+          "descriptionFrom": "source"
         },
         {
           "name": "inline",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render without the wrapping element (you manage `dir`)."
+          "description": "Render without the wrapping element (you manage `dir`).",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -51,21 +55,24 @@
           "type": "string",
           "default": "core.DEFAULT_LOCALE",
           "required": false,
-          "description": "BCP-47 locale tag. Defaults to `\"en\"`."
+          "description": "BCP-47 locale tag. Defaults to `\"en\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "dir",
           "type": "Dir",
           "default": "undefined",
           "required": false,
-          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
+          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "messages",
           "type": "Messages",
           "default": "undefined",
           "required": false,
-          "description": "Message overrides, merged over the English catalog."
+          "description": "Message overrides, merged over the English catalog.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -86,28 +93,32 @@
           "type": "string",
           "default": "core.DEFAULT_LOCALE",
           "required": false,
-          "description": "BCP-47 locale tag. Defaults to `\"en\"`."
+          "description": "BCP-47 locale tag. Defaults to `\"en\"`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "dir",
           "type": "Dir",
           "default": null,
           "required": false,
-          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute."
+          "description": "Writing direction. Defaults to `\"ltr\"`; rendered as a `dir` attribute.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "messages",
           "type": "Messages",
           "default": null,
           "required": false,
-          "description": "Message overrides, merged over the English catalog."
+          "description": "Message overrides, merged over the English catalog.",
+          "descriptionFrom": "source"
         },
         {
           "name": "children",
           "type": "ReactNode",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     }

@@ -253,7 +253,7 @@ describe("Svelte TableSet (controlled sync)", () => {
 
     // An unrelated rerender with the same, still out-of-range page prop must
     // not reapply it or notify again.
-    await rerender({ pageSize: 2, page: 3, rows: twoRows, caption: "People", ...callbacks });
+    await rerender({ pageSize: 2, page: 3, rows: twoRows, caption: "Same people", ...callbacks });
     expect(callbacks.onPageChange).toHaveBeenCalledTimes(1);
   });
 

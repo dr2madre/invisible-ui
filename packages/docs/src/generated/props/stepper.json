@@ -14,49 +14,56 @@
           "type": "StepDescriptor[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "current",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "linear",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name."
+          "description": "Accessible name.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onStepChange",
           "type": "((current: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the active step changes."
+          "description": "Called when the active step changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -72,49 +79,56 @@
           "type": "StepDescriptor[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "current",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Current step (0-based); bindable with `v-model:current`."
+          "description": "Current step (0-based); bindable with `v-model:current`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "linear",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "StepperOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the progress nav. Defaults to the catalog's \"Progress\"."
+          "description": "Accessible name for the progress nav. Defaults to the catalog's \"Progress\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onStepChange",
           "type": "(current: number) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the current step changes."
+          "description": "Called whenever the current step changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

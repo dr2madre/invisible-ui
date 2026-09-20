@@ -14,98 +14,112 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required)."
+          "description": "Accessible, visible label (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "MultiSelectItem[]",
           "default": null,
           "required": true,
-          "description": "Ordered list of all options."
+          "description": "Ordered list of all options.",
+          "descriptionFrom": "source"
         },
         {
           "name": "values",
           "type": "string[]",
           "default": "[]",
           "required": false,
-          "description": "The selected values (controlled). Replace the array; do not mutate it."
+          "description": "The selected values (controlled). Replace the array; do not mutate it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValuesChange",
           "type": "((values: string[]) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the next values after a user action."
+          "description": "Called with the next values after a user action.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onInputValueChange",
           "type": "((text: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder. Defaults to the i18n catalog's \"Search…\"."
+          "description": "Input placeholder. Defaults to the i18n catalog's \"Search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Review-only: focus works, opening/adding/removing do not."
+          "description": "Review-only: focus works, opening/adding/removing do not.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Cap on additions; never removes existing values."
+          "description": "Cap on additions; never removes existing values.",
+          "descriptionFrom": "source"
         },
         {
           "name": "removeOnBackspace",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt in to Backspace removal from an empty input."
+          "description": "Opt in to Backspace removal from an empty input.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; one hidden input per value is submitted under it."
+          "description": "Form field name; one hidden input per value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application.",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Empty-result row text. Defaults to the i18n catalog's \"No results\"."
+          "description": "Empty-result row text. Defaults to the i18n catalog's \"No results\".",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -121,98 +135,112 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required)."
+          "description": "Accessible, visible label (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "MultiSelectItem[]",
           "default": null,
           "required": true,
-          "description": "Ordered list of all options."
+          "description": "Ordered list of all options.",
+          "descriptionFrom": "source"
         },
         {
           "name": "values",
           "type": "string[]",
           "default": "() => []",
           "required": false,
-          "description": "The selected values (controlled). Replace the array; do not mutate it."
+          "description": "The selected values (controlled). Replace the array; do not mutate it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValuesChange",
           "type": "(values: string[]) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called with the next values after a user action."
+          "description": "Called with the next values after a user action.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onInputValueChange",
           "type": "(text: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Review-only: focus works, opening/adding/removing do not."
+          "description": "Review-only: focus works, opening/adding/removing do not.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "Cap on additions; never removes existing values."
+          "description": "Cap on additions; never removes existing values.",
+          "descriptionFrom": "source"
         },
         {
           "name": "removeOnBackspace",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt in to Backspace removal from an empty input."
+          "description": "Opt in to Backspace removal from an empty input.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; one hidden input per value is submitted under it."
+          "description": "Form field name; one hidden input per value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application.",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Empty-result row text. Defaults to the catalog's \"No results\"."
+          "description": "Empty-result row text. Defaults to the catalog's \"No results\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -231,98 +259,112 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label (required)."
+          "description": "Accessible, visible label (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "MultiSelectItem[]",
           "default": null,
           "required": true,
-          "description": "Ordered list of all options."
+          "description": "Ordered list of all options.",
+          "descriptionFrom": "source"
         },
         {
           "name": "values",
           "type": "string[]",
           "default": null,
           "required": false,
-          "description": "The selected values (controlled). Replace the array; do not mutate it."
+          "description": "The selected values (controlled). Replace the array; do not mutate it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValuesChange",
           "type": "(values: string[]) => void",
           "default": null,
           "required": false,
-          "description": "Called with the next values after a user action."
+          "description": "Called with the next values after a user action.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onInputValueChange",
           "type": "(text: string) => void",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": null,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Input placeholder. Defaults to the catalog's \"Search…\"."
+          "description": "Input placeholder. Defaults to the catalog's \"Search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readOnly",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Review-only: focus works, opening/adding/removing do not."
+          "description": "Review-only: focus works, opening/adding/removing do not.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": null,
           "required": false,
-          "description": "Cap on additions; never removes existing values."
+          "description": "Cap on additions; never removes existing values.",
+          "descriptionFrom": "source"
         },
         {
           "name": "removeOnBackspace",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Opt in to Backspace removal from an empty input."
+          "description": "Opt in to Backspace removal from an empty input.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Form field name; one hidden input per value is submitted under it."
+          "description": "Form field name; one hidden input per value is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application."
+          "description": "Expose `aria-required` on the input. Native constraint validation cannot cover hidden multi-value inputs; validation stays with the application.",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string",
           "default": null,
           "required": false,
-          "description": "Empty-result row text. Defaults to the catalog's \"No results\"."
+          "description": "Empty-result row text. Defaults to the catalog's \"No results\".",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -337,61 +379,71 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "values",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "placeholder",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "readonly",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "max",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "remove-on-backspace",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "empty-text",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

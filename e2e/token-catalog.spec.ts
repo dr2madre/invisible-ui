@@ -27,7 +27,11 @@ type Rgba = [number, number, number, number];
 /** "#7a52cc" or "#7a52cc at 30% alpha" as numbers. */
 function fromRegistry(resolved: string): Rgba {
   const hex = resolved.slice(1, 7);
-  const [r, g, b] = [0, 2, 4].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+  const [r, g, b] = [0, 2, 4].map((index) => Number.parseInt(hex.slice(index, index + 2), 16)) as [
+    number,
+    number,
+    number,
+  ];
   const alpha = /at (\d+)% alpha/.exec(resolved);
   return [r, g, b, alpha ? Number(alpha[1]) / 100 : 1];
 }
@@ -92,7 +96,7 @@ test("a colour specimen paints the value the registry resolved, in both themes",
       // One step of tolerance per channel: the engines round a mix differently.
       for (const channel of [0, 1, 2]) {
         expect(
-          Math.abs(actual[channel] - wanted[channel]),
+          Math.abs(actual[channel]! - wanted[channel]!),
           `${token.name} in ${theme} (${painted})`,
         ).toBeLessThanOrEqual(1);
       }
@@ -135,7 +139,7 @@ test("the light column stays light while the page itself is dark", async ({ page
   const wanted = fromRegistry(token.resolved.light!);
   for (const channel of [0, 1, 2]) {
     expect(
-      Math.abs(light[channel] - wanted[channel]),
+      Math.abs(light[channel]! - wanted[channel]!),
       `${token.name} light pane on a dark page`,
     ).toBeLessThanOrEqual(1);
   }

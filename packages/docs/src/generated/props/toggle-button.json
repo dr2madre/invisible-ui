@@ -14,49 +14,56 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the button is pressed. Controlled: changing it updates the control, so it can reflect external selection state. For uncontrolled use, pass it once and drive clicks via `onPressedChange`."
+          "description": "Whether the button is pressed. Controlled: changing it updates the control, so it can reflect external selection state. For uncontrolled use, pass it once and drive clicks via `onPressedChange`.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "check",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a leading checkmark when pressed (the filter-chip look) — reveals the selected state explicitly, the way a checkbox does. Pairs with `ToggleGroup` for multi-select filter chips."
+          "description": "Show a leading checkmark when pressed (the filter-chip look) — reveals the selected state explicitly, the way a checkbox does. Pairs with `ToggleGroup` for multi-select filter chips.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; required when the slot is icon-only."
+          "description": "Accessible name; required when the slot is icon-only.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — when checked, submits `value` under it."
+          "description": "Form field name — when checked, submits `value` under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted under `name` when pressed."
+          "description": "Value submitted under `name` when pressed.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onPressedChange",
           "type": "((p: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever `pressed` changes."
+          "description": "Called whenever `pressed` changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -72,56 +79,64 @@
           "type": "boolean",
           "default": "undefined",
           "required": false,
-          "description": "Whether the button is pressed. `v-model` binds it two ways; passing it once and driving clicks through `onPressedChange` works as well."
+          "description": "Whether the button is pressed. `v-model` binds it two ways; passing it once and driving clicks through `onPressedChange` works as well.",
+          "descriptionFrom": "source"
         },
         {
           "name": "pressed",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "check",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show a leading checkmark when pressed (the filter-chip look). The check reveals the selected state explicitly, the way a checkbox does."
+          "description": "Show a leading checkmark when pressed (the filter-chip look). The check reveals the selected state explicitly, the way a checkbox does.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; required when the slot content is icon-only."
+          "description": "Accessible name; required when the slot content is icon-only.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; when pressed, submits `value` under it."
+          "description": "Form field name; when pressed, submits `value` under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string",
           "default": "\"on\"",
           "required": false,
-          "description": "Value submitted under `name` when pressed."
+          "description": "Value submitted under `name` when pressed.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onPressedChange",
           "type": "(pressed: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the pressed value changes."
+          "description": "Called whenever the pressed value changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

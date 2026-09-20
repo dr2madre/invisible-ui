@@ -14,28 +14,32 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the region is expanded."
+          "description": "Whether the region is expanded.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable the trigger."
+          "description": "Disable the trigger.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Trigger text (or use the `trigger` slot)."
+          "description": "Trigger text (or use the `trigger` slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when toggled."
+          "description": "Called when toggled.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Open state; bindable with `v-model:open`."
+          "description": "Open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Trigger text, used when the `trigger` slot is not provided."
+          "description": "Trigger text, used when the `trigger` slot is not provided.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the open state changes."
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

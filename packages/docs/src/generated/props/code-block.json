@@ -14,28 +14,32 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Source to render (or use the default slot)."
+          "description": "Source to render (or use the default slot).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "language",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Language caption."
+          "description": "Language caption.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "copyable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Show a copy-to-clipboard button."
+          "description": "Show a copy-to-clipboard button.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "copyLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the copy button."
+          "description": "Accessible label for the copy button.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "The source text. Drives the copy button and is rendered when no slot is given."
+          "description": "The source text. Drives the copy button and is rendered when no slot is given.",
+          "descriptionFrom": "source"
         },
         {
           "name": "language",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional caption shown in the header (e.g. a language or filename)."
+          "description": "Optional caption shown in the header (e.g. a language or filename).",
+          "descriptionFrom": "source"
         },
         {
           "name": "copyable",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Render a copy-to-clipboard button. Defaults to `true`."
+          "description": "Render a copy-to-clipboard button. Defaults to `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "copyLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the copy button. Defaults to the catalog's \"Copy code\"."
+          "description": "Accessible name for the copy button. Defaults to the catalog's \"Copy code\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

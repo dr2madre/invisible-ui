@@ -14,63 +14,72 @@
           "type": "CarouselSlide[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "variant",
           "type": "\"slide\" | \"gallery\" | \"coverflow\"",
           "default": "\"slide\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "default": "\"horizontal\"",
           "required": false,
-          "description": "Coverflow only: lay the flow out horizontally (default) or vertically."
+          "description": "Coverflow only: lay the flow out horizontally (default) or vertically.",
+          "descriptionFrom": "source"
         },
         {
           "name": "loop",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "showIndicators",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Show the dot indicators."
+          "description": "Show the dot indicators.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the carousel."
+          "description": "Accessible name for the carousel.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "prevLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible labels for the arrows."
+          "description": "Accessible labels for the arrows.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "nextLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible labels for the arrows."
+          "description": "Accessible labels for the arrows.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onIndexChange",
           "type": "((index: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the active slide changes."
+          "description": "Called when the active slide changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -86,70 +95,80 @@
           "type": "CarouselSlide[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "variant",
           "type": "CarouselVariant",
           "default": "\"slide\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "orientation",
           "type": "CarouselOrientation",
           "default": "\"horizontal\"",
           "required": false,
-          "description": "Coverflow only: lay the flow out horizontally (default) or vertically."
+          "description": "Coverflow only: lay the flow out horizontally (default) or vertically.",
+          "descriptionFrom": "source"
         },
         {
           "name": "loop",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "showIndicators",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Show the slide-picker dots. Defaults to `true`."
+          "description": "Show the slide-picker dots. Defaults to `true`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the carousel (announced by screen readers)."
+          "description": "Accessible name for the carousel (announced by screen readers).",
+          "descriptionFrom": "source"
         },
         {
           "name": "prevLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Previous button accessible name. Defaults to the catalog's \"Previous slide\"."
+          "description": "Previous button accessible name. Defaults to the catalog's \"Previous slide\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "nextLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Next button accessible name. Defaults to the catalog's \"Next slide\"."
+          "description": "Next button accessible name. Defaults to the catalog's \"Next slide\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "index",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Current slide index; bindable with `v-model:index`."
+          "description": "Current slide index; bindable with `v-model:index`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onIndexChange",
           "type": "(index: number) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the current slide changes."
+          "description": "Called whenever the current slide changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

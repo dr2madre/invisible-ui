@@ -14,42 +14,48 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Completion (`null` = indeterminate)."
+          "description": "Completion (`null` = indeterminate).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Range bounds."
+          "description": "Range bounds.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": "Range bounds."
+          "description": "Range bounds.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "shape",
           "type": "\"bar\" | \"circle\"",
           "default": "\"bar\"",
           "required": false,
-          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
+          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export).",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the percentage inside the circle (determinate `circle` only)."
+          "description": "Show the percentage inside the circle (determinate `circle` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name."
+          "description": "Accessible name.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Current value (determinate — see Loading for indeterminate waiting)."
+          "description": "Current value (determinate — see Loading for indeterminate waiting).",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "number",
           "default": "0",
           "required": false,
-          "description": "Minimum value."
+          "description": "Minimum value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "number",
           "default": "100",
           "required": false,
-          "description": "Maximum value."
+          "description": "Maximum value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "shape",
           "type": "\"bar\" | \"circle\"",
           "default": "\"bar\"",
           "required": false,
-          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export)."
+          "description": "Shape: a linear `bar` (default) or a `circle` ring (upload/export).",
+          "descriptionFrom": "source"
         },
         {
           "name": "showValue",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show the percentage inside the circle (determinate `circle` only)."
+          "description": "Show the percentage inside the circle (determinate `circle` only).",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the progress bar (required)."
+          "description": "Accessible name for the progress bar (required).",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],

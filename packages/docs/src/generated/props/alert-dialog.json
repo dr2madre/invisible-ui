@@ -14,56 +14,64 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial open state."
+          "description": "Initial open state.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the alert."
+          "description": "Accessible title naming the alert.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "description",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Description of the consequence."
+          "description": "Description of the consequence.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "dismissLabel",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Label of the single acknowledging button. Defaults to the i18n catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
+          "description": "Label of the single acknowledging button. Defaults to the i18n catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\").",
+          "descriptionFrom": "source"
         },
         {
           "name": "triggerVariant",
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onDismiss",
           "type": "(() => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
+          "description": "Called when the alert is acknowledged (button, Escape or backdrop).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop (outside the panel) cancels and closes. Defaults to `true`; set `false` to force an explicit Cancel/confirm choice (e.g. for irreversible actions)."
+          "description": "Whether pressing the backdrop (outside the panel) cancels and closes. Defaults to `true`; set `false` to force an explicit Cancel/confirm choice (e.g. for irreversible actions).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the alert opens/closes."
+          "description": "Called when the alert opens/closes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -79,63 +87,72 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible title naming the alert (required)."
+          "description": "Accessible title naming the alert (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The message to acknowledge (required)."
+          "description": "The message to acknowledge (required).",
+          "descriptionFrom": "source"
         },
         {
           "name": "dismissLabel",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Label of the single acknowledging button. Defaults to the catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\")."
+          "description": "Label of the single acknowledging button. Defaults to the catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\").",
+          "descriptionFrom": "source"
         },
         {
           "name": "onDismiss",
           "type": "() => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the alert is acknowledged (button, Escape or backdrop)."
+          "description": "Called when the alert is acknowledged (button, Escape or backdrop).",
+          "descriptionFrom": "source"
         },
         {
           "name": "closeOnOutsideClick",
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether pressing the backdrop acknowledges and closes. Defaults to `true`; set `false` to require an explicit button press (e.g. \"I understood\")."
+          "description": "Whether pressing the backdrop acknowledges and closes. Defaults to `true`; set `false` to require an explicit button press (e.g. \"I understood\").",
+          "descriptionFrom": "source"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

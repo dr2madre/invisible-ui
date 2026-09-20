@@ -14,77 +14,88 @@
           "type": "\"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "SearchDialogItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "suggestions",
           "type": "SearchDialogItem[]",
           "default": "[]",
           "required": false,
-          "description": "Items shown while the query is empty — recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means: an empty query shows all items."
+          "description": "Items shown while the query is empty — recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means: an empty query shows all items.",
+          "descriptionFrom": "source"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and suppresses the empty state meanwhile. Feed async results through `items` when they arrive."
+          "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and suppresses the empty state meanwhile. Feed async results through `items` when they arrive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "title",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible title for the dialog. Defaults to the i18n catalog's \"Search\"."
+          "description": "Accessible title for the dialog. Defaults to the i18n catalog's \"Search\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the search input. Defaults to the i18n catalog's \"Search\"."
+          "description": "Accessible label for the search input. Defaults to the i18n catalog's \"Search\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder. Defaults to the i18n catalog's \"Type to search…\"."
+          "description": "Input placeholder. Defaults to the i18n catalog's \"Type to search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Text shown when nothing matches. Defaults to the i18n catalog's \"No results found.\"."
+          "description": "Text shown when nothing matches. Defaults to the i18n catalog's \"No results found.\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "((o: boolean) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -100,84 +111,96 @@
           "type": "ButtonVariant",
           "default": "\"default\"",
           "required": false,
-          "description": "Visual variant for the trigger Button."
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
         },
         {
           "name": "trigger",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "The trigger button's label. The `trigger` slot replaces it with markup."
+          "description": "The trigger button's label. The `trigger` slot replaces it with markup.",
+          "descriptionFrom": "source"
         },
         {
           "name": "items",
           "type": "SearchDialogItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "suggestions",
           "type": "SearchDialogItem[]",
           "default": "() => []",
           "required": false,
-          "description": "Items shown while the query is empty: recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means an empty query shows all items."
+          "description": "Items shown while the query is empty: recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means an empty query shows all items.",
+          "descriptionFrom": "source"
         },
         {
           "name": "loading",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and holds back the empty state meanwhile. Feed async results through `items` when they arrive."
+          "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and holds back the empty state meanwhile. Feed async results through `items` when they arrive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "open",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Initial / controlled open state; bindable with `v-model:open`."
+          "description": "Initial / controlled open state; bindable with `v-model:open`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "title",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible title for the dialog. Defaults to the catalog's \"Search\"."
+          "description": "Accessible title for the dialog. Defaults to the catalog's \"Search\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the search input. Defaults to the catalog's \"Search\"."
+          "description": "Accessible label for the search input. Defaults to the catalog's \"Search\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "placeholder",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Input placeholder. Defaults to the catalog's \"Type to search…\"."
+          "description": "Input placeholder. Defaults to the catalog's \"Type to search…\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "emptyText",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Text shown when nothing matches. Defaults to the catalog's \"No results found.\"."
+          "description": "Text shown when nothing matches. Defaults to the catalog's \"No results found.\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [

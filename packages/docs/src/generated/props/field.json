@@ -14,42 +14,48 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Field label."
+          "description": "Field label.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "description",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Helper text."
+          "description": "Helper text.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "error",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Error message (sets `aria-invalid`)."
+          "description": "Error message (sets `aria-invalid`).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Mark the field required."
+          "description": "Mark the field required.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Disable styling/state."
+          "description": "Disable styling/state.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "id",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Control id."
+          "description": "Control id.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -65,42 +71,48 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "The field label."
+          "description": "The field label.",
+          "descriptionFrom": "source"
         },
         {
           "name": "description",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional helper/description text."
+          "description": "Optional helper/description text.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Optional error message; when set, the field is marked invalid."
+          "description": "Optional error message; when set, the field is marked invalid.",
+          "descriptionFrom": "source"
         },
         {
           "name": "required",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the control is required."
+          "description": "Whether the control is required.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Whether the field is disabled."
+          "description": "Whether the field is disabled.",
+          "descriptionFrom": "source"
         },
         {
           "name": "id",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Base id; auto-generated when omitted."
+          "description": "Base id; auto-generated when omitted.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -119,37 +131,43 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "description",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "error",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "required",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "reactive": true,
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "field-id",
           "reactive": false,
           "required": false,
-          "description": "read once at mount — see below"
+          "description": "read once at mount — see below",
+          "descriptionFrom": "curated"
         }
       ],
       "notes": []

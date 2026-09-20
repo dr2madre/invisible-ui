@@ -287,6 +287,52 @@ decisions on these points are closed.
 - **For the maintainer**: `multiple` mode versus a separate component, and the
   form serialisation format.
 
+## Controls with no ADR 0011 conventions case yet
+
+The two adapters' `adr-0011-conventions.test.ts` files ask three questions of
+each control: does it reflect a changed value prop, does it stay silent while
+reflecting, and does it call the callback it has now. A control gets a case,
+or it is named as an omission with the reason. The controls below are named
+omissions of one kind: nothing is known to be wrong with them, and no case is
+written.
+
+Each one is either covered for these three rules in its own suite, or waiting
+for a case here. This list is what the two test files point at, and a test in
+each of them fails if a name it excuses is missing from this list.
+
+- Accordion
+- Calendar
+- Carousel
+- Checkbox
+- Collapsible
+- Combobox
+- ContextMenu
+- DatePicker
+- DateRangePicker
+- DropdownMenu
+- HoverCard
+- LoginForm
+- Menubar
+- MultiSelect
+- NavigationMenu
+- NumberField
+- PromptDialog
+- Radio
+- SearchDialog
+- Select
+- Sidebar
+- Table
+- Tabs
+- Textarea
+- ToggleGroup
+- Tooltip
+- TreeView
+- UploadDropArea
+
+Two controls carry a different reason and are not in this list: Table View and
+Table Set, whose controlled contract is Task 5A of
+[data-table-spec.md](./data-table-spec.md).
+
 ## Maintainer decisions, closed
 
 The questions this audit raised have been decided:

@@ -38,6 +38,17 @@ describe("select state", () => {
     expect(state.id).toMatch(/^ds-select-\d+$/);
   });
 
+  it("typeahead matches the start of a label, never the middle", () => {
+    // "an" is inside "Banana" and starts nothing here: no match. "Ap" starts
+    // "Apple": a match. A substring rule would jump to Banana on "an".
+    const items = [
+      { value: "banana", label: "Banana" },
+      { value: "apple", label: "Apple" },
+    ];
+    expect(matchOption(items, "an", null)).toBeNull();
+    expect(matchOption(items, "ap", null)).toBe("apple");
+  });
+
   it("matches typeahead against labels, skipping disabled and wrapping", () => {
     expect(matchOption(items, "b", null)).toBe("banana");
     expect(matchOption(items, "c", null)).toBeNull(); // cherry is disabled

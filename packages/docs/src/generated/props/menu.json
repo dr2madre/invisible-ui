@@ -14,28 +14,32 @@
           "type": "MenuSection[]",
           "default": null,
           "required": true,
-          "description": "Groups of items, rendered in order with an optional heading each."
+          "description": "Groups of items, rendered in order with an optional heading each.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "The active item's value."
+          "description": "The active item's value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the navigation landmark."
+          "description": "Accessible name for the navigation landmark.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onSelect",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ]
     },
@@ -51,28 +55,32 @@
           "type": "MenuSection[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "The active entry's value."
+          "description": "The active entry's value.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\"."
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onSelect",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "emits": [],

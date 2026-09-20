@@ -14,49 +14,56 @@
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Current page. Controllable mirror: clicking a page updates it locally and reports through `onPageChange`; a later prop value overwrites the local choice (clamped to `pageCount`) without a callback. The other props keep their initial-value behaviour."
+          "description": "Current page. Controllable mirror: clicking a page updates it locally and reports through `onPageChange`; a later prop value overwrites the local choice (clamped to `pageCount`) without a callback. The other props keep their initial-value behaviour.",
+          "descriptionFrom": "source"
         },
         {
           "name": "pageCount",
           "type": "number",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "siblingCount",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "boundaryCount",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the nav."
+          "description": "Accessible name for the nav.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onPageChange",
           "type": "((page: number) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the page changes."
+          "description": "Called when the page changes.",
+          "descriptionFrom": "curated"
         }
       ]
     },
@@ -72,56 +79,64 @@
           "type": "number",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `page` when bound."
+          "description": "`v-model` value; takes precedence over `page` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "page",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Current page (1-based)."
+          "description": "Current page (1-based).",
+          "descriptionFrom": "source"
         },
         {
           "name": "pageCount",
           "type": "number",
           "default": null,
           "required": true,
-          "description": "Total number of pages."
+          "description": "Total number of pages.",
+          "descriptionFrom": "source"
         },
         {
           "name": "siblingCount",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Pages shown on each side of the current page."
+          "description": "Pages shown on each side of the current page.",
+          "descriptionFrom": "source"
         },
         {
           "name": "boundaryCount",
           "type": "number",
           "default": "1",
           "required": false,
-          "description": "Pages always shown at the start and end."
+          "description": "Pages always shown at the start and end.",
+          "descriptionFrom": "source"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Pagination\"."
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Pagination\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "onPageChange",
           "type": "(page: number) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the page changes."
+          "description": "Called whenever the page changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

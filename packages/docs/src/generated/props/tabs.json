@@ -14,35 +14,40 @@
           "type": "TabsItem[]",
           "default": null,
           "required": true,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "activationMode",
           "type": "ActivationMode",
           "default": "\"automatic\"",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the tab list."
+          "description": "Accessible name for the tab list.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected tab changes."
+          "description": "Called whenever the selected tab changes.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -58,42 +63,48 @@
           "type": "TabsItem[]",
           "default": null,
           "required": true,
-          "description": "Ordered list of tabs."
+          "description": "Ordered list of tabs.",
+          "descriptionFrom": "source"
         },
         {
           "name": "modelValue",
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "`v-model` value; takes precedence over `value` when bound."
+          "description": "`v-model` value; takes precedence over `value` when bound.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": "Selected tab value. `null` falls back to the first enabled tab."
+          "description": "Selected tab value. `null` falls back to the first enabled tab.",
+          "descriptionFrom": "source"
         },
         {
           "name": "activationMode",
           "type": "ActivationMode",
           "default": "\"automatic\"",
           "required": false,
-          "description": "`automatic` (default): arrows select while moving. `manual`: Enter/Space selects."
+          "description": "`automatic` (default): arrows select while moving. `manual`: Enter/Space selects.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible name for the tab list (announced by screen readers)."
+          "description": "Accessible name for the tab list (announced by screen readers).",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called whenever the selected tab changes."
+          "description": "Called whenever the selected tab changes.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [

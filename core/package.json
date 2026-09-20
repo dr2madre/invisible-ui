@@ -29,12 +29,13 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "node scripts/clean-dist.mjs && node scripts/write-build-info.mjs && tsup && node scripts/patch-esm-specifiers.mjs && node scripts/write-build-info.mjs --verify",
+    "build": "node ../scripts/write-build-info.mjs core && node scripts/clean-dist.mjs && tsup && node scripts/patch-esm-specifiers.mjs && node ../scripts/write-build-info.mjs core --verify",
     "smoke": "node scripts/smoke-package.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "jsdom": "^29.1.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"

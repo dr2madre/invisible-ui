@@ -14,91 +14,104 @@
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hourCycle",
           "type": "HourCycle",
           "default": "24",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "withSeconds",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Domain-level invalid state. Structural time errors are detected automatically."
+          "description": "Domain-level invalid state. Structural time errors are detected automatically.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Visible, actionable error text supplied by the application."
+          "description": "Visible, actionable error text supplied by the application.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible label for the whole field."
+          "description": "Accessible label for the whole field.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Form field name — the formatted time is submitted under it (via a hidden input)."
+          "description": "Form field name — the formatted time is submitted under it (via a hidden input).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueChange",
           "type": "((value: string | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called with the formatted value (or `null` while incomplete)."
+          "description": "Called with the formatted value (or `null` while incomplete).",
+          "descriptionFrom": "curated"
         },
         {
           "name": "onValueCommit",
           "type": "((value: string | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when the user finishes editing: focus leaves the field, or Enter."
+          "description": "Called when the user finishes editing: focus leaves the field, or Enter.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValidationChange",
           "type": "((error: TimeValueError | null) => void) | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Called when structural validation changes; `null` means no structural error."
+          "description": "Called when structural validation changes; `null` means no structural error.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -114,98 +127,112 @@
           "type": "string | null",
           "default": "undefined",
           "required": false,
-          "description": "Value as `\"HH:mm\"` or `\"HH:mm:ss\"` (24h); bindable with `v-model`."
+          "description": "Value as `\"HH:mm\"` or `\"HH:mm:ss\"` (24h); bindable with `v-model`.",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
           "type": "string | null",
           "default": "null",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "hourCycle",
           "type": "HourCycle",
           "default": "24",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "withSeconds",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "invalid",
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Domain-level invalid state. Structural time errors are detected automatically."
+          "description": "Domain-level invalid state. Structural time errors are detected automatically.",
+          "descriptionFrom": "source"
         },
         {
           "name": "error",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Visible, actionable error text supplied by the application."
+          "description": "Visible, actionable error text supplied by the application.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name for the whole field. Defaults to the catalog's \"Time\"."
+          "description": "Accessible name for the whole field. Defaults to the catalog's \"Time\".",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Form field name; the formatted time is submitted under it."
+          "description": "Form field name; the formatted time is submitted under it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueChange",
           "type": "(value: string | null) => void",
           "default": "undefined",
           "required": false,
-          "description": ""
+          "description": "",
+          "descriptionFrom": "none"
         },
         {
           "name": "onValidationChange",
           "type": "(error: TimeValueError | null) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when structural validation changes; `null` means no structural error."
+          "description": "Called when structural validation changes; `null` means no structural error.",
+          "descriptionFrom": "source"
         },
         {
           "name": "onValueCommit",
           "type": "(value: string | null) => void",
           "default": "undefined",
           "required": false,
-          "description": "Called when the user finishes editing: focus leaves the field, or Enter."
+          "description": "Called when the user finishes editing: focus leaves the field, or Enter.",
+          "descriptionFrom": "source"
         },
         {
           "name": "min",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+          "description": "Earliest acceptable time (`\"HH:mm[:ss]\"`), inclusive.",
+          "descriptionFrom": "source"
         },
         {
           "name": "max",
           "type": "string",
           "default": "undefined",
           "required": false,
-          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive."
+          "description": "Latest acceptable time (`\"HH:mm[:ss]\"`), inclusive.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
