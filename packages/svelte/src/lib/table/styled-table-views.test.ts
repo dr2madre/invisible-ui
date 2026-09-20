@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./table-views.fixture.svelte";
+import type { TableViewDef } from "./TableSet.svelte";
 
 describe("Svelte TableSet — tabs as distinct views", () => {
   it("renders a tablist of the views with the first one active", () => {
@@ -56,7 +57,7 @@ describe("Svelte TableSet — tabs as distinct views", () => {
 describe("Svelte TableSet (controlled views)", () => {
   const tab = (name: string) => screen.getByRole("tab", { name });
 
-  const makeViews = () => [
+  const makeViews = (): TableViewDef[] => [
     {
       id: "people",
       label: "People",

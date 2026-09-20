@@ -52,7 +52,7 @@ describe("createNotifier", () => {
       ["success", "Saved"],
       ["danger", "Failed"],
     ]);
-    expect(list[0].duration).toBe(3000);
+    expect(list[0]!.duration).toBe(3000);
   });
 
   it("replaces in place when show() is given a live id (dedup)", () => {

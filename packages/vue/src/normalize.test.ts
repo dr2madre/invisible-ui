@@ -34,8 +34,8 @@ describe("normalizeProps (the Vue seam)", () => {
 
     // Vue hyphenates what follows `on`; `onKeyDown` would listen for
     // "key-down", while `onKeydown` resolves to "keydown".
-    expect(out.onKeydown).toBe(onKeyDown);
-    expect(out.onMouseenter).toBe(onMouseEnter);
+    expect((out as Record<string, unknown>).onKeydown).toBe(onKeyDown);
+    expect((out as Record<string, unknown>).onMouseenter).toBe(onMouseEnter);
     expect("onKeyDown" in out).toBe(false);
   });
 

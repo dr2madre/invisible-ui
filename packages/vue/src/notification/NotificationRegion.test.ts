@@ -48,7 +48,7 @@ describe("Vue NotificationRegion", () => {
     expect(screen.getByText("Second")).toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getAllByRole("button", { name: "Close" })[0]);
+    await user.click(screen.getAllByRole("button", { name: "Close" })[0]!);
     await waitFor(() => expect(screen.queryByText("First")).not.toBeInTheDocument());
     expect(screen.getByText("Second")).toBeInTheDocument();
   });

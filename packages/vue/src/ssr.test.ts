@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { renderToString } from "@vue/server-renderer";
-import { createSSRApp, h, type Component } from "vue";
+import { createSSRApp, h, type Component, type DefineComponent } from "vue";
 import { describe, expect, it } from "vitest";
 import * as adapter from "./index";
 
@@ -60,8 +60,8 @@ const requiredProps: Record<string, Props> = {
 const isPublicComponent = (value: unknown): value is Component =>
   typeof value === "object" && value !== null && "setup" in value;
 
-const components = Object.entries(adapter).filter((entry): entry is [string, Component] =>
-  isPublicComponent(entry[1]),
+const components = Object.entries(adapter as Record<string, unknown>).filter(
+  (entry): entry is [string, Component] => isPublicComponent(entry[1]),
 );
 
 describe("Vue adapter SSR", () => {
@@ -75,7 +75,7 @@ describe("Vue adapter SSR", () => {
     it(`server-renders ${name} without a DOM`, async () => {
       const app = createSSRApp({
         render: () =>
-          h(component, requiredProps[name] ?? {}, {
+          h(component as DefineComponent<Record<string, unknown>>, requiredProps[name] ?? {}, {
             default: () => name,
           }),
       });
