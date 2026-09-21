@@ -116,6 +116,30 @@
       "slots": [
         "panel"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-tabs",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": []
     }
   }
 }

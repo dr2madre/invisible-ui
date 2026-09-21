@@ -14,6 +14,7 @@ describe("custom-elements adapter SSR", () => {
       "DsCheckbox",
       "DsCheckboxGroup",
       "DsCombobox",
+      "DsCount",
       "DsDialog",
       "DsField",
       "DsLabel",
@@ -23,6 +24,7 @@ describe("custom-elements adapter SSR", () => {
       "DsSelect",
       "DsSwitch",
       "DsTable",
+      "DsTabs",
       "DsTextField",
       "DsTextarea",
     ]);

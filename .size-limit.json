@@ -70,5 +70,17 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
     "limit": "6 kB"
+  },
+  {
+    "name": "@design-system/elements \u2014 count only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCount }",
+    "limit": "6 kB"
+  },
+  {
+    "name": "@design-system/elements \u2014 tabs only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTabs }",
+    "limit": "8 kB"
   }
 ]

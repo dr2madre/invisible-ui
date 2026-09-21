@@ -6,6 +6,7 @@ import { DsButton } from "./button/ds-button";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 import { DsCheckbox } from "./checkbox/ds-checkbox";
 import { DsCombobox } from "./combobox/ds-combobox";
+import { DsCount } from "./count/ds-count";
 import { DsMultiSelect } from "./multi-select/ds-multi-select";
 import { DsDialog } from "./dialog/ds-dialog";
 import { DsField } from "./field/ds-field";
@@ -16,6 +17,7 @@ import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
 import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
+import { DsTabs } from "./tabs/ds-tabs";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -37,5 +39,7 @@ define("ds-search-field", DsSearchField);
 define("ds-radio-group", DsRadioGroup);
 define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
+define("ds-count", DsCount);
+define("ds-tabs", DsTabs);
 
 export {};

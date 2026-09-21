@@ -10844,6 +10844,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10852,6 +10853,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count--dot",
+          "property": "inline-size",
+          "fallback": "0.55rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count--dot",
+          "property": "block-size",
+          "fallback": "0.55rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/count/Count.svelte",
@@ -10900,6 +10915,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10908,6 +10924,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count",
+          "property": "font-size",
+          "fallback": "0.6875rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/count/Count.svelte",
@@ -10942,6 +10965,7 @@
         "padding-inline"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10950,6 +10974,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count",
+          "property": "padding-inline",
+          "fallback": "0.3rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/count/Count.svelte",
@@ -10985,6 +11016,7 @@
         "min-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10993,6 +11025,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count",
+          "property": "min-inline-size",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/count.css",
+          "selector": ".count",
+          "property": "block-size",
+          "fallback": "1.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/count/Count.svelte",
@@ -24640,6 +24686,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24648,6 +24695,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tabs.css",
+          "selector": ".tabs__tab",
+          "property": "padding",
+          "fallback": "0.4rem 0.8rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tabs/Tabs.svelte",

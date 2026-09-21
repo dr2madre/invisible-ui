@@ -39,6 +39,24 @@ A WAI-ARIA tabs widget: a tablist linked to panels, with arrow navigation.
 />
 ```
 
+In Elements, assign the item list as a property. Selection is reflected by the
+`value` attribute and reported through the bubbling `change` event:
+
+```html
+<ds-tabs label="Catalog sections"></ds-tabs>
+
+<script type="module">
+  const tabs = document.querySelector("ds-tabs");
+  tabs.items = [
+    { value: "tables", label: "Tables", count: 11, content: "Table list" },
+    { value: "columns", label: "Columns", count: 42, content: "Column list" },
+  ];
+  tabs.addEventListener("change", ({ detail }) => {
+    console.log(detail.value);
+  });
+</script>
+```
+
 ### Rich panels
 
 For anything beyond text, use the scoped `panel` slot: it renders once per tab
@@ -55,6 +73,17 @@ switch on `item.value`.
     {/if}
   </svelte:fragment>
 </Tabs>
+```
+
+In Elements, set `renderPanel` to return a DOM node. Strings are always treated
+as text rather than parsed as HTML:
+
+```js
+tabs.renderPanel = (item) => {
+  const panel = document.createElement("section");
+  panel.append(item.value === "tables" ? tableView : columnView);
+  return panel;
+};
 ```
 
 Themeable via `--ds-tabs-*`.
