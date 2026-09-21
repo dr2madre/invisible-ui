@@ -65,6 +65,22 @@ text (`--ds-color-text`, `--ds-color-text-secondary`), the disabled state
 (`--ds-color-focus-ring`). Each one's role, value per theme and alias chain is
 listed in the [token catalog](/invisible-ui/presentation/token-catalog/#tk-semantic).
 
+### `surface-hover` and `state-hover`
+
+Both tokens can appear in a `background` declaration, but they have different
+contracts:
+
+| Token | Use it when | Behavior |
+| --- | --- | --- |
+| `--ds-color-surface-hover` | An interactive surface has `--ds-color-surface` as its resting fill and needs a complete hover variant, such as a clickable card or panel. | An opaque surface color replaces the resting surface. |
+| `--ds-state-hover` | A control, action, option or row needs hover feedback over its current fill. | A translucent state layer preserves the role of the fill underneath it. |
+
+Choose by function, not by the CSS property being assigned. A button, icon
+action, menu option or table row uses `--ds-state-hover`, even when the
+implementation sets `background`. Use `--ds-color-surface-hover` only as the
+hover counterpart of `--ds-color-surface`. If the same interaction can sit on
+different fills, it needs the state overlay.
+
 **Two boundaries.** `--ds-color-border` is the quiet line between areas:
 dividers, table rules, the edge of a panel. `--ds-color-control-border` is the
 boundary that identifies an interactive control — fields, outlined buttons,

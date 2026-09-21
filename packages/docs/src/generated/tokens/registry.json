@@ -2156,7 +2156,7 @@
         "dark": "#524c44"
       },
       "hasAlpha": false,
-      "purpose": "The same area while the pointer is over it, or while it is the active row of a list.",
+      "purpose": "The opaque hover counterpart of --ds-color-surface. It replaces that resting fill on an interactive surface such as a clickable card or panel. Controls, actions, options and rows use --ds-state-hover instead.",
       "group": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It has to reach 3:1 on the page and on a surface; the generic border above stays the quieter line between areas (dividers, table rules, panel edges).",
       "stability": "alpha",
       "replacedBy": null
@@ -4227,7 +4227,7 @@
         "dark": "#ffffff at 9% alpha"
       },
       "hasAlpha": true,
-      "purpose": "The overlay laid over a control while the pointer is on it.",
+      "purpose": "The translucent state layer laid over a control, action, option or row while the pointer is on it. It preserves the role of the fill underneath.",
       "group": "The boundary that identifies an interactive control: fields, outlined buttons, check controls, the switch track. It has to reach 3:1 on the page and on a surface; the generic border above stays the quieter line between areas (dividers, table rules, panel edges).",
       "stability": "alpha",
       "replacedBy": null

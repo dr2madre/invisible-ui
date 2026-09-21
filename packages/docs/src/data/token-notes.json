@@ -10,7 +10,7 @@
     "purpose": "Anything that sits on the page as its own area: cards, panels, menus, the inside of a field."
   },
   "--ds-color-surface-hover": {
-    "purpose": "The same area while the pointer is over it, or while it is the active row of a list."
+    "purpose": "The opaque hover counterpart of --ds-color-surface. It replaces that resting fill on an interactive surface such as a clickable card or panel. Controls, actions, options and rows use --ds-state-hover instead."
   },
   "--ds-color-text": {
     "purpose": "Ordinary reading text on background or surface."
@@ -28,7 +28,7 @@
     "purpose": "The colour of the ring that shows where the keyboard is. It needs 3:1 against whatever it is drawn on."
   },
   "--ds-state-hover": {
-    "purpose": "The overlay laid over a control while the pointer is on it."
+    "purpose": "The translucent state layer laid over a control, action, option or row while the pointer is on it. It preserves the role of the fill underneath."
   },
   "--ds-state-pressed": {
     "purpose": "The overlay laid over a control while it is being pressed."
