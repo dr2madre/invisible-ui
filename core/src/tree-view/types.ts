@@ -1,8 +1,20 @@
-/** A node in a tree. Nodes with `children` are parents (expandable). */
+/** A node in a tree. */
 export interface TreeNode {
   value: string;
   disabled?: boolean;
+  /**
+   * Marks a parent whose children are not loaded yet. Omit `children` until
+   * they arrive; `children: []` always means a loaded leaf.
+   */
+  hasChildren?: boolean;
   children?: TreeNode[];
+}
+
+/** One application-owned request for the children of an unloaded parent. */
+export interface TreeLoadRequest {
+  value: string;
+  /** Monotonically increasing token used to reject an out-of-order response. */
+  requestId: number;
 }
 
 /** Internal, fully-resolved state of a tree. */
@@ -13,6 +25,10 @@ export interface TreeState {
   expanded: string[];
   /** The selected node value, or `null`. Single-select. */
   selected: string | null;
+  /** Unloaded parent values with an active request. */
+  loading: string[];
+  /** Unloaded parent values whose latest request failed. */
+  loadErrors: string[];
   /** The roving-focus node value, or `null` (defaults to selected / first). */
   focused: string | null;
   /** Whether the whole tree is disabled. */
@@ -29,6 +45,10 @@ export interface TreeContext {
   expanded?: string[];
   /** Initially selected value. Defaults to none. */
   selected?: string | null;
+  /** Unloaded parent values with an active request. */
+  loading?: string[];
+  /** Unloaded parent values whose latest request failed. */
+  loadErrors?: string[];
   /** Whether the whole tree is disabled. Defaults to `false`. */
   disabled?: boolean;
   /** Base id used to scope generated ids. Auto-generated when omitted. */
@@ -37,6 +57,8 @@ export interface TreeContext {
   onExpandedChange?: (expanded: string[]) => void;
   /** Called whenever the selected value changes. */
   onSelectedChange?: (selected: string) => void;
+  /** Requests children from the application. The design system never fetches. */
+  onLoadChildren?: (request: TreeLoadRequest) => void;
 }
 
 /**
@@ -51,6 +73,14 @@ export interface VisibleNode {
   level: number;
   /** Whether the node has children (is expandable). */
   hasChildren: boolean;
+  /** Whether the children array has been supplied by the consumer. */
+  childrenLoaded: boolean;
+  /** State of an unloaded parent. Absent for loaded parents and leaves. */
+  loadState?: "idle" | "loading" | "error";
+  /** Stable id of the loading or failure description for this treeitem. */
+  loadStatusId: string;
+  /** Stable id of the label that supplies this treeitem's accessible name. */
+  labelId: string;
   /** Whether the node is currently expanded. */
   expanded: boolean;
   /** Number of siblings (incl. self), for `aria-setsize`. */

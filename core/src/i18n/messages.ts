@@ -123,6 +123,8 @@ export const en = {
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
+  "tree.loading": "Loading {name}…",
+  "tree.loadError": "Could not load {name}. Press Right Arrow to retry.",
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",

@@ -1,11 +1,8 @@
 <script lang="ts">
   import TreeView from "./TreeView.svelte";
-  import type { TreeNode } from "./create-tree-view";
+  import type { TreeLoadRequest, TreeNode } from "./create-tree-view";
 
-  export let expanded: string[] = ["src"];
-  export let selected: string | null = null;
-
-  const nodes: TreeNode[] = [
+  const defaultNodes: TreeNode[] = [
     {
       value: "src",
       children: [
@@ -16,6 +13,21 @@
     { value: "readme", disabled: true },
     { value: "package.json" },
   ];
+
+  export let expanded: string[] = ["src"];
+  export let selected: string | null = null;
+  export let nodes: TreeNode[] = defaultNodes;
+  export let loading: string[] = [];
+  export let loadErrors: string[] = [];
+  export let onLoadChildren: ((request: TreeLoadRequest) => void) | undefined = undefined;
 </script>
 
-<TreeView {nodes} {expanded} {selected} label="Project files" />
+<TreeView
+  {nodes}
+  {expanded}
+  {selected}
+  {loading}
+  {loadErrors}
+  {onLoadChildren}
+  label="Project files"
+/>

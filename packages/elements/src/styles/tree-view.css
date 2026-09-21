@@ -50,6 +50,18 @@
 .tree__check--shown {
   visibility: visible;
 }
+.tree__load-status {
+  min-inline-size: 0;
+  margin-inline-start: auto;
+  color: var(--ds-color-text-secondary, #524c44);
+  font-size: var(--ds-tree-status-font-size, 0.875rem);
+}
+.tree__load-status--error {
+  color: var(--ds-color-danger-text, #9f1b1b);
+}
+.tree__load-status + .tree__check {
+  margin-inline-start: 0;
+}
 .tree__item--selected {
   background: var(
     --ds-tree-item-selected-bg,

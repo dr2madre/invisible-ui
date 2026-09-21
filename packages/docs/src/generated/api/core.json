@@ -2578,37 +2578,42 @@
     {
       "name": "treeView.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#6660c996 { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#65b9318c { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Report a request for an unloaded parent's children. */ requestLoad?: (request: TreeLoadRequest) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "treeView.TreeApi",
       "kind": "type",
-      "signature": "treeView.TreeApi = interface TreeApi { /** Currently expanded parent values. */ expanded: string[]; /** The selected value, or `null`. */ selected: string | null; /** Expand/collapse a parent node (ignored for leaves/disabled). */ toggle(value: string): void; /** Select a node (ignored when disabled). */ select(value: string): void; /** Props for the tree container (`role=\"tree\"`). */ rootProps: ElementProps; /** Props for a child-list wrapper (`role=\"group\"`). */ getGroupProps(): ElementProps; /** Props for a treeitem, by value (`role=\"treeitem\"`). */ getItemProps(value: string): ElementProps; }"
+      "signature": "treeView.TreeApi = interface TreeApi { /** Currently expanded parent values. */ expanded: string[]; /** The selected value, or `null`. */ selected: string | null; /** Expand/collapse a parent node (ignored for leaves/disabled). */ toggle(value: string): void; /** Select a node (ignored when disabled). */ select(value: string): void; /** Retry loading an expanded, unloaded parent. */ retryLoad(value: string): void; /** Props for the tree container (`role=\"tree\"`). */ rootProps: ElementProps; /** Props for a child-list wrapper (`role=\"group\"`). */ getGroupProps(): ElementProps; /** Props for a treeitem, by value (`role=\"treeitem\"`). */ getItemProps(value: string): ElementProps; }"
     },
     {
       "name": "treeView.TreeContext",
       "kind": "type",
-      "signature": "treeView.TreeContext = interface TreeContext { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initially expanded parent values. Defaults to none. */ expanded?: string[]; /** Initially selected value. Defaults to none. */ selected?: string | null; /** Whether the whole tree is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id used to scope generated ids. Auto-generated when omitted. */ id?: string; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; }"
+      "signature": "treeView.TreeContext = interface TreeContext { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initially expanded parent values. Defaults to none. */ expanded?: string[]; /** Initially selected value. Defaults to none. */ selected?: string | null; /** Unloaded parent values with an active request. */ loading?: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors?: string[]; /** Whether the whole tree is disabled. Defaults to `false`. */ disabled?: boolean; /** Base id used to scope generated ids. Auto-generated when omitted. */ id?: string; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application. The design system never fetches. */ onLoadChildren?: (request: TreeLoadRequest) => void; }"
+    },
+    {
+      "name": "treeView.TreeLoadRequest",
+      "kind": "type",
+      "signature": "treeView.TreeLoadRequest = interface TreeLoadRequest { value: string; /** Monotonically increasing token used to reject an out-of-order response. */ requestId: number; }"
     },
     {
       "name": "treeView.TreeNode",
       "kind": "type",
-      "signature": "treeView.TreeNode = interface TreeNode { value: string; disabled?: boolean; children?: TreeNode[]; }"
+      "signature": "treeView.TreeNode = interface TreeNode { value: string; disabled?: boolean; /** * Marks a parent whose children are not loaded yet. Omit `children` until * they arrive; `children: []` always means a loaded leaf. */ hasChildren?: boolean; children?: TreeNode[]; }"
     },
     {
       "name": "treeView.TreeState",
       "kind": "type",
-      "signature": "treeView.TreeState = interface TreeState { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Values of the currently expanded parent nodes. */ expanded: string[]; /** The selected node value, or `null`. Single-select. */ selected: string | null; /** The roving-focus node value, or `null` (defaults to selected / first). */ focused: string | null; /** Whether the whole tree is disabled. */ disabled: boolean; /** Base id used to scope generated ids. */ id: string; }"
+      "signature": "treeView.TreeState = interface TreeState { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Values of the currently expanded parent nodes. */ expanded: string[]; /** The selected node value, or `null`. Single-select. */ selected: string | null; /** Unloaded parent values with an active request. */ loading: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors: string[]; /** The roving-focus node value, or `null` (defaults to selected / first). */ focused: string | null; /** Whether the whole tree is disabled. */ disabled: boolean; /** Base id used to scope generated ids. */ id: string; }"
     },
     {
       "name": "treeView.VisibleNode",
       "kind": "type",
-      "signature": "treeView.VisibleNode = interface VisibleNode { value: string; disabled: boolean; /** 1-based depth, for `aria-level`. */ level: number; /** Whether the node has children (is expandable). */ hasChildren: boolean; /** Whether the node is currently expanded. */ expanded: boolean; /** Number of siblings (incl. self), for `aria-setsize`. */ setSize: number; /** 1-based position among siblings, for `aria-posinset`. */ posInSet: number; /** The parent node's value, or `null` at the root. */ parent: string | null; }"
+      "signature": "treeView.VisibleNode = interface VisibleNode { value: string; disabled: boolean; /** 1-based depth, for `aria-level`. */ level: number; /** Whether the node has children (is expandable). */ hasChildren: boolean; /** Whether the children array has been supplied by the consumer. */ childrenLoaded: boolean; /** State of an unloaded parent. Absent for loaded parents and leaves. */ loadState?: \"idle\" | \"loading\" | \"error\"; /** Stable id of the loading or failure description for this treeitem. */ loadStatusId: string; /** Stable id of the label that supplies this treeitem's accessible name. */ labelId: string; /** Whether the node is currently expanded. */ expanded: boolean; /** Number of siblings (incl. self), for `aria-setsize`. */ setSize: number; /** 1-based position among siblings, for `aria-posinset`. */ posInSet: number; /** The parent node's value, or `null` at the root. */ parent: string | null; }"
     },
     {
       "name": "treeView.connect",
       "kind": "function",
-      "signature": "declare function connect#ea247c12({ state, setExpanded, setSelected, setFocused, focus, normalize, }: ConnectOptions#6660c996): TreeApi;"
+      "signature": "declare function connect#da8e3842({ state, setExpanded, setSelected, setFocused, focus, requestLoad, normalize, }: ConnectOptions#65b9318c): TreeApi;"
     },
     {
       "name": "treeView.firstVisible",

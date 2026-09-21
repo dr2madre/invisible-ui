@@ -735,6 +735,24 @@ const rows: Row[] = [
     after: "a",
     settled: null,
   },
+  {
+    name: "TreeView child load request",
+    covers: ["tree-view/onLoadChildren"],
+    build: (spy) => {
+      const f = createTreeView({
+        nodes: [{ value: "remote", hasChildren: true }],
+        onLoadChildren: () => spy(f.state),
+      });
+      return {
+        state: f.state,
+        act: () => get(f.api).toggle("remote"),
+        putBack: () => f.syncLoading([]),
+      };
+    },
+    expected: (s) => (s as { loading: string[] }).loading,
+    after: ["remote"],
+    settled: [],
+  },
 ];
 
 /** A key press on a segment, with the bits the handler reads. */

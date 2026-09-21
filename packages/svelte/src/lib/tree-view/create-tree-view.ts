@@ -9,6 +9,7 @@ export type TreeNode = core.TreeNode;
 export type TreeApi = core.TreeApi;
 export type TreeState = core.TreeState;
 export type TreeContext = core.TreeContext;
+export type TreeLoadRequest = core.TreeLoadRequest;
 export type VisibleNode = core.VisibleNode;
 
 export interface CreateTreeView {
@@ -22,10 +23,22 @@ export interface CreateTreeView {
   expanded: Readable<string[]>;
   /** The selected value (or `null`). */
   selected: Readable<string | null>;
+  /** Unloaded parents with an active request. */
+  loading: Readable<string[]>;
+  /** Unloaded parents whose latest request failed. */
+  loadErrors: Readable<string[]>;
+  /** Reflect controlled nodes without reporting a change. */
+  syncNodes: (nodes: TreeNode[]) => void;
+  /** Reflect the controlled disabled state. */
+  syncDisabled: (disabled: boolean) => void;
   /** Reflect a controlled `expanded` prop without reporting a change. */
   syncExpanded: (expanded: string[]) => void;
   /** Reflect a controlled `selected` prop without reporting a change. */
   syncSelected: (value: string | null) => void;
+  /** Reflect controlled loading values without reporting a request. */
+  syncLoading: (loading: string[]) => void;
+  /** Reflect controlled failures without reporting a request. */
+  syncLoadErrors: (loadErrors: string[]) => void;
   /** Imperatively expand/collapse a parent. */
   toggle: (value: string) => void;
   /** Imperatively select a value. */
@@ -75,6 +88,22 @@ export function createTreeView(context: TreeContext): CreateTreeView {
       current.selected === value ? current : { ...current, selected: value },
     );
 
+  const syncNodes = (nodes: TreeNode[]) =>
+    state.update((current) => (current.nodes === nodes ? current : { ...current, nodes }));
+
+  const syncDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
+
+  const syncLoading = (loading: string[]) =>
+    state.update((current) =>
+      sameValues(current.loading, loading) ? current : { ...current, loading },
+    );
+
+  const syncLoadErrors = (loadErrors: string[]) =>
+    state.update((current) =>
+      sameValues(current.loadErrors, loadErrors) ? current : { ...current, loadErrors },
+    );
+
   const setFocused = (value: string) => {
     state.update((current) =>
       current.focused === value ? current : { ...current, focused: value },
@@ -92,6 +121,17 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     el?.focus();
   };
 
+  const requestLoad = (request: TreeLoadRequest) => {
+    const current = get(state);
+    if (current.loading.includes(request.value)) return;
+    state.set({
+      ...current,
+      loading: [...current.loading, request.value],
+      loadErrors: current.loadErrors.filter((value) => value !== request.value),
+    });
+    context.onLoadChildren?.(request);
+  };
+
   const api = derived(state, ($state) =>
     core.connect({
       state: $state,
@@ -99,6 +139,7 @@ export function createTreeView(context: TreeContext): CreateTreeView {
       setSelected,
       setFocused,
       focus,
+      requestLoad,
       normalize: normalizeProps,
     }),
   );
@@ -127,8 +168,14 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     visible: derived(state, ($state) => core.visibleNodes($state)),
     expanded: derived(state, ($state) => $state.expanded),
     selected: derived(state, ($state) => $state.selected),
+    loading: derived(state, ($state) => $state.loading),
+    loadErrors: derived(state, ($state) => $state.loadErrors),
+    syncNodes,
+    syncDisabled,
     syncExpanded,
     syncSelected,
+    syncLoading,
+    syncLoadErrors,
     // Imperative helpers read the connected API's current value.
     toggle: (value: string) => get(api).toggle(value),
     select: (value: string) => get(api).select(value),

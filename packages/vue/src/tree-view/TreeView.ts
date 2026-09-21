@@ -1,5 +1,6 @@
 import { defineComponent, h, type PropType } from "vue";
-import { useTreeView, type TreeNode, type VisibleNode } from "./use-tree-view";
+import { useI18n } from "../i18n/i18n";
+import { useTreeView, type TreeLoadRequest, type TreeNode } from "./use-tree-view";
 
 export interface TreeViewProps {
   nodes: TreeNode[];
@@ -7,6 +8,10 @@ export interface TreeViewProps {
   expanded?: string[];
   /** Selected value; bindable with `v-model:selected`. */
   selected?: string | null;
+  /** Unloaded parent values with an active request. */
+  loading?: string[];
+  /** Unloaded parent values whose latest request failed. */
+  loadErrors?: string[];
   disabled?: boolean;
   /** Accessible name for the tree (announced by screen readers). */
   label: string;
@@ -16,6 +21,8 @@ export interface TreeViewProps {
   onExpandedChange?: (expanded: string[]) => void;
   /** Called whenever the selected value changes. */
   onSelectedChange?: (selected: string) => void;
+  /** Requests children from the application; the component never fetches. */
+  onLoadChildren?: (request: TreeLoadRequest) => void;
 }
 
 /** The disclosure chevron on a parent row; it rotates when the subtree opens. */
@@ -65,6 +72,8 @@ export const TreeView = defineComponent({
     nodes: { type: Array as PropType<TreeNode[]>, required: true },
     expanded: { type: Array as PropType<string[]>, default: () => [] },
     selected: { type: String as PropType<string | null>, default: null },
+    loading: { type: Array as PropType<string[]>, default: () => [] },
+    loadErrors: { type: Array as PropType<string[]>, default: () => [] },
     disabled: { type: Boolean, default: false },
     label: { type: String, required: true },
     labels: { type: Object as PropType<Record<string, string>>, default: undefined },
@@ -76,16 +85,23 @@ export const TreeView = defineComponent({
       type: Function as PropType<(selected: string) => void>,
       default: undefined,
     },
+    onLoadChildren: {
+      type: Function as PropType<(request: TreeLoadRequest) => void>,
+      default: undefined,
+    },
   },
   emits: {
     "update:expanded": (expanded: string[]) => Array.isArray(expanded),
     "update:selected": (selected: string) => typeof selected === "string",
   },
   setup(props, { emit, slots }) {
+    const i18n = useI18n();
     const { api, visible, expanded, selected, rootRef } = useTreeView(() => ({
       nodes: props.nodes,
       expanded: props.expanded,
       selected: props.selected,
+      loading: props.loading,
+      loadErrors: props.loadErrors,
       disabled: props.disabled,
       onExpandedChange: (next: string[]) => {
         emit("update:expanded", next);
@@ -95,14 +111,8 @@ export const TreeView = defineComponent({
         emit("update:selected", next);
         props.onSelectedChange?.(next);
       },
+      onLoadChildren: (request: TreeLoadRequest) => props.onLoadChildren?.(request),
     }));
-
-    // The twistie sits inside the row, whose click selects; stop the press
-    // there so expanding never doubles as selecting.
-    const toggle = (event: Event, node: VisibleNode) => {
-      event.stopPropagation();
-      api.value.toggle(node.value);
-    };
 
     return () =>
       h(
@@ -129,7 +139,11 @@ export const TreeView = defineComponent({
                       class: ["tree__twistie", { "tree__twistie--open": isExpanded }],
                       tabindex: "-1",
                       "aria-hidden": "true",
-                      onClick: (event: Event) => toggle(event, node),
+                      onClick: (event: Event) => {
+                        event.stopPropagation();
+                        if (node.loadState === "error") api.value.retryLoad(node.value);
+                        else api.value.toggle(node.value);
+                      },
                     },
                     [TwistieGlyph()],
                   )
@@ -141,9 +155,28 @@ export const TreeView = defineComponent({
 
               h(
                 "span",
-                { class: "tree__label" },
+                { id: node.labelId, class: "tree__label" },
                 slots.label?.({ node }) ?? props.labels?.[node.value] ?? node.value,
               ),
+
+              node.loadState === "loading" || node.loadState === "error"
+                ? h(
+                    "span",
+                    {
+                      id: node.loadStatusId,
+                      class: [
+                        "tree__load-status",
+                        { "tree__load-status--error": node.loadState === "error" },
+                      ],
+                      role: "status",
+                      "aria-live": "polite",
+                      "aria-atomic": "true",
+                    },
+                    i18n.value.t(node.loadState === "error" ? "tree.loadError" : "tree.loading", {
+                      name: props.labels?.[node.value] ?? node.value,
+                    }),
+                  )
+                : null,
 
               // The check's slot is always reserved (hidden when unselected) so
               // a selected row is no wider than its siblings.

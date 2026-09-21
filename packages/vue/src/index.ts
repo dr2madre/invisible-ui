@@ -365,6 +365,7 @@ export {
 export {
   useTreeView,
   type TreeApi,
+  type TreeLoadRequest,
   type TreeNode,
   type TreeState,
   type UseTreeView,

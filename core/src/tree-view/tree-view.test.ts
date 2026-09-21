@@ -73,6 +73,28 @@ describe("tree state — visible flattening", () => {
       hasChildren: false,
     });
   });
+
+  it("distinguishes leaves, loaded parents, unloaded parents and completed empty loads", () => {
+    const state = initialState({
+      id: "async",
+      nodes: [
+        { value: "leaf" },
+        { value: "loaded", children: [{ value: "child" }] },
+        { value: "remote", hasChildren: true },
+        { value: "empty", hasChildren: true, children: [] },
+      ],
+      loading: ["remote"],
+    });
+    const byValue = new Map(visibleNodes(state).map((node) => [node.value, node]));
+    expect(byValue.get("leaf")).toMatchObject({ hasChildren: false, childrenLoaded: false });
+    expect(byValue.get("loaded")).toMatchObject({ hasChildren: true, childrenLoaded: true });
+    expect(byValue.get("remote")).toMatchObject({
+      hasChildren: true,
+      childrenLoaded: false,
+      loadState: "loading",
+    });
+    expect(byValue.get("empty")).toMatchObject({ hasChildren: false, childrenLoaded: true });
+  });
 });
 
 describe("tree state — navigation (skips disabled, no wrap)", () => {
@@ -150,6 +172,81 @@ describe("tree connect", () => {
     const { api, setExpanded } = wire();
     (api.getItemProps("src").onKeyDown as (e: Event) => void)(keyEvent("ArrowRight"));
     expect(setExpanded).toHaveBeenCalledWith(["src"]);
+  });
+
+  it("requests unloaded children once and identifies each retry", () => {
+    const state = initialState({
+      id: "async",
+      nodes: [{ value: "remote", hasChildren: true }],
+    });
+    const requestLoad = vi.fn();
+    const first = connect({
+      state,
+      setExpanded: vi.fn(),
+      setSelected: vi.fn(),
+      setFocused: vi.fn(),
+      requestLoad,
+    });
+
+    first.toggle("remote");
+    first.toggle("remote");
+    expect(requestLoad).toHaveBeenCalledOnce();
+    expect(requestLoad.mock.calls[0]?.[0]).toMatchObject({ value: "remote" });
+
+    const failed = connect({
+      state: { ...state, expanded: ["remote"], loadErrors: ["remote"] },
+      setExpanded: vi.fn(),
+      setSelected: vi.fn(),
+      setFocused: vi.fn(),
+      requestLoad,
+    });
+    failed.retryLoad("remote");
+    expect(requestLoad).toHaveBeenCalledTimes(2);
+    expect(requestLoad.mock.calls[1]![0].requestId).toBeGreaterThan(
+      requestLoad.mock.calls[0]![0].requestId,
+    );
+  });
+
+  it("does not request again while loading and exposes loading and error semantics", () => {
+    const loading = wire({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loading: ["remote"],
+    });
+    expect(loading.api.getItemProps("remote")).toMatchObject({
+      "aria-expanded": true,
+      "aria-busy": true,
+      "data-load-state": "loading",
+      "aria-describedby": "x-load-status-remote",
+    });
+
+    const requestLoad = vi.fn();
+    const state = make({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loading: ["remote"],
+    });
+    const api = connect({
+      state,
+      setExpanded: vi.fn(),
+      setSelected: vi.fn(),
+      setFocused: vi.fn(),
+      requestLoad,
+    });
+    api.retryLoad("remote");
+    expect(requestLoad).not.toHaveBeenCalled();
+
+    const failed = connect({
+      state: { ...state, loading: [], loadErrors: ["remote"] },
+      setExpanded: vi.fn(),
+      setSelected: vi.fn(),
+      setFocused: vi.fn(),
+    });
+    expect(failed.getItemProps("remote")).toMatchObject({
+      "aria-busy": undefined,
+      "data-load-state": "error",
+      "aria-describedby": "x-load-status-remote",
+    });
   });
 
   it("ArrowRight on an expanded parent moves focus to the first child", () => {
