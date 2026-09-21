@@ -26999,6 +26999,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27007,6 +27008,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "background",
+          "fallback": "transparent"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27041,6 +27049,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27049,6 +27058,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "gap",
+          "fallback": "0.35rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27083,6 +27099,7 @@
         "padding-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27091,6 +27108,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "padding-inline-start",
+          "fallback": "1.1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27125,6 +27149,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27135,6 +27160,13 @@
         "--ds-color-neutral-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27169,6 +27201,7 @@
         "padding-block"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27177,6 +27210,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "padding-block",
+          "fallback": "0.3rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27211,6 +27251,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27221,6 +27262,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27255,6 +27303,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27265,6 +27314,13 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27299,6 +27355,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27309,6 +27366,13 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected:hover",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 16%, transparent)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27343,6 +27407,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27353,6 +27418,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27387,6 +27459,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27395,6 +27468,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",
@@ -27429,6 +27509,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27439,6 +27520,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tree-view/TreeView.svelte",

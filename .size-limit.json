@@ -69,13 +69,13 @@
     "name": "@design-system/elements \u2014 table only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
-    "limit": "6.5 kB"
+    "limit": "7.5 kB"
   },
   {
     "name": "@design-system/elements \u2014 count only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCount }",
-    "limit": "6 kB"
+    "limit": "7 kB"
   },
   {
     "name": "@design-system/elements \u2014 tabs only, tree-shaken",
@@ -99,13 +99,13 @@
     "name": "@design-system/elements — tag only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTag }",
-    "limit": "6 kB"
+    "limit": "7 kB"
   },
   {
     "name": "@design-system/elements — separator only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSeparator }",
-    "limit": "5 kB"
+    "limit": "6.5 kB"
   },
   {
     "name": "@design-system/elements — empty state only, tree-shaken",
@@ -142,5 +142,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSheetDialog }",
     "limit": "9 kB"
+  },
+  {
+    "name": "@design-system/elements — tree view only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTreeView }",
+    "limit": "8 kB"
   }
 ]

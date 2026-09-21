@@ -28,6 +28,7 @@ import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
 import { DsTabs } from "./tabs/ds-tabs";
 import { DsTag } from "./tag/ds-tag";
+import { DsTreeView } from "./tree-view/ds-tree-view";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -61,5 +62,6 @@ define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
+define("ds-tree-view", DsTreeView);
 
 export {};

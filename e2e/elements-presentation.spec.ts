@@ -190,3 +190,35 @@ test("Elements Sheet Dialog stays open for inside presses and restores focus", a
   await expect(panel).toHaveCount(0);
   await expect(trigger).toBeFocused();
 });
+
+test("Elements Tree View expands, selects and navigates from the keyboard", async ({ page }) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-tree-view");
+    const tree = document.createElement("ds-tree-view") as HTMLElement & {
+      nodes: unknown[];
+      expanded: string[];
+    };
+    tree.setAttribute("label", "Project files");
+    tree.nodes = [
+      { value: "src", children: [{ value: "index.ts" }, { value: "button.ts" }] },
+      { value: "package.json" },
+    ];
+    tree.expanded = ["src"];
+    document.body.appendChild(tree);
+  });
+
+  const tree = page.getByRole("tree", { name: "Project files" });
+  const src = tree.getByRole("treeitem", { name: /src/ });
+  await src.focus();
+  await page.keyboard.press("ArrowDown");
+  const index = tree.getByRole("treeitem", { name: /index\.ts/ });
+  await expect(index).toBeFocused();
+  await page.keyboard.press("Space");
+  await expect(index).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("ArrowLeft");
+  await expect(src).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(src).toHaveAttribute("aria-expanded", "false");
+  await expect(tree.getByRole("treeitem", { name: /index\.ts/ })).toHaveCount(0);
+});
