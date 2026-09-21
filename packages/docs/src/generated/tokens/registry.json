@@ -17377,6 +17377,7 @@
         "border-color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17387,6 +17388,20 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "border-color",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",
@@ -17435,6 +17450,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17445,6 +17461,13 @@
         "--ds-color-on-emphasis"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",
@@ -17479,6 +17502,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17487,6 +17511,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",
@@ -17521,6 +17552,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17531,6 +17563,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",
@@ -17566,6 +17605,7 @@
         "min-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17574,6 +17614,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "min-inline-size",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "block-size",
+          "fallback": "2rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/pagination/Pagination.svelte",

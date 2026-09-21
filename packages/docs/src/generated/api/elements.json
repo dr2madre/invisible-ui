@@ -74,6 +74,11 @@
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
     },
     {
+      "name": "DsPagination",
+      "kind": "class",
+      "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
