@@ -118,5 +118,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsErrorState }",
     "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — inline notification only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsInlineNotification }",
+    "limit": "8 kB"
   }
 ]

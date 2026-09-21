@@ -79,6 +79,11 @@
       "signature": "declare class DsField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsInlineNotification",
+      "kind": "class",
+      "signature": "declare class DsInlineNotification extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
+    },
+    {
       "name": "DsLabel",
       "kind": "class",
       "signature": "declare class DsLabel extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"

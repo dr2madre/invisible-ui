@@ -4456,6 +4456,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4464,6 +4465,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification",
+          "property": "padding",
+          "fallback": "0.875rem 1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -4498,6 +4506,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4508,6 +4517,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -9673,6 +9689,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9681,6 +9698,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification__close",
+          "property": "color",
+          "fallback": "inherit"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -9715,6 +9739,7 @@
         "--ds-button-icon-min"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9724,6 +9749,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack] .inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-min",
+          "fallback": "2.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -9772,6 +9811,7 @@
         "--ds-button-icon-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9780,6 +9820,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification__close",
+          "property": "--ds-button-icon-size",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -22757,6 +22804,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -22765,6 +22813,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack] .feedback-icon",
+          "property": "inline-size",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack] .feedback-icon",
+          "property": "block-size",
+          "fallback": "1.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -22813,6 +22875,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -22821,6 +22884,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack]",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem 0.5rem 1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
@@ -22855,6 +22925,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -22865,6 +22936,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/inline-notification.css",
+          "selector": ".inline-notification[data-snack]",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
