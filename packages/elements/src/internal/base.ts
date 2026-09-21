@@ -72,6 +72,13 @@ export function boolAttr(el: Element, name: string, fallback = false): boolean {
   return el.getAttribute(name) !== "false";
 }
 
+/** Keep a native control attribute aligned with its custom-element host. */
+export function syncAttribute(source: Element, target: Element, name: string): void {
+  const value = source.getAttribute(name);
+  if (value == null) target.removeAttribute(name);
+  else target.setAttribute(name, value);
+}
+
 /**
  * A property set before the element upgraded is stranded on the instance,
  * shadowing the class accessor. Standard custom-element boilerplate: delete

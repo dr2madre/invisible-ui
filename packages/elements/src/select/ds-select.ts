@@ -1,4 +1,11 @@
-import { boolAttr, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import {
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  syncAttribute,
+  upgradeProperty,
+} from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 import { chevronIcon } from "../internal/icons";
 
@@ -25,7 +32,7 @@ export interface SelectItem {
  * …or from the `items` property (`{value, label?, disabled?}[]`).
  *
  * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
- * `disabled`, `width` (wrap|fill|fixed), `name`, `required`, `error`.
+ * `disabled`, `width` (wrap|fill|fixed), `name`, `required`, `error`, `title`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsSelect extends HTMLElementBase {
@@ -39,6 +46,7 @@ export class DsSelect extends HTMLElementBase {
     "placeholder",
     "hide-label",
     "width",
+    "title",
   ];
 
   #select: HTMLSelectElement | null = null;
@@ -203,6 +211,7 @@ export class DsSelect extends HTMLElementBase {
     if (name) select.name = name;
     else select.removeAttribute("name");
     select.required = boolAttr(this, "required");
+    syncAttribute(this, select, "title");
 
     // The placeholder option is rebuilt by #renderOptions, so refresh its text
     // here too — the attribute can change without the item list moving.

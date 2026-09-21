@@ -106,6 +106,17 @@ describe("<ds-select>", () => {
     expect(select().querySelector("option[value='']")).toHaveTextContent("Pick one…");
   });
 
+  it("keeps title on the native select", () => {
+    const host = mount(MARKUP.replace('name="fruit"', 'name="fruit" title="Choose a fruit"'));
+    expect(select()).toHaveAttribute("title", "Choose a fruit");
+
+    host.setAttribute("title", "Updated help");
+    expect(select()).toHaveAttribute("title", "Updated help");
+
+    host.removeAttribute("title");
+    expect(select()).not.toHaveAttribute("title");
+  });
+
   it("has no accessibility violations", async () => {
     mount(MARKUP);
     expect(await axe(document.body)).toHaveNoViolations();

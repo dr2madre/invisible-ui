@@ -101,6 +101,24 @@ describe("<ds-button>", () => {
     expect(screen.getByRole("button", { name: "Close" })).toHaveClass("button--icon-only");
   });
 
+  it("keeps popup relationships and title on the native button", () => {
+    mount(
+      `<ds-button aria-haspopup="dialog" aria-controls="details" title="Show details">Open</ds-button>`,
+    );
+    const host = document.querySelector("ds-button")!;
+    const button = screen.getByRole("button");
+    expect(button).toHaveAttribute("aria-haspopup", "dialog");
+    expect(button).toHaveAttribute("aria-controls", "details");
+    expect(button).toHaveAttribute("title", "Show details");
+
+    host.setAttribute("aria-controls", "updated-details");
+    host.removeAttribute("aria-haspopup");
+    host.removeAttribute("title");
+    expect(button).toHaveAttribute("aria-controls", "updated-details");
+    expect(button).not.toHaveAttribute("aria-haspopup");
+    expect(button).not.toHaveAttribute("title");
+  });
+
   it("has no accessibility violations", async () => {
     mount(`<ds-button>Save</ds-button>`);
     expect(await axe(document.body)).toHaveNoViolations();
