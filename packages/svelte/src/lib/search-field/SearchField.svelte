@@ -209,4 +209,9 @@
   .search-field__action:disabled {
     cursor: not-allowed;
   }
+  @media (forced-colors: active) {
+    .search-field__input:focus-visible {
+      outline-offset: calc(-1 * var(--ds-focus-ring-width, 2px));
+    }
+  }
 </style>
