@@ -136,3 +136,31 @@ test("Elements Loading exposes determinate progress and live status semantics", 
   await expect(page.getByRole("status")).toContainText("Connecting…");
   await expect(page.getByRole("status")).toHaveAttribute("aria-atomic", "true");
 });
+
+test("Elements Loading Generation Area replaces its placeholder with completed content", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-loading-generation-area");
+    document.body.innerHTML = `
+      <ds-loading-generation-area status="Rendering" value="40" detail="3 of 8 files"
+        label-position="bottom">
+        <span slot="indicator">Custom indicator</span>
+        <p>Generated result</p>
+      </ds-loading-generation-area>`;
+  });
+
+  const host = page.locator("ds-loading-generation-area");
+  const status = page.getByRole("status");
+  await expect(status).toBeVisible();
+  await expect(status).toContainText("Rendering");
+  await expect(status).toContainText("40%");
+  await expect(status).toContainText("Custom indicator");
+  await expect(status).toHaveAttribute("data-position", "bottom");
+  await expect(page.getByText("Generated result")).toHaveCount(0);
+
+  await host.evaluate((element) => element.setAttribute("loading", "false"));
+  await expect(status).toHaveCount(0);
+  await expect(page.getByText("Generated result")).toBeVisible();
+});

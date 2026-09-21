@@ -15162,6 +15162,7 @@
         "background-image"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15170,6 +15171,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-image",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-image",
+          "fallback": "1px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15218,6 +15233,7 @@
         "background-image"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15226,6 +15242,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-image",
+          "fallback": "2.5px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-image",
+          "fallback": "2.5px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15274,6 +15304,7 @@
         "animation"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15282,6 +15313,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "animation",
+          "fallback": "7s"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15316,6 +15354,7 @@
         "background-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15324,6 +15363,34 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15400,6 +15467,7 @@
         "min-block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15408,6 +15476,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area",
+          "property": "min-block-size",
+          "fallback": "6rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15442,6 +15517,7 @@
         "animation"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15450,6 +15526,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__content",
+          "property": "animation",
+          "fallback": "240ms"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15484,6 +15567,7 @@
         "margin"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15492,6 +15576,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
+          "property": "margin",
+          "fallback": "0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15526,6 +15617,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15534,6 +15626,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15628,6 +15727,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
+          "property": "font-size",
+          "fallback": "0.8125em"
+        },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading.css",

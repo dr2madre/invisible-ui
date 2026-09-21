@@ -130,5 +130,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoading }",
     "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — loading generation area only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsLoadingGenerationArea }",
+    "limit": "7 kB"
   }
 ]
