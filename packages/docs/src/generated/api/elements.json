@@ -89,6 +89,11 @@
       "signature": "declare class DsLabel extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsLoading",
+      "kind": "class",
+      "signature": "declare class DsLoading extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; }"
+    },
+    {
       "name": "DsMultiSelect",
       "kind": "class",
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
@@ -147,6 +152,11 @@
       "name": "DsTextarea",
       "kind": "class",
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
+    },
+    {
+      "name": "LoadingVariant",
+      "kind": "type",
+      "signature": "type LoadingVariant = \"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\";"
     },
     {
       "name": "MultiSelectItem",

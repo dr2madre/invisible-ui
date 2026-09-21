@@ -112,3 +112,27 @@ test("Elements Inline Notification announces feedback and dismisses from the key
   );
   await expect(page.locator(".inline-notification")).toHaveCount(0);
 });
+
+test("Elements Loading exposes determinate progress and live status semantics", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-loading");
+    document.body.innerHTML = `
+      <ds-loading variant="bar" value="48" label="Importing files" show-value
+        detail="3 of 8 files"></ds-loading>`;
+  });
+
+  const progress = page.getByRole("progressbar", { name: "Importing files" });
+  await expect(progress).toHaveAttribute("aria-valuenow", "48");
+  await expect(progress).toHaveAttribute("aria-valuetext", "3 of 8 files");
+  await expect(progress.locator(".loading__fill")).toHaveCSS("inline-size", /.+/);
+  await page.locator("ds-loading").evaluate((host) => {
+    host.removeAttribute("value");
+    host.setAttribute("variant", "spinner");
+    host.setAttribute("status", "Connecting…");
+  });
+  await expect(page.getByRole("status")).toContainText("Connecting…");
+  await expect(page.getByRole("status")).toHaveAttribute("aria-atomic", "true");
+});

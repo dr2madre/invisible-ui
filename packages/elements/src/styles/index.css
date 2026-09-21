@@ -19,6 +19,7 @@
 @import "./empty-state.css";
 @import "./error-state.css";
 @import "./inline-notification.css";
+@import "./loading.css";
 @import "./select.css";
 @import "./field.css";
 @import "./label.css";

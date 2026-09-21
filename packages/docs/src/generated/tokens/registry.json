@@ -14854,6 +14854,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14862,6 +14863,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__track",
+          "property": "block-size",
+          "fallback": "3px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -14896,6 +14904,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14904,6 +14913,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading[data-variant=\"bar\"]",
+          "property": "gap",
+          "fallback": "0.375em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -14939,6 +14955,7 @@
         "animation-delay"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14949,6 +14966,48 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__dot",
+          "property": "animation",
+          "fallback": "1.2s"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__dot:nth-child(2)",
+          "property": "animation-delay",
+          "fallback": "1.2s"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__dot:nth-child(3)",
+          "property": "animation-delay",
+          "fallback": "1.2s"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__segment",
+          "property": "animation",
+          "fallback": "1.4s"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__shape",
+          "property": "animation",
+          "fallback": "2s"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__spinner",
+          "property": "animation",
+          "fallback": "1.2s"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -15053,6 +15112,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15061,6 +15121,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__indicator",
+          "property": "gap",
+          "fallback": "0.25em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -15501,6 +15568,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15509,6 +15577,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading",
+          "property": "gap",
+          "fallback": "0.625em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -15544,6 +15619,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15552,6 +15628,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__label",
+          "property": "font-size",
+          "fallback": "0.8125em"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__status",
+          "property": "font-size",
+          "fallback": "0.8125em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading-generation-area/LoadingGenerationArea.svelte",
@@ -15615,6 +15705,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15623,6 +15714,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__dot",
+          "property": "inline-size",
+          "fallback": "0.3em"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__dot",
+          "property": "block-size",
+          "fallback": "0.3em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
@@ -15672,6 +15777,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15680,6 +15786,34 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__shape",
+          "property": "inline-size",
+          "fallback": "1em"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__shape",
+          "property": "block-size",
+          "fallback": "1em"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__spinner",
+          "property": "inline-size",
+          "fallback": "1em"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/loading.css",
+          "selector": ".loading__spinner",
+          "property": "block-size",
+          "fallback": "1em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/loading/Loading.svelte",
