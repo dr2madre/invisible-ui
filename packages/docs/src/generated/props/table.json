@@ -192,8 +192,54 @@
         "name": "ds-table",
         "specifier": "@design-system/elements/define"
       },
-      "attributes": [],
-      "notes": []
+      "attributes": [
+        {
+          "name": "caption",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-caption",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "sort-key",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "sort-direction",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "selection-column",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "empty-text",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `columns`, `rows`, `sort`, `getValue`, `getRowId`, `renderCell`, `isRowSelected`, `renderSelectionHeader`, `renderSelectionCell`, `renderEmpty`. `renderEmpty` supplies rich DOM content when there are no rows; `empty-text` is the text-only alternative.",
+        "Emits: `sort-toggle` (`detail.key`) after a sortable header is activated."
+      ]
     }
   }
 }

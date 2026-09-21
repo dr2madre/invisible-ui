@@ -53,6 +53,14 @@ const appendContent = (parent: HTMLElement, content: TableCellContent) => {
  * `renderCell` is the Elements equivalent of the adapters' scoped cell slot.
  * It may return a DOM Node or a scalar value. Strings are inserted as text,
  * never parsed as HTML.
+ *
+ * Attributes: `caption`, `hide-caption`, `sort-key`, `sort-direction`,
+ * `selection-column`, `empty-text`.
+ * Properties: `columns`, `rows`, `sort`, `getValue`, `getRowId`, `renderCell`,
+ * `isRowSelected`, `renderSelectionHeader`, `renderSelectionCell`,
+ * `renderEmpty`. `renderEmpty` supplies rich DOM content when there are no
+ * rows; `empty-text` is the text-only alternative.
+ * Emits: `sort-toggle` (`detail.key`) after a sortable header is activated.
  */
 export class DsTable extends HTMLElementBase {
   static observedAttributes = [
@@ -61,6 +69,7 @@ export class DsTable extends HTMLElementBase {
     "sort-key",
     "sort-direction",
     "selection-column",
+    "empty-text",
   ];
 
   #columns: TableColumnDef[] = [];
@@ -71,6 +80,7 @@ export class DsTable extends HTMLElementBase {
   #isRowSelected: ((row: TableRow, rowIndex: number) => boolean) | null = null;
   #renderSelectionHeader: (() => TableCellContent) | null = null;
   #renderSelectionCell: ((context: TableSelectionCellContext) => TableCellContent) | null = null;
+  #renderEmpty: (() => TableCellContent) | null = null;
   #connected = false;
 
   connectedCallback() {
@@ -84,6 +94,7 @@ export class DsTable extends HTMLElementBase {
       "isRowSelected",
       "renderSelectionHeader",
       "renderSelectionCell",
+      "renderEmpty",
     ])
       upgradeProperty(this, property);
     this.#connected = true;
@@ -175,6 +186,14 @@ export class DsTable extends HTMLElementBase {
     if (this.#connected) this.#render();
   }
 
+  get renderEmpty() {
+    return this.#renderEmpty;
+  }
+  set renderEmpty(value: (() => TableCellContent) | null) {
+    this.#renderEmpty = typeof value === "function" ? value : null;
+    if (this.#connected) this.#render();
+  }
+
   #render() {
     this.textContent = "";
     const table = document.createElement("table");
@@ -238,6 +257,16 @@ export class DsTable extends HTMLElementBase {
       }
       body.appendChild(tr);
     });
+    if (this.#rows.length === 0 && (this.#renderEmpty || this.hasAttribute("empty-text"))) {
+      const tr = document.createElement("tr");
+      tr.className = "table__row";
+      const td = document.createElement("td");
+      td.className = "table__td table__empty";
+      td.colSpan = Math.max(1, this.#columns.length + (selectionColumn ? 1 : 0));
+      appendContent(td, this.#renderEmpty ? this.#renderEmpty() : this.getAttribute("empty-text"));
+      tr.appendChild(td);
+      body.appendChild(tr);
+    }
     table.appendChild(body);
     this.appendChild(table);
   }

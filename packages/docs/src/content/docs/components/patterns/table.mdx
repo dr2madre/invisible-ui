@@ -68,6 +68,20 @@ reports a requested sort and leaves row ordering to the application:
 </script>
 ```
 
+### Empty state in Elements
+
+Keep an empty result inside the table instead of hiding the table and
+coordinating a separate message. Use `empty-text` for plain text. The component
+renders one body cell spanning every visible structural column and removes it
+when `rows` becomes non-empty.
+
+```html
+<ds-table caption="Columns" empty-text="Choose a table from the catalog"></ds-table>
+```
+
+For structured content, assign a `renderEmpty` function that returns a DOM
+node. Returned strings are inserted as text and are never parsed as HTML.
+
 Themeable via `--ds-table-*`. The header stays transparent by default. Set
 `--ds-table-header-background` on the table or an ancestor when the header
 needs its own fill; this component token does not create a new global surface

@@ -37,3 +37,33 @@ test("Elements Table keeps native semantics and reports controlled sorting", asy
   await expect(page.locator("ds-table")).toHaveAttribute("data-requested-sort", "name");
   await expect(nameHeader).toHaveAttribute("aria-sort", "ascending");
 });
+
+test("Elements Table keeps its empty state inside the native table", async ({ page }) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-table");
+    document.body.innerHTML = `<ds-table caption="Columns" empty-text="Choose a table from the catalog"></ds-table>`;
+    const table = document.querySelector("ds-table") as HTMLElement & {
+      columns: Array<{ key: string; header: string }>;
+      rows: Array<Record<string, unknown>>;
+    };
+    table.columns = [
+      { key: "name", header: "Name" },
+      { key: "type", header: "Type" },
+    ];
+    table.rows = [];
+  });
+
+  const table = page.getByRole("table", { name: "Columns" });
+  const empty = table.getByRole("cell", { name: "Choose a table from the catalog" });
+  await expect(empty).toBeVisible();
+  await expect(empty).toHaveAttribute("colspan", "2");
+
+  await page.locator("ds-table").evaluate((element) => {
+    (element as HTMLElement & { rows: Array<Record<string, unknown>> }).rows = [
+      { name: "ImportEvents", type: "table" },
+    ];
+  });
+  await expect(empty).toHaveCount(0);
+  await expect(table.getByRole("cell", { name: "ImportEvents" })).toBeVisible();
+});
