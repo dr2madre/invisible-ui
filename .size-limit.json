@@ -136,5 +136,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoadingGenerationArea }",
     "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — sheet dialog only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSheetDialog }",
+    "limit": "9 kB"
   }
 ]

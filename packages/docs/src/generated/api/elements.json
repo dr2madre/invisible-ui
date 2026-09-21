@@ -129,6 +129,11 @@
       "signature": "declare class DsSeparator extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get decorative(): boolean; set decorative(value: boolean); }"
     },
     {
+      "name": "DsSheetDialog",
+      "kind": "class",
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private description; private closeButton; private handle; }"
+    },
+    {
       "name": "DsSwitch",
       "kind": "class",
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
@@ -187,6 +192,11 @@
       "name": "SeparatorOrientation",
       "kind": "type",
       "signature": "type SeparatorOrientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "SheetDialogSide",
+      "kind": "type",
+      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
     },
     {
       "name": "SortDirection",

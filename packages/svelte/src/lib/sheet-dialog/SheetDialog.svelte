@@ -167,7 +167,7 @@
   .sheet-dialog__panel::backdrop {
     background: var(--ds-dialog-overlay, rgb(28 25 21 / 0.5));
   }
-  .sheet-dialog__panel {
+  .sheet-dialog__panel[open] {
     position: fixed;
     margin: 0;
     box-sizing: border-box;

@@ -40,6 +40,7 @@ export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";
 export { DsSearchField } from "./search-field/ds-search-field";
+export { DsSheetDialog, type SheetDialogSide } from "./sheet-dialog/ds-sheet-dialog";
 export {
   DsTable,
   type SortDirection,
