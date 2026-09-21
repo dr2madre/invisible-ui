@@ -82,5 +82,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTabs }",
     "limit": "8 kB"
+  },
+  {
+    "name": "@design-system/elements — pagination only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsPagination }",
+    "limit": "7 kB"
   }
 ]

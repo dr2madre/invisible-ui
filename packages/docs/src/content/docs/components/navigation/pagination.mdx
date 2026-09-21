@@ -32,4 +32,23 @@ page, and ellipses.
 <Pagination page={3} pageCount={10} onPageChange={(p) => (page = p)} />
 ```
 
+With Elements, use attributes for configuration and listen for the bubbling
+`change` event. Its detail contains the committed `page`.
+
+```html
+<ds-pagination page="3" page-count="10" label="Catalog pages"></ds-pagination>
+
+<script type="module">
+  import "@design-system/elements/define";
+
+  const pagination = document.querySelector("ds-pagination");
+  pagination.addEventListener("change", (event) => {
+    pagination.page = event.detail.page;
+  });
+</script>
+```
+
+Use `previous-label`, `next-label` and `page-label` to localize the control.
+The `page-label` value supports the `{page}` placeholder.
+
 Themeable via `--ds-pagination-*`.

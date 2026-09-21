@@ -146,6 +146,81 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-pagination",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "page",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "page-count",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "sibling-count",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "boundary-count",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "previous-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "next-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "page-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Emits: `change` (`detail.page`) after a user action changes the page."
+      ]
     }
   }
 }

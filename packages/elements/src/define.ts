@@ -8,6 +8,7 @@ import { DsCheckbox } from "./checkbox/ds-checkbox";
 import { DsCombobox } from "./combobox/ds-combobox";
 import { DsCount } from "./count/ds-count";
 import { DsMultiSelect } from "./multi-select/ds-multi-select";
+import { DsPagination } from "./pagination/ds-pagination";
 import { DsDialog } from "./dialog/ds-dialog";
 import { DsField } from "./field/ds-field";
 import { DsLabel } from "./label/ds-label";
@@ -41,5 +42,6 @@ define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
+define("ds-pagination", DsPagination);
 
 export {};
