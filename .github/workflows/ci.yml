@@ -1,11 +1,16 @@
 name: CI
 
-# Per-PR quality gate. Every non-browser check lives in scripts/gate.mjs and
-# runs from there, here and locally (`pnpm gate`). scripts/gate.test.mjs holds
-# this file to one job with these five steps and nothing else.
+# The quality gate. Every non-browser check lives in scripts/gate.mjs and runs
+# from there, here and locally (`pnpm gate`). scripts/gate.test.mjs holds this
+# file to one job with these five steps and nothing else.
+#
+# It runs on pull requests and again on `main`: a branch can be green and the
+# merge still red, and without the second run nobody sees it.
 
 on:
   pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -33,7 +38,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       # The same entry point a contributor runs. The changeset step compares
-      # against the PR's base; on a manual run there is none and it is skipped.
+      # against the PR's base; without a pull request there is none, so that
+      # one step is skipped and the rest still run.
       - name: Gate
         run: pnpm gate
         env:
