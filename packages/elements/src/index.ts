@@ -45,7 +45,10 @@ export {
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { DsCount, type CountStatus } from "./count/ds-count";
+export { DsCard } from "./card/ds-card";
 export { DsPagination } from "./pagination/ds-pagination";
+export { DsSeparator, type SeparatorOrientation } from "./separator/ds-separator";
+export { DsTag, type TagStatus } from "./tag/ds-tag";
 export {
   DsTabs,
   type TabsActivationMode,

@@ -53,6 +53,30 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-separator",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "`horizontal` or `vertical`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "decorative",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": []
     }
   }
 }

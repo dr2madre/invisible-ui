@@ -31,4 +31,15 @@ Slots: `media`, `icon`, `title`, `description`, `tags`, `actions`, default
 <Card variant="dashboard" title="Revenue" value="€48,200" change="+12.5%" trend="up" />
 ```
 
+In Elements, text values use attributes and rich regions stay in light DOM.
+Mark region content with `slot`; unslotted children become the body:
+
+```html
+<ds-card title="Database" description="AdventureWorks" orientation="horizontal">
+  <ds-tag slot="tags" status="success">Connected</ds-tag>
+  <p>12 tables available.</p>
+  <ds-button slot="actions">Open</ds-button>
+</ds-card>
+```
+
 Themeable via `--ds-card-*`.

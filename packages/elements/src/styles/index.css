@@ -1,13 +1,14 @@
-/* The React adapter's stylesheet: design tokens plus the styled components.
+/* The Elements adapter's stylesheet: design tokens plus the styled components.
    Import once at the app root:
 
-     import "@design-system/react/styles.css";
+     import "@design-system/elements/styles.css";
 
    For tokens only (when you style the components yourself), import
-   `@design-system/react/tokens.css` instead. */
+   `@design-system/elements/tokens.css` instead. */
 
 @import "./tokens.css";
 @import "./button.css";
+@import "./card.css";
 @import "./checkbox.css";
 @import "./tag.css";
 @import "./multi-select.css";
@@ -19,6 +20,7 @@
 @import "./label.css";
 @import "./text-field.css";
 @import "./search-field.css";
+@import "./separator.css";
 @import "./table.css";
 @import "./textarea.css";
 @import "./radio-group.css";

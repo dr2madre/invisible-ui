@@ -43,6 +43,8 @@ const VUE_SHEETS = [
   "count.css",
   "tabs.css",
   "pagination.css",
+  "card.css",
+  "separator.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

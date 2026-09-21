@@ -190,6 +190,86 @@
         "tags",
         "title"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-card",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "`media` or `dashboard`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "`vertical` or `horizontal`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "image-src",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "image-alt",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "title",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "heading-level",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "change",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "trend",
+          "reactive": true,
+          "required": false,
+          "description": "`up`, `down`, or `neutral`",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }
