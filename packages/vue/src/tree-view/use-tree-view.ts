@@ -14,6 +14,7 @@ import { useStableId } from "../internal/use-stable-id";
 export type TreeNode = core.TreeNode;
 export type TreeApi = core.TreeApi;
 export type TreeState = core.TreeState;
+export type TreeLoadRequest = core.TreeLoadRequest;
 export type VisibleNode = core.VisibleNode;
 
 export interface UseTreeViewOptions {
@@ -23,11 +24,17 @@ export interface UseTreeViewOptions {
   expanded?: string[];
   /** Selected value (controlled), or `null`. */
   selected?: string | null;
+  /** Unloaded parent values with an active request. */
+  loading?: string[];
+  /** Unloaded parent values whose latest request failed. */
+  loadErrors?: string[];
   disabled?: boolean;
   /** Called whenever the expanded set changes. */
   onExpandedChange?: (expanded: string[]) => void;
   /** Called whenever the selected value changes. */
   onSelectedChange?: (selected: string) => void;
+  /** Requests children from the application; the component never fetches. */
+  onLoadChildren?: (request: TreeLoadRequest) => void;
 }
 
 export interface UseTreeView {
@@ -59,11 +66,27 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
   const expanded = ref<string[]>(seed.expanded);
   const selected = ref<string | null>(seed.selected);
   const focused = ref<string | null>(null);
+  const loading = ref<string[]>(seed.loading);
+  const loadErrors = ref<string[]>(seed.loadErrors);
 
   watch(
     () => resolved.value.expanded,
     (next) => {
       if (next) expanded.value = next;
+    },
+  );
+
+  watch(
+    () => resolved.value.loading,
+    (next) => {
+      if (next) loading.value = next;
+    },
+  );
+
+  watch(
+    () => resolved.value.loadErrors,
+    (next) => {
+      if (next) loadErrors.value = next;
     },
   );
 
@@ -99,10 +122,19 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
     el?.focus();
   };
 
+  const requestLoad = (request: TreeLoadRequest) => {
+    if (loading.value.includes(request.value)) return;
+    loading.value = [...loading.value, request.value];
+    loadErrors.value = loadErrors.value.filter((value) => value !== request.value);
+    resolved.value.onLoadChildren?.(request);
+  };
+
   const state = computed<TreeState>(() => ({
     nodes: resolved.value.nodes,
     expanded: expanded.value,
     selected: selected.value,
+    loading: loading.value,
+    loadErrors: loadErrors.value,
     focused: focused.value,
     disabled: resolved.value.disabled ?? false,
     id: seed.id,
@@ -115,6 +147,7 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
       setSelected,
       setFocused,
       focus,
+      requestLoad,
       normalize: normalizeProps,
     }),
   );

@@ -34,6 +34,22 @@
           "descriptionFrom": "none"
         },
         {
+          "name": "loading",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": "Unloaded parent values with an active request.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loadErrors",
+          "type": "string[]",
+          "default": "[]",
+          "required": false,
+          "description": "Unloaded parent values whose latest request failed.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "disabled",
           "type": "boolean",
           "default": "false",
@@ -72,6 +88,14 @@
           "required": false,
           "description": "Called when the selection changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "onLoadChildren",
+          "type": "((request: TreeLoadRequest) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Requests children from the application; the component never fetches.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -104,6 +128,22 @@
           "default": "null",
           "required": false,
           "description": "Selected value; bindable with `v-model:selected`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loading",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Unloaded parent values with an active request.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loadErrors",
+          "type": "string[]",
+          "default": "() => []",
+          "required": false,
+          "description": "Unloaded parent values whose latest request failed.",
           "descriptionFrom": "source"
         },
         {
@@ -145,6 +185,14 @@
           "required": false,
           "description": "Called whenever the selected value changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "onLoadChildren",
+          "type": "(request: TreeLoadRequest) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Requests children from the application; the component never fetches.",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [
@@ -170,7 +218,7 @@
       },
       "attributes": [],
       "notes": [
-        "Emits: `expanded-change` with `detail.expanded`, and `selected-change` with `detail.selected`. Property reflection never emits either event."
+        "Emits: `expanded-change` with `detail.expanded`, `selected-change` with `detail.selected`, and `load-children` with `detail.value` and `detail.requestId`. Property reflection never emits any of them."
       ]
     }
   }

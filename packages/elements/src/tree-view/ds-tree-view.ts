@@ -2,6 +2,7 @@ import { treeView as core } from "@design-system/core";
 import { applyProps, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
 
 export type TreeNode = core.TreeNode;
+export type TreeLoadRequest = core.TreeLoadRequest;
 
 const twistieIcon = `
   <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
@@ -19,24 +20,34 @@ const checkIcon = `
  * `<ds-tree-view>` implements the single-select WAI-ARIA tree pattern.
  *
  * Set `nodes` as a property to a nested `TreeNode[]`; `expanded`, `selected`,
- * and `labels` are reactive properties. The `label` and `disabled` attributes
- * are reactive.
+ * `loading`, `loadErrors`, and `labels` are reactive properties. The `label`,
+ * `disabled`, `loading-label`, and `load-error-label` attributes are reactive.
  *
- * Emits: `expanded-change` with `detail.expanded`, and `selected-change` with
- * `detail.selected`. Property reflection never emits either event.
+ * A node with `hasChildren: true` and no `children` is an unloaded parent.
+ * Expanding it, or pressing Right Arrow on it, fires `load-children` with
+ * `detail.value` and `detail.requestId`; the element never fetches. Reflect
+ * the request through `loading`, then replace `nodes` and clear `loading` on
+ * success, or move the value to `loadErrors` on failure. The twistie or Right
+ * Arrow on a failed node retries with a new request id.
+ *
+ * Emits: `expanded-change` with `detail.expanded`, `selected-change` with
+ * `detail.selected`, and `load-children` with `detail.value` and
+ * `detail.requestId`. Property reflection never emits any of them.
  */
 export class DsTreeView extends HTMLElementBase {
-  static observedAttributes = ["label", "disabled"];
+  static observedAttributes = ["label", "disabled", "loading-label", "load-error-label"];
 
   #nodes: TreeNode[] = [];
   #expanded: string[] = [];
   #selected: string | null = null;
+  #loading: string[] = [];
+  #loadErrors: string[] = [];
   #focused: string | null = null;
   #labels: Record<string, string> = {};
   #id = nextId("ds-tree");
 
   connectedCallback() {
-    for (const property of ["nodes", "expanded", "selected", "labels"]) {
+    for (const property of ["nodes", "expanded", "selected", "loading", "loadErrors", "labels"]) {
       upgradeProperty(this, property);
     }
     this.#render();
@@ -65,6 +76,22 @@ export class DsTreeView extends HTMLElementBase {
   get selected() {
     return this.#selected;
   }
+
+  get loading() {
+    return this.#loading;
+  }
+  set loading(value: string[]) {
+    this.#loading = Array.isArray(value) ? [...new Set(value)] : [];
+    if (this.isConnected) this.#render();
+  }
+
+  get loadErrors() {
+    return this.#loadErrors;
+  }
+  set loadErrors(value: string[]) {
+    this.#loadErrors = Array.isArray(value) ? [...new Set(value)] : [];
+    if (this.isConnected) this.#render();
+  }
   set selected(value: string | null) {
     this.#selected = typeof value === "string" ? value : null;
     if (this.isConnected) this.#render();
@@ -83,6 +110,8 @@ export class DsTreeView extends HTMLElementBase {
       nodes: this.#nodes,
       expanded: this.#expanded,
       selected: this.#selected,
+      loading: this.#loading,
+      loadErrors: this.#loadErrors,
       focused: this.#focused,
       disabled: this.hasAttribute("disabled"),
       id: this.id || this.#id,
@@ -114,6 +143,13 @@ export class DsTreeView extends HTMLElementBase {
         }
       },
       focus: (value) => this.#item(value)?.focus(),
+      requestLoad: (request) => {
+        if (this.#loading.includes(request.value)) return;
+        this.#loading = [...this.#loading, request.value];
+        this.#loadErrors = this.#loadErrors.filter((value) => value !== request.value);
+        this.#render();
+        emit(this, "load-children", request);
+      },
     });
   }
 
@@ -146,7 +182,8 @@ export class DsTreeView extends HTMLElementBase {
         twistie.innerHTML = twistieIcon;
         twistie.addEventListener("click", (event) => {
           event.stopPropagation();
-          this.#api().toggle(node.value);
+          if (node.loadState === "error") this.#api().retryLoad(node.value);
+          else this.#api().toggle(node.value);
         });
         item.appendChild(twistie);
       } else {
@@ -157,9 +194,29 @@ export class DsTreeView extends HTMLElementBase {
       }
 
       const label = document.createElement("span");
+      label.id = node.labelId;
       label.className = "tree__label";
       label.textContent = this.#labels[node.value] ?? node.value;
       item.appendChild(label);
+
+      if (node.loadState === "loading" || node.loadState === "error") {
+        const status = document.createElement("span");
+        status.id = node.loadStatusId;
+        status.className = "tree__load-status";
+        if (node.loadState === "error") status.classList.add("tree__load-status--error");
+        status.setAttribute("role", "status");
+        status.setAttribute("aria-live", "polite");
+        status.setAttribute("aria-atomic", "true");
+        const name = this.#labels[node.value] ?? node.value;
+        const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
+        const template =
+          this.getAttribute(attribute) ??
+          (node.loadState === "error"
+            ? "Could not load {name}. Press Right Arrow to retry."
+            : "Loading {name}…");
+        status.textContent = template.replaceAll("{name}", name);
+        item.appendChild(status);
+      }
 
       const check = document.createElement("span");
       check.className = "tree__check";

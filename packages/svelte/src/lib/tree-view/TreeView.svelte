@@ -14,11 +14,23 @@
    * which keeps the DOM order aligned with keyboard navigation. The control needs
    * an accessible name via `label`. Colors are themeable (`--ds-tree-*`).
    */
-  import { createTreeView, type TreeContext, type TreeNode } from "./create-tree-view";
+  import { getI18n } from "../i18n/create-i18n";
+  import {
+    createTreeView,
+    type TreeContext,
+    type TreeLoadRequest,
+    type TreeNode,
+  } from "./create-tree-view";
+
+  const { t } = getI18n();
 
   export let nodes: TreeNode[];
   export let expanded: string[] = [];
   export let selected: string | null = null;
+  /** Unloaded parent values with an active request. */
+  export let loading: string[] = [];
+  /** Unloaded parent values whose latest request failed. */
+  export let loadErrors: string[] = [];
   export let disabled = false;
   /** Accessible name for the tree (announced by screen readers). */
   export let label: string;
@@ -28,27 +40,48 @@
   export let onExpandedChange: ((expanded: string[]) => void) | undefined = undefined;
   /** Called whenever the selected value changes. */
   export let onSelectedChange: ((selected: string) => void) | undefined = undefined;
+  /** Requests children from the application; the component never fetches. */
+  export let onLoadChildren: ((request: TreeLoadRequest) => void) | undefined = undefined;
 
   const context: TreeContext = {
     nodes,
     expanded,
     selected,
+    loading,
+    loadErrors,
     disabled,
     // Live callback references (ADR 0011).
     onExpandedChange: (next) => onExpandedChange?.(next),
     onSelectedChange: (next) => onSelectedChange?.(next),
+    onLoadChildren: (request) => onLoadChildren?.(request),
   };
 
   const tree = createTreeView(context);
   const {
+    api,
     rootAction,
     itemAction,
     visible,
     expanded: expandedStore,
     selected: selectedStore,
+    syncNodes,
+    syncDisabled,
     syncExpanded,
     syncSelected,
+    syncLoading,
+    syncLoadErrors,
   } = tree;
+
+  let lastNodes = nodes;
+  $: if (nodes !== lastNodes) {
+    lastNodes = nodes;
+    syncNodes(nodes);
+  }
+  let lastDisabled = disabled;
+  $: if (disabled !== lastDisabled) {
+    lastDisabled = disabled;
+    syncDisabled(disabled);
+  }
 
   // Controllable mirrors, compared against the last prop values (ADR 0011):
   // the expanded set is compared by content, so a parent echoing it back does
@@ -62,6 +95,16 @@
   $: if (selected !== lastSelected) {
     lastSelected = selected;
     syncSelected(selected);
+  }
+  let lastLoading = loading;
+  $: if (loading !== lastLoading) {
+    lastLoading = loading;
+    syncLoading(loading);
+  }
+  let lastLoadErrors = loadErrors;
+  $: if (loadErrors !== lastLoadErrors) {
+    lastLoadErrors = loadErrors;
+    syncLoadErrors(loadErrors);
   }
 </script>
 
@@ -82,7 +125,8 @@
           class:tree__twistie--open={isExpanded}
           tabindex="-1"
           aria-hidden="true"
-          on:click|stopPropagation={() => tree.toggle(node.value)}
+          on:click|stopPropagation={() =>
+            node.loadState === "error" ? $api.retryLoad(node.value) : tree.toggle(node.value)}
         >
           <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
             <path
@@ -101,9 +145,23 @@
       {#if $$slots.icon}
         <span class="tree__icon" aria-hidden="true"><slot name="icon" {node} /></span>
       {/if}
-      <span class="tree__label">
+      <span id={node.labelId} class="tree__label">
         <slot name="label" {node}>{labels?.[node.value] ?? node.value}</slot>
       </span>
+      {#if node.loadState === "loading" || node.loadState === "error"}
+        <span
+          id={node.loadStatusId}
+          class="tree__load-status"
+          class:tree__load-status--error={node.loadState === "error"}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {node.loadState === "error"
+            ? $t("tree.loadError", { name: labels?.[node.value] ?? node.value })
+            : $t("tree.loading", { name: labels?.[node.value] ?? node.value })}
+        </span>
+      {/if}
       <!-- The check's slot is always reserved (hidden when unselected) so a
            selected row is no wider than its siblings — the check never overflows. -->
       <span class="tree__check" class:tree__check--shown={isSelected} aria-hidden="true">
@@ -171,6 +229,18 @@
     color: var(--ds-color-secondary, #7a52cc);
     /* Always present (reserves width); only shown on the selected row. */
     visibility: hidden;
+  }
+  .tree__load-status {
+    min-inline-size: 0;
+    margin-inline-start: auto;
+    color: var(--ds-color-text-secondary, #524c44);
+    font-size: var(--ds-tree-status-font-size, 0.875rem);
+  }
+  .tree__load-status--error {
+    color: var(--ds-color-danger-text, #9f1b1b);
+  }
+  .tree__load-status + .tree__check {
+    margin-inline-start: 0;
   }
   .tree__check--shown {
     visibility: visible;

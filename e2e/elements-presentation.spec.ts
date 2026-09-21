@@ -222,3 +222,65 @@ test("Elements Tree View expands, selects and navigates from the keyboard", asyn
   await expect(src).toHaveAttribute("aria-expanded", "false");
   await expect(tree.getByRole("treeitem", { name: /index\.ts/ })).toHaveCount(0);
 });
+
+test("Elements Tree View loads remote children without losing focus and retries failures", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-tree-view");
+    const tree = document.createElement("ds-tree-view") as HTMLElement & {
+      nodes: Array<{ value: string; hasChildren?: boolean; children?: unknown[] }>;
+      expanded: string[];
+      loading: string[];
+      loadErrors: string[];
+    };
+    tree.setAttribute("label", "Database catalog");
+    tree.nodes = [
+      { value: "production", hasChildren: true },
+      { value: "archive", hasChildren: true },
+    ];
+    tree.expanded = [];
+    const attempts = new Map<string, number>();
+    const latest = new Map<string, number>();
+    tree.addEventListener("load-children", (event) => {
+      const { value, requestId } = (event as CustomEvent).detail;
+      latest.set(value, requestId);
+      const attempt = (attempts.get(value) ?? 0) + 1;
+      attempts.set(value, attempt);
+      tree.loading = [...new Set([...tree.loading, value])];
+      tree.loadErrors = tree.loadErrors.filter((entry) => entry !== value);
+      window.setTimeout(() => {
+        if (latest.get(value) !== requestId) return;
+        tree.loading = tree.loading.filter((entry) => entry !== value);
+        if (value === "archive" && attempt === 1) {
+          tree.loadErrors = [...tree.loadErrors, value];
+          return;
+        }
+        tree.nodes = tree.nodes.map((node) =>
+          node.value === value ? { ...node, children: [{ value: `${value}-child` }] } : node,
+        );
+      }, 150);
+    });
+    document.body.appendChild(tree);
+  });
+
+  const tree = page.getByRole("tree", { name: "Database catalog" });
+  const production = tree.getByRole("treeitem", { name: "production", exact: true });
+  await production.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(production).toHaveAttribute("aria-busy", "true");
+  await expect(production).toBeFocused();
+  await expect(tree.getByRole("treeitem", { name: /production-child/ })).toBeVisible();
+  await expect(production).toBeFocused();
+
+  const archive = tree.getByRole("treeitem", { name: "archive", exact: true });
+  await archive.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(archive).toHaveAttribute("data-load-state", "error");
+  await expect(archive).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(archive).toHaveAttribute("aria-busy", "true");
+  await expect(tree.getByRole("treeitem", { name: /archive-child/ })).toBeVisible();
+  await expect(archive).toBeFocused();
+});

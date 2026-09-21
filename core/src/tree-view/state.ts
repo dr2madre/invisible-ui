@@ -8,6 +8,8 @@ export function initialState(context: TreeContext): TreeState {
     nodes: context.nodes,
     expanded: context.expanded ?? [],
     selected: context.selected ?? null,
+    loading: context.loading ?? [],
+    loadErrors: context.loadErrors ?? [],
     focused: null,
     disabled: context.disabled ?? false,
     id: context.id ?? `ds-tree-${++idCounter}`,
@@ -23,19 +25,35 @@ export function visibleNodes(state: TreeState): VisibleNode[] {
   const walk = (nodes: TreeNode[], level: number, parent: string | null): VisibleNode[] => {
     const out: VisibleNode[] = [];
     nodes.forEach((node, index) => {
-      const hasChildren = Boolean(node.children && node.children.length);
+      const childrenLoaded = node.children !== undefined;
+      // An explicit empty array is a completed load with no children. Only an
+      // absent array plus hasChildren=true represents a remote parent.
+      const hasChildren = childrenLoaded ? node.children!.length > 0 : node.hasChildren === true;
       const expanded = hasChildren && state.expanded.includes(node.value);
+      const loadState = childrenLoaded
+        ? undefined
+        : state.loading.includes(node.value)
+          ? "loading"
+          : state.loadErrors.includes(node.value)
+            ? "error"
+            : node.hasChildren
+              ? "idle"
+              : undefined;
       out.push({
         value: node.value,
         disabled: state.disabled || Boolean(node.disabled),
         level,
         hasChildren,
+        childrenLoaded,
+        loadState,
+        loadStatusId: `${state.id}-load-status-${node.value}`,
+        labelId: `${state.id}-label-${node.value}`,
         expanded,
         setSize: nodes.length,
         posInSet: index + 1,
         parent,
       });
-      if (expanded) out.push(...walk(node.children!, level + 1, node.value));
+      if (expanded && childrenLoaded) out.push(...walk(node.children!, level + 1, node.value));
     });
     return out;
   };

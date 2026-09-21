@@ -6,6 +6,7 @@ import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import Preview from "../../../../components/Preview.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import TreeViewDemo from "../../../../demos/TreeViewDemo.svelte";
+import TreeViewAsyncDemo from "../../../../demos/TreeViewAsyncDemo.svelte";
 
 <Preview>
   <TreeViewDemo client:visible />
@@ -59,8 +60,54 @@ assign only the current result forest to `nodes`. Use stable `value` strings;
 `selected` and `expanded` remain controlled when the visible forest changes.
 
 Treat each result or page as the complete tree currently presented to the
-user. Announce result counts and page changes outside Tree View. Loading child
-nodes on expansion needs a separate asynchronous-node contract and is not
-implied by an empty `children` array.
+user. Announce result counts and page changes outside Tree View.
+
+### Asynchronous children
+
+<Preview>
+  <TreeViewAsyncDemo client:visible />
+</Preview>
+
+Set `hasChildren: true` and omit `children` for a parent whose children are not
+available yet. Expanding it calls `onLoadChildren` with its value and a request
+id. Elements emits the equivalent `load-children` event. The component does not
+fetch or apply the response.
+
+Reflect the request through `loading`. On success, replace the controlled
+`nodes` forest and remove the value from `loading`. On failure, remove it from
+`loading` and add it to `loadErrors`. Right Arrow or the disclosure control
+retries a failed expanded node.
+
+Keep the latest request id per node and ignore older responses. This prevents a
+slow response from replacing newer data. Separate nodes can remain in `loading`
+at the same time.
+
+```ts
+function onLoadChildren({ value, requestId }) {
+  latest.set(value, requestId);
+  loading = [...loading, value];
+
+  load(value).then((children) => {
+    if (latest.get(value) !== requestId) return;
+    nodes = replaceChildren(nodes, value, children);
+    loading = loading.filter((entry) => entry !== value);
+  });
+}
+```
+
+The four node forms are distinct:
+
+- `{ value: "file" }` is a leaf;
+- `{ value: "folder", children: [...] }` is a loaded parent;
+- `{ value: "remote", hasChildren: true }` is an unloaded parent;
+- `{ value: "empty", children: [] }` is a completed load with no children.
+
+### Virtualization
+
+Tree View does not virtualize rows. DOM virtualization can remove the focused
+treeitem and makes sibling metadata difficult to keep truthful. Measure it
+against representative large trees only after controlled search, paging and
+asynchronous children have been applied. Virtualization requires a separate
+accessibility contract and is not enabled automatically.
 
 Themeable via `--ds-tree-*`.

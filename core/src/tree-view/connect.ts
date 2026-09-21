@@ -8,7 +8,9 @@ import {
   toggleExpanded,
   visibleNode,
 } from "./state";
-import type { TreeState } from "./types";
+import type { TreeLoadRequest, TreeState } from "./types";
+
+let loadRequestCounter = 0;
 
 /** The public, framework-agnostic API for a connected tree. */
 export interface TreeApi {
@@ -20,6 +22,8 @@ export interface TreeApi {
   toggle(value: string): void;
   /** Select a node (ignored when disabled). */
   select(value: string): void;
+  /** Retry loading an expanded, unloaded parent. */
+  retryLoad(value: string): void;
   /** Props for the tree container (`role="tree"`). */
   rootProps: ElementProps;
   /** Props for a child-list wrapper (`role="group"`). */
@@ -39,6 +43,8 @@ export interface ConnectOptions {
   setFocused: (value: string) => void;
   /** Move DOM focus to the node with the given value (adapter-provided). */
   focus?: (value: string) => void;
+  /** Report a request for an unloaded parent's children. */
+  requestLoad?: (request: TreeLoadRequest) => void;
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -56,20 +62,39 @@ export function connect({
   setSelected,
   setFocused,
   focus,
+  requestLoad,
   normalize = identityNormalize,
 }: ConnectOptions): TreeApi {
   const { expanded, selected, disabled, id } = state;
+
+  // State reflection can happen after the callback returns. Keep the request
+  // locally pending as well, so two actions against this API cannot duplicate
+  // it before the controlled `loading` list arrives.
+  const requested = new Set(state.loading);
+  const load = (value: string) => {
+    const node = visibleNode(state, value);
+    if (!node || node.disabled || node.childrenLoaded || requested.has(value)) return;
+    requested.add(value);
+    requestLoad?.({ value, requestId: ++loadRequestCounter });
+  };
 
   const toggle = (value: string) => {
     const node = visibleNode(state, value);
     if (!node || node.disabled || !node.hasChildren) return;
     setExpanded(toggleExpanded(state, value));
+    if (!node.expanded && !node.childrenLoaded) load(value);
   };
 
   const select = (value: string) => {
     const node = visibleNode(state, value);
     if (!node || node.disabled) return;
     setSelected(value);
+  };
+
+  const retryLoad = (value: string) => {
+    const node = visibleNode(state, value);
+    if (!node?.expanded || node.loadState !== "error") return;
+    load(value);
   };
 
   // Move roving focus to `target` (and DOM focus through the adapter).
@@ -97,9 +122,11 @@ export function connect({
     if (!node) return;
     if (node.hasChildren && !node.expanded) {
       toggle(value);
-    } else if (node.hasChildren && node.expanded) {
+    } else if (node.hasChildren && node.expanded && node.childrenLoaded) {
       // Enter the subtree: the next visible node is the first child.
       move(nextVisible(state, value));
+    } else if (node.hasChildren && node.expanded) {
+      load(value);
     }
   };
 
@@ -118,6 +145,7 @@ export function connect({
     selected,
     toggle,
     select,
+    retryLoad,
     rootProps: normalize({
       role: "tree",
       "aria-multiselectable": false,
@@ -133,12 +161,19 @@ export function connect({
         id: `${id}-item-${value}`,
         "aria-selected": isSelected,
         "aria-expanded": node?.hasChildren ? Boolean(node.expanded) : undefined,
+        "aria-busy": node?.loadState === "loading" ? true : undefined,
+        "aria-labelledby": node?.labelId,
+        "aria-describedby":
+          node?.loadState === "loading" || node?.loadState === "error"
+            ? node.loadStatusId
+            : undefined,
         "aria-level": node?.level,
         "aria-setsize": node?.setSize,
         "aria-posinset": node?.posInSet,
         "aria-disabled": itemDisabled || undefined,
         tabindex: itemDisabled ? undefined : value === tabStop ? 0 : -1,
         "data-state": node?.hasChildren ? (node.expanded ? "open" : "closed") : undefined,
+        "data-load-state": node?.loadState,
         "data-selected": isSelected ? "" : undefined,
         "data-disabled": itemDisabled ? "" : undefined,
         "data-value": value,

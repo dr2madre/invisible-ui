@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { TreeView } from "./TreeView";
 import type { TreeNode } from "./use-tree-view";
@@ -99,6 +99,85 @@ describe("Vue TreeView", () => {
     const { emitted } = setup();
     await user.click(screen.getByRole("treeitem", { name: /index\.ts/ }));
     expect(emitted()["update:selected"]).toEqual([["index.ts"]]);
+  });
+
+  it("requests unloaded children once and announces loading", async () => {
+    const user = userEvent.setup();
+    const onLoadChildren = vi.fn();
+    setup({ nodes: [{ value: "remote", hasChildren: true }], expanded: [], onLoadChildren });
+    const remote = screen.getByRole("treeitem", { name: /remote/ });
+    await user.click(remote.querySelector(".tree__twistie")!);
+    expect(onLoadChildren).toHaveBeenCalledOnce();
+    expect(onLoadChildren.mock.calls[0]?.[0]).toMatchObject({ value: "remote" });
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("treeitem", { name: "remote" })).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Loading remote");
+    screen.getByRole("treeitem", { name: "remote" }).focus();
+    await user.keyboard("{ArrowRight}");
+    expect(onLoadChildren).toHaveBeenCalledOnce();
+  });
+
+  it("retries a failed load with a newer request id", async () => {
+    const user = userEvent.setup();
+    const onLoadChildren = vi.fn();
+    const { rerender } = setup({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loadErrors: ["remote"],
+      onLoadChildren,
+    });
+    const remote = screen.getByRole("treeitem", { name: /remote/ });
+    remote.focus();
+    expect(screen.getByRole("status")).toHaveTextContent("Press Right Arrow to retry");
+    await user.keyboard("{ArrowRight}");
+    const firstId = onLoadChildren.mock.calls[0]![0].requestId;
+
+    await rerender({
+      nodes: [{ value: "remote", hasChildren: true }],
+      label: "Project files",
+      expanded: ["remote"],
+      loading: [],
+      loadErrors: ["remote"],
+      onLoadChildren,
+    });
+    await user.click(
+      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!,
+    );
+    expect(onLoadChildren.mock.calls[1]![0].requestId).toBeGreaterThan(firstId);
+  });
+
+  it("keeps focus when loaded children replace the controlled forest", async () => {
+    const { rerender } = setup({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loading: ["remote"],
+    });
+    screen.getByRole("treeitem", { name: /remote/ }).focus();
+    await rerender({
+      nodes: [{ value: "remote", children: [{ value: "child" }] }],
+      label: "Project files",
+      expanded: ["remote"],
+      loading: [],
+      loadErrors: [],
+    });
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveFocus();
+    expect(screen.getByRole("treeitem", { name: /child/ })).toBeInTheDocument();
+  });
+
+  it("allows independent branches to load concurrently", async () => {
+    const user = userEvent.setup();
+    const onLoadChildren = vi.fn();
+    setup({
+      nodes: [
+        { value: "one", hasChildren: true },
+        { value: "two", hasChildren: true },
+      ],
+      expanded: [],
+      onLoadChildren,
+    });
+    await user.click(screen.getByRole("treeitem", { name: /one/ }).querySelector("button")!);
+    await user.click(screen.getByRole("treeitem", { name: /two/ }).querySelector("button")!);
+    expect(onLoadChildren.mock.calls.map(([request]) => request.value)).toEqual(["one", "two"]);
   });
 
   it("has no accessibility violations", async () => {

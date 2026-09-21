@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./tree-view.fixture.svelte";
 
@@ -45,6 +45,98 @@ describe("Svelte TreeView (styled)", () => {
     render(Fixture, { props: { expanded: ["src"], selected: "index.ts" } });
     expect(screen.getByRole("treeitem", { name: /index\.ts/ })).toHaveAttribute("tabindex", "0");
     expect(screen.getByRole("treeitem", { name: /src/ })).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("requests unloaded children once and announces loading", async () => {
+    const onLoadChildren = vi.fn();
+    render(Fixture, {
+      props: {
+        nodes: [{ value: "remote", hasChildren: true }],
+        expanded: [],
+        onLoadChildren,
+      },
+    });
+    const remote = screen.getByRole("treeitem", { name: /remote/ });
+    await fireEvent.click(remote.querySelector(".tree__twistie")!);
+    expect(onLoadChildren).toHaveBeenCalledOnce();
+    expect(onLoadChildren.mock.calls[0]?.[0]).toMatchObject({ value: "remote" });
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("treeitem", { name: "remote" })).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Loading remote");
+    screen.getByRole("treeitem", { name: "remote" }).focus();
+    await fireEvent.keyDown(screen.getByRole("treeitem", { name: "remote" }), {
+      key: "ArrowRight",
+    });
+    expect(onLoadChildren).toHaveBeenCalledOnce();
+  });
+
+  it("retries a failed load and gives the retry a newer request id", async () => {
+    const onLoadChildren = vi.fn();
+    const { rerender } = render(Fixture, {
+      props: {
+        nodes: [{ value: "remote", hasChildren: true }],
+        expanded: ["remote"],
+        loadErrors: ["remote"],
+        onLoadChildren,
+      },
+    });
+    const remote = screen.getByRole("treeitem", { name: /remote/ });
+    expect(screen.getByRole("status")).toHaveTextContent("Press Right Arrow to retry");
+    await fireEvent.keyDown(remote, { key: "ArrowRight" });
+    const firstId = onLoadChildren.mock.calls[0]![0].requestId;
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveAttribute("aria-busy", "true");
+
+    await rerender({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loading: [],
+      loadErrors: ["remote"],
+      onLoadChildren,
+    });
+    await fireEvent.click(
+      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!,
+    );
+    expect(onLoadChildren.mock.calls[1]![0].requestId).toBeGreaterThan(firstId);
+  });
+
+  it("keeps focus when loaded children replace the controlled forest", async () => {
+    const { rerender } = render(Fixture, {
+      props: {
+        nodes: [{ value: "remote", hasChildren: true }],
+        expanded: ["remote"],
+        loading: ["remote"],
+      },
+    });
+    screen.getByRole("treeitem", { name: /remote/ }).focus();
+    await rerender({
+      nodes: [{ value: "remote", children: [{ value: "child" }] }],
+      expanded: ["remote"],
+      loading: [],
+      loadErrors: [],
+    });
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveFocus();
+    expect(screen.getByRole("treeitem", { name: /child/ })).toBeInTheDocument();
+  });
+
+  it("allows independent branches to load concurrently", async () => {
+    const onLoadChildren = vi.fn();
+    render(Fixture, {
+      props: {
+        nodes: [
+          { value: "one", hasChildren: true },
+          { value: "two", hasChildren: true },
+        ],
+        expanded: [],
+        onLoadChildren,
+      },
+    });
+    await fireEvent.click(
+      screen.getByRole("treeitem", { name: /one/ }).querySelector(".tree__twistie")!,
+    );
+    await fireEvent.click(
+      screen.getByRole("treeitem", { name: /two/ }).querySelector(".tree__twistie")!,
+    );
+    expect(onLoadChildren.mock.calls.map(([request]) => request.value)).toEqual(["one", "two"]);
   });
 
   it("has no accessibility violations", async () => {
