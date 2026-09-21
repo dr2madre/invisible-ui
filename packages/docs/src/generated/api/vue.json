@@ -1389,7 +1389,7 @@
     {
       "name": "TreeViewProps",
       "kind": "interface",
-      "signature": "interface TreeViewProps { nodes: TreeNode[]; /** Expanded parent values; bindable with `v-model:expanded`. */ expanded?: string[]; /** Selected value; bindable with `v-model:selected`. */ selected?: string | null; loading?: string[]; loadErrors?: string[]; disabled?: boolean; /** Accessible name for the tree (announced by screen readers). */ label: string; /** Optional per-node display labels, keyed by node value. */ labels?: Record<string, string>; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; onLoadChildren?: (request: TreeLoadRequest) => void; }"
+      "signature": "interface TreeViewProps { nodes: TreeNode[]; /** Expanded parent values; bindable with `v-model:expanded`. */ expanded?: string[]; /** Selected value; bindable with `v-model:selected`. */ selected?: string | null; /** Unloaded parent values with an active request. */ loading?: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Accessible name for the tree (announced by screen readers). */ label: string; /** Optional per-node display labels, keyed by node value. */ labels?: Record<string, string>; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the component never fetches. */ onLoadChildren?: (request: TreeLoadRequest) => void; }"
     },
     {
       "name": "UploadDropArea",
