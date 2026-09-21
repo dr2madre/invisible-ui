@@ -44,3 +44,10 @@ export {
 } from "./table/ds-table";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
+export { DsCount, type CountStatus } from "./count/ds-count";
+export {
+  DsTabs,
+  type TabsActivationMode,
+  type TabsItem,
+  type TabsPanelContent,
+} from "./tabs/ds-tabs";

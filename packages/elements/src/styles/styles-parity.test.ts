@@ -40,6 +40,8 @@ const VUE_SHEETS = [
   "radio-group.css",
   "checkbox-group.css",
   "table.css",
+  "count.css",
+  "tabs.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
