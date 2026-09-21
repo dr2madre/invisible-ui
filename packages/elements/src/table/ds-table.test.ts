@@ -87,8 +87,46 @@ describe("<ds-table>", () => {
     ).toBe("2");
   });
 
-  it("has no accessibility violations", async () => {
-    mount();
+  it("renders and removes a text empty state inside the table", () => {
+    const table = mount();
+    table.setAttribute("empty-text", "Choose a table from the catalog");
+    table.rows = [];
+
+    const empty = within(table).getByRole("cell", {
+      name: "Choose a table from the catalog",
+    });
+    expect(empty).toHaveAttribute("colspan", "3");
+    expect(empty.closest("tbody")).toBe(table.querySelector("tbody"));
+
+    table.rows = rows;
+    expect(within(table).queryByText("Choose a table from the catalog")).toBeNull();
+  });
+
+  it("renders rich empty content as DOM and spans a selection column", () => {
+    const table = mount("selection-column");
+    const message = document.createElement("strong");
+    message.textContent = "No results";
+    table.renderEmpty = () => message;
+    table.rows = [];
+
+    expect(within(table).getByText("No results").tagName).toBe("STRONG");
+    expect(within(table).getByRole("cell")).toHaveAttribute("colspan", "4");
+  });
+
+  it("inserts string empty content as text rather than markup", () => {
+    const table = mount();
+    table.renderEmpty = () => "<button>unsafe</button>";
+    table.rows = [];
+
+    expect(table.querySelector("tbody button")).toBeNull();
+    expect(within(table).getByRole("cell")).toHaveTextContent("<button>unsafe</button>");
+  });
+
+  it("has no accessibility violations with data or an empty state", async () => {
+    const table = mount();
+    expect(await axe(document.body)).toHaveNoViolations();
+    table.setAttribute("empty-text", "Choose a table from the catalog");
+    table.rows = [];
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
