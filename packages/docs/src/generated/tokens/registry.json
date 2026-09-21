@@ -12332,6 +12332,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -12341,6 +12342,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "gap",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"]",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
@@ -12389,6 +12404,7 @@
         "--ds-feedback-icon-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -12398,6 +12414,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
@@ -12446,6 +12476,7 @@
         "max-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -12454,6 +12485,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "max-inline-size",
+          "fallback": "24rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
@@ -12488,6 +12526,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -12497,6 +12536,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "padding",
+          "fallback": "3rem 1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"]",
+          "property": "padding",
+          "fallback": "1.5rem 1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",
@@ -12545,6 +12598,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -12554,6 +12608,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__title",
+          "property": "font-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state__title",
+          "property": "font-size",
+          "fallback": "1.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/error-state/ErrorState.svelte",

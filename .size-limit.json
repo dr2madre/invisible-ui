@@ -112,5 +112,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsEmptyState }",
     "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — error state only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsErrorState }",
+    "limit": "7 kB"
   }
 ]

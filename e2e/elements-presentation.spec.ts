@@ -59,3 +59,26 @@ test("Elements Empty State is announced and exposes a keyboard action", async ({
   await page.keyboard.press("Enter");
   await expect(page.locator("ds-empty-state")).toHaveAttribute("data-action-requested", "true");
 });
+
+test("Elements Error State is announced and exposes a keyboard recovery action", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-error-state");
+    document.body.innerHTML = `
+      <ds-error-state title="Connection failed" description="Check the server and try again."
+        action-label="Try again" size="sm"></ds-error-state>`;
+    document.querySelector("ds-error-state")?.addEventListener("action", (event) => {
+      (event.currentTarget as HTMLElement).dataset.actionRequested = "true";
+    });
+  });
+
+  const alert = page.getByRole("alert");
+  await expect(alert).toBeVisible();
+  await expect(alert.getByRole("heading", { name: "Connection failed" })).toBeVisible();
+  const action = alert.getByRole("button", { name: "Try again" });
+  await action.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("ds-error-state")).toHaveAttribute("data-action-requested", "true");
+});
