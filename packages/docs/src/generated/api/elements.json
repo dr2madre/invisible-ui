@@ -84,6 +84,11 @@
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
     },
     {
+      "name": "DsTable",
+      "kind": "class",
+      "signature": "declare class DsTable extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get sort(): TableSortState | null; set sort(value: TableSortState | null); get getValue(): (row: TableRow, key: string) => unknown; set getValue(value: (row: TableRow, key: string) => unknown); get getRowId(): (row: TableRow, index: number) => string | number; set getRowId(value: (row: TableRow, index: number) => string | number); get renderCell(): ((context: TableCellContext) => TableCellContent) | null; set renderCell(value: ((context: TableCellContext) => TableCellContent) | null); get isRowSelected(): ((row: TableRow, rowIndex: number) => boolean) | null; set isRowSelected(value: ((row: TableRow, rowIndex: number) => boolean) | null); get renderSelectionHeader(): (() => TableCellContent) | null; set renderSelectionHeader(value: (() => TableCellContent) | null); get renderSelectionCell(): ((context: TableSelectionCellContext) => TableCellContent) | null; set renderSelectionCell(value: ((context: TableSelectionCellContext) => TableCellContent) | null); }"
+    },
+    {
       "name": "DsTextField",
       "kind": "class",
       "signature": "declare class DsTextField extends DsTextControl { protected readonly rootClass = \"text-field\"; protected createControl(): HTMLInputElement; }"
@@ -107,6 +112,41 @@
       "name": "SelectItem",
       "kind": "interface",
       "signature": "interface SelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "SortDirection",
+      "kind": "type",
+      "signature": "type SortDirection = \"asc\" | \"desc\";"
+    },
+    {
+      "name": "TableCellContent",
+      "kind": "type",
+      "signature": "type TableCellContent = Node | string | number | null | undefined;"
+    },
+    {
+      "name": "TableCellContext",
+      "kind": "interface",
+      "signature": "interface TableCellContext { row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number; }"
+    },
+    {
+      "name": "TableColumnDef",
+      "kind": "interface",
+      "signature": "interface TableColumnDef { /** Stable key and default accessor into a row. */ key: string; /** Header label. */ header: string; /** Whether the column can be sorted. */ sortable?: boolean; /** Whether the column can be hidden by a composition such as Table Set. */ hideable?: boolean; /** Text alignment for the column's header and cells. */ align?: \"start\" | \"center\" | \"end\"; }"
+    },
+    {
+      "name": "TableRow",
+      "kind": "type",
+      "signature": "type TableRow = Record<string, unknown>;"
+    },
+    {
+      "name": "TableSelectionCellContext",
+      "kind": "interface",
+      "signature": "interface TableSelectionCellContext { row: TableRow; rowId: string | number; rowIndex: number; }"
+    },
+    {
+      "name": "TableSortState",
+      "kind": "interface",
+      "signature": "interface TableSortState { key: string; direction: SortDirection; }"
     }
   ]
 }

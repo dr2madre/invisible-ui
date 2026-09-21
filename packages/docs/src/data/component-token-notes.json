@@ -46,6 +46,10 @@
   "--ds-tree-bg": {
     "acceptedLiteral": "The tree canvas paints nothing and inherits the page."
   },
+  "--ds-table-header-background": {
+    "purpose": "The fill behind table column headers.",
+    "acceptedLiteral": "The header is transparent by default so Table preserves its existing appearance and the surrounding surface remains visible."
+  },
   "--ds-menu-gap": {
     "stability": "deprecated",
     "purpose": "The former spelling of --ds-sidebar-gap, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",

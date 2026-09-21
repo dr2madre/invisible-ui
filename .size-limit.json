@@ -58,11 +58,17 @@
   {
     "name": "@design-system/elements \u2014 elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "18 kB"
+    "limit": "22 kB"
   },
   {
     "name": "@design-system/elements \u2014 define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "18 kB"
+    "limit": "22 kB"
+  },
+  {
+    "name": "@design-system/elements \u2014 table only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTable }",
+    "limit": "6 kB"
   }
 ]

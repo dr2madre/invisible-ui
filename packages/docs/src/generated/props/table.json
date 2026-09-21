@@ -185,6 +185,15 @@
         "selectionCell",
         "selectionHeader"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-table",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [],
+      "notes": []
     }
   }
 }

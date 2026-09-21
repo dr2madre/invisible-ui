@@ -157,6 +157,7 @@
   .table__th {
     text-align: start;
     font-weight: 600;
+    background: var(--ds-table-header-background, transparent);
     /* Medium-dark header labels (not full black). */
     color: var(--ds-table-header-text, var(--ds-color-text-secondary, #524c44));
     /* Same height as body rows: identical padding + a 1px border (not thicker). */

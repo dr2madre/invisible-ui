@@ -48,4 +48,27 @@ section. `isRowSelected` only paints `data-selected` on the row for styling.
 <Table caption="Team" columns={[{ key: "name", header: "Name", sortable: true }]} rows={rows} />
 ```
 
-Themeable via `--ds-table-*`.
+In Elements, structured data is assigned through properties. The component
+reports a requested sort and leaves row ordering to the application:
+
+```html
+<ds-table caption="Team"></ds-table>
+
+<script type="module">
+  const table = document.querySelector("ds-table");
+  table.columns = [
+    { key: "name", header: "Name", sortable: true },
+    { key: "role", header: "Role" },
+  ];
+  table.rows = people;
+  table.addEventListener("sort-toggle", ({ detail }) => {
+    table.sort = nextSort(table.sort, detail.key);
+    table.rows = sortPeople(people, table.sort);
+  });
+</script>
+```
+
+Themeable via `--ds-table-*`. The header stays transparent by default. Set
+`--ds-table-header-background` on the table or an ancestor when the header
+needs its own fill; this component token does not create a new global surface
+role.

@@ -32,5 +32,15 @@ export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";
 export { DsSearchField } from "./search-field/ds-search-field";
+export {
+  DsTable,
+  type SortDirection,
+  type TableCellContent,
+  type TableCellContext,
+  type TableColumnDef,
+  type TableRow,
+  type TableSelectionCellContext,
+  type TableSortState,
+} from "./table/ds-table";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";

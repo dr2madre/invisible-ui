@@ -39,6 +39,7 @@ const VUE_SHEETS = [
   "textarea.css",
   "radio-group.css",
   "checkbox-group.css",
+  "table.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

@@ -43,6 +43,15 @@ export const closeIcon = () =>
     height: "100%",
   });
 
+export const sortIcon = (direction: "asc" | "desc" | null) => {
+  if (direction === "asc") return svg(`<polyline points="6 14 12 8 18 14" />`);
+  if (direction === "desc") return svg(`<polyline points="6 10 12 16 18 10" />`);
+  return svg(
+    `<polyline points="8 9 12 5 16 9" /><polyline points="8 15 12 19 16 15" />`,
+    "table__sort-icon-unset",
+  );
+};
+
 export const plusIcon = () =>
   svg(`<line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />`);
 
