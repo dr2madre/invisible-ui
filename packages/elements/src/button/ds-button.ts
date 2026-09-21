@@ -1,5 +1,11 @@
 import { button as core } from "@design-system/core";
-import { applyProps, boolAttr, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  HTMLElementBase,
+  syncAttribute,
+  upgradeProperty,
+} from "../internal/base";
 import { hazardIcon, plusIcon } from "../internal/icons";
 
 /**
@@ -12,7 +18,8 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  *
  * Attributes: `variant` (default|primary|secondary|ghost|danger), `disabled`,
  * `type` (button|submit|reset), `icon-only`, `left-icon`, `right-icon`,
- * `aria-label` (forwarded — required for icon-only).
+ * `aria-label` (forwarded — required for icon-only), `aria-haspopup`,
+ * `aria-controls`, `title`.
  * Activation is the native `click` event.
  */
 export class DsButton extends HTMLElementBase {
@@ -24,6 +31,9 @@ export class DsButton extends HTMLElementBase {
     "left-icon",
     "right-icon",
     "aria-label",
+    "aria-haspopup",
+    "aria-controls",
+    "title",
   ];
 
   #button: HTMLButtonElement | null = null;
@@ -91,6 +101,9 @@ export class DsButton extends HTMLElementBase {
       button.setAttribute("aria-label", ariaLabel);
       this.removeAttribute("aria-label");
     }
+    syncAttribute(this, button, "aria-haspopup");
+    syncAttribute(this, button, "aria-controls");
+    syncAttribute(this, button, "title");
 
     const api = core.connect({
       state: core.initialState({ variant, disabled: this.disabled }),

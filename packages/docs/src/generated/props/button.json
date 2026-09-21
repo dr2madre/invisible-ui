@@ -333,6 +333,27 @@
           "required": false,
           "description": "forwarded — required for icon-only",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "aria-haspopup",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "aria-controls",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "title",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": []
