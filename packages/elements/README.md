@@ -33,8 +33,10 @@ loads in the browser, the elements upgrade that existing content in place.
 </ds-dialog>
 ```
 
-The dist is **self-contained** (core and Floating UI bundled), so a script tag
-is genuinely enough. In a bundled app, import selectively instead:
+`define.js` is **self-contained** (core and Floating UI bundled), so a script
+tag is genuinely enough. In a bundled app, import selectively instead: the
+package entry leaves `@design-system/core` and `@floating-ui/dom` to your
+bundler, so the page ships only the primitives its elements use.
 
 ```js
 import { DsButton } from "@design-system/elements";

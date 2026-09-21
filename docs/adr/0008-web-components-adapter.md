@@ -54,3 +54,12 @@ implementation questions the strategy left open.
   elements already serve those users at standard-interop quality.
 - Light DOM means consumer CSS *can* reach into the components — accepted, and
   identical to the Svelte/React adapters' global-CSS stance.
+- The self-contained rule applies to `define.js` only. The package entry
+  (`index.js`, for bundled apps) leaves `@design-system/core` and
+  `@floating-ui/dom` to the consumer's bundler. Until 2026-09 both entries
+  were built as one, with the core inlined into a chunk they shared; that
+  merged every primitive into a single module, and importing one element
+  pulled them all: the Tag alone weighed 8.7 kB (brotli), the Table 9.2 kB.
+  Built apart, with the core resolved from its one-file-per-module dist, the
+  same imports weigh 0.96 kB and 1.5 kB. `scripts/check-elements-dist.mjs`
+  fails the build if either entry drifts from its rule.
