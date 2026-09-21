@@ -1,4 +1,4 @@
-import { i18n as coreI18n, treeView as core } from "@design-system/core";
+import { treeView as core } from "@design-system/core";
 import { applyProps, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
 
 export type TreeNode = core.TreeNode;
@@ -209,16 +209,12 @@ export class DsTreeView extends HTMLElementBase {
         status.setAttribute("aria-atomic", "true");
         const name = this.#labels[node.value] ?? node.value;
         const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
-        const override = this.getAttribute(attribute);
-        status.textContent = override
-          ? override.replaceAll("{name}", name)
-          : coreI18n.translate(
-              coreI18n.en,
-              {},
-              "en",
-              node.loadState === "error" ? "tree.loadError" : "tree.loading",
-              { name },
-            );
+        const template =
+          this.getAttribute(attribute) ??
+          (node.loadState === "error"
+            ? "Could not load {name}. Press Right Arrow to retry."
+            : "Loading {name}…");
+        status.textContent = template.replaceAll("{name}", name);
         item.appendChild(status);
       }
 
