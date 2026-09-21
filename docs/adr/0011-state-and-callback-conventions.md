@@ -6,7 +6,7 @@
 ## Context
 
 Every component ships as a framework-neutral machine in `core/` plus thin
-adapters ([ADR 0001](./0001-headless-vs-amber-web-components.md)). The machines
+adapters ([ADR 0001](./0001-headless-primitives.md)). The machines
 hold state that consumers may also want to own: an open flag, a selection, a
 text value. Each framework has its own idiom for wiring that up, and without a
 written rule the adapters drift: one fires a callback when a prop changes,

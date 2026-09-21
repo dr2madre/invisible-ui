@@ -124,7 +124,7 @@ describe.each([
   it.each([
     ["info", "--ds-color-on-status"],
     ["success", "--ds-color-on-status"],
-    // Warning (amber) is light, so its solid uses a dark glyph, not white.
+    // Warning is a light color, so its solid uses a dark glyph, not white.
     ["warning", "--ds-color-on-warning"],
     ["danger", "--ds-color-on-status"],
     ["neutral", "--ds-color-on-status"],
