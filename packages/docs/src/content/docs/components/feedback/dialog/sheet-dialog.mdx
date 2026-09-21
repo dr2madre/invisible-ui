@@ -71,5 +71,21 @@ and an optional `footer` pinned to the panel's end.
 </SheetDialog>
 ```
 
+The Elements adapter uses `heading` instead of the global HTML `title`
+attribute. Named light-DOM regions keep actions in the header and footer:
+
+```html
+<ds-sheet-dialog
+  side="right"
+  heading="Filters"
+  description="Refine the results."
+  trigger="Open filters"
+>
+  <button slot="header-actions" type="button">Reset</button>
+  <form>…</form>
+  <button slot="footer" type="submit">Apply</button>
+</ds-sheet-dialog>
+```
+
 Themeable via `--ds-dialog-*` (shared) plus `--ds-sheet-dialog-size`,
 `--ds-sheet-dialog-duration` and `--ds-sheet-dialog-handle`.

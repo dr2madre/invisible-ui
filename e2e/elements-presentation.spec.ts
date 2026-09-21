@@ -164,3 +164,29 @@ test("Elements Loading Generation Area replaces its placeholder with completed c
   await expect(status).toHaveCount(0);
   await expect(page.getByText("Generated result")).toBeVisible();
 });
+
+test("Elements Sheet Dialog stays open for inside presses and restores focus", async ({ page }) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-sheet-dialog");
+    document.body.innerHTML = `
+      <ds-sheet-dialog heading="Filters" description="Refine the results."
+        trigger="Open filters" side="right">
+        <button slot="header-actions" type="button">Reset</button>
+        <label>Query <input /></label>
+        <button slot="footer" type="button">Apply</button>
+      </ds-sheet-dialog>`;
+  });
+
+  const trigger = page.getByRole("button", { name: "Open filters" });
+  await trigger.click();
+  const panel = page.getByRole("dialog", { name: "Filters" });
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAccessibleDescription("Refine the results.");
+  await expect(panel).toHaveAttribute("data-side", "right");
+  await panel.getByRole("button", { name: "Reset" }).click();
+  await expect(panel).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+});

@@ -51,6 +51,7 @@ const VUE_SHEETS = [
   "inline-notification.css",
   "loading.css",
   "loading-generation-area.css",
+  "sheet-dialog.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
@@ -64,6 +65,12 @@ describe("native dialog visibility", () => {
     const dialog = read("./dialog.css");
     expect(dialog).toMatch(/\.dialog__panel\[open\]\s*\{[^}]*display:\s*grid/s);
     expect(dialog).not.toMatch(/\.dialog__panel\s*\{[^}]*display:\s*grid/s);
+  });
+
+  it("applies the sheet layout only after the sheet dialog is open", () => {
+    const sheet = read("./sheet-dialog.css");
+    expect(sheet).toMatch(/\.sheet-dialog__panel\[open\]\s*\{[^}]*display:\s*flex/s);
+    expect(sheet).not.toMatch(/\.sheet-dialog__panel\s*\{[^}]*display:\s*flex/s);
   });
 });
 
