@@ -3,6 +3,7 @@
  * Safe to import more than once (guards against re-definition).
  */
 import { DsButton } from "./button/ds-button";
+import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 import { DsCheckbox } from "./checkbox/ds-checkbox";
 import { DsCombobox } from "./combobox/ds-combobox";
@@ -14,11 +15,13 @@ import { DsField } from "./field/ds-field";
 import { DsLabel } from "./label/ds-label";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
 import { DsSelect } from "./select/ds-select";
+import { DsSeparator } from "./separator/ds-separator";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
 import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
 import { DsTabs } from "./tabs/ds-tabs";
+import { DsTag } from "./tag/ds-tag";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -26,9 +29,11 @@ const define = (tag: string, ctor: CustomElementConstructor) => {
 };
 
 define("ds-button", DsButton);
+define("ds-card", DsCard);
 define("ds-checkbox", DsCheckbox);
 define("ds-switch", DsSwitch);
 define("ds-select", DsSelect);
+define("ds-separator", DsSeparator);
 define("ds-combobox", DsCombobox);
 define("ds-multi-select", DsMultiSelect);
 define("ds-dialog", DsDialog);
@@ -43,5 +48,6 @@ define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
 define("ds-pagination", DsPagination);
+define("ds-tag", DsTag);
 
 export {};

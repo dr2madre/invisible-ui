@@ -121,6 +121,60 @@
         "icon",
         "trailing"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-tag",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "status",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "`soft` or `solid`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "reactive": true,
+          "required": false,
+          "description": "`sm` or `md`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "removable",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "remove-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Emits: `remove` after the remove button is activated. The element does not remove itself."
+      ]
     }
   }
 }

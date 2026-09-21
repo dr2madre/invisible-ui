@@ -36,4 +36,15 @@ The default slot is the label; the `icon` slot holds a leading icon and the
 </Tag>
 ```
 
+Elements uses the same light-DOM regions and reports removal without deleting
+itself, so the application remains the source of truth:
+
+```html
+<ds-tag status="success" removable remove-label="Remove status">Published</ds-tag>
+
+<script type="module">
+  document.querySelector("ds-tag").addEventListener("remove", removeStatus);
+</script>
+```
+
 Themeable via `--ds-tag-*`.

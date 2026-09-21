@@ -58,18 +58,18 @@
   {
     "name": "@design-system/elements \u2014 elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "22 kB"
+    "limit": "36 kB"
   },
   {
     "name": "@design-system/elements \u2014 define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "22 kB"
+    "limit": "36 kB"
   },
   {
     "name": "@design-system/elements \u2014 table only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
-    "limit": "6 kB"
+    "limit": "6.5 kB"
   },
   {
     "name": "@design-system/elements \u2014 count only, tree-shaken",
@@ -88,5 +88,23 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPagination }",
     "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — card only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCard }",
+    "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — tag only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTag }",
+    "limit": "6 kB"
+  },
+  {
+    "name": "@design-system/elements — separator only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSeparator }",
+    "limit": "5 kB"
   }
 ]

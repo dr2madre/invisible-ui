@@ -21,6 +21,8 @@
   import { stableId } from "../internal/stable-id";
   export let variant: "media" | "dashboard" = "media";
   export let orientation: "vertical" | "horizontal" = "vertical";
+  /** Surface hierarchy. `secondary` uses the quieter secondary card surface token. */
+  export let surface: "default" | "secondary" = "default";
   /** Image URL for the media area (ignored when the `icon` slot is used). */
   export let imageSrc: string | undefined = undefined;
   /** Alt text for the image. Defaults to empty (decorative). */
@@ -44,7 +46,7 @@
 </script>
 
 {#if variant === "dashboard"}
-  <article class="card card--dashboard" aria-labelledby={labelledBy}>
+  <article class="card card--dashboard" data-surface={surface} aria-labelledby={labelledBy}>
     <div class="card__dash-head">
       {#if $$slots.icon}
         <span class="card__icon" aria-hidden="true"><slot name="icon" /></span>
@@ -64,7 +66,12 @@
     </div>
   </article>
 {:else}
-  <article class="card card--media" data-orientation={orientation} aria-labelledby={labelledBy}>
+  <article
+    class="card card--media"
+    data-orientation={orientation}
+    data-surface={surface}
+    aria-labelledby={labelledBy}
+  >
     {#if hasMedia}
       <div
         class="card__media"
@@ -117,6 +124,9 @@
     border: 1px solid var(--ds-card-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(--ds-card-radius, var(--ds-radius-surface, 0.75rem));
     overflow: hidden;
+  }
+  .card[data-surface="secondary"] {
+    background: var(--ds-card-secondary-bg, var(--ds-color-neutral-surface, #f4f2ef));
   }
 
   /* ---- Media card, vertical (classic) ---- */

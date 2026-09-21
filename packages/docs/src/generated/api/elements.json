@@ -34,6 +34,11 @@
       "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
+      "name": "DsCard",
+      "kind": "class",
+      "signature": "declare class DsCard extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsCheckbox",
       "kind": "class",
       "signature": "declare class DsCheckbox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): checkbox.CheckedState; set checked(value: checkbox.CheckedState); }"
@@ -94,6 +99,11 @@
       "signature": "declare class DsSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): SelectItem[]; set items(items: SelectItem[]); }"
     },
     {
+      "name": "DsSeparator",
+      "kind": "class",
+      "signature": "declare class DsSeparator extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get decorative(): boolean; set decorative(value: boolean); }"
+    },
+    {
       "name": "DsSwitch",
       "kind": "class",
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
@@ -107,6 +117,11 @@
       "name": "DsTabs",
       "kind": "class",
       "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
+    },
+    {
+      "name": "DsTag",
+      "kind": "class",
+      "signature": "declare class DsTag extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get removable(): boolean; set removable(value: boolean); }"
     },
     {
       "name": "DsTextField",
@@ -132,6 +147,11 @@
       "name": "SelectItem",
       "kind": "interface",
       "signature": "interface SelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "SeparatorOrientation",
+      "kind": "type",
+      "signature": "type SeparatorOrientation = \"horizontal\" | \"vertical\";"
     },
     {
       "name": "SortDirection",
@@ -182,6 +202,11 @@
       "name": "TabsPanelContent",
       "kind": "type",
       "signature": "type TabsPanelContent = Node | string | number | null | undefined;"
+    },
+    {
+      "name": "TagStatus",
+      "kind": "type",
+      "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
     }
   ]
 }

@@ -26,6 +26,14 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "surface",
+          "type": "\"default\" | \"secondary\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Surface hierarchy. `secondary` uses the quieter secondary card surface token.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "imageSrc",
           "type": "string | undefined",
           "default": "undefined",
@@ -115,6 +123,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "surface",
+          "type": "\"default\" | \"secondary\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Surface hierarchy. `secondary` uses the quieter secondary card surface token.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "imageSrc",
           "type": "string",
           "default": "undefined",
@@ -190,6 +206,93 @@
         "tags",
         "title"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-card",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "`media` or `dashboard`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "`vertical` or `horizontal`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "surface",
+          "reactive": true,
+          "required": false,
+          "description": "`default` or `secondary`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "image-src",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "image-alt",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "title",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "heading-level",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "change",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "trend",
+          "reactive": true,
+          "required": false,
+          "description": "`up`, `down`, or `neutral`",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

@@ -11,6 +11,7 @@ describe("custom-elements adapter SSR", () => {
         .sort(),
     ).toEqual([
       "DsButton",
+      "DsCard",
       "DsCheckbox",
       "DsCheckboxGroup",
       "DsCombobox",
@@ -23,9 +24,11 @@ describe("custom-elements adapter SSR", () => {
       "DsRadioGroup",
       "DsSearchField",
       "DsSelect",
+      "DsSeparator",
       "DsSwitch",
       "DsTable",
       "DsTabs",
+      "DsTag",
       "DsTextField",
       "DsTextarea",
     ]);
