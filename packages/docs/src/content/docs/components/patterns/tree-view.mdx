@@ -33,4 +33,34 @@ A WAI-ARIA tree with roving tabindex, expand/collapse and keyboard navigation.
 <TreeView label="Files" nodes={[{ value: "src", children: [{ value: "index.ts" }] }]} expanded={["src"]} />
 ```
 
+In Elements, assign structured data through properties. Attribute reflection is
+reserved for scalar values:
+
+```html
+<ds-tree-view id="files" label="Files"></ds-tree-view>
+<script type="module">
+  import "@design-system/elements/define";
+
+  const tree = document.querySelector("#files");
+  tree.nodes = [{ value: "src", children: [{ value: "index.ts" }] }];
+  tree.expanded = ["src"];
+  tree.addEventListener("selected-change", (event) => {
+    tree.selected = event.detail.selected;
+  });
+</script>
+```
+
+### Large trees
+
+Tree View does not virtualize rows. DOM virtualization can remove the focused
+treeitem and makes the sibling metadata difficult to keep truthful. For large
+remote collections, keep search, filtering, and paging in the application and
+assign only the current result forest to `nodes`. Use stable `value` strings;
+`selected` and `expanded` remain controlled when the visible forest changes.
+
+Treat each result or page as the complete tree currently presented to the
+user. Announce result counts and page changes outside Tree View. Loading child
+nodes on expansion needs a separate asynchronous-node contract and is not
+implied by an empty `children` array.
+
 Themeable via `--ds-tree-*`.

@@ -161,6 +161,17 @@
         "icon",
         "label"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-tree-view",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [],
+      "notes": [
+        "Emits: `expanded-change` with `detail.expanded`, and `selected-change` with `detail.selected`. Property reflection never emits either event."
+      ]
     }
   }
 }
