@@ -14,7 +14,7 @@ not what it *is for*. That couples the token to a visual treatment: a themer
 who makes that surface vivid is left with a token whose name now lies.
 
 This contradicts the headless philosophy recorded in
-[ADR 0001](./0001-headless-vs-amber-web-components.md): the system ships
+[ADR 0001](./0001-headless-primitives.md): the system ships
 behavior and meaning, the consumer owns the look.
 
 ## Decision
@@ -70,5 +70,5 @@ purpose; the rule governs the Tier-2 semantic layer the components read.
 
 ## References
 
-- [ADR 0001 — Headless primitives](./0001-headless-vs-amber-web-components.md)
+- [ADR 0001 — Headless primitives](./0001-headless-primitives.md)
 - [`../foundations.md`](../foundations.md) — the token layer and naming rule.

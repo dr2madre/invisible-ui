@@ -73,9 +73,8 @@ from the start.
 
 ## Design decisions & foundations
 
-- [ADR 0001 — Headless vs. Amber's styled Web Components](./docs/adr/0001-headless-vs-amber-web-components.md):
-  why this project is headless and how it relates to Bitrock's
-  [Amber Design System](https://amber.bitrock.it/).
+- [ADR 0001 — Headless primitives instead of styled Web Components](./docs/adr/0001-headless-primitives.md):
+  why this project is headless.
 - [ADR 0002 — Tokens decoupled from style](./docs/adr/0002-tokens-decoupled-from-style.md)
 - [ADR 0003 — Select is native; the Combobox is the advanced select](./docs/adr/0003-native-select-advanced-combobox.md)
 - [ADR 0005 — The dialog family maps to the platform's simple dialogs](./docs/adr/0005-native-dialog-and-urgency.md)

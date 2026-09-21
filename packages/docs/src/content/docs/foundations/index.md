@@ -8,10 +8,8 @@ defaults, not requirements** — an opt-in theme layer you apply *on top of* the
 primitives through the `data-*` hooks they expose (e.g. `data-state`,
 `data-disabled`).
 
-They are inspired by Bitrock's [Amber Design System](https://amber.bitrock.it/)
-(specifically [`@amber-ds/visual`](https://github.com/bitrockteam/amber-visual)),
-but here everything is expressed as **overridable CSS custom properties**, so
-you can keep them, retheme them, or ignore them entirely.
+Everything is expressed as **overridable CSS custom properties**, so you can
+keep them, retheme them, or ignore them entirely.
 
 > Nothing here is bundled into `@design-system/core` or the adapters. Copy what
 > you want into your app's global stylesheet and change the values freely.

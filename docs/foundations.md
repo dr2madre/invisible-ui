@@ -6,10 +6,8 @@ defaults, not requirements** — an opt-in theme layer you apply *on top of* the
 primitives through the `data-*` hooks they expose (e.g. `data-state`,
 `data-disabled`).
 
-They are inspired by Bitrock's [Amber Design System](https://amber.bitrock.it/)
-(specifically [`@amber-ds/visual`](https://github.com/bitrockteam/amber-visual)),
-but here everything is expressed as **overridable CSS custom properties**, so
-you can keep them, retheme them, or ignore them entirely.
+Everything is expressed as **overridable CSS custom properties**, so you can
+keep them, retheme them, or ignore them entirely.
 
 > Nothing here is bundled into `@design-system/core` or the adapters. Copy what
 > you want into your app's global stylesheet and change the values freely.
@@ -73,5 +71,5 @@ large text or icon glyphs. This is a hard requirement for any styled output
 impose none. The shipped token defaults are verified by an automated contrast
 test over `tokens.css`.
 
-See also the [ADR on the headless approach](./adr/0001-headless-vs-amber-web-components.md)
+See also the [ADR on the headless approach](./adr/0001-headless-primitives.md)
 and [ADR 0002 (tokens decoupled from style)](./adr/0002-tokens-decoupled-from-style.md).
