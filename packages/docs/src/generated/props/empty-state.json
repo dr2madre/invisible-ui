@@ -153,6 +153,60 @@
         "default",
         "illustration"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-empty-state",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "title",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "status",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "heading-level",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "size",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "action-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Events: `action` when the generated action button is pressed."
+      ]
     }
   }
 }

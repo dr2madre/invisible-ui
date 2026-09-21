@@ -38,3 +38,24 @@ test("Elements Card, Tag and Separator preserve native semantics and keyboard ac
   await expect(page.locator("ds-tag")).toHaveAttribute("data-remove-requested", "true");
   await expect(page.locator("ds-tag")).toBeVisible();
 });
+
+test("Elements Empty State is announced and exposes a keyboard action", async ({ page }) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-empty-state");
+    document.body.innerHTML = `
+      <ds-empty-state title="No rules yet" description="Create the first rule."
+        action-label="Add rule" size="sm"></ds-empty-state>`;
+    document.querySelector("ds-empty-state")?.addEventListener("action", (event) => {
+      (event.currentTarget as HTMLElement).dataset.actionRequested = "true";
+    });
+  });
+
+  const status = page.getByRole("status");
+  await expect(status).toBeVisible();
+  await expect(status.getByRole("heading", { name: "No rules yet" })).toBeVisible();
+  const action = status.getByRole("button", { name: "Add rule" });
+  await action.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("ds-empty-state")).toHaveAttribute("data-action-requested", "true");
+});

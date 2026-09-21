@@ -106,5 +106,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSeparator }",
     "limit": "5 kB"
+  },
+  {
+    "name": "@design-system/elements — empty state only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsEmptyState }",
+    "limit": "7 kB"
   }
 ]

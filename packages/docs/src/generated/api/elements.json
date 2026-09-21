@@ -64,6 +64,11 @@
       "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
     },
     {
+      "name": "DsEmptyState",
+      "kind": "class",
+      "signature": "declare class DsEmptyState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsField",
       "kind": "class",
       "signature": "declare class DsField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
