@@ -3,6 +3,7 @@
 "@design-system/elements": minor
 "@design-system/svelte": minor
 "@design-system/vue": minor
+"@design-system/react": patch
 ---
 
 Add controlled asynchronous child loading to Tree View. Unloaded parents can
