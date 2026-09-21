@@ -287,6 +287,10 @@
       "svelte": "./src/lib/text-field/TextField.svelte",
       "default": "./src/lib/text-field/TextField.svelte"
     },
+    "./SearchField.svelte": {
+      "svelte": "./src/lib/search-field/SearchField.svelte",
+      "default": "./src/lib/search-field/SearchField.svelte"
+    },
     "./Textarea.svelte": {
       "svelte": "./src/lib/text-field/Textarea.svelte",
       "default": "./src/lib/text-field/Textarea.svelte"

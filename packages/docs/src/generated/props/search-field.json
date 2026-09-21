@@ -1,0 +1,346 @@
+{
+  "component": "search-field",
+  "selected": false,
+  "frameworks": {
+    "svelte": {
+      "import": {
+        "kind": "default",
+        "name": "SearchField",
+        "specifier": "@design-system/svelte/SearchField.svelte"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label and accessible name of the search input.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while preserving the accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Initial or controlled search query.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Native input placeholder. It does not replace the label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Native form field name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "autocomplete",
+          "type": "HTMLInputAttributes[\"autocomplete\"]",
+          "default": "undefined",
+          "required": false,
+          "description": "Native browser autofill hint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "clearLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the conditional clear button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "submitLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the native submit button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called once after a user edit or clear action is committed locally.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
+    "vue": {
+      "import": {
+        "kind": "named",
+        "name": "SearchField",
+        "specifier": "@design-system/vue"
+      },
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label and accessible name of the search input.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while preserving the accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Controlled query for `v-model`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Initial or controlled search query.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Native input placeholder. It does not replace the label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Native form field name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Native browser autofill hint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the conditional clear button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "submitLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible name for the native submit button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called once after a user edit or clear action is committed locally.",
+          "descriptionFrom": "source"
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "value: string"
+        }
+      ],
+      "slots": []
+    },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "SearchField",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label and accessible name of the search input.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while preserving the accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Initial or controlled search query.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Native input placeholder. It does not replace the label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Native form field name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "autoComplete",
+          "type": "InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]",
+          "default": null,
+          "required": false,
+          "description": "Native browser autofill hint.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the conditional clear button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "submitLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the native submit button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called once after a user edit or clear action is committed locally.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-search-field",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [],
+      "notes": []
+    }
+  }
+}

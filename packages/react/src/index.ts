@@ -16,6 +16,7 @@ export { Checkbox, type CheckboxProps } from "./checkbox/Checkbox";
 export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { TextField, type TextFieldProps } from "./text-field/TextField";
+export { SearchField, type SearchFieldProps } from "./search-field/SearchField";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
 export { MultiSelect, type MultiSelectProps } from "./multi-select/MultiSelect";
 export {

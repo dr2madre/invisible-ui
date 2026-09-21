@@ -85,6 +85,7 @@ export default defineConfig({
                 },
                 "components/forms/slider",
                 "components/forms/range-slider",
+                "components/forms/search-field",
                 "components/forms/text-area",
                 "components/forms/text-field",
                 {
