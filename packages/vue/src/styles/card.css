@@ -8,6 +8,9 @@
   border-radius: var(--ds-card-radius, var(--ds-radius-surface, 0.75rem));
   overflow: hidden;
 }
+.card[data-surface="secondary"] {
+  background: var(--ds-card-secondary-bg, var(--ds-color-neutral-surface, #f4f2ef));
+}
 
 /* ---- Media card, vertical (classic) ---- */
 .card--media {

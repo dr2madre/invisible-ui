@@ -51,6 +51,11 @@ describe("Vue Card (styled)", () => {
     expect(card()).toHaveAttribute("data-orientation", "horizontal");
   });
 
+  it("exposes the secondary surface hierarchy", () => {
+    render(Card, { props: { ...mediaProps, surface: "secondary" } });
+    expect(card()).toHaveAttribute("data-surface", "secondary");
+  });
+
   it("renders an icon in place of the image when the icon slot is used", () => {
     render(Card, {
       props: { title: "Mountain retreat", description: "A quiet cabin with a view of the valley." },

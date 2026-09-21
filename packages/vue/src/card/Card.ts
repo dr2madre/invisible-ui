@@ -6,6 +6,8 @@ export interface CardProps {
   variant?: "media" | "dashboard";
   /** Media card layout. Defaults to `vertical`. */
   orientation?: "vertical" | "horizontal";
+  /** Surface hierarchy. `secondary` uses the quieter secondary card surface token. */
+  surface?: "default" | "secondary";
   /** Image URL for the media area (ignored when the `icon` slot is used). */
   imageSrc?: string;
   /** Alt text for the image. Defaults to empty (decorative). */
@@ -50,6 +52,7 @@ export const Card = defineComponent({
   props: {
     variant: { type: String as PropType<"media" | "dashboard">, default: "media" },
     orientation: { type: String as PropType<"vertical" | "horizontal">, default: "vertical" },
+    surface: { type: String as PropType<"default" | "secondary">, default: "default" },
     imageSrc: { type: String, default: undefined },
     imageAlt: { type: String, default: "" },
     title: { type: String, default: undefined },
@@ -71,21 +74,29 @@ export const Card = defineComponent({
           : null;
 
       if (props.variant === "dashboard") {
-        return h("article", { class: "card card--dashboard", "aria-labelledby": labelledBy }, [
-          h("div", { class: "card__dash-head" }, [
-            slots.icon
-              ? h("span", { class: "card__icon", "aria-hidden": "true" }, slots.icon())
-              : null,
-            heading,
-          ]),
-          h("div", { class: "card__metric" }, [
-            props.value != null ? h("span", { class: "card__value" }, props.value) : null,
-            props.change
-              ? h("span", { class: "card__change", "data-trend": props.trend }, props.change)
-              : null,
-            slots.metric?.(),
-          ]),
-        ]);
+        return h(
+          "article",
+          {
+            class: "card card--dashboard",
+            "data-surface": props.surface,
+            "aria-labelledby": labelledBy,
+          },
+          [
+            h("div", { class: "card__dash-head" }, [
+              slots.icon
+                ? h("span", { class: "card__icon", "aria-hidden": "true" }, slots.icon())
+                : null,
+              heading,
+            ]),
+            h("div", { class: "card__metric" }, [
+              props.value != null ? h("span", { class: "card__value" }, props.value) : null,
+              props.change
+                ? h("span", { class: "card__change", "data-trend": props.trend }, props.change)
+                : null,
+              slots.metric?.(),
+            ]),
+          ],
+        );
       }
 
       const hasMedia = Boolean(props.imageSrc) || Boolean(slots.icon) || Boolean(slots.media);
@@ -96,6 +107,7 @@ export const Card = defineComponent({
         {
           class: "card card--media",
           "data-orientation": props.orientation,
+          "data-surface": props.surface,
           "aria-labelledby": labelledBy,
         },
         [

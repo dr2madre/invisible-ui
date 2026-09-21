@@ -7887,6 +7887,58 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-card-secondary-bg",
+      "id": "card-secondary-bg",
+      "component": "card",
+      "usedBy": [
+        "card"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "background"
+      ],
+      "adapters": [
+        "elements",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-neutral-surface, #f4f2ef)"
+      ],
+      "parents": [
+        "--ds-color-neutral-surface"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/card.css",
+          "selector": ".card[data-surface=\"secondary\"]",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/card/Card.svelte",
+          "selector": ".card[data-surface=\"secondary\"]",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/card.css",
+          "selector": ".card[data-surface=\"secondary\"]",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-card-text",
       "id": "card-text",
       "component": "card",

@@ -42,6 +42,14 @@ describe("<ds-card>", () => {
     expect(host.querySelector(".card__metric-content")).toHaveTextContent("this month");
   });
 
+  it("reacts to the secondary surface hierarchy", () => {
+    document.body.innerHTML = '<ds-card title="Project"></ds-card>';
+    const host = document.querySelector("ds-card")!;
+    expect(host.querySelector("article")).toHaveAttribute("data-surface", "default");
+    host.setAttribute("surface", "secondary");
+    expect(host.querySelector("article")).toHaveAttribute("data-surface", "secondary");
+  });
+
   it("treats attribute content as text", () => {
     document.body.innerHTML =
       '<ds-card title="&lt;img src=x&gt;" description="&lt;button&gt;unsafe&lt;/button&gt;"></ds-card>';

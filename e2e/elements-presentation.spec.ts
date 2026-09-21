@@ -12,7 +12,8 @@ test("Elements Card, Tag and Separator preserve native semantics and keyboard ac
       customElements.whenDefined("ds-separator"),
     ]);
     document.body.innerHTML = `
-      <ds-card title="Database" description="AdventureWorks" orientation="horizontal">
+      <ds-card title="Database" description="AdventureWorks" orientation="horizontal"
+        surface="secondary" style="--ds-card-secondary-bg: rgb(244, 242, 239)">
         <ds-tag slot="tags" status="success" removable remove-label="Remove status">Connected</ds-tag>
         <p>12 tables available.</p>
         <ds-button slot="actions">Open</ds-button>
@@ -27,6 +28,8 @@ test("Elements Card, Tag and Separator preserve native semantics and keyboard ac
   await expect(card).toBeVisible();
   await expect(card).toContainText("AdventureWorks");
   await expect(card).toContainText("12 tables available.");
+  await expect(card).toHaveAttribute("data-surface", "secondary");
+  await expect(card).toHaveCSS("background-color", "rgb(244, 242, 239)");
   await expect(page.getByRole("separator")).toHaveAttribute("aria-orientation", "horizontal");
 
   const remove = card.getByRole("button", { name: "Remove status" });

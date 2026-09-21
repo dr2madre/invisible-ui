@@ -8,13 +8,14 @@ type CardRegion = "media" | "icon" | "title" | "description" | "tags" | "actions
  * `media`, `icon`, `title`, `description`, `tags`, `actions`, or `metric`.
  *
  * Attributes: `variant` (`media` or `dashboard`), `orientation` (`vertical` or
- * `horizontal`), `image-src`, `image-alt`, `title`, `heading-level`,
+ * `horizontal`), `surface` (`default` or `secondary`), `image-src`, `image-alt`, `title`, `heading-level`,
  * `description`, `value`, `change`, `trend` (`up`, `down`, or `neutral`).
  */
 export class DsCard extends HTMLElementBase {
   static observedAttributes = [
     "variant",
     "orientation",
+    "surface",
     "image-src",
     "image-alt",
     "title",
@@ -59,6 +60,8 @@ export class DsCard extends HTMLElementBase {
     const article = document.createElement("article");
     article.className =
       this.#variant() === "dashboard" ? "card card--dashboard" : "card card--media";
+    article.dataset.surface =
+      this.getAttribute("surface") === "secondary" ? "secondary" : "default";
 
     const title = this.#heading();
     if (title?.id) article.setAttribute("aria-labelledby", title.id);

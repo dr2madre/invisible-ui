@@ -26,6 +26,14 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "surface",
+          "type": "\"default\" | \"secondary\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Surface hierarchy. `secondary` uses the quieter secondary card surface token.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "imageSrc",
           "type": "string | undefined",
           "default": "undefined",
@@ -112,6 +120,14 @@
           "default": "\"vertical\"",
           "required": false,
           "description": "Media card layout. Defaults to `vertical`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "surface",
+          "type": "\"default\" | \"secondary\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Surface hierarchy. `secondary` uses the quieter secondary card surface token.",
           "descriptionFrom": "source"
         },
         {
@@ -210,6 +226,13 @@
           "reactive": true,
           "required": false,
           "description": "`vertical` or `horizontal`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "surface",
+          "reactive": true,
+          "required": false,
+          "description": "`default` or `secondary`",
           "descriptionFrom": "source"
         },
         {

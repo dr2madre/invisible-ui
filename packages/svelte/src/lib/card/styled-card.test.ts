@@ -29,6 +29,11 @@ describe("Svelte Card (styled)", () => {
     expect(card()).toHaveAttribute("data-orientation", "horizontal");
   });
 
+  it("exposes the secondary surface hierarchy", () => {
+    render(Fixture, { props: { surface: "secondary" } });
+    expect(card()).toHaveAttribute("data-surface", "secondary");
+  });
+
   it("renders an icon in place of the image when the icon slot is used", () => {
     render(Fixture, { props: { withIcon: true } });
     expect(card().querySelector(".card__image")).toBeNull();

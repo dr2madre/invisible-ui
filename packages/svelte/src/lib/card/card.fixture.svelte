@@ -4,18 +4,20 @@
 
   export let variant: "media" | "dashboard" = "media";
   export let orientation: "vertical" | "horizontal" = "vertical";
+  export let surface: "default" | "secondary" = "default";
   /** Use an icon in the media area instead of an image. */
   export let withIcon = false;
   export let imageSrc: string | undefined = "https://example.com/photo.jpg";
 </script>
 
 {#if variant === "dashboard"}
-  <Card variant="dashboard" title="Revenue" value="€48.2k" change="+12%" trend="up">
+  <Card {surface} variant="dashboard" title="Revenue" value="€48.2k" change="+12%" trend="up">
     <svg slot="icon" viewBox="0 0 16 16"><rect width="16" height="16" /></svg>
   </Card>
 {:else if withIcon}
   <Card
     {orientation}
+    {surface}
     title="Mountain retreat"
     description="A quiet cabin with a view of the valley."
   >
@@ -32,6 +34,7 @@
 {:else}
   <Card
     {orientation}
+    {surface}
     {imageSrc}
     imageAlt="A nice view"
     title="Mountain retreat"
