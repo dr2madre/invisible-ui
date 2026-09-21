@@ -48,6 +48,7 @@ const VUE_SHEETS = [
   "feedback-icon.css",
   "empty-state.css",
   "error-state.css",
+  "inline-notification.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

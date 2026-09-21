@@ -46,4 +46,21 @@ messages.)
 />
 ```
 
+Elements uses light DOM for rich body content and the `icon`, `link`, and
+`actions` regions. Dismissal updates the `open` property and emits bubbling
+`close` and `open-change` events:
+
+```html
+<ds-inline-notification
+  status="success"
+  title="Saved"
+  description="Your changes have been saved."
+  closable
+  close-label="Dismiss saved message"
+></ds-inline-notification>
+```
+
+Use `role="alert"` only for urgent feedback that should interrupt the current
+announcement. The default `role="status"` remains polite.
+
 Themeable via `--ds-alert-*` (and the `--ds-color-*` token layer).

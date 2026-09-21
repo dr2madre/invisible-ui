@@ -20,6 +20,7 @@ describe("custom-elements adapter SSR", () => {
       "DsEmptyState",
       "DsErrorState",
       "DsField",
+      "DsInlineNotification",
       "DsLabel",
       "DsMultiSelect",
       "DsPagination",

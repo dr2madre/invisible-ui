@@ -30,6 +30,7 @@ export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-sel
 export { DsDialog } from "./dialog/ds-dialog";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
+export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
 export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";

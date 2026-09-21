@@ -82,3 +82,33 @@ test("Elements Error State is announced and exposes a keyboard recovery action",
   await page.keyboard.press("Enter");
   await expect(page.locator("ds-error-state")).toHaveAttribute("data-action-requested", "true");
 });
+
+test("Elements Inline Notification announces feedback and dismisses from the keyboard", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-inline-notification");
+    document.body.innerHTML = `
+      <ds-inline-notification title="Saved" description="Your changes were saved."
+        status="success" closable close-label="Dismiss saved message"></ds-inline-notification>`;
+    document.querySelector("ds-inline-notification")?.addEventListener("open-change", (event) => {
+      const detail = (event as CustomEvent<{ open: boolean }>).detail;
+      (event.currentTarget as HTMLElement).dataset.reportedOpen = String(detail.open);
+    });
+  });
+
+  const notification = page.getByRole("status", { name: "Saved" });
+  await expect(notification).toContainText("Your changes were saved.");
+  const close = notification.getByRole("button", { name: "Dismiss saved message" });
+  const box = await close.boundingBox();
+  expect(box?.width).toBeGreaterThanOrEqual(24);
+  expect(box?.height).toBeGreaterThanOrEqual(24);
+  await close.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("ds-inline-notification")).toHaveAttribute(
+    "data-reported-open",
+    "false",
+  );
+  await expect(page.locator(".inline-notification")).toHaveCount(0);
+});
