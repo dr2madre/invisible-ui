@@ -47,6 +47,7 @@ const VUE_SHEETS = [
   "separator.css",
   "feedback-icon.css",
   "empty-state.css",
+  "error-state.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

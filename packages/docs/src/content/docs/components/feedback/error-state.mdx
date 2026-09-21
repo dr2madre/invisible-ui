@@ -78,4 +78,22 @@ It composes existing primitives — no new behavior:
 />
 ```
 
+Elements keeps custom icons, supporting content, and custom actions in light
+DOM. The generated recovery action emits a bubbling `action` event:
+
+```html
+<ds-error-state
+  title="Couldn't connect to the server"
+  description="Check your connection and try again."
+  action-label="Try again"
+></ds-error-state>
+
+<script type="module">
+  document.querySelector("ds-error-state").addEventListener("action", retry);
+</script>
+```
+
+Use `slot="icon"` to replace the fallback icon and `slot="actions"` to
+compose multiple buttons or links. Unslotted children add supporting content.
+
 Themeable via `--ds-error-state-*` (gap, padding, max-width, icon/title size).

@@ -69,6 +69,11 @@
       "signature": "declare class DsEmptyState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsErrorState",
+      "kind": "class",
+      "signature": "declare class DsErrorState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsField",
       "kind": "class",
       "signature": "declare class DsField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
