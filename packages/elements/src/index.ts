@@ -28,6 +28,7 @@ export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";

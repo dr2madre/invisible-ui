@@ -99,5 +99,24 @@ It composes existing primitives, no new behavior:
 />
 ```
 
+Elements keeps custom illustration, supporting content, and custom actions in
+light DOM. The generated action emits a bubbling `action` event:
+
+```html
+<ds-empty-state
+  title="No rules yet"
+  description="Create the first rule to get started."
+  action-label="Add rule"
+></ds-empty-state>
+
+<script type="module">
+  document.querySelector("ds-empty-state").addEventListener("action", addRule);
+</script>
+```
+
+Use `slot="illustration"` to replace the fallback artwork and `slot="actions"`
+to compose multiple buttons or links. Unslotted children add supporting
+content.
+
 Themeable via `--ds-empty-state-*` (gap, padding, max-width, icon size,
 illustration max-width, title size).

@@ -45,6 +45,8 @@ const VUE_SHEETS = [
   "pagination.css",
   "card.css",
   "separator.css",
+  "feedback-icon.css",
+  "empty-state.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
