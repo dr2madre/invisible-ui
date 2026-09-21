@@ -109,6 +109,22 @@ happens before `delay`, nothing is ever shown:
 {#if busy}<Loading variant="spinner" delay={150} />{/if}
 ```
 
+Elements exposes the same variants and progress semantics through attributes:
+
+```html
+<ds-loading
+  variant="bar"
+  value="48"
+  label="Importing files"
+  show-value
+  detail="3 of 8 files"
+></ds-loading>
+```
+
+Set `decorative` only when the surrounding control or busy region already
+announces the operation. Use `status` for discrete live updates and `delay` to
+avoid flashing the indicator for fast operations.
+
 The `UploadDropArea` uses exactly this: the native file dialog can take up to ~1 s to
 open, so its spinner (`delay={150}`) appears only if the dialog is slow —
 instant opens never flash one.

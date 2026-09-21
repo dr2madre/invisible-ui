@@ -49,6 +49,7 @@ const VUE_SHEETS = [
   "empty-state.css",
   "error-state.css",
   "inline-notification.css",
+  "loading.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

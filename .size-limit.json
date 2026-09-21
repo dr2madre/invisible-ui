@@ -124,5 +124,11 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsInlineNotification }",
     "limit": "8 kB"
+  },
+  {
+    "name": "@design-system/elements — loading only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsLoading }",
+    "limit": "7 kB"
   }
 ]
