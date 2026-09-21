@@ -32,6 +32,10 @@ export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
 export { DsLoading, type LoadingVariant } from "./loading/ds-loading";
+export {
+  DsLoadingGenerationArea,
+  type LoadingGenerationAreaPosition,
+} from "./loading-generation-area/ds-loading-generation-area";
 export { DsLabel } from "./label/ds-label";
 export { DsField } from "./field/ds-field";
 export { DsTextField, DsTextarea } from "./text-field/ds-text-field";

@@ -50,6 +50,7 @@ const VUE_SHEETS = [
   "error-state.css",
   "inline-notification.css",
   "loading.css",
+  "loading-generation-area.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

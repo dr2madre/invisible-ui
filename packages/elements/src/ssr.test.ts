@@ -23,6 +23,7 @@ describe("custom-elements adapter SSR", () => {
       "DsInlineNotification",
       "DsLabel",
       "DsLoading",
+      "DsLoadingGenerationArea",
       "DsMultiSelect",
       "DsPagination",
       "DsRadioGroup",

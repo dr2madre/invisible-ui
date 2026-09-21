@@ -71,6 +71,20 @@ placeholder (with a gentle fade):
 </LoadingGenerationArea>
 ```
 
+In plain HTML, import the Elements registration entry point and use the same
+loading-to-content contract:
+
+```html
+<ds-loading-generation-area status="Generating image" value="40" detail="3 of 8 files">
+  <img src="result.png" alt="Generated image" />
+</ds-loading-generation-area>
+
+<script>
+  const area = document.querySelector("ds-loading-generation-area");
+  area.setAttribute("loading", "false");
+</script>
+```
+
 ### Props
 
 <PropsTable component="loading-generation-area" />
