@@ -73,7 +73,7 @@
   block-size: 1.15rem;
 }
 .search-field__action:hover {
-  background: var(--ds-color-surface-hover, #eee9f8);
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
 }
 .search-field__action:focus-visible {
   outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #8e6cd4);
