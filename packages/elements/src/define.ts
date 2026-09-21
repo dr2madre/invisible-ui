@@ -15,6 +15,7 @@ import { DsSelect } from "./select/ds-select";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
 import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSwitch } from "./switch/ds-switch";
+import { DsTable } from "./table/ds-table";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -35,5 +36,6 @@ define("ds-textarea", DsTextarea);
 define("ds-search-field", DsSearchField);
 define("ds-radio-group", DsRadioGroup);
 define("ds-checkbox-group", DsCheckboxGroup);
+define("ds-table", DsTable);
 
 export {};
