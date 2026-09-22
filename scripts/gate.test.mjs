@@ -90,3 +90,11 @@ test("step names are unique, so --from is unambiguous", () => {
   const names = STEPS.map(([name]) => name);
   assert.equal(new Set(names).size, names.length);
 });
+
+test("the gate refuses names and text that mention a tool", () => {
+  const names = STEPS.map(([name]) => name);
+  assert.ok(
+    names.includes("no-tool-traces"),
+    "the gate has to check for tool traces: the rule is written in CONTRIBUTING.md and in CLAUDE.md, and a session that remembers neither still has to obey it",
+  );
+});
