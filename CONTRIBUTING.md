@@ -97,9 +97,16 @@ directly, so they need no build and are safe at any time.
    `docs/why-page`, `chore/trim-gitignore`. Every name in this repository
    (branches, files, examples) describes its content; generated or
    placeholder names are rejected in review.
-2. Keep changes focused; one logical change per pull request.
-3. Open a pull request against `main`. Pull requests are **squash-merged**.
-4. After the merge: update local `main` (`git fetch` + fast-forward) and
+2. No name here mentions a tool or an assistant, and none carries a random
+   suffix: a name like `<tool>/missing-items-review-j9e781` breaks both
+   halves of the rule. It holds for a branch that already exists when you
+   arrive, one a tool opened on its own included: rename it before any work
+   starts on it,
+   `git branch -m docs/naming-rules`, so the history keeps whatever is on it
+   and the name still describes the change.
+3. Keep changes focused; one logical change per pull request.
+4. Open a pull request against `main`. Pull requests are **squash-merged**.
+5. After the merge: update local `main` (`git fetch` + fast-forward) and
    delete the branch.
 
 ## Commit conventions
