@@ -211,14 +211,23 @@ describe.each([
   });
 
   it("the switch thumb stays separable from the off track", () => {
-    // Light: the white thumb against the track. Dark: the page-coloured rim
-    // around the thumb against the track. Both must clear 3:1.
-    const track = resolve("var(--ds-color-control-border)", vars);
+    // The off track is a surface. Either the white thumb or the rim drawn
+    // round it must clear 3:1 against that surface.
+    const track = resolve("var(--ds-color-surface)", vars);
     const thumb = resolve("var(--ds-neutral-0)", vars);
-    const rim = resolve("var(--ds-color-background)", vars);
+    const rim = resolve("var(--ds-color-control-border)", vars);
     const against = (a: RGB, b: RGB) =>
       (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
     expect(Math.max(against(thumb, track), against(rim, track))).toBeGreaterThanOrEqual(3);
+  });
+
+  it("the switch ON/OFF text meets 4.5:1 in both states", () => {
+    // The words sit inside the track, so each is read against its own state:
+    // the text colour on the off surface, the on-secondary colour on the fill.
+    expect(contrast("--ds-color-text", "--ds-color-surface", vars)).toBeGreaterThanOrEqual(4.5);
+    expect(
+      contrast("--ds-color-on-secondary", "--ds-color-secondary", vars),
+    ).toBeGreaterThanOrEqual(4.5);
   });
 });
 

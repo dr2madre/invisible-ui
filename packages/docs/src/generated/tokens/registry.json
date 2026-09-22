@@ -24484,10 +24484,10 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-color-text-secondary, #524c44)"
+        "var(--ds-color-text, #282420)"
       ],
       "parents": [
-        "--ds-color-text-secondary"
+        "--ds-color-text"
       ],
       "sites": [
         {
@@ -24495,28 +24495,28 @@
           "file": "packages/elements/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text, #282420)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text, #282420)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/switch/Switch.svelte",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text, #282420)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/switch.css",
           "selector": ".switch--onoff .switch__off",
           "property": "color",
-          "fallback": "var(--ds-color-text-secondary, #524c44)"
+          "fallback": "var(--ds-color-text, #282420)"
         }
       ],
       "purpose": null,
