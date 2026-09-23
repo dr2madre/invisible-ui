@@ -13,6 +13,7 @@
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { specifiersOf, withoutQuery } from "./specifiers.mjs";
+import { ourDeclarationErrors } from "./consumer-declarations.mjs";
 import {
   lstatSync,
   mkdtempSync,
@@ -254,14 +255,8 @@ try {
     const tsc = resolve(dirname(require.resolve("typescript/package.json")), "bin/tsc");
     execFileSync(process.execPath, [tsc, "-p", consumer], { cwd: consumer, stdio: "pipe" });
   } catch (error) {
-    // skipLibCheck: false reaches every dependency's declarations too, and a
-    // broken one of those is not this repository's to fix: it fails no
-    // consumer who does not turn the same setting on. Only errors in what we
-    // ship, or in the consumer file that imports it, are ours.
-    const lines = String(error.stdout ?? error.message).split("\n");
-    const ours = lines.filter(
-      (line) => line.includes("node_modules/@design-system/") || line.startsWith("types.ts("),
-    );
+    // Only the lines this repository answers for; see consumer-declarations.mjs.
+    const ours = ourDeclarationErrors(error.stdout ?? error.message);
     if (ours.length) {
       fail(
         `the shipped declarations do not type-check:\n      ${ours.slice(0, 5).join("\n      ")}`,
