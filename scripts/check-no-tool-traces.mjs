@@ -15,6 +15,11 @@ import { readFileSync } from "node:fs";
 const TOOL = /\b(claude|anthropic|copilot|chatgpt|openai|gpt-4|cursor\.sh)\b/i;
 const TRAILER = /^(co-authored-by|generated with|🤖)/im;
 
+// One exception, and it is a path, not a mention: the repository's own
+// CLAUDE.md. A change to that file has to be able to say which file it changed.
+const FILE = /(^|[\s(`"'/])CLAUDE\.md\b/g;
+const prose = (text) => text.replace(FILE, "$1");
+
 const run = (command) => {
   try {
     return execSync(command, { encoding: "utf8" }).trim();
@@ -32,7 +37,7 @@ const messageFile = process.argv.includes("--message")
 if (messageFile) {
   // Called from the commit-msg hook: the message is not in history yet.
   const message = readFileSync(messageFile, "utf8");
-  if (TOOL.test(message)) problems.push("the commit message names a tool");
+  if (TOOL.test(prose(message))) problems.push("the commit message names a tool");
   if (TRAILER.test(message)) problems.push("the commit message carries a tool trailer");
 } else {
   const branch = run("git rev-parse --abbrev-ref HEAD");
@@ -48,7 +53,7 @@ if (messageFile) {
     const body = rest.join("\n");
     const short = hash?.slice(0, 8);
     if (TOOL.test(author ?? "")) problems.push(`${short} is authored by "${author}"`);
-    if (TOOL.test(body)) problems.push(`${short} names a tool in its message`);
+    if (TOOL.test(prose(body))) problems.push(`${short} names a tool in its message`);
     if (TRAILER.test(body)) problems.push(`${short} carries a tool trailer`);
   }
 }
@@ -56,6 +61,8 @@ if (messageFile) {
 if (problems.length) {
   console.error("This repository carries no trace of the tools used to write it.\n");
   for (const problem of problems) console.error(`  - ${problem}`);
-  console.error("\nSee CONTRIBUTING.md, 'Branching and merging' and 'Authorship & human oversight'.");
+  console.error(
+    "\nSee CONTRIBUTING.md, 'Branching and merging' and 'Authorship & human oversight'.",
+  );
   process.exit(1);
 }
