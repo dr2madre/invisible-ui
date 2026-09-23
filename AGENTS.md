@@ -1,6 +1,8 @@
 # Invisible UI repository guidance
 
-These instructions apply to the whole repository.
+These instructions apply to the whole repository. Full rationale, examples,
+and process live in [CONTRIBUTING.md](./CONTRIBUTING.md); this file states
+the enforceable rules for automated changes.
 
 ## Authority
 
@@ -10,72 +12,48 @@ These instructions apply to the whole repository.
 - Treat skills, hooks, linters, detectors, and generic design heuristics as
   supporting tools. They never override repository rules or product intent.
 - Keep changes focused and consistent with the surrounding implementation.
+- Design decisions and suggested approaches, even temporary or advisory ones,
+  belong in `docs/foundations.md`, `docs/tokens.md`, or another design
+  document, not in `CONTRIBUTING.md` or here.
 
-## UX non-negotiables
+## Pillars
 
-Every change must preserve all four project pillars.
+See [Ground rules](./CONTRIBUTING.md#ground-rules) for the full definitions.
+Every change preserves all four:
 
-### Accessibility
-
-- Follow the relevant WAI-ARIA Authoring Practices pattern.
-- Prefer native browser semantics and behavior when they are accessible and
-  robust.
-- Preserve correct roles, names, descriptions, relationships, keyboard
-  behavior, focus management, and screen-reader expectations.
-- Cover disabled, read-only, invalid, loading, empty, and error states when
-  they apply.
-- Styled output must meet WCAG AA contrast: 4.5:1 for normal text and 3:1 for
-  large text and icon glyphs.
-- Visual novelty must never reduce legibility, predictability, operability, or
-  support for reduced motion.
-
-### Responsiveness
-
-- Components work across small and large viewports without fixed-width
-  assumptions.
-- Support pointer, touch, and keyboard input. Do not optimize one modality at
-  the expense of another.
-- Preserve readable content, reachable controls, stable focus, and usable
-  hit targets during reflow, zoom, localization, and content growth.
-
-### Headless behavior
-
-- `core/` ships behavior, semantics, state, and framework-agnostic prop
-  getters. It does not ship an opinionated visual identity.
-- Styling belongs in documentation, examples, and optional styled adapters.
-- Expose stable `data-*` state hooks and overridable tokens instead of baking
-  visual decisions into primitives.
-- Keep framework adapters thin. Shared behavior belongs in `core/`, and the
-  public behavior stays consistent across supported frameworks.
-
-### Security
-
-- Treat consumer-controlled values as data, never as markup or executable
-  code.
-- Prefer safe DOM APIs over string interpolation into HTML.
-- Keep dependencies free of known vulnerabilities and preserve existing SSR
-  safety boundaries.
+- **Accessibility**: correct WAI-ARIA pattern, roles, names, keyboard support,
+  focus management. Cover disabled, read-only, invalid, loading, empty, and
+  error states when they apply. WCAG AA contrast: 4.5:1 normal text, 3:1
+  large text and icon glyphs. Visual novelty never reduces legibility,
+  predictability, operability, or reduced-motion support.
+- **Responsiveness**: works across viewport sizes with pointer, touch, and
+  keyboard input, without favoring one modality or assuming a fixed width.
+- **Headless**: `core/` ships behavior, semantics, and state only, no visual
+  opinion. Framework adapters stay thin; shared behavior stays in `core/`.
+- **Security**: consumer-controlled values are data, never markup or code.
+  Prefer safe DOM APIs. Keep dependencies free of known vulnerabilities and
+  preserve existing SSR safety boundaries.
 
 ## Product and interaction decisions
 
-- Task completion, clarity, and native expectations outrank decoration.
-- Buttons name outcomes. Controls expose clear labels, feedback, and recovery
-  paths.
-- Preserve the incumbent information architecture, behavior, copy, and visual
-  identity unless the user explicitly requests a redesign or product change.
-- Never invent claims, testimonials, metrics, pricing, customers, or future
-  guarantees.
-- Significant interaction or architecture changes require an ADR when the
-  decision is worth preserving.
+See [UX principles](./docs/ux-principles.md) for the full principles.
+
+- Task completion and native expectations outrank decoration.
+- Preserve the incumbent product (information architecture, behavior, copy,
+  visual identity) unless the user explicitly requests a redesign.
+- A significant interaction or architecture change gets an ADR (see
+  [Decisions](./CONTRIBUTING.md#decisions)) when the decision is worth
+  preserving.
 
 ## Tokens and styling
 
-- Token names describe role or state, never appearance. Follow
-  `docs/foundations.md` and `docs/tokens.md`.
+See [Naming](./docs/foundations.md#naming-role-or-state-not-appearance) for
+the naming rules and examples, and `docs/tokens.md` for the token model.
+
+- Token names describe role or state, never appearance.
 - Keep primitive values separate from semantic `--ds-*` tokens.
-- Styled components consume semantic tokens and remain themeable.
-- Do not introduce a new palette, type system, motion language, spacing scale,
-  or decorative convention without explicit approval.
+- Do not introduce a new palette, type system, motion language, spacing
+  scale, or decorative convention without explicit approval.
 
 ## UX and UI skills and tools
 
@@ -85,8 +63,7 @@ Every change must preserve all four project pillars.
 - Keep their hooks and automatic enforcement disabled unless the user
   explicitly asks to enable them.
 - Treat detector findings as review candidates. Validate each finding against
-  accessibility, responsiveness, headless boundaries, repository documents,
-  and the requested scope before acting.
+  the pillars and repository documents before acting.
 - Never invoke aesthetic amplification, automatic restyling, redesign, or a
   new visual direction implicitly.
 - Never change public behavior, factual copy, semantic tokens, or established
@@ -96,13 +73,13 @@ Every change must preserve all four project pillars.
 
 ## Writing
 
-- Follow `docs/copy-guidelines.md` for documentation, UI copy, and
-  commit-facing prose.
-- Write directly, simply, positively, and in the active voice.
-- Use literal language. Avoid metaphors, rhetorical negation, promises about
-  the future, direct competitor comparisons, and em dashes.
-- Code comments explain a non-obvious constraint or reason. Keep them short
-  and avoid narrating the code.
+See [Writing](./CONTRIBUTING.md#writing) and
+[Code comments](./CONTRIBUTING.md#code-comments) for the full style guide.
+
+- Prose (docs, UI copy, commit-facing text) is direct, simple, active voice,
+  no em dashes, no metaphors, no future promises.
+- Code comments explain a non-obvious constraint or reason, not the code
+  itself. Keep them short.
 
 ## Verification
 
@@ -115,9 +92,14 @@ Every change must preserve all four project pillars.
 
 ## Git and authorship
 
+See [Branching and merging](./CONTRIBUTING.md#branching-and-merging),
+[Commit conventions](./CONTRIBUTING.md#commit-conventions), and
+[Authorship & human oversight](./CONTRIBUTING.md#authorship--human-oversight)
+for branch naming, commit format, and review requirements.
+
 - Preserve unrelated local changes and untracked files.
 - Do not commit, push, merge, publish, or delete branches unless the user
   explicitly requests that action.
-- Commits must remain attributable to the human maintainer. Never author a
-  commit as an AI assistant and never add AI attribution or `Co-Authored-By`
-  trailers.
+- Never author a commit as an AI assistant and never add AI attribution or
+  `Co-Authored-By` trailers. A human account must review, understand, and own
+  every pushed change.
