@@ -1,1 +1,2 @@
 corepack pnpm exec commitlint --edit "$1"
+node scripts/check-no-tool-traces.mjs --message "$1"

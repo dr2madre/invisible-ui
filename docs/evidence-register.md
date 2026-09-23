@@ -30,7 +30,7 @@ runs and nothing else), `none yet`.
 | --- | --- | --- | --- |
 | Adapter tests run against the current core build, never a stale dist | `CONTRIBUTING.md`, "Running the checks locally" | gate: `scripts/vitest-core-guard.mjs` is the Vitest `globalSetup` of all four adapters and calls `assertCoreDist` from `scripts/check-core-dist.mjs`; 12 tests in `scripts/check-core-dist.test.mjs` | held |
 | Browser tests run against this checkout's build, never another worktree's | `CONTRIBUTING.md`, `docs/visual-testing.md` | gate: `e2e/global-setup.ts` refuses a foreign or stale server using `scripts/build-id.mjs`; 14 tests in `scripts/build-id.test.mjs`. No browser test exercises the refusal: it runs before the browser starts | held for the unit behaviour |
-| `pnpm gate` is the whole non-browser gate and CI runs nothing else | `CONTRIBUTING.md`, `.github/workflows/ci.yml` | gate: 6 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
+| `pnpm gate` is the whole non-browser gate and CI runs nothing else | `CONTRIBUTING.md`, `.github/workflows/ci.yml` | gate: 7 tests in `scripts/gate.test.mjs` hold the workflow to one job whose only steps are install and `pnpm gate`, and compare its whole `jobs:` block against the expected one | held |
 
 ## Component behaviour
 
