@@ -206,18 +206,9 @@ happens; the comment answers _why_.
 ## Token naming (headless)
 
 Tokens are **headless**: a token name expresses _role_ or _state_, never
-visual style.
-
-- Allowed, role/state names: `primary`, `danger`, `surface`,
-  `text-secondary`, `disabled`, `state-hover`, `focus-ring`, `on-emphasis`,
-  `elevation-2`, `radius-control`.
-- Forbidden, style adjectives that describe appearance: `muted`, `soft`,
-  `subtle`, `raised`. (A word like `mute` is fine only when it names a
-  genuine _state_, e.g. a muted microphone.)
-- Primitives hold the raw palette and scales; semantic tokens map them to
-  roles and states.
-
-See [`docs/foundations.md`](./docs/foundations.md) for the full naming rules.
+visual style. See
+[`docs/foundations.md`](./docs/foundations.md#naming-role-or-state-not-appearance)
+for the naming rules and examples.
 
 ## Proposing a new component
 

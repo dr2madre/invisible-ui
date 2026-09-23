@@ -22,6 +22,19 @@ The visual layer is documented separately:
   `tokens.css` layer (primitives → semantic `--ds-color-*` roles) the components
   consume. Docs site: `presentation/tokens`.
 
+## Naming: role or state, not appearance
+
+Token names describe **role** or **state**, never the way something looks.
+
+- Allowed: `primary`, `danger`, `surface`, `text-secondary`, `disabled`,
+  `state-hover`, `focus-ring`, `on-emphasis`, `elevation-2`,
+  `radius-control`.
+- Avoid style adjectives that describe appearance only: `muted`, `soft`,
+  `subtle`, `raised`. A word like `mute` is fine when it names a real state
+  (a muted microphone), not a look.
+- Primitives hold the raw palette and scales; semantic tokens map them to
+  roles and states. See [Design tokens](./tokens.md) for the full model.
+
 ## Typography
 
 A **system font stack** adapts to the user's OS (native feel, no web-font
