@@ -87,6 +87,16 @@ carries a `.build-id.json` that the Playwright global setup reads first (see
 `docs/visual-testing.md`). Stop the foreign server, or rebuild; a build Turbo
 restored from its cache needs `pnpm exec turbo run build --force`.
 
+`pnpm consumers:check` installs the packed tarballs into a throwaway project
+and compiles against them with `skipLibCheck` off, because the declarations
+this repository ships are what it is there to read. That setting reaches every
+dependency's declarations as well, so the verdict comes from the diagnostics in
+what we publish and in the file importing it, never from the compiler's exit
+code (`scripts/consumer-declarations.mjs`). A dependency whose own declarations
+do not survive `nodenext` resolution is not this repository's to fix: it fails
+no consumer, who has no reason to turn the same setting on. Ours failing is a
+failure, and the message names the file and the line.
+
 `pnpm lint` and `pnpm format:check` run ESLint and Prettier over the sources
 directly, so they need no build and are safe at any time.
 

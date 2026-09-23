@@ -13,6 +13,7 @@
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { specifiersOf, withoutQuery } from "./specifiers.mjs";
+import { ourDeclarationErrors } from "./consumer-declarations.mjs";
 import {
   lstatSync,
   mkdtempSync,
@@ -240,8 +241,9 @@ try {
         target: "es2022",
         strict: true,
         noEmit: true,
-        // The packages' own declarations are what is under test; their
-        // dependencies' are not.
+        // The packages' own declarations are what is under test, so they are
+        // not skipped. That also checks every dependency's, which is why the
+        // errors are read below rather than the exit code.
         skipLibCheck: false,
         types: [],
       },
@@ -253,11 +255,13 @@ try {
     const tsc = resolve(dirname(require.resolve("typescript/package.json")), "bin/tsc");
     execFileSync(process.execPath, [tsc, "-p", consumer], { cwd: consumer, stdio: "pipe" });
   } catch (error) {
-    const output = String(error.stdout ?? error.message)
-      .split("\n")
-      .filter((line) => line.includes("node_modules/@design-system/"))
-      .slice(0, 5);
-    fail(`the shipped declarations do not type-check:\n      ${output.join("\n      ")}`);
+    // Only the lines this repository answers for; see consumer-declarations.mjs.
+    const ours = ourDeclarationErrors(error.stdout ?? error.message);
+    if (ours.length) {
+      fail(
+        `the shipped declarations do not type-check:\n      ${ours.slice(0, 5).join("\n      ")}`,
+      );
+    }
   }
 
   // Test scaffolding is not part of the product. Matched on the path inside
