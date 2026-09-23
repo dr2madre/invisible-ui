@@ -134,9 +134,11 @@
     inline-size: var(--ds-switch-width, 2.5rem);
     block-size: var(--ds-switch-height, 1.5rem);
     border-radius: var(--ds-radius-pill, 999px);
-    /* The track is the switch's whole visible form, so it takes the control
-       boundary colour, not the divider colour. */
-    background: var(--ds-color-control-border, #757067);
+    /* The track carries a boundary in both states: it is what makes the
+       control visible against the page, and the two states keep the same
+       shape. It is drawn inside the track, so no size changes with it. */
+    background: var(--ds-color-surface, #e6e0d8);
+    box-shadow: inset 0 0 0 1px var(--ds-color-control-border, #757067);
     position: relative;
     flex: none;
     transition: background-color 120ms ease;
@@ -151,19 +153,22 @@
     border-radius: 50%;
     /* The thumb is always white (it sits on the track in both states). */
     background: var(--ds-switch-thumb, var(--ds-neutral-0, #ffffff));
-    /* A page-coloured rim keeps the thumb separable from the track: the track
-       clears 3:1 against the page, so the rim clears it too, in both themes. */
-    box-shadow: 0 0 0 1px var(--ds-color-background, #ffffff);
+    /* A rim in the boundary colour keeps the thumb separable from the light
+       off track, where the white alone would disappear. */
+    box-shadow: 0 0 0 1px var(--ds-color-control-border, #757067);
     transition: translate 150ms ease;
-  }
-  .switch__input:focus-visible + .switch {
-    outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: var(--ds-focus-ring-offset, 2px);
   }
 
   .switch__input:checked + .switch {
     background: var(--ds-color-secondary, #7a52cc);
+  }
+  /* The boundary is repeated here: a second box-shadow would replace it. */
+  .switch__input:focus-visible + .switch {
+    outline: none;
+    box-shadow:
+      inset 0 0 0 1px var(--ds-color-control-border, #757067),
+      var(--ds-focus-ring-shadow);
+    outline-offset: var(--ds-focus-ring-offset, 2px);
   }
   .switch__input:checked + .switch::after {
     translate: calc(var(--ds-switch-width, 2.5rem) - var(--ds-switch-height, 1.5rem)) 0;
@@ -197,10 +202,12 @@
     color: var(--ds-switch-onoff-on-text, var(--ds-color-on-secondary, #fff));
     opacity: 0;
   }
-  /* OFF sits on the right (shown while off, thumb on the left). */
+  /* OFF sits on the right (shown while off, thumb on the left). The off track
+     is a surface, so the text takes the ordinary text colour: dark in the
+     light theme, light in the dark one. */
   .switch--onoff .switch__off {
     inset-inline-end: 0.5rem;
-    color: var(--ds-switch-onoff-off-text, var(--ds-color-text-secondary, #524c44));
+    color: var(--ds-switch-onoff-off-text, var(--ds-color-text, #282420));
     opacity: 1;
   }
   .switch__input:checked + .switch--onoff .switch__on {
