@@ -36,14 +36,17 @@ Every change preserves all four:
 
 ## Product and interaction decisions
 
-See [UX principles](./docs/ux-principles.md) for the full principles.
-
-- Task completion and native expectations outrank decoration.
 - Preserve the incumbent product (information architecture, behavior, copy,
   visual identity) unless the user explicitly requests a redesign.
+- Never invent claims, testimonials, metrics, pricing, customers, or future
+  guarantees.
 - A significant interaction or architecture change gets an ADR (see
   [Decisions](./CONTRIBUTING.md#decisions)) when the decision is worth
   preserving.
+- For heuristic-based UX judgment (task flow, labeling, error recovery, and
+  similar), use the `ux-design-accessible` or `ux-evaluation-research` skill
+  instead of a standing rule here; a single bullet cannot substitute for the
+  full heuristic set.
 
 ## Tokens and styling
 

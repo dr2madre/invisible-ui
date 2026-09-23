@@ -29,9 +29,6 @@ This library has three pillars. Every contribution upholds them:
   are treated as data, never as markup or code, and the dependencies stay
   free of known vulnerabilities.
 
-See also [`docs/ux-principles.md`](./docs/ux-principles.md) for product and
-interaction principles.
-
 ## Running the checks locally
 
 The whole non-browser gate is one command, the same one CI runs:
