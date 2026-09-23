@@ -1,6 +1,32 @@
 # Component audit remediation plan
 
-Status: proposed remediation scope, implementation pending
+> **Status: all fourteen tasks implemented.** The audit is not closed: its
+> stop condition also asks for one manual keyboard pass and one screen reader
+> pass, and neither has happened. Those scenarios are tracked in
+> [`accessibility-lab.md`](./accessibility-lab.md), and
+> [`evidence-register.md`](./evidence-register.md) records that no claim rests
+> on them. The table below says where each task landed, so the work is not
+> done twice. The task descriptions that follow are kept as the record of what
+> was decided and why.
+
+## Where each task landed
+
+| Task | Evidence |
+| --- | --- |
+| 1. Combobox HTML injection sink | `pathIcon` in `packages/elements/src/internal/icons.ts` builds the icon with `createElementNS` instead of markup; `packages/elements/src/combobox/ds-combobox.ts` uses it |
+| 2. Combobox clear is a complete transition | `packages/elements/src/combobox/ds-combobox.test.ts`, "clears on a direct click with no mousedown before it" and "emits exactly one change carrying null" |
+| 3. Unique Dialog ids | `#instanceId = nextId("ds-dialog")` in `packages/elements/src/dialog/ds-dialog.ts`, replacing one shared id |
+| 4. `items` assigned before connection | an assignment flag in select, combobox, radio group and checkbox group, so light-DOM `<option>` children are the source only when nothing was assigned; `packages/elements/src/select/ds-select.test.ts` covers an assignment before the definition loaded and an assigned empty list |
+| 5. Link semantics | `href` is required in `packages/svelte/src/lib/link/Link.svelte` and `packages/vue/src/link/Link.ts`, with no handler-only anchor; both test files assert one tab stop and Enter activation |
+| 6. One Hover Card model | `core/src/hover-card/connect.ts` exposes supplementary content with no dialog role and never moves focus; `packages/vue/src/hover-card/HoverCard.test.ts` asserts it holds no focusable content, opens on focus, survives the pointer and closes on Escape |
+| 7. Toolbar roving focus after DOM changes | `packages/svelte/src/lib/toolbar/toolbar.test.ts` and `packages/vue/src/toolbar/Toolbar.test.ts` cover insertion, removal, a control becoming disabled, one Tab entry and arrow keys skipping disabled controls |
+| 8. Deterministic Svelte ids across SSR | `packages/svelte/src/lib/hydration.test.ts` renders twice from one module graph in a separate Node process (`packages/svelte/scripts/render-hydration-fixture.mjs`), compares the two renders and hydrates the second |
+| 9. Line-ending invariance | `.gitattributes` stores every text file with LF; `normalizeEol` in `scripts/generate-api.mjs` compares the manifests on equal terms |
+| 10. The built core package as a consumer sees it | `pnpm consumers:check` packs all five packages and imports every advertised entry point from outside the workspace; the per-package `smoke` scripts go deeper on one package each |
+| 11. Svelte ToggleButton `disabled` after mount | `packages/svelte/src/lib/toggle-button/styled-toggle-button.test.ts`, "ToggleButton (disabled after mount)"; the toolbar files above cover a disabled toggle inside a toolbar |
+| 12. Optional local tooling outside the gates | `eslint.config.js` and `.prettierignore` exclude the optional tooling directories and nothing else |
+| 13. Focus contracts in a browser | `e2e/interactions.spec.ts` (Popover focus, Escape, outside press, focus leave; Dialog focus after Escape), `e2e/dialog-workflow.spec.ts` and `e2e/lifecycle.spec.ts`, on Chromium, Firefox and WebKit |
+| 14. A Playwright harness for Vue | `e2e/vue.spec.ts` against the Vue example app, started by `playwright.config.ts`, covering the four Vue Popover focus contracts without routing through Svelte |
 
 Audit baseline: `9746b43` on `main`
 
