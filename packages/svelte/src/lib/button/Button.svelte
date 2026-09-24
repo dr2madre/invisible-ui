@@ -218,7 +218,14 @@
   .button:global([data-variant="default"]) {
     background: var(--ds-button-bg, var(--ds-color-background, #fff));
     color: var(--ds-color-text, #282420);
-    border-color: var(--ds-color-control-border, #757067);
+    border-color: var(
+      --ds-button-border,
+      color-mix(
+        in srgb,
+        var(--ds-color-control-border, #757067) 70%,
+        var(--ds-color-background, #fff)
+      )
+    );
   }
   .button:global([data-variant="default"]):hover:not(:disabled) {
     background: var(--ds-button-bg-hover, var(--ds-color-surface, #e6e0d8));
