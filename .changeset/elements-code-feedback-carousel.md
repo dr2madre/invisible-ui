@@ -37,3 +37,5 @@ still win. New catalog keys in the core: `codeBlock.copyText`,
 
 The Svelte, Vue and React adapters re-export the catalog as `en`, so they carry the
 new keys too; their components are unchanged.
+The carousel track no longer slides under reduced motion; the slide changes at
+once.

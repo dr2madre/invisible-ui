@@ -146,6 +146,7 @@
   block-size: var(--ds-carousel-coverflow-height, 22rem);
 }
 @media (prefers-reduced-motion: reduce) {
+  .carousel__track,
   .carousel[data-variant="coverflow"] .carousel__slide {
     transition: none;
   }
