@@ -47,6 +47,31 @@ export const closeIcon = () =>
     height: "100%",
   });
 
+/** The calendar glyph on the date pickers' field. */
+export const calendarIcon = () =>
+  svg(
+    `<rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />`,
+    "",
+    { width: "1.1rem", height: "1.1rem" },
+  );
+
+/** The clear glyph at the date pickers' size. */
+export const smallCloseIcon = () =>
+  svg(`<line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />`, "", {
+    width: "0.9rem",
+    height: "0.9rem",
+  });
+
+/** A step arrow pointing left or right, for previous and next. */
+export const stepIcon = (towards: "left" | "right") =>
+  svg(
+    towards === "left"
+      ? `<polyline points="15 18 9 12 15 6" />`
+      : `<polyline points="9 18 15 12 9 6" />`,
+    "",
+    { width: "1.25rem", height: "1.25rem" },
+  );
+
 export const sortIcon = (direction: "asc" | "desc" | null) => {
   if (direction === "asc") return svg(`<polyline points="6 14 12 8 18 14" />`);
   if (direction === "desc") return svg(`<polyline points="6 10 12 16 18 10" />`);

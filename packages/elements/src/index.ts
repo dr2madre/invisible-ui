@@ -169,3 +169,14 @@ export {
   type CarouselSlide,
   type CarouselVariant,
 } from "./carousel/ds-carousel";
+export {
+  DsCalendar,
+  type CalendarEvent,
+  type CalendarMode,
+  type CalendarView,
+  type WeekStart,
+} from "./calendar/ds-calendar";
+export { DsDatePicker } from "./date-picker/ds-date-picker";
+export { type DateStyle } from "./date-picker/picker-field";
+export { DsDateRangePicker } from "./date-range-picker/ds-date-range-picker";
+export { DsTimeField, type HourCycle, type TimeValueError } from "./time-field/ds-time-field";
