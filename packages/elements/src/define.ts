@@ -18,7 +18,9 @@ import { DsLoading } from "./loading/ds-loading";
 import { DsLoadingGenerationArea } from "./loading-generation-area/ds-loading-generation-area";
 import { DsField } from "./field/ds-field";
 import { DsLabel } from "./label/ds-label";
+import { DsRadio } from "./radio/ds-radio";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
+import { DsSegmentedControl } from "./segmented-control/ds-segmented-control";
 import { DsSelect } from "./select/ds-select";
 import { DsSeparator } from "./separator/ds-separator";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
@@ -28,6 +30,8 @@ import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
 import { DsTabs } from "./tabs/ds-tabs";
 import { DsTag } from "./tag/ds-tag";
+import { DsToggleButton } from "./toggle-button/ds-toggle-button";
+import { DsToggleGroup } from "./toggle-group/ds-toggle-group";
 import { DsTreeView } from "./tree-view/ds-tree-view";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
@@ -55,13 +59,17 @@ define("ds-text-field", DsTextField);
 define("ds-textarea", DsTextarea);
 define("ds-search-field", DsSearchField);
 define("ds-sheet-dialog", DsSheetDialog);
+define("ds-radio", DsRadio);
 define("ds-radio-group", DsRadioGroup);
+define("ds-segmented-control", DsSegmentedControl);
 define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
+define("ds-toggle-button", DsToggleButton);
+define("ds-toggle-group", DsToggleGroup);
 define("ds-tree-view", DsTreeView);
 
 export {};

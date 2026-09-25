@@ -109,6 +109,11 @@
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
+      "name": "DsRadio",
+      "kind": "class",
+      "signature": "declare class DsRadio extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get checked(): boolean; set checked(value: boolean); }"
+    },
+    {
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
@@ -117,6 +122,11 @@
       "name": "DsSearchField",
       "kind": "class",
       "signature": "declare class DsSearchField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
+    },
+    {
+      "name": "DsSegmentedControl",
+      "kind": "class",
+      "signature": "declare class DsSegmentedControl extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): string | null; set value(next: string | null); get items(): SegmentedControlItem[]; set items(items: SegmentedControlItem[]); }"
     },
     {
       "name": "DsSelect",
@@ -164,6 +174,16 @@
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
     },
     {
+      "name": "DsToggleButton",
+      "kind": "class",
+      "signature": "declare class DsToggleButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get pressed(): boolean; set pressed(value: boolean); get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
+      "name": "DsToggleGroup",
+      "kind": "class",
+      "signature": "declare class DsToggleGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsTreeView",
       "kind": "class",
       "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
@@ -187,6 +207,16 @@
       "name": "RadioGroupItem",
       "kind": "type",
       "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
+    },
+    {
+      "name": "SegmentedControlItem",
+      "kind": "type",
+      "signature": "type SegmentedControlItem = radioGroup.RadioItem & { label?: string; icon?: string; };"
+    },
+    {
+      "name": "SegmentedControlOrientation",
+      "kind": "type",
+      "signature": "type SegmentedControlOrientation = radioGroup.Orientation;"
     },
     {
       "name": "SelectItem",
@@ -257,6 +287,16 @@
       "name": "TagStatus",
       "kind": "type",
       "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
+    },
+    {
+      "name": "ToggleGroupOrientation",
+      "kind": "type",
+      "signature": "type ToggleGroupOrientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "ToggleGroupVariant",
+      "kind": "type",
+      "signature": "type ToggleGroupVariant = \"separate\" | \"segmented\";"
     },
     {
       "name": "TreeLoadRequest",

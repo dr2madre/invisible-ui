@@ -51,13 +51,25 @@ export {
   type TableSelectionCellContext,
   type TableSortState,
 } from "./table/ds-table";
+export { DsRadio } from "./radio/ds-radio";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
+export {
+  DsSegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlOrientation,
+} from "./segmented-control/ds-segmented-control";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { DsCount, type CountStatus } from "./count/ds-count";
 export { DsCard } from "./card/ds-card";
 export { DsPagination } from "./pagination/ds-pagination";
 export { DsSeparator, type SeparatorOrientation } from "./separator/ds-separator";
 export { DsTag, type TagStatus } from "./tag/ds-tag";
+export { DsToggleButton } from "./toggle-button/ds-toggle-button";
+export {
+  DsToggleGroup,
+  type ToggleGroupOrientation,
+  type ToggleGroupVariant,
+} from "./toggle-group/ds-toggle-group";
 export {
   DsTabs,
   type TabsActivationMode,

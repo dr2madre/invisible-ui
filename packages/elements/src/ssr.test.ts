@@ -26,8 +26,10 @@ describe("custom-elements adapter SSR", () => {
       "DsLoadingGenerationArea",
       "DsMultiSelect",
       "DsPagination",
+      "DsRadio",
       "DsRadioGroup",
       "DsSearchField",
+      "DsSegmentedControl",
       "DsSelect",
       "DsSeparator",
       "DsSheetDialog",
@@ -37,6 +39,8 @@ describe("custom-elements adapter SSR", () => {
       "DsTag",
       "DsTextField",
       "DsTextarea",
+      "DsToggleButton",
+      "DsToggleGroup",
       "DsTreeView",
     ]);
   });
