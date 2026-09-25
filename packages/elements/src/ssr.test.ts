@@ -32,6 +32,8 @@ describe("custom-elements adapter SSR", () => {
       "DsSeparator",
       "DsSheetDialog",
       "DsSwitch",
+      "DsTab",
+      "DsTabList",
       "DsTabPanel",
       "DsTable",
       "DsTabs",

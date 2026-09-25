@@ -18,15 +18,18 @@ export type TabsPanelContent = Node | string | number | null | undefined;
  * `<ds-tabs>` renders the WAI-ARIA tabs pattern through the shared core state
  * machine. Assign `items` as a JavaScript property.
  *
- * Attributes: `label` (required), `value`, `activation-mode`
- * (automatic|manual). Properties: `items`, `renderPanel`. `renderPanel` may
- * return a DOM Node or scalar; strings are inserted as text. Emits a bubbling
- * `change` event with `detail.value` when the selected tab changes.
+ * Two ways to write it. Composed, as markup: `<ds-tabs>` is the root that
+ * holds the state, and inside it, anywhere, a `<ds-tab-list>` of `<ds-tab
+ * value>` elements and one `<ds-tab-panel value>` per tab. The strip can sit
+ * in a header beside other controls while the panels fill the rest. As a
+ * shortcut, with no `<ds-tab-list>` inside: assign `items` and the element
+ * renders strip and panels itself.
  *
- * Panels can live elsewhere: give the tabs an `id` and write one
- * `<ds-tab-panel for="that-id" value="…">` per tab wherever it belongs. As soon
- * as one such panel exists, the element is the tab strip alone, so its height
- * is the strip's and anything aligned to it lines up with the tabs.
+ * Attributes: `label` (required for the shortcut; composed tabs name their
+ * `<ds-tab-list>`), `value`, `activation-mode` (automatic|manual).
+ * Properties: `items`, `renderPanel` (shortcut only). `renderPanel` may return
+ * a DOM Node or scalar; strings are inserted as text. Emits a bubbling
+ * `change` event with `detail.value` when the selected tab changes.
  */
 export class DsTabs extends HTMLElementBase {
   static observedAttributes = ["label", "value", "activation-mode"];
@@ -44,12 +47,68 @@ export class DsTabs extends HTMLElementBase {
     upgradeProperty(this, "items");
     upgradeProperty(this, "value");
     upgradeProperty(this, "renderPanel");
+    if (this.#composed()) {
+      this.classList.add("tabs");
+      this.syncParts();
+      return;
+    }
     if (!this.#root) this.#render();
     this.#syncFromAttributes();
   }
 
-  attributeChangedCallback() {
-    if (this.#root) this.#syncFromAttributes();
+  attributeChangedCallback(name: string) {
+    if (this.#composed()) {
+      // A value set from outside wins over the one the element holds.
+      if (name === "value") this.#value = this.getAttribute("value");
+      this.syncParts();
+    } else if (this.#root) this.#syncFromAttributes();
+  }
+
+  /** The parts this element owns; a nested `<ds-tabs>` keeps its own. */
+  #own<T extends Element>(selector: string): T[] {
+    return Array.from(this.querySelectorAll<T>(selector)).filter(
+      (part) => part.parentElement?.closest("ds-tabs") === this,
+    );
+  }
+
+  #composed() {
+    return this.#own("ds-tab-list").length > 0;
+  }
+
+  /** Re-wire every part. Called by the parts when they arrive, leave or change. */
+  syncParts() {
+    if (!this.#composed()) return;
+    const lists = this.#own<HTMLElement>("ds-tab-list");
+    const tabs = this.#own<HTMLElement>("ds-tab");
+    const panels = this.#own<HTMLElement>("ds-tab-panel");
+    this.#tabs = new Map(tabs.map((tab) => [tab.getAttribute("value") ?? "", tab as never]));
+    this.#items = tabs.map((tab) => ({
+      value: tab.getAttribute("value") ?? "",
+      disabled: tab.hasAttribute("disabled"),
+    }));
+
+    const requested = this.getAttribute("value");
+    const current = this.#value ?? requested;
+    this.#value =
+      current != null && this.#items.some((item) => item.value === current && !item.disabled)
+        ? current
+        : core.firstEnabled(this.#items);
+
+    const api = this.#api();
+    for (const list of lists) {
+      applyProps(list, api.rootProps);
+      list.setAttribute("aria-label", list.getAttribute("label") ?? "");
+    }
+    for (const tab of tabs) applyProps(tab, api.getTabProps(tab.getAttribute("value") ?? ""));
+    for (const panel of panels) {
+      const value = panel.getAttribute("value") ?? "";
+      if (this.#items.some((item) => item.value === value)) {
+        applyProps(panel, api.getPanelProps(value));
+      } else {
+        // A panel for a tab that does not exist stays out of sight.
+        panel.hidden = true;
+      }
+    }
   }
 
   get items(): TabsItem[] {
@@ -57,7 +116,7 @@ export class DsTabs extends HTMLElementBase {
   }
   set items(value: TabsItem[]) {
     this.#items = Array.isArray(value) ? value : [];
-    if (!this.#root) return;
+    if (!this.#root || this.#composed()) return;
     this.#renderItems();
     this.#syncFromAttributes();
   }
@@ -73,7 +132,7 @@ export class DsTabs extends HTMLElementBase {
   }
 
   get value(): string | null {
-    return this.#root ? this.#value : this.getAttribute("value");
+    return this.#root || this.#composed() ? this.#value : this.getAttribute("value");
   }
   set value(next: string | null) {
     if (next == null) this.removeAttribute("value");
@@ -93,24 +152,6 @@ export class DsTabs extends HTMLElementBase {
     this.#renderItems();
   }
 
-  /** Called by `<ds-tab-panel>` when one joins, leaves or changes owner. */
-  syncPanels() {
-    if (!this.#root) return;
-    const external = this.#externalPanels().length > 0;
-    if (external !== this.#usesExternalPanels) this.#renderItems();
-    this.#apply();
-  }
-
-  #usesExternalPanels = false;
-
-  #externalPanels(): HTMLElement[] {
-    if (!this.id) return [];
-    const root = this.getRootNode() as Document | ShadowRoot;
-    return Array.from(
-      root.querySelectorAll<HTMLElement>(`ds-tab-panel[for="${CSS.escape(this.id)}"]`),
-    );
-  }
-
   #renderItems() {
     const root = this.#root!;
     const list = this.#list!;
@@ -118,7 +159,6 @@ export class DsTabs extends HTMLElementBase {
     for (const panel of this.#panels.values()) panel.remove();
     this.#tabs.clear();
     this.#panels.clear();
-    this.#usesExternalPanels = this.#externalPanels().length > 0;
 
     for (const item of this.#items) {
       const tab = document.createElement("button");
@@ -147,7 +187,6 @@ export class DsTabs extends HTMLElementBase {
       }
       list.appendChild(tab);
       this.#tabs.set(item.value, tab);
-      if (this.#usesExternalPanels) continue;
 
       const panel = document.createElement("div");
       panel.className = "tabs__panel";
@@ -197,17 +236,7 @@ export class DsTabs extends HTMLElementBase {
     this.#list!.setAttribute("aria-label", this.getAttribute("label") ?? "");
     for (const item of this.#items) {
       applyProps(this.#tabs.get(item.value)!, api.getTabProps(item.value));
-      const panel = this.#panels.get(item.value);
-      if (panel) applyProps(panel, api.getPanelProps(item.value));
-    }
-    for (const panel of this.#externalPanels()) {
-      const value = panel.getAttribute("value") ?? "";
-      if (this.#items.some((item) => item.value === value)) {
-        applyProps(panel, api.getPanelProps(value));
-      } else {
-        // A panel for a tab that does not exist stays out of sight.
-        panel.hidden = true;
-      }
+      applyProps(this.#panels.get(item.value)!, api.getPanelProps(item.value));
     }
   }
 }

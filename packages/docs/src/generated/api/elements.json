@@ -139,9 +139,19 @@
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
     },
     {
+      "name": "DsTab",
+      "kind": "class",
+      "signature": "declare class DsTab extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__tab\"; }"
+    },
+    {
+      "name": "DsTabList",
+      "kind": "class",
+      "signature": "declare class DsTabList extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__list\"; }"
+    },
+    {
       "name": "DsTabPanel",
       "kind": "class",
-      "signature": "declare class DsTabPanel extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+      "signature": "declare class DsTabPanel extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__panel\"; }"
     },
     {
       "name": "DsTable",
@@ -151,7 +161,7 @@
     {
       "name": "DsTabs",
       "kind": "class",
-      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); /** Called by `<ds-tab-panel>` when one joins, leaves or changes owner. */ syncPanels(): void; }"
+      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; /** Re-wire every part. Called by the parts when they arrive, leave or change. */ syncParts(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
     },
     {
       "name": "DsTag",
