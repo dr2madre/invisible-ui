@@ -21,6 +21,15 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-code",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [],
+      "notes": []
     }
   }
 }

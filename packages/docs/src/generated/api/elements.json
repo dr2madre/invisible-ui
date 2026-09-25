@@ -19,16 +19,6 @@
   ],
   "symbols": [
     {
-      "name": "AccordionEntry",
-      "kind": "type",
-      "signature": "type AccordionEntry = accordion.AccordionItem & { label?: string; content?: string; };"
-    },
-    {
-      "name": "AccordionType",
-      "kind": "type",
-      "signature": "type AccordionType = accordion.AccordionType;"
-    },
-    {
       "name": "AvatarGroupItem",
       "kind": "interface",
       "signature": "interface AvatarGroupItem { /** Accessible name and initials fallback. */ name: string; /** Image URL; falls back to initials when absent or it fails to load. */ src?: string; /** Accessible name override; defaults to `name`. */ alt?: string; /** Background tint for the initials avatar (any CSS color). */ color?: string; }"
@@ -49,14 +39,24 @@
       "signature": "type ButtonGroupOrientation = buttonGroup.Orientation;"
     },
     {
+      "name": "CarouselOrientation",
+      "kind": "type",
+      "signature": "type CarouselOrientation = carousel.Orientation;"
+    },
+    {
+      "name": "CarouselSlide",
+      "kind": "interface",
+      "signature": "interface CarouselSlide { /** Background image URL. */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; }"
+    },
+    {
+      "name": "CarouselVariant",
+      "kind": "type",
+      "signature": "type CarouselVariant = \"slide\" | \"gallery\" | \"coverflow\";"
+    },
+    {
       "name": "ComboboxItem",
       "kind": "interface",
       "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
-    },
-    {
-      "name": "ContextMenuItem",
-      "kind": "type",
-      "signature": "type ContextMenuItem = menu.MenuItem;"
     },
     {
       "name": "CountStatus",
@@ -64,24 +64,9 @@
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
     },
     {
-      "name": "DsAccordion",
-      "kind": "class",
-      "signature": "declare class DsAccordion extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get value(): string[]; set value(next: string[]); get items(): AccordionEntry[]; set items(value: AccordionEntry[]); /** Re-wire every item. Called by the items when they arrive, leave or change. */ syncItems(): void; }"
-    },
-    {
-      "name": "DsAccordionItem",
-      "kind": "class",
-      "signature": "declare class DsAccordionItem extends HTMLElementBase { #private; static observedAttributes: string[]; /** The header button, once the item has rendered. */ get trigger(): HTMLButtonElement | null; /** The panel, once the item has rendered. */ get panel(): HTMLDivElement | null; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
-    },
-    {
       "name": "DsAlertDialog",
       "kind": "class",
       "signature": "declare class DsAlertDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".alert-dialog__actions button\"; protected didChangeOpen(open: boolean): void; protected render(): void; protected sync(): void; }"
-    },
-    {
-      "name": "DsAspectRatio",
-      "kind": "class",
-      "signature": "declare class DsAspectRatio extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get ratio(): number; set ratio(next: number); }"
     },
     {
       "name": "DsAvatar",
@@ -92,11 +77,6 @@
       "name": "DsAvatarGroup",
       "kind": "class",
       "signature": "declare class DsAvatarGroup extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get items(): AvatarGroupItem[]; set items(value: AvatarGroupItem[]); }"
-    },
-    {
-      "name": "DsBlockquote",
-      "kind": "class",
-      "signature": "declare class DsBlockquote extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsBreadcrumb",
@@ -119,6 +99,11 @@
       "signature": "declare class DsCard extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsCarousel",
+      "kind": "class",
+      "signature": "declare class DsCarousel extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get items(): CarouselSlide[]; set items(value: CarouselSlide[]); get index(): number; set index(value: number); }"
+    },
+    {
       "name": "DsCheckbox",
       "kind": "class",
       "signature": "declare class DsCheckbox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): checkbox.CheckedState; set checked(value: checkbox.CheckedState); }"
@@ -129,9 +114,14 @@
       "signature": "declare class DsCheckboxGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string[]; set value(next: string[]); get items(): checkboxGroup.CheckboxGroupItem[]; set items(items: checkboxGroup.CheckboxGroupItem[]); }"
     },
     {
-      "name": "DsCollapsible",
+      "name": "DsCode",
       "kind": "class",
-      "signature": "declare class DsCollapsible extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(next: boolean); }"
+      "signature": "declare class DsCode extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; }"
+    },
+    {
+      "name": "DsCodeBlock",
+      "kind": "class",
+      "signature": "declare class DsCodeBlock extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get code(): string; set code(value: string); }"
     },
     {
       "name": "DsCombobox",
@@ -142,11 +132,6 @@
       "name": "DsConfirmDialog",
       "kind": "class",
       "signature": "declare class DsConfirmDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".confirm-dialog__actions button\"; protected render(): void; protected sync(): void; }"
-    },
-    {
-      "name": "DsContextMenu",
-      "kind": "class",
-      "signature": "declare class DsContextMenu extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get items(): ContextMenuItem[]; set items(items: ContextMenuItem[]); }"
     },
     {
       "name": "DsCount",
@@ -172,6 +157,11 @@
       "name": "DsErrorState",
       "kind": "class",
       "signature": "declare class DsErrorState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsFeedbackIcon",
+      "kind": "class",
+      "signature": "declare class DsFeedbackIcon extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsField",
@@ -224,16 +214,6 @@
       "signature": "declare class DsLoginForm extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get providers(): LoginFormProvider[]; set providers(value: LoginFormProvider[]); }"
     },
     {
-      "name": "DsMenubar",
-      "kind": "class",
-      "signature": "declare class DsMenubar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get menus(): MenubarMenu[]; set menus(menus: MenubarMenu[]); }"
-    },
-    {
-      "name": "DsMeter",
-      "kind": "class",
-      "signature": "declare class DsMeter extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): number; set value(next: number); get min(): number; set min(next: number); get max(): number; set max(next: number); get low(): number | undefined; set low(next: number | undefined); get high(): number | undefined; set high(next: number | undefined); get optimum(): number | undefined; set optimum(next: number | undefined); }"
-    },
-    {
       "name": "DsMultiSelect",
       "kind": "class",
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
@@ -244,34 +224,9 @@
       "signature": "declare class DsNavigationMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get items(): NavigationMenuItem[]; set items(value: NavigationMenuItem[]); get value(): string | null; set value(next: string | null); }"
     },
     {
-      "name": "DsNotification",
-      "kind": "class",
-      "signature": "declare class DsNotification extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get actions(): NotificationAction[]; set actions(value: NotificationAction[]); get duration(): number; set duration(value: number); get paused(): boolean; set paused(value: boolean); }"
-    },
-    {
-      "name": "DsNotificationRegion",
-      "kind": "class",
-      "signature": "declare class DsNotificationRegion extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; /** The queue, oldest first. */ get notifications(): NotificationItem[]; /** Queue a notification and return its id. A live `id` is replaced in place. */ show(options?: NotificationOptions): string; info(title: string, options?: StatusOptions): string; success(title: string, options?: StatusOptions): string; warning(title: string, options?: StatusOptions): string; danger(title: string, options?: StatusOptions): string; neutral(title: string, options?: StatusOptions): string; /** Change a live notification in place. */ update(id: string, patch: NotificationOptions): void; /** Remove a notification, telling its `onDismiss` why (`api` by default). */ dismiss(id: string, reason?: NotificationDismissReason): void; /** Remove every notification, each told `api`. */ clear(): void; /** Show a loading notification, then turn it into success or error when the promise settles. */ promise<T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>): Promise<T>; }"
-    },
-    {
-      "name": "DsNumberField",
-      "kind": "class",
-      "signature": "declare class DsNumberField extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): number | null; set value(next: number | null); }"
-    },
-    {
       "name": "DsPagination",
       "kind": "class",
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
-    },
-    {
-      "name": "DsPinInput",
-      "kind": "class",
-      "signature": "declare class DsPinInput extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
-    },
-    {
-      "name": "DsPopover",
-      "kind": "class",
-      "signature": "declare class DsPopover extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
     },
     {
       "name": "DsProgress",
@@ -292,16 +247,6 @@
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
-    },
-    {
-      "name": "DsRangeSlider",
-      "kind": "class",
-      "signature": "declare class DsRangeSlider extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): RangeSliderValue; set value(next: RangeSliderValue); get format(): (value: number) => string; set format(next: (value: number) => string); }"
-    },
-    {
-      "name": "DsRatingGroup",
-      "kind": "class",
-      "signature": "declare class DsRatingGroup extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): number | null; set value(next: number | null); }"
     },
     {
       "name": "DsScrollArea",
@@ -342,21 +287,6 @@
       "name": "DsSidebar",
       "kind": "class",
       "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
-    },
-    {
-      "name": "DsSkeleton",
-      "kind": "class",
-      "signature": "declare class DsSkeleton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
-    },
-    {
-      "name": "DsSlider",
-      "kind": "class",
-      "signature": "declare class DsSlider extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): number; set value(next: number); get format(): (value: number) => string; set format(next: (value: number) => string); }"
-    },
-    {
-      "name": "DsStepper",
-      "kind": "class",
-      "signature": "declare class DsStepper extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get steps(): StepDescriptor[]; set steps(value: StepDescriptor[]); get current(): number; set current(value: number); }"
     },
     {
       "name": "DsSwitch",
@@ -439,6 +369,11 @@
       "signature": "declare class DsUploadDropArea extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); /** The files the input currently holds. */ get files(): File[]; }"
     },
     {
+      "name": "FeedbackStatus",
+      "kind": "type",
+      "signature": "type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
       "name": "LinkVariant",
       "kind": "type",
       "signature": "type LinkVariant = \"primary\" | \"subtle\";"
@@ -489,11 +424,6 @@
       "signature": "type MenuSeparator = menu.MenuSeparator;"
     },
     {
-      "name": "MenubarMenu",
-      "kind": "interface",
-      "signature": "interface MenubarMenu { /** Stable value identifying this menu, reported with each selection. */ value: string; /** Visible trigger label. */ label: string; /** The menu's actions. */ items: menu.MenuItem[]; /** Disable the whole menu. */ disabled?: boolean; }"
-    },
-    {
       "name": "MultiSelectItem",
       "kind": "interface",
       "signature": "interface MultiSelectItem { value: string; label?: string; disabled?: boolean; }"
@@ -509,46 +439,6 @@
       "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
     },
     {
-      "name": "NotificationAction",
-      "kind": "interface",
-      "signature": "interface NotificationAction { label: string; variant?: \"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"; /** Run when the action is clicked. */ onClick?: () => void; /** Keep the notification open after the action runs. */ keepOpen?: boolean; }"
-    },
-    {
-      "name": "NotificationDismissReason",
-      "kind": "type",
-      "signature": "type NotificationDismissReason = \"user\" | \"timeout\" | \"action\" | \"api\";"
-    },
-    {
-      "name": "NotificationItem",
-      "kind": "interface",
-      "signature": "interface NotificationItem extends NotificationOptions { id: string; }"
-    },
-    {
-      "name": "NotificationOptions",
-      "kind": "interface",
-      "signature": "interface NotificationOptions { /** Stable id. A live id replaces that notification in place instead of stacking a new one. */ id?: string; status?: NotificationStatus; title?: string; /** Body text. */ text?: string; /** Auto-dismiss delay in ms. `0` (default) keeps it until dismissed. */ duration?: number; /** Whether to render the close button. Defaults to `true`. */ closable?: boolean; /** Live-region role: `status` (polite, default) or `alert` (urgent). */ role?: \"status\" | \"alert\"; actions?: NotificationAction[]; /** High-contrast inverse surface. */ inverted?: boolean; /** One compact row: icon, title and an inline action, no body text. */ snack?: boolean; iconShape?: \"rounded\" | \"round\"; iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** Called once when the notification closes, with the reason. Not called on a replace. */ onDismiss?: (reason: NotificationDismissReason) => void; }"
-    },
-    {
-      "name": "NotificationPlacement",
-      "kind": "type",
-      "signature": "type NotificationPlacement = \"top-start\" | \"top-center\" | \"top-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\";"
-    },
-    {
-      "name": "NotificationPromiseMessages",
-      "kind": "interface",
-      "signature": "interface NotificationPromiseMessages<T> { loading: string; success: string | ((data: T) => string); error: string | ((error: unknown) => string); /** Auto-dismiss delay for the settled notification. Defaults to `0` (persistent). */ duration?: number; }"
-    },
-    {
-      "name": "NotificationStatus",
-      "kind": "type",
-      "signature": "NotificationStatus = type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
-    },
-    {
-      "name": "PinInputType",
-      "kind": "type",
-      "signature": "type PinInputType = pinInput.PinInputType;"
-    },
-    {
       "name": "ProgressShape",
       "kind": "type",
       "signature": "type ProgressShape = \"bar\" | \"circle\";"
@@ -557,16 +447,6 @@
       "name": "RadioGroupItem",
       "kind": "type",
       "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
-    },
-    {
-      "name": "RangeSliderOrientation",
-      "kind": "type",
-      "signature": "type RangeSliderOrientation = rangeSlider.Orientation;"
-    },
-    {
-      "name": "RangeSliderValue",
-      "kind": "type",
-      "signature": "type RangeSliderValue = readonly [number, number];"
     },
     {
       "name": "ScrollOrientation",
@@ -614,39 +494,9 @@
       "signature": "interface SidebarSection { label?: string; items: SidebarItem[]; /** The heading becomes a disclosure; `id` names the section in `openGroups`. */ collapsible?: boolean; id?: string; /** Open on first render. A section holding the current item opens anyway. */ defaultOpen?: boolean; }"
     },
     {
-      "name": "SkeletonAnimation",
-      "kind": "type",
-      "signature": "type SkeletonAnimation = \"pulse\" | \"wave\" | \"none\";"
-    },
-    {
-      "name": "SkeletonVariant",
-      "kind": "type",
-      "signature": "type SkeletonVariant = \"text\" | \"circle\" | \"rect\";"
-    },
-    {
-      "name": "SliderOrientation",
-      "kind": "type",
-      "signature": "type SliderOrientation = slider.Orientation;"
-    },
-    {
       "name": "SortDirection",
       "kind": "type",
       "signature": "type SortDirection = \"asc\" | \"desc\";"
-    },
-    {
-      "name": "StatusOptions",
-      "kind": "type",
-      "signature": "type StatusOptions = Omit<NotificationOptions, \"status\" | \"title\">;"
-    },
-    {
-      "name": "StepDescriptor",
-      "kind": "interface",
-      "signature": "interface StepDescriptor { /** Short title. */ label: string; /** Optional secondary line. */ description?: string; }"
-    },
-    {
-      "name": "StepperOrientation",
-      "kind": "type",
-      "signature": "type StepperOrientation = stepper.Orientation;"
     },
     {
       "name": "TableBodyView",

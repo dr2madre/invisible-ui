@@ -160,3 +160,12 @@ export {
   type RangeSliderValue,
 } from "./range-slider/ds-range-slider";
 export { DsRatingGroup } from "./rating-group/ds-rating-group";
+export { DsCode } from "./code/ds-code";
+export { DsCodeBlock } from "./code-block/ds-code-block";
+export { DsFeedbackIcon, type FeedbackStatus } from "./feedback-icon/ds-feedback-icon";
+export {
+  DsCarousel,
+  type CarouselOrientation,
+  type CarouselSlide,
+  type CarouselVariant,
+} from "./carousel/ds-carousel";

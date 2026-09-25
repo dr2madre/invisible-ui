@@ -134,6 +134,12 @@ export const en = {
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",
+  // Read out as each slide's name and on each slide-picker dot.
+  "carousel.slide": "{index} of {count}",
+  "carousel.goTo": "Go to slide {index}",
+  // The spoken role names of the carousel and its slides (aria-roledescription).
+  "carousel.roleDescription": "carousel",
+  "carousel.slideRoleDescription": "slide",
   "combobox.show": "Show options",
   "combobox.hide": "Close options",
   // Data
@@ -158,6 +164,16 @@ export const en = {
     other: "{count} more",
   },
   "codeBlock.copy": "Copy code",
+  // The copy button's visible text, before and after a copy.
+  "codeBlock.copyText": "Copy",
+  "codeBlock.copiedText": "Copied",
+  // Announced through a live region after a copy.
+  "codeBlock.copied": "Copied to clipboard",
+  "codeBlock.label": "Code",
+  "codeBlock.labelLanguage": "Code: {language}",
+  // The name of the focusable scroller that holds the code.
+  "codeBlock.sample": "Code sample",
+  "codeBlock.sampleLanguage": "Code sample, {language}",
   "tag.remove": "Remove",
   "multiSelect.selected": "Selected values",
   "multiSelect.remove": "Remove {name}",

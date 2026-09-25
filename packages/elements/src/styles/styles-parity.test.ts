@@ -94,6 +94,9 @@ const VUE_SHEETS = [
   "slider.css",
   "range-slider.css",
   "rating-group.css",
+  "code.css",
+  "code-block.css",
+  "carousel.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
