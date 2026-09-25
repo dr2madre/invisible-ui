@@ -181,6 +181,82 @@
         "icon",
         "trigger"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-alert-dialog",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "heading",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "dismiss-label",
+          "reactive": true,
+          "required": false,
+          "description": "the button, \"OK\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "reactive": true,
+          "required": false,
+          "description": "opener text",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger-variant",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "close-button",
+          "reactive": true,
+          "required": false,
+          "description": "shows a close button in the header",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "no-outside-close",
+          "reactive": false,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `open` (boolean).",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `dismiss` when the alert is acknowledged."
+      ]
     }
   }
 }

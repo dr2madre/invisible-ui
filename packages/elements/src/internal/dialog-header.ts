@@ -13,6 +13,8 @@ export interface DialogHeaderParts {
   heading: HTMLHeadingElement;
   subtitle: HTMLParagraphElement;
   close: HTMLButtonElement;
+  /** Whether any slotted region (icon, lead, meta, actions) was given. */
+  hasRegions: boolean;
 }
 
 const region = (className: string, children: Element[] = []) => {
@@ -58,7 +60,10 @@ export function createDialogHeader(regions: DialogHeaderRegions): DialogHeaderPa
   ];
   for (const part of parts) if (part) header.append(part);
 
-  return { header, heading, subtitle, close };
+  const hasRegions = [regions.icon, regions.lead, regions.meta, regions.actions].some(
+    (children) => (children?.length ?? 0) > 0,
+  );
+  return { header, heading, subtitle, close, hasRegions };
 }
 
 export interface DialogHeaderState {
@@ -66,11 +71,20 @@ export interface DialogHeaderState {
   subtitle: string | null;
   closeButton: boolean;
   closeLabel: string;
+  /** Hide the title visually; it still names the dialog. */
+  hideTitle?: boolean;
 }
 
 /** Reflect the host's current texts and flags onto the header parts. */
 export function syncDialogHeader(parts: DialogHeaderParts, state: DialogHeaderState): void {
+  const hideTitle = state.hideTitle ?? false;
   parts.heading.textContent = state.heading;
+  parts.heading.classList.toggle("dialog-header__title--hidden", hideTitle);
+  // Nothing visible left: the header takes no space and only names the dialog.
+  parts.header.classList.toggle(
+    "dialog-header--empty",
+    hideTitle && !state.closeButton && state.subtitle == null && !parts.hasRegions,
+  );
   parts.subtitle.hidden = state.subtitle == null;
   parts.subtitle.textContent = state.subtitle ?? "";
   parts.close.hidden = !state.closeButton;

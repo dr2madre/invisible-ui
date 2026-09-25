@@ -29,6 +29,11 @@
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
     },
     {
+      "name": "DsAlertDialog",
+      "kind": "class",
+      "signature": "declare class DsAlertDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".alert-dialog__actions button\"; protected didChangeOpen(open: boolean): void; protected render(): void; protected sync(): void; }"
+    },
+    {
       "name": "DsButton",
       "kind": "class",
       "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
@@ -52,6 +57,11 @@
       "name": "DsCombobox",
       "kind": "class",
       "signature": "declare class DsCombobox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): ComboboxItem[]; set items(items: ComboboxItem[]); __stateType: { open: boolean; value: string | null; inputValue: string; committedInputValue: string; activeValue: string | null; items: ComboboxItem[]; }; }"
+    },
+    {
+      "name": "DsConfirmDialog",
+      "kind": "class",
+      "signature": "declare class DsConfirmDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".confirm-dialog__actions button\"; protected render(): void; protected sync(): void; }"
     },
     {
       "name": "DsCount",
@@ -109,9 +119,19 @@
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
+      "name": "DsPromptDialog",
+      "kind": "class",
+      "signature": "declare class DsPromptDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".prompt-dialog__input\"; protected willOpen(): void; protected render(): void; protected sync(): void; }"
+    },
+    {
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
+    },
+    {
+      "name": "DsSearchDialog",
+      "kind": "class",
+      "signature": "declare class DsSearchDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".search-dialog__input\"; connectedCallback(): void; get items(): SearchDialogItem[]; set items(items: SearchDialogItem[]); get suggestions(): SearchDialogItem[]; set suggestions(items: SearchDialogItem[]); protected willOpen(): void; protected render(): void; protected sync(): void; }"
     },
     {
       "name": "DsSearchField",
@@ -187,6 +207,11 @@
       "name": "RadioGroupItem",
       "kind": "type",
       "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
+    },
+    {
+      "name": "SearchDialogItem",
+      "kind": "interface",
+      "signature": "interface SearchDialogItem { value: string; label?: string; disabled?: boolean; /** Section the result belongs to (\"Pages\"); ungrouped results come first. */ group?: string; /** Shortcut hint shown on the result (\"⌘S\", or [\"⌘\", \"S\"] for a chord). */ shortcut?: string | string[]; }"
     },
     {
       "name": "SelectItem",
