@@ -159,6 +159,11 @@
       "signature": "declare class DsLoadingGenerationArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsLoginForm",
+      "kind": "class",
+      "signature": "declare class DsLoginForm extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get providers(): LoginFormProvider[]; set providers(value: LoginFormProvider[]); }"
+    },
+    {
       "name": "DsMultiSelect",
       "kind": "class",
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
@@ -259,6 +264,11 @@
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
     },
     {
+      "name": "DsToolbar",
+      "kind": "class",
+      "signature": "declare class DsToolbar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsTooltip",
       "kind": "class",
       "signature": "declare class DsTooltip extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
@@ -267,6 +277,11 @@
       "name": "DsTreeView",
       "kind": "class",
       "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
+    },
+    {
+      "name": "DsUploadDropArea",
+      "kind": "class",
+      "signature": "declare class DsUploadDropArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); /** The files the input currently holds. */ get files(): File[]; }"
     },
     {
       "name": "LinkVariant",
@@ -282,6 +297,16 @@
       "name": "LoadingVariant",
       "kind": "type",
       "signature": "type LoadingVariant = \"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\";"
+    },
+    {
+      "name": "LoginFormProvider",
+      "kind": "interface",
+      "signature": "interface LoginFormProvider { id: string; label: string; }"
+    },
+    {
+      "name": "LoginFormValue",
+      "kind": "interface",
+      "signature": "interface LoginFormValue { email: string; password: string; }"
     },
     {
       "name": "MenuEntry",
@@ -417,6 +442,11 @@
       "name": "TagStatus",
       "kind": "type",
       "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
+    },
+    {
+      "name": "ToolbarOrientation",
+      "kind": "type",
+      "signature": "type ToolbarOrientation = toolbar.ToolbarOrientation;"
     },
     {
       "name": "TreeLoadRequest",

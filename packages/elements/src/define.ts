@@ -43,6 +43,9 @@ import { DsTabs } from "./tabs/ds-tabs";
 import { DsTooltip } from "./tooltip/ds-tooltip";
 import { DsTag } from "./tag/ds-tag";
 import { DsTreeView } from "./tree-view/ds-tree-view";
+import { DsToolbar } from "./toolbar/ds-toolbar";
+import { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
+import { DsLoginForm } from "./login-form/ds-login-form";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -85,6 +88,9 @@ define("ds-tab-panel", DsTabPanel);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);
+define("ds-toolbar", DsToolbar);
+define("ds-upload-drop-area", DsUploadDropArea);
+define("ds-login-form", DsLoginForm);
 define("ds-button-group", DsButtonGroup);
 define("ds-icon", DsIcon);
 define("ds-kbd", DsKbd);

@@ -82,6 +82,13 @@ export {
 } from "./tabs/ds-tabs";
 export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsToolbar, type ToolbarOrientation } from "./toolbar/ds-toolbar";
+export { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
+export {
+  DsLoginForm,
+  type LoginFormProvider,
+  type LoginFormValue,
+} from "./login-form/ds-login-form";
 export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
 export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
 export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
