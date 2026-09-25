@@ -6,6 +6,7 @@ import Preview from "../../../../components/Preview.astro";
 import ImportSnippet from "../../../../components/ImportSnippet.astro";
 import PropsTable from "../../../../components/PropsTable.astro";
 import SearchFieldDemo from "../../../../demos/SearchFieldDemo.svelte";
+import SearchFieldFilterDemo from "../../../../demos/SearchFieldFilterDemo.svelte";
 
 <Preview>
   <SearchFieldDemo client:visible />
@@ -51,6 +52,24 @@ consistent native cancel affordance. It suppresses the browser-specific cancel
 glyph only inside this component, avoiding duplicate controls in Chromium and
 WebKit while keeping the same behavior in Firefox.
 
+### Filter as you type
+
+When the results update on every keystroke, there is nothing to submit. Turn
+the submit button off with `submitButton={false}` (`no-submit` in Elements):
+the search glyph moves to the start of the field as a decorative mark, and the
+clear button stays.
+
+<Preview>
+  <SearchFieldFilterDemo client:visible />
+</Preview>
+
+```svelte
+<SearchField label="Filter tables" hideLabel submitButton={false} bind:value={query} />
+```
+
+Announce the result count in a polite live region, so a screen reader user
+hears the effect of each change.
+
 ### Props
 
 <PropsTable component="search-field" />
@@ -60,6 +79,6 @@ WebKit while keeping the same behavior in Firefox.
 - Keep the real label. `hideLabel` hides it only visually.
 - The clear and submit icons are decorative; their buttons have accessible
   names.
-- Keyboard order is input, clear when present, then submit.
+- Keyboard order is input, clear when present, then submit when present.
 - Enter in the input follows native form submission.
 - Disabled and read-only search fields do not expose a clear action.

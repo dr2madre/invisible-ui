@@ -98,6 +98,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "submitButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Render the submit button; turn it off for a filter that applies as you type.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onValueChange",
           "type": "((value: string) => void) | undefined",
           "default": "undefined",
@@ -208,6 +216,14 @@
           "default": "undefined",
           "required": false,
           "description": "Accessible name for the native submit button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "submitButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Render the submit button; turn it off for a filter that applies as you type.",
           "descriptionFrom": "source"
         },
         {
@@ -324,6 +340,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "submitButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Render the submit button; turn it off for a filter that applies as you type.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "default": null,
@@ -339,8 +363,96 @@
         "name": "ds-search-field",
         "specifier": "@design-system/elements/define"
       },
-      "attributes": [],
-      "notes": []
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "readonly",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "autocomplete",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "clear-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "submit-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "no-submit",
+          "reactive": true,
+          "required": false,
+          "description": "drops the submit button for a filter that applies as you type",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `value`.",
+        "Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`."
+      ]
     }
   }
 }

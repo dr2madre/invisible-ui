@@ -6,6 +6,13 @@ import { closeIcon, searchIcon } from "../internal/icons";
 /**
  * `<ds-search-field>` — a native search input with clear and submit actions in
  * one visual control. The actions remain real buttons in the surrounding form.
+ *
+ * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
+ * `disabled`, `readonly`, `required`, `name`, `autocomplete`, `clear-label`,
+ * `submit-label`, `no-submit` (drops the submit button for a filter that
+ * applies as you type).
+ * Properties: `value`.
+ * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */
 export class DsSearchField extends HTMLElementBase {
   static observedAttributes = [
@@ -20,6 +27,7 @@ export class DsSearchField extends HTMLElementBase {
     "autocomplete",
     "clear-label",
     "submit-label",
+    "no-submit",
   ];
 
   #root: HTMLDivElement | null = null;
@@ -27,6 +35,7 @@ export class DsSearchField extends HTMLElementBase {
   #input: HTMLInputElement | null = null;
   #clear: HTMLButtonElement | null = null;
   #submit: HTMLButtonElement | null = null;
+  #icon: HTMLSpanElement | null = null;
   #fieldId = "";
   #defaultValue = "";
   #stopFormReset: (() => void) | null = null;
@@ -96,7 +105,12 @@ export class DsSearchField extends HTMLElementBase {
     submit.type = "submit";
     submit.innerHTML = searchIcon();
 
-    control.append(input, clear, submit);
+    const icon = document.createElement("span");
+    icon.className = "search-field__icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.innerHTML = searchIcon();
+
+    control.append(icon, input, clear, submit);
     root.append(label, control);
     this.appendChild(root);
 
@@ -105,6 +119,7 @@ export class DsSearchField extends HTMLElementBase {
     this.#input = input;
     this.#clear = clear;
     this.#submit = submit;
+    this.#icon = icon;
   }
 
   #sync() {
@@ -156,6 +171,11 @@ export class DsSearchField extends HTMLElementBase {
     clear.hidden = value.length === 0 || disabled || readOnly;
     clear.disabled = disabled || readOnly;
     clear.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear search");
+    // Without a submit button the glyph only marks the field as a search.
+    const noSubmit = boolAttr(this, "no-submit");
+    root.classList.toggle("search-field--no-submit", noSubmit);
+    this.#icon!.hidden = !noSubmit;
+    submit.hidden = noSubmit;
     submit.disabled = disabled;
     submit.setAttribute("aria-label", this.getAttribute("submit-label") ?? "Search");
   }
