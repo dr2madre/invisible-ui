@@ -22,6 +22,11 @@ export type TabsPanelContent = Node | string | number | null | undefined;
  * (automatic|manual). Properties: `items`, `renderPanel`. `renderPanel` may
  * return a DOM Node or scalar; strings are inserted as text. Emits a bubbling
  * `change` event with `detail.value` when the selected tab changes.
+ *
+ * Panels can live elsewhere: give the tabs an `id` and write one
+ * `<ds-tab-panel for="that-id" value="…">` per tab wherever it belongs. As soon
+ * as one such panel exists, the element is the tab strip alone, so its height
+ * is the strip's and anything aligned to it lines up with the tabs.
  */
 export class DsTabs extends HTMLElementBase {
   static observedAttributes = ["label", "value", "activation-mode"];
@@ -88,6 +93,24 @@ export class DsTabs extends HTMLElementBase {
     this.#renderItems();
   }
 
+  /** Called by `<ds-tab-panel>` when one joins, leaves or changes owner. */
+  syncPanels() {
+    if (!this.#root) return;
+    const external = this.#externalPanels().length > 0;
+    if (external !== this.#usesExternalPanels) this.#renderItems();
+    this.#apply();
+  }
+
+  #usesExternalPanels = false;
+
+  #externalPanels(): HTMLElement[] {
+    if (!this.id) return [];
+    const root = this.getRootNode() as Document | ShadowRoot;
+    return Array.from(
+      root.querySelectorAll<HTMLElement>(`ds-tab-panel[for="${CSS.escape(this.id)}"]`),
+    );
+  }
+
   #renderItems() {
     const root = this.#root!;
     const list = this.#list!;
@@ -95,6 +118,7 @@ export class DsTabs extends HTMLElementBase {
     for (const panel of this.#panels.values()) panel.remove();
     this.#tabs.clear();
     this.#panels.clear();
+    this.#usesExternalPanels = this.#externalPanels().length > 0;
 
     for (const item of this.#items) {
       const tab = document.createElement("button");
@@ -123,6 +147,7 @@ export class DsTabs extends HTMLElementBase {
       }
       list.appendChild(tab);
       this.#tabs.set(item.value, tab);
+      if (this.#usesExternalPanels) continue;
 
       const panel = document.createElement("div");
       panel.className = "tabs__panel";
@@ -172,7 +197,17 @@ export class DsTabs extends HTMLElementBase {
     this.#list!.setAttribute("aria-label", this.getAttribute("label") ?? "");
     for (const item of this.#items) {
       applyProps(this.#tabs.get(item.value)!, api.getTabProps(item.value));
-      applyProps(this.#panels.get(item.value)!, api.getPanelProps(item.value));
+      const panel = this.#panels.get(item.value);
+      if (panel) applyProps(panel, api.getPanelProps(item.value));
+    }
+    for (const panel of this.#externalPanels()) {
+      const value = panel.getAttribute("value") ?? "";
+      if (this.#items.some((item) => item.value === value)) {
+        applyProps(panel, api.getPanelProps(value));
+      } else {
+        // A panel for a tab that does not exist stays out of sight.
+        panel.hidden = true;
+      }
     }
   }
 }

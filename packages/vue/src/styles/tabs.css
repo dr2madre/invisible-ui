@@ -76,6 +76,10 @@
   padding-block: 0.75rem;
   color: var(--ds-color-text-secondary, #524c44);
 }
+/* A panel can be a custom element, which is inline by default. */
+.tabs__panel:not([hidden]) {
+  display: block;
+}
 
 /* Forced colors: the tab row is a scroller, so the ring must be drawn
    inside the tab or its top and bottom are clipped away. */

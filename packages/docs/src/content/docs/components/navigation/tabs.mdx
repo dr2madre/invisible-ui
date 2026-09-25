@@ -86,4 +86,23 @@ tabs.renderPanel = (item) => {
 };
 ```
 
+### Panels outside the tab strip
+
+When the strip belongs in a header and the panels further down the page, keep
+them apart. In Elements, give the tabs an `id` and write one `<ds-tab-panel>`
+per tab where it belongs, with `for` naming the tabs and `value` naming the
+tab. The tabs wire each panel (`role="tabpanel"`, the link to its tab, which
+one is visible), and the element becomes the strip alone, so anything aligned
+to it lines up with the tabs rather than with the panel.
+
+```html
+<header class="editor-header">
+  <ds-tabs id="editor-tabs" label="Editor"></ds-tabs>
+  <ds-button variant="ghost">Close</ds-button>
+</header>
+
+<ds-tab-panel for="editor-tabs" value="form">…</ds-tab-panel>
+<ds-tab-panel for="editor-tabs" value="preview">…</ds-tab-panel>
+```
+
 Themeable via `--ds-tabs-*`.

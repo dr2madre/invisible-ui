@@ -61,3 +61,40 @@ test("Elements Tabs remains reachable at 320 CSS pixels", async ({ page }) => {
   await expect(lastEnabled).toHaveAttribute("aria-selected", "true");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
 });
+
+test("Elements tabs with external panels line up with a header beside the strip", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await Promise.all([
+      customElements.whenDefined("ds-tabs"),
+      customElements.whenDefined("ds-tab-panel"),
+    ]);
+    document.body.innerHTML = `
+      <header data-header style="display: flex; align-items: center; gap: 1rem">
+        <ds-tabs id="editor-tabs" label="Editor"></ds-tabs>
+        <button type="button">Close</button>
+      </header>
+      <ds-tab-panel for="editor-tabs" value="form">
+        <div style="block-size: 20rem">Form fields</div>
+      </ds-tab-panel>
+      <ds-tab-panel for="editor-tabs" value="preview">Rendered preview</ds-tab-panel>`;
+    (document.querySelector("ds-tabs") as HTMLElement & { items: unknown }).items = [
+      { value: "form", label: "Form" },
+      { value: "preview", label: "Preview" },
+    ];
+  });
+
+  const strip = await page.getByRole("tablist", { name: "Editor" }).boundingBox();
+  const close = await page.getByRole("button", { name: "Close" }).boundingBox();
+  const header = await page.locator("[data-header]").boundingBox();
+  // The header is as tall as the strip, not strip plus panel, so the button
+  // sits level with the tabs.
+  expect(header!.height).toBeLessThan(strip!.height + 4);
+  expect(Math.abs(close!.y + close!.height / 2 - (strip!.y + strip!.height / 2))).toBeLessThan(4);
+
+  await page.getByRole("tab", { name: "Preview" }).click();
+  await expect(page.getByRole("tabpanel")).toHaveText("Rendered preview");
+  await expect(page.getByText("Form fields")).toBeHidden();
+});

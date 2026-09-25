@@ -64,4 +64,5 @@ export {
   type TabsItem,
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
+export { DsTabPanel } from "./tabs/ds-tab-panel";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
