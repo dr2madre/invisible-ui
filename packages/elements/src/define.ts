@@ -3,6 +3,7 @@
  * Safe to import more than once (guards against re-definition).
  */
 import { DsButton } from "./button/ds-button";
+import { DsButtonGroup } from "./button-group/ds-button-group";
 import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 import { DsCheckbox } from "./checkbox/ds-checkbox";
@@ -17,7 +18,10 @@ import { DsInlineNotification } from "./inline-notification/ds-inline-notificati
 import { DsLoading } from "./loading/ds-loading";
 import { DsLoadingGenerationArea } from "./loading-generation-area/ds-loading-generation-area";
 import { DsField } from "./field/ds-field";
+import { DsIcon } from "./icon/ds-icon";
+import { DsKbd } from "./kbd/ds-kbd";
 import { DsLabel } from "./label/ds-label";
+import { DsLink } from "./link/ds-link";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
 import { DsSelect } from "./select/ds-select";
 import { DsSeparator } from "./separator/ds-separator";
@@ -63,5 +67,9 @@ define("ds-tabs", DsTabs);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);
+define("ds-button-group", DsButtonGroup);
+define("ds-icon", DsIcon);
+define("ds-kbd", DsKbd);
+define("ds-link", DsLink);
 
 export {};

@@ -22,6 +22,14 @@
  */
 
 export { DsButton } from "./button/ds-button";
+export {
+  DsButtonGroup,
+  type ButtonGroupAlign,
+  type ButtonGroupOrientation,
+} from "./button-group/ds-button-group";
+export { DsIcon } from "./icon/ds-icon";
+export { DsKbd } from "./kbd/ds-kbd";
+export { DsLink, type LinkVariant } from "./link/ds-link";
 export { DsCheckbox } from "./checkbox/ds-checkbox";
 export { DsSwitch } from "./switch/ds-switch";
 export { DsSelect, type SelectItem } from "./select/ds-select";
