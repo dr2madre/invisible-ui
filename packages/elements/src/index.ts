@@ -66,3 +66,5 @@ export {
 } from "./tabs/ds-tabs";
 export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
