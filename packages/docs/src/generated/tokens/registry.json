@@ -11525,7 +11525,8 @@
       "id": "dialog-header-gap",
       "component": "dialog",
       "usedBy": [
-        "dialog"
+        "dialog",
+        "dialog-header"
       ],
       "category": "size",
       "categories": [
@@ -11536,13 +11537,58 @@
         "margin-inline-start"
       ],
       "adapters": [
-        "svelte"
+        "elements",
+        "react",
+        "svelte",
+        "vue"
       ],
       "fallbacks": [
         "0.75rem"
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/dialog-header.css",
+          "selector": ".dialog-header__actions",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/dialog-header.css",
+          "selector": ".dialog-header__close",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/dialog-header.css",
+          "selector": ".dialog-header__icon, .dialog-header__lead",
+          "property": "margin-inline-end",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dialog-header.css",
+          "selector": ".dialog-header__actions",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dialog-header.css",
+          "selector": ".dialog-header__close",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dialog-header.css",
+          "selector": ".dialog-header__icon, .dialog-header__lead",
+          "property": "margin-inline-end",
+          "fallback": "0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
@@ -11560,6 +11606,27 @@
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__icon, .dialog-header__lead",
+          "property": "margin-inline-end",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/dialog-header.css",
+          "selector": ".dialog-header__actions",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/dialog-header.css",
+          "selector": ".dialog-header__close",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/dialog-header.css",
           "selector": ".dialog-header__icon, .dialog-header__lead",
           "property": "margin-inline-end",
           "fallback": "0.75rem"
