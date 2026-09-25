@@ -6,6 +6,7 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { createButton, ModalHost } from "../internal/modal-host";
+import { localized } from "../internal/i18n";
 
 /**
  * `<ds-confirm-dialog>` asks the user to verify or accept before proceeding,
@@ -93,14 +94,14 @@ export class DsConfirmDialog extends ModalHost {
       heading: this.getAttribute("heading") ?? "",
       subtitle: null,
       closeButton: boolAttr(this, "close-button", false),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "dialog.close"),
     });
     this.#description.hidden = description == null;
     this.#description.textContent = description ?? "";
-    this.#cancel.textContent = this.getAttribute("cancel-label") ?? "Cancel";
-    this.#confirm.textContent = this.getAttribute("confirm-label") ?? "Confirm";
+    this.#cancel.textContent = localized(this, "cancel-label", "dialog.cancel");
+    this.#confirm.textContent = localized(this, "confirm-label", "dialog.confirm");
     this.#confirm.dataset.variant = this.getAttribute("confirm-variant") ?? "primary";
-    this.trigger.textContent = this.getAttribute("trigger") ?? "Open";
+    this.trigger.textContent = localized(this, "trigger", "dialog.trigger");
     this.trigger.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.trigger, api.triggerProps);

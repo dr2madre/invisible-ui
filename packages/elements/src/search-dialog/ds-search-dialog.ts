@@ -7,6 +7,7 @@ import {
 } from "../internal/dialog-header";
 import { searchIcon } from "../internal/icons";
 import { createButton, ModalHost } from "../internal/modal-host";
+import { localized, t } from "../internal/i18n";
 
 export interface SearchDialogItem {
   value: string;
@@ -251,15 +252,15 @@ export class DsSearchDialog extends ModalHost {
     });
 
     syncDialogHeader(this.#header, {
-      heading: this.getAttribute("heading") ?? "Search",
+      heading: localized(this, "heading", "searchDialog.title"),
       subtitle: null,
       hideTitle: boolAttr(this, "hide-title", true),
       closeButton: boolAttr(this, "close-button", false),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "dialog.close"),
     });
-    this.#label.textContent = this.getAttribute("label") ?? "Search";
-    this.#input.placeholder = this.getAttribute("placeholder") ?? "Type to search…";
-    this.trigger.textContent = this.getAttribute("trigger") ?? "Search…";
+    this.#label.textContent = localized(this, "label", "searchDialog.label");
+    this.#input.placeholder = localized(this, "placeholder", "searchDialog.placeholder");
+    this.trigger.textContent = localized(this, "trigger", "searchDialog.trigger");
     this.trigger.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.trigger, api.triggerProps);
@@ -344,7 +345,7 @@ export class DsSearchDialog extends ModalHost {
     if (!this.panel) return;
     const api = this.#comboboxApi();
     const loading = boolAttr(this, "loading");
-    const emptyText = this.getAttribute("empty-text") ?? "No results found.";
+    const emptyText = localized(this, "empty-text", "searchDialog.empty");
     const count = this.#visible.length;
 
     applyProps(this.#label, api.labelProps);
@@ -363,12 +364,10 @@ export class DsSearchDialog extends ModalHost {
     });
 
     this.#status.textContent = loading
-      ? "Searching…"
+      ? t(this, "searchDialog.loading")
       : count === 0
         ? emptyText
-        : count === 1
-          ? "1 result available"
-          : `${count} results available`;
+        : t(this, "searchDialog.results", { count });
 
     // Added and removed, not hidden: the sheet gives these parts a display.
     if (loading) this.#listbox.before(this.#loading);

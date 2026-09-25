@@ -61,12 +61,12 @@
     {
       "name": "DsAvatarGroup",
       "kind": "class",
-      "signature": "declare class DsAvatarGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): AvatarGroupItem[]; set items(value: AvatarGroupItem[]); }"
+      "signature": "declare class DsAvatarGroup extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get items(): AvatarGroupItem[]; set items(value: AvatarGroupItem[]); }"
     },
     {
       "name": "DsBreadcrumb",
       "kind": "class",
-      "signature": "declare class DsBreadcrumb extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): BreadcrumbItem[]; set items(value: BreadcrumbItem[]); }"
+      "signature": "declare class DsBreadcrumb extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get items(): BreadcrumbItem[]; set items(value: BreadcrumbItem[]); }"
     },
     {
       "name": "DsButton",
@@ -96,7 +96,7 @@
     {
       "name": "DsCombobox",
       "kind": "class",
-      "signature": "declare class DsCombobox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): ComboboxItem[]; set items(items: ComboboxItem[]); __stateType: { open: boolean; value: string | null; inputValue: string; committedInputValue: string; activeValue: string | null; items: ComboboxItem[]; }; }"
+      "signature": "declare class DsCombobox extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): ComboboxItem[]; set items(items: ComboboxItem[]); __stateType: { open: boolean; value: string | null; inputValue: string; committedInputValue: string; activeValue: string | null; items: ComboboxItem[]; }; }"
     },
     {
       "name": "DsConfirmDialog",
@@ -111,7 +111,7 @@
     {
       "name": "DsDialog",
       "kind": "class",
-      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
     },
     {
       "name": "DsDropdownMenu",
@@ -141,7 +141,7 @@
     {
       "name": "DsInlineNotification",
       "kind": "class",
-      "signature": "declare class DsInlineNotification extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
+      "signature": "declare class DsInlineNotification extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
     },
     {
       "name": "DsKbd",
@@ -161,22 +161,27 @@
     {
       "name": "DsLoading",
       "kind": "class",
-      "signature": "declare class DsLoading extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; }"
+      "signature": "declare class DsLoading extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; }"
     },
     {
       "name": "DsLoadingGenerationArea",
       "kind": "class",
-      "signature": "declare class DsLoadingGenerationArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+      "signature": "declare class DsLoadingGenerationArea extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsLocaleProvider",
+      "kind": "class",
+      "signature": "declare class DsLocaleProvider extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string, _old: string | null, value: string | null): void; get locale(): string; set locale(value: string); get messages(): i18n.Messages; set messages(value: i18n.Messages); }"
     },
     {
       "name": "DsLoginForm",
       "kind": "class",
-      "signature": "declare class DsLoginForm extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get providers(): LoginFormProvider[]; set providers(value: LoginFormProvider[]); }"
+      "signature": "declare class DsLoginForm extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get providers(): LoginFormProvider[]; set providers(value: LoginFormProvider[]); }"
     },
     {
       "name": "DsMultiSelect",
       "kind": "class",
-      "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
+      "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
     },
     {
       "name": "DsNavigationMenu",
@@ -186,7 +191,7 @@
     {
       "name": "DsPagination",
       "kind": "class",
-      "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
+      "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
       "name": "DsProgress",
@@ -221,7 +226,7 @@
     {
       "name": "DsSearchField",
       "kind": "class",
-      "signature": "declare class DsSearchField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
+      "signature": "declare class DsSearchField extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
     },
     {
       "name": "DsSegmentedControl",
@@ -231,7 +236,7 @@
     {
       "name": "DsSelect",
       "kind": "class",
-      "signature": "declare class DsSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): SelectItem[]; set items(items: SelectItem[]); }"
+      "signature": "declare class DsSelect extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): SelectItem[]; set items(items: SelectItem[]); }"
     },
     {
       "name": "DsSeparator",
@@ -241,17 +246,17 @@
     {
       "name": "DsSheetDialog",
       "kind": "class",
-      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
     },
     {
       "name": "DsSidebar",
       "kind": "class",
-      "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
+      "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
     },
     {
       "name": "DsSwitch",
       "kind": "class",
-      "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
+      "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
     },
     {
       "name": "DsTab",
@@ -276,7 +281,7 @@
     {
       "name": "DsTableSet",
       "kind": "class",
-      "signature": "declare class DsTableSet extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get views(): TableViewDef[]; set views(value: TableViewDef[]); get activeView(): string | null; set activeView(value: string | null); get sort(): TableSortState | null | undefined; set sort(value: TableSortState | null | undefined); get hiddenColumns(): string[] | undefined; set hiddenColumns(value: string[] | undefined); get selectedRowIds(): TableRowId[] | undefined; set selectedRowIds(value: TableRowId[] | undefined); get getValue(): ((row: TableRow, key: string) => unknown) | undefined; set getValue(value: ((row: TableRow, key: string) => unknown) | undefined); get getRowId(): ((row: TableRow, index: number) => TableRowId) | undefined; set getRowId(value: ((row: TableRow, index: number) => TableRowId) | undefined); get isRowSelectable(): ((row: TableRow) => boolean) | undefined; set isRowSelectable(value: ((row: TableRow) => boolean) | undefined); get getRowLabel(): ((row: TableRow) => string) | undefined; set getRowLabel(value: ((row: TableRow) => string) | undefined); get renderCell(): ((context: TableCellContext) => TableCellContent) | undefined; set renderCell(value: ((context: TableCellContext) => TableCellContent) | undefined); }"
+      "signature": "declare class DsTableSet extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get views(): TableViewDef[]; set views(value: TableViewDef[]); get activeView(): string | null; set activeView(value: string | null); get sort(): TableSortState | null | undefined; set sort(value: TableSortState | null | undefined); get hiddenColumns(): string[] | undefined; set hiddenColumns(value: string[] | undefined); get selectedRowIds(): TableRowId[] | undefined; set selectedRowIds(value: TableRowId[] | undefined); get getValue(): ((row: TableRow, key: string) => unknown) | undefined; set getValue(value: ((row: TableRow, key: string) => unknown) | undefined); get getRowId(): ((row: TableRow, index: number) => TableRowId) | undefined; set getRowId(value: ((row: TableRow, index: number) => TableRowId) | undefined); get isRowSelectable(): ((row: TableRow) => boolean) | undefined; set isRowSelectable(value: ((row: TableRow) => boolean) | undefined); get getRowLabel(): ((row: TableRow) => string) | undefined; set getRowLabel(value: ((row: TableRow) => string) | undefined); get renderCell(): ((context: TableCellContext) => TableCellContent) | undefined; set renderCell(value: ((context: TableCellContext) => TableCellContent) | undefined); }"
     },
     {
       "name": "DsTabs",
@@ -286,7 +291,7 @@
     {
       "name": "DsTag",
       "kind": "class",
-      "signature": "declare class DsTag extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get removable(): boolean; set removable(value: boolean); }"
+      "signature": "declare class DsTag extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get removable(): boolean; set removable(value: boolean); }"
     },
     {
       "name": "DsTextField",
@@ -321,12 +326,12 @@
     {
       "name": "DsTreeView",
       "kind": "class",
-      "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
+      "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
     },
     {
       "name": "DsUploadDropArea",
       "kind": "class",
-      "signature": "declare class DsUploadDropArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); /** The files the input currently holds. */ get files(): File[]; }"
+      "signature": "declare class DsUploadDropArea extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); /** The files the input currently holds. */ get files(): File[]; }"
     },
     {
       "name": "LinkVariant",

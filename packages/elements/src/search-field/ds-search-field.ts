@@ -2,6 +2,7 @@ import { textField as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 import { closeIcon, searchIcon } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * `<ds-search-field>` — a native search input with clear and submit actions in
@@ -39,6 +40,13 @@ export class DsSearchField extends HTMLElementBase {
   #fieldId = "";
   #defaultValue = "";
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#root) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "value");
@@ -170,14 +178,14 @@ export class DsSearchField extends HTMLElementBase {
     root.classList.toggle("search-field--disabled", disabled);
     clear.hidden = value.length === 0 || disabled || readOnly;
     clear.disabled = disabled || readOnly;
-    clear.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear search");
+    clear.setAttribute("aria-label", localized(this, "clear-label", "searchField.clear"));
     // Without a submit button the glyph only marks the field as a search.
     const noSubmit = !boolAttr(this, "submit-button", true);
     root.classList.toggle("search-field--no-submit", noSubmit);
     this.#icon!.hidden = !noSubmit;
     submit.hidden = noSubmit;
     submit.disabled = disabled;
-    submit.setAttribute("aria-label", this.getAttribute("submit-label") ?? "Search");
+    submit.setAttribute("aria-label", localized(this, "submit-label", "searchField.submit"));
   }
 
   #clearValue() {

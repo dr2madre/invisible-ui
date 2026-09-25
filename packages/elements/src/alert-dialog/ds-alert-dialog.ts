@@ -6,6 +6,7 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { createButton, ModalHost } from "../internal/modal-host";
+import { localized } from "../internal/i18n";
 
 /**
  * `<ds-alert-dialog>` is a modal acknowledgement, the accessible equivalent of
@@ -82,11 +83,11 @@ export class DsAlertDialog extends ModalHost {
       heading: this.getAttribute("heading") ?? "",
       subtitle: null,
       closeButton: boolAttr(this, "close-button", false),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "dialog.close"),
     });
     this.#description.textContent = this.getAttribute("description") ?? "";
-    this.#dismiss.textContent = this.getAttribute("dismiss-label") ?? "OK";
-    this.trigger.textContent = this.getAttribute("trigger") ?? "Open";
+    this.#dismiss.textContent = localized(this, "dismiss-label", "dialog.dismiss");
+    this.trigger.textContent = localized(this, "trigger", "dialog.trigger");
     this.trigger.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.trigger, api.triggerProps);

@@ -16,6 +16,7 @@ import {
   setChildren,
   upgradeProperty,
 } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
 import { settingsIcon } from "../internal/icons";
 import { DsCard } from "../card/ds-card";
 import { DsCheckbox } from "../checkbox/ds-checkbox";
@@ -33,9 +34,6 @@ import {
 export type TableRowId = core.RowId;
 export type TableSelectionMode = core.SelectionMode;
 export type TableBodyView = "table" | "card";
-
-const t = (key: i18n.MessageKey, vars?: i18n.TranslateVars) =>
-  i18n.translate(i18n.en, {}, i18n.DEFAULT_LOCALE, key, vars);
 
 const defaultGetValue = (row: TableRow, key: string) => row[key];
 
@@ -65,9 +63,9 @@ const appendContent = (parent: HTMLElement, content: TableCellContent) => {
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const VIEW_ITEMS: { value: TableBodyView; label: string }[] = [
-  { value: "table", label: "Table" },
-  { value: "card", label: "Cards" },
+const VIEW_ITEMS: { value: TableBodyView; key: i18n.MessageKey }[] = [
+  { value: "table", key: "table.viewTable" },
+  { value: "card", key: "table.viewCards" },
 ];
 
 /**
@@ -200,6 +198,11 @@ export class DsTableView extends HTMLElementBase {
   #observer: IntersectionObserver | null = null;
   #pager: HTMLDivElement | null = null;
   #pagination: DsPagination | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => this.#update());
+  }
 
   connectedCallback() {
     for (const [tag, ctor] of [
@@ -590,7 +593,6 @@ export class DsTableView extends HTMLElementBase {
       const label = document.createElement("span");
       label.className = "segmented-field__label segmented-field__label--hidden";
       label.id = nextId("ds-segmented-label");
-      label.textContent = "View";
       const group = document.createElement("div");
       group.className = "segmented";
       group.setAttribute("aria-labelledby", label.id);
@@ -601,7 +603,6 @@ export class DsTableView extends HTMLElementBase {
         input.className = "segment__input";
         const text = document.createElement("span");
         text.className = "segment__label";
-        text.textContent = item.label;
         segment.append(input, text);
         group.appendChild(segment);
         this.#segmentInputs.set(item.value, input);
@@ -620,7 +621,11 @@ export class DsTableView extends HTMLElementBase {
         this.#update();
       },
     });
-    applyProps(this.#segmented.querySelector(".segmented")!, api.rootProps);
+    const field = this.#segmented;
+    field.querySelector(".segmented-field__label")!.textContent = t(this, "table.view");
+    const texts = field.querySelectorAll(".segment__label");
+    VIEW_ITEMS.forEach((item, index) => (texts[index]!.textContent = t(this, item.key)));
+    applyProps(field.querySelector(".segmented")!, api.rootProps);
     for (const [value, input] of this.#segmentInputs) {
       applyProps(input, api.getItemProps(value));
       input.checked = value === this.#view;
@@ -629,7 +634,7 @@ export class DsTableView extends HTMLElementBase {
   }
 
   #syncSettings(api: core.TableApi): HTMLButtonElement {
-    const label = this.getAttribute("config-label") ?? t("table.columns");
+    const label = this.getAttribute("config-label") ?? t(this, "table.columns");
     if (!this.#trigger) {
       const trigger = document.createElement("button");
       trigger.className = "button";
@@ -767,7 +772,7 @@ export class DsTableView extends HTMLElementBase {
     }
     const label = document.createElement("span");
     label.className = "table-view__sr";
-    label.textContent = t("table.selection");
+    label.textContent = t(this, "table.selection");
     return label;
   }
 
@@ -785,7 +790,7 @@ export class DsTableView extends HTMLElementBase {
     const frame = this.#frame;
     const state =
       frame && frame.mode === "multiple" ? frame.api.getScopeSelectionState(frame.scope) : "none";
-    box.setAttribute("label", t("table.selectPage"));
+    box.setAttribute("label", t(this, "table.selectPage"));
     box.toggleAttribute("disabled", !frame || frame.scope.length === 0);
     box.checked = state === "all" ? true : state === "some" ? "indeterminate" : false;
     return box;
@@ -802,7 +807,7 @@ export class DsTableView extends HTMLElementBase {
       });
       this.#rowBoxes.set(id, box);
     }
-    box.setAttribute("label", t("table.selectRow", { name: this.#selectionLabel(row, id) }));
+    box.setAttribute("label", t(this, "table.selectRow", { name: this.#selectionLabel(row, id) }));
     box.checked = this.#frame?.api.isRowSelected(id) ?? false;
     return box;
   }
@@ -950,9 +955,9 @@ export class DsTableView extends HTMLElementBase {
       this.#emptyState = empty;
     }
     const empty = this.#emptyState!;
-    const title = this.getAttribute("no-results-label") ?? t("table.noResults");
+    const title = this.getAttribute("no-results-label") ?? t(this, "table.noResults");
     if (empty.getAttribute("title") !== title) empty.setAttribute("title", title);
-    const action = boolAttr(this, "filters-clearable") ? t("table.clearFilters") : null;
+    const action = boolAttr(this, "filters-clearable") ? t(this, "table.clearFilters") : null;
     if (empty.getAttribute("action-label") !== action) {
       if (action == null) empty.removeAttribute("action-label");
       else empty.setAttribute("action-label", action);
@@ -982,12 +987,12 @@ export class DsTableView extends HTMLElementBase {
       this.#observe();
     }
     const loading = boolAttr(this, "loading");
-    const loadingLabel = this.getAttribute("loading-label") ?? t("table.loading");
+    const loadingLabel = this.getAttribute("loading-label") ?? t(this, "table.loading");
     this.#status!.textContent = loading ? loadingLabel : "";
     this.#loadMore!.disabled = loading;
     this.#loadMore!.textContent = loading
       ? loadingLabel
-      : (this.getAttribute("load-more-label") ?? t("table.loadMore"));
+      : (this.getAttribute("load-more-label") ?? t(this, "table.loadMore"));
     const nodes: Node[] = [this.#status!];
     if (boolAttr(this, "has-more")) nodes.push(this.#loadMore!);
     nodes.push(this.#sentinel!);
@@ -1027,7 +1032,7 @@ export class DsTableView extends HTMLElementBase {
     pagination.setAttribute("page", String(this.#page));
     pagination.setAttribute(
       "label",
-      this.getAttribute("pagination-label") ?? t("table.pagination"),
+      this.getAttribute("pagination-label") ?? t(this, "table.pagination"),
     );
     return this.#pager;
   }

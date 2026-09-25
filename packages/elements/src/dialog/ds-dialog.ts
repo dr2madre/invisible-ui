@@ -13,6 +13,7 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { lockScroll } from "../internal/scroll-lock";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * `<ds-dialog>` — the styled modal window on the native `<dialog>` element
@@ -66,6 +67,13 @@ export class DsDialog extends HTMLElementBase {
   #panel: HTMLDialogElement | null = null;
   #body: HTMLDivElement | null = null;
   #cleanup: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#panel) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
@@ -185,11 +193,11 @@ export class DsDialog extends HTMLElementBase {
       heading: this.getAttribute("heading") ?? "",
       subtitle: this.getAttribute("description"),
       closeButton: boolAttr(this, "close-button", true),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "dialog.close"),
     });
 
     this.#body!.dataset.layout = this.getAttribute("body-layout") ?? "plain";
-    this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
+    this.#trigger!.textContent = localized(this, "trigger", "dialog.trigger");
     this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.#trigger!, api.triggerProps);

@@ -34,6 +34,7 @@ describe("custom-elements adapter SSR", () => {
       "DsLink",
       "DsLoading",
       "DsLoadingGenerationArea",
+      "DsLocaleProvider",
       "DsLoginForm",
       "DsMultiSelect",
       "DsNavigationMenu",

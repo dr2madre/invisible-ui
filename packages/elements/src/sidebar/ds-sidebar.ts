@@ -7,6 +7,7 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { localized, onLocaleChange } from "../internal/i18n";
 import { pathIcon } from "../internal/icons";
 
 /** One destination in the sidebar. */
@@ -73,6 +74,13 @@ export class DsSidebar extends HTMLElementBase {
   #logo: Element[] = [];
   #footer: Element[] = [];
   #groupIds = new Map<string, string>();
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#nav) this.#render();
+    });
+  }
 
   connectedCallback() {
     for (const property of ["sections", "value", "openGroups"]) upgradeProperty(this, property);
@@ -269,7 +277,7 @@ export class DsSidebar extends HTMLElementBase {
     const rail = this.#isRail();
 
     nav.className = rail ? "sidebar sidebar--collapsed" : "sidebar";
-    nav.setAttribute("aria-label", this.getAttribute("label") ?? "Main");
+    nav.setAttribute("aria-label", localized(this, "label", "sidebar.label"));
     nav.dataset.mode = "inline";
     nav.dataset.side = this.getAttribute("side") === "inline-end" ? "inline-end" : "inline-start";
     nav.toggleAttribute("data-collapsed", rail);
@@ -290,8 +298,8 @@ export class DsSidebar extends HTMLElementBase {
       toggle.setAttribute("aria-pressed", String(rail));
       toggle.appendChild(this.#icon(rail ? CHEVRON_RIGHT : CHEVRON_LEFT));
       const text = rail
-        ? (this.getAttribute("expand-label") ?? "Expand the navigation")
-        : (this.getAttribute("collapse-label") ?? "Collapse the navigation");
+        ? localized(this, "expand-label", "sidebar.expand")
+        : localized(this, "collapse-label", "sidebar.collapse");
       toggle.appendChild(this.#label(text, true));
       toggle.addEventListener("click", () => this.#setCollapsed(!rail));
       nav.appendChild(toggle);

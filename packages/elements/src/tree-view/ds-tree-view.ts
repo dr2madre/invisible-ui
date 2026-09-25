@@ -1,5 +1,6 @@
 import { treeView as core } from "@design-system/core";
 import { applyProps, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
 
 export type TreeNode = core.TreeNode;
 export type TreeLoadRequest = core.TreeLoadRequest;
@@ -45,6 +46,13 @@ export class DsTreeView extends HTMLElementBase {
   #focused: string | null = null;
   #labels: Record<string, string> = {};
   #id = nextId("ds-tree");
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.isConnected) this.#render();
+    });
+  }
 
   connectedCallback() {
     for (const property of ["nodes", "expanded", "selected", "loading", "loadErrors", "labels"]) {
@@ -209,12 +217,11 @@ export class DsTreeView extends HTMLElementBase {
         status.setAttribute("aria-atomic", "true");
         const name = this.#labels[node.value] ?? node.value;
         const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
-        const template =
-          this.getAttribute(attribute) ??
-          (node.loadState === "error"
-            ? "Could not load {name}. Press Right Arrow to retry."
-            : "Loading {name}…");
-        status.textContent = template.replaceAll("{name}", name);
+        const template = this.getAttribute(attribute);
+        status.textContent =
+          template == null
+            ? t(this, node.loadState === "error" ? "tree.loadError" : "tree.loading", { name })
+            : template.replaceAll("{name}", name);
         item.appendChild(status);
       }
 

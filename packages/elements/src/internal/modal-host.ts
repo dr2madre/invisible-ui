@@ -1,4 +1,5 @@
 import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "./base";
+import { onLocaleChange } from "./i18n";
 import { lockScroll } from "./scroll-lock";
 
 /** A styled button (the `.button` rules of button.css). */
@@ -37,6 +38,13 @@ export abstract class ModalHost extends HTMLElementBase {
   }
   /** Reset per-opening state before the panel is shown. */
   protected willOpen(): void {}
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.panel) this.sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
