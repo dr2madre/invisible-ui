@@ -64,6 +64,7 @@ export {
   type TabsItem,
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
+export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
 export { DsTooltip } from "./tooltip/ds-tooltip";
 export {
@@ -71,3 +72,5 @@ export {
   type NavigationMenuItem,
   type NavigationMenuLink,
 } from "./navigation-menu/ds-navigation-menu";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";

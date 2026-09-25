@@ -29,6 +29,7 @@ const REACT_SHEETS = [
   "select.css",
   "combobox.css",
   "dialog.css",
+  "dialog-header.css",
   "text-field.css",
   "search-field.css",
 ];
@@ -55,6 +56,8 @@ const VUE_SHEETS = [
   "tree-view.css",
   "tooltip.css",
   "navigation-menu.css",
+  "avatar.css",
+  "sidebar.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

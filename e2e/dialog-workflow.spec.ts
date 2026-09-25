@@ -30,13 +30,13 @@ test("moves focus to the heading of each step, and never onto a removed control"
 test("keeps the step context and a dismissal control at every step", async ({ page }) => {
   await openWorkflow(page);
   const panel = page.getByRole("dialog");
-  const dismiss = panel.locator("button.dialog__close");
+  const dismiss = panel.locator("button.dialog-header__close");
 
-  await expect(panel.locator(".dialog__header-meta")).toHaveText("Step 1 of 2");
+  await expect(panel.locator(".dialog-header__meta")).toHaveText("Step 1 of 2");
   await expect(dismiss).toBeVisible();
 
   await page.getByRole("button", { name: "Continue" }).click();
-  await expect(panel.locator(".dialog__header-meta")).toHaveText("Step 2 of 2");
+  await expect(panel.locator(".dialog-header__meta")).toHaveText("Step 2 of 2");
   await expect(dismiss).toBeVisible();
 });
 
@@ -123,7 +123,7 @@ test("stays operable at a 320 pixel viewport without sideways scrolling", async 
   await page.getByRole("button", { name: "Continue" }).click();
   await expect(page.getByRole("heading", { name: "Name the project" })).toBeFocused();
   await expect(panel.getByRole("button", { name: "Create project" })).toBeVisible();
-  await expect(panel.locator("button.dialog__close")).toBeVisible();
+  await expect(panel.locator("button.dialog-header__close")).toBeVisible();
 });
 
 test("places the leading action at the logical start in a right-to-left layout", async ({

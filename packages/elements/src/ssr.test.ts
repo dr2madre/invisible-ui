@@ -10,6 +10,7 @@ describe("custom-elements adapter SSR", () => {
         .filter((name) => name.startsWith("Ds"))
         .sort(),
     ).toEqual([
+      "DsAvatar",
       "DsButton",
       "DsCard",
       "DsCheckbox",
@@ -32,7 +33,11 @@ describe("custom-elements adapter SSR", () => {
       "DsSelect",
       "DsSeparator",
       "DsSheetDialog",
+      "DsSidebar",
       "DsSwitch",
+      "DsTab",
+      "DsTabList",
+      "DsTabPanel",
       "DsTable",
       "DsTabs",
       "DsTag",

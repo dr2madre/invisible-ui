@@ -29,6 +29,11 @@
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
     },
     {
+      "name": "DsAvatar",
+      "kind": "class",
+      "signature": "declare class DsAvatar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsButton",
       "kind": "class",
       "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
@@ -61,7 +66,7 @@
     {
       "name": "DsDialog",
       "kind": "class",
-      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
     },
     {
       "name": "DsEmptyState",
@@ -136,12 +141,32 @@
     {
       "name": "DsSheetDialog",
       "kind": "class",
-      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private description; private closeButton; private handle; }"
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
+    },
+    {
+      "name": "DsSidebar",
+      "kind": "class",
+      "signature": "declare class DsSidebar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get sections(): SidebarSection[]; set sections(value: SidebarSection[]); get value(): string | null; set value(next: string | null); get openGroups(): string[]; set openGroups(value: string[]); }"
     },
     {
       "name": "DsSwitch",
       "kind": "class",
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
+    },
+    {
+      "name": "DsTab",
+      "kind": "class",
+      "signature": "declare class DsTab extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__tab\"; }"
+    },
+    {
+      "name": "DsTabList",
+      "kind": "class",
+      "signature": "declare class DsTabList extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__list\"; }"
+    },
+    {
+      "name": "DsTabPanel",
+      "kind": "class",
+      "signature": "declare class DsTabPanel extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__panel\"; }"
     },
     {
       "name": "DsTable",
@@ -151,7 +176,7 @@
     {
       "name": "DsTabs",
       "kind": "class",
-      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
+      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; /** Re-wire every part. Called by the parts when they arrive, leave or change. */ syncParts(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
     },
     {
       "name": "DsTag",
@@ -224,6 +249,16 @@
       "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
     },
     {
+      "name": "SidebarItem",
+      "kind": "interface",
+      "signature": "interface SidebarItem { value: string; label: string; /** Renders the item as a link. Without it the item emits `select`. */ href?: string; /** Optional leading icon, as SVG path data on a 24 by 24 grid. */ icon?: string; }"
+    },
+    {
+      "name": "SidebarSection",
+      "kind": "interface",
+      "signature": "interface SidebarSection { label?: string; items: SidebarItem[]; /** The heading becomes a disclosure; `id` names the section in `openGroups`. */ collapsible?: boolean; id?: string; /** Open on first render. A section holding the current item opens anyway. */ defaultOpen?: boolean; }"
+    },
+    {
       "name": "SortDirection",
       "kind": "type",
       "signature": "type SortDirection = \"asc\" | \"desc\";"
@@ -287,6 +322,11 @@
       "name": "TreeNode",
       "kind": "type",
       "signature": "type TreeNode = treeView.TreeNode;"
+    },
+    {
+      "name": "initialsOf",
+      "kind": "function",
+      "signature": "declare function initialsOf(name: string): string;"
     }
   ]
 }

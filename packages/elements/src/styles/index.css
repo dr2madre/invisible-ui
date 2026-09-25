@@ -14,6 +14,7 @@
 @import "./multi-select.css";
 @import "./switch.css";
 @import "./combobox.css";
+@import "./dialog-header.css";
 @import "./dialog.css";
 @import "./feedback-icon.css";
 @import "./empty-state.css";
@@ -38,3 +39,5 @@
 @import "./pagination.css";
 @import "./tooltip.css";
 @import "./navigation-menu.css";
+@import "./avatar.css";
+@import "./sidebar.css";
