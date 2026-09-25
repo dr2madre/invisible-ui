@@ -19,8 +19,8 @@ import { checkIcon, dashIcon } from "../internal/icons";
  * needed). The core owns the tri-state model and declares `indeterminate`
  * through `rootDomProps`.
  *
- * Attributes: `label` (required), `checked`, `indeterminate`, `disabled`,
- * `name`, `value`, `required`.
+ * Attributes: `label` (required), `hide-label`, `checked`, `indeterminate`,
+ * `disabled`, `name`, `value`, `required`.
  * Properties: `checked` (boolean | "indeterminate").
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
@@ -30,6 +30,7 @@ export class DsCheckbox extends HTMLElementBase {
     "indeterminate",
     "disabled",
     "label",
+    "hide-label",
     "name",
     "value",
     "required",
@@ -134,6 +135,7 @@ export class DsCheckbox extends HTMLElementBase {
     }
     input.required = boolAttr(this, "required");
     this.#text!.textContent = this.getAttribute("label") ?? "";
+    this.#text!.classList.toggle("field__label--hidden", boolAttr(this, "hide-label"));
 
     const api = core.connect({
       state: { checked: this.checked, disabled },

@@ -59,6 +59,22 @@ describe("<ds-table>", () => {
     expect(table.querySelector("tbody td")?.textContent).toBe("Ada");
   });
 
+  it("keeps focus on the sort button of the same column across a render", async () => {
+    const user = userEvent.setup();
+    const table = mount();
+    table.addEventListener("sort-toggle", (event) => {
+      table.sort = { key: (event as CustomEvent<{ key: string }>).detail.key, direction: "asc" };
+    });
+    const button = () =>
+      within(within(table).getByRole("columnheader", { name: /Age/ })).getByRole("button");
+    await user.click(button());
+    expect(within(table).getByRole("columnheader", { name: /Age/ })).toHaveAttribute(
+      "aria-sort",
+      "ascending",
+    );
+    expect(button()).toHaveFocus();
+  });
+
   it("renders custom cells as DOM or text without parsing strings as markup", () => {
     const table = mount();
     table.renderCell = ({ column, value }) => {

@@ -51,6 +51,13 @@ export {
   type TableSelectionCellContext,
   type TableSortState,
 } from "./table/ds-table";
+export {
+  DsTableView,
+  type TableBodyView,
+  type TableRowId,
+  type TableSelectionMode,
+} from "./table/ds-table-view";
+export { DsTableSet, type TableViewDef } from "./table/ds-table-set";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { DsCount, type CountStatus } from "./count/ds-count";

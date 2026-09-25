@@ -99,6 +99,35 @@ export function fragment(html: string): DocumentFragment {
   return template.content;
 }
 
+/**
+ * Make `parent`'s children exactly `nodes`, in order, moving only what is out
+ * of place. A node that stays put is never detached, so it keeps its focus.
+ */
+export function setChildren(parent: Element, nodes: Node[]): void {
+  const keep = new Set(nodes);
+  for (const child of Array.from(parent.childNodes)) {
+    if (!keep.has(child)) child.remove();
+  }
+  nodes.forEach((node, index) => {
+    const current = parent.childNodes.item(index);
+    if (current !== node) parent.insertBefore(node, current);
+  });
+}
+
+/**
+ * Register an element that a composite element builds, when the page has not.
+ * A composite constructs its parts from their classes, so a part the page
+ * registered under another tag works as well; `define` then throws, harmlessly.
+ */
+export function definePart(tag: string, ctor: CustomElementConstructor): void {
+  if (typeof customElements === "undefined" || customElements.get(tag)) return;
+  try {
+    customElements.define(tag, ctor);
+  } catch {
+    // The class already has another tag.
+  }
+}
+
 let uid = 0;
 /** Unique id for wiring labels and descriptions inside one element. */
 export const nextId = (prefix: string) => `${prefix}-${++uid}`;
