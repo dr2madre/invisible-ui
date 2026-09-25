@@ -21,12 +21,12 @@ describe("<ds-search-field>", () => {
   });
 
   it("drops the submit button for a filter that applies as you type", () => {
-    const host = mount("no-submit");
+    const host = mount('submit-button="false"');
     expect(screen.getByRole("searchbox", { name: "Search tables" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Search" })).toBeNull();
     expect(host.querySelector(".search-field__icon")).not.toHaveAttribute("hidden");
 
-    host.removeAttribute("no-submit");
+    host.removeAttribute("submit-button");
     expect(screen.getByRole("button", { name: "Search" })).toBeVisible();
     expect(host.querySelector(".search-field__icon")).toHaveAttribute("hidden");
   });

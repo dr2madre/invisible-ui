@@ -9,8 +9,8 @@ import { closeIcon, searchIcon } from "../internal/icons";
  *
  * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
  * `disabled`, `readonly`, `required`, `name`, `autocomplete`, `clear-label`,
- * `submit-label`, `no-submit` (drops the submit button for a filter that
- * applies as you type).
+ * `submit-label`, `submit-button` (`"false"` drops the submit button for a
+ * filter that applies as you type).
  * Properties: `value`.
  * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */
@@ -27,7 +27,7 @@ export class DsSearchField extends HTMLElementBase {
     "autocomplete",
     "clear-label",
     "submit-label",
-    "no-submit",
+    "submit-button",
   ];
 
   #root: HTMLDivElement | null = null;
@@ -172,7 +172,7 @@ export class DsSearchField extends HTMLElementBase {
     clear.disabled = disabled || readOnly;
     clear.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear search");
     // Without a submit button the glyph only marks the field as a search.
-    const noSubmit = boolAttr(this, "no-submit");
+    const noSubmit = !boolAttr(this, "submit-button", true);
     root.classList.toggle("search-field--no-submit", noSubmit);
     this.#icon!.hidden = !noSubmit;
     submit.hidden = noSubmit;

@@ -99,7 +99,7 @@ test("Elements hides the parts it toggles off", async ({ page }) => {
   await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
   await page.evaluate(async () => {
     await customElements.whenDefined("ds-search-field");
-    document.body.innerHTML = `<ds-search-field label="Filter tables" no-submit></ds-search-field>`;
+    document.body.innerHTML = `<ds-search-field label="Filter tables" submit-button="false"></ds-search-field>`;
   });
 
   const host = page.locator("ds-search-field");

@@ -442,10 +442,10 @@
           "descriptionFrom": "none"
         },
         {
-          "name": "no-submit",
+          "name": "submit-button",
           "reactive": true,
           "required": false,
-          "description": "drops the submit button for a filter that applies as you type",
+          "description": "`\"false\"` drops the submit button for a filter that applies as you type",
           "descriptionFrom": "source"
         }
       ],
