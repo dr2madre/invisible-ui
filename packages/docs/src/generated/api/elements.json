@@ -49,6 +49,11 @@
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
     },
     {
+      "name": "DsAlertDialog",
+      "kind": "class",
+      "signature": "declare class DsAlertDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".alert-dialog__actions button\"; protected didChangeOpen(open: boolean): void; protected render(): void; protected sync(): void; }"
+    },
+    {
       "name": "DsAvatar",
       "kind": "class",
       "signature": "declare class DsAvatar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
@@ -92,6 +97,11 @@
       "name": "DsCombobox",
       "kind": "class",
       "signature": "declare class DsCombobox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): ComboboxItem[]; set items(items: ComboboxItem[]); __stateType: { open: boolean; value: string | null; inputValue: string; committedInputValue: string; activeValue: string | null; items: ComboboxItem[]; }; }"
+    },
+    {
+      "name": "DsConfirmDialog",
+      "kind": "class",
+      "signature": "declare class DsConfirmDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".confirm-dialog__actions button\"; protected render(): void; protected sync(): void; }"
     },
     {
       "name": "DsCount",
@@ -184,6 +194,11 @@
       "signature": "declare class DsProgress extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): number; set value(next: number); get min(): number; set min(next: number); get max(): number; set max(next: number); }"
     },
     {
+      "name": "DsPromptDialog",
+      "kind": "class",
+      "signature": "declare class DsPromptDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".prompt-dialog__input\"; protected willOpen(): void; protected render(): void; protected sync(): void; }"
+    },
+    {
       "name": "DsRadio",
       "kind": "class",
       "signature": "declare class DsRadio extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get checked(): boolean; set checked(value: boolean); }"
@@ -197,6 +212,11 @@
       "name": "DsScrollArea",
       "kind": "class",
       "signature": "declare class DsScrollArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsSearchDialog",
+      "kind": "class",
+      "signature": "declare class DsSearchDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".search-dialog__input\"; connectedCallback(): void; get items(): SearchDialogItem[]; set items(items: SearchDialogItem[]); get suggestions(): SearchDialogItem[]; set suggestions(items: SearchDialogItem[]); protected willOpen(): void; protected render(): void; protected sync(): void; }"
     },
     {
       "name": "DsSearchField",
@@ -382,6 +402,11 @@
       "name": "ScrollOrientation",
       "kind": "type",
       "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
+    },
+    {
+      "name": "SearchDialogItem",
+      "kind": "interface",
+      "signature": "interface SearchDialogItem { value: string; label?: string; disabled?: boolean; /** Section the result belongs to (\"Pages\"); ungrouped results come first. */ group?: string; /** Shortcut hint shown on the result (\"⌘S\", or [\"⌘\", \"S\"] for a chord). */ shortcut?: string | string[]; }"
     },
     {
       "name": "SegmentedControlItem",

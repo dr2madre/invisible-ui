@@ -17,6 +17,10 @@
 @import "./combobox.css";
 @import "./dialog-header.css";
 @import "./dialog.css";
+@import "./alert-dialog.css";
+@import "./confirm-dialog.css";
+@import "./prompt-dialog.css";
+@import "./search-dialog.css";
 @import "./feedback-icon.css";
 @import "./empty-state.css";
 @import "./error-state.css";

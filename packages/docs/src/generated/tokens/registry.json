@@ -11900,10 +11900,31 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/alert-dialog.css",
+          "selector": ".alert-dialog__panel",
+          "property": "max-inline-size",
+          "fallback": "28rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/confirm-dialog.css",
+          "selector": ".confirm-dialog__panel",
+          "property": "max-inline-size",
+          "fallback": "28rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dialog.css",
           "selector": ".dialog__panel",
           "property": "max-inline-size",
           "fallback": "30rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/prompt-dialog.css",
+          "selector": ".prompt-dialog__panel",
+          "property": "max-inline-size",
+          "fallback": "28rem"
         },
         {
           "adapter": "react",
@@ -12005,8 +12026,36 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/alert-dialog.css",
+          "selector": ".alert-dialog__panel::backdrop",
+          "property": "background",
+          "fallback": "rgb(28 25 21 / 0.5)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/confirm-dialog.css",
+          "selector": ".confirm-dialog__panel::backdrop",
+          "property": "background",
+          "fallback": "rgb(28 25 21 / 0.5)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dialog.css",
           "selector": ".dialog__panel::backdrop",
+          "property": "background",
+          "fallback": "rgb(28 25 21 / 0.5)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/prompt-dialog.css",
+          "selector": ".prompt-dialog__panel::backdrop",
+          "property": "background",
+          "fallback": "rgb(28 25 21 / 0.5)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__panel::backdrop",
           "property": "background",
           "fallback": "rgb(28 25 21 / 0.5)"
         },
@@ -12144,8 +12193,29 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/alert-dialog.css",
+          "selector": ".alert-dialog__panel",
+          "property": "padding",
+          "fallback": "1.25rem 1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/confirm-dialog.css",
+          "selector": ".confirm-dialog__panel",
+          "property": "padding",
+          "fallback": "1.25rem 1.5rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dialog.css",
           "selector": ".dialog__panel",
+          "property": "padding",
+          "fallback": "1.25rem 1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/prompt-dialog.css",
+          "selector": ".prompt-dialog__panel",
           "property": "padding",
           "fallback": "1.25rem 1.5rem"
         },
@@ -12342,8 +12412,29 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/alert-dialog.css",
+          "selector": ".alert-dialog__panel",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/confirm-dialog.css",
+          "selector": ".confirm-dialog__panel",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dialog.css",
           "selector": ".dialog__panel",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/prompt-dialog.css",
+          "selector": ".prompt-dialog__panel",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
         },
@@ -21004,6 +21095,7 @@
         "margin-block-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21012,6 +21104,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__panel",
+          "property": "margin-block-start",
+          "fallback": "12vh"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",
@@ -21046,6 +21145,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21054,6 +21154,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__list",
+          "property": "padding",
+          "fallback": "0.375rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",
@@ -21088,6 +21195,7 @@
         "max-block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21096,6 +21204,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__panel",
+          "property": "max-block-size",
+          "fallback": "60vh"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",
@@ -21130,6 +21245,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21140,6 +21256,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__panel",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",
@@ -21174,6 +21297,7 @@
         "max-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21182,6 +21306,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/search-dialog.css",
+          "selector": ".search-dialog__panel",
+          "property": "max-inline-size",
+          "fallback": "32rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",

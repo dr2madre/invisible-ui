@@ -45,6 +45,26 @@ a value.
 
 <ImportSnippet component="alert-dialog" />
 
+In Elements:
+
+```html
+<ds-alert-dialog
+  heading="File deleted"
+  description="“report-q3.pdf” was permanently deleted."
+  dismiss-label="Done"
+  trigger="Show outcome"
+></ds-alert-dialog>
+
+<script type="module">
+  document
+    .querySelector("ds-alert-dialog")
+    .addEventListener("dismiss", () => refresh());
+</script>
+```
+
+The `dismiss` event fires for the button, Escape and a backdrop press alike.
+`close-button` adds a close button to the header.
+
 ### Props
 
 <PropsTable component="alert-dialog" />

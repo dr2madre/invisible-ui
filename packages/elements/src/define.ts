@@ -2,6 +2,7 @@
  * Side-effect entry point: registers every element under its `ds-*` tag.
  * Safe to import more than once (guards against re-definition).
  */
+import { DsAlertDialog } from "./alert-dialog/ds-alert-dialog";
 import { DsAvatar } from "./avatar/ds-avatar";
 import { DsAvatarGroup } from "./avatar-group/ds-avatar-group";
 import { DsBreadcrumb } from "./breadcrumb/ds-breadcrumb";
@@ -11,6 +12,7 @@ import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 import { DsCheckbox } from "./checkbox/ds-checkbox";
 import { DsCombobox } from "./combobox/ds-combobox";
+import { DsConfirmDialog } from "./confirm-dialog/ds-confirm-dialog";
 import { DsCount } from "./count/ds-count";
 import { DsMultiSelect } from "./multi-select/ds-multi-select";
 import { DsNavigationMenu } from "./navigation-menu/ds-navigation-menu";
@@ -26,6 +28,7 @@ import { DsField } from "./field/ds-field";
 import { DsIcon } from "./icon/ds-icon";
 import { DsKbd } from "./kbd/ds-kbd";
 import { DsLabel } from "./label/ds-label";
+import { DsPromptDialog } from "./prompt-dialog/ds-prompt-dialog";
 import { DsRadio } from "./radio/ds-radio";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
 import { DsSegmentedControl } from "./segmented-control/ds-segmented-control";
@@ -35,6 +38,7 @@ import { DsScrollArea } from "./scroll-area/ds-scroll-area";
 import { DsSelect } from "./select/ds-select";
 import { DsSeparator } from "./separator/ds-separator";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
+import { DsSearchDialog } from "./search-dialog/ds-search-dialog";
 import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSheetDialog } from "./sheet-dialog/ds-sheet-dialog";
 import { DsSwitch } from "./switch/ds-switch";
@@ -65,6 +69,10 @@ define("ds-separator", DsSeparator);
 define("ds-combobox", DsCombobox);
 define("ds-multi-select", DsMultiSelect);
 define("ds-dialog", DsDialog);
+define("ds-alert-dialog", DsAlertDialog);
+define("ds-confirm-dialog", DsConfirmDialog);
+define("ds-prompt-dialog", DsPromptDialog);
+define("ds-search-dialog", DsSearchDialog);
 define("ds-dropdown-menu", DsDropdownMenu);
 define("ds-empty-state", DsEmptyState);
 define("ds-error-state", DsErrorState);

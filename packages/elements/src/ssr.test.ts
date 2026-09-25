@@ -10,6 +10,7 @@ describe("custom-elements adapter SSR", () => {
         .filter((name) => name.startsWith("Ds"))
         .sort(),
     ).toEqual([
+      "DsAlertDialog",
       "DsAvatar",
       "DsAvatarGroup",
       "DsBreadcrumb",
@@ -19,6 +20,7 @@ describe("custom-elements adapter SSR", () => {
       "DsCheckbox",
       "DsCheckboxGroup",
       "DsCombobox",
+      "DsConfirmDialog",
       "DsCount",
       "DsDialog",
       "DsDropdownMenu",
@@ -37,9 +39,11 @@ describe("custom-elements adapter SSR", () => {
       "DsNavigationMenu",
       "DsPagination",
       "DsProgress",
+      "DsPromptDialog",
       "DsRadio",
       "DsRadioGroup",
       "DsScrollArea",
+      "DsSearchDialog",
       "DsSearchField",
       "DsSegmentedControl",
       "DsSelect",

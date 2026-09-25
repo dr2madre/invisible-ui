@@ -36,6 +36,10 @@ export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export { DsAlertDialog } from "./alert-dialog/ds-alert-dialog";
+export { DsConfirmDialog } from "./confirm-dialog/ds-confirm-dialog";
+export { DsPromptDialog } from "./prompt-dialog/ds-prompt-dialog";
+export { DsSearchDialog, type SearchDialogItem } from "./search-dialog/ds-search-dialog";
 export {
   DsDropdownMenu,
   type MenuEntry,
