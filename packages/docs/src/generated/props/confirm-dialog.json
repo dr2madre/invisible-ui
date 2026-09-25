@@ -195,6 +195,22 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button at the trailing end of the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
@@ -210,6 +226,7 @@
         }
       ],
       "slots": [
+        "icon",
         "trigger"
       ]
     }

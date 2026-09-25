@@ -34,6 +34,7 @@ const SHARED_SHEETS = [
   "switch.css",
   "combobox.css",
   "dialog.css",
+  "dialog-header.css",
   "select.css",
   "text-field.css",
   "search-field.css",

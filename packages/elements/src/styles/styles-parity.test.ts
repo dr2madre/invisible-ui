@@ -29,6 +29,7 @@ const REACT_SHEETS = [
   "select.css",
   "combobox.css",
   "dialog.css",
+  "dialog-header.css",
   "text-field.css",
   "search-field.css",
 ];

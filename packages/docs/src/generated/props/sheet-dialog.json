@@ -171,6 +171,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header. Default `true`.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "initialFocus",
           "type": "string",
           "default": "undefined",
@@ -214,6 +222,7 @@
         "footer",
         "headerActions",
         "headerLead",
+        "icon",
         "trigger"
       ]
     },
@@ -279,6 +288,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "close-button",
+          "reactive": true,
+          "required": false,
+          "description": "`\"false\"` drops the close button",
+          "descriptionFrom": "source"
         },
         {
           "name": "initial-focus",
