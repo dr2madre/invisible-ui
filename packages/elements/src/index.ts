@@ -51,8 +51,9 @@ export {
   type TableSelectionCellContext,
   type TableSortState,
 } from "./table/ds-table";
+// The view element stays internal, as in Svelte and Vue: `<ds-table-set>` is
+// the entry point, with one view for a single table.
 export {
-  DsTableView,
   type TableBodyView,
   type TableRowId,
   type TableSelectionMode,

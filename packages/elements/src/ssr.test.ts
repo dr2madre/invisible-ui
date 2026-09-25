@@ -34,7 +34,6 @@ describe("custom-elements adapter SSR", () => {
       "DsSwitch",
       "DsTable",
       "DsTableSet",
-      "DsTableView",
       "DsTabs",
       "DsTag",
       "DsTextField",
