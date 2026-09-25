@@ -64,6 +64,11 @@
       "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
     },
     {
+      "name": "DsDropdownMenu",
+      "kind": "class",
+      "signature": "declare class DsDropdownMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get items(): MenuEntry[]; set items(items: MenuEntry[]); }"
+    },
+    {
       "name": "DsEmptyState",
       "kind": "class",
       "signature": "declare class DsEmptyState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
@@ -182,6 +187,31 @@
       "name": "LoadingVariant",
       "kind": "type",
       "signature": "type LoadingVariant = \"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\";"
+    },
+    {
+      "name": "MenuEntry",
+      "kind": "type",
+      "signature": "type MenuEntry = menu.MenuEntry;"
+    },
+    {
+      "name": "MenuGroup",
+      "kind": "type",
+      "signature": "type MenuGroup = menu.MenuGroup;"
+    },
+    {
+      "name": "MenuItem",
+      "kind": "type",
+      "signature": "type MenuItem = menu.MenuItem;"
+    },
+    {
+      "name": "MenuItemKind",
+      "kind": "type",
+      "signature": "type MenuItemKind = menu.MenuItemKind;"
+    },
+    {
+      "name": "MenuSeparator",
+      "kind": "type",
+      "signature": "type MenuSeparator = menu.MenuSeparator;"
     },
     {
       "name": "MultiSelectItem",
