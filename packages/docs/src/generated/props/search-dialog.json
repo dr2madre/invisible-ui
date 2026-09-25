@@ -58,6 +58,30 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Visually hide the title (the default: the search field reads as the header). It still names the dialog for screen readers.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button in the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",

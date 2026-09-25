@@ -11523,8 +11523,9 @@
     {
       "name": "--ds-dialog-header-gap",
       "id": "dialog-header-gap",
-      "component": "dialog-header",
+      "component": "dialog",
       "usedBy": [
+        "dialog",
         "dialog-header"
       ],
       "category": "size",
@@ -11538,6 +11539,7 @@
       "adapters": [
         "elements",
         "react",
+        "svelte",
         "vue"
       ],
       "fallbacks": [
@@ -11583,6 +11585,27 @@
         {
           "adapter": "react",
           "file": "packages/react/src/styles/dialog-header.css",
+          "selector": ".dialog-header__icon, .dialog-header__lead",
+          "property": "margin-inline-end",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__actions",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__close",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
           "selector": ".dialog-header__icon, .dialog-header__lead",
           "property": "margin-inline-end",
           "fallback": "0.75rem"

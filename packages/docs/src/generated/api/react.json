@@ -138,12 +138,12 @@
     {
       "name": "SearchField",
       "kind": "function",
-      "signature": "declare function SearchField({ label, hideLabel, value, placeholder, disabled, required, readOnly, name, autoComplete, clearLabel, submitLabel, onValueChange, }: SearchFieldProps): react.JSX.Element;"
+      "signature": "declare function SearchField({ label, hideLabel, value, placeholder, disabled, required, readOnly, name, autoComplete, clearLabel, submitLabel, submitButton, onValueChange, }: SearchFieldProps): react.JSX.Element;"
     },
     {
       "name": "SearchFieldProps",
       "kind": "interface",
-      "signature": "interface SearchFieldProps { /** Visible label and accessible name of the search input. */ label: string; /** Visually hide the label while preserving the accessible name. */ hideLabel?: boolean; /** Initial or controlled search query. */ value?: string; /** Native input placeholder. It does not replace the label. */ placeholder?: string; disabled?: boolean; required?: boolean; readOnly?: boolean; /** Native form field name. */ name?: string; /** Native browser autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Accessible name for the conditional clear button. */ clearLabel?: string; /** Accessible name for the native submit button. */ submitLabel?: string; /** Called once after a user edit or clear action is committed locally. */ onValueChange?: (value: string) => void; }"
+      "signature": "interface SearchFieldProps { /** Visible label and accessible name of the search input. */ label: string; /** Visually hide the label while preserving the accessible name. */ hideLabel?: boolean; /** Initial or controlled search query. */ value?: string; /** Native input placeholder. It does not replace the label. */ placeholder?: string; disabled?: boolean; required?: boolean; readOnly?: boolean; /** Native form field name. */ name?: string; /** Native browser autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Accessible name for the conditional clear button. */ clearLabel?: string; /** Accessible name for the native submit button. */ submitLabel?: string; /** Render the submit button; turn it off for a filter that applies as you type. */ submitButton?: boolean; /** Called once after a user edit or clear action is committed locally. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "Select",
