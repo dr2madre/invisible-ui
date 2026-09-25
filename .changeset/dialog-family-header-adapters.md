@@ -2,6 +2,7 @@
 "@design-system/vue": minor
 "@design-system/react": minor
 "@design-system/elements": minor
+"@design-system/svelte": patch
 ---
 
 The dialog family shares one header in Vue, React and Elements, as in Svelte:
@@ -13,3 +14,4 @@ by default for `AlertDialog`, `ConfirmDialog`, `PromptDialog` and
 `SearchDialog`. `SearchDialog` can show its title with `hideTitle: false`. The
 `SheetDialog` description is now the subtitle inside the header. The header
 classes are now `dialog-header__*`, in a new `dialog-header.css` sheet.
+The dialog header tokens now ship in every adapter, Svelte included.
