@@ -19,6 +19,20 @@ selection color).
 
 <ImportSnippet component="breadcrumb" />
 
+In Elements, assign the trail as a property:
+
+```html
+<ds-breadcrumb></ds-breadcrumb>
+
+<script type="module">
+  document.querySelector("ds-breadcrumb").items = [
+    { label: "Home", href: "/", home: true },
+    { label: "Components", href: "/components" },
+    { label: "Breadcrumb" },
+  ];
+</script>
+```
+
 ### Props
 
 <PropsTable component="breadcrumb" />

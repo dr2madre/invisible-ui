@@ -120,6 +120,54 @@
         "default",
         "icon"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-upload-drop-area",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "accept",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "multiple",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "caption",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `files` (read-only), `disabled`.",
+        "Emits: bubbling `files` CustomEvent with `detail.files` (a `File[]`) when files are picked or dropped."
+      ]
     }
   }
 }

@@ -281,6 +281,68 @@
         "logo",
         "trigger"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-sidebar",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the landmark name; \"Main\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the current destination",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "collapsed",
+          "reactive": true,
+          "required": false,
+          "description": "the rail",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "rail-toggle",
+          "reactive": true,
+          "required": false,
+          "description": "renders the button that collapses and expands the rail",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "side",
+          "reactive": true,
+          "required": false,
+          "description": "inline-start|inline-end",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "collapse-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "expand-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `sections`, `value`, `openGroups` (ids of the open sections).",
+        "Emits: bubbling `select` (`detail.value`, items without `href`), `navigate` (`detail.value`, every item), `collapsed-change` (`detail.collapsed`) and `open-groups-change` (`detail.openGroups`)."
+      ]
     }
   }
 }

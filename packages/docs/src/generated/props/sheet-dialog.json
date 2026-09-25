@@ -82,6 +82,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "initialFocus",
           "type": "string | undefined",
           "default": "undefined",

@@ -192,6 +192,66 @@ const CONTROLS: Row[] = [
     restoredOwnCopy: "apple",
   },
   {
+    name: "<ds-segmented-control>",
+    markup: `<ds-segmented-control label="F" name="f" value="apple">${options}</ds-segmented-control>`,
+    domDefault: () => defaultsOf("input[type=radio]", "defaultChecked"),
+    wants: "apple",
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "Pear" })),
+    edited: "pear",
+    restored: "apple",
+    adopt: (host) => host.setAttribute("value", "apple"),
+    adopted: "apple",
+    giveBack: (host) => host.setAttribute("value", "pear"),
+    editedAsDefault: "pear",
+    visible: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((input) => input.checked)
+        .map((input) => input.value)
+        .join(","),
+    restoredVisible: "apple",
+    ownCopy: (host) => String((host as unknown as { value: string | null }).value),
+    restoredOwnCopy: "apple",
+  },
+  {
+    name: "<ds-radio>",
+    markup: `<ds-radio label="F" name="f" value="on"></ds-radio>`,
+    domDefault: () => defaultsOf("input[type=radio]", "defaultChecked"),
+    wants: "",
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "F" })),
+    edited: "on",
+    restored: null,
+    adopt: (host) => host.removeAttribute("checked"),
+    adopted: "",
+    giveBack: (host) => ((host as unknown as { checked: boolean }).checked = true),
+    editedAsDefault: "on",
+    visible: () => String((screen.getByRole("radio", { name: "F" }) as HTMLInputElement).checked),
+    restoredVisible: "false",
+    ownCopy: (host) => String(host.hasAttribute("checked")),
+    restoredOwnCopy: "false",
+  },
+  {
+    name: "<ds-toggle-button>",
+    markup: `<ds-toggle-button label="F" name="f" check></ds-toggle-button>`,
+    domDefault: () => defaultsOf("input[type=checkbox]", "defaultChecked"),
+    wants: "",
+    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    edited: "on",
+    restored: null,
+    adopt: (host) => host.removeAttribute("pressed"),
+    adopted: "",
+    giveBack: (host) => ((host as unknown as { pressed: boolean }).pressed = true),
+    editedAsDefault: "on",
+    // The checkedness is native's to restore; the check glyph is the
+    // element's, so reading both tells the two apart.
+    visible: () =>
+      `${(screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked} ${
+        document.querySelectorAll(".toggle__check").length
+      }`,
+    restoredVisible: "false 0",
+    ownCopy: (host) => String((host as unknown as { pressed: boolean }).pressed),
+    restoredOwnCopy: "false",
+  },
+  {
     name: "<ds-checkbox-group>",
     markup: `<ds-checkbox-group label="F" name="f" value="apple">${options}</ds-checkbox-group>`,
     domDefault: () => defaultsOf("input[type=checkbox]", "defaultChecked"),

@@ -21,6 +21,18 @@ including a desktop/tablet sidebar with a logo and `Separator` dividers.
 
 <ImportSnippet component="segmented-control" />
 
+In Elements, the segments come from `<option>` children, or from the `items`
+property. An option's `data-icon` holds the path data of a 24×24 icon. The
+selection is reflected by the `value` attribute and reported through the
+bubbling `change` event:
+
+```html
+<ds-segmented-control label="View" name="view" value="list">
+  <option value="list">List</option>
+  <option value="board">Board</option>
+</ds-segmented-control>
+```
+
 ### Props
 
 <PropsTable component="segmented-control" />

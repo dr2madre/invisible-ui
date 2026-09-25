@@ -48,3 +48,29 @@ test("an Elements checkbox paints exactly the glyph for its current state", asyn
   await expect(check).toHaveCSS("display", "none");
   await expect(dash).toHaveCSS("display", "none");
 });
+
+test("Elements field labels hide from view with hide-label and still name the control", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-checkbox");
+    document.body.innerHTML = `
+      <ds-checkbox label="Select all rows" hide-label></ds-checkbox>
+      <ds-switch label="Notifications" hide-label></ds-switch>
+      <ds-textarea label="Notes" hide-label></ds-textarea>
+      <ds-combobox label="Country" hide-label><option value="it">Italy</option></ds-combobox>`;
+  });
+
+  for (const [role, name] of [
+    ["checkbox", "Select all rows"],
+    ["switch", "Notifications"],
+    ["textbox", "Notes"],
+    ["combobox", "Country"],
+  ] as const) {
+    await expect(page.getByRole(role, { name })).toBeAttached();
+    const label = page.getByText(name, { exact: true });
+    const box = await label.boundingBox();
+    expect(box === null || (box.width <= 1 && box.height <= 1)).toBe(true);
+  }
+});
