@@ -86,7 +86,12 @@
     {
       "name": "DsDialog",
       "kind": "class",
-      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
+    },
+    {
+      "name": "DsDropdownMenu",
+      "kind": "class",
+      "signature": "declare class DsDropdownMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get items(): MenuEntry[]; set items(items: MenuEntry[]); }"
     },
     {
       "name": "DsEmptyState",
@@ -129,6 +134,11 @@
       "signature": "declare class DsMultiSelect extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get values(): string[]; set values(next: string[]); get items(): MultiSelectItem[]; set items(items: MultiSelectItem[]); __stateType: { open: boolean; values: string[]; inputValue: string; activeValue: string | null; items: MultiSelectItem[]; }; }"
     },
     {
+      "name": "DsNavigationMenu",
+      "kind": "class",
+      "signature": "declare class DsNavigationMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get items(): NavigationMenuItem[]; set items(value: NavigationMenuItem[]); get value(): string | null; set value(next: string | null); }"
+    },
+    {
       "name": "DsPagination",
       "kind": "class",
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
@@ -166,7 +176,7 @@
     {
       "name": "DsSheetDialog",
       "kind": "class",
-      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private description; private closeButton; private handle; }"
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
     },
     {
       "name": "DsSidebar",
@@ -179,6 +189,21 @@
       "signature": "declare class DsSwitch extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): boolean; set checked(value: boolean); }"
     },
     {
+      "name": "DsTab",
+      "kind": "class",
+      "signature": "declare class DsTab extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__tab\"; }"
+    },
+    {
+      "name": "DsTabList",
+      "kind": "class",
+      "signature": "declare class DsTabList extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__list\"; }"
+    },
+    {
+      "name": "DsTabPanel",
+      "kind": "class",
+      "signature": "declare class DsTabPanel extends TabPart { static observedAttributes: string[]; protected readonly partClass = \"tabs__panel\"; }"
+    },
+    {
       "name": "DsTable",
       "kind": "class",
       "signature": "declare class DsTable extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get sort(): TableSortState | null; set sort(value: TableSortState | null); get getValue(): (row: TableRow, key: string) => unknown; set getValue(value: (row: TableRow, key: string) => unknown); get getRowId(): (row: TableRow, index: number) => string | number; set getRowId(value: (row: TableRow, index: number) => string | number); get renderCell(): ((context: TableCellContext) => TableCellContent) | null; set renderCell(value: ((context: TableCellContext) => TableCellContent) | null); get isRowSelected(): ((row: TableRow, rowIndex: number) => boolean) | null; set isRowSelected(value: ((row: TableRow, rowIndex: number) => boolean) | null); get renderSelectionHeader(): (() => TableCellContent) | null; set renderSelectionHeader(value: (() => TableCellContent) | null); get renderSelectionCell(): ((context: TableSelectionCellContext) => TableCellContent) | null; set renderSelectionCell(value: ((context: TableSelectionCellContext) => TableCellContent) | null); get renderEmpty(): (() => TableCellContent) | null; set renderEmpty(value: (() => TableCellContent) | null); }"
@@ -186,7 +211,7 @@
     {
       "name": "DsTabs",
       "kind": "class",
-      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
+      "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; /** Re-wire every part. Called by the parts when they arrive, leave or change. */ syncParts(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
     },
     {
       "name": "DsTag",
@@ -204,6 +229,11 @@
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
     },
     {
+      "name": "DsTooltip",
+      "kind": "class",
+      "signature": "declare class DsTooltip extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsTreeView",
       "kind": "class",
       "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
@@ -219,9 +249,44 @@
       "signature": "type LoadingVariant = \"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\";"
     },
     {
+      "name": "MenuEntry",
+      "kind": "type",
+      "signature": "type MenuEntry = menu.MenuEntry;"
+    },
+    {
+      "name": "MenuGroup",
+      "kind": "type",
+      "signature": "type MenuGroup = menu.MenuGroup;"
+    },
+    {
+      "name": "MenuItem",
+      "kind": "type",
+      "signature": "type MenuItem = menu.MenuItem;"
+    },
+    {
+      "name": "MenuItemKind",
+      "kind": "type",
+      "signature": "type MenuItemKind = menu.MenuItemKind;"
+    },
+    {
+      "name": "MenuSeparator",
+      "kind": "type",
+      "signature": "type MenuSeparator = menu.MenuSeparator;"
+    },
+    {
       "name": "MultiSelectItem",
       "kind": "interface",
       "signature": "interface MultiSelectItem { value: string; label?: string; disabled?: boolean; }"
+    },
+    {
+      "name": "NavigationMenuItem",
+      "kind": "interface",
+      "signature": "interface NavigationMenuItem { value: string; label: string; href?: string; links?: NavigationMenuLink[]; }"
+    },
+    {
+      "name": "NavigationMenuLink",
+      "kind": "interface",
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
     },
     {
       "name": "ProgressShape",

@@ -158,7 +158,9 @@ describe("React Dialog (styled)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     const panel = screen.getByRole("dialog", { name: "Share this file" });
-    expect(panel.querySelector(".dialog__title")).toHaveClass("dialog__title--hidden");
+    expect(panel.querySelector(".dialog-header__title")).toHaveClass(
+      "dialog-header__title--hidden",
+    );
   });
 
   it("renders footer actions and an optional footer close", async () => {
@@ -282,8 +284,8 @@ describe("React Dialog (workflow composition)", () => {
 
   it("renders header metadata before the title, without progress semantics", () => {
     render(<Workflow />);
-    const meta = panel().querySelector(".dialog__header-meta")!;
-    const title = panel().querySelector(".dialog__title")!;
+    const meta = panel().querySelector(".dialog-header__meta")!;
+    const title = panel().querySelector(".dialog-header__title")!;
 
     expect(meta).toHaveTextContent("Step 1 of 2");
     expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -342,7 +344,7 @@ describe("React Dialog (workflow composition)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     expect(panel().querySelector(".dialog__body")).toHaveAttribute("data-layout", "plain");
-    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog-header__meta")).toBeNull();
     expect(panel().querySelector(".dialog__footer-lead")).toBeNull();
   });
 
@@ -353,5 +355,22 @@ describe("React Dialog (workflow composition)", () => {
 
     render(<Workflow step={2} />);
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("React Dialog header", () => {
+  it("keeps the close button by default and drops it on request", () => {
+    const { rerender } = render(<Dialog title="Settings" open />);
+    expect(screen.getByRole("button", { name: "Close" })).toHaveClass("dialog-header__close");
+
+    rerender(<Dialog title="Settings" open closeButton={false} />);
+    expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
+  });
+
+  it("renders header actions before the close button", () => {
+    render(<Dialog title="Settings" open headerActions={<button type="button">Reset</button>} />);
+    const actions = screen.getByRole("button", { name: "Reset" }).parentElement!;
+    expect(actions).toHaveClass("dialog-header__actions");
+    expect(actions.nextElementSibling).toHaveClass("dialog-header__close");
   });
 });

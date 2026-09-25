@@ -284,3 +284,21 @@ test("Elements Tree View loads remote children without losing focus and retries 
   await expect(tree.getByRole("treeitem", { name: /archive-child/ })).toBeVisible();
   await expect(archive).toBeFocused();
 });
+
+test("Elements ghost Button takes the text colour inside a dialog, like every other variant", async ({
+  page,
+}) => {
+  await page.goto(VUE_BASE.replace("harness.html", "elements-harness.html"));
+  await page.evaluate(async () => {
+    await customElements.whenDefined("ds-button");
+    document.body.innerHTML = `
+      <dialog open><ds-button variant="ghost">Cancel</ds-button></dialog>
+      <span data-probe style="color: var(--ds-color-text)">probe</span>`;
+  });
+
+  const ghost = page.getByRole("button", { name: "Cancel" });
+  const probe = page.locator("[data-probe]");
+  const expected = await probe.evaluate((node) => getComputedStyle(node).color);
+  await expect(ghost).toHaveCSS("color", expected);
+  expect(expected).not.toBe("rgb(0, 0, 0)");
+});
