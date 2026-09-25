@@ -40,3 +40,16 @@ same component — a dismiss "×" is just `iconOnly` + a glyph + an `ariaLabel`.
 
 Themeable via `--ds-button-icon-min`, `--ds-button-icon-size`,
 `--ds-button-icon-padding` (plus the shared `--ds-button-*`).
+
+### Badge
+
+A count or a status dot can sit on the button's corner. In Elements, add a
+`<ds-count slot="badge">`: it renders beside the button, not inside it, so the
+button keeps its own name and the count describes it.
+
+```html
+<ds-button icon-only variant="ghost" aria-label="Notifications">
+  <svg viewBox="0 0 24 24" aria-hidden="true">…</svg>
+  <ds-count slot="badge" count="3" label="3 unread notifications"></ds-count>
+</ds-button>
+```

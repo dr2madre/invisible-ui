@@ -2,6 +2,7 @@
  * Side-effect entry point: registers every element under its `ds-*` tag.
  * Safe to import more than once (guards against re-definition).
  */
+import { DsAvatar } from "./avatar/ds-avatar";
 import { DsButton } from "./button/ds-button";
 import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
@@ -9,6 +10,7 @@ import { DsCheckbox } from "./checkbox/ds-checkbox";
 import { DsCombobox } from "./combobox/ds-combobox";
 import { DsCount } from "./count/ds-count";
 import { DsMultiSelect } from "./multi-select/ds-multi-select";
+import { DsNavigationMenu } from "./navigation-menu/ds-navigation-menu";
 import { DsPagination } from "./pagination/ds-pagination";
 import { DsDialog } from "./dialog/ds-dialog";
 import { DsDropdownMenu } from "./dropdown-menu/ds-dropdown-menu";
@@ -27,6 +29,8 @@ import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSheetDialog } from "./sheet-dialog/ds-sheet-dialog";
 import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
+import { DsSidebar } from "./sidebar/ds-sidebar";
+import { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 import { DsTabs } from "./tabs/ds-tabs";
 import { DsTooltip } from "./tooltip/ds-tooltip";
 import { DsTag } from "./tag/ds-tag";
@@ -64,6 +68,12 @@ define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
 define("ds-tooltip", DsTooltip);
+define("ds-navigation-menu", DsNavigationMenu);
+define("ds-avatar", DsAvatar);
+define("ds-sidebar", DsSidebar);
+define("ds-tab-list", DsTabList);
+define("ds-tab", DsTab);
+define("ds-tab-panel", DsTabPanel);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);

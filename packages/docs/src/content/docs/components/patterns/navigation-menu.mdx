@@ -18,6 +18,23 @@ Menu). Plain items are ordinary links; panel items are disclosures.
 
 <ImportSnippet component="navigation-menu" />
 
+In Elements, assign the items as a property:
+
+```html
+<ds-navigation-menu label="Site"></ds-navigation-menu>
+
+<script type="module">
+  document.querySelector("ds-navigation-menu").items = [
+    { value: "home", label: "Home", href: "/" },
+    {
+      value: "products",
+      label: "Products",
+      links: [{ label: "Catalog", href: "/catalog", description: "Every table in one place" }],
+    },
+  ];
+</script>
+```
+
 ### Props
 
 <PropsTable component="navigation-menu" />
