@@ -32,6 +32,15 @@ If you need exactly one active choice — a radio-style view switcher — use th
   borders are dropped and the group draws a single outer border with thin
   dividers between items.
 
+In Elements, place the `<ds-toggle-button>` children inside the group:
+
+```html
+<ds-toggle-group label="Formatting" variant="segmented">
+  <ds-toggle-button label="Bold">B</ds-toggle-button>
+  <ds-toggle-button label="Italic">I</ds-toggle-button>
+</ds-toggle-group>
+```
+
 ### Props
 
 <PropsTable component="toggle-group" />

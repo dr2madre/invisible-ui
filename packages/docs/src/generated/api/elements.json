@@ -184,6 +184,11 @@
       "signature": "declare class DsProgress extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): number; set value(next: number); get min(): number; set min(next: number); get max(): number; set max(next: number); }"
     },
     {
+      "name": "DsRadio",
+      "kind": "class",
+      "signature": "declare class DsRadio extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get checked(): boolean; set checked(value: boolean); }"
+    },
+    {
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
@@ -197,6 +202,11 @@
       "name": "DsSearchField",
       "kind": "class",
       "signature": "declare class DsSearchField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
+    },
+    {
+      "name": "DsSegmentedControl",
+      "kind": "class",
+      "signature": "declare class DsSegmentedControl extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): string | null; set value(next: string | null); get items(): SegmentedControlItem[]; set items(items: SegmentedControlItem[]); }"
     },
     {
       "name": "DsSelect",
@@ -262,6 +272,16 @@
       "name": "DsTextarea",
       "kind": "class",
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
+    },
+    {
+      "name": "DsToggleButton",
+      "kind": "class",
+      "signature": "declare class DsToggleButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get pressed(): boolean; set pressed(value: boolean); get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
+      "name": "DsToggleGroup",
+      "kind": "class",
+      "signature": "declare class DsToggleGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsToolbar",
@@ -364,6 +384,16 @@
       "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
     },
     {
+      "name": "SegmentedControlItem",
+      "kind": "type",
+      "signature": "type SegmentedControlItem = radioGroup.RadioItem & { label?: string; icon?: string; };"
+    },
+    {
+      "name": "SegmentedControlOrientation",
+      "kind": "type",
+      "signature": "type SegmentedControlOrientation = radioGroup.Orientation;"
+    },
+    {
       "name": "SelectItem",
       "kind": "interface",
       "signature": "interface SelectItem { value: string; label?: string; disabled?: boolean; }"
@@ -442,6 +472,16 @@
       "name": "TagStatus",
       "kind": "type",
       "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
+    },
+    {
+      "name": "ToggleGroupOrientation",
+      "kind": "type",
+      "signature": "type ToggleGroupOrientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "ToggleGroupVariant",
+      "kind": "type",
+      "signature": "type ToggleGroupVariant = \"separate\" | \"segmented\";"
     },
     {
       "name": "ToolbarOrientation",
