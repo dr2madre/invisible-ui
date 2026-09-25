@@ -1,72 +1,72 @@
 [
   {
-    "name": "@design-system/core \u2014 full barrel (all primitives)",
+    "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
     "limit": "22 kB"
   },
   {
-    "name": "@design-system/core \u2014 one primitive, tree-shaken (label)",
+    "name": "@design-system/core — one primitive, tree-shaken (label)",
     "path": "core/dist/index.js",
     "import": "{ label }",
     "limit": "0.5 kB"
   },
   {
-    "name": "@design-system/core \u2014 calendar only, tree-shaken",
+    "name": "@design-system/core — calendar only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ calendar }",
     "limit": "2.5 kB"
   },
   {
-    "name": "@design-system/core \u2014 i18n only, tree-shaken (catalog included)",
+    "name": "@design-system/core — i18n only, tree-shaken (catalog included)",
     "path": "core/dist/index.js",
     "import": "{ i18n }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/core \u2014 number field only, tree-shaken (with i18n)",
+    "name": "@design-system/core — number field only, tree-shaken (with i18n)",
     "path": "core/dist/index.js",
     "import": "{ numberField }",
     "limit": "3 kB"
   },
   {
-    "name": "@design-system/core \u2014 range slider only, tree-shaken",
+    "name": "@design-system/core — range slider only, tree-shaken",
     "path": "core/dist/index.js",
     "import": "{ rangeSlider }",
     "limit": "1.5 kB"
   },
   {
-    "name": "@design-system/svelte \u2014 adapters barrel",
+    "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
     "limit": "49.5 kB"
   },
   {
-    "name": "@design-system/vue \u2014 adapters barrel",
+    "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
     "limit": "75 kB"
   },
   {
-    "name": "@design-system/react \u2014 adapters barrel",
+    "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
     "limit": "24 kB"
   },
   {
-    "name": "@design-system/react \u2014 text field only, tree-shaken",
+    "name": "@design-system/react — text field only, tree-shaken",
     "path": "packages/react/dist/index.js",
     "import": "{ TextField }",
     "limit": "10 kB"
   },
   {
-    "name": "@design-system/elements \u2014 elements barrel",
+    "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
     "limit": "52 kB"
   },
   {
-    "name": "@design-system/elements \u2014 define entry",
+    "name": "@design-system/elements — define entry",
     "path": "packages/elements/dist/define.js",
     "limit": "52 kB"
   },
   {
-    "name": "@design-system/elements \u2014 table only, tree-shaken",
+    "name": "@design-system/elements — table only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTable }",
     "limit": "7.5 kB"
@@ -78,13 +78,13 @@
     "limit": "22 kB"
   },
   {
-    "name": "@design-system/elements \u2014 count only, tree-shaken",
+    "name": "@design-system/elements — count only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsCount }",
     "limit": "7 kB"
   },
   {
-    "name": "@design-system/elements \u2014 tabs only, tree-shaken",
+    "name": "@design-system/elements — tabs only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTabs }",
     "limit": "8 kB"
@@ -154,5 +154,149 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTreeView }",
     "limit": "8 kB"
+  },
+  {
+    "name": "@design-system/elements — alert dialog only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsAlertDialog }",
+    "limit": "3 kB"
+  },
+  {
+    "name": "@design-system/elements — avatar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsAvatar }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — avatar group only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsAvatarGroup }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — breadcrumb only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsBreadcrumb }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — button group only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsButtonGroup }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — confirm dialog only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsConfirmDialog }",
+    "limit": "3.5 kB"
+  },
+  {
+    "name": "@design-system/elements — dropdown menu only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsDropdownMenu }",
+    "limit": "10.5 kB"
+  },
+  {
+    "name": "@design-system/elements — icon only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsIcon }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — kbd only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsKbd }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — link only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsLink }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — login form only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsLoginForm }",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "@design-system/elements — navigation menu only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsNavigationMenu }",
+    "limit": "9.5 kB"
+  },
+  {
+    "name": "@design-system/elements — progress only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsProgress }",
+    "limit": "2 kB"
+  },
+  {
+    "name": "@design-system/elements — prompt dialog only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsPromptDialog }",
+    "limit": "3.5 kB"
+  },
+  {
+    "name": "@design-system/elements — radio only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsRadio }",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "@design-system/elements — scroll area only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsScrollArea }",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "@design-system/elements — search dialog only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSearchDialog }",
+    "limit": "5.5 kB"
+  },
+  {
+    "name": "@design-system/elements — segmented control only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSegmentedControl }",
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "@design-system/elements — sidebar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSidebar }",
+    "limit": "3 kB"
+  },
+  {
+    "name": "@design-system/elements — toggle button only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsToggleButton }",
+    "limit": "2 kB"
+  },
+  {
+    "name": "@design-system/elements — toggle group only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsToggleGroup }",
+    "limit": "0.5 kB"
+  },
+  {
+    "name": "@design-system/elements — toolbar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsToolbar }",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "@design-system/elements — tooltip only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTooltip }",
+    "limit": "8 kB"
+  },
+  {
+    "name": "@design-system/elements — upload drop area only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsUploadDropArea }",
+    "limit": "1.5 kB"
   }
 ]
