@@ -11,10 +11,13 @@
    * described). The default slot is the trigger. `onDismiss` runs whenever the
    * alert is acknowledged — button, Escape or backdrop. For a choice that can
    * stop a process use `ConfirmDialog`; to ask for a value use `PromptDialog`.
-   * Colors, radius and elevation are themeable via `--ds-dialog-*`.
+   * The header is the one the dialog family shares: an optional `icon` slot
+   * (a FeedbackIcon) before the title and an optional close button
+   * (`closeButton`). Colors, radius and elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
 
@@ -40,6 +43,10 @@
    * set `false` to require an explicit button press (e.g. "I understood").
    */
   export let closeOnOutsideClick = true;
+  /** Show a close button at the trailing end of the header; it closes like Escape. */
+  export let closeButton = false;
+  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
@@ -66,6 +73,7 @@
     contentAction,
     titleAction,
     descriptionAction,
+    closeAction,
   } = dialog;
 
   // Controllable mirror through the no-notify sync: opening from the outside
@@ -76,6 +84,7 @@
     dialog.syncOpen(open);
   }
 
+  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
   $: resolvedDismissLabel = dismissLabel ?? $t("dialog.dismiss");
 
   const dismiss = () => setOpen(false);
@@ -87,7 +96,16 @@
 
 {#if $isOpen}
   <dialog class="alert-dialog__panel" use:contentAction>
-    <h2 class="alert-dialog__title" use:titleAction>{title}</h2>
+    <DialogHeader
+      {title}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      {closeAction}
+      hasIcon={$$slots.icon}
+    >
+      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
+    </DialogHeader>
     <p class="alert-dialog__description" use:descriptionAction>{description}</p>
     <footer class="alert-dialog__actions">
       <Button variant="primary" onpress={dismiss}>{resolvedDismissLabel}</Button>
@@ -120,12 +138,6 @@
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
-  }
-  .alert-dialog__title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
   }
   .alert-dialog__description {
     margin: 0.5rem 0 0;

@@ -11521,6 +11521,55 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-dialog-header-gap",
+      "id": "dialog-header-gap",
+      "component": "dialog",
+      "usedBy": [
+        "dialog"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "margin-inline-end",
+        "margin-inline-start"
+      ],
+      "adapters": [
+        "svelte"
+      ],
+      "fallbacks": [
+        "0.75rem"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__actions",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__close",
+          "property": "margin-inline-start",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/dialog/DialogHeader.svelte",
+          "selector": ".dialog-header__icon, .dialog-header__lead",
+          "property": "margin-inline-end",
+          "fallback": "0.75rem"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-dialog-max-width",
       "id": "dialog-max-width",
       "component": "alert-dialog",
