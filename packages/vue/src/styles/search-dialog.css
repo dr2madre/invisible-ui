@@ -24,6 +24,11 @@
   );
 }
 
+/* The panel is flush, so a visible header brings its own inset. */
+.search-dialog__panel > .dialog-header {
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+}
 .search-dialog__search {
   display: flex;
   align-items: center;

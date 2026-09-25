@@ -69,6 +69,47 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-navigation-menu",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ": the landmark name",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the open item",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 150",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 150",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `items`, `value`.",
+        "Emits: bubbling `value-change` with `detail.value` (`null` when closed)."
+      ]
     }
   }
 }

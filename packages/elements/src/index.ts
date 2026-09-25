@@ -36,6 +36,14 @@ export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export {
+  DsDropdownMenu,
+  type MenuEntry,
+  type MenuGroup,
+  type MenuItem,
+  type MenuItemKind,
+  type MenuSeparator,
+} from "./dropdown-menu/ds-dropdown-menu";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
@@ -72,4 +80,17 @@ export {
   type TabsItem,
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
+export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
+export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
+export { DsBreadcrumb, type BreadcrumbItem } from "./breadcrumb/ds-breadcrumb";
+export { DsProgress, type ProgressShape } from "./progress/ds-progress";
+export { DsScrollArea, type ScrollOrientation } from "./scroll-area/ds-scroll-area";
+export { DsTooltip } from "./tooltip/ds-tooltip";
+export {
+  DsNavigationMenu,
+  type NavigationMenuItem,
+  type NavigationMenuLink,
+} from "./navigation-menu/ds-navigation-menu";

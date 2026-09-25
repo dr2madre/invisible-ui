@@ -9,7 +9,7 @@ import { watchFormReset } from "../internal/form-reset";
  * tree — the browser owns Space, focus and native form participation;
  * `role="switch"` makes screen readers announce on/off.
  *
- * Attributes: `label` (required), `checked`, `disabled`, `name`, `value`,
+ * Attributes: `label` (required), `hide-label`, `checked`, `disabled`, `name`, `value`,
  * `required`, `on-off` (text-in-track variant), `on-text`, `off-text`.
  * Properties: `checked` (boolean).
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
@@ -19,6 +19,7 @@ export class DsSwitch extends HTMLElementBase {
     "checked",
     "disabled",
     "label",
+    "hide-label",
     "name",
     "value",
     "required",
@@ -107,6 +108,8 @@ export class DsSwitch extends HTMLElementBase {
     input.value = this.getAttribute("value") ?? "on";
     input.required = boolAttr(this, "required");
     this.#text!.textContent = this.getAttribute("label") ?? "";
+    // Hidden from view, still the control's accessible name.
+    this.#text!.classList.toggle("field__label--hidden", boolAttr(this, "hide-label"));
 
     // The text-in-track variant carries two captions inside the track; the
     // plain one carries none, so switching the variant builds or tears them
