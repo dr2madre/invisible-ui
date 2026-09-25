@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--ds-login-gap, 1rem);
-  inline-size: min(100%, var(--ds-login-width, 22rem));
+  /* The width is the content box: the padding and the 1px border come out of
+     100%, so the card never overflows a narrow container. */
+  inline-size: min(100% - 2 * var(--ds-login-padding, 1.75rem) - 2px, var(--ds-login-width, 22rem));
   padding: var(--ds-login-padding, 1.75rem);
   background: var(--ds-login-bg, var(--ds-color-background, #fff));
   border: 1px solid var(--ds-login-border, var(--ds-color-border, #c7c1b7));
