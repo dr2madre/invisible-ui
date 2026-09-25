@@ -164,6 +164,11 @@
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
     },
     {
+      "name": "DsTooltip",
+      "kind": "class",
+      "signature": "declare class DsTooltip extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsTreeView",
       "kind": "class",
       "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"

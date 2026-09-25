@@ -53,6 +53,7 @@ const VUE_SHEETS = [
   "loading-generation-area.css",
   "sheet-dialog.css",
   "tree-view.css",
+  "tooltip.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

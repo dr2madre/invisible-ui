@@ -26760,6 +26760,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26770,6 +26771,13 @@
         "--ds-color-emphasis-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -26804,6 +26812,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26814,6 +26823,13 @@
         "--ds-color-on-emphasis"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -26848,6 +26864,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26856,6 +26873,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -26890,6 +26914,7 @@
         "max-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26898,6 +26923,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "max-inline-size",
+          "fallback": "18rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -26932,6 +26964,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26940,6 +26973,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -26974,6 +27014,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26984,6 +27025,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",
@@ -27018,6 +27066,7 @@
         "z-index"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27026,6 +27075,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "z-index",
+          "fallback": "60"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/tooltip/Tooltip.svelte",

@@ -65,3 +65,4 @@ export {
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsTooltip } from "./tooltip/ds-tooltip";

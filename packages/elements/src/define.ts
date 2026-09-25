@@ -27,6 +27,7 @@ import { DsSheetDialog } from "./sheet-dialog/ds-sheet-dialog";
 import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
 import { DsTabs } from "./tabs/ds-tabs";
+import { DsTooltip } from "./tooltip/ds-tooltip";
 import { DsTag } from "./tag/ds-tag";
 import { DsTreeView } from "./tree-view/ds-tree-view";
 
@@ -60,6 +61,7 @@ define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
+define("ds-tooltip", DsTooltip);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);
