@@ -87,6 +87,44 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-button-group",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "horizontal|vertical",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "attached",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "align",
+          "reactive": true,
+          "required": false,
+          "description": "start|center|end|stretch",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

@@ -71,6 +71,37 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-link",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "href",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "external",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "primary|subtle",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

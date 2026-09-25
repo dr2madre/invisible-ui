@@ -55,6 +55,32 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-kbd",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "keys",
+          "reactive": true,
+          "required": false,
+          "description": "space-separated",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "separator",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `keys` (a string array; use it for a key name that contains a space)."
+      ]
     }
   }
 }

@@ -29,6 +29,16 @@
       "signature": "interface BreadcrumbItem { /** Visible label. */ label: string; /** Link target. Omit on the current (last) page. */ href?: string; /** Render a home glyph before the label (typically the first item). */ home?: boolean; }"
     },
     {
+      "name": "ButtonGroupAlign",
+      "kind": "type",
+      "signature": "type ButtonGroupAlign = \"start\" | \"center\" | \"end\" | \"stretch\";"
+    },
+    {
+      "name": "ButtonGroupOrientation",
+      "kind": "type",
+      "signature": "type ButtonGroupOrientation = buttonGroup.Orientation;"
+    },
+    {
       "name": "ComboboxItem",
       "kind": "interface",
       "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
@@ -57,6 +67,11 @@
       "name": "DsButton",
       "kind": "class",
       "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
+      "name": "DsButtonGroup",
+      "kind": "class",
+      "signature": "declare class DsButtonGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get attached(): boolean; set attached(value: boolean); }"
     },
     {
       "name": "DsCard",
@@ -109,14 +124,29 @@
       "signature": "declare class DsField extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsIcon",
+      "kind": "class",
+      "signature": "declare class DsIcon extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
       "name": "DsInlineNotification",
       "kind": "class",
       "signature": "declare class DsInlineNotification extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
     },
     {
+      "name": "DsKbd",
+      "kind": "class",
+      "signature": "declare class DsKbd extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get keys(): string[]; set keys(value: string[]); }"
+    },
+    {
       "name": "DsLabel",
       "kind": "class",
       "signature": "declare class DsLabel extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsLink",
+      "kind": "class",
+      "signature": "declare class DsLink extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get external(): boolean; set external(value: boolean); }"
     },
     {
       "name": "DsLoading",
@@ -237,6 +267,11 @@
       "name": "DsTreeView",
       "kind": "class",
       "signature": "declare class DsTreeView extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get nodes(): TreeNode[]; set nodes(value: TreeNode[]); get expanded(): string[]; set expanded(value: string[]); get selected(): string | null; get loading(): string[]; set loading(value: string[]); get loadErrors(): string[]; set loadErrors(value: string[]); set selected(value: string | null); get labels(): Record<string, string>; set labels(value: Record<string, string>); }"
+    },
+    {
+      "name": "LinkVariant",
+      "kind": "type",
+      "signature": "type LinkVariant = \"primary\" | \"subtle\";"
     },
     {
       "name": "LoadingGenerationAreaPosition",

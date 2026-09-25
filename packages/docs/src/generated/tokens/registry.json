@@ -6187,6 +6187,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -6195,6 +6196,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/button-group.css",
+          "selector": ".button-group:not(.button-group--attached)",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/button-group/ButtonGroup.svelte",
@@ -14525,6 +14533,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14535,6 +14544,13 @@
         "--ds-color-background"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14569,6 +14585,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14579,6 +14596,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14613,6 +14637,7 @@
         "font-family"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14623,6 +14648,13 @@
         "--ds-font-mono"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd",
+          "property": "font-family",
+          "fallback": "var(--ds-font-mono, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14657,6 +14689,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14665,6 +14698,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "font-size",
+          "fallback": "0.8125em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14699,6 +14739,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14707,6 +14748,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd--chord",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14741,6 +14789,7 @@
         "min-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14749,6 +14798,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "min-inline-size",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14783,6 +14839,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14791,6 +14848,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "padding",
+          "fallback": "0.1rem 0.4rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14825,6 +14889,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14835,6 +14900,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14869,6 +14941,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14879,6 +14952,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__sep",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14913,6 +14993,7 @@
         "box-shadow"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14923,6 +15004,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "box-shadow",
+          "fallback": "0 1px 0 1px var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -14957,6 +15045,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -14967,6 +15056,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/kbd.css",
+          "selector": ".kbd__key",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/kbd/Kbd.svelte",
@@ -15155,6 +15251,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15165,6 +15262,13 @@
         "--ds-color-secondary-body-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/link.css",
+          "selector": ".link",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-body-text, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/link/Link.svelte",
@@ -15199,6 +15303,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15209,6 +15314,13 @@
         "--ds-color-secondary-hover"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/link.css",
+          "selector": ".link:hover",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-hover, #6840b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/link/Link.svelte",
@@ -15243,6 +15355,7 @@
         "text-decoration-thickness"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -15251,6 +15364,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/link.css",
+          "selector": ".link",
+          "property": "text-decoration-thickness",
+          "fallback": "1px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/link/Link.svelte",
