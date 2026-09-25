@@ -17776,6 +17776,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17784,6 +17785,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "padding",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -17818,6 +17826,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17828,6 +17837,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -17862,6 +17878,7 @@
         "min-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17870,6 +17887,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "min-inline-size",
+          "fallback": "18rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -17904,6 +17928,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17912,6 +17937,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -17946,6 +17978,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17956,6 +17989,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__trigger, .navmenu__toplink",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -17990,6 +18030,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17998,6 +18039,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__trigger, .navmenu__toplink",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",
@@ -18032,6 +18080,7 @@
         "z-index"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18040,6 +18089,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "z-index",
+          "fallback": "50"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/navigation-menu/NavigationMenu.svelte",

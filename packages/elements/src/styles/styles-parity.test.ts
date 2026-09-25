@@ -54,6 +54,7 @@ const VUE_SHEETS = [
   "sheet-dialog.css",
   "tree-view.css",
   "tooltip.css",
+  "navigation-menu.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
