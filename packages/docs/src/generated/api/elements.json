@@ -61,7 +61,7 @@
     {
       "name": "DsDialog",
       "kind": "class",
-      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private subtitle; private closeButton; }"
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
     },
     {
       "name": "DsEmptyState",
@@ -131,7 +131,7 @@
     {
       "name": "DsSheetDialog",
       "kind": "class",
-      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private heading; private description; private closeButton; private handle; }"
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
     },
     {
       "name": "DsSwitch",

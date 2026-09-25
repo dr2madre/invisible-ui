@@ -10,14 +10,16 @@
    * on close).
    *
    * Layout: a grid panel with a fixed header and footer and a scrolling body.
-   * The header is a grid — optional leading `icon` (a FeedbackIcon) and
-   * `headerLead` (a ghost icon button, e.g. back), the title + optional subtitle
-   * (`description`) stacked, and the close button trailing, all centered against
-   * the title block.
+   * The header is the one the whole dialog family shares — optional leading
+   * `icon` (a FeedbackIcon) and `headerLead` (a ghost icon button, e.g. back),
+   * the title + optional subtitle (`description`) stacked, optional
+   * `headerActions`, and the close button trailing (`closeButton`), all
+   * centered against the title block.
    *
    * Slots: `trigger` (the trigger button's content), the default slot (the
    * body), `icon` (leading feedback icon), `headerMeta` (context above the
-   * title), `headerLead` (leading ghost button), `footerLead` (leading footer
+   * title), `headerLead` (leading ghost button), `headerActions` (actions
+   * before the close button), `footerLead` (leading footer
    * actions) and `footer` (trailing action buttons). Pass an accessible `title`
    * (required; hide it with `hideTitle`), optional `description` (the subtitle)
    * and `footerClose` for a close button in the footer. Colors, radius
@@ -29,6 +31,7 @@
    */
   import { createDialog } from "./create-dialog";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "./DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -50,6 +53,8 @@
   export let description: string | undefined = undefined;
   /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
   export let closeLabel: string | undefined = undefined;
+  /** Show the close button at the trailing end of the header. */
+  export let closeButton = true;
   /**
    * Show an optional close/cancel button on the footer's leading (left) edge.
    * The trailing (right) edge holds the action buttons from the `footer` slot.
@@ -106,36 +111,25 @@
 
 {#if $isOpen}
   <dialog class="dialog__panel" use:contentAction>
-    <header class="dialog__header">
-      {#if $$slots.icon}
-        <!-- Optional leading feedback icon, centered against title+subtitle. -->
-        <div class="dialog__header-icon"><slot name="icon" /></div>
-      {/if}
-      {#if $$slots.headerLead}
-        <!-- Optional ghost icon-only button (e.g. a back affordance). -->
-        <div class="dialog__header-lead"><slot name="headerLead" /></div>
-      {/if}
-      {#if $$slots.headerMeta}
-        <!-- Consumer content above the title, e.g. "Step 1 of 2". It carries no
-             progress semantics: the meaning belongs to what the consumer puts here. -->
-        <div class="dialog__header-meta"><slot name="headerMeta" /></div>
-      {/if}
-      <h2 class="dialog__title" class:dialog__title--hidden={hideTitle} use:titleAction>{title}</h2>
-      {#if description !== undefined}
-        <p class="dialog__subtitle" use:descriptionAction>{description}</p>
-      {/if}
-      <button class="dialog__close" type="button" aria-label={resolvedCloseLabel} use:closeAction>
-        <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
-          <path
-            d="M6 6l12 12M18 6L6 18"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-        </svg>
-      </button>
-    </header>
+    <DialogHeader
+      {title}
+      {hideTitle}
+      subtitle={description}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      subtitleAction={descriptionAction}
+      {closeAction}
+      hasIcon={$$slots.icon}
+      hasLead={$$slots.headerLead}
+      hasMeta={$$slots.headerMeta}
+      hasActions={$$slots.headerActions}
+    >
+      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
+      <svelte:fragment slot="lead"><slot name="headerLead" /></svelte:fragment>
+      <svelte:fragment slot="meta"><slot name="headerMeta" /></svelte:fragment>
+      <svelte:fragment slot="actions"><slot name="headerActions" /></svelte:fragment>
+    </DialogHeader>
     <div class="dialog__body" data-layout={bodyLayout}><slot /></div>
     {#if $$slots.footer || $$slots.footerLead || footerClose}
       <!-- One action bar: leading actions at the logical start, the trailing
@@ -197,100 +191,8 @@
     outline-offset: 2px;
   }
 
-  /* Columns: icon | back | titles (1fr) | close. Rows: meta / title / subtitle.
-     The side items span all rows so they center against the title block. An
-     absent row takes no height. No column-gap (empty optional columns must not
-     leave phantom space); the present items carry their own margin. */
-  .dialog__header {
-    display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    grid-template-rows: auto auto auto;
-    align-items: center;
+  .dialog__panel > :global(.dialog-header) {
     padding-block-end: 1rem;
-  }
-  /* Consumer content above the title. Quiet by default so it reads as context;
-     the content can restyle itself. */
-  .dialog__header-meta {
-    grid-column: 3;
-    grid-row: 1;
-    min-inline-size: 0;
-    margin-block-end: 0.25rem;
-    font-size: 0.875rem;
-    line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #524c44);
-  }
-  .dialog__header-icon {
-    grid-column: 1;
-    grid-row: 1 / -1;
-    display: inline-flex;
-    align-items: center;
-    margin-inline-end: 0.75rem;
-  }
-  .dialog__header-lead {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    display: inline-flex;
-    align-items: center;
-    margin-inline-end: 0.75rem;
-  }
-  .dialog__title {
-    grid-column: 3;
-    grid-row: 2;
-    min-inline-size: 0;
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
-  }
-  /* Kept in the accessibility tree (labels the dialog), removed from view. */
-  .dialog__title--hidden {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  .dialog__close {
-    grid-column: 4;
-    grid-row: 1 / -1;
-    /* Space from the titles; trailing edge is the last column. */
-    margin-inline-start: 0.75rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: 1.75rem;
-    block-size: 1.75rem;
-    font-size: 1.25rem;
-    padding: 0;
-    border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
-    background: transparent;
-    color: var(--ds-color-text-secondary, #524c44);
-    cursor: pointer;
-  }
-  .dialog__close:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    color: inherit;
-  }
-  .dialog__close:focus-visible {
-    outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: 2px;
-  }
-
-  .dialog__subtitle {
-    grid-column: 3;
-    grid-row: 3;
-    min-inline-size: 0;
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: var(--ds-line-height-tight, 1.2);
-    color: var(--ds-color-text-secondary, #524c44);
   }
   /* The body is the only scrolling region (the 1fr grid row); header and footer
      stay fixed. min-block-size:0 lets it shrink and scroll. */

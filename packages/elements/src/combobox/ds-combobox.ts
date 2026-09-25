@@ -33,7 +33,7 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  * Options come from light-DOM `<option>` children (`icon` attribute allowed)
  * or the `items` property. `searchable="false"` gives the select-only mode.
  *
- * Attributes: `label` (required), `value`, `searchable`, `width`
+ * Attributes: `label` (required), `hide-label`, `value`, `searchable`, `width`
  * (wrap|fill|fixed), `placeholder`, `disabled`, `clear-label`, `empty-text`,
  * `name` (submits via a hidden input).
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
@@ -44,6 +44,7 @@ export class DsCombobox extends HTMLElementBase {
     "disabled",
     "empty-text",
     "label",
+    "hide-label",
     "name",
     "placeholder",
     "clear-label",
@@ -243,6 +244,8 @@ export class DsCombobox extends HTMLElementBase {
 
     this.#root!.dataset.width = this.getAttribute("width") ?? "fixed";
     this.#label!.textContent = this.getAttribute("label") ?? "";
+    // Hidden from view, still the input's accessible name.
+    this.#label!.classList.toggle("combobox__label--hidden", boolAttr(this, "hide-label"));
     input.placeholder = this.getAttribute("placeholder") ?? "Search…";
     this.#clear!.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear");
 

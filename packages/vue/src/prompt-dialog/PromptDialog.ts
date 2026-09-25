@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
+import { dialogHeader } from "../dialog/dialog-header";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "../dialog/use-dialog";
 
@@ -51,6 +52,10 @@ export interface PromptDialogProps {
   onConfirm?: (value: string) => void;
   /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
   closeOnOutsideClick?: boolean;
+  /** Show a close button at the trailing end of the header; it closes like Escape. */
+  closeButton?: boolean;
+  /** Accessible label for the close button. Defaults to the catalog's "Close". */
+  closeLabel?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -68,6 +73,9 @@ export interface PromptDialogProps {
  * entered text when confirmed; Enter in the field also confirms. A `title` is
  * required; `label` names the input. Colors, radius and elevation are
  * themeable via `--ds-dialog-*`.
+ *
+ * The header is the one the dialog family shares: an optional `icon` slot (a
+ * FeedbackIcon) before the title and an optional close button (`closeButton`).
  */
 export const PromptDialog = defineComponent({
   name: "PromptDialog",
@@ -88,6 +96,8 @@ export const PromptDialog = defineComponent({
     urgent: { type: Boolean, default: false },
     onConfirm: { type: Function as PropType<(value: string) => void>, default: undefined },
     closeOnOutsideClick: { type: Boolean, default: true },
+    closeButton: { type: Boolean, default: false },
+    closeLabel: { type: String, default: undefined },
     onOpenChange: { type: Function as PropType<(open: boolean) => void>, default: undefined },
   },
   emits: {
@@ -159,7 +169,14 @@ export const PromptDialog = defineComponent({
       return [
         triggerNode,
         h("dialog", { ...api.value.contentProps, ref: panelRef, class: "prompt-dialog__panel" }, [
-          h("h2", { ...api.value.titleProps, class: "prompt-dialog__title" }, props.title),
+          dialogHeader({
+            title: props.title,
+            closeButton: props.closeButton,
+            closeLabel: props.closeLabel ?? t("dialog.close"),
+            titleProps: api.value.titleProps,
+            closeProps: api.value.closeProps,
+            icon: slots.icon?.(),
+          }),
           props.description !== undefined
             ? h(
                 "p",
