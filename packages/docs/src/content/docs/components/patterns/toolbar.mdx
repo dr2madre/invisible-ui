@@ -17,6 +17,19 @@ A grouping container (`role="toolbar"`) for a set of related controls, with the 
 
 <ImportSnippet component="toolbar" />
 
+In Elements:
+
+```html
+<ds-toolbar label="Formatting">
+  <ds-button>Bold</ds-button>
+  <ds-button>Italic</ds-button>
+  <ds-separator orientation="vertical" decorative></ds-separator>
+  <ds-button aria-label="Add" icon-only>+</ds-button>
+</ds-toolbar>
+```
+
+Controls added, removed or disabled later keep a single tab stop.
+
 ### Props
 
 <PropsTable component="toolbar" />

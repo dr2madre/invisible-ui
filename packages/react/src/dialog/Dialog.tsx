@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
+import { DialogHeader } from "./DialogHeader";
 import { useDialog } from "./use-dialog";
 
 /** How the dialog body spaces its direct children. */
@@ -25,12 +26,16 @@ export interface DialogProps {
   description?: string;
   /** Accessible label for the close button. Defaults to the catalog's "Close". */
   closeLabel?: string;
+  /** Show the close button at the trailing end of the header. Default `true`. */
+  closeButton?: boolean;
   /** Leading feedback icon, centered against the title block. */
   icon?: ReactNode;
   /** Content above the title, e.g. "Step 1 of 2". Carries no progress semantics. */
   headerMeta?: ReactNode;
   /** Leading ghost icon button (e.g. a back affordance). */
   headerLead?: ReactNode;
+  /** Actions before the close button, on the title row. */
+  headerActions?: ReactNode;
   /** Leading footer actions, e.g. Back. */
   footerLead?: ReactNode;
   /** Trailing action buttons in the footer. */
@@ -65,7 +70,8 @@ export interface DialogProps {
  * the adapter.
  *
  * Layout: a grid panel with a fixed header and footer and a scrolling body.
- * Themeable via `--ds-dialog-*`.
+ * The header is the one the whole dialog family shares; `closeButton` turns
+ * its close button off. Themeable via `--ds-dialog-*`.
  */
 export function Dialog({
   triggerVariant = "default",
@@ -75,9 +81,11 @@ export function Dialog({
   hideTitle = false,
   description,
   closeLabel,
+  closeButton = true,
   icon,
   headerMeta,
   headerLead,
+  headerActions,
   footerLead,
   footer,
   footerClose = false,
@@ -111,49 +119,20 @@ export function Dialog({
 
       {isOpen && (
         <dialog {...api.contentProps} ref={panelRef} className="dialog__panel">
-          <header className="dialog__header">
-            {icon && <div className="dialog__header-icon">{icon}</div>}
-            {headerLead && <div className="dialog__header-lead">{headerLead}</div>}
-            {/* Consumer content above the title, e.g. "Step 1 of 2". It carries
-                no progress semantics of its own. */}
-            {headerMeta && <div className="dialog__header-meta">{headerMeta}</div>}
-
-            <h2
-              {...api.titleProps}
-              className={hideTitle ? "dialog__title dialog__title--hidden" : "dialog__title"}
-            >
-              {title}
-            </h2>
-
-            {description !== undefined && (
-              <p {...api.descriptionProps} className="dialog__subtitle">
-                {description}
-              </p>
-            )}
-
-            <button
-              {...api.closeProps}
-              className="dialog__close"
-              type="button"
-              aria-label={resolvedCloseLabel}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="1em"
-                height="1em"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path
-                  d="M6 6l12 12M18 6L6 18"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </header>
+          <DialogHeader
+            title={title}
+            hideTitle={hideTitle}
+            subtitle={description}
+            closeButton={closeButton}
+            closeLabel={resolvedCloseLabel}
+            titleProps={api.titleProps}
+            subtitleProps={api.descriptionProps}
+            closeProps={api.closeProps}
+            icon={icon}
+            lead={headerLead}
+            meta={headerMeta}
+            actions={headerActions}
+          />
 
           <div className="dialog__body" data-layout={bodyLayout}>
             {children}

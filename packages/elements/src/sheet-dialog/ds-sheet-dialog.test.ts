@@ -36,8 +36,8 @@ describe("<ds-sheet-dialog>", () => {
     mount();
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     const panel = screen.getByRole("dialog");
-    expect(panel.querySelector(".sheet-dialog__header-lead")).toHaveTextContent("Back");
-    expect(panel.querySelector(".sheet-dialog__header-actions")).toHaveTextContent("Reset");
+    expect(panel.querySelector(".dialog-header__lead")).toHaveTextContent("Back");
+    expect(panel.querySelector(".dialog-header__actions")).toHaveTextContent("Reset");
     expect(panel.querySelector(".sheet-dialog__body")).toHaveTextContent("Filter controls");
     expect(panel.querySelector(".sheet-dialog__footer")).toHaveTextContent("Apply");
     expect(panel.querySelector("[slot]")).toBeNull();
@@ -97,5 +97,15 @@ describe("<ds-sheet-dialog>", () => {
     mount();
     await user.click(screen.getByRole("button", { name: "Open filters" }));
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("<ds-sheet-dialog> header", () => {
+  it("shows the description as the subtitle inside the shared header", () => {
+    document.body.innerHTML = `<ds-sheet-dialog heading="Filters" description="Narrow the list" open></ds-sheet-dialog>`;
+    const subtitle = screen.getByText("Narrow the list");
+    expect(subtitle).toHaveClass("dialog-header__subtitle");
+    expect(subtitle.closest(".dialog-header")).not.toBeNull();
+    expect(screen.getByRole("dialog")).toHaveAccessibleDescription("Narrow the list");
   });
 });

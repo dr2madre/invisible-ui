@@ -7,7 +7,11 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
-import { closeIcon } from "../internal/icons";
+import {
+  createDialogHeader,
+  syncDialogHeader,
+  type DialogHeaderParts,
+} from "../internal/dialog-header";
 import { lockScroll } from "../internal/scroll-lock";
 
 /**
@@ -22,15 +26,20 @@ import { lockScroll } from "../internal/scroll-lock";
  *
  * Composition regions are marked on light-DOM children with a `slot`
  * attribute, read once when the element renders (no Shadow DOM, ADR 0008):
- * `slot="header-meta"` for context above the title, `slot="footer-lead"` for
- * leading footer actions such as Back, and `slot="footer"` for the trailing
- * actions. Children without a `slot` attribute stay the body, as before. These
- * are the equivalents of the `headerMeta`, `footerLead` and `footer` regions in
- * the Svelte, Vue and React adapters.
+ * `slot="icon"` for a leading feedback icon, `slot="header-lead"` for a leading
+ * ghost button, `slot="header-meta"` for context above the title,
+ * `slot="header-actions"` for actions before the close button,
+ * `slot="footer-lead"` for leading footer actions such as Back, and
+ * `slot="footer"` for the trailing actions. Children without a `slot`
+ * attribute stay the body. These are the equivalents of the `icon`,
+ * `headerLead`, `headerMeta`, `headerActions`, `footerLead` and `footer`
+ * regions in the Svelte, Vue and React adapters; the header is the one the
+ * whole dialog family shares.
  *
  * Attributes: `heading` (required — the global `title` attribute is a browser
  * tooltip and cannot be used), `description`, `trigger` (opener text),
- * `trigger-variant`, `open`, `close-label`, `initial-focus` (CSS selector),
+ * `trigger-variant`, `open`, `close-label`, `close-button` (`"false"` drops
+ * the close button), `initial-focus` (CSS selector),
  * `no-outside-close`, `body-layout` (`plain` by default, or `stack` to space
  * the body's direct sections by `--ds-dialog-body-gap`).
  * Properties: `open` (boolean).
@@ -49,6 +58,7 @@ export class DsDialog extends HTMLElementBase {
     "trigger",
     "trigger-variant",
     "close-label",
+    "close-button",
     "body-layout",
   ];
 
@@ -105,7 +115,10 @@ export class DsDialog extends HTMLElementBase {
 
   #render() {
     // Read the marked regions first, so what stays becomes the body.
+    const iconContent = this.#takeSlot("icon");
+    const leadContent = this.#takeSlot("header-lead");
     const metaContent = this.#takeSlot("header-meta");
+    const actionsContent = this.#takeSlot("header-actions");
     const footerLeadContent = this.#takeSlot("footer-lead");
     const footerContent = this.#takeSlot("footer");
 
@@ -120,27 +133,14 @@ export class DsDialog extends HTMLElementBase {
     const panel = document.createElement("dialog");
     panel.className = "dialog__panel";
 
-    const header = document.createElement("header");
-    header.className = "dialog__header";
+    const header = createDialogHeader({
+      icon: iconContent,
+      lead: leadContent,
+      meta: metaContent,
+      actions: actionsContent,
+    });
 
-    const heading = document.createElement("h2");
-    heading.className = "dialog__title";
-
-    const subtitle = document.createElement("p");
-    subtitle.className = "dialog__subtitle";
-    subtitle.hidden = true;
-
-    const close = document.createElement("button");
-    close.type = "button";
-    close.className = "dialog__close";
-    close.innerHTML = closeIcon();
-
-    // The metadata precedes the title, as in the other adapters.
-    const meta = this.#region("dialog__header-meta", metaContent);
-    if (meta) header.append(meta);
-    header.append(heading, subtitle, close);
-
-    panel.append(header, body);
+    panel.append(header.header, body);
 
     // One action bar: the leading group first, so source order matches focus
     // order, then the trailing group.
@@ -159,14 +159,10 @@ export class DsDialog extends HTMLElementBase {
     this.#trigger = trigger;
     this.#panel = panel;
     this.#body = body;
-    this.heading = heading;
-    this.subtitle = subtitle;
-    this.closeButton = close;
+    this.header = header;
   }
 
-  private heading!: HTMLHeadingElement;
-  private subtitle!: HTMLParagraphElement;
-  private closeButton!: HTMLButtonElement;
+  private header!: DialogHeaderParts;
 
   // The ids wire the trigger to the panel and the panel to its title, so two
   // dialogs on one page need two of them: a shared fallback made every
@@ -185,20 +181,22 @@ export class DsDialog extends HTMLElementBase {
       describedBy,
     });
 
-    this.heading.textContent = this.getAttribute("heading") ?? "";
-    this.subtitle.hidden = !describedBy;
-    this.subtitle.textContent = this.getAttribute("description") ?? "";
+    syncDialogHeader(this.header, {
+      heading: this.getAttribute("heading") ?? "",
+      subtitle: this.getAttribute("description"),
+      closeButton: boolAttr(this, "close-button", true),
+      closeLabel: this.getAttribute("close-label") ?? "Close",
+    });
 
     this.#body!.dataset.layout = this.getAttribute("body-layout") ?? "plain";
     this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
     this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
-    this.closeButton.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");
 
     applyProps(this.#trigger!, api.triggerProps);
     applyProps(this.#panel!, api.contentProps);
-    applyProps(this.heading, api.titleProps);
-    if (describedBy) applyProps(this.subtitle, api.descriptionProps);
-    applyProps(this.closeButton, api.closeProps);
+    applyProps(this.header.heading, api.titleProps);
+    if (describedBy) applyProps(this.header.subtitle, api.descriptionProps);
+    applyProps(this.header.close, api.closeProps);
 
     if (this.open && !this.#cleanup) this.#show();
     if (!this.open && this.#cleanup) {
