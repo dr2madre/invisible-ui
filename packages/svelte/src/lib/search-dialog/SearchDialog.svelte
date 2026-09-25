@@ -11,11 +11,15 @@
    * Pass `items` ({ value, label?, disabled? }); `onSelect(value)` runs when a
    * result is chosen. The `trigger` slot is the opener button's content. No
    * keyboard shortcut is built in: bind `open` and wire the shortcut in the
-   * application. Themeable via `--ds-search-dialog-*`.
+   * application. The header is the one the dialog family shares; by default
+   * it only names the dialog, and `hideTitle={false}` / `closeButton` show the
+   * title and a close button above the search field. Themeable via
+   * `--ds-search-dialog-*`.
    */
   import { createSearchDialog, type SearchDialogItem } from "./create-search-dialog";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "../dialog/DialogHeader.svelte";
   import Loading from "../loading/Loading.svelte";
   import Kbd from "../kbd/Kbd.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -40,6 +44,15 @@
   export let open = false;
   /** Accessible title for the dialog. Defaults to the i18n catalog's "Search". */
   export let title: string | undefined = undefined;
+  /**
+   * Visually hide the title (the default: the search field reads as the
+   * header). It still names the dialog for screen readers.
+   */
+  export let hideTitle = true;
+  /** Show a close button in the header; it closes like Escape. */
+  export let closeButton = false;
+  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
   /** Accessible label for the search input. Defaults to the i18n catalog's "Search". */
   export let label: string | undefined = undefined;
   /** Input placeholder. Defaults to the i18n catalog's "Type to search…". */
@@ -70,6 +83,7 @@
     triggerAction,
     contentAction,
     titleAction,
+    closeAction,
     labelAction,
     inputAction,
     listboxAction,
@@ -81,6 +95,7 @@
   } = search;
 
   $: resolvedTitle = title ?? $t("searchDialog.title");
+  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
   $: resolvedLabel = label ?? $t("searchDialog.label");
   $: resolvedPlaceholder = placeholder ?? $t("searchDialog.placeholder");
   $: resolvedEmptyText = emptyText ?? $t("searchDialog.empty");
@@ -113,7 +128,14 @@
 
 {#if $isOpen}
   <dialog class="search-dialog__panel" use:contentAction>
-    <h2 class="search-dialog__sr-only" use:titleAction>{resolvedTitle}</h2>
+    <DialogHeader
+      title={resolvedTitle}
+      {hideTitle}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      {closeAction}
+    />
 
     <div class="search-dialog__search">
       <span class="search-dialog__search-icon" aria-hidden="true">
@@ -226,6 +248,11 @@
     );
   }
 
+  /* The panel is flush, so a visible header brings its own inset. */
+  .search-dialog__panel > :global(.dialog-header) {
+    padding: 0.75rem 1rem;
+    border-block-end: 1px solid var(--ds-color-border, #c7c1b7);
+  }
   .search-dialog__search {
     display: flex;
     align-items: center;

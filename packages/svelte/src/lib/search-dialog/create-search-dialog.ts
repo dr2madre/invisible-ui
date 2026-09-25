@@ -60,6 +60,8 @@ export interface CreateSearchDialog {
   contentAction: Action<HTMLElement>;
   /** Action for the dialog title (names the modal). */
   titleAction: Action<HTMLElement>;
+  /** Action for an optional close button. */
+  closeAction: Action<HTMLElement>;
   /** Action for the (combobox) search label. */
   labelAction: Action<HTMLElement>;
   /** Action for the search input. */
@@ -232,6 +234,7 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     triggerAction: dialog.triggerAction,
     contentAction: dialog.contentAction,
     titleAction: dialog.titleAction,
+    closeAction: dialog.closeAction,
     labelAction: createPropsAction(api, (a) => a.labelProps),
     inputAction,
     listboxAction: createPropsAction(api, (a) => a.listboxProps),
