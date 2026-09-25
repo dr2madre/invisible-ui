@@ -30,6 +30,7 @@ import { DsTable } from "./table/ds-table";
 import { DsSidebar } from "./sidebar/ds-sidebar";
 import { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 import { DsTabs } from "./tabs/ds-tabs";
+import { DsTooltip } from "./tooltip/ds-tooltip";
 import { DsTag } from "./tag/ds-tag";
 import { DsTreeView } from "./tree-view/ds-tree-view";
 
@@ -63,6 +64,7 @@ define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
+define("ds-tooltip", DsTooltip);
 define("ds-avatar", DsAvatar);
 define("ds-sidebar", DsSidebar);
 define("ds-tab-list", DsTabList);

@@ -42,6 +42,7 @@ describe("custom-elements adapter SSR", () => {
       "DsTag",
       "DsTextField",
       "DsTextarea",
+      "DsTooltip",
       "DsTreeView",
     ]);
   });

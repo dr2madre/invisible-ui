@@ -54,6 +54,7 @@ const VUE_SHEETS = [
   "loading-generation-area.css",
   "sheet-dialog.css",
   "tree-view.css",
+  "tooltip.css",
   "avatar.css",
   "sidebar.css",
 ];
