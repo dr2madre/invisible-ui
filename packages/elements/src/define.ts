@@ -2,6 +2,7 @@
  * Side-effect entry point: registers every element under its `ds-*` tag.
  * Safe to import more than once (guards against re-definition).
  */
+import { DsAvatar } from "./avatar/ds-avatar";
 import { DsButton } from "./button/ds-button";
 import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
@@ -26,6 +27,7 @@ import { DsSearchField } from "./search-field/ds-search-field";
 import { DsSheetDialog } from "./sheet-dialog/ds-sheet-dialog";
 import { DsSwitch } from "./switch/ds-switch";
 import { DsTable } from "./table/ds-table";
+import { DsSidebar } from "./sidebar/ds-sidebar";
 import { DsTabs } from "./tabs/ds-tabs";
 import { DsTag } from "./tag/ds-tag";
 import { DsTreeView } from "./tree-view/ds-tree-view";
@@ -60,6 +62,8 @@ define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
+define("ds-avatar", DsAvatar);
+define("ds-sidebar", DsSidebar);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);
