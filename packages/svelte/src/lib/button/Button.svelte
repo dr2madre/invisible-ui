@@ -262,7 +262,7 @@
      (e.g. the Alert "×") have no text to underline. */
   .button:global([data-variant="ghost"]) {
     background: transparent;
-    color: inherit;
+    color: var(--ds-color-text, #282420);
   }
   .button:global([data-variant="ghost"]):not(.button--icon-only) {
     text-decoration: underline;
