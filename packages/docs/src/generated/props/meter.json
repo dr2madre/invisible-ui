@@ -133,6 +133,67 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-meter",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "100 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "low",
+          "reactive": true,
+          "required": false,
+          "description": "the upper bound of the low band",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "high",
+          "reactive": true,
+          "required": false,
+          "description": "the lower bound of the high band",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "optimum",
+          "reactive": true,
+          "required": false,
+          "description": "where the good end of the scale is; `max` by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `value`, `min`, `max`, `low`, `high`, `optimum`."
+      ]
     }
   }
 }

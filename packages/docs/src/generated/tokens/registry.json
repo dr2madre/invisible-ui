@@ -4286,6 +4286,7 @@
         "(inline)"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4294,6 +4295,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/accordion/accordion-item.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/accordion/Accordion.svelte",
@@ -4328,6 +4336,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4338,6 +4347,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/accordion/Accordion.svelte",
@@ -4372,6 +4388,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4380,6 +4397,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion__trigger",
+          "property": "padding",
+          "fallback": "0.6rem 0.8rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/accordion/Accordion.svelte",
@@ -4414,6 +4438,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4422,6 +4447,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion",
+          "property": "inline-size",
+          "fallback": "16rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/accordion/Accordion.svelte",
@@ -4558,6 +4590,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4566,6 +4599,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/aspect-ratio.css",
+          "selector": ".aspect-ratio",
+          "property": "border-radius",
+          "fallback": "0"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/aspect-ratio/AspectRatio.svelte",
@@ -5361,6 +5401,7 @@
         "border-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5371,6 +5412,13 @@
         "--ds-neutral-400"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote",
+          "property": "border-inline-start",
+          "fallback": "var(--ds-neutral-400, #757067)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -5405,6 +5453,7 @@
         "border-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5413,6 +5462,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote",
+          "property": "border-inline-start",
+          "fallback": "3px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -5447,6 +5503,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5457,6 +5514,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote__cite",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -5491,6 +5555,7 @@
         "font-style"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5499,6 +5564,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote__quote",
+          "property": "font-style",
+          "fallback": "italic"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -5533,6 +5605,7 @@
         "padding-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5541,6 +5614,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote",
+          "property": "padding-inline-start",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -5575,6 +5655,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5585,6 +5666,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/blockquote.css",
+          "selector": ".blockquote",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/blockquote/Blockquote.svelte",
@@ -10816,6 +10904,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10824,6 +10913,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__content",
+          "property": "padding",
+          "fallback": "0.625rem 0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
@@ -10859,6 +10955,7 @@
         "(inline)"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10867,6 +10964,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/collapsible/ds-collapsible.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.1em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
@@ -10901,6 +11005,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10911,6 +11016,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__trigger",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
@@ -10945,6 +11057,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10953,6 +11066,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__trigger",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
@@ -10987,6 +11107,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10995,6 +11116,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible",
+          "property": "inline-size",
+          "fallback": "18rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/collapsible/Collapsible.svelte",
@@ -17930,6 +18058,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17940,6 +18069,13 @@
         "--ds-brand-primary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter__indicator",
+          "property": "background",
+          "fallback": "var(--ds-brand-primary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -17974,6 +18110,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17984,6 +18121,13 @@
         "--ds-pastel-green"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter__indicator[data-quality=\"optimal\"]",
+          "property": "background",
+          "fallback": "var(--ds-pastel-green, #8dcc7a)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18018,6 +18162,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18028,6 +18173,13 @@
         "--ds-color-danger"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter__indicator[data-quality=\"poor\"]",
+          "property": "background",
+          "fallback": "var(--ds-color-danger, #be3b50)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18062,6 +18214,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18072,6 +18225,13 @@
         "--ds-color-warning"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter__indicator[data-quality=\"suboptimal\"]",
+          "property": "background",
+          "fallback": "var(--ds-color-warning, #c96422)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18106,6 +18266,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18114,6 +18275,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter",
+          "property": "block-size",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18148,6 +18316,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18156,6 +18325,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter",
+          "property": "border-radius",
+          "fallback": "999px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18190,6 +18366,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18200,6 +18377,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -18234,6 +18418,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18242,6 +18427,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/meter.css",
+          "selector": ".meter",
+          "property": "inline-size",
+          "fallback": "16rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/meter/Meter.svelte",
@@ -23540,6 +23732,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23548,6 +23741,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton__circle",
+          "property": "inline-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton__circle",
+          "property": "block-size",
+          "fallback": "2.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
@@ -23596,6 +23803,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23606,6 +23814,13 @@
         "--ds-neutral-200"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton__bar",
+          "property": "background",
+          "fallback": "var(--ds-neutral-200, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
@@ -23640,6 +23855,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23648,6 +23864,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton[data-animation=\"wave\"] .skeleton__bar::after",
+          "property": "background",
+          "fallback": "rgba(255, 255, 255, 0.5)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
@@ -23682,6 +23905,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23690,6 +23914,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
@@ -23724,6 +23955,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23732,6 +23964,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton__line",
+          "property": "block-size",
+          "fallback": "0.8em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",
@@ -23766,6 +24005,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -23776,6 +24016,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/skeleton.css",
+          "selector": ".skeleton__bar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/skeleton/Skeleton.svelte",

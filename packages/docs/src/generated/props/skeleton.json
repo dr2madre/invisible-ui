@@ -133,6 +133,65 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-skeleton",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "text|circle|rect",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "lines",
+          "reactive": true,
+          "required": false,
+          "description": "the text lines; 1 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "width",
+          "reactive": true,
+          "required": false,
+          "description": "a CSS length; for `circle`, the height too",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "height",
+          "reactive": true,
+          "required": false,
+          "description": "a CSS length; `text` follows the line height",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "radius",
+          "reactive": true,
+          "required": false,
+          "description": "a CSS length",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "animation",
+          "reactive": true,
+          "required": false,
+          "description": "pulse|wave|none",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "turns the skeleton into a named status",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

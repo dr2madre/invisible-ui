@@ -298,5 +298,41 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
     "limit": "5 kB"
+  },
+  {
+    "name": "@design-system/elements — accordion only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsAccordion }",
+    "limit": "3 kB"
+  },
+  {
+    "name": "@design-system/elements — collapsible only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCollapsible }",
+    "limit": "4.5 kB"
+  },
+  {
+    "name": "@design-system/elements — aspect ratio only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsAspectRatio }",
+    "limit": "0.5 kB"
+  },
+  {
+    "name": "@design-system/elements — blockquote only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsBlockquote }",
+    "limit": "0.5 kB"
+  },
+  {
+    "name": "@design-system/elements — skeleton only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSkeleton }",
+    "limit": "1 kB"
+  },
+  {
+    "name": "@design-system/elements — meter only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsMeter }",
+    "limit": "1.5 kB"
   }
 ]

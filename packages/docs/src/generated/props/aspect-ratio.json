@@ -39,6 +39,25 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-aspect-ratio",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "ratio",
+          "reactive": true,
+          "required": false,
+          "description": "width to height, as `16/9` or a number; 1 by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `ratio` (number)."
+      ]
     }
   }
 }

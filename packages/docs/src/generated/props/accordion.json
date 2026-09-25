@@ -130,6 +130,47 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-accordion",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the expanded values, comma-separated",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "type",
+          "reactive": true,
+          "required": false,
+          "description": "single|multiple",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "collapsible",
+          "reactive": true,
+          "required": false,
+          "description": "single only: the open item can close; on by default, `collapsible=\"false\"` turns it off",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value` (string[]), `items`.",
+        "Emits: bubbling `change` CustomEvent with `detail.value` (string[])."
+      ]
     }
   }
 }
