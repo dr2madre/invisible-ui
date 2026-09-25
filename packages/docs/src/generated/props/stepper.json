@@ -138,6 +138,61 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-stepper",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "current",
+          "reactive": true,
+          "required": false,
+          "description": "0-based step, `0` by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "linear",
+          "reactive": true,
+          "required": false,
+          "description": "on by default, `\"false\"` turns it off",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "`horizontal` or `vertical`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the landmark name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "completed-label",
+          "reactive": true,
+          "required": false,
+          "description": "the status read for a completed step",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `steps` (each with a `label` and an optional `description`), `current`.",
+        "Emits: `change` (`detail.current`) after the user picks a step."
+      ]
     }
   }
 }

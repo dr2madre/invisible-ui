@@ -440,18 +440,18 @@ function splitProse(text) {
   return items.map((s) => s.trim()).filter(Boolean);
 }
 
-// Pull the `Attributes:` / `Properties:` / `Emits:` paragraphs out of the JSDoc
+// Pull the `Attributes:` / `Properties:` / `Methods:` / `Emits:` paragraphs out of the JSDoc
 // header. Each runs from its marker to the line that ends the sentence.
 function docSections(doc) {
   const lines = doc.split("\n").map((l) => l.replace(/^\s*\*?/, "").trim());
   const sections = {};
   for (let i = 0; i < lines.length; i++) {
-    const marker = /^(Attributes|Properties|Emits|Events):\s*(.*)$/.exec(lines[i]);
+    const marker = /^(Attributes|Properties|Methods|Emits|Events):\s*(.*)$/.exec(lines[i]);
     if (!marker) continue;
     const collected = [marker[2]];
     while (!/\.$/.test(collected[collected.length - 1]) && i + 1 < lines.length) {
       const next = lines[++i];
-      if (!next || /^(Attributes|Properties|Emits|Events):/.test(next)) break;
+      if (!next || /^(Attributes|Properties|Methods|Emits|Events):/.test(next)) break;
       collected.push(next);
     }
     sections[marker[1].toLowerCase()] = collapse(collected.join(" "));
@@ -487,7 +487,7 @@ function parseElement(src, className) {
   }
 
   const notes = [];
-  for (const key of ["properties", "emits", "events"]) {
+  for (const key of ["properties", "methods", "emits", "events"]) {
     if (sections[key]) notes.push(`${key[0].toUpperCase()}${key.slice(1)}: ${sections[key]}`);
   }
 

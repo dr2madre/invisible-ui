@@ -346,5 +346,23 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsMeter }",
     "limit": "1.5 kB"
+  },
+  {
+    "name": "@design-system/elements — notification only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsNotification }",
+    "limit": "5.5 kB"
+  },
+  {
+    "name": "@design-system/elements — notification region only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsNotificationRegion }",
+    "limit": "8.5 kB"
+  },
+  {
+    "name": "@design-system/elements — stepper only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsStepper }",
+    "limit": "5.5 kB"
   }
 ]

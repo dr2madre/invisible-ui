@@ -165,6 +165,69 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-notification-region",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "placement",
+          "reactive": true,
+          "required": false,
+          "description": "`top-end` by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the landmark name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max-visible",
+          "reactive": true,
+          "required": false,
+          "description": "`0`, no count cap",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "inset",
+          "reactive": true,
+          "required": false,
+          "description": "distance from the viewport edges, `1rem`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "swipeable",
+          "reactive": true,
+          "required": false,
+          "description": "on by default, `\"false\"` turns it off",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "duration",
+          "reactive": true,
+          "required": false,
+          "description": "enter and reflow ms, `200`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "exit-duration",
+          "reactive": true,
+          "required": false,
+          "description": "leave ms, 1.75 times `duration`",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `notifications` (the queue, oldest first, read only).",
+        "Methods: `show(options)` returns the id, `info`, `success`, `warning`, `danger` and `neutral(title, options)`, `update(id, patch)`, `dismiss(id, reason)`, `clear()`, `promise(promise, messages)`.",
+        "Emits: `dismiss` (`detail.id`, `detail.reason`) after a notification leaves the queue."
+      ]
     }
   }
 }

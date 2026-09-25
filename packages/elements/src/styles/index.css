@@ -25,6 +25,7 @@
 @import "./empty-state.css";
 @import "./error-state.css";
 @import "./inline-notification.css";
+@import "./notification-region.css";
 @import "./loading.css";
 @import "./loading-generation-area.css";
 @import "./sheet-dialog.css";
@@ -57,6 +58,7 @@
 @import "./sidebar.css";
 @import "./breadcrumb.css";
 @import "./progress.css";
+@import "./stepper.css";
 @import "./scroll-area.css";
 @import "./avatar-group.css";
 @import "./tooltip.css";

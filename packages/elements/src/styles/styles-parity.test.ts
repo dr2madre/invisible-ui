@@ -87,6 +87,8 @@ const VUE_SHEETS = [
   "meter.css",
   "number-field.css",
   "pin-input.css",
+  "notification-region.css",
+  "stepper.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
