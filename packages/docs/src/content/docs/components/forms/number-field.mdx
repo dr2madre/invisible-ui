@@ -56,6 +56,16 @@ Parsing and display follow the `locale` prop, defaulting to the surrounding
 [Locale Provider](/invisible-ui/components/localization/locale-provider/)
 scope. The locale's own digits and ASCII digits are both accepted.
 
+In Elements:
+
+```html
+<ds-number-field label="Amount" name="amount" value="1234.5" min="0" step="0.5"></ds-number-field>
+```
+
+The `value` attribute takes the canonical ASCII form. The element sends `input`
+while the draft parses and `change` at each commit, both with `detail.value`.
+`increment-label` and `decrement-label` override the localized button names.
+
 ### Props
 
 <PropsTable component="number-field" />

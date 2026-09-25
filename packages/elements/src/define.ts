@@ -17,6 +17,8 @@ import { DsCount } from "./count/ds-count";
 import { DsMultiSelect } from "./multi-select/ds-multi-select";
 import { DsNavigationMenu } from "./navigation-menu/ds-navigation-menu";
 import { DsPagination } from "./pagination/ds-pagination";
+import { DsNumberField } from "./number-field/ds-number-field";
+import { DsPinInput } from "./pin-input/ds-pin-input";
 import { DsDialog } from "./dialog/ds-dialog";
 import { DsDropdownMenu } from "./dropdown-menu/ds-dropdown-menu";
 import { DsEmptyState } from "./empty-state/ds-empty-state";
@@ -137,5 +139,7 @@ define("ds-aspect-ratio", DsAspectRatio);
 define("ds-blockquote", DsBlockquote);
 define("ds-skeleton", DsSkeleton);
 define("ds-meter", DsMeter);
+define("ds-number-field", DsNumberField);
+define("ds-pin-input", DsPinInput);
 
 export {};

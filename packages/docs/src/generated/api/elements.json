@@ -229,9 +229,19 @@
       "signature": "declare class DsNavigationMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get items(): NavigationMenuItem[]; set items(value: NavigationMenuItem[]); get value(): string | null; set value(next: string | null); }"
     },
     {
+      "name": "DsNumberField",
+      "kind": "class",
+      "signature": "declare class DsNumberField extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): number | null; set value(next: number | null); }"
+    },
+    {
       "name": "DsPagination",
       "kind": "class",
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
+    },
+    {
+      "name": "DsPinInput",
+      "kind": "class",
+      "signature": "declare class DsPinInput extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
     },
     {
       "name": "DsProgress",
@@ -442,6 +452,11 @@
       "name": "NavigationMenuLink",
       "kind": "interface",
       "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+    },
+    {
+      "name": "PinInputType",
+      "kind": "type",
+      "signature": "type PinInputType = pinInput.PinInputType;"
     },
     {
       "name": "ProgressShape",
