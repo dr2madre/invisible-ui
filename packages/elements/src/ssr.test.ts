@@ -18,6 +18,7 @@ describe("custom-elements adapter SSR", () => {
       "DsCombobox",
       "DsCount",
       "DsDialog",
+      "DsDropdownMenu",
       "DsEmptyState",
       "DsErrorState",
       "DsField",

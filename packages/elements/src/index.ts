@@ -28,6 +28,14 @@ export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export {
+  DsDropdownMenu,
+  type MenuEntry,
+  type MenuGroup,
+  type MenuItem,
+  type MenuItemKind,
+  type MenuSeparator,
+} from "./dropdown-menu/ds-dropdown-menu";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
