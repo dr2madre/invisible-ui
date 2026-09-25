@@ -22,6 +22,19 @@
   font-size: 0.875rem;
   font-weight: 600;
 }
+/* Kept in the accessibility tree (names the control), removed from view. */
+.combobox__label--hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 .combobox__control {
   display: flex;

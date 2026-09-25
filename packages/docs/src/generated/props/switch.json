@@ -310,6 +310,13 @@
           "descriptionFrom": "none"
         },
         {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
           "name": "checked",
           "reactive": true,
           "required": false,
