@@ -128,3 +128,20 @@
     var(--ds-color-background, #fff)
   );
 }
+
+/* Badge: a count or a dot on the button's corner, outside the button, so the
+   button keeps its own name and the badge only describes it. */
+.button__badge-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.button__badge {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  translate: 35% -35%;
+  pointer-events: none;
+}
+.button__badge:dir(rtl) {
+  translate: -35% -35%;
+}
