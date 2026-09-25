@@ -3,6 +3,8 @@
  * Safe to import more than once (guards against re-definition).
  */
 import { DsAvatar } from "./avatar/ds-avatar";
+import { DsAvatarGroup } from "./avatar-group/ds-avatar-group";
+import { DsBreadcrumb } from "./breadcrumb/ds-breadcrumb";
 import { DsButton } from "./button/ds-button";
 import { DsCard } from "./card/ds-card";
 import { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
@@ -21,7 +23,9 @@ import { DsLoading } from "./loading/ds-loading";
 import { DsLoadingGenerationArea } from "./loading-generation-area/ds-loading-generation-area";
 import { DsField } from "./field/ds-field";
 import { DsLabel } from "./label/ds-label";
+import { DsProgress } from "./progress/ds-progress";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
+import { DsScrollArea } from "./scroll-area/ds-scroll-area";
 import { DsSelect } from "./select/ds-select";
 import { DsSeparator } from "./separator/ds-separator";
 import { DsTextField, DsTextarea } from "./text-field/ds-text-field";
@@ -67,15 +71,19 @@ define("ds-checkbox-group", DsCheckboxGroup);
 define("ds-table", DsTable);
 define("ds-count", DsCount);
 define("ds-tabs", DsTabs);
-define("ds-tooltip", DsTooltip);
-define("ds-navigation-menu", DsNavigationMenu);
 define("ds-avatar", DsAvatar);
 define("ds-sidebar", DsSidebar);
+define("ds-tooltip", DsTooltip);
+define("ds-navigation-menu", DsNavigationMenu);
 define("ds-tab-list", DsTabList);
 define("ds-tab", DsTab);
 define("ds-tab-panel", DsTabPanel);
 define("ds-pagination", DsPagination);
 define("ds-tag", DsTag);
 define("ds-tree-view", DsTreeView);
+define("ds-avatar-group", DsAvatarGroup);
+define("ds-breadcrumb", DsBreadcrumb);
+define("ds-progress", DsProgress);
+define("ds-scroll-area", DsScrollArea);
 
 export {};

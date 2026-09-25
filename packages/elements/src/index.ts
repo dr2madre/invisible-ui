@@ -74,11 +74,15 @@ export {
 } from "./tabs/ds-tabs";
 export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
+export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
+export { DsBreadcrumb, type BreadcrumbItem } from "./breadcrumb/ds-breadcrumb";
+export { DsProgress, type ProgressShape } from "./progress/ds-progress";
+export { DsScrollArea, type ScrollOrientation } from "./scroll-area/ds-scroll-area";
 export { DsTooltip } from "./tooltip/ds-tooltip";
 export {
   DsNavigationMenu,
   type NavigationMenuItem,
   type NavigationMenuLink,
 } from "./navigation-menu/ds-navigation-menu";
-export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
-export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";

@@ -4704,6 +4704,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4714,6 +4715,13 @@
         "--ds-color-neutral-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
@@ -4748,6 +4756,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4758,6 +4767,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
@@ -4792,6 +4808,7 @@
         "margin-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4800,6 +4817,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__item:not(:first-child)",
+          "property": "margin-inline-start",
+          "fallback": "-0.625rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
@@ -4834,6 +4858,7 @@
         "box-shadow"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4844,6 +4869,13 @@
         "--ds-color-background"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__item",
+          "property": "box-shadow",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
@@ -4878,6 +4910,7 @@
         "box-shadow"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -4886,6 +4919,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__item",
+          "property": "box-shadow",
+          "fallback": "0"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/avatar-group/AvatarGroup.svelte",
@@ -4932,6 +4972,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow[data-shape=\"square\"]",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/avatar.css",
@@ -5000,6 +5047,48 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow",
+          "property": "inline-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow",
+          "property": "block-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow[data-size=\"lg\"]",
+          "property": "inline-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow[data-size=\"lg\"]",
+          "property": "block-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow[data-size=\"sm\"]",
+          "property": "inline-size",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/avatar-group.css",
+          "selector": ".avatar-group__overflow[data-size=\"sm\"]",
+          "property": "block-size",
+          "fallback": "2rem"
+        },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/avatar.css",
@@ -5530,6 +5619,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5540,6 +5630,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__current",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -5574,6 +5671,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5582,6 +5680,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__list",
+          "property": "font-size",
+          "fallback": "0.875rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -5616,6 +5721,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5624,6 +5730,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__item",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__list",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -5672,6 +5792,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5682,6 +5803,13 @@
         "--ds-color-secondary-hover"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__link:hover",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-hover, #6840b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -5716,6 +5844,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5726,6 +5855,13 @@
         "--ds-color-secondary-body-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__link",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-body-text, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -5760,6 +5896,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -5770,6 +5907,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__sep",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/breadcrumb/Breadcrumb.svelte",
@@ -19240,6 +19384,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19248,6 +19393,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress--circle",
+          "property": "inline-size",
+          "fallback": "3rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress--circle",
+          "property": "block-size",
+          "fallback": "3rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19294,6 +19453,7 @@
         "stroke-width"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19302,6 +19462,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress__track, .progress__ring",
+          "property": "stroke-width",
+          "fallback": "3.5"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19337,6 +19504,7 @@
         "stroke"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19347,6 +19515,20 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress__indicator",
+          "property": "background",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress__ring",
+          "property": "stroke",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19395,6 +19577,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19403,6 +19586,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress",
+          "property": "block-size",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19437,6 +19627,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19445,6 +19636,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress",
+          "property": "border-radius",
+          "fallback": "999px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19480,6 +19678,7 @@
         "stroke"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19490,6 +19689,20 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress__track",
+          "property": "stroke",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19538,6 +19751,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19546,6 +19760,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress__value",
+          "property": "font-size",
+          "fallback": "0.75em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -19580,6 +19801,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19588,6 +19810,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/progress.css",
+          "selector": ".progress",
+          "property": "inline-size",
+          "fallback": "16rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/progress/Progress.svelte",
@@ -20374,6 +20603,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20382,6 +20612,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/scroll-area.css",
+          "selector": ".scroll-area__bar--h",
+          "property": "block-size",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/scroll-area.css",
+          "selector": ".scroll-area__bar--v",
+          "property": "inline-size",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",
@@ -20430,6 +20674,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20440,6 +20685,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/scroll-area.css",
+          "selector": ".scroll-area__thumb",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",
@@ -20474,6 +20726,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20484,6 +20737,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/scroll-area.css",
+          "selector": ".scroll-area__thumb:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",
@@ -20518,6 +20778,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20526,6 +20787,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/scroll-area.css",
+          "selector": ".scroll-area__bar",
+          "property": "background",
+          "fallback": "transparent"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/scroll-area/ScrollArea.svelte",

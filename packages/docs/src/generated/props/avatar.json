@@ -114,7 +114,7 @@
           "reactive": true,
           "required": true,
           "description": ": the accessible name and the initials",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "src",

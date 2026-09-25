@@ -482,7 +482,7 @@ function parseElement(src, className) {
       name: m[1],
       reactive: observed.has(m[1]),
       required: /^required\b/.test(note),
-      description: note.replace(/^required\s*[—-]?\s*/, ""),
+      description: note.replace(/^required\s*[—:-]?\s*/, ""),
     });
   }
 

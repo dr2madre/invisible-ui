@@ -82,7 +82,7 @@
           "reactive": true,
           "required": true,
           "description": ": the landmark name",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
