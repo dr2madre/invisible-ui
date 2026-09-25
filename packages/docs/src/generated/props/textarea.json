@@ -18,6 +18,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "value",
           "type": "string",
           "default": "\"\"",
@@ -152,6 +160,14 @@
           "default": null,
           "required": true,
           "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -302,6 +318,13 @@
           "name": "label",
           "reactive": true,
           "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
           "description": "",
           "descriptionFrom": "none"
         },

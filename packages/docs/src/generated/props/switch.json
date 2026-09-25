@@ -18,6 +18,14 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "checked",
           "type": "boolean",
           "default": "false",
@@ -104,6 +112,14 @@
           "default": null,
           "required": true,
           "description": "Accessible, visible label (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -214,6 +230,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "checked",
           "type": "boolean",
           "default": "false",
@@ -306,6 +330,13 @@
           "name": "label",
           "reactive": true,
           "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
           "description": "",
           "descriptionFrom": "none"
         },

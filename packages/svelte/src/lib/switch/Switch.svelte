@@ -20,6 +20,11 @@
 
   /** Accessible, visible label (required). Override with the default slot for rich content. */
   export let label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  export let hideLabel = false;
   export let checked = false;
   export let disabled = false;
   /** Form field name — the value is submitted under it when on. */
@@ -98,7 +103,7 @@
       <span class="switch__off">{resolvedOffText}</span>
     {/if}
   </span>
-  <span class="field__label"><slot>{label}</slot></span>
+  <span class="field__label" class:field__label--hidden={hideLabel}><slot>{label}</slot></span>
 </label>
 
 <style>
@@ -110,6 +115,19 @@
   }
   .field--disabled {
     cursor: not-allowed;
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .field__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .field--disabled .field__label {
     color: var(--ds-color-text-disabled, #757067);

@@ -182,6 +182,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
@@ -250,6 +258,13 @@
           "name": "label",
           "reactive": true,
           "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hide-label",
+          "reactive": true,
+          "required": false,
           "description": "",
           "descriptionFrom": "none"
         },
