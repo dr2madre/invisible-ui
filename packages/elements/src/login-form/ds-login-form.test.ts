@@ -148,3 +148,15 @@ describe("<ds-login-form>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+describe("<ds-login-form> input purpose", () => {
+  it("names the purpose of the email and password fields for autofill", () => {
+    document.body.innerHTML = `<ds-login-form></ds-login-form>`;
+    const form = document.querySelector("ds-login-form")!;
+    expect(form.querySelector('input[name="email"]')).toHaveAttribute("autocomplete", "username");
+    expect(form.querySelector('input[name="password"]')).toHaveAttribute(
+      "autocomplete",
+      "current-password",
+    );
+  });
+});

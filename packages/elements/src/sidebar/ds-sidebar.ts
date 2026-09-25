@@ -2,6 +2,7 @@ import { collapsible } from "@design-system/core";
 import {
   applyProps,
   boolAttr,
+  definePart,
   emit,
   HTMLElementBase,
   nextId,
@@ -9,6 +10,7 @@ import {
 } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
 import { pathIcon } from "../internal/icons";
+import { DsTooltip } from "../tooltip/ds-tooltip";
 
 /** One destination in the sidebar. */
 export interface SidebarItem {
@@ -43,7 +45,8 @@ const CHEVRON_LEFT = "M15 18l-6-6 6-6";
  *
  * The routing, which destination is current and which viewport gets which
  * presentation stay with the application. Sections can collapse, and the bar
- * can collapse to a rail of icons when every destination has one. For a
+ * can collapse to a rail of icons when every destination has one; on the
+ * rail each name comes back as a `<ds-tooltip>` on hover and focus. For a
  * drawer, put the element inside a `<ds-sheet-dialog>` and close it on
  * `navigate`.
  *
@@ -228,7 +231,20 @@ export class DsSidebar extends HTMLElementBase {
     list.className = rail ? "sidebar__list sidebar__list--collapsed" : "sidebar__list";
     for (const entry of section.items) {
       const li = document.createElement("li");
-      li.appendChild(this.#item(entry, rail));
+      const item = this.#item(entry, rail);
+      if (rail) {
+        // Registered here too, so a selective import of the sidebar works.
+        definePart("ds-tooltip", DsTooltip);
+        // The rail hides names from sight, never from a screen reader, and the
+        // tooltip gives them back to whoever is looking.
+        const tooltip = document.createElement("ds-tooltip");
+        tooltip.setAttribute("text", entry.label);
+        tooltip.setAttribute("placement", "right");
+        tooltip.appendChild(item);
+        li.appendChild(tooltip);
+      } else {
+        li.appendChild(item);
+      }
       list.appendChild(li);
     }
     return list;

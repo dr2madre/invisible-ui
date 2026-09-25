@@ -214,6 +214,9 @@ export class DsDropdownMenu extends HTMLElementBase {
     const popup = this.#popup!;
     this.#labelText!.textContent = this.getAttribute("label") ?? "";
     applyProps(trigger, api.triggerProps);
+    // The core marks a disabled trigger with aria-disabled only; the stylesheet
+    // styles the disabled look from data-disabled.
+    trigger.toggleAttribute("data-disabled", boolAttr(this, "disabled"));
     applyProps(popup, api.menuProps);
     popup.hidden = !this.#open;
     for (const item of core.itemsOf(this.#items)) {
