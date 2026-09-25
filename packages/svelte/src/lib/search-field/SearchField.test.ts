@@ -15,6 +15,15 @@ describe("Svelte SearchField", () => {
     expect(screen.queryByRole("button", { name: "Clear search" })).toBeNull();
   });
 
+  it("drops the submit button for a filter that applies as you type", () => {
+    const { container } = render(SearchField, {
+      props: { label: "Search tables", submitButton: false },
+    });
+    expect(screen.getByRole("searchbox", { name: "Search tables" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Search" })).toBeNull();
+    expect(container.querySelector(".search-field__icon")).toHaveAttribute("aria-hidden", "true");
+  });
+
   it("clears once and returns focus to the input", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

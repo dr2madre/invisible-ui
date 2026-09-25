@@ -7,7 +7,11 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
-import { closeIcon } from "../internal/icons";
+import {
+  createDialogHeader,
+  syncDialogHeader,
+  type DialogHeaderParts,
+} from "../internal/dialog-header";
 import { lockScroll } from "../internal/scroll-lock";
 
 export type SheetDialogSide = "top" | "right" | "bottom" | "left";
@@ -15,11 +19,13 @@ export type SheetDialogSide = "top" | "right" | "bottom" | "left";
 /**
  * `<ds-sheet-dialog>` is an edge-anchored native modal dialog.
  *
- * Unslotted children form the body. Named regions are `header-lead`,
- * `header-actions`, and `footer`.
+ * Unslotted children form the body. Named regions are `icon`, `header-lead`,
+ * `header-actions`, and `footer`; the header is the one the whole dialog
+ * family shares, with the description as the subtitle under the title.
  *
  * Attributes: `heading` (required), `description`, `trigger`,
  * `trigger-variant`, `side`, `draggable`, `open`, `close-label`,
+ * `close-button` (`"false"` drops the close button),
  * `initial-focus`, `render-trigger`, `return-focus-to`, `no-outside-close`.
  * Property: `open` (boolean).
  * Emits: `open-change` with `detail.open`.
@@ -34,6 +40,7 @@ export class DsSheetDialog extends HTMLElementBase {
     "side",
     "draggable",
     "close-label",
+    "close-button",
     "render-trigger",
   ];
 
@@ -89,6 +96,7 @@ export class DsSheetDialog extends HTMLElementBase {
   }
 
   #render() {
+    const iconContent = this.#takeSlot("icon");
     const headerLeadContent = this.#takeSlot("header-lead");
     const headerActionsContent = this.#takeSlot("header-actions");
     const footerContent = this.#takeSlot("footer");
@@ -109,41 +117,24 @@ export class DsSheetDialog extends HTMLElementBase {
     handle.setAttribute("aria-hidden", "true");
     handle.addEventListener("pointerdown", this.#startDrag);
 
-    const header = document.createElement("header");
-    header.className = "sheet-dialog__header";
-    const lead = this.#region("sheet-dialog__header-lead", headerLeadContent);
-    const actions = this.#region("sheet-dialog__header-actions", headerActionsContent);
-    const heading = document.createElement("h2");
-    heading.className = "sheet-dialog__title";
-    const close = document.createElement("button");
-    close.type = "button";
-    close.className = "sheet-dialog__close";
-    close.innerHTML = closeIcon();
-    if (lead) header.appendChild(lead);
-    header.appendChild(heading);
-    if (actions) header.appendChild(actions);
-    header.appendChild(close);
+    const header = createDialogHeader({
+      icon: iconContent,
+      lead: headerLeadContent,
+      actions: headerActionsContent,
+    });
 
-    const description = document.createElement("p");
-    description.className = "sheet-dialog__description";
-    description.hidden = true;
-
-    panel.append(handle, header, description, body);
+    panel.append(handle, header.header, body);
     const footer = this.#region("sheet-dialog__footer", footerContent);
     if (footer) panel.appendChild(footer);
     this.append(trigger, panel);
 
     this.#trigger = trigger;
     this.#panel = panel;
-    this.heading = heading;
-    this.description = description;
-    this.closeButton = close;
+    this.header = header;
     this.handle = handle;
   }
 
-  private heading!: HTMLHeadingElement;
-  private description!: HTMLParagraphElement;
-  private closeButton!: HTMLButtonElement;
+  private header!: DialogHeaderParts;
   private handle!: HTMLDivElement;
 
   #sync() {
@@ -155,10 +146,12 @@ export class DsSheetDialog extends HTMLElementBase {
       describedBy,
     });
 
-    this.heading.textContent = this.getAttribute("heading") ?? "";
-    this.description.hidden = !describedBy;
-    this.description.textContent = this.getAttribute("description") ?? "";
-    this.closeButton.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");
+    syncDialogHeader(this.header, {
+      heading: this.getAttribute("heading") ?? "",
+      subtitle: this.getAttribute("description"),
+      closeButton: boolAttr(this, "close-button", true),
+      closeLabel: this.getAttribute("close-label") ?? "Close",
+    });
     panel.dataset.side = this.#side();
     this.handle.hidden = !boolAttr(this, "draggable") || this.#side() === "top";
 
@@ -169,9 +162,9 @@ export class DsSheetDialog extends HTMLElementBase {
 
     applyProps(this.#trigger!, api.triggerProps);
     applyProps(panel, api.contentProps);
-    applyProps(this.heading, api.titleProps);
-    if (describedBy) applyProps(this.description, api.descriptionProps);
-    applyProps(this.closeButton, api.closeProps);
+    applyProps(this.header.heading, api.titleProps);
+    if (describedBy) applyProps(this.header.subtitle, api.descriptionProps);
+    applyProps(this.header.close, api.closeProps);
 
     if (this.open && !this.#cleanup) this.#show();
     if (!this.open && this.#cleanup) {

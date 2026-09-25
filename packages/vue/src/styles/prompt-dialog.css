@@ -27,12 +27,6 @@
   box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: 2px;
 }
-.prompt-dialog__title {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: var(--ds-line-height-tight, 1.2);
-}
 .prompt-dialog__description {
   margin: 0.5rem 0 0;
   color: var(--ds-color-text-secondary, #524c44);
