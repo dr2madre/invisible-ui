@@ -16086,6 +16086,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16096,6 +16097,13 @@
         "--ds-color-background"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16130,6 +16138,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16140,6 +16149,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16174,6 +16190,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16182,6 +16199,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "gap",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16216,6 +16240,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16224,6 +16249,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "padding",
+          "fallback": "1.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16258,6 +16290,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16268,6 +16301,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16302,6 +16342,7 @@
         "box-shadow"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16312,6 +16353,13 @@
         "--ds-elevation-overlay"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "box-shadow",
+          "fallback": "var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -16346,6 +16394,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -16354,6 +16403,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "inline-size",
+          "fallback": "22rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/login-form/LoginForm.svelte",
@@ -26632,6 +26688,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26640,6 +26697,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toolbar/Toolbar.svelte",
@@ -26674,6 +26738,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26682,6 +26747,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toolbar/Toolbar.svelte",
@@ -26716,6 +26788,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26726,6 +26799,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toolbar/Toolbar.svelte",
@@ -27672,6 +27752,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27682,6 +27763,13 @@
         "--ds-color-background"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27716,6 +27804,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27726,6 +27815,13 @@
         "--ds-color-control-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27760,6 +27856,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27768,6 +27865,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border",
+          "fallback": "2px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27802,6 +27906,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27812,6 +27917,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area__icon",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27846,6 +27958,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27854,6 +27967,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "padding",
+          "fallback": "2rem 1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27888,6 +28008,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27898,6 +28019,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
@@ -27932,6 +28060,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -27942,6 +28071,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",

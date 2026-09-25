@@ -24,6 +24,7 @@ describe("custom-elements adapter SSR", () => {
       "DsLabel",
       "DsLoading",
       "DsLoadingGenerationArea",
+      "DsLoginForm",
       "DsMultiSelect",
       "DsPagination",
       "DsRadioGroup",
@@ -37,7 +38,9 @@ describe("custom-elements adapter SSR", () => {
       "DsTag",
       "DsTextField",
       "DsTextarea",
+      "DsToolbar",
       "DsTreeView",
+      "DsUploadDropArea",
     ]);
   });
 

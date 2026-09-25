@@ -53,6 +53,9 @@ const VUE_SHEETS = [
   "loading-generation-area.css",
   "sheet-dialog.css",
   "tree-view.css",
+  "toolbar.css",
+  "upload-drop-area.css",
+  "login-form.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
