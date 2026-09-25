@@ -1,6 +1,8 @@
 ---
 "@design-system/elements": minor
 "@design-system/svelte": patch
+"@design-system/react": patch
+"@design-system/vue": patch
 ---
 
 Elements gains the rest of the dialog family: `<ds-alert-dialog>`,
