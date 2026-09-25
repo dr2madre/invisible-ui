@@ -55,6 +55,7 @@ const VUE_SHEETS = [
   "sheet-dialog.css",
   "tree-view.css",
   "tooltip.css",
+  "navigation-menu.css",
   "avatar.css",
   "sidebar.css",
 ];

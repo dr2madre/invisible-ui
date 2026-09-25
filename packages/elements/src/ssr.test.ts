@@ -26,6 +26,7 @@ describe("custom-elements adapter SSR", () => {
       "DsLoading",
       "DsLoadingGenerationArea",
       "DsMultiSelect",
+      "DsNavigationMenu",
       "DsPagination",
       "DsRadioGroup",
       "DsSearchField",
