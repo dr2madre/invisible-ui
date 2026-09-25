@@ -20705,6 +20705,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20713,6 +20714,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
@@ -20749,6 +20757,7 @@
         "width"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20757,6 +20766,48 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
+          "property": "width",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
@@ -20862,6 +20913,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20870,6 +20922,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "inline-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__track",
+          "property": "block-size",
+          "fallback": "4px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
@@ -20918,6 +20984,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20926,6 +20993,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "block-size",
+          "fallback": "12rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/range-slider/RangeSlider.svelte",
@@ -20960,6 +21034,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -20970,6 +21045,13 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star--filled",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -21004,6 +21086,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21014,6 +21097,13 @@
         "--ds-neutral-400"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star",
+          "property": "color",
+          "fallback": "var(--ds-neutral-400, #757067)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -21048,6 +21138,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21056,6 +21147,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating",
+          "property": "gap",
+          "fallback": "0.125rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -21090,6 +21188,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21098,6 +21197,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating-field",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -21132,6 +21238,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21142,6 +21249,13 @@
         "--ds-neutral-300"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star--preview",
+          "property": "color",
+          "fallback": "var(--ds-neutral-300, #a8a297)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -21177,6 +21291,7 @@
         "(inline)"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -21185,6 +21300,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/internal/icons.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/internal/icons.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/rating-group/RatingGroup.svelte",
@@ -24162,6 +24291,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24170,6 +24300,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"]",
+          "property": "block-size",
+          "fallback": "14rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24219,6 +24363,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24229,6 +24374,41 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-progress",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "border",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "border",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24321,6 +24501,7 @@
         "margin-block-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24329,6 +24510,41 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "inline-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-progress",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-track",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "margin-block-start",
+          "fallback": "0.375rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24419,6 +24635,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24429,6 +24646,20 @@
         "--ds-color-background"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24479,6 +24710,7 @@
         "margin-block-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24487,6 +24719,41 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "margin-block-start",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24577,6 +24844,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24587,6 +24855,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__tick",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",
@@ -24621,6 +24896,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24631,6 +24907,27 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/slider/Slider.svelte",

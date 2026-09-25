@@ -130,6 +130,54 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-rating-group",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the group's accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "the number of stars; 5 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the selected rating, 1 to `max`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "generated when absent, so the stars still form one group",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value` (number or null).",
+        "Emits: bubbling `change` CustomEvent with `detail.value`, the rating as a number."
+      ]
     }
   }
 }

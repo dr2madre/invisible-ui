@@ -72,3 +72,6 @@
 @import "./meter.css";
 @import "./number-field.css";
 @import "./pin-input.css";
+@import "./slider.css";
+@import "./range-slider.css";
+@import "./rating-group.css";

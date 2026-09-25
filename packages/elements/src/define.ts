@@ -37,6 +37,9 @@ import { DsLabel } from "./label/ds-label";
 import { DsPromptDialog } from "./prompt-dialog/ds-prompt-dialog";
 import { DsRadio } from "./radio/ds-radio";
 import { DsRadioGroup } from "./radio-group/ds-radio-group";
+import { DsRangeSlider } from "./range-slider/ds-range-slider";
+import { DsRatingGroup } from "./rating-group/ds-rating-group";
+import { DsSlider } from "./slider/ds-slider";
 import { DsSegmentedControl } from "./segmented-control/ds-segmented-control";
 import { DsLink } from "./link/ds-link";
 import { DsProgress } from "./progress/ds-progress";
@@ -147,5 +150,8 @@ define("ds-pin-input", DsPinInput);
 define("ds-notification", DsNotification);
 define("ds-notification-region", DsNotificationRegion);
 define("ds-stepper", DsStepper);
+define("ds-slider", DsSlider);
+define("ds-range-slider", DsRangeSlider);
+define("ds-rating-group", DsRatingGroup);
 
 export {};

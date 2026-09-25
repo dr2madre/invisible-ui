@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/dom";
+import { fireEvent, screen, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import "./define";
 
@@ -22,6 +22,11 @@ const defaultsOf = (selector: string, flag: "defaultChecked" | "defaultSelected"
     .filter((el) => (el as unknown as Record<string, boolean>)[flag])
     .map((el) => (el as HTMLInputElement | HTMLOptionElement).value)
     .join(",");
+
+/** jsdom moves no range thumb, so a drag is the value the browser would set. */
+const drag = (input: HTMLElement, value: string) => {
+  fireEvent.input(input, { target: { value } });
+};
 
 const options = `<option value="apple">Apple</option><option value="pear">Pear</option>`;
 
@@ -271,6 +276,68 @@ const CONTROLS: Row[] = [
     restoredVisible: "apple",
     ownCopy: (host) => (host as unknown as { value: string[] }).value.join(","),
     restoredOwnCopy: "apple",
+  },
+  {
+    name: "<ds-slider>",
+    markup: `<ds-slider label="F" name="f" value="30"></ds-slider>`,
+    domDefault: () => (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).defaultValue,
+    wants: "30",
+    edit: async () => drag(screen.getByRole("slider", { name: "F" }), "70"),
+    edited: "70",
+    restored: "30",
+    adopt: (host) => host.setAttribute("value", "40"),
+    adopted: "40",
+    giveBack: (host) => host.setAttribute("value", "70"),
+    editedAsDefault: "70",
+    visible: () => (screen.getByRole("slider", { name: "F" }) as HTMLInputElement).value,
+    restoredVisible: "30",
+    ownCopy: (host) => String((host as unknown as { value: number }).value),
+    restoredOwnCopy: "30",
+  },
+  {
+    name: "<ds-range-slider>",
+    markup: `<ds-range-slider label="F" lower-label="Low" upper-label="High" name="f"
+      value="20,80"></ds-range-slider>`,
+    domDefault: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=range]")]
+        .map((input) => input.defaultValue)
+        .join(","),
+    wants: "20,80",
+    edit: async () => drag(screen.getByRole("slider", { name: "Low" }), "40"),
+    edited: "40,80",
+    restored: "20,80",
+    adopt: (host) => host.setAttribute("value", "30,70"),
+    adopted: "30,70",
+    giveBack: (host) => host.setAttribute("value", "40,80"),
+    editedAsDefault: "40,80",
+    visible: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=range]")]
+        .map((input) => input.value)
+        .join(","),
+    restoredVisible: "20,80",
+    ownCopy: (host) => (host as unknown as { value: number[] }).value.join(","),
+    restoredOwnCopy: "20,80",
+  },
+  {
+    name: "<ds-rating-group>",
+    markup: `<ds-rating-group label="F" name="f" value="3"></ds-rating-group>`,
+    domDefault: () => defaultsOf("input[type=radio]", "defaultChecked"),
+    wants: "3",
+    edit: async (user) => user.click(screen.getByRole("radio", { name: "5 stars" })),
+    edited: "5",
+    restored: "3",
+    adopt: (host) => host.setAttribute("value", "3"),
+    adopted: "3",
+    giveBack: (host) => host.setAttribute("value", "5"),
+    editedAsDefault: "5",
+    visible: () =>
+      [...document.querySelectorAll<HTMLInputElement>("input[type=radio]")]
+        .filter((input) => input.checked)
+        .map((input) => input.value)
+        .join(","),
+    restoredVisible: "3",
+    ownCopy: (host) => String((host as unknown as { value: number | null }).value),
+    restoredOwnCopy: "3",
   },
 ];
 
