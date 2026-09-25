@@ -11,6 +11,8 @@ describe("custom-elements adapter SSR", () => {
         .sort(),
     ).toEqual([
       "DsAvatar",
+      "DsAvatarGroup",
+      "DsBreadcrumb",
       "DsButton",
       "DsCard",
       "DsCheckbox",
@@ -27,7 +29,9 @@ describe("custom-elements adapter SSR", () => {
       "DsLoadingGenerationArea",
       "DsMultiSelect",
       "DsPagination",
+      "DsProgress",
       "DsRadioGroup",
+      "DsScrollArea",
       "DsSearchField",
       "DsSelect",
       "DsSeparator",

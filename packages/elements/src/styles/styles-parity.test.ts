@@ -55,6 +55,10 @@ const VUE_SHEETS = [
   "tree-view.css",
   "avatar.css",
   "sidebar.css",
+  "breadcrumb.css",
+  "progress.css",
+  "scroll-area.css",
+  "avatar-group.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

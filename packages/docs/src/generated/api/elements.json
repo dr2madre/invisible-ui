@@ -19,6 +19,16 @@
   ],
   "symbols": [
     {
+      "name": "AvatarGroupItem",
+      "kind": "interface",
+      "signature": "interface AvatarGroupItem { /** Accessible name and initials fallback. */ name: string; /** Image URL; falls back to initials when absent or it fails to load. */ src?: string; /** Accessible name override; defaults to `name`. */ alt?: string; /** Background tint for the initials avatar (any CSS color). */ color?: string; }"
+    },
+    {
+      "name": "BreadcrumbItem",
+      "kind": "interface",
+      "signature": "interface BreadcrumbItem { /** Visible label. */ label: string; /** Link target. Omit on the current (last) page. */ href?: string; /** Render a home glyph before the label (typically the first item). */ home?: boolean; }"
+    },
+    {
       "name": "ComboboxItem",
       "kind": "interface",
       "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
@@ -32,6 +42,16 @@
       "name": "DsAvatar",
       "kind": "class",
       "signature": "declare class DsAvatar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsAvatarGroup",
+      "kind": "class",
+      "signature": "declare class DsAvatarGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): AvatarGroupItem[]; set items(value: AvatarGroupItem[]); }"
+    },
+    {
+      "name": "DsBreadcrumb",
+      "kind": "class",
+      "signature": "declare class DsBreadcrumb extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get items(): BreadcrumbItem[]; set items(value: BreadcrumbItem[]); }"
     },
     {
       "name": "DsButton",
@@ -114,9 +134,19 @@
       "signature": "declare class DsPagination extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get page(): number; set page(value: number); get pageCount(): number; set pageCount(value: number); get siblingCount(): number; set siblingCount(value: number); get boundaryCount(): number; set boundaryCount(value: number); get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
+      "name": "DsProgress",
+      "kind": "class",
+      "signature": "declare class DsProgress extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): number; set value(next: number); get min(): number; set min(next: number); get max(): number; set max(next: number); }"
+    },
+    {
       "name": "DsRadioGroup",
       "kind": "class",
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
+    },
+    {
+      "name": "DsScrollArea",
+      "kind": "class",
+      "signature": "declare class DsScrollArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsSearchField",
@@ -194,9 +224,19 @@
       "signature": "interface MultiSelectItem { value: string; label?: string; disabled?: boolean; }"
     },
     {
+      "name": "ProgressShape",
+      "kind": "type",
+      "signature": "type ProgressShape = \"bar\" | \"circle\";"
+    },
+    {
       "name": "RadioGroupItem",
       "kind": "type",
       "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
+    },
+    {
+      "name": "ScrollOrientation",
+      "kind": "type",
+      "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
     },
     {
       "name": "SelectItem",
