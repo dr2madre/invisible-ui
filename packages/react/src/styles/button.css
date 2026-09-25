@@ -104,7 +104,7 @@
    underlined so the affordance never relies on colour alone. */
 .button[data-variant="ghost"] {
   background: transparent;
-  color: inherit;
+  color: var(--ds-color-text, #282420);
 }
 .button[data-variant="ghost"]:not(.button--icon-only) {
   text-decoration: underline;
