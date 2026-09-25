@@ -78,7 +78,7 @@ export const en = {
   // Plural form used by the components; the two legacy keys above remain
   // supported as consumer overrides.
   "searchDialog.results": {
-    one: "1 result available",
+    one: "{count} result available",
     other: "{count} results available",
   },
   "searchDialog.loading": "Searching…",
