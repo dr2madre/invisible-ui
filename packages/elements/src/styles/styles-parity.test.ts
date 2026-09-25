@@ -29,6 +29,7 @@ const REACT_SHEETS = [
   "select.css",
   "combobox.css",
   "dialog.css",
+  "dialog-header.css",
   "text-field.css",
   "search-field.css",
 ];
@@ -56,6 +57,18 @@ const VUE_SHEETS = [
   "toolbar.css",
   "upload-drop-area.css",
   "login-form.css",
+  "kbd.css",
+  "link.css",
+  "button-group.css",
+  "avatar.css",
+  "sidebar.css",
+  "breadcrumb.css",
+  "progress.css",
+  "scroll-area.css",
+  "avatar-group.css",
+  "tooltip.css",
+  "dropdown-menu.css",
+  "navigation-menu.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

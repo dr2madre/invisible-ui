@@ -186,7 +186,9 @@ describe("Vue Dialog (styled)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     const panel = screen.getByRole("dialog", { name: "Share this file" });
-    expect(panel.querySelector(".dialog__title")).toHaveClass("dialog__title--hidden");
+    expect(panel.querySelector(".dialog-header__title")).toHaveClass(
+      "dialog-header__title--hidden",
+    );
   });
 
   it("renders footer actions and an optional footer close", async () => {
@@ -385,8 +387,8 @@ describe("Vue Dialog (workflow composition)", () => {
   it("renders header metadata before the title, without progress semantics", async () => {
     render(WorkflowFixture);
     await openPanel();
-    const meta = panel().querySelector(".dialog__header-meta")!;
-    const title = panel().querySelector(".dialog__title")!;
+    const meta = panel().querySelector(".dialog-header__meta")!;
+    const title = panel().querySelector(".dialog-header__title")!;
 
     expect(meta).toHaveTextContent("Step 1 of 2");
     expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -449,7 +451,7 @@ describe("Vue Dialog (workflow composition)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     expect(panel().querySelector(".dialog__body")).toHaveAttribute("data-layout", "plain");
-    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog-header__meta")).toBeNull();
     expect(panel().querySelector(".dialog__footer-lead")).toBeNull();
   });
 

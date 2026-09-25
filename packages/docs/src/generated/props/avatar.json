@@ -101,6 +101,51 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-avatar",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "reactive": true,
+          "required": true,
+          "description": ": the accessible name and the initials",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "src",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "alt",
+          "reactive": true,
+          "required": false,
+          "description": "overrides the accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "reactive": true,
+          "required": false,
+          "description": "sm|md|lg",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "shape",
+          "reactive": true,
+          "required": false,
+          "description": "circle|square",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }
