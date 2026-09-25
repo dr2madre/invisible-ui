@@ -151,10 +151,7 @@ abstract class DsTextControl extends HTMLElementBase {
     const api = core.connect({ state, setValue: (next) => this.setAttribute("value", next) });
 
     applyProps(label, api.labelProps);
-    label.classList.toggle(
-      "field__label--hidden",
-      this.rootClass === "text-field" && boolAttr(this, "hide-label"),
-    );
+    label.classList.toggle("field__label--hidden", boolAttr(this, "hide-label"));
     label.textContent = this.getAttribute("label") ?? "";
     if (required) {
       const marker = document.createElement("span");
@@ -272,9 +269,9 @@ export class DsTextField extends DsTextControl {
  * stylesheets, and only the textarea's grants the control `resize: vertical`
  * and its drag grip.
  *
- * Attributes: `label` (required), `value`, `placeholder`, `description`,
- * `error`, `success`, `required`, `disabled`, `readonly`, `name`, `rows`,
- * `autocomplete`.
+ * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
+ * `description`, `error`, `success`, `required`, `disabled`, `readonly`,
+ * `name`, `rows`, `autocomplete`.
  * Properties: `value`.
  * Emits: bubbling `input` and `change` CustomEvents, both with `detail.value`.
  */

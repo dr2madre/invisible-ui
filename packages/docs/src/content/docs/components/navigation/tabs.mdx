@@ -86,4 +86,29 @@ tabs.renderPanel = (item) => {
 };
 ```
 
+### Composed tabs
+
+When the strip belongs in a header and the panels further down, write the parts
+as markup. In Elements, `<ds-tabs>` is the root that holds the state; inside it,
+anywhere, go a `<ds-tab-list>` of `<ds-tab value>` elements and one
+`<ds-tab-panel value>` per tab. The tabs wire every part (roles, the links
+between tab and panel, which one is visible, the keyboard), so a button placed
+beside the strip lines up with the tabs rather than with the panel. The
+`items` form above is the shortcut for the simple case.
+
+```html
+<ds-tabs value="form">
+  <header class="editor-header">
+    <ds-tab-list label="Editor">
+      <ds-tab value="form">Form</ds-tab>
+      <ds-tab value="preview">Preview <ds-count count="3"></ds-count></ds-tab>
+    </ds-tab-list>
+    <ds-button variant="ghost">Close</ds-button>
+  </header>
+
+  <ds-tab-panel value="form">…</ds-tab-panel>
+  <ds-tab-panel value="preview">…</ds-tab-panel>
+</ds-tabs>
+```
+
 Themeable via `--ds-tabs-*`.

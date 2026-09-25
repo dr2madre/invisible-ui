@@ -27,6 +27,8 @@
   export let clearLabel: string | undefined = undefined;
   /** Accessible name for the native submit button. */
   export let submitLabel: string | undefined = undefined;
+  /** Render the submit button; turn it off for a filter that applies as you type. */
+  export let submitButton = true;
   /** Called once after a user edit or clear action is committed locally. */
   export let onValueChange: ((value: string) => void) | undefined = undefined;
 
@@ -68,7 +70,11 @@
   };
 </script>
 
-<div class="search-field" class:search-field--disabled={disabled}>
+<div
+  class="search-field"
+  class:search-field--disabled={disabled}
+  class:search-field--no-submit={!submitButton}
+>
   <label
     class="search-field__label"
     class:search-field__label--hidden={hideLabel}
@@ -80,6 +86,11 @@
   </label>
 
   <div class="search-field__control">
+    {#if !submitButton}
+      <span class="search-field__icon" aria-hidden="true">
+        <Icon><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon>
+      </span>
+    {/if}
     <input
       bind:this={input}
       id={core.controlId($fieldState.id)}
@@ -104,14 +115,16 @@
         <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
       </button>
     {/if}
-    <button
-      class="search-field__action search-field__submit"
-      type="submit"
-      aria-label={submitLabel ?? $t("searchField.submit")}
-      {disabled}
-    >
-      <Icon><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon>
-    </button>
+    {#if submitButton}
+      <button
+        class="search-field__action search-field__submit"
+        type="submit"
+        aria-label={submitLabel ?? $t("searchField.submit")}
+        {disabled}
+      >
+        <Icon><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></Icon>
+      </button>
+    {/if}
   </div>
 </div>
 
@@ -169,6 +182,23 @@
     background: transparent;
     color: inherit;
     font: inherit;
+  }
+  /* Without a submit button the glyph only marks the field as a search. */
+  .search-field--no-submit .search-field__control {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .search-field__icon {
+    display: inline-grid;
+    place-items: center;
+    padding-inline-start: 0.75rem;
+    color: var(--ds-color-text-secondary, #524c44);
+  }
+  .search-field__icon :global(svg) {
+    inline-size: 1.15rem;
+    block-size: 1.15rem;
+  }
+  .search-field--no-submit .search-field__input {
+    padding-inline-start: 0.5rem;
   }
   .search-field__input::-webkit-search-cancel-button {
     -webkit-appearance: none;
