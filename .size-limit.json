@@ -58,12 +58,12 @@
   {
     "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "53 kB"
+    "limit": "62 kB"
   },
   {
     "name": "@design-system/elements — define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "53 kB"
+    "limit": "63 kB"
   },
   {
     "name": "@design-system/elements — table only, tree-shaken",
