@@ -12,7 +12,8 @@
   z-index: var(--ds-popover-z-index, 100);
   box-sizing: border-box;
   inline-size: max-content;
-  max-inline-size: var(--ds-popover-max-width, 20rem);
+  /* Never wider than the viewport less a margin, so a 320px screen fits it. */
+  max-inline-size: min(var(--ds-popover-max-width, 20rem), calc(100vw - 1rem));
   padding: var(--ds-popover-padding, 0.875rem 1rem);
   background: var(--ds-color-background, #fff);
   color: var(--ds-color-text, #282420);

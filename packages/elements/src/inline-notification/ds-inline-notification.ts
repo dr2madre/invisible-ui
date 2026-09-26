@@ -151,7 +151,7 @@ export class DsInlineNotification extends HTMLElementBase {
       closeRegion.className = "inline-notification__close";
       const close = document.createElement("button");
       close.type = "button";
-      close.className = "button";
+      close.className = "button button--icon-only";
       close.dataset.variant = "ghost";
       close.setAttribute("aria-label", localized(this, "close-label", "inlineNotification.close"));
       close.innerHTML = closeIcon();
