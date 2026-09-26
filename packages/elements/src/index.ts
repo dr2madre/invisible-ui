@@ -22,12 +22,32 @@
  */
 
 export { DsButton } from "./button/ds-button";
+export {
+  DsButtonGroup,
+  type ButtonGroupAlign,
+  type ButtonGroupOrientation,
+} from "./button-group/ds-button-group";
+export { DsIcon } from "./icon/ds-icon";
+export { DsKbd } from "./kbd/ds-kbd";
+export { DsLink, type LinkVariant } from "./link/ds-link";
 export { DsCheckbox } from "./checkbox/ds-checkbox";
 export { DsSwitch } from "./switch/ds-switch";
 export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export { DsAlertDialog } from "./alert-dialog/ds-alert-dialog";
+export { DsConfirmDialog } from "./confirm-dialog/ds-confirm-dialog";
+export { DsPromptDialog } from "./prompt-dialog/ds-prompt-dialog";
+export { DsSearchDialog, type SearchDialogItem } from "./search-dialog/ds-search-dialog";
+export {
+  DsDropdownMenu,
+  type MenuEntry,
+  type MenuGroup,
+  type MenuItem,
+  type MenuItemKind,
+  type MenuSeparator,
+} from "./dropdown-menu/ds-dropdown-menu";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
@@ -59,17 +79,49 @@ export {
   type TableSelectionMode,
 } from "./table/ds-table-view";
 export { DsTableSet, type TableViewDef } from "./table/ds-table-set";
+export { DsRadio } from "./radio/ds-radio";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
+export {
+  DsSegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlOrientation,
+} from "./segmented-control/ds-segmented-control";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { DsCount, type CountStatus } from "./count/ds-count";
 export { DsCard } from "./card/ds-card";
 export { DsPagination } from "./pagination/ds-pagination";
 export { DsSeparator, type SeparatorOrientation } from "./separator/ds-separator";
 export { DsTag, type TagStatus } from "./tag/ds-tag";
+export { DsToggleButton } from "./toggle-button/ds-toggle-button";
+export {
+  DsToggleGroup,
+  type ToggleGroupOrientation,
+  type ToggleGroupVariant,
+} from "./toggle-group/ds-toggle-group";
 export {
   DsTabs,
   type TabsActivationMode,
   type TabsItem,
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
+export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsToolbar, type ToolbarOrientation } from "./toolbar/ds-toolbar";
+export { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
+export {
+  DsLoginForm,
+  type LoginFormProvider,
+  type LoginFormValue,
+} from "./login-form/ds-login-form";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
+export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
+export { DsBreadcrumb, type BreadcrumbItem } from "./breadcrumb/ds-breadcrumb";
+export { DsProgress, type ProgressShape } from "./progress/ds-progress";
+export { DsScrollArea, type ScrollOrientation } from "./scroll-area/ds-scroll-area";
+export { DsTooltip } from "./tooltip/ds-tooltip";
+export {
+  DsNavigationMenu,
+  type NavigationMenuItem,
+  type NavigationMenuLink,
+} from "./navigation-menu/ds-navigation-menu";
