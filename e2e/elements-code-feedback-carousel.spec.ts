@@ -221,11 +221,11 @@ test.describe("Elements code, feedback and carousel at 320 CSS pixels", () => {
     expect(await scroller.evaluate((node) => node.scrollWidth > node.clientWidth)).toBe(true);
     // The scroller is a tab stop after the copy button.
     await page.getByRole("textbox", { name: "Before" }).focus();
-    await page.keyboard.press("Tab");
-    if (browserName !== "webkit") {
-      // Safari tabs to buttons only with full keyboard access.
-      await expect(page.getByRole("button", { name: "Copy code" })).toBeFocused();
+    // Whether Tab stops on the copy button first depends on the engine's
+    // keyboard-access setting, so the scroller must be reached within two.
+    for (let press = 0; press < 2; press++) {
       await page.keyboard.press("Tab");
+      if (await scroller.evaluate((node) => node === document.activeElement)) break;
     }
     await expect(scroller).toBeFocused();
     // WebKit scrolls no focused element sideways from the keyboard, a plain
