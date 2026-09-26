@@ -4,7 +4,7 @@
   export let max = 4;
   export let label = "Project team";
 
-  const items: AvatarGroupItem[] = [
+  export let items: AvatarGroupItem[] = [
     { name: "Ada Lovelace" },
     { name: "Grace Hopper" },
     { name: "Alan Turing" },

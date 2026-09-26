@@ -47,6 +47,17 @@ describe("Svelte Carousel (styled)", () => {
   // by a fetch or a filter once kept the old count: after advancing to the
   // fifth of five and being given three, no slide was active and Next was
   // disabled, with no way back for the user.
+  it("sets the slide image as one quoted URL, so an image value adds no declarations", () => {
+    render(Fixture, {
+      props: {
+        items: [{ image: "x.jpg); position: fixed; inset: 0; (", title: "One", description: "" }],
+      },
+    });
+    const bg = document.querySelector<HTMLElement>(".carousel__bg")!;
+    expect(bg.style.position).toBe("");
+    expect(bg.style.backgroundImage).toContain("x.jpg");
+  });
+
   it("follows a shorter list after mount, keeping one active slide in reach", async () => {
     const five = Array.from({ length: 5 }, (_, i) => ({
       image: `https://example.com/${i + 1}.jpg`,
