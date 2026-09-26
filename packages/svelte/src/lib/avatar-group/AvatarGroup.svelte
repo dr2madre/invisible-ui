@@ -38,14 +38,16 @@
 
   $: visible = items.slice(0, max);
   $: overflow = Math.max(0, items.length - visible.length);
+
+  // The colour is data, so it is one value only: anything that could close the
+  // declaration and start another is dropped (server output is a plain string).
+  const colorOf = (item: AvatarGroupItem) =>
+    item.color && !/[;{}]/.test(item.color) ? item.color : undefined;
 </script>
 
 <div class="avatar-group" data-size={size} data-shape={shape} role="group" aria-label={label}>
   {#each visible as item (item.name)}
-    <span
-      class="avatar-group__item"
-      style={item.color ? `--ds-avatar-bg: ${item.color}` : undefined}
-    >
+    <span class="avatar-group__item" style:--ds-avatar-bg={colorOf(item)}>
       <Avatar name={item.name} src={item.src} alt={item.alt} {size} {shape} />
     </span>
   {/each}

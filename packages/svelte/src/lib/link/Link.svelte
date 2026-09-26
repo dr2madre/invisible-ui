@@ -20,11 +20,16 @@
   /** Tone down to the surrounding text colour (still underlined on hover). */
   export let variant: "primary" | "subtle" = "primary";
 
-  $: rel = external ? "noopener noreferrer" : undefined;
-  $: target = external ? "_blank" : undefined;
+  // A new tab always gets a safe `rel`, also when the target comes in as a
+  // plain attribute; it is applied after the spread so nothing overrides it.
+  $: target = external ? "_blank" : ($$restProps.target as string | undefined);
+  $: rel =
+    target === "_blank"
+      ? [$$restProps.rel, "noopener noreferrer"].filter(Boolean).join(" ")
+      : ($$restProps.rel as string | undefined);
 </script>
 
-<a class="link" data-variant={variant} {href} {target} {rel} on:click {...$$restProps}>
+<a class="link" data-variant={variant} {href} on:click {...$$restProps} {target} {rel}>
   <slot />
   {#if external}
     <svg
