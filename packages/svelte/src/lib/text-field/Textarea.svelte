@@ -18,6 +18,11 @@
 
   /** Visible label, tied to the control. */
   export let label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  export let hideLabel = false;
   export let value = "";
   export let placeholder: string | undefined = undefined;
   export let rows = 3;
@@ -105,6 +110,7 @@
 >
   <label
     class="field__label"
+    class:field__label--hidden={hideLabel}
     for={core.controlId($fieldState.id)}
     id={core.labelId($fieldState.id)}
     use:labelAction
@@ -169,6 +175,19 @@
   .field__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .field__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .field--disabled .field__label {
     color: var(--ds-color-text-disabled, #757067);

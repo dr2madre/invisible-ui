@@ -6,6 +6,11 @@ import { useFormReset, useLiveDom } from "../internal/form-reset";
 export interface TextareaProps {
   /** Visible label, tied to the control. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   /** `v-model` value; takes precedence over `value` when bound. */
   modelValue?: string;
   value?: string;
@@ -49,6 +54,7 @@ export const Textarea = defineComponent({
   name: "Textarea",
   props: {
     label: { type: String, required: true },
+    hideLabel: { type: Boolean, default: false },
     modelValue: { type: String, default: undefined },
     value: { type: String, default: "" },
     placeholder: { type: String, default: undefined },
@@ -130,12 +136,19 @@ export const Textarea = defineComponent({
           ],
         },
         [
-          h("label", { class: "field__label", ...api.value.labelProps }, [
-            props.label,
-            props.required
-              ? h("span", { class: "field__required", "aria-hidden": "true" }, " *")
-              : null,
-          ]),
+          h(
+            "label",
+            {
+              class: ["field__label", { "field__label--hidden": props.hideLabel }],
+              ...api.value.labelProps,
+            },
+            [
+              props.label,
+              props.required
+                ? h("span", { class: "field__required", "aria-hidden": "true" }, " *")
+                : null,
+            ],
+          ),
           // A textarea's default is its child text, not a value attribute:
           // the default goes in the content, the state in the property.
           h(
