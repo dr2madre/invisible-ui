@@ -46,6 +46,8 @@
 @import "./count.css";
 @import "./tabs.css";
 @import "./pagination.css";
+@import "./popover.css";
+@import "./table-set.css";
 @import "./toolbar.css";
 @import "./upload-drop-area.css";
 @import "./login-form.css";

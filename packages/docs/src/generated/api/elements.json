@@ -274,6 +274,11 @@
       "signature": "declare class DsTable extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get sort(): TableSortState | null; set sort(value: TableSortState | null); get getValue(): (row: TableRow, key: string) => unknown; set getValue(value: (row: TableRow, key: string) => unknown); get getRowId(): (row: TableRow, index: number) => string | number; set getRowId(value: (row: TableRow, index: number) => string | number); get renderCell(): ((context: TableCellContext) => TableCellContent) | null; set renderCell(value: ((context: TableCellContext) => TableCellContent) | null); get isRowSelected(): ((row: TableRow, rowIndex: number) => boolean) | null; set isRowSelected(value: ((row: TableRow, rowIndex: number) => boolean) | null); get renderSelectionHeader(): (() => TableCellContent) | null; set renderSelectionHeader(value: (() => TableCellContent) | null); get renderSelectionCell(): ((context: TableSelectionCellContext) => TableCellContent) | null; set renderSelectionCell(value: ((context: TableSelectionCellContext) => TableCellContent) | null); get renderEmpty(): (() => TableCellContent) | null; set renderEmpty(value: (() => TableCellContent) | null); }"
     },
     {
+      "name": "DsTableSet",
+      "kind": "class",
+      "signature": "declare class DsTableSet extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get columns(): TableColumnDef[]; set columns(value: TableColumnDef[]); get rows(): TableRow[]; set rows(value: TableRow[]); get views(): TableViewDef[]; set views(value: TableViewDef[]); get activeView(): string | null; set activeView(value: string | null); get sort(): TableSortState | null | undefined; set sort(value: TableSortState | null | undefined); get hiddenColumns(): string[] | undefined; set hiddenColumns(value: string[] | undefined); get selectedRowIds(): TableRowId[] | undefined; set selectedRowIds(value: TableRowId[] | undefined); get getValue(): ((row: TableRow, key: string) => unknown) | undefined; set getValue(value: ((row: TableRow, key: string) => unknown) | undefined); get getRowId(): ((row: TableRow, index: number) => TableRowId) | undefined; set getRowId(value: ((row: TableRow, index: number) => TableRowId) | undefined); get isRowSelectable(): ((row: TableRow) => boolean) | undefined; set isRowSelectable(value: ((row: TableRow) => boolean) | undefined); get getRowLabel(): ((row: TableRow) => string) | undefined; set getRowLabel(value: ((row: TableRow) => string) | undefined); get renderCell(): ((context: TableCellContext) => TableCellContent) | undefined; set renderCell(value: ((context: TableCellContext) => TableCellContent) | undefined); }"
+    },
+    {
       "name": "DsTabs",
       "kind": "class",
       "signature": "declare class DsTabs extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; /** Re-wire every part. Called by the parts when they arrive, leave or change. */ syncParts(): void; get items(): TabsItem[]; set items(value: TabsItem[]); get renderPanel(): ((item: TabsItem) => TabsPanelContent) | null; set renderPanel(value: ((item: TabsItem) => TabsPanelContent) | null); get value(): string | null; set value(next: string | null); }"
@@ -449,6 +454,11 @@
       "signature": "type SortDirection = \"asc\" | \"desc\";"
     },
     {
+      "name": "TableBodyView",
+      "kind": "type",
+      "signature": "type TableBodyView = \"table\" | \"card\";"
+    },
+    {
       "name": "TableCellContent",
       "kind": "type",
       "signature": "type TableCellContent = Node | string | number | null | undefined;"
@@ -469,14 +479,29 @@
       "signature": "type TableRow = Record<string, unknown>;"
     },
     {
+      "name": "TableRowId",
+      "kind": "type",
+      "signature": "type TableRowId = table.RowId;"
+    },
+    {
       "name": "TableSelectionCellContext",
       "kind": "interface",
       "signature": "interface TableSelectionCellContext { row: TableRow; rowId: string | number; rowIndex: number; }"
     },
     {
+      "name": "TableSelectionMode",
+      "kind": "type",
+      "signature": "type TableSelectionMode = table.SelectionMode;"
+    },
+    {
       "name": "TableSortState",
       "kind": "interface",
       "signature": "interface TableSortState { key: string; direction: SortDirection; }"
+    },
+    {
+      "name": "TableViewDef",
+      "kind": "interface",
+      "signature": "interface TableViewDef { /** Stable id (the tab value). */ id: string; /** Tab label. */ label: string; columns: TableColumnDef[]; rows: TableRow[]; /** Accessible name for this view's table or card list. Defaults to `label`. */ caption?: string; }"
     },
     {
       "name": "TabsActivationMode",

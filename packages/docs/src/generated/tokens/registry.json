@@ -19411,6 +19411,7 @@
         "max-inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19419,6 +19420,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "max-inline-size",
+          "fallback": "20rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/popover/Popover.svelte",
@@ -19455,6 +19463,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19463,6 +19472,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "padding",
+          "fallback": "0.875rem 1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/date-picker/DatePicker.svelte",
@@ -19520,6 +19536,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19530,6 +19547,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/date-picker/DatePicker.svelte",
@@ -19587,6 +19611,7 @@
         "z-index"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19595,6 +19620,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "z-index",
+          "fallback": "100"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/date-picker/DatePicker.svelte",
@@ -25989,6 +26021,20 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__card",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__no-results",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
           "selector": ".table__td",
           "property": "border-block-end",
@@ -26078,6 +26124,7 @@
         "grid-template-columns"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26086,6 +26133,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__cards",
+          "property": "grid-template-columns",
+          "fallback": "16rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableView.svelte",
@@ -26394,6 +26448,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26404,6 +26459,20 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__card",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__no-results",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableView.svelte",
@@ -26632,6 +26701,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26640,6 +26710,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-set__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableSet.svelte",
@@ -26690,6 +26774,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -26700,6 +26785,20 @@
         "--ds-color-primary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-set__tab[data-state=\"active\"]",
+          "property": "color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-set__tab[data-state=\"active\"]",
+          "property": "border-block-end-color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/table/TableSet.svelte",
