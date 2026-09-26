@@ -103,3 +103,21 @@ describe("<ds-sidebar>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+describe("<ds-sidebar> rail tooltips", () => {
+  it("gives each destination its name back as a tooltip on the rail", async () => {
+    const user = userEvent.setup();
+    mount("collapsed");
+    const home = screen.getByRole("button", { name: "Home" });
+    expect(home.closest("ds-tooltip")).toHaveAttribute("text", "Home");
+    home.focus();
+    await user.keyboard("{Shift>}{Tab}{/Shift}");
+    await user.tab();
+    expect(screen.getByRole("tooltip")).toHaveTextContent("Home");
+  });
+
+  it("renders no tooltip when the bar is expanded", () => {
+    mount();
+    expect(document.querySelector("ds-sidebar ds-tooltip")).toBeNull();
+  });
+});

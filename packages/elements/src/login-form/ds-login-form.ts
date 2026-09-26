@@ -132,6 +132,9 @@ export class DsLoginForm extends HTMLElementBase {
     const email = document.createElement("ds-text-field");
     email.setAttribute("type", "email");
     email.setAttribute("name", "email");
+    // Input purpose for autofill and assistive tech (WCAG 1.3.5): the email
+    // is the account name on a sign-in form.
+    email.setAttribute("autocomplete", "username");
     form.appendChild(email);
 
     const passwordField = document.createElement("div");
@@ -139,6 +142,7 @@ export class DsLoginForm extends HTMLElementBase {
     const password = document.createElement("ds-text-field");
     password.setAttribute("type", "password");
     password.setAttribute("name", "password");
+    password.setAttribute("autocomplete", "current-password");
     passwordField.appendChild(password);
     form.appendChild(passwordField);
 
