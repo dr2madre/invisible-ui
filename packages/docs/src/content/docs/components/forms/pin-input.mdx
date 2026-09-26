@@ -18,6 +18,15 @@ spreading and backspace handling.
 
 <ImportSnippet component="pin-input" />
 
+In Elements:
+
+```html
+<ds-pin-input label="Verification code" name="code" length="6"></ds-pin-input>
+```
+
+The element sends `change` with `detail.value` on every edit and `complete`
+once every cell is filled.
+
 ### Props
 
 <PropsTable component="pin-input" />

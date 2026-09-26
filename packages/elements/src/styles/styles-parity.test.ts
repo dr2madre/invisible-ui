@@ -85,6 +85,8 @@ const VUE_SHEETS = [
   "blockquote.css",
   "skeleton.css",
   "meter.css",
+  "number-field.css",
+  "pin-input.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

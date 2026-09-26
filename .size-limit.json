@@ -58,12 +58,12 @@
   {
     "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "52 kB"
+    "limit": "62 kB"
   },
   {
     "name": "@design-system/elements — define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "52 kB"
+    "limit": "63 kB"
   },
   {
     "name": "@design-system/elements — table only, tree-shaken",
@@ -228,10 +228,22 @@
     "limit": "9.5 kB"
   },
   {
+    "name": "@design-system/elements — number field only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsNumberField }",
+    "limit": "7.5 kB"
+  },
+  {
     "name": "@design-system/elements — progress only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsProgress }",
     "limit": "2 kB"
+  },
+  {
+    "name": "@design-system/elements — pin input only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsPinInput }",
+    "limit": "5.5 kB"
   },
   {
     "name": "@design-system/elements — prompt dialog only, tree-shaken",
