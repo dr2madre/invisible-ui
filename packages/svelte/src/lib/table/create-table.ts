@@ -163,23 +163,14 @@ export function createTable(context: TableContext): CreateTable {
     }),
   );
 
-  const headerAction: Action<HTMLElement, string> = (node, key) => {
-    const headerApi = derived(api, (a) => a.getColumnHeaderProps(key as string));
-    const handle = createPropsAction(headerApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const headerAction: Action<HTMLElement, string> = (node, key) =>
+    createPropsAction(api, (a) => a.getColumnHeaderProps(key as string))(node);
 
-  const sortButtonAction: Action<HTMLElement, string> = (node, key) => {
-    const buttonApi = derived(api, (a) => a.getSortButtonProps(key as string));
-    const handle = createPropsAction(buttonApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const sortButtonAction: Action<HTMLElement, string> = (node, key) =>
+    createPropsAction(api, (a) => a.getSortButtonProps(key as string))(node);
 
-  const visibilityToggleAction: Action<HTMLElement, string> = (node, key) => {
-    const toggleApi = derived(api, (a) => a.getVisibilityToggleProps(key as string));
-    const handle = createPropsAction(toggleApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const visibilityToggleAction: Action<HTMLElement, string> = (node, key) =>
+    createPropsAction(api, (a) => a.getVisibilityToggleProps(key as string))(node);
 
   return {
     state,

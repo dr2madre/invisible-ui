@@ -1,7 +1,7 @@
 import { meter as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -66,7 +66,7 @@ export function createMeter(context: core.MeterContext = {}): CreateMeter {
     percentage: derived(api, ($api) => $api.percentage),
     setValue,
     sync,
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    rootAction: createRootAction(api),
     indicatorAction: createPropsAction(api, (a) => a.indicatorProps),
   };
 }

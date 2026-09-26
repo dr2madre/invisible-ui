@@ -24,7 +24,7 @@
    * (`let:date let:inMonth let:today let:selected let:events let:price`).
    * Colours, radius and sizing are themeable via `--ds-calendar-*`.
    */
-  import { createCalendar, type CalendarView, type WeekStart } from "./create-calendar";
+  import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
   import { calendar as core, i18n } from "@design-system/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
@@ -155,7 +155,6 @@
 
   // Intl formatters through the shared cached factories: the explicit prop
   // wins, then the provider's resolved locale; never the runtime default.
-  const dt = (iso: string) => new Date(`${iso}T00:00:00`);
   $: resolvedLocale = locale ?? $providerLocale;
   $: titleFmt = i18n.dateTimeFormat(resolvedLocale, { month: "long", year: "numeric" });
   $: rangeFmt = i18n.dateTimeFormat(resolvedLocale, {
@@ -217,27 +216,30 @@
 
   $: periodTitle = (() => {
     const f = $calState.focusedDate;
-    if (v === "year") return yearFmt.format(dt(f));
-    if (v === "day") return dayFmt.format(dt(f));
+    if (v === "year") return yearFmt.format(localDate(f));
+    if (v === "day") return dayFmt.format(localDate(f));
     if (v === "week") {
       const days = weekDays(f, $calState.weekStartsOn);
-      return rangeFmt.formatRange(dt(days[0]!.date), dt(days[6]!.date));
+      return rangeFmt.formatRange(localDate(days[0]!.date), localDate(days[6]!.date));
     }
     if (v === "three-day") {
       const days = rangeDays(f, 3);
-      return rangeFmt.formatRange(dt(days[0]!.date), dt(days[2]!.date));
+      return rangeFmt.formatRange(localDate(days[0]!.date), localDate(days[2]!.date));
     }
     if (v === "two-month") {
-      return titleFmt.formatRange(dt(startOfMonth(f)), dt(addMonths(startOfMonth(f), 1)));
+      return titleFmt.formatRange(
+        localDate(startOfMonth(f)),
+        localDate(addMonths(startOfMonth(f), 1)),
+      );
     }
-    return titleFmt.format(dt(f));
+    return titleFmt.format(localDate(f));
   })();
 
   const monthLabel = (gm: { year: number; month: number }) =>
     titleFmt.format(new Date(Date.UTC(gm.year, gm.month - 1, 1)));
 
   const dayAria = (iso: string, count: number, price: string | undefined) => {
-    let aria = dayFmt.format(dt(iso));
+    let aria = dayFmt.format(localDate(iso));
     if (count) aria += `, ${count} ${count === 1 ? "event" : "events"}`;
     if (price) aria += `, ${price}`;
     return aria;
@@ -418,7 +420,7 @@
                         <button
                           class="calendar__mini-day"
                           use:dayAction={cell.date}
-                          aria-label={dayFmt.format(dt(cell.date))}
+                          aria-label={dayFmt.format(localDate(cell.date))}
                         >
                           {cell.day}
                         </button>

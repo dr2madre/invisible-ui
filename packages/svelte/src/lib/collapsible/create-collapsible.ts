@@ -1,7 +1,7 @@
 import { collapsible as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -70,7 +70,7 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
     syncOpen,
     syncDisabled,
     toggle: () => get(api).toggle(),
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    rootAction: createRootAction(api),
     triggerAction: createPropsAction(api, (a) => a.triggerProps),
     contentAction: createPropsAction(api, (a) => a.contentProps),
   };

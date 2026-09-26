@@ -1,7 +1,7 @@
 import { timeField as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -172,12 +172,9 @@ export function createTimeField(context: CreateTimeFieldOptions): CreateTimeFiel
     }),
   );
 
-  const rootAction = createPropsAction(api, (a) => a.rootProps);
-  const segmentAction: Action<HTMLElement, TimeSegmentType> = (node, seg) => {
-    const segApi = derived(api, (a) => a.getSegmentProps(seg as TimeSegmentType));
-    const handle = createPropsAction(segApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const rootAction = createRootAction(api);
+  const segmentAction: Action<HTMLElement, TimeSegmentType> = (node, seg) =>
+    createPropsAction(api, (a) => a.getSegmentProps(seg as TimeSegmentType))(node);
 
   /**
    * Focus moving between segments is ordinary editing; focus leaving the field
