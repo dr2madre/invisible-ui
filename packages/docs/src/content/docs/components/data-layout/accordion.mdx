@@ -17,6 +17,18 @@ A WAI-ARIA accordion with single or multiple expansion and arrow movement betwee
 
 <ImportSnippet component="accordion" />
 
+In Elements:
+
+```html
+<ds-accordion value="shipping">
+  <ds-accordion-item value="shipping" label="Shipping">Ships in 2-3 days.</ds-accordion-item>
+  <ds-accordion-item value="returns" label="Returns">30-day returns.</ds-accordion-item>
+</ds-accordion>
+```
+
+Each `<ds-accordion-item>` takes `value`, `label` and `disabled`, and its
+children are the panel content, so a panel can hold any markup.
+
 ### Props
 
 <PropsTable component="accordion" />

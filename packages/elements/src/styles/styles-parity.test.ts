@@ -79,6 +79,12 @@ const VUE_SHEETS = [
   "tooltip.css",
   "dropdown-menu.css",
   "navigation-menu.css",
+  "accordion.css",
+  "collapsible.css",
+  "aspect-ratio.css",
+  "blockquote.css",
+  "skeleton.css",
+  "meter.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

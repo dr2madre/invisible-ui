@@ -31,6 +31,10 @@ export const dashIcon = (cls = "") =>
 export const chevronIcon = () =>
   svg(`<polyline points="6 9 12 15 18 9" />`, "", { width: "100%", height: "100%" });
 
+/** A disclosure chevron: a single polyline at a themeable size. */
+export const disclosureIcon = (points: string, size: string) =>
+  svg(`<polyline points="${points}" />`, "", { width: size, height: size });
+
 export const searchIcon = () =>
   svg(`<circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />`, "", {
     width: "100%",

@@ -57,6 +57,13 @@ import { DsTreeView } from "./tree-view/ds-tree-view";
 import { DsToolbar } from "./toolbar/ds-toolbar";
 import { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
 import { DsLoginForm } from "./login-form/ds-login-form";
+import { DsAccordion } from "./accordion/ds-accordion";
+import { DsAccordionItem } from "./accordion/accordion-item";
+import { DsCollapsible } from "./collapsible/ds-collapsible";
+import { DsAspectRatio } from "./aspect-ratio/ds-aspect-ratio";
+import { DsBlockquote } from "./blockquote/ds-blockquote";
+import { DsSkeleton } from "./skeleton/ds-skeleton";
+import { DsMeter } from "./meter/ds-meter";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -123,5 +130,12 @@ define("ds-avatar-group", DsAvatarGroup);
 define("ds-breadcrumb", DsBreadcrumb);
 define("ds-progress", DsProgress);
 define("ds-scroll-area", DsScrollArea);
+define("ds-accordion", DsAccordion);
+define("ds-accordion-item", DsAccordionItem);
+define("ds-collapsible", DsCollapsible);
+define("ds-aspect-ratio", DsAspectRatio);
+define("ds-blockquote", DsBlockquote);
+define("ds-skeleton", DsSkeleton);
+define("ds-meter", DsMeter);
 
 export {};
