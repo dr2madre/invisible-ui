@@ -22,6 +22,11 @@ export interface CreateAccordion {
   setValue: (value: string[]) => void;
   /** Reflect a controlled `value` prop without reporting a change. */
   syncValue: (value: string[]) => void;
+  /**
+   * Reflect the configuration after mount: `items`, `type`, `collapsible`,
+   * `disabled`. Reporting nothing, like any reflection.
+   */
+  syncConfig: (config: AccordionConfig) => void;
   /** Toggle a single item open/closed (ignored when disabled). */
   toggle: (value: string) => void;
   /** Svelte action for the accordion container: `<div use:rootAction>`. */
@@ -33,6 +38,9 @@ export interface CreateAccordion {
   /** Svelte action for a panel: `<div use:panelAction={value}>`. */
   panelAction: Action<HTMLElement, string>;
 }
+
+/** The props a consumer may change after mount, besides the value. */
+export type AccordionConfig = Pick<AccordionState, "items" | "type" | "collapsible" | "disabled">;
 
 const sameSet = (a: string[], b: string[]) =>
   a.length === b.length && a.every((v) => b.includes(v));
@@ -72,6 +80,18 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
   // Reflect a controlled `value` prop without reporting a change.
   const syncValue = (value: string[]) =>
     state.update((current) => (sameValues(current.value, value) ? current : { ...current, value }));
+
+  // Every field is compared, so a configuration changed after mount reaches
+  // the machine instead of being frozen at construction.
+  const syncConfig = (config: AccordionConfig) =>
+    state.update((current) =>
+      current.items === config.items &&
+      current.type === config.type &&
+      current.collapsible === config.collapsible &&
+      current.disabled === config.disabled
+        ? current
+        : { ...current, ...config },
+    );
 
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, focus, normalize: normalizeProps }),
@@ -113,6 +133,7 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     value: derived(state, ($state) => $state.value),
     setValue,
     syncValue,
+    syncConfig,
     toggle: (value: string) => get(api).toggle(value),
     rootAction,
     itemAction,

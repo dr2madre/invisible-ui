@@ -348,6 +348,11 @@
       "signature": "type AccordionApi = accordion.AccordionApi;"
     },
     {
+      "name": "AccordionConfig",
+      "kind": "type",
+      "signature": "type AccordionConfig = Pick<AccordionState, \"items\" | \"type\" | \"collapsible\" | \"disabled\">;"
+    },
+    {
       "name": "AccordionContext",
       "kind": "type",
       "signature": "type AccordionContext = accordion.AccordionContext;"
@@ -530,7 +535,7 @@
     {
       "name": "CreateAccordion",
       "kind": "interface",
-      "signature": "interface CreateAccordion { /** Reactive resolved state. */ state: Readable<AccordionState>; /** Reactive connected API. */ api: Readable<AccordionApi>; /** The expanded item values. */ value: Readable<string[]>; /** Replace the expanded set. */ setValue: (value: string[]) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string[]) => void; /** Toggle a single item open/closed (ignored when disabled). */ toggle: (value: string) => void; /** Svelte action for the accordion container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for an item wrapper: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Svelte action for a trigger button: `<button use:triggerAction={value}>`. */ triggerAction: Action<HTMLElement, string>; /** Svelte action for a panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateAccordion { /** Reactive resolved state. */ state: Readable<AccordionState>; /** Reactive connected API. */ api: Readable<AccordionApi>; /** The expanded item values. */ value: Readable<string[]>; /** Replace the expanded set. */ setValue: (value: string[]) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string[]) => void; /** * Reflect the configuration after mount: `items`, `type`, `collapsible`, * `disabled`. Reporting nothing, like any reflection. */ syncConfig: (config: AccordionConfig) => void; /** Toggle a single item open/closed (ignored when disabled). */ toggle: (value: string) => void; /** Svelte action for the accordion container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for an item wrapper: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Svelte action for a trigger button: `<button use:triggerAction={value}>`. */ triggerAction: Action<HTMLElement, string>; /** Svelte action for a panel: `<div use:panelAction={value}>`. */ panelAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateButton",
@@ -550,7 +555,7 @@
     {
       "name": "CreateCalendar",
       "kind": "interface",
-      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (iso: string | null) => void; /** Reflect a controlled `focusedDate` prop without reporting a change. */ syncFocus: (iso: string) => void; /** Reflect a controlled `view` prop without reporting a change. */ syncView: (view: CalendarView) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateCalendar { /** Reactive resolved state. */ state: Readable<CalendarState>; /** Reactive connected API. */ api: Readable<CalendarApi>; setValue: (iso: string) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (iso: string | null) => void; /** Reflect a controlled `focusedDate` prop without reporting a change. */ syncFocus: (iso: string) => void; /** Reflect a controlled `view` prop without reporting a change. */ syncView: (view: CalendarView) => void; /** * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`. * Reporting nothing, like any reflection. */ syncConfig: (config: CalendarConfig) => void; setFocus: (iso: string) => void; setView: (view: CalendarView) => void; /** Svelte action for the grid container: `<div use:gridAction>`. */ gridAction: Action<HTMLElement>; /** Svelte action for a grid row: `<div use:rowAction>`. */ rowAction: Action<HTMLElement>; /** Svelte action for a day cell wrapper: `<div use:cellAction={iso}>`. */ cellAction: Action<HTMLElement, string>; /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */ dayAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateCarousel",
@@ -570,7 +575,7 @@
     {
       "name": "CreateCollapsible",
       "kind": "interface",
-      "signature": "interface CreateCollapsible { /** Reactive resolved state. */ state: Readable<CollapsibleState>; /** Reactive connected API. */ api: Readable<CollapsibleApi>; /** Whether the content is expanded. */ open: Readable<boolean>; /** Set the open state (ignored while disabled). */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Toggle the open state (ignored while disabled). */ toggle: () => void; /** Svelte action for the collapsible container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the trigger button: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content: `<div use:contentAction>`. */ contentAction: Action<HTMLElement>; }"
+      "signature": "interface CreateCollapsible { /** Reactive resolved state. */ state: Readable<CollapsibleState>; /** Reactive connected API. */ api: Readable<CollapsibleApi>; /** Whether the content is expanded. */ open: Readable<boolean>; /** Set the open state (ignored while disabled). */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Reflect the controlled disabled state. */ syncDisabled: (disabled: boolean) => void; /** Toggle the open state (ignored while disabled). */ toggle: () => void; /** Svelte action for the collapsible container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for the trigger button: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the content: `<div use:contentAction>`. */ contentAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateCombobox",
@@ -580,7 +585,7 @@
     {
       "name": "CreateContextMenu",
       "kind": "interface",
-      "signature": "interface CreateContextMenu { state: Readable<MenuState>; api: Readable<MenuApi>; /** Whether the menu is open. */ open: Readable<boolean>; /** * Svelte action for the region that opens the menu on `contextmenu` * (right-click or the keyboard menu key): `<div use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateContextMenu { state: Readable<MenuState>; api: Readable<MenuApi>; /** Whether the menu is open. */ open: Readable<boolean>; /** * Svelte action for the region that opens the menu on `contextmenu` * (right-click or the keyboard menu key): `<div use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Reflect controlled items without reporting a change. */ syncItems: (items: MenuItem[]) => void; /** Reflect the controlled disabled state. */ syncDisabled: (disabled: boolean) => void; }"
     },
     {
       "name": "CreateDialog",
@@ -590,7 +595,7 @@
     {
       "name": "CreateDropdownMenu",
       "kind": "interface",
-      "signature": "interface CreateDropdownMenu { state: Readable<MenuState#e1838409>; api: Readable<MenuApi#b1e94252>; open: Readable<boolean>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateDropdownMenu { state: Readable<MenuState#e1838409>; api: Readable<MenuApi#b1e94252>; open: Readable<boolean>; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the menu popup: `<div use:menuAction>`. */ menuAction: Action<HTMLElement>; /** Svelte action for a menu item: `<button use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; /** Reflect controlled items without reporting a change. */ syncItems: (items: MenuEntry[]) => void; /** Reflect the controlled disabled state. */ syncDisabled: (disabled: boolean) => void; }"
     },
     {
       "name": "CreateField",
@@ -610,7 +615,7 @@
     {
       "name": "CreateMenubar",
       "kind": "interface",
-      "signature": "interface CreateMenubar { /** Index of the trigger that is the current tab stop (roving tabindex). */ focusedIndex: Readable<number>; /** Action for the `role=\"menubar\"` container (cross-menu keyboard nav). */ menubarAction: Action<HTMLElement>; /** The menus, each ready to render. */ menus: MenubarItem[]; }"
+      "signature": "interface CreateMenubar { /** Index of the trigger that is the current tab stop (roving tabindex). */ focusedIndex: Readable<number>; /** Action for the `role=\"menubar\"` container (cross-menu keyboard nav). */ menubarAction: Action<HTMLElement>; /** The menus, each ready to render. */ menus: Readable<MenubarItem[]>; /** * Reflect controlled menus without reporting a change. A menu keeps its * state (open, active item) across a sync as long as its value stays. */ syncMenus: (menus: MenubarMenu[]) => void; }"
     },
     {
       "name": "CreateMeter",
@@ -660,7 +665,7 @@
     {
       "name": "CreateProgress",
       "kind": "interface",
-      "signature": "interface CreateProgress { /** Reactive resolved state. */ state: Readable<ProgressState>; /** Reactive connected API. */ api: Readable<ProgressApi>; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: Readable<number | null>; /** Replace the current value (`null` for indeterminate). */ setValue: (value: number | null) => void; /** Svelte action for the progressbar element: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** * Svelte action for the fill/indicator: `<div use:indicatorAction>`. Typed on * `Element` because the circular variant applies it to an SVG `<circle>`. */ indicatorAction: Action<Element>; }"
+      "signature": "interface CreateProgress { /** Reactive resolved state. */ state: Readable<ProgressState>; /** Reactive connected API. */ api: Readable<ProgressApi>; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: Readable<number | null>; /** Replace the current value (`null` for indeterminate). */ setValue: (value: number | null) => void; /** Reflect the `min` and `max` props after mount. */ syncRange: (min: number, max: number) => void; /** Svelte action for the progressbar element: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** * Svelte action for the fill/indicator: `<div use:indicatorAction>`. Typed on * `Element` because the circular variant applies it to an SVG `<circle>`. */ indicatorAction: Action<Element>; }"
     },
     {
       "name": "CreateRadioGroup",
@@ -675,7 +680,7 @@
     {
       "name": "CreateRatingGroup",
       "kind": "interface",
-      "signature": "interface CreateRatingGroup { /** Number of stars. */ max: number; /** The stars (1..max). */ items: RatingItem[]; /** The selected rating (or `null`). */ value: Readable<number | null>; /** Imperatively set the rating. */ setValue: (value: number) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: number | null) => void; /** Whether the group is disabled. */ disabled: boolean; /** Shared form/group name applied to every star radio. */ name: string; }"
+      "signature": "interface CreateRatingGroup { /** Number of stars. */ max: Readable<number>; /** The stars (1..max). */ items: Readable<RatingItem[]>; /** The selected rating (or `null`). */ value: Readable<number | null>; /** Imperatively set the rating. */ setValue: (value: number) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: number | null) => void; /** Reflect a controlled `max` prop: the stars follow it, reporting nothing. */ syncMax: (max: number) => void; /** Whether the group is disabled. */ disabled: boolean; /** Shared form/group name applied to every star radio. */ name: string; }"
     },
     {
       "name": "CreateScrollArea",
@@ -705,7 +710,7 @@
     {
       "name": "CreateSlider",
       "kind": "interface",
-      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; /** * Reflect a controlled `value` prop without reporting a change. The value is * snapped to the step, like a user action, so the consumer may hold a value * between two steps while the control shows the nearest one. */ syncValue: (value: number) => void; }"
+      "signature": "interface CreateSlider { /** Reactive resolved state. */ state: Readable<SliderState>; /** Current value. */ value: Readable<number>; /** Filled fraction as a 0–100 percentage. */ percentage: Readable<number>; /** Set the value (snapped + clamped; ignored while disabled). */ setValue: (value: number) => void; /** * Reflect a controlled `value` prop without reporting a change. The value is * snapped to the step, like a user action, so the consumer may hold a value * between two steps while the control shows the nearest one. */ syncValue: (value: number) => void; /** * Reflect the constraints after mount: `min`, `max`, `step`, `orientation`, * `disabled`. Reporting nothing, like any reflection. If the new bounds or * step leave the current value off the track it is snapped silently. */ syncConfig: (config: SliderConfig) => void; }"
     },
     {
       "name": "CreateStepper",
@@ -745,7 +750,7 @@
     {
       "name": "CreateTooltip",
       "kind": "interface",
-      "signature": "interface CreateTooltip { state: Readable<TooltipState>; api: Readable<TooltipApi>; open: Readable<boolean>; /** Svelte action for the trigger element. */ triggerAction: Action<HTMLElement>; /** Svelte action for the tooltip element (render only while open). */ tooltipAction: Action<HTMLElement>; }"
+      "signature": "interface CreateTooltip { state: Readable<TooltipState>; api: Readable<TooltipApi>; open: Readable<boolean>; /** Svelte action for the trigger element. */ triggerAction: Action<HTMLElement>; /** Svelte action for the tooltip element (render only while open). */ tooltipAction: Action<HTMLElement>; /** * Reflect the options after mount. The delays apply from the next hover; * the placement from the next time the tooltip opens. */ syncOptions: (options: TooltipOptions) => void; }"
     },
     {
       "name": "CreateTreeView",
@@ -855,7 +860,7 @@
     {
       "name": "MenuItem",
       "kind": "type",
-      "signature": "type MenuItem = menu.MenuItem;"
+      "signature": "type MenuItem#ce6798e6 = menu.MenuItem;"
     },
     {
       "name": "MenuItemKind",
@@ -880,7 +885,7 @@
     {
       "name": "MenubarMenu",
       "kind": "interface",
-      "signature": "interface MenubarMenu { /** Stable value identifying this menu (passed to `onSelect`). */ value: string; /** Visible trigger label. */ label: string; /** The menu's actionable items. */ items: MenuItem[]; /** Disable the whole menu. */ disabled?: boolean; }"
+      "signature": "interface MenubarMenu { /** Stable value identifying this menu (passed to `onSelect`). */ value: string; /** Visible trigger label. */ label: string; /** The menu's actionable items. */ items: MenuItem#ce6798e6[]; /** Disable the whole menu. */ disabled?: boolean; }"
     },
     {
       "name": "MessageKey",
@@ -1221,6 +1226,11 @@
       "name": "SliderApi",
       "kind": "type",
       "signature": "type SliderApi = slider.SliderApi;"
+    },
+    {
+      "name": "SliderConfig",
+      "kind": "type",
+      "signature": "type SliderConfig = Pick<SliderState, \"min\" | \"max\" | \"step\" | \"orientation\" | \"disabled\">;"
     },
     {
       "name": "SliderContext",

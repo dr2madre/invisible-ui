@@ -94,4 +94,31 @@ describe("Svelte ContextMenu (styled)", () => {
     await openAt();
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it("navigates items and runs the callback given after mount", async () => {
+    const user = userEvent.setup();
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = render(Fixture, { props: { onSelect: first } });
+    await rerender({
+      onSelect: second,
+      items: [
+        { value: "back", label: "Back" },
+        { value: "share", label: "Share" },
+      ],
+    });
+
+    await openAt(); // active = Back
+    await user.keyboard("{ArrowDown}"); // -> Share, only in the new items
+    await user.keyboard("{Enter}");
+    expect(second).toHaveBeenCalledWith("share");
+    expect(first).not.toHaveBeenCalled();
+  });
+
+  it("stays shut once disabled after mount", async () => {
+    const { rerender } = render(Fixture);
+    await rerender({ disabled: true });
+    await openAt();
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
 });

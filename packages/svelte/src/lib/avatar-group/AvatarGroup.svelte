@@ -46,7 +46,9 @@
 </script>
 
 <div class="avatar-group" data-size={size} data-shape={shape} role="group" aria-label={label}>
-  {#each visible as item (item.name)}
+  <!-- Items carry no id and two people may share a name, so the position is
+       part of the key; the name remounts the avatar when the person changes. -->
+  {#each visible as item, index (`${index}:${item.name}`)}
     <span class="avatar-group__item" style:--ds-avatar-bg={colorOf(item)}>
       <Avatar name={item.name} src={item.src} alt={item.alt} {size} {shape} />
     </span>

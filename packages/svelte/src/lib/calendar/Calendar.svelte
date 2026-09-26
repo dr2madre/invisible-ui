@@ -124,7 +124,11 @@
     syncValue,
     syncFocus,
     syncView,
+    syncConfig,
   } = calendar;
+
+  // Constraints changed after mount reach the machine, and report nothing.
+  $: syncConfig({ min, max, weekStartsOn });
 
   // Controllable mirrors, compared against the last prop values (ADR 0011): a
   // sync never reports a change.
@@ -345,7 +349,9 @@
                             <span class="calendar__daynum">{cell.day}</span>
                             {#if dayEvents.length}
                               <span class="calendar__dots" aria-hidden="true">
-                                {#each dayEvents.slice(0, maxDots) as ev (ev.label ?? ev.date)}
+                                <!-- Events carry no id and two on one day may share
+                                     a label, so their position is their key. -->
+                                {#each dayEvents.slice(0, maxDots) as ev, e (e)}
                                   <span
                                     class="calendar__dot"
                                     data-tone={ev.tone ?? "primary"}
@@ -453,7 +459,9 @@
               <span class="calendar__agenda-num">{cell.day}</span>
             </button>
             <ul class="calendar__agenda-events">
-              {#each dayEvents as ev (ev.label ?? ev.date)}
+              <!-- Events carry no id and two on one day may share a label, so
+                   their position is their key. -->
+              {#each dayEvents as ev, e (e)}
                 <li class="calendar__event">
                   <span class="calendar__dot" data-tone={ev.tone ?? "primary"} aria-hidden="true"
                   ></span>

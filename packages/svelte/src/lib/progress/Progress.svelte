@@ -29,8 +29,9 @@
   export let label: string;
 
   const progress = createProgress({ value, min, max });
-  const { rootAction, indicatorAction, percentage, setValue } = progress;
+  const { rootAction, indicatorAction, percentage, setValue, syncRange } = progress;
   $: setValue(value);
+  $: syncRange(min, max);
   $: width = $percentage ?? 0;
   // r=15.9155 makes the circumference 100, so dasharray maps 1:1 to percent.
   const R = 15.9155;

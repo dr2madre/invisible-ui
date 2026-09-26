@@ -37,6 +37,16 @@ describe("Calendar — agenda views", () => {
     expect(dayButton("2026-06-18").parentElement).toHaveTextContent("Review");
   });
 
+  it("week view lists two events of one day that share a label", () => {
+    const twin = [
+      { date: "2026-06-18", label: "Review" },
+      { date: "2026-06-18", label: "Review" },
+    ];
+    render(Fixture, { props: { view: "week", events: twin } });
+    const column = dayButton("2026-06-18").parentElement!;
+    expect(column.querySelectorAll(".calendar__event")).toHaveLength(2);
+  });
+
   it("three-day view shows 3 columns starting at the focused day", () => {
     render(Fixture, { props: { view: "three-day", focusedDate: "2026-06-12", value: null } });
     expect(document.querySelectorAll(".calendar__agenda-col")).toHaveLength(3);

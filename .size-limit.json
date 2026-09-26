@@ -37,7 +37,7 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "49.5 kB"
+    "limit": "50.5 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",

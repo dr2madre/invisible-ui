@@ -27,6 +27,10 @@ export interface CreateDropdownMenu {
   menuAction: Action<HTMLElement>;
   /** Svelte action for a menu item: `<button use:itemAction={value}>`. */
   itemAction: Action<HTMLElement, string>;
+  /** Reflect controlled items without reporting a change. */
+  syncItems: (items: MenuEntry[]) => void;
+  /** Reflect the controlled disabled state. */
+  syncDisabled: (disabled: boolean) => void;
 }
 
 const TYPEAHEAD_RESET = 500;
@@ -55,6 +59,14 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     state.update((current) =>
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
+
+  // Reflect controlled props without reporting a change, so keyboard
+  // navigation and typeahead walk the items the template renders.
+  const syncItems = (items: MenuEntry[]) =>
+    state.update((current) => (current.items === items ? current : { ...current, items }));
+
+  const syncDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
 
   const api = derived(state, ($state) =>
     core.connect({
@@ -192,5 +204,7 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     triggerAction,
     menuAction,
     itemAction,
+    syncItems,
+    syncDisabled,
   };
 }

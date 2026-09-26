@@ -25,8 +25,16 @@
   /** Called with the chosen item's menu value and item value. */
   export let onSelect: ((menuValue: string, itemValue: string) => void) | undefined = undefined;
 
-  const menubar = createMenubar({ menus, onSelect });
-  const { menubarAction, focusedIndex, menus: items } = menubar;
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menubar = createMenubar({
+    menus,
+    onSelect: (menuValue, itemValue) => onSelect?.(menuValue, itemValue),
+  });
+  const { menubarAction, focusedIndex, menus: items, syncMenus } = menubar;
+
+  // Menus changed after mount reach the machine, so the bar renders and
+  // navigates the menus it is given now.
+  $: syncMenus(menus);
 </script>
 
 <div
@@ -36,7 +44,7 @@
   aria-orientation="horizontal"
   use:menubarAction
 >
-  {#each items as menu, i (menu.value)}
+  {#each $items as menu, i (menu.value)}
     <div class="menubar__menu">
       <button
         class="menubar__trigger"

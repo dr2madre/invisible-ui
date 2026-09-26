@@ -25,7 +25,7 @@
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
-  const { rootAction, triggerAction, contentAction, syncOpen } = createCollapsible({
+  const { rootAction, triggerAction, contentAction, syncOpen, syncDisabled } = createCollapsible({
     open,
     disabled,
     // A live callback reference (ADR 0011).
@@ -39,6 +39,7 @@
     lastOpen = open;
     syncOpen(open);
   }
+  $: syncDisabled(disabled);
 </script>
 
 <div class="collapsible" use:rootAction>

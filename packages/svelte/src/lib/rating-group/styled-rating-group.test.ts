@@ -44,6 +44,12 @@ describe("Svelte RatingGroup (styled)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("redraws the stars when max changes after mount", async () => {
+    const { rerender } = render(Fixture, { props: { max: 5 } });
+    await rerender({ max: 10 });
+    expect(screen.getAllByRole("radio")).toHaveLength(10);
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { value: 3 } });
     expect(await axe(container)).toHaveNoViolations();
