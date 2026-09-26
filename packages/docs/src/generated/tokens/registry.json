@@ -17414,8 +17414,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "min-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
           "selector": ".menu__popup",
+          "property": "min-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
           "property": "min-inline-size",
           "fallback": "12rem"
         },
@@ -17496,8 +17510,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
           "selector": ".menu__popup",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
           "property": "padding",
           "fallback": "0.25rem"
         },
@@ -17599,8 +17627,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
           "selector": ".menu__popup",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
         },
@@ -17685,6 +17727,13 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
           "selector": ".menu__trigger",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__trigger",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
         },
@@ -17870,8 +17919,22 @@
       "sites": [
         {
           "adapter": "elements",
+          "file": "packages/elements/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
           "selector": ".menu__popup",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
           "property": "z-index",
           "fallback": "50"
         },
@@ -17937,6 +18000,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17945,6 +18009,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "gap",
+          "fallback": "0.125rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/menubar/Menubar.svelte",
@@ -17979,6 +18050,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -17987,6 +18059,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/menubar/Menubar.svelte",
@@ -18021,6 +18100,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18031,6 +18111,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/menubar/Menubar.svelte",
@@ -18065,6 +18152,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -18073,6 +18161,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__trigger",
+          "property": "padding",
+          "fallback": "0.375rem 0.625rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/menubar/Menubar.svelte",

@@ -58,12 +58,12 @@
   {
     "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "62 kB"
+    "limit": "72.5 kB"
   },
   {
     "name": "@design-system/elements — define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "63 kB"
+    "limit": "73 kB"
   },
   {
     "name": "@design-system/elements — table only, tree-shaken",
@@ -382,5 +382,23 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsStepper }",
     "limit": "5.5 kB"
+  },
+  {
+    "name": "@design-system/elements — context menu only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsContextMenu }",
+    "limit": "12.5 kB"
+  },
+  {
+    "name": "@design-system/elements — menubar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsMenubar }",
+    "limit": "11 kB"
+  },
+  {
+    "name": "@design-system/elements — popover only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsPopover }",
+    "limit": "12.5 kB"
   }
 ]

@@ -54,6 +54,11 @@
       "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
     },
     {
+      "name": "ContextMenuItem",
+      "kind": "type",
+      "signature": "type ContextMenuItem = menu.MenuItem;"
+    },
+    {
       "name": "CountStatus",
       "kind": "type",
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
@@ -139,6 +144,11 @@
       "signature": "declare class DsConfirmDialog extends ModalHost { #private; static observedAttributes: string[]; protected readonly initialFocus = \".confirm-dialog__actions button\"; protected render(): void; protected sync(): void; }"
     },
     {
+      "name": "DsContextMenu",
+      "kind": "class",
+      "signature": "declare class DsContextMenu extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get items(): ContextMenuItem[]; set items(items: ContextMenuItem[]); }"
+    },
+    {
       "name": "DsCount",
       "kind": "class",
       "signature": "declare class DsCount extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get count(): number; set count(value: number); get max(): number; set max(value: number); get dot(): boolean; set dot(value: boolean); get showZero(): boolean; set showZero(value: boolean); }"
@@ -214,6 +224,11 @@
       "signature": "declare class DsLoginForm extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(): void; get providers(): LoginFormProvider[]; set providers(value: LoginFormProvider[]); }"
     },
     {
+      "name": "DsMenubar",
+      "kind": "class",
+      "signature": "declare class DsMenubar extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get menus(): MenubarMenu[]; set menus(menus: MenubarMenu[]); }"
+    },
+    {
       "name": "DsMeter",
       "kind": "class",
       "signature": "declare class DsMeter extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get value(): number; set value(next: number); get min(): number; set min(next: number); get max(): number; set max(next: number); get low(): number | undefined; set low(next: number | undefined); get high(): number | undefined; set high(next: number | undefined); get optimum(): number | undefined; set optimum(next: number | undefined); }"
@@ -252,6 +267,11 @@
       "name": "DsPinInput",
       "kind": "class",
       "signature": "declare class DsPinInput extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string; set value(next: string); }"
+    },
+    {
+      "name": "DsPopover",
+      "kind": "class",
+      "signature": "declare class DsPopover extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); }"
     },
     {
       "name": "DsProgress",
@@ -467,6 +487,11 @@
       "name": "MenuSeparator",
       "kind": "type",
       "signature": "type MenuSeparator = menu.MenuSeparator;"
+    },
+    {
+      "name": "MenubarMenu",
+      "kind": "interface",
+      "signature": "interface MenubarMenu { /** Stable value identifying this menu, reported with each selection. */ value: string; /** Visible trigger label. */ label: string; /** The menu's actions. */ items: menu.MenuItem[]; /** Disable the whole menu. */ disabled?: boolean; }"
     },
     {
       "name": "MultiSelectItem",

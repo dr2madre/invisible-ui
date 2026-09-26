@@ -157,6 +157,68 @@
         "default",
         "trigger"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-popover",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "trigger",
+          "reactive": false,
+          "required": false,
+          "description": "`click` or `hover`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger-variant",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "placement",
+          "reactive": true,
+          "required": false,
+          "description": "Floating UI placement, `bottom` by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "open-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 300",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 200",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `open` (boolean).",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`, when the user opens or closes the card. Setting `open` reports nothing."
+      ]
     }
   }
 }

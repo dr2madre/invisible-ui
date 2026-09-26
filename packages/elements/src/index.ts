@@ -48,6 +48,9 @@ export {
   type MenuItemKind,
   type MenuSeparator,
 } from "./dropdown-menu/ds-dropdown-menu";
+export { DsContextMenu, type ContextMenuItem } from "./context-menu/ds-context-menu";
+export { DsMenubar, type MenubarMenu } from "./menubar/ds-menubar";
+export { DsPopover } from "./popover/ds-popover";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";

@@ -19,6 +19,25 @@ primitive as DropdownMenu.
 
 <ImportSnippet component="context-menu" />
 
+In Elements, the children are the region. Assign the actions through the
+`items` property and listen for `select`, which fires after the menu closes:
+
+```html
+<ds-context-menu label="Page actions">
+  <div>Right-click here</div>
+</ds-context-menu>
+<script type="module">
+  import "@design-system/elements/define";
+
+  const menu = document.querySelector("ds-context-menu");
+  menu.items = [
+    { value: "back", label: "Back" },
+    { value: "reload", label: "Reload" },
+  ];
+  menu.addEventListener("select", (event) => run(event.detail.value));
+</script>
+```
+
 ### Props
 
 <PropsTable component="context-menu" />
