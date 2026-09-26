@@ -213,8 +213,12 @@ export const Carousel = defineComponent({
                               "div",
                               {
                                 class: "carousel__bg",
+                                // One quoted URL: an image value from data
+                                // cannot close it and add declarations.
                                 style: item.image
-                                  ? { backgroundImage: `url(${item.image})` }
+                                  ? {
+                                      backgroundImage: `url(${JSON.stringify(String(item.image))})`,
+                                    }
                                   : undefined,
                               },
                               item.title || item.description
