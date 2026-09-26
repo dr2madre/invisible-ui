@@ -34,6 +34,14 @@ const record = (page: Page, selector: string, type: string) =>
     });
   }, type);
 
+// The browser's own Italian formatting: WebKit groups four-digit numbers
+// ("1.234"), Chromium does not ("1234").
+const italian = (page: Page, value: number) =>
+  page.evaluate(
+    (value) => new Intl.NumberFormat("it-IT", { maximumFractionDigits: 15 }).format(value),
+    value,
+  );
+
 test.describe("Elements number field", () => {
   test.beforeEach(async ({ page }) => {
     await mount(
@@ -52,7 +60,7 @@ test.describe("Elements number field", () => {
     const input = page.getByRole("spinbutton", { name: "Amount" });
     await record(page, "ds-number-field", "input");
     await record(page, "ds-number-field", "change");
-    await expect(input).toHaveValue("1234,5");
+    await expect(input).toHaveValue(await italian(page, 1234.5));
     expect(await formData(page, "order")).toEqual(["amount=1234.5"]);
 
     await input.fill("2345,5");
@@ -79,10 +87,10 @@ test.describe("Elements number field", () => {
     const input = page.getByRole("spinbutton", { name: "Amount" });
     await input.focus();
     await page.keyboard.press("ArrowUp");
-    await expect(input).toHaveValue("1235");
+    await expect(input).toHaveValue(await italian(page, 1235));
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
-    await expect(input).toHaveValue("1234");
+    await expect(input).toHaveValue(await italian(page, 1234));
     await page.keyboard.press("End");
     await expect(input).toHaveValue("10.000");
     await expect(page.getByRole("button", { name: "Increase Amount" })).toBeDisabled();
@@ -101,7 +109,7 @@ test.describe("Elements number field", () => {
     await input.blur();
     await record(page, "ds-number-field", "input");
     await page.getByRole("button", { name: "Reset" }).click();
-    await expect(input).toHaveValue("1234,5");
+    await expect(input).toHaveValue(await italian(page, 1234.5));
     expect(await formData(page, "order")).toEqual(["amount=1234.5"]);
     await expect(page.locator("ds-number-field")).not.toHaveAttribute("data-input");
   });
