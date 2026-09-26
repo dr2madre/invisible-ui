@@ -150,3 +150,10 @@ export {
   type StatusOptions,
 } from "./notification/ds-notification-region";
 export { DsStepper, type StepDescriptor, type StepperOrientation } from "./stepper/ds-stepper";
+export { DsSlider, type SliderOrientation } from "./slider/ds-slider";
+export {
+  DsRangeSlider,
+  type RangeSliderOrientation,
+  type RangeSliderValue,
+} from "./range-slider/ds-range-slider";
+export { DsRatingGroup } from "./rating-group/ds-rating-group";

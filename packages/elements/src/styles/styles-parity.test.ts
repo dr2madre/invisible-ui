@@ -89,6 +89,9 @@ const VUE_SHEETS = [
   "pin-input.css",
   "notification-region.css",
   "stepper.css",
+  "slider.css",
+  "range-slider.css",
+  "rating-group.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

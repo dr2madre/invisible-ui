@@ -274,6 +274,16 @@
       "signature": "declare class DsRadioGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string | null; set value(next: string | null); get items(): RadioGroupItem[]; set items(items: RadioGroupItem[]); }"
     },
     {
+      "name": "DsRangeSlider",
+      "kind": "class",
+      "signature": "declare class DsRangeSlider extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): RangeSliderValue; set value(next: RangeSliderValue); get format(): (value: number) => string; set format(next: (value: number) => string); }"
+    },
+    {
+      "name": "DsRatingGroup",
+      "kind": "class",
+      "signature": "declare class DsRatingGroup extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): number | null; set value(next: number | null); }"
+    },
+    {
       "name": "DsScrollArea",
       "kind": "class",
       "signature": "declare class DsScrollArea extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
@@ -317,6 +327,11 @@
       "name": "DsSkeleton",
       "kind": "class",
       "signature": "declare class DsSkeleton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsSlider",
+      "kind": "class",
+      "signature": "declare class DsSlider extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get value(): number; set value(next: number); get format(): (value: number) => string; set format(next: (value: number) => string); }"
     },
     {
       "name": "DsStepper",
@@ -519,6 +534,16 @@
       "signature": "type RadioGroupItem = radioGroup.RadioItem & { label: string; };"
     },
     {
+      "name": "RangeSliderOrientation",
+      "kind": "type",
+      "signature": "type RangeSliderOrientation = rangeSlider.Orientation;"
+    },
+    {
+      "name": "RangeSliderValue",
+      "kind": "type",
+      "signature": "type RangeSliderValue = readonly [number, number];"
+    },
+    {
       "name": "ScrollOrientation",
       "kind": "type",
       "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
@@ -572,6 +597,11 @@
       "name": "SkeletonVariant",
       "kind": "type",
       "signature": "type SkeletonVariant = \"text\" | \"circle\" | \"rect\";"
+    },
+    {
+      "name": "SliderOrientation",
+      "kind": "type",
+      "signature": "type SliderOrientation = slider.Orientation;"
     },
     {
       "name": "SortDirection",

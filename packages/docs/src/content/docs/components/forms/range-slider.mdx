@@ -23,6 +23,20 @@ the pair as a whole.
 
 <ImportSnippet component="range-slider" />
 
+In Elements, `value` holds the pair as `lower,upper`, and `lower-label` and
+`upper-label` name the thumbs. Moving a thumb sends a bubbling `change` event
+with the complete pair in `detail.value`:
+
+```html
+<ds-range-slider
+  label="Price"
+  lower-label="Minimum price"
+  upper-label="Maximum price"
+  name="price"
+  value="20,80"
+></ds-range-slider>
+```
+
 ### Props
 
 <PropsTable component="range-slider" />

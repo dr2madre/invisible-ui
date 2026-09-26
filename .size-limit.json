@@ -258,6 +258,18 @@
     "limit": "1.5 kB"
   },
   {
+    "name": "@design-system/elements — range slider only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsRangeSlider }",
+    "limit": "7 kB"
+  },
+  {
+    "name": "@design-system/elements — rating group only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsRatingGroup }",
+    "limit": "5.5 kB"
+  },
+  {
     "name": "@design-system/elements — scroll area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsScrollArea }",
@@ -280,6 +292,12 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
     "limit": "13.5 kB"
+  },
+  {
+    "name": "@design-system/elements — slider only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsSlider }",
+    "limit": "2.5 kB"
   },
   {
     "name": "@design-system/elements — toggle button only, tree-shaken",
