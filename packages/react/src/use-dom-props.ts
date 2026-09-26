@@ -1,5 +1,6 @@
 import type { DomProps } from "@design-system/core";
 import { useEffect, useRef, type RefObject } from "react";
+import { useIsomorphicLayoutEffect } from "./internal/layout-effect";
 
 /**
  * Apply a component's `rootDomProps` to its element.
@@ -14,7 +15,9 @@ export function useDomProps(ref: RefObject<Element | null>, props: DomProps): vo
   // The bag is a fresh object every render, so the effect keys off its
   // *contents*; the ref carries the values themselves without widening deps.
   const latest = useRef(props);
-  latest.current = props;
+  useIsomorphicLayoutEffect(() => {
+    latest.current = props;
+  });
   const signature = JSON.stringify(props);
 
   useEffect(() => {

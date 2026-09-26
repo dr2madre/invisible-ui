@@ -13,6 +13,7 @@ import {
   type RefObject,
 } from "react";
 import { useFormDefault, useFormReset } from "../internal/form-reset";
+import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { normalizeProps } from "../normalize";
 
 export type ComboboxItem = core.ComboboxItem;
@@ -116,7 +117,9 @@ export function useCombobox({
 
   // Latest callbacks/inputs, read inside setState updaters without widening deps.
   const latest = useRef({ filter, allItems, onValueChange, onInputValueChange, onOpenChange });
-  latest.current = { filter, allItems, onValueChange, onInputValueChange, onOpenChange };
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { filter, allItems, onValueChange, onInputValueChange, onOpenChange };
+  });
 
   // --- Controlled sync: mirror the `value` prop, and the text that goes with
   // it, without an effect (matches the Svelte adapter's reactive statements).
@@ -145,6 +148,15 @@ export function useCombobox({
       items: filter(allItems, s.inputValue),
       activeValue: allItems.some((i) => i.value === s.activeValue) ? s.activeValue : null,
     }));
+  }
+
+  // --- A control turned off closes its list: the keys that dismiss it live on
+  // an input that no longer takes any. Adjusted while rendering, like the
+  // controlled sync above, rather than in an effect after the fact.
+  const [lastDisabled, setLastDisabled] = useState(disabled);
+  if (disabled !== lastDisabled) {
+    setLastDisabled(disabled);
+    if (disabled) setState((s) => (s.open ? { ...s, open: false, activeValue: null } : s));
   }
 
   const setValue = useCallback((next: string | null) => {
@@ -185,6 +197,19 @@ export function useCombobox({
 
   const inputEl = useRef<HTMLInputElement | null>(null);
 
+  // --- Positioning. `whileElementsMounted` is gated on `open` so autoUpdate
+  // only tracks scroll/resize while the popup is actually showing.
+  const { refs, elements, floatingStyles } = useFloating<HTMLInputElement>({
+    placement: "bottom-start",
+    strategy: "fixed",
+    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
+    whileElementsMounted: state.open ? autoUpdate : undefined,
+  });
+
+  // The input as positioning holds it, in state, so the core's handlers reach
+  // it without a ref being read while rendering.
+  const focusInput = useCallback(() => elements.reference?.focus(), [elements.reference]);
+
   const api = useMemo(
     () =>
       core.connect({
@@ -194,20 +219,21 @@ export function useCombobox({
         setActiveValue,
         setInputValue,
         setCommittedInputValue,
-        focusInput: () => inputEl.current?.focus(),
+        focusInput,
         normalize: normalizeProps,
       }),
-    [state, disabled, id, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue],
+    [
+      state,
+      disabled,
+      id,
+      setValue,
+      setOpen,
+      setActiveValue,
+      setInputValue,
+      setCommittedInputValue,
+      focusInput,
+    ],
   );
-
-  // --- Positioning. `whileElementsMounted` is gated on `open` so autoUpdate
-  // only tracks scroll/resize while the popup is actually showing.
-  const { refs, floatingStyles } = useFloating({
-    placement: "bottom-start",
-    strategy: "fixed",
-    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    whileElementsMounted: state.open ? autoUpdate : undefined,
-  });
 
   const controlRef = useRef<HTMLDivElement>(null);
   const listboxEl = useRef<HTMLElement | null>(null);
@@ -253,15 +279,6 @@ export function useCombobox({
   useFormDefault(inputEl, (node: HTMLInputElement) => {
     node.defaultValue = selectedLabel(defaultValue);
   });
-
-  // A control turned off closes its list: the keys that dismiss it live on an
-  // input that no longer takes any.
-  useEffect(() => {
-    if (!disabled) return;
-    setState((current) =>
-      current.open ? { ...current, open: false, activeValue: null } : current,
-    );
-  }, [disabled]);
 
   // --- Close when a pointer goes down anywhere outside the control or popup.
   useEffect(() => {
