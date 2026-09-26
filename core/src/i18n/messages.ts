@@ -24,6 +24,11 @@ export const en = {
   "calendar.view.three-day": "3 Days",
   "calendar.view.day": "Day",
   "calendar.view.year": "Year",
+  // Appended to a day's accessible name when it carries events.
+  "calendar.events": {
+    one: "{count} event",
+    other: "{count} events",
+  },
   // Date Picker
   "datePicker.label": "Date",
   "datePicker.placeholder": "Select a date",

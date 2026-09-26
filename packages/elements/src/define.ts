@@ -79,6 +79,10 @@ import { DsCode } from "./code/ds-code";
 import { DsCodeBlock } from "./code-block/ds-code-block";
 import { DsFeedbackIcon } from "./feedback-icon/ds-feedback-icon";
 import { DsCarousel } from "./carousel/ds-carousel";
+import { DsCalendar } from "./calendar/ds-calendar";
+import { DsDatePicker } from "./date-picker/ds-date-picker";
+import { DsDateRangePicker } from "./date-range-picker/ds-date-range-picker";
+import { DsTimeField } from "./time-field/ds-time-field";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -167,5 +171,9 @@ define("ds-code", DsCode);
 define("ds-code-block", DsCodeBlock);
 define("ds-feedback-icon", DsFeedbackIcon);
 define("ds-carousel", DsCarousel);
+define("ds-calendar", DsCalendar);
+define("ds-date-picker", DsDatePicker);
+define("ds-date-range-picker", DsDateRangePicker);
+define("ds-time-field", DsTimeField);
 
 export {};

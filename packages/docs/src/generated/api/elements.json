@@ -49,6 +49,21 @@
       "signature": "type ButtonGroupOrientation = buttonGroup.Orientation;"
     },
     {
+      "name": "CalendarEvent",
+      "kind": "interface",
+      "signature": "interface CalendarEvent { /** ISO `YYYY-MM-DD`. */ date: string; /** Accessible description, also shown as a tooltip. */ label?: string; /** Semantic tone for the dot. */ tone?: \"primary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"; }"
+    },
+    {
+      "name": "CalendarMode",
+      "kind": "type",
+      "signature": "type CalendarMode = \"single\" | \"range\";"
+    },
+    {
+      "name": "CalendarView",
+      "kind": "type",
+      "signature": "type CalendarView = calendar.CalendarView;"
+    },
+    {
       "name": "CarouselOrientation",
       "kind": "type",
       "signature": "type CarouselOrientation = carousel.Orientation;"
@@ -77,6 +92,11 @@
       "name": "CountStatus",
       "kind": "type",
       "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
+    },
+    {
+      "name": "DateStyle",
+      "kind": "type",
+      "signature": "type DateStyle = \"full\" | \"long\" | \"medium\" | \"short\";"
     },
     {
       "name": "DsAccordion",
@@ -127,6 +147,11 @@
       "name": "DsButtonGroup",
       "kind": "class",
       "signature": "declare class DsButtonGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get attached(): boolean; set attached(value: boolean); }"
+    },
+    {
+      "name": "DsCalendar",
+      "kind": "class",
+      "signature": "declare class DsCalendar extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get value(): string | null; set value(next: string | null); get focusedDate(): string; set focusedDate(next: string); get view(): CalendarView; set view(next: CalendarView); get rangeStart(): string | null; set rangeStart(next: string | null); get rangeEnd(): string | null; set rangeEnd(next: string | null); get events(): CalendarEvent[]; set events(next: CalendarEvent[]); get prices(): Record<string, string>; set prices(next: Record<string, string>); get viewLabels(): Partial<Record<CalendarView, string>>; set viewLabels(next: Partial<Record<CalendarView, string>>); }"
     },
     {
       "name": "DsCard",
@@ -182,6 +207,16 @@
       "name": "DsCount",
       "kind": "class",
       "signature": "declare class DsCount extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get count(): number; set count(value: number); get max(): number; set max(value: number); get dot(): boolean; set dot(value: boolean); get showZero(): boolean; set showZero(value: boolean); }"
+    },
+    {
+      "name": "DsDatePicker",
+      "kind": "class",
+      "signature": "declare class DsDatePicker extends PickerField { #private; static observedAttributes: string[]; protected readonly messages: { readonly label: \"datePicker.label\"; readonly placeholder: \"datePicker.placeholder\"; readonly clear: \"datePicker.clear\"; }; connectedCallback(): void; get value(): string | null; set value(next: string | null); protected syncValue(): void; protected hasValue(): boolean; protected displayText(format: Intl.DateTimeFormat): string; protected formFields(): { name: string | null; value: string; }[]; protected configureCalendar(calendar: DsCalendar): void; protected onCalendarPick(event: CustomEvent<{ value: string; }>): boolean; protected clearValue(): void; protected restore(): void; }"
+    },
+    {
+      "name": "DsDateRangePicker",
+      "kind": "class",
+      "signature": "declare class DsDateRangePicker extends PickerField { #private; static observedAttributes: string[]; protected readonly messages: { readonly label: \"dateRangePicker.label\"; readonly placeholder: \"dateRangePicker.placeholder\"; readonly clear: \"dateRangePicker.clear\"; }; protected inputClass: string; protected popupClass: string; connectedCallback(): void; get start(): string | null; set start(next: string | null); get end(): string | null; set end(next: string | null); protected syncValue(): void; protected hasValue(): boolean; protected displayText(format: Intl.DateTimeFormat): string; protected formFields(): { name: string | null; value: string; }[]; protected configureCalendar(calendar: DsCalendar): void; protected onCalendarPick(event: CustomEvent<{ start: string | null; end: string | null; }>): boolean; protected clearValue(): void; protected restore(): void; }"
     },
     {
       "name": "DsDialog",
@@ -444,6 +479,11 @@
       "signature": "declare class DsTextarea extends DsTextControl { protected readonly rootClass = \"textarea\"; protected createControl(): HTMLTextAreaElement; }"
     },
     {
+      "name": "DsTimeField",
+      "kind": "class",
+      "signature": "declare class DsTimeField extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get value(): string | null; set value(next: string | null); /** The structural or range error of the current value, or `null`. */ get validationError(): TimeValueError | null; }"
+    },
+    {
       "name": "DsToggleButton",
       "kind": "class",
       "signature": "declare class DsToggleButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get pressed(): boolean; set pressed(value: boolean); get disabled(): boolean; set disabled(value: boolean); }"
@@ -477,6 +517,11 @@
       "name": "FeedbackStatus",
       "kind": "type",
       "signature": "type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
+      "name": "HourCycle",
+      "kind": "type",
+      "signature": "type HourCycle = timeField.HourCycle;"
     },
     {
       "name": "LinkVariant",
@@ -759,6 +804,11 @@
       "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
     },
     {
+      "name": "TimeValueError",
+      "kind": "type",
+      "signature": "type TimeValueError = timeField.TimeValueError;"
+    },
+    {
       "name": "ToggleGroupOrientation",
       "kind": "type",
       "signature": "type ToggleGroupOrientation = \"horizontal\" | \"vertical\";"
@@ -782,6 +832,11 @@
       "name": "TreeNode",
       "kind": "type",
       "signature": "type TreeNode = treeView.TreeNode;"
+    },
+    {
+      "name": "WeekStart",
+      "kind": "type",
+      "signature": "type WeekStart = calendar.WeekStart;"
     },
     {
       "name": "initialsOf",

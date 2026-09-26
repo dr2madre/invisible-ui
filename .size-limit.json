@@ -58,12 +58,12 @@
   {
     "name": "@design-system/elements — elements barrel",
     "path": "packages/elements/dist/index.js",
-    "limit": "72.5 kB"
+    "limit": "84.5 kB"
   },
   {
     "name": "@design-system/elements — define entry",
     "path": "packages/elements/dist/define.js",
-    "limit": "73 kB"
+    "limit": "85 kB"
   },
   {
     "name": "@design-system/elements — table only, tree-shaken",
@@ -424,5 +424,29 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPopover }",
     "limit": "12.5 kB"
+  },
+  {
+    "name": "@design-system/elements — calendar only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCalendar }",
+    "limit": "10.5 kB"
+  },
+  {
+    "name": "@design-system/elements — date picker only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsDatePicker }",
+    "limit": "19.5 kB"
+  },
+  {
+    "name": "@design-system/elements — date range picker only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsDateRangePicker }",
+    "limit": "19.5 kB"
+  },
+  {
+    "name": "@design-system/elements — time field only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsTimeField }",
+    "limit": "8 kB"
   }
 ]

@@ -242,6 +242,89 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-time-field",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "`HH:mm[:ss]`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "hour-cycle",
+          "reactive": true,
+          "required": false,
+          "description": "12|24",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "with-seconds",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "visible error text",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "invalid",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value`, `validationError` (read only).",
+        "Emits: `change` (`detail.value`) on every value change, `commit` (`detail.value`) when editing ends (focus leaves the field, or Enter), and `validation-change` (`detail.error`) when the parsed value's own error changes."
+      ]
     }
   }
 }
