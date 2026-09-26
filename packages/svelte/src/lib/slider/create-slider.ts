@@ -21,7 +21,16 @@ export interface CreateSlider {
    * between two steps while the control shows the nearest one.
    */
   syncValue: (value: number) => void;
+  /**
+   * Reflect the constraints after mount: `min`, `max`, `step`, `orientation`,
+   * `disabled`. Reporting nothing, like any reflection. If the new bounds or
+   * step leave the current value off the track it is snapped silently.
+   */
+  syncConfig: (config: SliderConfig) => void;
 }
+
+/** The props a consumer may change after mount, besides the value. */
+export type SliderConfig = Pick<SliderState, "min" | "max" | "step" | "orientation" | "disabled">;
 
 /**
  * Create a headless slider backed by a native `<input type="range">`. The
@@ -53,11 +62,33 @@ export function createSlider(context: core.SliderContext = {}): CreateSlider {
       return current.value === snapped ? current : { ...current, value: snapped };
     });
 
+  // Every field is compared, so a constraint changed after mount reaches the
+  // machine instead of being frozen at construction: a slider mounted
+  // disabled accepts input once enabled, and the fill follows new bounds.
+  const syncConfig = (config: SliderConfig) =>
+    state.update((current) => {
+      if (
+        current.min === config.min &&
+        current.max === config.max &&
+        current.step === config.step &&
+        current.orientation === config.orientation &&
+        current.disabled === config.disabled
+      ) {
+        return current;
+      }
+      return {
+        ...current,
+        ...config,
+        value: core.snap(current.value, config.min, config.max, config.step),
+      };
+    });
+
   return {
     state,
     value: derived(state, ($state) => $state.value),
     percentage: derived(state, ($state) => core.percentage($state)),
     setValue,
     syncValue,
+    syncConfig,
   };
 }

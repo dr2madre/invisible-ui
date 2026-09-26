@@ -1,0 +1,18 @@
+/* AspectRatio, ported from the Svelte adapter, class names kept identical. */
+
+.aspect-ratio {
+  /* Private variable: the component always sets it inline from the prop. */
+  aspect-ratio: var(--_aspect-ratio, 1);
+  inline-size: 100%;
+  overflow: hidden;
+  border-radius: var(--ds-aspect-ratio-radius, 0);
+}
+/* Common embedded media fills the box. */
+.aspect-ratio img,
+.aspect-ratio video,
+.aspect-ratio iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}

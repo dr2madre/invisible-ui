@@ -29,6 +29,7 @@ const REACT_SHEETS = [
   "select.css",
   "combobox.css",
   "dialog.css",
+  "dialog-header.css",
   "text-field.css",
   "search-field.css",
 ];
@@ -53,6 +54,53 @@ const VUE_SHEETS = [
   "loading-generation-area.css",
   "sheet-dialog.css",
   "tree-view.css",
+  "avatar.css",
+  "sidebar.css",
+  "tooltip.css",
+  "navigation-menu.css",
+  "dropdown-menu.css",
+  "context-menu.css",
+  "menubar.css",
+  "breadcrumb.css",
+  "progress.css",
+  "scroll-area.css",
+  "avatar-group.css",
+  "kbd.css",
+  "link.css",
+  "button-group.css",
+  "toolbar.css",
+  "upload-drop-area.css",
+  "login-form.css",
+  "radio.css",
+  "segmented-control.css",
+  "popover.css",
+  "table-set.css",
+  "alert-dialog.css",
+  "confirm-dialog.css",
+  "prompt-dialog.css",
+  "search-dialog.css",
+  "toggle-button.css",
+  "toggle-group.css",
+  "accordion.css",
+  "collapsible.css",
+  "aspect-ratio.css",
+  "blockquote.css",
+  "skeleton.css",
+  "meter.css",
+  "number-field.css",
+  "pin-input.css",
+  "notification-region.css",
+  "stepper.css",
+  "slider.css",
+  "range-slider.css",
+  "rating-group.css",
+  "code.css",
+  "code-block.css",
+  "carousel.css",
+  "calendar.css",
+  "date-picker.css",
+  "date-range-picker.css",
+  "time-field.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
@@ -72,6 +120,17 @@ describe("native dialog visibility", () => {
     const sheet = read("./sheet-dialog.css");
     expect(sheet).toMatch(/\.sheet-dialog__panel\[open\]\s*\{[^}]*display:\s*flex/s);
     expect(sheet).not.toMatch(/\.sheet-dialog__panel\s*\{[^}]*display:\s*flex/s);
+  });
+});
+
+describe("login form width", () => {
+  // The card sizes its content box, so its padding and border must come out
+  // of the available width or it overflows a 320px viewport.
+  it("keeps the padding and the border inside the container", () => {
+    const sheet = read("./login-form.css");
+    expect(sheet).toMatch(
+      /\.login\s*\{[^}]*inline-size:\s*min\(\s*100% - 2 \* var\(--ds-login-padding, 1\.75rem\) - 2px,/s,
+    );
   });
 });
 

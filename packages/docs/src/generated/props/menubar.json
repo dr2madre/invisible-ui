@@ -69,6 +69,26 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-menubar",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": ", names the bar",
+          "descriptionFrom": "curated"
+        }
+      ],
+      "notes": [
+        "Properties: `menus` (`MenubarMenu[]`: `{ value, label, items, disabled? }`).",
+        "Emits: bubbling `select` CustomEvent with `detail.menu` and `detail.value`, after the menu closes."
+      ]
     }
   }
 }

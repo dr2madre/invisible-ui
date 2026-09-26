@@ -1,5 +1,6 @@
 import { pagination as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { localized, onLocaleChange, t } from "../internal/i18n";
 
 const numberAttr = (element: Element, name: string, fallback: number) => {
   const raw = element.getAttribute(name);
@@ -36,6 +37,13 @@ export class DsPagination extends HTMLElementBase {
   #next: HTMLButtonElement | null = null;
   #pages = new Map<number, HTMLButtonElement>();
   #id = core.initialState({ pageCount: 1 }).id;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#root) this.#sync();
+    });
+  }
 
   connectedCallback() {
     for (const property of ["page", "pageCount", "siblingCount", "boundaryCount", "disabled"])
@@ -137,15 +145,15 @@ export class DsPagination extends HTMLElementBase {
     const root = this.#root!;
     const api = this.#api();
     applyProps(root, api.rootProps);
-    root.setAttribute("aria-label", this.getAttribute("label") ?? "Pagination");
+    root.setAttribute("aria-label", localized(this, "label", "pagination.label"));
 
     applyProps(this.#previous!, api.getPrevProps());
     this.#previous!.setAttribute(
       "aria-label",
-      this.getAttribute("previous-label") ?? "Go to previous page",
+      localized(this, "previous-label", "pagination.previous"),
     );
     applyProps(this.#next!, api.getNextProps());
-    this.#next!.setAttribute("aria-label", this.getAttribute("next-label") ?? "Go to next page");
+    this.#next!.setAttribute("aria-label", localized(this, "next-label", "pagination.next"));
 
     const desired: HTMLElement[] = [this.#previous!];
     const retainedPages = new Set<number>();
@@ -184,10 +192,10 @@ export class DsPagination extends HTMLElementBase {
   }
 
   #pageLabel(page: number) {
-    return (this.getAttribute("page-label") ?? "Go to page {page}").replaceAll(
-      "{page}",
-      String(page),
-    );
+    const template = this.getAttribute("page-label");
+    return template == null
+      ? t(this, "pagination.page", { page })
+      : template.replaceAll("{page}", String(page));
   }
 
   #reconcile(parent: HTMLElement, desired: HTMLElement[]) {

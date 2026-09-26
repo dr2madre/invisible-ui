@@ -19,6 +19,23 @@ cross-menu navigation.
 
 <ImportSnippet component="menubar" />
 
+In Elements, assign the menus through the `menus` property and listen for
+`select`. Its detail names the menu and the item:
+
+```html
+<ds-menubar label="Main"></ds-menubar>
+<script type="module">
+  import "@design-system/elements/define";
+
+  const bar = document.querySelector("ds-menubar");
+  bar.menus = [
+    { value: "file", label: "File", items: [{ value: "new", label: "New" }] },
+    { value: "edit", label: "Edit", items: [{ value: "undo", label: "Undo" }] },
+  ];
+  bar.addEventListener("select", (event) => run(event.detail.menu, event.detail.value));
+</script>
+```
+
 ### Props
 
 <PropsTable component="menubar" />

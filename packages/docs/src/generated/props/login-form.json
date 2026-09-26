@@ -152,6 +152,68 @@
         "logo",
         "providerIcon"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-login-form",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "heading",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "subheading",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "submit-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "forgot-href",
+          "reactive": true,
+          "required": false,
+          "description": "an empty value hides the link",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "forgot-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "action",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "method",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `providers` (`{ id, label }[]`).",
+        "Emits: bubbling, cancelable `submit` CustomEvent with `detail.email` and `detail.password`; bubbling `provider` CustomEvent with `detail.id` when a provider button is pressed."
+      ]
     }
   }
 }

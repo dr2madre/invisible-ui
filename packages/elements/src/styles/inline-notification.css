@@ -28,6 +28,10 @@
   color: var(--ds-close-color, inherit);
 }
 
+/* The surface decides the close button's colour, not the ghost variant. */
+.inline-notification__close .button[data-variant="ghost"] {
+  color: inherit;
+}
 .inline-notification__content {
   flex: 1;
   min-inline-size: 0;

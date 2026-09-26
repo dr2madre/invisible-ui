@@ -93,6 +93,40 @@
         "default",
         "trigger"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-collapsible",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the trigger text; \"Toggle\" by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `open`.",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`."
+      ]
     }
   }
 }

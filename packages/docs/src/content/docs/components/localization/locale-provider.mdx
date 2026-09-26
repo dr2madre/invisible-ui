@@ -79,3 +79,27 @@ strings live in the English catalog (`en`); see `MessageKey` for the keys.
   <Calendar />
 </LocaleProvider>
 ```
+
+In Elements:
+
+```html
+<ds-locale-provider locale="it">
+  <ds-search-field label="Cerca"></ds-search-field>
+  <ds-dialog heading="Impostazioni"></ds-dialog>
+</ds-locale-provider>
+
+<script type="module">
+  document.querySelector("ds-locale-provider").messages = {
+    "searchField.clear": "Cancella la ricerca",
+    "searchField.submit": "Cerca",
+    "dialog.close": "Chiudi",
+  };
+</script>
+```
+
+`locale` and `dir` are attributes; `messages` is a property. The provider
+writes `lang` and `dir` on itself. An element reads the closest
+`ds-locale-provider`; without one, it reads the closest `lang` attribute, then
+English. Changing `locale`, `dir` or `messages` renders the labels of every
+element inside again. A label attribute on an element, such as `clear-label`,
+still wins over the catalog.

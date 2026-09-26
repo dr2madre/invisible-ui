@@ -69,6 +69,32 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-breadcrumb",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the landmark name; \"Breadcrumb\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "separator",
+          "reactive": true,
+          "required": false,
+          "description": "the text between items; \"/\" by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `items` (the trail, from the root to the current page)."
+      ]
     }
   }
 }

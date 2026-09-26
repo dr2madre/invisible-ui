@@ -87,6 +87,44 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-tooltip",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "text",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "placement",
+          "reactive": true,
+          "required": false,
+          "description": "Floating UI placement, `top` by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 300",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-delay",
+          "reactive": false,
+          "required": false,
+          "description": "ms, 100",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

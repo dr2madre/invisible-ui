@@ -28,7 +28,15 @@ export interface CreateTooltip {
   triggerAction: Action<HTMLElement>;
   /** Svelte action for the tooltip element (render only while open). */
   tooltipAction: Action<HTMLElement>;
+  /**
+   * Reflect the options after mount. The delays apply from the next hover;
+   * the placement from the next time the tooltip opens.
+   */
+  syncOptions: (options: TooltipOptions) => void;
 }
+
+/** The options a consumer may change after mount. */
+export type TooltipOptions = Pick<TooltipContext, "placement" | "openDelay" | "closeDelay">;
 
 /**
  * Create a headless tooltip. Behaviour/ARIA live in `@design-system/core`; this
@@ -41,7 +49,15 @@ export function createTooltip(context: TooltipContext = {}): CreateTooltip {
   const state = writable<TooltipState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-tooltip") }),
   );
-  const { placement = "top", offset = 6, openDelay = 300, closeDelay = 100 } = context;
+  const { offset = 6 } = context;
+  let { placement = "top", openDelay = 300, closeDelay = 100 } = context;
+
+  // Read at event time, so a change after mount needs no re-wiring.
+  const syncOptions = (options: TooltipOptions) => {
+    placement = options.placement ?? "top";
+    openDelay = options.openDelay ?? 300;
+    closeDelay = options.closeDelay ?? 100;
+  };
 
   const setOpen = (open: boolean) => {
     const current = get(state);
@@ -152,5 +168,6 @@ export function createTooltip(context: TooltipContext = {}): CreateTooltip {
     open: derived(state, ($state) => $state.open),
     triggerAction,
     tooltipAction,
+    syncOptions,
   };
 }

@@ -8,6 +8,7 @@ import {
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 import { chevronIcon } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export interface SelectItem {
   value: string;
@@ -59,6 +60,13 @@ export class DsSelect extends HTMLElementBase {
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string | null = null;
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#select) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "value");
@@ -163,7 +171,7 @@ export class DsSelect extends HTMLElementBase {
 
   /** Shared by the option rebuild and the sync, which both write it. */
   #placeholderText() {
-    return this.getAttribute("placeholder") ?? "Select…";
+    return localized(this, "placeholder", "select.placeholder");
   }
 
   #renderOptions() {

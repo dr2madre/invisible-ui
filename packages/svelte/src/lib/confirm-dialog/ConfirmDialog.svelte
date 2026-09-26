@@ -10,11 +10,14 @@
    * use `AlertDialog`, to ask for a value use `PromptDialog`.
    *
    * The default slot is the trigger. `onConfirm` runs when the confirm button is
-   * pressed. A `title` is required; `description` is optional. Colors, radius and
-   * elevation are themeable via `--ds-dialog-*`.
+   * pressed. A `title` is required; `description` is optional. The header is
+   * the one the dialog family shares: an optional `icon` slot (a FeedbackIcon)
+   * before the title and an optional close button (`closeButton`). Colors,
+   * radius and elevation are themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
 
@@ -43,6 +46,10 @@
   export let onConfirm: (() => void) | undefined = undefined;
   /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
   export let closeOnOutsideClick = true;
+  /** Show a close button at the trailing end of the header; it closes like Escape. */
+  export let closeButton = false;
+  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
@@ -67,6 +74,7 @@
     contentAction,
     titleAction,
     descriptionAction,
+    closeAction,
   } = dialog;
 
   // Controllable mirror through the no-notify sync: opening from the outside
@@ -78,6 +86,7 @@
   }
 
   $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
+  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
   $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
 
   const cancel = () => setOpen(false);
@@ -93,7 +102,16 @@
 
 {#if $isOpen}
   <dialog class="confirm-dialog__panel" use:contentAction>
-    <h2 class="confirm-dialog__title" use:titleAction>{title}</h2>
+    <DialogHeader
+      {title}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      {closeAction}
+      hasIcon={$$slots.icon}
+    >
+      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
+    </DialogHeader>
     {#if description}
       <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
     {/if}
@@ -129,12 +147,6 @@
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
-  }
-  .confirm-dialog__title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
   }
   .confirm-dialog__description {
     margin: 0.5rem 0 0;

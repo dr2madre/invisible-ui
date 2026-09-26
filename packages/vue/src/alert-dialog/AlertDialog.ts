@@ -1,6 +1,7 @@
 import { defineComponent, h, type ComponentPublicInstance, type PropType } from "vue";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
+import { dialogHeader } from "../dialog/dialog-header";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "../dialog/use-dialog";
 
@@ -27,6 +28,10 @@ export interface AlertDialogProps {
    * set `false` to require an explicit button press (e.g. "I understood").
    */
   closeOnOutsideClick?: boolean;
+  /** Show a close button at the trailing end of the header; it closes like Escape. */
+  closeButton?: boolean;
+  /** Accessible label for the close button. Defaults to the catalog's "Close". */
+  closeLabel?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -45,6 +50,9 @@ export interface AlertDialogProps {
  * Escape or backdrop. For a choice that can stop a process use
  * `ConfirmDialog`; to ask for a value use `PromptDialog`. Colors, radius and
  * elevation are themeable via `--ds-dialog-*`.
+ *
+ * The header is the one the dialog family shares: an optional `icon` slot (a
+ * FeedbackIcon) before the title and an optional close button (`closeButton`).
  */
 export const AlertDialog = defineComponent({
   name: "AlertDialog",
@@ -57,6 +65,8 @@ export const AlertDialog = defineComponent({
     dismissLabel: { type: String, default: undefined },
     onDismiss: { type: Function as PropType<() => void>, default: undefined },
     closeOnOutsideClick: { type: Boolean, default: true },
+    closeButton: { type: Boolean, default: false },
+    closeLabel: { type: String, default: undefined },
     onOpenChange: { type: Function as PropType<(open: boolean) => void>, default: undefined },
   },
   emits: {
@@ -102,7 +112,14 @@ export const AlertDialog = defineComponent({
       return [
         triggerNode,
         h("dialog", { ...api.value.contentProps, ref: panelRef, class: "alert-dialog__panel" }, [
-          h("h2", { ...api.value.titleProps, class: "alert-dialog__title" }, props.title),
+          dialogHeader({
+            title: props.title,
+            closeButton: props.closeButton,
+            closeLabel: props.closeLabel ?? t("dialog.close"),
+            titleProps: api.value.titleProps,
+            closeProps: api.value.closeProps,
+            icon: slots.icon?.(),
+          }),
           h(
             "p",
             { ...api.value.descriptionProps, class: "alert-dialog__description" },

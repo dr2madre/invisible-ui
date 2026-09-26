@@ -123,4 +123,35 @@ describe("Svelte DropdownMenu (styled)", () => {
       "true",
     );
   });
+
+  it("navigates items and runs the callback given after mount", async () => {
+    const user = userEvent.setup();
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = render(Fixture, { props: { onSelect: first } });
+    await rerender({
+      onSelect: second,
+      items: [
+        { value: "new", label: "New file" },
+        { value: "archive", label: "Archive" },
+      ],
+    });
+    const trigger = screen.getByRole("button", { name: "Actions" });
+
+    trigger.focus();
+    await user.keyboard("{ArrowDown}"); // open, active = New file
+    await user.keyboard("{ArrowDown}"); // -> Archive, only in the new items
+    await user.keyboard("{Enter}");
+    expect(second).toHaveBeenCalledWith("archive");
+    expect(first).not.toHaveBeenCalled();
+  });
+
+  it("stays shut once disabled after mount", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(Fixture);
+    await rerender({ disabled: true });
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
 });

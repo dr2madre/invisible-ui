@@ -3,6 +3,7 @@ import {
   applyProps,
   boolAttr,
   HTMLElementBase,
+  nextId,
   syncAttribute,
   upgradeProperty,
 } from "../internal/base";
@@ -21,6 +22,10 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  * `aria-label` (forwarded — required for icon-only), `aria-haspopup`,
  * `aria-controls`, `title`.
  * Activation is the native `click` event.
+ *
+ * A child marked `slot="badge"` (a `<ds-count>`, number or dot) sits on the
+ * button's corner, outside the `<button>`, so the button keeps its own name
+ * and the badge describes it (`aria-describedby`).
  */
 export class DsButton extends HTMLElementBase {
   static observedAttributes = [
@@ -62,12 +67,29 @@ export class DsButton extends HTMLElementBase {
     const button = document.createElement("button");
     button.className = "button";
 
+    // The badge is read before the label moves, so it never lands inside the
+    // button: a count inside would join the button's accessible name.
+    const badgeContent = Array.from(this.children).filter(
+      (child) => child.getAttribute("slot") === "badge",
+    );
+    for (const child of badgeContent) child.removeAttribute("slot");
+    let badge: HTMLSpanElement | null = null;
+    if (badgeContent.length > 0) {
+      badge = document.createElement("span");
+      badge.className = "button__badge";
+      badge.id = nextId("ds-button-badge");
+      badge.append(...badgeContent);
+      button.setAttribute("aria-describedby", badge.id);
+      this.classList.add("button__badge-anchor");
+    }
+
     // The element's children are the visible label; move them inside.
     const label = document.createDocumentFragment();
     while (this.firstChild) label.appendChild(this.firstChild);
     button.appendChild(label);
 
     this.appendChild(button);
+    if (badge) this.appendChild(badge);
     this.#button = button;
   }
 

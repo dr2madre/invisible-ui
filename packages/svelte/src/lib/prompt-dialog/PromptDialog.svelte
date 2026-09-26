@@ -11,11 +11,14 @@
    *
    * The default slot is the trigger. `onConfirm(value)` runs with the entered
    * text when confirmed; Enter in the field also confirms. A `title` is
-   * required; `label` names the input. Colors, radius and elevation are themeable
-   * via `--ds-dialog-*`.
+   * required; `label` names the input. The header is the one the dialog family
+   * shares: an optional `icon` slot (a FeedbackIcon) before the title and an
+   * optional close button (`closeButton`). Colors, radius and elevation are
+   * themeable via `--ds-dialog-*`.
    */
   import { createDialog } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
 
@@ -53,6 +56,10 @@
   export let onConfirm: ((value: string) => void) | undefined = undefined;
   /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
   export let closeOnOutsideClick = true;
+  /** Show a close button at the trailing end of the header; it closes like Escape. */
+  export let closeButton = false;
+  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+  export let closeLabel: string | undefined = undefined;
   /** Called whenever the open state changes. */
   export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
 
@@ -78,6 +85,7 @@
     contentAction,
     titleAction,
     descriptionAction,
+    closeAction,
   } = dialog;
 
   // Controllable mirror through the no-notify sync: opening from the outside
@@ -90,6 +98,7 @@
   // Reset to the initial value each time it (re)opens.
   $: if ($isOpen) current = value;
   $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
+  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
   $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
   $: canConfirm =
     confirmValue != null ? current === confirmValue : !required || current.trim().length > 0;
@@ -117,7 +126,16 @@
 
 {#if $isOpen}
   <dialog class="prompt-dialog__panel" use:contentAction>
-    <h2 class="prompt-dialog__title" use:titleAction>{title}</h2>
+    <DialogHeader
+      {title}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      {closeAction}
+      hasIcon={$$slots.icon}
+    >
+      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
+    </DialogHeader>
     {#if description}
       <p class="prompt-dialog__description" use:descriptionAction>{description}</p>
     {/if}
@@ -166,12 +184,6 @@
     outline: none;
     box-shadow: var(--ds-focus-ring-shadow);
     outline-offset: 2px;
-  }
-  .prompt-dialog__title {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
   }
   .prompt-dialog__description {
     margin: 0.5rem 0 0;

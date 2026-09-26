@@ -22,6 +22,31 @@ views (each with its own columns + rows).
 
 <ImportSnippet component="table-set" />
 
+In Elements, assign data through properties and listen for the bubbling
+events. Each callback becomes an event with the same name in kebab case, and
+the no-results "Clear filters" action appears with `filters-clearable`:
+
+```html
+<ds-table-set title="Customers" page-size="10" configurable allow-view-toggle>
+  <ds-search-field slot="toolbar" label="Filter customers" hide-label></ds-search-field>
+</ds-table-set>
+
+<script type="module">
+  import "@design-system/elements/define";
+
+  const set = document.querySelector("ds-table-set");
+  set.columns = [
+    { key: "name", header: "Name", sortable: true, hideable: false },
+    { key: "city", header: "City" },
+  ];
+  set.rows = customers;
+  set.addEventListener("page-change", ({ detail }) => console.log(detail.page));
+</script>
+```
+
+For a single table, give `<ds-table-set>` one view. The element it renders
+each view with is internal, as in the other adapters.
+
 ### Props (selected)
 
 <PropsTable component="table-set" />

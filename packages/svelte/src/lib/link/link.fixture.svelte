@@ -6,6 +6,7 @@
   export let variant: "primary" | "subtle" = "primary";
   export let onclick: ((event: MouseEvent) => void) | undefined = undefined;
   export let label = "Read the guide";
+  export let target: string | undefined = undefined;
 </script>
 
-<Link {href} {external} {variant} on:click={(event) => onclick?.(event)}>{label}</Link>
+<Link {href} {external} {variant} {target} on:click={(event) => onclick?.(event)}>{label}</Link>

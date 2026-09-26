@@ -20,14 +20,6 @@
     </Icon>
   </TextField>
 
-  <!-- Search: the glyph is a label, so it sits on the left (not a submit). -->
-  <TextField label="Search" type="search" placeholder="Search…">
-    <Icon slot="left">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </Icon>
-  </TextField>
-
   <!-- Error: red ring + triangle + message. -->
   <TextField label="Email" type="email" value="not-an-email" error="Enter a valid email address." />
 

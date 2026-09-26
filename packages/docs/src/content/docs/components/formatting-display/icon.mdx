@@ -17,6 +17,15 @@ A standardized SVG wrapper for the system's glyphs and any icon you drop in.
 
 <ImportSnippet component="icon" />
 
+In Elements, pass the glyph as a `path` or wrap its shapes in an `<svg>`:
+
+```html
+<ds-icon label="Done" path="M20 6 9 17l-5-5"></ds-icon>
+<ds-icon>
+  <svg><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+</ds-icon>
+```
+
 ### Props
 
 <PropsTable component="icon" />

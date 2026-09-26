@@ -2,6 +2,7 @@ import { defineComponent, h, type ComponentPublicInstance, type PropType, type V
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
+import { dialogHeader } from "./dialog-header";
 import { useDialog } from "./use-dialog";
 
 /** How the dialog body spaces its direct children. */
@@ -25,6 +26,8 @@ export interface DialogProps {
   description?: string;
   /** Accessible label for the close button. Defaults to the catalog's "Close". */
   closeLabel?: string;
+  /** Show the close button at the trailing end of the header. Default `true`. */
+  closeButton?: boolean;
   /** Show a close/cancel button on the footer's leading edge. */
   footerClose?: boolean;
   /**
@@ -54,10 +57,12 @@ export interface DialogProps {
  *
  * The open state binds two ways: `v-model:open` (the idiomatic Vue form) or the
  * `open` prop plus `onOpenChange`, matching the React adapter. The body is the
- * default slot; `trigger`, `icon`, `headerMeta`, `headerLead`, `footerLead` and
- * `footer` are named slots.
+ * default slot; `trigger`, `icon`, `headerMeta`, `headerLead`, `headerActions`,
+ * `footerLead` and `footer` are named slots.
  *
  * Layout: a grid panel with a fixed header and footer and a scrolling body.
+ * The header is the one the whole dialog family shares; `closeButton` turns
+ * its close button off.
  * Themeable via `--ds-dialog-*`.
  *
  * Multi-step workflows are a composition, not a separate component: put the
@@ -75,6 +80,7 @@ export const Dialog = defineComponent({
     hideTitle: { type: Boolean, default: false },
     description: { type: String, default: undefined },
     closeLabel: { type: String, default: undefined },
+    closeButton: { type: Boolean, default: true },
     footerClose: { type: Boolean, default: false },
     bodyLayout: { type: String as PropType<DialogBodyLayout>, default: "plain" },
     initialFocus: { type: String, default: undefined },
@@ -142,66 +148,20 @@ export const Dialog = defineComponent({
         "dialog",
         { ...api.value.contentProps, ref: panelRef, class: "dialog__panel" },
         [
-          h("header", { class: "dialog__header" }, [
-            slots.icon ? h("div", { class: "dialog__header-icon" }, slots.icon()) : null,
-            slots.headerLead
-              ? h("div", { class: "dialog__header-lead" }, slots.headerLead())
-              : null,
-
-            // Consumer content above the title, e.g. "Step 1 of 2". It carries
-            // no progress semantics of its own.
-            slots.headerMeta
-              ? h("div", { class: "dialog__header-meta" }, slots.headerMeta())
-              : null,
-
-            h(
-              "h2",
-              {
-                ...api.value.titleProps,
-                class: props.hideTitle ? "dialog__title dialog__title--hidden" : "dialog__title",
-              },
-              props.title,
-            ),
-
-            props.description !== undefined
-              ? h(
-                  "p",
-                  { ...api.value.descriptionProps, class: "dialog__subtitle" },
-                  props.description,
-                )
-              : null,
-
-            h(
-              "button",
-              {
-                ...api.value.closeProps,
-                class: "dialog__close",
-                type: "button",
-                "aria-label": resolvedCloseLabel,
-              },
-              [
-                h(
-                  "svg",
-                  {
-                    viewBox: "0 0 24 24",
-                    width: "1em",
-                    height: "1em",
-                    "aria-hidden": "true",
-                    focusable: "false",
-                  },
-                  [
-                    h("path", {
-                      d: "M6 6l12 12M18 6L6 18",
-                      fill: "none",
-                      stroke: "currentColor",
-                      "stroke-width": "2",
-                      "stroke-linecap": "round",
-                    }),
-                  ],
-                ),
-              ],
-            ),
-          ]),
+          dialogHeader({
+            title: props.title,
+            hideTitle: props.hideTitle,
+            subtitle: props.description,
+            closeButton: props.closeButton,
+            closeLabel: resolvedCloseLabel,
+            titleProps: api.value.titleProps,
+            subtitleProps: api.value.descriptionProps,
+            closeProps: api.value.closeProps,
+            icon: slots.icon?.(),
+            lead: slots.headerLead?.(),
+            meta: slots.headerMeta?.(),
+            actions: slots.headerActions?.(),
+          }),
 
           h("div", { class: "dialog__body", "data-layout": props.bodyLayout }, slots.default?.()),
 

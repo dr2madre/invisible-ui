@@ -128,8 +128,8 @@
           "name": "label",
           "reactive": true,
           "required": true,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "for the shortcut; composed tabs name their `<ds-tab-list>`",
+          "descriptionFrom": "source"
         },
         {
           "name": "value",
@@ -137,9 +137,18 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "activation-mode",
+          "reactive": true,
+          "required": false,
+          "description": "automatic|manual",
+          "descriptionFrom": "source"
         }
       ],
-      "notes": []
+      "notes": [
+        "Properties: `items`, `renderPanel` (shortcut only). `renderPanel` may return a DOM Node or scalar; strings are inserted as text. Emits a bubbling `change` event with `detail.value` when the selected tab changes."
+      ]
     }
   }
 }

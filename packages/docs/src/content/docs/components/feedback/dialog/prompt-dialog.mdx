@@ -46,6 +46,32 @@ destructive actions: `urgent` switches the panel to `role="alertdialog"`
 
 <ImportSnippet component="prompt-dialog" />
 
+In Elements:
+
+```html
+<ds-prompt-dialog
+  heading="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  label="Type the file name to confirm"
+  placeholder="report-q3.pdf"
+  confirm-value="report-q3.pdf"
+  confirm-label="Delete file"
+  cancel-label="Keep file"
+  confirm-variant="danger"
+  urgent
+  trigger="Delete file"
+></ds-prompt-dialog>
+
+<script type="module">
+  document
+    .querySelector("ds-prompt-dialog")
+    .addEventListener("confirm", (event) => deleteFile(event.detail.value));
+</script>
+```
+
+The `confirm` event carries the entered text in `detail.value`, from the
+button or Enter in the input.
+
 ### Props
 
 <PropsTable component="prompt-dialog" />

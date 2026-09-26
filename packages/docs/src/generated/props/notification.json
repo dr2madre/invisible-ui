@@ -263,6 +263,103 @@
       "slots": [
         "icon"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-notification",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "title",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "text",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "status",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "duration",
+          "reactive": true,
+          "required": false,
+          "description": "ms, `0` keeps it until closed",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closable",
+          "reactive": true,
+          "required": false,
+          "description": "on by default, `\"false\"` removes the close button",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "role",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "inverted",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "snack",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "icon-shape",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "icon-box",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "paused",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `actions` (action buttons that dismiss after they run unless `keepOpen`), `duration`, `paused`.",
+        "Emits: `close` (`detail.reason`: `user`, `timeout` or `action`; cancelable, and the element removes itself unless the event is canceled)."
+      ]
     }
   }
 }

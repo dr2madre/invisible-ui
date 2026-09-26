@@ -117,6 +117,60 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-progress",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "the current value; 0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "the range start; 0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "the range end; 100 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "shape",
+          "reactive": true,
+          "required": false,
+          "description": "bar|circle",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "show-value",
+          "reactive": true,
+          "required": false,
+          "description": "the percentage inside the circle",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `value`, `min`, `max`."
+      ]
     }
   }
 }

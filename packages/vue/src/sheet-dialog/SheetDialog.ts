@@ -1,6 +1,7 @@
 import { defineComponent, h, type ComponentPublicInstance, type PropType } from "vue";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
+import { dialogHeader } from "../dialog/dialog-header";
 import { useI18n } from "../i18n/i18n";
 import { useSheetDialog, type SheetDialogSide } from "./use-sheet-dialog";
 
@@ -24,6 +25,8 @@ export interface SheetDialogProps {
   description?: string;
   /** Accessible label for the close button. Defaults to the catalog's "Close". */
   closeLabel?: string;
+  /** Show the close button at the trailing end of the header. Default `true`. */
+  closeButton?: boolean;
   /**
    * CSS selector (within the panel) for the element to focus on open, e.g.
    * `"input"` to land on a form's first field instead of the close button.
@@ -48,10 +51,11 @@ export interface SheetDialogProps {
  * keyboard users close with Escape or the close button.
  *
  * Slots: `trigger` (the trigger button's content), the default slot (the body),
- * an optional `footer` (actions), and two header slots, `headerLead` (before
- * the title, on the leading edge, e.g. a back affordance) and `headerActions`
- * (after the title, just before the close button). Pass a `title` (required)
- * and optional `description`. Colors, radius and elevation are themeable via
+ * an optional `footer` (actions), and the header slots the dialog family
+ * shares: `icon` (a leading FeedbackIcon), `headerLead` (before the title, e.g.
+ * a back affordance) and `headerActions` (after the title, just before the
+ * close button). Pass a `title` (required) and an optional `description`,
+ * shown as the subtitle under the title. Colors, radius and elevation are themeable via
  * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
  */
 export const SheetDialog = defineComponent({
@@ -65,6 +69,7 @@ export const SheetDialog = defineComponent({
     title: { type: String, required: true },
     description: { type: String, default: undefined },
     closeLabel: { type: String, default: undefined },
+    closeButton: { type: Boolean, default: true },
     initialFocus: { type: String, default: undefined },
     /**
      * Whether this component renders its own trigger button. Turn it off when
@@ -146,61 +151,18 @@ export const SheetDialog = defineComponent({
               })
             : null,
 
-          h("header", { class: "sheet-dialog__header" }, [
-            // Content before the title (e.g. a back or up affordance), on the
-            // leading edge of the header.
-            slots.headerLead
-              ? h("div", { class: "sheet-dialog__header-lead" }, slots.headerLead())
-              : null,
-
-            h("h2", { ...api.value.titleProps, class: "sheet-dialog__title" }, props.title),
-
-            // Actions on the title row (e.g. a settings button, "Mark all
-            // read"), sitting just before the close button.
-            slots.headerActions
-              ? h("div", { class: "sheet-dialog__header-actions" }, slots.headerActions())
-              : null,
-
-            h(
-              "button",
-              {
-                ...api.value.closeProps,
-                class: "sheet-dialog__close",
-                type: "button",
-                "aria-label": resolvedCloseLabel,
-              },
-              [
-                h(
-                  "svg",
-                  {
-                    viewBox: "0 0 24 24",
-                    width: "1em",
-                    height: "1em",
-                    "aria-hidden": "true",
-                    focusable: "false",
-                  },
-                  [
-                    h("path", {
-                      d: "M6 6l12 12M18 6L6 18",
-                      fill: "none",
-                      stroke: "currentColor",
-                      "stroke-width": "2",
-                      "stroke-linecap": "round",
-                    }),
-                  ],
-                ),
-              ],
-            ),
-          ]),
-
-          props.description !== undefined
-            ? h(
-                "p",
-                { ...api.value.descriptionProps, class: "sheet-dialog__description" },
-                props.description,
-              )
-            : null,
-
+          dialogHeader({
+            title: props.title,
+            subtitle: props.description,
+            closeButton: props.closeButton,
+            closeLabel: resolvedCloseLabel,
+            titleProps: api.value.titleProps,
+            subtitleProps: api.value.descriptionProps,
+            closeProps: api.value.closeProps,
+            icon: slots.icon?.(),
+            lead: slots.headerLead?.(),
+            actions: slots.headerActions?.(),
+          }),
           h("div", { class: "sheet-dialog__body" }, slots.default?.()),
 
           slots.footer ? h("footer", { class: "sheet-dialog__footer" }, slots.footer()) : null,

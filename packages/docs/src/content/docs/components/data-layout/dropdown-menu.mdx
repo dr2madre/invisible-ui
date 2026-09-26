@@ -60,6 +60,24 @@ makes sense, you want the Select.
 
 Submenus are not supported yet: a menu is one level deep.
 
+In Elements, assign the entries through the `items` property and listen for
+`select`. The event fires after the menu closes:
+
+```html
+<ds-dropdown-menu label="Actions"></ds-dropdown-menu>
+<script type="module">
+  import "@design-system/elements/define";
+
+  const menu = document.querySelector("ds-dropdown-menu");
+  menu.items = [
+    { value: "rename", label: "Rename" },
+    { type: "separator" },
+    { value: "delete", label: "Delete" },
+  ];
+  menu.addEventListener("select", (event) => run(event.detail.value));
+</script>
+```
+
 ### Props
 
 <PropsTable component="dropdown-menu" />

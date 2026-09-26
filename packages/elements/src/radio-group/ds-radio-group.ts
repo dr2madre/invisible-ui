@@ -34,7 +34,8 @@ export type RadioGroupItem = core.RadioItem & { label: string };
  * consumed: they are not a live source. Replace the set through the `items`
  * property, the same escape hatch `<ds-select>` offers.
  *
- * Attributes: `label` (required), `value`, `name`, `orientation`, `disabled`.
+ * Attributes: `label` (required), `value`, `name` (generated when absent, so
+ * the radios still form one group), `orientation`, `disabled`.
  * Properties: `value`, `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
@@ -47,6 +48,9 @@ export class DsRadioGroup extends HTMLElementBase {
   #itemsAssigned = false;
   #inputs = new Map<string, HTMLInputElement>();
   #labelId = nextId("ds-radio-group-label");
+  // Without a shared name the browser treats every radio as its own group:
+  // arrow keys stop moving between them and more than one can be checked.
+  #fallbackName = nextId("ds-radio-group");
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string | null = null;
   #stopFormReset: (() => void) | null = null;
@@ -182,7 +186,7 @@ export class DsRadioGroup extends HTMLElementBase {
         orientation,
         disabled,
       }),
-      name: this.getAttribute("name") ?? undefined,
+      name: this.getAttribute("name") ?? this.#fallbackName,
       setValue: (next) => {
         this.value = next;
         emit(this, "change", { value: next });

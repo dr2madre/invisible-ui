@@ -35,6 +35,16 @@ describe("Svelte Tooltip (styled)", () => {
     expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
   });
 
+  it("follows an open delay changed after mount", async () => {
+    const { container, rerender } = render(Fixture, { props: { openDelay: 60_000 } });
+    await rerender({ openDelay: 0 });
+
+    await fireEvent.pointerEnter(container.querySelector(".tooltip__trigger")!, {
+      pointerType: "mouse",
+    });
+    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+  });
+
   it("has no accessibility violations when shown", async () => {
     const { container } = render(Fixture);
     await fireEvent.focusIn(screen.getByRole("button", { name: "Copy" }));

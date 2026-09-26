@@ -210,6 +210,82 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-pin-input",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "length",
+          "reactive": true,
+          "required": false,
+          "description": "default 6",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "type",
+          "reactive": true,
+          "required": false,
+          "description": "numeric|alphanumeric",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "mask",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "invalid",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "success",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value` (string).",
+        "Emits: bubbling `change` CustomEvent with `detail.value` on every edit, and `complete` CustomEvent with `detail.value` once every cell is filled."
+      ]
     }
   }
 }

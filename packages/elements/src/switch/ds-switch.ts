@@ -1,6 +1,7 @@
 import { switchControl as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * `<ds-switch>` — the styled switch as a custom element.
@@ -34,6 +35,13 @@ export class DsSwitch extends HTMLElementBase {
   /** What a form reset restores: the last state set from outside. */
   #defaultChecked = false;
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#input) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "checked");
@@ -123,9 +131,9 @@ export class DsSwitch extends HTMLElementBase {
       track.textContent = "";
     }
     const on = track.querySelector(".switch__on");
-    if (on) on.textContent = this.getAttribute("on-text") ?? "ON";
+    if (on) on.textContent = localized(this, "on-text", "switch.on");
     const off = track.querySelector(".switch__off");
-    if (off) off.textContent = this.getAttribute("off-text") ?? "OFF";
+    if (off) off.textContent = localized(this, "off-text", "switch.off");
 
     const api = core.connect({
       state: { checked: this.checked, disabled },

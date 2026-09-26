@@ -8,6 +8,7 @@ import {
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { Icon } from "../icon/Icon";
+import { dialogHeader } from "../dialog/dialog-header";
 import { useI18n } from "../i18n/i18n";
 import { Kbd } from "../kbd/Kbd";
 import { Loading } from "../loading/Loading";
@@ -35,6 +36,15 @@ export interface SearchDialogProps {
   open?: boolean;
   /** Accessible title for the dialog. Defaults to the catalog's "Search". */
   title?: string;
+  /**
+   * Visually hide the title (the default: the search field reads as the
+   * header). It still names the dialog for screen readers.
+   */
+  hideTitle?: boolean;
+  /** Show a close button in the header; it closes like Escape. */
+  closeButton?: boolean;
+  /** Accessible label for the close button. Defaults to the catalog's "Close". */
+  closeLabel?: string;
   /** Accessible label for the search input. Defaults to the catalog's "Search". */
   label?: string;
   /** Input placeholder. Defaults to the catalog's "Type to search…". */
@@ -63,8 +73,10 @@ interface Section {
  * Pass `items` (`{ value, label?, disabled? }`); `onSelect(value)` runs when a
  * result is chosen. The `trigger` prop/slot is the opener button. The open state
  * binds two ways: `v-model:open` or the `open` prop plus `onOpenChange`; wire
- * any keyboard shortcut in the application. Themeable via
- * `--ds-search-dialog-*`.
+ * any keyboard shortcut in the application. The header is the one the dialog
+ * family shares; by default it only names the dialog, and `hideTitle: false` /
+ * `closeButton` show the title and a close button above the search field.
+ * Themeable via `--ds-search-dialog-*`.
  */
 export const SearchDialog = defineComponent({
   name: "SearchDialog",
@@ -76,6 +88,9 @@ export const SearchDialog = defineComponent({
     loading: { type: Boolean, default: false },
     open: { type: Boolean, default: false },
     title: { type: String, default: undefined },
+    hideTitle: { type: Boolean, default: true },
+    closeButton: { type: Boolean, default: false },
+    closeLabel: { type: String, default: undefined },
     label: { type: String, default: undefined },
     placeholder: { type: String, default: undefined },
     emptyText: { type: String, default: undefined },
@@ -160,11 +175,14 @@ export const SearchDialog = defineComponent({
         "dialog",
         { ...dialogApi.value.contentProps, ref: panelRef, class: "search-dialog__panel" },
         [
-          h(
-            "h2",
-            { ...dialogApi.value.titleProps, class: "search-dialog__sr-only" },
-            resolvedTitle,
-          ),
+          dialogHeader({
+            title: resolvedTitle,
+            hideTitle: props.hideTitle,
+            closeButton: props.closeButton,
+            closeLabel: props.closeLabel ?? t("dialog.close"),
+            titleProps: dialogApi.value.titleProps,
+            closeProps: dialogApi.value.closeProps,
+          }),
 
           h("div", { class: "search-dialog__search" }, [
             h("span", { class: "search-dialog__search-icon", "aria-hidden": "true" }, [

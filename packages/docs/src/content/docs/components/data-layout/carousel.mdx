@@ -21,6 +21,19 @@ content with the default slot (`let:item let:index let:active`).
 
 <ImportSnippet component="carousel" />
 
+In Elements:
+
+```html
+<ds-carousel label="Featured photos" loop>
+  <article>First slide</article>
+  <article>Second slide</article>
+  <article>Third slide</article>
+</ds-carousel>
+```
+
+Each child becomes a slide. Without children, set the `items` property to
+draw the built-in slides. The element sends `change` with `detail.index`.
+
 ### Props
 
 <PropsTable component="carousel" />

@@ -4,7 +4,7 @@
   import Button from "@design-system/svelte/Button.svelte";
   import Count from "@design-system/svelte/Count.svelte";
   import Icon from "@design-system/svelte/Icon.svelte";
-  import TextField from "@design-system/svelte/TextField.svelte";
+  import SearchField from "@design-system/svelte/SearchField.svelte";
   import ToggleButton from "@design-system/svelte/ToggleButton.svelte";
   import ToggleGroup from "@design-system/svelte/ToggleGroup.svelte";
   import Switch from "@design-system/svelte/Switch.svelte";
@@ -179,9 +179,15 @@
       {/each}
     </div>
   {:else}
-    <!-- --ds-field-width: 100% makes the search TextField fill the panel width. -->
+    <!-- --ds-field-width: 100% makes the search field fill the panel width. -->
     <div style="display: grid; gap: 1rem; --ds-field-width: 100%;">
-      <TextField label="Search notifications" hideLabel placeholder="Search…" bind:value={query} />
+      <SearchField
+        label="Search notifications"
+        hideLabel
+        placeholder="Search…"
+        submitButton={false}
+        bind:value={query}
+      />
 
       <ToggleGroup label="Filter by topic" wrap>
         {#each TOPICS.filter((t) => enabled[t.id]) as topic (topic.id)}

@@ -1,0 +1,80 @@
+/* RatingGroup, ported from the Svelte adapter, class names kept identical. */
+
+.rating-field {
+  display: grid;
+  gap: var(--ds-rating-label-gap, 0.5rem);
+  font: inherit;
+  color: var(--ds-color-text, #282420);
+}
+.rating__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.rating {
+  display: inline-flex;
+  gap: var(--ds-rating-gap, 0.125rem);
+}
+.rating--disabled {
+  opacity: 0.5;
+}
+
+.rating__star {
+  /* Anchors the hidden input: unanchored, it would sit at its static
+   position outside any clipping and widen the page. */
+  position: relative;
+  display: inline-flex;
+  /* Darker outline so empty stars stay visible. */
+  color: var(--ds-rating-empty-color, var(--ds-neutral-400, #757067));
+  cursor: pointer;
+}
+.rating--disabled .rating__star {
+  cursor: not-allowed;
+}
+.rating__star svg {
+  fill: none;
+}
+/* Hover preview: a neutral grey fill showing the stars about to be set. */
+.rating__star--preview {
+  color: var(--ds-rating-preview-color, var(--ds-neutral-300, #a8a297));
+}
+.rating__star--preview svg {
+  fill: currentColor;
+}
+.rating__star--filled {
+  color: var(--ds-rating-color, var(--ds-color-secondary, #7a52cc));
+}
+.rating__star--filled svg {
+  fill: currentColor;
+}
+
+/* The native radio is the accessible, focusable control; visually hidden, with
+   the star's focus ring painted from its :focus-visible state. */
+.rating__input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.rating__star:has(.rating__input:focus-visible) {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Forced colors: the focus sits on the hidden input, so the outline the
+   theme forces there lands on something nobody can see. Draw it on the
+   visible part instead. */
+@media (forced-colors: active) {
+  .rating__star:has(.rating__input:focus-visible) {
+    outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+    outline-offset: 2px;
+  }
+}

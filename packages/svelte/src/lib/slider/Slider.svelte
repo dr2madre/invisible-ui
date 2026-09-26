@@ -39,6 +39,7 @@
     percentage,
     setValue,
     syncValue,
+    syncConfig,
   } = createSlider({
     value,
     min,
@@ -48,6 +49,11 @@
     disabled,
     onValueChange: (next) => onValueChange?.(next),
   });
+
+  // Constraints changed after mount reach the machine without a remount, and
+  // report nothing. Declared before the value mirror, so a value and bounds
+  // changed together are judged against the new bounds.
+  $: syncConfig({ min, max, step, orientation, disabled });
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;

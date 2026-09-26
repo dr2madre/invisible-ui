@@ -71,6 +71,37 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-scroll-area",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "vertical|horizontal|both",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max-height",
+          "reactive": true,
+          "required": false,
+          "description": "the viewport's maximum block size; \"12rem\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "makes the viewport a labelled region; give each scroll area on a page its own name",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

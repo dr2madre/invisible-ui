@@ -13,15 +13,17 @@
    * affordance only — keyboard users have Escape and the close button.
    *
    * Slots: `trigger` (the trigger button's content), the default slot (the
-   * body), an optional `footer` (actions), and two header slots — `headerLead`
-   * (before the title, on the leading edge, e.g. a back affordance) and
-   * `headerActions` (after the title, just before the close button). Pass a
-   * `title` (required) and optional `description`. Colors, radius and elevation
+   * body), an optional `footer` (actions), and the header slots the dialog
+   * family shares — `icon` (a leading FeedbackIcon), `headerLead` (before the
+   * title, e.g. a back affordance) and `headerActions` (after the title, just
+   * before the close button). Pass a `title` (required) and an optional
+   * `description`, shown as the subtitle under the title. Colors, radius and elevation
    * are themeable via `--ds-dialog-*`; the panel extent via
    * `--ds-sheet-dialog-size`.
    */
   import { createSheetDialog, type SheetDialogSide } from "./create-sheet-dialog";
   import Button from "../button/Button.svelte";
+  import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
@@ -52,6 +54,8 @@
   export let description: string | undefined = undefined;
   /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
   export let closeLabel: string | undefined = undefined;
+  /** Show the close button at the trailing end of the header. */
+  export let closeButton = true;
   /**
    * CSS selector (within the panel) for the element to focus on open — e.g.
    * `"input"` to land on a form's first field instead of the close button.
@@ -124,38 +128,22 @@
     {#if hasHandle}
       <div class="sheet-dialog__handle" use:handleAction aria-hidden="true"></div>
     {/if}
-    <header class="sheet-dialog__header">
-      {#if $$slots.headerLead}
-        <!-- Content before the title (e.g. a back/up affordance), on the
-             leading edge of the header. -->
-        <div class="sheet-dialog__header-lead"><slot name="headerLead" /></div>
-      {/if}
-      <h2 class="sheet-dialog__title" use:titleAction>{title}</h2>
-      {#if $$slots.headerActions}
-        <!-- Actions on the title row (e.g. a settings button, "Mark all read"),
-             sitting just before the close button. -->
-        <div class="sheet-dialog__header-actions"><slot name="headerActions" /></div>
-      {/if}
-      <button
-        class="sheet-dialog__close"
-        type="button"
-        aria-label={resolvedCloseLabel}
-        use:closeAction
-      >
-        <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true" focusable="false">
-          <path
-            d="M6 6l12 12M18 6L6 18"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-        </svg>
-      </button>
-    </header>
-    {#if description !== undefined}
-      <p class="sheet-dialog__description" use:descriptionAction>{description}</p>
-    {/if}
+    <DialogHeader
+      {title}
+      subtitle={description}
+      {closeButton}
+      closeLabel={resolvedCloseLabel}
+      {titleAction}
+      subtitleAction={descriptionAction}
+      {closeAction}
+      hasIcon={$$slots.icon}
+      hasLead={$$slots.headerLead}
+      hasActions={$$slots.headerActions}
+    >
+      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
+      <svelte:fragment slot="lead"><slot name="headerLead" /></svelte:fragment>
+      <svelte:fragment slot="actions"><slot name="headerActions" /></svelte:fragment>
+    </DialogHeader>
     <div class="sheet-dialog__body"><slot /></div>
     {#if $$slots.footer}
       <footer class="sheet-dialog__footer"><slot name="footer" /></footer>
@@ -299,57 +287,6 @@
     inset-inline-end: 0.375rem;
   }
 
-  .sheet-dialog__header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .sheet-dialog__title {
-    margin: 0;
-    /* Take the row; actions and close sit at the end. */
-    margin-inline-end: auto;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: var(--ds-line-height-tight, 1.2);
-  }
-  .sheet-dialog__header-lead {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  .sheet-dialog__header-actions {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  .sheet-dialog__close {
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: 1.75rem;
-    block-size: 1.75rem;
-    font-size: 1.25rem;
-    padding: 0;
-    border: 0;
-    border-radius: var(--ds-radius-control, 0.5rem);
-    background: transparent;
-    color: var(--ds-color-text-secondary, #524c44);
-    cursor: pointer;
-  }
-  .sheet-dialog__close:hover {
-    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
-    color: inherit;
-  }
-  .sheet-dialog__close:focus-visible {
-    outline: none;
-    box-shadow: var(--ds-focus-ring-shadow);
-    outline-offset: 2px;
-  }
-  .sheet-dialog__description {
-    margin: 0.5rem 0 0;
-    color: var(--ds-color-text-secondary, #524c44);
-  }
   .sheet-dialog__body {
     margin-block-start: 1rem;
     /* Grow so the footer is pushed to the bottom of the panel. */

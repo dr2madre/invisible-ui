@@ -58,6 +58,30 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Visually hide the title (the default: the search field reads as the header). It still names the dialog for screen readers.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button in the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "label",
           "type": "string | undefined",
           "default": "undefined",
@@ -163,6 +187,30 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Visually hide the title (the default: the search field reads as the header). It still names the dialog for screen readers.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button in the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "label",
           "type": "string",
           "default": "undefined",
@@ -211,6 +259,96 @@
       ],
       "slots": [
         "trigger"
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-search-dialog",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "heading",
+          "reactive": true,
+          "required": false,
+          "description": "\"Search\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hide-title",
+          "reactive": true,
+          "required": false,
+          "description": "`\"false\"` shows the title",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "the input's accessible name, \"Search\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "empty-text",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "loading",
+          "reactive": true,
+          "required": false,
+          "description": "results are being fetched",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "reactive": true,
+          "required": false,
+          "description": "opener text",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger-variant",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "close-button",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "close-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `open` (boolean), `items` and `suggestions` (arrays of `{ value, label?, disabled?, group?, shortcut? }`).",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `select` with `detail.value` when a result is chosen."
       ]
     }
   }

@@ -52,6 +52,29 @@
   color: inherit;
   font: inherit;
 }
+/* Without a submit button the glyph only marks the field as a search. */
+.search-field--no-submit .search-field__control {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+.search-field__icon {
+  display: inline-grid;
+  place-items: center;
+  padding-inline-start: 0.75rem;
+  color: var(--ds-color-text-secondary, #524c44);
+}
+.search-field__icon svg {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+}
+.search-field--no-submit .search-field__input {
+  padding-inline-start: 0.5rem;
+}
+/* The custom element toggles its parts with `hidden`; their display rules would
+   otherwise keep them on screen. */
+.search-field__action[hidden],
+.search-field__icon[hidden] {
+  display: none;
+}
 .search-field__input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;

@@ -1,6 +1,10 @@
 import type { Action } from "svelte/action";
 import { get, writable, type Readable } from "svelte/store";
-import { createDropdownMenu, type MenuItem } from "../dropdown-menu/create-dropdown-menu";
+import {
+  createDropdownMenu,
+  type CreateDropdownMenu,
+  type MenuItem,
+} from "../dropdown-menu/create-dropdown-menu";
 
 export type { MenuItem };
 
@@ -39,7 +43,12 @@ export interface CreateMenubar {
   /** Action for the `role="menubar"` container (cross-menu keyboard nav). */
   menubarAction: Action<HTMLElement>;
   /** The menus, each ready to render. */
-  menus: MenubarItem[];
+  menus: Readable<MenubarItem[]>;
+  /**
+   * Reflect controlled menus without reporting a change. A menu keeps its
+   * state (open, active item) across a sync as long as its value stays.
+   */
+  syncMenus: (menus: MenubarMenu[]) => void;
 }
 
 /**
@@ -51,34 +60,32 @@ export interface CreateMenubar {
  * while open, and "only one menu open at a time".
  */
 export function createMenubar(context: MenubarContext): CreateMenubar {
-  const { menus } = context;
-  const n = menus.length;
-
-  const dropdowns = menus.map((menu) =>
-    createDropdownMenu({
-      items: menu.items,
-      disabled: menu.disabled,
-      onSelect: (itemValue) => context.onSelect?.(menu.value, itemValue),
-    }),
-  );
+  // The current menus, each with its dropdown machine. Everything below reads
+  // this list at call time, so a sync reaches the keyboard coordination too.
+  let entries: { menu: MenubarMenu; dropdown: CreateDropdownMenu }[] = [];
+  const count = () => entries.length;
+  const dropdownAt = (i: number) => entries[i]!.dropdown;
+  const indexOf = (value: string) => entries.findIndex((entry) => entry.menu.value === value);
 
   const focusedIndex = writable(0);
-  const triggerEls: (HTMLElement | null)[] = Array(n).fill(null);
+  // Trigger elements by menu value, so a reorder keeps each one with its menu.
+  const triggerEls = new Map<string, HTMLElement>();
 
-  const openIndex = () => dropdowns.findIndex((d) => get(d.open));
+  const openIndex = () => entries.findIndex((entry) => get(entry.dropdown.open));
   const closeAllExcept = (keep: number) =>
-    dropdowns.forEach((d, i) => {
-      if (i !== keep && get(d.open)) get(d.api).closeMenu();
+    entries.forEach(({ dropdown }, i) => {
+      if (i !== keep && get(dropdown.open)) get(dropdown.api).closeMenu();
     });
   const openAt = (i: number) => {
     closeAllExcept(i);
-    get(dropdowns[i]!.api).openMenu("first");
+    get(dropdownAt(i).api).openMenu("first");
   };
   const focusTrigger = (i: number) => {
     focusedIndex.set(i);
-    triggerEls[i]?.focus();
+    triggerEls.get(entries[i]!.menu.value)?.focus();
   };
   const move = (from: number, dir: 1 | -1) => {
+    const n = count();
     const next = (from + dir + n) % n;
     focusedIndex.set(next);
     if (openIndex() !== -1) openAt(next);
@@ -87,6 +94,7 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
 
   const menubarAction: Action<HTMLElement> = (node) => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (count() === 0) return;
       const open = openIndex();
       const from = open !== -1 ? open : get(focusedIndex);
       switch (event.key) {
@@ -109,7 +117,7 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
         case "End":
           if (open === -1) {
             event.preventDefault();
-            focusTrigger(n - 1);
+            focusTrigger(count() - 1);
           }
           break;
       }
@@ -118,16 +126,29 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
     return { destroy: () => node.removeEventListener("keydown", onKeyDown) };
   };
 
-  const menus_: MenubarItem[] = menus.map((menu, i) => {
-    const dropdown = dropdowns[i]!;
+  // One dropdown and one trigger action per menu value, created on first
+  // sight and reused while the value stays, so a rendered menu is never torn
+  // down by a sync.
+  const cache = new Map<
+    string,
+    { dropdown: CreateDropdownMenu; triggerAction: Action<HTMLElement> }
+  >();
+  const create = (menu: MenubarMenu) => {
+    const { value } = menu;
+    const dropdown = createDropdownMenu({
+      items: menu.items,
+      disabled: menu.disabled,
+      onSelect: (itemValue) => context.onSelect?.(value, itemValue),
+    });
     const triggerAction: Action<HTMLElement> = (node) => {
-      triggerEls[i] = node;
+      triggerEls.set(value, node);
       const base = dropdown.triggerAction(node);
 
-      const onFocus = () => focusedIndex.set(i);
+      const onFocus = () => focusedIndex.set(indexOf(value));
       // Hover switches the open menu (only while another menu is already open).
       const onPointerEnter = () => {
         const open = openIndex();
+        const i = indexOf(value);
         if (open !== -1 && open !== i) openAt(i);
       };
       node.addEventListener("focus", onFocus);
@@ -137,20 +158,49 @@ export function createMenubar(context: MenubarContext): CreateMenubar {
         destroy() {
           node.removeEventListener("focus", onFocus);
           node.removeEventListener("pointerenter", onPointerEnter);
-          if (triggerEls[i] === node) triggerEls[i] = null;
+          if (triggerEls.get(value) === node) triggerEls.delete(value);
           base?.destroy?.();
         },
       };
     };
+    return { dropdown, triggerAction };
+  };
 
-    return {
-      ...menu,
-      open: dropdown.open,
-      triggerAction,
-      menuAction: dropdown.menuAction,
-      itemAction: dropdown.itemAction,
-    };
-  });
+  const menus = writable<MenubarItem[]>([]);
+  let lastMenus: MenubarMenu[] | null = null;
+  const syncMenus = (next: MenubarMenu[]) => {
+    if (next === lastMenus) return;
+    lastMenus = next;
+    const seen = new Set<string>();
+    entries = next.map((menu) => {
+      seen.add(menu.value);
+      let cached = cache.get(menu.value);
+      if (cached) {
+        cached.dropdown.syncItems(menu.items);
+        cached.dropdown.syncDisabled(menu.disabled ?? false);
+      } else {
+        cached = create(menu);
+        cache.set(menu.value, cached);
+      }
+      return { menu, dropdown: cached.dropdown };
+    });
+    for (const value of [...cache.keys()]) if (!seen.has(value)) cache.delete(value);
+    // The tab stop stays on the bar when the menu holding it goes away.
+    focusedIndex.update((i) => Math.max(0, Math.min(i, next.length - 1)));
+    menus.set(
+      next.map((menu) => {
+        const { dropdown, triggerAction } = cache.get(menu.value)!;
+        return {
+          ...menu,
+          open: dropdown.open,
+          triggerAction,
+          menuAction: dropdown.menuAction,
+          itemAction: dropdown.itemAction,
+        };
+      }),
+    );
+  };
+  syncMenus(context.menus);
 
-  return { focusedIndex, menubarAction, menus: menus_ };
+  return { focusedIndex, menubarAction, menus, syncMenus };
 }

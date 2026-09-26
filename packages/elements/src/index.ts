@@ -22,16 +22,40 @@
  */
 
 export { DsButton } from "./button/ds-button";
+export {
+  DsButtonGroup,
+  type ButtonGroupAlign,
+  type ButtonGroupOrientation,
+} from "./button-group/ds-button-group";
+export { DsIcon } from "./icon/ds-icon";
+export { DsKbd } from "./kbd/ds-kbd";
+export { DsLink, type LinkVariant } from "./link/ds-link";
 export { DsCheckbox } from "./checkbox/ds-checkbox";
 export { DsSwitch } from "./switch/ds-switch";
 export { DsSelect, type SelectItem } from "./select/ds-select";
 export { DsCombobox, type ComboboxItem } from "./combobox/ds-combobox";
 export { DsMultiSelect, type MultiSelectItem } from "./multi-select/ds-multi-select";
 export { DsDialog } from "./dialog/ds-dialog";
+export { DsAlertDialog } from "./alert-dialog/ds-alert-dialog";
+export { DsConfirmDialog } from "./confirm-dialog/ds-confirm-dialog";
+export { DsPromptDialog } from "./prompt-dialog/ds-prompt-dialog";
+export { DsSearchDialog, type SearchDialogItem } from "./search-dialog/ds-search-dialog";
+export {
+  DsDropdownMenu,
+  type MenuEntry,
+  type MenuGroup,
+  type MenuItem,
+  type MenuItemKind,
+  type MenuSeparator,
+} from "./dropdown-menu/ds-dropdown-menu";
+export { DsContextMenu, type ContextMenuItem } from "./context-menu/ds-context-menu";
+export { DsMenubar, type MenubarMenu } from "./menubar/ds-menubar";
+export { DsPopover } from "./popover/ds-popover";
 export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
 export { DsLoading, type LoadingVariant } from "./loading/ds-loading";
+export { DsLocaleProvider } from "./locale-provider/ds-locale-provider";
 export {
   DsLoadingGenerationArea,
   type LoadingGenerationAreaPosition,
@@ -51,17 +75,108 @@ export {
   type TableSelectionCellContext,
   type TableSortState,
 } from "./table/ds-table";
+// The view element stays internal, as in Svelte and Vue: `<ds-table-set>` is
+// the entry point, with one view for a single table.
+export {
+  type TableBodyView,
+  type TableRowId,
+  type TableSelectionMode,
+} from "./table/ds-table-view";
+export { DsTableSet, type TableViewDef } from "./table/ds-table-set";
+export { DsRadio } from "./radio/ds-radio";
 export { DsRadioGroup, type RadioGroupItem } from "./radio-group/ds-radio-group";
+export {
+  DsSegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlOrientation,
+} from "./segmented-control/ds-segmented-control";
 export { DsCheckboxGroup } from "./checkbox-group/ds-checkbox-group";
 export { DsCount, type CountStatus } from "./count/ds-count";
 export { DsCard } from "./card/ds-card";
 export { DsPagination } from "./pagination/ds-pagination";
 export { DsSeparator, type SeparatorOrientation } from "./separator/ds-separator";
 export { DsTag, type TagStatus } from "./tag/ds-tag";
+export { DsToggleButton } from "./toggle-button/ds-toggle-button";
+export {
+  DsToggleGroup,
+  type ToggleGroupOrientation,
+  type ToggleGroupVariant,
+} from "./toggle-group/ds-toggle-group";
 export {
   DsTabs,
   type TabsActivationMode,
   type TabsItem,
   type TabsPanelContent,
 } from "./tabs/ds-tabs";
+export { DsTab, DsTabList, DsTabPanel } from "./tabs/tab-parts";
 export { DsTreeView, type TreeLoadRequest, type TreeNode } from "./tree-view/ds-tree-view";
+export { DsToolbar, type ToolbarOrientation } from "./toolbar/ds-toolbar";
+export { DsUploadDropArea } from "./upload-drop-area/ds-upload-drop-area";
+export {
+  DsLoginForm,
+  type LoginFormProvider,
+  type LoginFormValue,
+} from "./login-form/ds-login-form";
+export { DsAvatar, initialsOf } from "./avatar/ds-avatar";
+export { DsSidebar, type SidebarItem, type SidebarSection } from "./sidebar/ds-sidebar";
+export { DsAvatarGroup, type AvatarGroupItem } from "./avatar-group/ds-avatar-group";
+export { DsBreadcrumb, type BreadcrumbItem } from "./breadcrumb/ds-breadcrumb";
+export { DsProgress, type ProgressShape } from "./progress/ds-progress";
+export { DsScrollArea, type ScrollOrientation } from "./scroll-area/ds-scroll-area";
+export { DsTooltip } from "./tooltip/ds-tooltip";
+export {
+  DsNavigationMenu,
+  type NavigationMenuItem,
+  type NavigationMenuLink,
+} from "./navigation-menu/ds-navigation-menu";
+export { DsAccordion, type AccordionEntry, type AccordionType } from "./accordion/ds-accordion";
+export { DsAccordionItem } from "./accordion/accordion-item";
+export { DsCollapsible } from "./collapsible/ds-collapsible";
+export { DsAspectRatio } from "./aspect-ratio/ds-aspect-ratio";
+export { DsBlockquote } from "./blockquote/ds-blockquote";
+export { DsSkeleton, type SkeletonAnimation, type SkeletonVariant } from "./skeleton/ds-skeleton";
+export { DsMeter } from "./meter/ds-meter";
+export { DsNumberField } from "./number-field/ds-number-field";
+export { DsPinInput, type PinInputType } from "./pin-input/ds-pin-input";
+export {
+  DsNotification,
+  type NotificationAction,
+  type NotificationDismissReason,
+  type NotificationStatus,
+} from "./notification/ds-notification";
+export {
+  DsNotificationRegion,
+  type NotificationItem,
+  type NotificationOptions,
+  type NotificationPlacement,
+  type NotificationPromiseMessages,
+  type StatusOptions,
+} from "./notification/ds-notification-region";
+export { DsStepper, type StepDescriptor, type StepperOrientation } from "./stepper/ds-stepper";
+export { DsSlider, type SliderOrientation } from "./slider/ds-slider";
+export {
+  DsRangeSlider,
+  type RangeSliderOrientation,
+  type RangeSliderValue,
+} from "./range-slider/ds-range-slider";
+export { DsRatingGroup } from "./rating-group/ds-rating-group";
+export { DsCode } from "./code/ds-code";
+export { DsCodeBlock } from "./code-block/ds-code-block";
+export { DsFeedbackIcon, type FeedbackStatus } from "./feedback-icon/ds-feedback-icon";
+export {
+  DsCarousel,
+  type CarouselOrientation,
+  type CarouselSlide,
+  type CarouselVariant,
+} from "./carousel/ds-carousel";
+export {
+  DsCalendar,
+  type CalendarEvent,
+  type CalendarMode,
+  type CalendarView,
+  type WeekStart,
+} from "./calendar/ds-calendar";
+export { DsDatePicker } from "./date-picker/ds-date-picker";
+export { type DateStyle } from "./date-picker/picker-field";
+export { DsDateRangePicker } from "./date-range-picker/ds-date-range-picker";
+export { DsTimeField, type HourCycle, type TimeValueError } from "./time-field/ds-time-field";

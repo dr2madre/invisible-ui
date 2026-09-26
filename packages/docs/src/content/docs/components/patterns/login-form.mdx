@@ -19,6 +19,21 @@ button. It is a real `<form>` — `onSubmit` receives `{ email, password }`.
 
 <ImportSnippet component="login-form" />
 
+In Elements, the form reports a cancelable `submit` event. With `action`, it
+also submits natively to that URL:
+
+```html
+<ds-login-form action="/session" method="post">
+  <img slot="logo" src="/logo.svg" alt="Acme" />
+</ds-login-form>
+
+<script type="module">
+  const login = document.querySelector("ds-login-form");
+  login.providers = [{ id: "google", label: "Google" }];
+  login.addEventListener("provider", (event) => signInWith(event.detail.id));
+</script>
+```
+
 ### Props
 
 <PropsTable component="login-form" />

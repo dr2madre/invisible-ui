@@ -25,8 +25,18 @@
   /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
   export let label: string | undefined = undefined;
 
-  const menu = createContextMenu({ items, disabled, onSelect });
-  const { open, triggerAction, menuAction, itemAction } = menu;
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menu = createContextMenu({
+    items,
+    disabled,
+    onSelect: (value) => onSelect?.(value),
+  });
+  const { open, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
+
+  // Items and disabled changed after mount reach the machine, so keyboard
+  // navigation and typeahead follow what the template renders.
+  $: syncItems(items);
+  $: syncDisabled(disabled);
 
   $: resolvedLabel = label ?? $t("contextMenu.label");
 </script>

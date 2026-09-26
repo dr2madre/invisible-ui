@@ -58,6 +58,14 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "footerClose",
           "type": "boolean",
           "default": "false",
@@ -155,6 +163,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header. Default `true`.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "footerClose",
           "type": "boolean",
           "default": "false",
@@ -205,6 +221,7 @@
         "default",
         "footer",
         "footerLead",
+        "headerActions",
         "headerLead",
         "headerMeta",
         "icon",
@@ -276,6 +293,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header. Default `true`.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "icon",
           "type": "ReactNode",
           "default": null,
@@ -297,6 +322,14 @@
           "default": null,
           "required": false,
           "description": "Leading ghost icon button (e.g. a back affordance).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerActions",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Actions before the close button, on the title row.",
           "descriptionFrom": "source"
         },
         {
@@ -413,6 +446,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "close-button",
+          "reactive": true,
+          "required": false,
+          "description": "`\"false\"` drops the close button",
+          "descriptionFrom": "source"
         },
         {
           "name": "initial-focus",

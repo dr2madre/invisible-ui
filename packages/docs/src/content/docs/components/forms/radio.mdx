@@ -19,6 +19,18 @@ for hand-laid-out radios. For a managed set, use
 
 <ImportSnippet component="radio" />
 
+In Elements, the children are the label. The `checked` property reads the live
+state, and choosing a radio sends a bubbling `change` event with
+`detail.value`:
+
+```html
+<fieldset>
+  <legend>Plan</legend>
+  <ds-radio name="plan" value="free" checked>Free</ds-radio>
+  <ds-radio name="plan" value="pro">Pro</ds-radio>
+</fieldset>
+```
+
 ### Props
 
 <PropsTable component="radio" />

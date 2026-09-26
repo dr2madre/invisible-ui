@@ -244,6 +244,96 @@
       "slots": [
         "icon"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-slider",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "0 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "100 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "step",
+          "reactive": true,
+          "required": false,
+          "description": "1 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "horizontal|vertical",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "show-value",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "show-range",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "ticks",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value` (number), `format` (`(value: number) => string`).",
+        "Emits: bubbling `change` CustomEvent with `detail.value` whenever the user moves the thumb."
+      ]
     }
   }
 }

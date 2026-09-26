@@ -180,6 +180,75 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-carousel",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the carousel's accessible name, required",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "variant",
+          "reactive": true,
+          "required": false,
+          "description": "slide|gallery|coverflow; \"slide\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "reactive": true,
+          "required": false,
+          "description": "horizontal|vertical; \"horizontal\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loop",
+          "reactive": true,
+          "required": false,
+          "description": "the ends wrap around",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "show-indicators",
+          "reactive": true,
+          "required": false,
+          "description": "`show-indicators=\"false\"` hides the dots",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "index",
+          "reactive": true,
+          "required": false,
+          "description": "the current slide, from 0",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "prev-label",
+          "reactive": true,
+          "required": false,
+          "description": "the previous button's name; \"Previous slide\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "next-label",
+          "reactive": true,
+          "required": false,
+          "description": "the next button's name; \"Next slide\" by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `items` (built-in slides), `index`.",
+        "Emits: bubbling `change` CustomEvent with `detail.index` after a user action changes the slide."
+      ]
     }
   }
 }

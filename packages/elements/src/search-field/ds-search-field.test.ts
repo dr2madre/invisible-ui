@@ -20,6 +20,17 @@ describe("<ds-search-field>", () => {
     expect(screen.queryByRole("button", { name: "Clear search" })).toBeNull();
   });
 
+  it("drops the submit button for a filter that applies as you type", () => {
+    const host = mount('submit-button="false"');
+    expect(screen.getByRole("searchbox", { name: "Search tables" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Search" })).toBeNull();
+    expect(host.querySelector(".search-field__icon")).not.toHaveAttribute("hidden");
+
+    host.removeAttribute("submit-button");
+    expect(screen.getByRole("button", { name: "Search" })).toBeVisible();
+    expect(host.querySelector(".search-field__icon")).toHaveAttribute("hidden");
+  });
+
   it("clears once and returns focus to the input", async () => {
     const user = userEvent.setup();
     const host = mount('value="archive"');

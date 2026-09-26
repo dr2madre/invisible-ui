@@ -122,3 +122,22 @@ describe("items assigned before connection", () => {
     expect(screen.queryAllByRole("radio")).toHaveLength(0);
   });
 });
+
+describe("<ds-radio-group> without a name", () => {
+  it("still groups its radios, so only one can be checked", () => {
+    document.body.innerHTML = `
+      <ds-radio-group label="Plan">
+        <option value="free">Free</option>
+        <option value="pro">Pro</option>
+      </ds-radio-group>`;
+    const [free, pro] = Array.from(
+      document.querySelectorAll<HTMLInputElement>("input[type=radio]"),
+    );
+    expect(free!.name).not.toBe("");
+    expect(free!.name).toBe(pro!.name);
+    free!.click();
+    pro!.click();
+    expect(free!.checked).toBe(false);
+    expect(pro!.checked).toBe(true);
+  });
+});

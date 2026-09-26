@@ -90,6 +90,22 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button at the trailing end of the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the i18n catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onOpenChange",
           "type": "((open: boolean) => void) | undefined",
           "default": "undefined",
@@ -195,6 +211,22 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button at the trailing end of the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "undefined",
@@ -210,7 +242,105 @@
         }
       ],
       "slots": [
+        "icon",
         "trigger"
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-confirm-dialog",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "heading",
+          "reactive": true,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "confirm-label",
+          "reactive": true,
+          "required": false,
+          "description": "\"Confirm\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "cancel-label",
+          "reactive": true,
+          "required": false,
+          "description": "\"Cancel\" by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "confirm-variant",
+          "reactive": true,
+          "required": false,
+          "description": "`primary` by default, `danger` for a destructive confirm",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "urgent",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "trigger",
+          "reactive": true,
+          "required": false,
+          "description": "opener text",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger-variant",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "open",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "close-button",
+          "reactive": true,
+          "required": false,
+          "description": "shows a close button in the header",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "close-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "no-outside-close",
+          "reactive": false,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `open` (boolean).",
+        "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `confirm` when the confirm button is pressed."
       ]
     }
   }

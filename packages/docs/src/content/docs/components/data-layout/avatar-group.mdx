@@ -18,6 +18,21 @@ people than `max`.
 
 <ImportSnippet component="avatar-group" />
 
+In Elements, assign the people as a property:
+
+```html
+<ds-avatar-group label="Project team" max="3"></ds-avatar-group>
+
+<script type="module">
+  document.querySelector("ds-avatar-group").items = [
+    { name: "Ada Lovelace" },
+    { name: "Grace Hopper" },
+    { name: "Alan Turing" },
+    { name: "Katherine Johnson" },
+  ];
+</script>
+```
+
 ### Props
 
 <PropsTable component="avatar-group" />

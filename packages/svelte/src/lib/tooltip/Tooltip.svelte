@@ -24,7 +24,8 @@
   export let closeDelay = 100;
 
   const tooltip = createTooltip({ placement, openDelay, closeDelay });
-  const { triggerAction, tooltipAction, open } = tooltip;
+  const { triggerAction, tooltipAction, open, syncOptions } = tooltip;
+  $: syncOptions({ placement, openDelay, closeDelay });
 </script>
 
 <span class="tooltip__trigger" use:triggerAction>

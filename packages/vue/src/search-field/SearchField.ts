@@ -26,6 +26,8 @@ export interface SearchFieldProps {
   clearLabel?: string;
   /** Accessible name for the native submit button. */
   submitLabel?: string;
+  /** Render the submit button; turn it off for a filter that applies as you type. */
+  submitButton?: boolean;
   /** Called once after a user edit or clear action is committed locally. */
   onValueChange?: (value: string) => void;
 }
@@ -46,6 +48,7 @@ export const SearchField = defineComponent({
     autocomplete: { type: String, default: undefined },
     clearLabel: { type: String, default: undefined },
     submitLabel: { type: String, default: undefined },
+    submitButton: { type: Boolean, default: true },
     onValueChange: { type: Function as PropType<(value: string) => void>, default: undefined },
   },
   emits: {
@@ -96,70 +99,94 @@ export const SearchField = defineComponent({
     return () => {
       const { t } = i18n.value;
       const current = api.value.value;
-      return h("div", { class: ["search-field", { "search-field--disabled": props.disabled }] }, [
-        h(
-          "label",
-          {
-            ...api.value.labelProps,
-            class: ["search-field__label", { "search-field__label--hidden": props.hideLabel }],
-          },
-          [
-            props.label,
-            props.required
-              ? h("span", { class: "search-field__required", "aria-hidden": "true" }, " *")
-              : null,
-          ],
-        ),
-        h("div", { class: "search-field__control" }, [
-          h("input", {
-            ...api.value.controlProps,
-            ref: control,
-            class: "search-field__input",
-            type: "search",
-            name: props.name,
-            placeholder: props.placeholder,
-            autocomplete: props.autocomplete,
-            "^value": fallback.value,
-            onInput,
-          }),
-          current && !props.disabled && !props.readOnly
-            ? h(
-                "button",
-                {
-                  class: "search-field__action search-field__clear",
-                  type: "button",
-                  "aria-label": props.clearLabel ?? t("searchField.clear"),
-                  onClick: clear,
-                },
-                [
-                  h(Icon, null, {
-                    default: () => [
-                      h("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
-                      h("line", { x1: "6", y1: "6", x2: "18", y2: "18" }),
-                    ],
-                  }),
-                ],
-              )
-            : null,
-          h(
-            "button",
+      return h(
+        "div",
+        {
+          class: [
+            "search-field",
             {
-              class: "search-field__action search-field__submit",
-              type: "submit",
-              disabled: props.disabled,
-              "aria-label": props.submitLabel ?? t("searchField.submit"),
+              "search-field--disabled": props.disabled,
+              "search-field--no-submit": !props.submitButton,
+            },
+          ],
+        },
+        [
+          h(
+            "label",
+            {
+              ...api.value.labelProps,
+              class: ["search-field__label", { "search-field__label--hidden": props.hideLabel }],
             },
             [
-              h(Icon, null, {
-                default: () => [
-                  h("circle", { cx: "11", cy: "11", r: "8" }),
-                  h("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" }),
-                ],
-              }),
+              props.label,
+              props.required
+                ? h("span", { class: "search-field__required", "aria-hidden": "true" }, " *")
+                : null,
             ],
           ),
-        ]),
-      ]);
+          h("div", { class: "search-field__control" }, [
+            props.submitButton
+              ? null
+              : h("span", { class: "search-field__icon", "aria-hidden": "true" }, [
+                  h(Icon, null, {
+                    default: () => [
+                      h("circle", { cx: "11", cy: "11", r: "8" }),
+                      h("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" }),
+                    ],
+                  }),
+                ]),
+            h("input", {
+              ...api.value.controlProps,
+              ref: control,
+              class: "search-field__input",
+              type: "search",
+              name: props.name,
+              placeholder: props.placeholder,
+              autocomplete: props.autocomplete,
+              "^value": fallback.value,
+              onInput,
+            }),
+            current && !props.disabled && !props.readOnly
+              ? h(
+                  "button",
+                  {
+                    class: "search-field__action search-field__clear",
+                    type: "button",
+                    "aria-label": props.clearLabel ?? t("searchField.clear"),
+                    onClick: clear,
+                  },
+                  [
+                    h(Icon, null, {
+                      default: () => [
+                        h("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
+                        h("line", { x1: "6", y1: "6", x2: "18", y2: "18" }),
+                      ],
+                    }),
+                  ],
+                )
+              : null,
+            props.submitButton
+              ? h(
+                  "button",
+                  {
+                    class: "search-field__action search-field__submit",
+                    type: "submit",
+                    disabled: props.disabled,
+                    "aria-label": props.submitLabel ?? t("searchField.submit"),
+                  },
+                  [
+                    h(Icon, null, {
+                      default: () => [
+                        h("circle", { cx: "11", cy: "11", r: "8" }),
+                        h("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" }),
+                      ],
+                    }),
+                  ],
+                )
+              : null,
+          ]),
+        ],
+      );
     };
   },
 });

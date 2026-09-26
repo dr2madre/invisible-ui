@@ -34,6 +34,24 @@ different job, different role (`role="tooltip"` wired via `aria-describedby`).
 
 <ImportSnippet component="popover" />
 
+In Elements, a child marked `slot="trigger"` is the trigger and the other
+children are the card. Set `trigger="hover"` for the preview. `open-change`
+reports what the user does; setting `open` reports nothing:
+
+```html
+<ds-popover label="Quick settings">
+  <span slot="trigger">Settings</span>
+  <p>Choose how the list looks.</p>
+  <button type="button">Compact rows</button>
+</ds-popover>
+<script type="module">
+  import "@design-system/elements/define";
+
+  const popover = document.querySelector("ds-popover");
+  popover.addEventListener("open-change", (event) => save(event.detail.open));
+</script>
+```
+
 ### Props
 
 <PropsTable component="popover" />

@@ -18,6 +18,14 @@ An independent on/off control (e.g. Bold in a toolbar), built on a native
 
 <ImportSnippet component="toggle-button" />
 
+In Elements, the children are the visible content. The pressed state is
+reflected by the `pressed` attribute and reported through the bubbling `change`
+event with `detail.pressed`:
+
+```html
+<ds-toggle-button label="Bold" name="bold">B</ds-toggle-button>
+```
+
 ### Props
 
 <PropsTable component="toggle-button" />

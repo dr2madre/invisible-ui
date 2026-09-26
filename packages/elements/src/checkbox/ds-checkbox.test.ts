@@ -18,6 +18,14 @@ describe("<ds-checkbox>", () => {
     expect(el).toHaveAttribute("data-state", "unchecked");
   });
 
+  it("hides the label from view while it keeps naming the control", () => {
+    const host = mount(`<ds-checkbox label="Select Ada" hide-label></ds-checkbox>`);
+    expect(screen.getByRole("checkbox", { name: "Select Ada" })).toBeInTheDocument();
+    expect(host.querySelector(".field__label")).toHaveClass("field__label--hidden");
+    host.removeAttribute("hide-label");
+    expect(host.querySelector(".field__label")).not.toHaveClass("field__label--hidden");
+  });
+
   it("toggles on press and emits change with the new value", async () => {
     const user = userEvent.setup();
     const host = mount(`<ds-checkbox label="Subscribe"></ds-checkbox>`);

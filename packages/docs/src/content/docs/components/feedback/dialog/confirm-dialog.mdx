@@ -61,6 +61,28 @@ outcome.
 
 <ImportSnippet component="confirm-dialog" />
 
+In Elements:
+
+```html
+<ds-confirm-dialog
+  heading="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  confirm-label="Delete file"
+  cancel-label="Keep file"
+  confirm-variant="danger"
+  trigger="Delete file"
+></ds-confirm-dialog>
+
+<script type="module">
+  document
+    .querySelector("ds-confirm-dialog")
+    .addEventListener("confirm", () => deleteFile());
+</script>
+```
+
+`urgent` switches the panel to `role="alertdialog"`; `close-button` adds a
+close button to the header.
+
 ### Props
 
 <PropsTable component="confirm-dialog" />

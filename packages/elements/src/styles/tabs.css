@@ -1,5 +1,9 @@
 /* Tabs, ported from the Svelte adapter, class names kept identical. */
 
+/* The root can be a custom element, which is inline by default. */
+.tabs {
+  display: block;
+}
 .tabs__list {
   display: inline-flex;
   gap: 0.25rem;
@@ -75,6 +79,10 @@
 .tabs__panel {
   padding-block: 0.75rem;
   color: var(--ds-color-text-secondary, #524c44);
+}
+/* So can a panel. */
+.tabs__panel:not([hidden]) {
+  display: block;
 }
 
 /* Forced colors: the tab row is a scroller, so the ring must be drawn

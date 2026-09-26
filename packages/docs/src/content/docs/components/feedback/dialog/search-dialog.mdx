@@ -60,6 +60,25 @@ it is a search tool inside the same modal shell.
 
 <ImportSnippet component="search-dialog" />
 
+In Elements, assign the results as a property and listen for `select`:
+
+```html
+<ds-search-dialog trigger="Search…" placeholder="Search pages and actions"></ds-search-dialog>
+
+<script type="module">
+  const search = document.querySelector("ds-search-dialog");
+  search.items = [
+    { value: "home", label: "Home", group: "Pages" },
+    { value: "save", label: "Save", group: "Actions", shortcut: ["⌘", "S"] },
+  ];
+  search.suggestions = [{ value: "home", label: "Home", group: "Recent" }];
+  search.addEventListener("select", (event) => run(event.detail.value));
+</script>
+```
+
+The title names the dialog and stays visually hidden: `hide-title="false"`
+shows it, and `close-button` adds a close button to the header.
+
 ### Props
 
 <PropsTable component="search-dialog" />

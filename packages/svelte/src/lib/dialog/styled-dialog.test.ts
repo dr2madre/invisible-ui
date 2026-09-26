@@ -139,8 +139,8 @@ describe("Svelte Dialog (workflow composition)", () => {
 
   it("renders header metadata before the title, without progress semantics", () => {
     render(WorkflowFixture, { props: { open: true } });
-    const meta = panel().querySelector(".dialog__header-meta")!;
-    const title = panel().querySelector(".dialog__title")!;
+    const meta = panel().querySelector(".dialog-header__meta")!;
+    const title = panel().querySelector(".dialog-header__title")!;
 
     expect(meta).toHaveTextContent("Step 1 of 2");
     expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -215,7 +215,7 @@ describe("Svelte Dialog (workflow composition)", () => {
     await user.click(screen.getByRole("button", { name: "Open dialog" }));
 
     expect(panel().querySelector(".dialog__body")).toHaveAttribute("data-layout", "plain");
-    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog-header__meta")).toBeNull();
     expect(panel().querySelector(".dialog__footer-lead")).toBeNull();
   });
 

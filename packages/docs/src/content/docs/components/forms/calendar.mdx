@@ -19,6 +19,17 @@ views.
 
 <ImportSnippet component="calendar" />
 
+In Elements, the week starts on the locale's first day and names come from `Intl`. Events and prices are properties:
+
+```html
+<ds-calendar value="2026-06-15" views="month week day"></ds-calendar>
+<script type="module">
+  const calendar = document.querySelector("ds-calendar");
+  calendar.events = [{ date: "2026-06-18", label: "Review", tone: "warning" }];
+  calendar.addEventListener("change", (event) => console.log(event.detail.value));
+</script>
+```
+
 ### Props
 
 <PropsTable component="calendar" />

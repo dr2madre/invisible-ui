@@ -23,6 +23,8 @@ export interface SearchFieldProps {
   clearLabel?: string;
   /** Accessible name for the native submit button. */
   submitLabel?: string;
+  /** Render the submit button; turn it off for a filter that applies as you type. */
+  submitButton?: boolean;
   /** Called once after a user edit or clear action is committed locally. */
   onValueChange?: (value: string) => void;
 }
@@ -40,6 +42,7 @@ export function SearchField({
   autoComplete,
   clearLabel,
   submitLabel,
+  submitButton = true,
   onValueChange,
 }: SearchFieldProps) {
   const { t } = useI18n();
@@ -60,7 +63,15 @@ export function SearchField({
   };
 
   return (
-    <div className={disabled ? "search-field search-field--disabled" : "search-field"}>
+    <div
+      className={[
+        "search-field",
+        disabled ? "search-field--disabled" : "",
+        submitButton ? "" : "search-field--no-submit",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <label
         {...api.labelProps}
         className={
@@ -75,6 +86,14 @@ export function SearchField({
         )}
       </label>
       <div className="search-field__control">
+        {submitButton ? null : (
+          <span className="search-field__icon" aria-hidden="true">
+            <Icon>
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </Icon>
+          </span>
+        )}
         <input
           {...api.controlProps}
           ref={controlRef}
@@ -99,17 +118,19 @@ export function SearchField({
             </Icon>
           </button>
         ) : null}
-        <button
-          className="search-field__action search-field__submit"
-          type="submit"
-          aria-label={submitLabel ?? t("searchField.submit")}
-          disabled={disabled}
-        >
-          <Icon>
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </Icon>
-        </button>
+        {submitButton ? (
+          <button
+            className="search-field__action search-field__submit"
+            type="submit"
+            aria-label={submitLabel ?? t("searchField.submit")}
+            disabled={disabled}
+          >
+            <Icon>
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </Icon>
+          </button>
+        ) : null}
       </div>
     </div>
   );

@@ -101,6 +101,46 @@
       ],
       "emits": [],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-avatar-group",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": true,
+          "description": "the group's accessible name",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "the avatars shown before the \"+N\" chip; 4 by default",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "reactive": true,
+          "required": false,
+          "description": "sm|md|lg",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "shape",
+          "reactive": true,
+          "required": false,
+          "description": "circle|square",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `items`."
+      ]
     }
   }
 }

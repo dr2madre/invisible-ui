@@ -27,6 +27,17 @@ assistive-tech contract, so always pair it with an accessible alternative
 
 <ImportSnippet component="upload-drop-area" />
 
+In Elements, picked and dropped files arrive in the bubbling `files` event:
+
+```html
+<ds-upload-drop-area accept="image/*" multiple name="photos"></ds-upload-drop-area>
+
+<script type="module">
+  const area = document.querySelector("ds-upload-drop-area");
+  area.addEventListener("files", (event) => upload(event.detail.files));
+</script>
+```
+
 ### Props
 
 <PropsTable component="upload-drop-area" />

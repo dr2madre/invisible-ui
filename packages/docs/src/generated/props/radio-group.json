@@ -172,8 +172,8 @@
           "name": "name",
           "reactive": true,
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "generated when absent, so the radios still form one group",
+          "descriptionFrom": "source"
         },
         {
           "name": "orientation",

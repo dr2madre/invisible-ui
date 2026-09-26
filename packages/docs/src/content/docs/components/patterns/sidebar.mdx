@@ -24,6 +24,28 @@ Formerly called `Menu`, which is still exported and still works; see
 
 <ImportSnippet component="sidebar" />
 
+In Elements, assign the sections as a property. Icons are SVG path data on a
+24 by 24 grid. Items without an `href` emit `select`; every item emits
+`navigate`. For a drawer, put the element inside a `<ds-sheet-dialog>` and
+close it on `navigate`.
+
+```html
+<ds-sidebar label="Primary" value="home" rail-toggle>
+  <img slot="logo" src="/logo.svg" alt="Dromio" />
+  <ds-avatar slot="footer" name="Ada Lovelace"></ds-avatar>
+</ds-sidebar>
+
+<script type="module">
+  const sidebar = document.querySelector("ds-sidebar");
+  sidebar.sections = [
+    { items: [{ value: "home", label: "Home", icon: "M3 12l9-9 9 9M5 10v10h14V10" }] },
+  ];
+  sidebar.addEventListener("select", ({ detail }) => {
+    sidebar.value = detail.value;
+  });
+</script>
+```
+
 ### Props
 
 <PropsTable component="sidebar" />

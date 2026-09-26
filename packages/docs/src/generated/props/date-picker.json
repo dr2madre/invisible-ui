@@ -258,6 +258,103 @@
         }
       ],
       "slots": []
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-date-picker",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "ISO `YYYY-MM-DD`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "week-starts-on",
+          "reactive": true,
+          "required": false,
+          "description": "0 = Sunday to 6",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "locale",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "date-style",
+          "reactive": true,
+          "required": false,
+          "description": "full|long|medium|short",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "clear-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "clearable",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value`, `events`, `prices` (forwarded to the calendar), `open` (read only).",
+        "Emits: `change` (`detail.value`, `null` when cleared)."
+      ]
     }
   }
 }

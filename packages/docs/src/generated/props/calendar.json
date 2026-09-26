@@ -452,6 +452,152 @@
       "slots": [
         "day"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-calendar",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "reactive": true,
+          "required": false,
+          "description": "ISO `YYYY-MM-DD`",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "focused-date",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "view",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "views",
+          "reactive": true,
+          "required": false,
+          "description": "space-separated list for the switcher",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "week-starts-on",
+          "reactive": true,
+          "required": false,
+          "description": "0 = Sunday to 6",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "locale",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "prev-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "next-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "today-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "views-label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "show-today",
+          "reactive": true,
+          "required": false,
+          "description": "`\"false\"` hides it",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "mode",
+          "reactive": true,
+          "required": false,
+          "description": "single|range",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "range-start",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "range-end",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max-dots",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "year-columns",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `value`, `focusedDate`, `view`, `rangeStart`, `rangeEnd`, `events` (`CalendarEvent[]`), `prices` (ISO date to label), `viewLabels`.",
+        "Emits: `change` (`detail.value`), `range-change` (`detail.start`, `detail.end`), `focus-change` (`detail.value`), `view-change` (`detail.view`)."
+      ]
     }
   }
 }

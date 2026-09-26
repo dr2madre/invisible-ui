@@ -31,15 +31,19 @@
   /** Called whenever the expanded set changes. */
   export let onValueChange: ((value: string[]) => void) | undefined = undefined;
 
-  const { rootAction, itemAction, triggerAction, panelAction, syncValue } = createAccordion({
-    items,
-    value,
-    type,
-    collapsible,
-    disabled,
-    // A live callback reference (ADR 0011).
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  const { rootAction, itemAction, triggerAction, panelAction, syncValue, syncConfig } =
+    createAccordion({
+      items,
+      value,
+      type,
+      collapsible,
+      disabled,
+      // A live callback reference (ADR 0011).
+      onValueChange: (next) => onValueChange?.(next),
+    });
+  // Configuration changed after mount reaches the machine, and reports
+  // nothing.
+  $: syncConfig({ items, type, collapsible, disabled });
   // Controllable mirror, compared against the last prop value (ADR 0011): a
   // sync never reports a change.
   let lastValue = value;

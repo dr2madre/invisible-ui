@@ -191,8 +191,8 @@ describe("<ds-dialog> workflow composition", () => {
 
   it("renders header metadata before the title, without progress semantics", () => {
     mount(WORKFLOW_MARKUP);
-    const meta = panel().querySelector(".dialog__header-meta")!;
-    const title = panel().querySelector(".dialog__title")!;
+    const meta = panel().querySelector(".dialog-header__meta")!;
+    const title = panel().querySelector(".dialog-header__title")!;
 
     expect(meta).toHaveTextContent("Step 2 of 2");
     expect(meta.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -246,11 +246,31 @@ describe("<ds-dialog> workflow composition", () => {
     expect(body).toHaveTextContent("Body content");
     expect(body).toHaveAttribute("data-layout", "plain");
     expect(panel().querySelector("footer")).toBeNull();
-    expect(panel().querySelector(".dialog__header-meta")).toBeNull();
+    expect(panel().querySelector(".dialog-header__meta")).toBeNull();
   });
 
   it("has no accessibility violations with the regions in place", async () => {
     mount(WORKFLOW_MARKUP);
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("<ds-dialog> header", () => {
+  it("renders the shared header and drops the close button with close-button=false", () => {
+    const host = mount(`
+      <ds-dialog heading="Settings" open>
+        <span slot="icon">!</span>
+        <button slot="header-actions" type="button">Reset</button>
+        <p>Body</p>
+      </ds-dialog>`);
+    const header = host.querySelector(".dialog-header")!;
+    expect(header.querySelector(".dialog-header__icon")).toHaveTextContent("!");
+    expect(screen.getByRole("button", { name: "Reset" }).parentElement).toHaveClass(
+      "dialog-header__actions",
+    );
+    expect(screen.getByRole("button", { name: "Close" })).toHaveClass("dialog-header__close");
+
+    host.setAttribute("close-button", "false");
+    expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
   });
 });

@@ -161,6 +161,51 @@
           "descriptionFrom": "source"
         }
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-icon",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "path",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "size",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "view-box",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "stroke-width",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": []
     }
   }
 }

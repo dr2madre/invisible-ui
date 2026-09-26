@@ -81,6 +81,7 @@ export class DsTable extends HTMLElementBase {
   #renderSelectionHeader: (() => TableCellContent) | null = null;
   #renderSelectionCell: ((context: TableSelectionCellContext) => TableCellContent) | null = null;
   #renderEmpty: (() => TableCellContent) | null = null;
+  #sortButtons = new Map<string, HTMLButtonElement>();
   #connected = false;
 
   connectedCallback() {
@@ -195,6 +196,13 @@ export class DsTable extends HTMLElementBase {
   }
 
   #render() {
+    // A render replaces every header; a sort button that had focus hands it
+    // to its successor, so sorting from the keyboard keeps the user's place.
+    let focusedKey: string | null = null;
+    for (const [key, button] of this.#sortButtons) {
+      if (button === document.activeElement) focusedKey = key;
+    }
+    this.#sortButtons.clear();
     this.textContent = "";
     const table = document.createElement("table");
     table.className = "table";
@@ -269,6 +277,7 @@ export class DsTable extends HTMLElementBase {
     }
     table.appendChild(body);
     this.appendChild(table);
+    if (focusedKey != null) this.#sortButtons.get(focusedKey)?.focus();
   }
 
   #headerCell(column: TableColumnDef) {
@@ -294,6 +303,7 @@ export class DsTable extends HTMLElementBase {
       glyph.innerHTML = sortIcon(active);
       button.append(label, glyph);
       button.addEventListener("click", () => emit(this, "sort-toggle", { key: column.key }));
+      this.#sortButtons.set(column.key, button);
       th.appendChild(button);
     } else {
       th.textContent = column.header;
