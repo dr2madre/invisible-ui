@@ -1,5 +1,8 @@
 ---
 "@design-system/elements": minor
+"@design-system/react": patch
+"@design-system/svelte": patch
+"@design-system/vue": patch
 ---
 
 Add `<ds-number-field>` and `<ds-pin-input>`, ported from the Svelte adapter with the same classes,
