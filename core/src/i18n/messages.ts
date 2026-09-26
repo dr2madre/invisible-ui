@@ -78,7 +78,7 @@ export const en = {
   // Plural form used by the components; the two legacy keys above remain
   // supported as consumer overrides.
   "searchDialog.results": {
-    one: "1 result available",
+    one: "{count} result available",
     other: "{count} results available",
   },
   "searchDialog.loading": "Searching…",
@@ -97,6 +97,12 @@ export const en = {
   "switch.off": "OFF",
   "loginForm.submit": "Sign in",
   "loginForm.forgot": "Forgot password?",
+  "loginForm.email": "Email",
+  "loginForm.emailPlaceholder": "you@example.com",
+  "loginForm.password": "Password",
+  // Separates the social sign-in buttons from the email and password fields.
+  "loginForm.divider": "or",
+  "loginForm.provider": "Continue with {name}",
   // Navigation
   "pagination.label": "Pagination",
   "pagination.previous": "Go to previous page",
@@ -141,7 +147,16 @@ export const en = {
   "table.selection": "Selection",
   "table.noResults": "No rows match the current filters",
   "table.clearFilters": "Clear filters",
+  // The switch between the table and the card presentation.
+  "table.view": "View",
+  "table.viewTable": "Table",
+  "table.viewCards": "Cards",
   // Misc
+  // The name of the "+N" chip that stands for the avatars left out.
+  "avatarGroup.more": {
+    one: "{count} more",
+    other: "{count} more",
+  },
   "codeBlock.copy": "Copy code",
   "tag.remove": "Remove",
   "multiSelect.selected": "Selected values",

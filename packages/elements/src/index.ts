@@ -52,6 +52,7 @@ export { DsEmptyState } from "./empty-state/ds-empty-state";
 export { DsErrorState } from "./error-state/ds-error-state";
 export { DsInlineNotification } from "./inline-notification/ds-inline-notification";
 export { DsLoading, type LoadingVariant } from "./loading/ds-loading";
+export { DsLocaleProvider } from "./locale-provider/ds-locale-provider";
 export {
   DsLoadingGenerationArea,
   type LoadingGenerationAreaPosition,

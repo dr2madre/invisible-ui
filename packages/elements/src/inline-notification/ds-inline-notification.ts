@@ -1,5 +1,6 @@
 import { boolAttr, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
 import { closeIcon, feedbackIcon, type FeedbackStatus } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 type NotificationRegion = "icon" | "link" | "actions";
 
@@ -35,6 +36,13 @@ export class DsInlineNotification extends HTMLElementBase {
   #regions = new Map<NotificationRegion | "default", Node[]>();
   #captured = false;
   #titleId = `${nextId("ds-alert")}-title`;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#captured && this.isConnected) this.#render();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
@@ -130,7 +138,7 @@ export class DsInlineNotification extends HTMLElementBase {
       const link = document.createElement("a");
       link.className = "inline-notification__link";
       link.href = href;
-      link.textContent = this.getAttribute("link-text") ?? "Learn more";
+      link.textContent = localized(this, "link-text", "inlineNotification.learnMore");
       content.appendChild(link);
     }
 
@@ -145,7 +153,7 @@ export class DsInlineNotification extends HTMLElementBase {
       close.type = "button";
       close.className = "button";
       close.dataset.variant = "ghost";
-      close.setAttribute("aria-label", this.getAttribute("close-label") ?? "Close");
+      close.setAttribute("aria-label", localized(this, "close-label", "inlineNotification.close"));
       close.innerHTML = closeIcon();
       close.addEventListener("click", () => {
         this.open = false;

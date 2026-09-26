@@ -1,4 +1,5 @@
 import { boolAttr, HTMLElementBase } from "../internal/base";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type LoadingVariant = "dots" | "spinner" | "bar" | "typing" | "morph";
 
@@ -25,6 +26,13 @@ export class DsLoading extends HTMLElementBase {
 
   #visible = false;
   #timer: ReturnType<typeof setTimeout> | undefined;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.isConnected && this.#visible) this.#render();
+    });
+  }
 
   connectedCallback() {
     this.#schedule();
@@ -66,7 +74,7 @@ export class DsLoading extends HTMLElementBase {
     const determinate = variant === "bar" && value != null;
     const decorative = boolAttr(this, "decorative");
     const status = this.getAttribute("status");
-    const label = this.getAttribute("label") ?? "Loading…";
+    const label = localized(this, "label", "loading.label");
     const detail = this.getAttribute("detail");
 
     const root = document.createElement("span");

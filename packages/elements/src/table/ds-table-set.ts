@@ -1,4 +1,4 @@
-import { i18n, tabs as tabsCore } from "@design-system/core";
+import { tabs as tabsCore } from "@design-system/core";
 import {
   applyProps,
   definePart,
@@ -15,6 +15,7 @@ import type {
   TableSortState,
 } from "./ds-table";
 import { DsTableView, type TableRowId } from "./ds-table-view";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /** A named view (a tab): its own columns and rows. */
 export interface TableViewDef {
@@ -65,8 +66,6 @@ type ViewProperty =
   | "isRowSelectable"
   | "getRowLabel"
   | "renderCell";
-
-const t = (key: i18n.MessageKey) => i18n.translate(i18n.en, {}, i18n.DEFAULT_LOCALE, key);
 
 /**
  * `<ds-table-set>` is the composed data table: a header with an optional
@@ -150,6 +149,13 @@ export class DsTableSet extends HTMLElementBase {
   #view: DsTableView | null = null;
   /** Which view `#view` renders: a view id, or null for the single view. */
   #viewKey: string | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      this.#update();
+    });
+  }
 
   connectedCallback() {
     definePart("ds-table-view", DsTableView);
@@ -424,7 +430,7 @@ export class DsTableSet extends HTMLElementBase {
     const api = this.#tabsApi();
     const list = this.#tabList;
     applyProps(list, api.rootProps);
-    list.setAttribute("aria-label", this.getAttribute("views-label") ?? t("table.views"));
+    list.setAttribute("aria-label", localized(this, "views-label", "table.views"));
 
     const ids = new Set(this.#views.map((view) => view.id));
     for (const id of this.#tabs.keys()) {

@@ -1,4 +1,5 @@
 import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
 
 /** No-flash delay before the picker spinner appears, in ms. */
 const PICKER_SPINNER_DELAY = 150;
@@ -34,6 +35,13 @@ export class DsUploadDropArea extends HTMLElementBase {
   #caption: HTMLSpanElement | null = null;
   #spinner: HTMLElement | null = null;
   #opening = false;
+  #prompt: Text | null = null;
+  #action: HTMLSpanElement | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => this.#localize());
+  }
 
   connectedCallback() {
     upgradeProperty(this, "disabled");
@@ -120,14 +128,21 @@ export class DsUploadDropArea extends HTMLElementBase {
       // control, so the action word stays a plain span.
       const action = document.createElement("span");
       action.className = "upload-drop-area__action";
-      action.textContent = "browse";
-      text.append("Drag & drop files or ", action);
+      this.#prompt = document.createTextNode("");
+      this.#action = action;
+      text.append(this.#prompt, action);
     }
 
     root.append(input, iconWrap, text);
     this.appendChild(root);
     this.#root = root;
     this.#input = input;
+    this.#localize();
+  }
+
+  #localize() {
+    if (this.#prompt) this.#prompt.data = `${t(this, "uploadDropArea.prompt")} `;
+    if (this.#action) this.#action.textContent = t(this, "uploadDropArea.action");
   }
 
   #sync() {

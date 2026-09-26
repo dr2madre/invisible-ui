@@ -1,5 +1,6 @@
 import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { closeIcon } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type TagStatus = "neutral" | "info" | "success" | "warning" | "danger" | "selected";
 
@@ -20,6 +21,13 @@ export class DsTag extends HTMLElementBase {
   #label: HTMLSpanElement | null = null;
   #remove: HTMLButtonElement | null = null;
   #labelNodes: Node[] = [];
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#root) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "removable");
@@ -108,7 +116,7 @@ export class DsTag extends HTMLElementBase {
       this.#remove.remove();
       this.#remove = null;
     }
-    this.#remove?.setAttribute("aria-label", this.getAttribute("remove-label") ?? "Remove");
+    this.#remove?.setAttribute("aria-label", localized(this, "remove-label", "tag.remove"));
   }
 
   #status(): TagStatus {

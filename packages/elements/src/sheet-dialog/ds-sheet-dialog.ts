@@ -13,6 +13,7 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { lockScroll } from "../internal/scroll-lock";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type SheetDialogSide = "top" | "right" | "bottom" | "left";
 
@@ -49,6 +50,13 @@ export class DsSheetDialog extends HTMLElementBase {
   #cleanup: (() => void) | null = null;
   #dragCleanup: (() => void) | null = null;
   #instanceId = nextId("ds-sheet-dialog");
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#panel) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
@@ -150,14 +158,14 @@ export class DsSheetDialog extends HTMLElementBase {
       heading: this.getAttribute("heading") ?? "",
       subtitle: this.getAttribute("description"),
       closeButton: boolAttr(this, "close-button", true),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "sheetDialog.close"),
     });
     panel.dataset.side = this.#side();
     this.handle.hidden = !boolAttr(this, "draggable") || this.#side() === "top";
 
     const renderTrigger = boolAttr(this, "render-trigger", true);
     this.#trigger!.hidden = !renderTrigger;
-    this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
+    this.#trigger!.textContent = localized(this, "trigger", "dialog.trigger");
     this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.#trigger!, api.triggerProps);

@@ -1,4 +1,5 @@
 import { HTMLElementBase, upgradeProperty } from "../internal/base";
+import { localized, onLocaleChange, t } from "../internal/i18n";
 
 /** A social sign-in provider rendered as a button above the fields. */
 export interface LoginFormProvider {
@@ -57,6 +58,18 @@ export class DsLoginForm extends HTMLElementBase {
   #submitLabel: Text | null = null;
   #providers: LoginFormProvider[] = [];
   #providerIcons = new Map<string, Element>();
+  #or: HTMLSpanElement | null = null;
+  #email: HTMLElement | null = null;
+  #password: HTMLElement | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (!this.#form) return;
+      this.#sync();
+      this.#renderProviders();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "providers");
@@ -114,20 +127,16 @@ export class DsLoginForm extends HTMLElementBase {
     const divider = document.createElement("div");
     divider.className = "login__divider";
     const or = document.createElement("span");
-    or.textContent = "or";
     divider.appendChild(or);
 
     const email = document.createElement("ds-text-field");
-    email.setAttribute("label", "Email");
     email.setAttribute("type", "email");
     email.setAttribute("name", "email");
-    email.setAttribute("placeholder", "you@example.com");
     form.appendChild(email);
 
     const passwordField = document.createElement("div");
     passwordField.className = "login__field";
     const password = document.createElement("ds-text-field");
-    password.setAttribute("label", "Password");
     password.setAttribute("type", "password");
     password.setAttribute("name", "password");
     passwordField.appendChild(password);
@@ -150,12 +159,15 @@ export class DsLoginForm extends HTMLElementBase {
     this.#divider = divider;
     this.#passwordField = passwordField;
     this.#submitLabel = submitLabel;
+    this.#or = or;
+    this.#email = email;
+    this.#password = password;
     this.#renderProviders();
   }
 
   #sync() {
     const form = this.#form!;
-    this.#heading!.textContent = this.getAttribute("heading") ?? "Sign in";
+    this.#heading!.textContent = localized(this, "heading", "loginForm.heading");
 
     const subheading = this.getAttribute("subheading");
     if (subheading) {
@@ -173,14 +185,18 @@ export class DsLoginForm extends HTMLElementBase {
       this.#forgot ??= document.createElement("a");
       this.#forgot.className = "login__forgot";
       this.#forgot.href = href;
-      this.#forgot.textContent = this.getAttribute("forgot-label") ?? "Forgot password?";
+      this.#forgot.textContent = localized(this, "forgot-label", "loginForm.forgot");
       this.#passwordField!.appendChild(this.#forgot);
     } else {
       this.#forgot?.remove();
       this.#forgot = null;
     }
 
-    this.#submitLabel!.data = this.getAttribute("submit-label") ?? "Sign in";
+    this.#submitLabel!.data = localized(this, "submit-label", "loginForm.submit");
+    this.#or!.textContent = t(this, "loginForm.divider");
+    this.#email!.setAttribute("label", t(this, "loginForm.email"));
+    this.#email!.setAttribute("placeholder", t(this, "loginForm.emailPlaceholder"));
+    this.#password!.setAttribute("label", t(this, "loginForm.password"));
 
     for (const attr of ["action", "method"] as const) {
       const value = this.getAttribute(attr);
@@ -202,7 +218,7 @@ export class DsLoginForm extends HTMLElementBase {
         wrap.appendChild(icon.cloneNode(true));
         button.appendChild(wrap);
       }
-      button.append(`Continue with ${provider.label}`);
+      button.append(t(this, "loginForm.provider", { name: provider.label }));
       button.addEventListener("click", () => {
         this.dispatchEvent(
           new CustomEvent("provider", { detail: { id: provider.id }, bubbles: true }),

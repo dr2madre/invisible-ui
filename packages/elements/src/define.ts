@@ -23,6 +23,7 @@ import { DsEmptyState } from "./empty-state/ds-empty-state";
 import { DsErrorState } from "./error-state/ds-error-state";
 import { DsInlineNotification } from "./inline-notification/ds-inline-notification";
 import { DsLoading } from "./loading/ds-loading";
+import { DsLocaleProvider } from "./locale-provider/ds-locale-provider";
 import { DsLoadingGenerationArea } from "./loading-generation-area/ds-loading-generation-area";
 import { DsField } from "./field/ds-field";
 import { DsIcon } from "./icon/ds-icon";
@@ -62,6 +63,9 @@ const define = (tag: string, ctor: CustomElementConstructor) => {
   if (!customElements.get(tag)) customElements.define(tag, ctor);
 };
 
+// First, so a page's existing providers carry `lang` and `dir` before the
+// elements inside them render.
+define("ds-locale-provider", DsLocaleProvider);
 define("ds-button", DsButton);
 define("ds-card", DsCard);
 define("ds-checkbox", DsCheckbox);

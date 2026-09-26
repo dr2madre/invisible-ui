@@ -121,6 +121,32 @@
           "descriptionFrom": "none"
         }
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-locale-provider",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "locale",
+          "reactive": true,
+          "required": false,
+          "description": "BCP-47 tag; without it, the language around the provider, then English",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "dir",
+          "reactive": true,
+          "required": false,
+          "description": "`ltr` or `rtl`; derived from the locale when omitted",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `locale` (the resolved tag), `messages` (overrides keyed by catalog key: plain strings, or plural objects for count messages)."
+      ]
     }
   }
 }
