@@ -101,6 +101,17 @@ describe("native dialog visibility", () => {
   });
 });
 
+describe("login form width", () => {
+  // The card sizes its content box, so its padding and border must come out
+  // of the available width or it overflows a 320px viewport.
+  it("keeps the padding and the border inside the container", () => {
+    const sheet = read("./login-form.css");
+    expect(sheet).toMatch(
+      /\.login\s*\{[^}]*inline-size:\s*min\(\s*100% - 2 \* var\(--ds-login-padding, 1\.75rem\) - 2px,/s,
+    );
+  });
+});
+
 describe("stylesheet parity with the Vue adapter", () => {
   it.each(VUE_SHEETS)("%s matches byte for byte", (sheet) => {
     expect(read(`./${sheet}`)).toBe(read(`../../../vue/src/styles/${sheet}`));

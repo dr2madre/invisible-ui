@@ -69,6 +69,19 @@ describe("<ds-navigation-menu>", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("moves focus into the panel during the ArrowDown dispatch and reports it once", () => {
+    const menu = mount();
+    const seen: Array<string | null> = [];
+    menu.addEventListener("value-change", (e) => seen.push((e as CustomEvent).detail.value));
+    const trigger = screen.getByRole("button", { name: "Products" });
+    trigger.focus();
+    // A browser runs microtasks between listeners, before the core's opens
+    // the panel: focus must move within the dispatch, not in a later task.
+    fireEvent.keyDown(trigger, { key: "ArrowDown" });
+    expect(screen.getByRole("link", { name: /Catalog/ })).toHaveFocus();
+    expect(seen).toEqual(["products"]);
+  });
+
   it("closes on a press outside", async () => {
     const user = userEvent.setup();
     mount();

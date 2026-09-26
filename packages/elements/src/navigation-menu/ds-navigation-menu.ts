@@ -160,10 +160,14 @@ export class DsNavigationMenu extends HTMLElementBase {
         trigger.appendChild(chevron);
         trigger.addEventListener("pointerenter", (e) => this.#onTriggerEnter(item.value, e));
         trigger.addEventListener("pointerleave", this.#scheduleClose);
-        // ArrowDown also moves focus into the panel, once it is rendered.
+        // ArrowDown also moves focus into the panel. This listener runs before
+        // the core's, and a browser runs microtasks between listeners, so the
+        // panel is opened here rather than awaited; the core's open is then a
+        // no-op.
         trigger.addEventListener("keydown", (event) => {
           if (event.key !== "ArrowDown") return;
-          queueMicrotask(() => this.#panel?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+          this.#setValue(item.value, true);
+          this.#panel?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
         });
         li.appendChild(trigger);
         this.#triggers.set(item.value, trigger);
