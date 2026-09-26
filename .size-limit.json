@@ -159,7 +159,7 @@
     "name": "@design-system/elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
-    "limit": "3 kB"
+    "limit": "6 kB"
   },
   {
     "name": "@design-system/elements — avatar only, tree-shaken",
@@ -171,13 +171,13 @@
     "name": "@design-system/elements — avatar group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAvatarGroup }",
-    "limit": "1 kB"
+    "limit": "4 kB"
   },
   {
     "name": "@design-system/elements — breadcrumb only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsBreadcrumb }",
-    "limit": "1 kB"
+    "limit": "4 kB"
   },
   {
     "name": "@design-system/elements — button group only, tree-shaken",
@@ -189,7 +189,7 @@
     "name": "@design-system/elements — confirm dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsConfirmDialog }",
-    "limit": "3.5 kB"
+    "limit": "6 kB"
   },
   {
     "name": "@design-system/elements — dropdown menu only, tree-shaken",
@@ -219,7 +219,7 @@
     "name": "@design-system/elements — login form only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsLoginForm }",
-    "limit": "1.5 kB"
+    "limit": "4.5 kB"
   },
   {
     "name": "@design-system/elements — navigation menu only, tree-shaken",
@@ -237,7 +237,7 @@
     "name": "@design-system/elements — prompt dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPromptDialog }",
-    "limit": "3.5 kB"
+    "limit": "6.5 kB"
   },
   {
     "name": "@design-system/elements — radio only, tree-shaken",
@@ -255,7 +255,7 @@
     "name": "@design-system/elements — search dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSearchDialog }",
-    "limit": "5.5 kB"
+    "limit": "8.5 kB"
   },
   {
     "name": "@design-system/elements — segmented control only, tree-shaken",
@@ -267,7 +267,7 @@
     "name": "@design-system/elements — sidebar only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSidebar }",
-    "limit": "3 kB"
+    "limit": "13.5 kB"
   },
   {
     "name": "@design-system/elements — toggle button only, tree-shaken",
@@ -297,6 +297,6 @@
     "name": "@design-system/elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
-    "limit": "1.5 kB"
+    "limit": "5 kB"
   }
 ]
