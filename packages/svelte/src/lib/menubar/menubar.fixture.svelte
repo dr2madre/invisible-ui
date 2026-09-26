@@ -4,7 +4,7 @@
 
   export let onSelect: ((menuValue: string, itemValue: string) => void) | undefined = undefined;
 
-  const menus: MenubarMenu[] = [
+  export let menus: MenubarMenu[] = [
     {
       value: "file",
       label: "File",

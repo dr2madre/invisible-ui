@@ -26,8 +26,18 @@
   /** Called with the chosen item's value. */
   export let onSelect: ((value: string) => void) | undefined = undefined;
 
-  const menu = createDropdownMenu({ items, disabled, onSelect });
-  const { api, triggerAction, menuAction, itemAction } = menu;
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menu = createDropdownMenu({
+    items,
+    disabled,
+    onSelect: (value) => onSelect?.(value),
+  });
+  const { api, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
+
+  // Items and disabled changed after mount reach the machine, so keyboard
+  // navigation and typeahead follow what the template renders.
+  $: syncItems(items);
+  $: syncDisabled(disabled);
 
   // Separators have no value of their own, so their position is their key.
   const entryKey = (entry: MenuEntry, index: number) =>

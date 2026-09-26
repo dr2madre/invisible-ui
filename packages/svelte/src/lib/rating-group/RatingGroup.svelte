@@ -34,7 +34,10 @@
     name,
     onValueChange: (next) => onValueChange?.(next),
   });
-  const { items, setValue, syncValue, name: groupName, value: selected } = rating;
+  const { items, setValue, syncValue, syncMax, name: groupName, value: selected } = rating;
+
+  // A star count changed after mount redraws the stars, reporting nothing.
+  $: syncMax(max);
 
   // Controllable mirror, compared against the last prop value (ADR 0011).
   let lastValue = value;
@@ -77,7 +80,7 @@
     aria-orientation="horizontal"
     on:pointerleave={() => (hovered = 0)}
   >
-    {#each items as item (item.value)}
+    {#each $items as item (item.value)}
       <label
         class="rating__star"
         class:rating__star--filled={!hovered && item.position <= ($selected ?? 0)}

@@ -25,6 +25,11 @@ describe("Svelte AvatarGroup (styled)", () => {
     expect(screen.getByRole("img", { name: "Barbara Liskov" })).toBeInTheDocument();
   });
 
+  it("renders two people who share a name", () => {
+    render(Fixture, { props: { items: [{ name: "Ada Lovelace" }, { name: "Ada Lovelace" }] } });
+    expect(screen.getAllByRole("img", { name: "Ada Lovelace" })).toHaveLength(2);
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { max: 4, label: "Project team" } });
     expect(await axe(container)).toHaveNoViolations();

@@ -25,6 +25,11 @@ export interface CreateCalendar {
   syncFocus: (iso: string) => void;
   /** Reflect a controlled `view` prop without reporting a change. */
   syncView: (view: CalendarView) => void;
+  /**
+   * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`.
+   * Reporting nothing, like any reflection.
+   */
+  syncConfig: (config: CalendarConfig) => void;
   setFocus: (iso: string) => void;
   setView: (view: CalendarView) => void;
   /** Svelte action for the grid container: `<div use:gridAction>`. */
@@ -35,6 +40,13 @@ export interface CreateCalendar {
   cellAction: Action<HTMLElement, string>;
   /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */
   dayAction: Action<HTMLElement, string>;
+}
+
+/** The props a consumer may change after mount, besides value, focus and view. */
+export interface CalendarConfig {
+  min?: string | null;
+  max?: string | null;
+  weekStartsOn?: WeekStart;
 }
 
 /**
@@ -81,6 +93,17 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
   const syncView = (view: CalendarView) =>
     state.update((s) => (s.view === view ? s : { ...s, view }));
 
+  // Normalized the way the initial state is, so an unchanged prop is a no-op.
+  const syncConfig = (config: CalendarConfig) =>
+    state.update((s) => {
+      const min = config.min ?? null;
+      const max = config.max ?? null;
+      const weekStartsOn = config.weekStartsOn ?? 1;
+      return s.min === min && s.max === max && s.weekStartsOn === weekStartsOn
+        ? s
+        : { ...s, min, max, weekStartsOn };
+    });
+
   const focus = (iso: string) => {
     void tick().then(() => {
       document.getElementById(core.dayId(baseId, iso))?.focus();
@@ -113,6 +136,7 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
     syncValue,
     syncFocus,
     syncView,
+    syncConfig,
     gridAction,
     rowAction,
     cellAction,
