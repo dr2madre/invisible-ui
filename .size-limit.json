@@ -186,6 +186,24 @@
     "limit": "1 kB"
   },
   {
+    "name": "@design-system/elements — carousel only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCarousel }",
+    "limit": "6.5 kB"
+  },
+  {
+    "name": "@design-system/elements — code block only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCodeBlock }",
+    "limit": "4.5 kB"
+  },
+  {
+    "name": "@design-system/elements — code only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsCode }",
+    "limit": "0.5 kB"
+  },
+  {
     "name": "@design-system/elements — confirm dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsConfirmDialog }",
@@ -196,6 +214,12 @@
     "path": "packages/elements/dist/index.js",
     "import": "{ DsDropdownMenu }",
     "limit": "10.5 kB"
+  },
+  {
+    "name": "@design-system/elements — feedback icon only, tree-shaken",
+    "path": "packages/elements/dist/index.js",
+    "import": "{ DsFeedbackIcon }",
+    "limit": "1.5 kB"
   },
   {
     "name": "@design-system/elements — icon only, tree-shaken",

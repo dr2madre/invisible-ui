@@ -75,6 +75,10 @@ import { DsAspectRatio } from "./aspect-ratio/ds-aspect-ratio";
 import { DsBlockquote } from "./blockquote/ds-blockquote";
 import { DsSkeleton } from "./skeleton/ds-skeleton";
 import { DsMeter } from "./meter/ds-meter";
+import { DsCode } from "./code/ds-code";
+import { DsCodeBlock } from "./code-block/ds-code-block";
+import { DsFeedbackIcon } from "./feedback-icon/ds-feedback-icon";
+import { DsCarousel } from "./carousel/ds-carousel";
 
 const define = (tag: string, ctor: CustomElementConstructor) => {
   if (typeof customElements === "undefined") return;
@@ -159,5 +163,9 @@ define("ds-stepper", DsStepper);
 define("ds-slider", DsSlider);
 define("ds-range-slider", DsRangeSlider);
 define("ds-rating-group", DsRatingGroup);
+define("ds-code", DsCode);
+define("ds-code-block", DsCodeBlock);
+define("ds-feedback-icon", DsFeedbackIcon);
+define("ds-carousel", DsCarousel);
 
 export {};

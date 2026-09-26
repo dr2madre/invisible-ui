@@ -8503,6 +8503,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8513,6 +8514,13 @@
         "--ds-color-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8547,6 +8555,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8557,6 +8566,13 @@
         "--ds-color-control-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8592,6 +8608,7 @@
         "inset-inline-start"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8600,6 +8617,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow--next",
+          "property": "inset-inline-end",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow--prev",
+          "property": "inset-inline-start",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8649,6 +8680,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8657,6 +8689,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "inline-size",
+          "fallback": "2.25rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "block-size",
+          "fallback": "2.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8705,6 +8751,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8715,6 +8762,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8747,6 +8801,7 @@
         "aspect-ratio"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8755,6 +8810,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__bg",
+          "property": "aspect-ratio",
+          "fallback": "16 / 9"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8789,6 +8851,7 @@
         "block-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8798,6 +8861,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__viewport",
+          "property": "block-size",
+          "fallback": "16rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"][data-orientation=\"vertical\"] .carousel__viewport",
+          "property": "block-size",
+          "fallback": "22rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8846,6 +8923,7 @@
         "perspective"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8854,6 +8932,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__viewport",
+          "property": "perspective",
+          "fallback": "1200px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8888,6 +8973,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8896,6 +8982,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "inline-size",
+          "fallback": "12rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8931,6 +9024,7 @@
         "(inline)"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8940,6 +9034,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/carousel/ds-carousel.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "9rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/carousel/ds-carousel.ts",
+          "selector": "(inline)",
+          "property": "(inline)",
+          "fallback": "11rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -8988,6 +9096,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -8998,6 +9107,13 @@
         "--ds-color-primary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9032,6 +9148,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9042,6 +9159,13 @@
         "--ds-color-control-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "background",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9077,6 +9201,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9085,6 +9210,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "inline-size",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "block-size",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9133,6 +9272,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9141,6 +9281,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"gallery\"] .carousel__track",
+          "property": "gap",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9175,6 +9322,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9183,6 +9331,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"gallery\"] .carousel__slide",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9215,6 +9370,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9223,6 +9379,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "background",
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9257,6 +9420,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9265,6 +9429,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "padding",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9299,6 +9470,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9307,6 +9479,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "color",
+          "fallback": "#fff"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9341,6 +9520,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9351,6 +9531,20 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__bg",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__viewport",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9399,6 +9593,7 @@
         "background-color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9419,6 +9614,83 @@
         "--ds-pastel-yellow"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 1) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-pink, #e5a1ac)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 2) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-violet, #b8a1e6)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 3) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-teal, #7abecc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 4) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-green, #8dcc7a)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 5) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-yellow, #e5cb44)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 1) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-pink, #e5a1ac)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 2) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-violet, #b8a1e6)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 3) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-teal, #7abecc)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 4) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-green, #8dcc7a)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 5) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-yellow, #e5cb44)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9593,6 +9865,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9601,6 +9874,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -9635,6 +9915,7 @@
         "transition"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -9643,6 +9924,27 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__track",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/carousel/Carousel.svelte",
@@ -10244,6 +10546,7 @@
         "border-block-end"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10254,6 +10557,20 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__header",
+          "property": "border-block-end",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10302,6 +10619,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10310,6 +10628,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__copy",
+          "property": "background",
+          "fallback": "rgba(0, 0, 0, 0.05)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10344,6 +10669,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10352,6 +10678,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__copy:hover",
+          "property": "background",
+          "fallback": "rgba(0, 0, 0, 0.1)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10386,6 +10719,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10394,6 +10728,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__code",
+          "property": "font-size",
+          "fallback": "0.875rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10428,6 +10769,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10436,6 +10778,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__header",
+          "property": "padding",
+          "fallback": "0.4rem 0.75rem 0.4rem 1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10470,6 +10819,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10478,6 +10828,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block__pre",
+          "property": "padding",
+          "fallback": "1rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10512,6 +10869,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10522,6 +10880,13 @@
         "--ds-radius-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10556,6 +10921,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10566,6 +10932,13 @@
         "--ds-color-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10600,6 +10973,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10610,6 +10984,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code-block.css",
+          "selector": ".code-block",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code-block/CodeBlock.svelte",
@@ -10644,6 +11025,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10654,6 +11036,13 @@
         "--ds-color-neutral-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "border",
+          "fallback": "var(--ds-color-neutral-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
@@ -10688,6 +11077,7 @@
         "font-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10696,6 +11086,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "font-size",
+          "fallback": "0.875em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
@@ -10730,6 +11127,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10738,6 +11136,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "padding",
+          "fallback": "0.1em 0.35em"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
@@ -10772,6 +11177,7 @@
         "border-radius"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10782,6 +11188,13 @@
         "--ds-radius-control"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
@@ -10816,6 +11229,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10826,6 +11240,13 @@
         "--ds-color-neutral-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",
@@ -10860,6 +11281,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -10870,6 +11292,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/code.css",
+          "selector": ".code",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/code/Code.svelte",

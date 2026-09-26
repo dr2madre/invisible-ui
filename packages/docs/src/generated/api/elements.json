@@ -49,6 +49,21 @@
       "signature": "type ButtonGroupOrientation = buttonGroup.Orientation;"
     },
     {
+      "name": "CarouselOrientation",
+      "kind": "type",
+      "signature": "type CarouselOrientation = carousel.Orientation;"
+    },
+    {
+      "name": "CarouselSlide",
+      "kind": "interface",
+      "signature": "interface CarouselSlide { /** Background image URL. */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; }"
+    },
+    {
+      "name": "CarouselVariant",
+      "kind": "type",
+      "signature": "type CarouselVariant = \"slide\" | \"gallery\" | \"coverflow\";"
+    },
+    {
       "name": "ComboboxItem",
       "kind": "interface",
       "signature": "interface ComboboxItem { value: string; label?: string; disabled?: boolean; /** Optional leading icon (an SVG path `d` string). */ icon?: string; }"
@@ -119,6 +134,11 @@
       "signature": "declare class DsCard extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
+      "name": "DsCarousel",
+      "kind": "class",
+      "signature": "declare class DsCarousel extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get items(): CarouselSlide[]; set items(value: CarouselSlide[]); get index(): number; set index(value: number); }"
+    },
+    {
       "name": "DsCheckbox",
       "kind": "class",
       "signature": "declare class DsCheckbox extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get checked(): checkbox.CheckedState; set checked(value: checkbox.CheckedState); }"
@@ -127,6 +147,16 @@
       "name": "DsCheckboxGroup",
       "kind": "class",
       "signature": "declare class DsCheckboxGroup extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): string[]; set value(next: string[]); get items(): checkboxGroup.CheckboxGroupItem[]; set items(items: checkboxGroup.CheckboxGroupItem[]); }"
+    },
+    {
+      "name": "DsCode",
+      "kind": "class",
+      "signature": "declare class DsCode extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; }"
+    },
+    {
+      "name": "DsCodeBlock",
+      "kind": "class",
+      "signature": "declare class DsCodeBlock extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get code(): string; set code(value: string); }"
     },
     {
       "name": "DsCollapsible",
@@ -172,6 +202,11 @@
       "name": "DsErrorState",
       "kind": "class",
       "signature": "declare class DsErrorState extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsFeedbackIcon",
+      "kind": "class",
+      "signature": "declare class DsFeedbackIcon extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
     },
     {
       "name": "DsField",
@@ -437,6 +472,11 @@
       "name": "DsUploadDropArea",
       "kind": "class",
       "signature": "declare class DsUploadDropArea extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); /** The files the input currently holds. */ get files(): File[]; }"
+    },
+    {
+      "name": "FeedbackStatus",
+      "kind": "type",
+      "signature": "type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
     },
     {
       "name": "LinkVariant",
