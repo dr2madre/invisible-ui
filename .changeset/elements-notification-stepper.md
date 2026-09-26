@@ -1,5 +1,7 @@
 ---
 "@design-system/elements": minor
+"@design-system/svelte": patch
+"@design-system/vue": patch
 ---
 
 Add `<ds-notification>`, `<ds-notification-region>` and `<ds-stepper>`.
