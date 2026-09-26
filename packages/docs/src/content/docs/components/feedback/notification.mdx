@@ -48,6 +48,20 @@ the countdown pauses on hover and focus (WCAG 2.2.1 Timing).
 
 <ImportSnippet component="notification" />
 
+In Elements, a `<ds-notification-region>` usually creates the notifications.
+On its own, the element takes its content as attributes and its actions as a
+property. It sends a bubbling `close` event with `detail.reason` and then
+removes itself, unless the event is canceled:
+
+```html
+<ds-notification title="Draft deleted" status="neutral" duration="6000"></ds-notification>
+
+<script type="module">
+  const notification = document.querySelector("ds-notification");
+  notification.actions = [{ label: "Undo", onClick: () => restoreDraft() }];
+</script>
+```
+
 ### Props
 
 <PropsTable component="notification" />

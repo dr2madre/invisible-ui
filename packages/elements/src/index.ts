@@ -135,3 +135,18 @@ export { DsSkeleton, type SkeletonAnimation, type SkeletonVariant } from "./skel
 export { DsMeter } from "./meter/ds-meter";
 export { DsNumberField } from "./number-field/ds-number-field";
 export { DsPinInput, type PinInputType } from "./pin-input/ds-pin-input";
+export {
+  DsNotification,
+  type NotificationAction,
+  type NotificationDismissReason,
+  type NotificationStatus,
+} from "./notification/ds-notification";
+export {
+  DsNotificationRegion,
+  type NotificationItem,
+  type NotificationOptions,
+  type NotificationPlacement,
+  type NotificationPromiseMessages,
+  type StatusOptions,
+} from "./notification/ds-notification-region";
+export { DsStepper, type StepDescriptor, type StepperOrientation } from "./stepper/ds-stepper";

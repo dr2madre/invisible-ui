@@ -24,6 +24,9 @@ import { DsDropdownMenu } from "./dropdown-menu/ds-dropdown-menu";
 import { DsEmptyState } from "./empty-state/ds-empty-state";
 import { DsErrorState } from "./error-state/ds-error-state";
 import { DsInlineNotification } from "./inline-notification/ds-inline-notification";
+import { DsNotification } from "./notification/ds-notification";
+import { DsNotificationRegion } from "./notification/ds-notification-region";
+import { DsStepper } from "./stepper/ds-stepper";
 import { DsLoading } from "./loading/ds-loading";
 import { DsLocaleProvider } from "./locale-provider/ds-locale-provider";
 import { DsLoadingGenerationArea } from "./loading-generation-area/ds-loading-generation-area";
@@ -141,5 +144,8 @@ define("ds-skeleton", DsSkeleton);
 define("ds-meter", DsMeter);
 define("ds-number-field", DsNumberField);
 define("ds-pin-input", DsPinInput);
+define("ds-notification", DsNotification);
+define("ds-notification-region", DsNotificationRegion);
+define("ds-stepper", DsStepper);
 
 export {};

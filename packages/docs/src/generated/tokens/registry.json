@@ -19104,6 +19104,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19112,6 +19113,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/notification-region.css",
+          "selector": ".notification-region",
+          "property": "inline-size",
+          "fallback": "24rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/notification/NotificationRegion.svelte",
@@ -19147,6 +19155,7 @@
         "z-index"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -19155,6 +19164,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/notification-region.css",
+          "selector": ".notification-region",
+          "property": "z-index",
+          "fallback": "1000"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/notification/NotificationRegion.svelte",
@@ -24851,6 +24867,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24861,6 +24878,13 @@
         "--ds-color-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -24895,6 +24919,7 @@
         "border-color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24905,6 +24930,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "border-color",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -24939,6 +24971,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24949,6 +24982,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -24983,6 +25023,7 @@
         "background-image"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -24993,6 +25034,13 @@
         "--ds-color-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__connector, .stepper__step[data-status=\"current\"] .stepper__connector",
+          "property": "background-image",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25027,6 +25075,7 @@
         "background-image"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25037,6 +25086,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-image",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25071,6 +25127,7 @@
         "background-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25079,6 +25136,27 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25141,6 +25219,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25149,6 +25228,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25184,6 +25270,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25192,6 +25279,27 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "block-size",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "inline-size",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
+          "property": "inline-size",
+          "fallback": "3px"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25254,6 +25362,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25264,6 +25373,13 @@
         "--ds-color-selected"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25298,6 +25414,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25308,6 +25425,13 @@
         "--ds-color-selected"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-selected, #7a52cc)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25342,6 +25466,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25350,6 +25475,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25384,6 +25516,7 @@
         "background"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25394,6 +25527,13 @@
         "--ds-color-surface"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25428,6 +25568,7 @@
         "border"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25438,6 +25579,13 @@
         "--ds-color-border"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25473,6 +25621,7 @@
         "inline-size"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25481,6 +25630,20 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "inline-size",
+          "fallback": "1.75rem"
+        },
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "block-size",
+          "fallback": "1.75rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25529,6 +25692,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25539,6 +25703,13 @@
         "--ds-color-text-secondary"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25573,6 +25744,7 @@
         "gap"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25581,6 +25753,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__trigger",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25615,6 +25794,7 @@
         "padding"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25623,6 +25803,13 @@
       ],
       "parents": [],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__trigger",
+          "property": "padding",
+          "fallback": "0.25rem 0.4rem"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25657,6 +25844,7 @@
         "border-color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25667,6 +25855,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
+          "property": "border-color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",
@@ -25701,6 +25896,7 @@
         "color"
       ],
       "adapters": [
+        "elements",
         "svelte",
         "vue"
       ],
@@ -25711,6 +25907,13 @@
         "--ds-color-text"
       ],
       "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/stepper/Stepper.svelte",

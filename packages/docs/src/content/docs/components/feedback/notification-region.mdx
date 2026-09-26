@@ -23,6 +23,21 @@ they are exactly where the user may not be looking.
 
 <ImportSnippet component="notification-region" helpers={["createNotifier"]} />
 
+In Elements, the region element owns the queue: there is no separate
+notifier. `show()` and the status shorthands return the id that `update()` and
+`dismiss()` take, and the element sends a bubbling `dismiss` event with
+`detail.id` and `detail.reason`:
+
+```html
+<ds-notification-region placement="bottom-center"></ds-notification-region>
+
+<script type="module">
+  const region = document.querySelector("ds-notification-region");
+  const id = region.info("Saving…", { closable: false });
+  region.update(id, { status: "success", title: "Saved", closable: true, duration: 5000 });
+</script>
+```
+
 ### Props
 
 <PropsTable component="notification-region" />

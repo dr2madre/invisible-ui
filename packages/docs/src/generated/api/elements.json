@@ -229,6 +229,16 @@
       "signature": "declare class DsNavigationMenu extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string): void; get items(): NavigationMenuItem[]; set items(value: NavigationMenuItem[]); get value(): string | null; set value(next: string | null); }"
     },
     {
+      "name": "DsNotification",
+      "kind": "class",
+      "signature": "declare class DsNotification extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(name: string, previous: string | null, next: string | null): void; get actions(): NotificationAction[]; set actions(value: NotificationAction[]); get duration(): number; set duration(value: number); get paused(): boolean; set paused(value: boolean); }"
+    },
+    {
+      "name": "DsNotificationRegion",
+      "kind": "class",
+      "signature": "declare class DsNotificationRegion extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; /** The queue, oldest first. */ get notifications(): NotificationItem[]; /** Queue a notification and return its id. A live `id` is replaced in place. */ show(options?: NotificationOptions): string; info(title: string, options?: StatusOptions): string; success(title: string, options?: StatusOptions): string; warning(title: string, options?: StatusOptions): string; danger(title: string, options?: StatusOptions): string; neutral(title: string, options?: StatusOptions): string; /** Change a live notification in place. */ update(id: string, patch: NotificationOptions): void; /** Remove a notification, telling its `onDismiss` why (`api` by default). */ dismiss(id: string, reason?: NotificationDismissReason): void; /** Remove every notification, each told `api`. */ clear(): void; /** Show a loading notification, then turn it into success or error when the promise settles. */ promise<T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>): Promise<T>; }"
+    },
+    {
       "name": "DsNumberField",
       "kind": "class",
       "signature": "declare class DsNumberField extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get value(): number | null; set value(next: number | null); }"
@@ -307,6 +317,11 @@
       "name": "DsSkeleton",
       "kind": "class",
       "signature": "declare class DsSkeleton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; }"
+    },
+    {
+      "name": "DsStepper",
+      "kind": "class",
+      "signature": "declare class DsStepper extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; attributeChangedCallback(name: string): void; get steps(): StepDescriptor[]; set steps(value: StepDescriptor[]); get current(): number; set current(value: number); }"
     },
     {
       "name": "DsSwitch",
@@ -454,6 +469,41 @@
       "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
     },
     {
+      "name": "NotificationAction",
+      "kind": "interface",
+      "signature": "interface NotificationAction { label: string; variant?: \"default\" | \"primary\" | \"secondary\" | \"ghost\" | \"danger\"; /** Run when the action is clicked. */ onClick?: () => void; /** Keep the notification open after the action runs. */ keepOpen?: boolean; }"
+    },
+    {
+      "name": "NotificationDismissReason",
+      "kind": "type",
+      "signature": "type NotificationDismissReason = \"user\" | \"timeout\" | \"action\" | \"api\";"
+    },
+    {
+      "name": "NotificationItem",
+      "kind": "interface",
+      "signature": "interface NotificationItem extends NotificationOptions { id: string; }"
+    },
+    {
+      "name": "NotificationOptions",
+      "kind": "interface",
+      "signature": "interface NotificationOptions { /** Stable id. A live id replaces that notification in place instead of stacking a new one. */ id?: string; status?: NotificationStatus; title?: string; /** Body text. */ text?: string; /** Auto-dismiss delay in ms. `0` (default) keeps it until dismissed. */ duration?: number; /** Whether to render the close button. Defaults to `true`. */ closable?: boolean; /** Live-region role: `status` (polite, default) or `alert` (urgent). */ role?: \"status\" | \"alert\"; actions?: NotificationAction[]; /** High-contrast inverse surface. */ inverted?: boolean; /** One compact row: icon, title and an inline action, no body text. */ snack?: boolean; iconShape?: \"rounded\" | \"round\"; iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** Called once when the notification closes, with the reason. Not called on a replace. */ onDismiss?: (reason: NotificationDismissReason) => void; }"
+    },
+    {
+      "name": "NotificationPlacement",
+      "kind": "type",
+      "signature": "type NotificationPlacement = \"top-start\" | \"top-center\" | \"top-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\";"
+    },
+    {
+      "name": "NotificationPromiseMessages",
+      "kind": "interface",
+      "signature": "interface NotificationPromiseMessages<T> { loading: string; success: string | ((data: T) => string); error: string | ((error: unknown) => string); /** Auto-dismiss delay for the settled notification. Defaults to `0` (persistent). */ duration?: number; }"
+    },
+    {
+      "name": "NotificationStatus",
+      "kind": "type",
+      "signature": "NotificationStatus = type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
       "name": "PinInputType",
       "kind": "type",
       "signature": "type PinInputType = pinInput.PinInputType;"
@@ -527,6 +577,21 @@
       "name": "SortDirection",
       "kind": "type",
       "signature": "type SortDirection = \"asc\" | \"desc\";"
+    },
+    {
+      "name": "StatusOptions",
+      "kind": "type",
+      "signature": "type StatusOptions = Omit<NotificationOptions, \"status\" | \"title\">;"
+    },
+    {
+      "name": "StepDescriptor",
+      "kind": "interface",
+      "signature": "interface StepDescriptor { /** Short title. */ label: string; /** Optional secondary line. */ description?: string; }"
+    },
+    {
+      "name": "StepperOrientation",
+      "kind": "type",
+      "signature": "type StepperOrientation = stepper.Orientation;"
     },
     {
       "name": "TableBodyView",
