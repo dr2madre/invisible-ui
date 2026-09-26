@@ -1,5 +1,7 @@
 ---
 "@design-system/elements": minor
+"@design-system/svelte": patch
+"@design-system/vue": patch
 ---
 
 New `<ds-popover>`, `<ds-context-menu>` and `<ds-menubar>`, ported from the Vue
