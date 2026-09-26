@@ -30,6 +30,20 @@ describe("Svelte AvatarGroup (styled)", () => {
     expect(screen.getAllByRole("img", { name: "Ada Lovelace" })).toHaveLength(2);
   });
 
+  it("applies a colour as that one value and drops one that would add declarations", () => {
+    render(Fixture, {
+      props: {
+        items: [
+          { name: "Ada Lovelace", color: "rebeccapurple" },
+          { name: "Grace Hopper", color: "red; position: fixed; inset: 0" },
+        ],
+      },
+    });
+    const [safe, unsafe] = document.querySelectorAll<HTMLElement>(".avatar-group__item");
+    expect(safe!.style.getPropertyValue("--ds-avatar-bg")).toBe("rebeccapurple");
+    expect(unsafe!.getAttribute("style") ?? "").not.toContain("position");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { max: 4, label: "Project team" } });
     expect(await axe(container)).toHaveNoViolations();

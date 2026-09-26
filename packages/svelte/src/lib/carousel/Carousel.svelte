@@ -151,7 +151,9 @@ keeps the scoped rule for the vertical coverflow layout. -->
             {:else}
               <div
                 class="carousel__bg"
-                style={item.image ? `background-image: url(${item.image})` : undefined}
+                style:background-image={item.image
+                  ? `url(${JSON.stringify(String(item.image))})`
+                  : undefined}
               >
                 {#if item.title || item.description}
                   <div class="carousel__overlay">
