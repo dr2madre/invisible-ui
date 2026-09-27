@@ -16,7 +16,15 @@ export interface UseMeter {
   level: ComputedRef<"low" | "medium" | "high">;
   /** Replace the current value. */
   setValue: (value: number) => void;
+  /**
+   * Reflect the range props after mount; an omitted threshold falls back as it
+   * does at creation.
+   */
+  syncRange: (range: MeterRange) => void;
 }
+
+/** The range props a consumer may change after mount. */
+export type MeterRange = Pick<MeterContext, "min" | "max" | "low" | "high" | "optimum">;
 
 /**
  * Connect the headless meter (WAI-ARIA meter pattern) to Vue: a gauge of a
@@ -35,6 +43,11 @@ export function useMeter(context: MeterContext = {}): UseMeter {
     state.value = { ...state.value, value };
   };
 
+  const syncRange = (range: MeterRange) => {
+    const { value, id } = state.value;
+    state.value = core.initialState({ ...range, value, id });
+  };
+
   const api = computed(() => core.connect({ state: state.value, normalize: normalizeProps }));
 
   return {
@@ -42,5 +55,6 @@ export function useMeter(context: MeterContext = {}): UseMeter {
     percentage: computed(() => api.value.percentage),
     level: computed(() => api.value.level),
     setValue,
+    syncRange,
   };
 }
