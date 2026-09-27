@@ -95,6 +95,16 @@ describe("menu connect", () => {
     api.openMenu();
     expect(setOpen).not.toHaveBeenCalled();
   });
+
+  it("marks a disabled trigger for the stylesheet as well as for assistive tech", () => {
+    const disabled = harness({ disabled: true }).api.triggerProps;
+    expect(disabled["aria-disabled"]).toBe(true);
+    expect(disabled["data-disabled"]).toBe("");
+
+    const enabled = harness().api.triggerProps;
+    expect(enabled["aria-disabled"]).toBeUndefined();
+    expect(enabled["data-disabled"]).toBeUndefined();
+  });
 });
 
 describe("menu vocabulary", () => {

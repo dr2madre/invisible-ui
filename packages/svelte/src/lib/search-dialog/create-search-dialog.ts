@@ -2,7 +2,7 @@ import { combobox as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createDialog } from "../dialog/create-dialog";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -217,8 +217,9 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getOptionProps(value))(node);
+  const optionAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getOptionProps(value),
+  );
 
   return {
     open: dialog.open,

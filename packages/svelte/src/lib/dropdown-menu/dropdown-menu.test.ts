@@ -154,4 +154,12 @@ describe("Svelte DropdownMenu (styled)", () => {
     await user.click(trigger);
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
+
+  it("gives a disabled trigger the disabled look", async () => {
+    const { rerender } = render(Fixture, { props: { disabled: true } });
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    expect(trigger).toHaveAttribute("data-disabled");
+    await rerender({ disabled: false });
+    expect(trigger).not.toHaveAttribute("data-disabled");
+  });
 });

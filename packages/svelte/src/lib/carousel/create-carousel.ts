@@ -1,7 +1,7 @@
 import { carousel as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction, createRootAction } from "../internal/connect";
+import { createItemAction, createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -95,11 +95,13 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
   const prevAction = createPropsAction(api, (a) => a.getPrevProps());
   const nextAction = createPropsAction(api, (a) => a.getNextProps());
 
-  const slideAction: Action<HTMLElement, number> = (node, index) =>
-    createPropsAction(api, (a) => a.getSlideProps(index as number))(node);
+  const slideAction: Action<HTMLElement, number> = createItemAction(api, (a, index: number) =>
+    a.getSlideProps(index),
+  );
 
-  const indicatorAction: Action<HTMLElement, number> = (node, index) =>
-    createPropsAction(api, (a) => a.getIndicatorProps(index as number))(node);
+  const indicatorAction: Action<HTMLElement, number> = createItemAction(api, (a, index: number) =>
+    a.getIndicatorProps(index),
+  );
 
   return {
     state,

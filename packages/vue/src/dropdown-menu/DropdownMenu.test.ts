@@ -153,6 +153,14 @@ describe("Vue DropdownMenu (styled)", () => {
     expect(screen.getByRole("menuitem", { name: "Rename" })).toHaveFocus();
   });
 
+  it("gives a disabled trigger the disabled look", async () => {
+    const { rerender } = renderMenu({ disabled: true });
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    expect(trigger).toHaveAttribute("data-disabled");
+    await rerender({ disabled: false });
+    expect(trigger).not.toHaveAttribute("data-disabled");
+  });
+
   it("marks disabled items", async () => {
     const user = userEvent.setup();
     renderMenu();

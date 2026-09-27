@@ -103,6 +103,20 @@ describe("<ds-navigation-menu>", () => {
     expect(screen.queryByRole("link", { name: /Catalog/ })).toBeNull();
   });
 
+  it("keeps a panel closed by click closed when the hover delay runs out", () => {
+    vi.useFakeTimers();
+    mount();
+    const products = screen.getByRole("button", { name: "Products" });
+    // A pointer click hovers the trigger first, which starts the open delay.
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    vi.advanceTimersByTime(150);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
   it("has no accessibility violations while open", async () => {
     const user = userEvent.setup();
     mount();

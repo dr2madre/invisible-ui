@@ -6104,6 +6104,66 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-button-ghost-color",
+      "id": "button-ghost-color",
+      "component": "button",
+      "usedBy": [
+        "button"
+      ],
+      "category": "color",
+      "categories": [
+        "color"
+      ],
+      "properties": [
+        "color"
+      ],
+      "adapters": [
+        "elements",
+        "react",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "var(--ds-color-text, #282420)"
+      ],
+      "parents": [
+        "--ds-color-text"
+      ],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/button.css",
+          "selector": ".button[data-variant=\"ghost\"]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/button.css",
+          "selector": ".button[data-variant=\"ghost\"]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/button/Button.svelte",
+          "selector": ".button:global([data-variant=\"ghost\"])",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/button.css",
+          "selector": ".button[data-variant=\"ghost\"]",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-button-group-gap",
       "id": "button-group-gap",
       "component": "button-group",
@@ -25300,8 +25360,7 @@
         "size"
       ],
       "properties": [
-        "block-size",
-        "inline-size"
+        "--ds-feedback-icon-size"
       ],
       "adapters": [
         "elements",
@@ -25316,43 +25375,22 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/inline-notification.css",
-          "selector": ".inline-notification[data-snack] .feedback-icon",
-          "property": "inline-size",
-          "fallback": "1.25rem"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/inline-notification.css",
-          "selector": ".inline-notification[data-snack] .feedback-icon",
-          "property": "block-size",
+          "selector": ".inline-notification[data-snack]",
+          "property": "--ds-feedback-icon-size",
           "fallback": "1.25rem"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
-          "selector": ".inline-notification:global([data-snack]) :global(.feedback-icon)",
-          "property": "inline-size",
-          "fallback": "1.25rem"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/inline-notification/InlineNotification.svelte",
-          "selector": ".inline-notification:global([data-snack]) :global(.feedback-icon)",
-          "property": "block-size",
+          "selector": ".inline-notification:global([data-snack])",
+          "property": "--ds-feedback-icon-size",
           "fallback": "1.25rem"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/inline-notification.css",
-          "selector": ".inline-notification[data-snack] .feedback-icon",
-          "property": "inline-size",
-          "fallback": "1.25rem"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/inline-notification.css",
-          "selector": ".inline-notification[data-snack] .feedback-icon",
-          "property": "block-size",
+          "selector": ".inline-notification[data-snack]",
+          "property": "--ds-feedback-icon-size",
           "fallback": "1.25rem"
         }
       ],
@@ -28743,6 +28781,56 @@
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
+        }
+      ],
+      "purpose": null,
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-toggle-border-width",
+      "id": "toggle-border-width",
+      "component": "toggle-button",
+      "usedBy": [
+        "toggle-button"
+      ],
+      "category": "size",
+      "categories": [
+        "size"
+      ],
+      "properties": [
+        "border"
+      ],
+      "adapters": [
+        "elements",
+        "svelte",
+        "vue"
+      ],
+      "fallbacks": [
+        "1px"
+      ],
+      "parents": [],
+      "sites": [
+        {
+          "adapter": "elements",
+          "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "border",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/toggle-button/ToggleButton.svelte",
+          "selector": ".toggle__surface",
+          "property": "border",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "vue",
+          "file": "packages/vue/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "border",
+          "fallback": "1px"
         }
       ],
       "purpose": null,

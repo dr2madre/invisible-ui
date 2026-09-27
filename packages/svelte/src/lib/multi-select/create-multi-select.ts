@@ -1,7 +1,7 @@
 import { multiSelect as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { fail } from "../internal/dev";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating } from "../internal/floating";
@@ -266,8 +266,9 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getOptionProps(value))(node);
+  const optionAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getOptionProps(value),
+  );
 
   const valuesListAction = createPropsAction(api, (a) => a.valuesListProps);
 

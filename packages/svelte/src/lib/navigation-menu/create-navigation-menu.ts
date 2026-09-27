@@ -2,7 +2,7 @@ import { navigationMenu as core } from "@design-system/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction } from "../internal/connect";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
 import { stableId } from "../internal/stable-id";
@@ -103,12 +103,13 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
     closeTimer = setTimeout(() => setValue(null), closeDelay);
   };
 
-  const triggerAction: Action<HTMLElement, string> = (node, value) => {
-    triggerEls[value as string] = node;
-    const base = createPropsAction(
-      derived(api, (a) => a.getTriggerProps(value as string)),
-      (p) => p,
-    )(node);
+  const triggerProps = createItemAction(api, (a, value: string) => a.getTriggerProps(value));
+  const contentProps = createItemAction(api, (a, value: string) => a.getContentProps(value));
+
+  const triggerAction: Action<HTMLElement, string> = (node, initial) => {
+    let value = initial as string;
+    triggerEls[value] = node;
+    const base = triggerProps(node, value);
 
     const onEnter = (event: Event) => {
       // Touch has no hover: a tap fires pointerenter AND click, and the click
@@ -118,15 +119,15 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
       clearTimers();
       const open = get(state).value;
       if (open !== null && open !== value)
-        setValue(value as string); // switch immediately
-      else if (open === null) openTimer = setTimeout(() => setValue(value as string), openDelay);
+        setValue(value); // switch immediately
+      else if (open === null) openTimer = setTimeout(() => setValue(value), openDelay);
     };
     const onLeave = () => scheduleClose();
     // ArrowDown (handled by core to open) also moves focus into the panel.
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "ArrowDown") return;
       tick().then(() => {
-        contentEls[value as string]?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
+        contentEls[value]?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
       });
     };
     node.addEventListener("pointerenter", onEnter);
@@ -134,32 +135,41 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
     node.addEventListener("keydown", onKeyDown);
 
     return {
+      update(next) {
+        if (triggerEls[value] === node) delete triggerEls[value];
+        value = next as string;
+        triggerEls[value] = node;
+        base.update(value);
+      },
       destroy() {
         node.removeEventListener("pointerenter", onEnter);
         node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("keydown", onKeyDown);
-        if (triggerEls[value as string] === node) delete triggerEls[value as string];
+        if (triggerEls[value] === node) delete triggerEls[value];
         // The timers belong to the menu, not to one trigger: only clear them
         // when the last trigger goes, or dropping one item would cancel a
         // hover the user started on another.
         if (Object.keys(triggerEls).length === 0) clearTimers();
-        base?.destroy?.();
+        base.destroy();
       },
     };
   };
 
-  const contentAction: Action<HTMLElement, string> = (node, value) => {
-    contentEls[value as string] = node;
-    const base = createPropsAction(
-      derived(api, (a) => a.getContentProps(value as string)),
-      (p) => p,
-    )(node);
+  const contentAction: Action<HTMLElement, string> = (node, initial) => {
+    let value = initial as string;
+    contentEls[value] = node;
+    const base = contentProps(node, value);
 
-    const triggerEl = triggerEls[value as string] ?? null;
-    const stopFloating = triggerEl
-      ? attachFloating(triggerEl, node, { placement, offset })
-      : () => {};
-    const stopOutside = onOutsidePointerDown([triggerEl, node], () => setValue(null));
+    // Positioning and outside dismissal follow the trigger of the current item.
+    let triggerEl: HTMLElement | null = null;
+    let stopFloating = () => {};
+    let stopOutside = () => {};
+    const attach = () => {
+      triggerEl = triggerEls[value] ?? null;
+      stopFloating = triggerEl ? attachFloating(triggerEl, node, { placement, offset }) : () => {};
+      stopOutside = onOutsidePointerDown([triggerEl, node], () => setValue(null));
+    };
+    attach();
 
     const onEnter = () => clearTimers();
     const onLeave = () => scheduleClose();
@@ -172,14 +182,26 @@ export function createNavigationMenu(context: NavigationMenuContext = {}): Creat
     node.addEventListener("keydown", onKeyDown);
 
     return {
+      update(next) {
+        if (contentEls[value] === node) delete contentEls[value];
+        value = next as string;
+        contentEls[value] = node;
+        base.update(value);
+        stopFloating();
+        stopOutside();
+        attach();
+      },
       destroy() {
         stopFloating();
         stopOutside();
         node.removeEventListener("pointerenter", onEnter);
         node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("keydown", onKeyDown);
-        if (contentEls[value as string] === node) delete contentEls[value as string];
-        base?.destroy?.();
+        if (contentEls[value] === node) delete contentEls[value];
+        base.destroy();
+        // A hover delay still pending, such as the one a pointer click
+        // starts, must not reopen a panel that has just closed.
+        clearTimers();
       },
     };
   };

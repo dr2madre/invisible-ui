@@ -16,6 +16,7 @@
    *   <NotificationRegion {notifier} placement="top-end" />
    */
   import { flip } from "svelte/animate";
+  import type { Action } from "svelte/action";
   import { SvelteMap } from "svelte/reactivity";
   import { fly } from "svelte/transition";
   import { cubicIn, cubicOut } from "svelte/easing";
@@ -55,10 +56,17 @@
    */
   export let exitEasing: (t: number) => number = cubicIn;
 
-  const prefersReduced =
-    typeof window !== "undefined" && typeof window.matchMedia === "function"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
+  // Read after mount and kept in sync with the OS setting: the server cannot
+  // know the preference, so the first client render must match its output.
+  let prefersReduced = false;
+  const followReducedMotion: Action<HTMLElement> = () => {
+    if (typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => (prefersReduced = query.matches);
+    sync();
+    query.addEventListener?.("change", sync);
+    return { destroy: () => query.removeEventListener?.("change", sync) };
+  };
 
   $: resolvedLabel = label ?? $t("notificationRegion.label");
   $: motion = prefersReduced ? 0 : duration;
@@ -124,6 +132,7 @@
   lang={$i18nLocale}
   dir={$i18nDir}
   use:portal
+  use:followReducedMotion
 >
   {#each visible as notice (notice.id)}
     <div

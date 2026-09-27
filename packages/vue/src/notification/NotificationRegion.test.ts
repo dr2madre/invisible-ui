@@ -55,6 +55,33 @@ describe("Vue NotificationRegion", () => {
     expect(screen.getByText("Second")).toBeInTheDocument();
   });
 
+  it("follows the reduced motion setting when it changes after mount", async () => {
+    let matches = false;
+    const listeners = new Set<() => void>();
+    window.matchMedia = ((query: string) => ({
+      get matches() {
+        return matches;
+      },
+      media: query,
+      addEventListener: (_: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_: string, listener: () => void) => listeners.delete(listener),
+    })) as unknown as typeof window.matchMedia;
+
+    const { unmount } = render(NotificationRegion, {
+      props: { notifier: createNotifier(), duration: 200 },
+    });
+    const region = document.querySelector<HTMLElement>(".notification-region")!;
+    expect(region.style.getPropertyValue("--_notice-motion")).toBe("200ms");
+
+    matches = true;
+    for (const listener of listeners) listener();
+    await nextTick();
+    expect(region.style.getPropertyValue("--_notice-motion")).toBe("0ms");
+
+    unmount();
+    expect(listeners.size).toBe(0);
+  });
+
   it("does not remember every notification it has ever shown", async () => {
     const notifier = createNotifier();
     render(NotificationRegion, { props: { notifier, duration: 0 } });

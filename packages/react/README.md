@@ -11,8 +11,8 @@ LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
-The package has 99 tests, including dedicated server-rendering and hydration
-coverage for every public renderable export.
+The tests include dedicated server-rendering and hydration coverage for
+every public renderable export.
 
 ## Usage
 

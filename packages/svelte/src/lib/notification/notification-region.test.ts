@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { tick } from "svelte";
 import { get } from "svelte/store";
 import { createNotifier } from "./create-notifier";
 import NotificationRegion from "./NotificationRegion.svelte";
@@ -50,6 +51,31 @@ describe("NotificationRegion", () => {
     await user.click(screen.getAllByRole("button", { name: "Close" })[0]!);
     expect(screen.queryByText("First")).not.toBeInTheDocument();
     expect(screen.getByText("Second")).toBeInTheDocument();
+  });
+
+  it("follows the reduced motion setting when it changes after mount", async () => {
+    let matches = false;
+    const listeners = new Set<() => void>();
+    window.matchMedia = ((q: string) => ({
+      get matches() {
+        return matches;
+      },
+      media: q,
+      addEventListener: (_: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_: string, listener: () => void) => listeners.delete(listener),
+    })) as unknown as typeof window.matchMedia;
+
+    const notifier = createNotifier();
+    render(NotificationRegion, { props: { notifier, duration: 200 } });
+    matches = true;
+    for (const listener of listeners) listener();
+
+    const id = notifier.show({ title: "Saved", duration: 0 });
+    await screen.findByText("Saved");
+    notifier.dismiss(id, "user");
+    await tick();
+    // Reduced motion leaves at once; the default exit would still be running.
+    expect(screen.queryByText("Saved")).not.toBeInTheDocument();
   });
 
   it("does not remember every notification it has ever shown", async () => {

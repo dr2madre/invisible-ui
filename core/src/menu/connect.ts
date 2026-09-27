@@ -151,6 +151,7 @@ export function connect({
       "aria-expanded": open,
       "aria-controls": open ? menuId(id) : undefined,
       "aria-disabled": disabled || undefined,
+      "data-disabled": disabled ? "" : undefined,
       "data-state": open ? "open" : "closed",
       onClick: () => (open ? closeMenu() : openMenu("first")),
       onKeyDown: onTriggerKeyDown,

@@ -1,7 +1,7 @@
 import { accordion as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction, createRootAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -109,14 +109,17 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getItemProps(value as string))(node);
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
-  const triggerAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getTriggerProps(value as string))(node);
+  const triggerAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getTriggerProps(value),
+  );
 
-  const panelAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getPanelProps(value as string))(node);
+  const panelAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getPanelProps(value),
+  );
 
   return {
     state,

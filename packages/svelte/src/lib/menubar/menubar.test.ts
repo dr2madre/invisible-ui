@@ -35,6 +35,14 @@ describe("Svelte Menubar (styled)", () => {
     );
   });
 
+  it("gives a disabled trigger the disabled look", () => {
+    render(Fixture, {
+      props: { menus: [{ value: "file", label: "File", items: [], disabled: true }] },
+    });
+    expect(trigger("File")).toHaveAttribute("aria-disabled", "true");
+    expect(trigger("File")).toHaveAttribute("data-disabled");
+  });
+
   it("activates an item and closes", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();

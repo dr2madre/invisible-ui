@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
+import { nextTick } from "vue";
 import { NavigationMenu } from "./NavigationMenu";
 import type { NavigationMenuItem } from "./use-navigation-menu";
 
@@ -52,6 +53,25 @@ describe("Vue NavigationMenu (styled)", () => {
     expect(trigger("Products")).toHaveAttribute("aria-expanded", "true");
     expect(onValueChange).toHaveBeenLastCalledWith("products");
     expect(screen.getByRole("link", { name: /Analytics/ })).toBeInTheDocument();
+  });
+
+  it("keeps a panel closed by click closed when the hover delay runs out", async () => {
+    vi.useFakeTimers();
+    try {
+      renderNav();
+      const products = trigger("Products");
+      // A pointer click hovers the trigger first, which starts the open delay.
+      await fireEvent.pointerEnter(products, { pointerType: "mouse" });
+      await fireEvent.click(products);
+      expect(products).toHaveAttribute("aria-expanded", "true");
+      await fireEvent.click(products);
+      expect(products).toHaveAttribute("aria-expanded", "false");
+      await vi.advanceTimersByTimeAsync(150);
+      await nextTick();
+      expect(products).toHaveAttribute("aria-expanded", "false");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("labels the panel with its trigger", async () => {
