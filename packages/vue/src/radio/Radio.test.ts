@@ -86,3 +86,22 @@ describe("Vue Radio", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue Radio form reset", () => {
+  // `checked` was set only as a DOM property, so the markup carried no
+  // default and a native reset cleared the choice instead of restoring it.
+  it("restores the checked radio on a native form reset", async () => {
+    const user = userEvent.setup();
+    render(
+      defineComponent({
+        setup: () => () => h("form", { "data-testid": "form" }, [h(Pair)]),
+      }),
+    );
+    const free = screen.getByRole("radio", { name: "Free" });
+    expect(free).toHaveAttribute("checked");
+
+    await user.click(screen.getByRole("radio", { name: "Pro" }));
+    (screen.getByTestId("form") as HTMLFormElement).reset();
+    expect(free).toBeChecked();
+  });
+});

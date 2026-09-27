@@ -59,3 +59,35 @@ describe("Vue Menubar (reactive menu list)", () => {
     expect(screen.getByRole("menuitem", { name: "Zoom in" })).toBeInTheDocument();
   });
 });
+
+describe("Vue Menubar (menus keyed by value)", () => {
+  it("keeps an open menu with its value when the list reorders", async () => {
+    const user = userEvent.setup();
+    const menus = ref<MenubarMenu[]>([file, edit]);
+    render(
+      defineComponent({ setup: () => () => h(Menubar, { label: "Main", menus: menus.value }) }),
+    );
+
+    await user.click(screen.getByRole("menuitem", { name: "Edit" }));
+    expect(screen.getByRole("menuitem", { name: "Undo" })).toBeInTheDocument();
+
+    menus.value = [edit, file];
+    await nextTick();
+    expect(screen.getByRole("menuitem", { name: "Undo" })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: "New" })).not.toBeInTheDocument();
+  });
+
+  it("keeps a tab stop when the focused trigger's menu goes away", async () => {
+    const user = userEvent.setup();
+    const menus = ref<MenubarMenu[]>([file, edit, view]);
+    render(
+      defineComponent({ setup: () => () => h(Menubar, { label: "Main", menus: menus.value }) }),
+    );
+
+    await user.click(screen.getByRole("menuitem", { name: "View" }));
+    await user.keyboard("{Escape}");
+    menus.value = [file];
+    await nextTick();
+    expect(screen.getByRole("menuitem", { name: "File" })).toHaveAttribute("tabindex", "0");
+  });
+});

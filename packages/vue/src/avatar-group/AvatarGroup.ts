@@ -46,6 +46,11 @@ export const AvatarGroup = defineComponent({
     label: { type: String, required: true },
   },
   setup(props) {
+    // A colour carrying `;`, `{` or `}` could add declarations of its own to
+    // the rendered style attribute, so it is dropped.
+    const colorOf = (item: AvatarGroupItem) =>
+      item.color && !/[;{}]/.test(item.color) ? item.color : undefined;
+
     return () => {
       const visible = props.items.slice(0, props.max);
       const overflow = Math.max(0, props.items.length - visible.length);
@@ -60,13 +65,17 @@ export const AvatarGroup = defineComponent({
           "aria-label": props.label,
         },
         [
-          ...visible.map((item) =>
-            h(
+          // Items carry no id and two people may share a name, so the position
+          // is part of the key; the name remounts the avatar when the person
+          // changes.
+          ...visible.map((item, index) => {
+            const color = colorOf(item);
+            return h(
               "span",
               {
-                key: item.name,
+                key: `${index}:${item.name}`,
                 class: "avatar-group__item",
-                style: item.color ? { "--ds-avatar-bg": item.color } : undefined,
+                style: color ? { "--ds-avatar-bg": color } : undefined,
               },
               [
                 h(Avatar, {
@@ -77,8 +86,8 @@ export const AvatarGroup = defineComponent({
                   shape: props.shape,
                 }),
               ],
-            ),
-          ),
+            );
+          }),
           overflow > 0
             ? h(
                 "span",

@@ -115,9 +115,18 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
     },
   );
 
-  // Keep the visible list in step when the item list itself changes.
+  // Keep the visible list in step when the item list itself changes. Items
+  // that arrive after mount (loaded late) also bring the selected value's
+  // label: while the list is closed and the text is still the committed one,
+  // the text follows the value, as it does at creation.
   watch(allItems, (items) => {
-    visibleItems.value = filterFn.value(items, inputValue.value);
+    if (!open.value && inputValue.value === committedInputValue.value) {
+      inputValue.value = labelFor(value.value);
+      committedInputValue.value = inputValue.value;
+      visibleItems.value = filterFn.value(items, "");
+    } else {
+      visibleItems.value = filterFn.value(items, inputValue.value);
+    }
     if (!items.some((item) => item.value === activeValue.value)) activeValue.value = null;
   });
 

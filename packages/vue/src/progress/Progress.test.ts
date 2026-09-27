@@ -90,3 +90,19 @@ describe("useProgress (headless)", () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 });
+
+describe("Vue Progress range", () => {
+  it("follows min and max changed after mount", async () => {
+    const { rerender } = render(Progress, { props: { label: "Upload", value: 50 } });
+    await rerender({ label: "Upload", value: 50, min: 0, max: 200 });
+    const bar = screen.getByRole("progressbar");
+    expect(bar).toHaveAttribute("aria-valuemax", "200");
+    expect(document.querySelector<HTMLElement>(".progress__indicator")!.style.inlineSize).toBe(
+      "25%",
+    );
+
+    await rerender({ label: "Upload", value: 50, min: 40, max: 60 });
+    expect(bar).toHaveAttribute("aria-valuemin", "40");
+    expect(bar).toHaveAttribute("aria-valuemax", "60");
+  });
+});

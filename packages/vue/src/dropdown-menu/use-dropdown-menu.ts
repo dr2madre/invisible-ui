@@ -55,7 +55,18 @@ const TYPEAHEAD_RESET = 500;
 export function useDropdownMenu(
   options: MaybeRefOrGetter<UseDropdownMenuOptions>,
 ): UseDropdownMenu {
-  const id = useStableId("ds-menu");
+  return dropdownMenuWithId(useStableId("ds-menu"), options);
+}
+
+/**
+ * The body of {@link useDropdownMenu} with the id supplied by the caller, for
+ * a composable (Menubar) that builds menus after setup, where no component
+ * instance is there to hand out a stable id. Internal: not re-exported.
+ */
+export function dropdownMenuWithId(
+  id: string,
+  options: MaybeRefOrGetter<UseDropdownMenuOptions>,
+): UseDropdownMenu {
   const resolved = computed(() => toValue(options));
 
   const open = ref(false);
