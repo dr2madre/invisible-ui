@@ -103,10 +103,7 @@
   $: canConfirm =
     confirmValue != null ? current === confirmValue : !required || current.trim().length > 0;
 
-  const cancel = () => {
-    current = value;
-    setOpen(false);
-  };
+  const cancel = () => setOpen(false);
   const confirm = () => {
     if (!canConfirm) return;
     onConfirm?.(current);

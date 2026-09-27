@@ -1,7 +1,7 @@
 import { stepper as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -61,14 +61,11 @@ export function createStepper(context: StepperContext): CreateStepper {
     core.connect({ state: $state, setStep, normalize: normalizeProps }),
   );
 
-  const rootAction = createPropsAction(api, (a) => a.rootProps);
+  const rootAction = createRootAction(api);
   const listAction = createPropsAction(api, (a) => a.getListProps());
 
-  const stepAction: Action<HTMLElement, number> = (node, index) => {
-    const stepApi = derived(api, (a) => a.getStepProps(index as number));
-    const handle = createPropsAction(stepApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const stepAction: Action<HTMLElement, number> = (node, index) =>
+    createPropsAction(api, (a) => a.getStepProps(index as number))(node);
 
   return {
     state,

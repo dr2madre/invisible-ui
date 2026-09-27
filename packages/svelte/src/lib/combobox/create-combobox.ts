@@ -1,8 +1,9 @@
 import { combobox as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -194,24 +195,7 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     inputEl?.focus();
   };
 
-  const placement: Placement = "bottom-start";
-  const reposition = () => {
-    if (!inputEl || !listboxEl) return;
-    computePosition(inputEl, listboxEl, {
-      placement,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then(({ x, y }) => {
-      if (!listboxEl) return;
-      listboxEl.style.left = `${x}px`;
-      listboxEl.style.top = `${y}px`;
-    });
-  };
-
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (controlEl?.contains(target) || inputEl?.contains(target) || listboxEl?.contains(target))
-      return;
+  const close = () => {
     setOpen(false);
     setActiveValue(null);
   };
@@ -262,22 +246,20 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     listboxEl = node;
     const base = createPropsAction(api, (a) => a.listboxProps)(node);
 
-    let stopAutoUpdate: (() => void) | null = null;
+    let stopFloating: (() => void) | null = null;
+    let stopDismiss: (() => void) | null = null;
     const teardown = () => {
-      stopAutoUpdate?.();
-      stopAutoUpdate = null;
-      document.removeEventListener("pointerdown", onOutsidePointer, true);
+      stopFloating?.();
+      stopFloating = null;
+      stopDismiss?.();
+      stopDismiss = null;
     };
 
     const unsubscribe = state.subscribe(($state) => {
       if ($state.open) {
-        if (!stopAutoUpdate && inputEl) {
-          node.style.minWidth = `${inputEl.offsetWidth}px`;
-          stopAutoUpdate =
-            typeof ResizeObserver !== "undefined"
-              ? autoUpdate(inputEl, node, reposition)
-              : (reposition(), () => {});
-          document.addEventListener("pointerdown", onOutsidePointer, true);
+        if (!stopFloating && inputEl) {
+          stopFloating = attachFloating(inputEl, node, { sameWidth: true });
+          stopDismiss = onOutsidePointerDown([controlEl, inputEl, node], close);
         }
         requestAnimationFrame(() => {
           node.querySelector<HTMLElement>("[data-active]")?.scrollIntoView?.({ block: "nearest" });
@@ -297,11 +279,8 @@ export function createCombobox(context: ComboboxContext): CreateCombobox {
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) => {
-    const optionApi = derived(api, (a) => a.getOptionProps(value));
-    const handle = createPropsAction(optionApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const optionAction: Action<HTMLElement, string> = (node, value) =>
+    createPropsAction(api, (a) => a.getOptionProps(value))(node);
 
   const clearAction = createPropsAction(api, (a) => a.clearProps);
 
