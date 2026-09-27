@@ -12,6 +12,7 @@
    * the trigger; `onSelect(value)` runs when an item is chosen. Colors, radius
    * and elevation are themeable CSS custom properties (`--ds-menu-*`).
    */
+  import { untrack } from "svelte";
   import { menu as core } from "@design-system/core";
   import { createDropdownMenu, type MenuEntry } from "./create-dropdown-menu";
   import { portal } from "../internal/portal";
@@ -20,24 +21,35 @@
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let label: string;
-  export let items: MenuEntry[];
-  export let disabled = false;
-  /** Called with the chosen item's value. */
-  export let onSelect: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    label: string;
+    items: MenuEntry[];
+    disabled?: boolean;
+    /** Called with the chosen item's value. */
+    onSelect?: (value: string) => void;
+  }
 
+  let { label, items, disabled = false, onSelect }: Props = $props();
+
+  // Seeded once from the first props; the effects below follow later ones.
   // A live callback reference, so a swapped callback is honoured (ADR 0011).
-  const menu = createDropdownMenu({
-    items,
-    disabled,
-    onSelect: (value) => onSelect?.(value),
-  });
+  const menu = untrack(() =>
+    createDropdownMenu({
+      items,
+      disabled,
+      onSelect: (value) => onSelect?.(value),
+    }),
+  );
   const { api, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
 
   // Items and disabled changed after mount reach the machine, so keyboard
   // navigation and typeahead follow what the template renders.
-  $: syncItems(items);
-  $: syncDisabled(disabled);
+  $effect.pre(() => {
+    syncItems(items);
+  });
+  $effect.pre(() => {
+    syncDisabled(disabled);
+  });
 
   // Separators have no value of their own, so their position is their key.
   const entryKey = (entry: MenuEntry, index: number) =>

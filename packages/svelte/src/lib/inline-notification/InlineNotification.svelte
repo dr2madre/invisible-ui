@@ -85,12 +85,15 @@
    * floating `Notification`, not the in-page banner.
    */
   export let snack = false;
+  /* eslint-disable @typescript-eslint/no-explicit-any -- the props are the component's own */
   /**
    * Render arbitrary content as the body instead of `description` / the default
    * slot — a Svelte component plus its props. Lets a data-driven notifier carry
    * rich content (a file preview, an avatar row). Ignored in `snack` layout.
    */
-  export let component: import("svelte").ComponentType | undefined = undefined;
+  export let component:
+    import("svelte").Component<any> | import("svelte").ComponentType | undefined = undefined;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   /** Props passed to `component`. */
   export let componentProps: Record<string, unknown> = {};
   /** Called when dismissed. */

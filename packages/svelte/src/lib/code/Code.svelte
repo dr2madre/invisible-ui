@@ -7,9 +7,16 @@
    * Presentational only: its content is the meaning. Colors and the surface tint
    * are themeable CSS custom properties (`--ds-code-*`).
    */
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    children?: Snippet;
+  }
+
+  let { children }: Props = $props();
 </script>
 
-<code class="code"><slot /></code>
+<code class="code">{@render children?.()}</code>
 
 <style>
   .code {

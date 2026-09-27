@@ -7,19 +7,25 @@
    *
    * The label text is the default slot. Colors are themeable via `--ds-label-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createLabel } from "./create-label";
 
-  /** Id of the control this labels (sets `for`). */
-  let forControl: string | undefined = undefined;
-  export { forControl as for };
-  /** Show a required marker (`*`) after the text. */
-  export let required = false;
+  interface Props {
+    /** Id of the control this labels (sets `for`). */
+    for?: string;
+    /** Show a required marker (`*`) after the text. */
+    required?: boolean;
+    children?: Snippet;
+  }
 
-  const { rootAction } = createLabel({ for: forControl });
+  let { for: forControl, required = false, children }: Props = $props();
+
+  // The association is read once, when the label is created.
+  const { rootAction } = untrack(() => createLabel({ for: forControl }));
 </script>
 
 <label class="label" use:rootAction>
-  <slot />
+  {@render children?.()}
   {#if required}<span class="label__required" aria-hidden="true">*</span>{/if}
 </label>
 

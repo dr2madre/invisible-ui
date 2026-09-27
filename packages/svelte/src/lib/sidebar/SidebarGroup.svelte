@@ -9,22 +9,30 @@
    * controls therefore moves only when the application moves it, and nothing
    * flickers in between (ADR 0011).
    */
+  import type { Snippet } from "svelte";
+  import { toStore } from "svelte/store";
   import { collapsible as core } from "@design-system/core";
-  import { writable } from "svelte/store";
   import Icon from "../icon/Icon.svelte";
   import { createPropsAction } from "../internal/connect";
   import { normalizeProps } from "../normalize";
   import { stableId } from "../internal/stable-id";
 
-  /** Section heading, and the trigger's accessible name. */
-  export let label: string;
-  export let open = false;
-  /** Whether the labels are hidden, which is the rail. */
-  export let collapsed = false;
-  export let onToggle: (() => void) | undefined = undefined;
+  interface Props {
+    /** Section heading, and the trigger's accessible name. */
+    label: string;
+    open?: boolean;
+    /** Whether the labels are hidden, which is the rail. */
+    collapsed?: boolean;
+    onToggle?: () => void;
+    children?: Snippet;
+  }
+
+  let { label, open = false, collapsed = false, onToggle, children }: Props = $props();
 
   const id = stableId("ds-sidebar-group");
-  const api = writable(connect(open));
+  // The connected props follow `open`: the store reads the prop, so both
+  // actions see every new value.
+  const api = toStore(() => connect(open));
 
   function connect(isOpen: boolean) {
     return core.connect({
@@ -34,21 +42,19 @@
     });
   }
 
-  $: api.set(connect(open));
-
   const triggerAction = createPropsAction(api, (a) => a.triggerProps);
   const contentAction = createPropsAction(api, (a) => a.contentProps);
 </script>
 
 <div class="sidebar__section" data-state={open ? "open" : "closed"}>
   <button type="button" class="sidebar__group" use:triggerAction>
-    <span class="sidebar__group-label" class:sidebar__label--hidden={collapsed}>{label}</span>
-    <span class="sidebar__chevron" class:sidebar__chevron--open={open} aria-hidden="true">
+    <span class={["sidebar__group-label", collapsed && "sidebar__label--hidden"]}>{label}</span>
+    <span class={["sidebar__chevron", open && "sidebar__chevron--open"]} aria-hidden="true">
       <Icon size="1em"><polyline points="9 18 15 12 9 6" /></Icon>
     </span>
   </button>
   <div class="sidebar__group-content" use:contentAction>
-    <slot />
+    {@render children?.()}
   </div>
 </div>
 

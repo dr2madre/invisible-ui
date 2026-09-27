@@ -12,29 +12,39 @@
    * for the bar; `onSelect(menuValue, itemValue)` runs when an item is chosen.
    * Themeable via `--ds-menu-*` (shared with DropdownMenu) and `--ds-menubar-*`.
    */
+  import { untrack } from "svelte";
   import { createMenubar, type MenubarMenu } from "./create-menubar";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
-  /** Accessible name for the menubar. */
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let label: string;
-  /** The top-level menus. */
-  export let menus: MenubarMenu[];
-  /** Called with the chosen item's menu value and item value. */
-  export let onSelect: ((menuValue: string, itemValue: string) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible name for the menubar. */
+    label: string;
+    /** The top-level menus. */
+    menus: MenubarMenu[];
+    /** Called with the chosen item's menu value and item value. */
+    onSelect?: (menuValue: string, itemValue: string) => void;
+  }
 
+  let { label, menus, onSelect }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
   // A live callback reference, so a swapped callback is honoured (ADR 0011).
-  const menubar = createMenubar({
-    menus,
-    onSelect: (menuValue, itemValue) => onSelect?.(menuValue, itemValue),
-  });
+  const menubar = untrack(() =>
+    createMenubar({
+      menus,
+      onSelect: (menuValue, itemValue) => onSelect?.(menuValue, itemValue),
+    }),
+  );
   const { menubarAction, focusedIndex, menus: items, syncMenus } = menubar;
 
   // Menus changed after mount reach the machine, so the bar renders and
   // navigates the menus it is given now.
-  $: syncMenus(menus);
+  $effect.pre(() => {
+    syncMenus(menus);
+  });
 </script>
 
 <div

@@ -20,32 +20,47 @@
    * it entirely. Radius, spacing and colors are themeable via
    * `--ds-toggle-group-*`.
    */
+  import type { Snippet } from "svelte";
 
-  /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
-  export let variant: "separate" | "segmented" = "separate";
-  /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  /**
-   * Let the toggles wrap onto multiple lines when they overflow the available
-   * width (e.g. a row of filter chips in a narrow panel). Only meaningful on a
-   * horizontal `separate` group; ignored when `segmented`, which is one control.
-   */
-  export let wrap = false;
-  /**
-   * Optional container name for screen readers (the group's `aria-label`). Names
-   * the container, not the items; omit it when the toggles are unrelated.
-   */
-  export let label: string | undefined = undefined;
+  interface Props {
+    /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
+    variant?: "separate" | "segmented";
+    /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
+    orientation?: "horizontal" | "vertical";
+    /**
+     * Let the toggles wrap onto multiple lines when they overflow the available
+     * width (e.g. a row of filter chips in a narrow panel). Only meaningful on a
+     * horizontal `separate` group; ignored when `segmented`, which is one control.
+     */
+    wrap?: boolean;
+    /**
+     * Optional container name for screen readers (the group's `aria-label`). Names
+     * the container, not the items; omit it when the toggles are unrelated.
+     */
+    label?: string;
+    children?: Snippet;
+  }
+
+  let {
+    variant = "separate",
+    orientation = "horizontal",
+    wrap = false,
+    label,
+    children,
+  }: Props = $props();
 </script>
 
 <div
-  class="toggle-group toggle-group--{variant}"
-  class:toggle-group--wrap={wrap && variant === "separate"}
+  class={[
+    "toggle-group",
+    `toggle-group--${variant}`,
+    wrap && variant === "separate" && "toggle-group--wrap",
+  ]}
   role="group"
   aria-label={label}
   data-orientation={orientation}
 >
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

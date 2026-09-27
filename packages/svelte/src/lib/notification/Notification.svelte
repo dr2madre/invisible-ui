@@ -44,8 +44,11 @@
   export let inverted = false;
   /** Snackbar layout: one compact row (icon + title + inline action), no description. */
   export let snack = false;
+  /* eslint-disable @typescript-eslint/no-explicit-any -- the props are the component's own */
   /** Rich body: a Svelte component rendered instead of `text` (ignored in snack). */
-  export let component: import("svelte").ComponentType | undefined = undefined;
+  export let component:
+    import("svelte").Component<any> | import("svelte").ComponentType | undefined = undefined;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   /** Props for `component`. */
   export let componentProps: Record<string, unknown> = {};
   /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */

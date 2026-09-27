@@ -21,95 +21,111 @@
    * `--ds-loading-label-size`, `--ds-loading-label-gap`,
    * `--ds-loading-bar-label-gap` and `--ds-loading-duration` (animation speed).
    */
-  import { onDestroy } from "svelte";
+  import { onDestroy, untrack } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  /**
-   * Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing
-   * `typing` dots (chat "waiting for a reply"), a `morph`ing shape
-   * (square ⇄ circle), or a `bar` (full-width track — place it at the top of
-   * the content it covers, e.g. a card). For a full-surface "area rendering"
-   * loader (the tiling halftone dot field) use the `LoadingGenerationArea`
-   * component.
-   */
-  export let variant: "dots" | "spinner" | "bar" | "typing" | "morph" = "dots";
-  /**
-   * Completion percentage (0–100) for the `bar` variant: the bar becomes
-   * determinate (a fill that grows to done) and exposes progressbar semantics.
-   * Leave `null` for the indeterminate sliding segment.
-   */
-  export let value: number | null = null;
-  /** Accessible name. Defaults to the i18n catalog's "Loading…". */
-  export let label: string | undefined = undefined;
-  /** Also render the label as visible text next to the indicator. */
-  export let showLabel = false;
-  /** Show the percentage (from `value`) as visible text. */
-  export let showValue = false;
-  /**
-   * Extra visible detail, e.g. "3 of 8 files" or "48 MB of 128 MB". On a
-   * determinate bar it is also exposed as `aria-valuetext`.
-   */
-  export let detail: string | undefined = undefined;
-  /** Hide from assistive tech (the surrounding region announces the state). */
-  export let decorative = false;
-  /**
-   * Live status message — a running description of what the process is doing
-   * ("Connecting…", "Fetching records…", "Rendering…"). Unlike `label` (a
-   * static accessible name), this renders as visible text **inside** the polite
-   * `role="status"` region and is announced on every change, so a succession of
-   * backend-reported steps is read out as it progresses. The region is
-   * `aria-atomic`, so each new message is announced in full. On a determinate
-   * bar the text renders below the track and also feeds `aria-valuetext` when
-   * no `detail` is set (a progressbar announces its value text, not a live
-   * region). Ignored when `decorative`.
-   */
-  export let status: string | undefined = undefined;
-  /**
-   * No-flash delay (ms): keep the indicator hidden until this long has passed,
-   * so a fast operation never flashes a loader. If the component is removed
-   * before the delay elapses, nothing is ever shown. Follows the response-time
-   * rule — reveal a loader only once a wait is actually noticeable. Default `0`
-   * (shown immediately).
-   */
-  export let delay = 0;
-  /**
-   * Render as a centered overlay filling the nearest positioned ancestor — the
-   * built-in busy-region pattern. Mark that region `aria-busy="true"`.
-   */
-  export let overlay = false;
-  /**
-   * With `overlay`: paint a translucent backdrop that also blocks pointer
-   * interaction while busy. Set `false` to overlay just the indicator (no dim,
-   * no pointer blocking) — e.g. over a control whose own modal already guards
-   * interaction.
-   */
-  export let veil = true;
+  interface Props {
+    /**
+     * Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing
+     * `typing` dots (chat "waiting for a reply"), a `morph`ing shape
+     * (square ⇄ circle), or a `bar` (full-width track — place it at the top of
+     * the content it covers, e.g. a card). For a full-surface "area rendering"
+     * loader (the tiling halftone dot field) use the `LoadingGenerationArea`
+     * component.
+     */
+    variant?: "dots" | "spinner" | "bar" | "typing" | "morph";
+    /**
+     * Completion percentage (0–100) for the `bar` variant: the bar becomes
+     * determinate (a fill that grows to done) and exposes progressbar semantics.
+     * Leave `null` for the indeterminate sliding segment.
+     */
+    value?: number | null;
+    /** Accessible name. Defaults to the i18n catalog's "Loading…". */
+    label?: string;
+    /** Also render the label as visible text next to the indicator. */
+    showLabel?: boolean;
+    /** Show the percentage (from `value`) as visible text. */
+    showValue?: boolean;
+    /**
+     * Extra visible detail, e.g. "3 of 8 files" or "48 MB of 128 MB". On a
+     * determinate bar it is also exposed as `aria-valuetext`.
+     */
+    detail?: string;
+    /** Hide from assistive tech (the surrounding region announces the state). */
+    decorative?: boolean;
+    /**
+     * Live status message — a running description of what the process is doing
+     * ("Connecting…", "Fetching records…", "Rendering…"). Unlike `label` (a
+     * static accessible name), this renders as visible text **inside** the polite
+     * `role="status"` region and is announced on every change, so a succession of
+     * backend-reported steps is read out as it progresses. The region is
+     * `aria-atomic`, so each new message is announced in full. On a determinate
+     * bar the text renders below the track and also feeds `aria-valuetext` when
+     * no `detail` is set (a progressbar announces its value text, not a live
+     * region). Ignored when `decorative`.
+     */
+    status?: string;
+    /**
+     * No-flash delay (ms): keep the indicator hidden until this long has passed,
+     * so a fast operation never flashes a loader. If the component is removed
+     * before the delay elapses, nothing is ever shown. Follows the response-time
+     * rule — reveal a loader only once a wait is actually noticeable. Default `0`
+     * (shown immediately).
+     */
+    delay?: number;
+    /**
+     * Render as a centered overlay filling the nearest positioned ancestor — the
+     * built-in busy-region pattern. Mark that region `aria-busy="true"`.
+     */
+    overlay?: boolean;
+    /**
+     * With `overlay`: paint a translucent backdrop that also blocks pointer
+     * interaction while busy. Set `false` to overlay just the indicator (no dim,
+     * no pointer blocking) — e.g. over a control whose own modal already guards
+     * interaction.
+     */
+    veil?: boolean;
+  }
+
+  let {
+    variant = "dots",
+    value = null,
+    label,
+    showLabel = false,
+    showValue = false,
+    detail,
+    decorative = false,
+    status,
+    delay = 0,
+    overlay = false,
+    veil = true,
+  }: Props = $props();
 
   // No-flash delay: stay hidden until `delay` ms pass. The timer is client
   // only, and it goes when the component goes: one left running would outlive
-  // an indicator the page has already taken away.
-  let visible = delay <= 0;
+  // an indicator the page has already taken away. The delay is read once, at
+  // creation.
+  const initialDelay = untrack(() => delay);
+  let visible = $state(initialDelay <= 0);
   let noFlash: ReturnType<typeof setTimeout> | undefined;
-  if (delay > 0 && typeof window !== "undefined") {
-    noFlash = setTimeout(() => (visible = true), delay);
+  if (initialDelay > 0 && typeof window !== "undefined") {
+    noFlash = setTimeout(() => (visible = true), initialDelay);
     // Inside the browser branch: a server render has no teardown to hook.
     onDestroy(() => clearTimeout(noFlash));
   }
 
-  $: resolvedLabel = label ?? $t("loading.label");
-  $: hasStatus = status != null;
-  $: determinate = variant === "bar" && value != null;
-  $: clamped = value == null ? null : Math.min(100, Math.max(0, value));
-  $: hasText = showLabel || detail != null || (showValue && clamped != null);
+  const resolvedLabel = $derived(label ?? $t("loading.label"));
+  const hasStatus = $derived(status != null);
+  const determinate = $derived(variant === "bar" && value != null);
+  const clamped = $derived(value == null ? null : Math.min(100, Math.max(0, value)));
+  const hasText = $derived(showLabel || detail != null || (showValue && clamped != null));
 </script>
 
 {#if visible}
   <span
-    class="loading"
-    class:loading--overlay={overlay}
-    class:loading--veil={overlay && veil}
+    class={["loading", overlay && "loading--overlay", overlay && veil && "loading--veil"]}
     data-variant={variant}
     role={decorative ? undefined : determinate ? "progressbar" : "status"}
     aria-label={decorative || (hasStatus && !determinate) ? undefined : resolvedLabel}

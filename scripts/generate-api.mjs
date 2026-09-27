@@ -212,7 +212,57 @@ function statementEnd(src, from) {
   return src.length;
 }
 
+// A runes component declares its props as a `Props` interface destructured
+// from `$props()`: the interface gives each prop its type and its JSDoc, the
+// destructuring gives its default. The entry reads as the legacy
+// `export let` one did: an optional prop with no default is `T | undefined`
+// with the default `undefined`, and a renamed prop (`class: className`, the
+// old `export { className as class }`) stays out, as it always has. The
+// `children` snippet is the default slot's content, which was never a prop.
+function parseSvelteRunes(src) {
+  const call = src.search(/\}\s*:\s*Props\s*=\s*\$props\(\)/);
+  if (call < 0) return null;
+  const open = src.lastIndexOf("{", src.lastIndexOf("let {", call) + 4);
+  const body = src.slice(open + 1, blockEnd(src, open));
+  const members =
+    parseInterface(
+      src.replace(/(^|\n)(\s*)interface\s+Props\b/, "$1$2export interface Props"),
+      "Props",
+    )?.members ?? [];
+  const byName = new Map(members.map((m) => [m.name, m]));
+  const props = [];
+  for (const chunk of splitTop(body, ",")) {
+    const { rest } = takeLeadingDoc(chunk);
+    const entry = rest.trim();
+    if (!entry || entry.startsWith("...")) continue;
+    const { typePart: binding, defaultPart } = splitTypeDefault(entry);
+    if (binding.includes(":")) continue;
+    const name = binding.trim();
+    if (name === "children") continue;
+    const member = byName.get(name);
+    if (!member) continue;
+    let type = member.type.replace(/^\|\s*/, "");
+    let def = defaultPart == null ? null : collapse(defaultPart);
+    if (!member.required && def == null) {
+      def = "undefined";
+      // A function type needs its parentheses before it joins a union.
+      if (!/\bundefined\b/.test(type))
+        type = `${type.includes("=>") ? `(${type})` : type} | undefined`;
+    }
+    props.push({
+      name,
+      type,
+      default: def,
+      required: def == null,
+      description: member.description,
+    });
+  }
+  return props;
+}
+
 function parseSvelte(src) {
+  const runes = parseSvelteRunes(src);
+  if (runes) return runes;
   const props = [];
   // The JSDoc body uses a tempered token `(?:(?!\*\/)[\s\S])*?` so it can't span
   // across a `*/` — otherwise a comment on a preceding non-prop declaration (e.g.

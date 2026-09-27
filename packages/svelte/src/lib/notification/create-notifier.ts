@@ -67,7 +67,8 @@ export interface NotificationOptions {
    * Rich content: a Svelte component rendered as the body instead of `text`
    * (a file preview, an avatar row). Its props go in `componentProps`.
    */
-  component?: import("svelte").ComponentType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the props are the component's own
+  component?: import("svelte").Component<any> | import("svelte").ComponentType;
   /** Props for `component`. */
   componentProps?: Record<string, unknown>;
   /**

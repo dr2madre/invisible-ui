@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import type { ComponentType } from "svelte";
+  import type { Component, ComponentType } from "svelte";
   import type { SegmentItem } from "./create-segmented-control";
 
   /**
@@ -9,7 +9,8 @@
    */
   export type SegmentedControlItem = SegmentItem & {
     label?: string;
-    icon?: ComponentType;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the props are the component's own
+    icon?: Component<any> | ComponentType;
   };
 </script>
 

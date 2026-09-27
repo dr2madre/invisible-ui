@@ -15,7 +15,7 @@
           "default": null,
           "required": true,
           "description": "Accessible name for the menubar.",
-          "descriptionFrom": "curated"
+          "descriptionFrom": "source"
         },
         {
           "name": "menus",
