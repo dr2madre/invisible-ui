@@ -1,8 +1,9 @@
 import { select as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
 import { createPropsAction } from "../internal/connect";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -97,23 +98,7 @@ export function createSelect(context: SelectContext): CreateSelect {
   let triggerEl: HTMLElement | null = null;
   let listboxEl: HTMLElement | null = null;
 
-  const placement: Placement = "bottom-start";
-  const reposition = () => {
-    if (!triggerEl || !listboxEl) return;
-    computePosition(triggerEl, listboxEl, {
-      placement,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then(({ x, y }) => {
-      if (!listboxEl) return;
-      listboxEl.style.left = `${x}px`;
-      listboxEl.style.top = `${y}px`;
-    });
-  };
-
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (triggerEl?.contains(target) || listboxEl?.contains(target)) return;
+  const close = () => {
     setOpen(false);
     setActiveValue(null);
   };
@@ -164,25 +149,21 @@ export function createSelect(context: SelectContext): CreateSelect {
     listboxEl = node;
     const base = createPropsAction(api, (a) => a.listboxProps)(node);
 
-    let stopAutoUpdate: (() => void) | null = null;
+    let stopFloating: (() => void) | null = null;
+    let stopDismiss: (() => void) | null = null;
     const teardownPositioning = () => {
-      stopAutoUpdate?.();
-      stopAutoUpdate = null;
-      document.removeEventListener("pointerdown", onOutsidePointer, true);
+      stopFloating?.();
+      stopFloating = null;
+      stopDismiss?.();
+      stopDismiss = null;
     };
 
     const unsubscribe = state.subscribe(($state) => {
       if ($state.open) {
-        if (!stopAutoUpdate && triggerEl) {
+        if (!stopFloating && triggerEl) {
           // Match the trigger's width, then position (and keep positioned).
-          node.style.minWidth = `${triggerEl.offsetWidth}px`;
-          if (typeof ResizeObserver !== "undefined") {
-            stopAutoUpdate = autoUpdate(triggerEl, node, reposition);
-          } else {
-            reposition();
-            stopAutoUpdate = () => {};
-          }
-          document.addEventListener("pointerdown", onOutsidePointer, true);
+          stopFloating = attachFloating(triggerEl, node, { sameWidth: true });
+          stopDismiss = onOutsidePointerDown([triggerEl, node], close);
         }
         // Keep the active option in view after the DOM has been patched.
         requestAnimationFrame(() => {
@@ -204,11 +185,8 @@ export function createSelect(context: SelectContext): CreateSelect {
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) => {
-    const optionApi = derived(api, (a) => a.getOptionProps(value));
-    const handle = createPropsAction(optionApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const optionAction: Action<HTMLElement, string> = (node, value) =>
+    createPropsAction(api, (a) => a.getOptionProps(value))(node);
 
   return {
     state,

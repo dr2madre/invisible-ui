@@ -1,7 +1,7 @@
 import { carousel as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -90,22 +90,16 @@ export function createCarousel(context: CarouselContext): CreateCarousel {
     core.connect({ state: $state, setIndex, normalize: normalizeProps }),
   );
 
-  const rootAction = createPropsAction(api, (a) => a.rootProps);
+  const rootAction = createRootAction(api);
   const viewportAction = createPropsAction(api, (a) => a.getViewportProps());
   const prevAction = createPropsAction(api, (a) => a.getPrevProps());
   const nextAction = createPropsAction(api, (a) => a.getNextProps());
 
-  const slideAction: Action<HTMLElement, number> = (node, index) => {
-    const slideApi = derived(api, (a) => a.getSlideProps(index as number));
-    const handle = createPropsAction(slideApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const slideAction: Action<HTMLElement, number> = (node, index) =>
+    createPropsAction(api, (a) => a.getSlideProps(index as number))(node);
 
-  const indicatorAction: Action<HTMLElement, number> = (node, index) => {
-    const indApi = derived(api, (a) => a.getIndicatorProps(index as number));
-    const handle = createPropsAction(indApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const indicatorAction: Action<HTMLElement, number> = (node, index) =>
+    createPropsAction(api, (a) => a.getIndicatorProps(index as number))(node);
 
   return {
     state,

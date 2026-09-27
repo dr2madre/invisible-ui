@@ -14,6 +14,7 @@
   import { combobox as core } from "@design-system/core";
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { formReset } from "../internal/form-reset";
+  import { ignoreGhostClicks } from "../internal/ghost-click";
   import { portal } from "../internal/portal";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -134,10 +135,10 @@
   // so a selected value can be changed without clearing it first. iOS Safari can
   // synthesize a duplicate "ghost" click; ignore one that arrives right after the
   // last so the list doesn't open then immediately close.
-  let lastToggle = -Infinity;
-  function toggle(event: MouseEvent) {
-    if (event.timeStamp - lastToggle < 350) return;
-    lastToggle = event.timeStamp;
+  function ghostClickGuard(node: HTMLElement) {
+    return { destroy: ignoreGhostClicks(node) };
+  }
+  function toggle() {
     if ($open) setOpen(false);
     else openAll();
   }
@@ -210,6 +211,7 @@
       tabindex="-1"
       aria-label={$open ? $t("combobox.hide") : $t("combobox.show")}
       {disabled}
+      use:ghostClickGuard
       on:mousedown|preventDefault
       on:click={toggle}
     >

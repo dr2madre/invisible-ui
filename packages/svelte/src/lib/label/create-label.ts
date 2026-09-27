@@ -1,7 +1,7 @@
 import { label as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createRootAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
 export type LabelApi = core.LabelApi;
@@ -32,6 +32,6 @@ export function createLabel(context: core.LabelContext = {}): CreateLabel {
   return {
     state,
     api,
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    rootAction: createRootAction(api),
   };
 }
