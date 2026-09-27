@@ -1,4 +1,6 @@
 import { render, screen } from "@testing-library/vue";
+import { renderToString } from "@vue/server-renderer";
+import { createSSRApp, h } from "vue";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { AvatarGroup, type AvatarGroupItem } from "./AvatarGroup";
@@ -37,5 +39,33 @@ describe("Vue AvatarGroup (styled)", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(AvatarGroup, { props: { items, max: 4, label: "Project team" } });
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Vue AvatarGroup colour", () => {
+  // Vue writes a style object as `key:value;` without escaping on the server,
+  // so a `;` in the colour used to add declarations of its own.
+  it("drops a colour that would add style declarations", async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(AvatarGroup, {
+            label: "Team",
+            items: [{ name: "Ada Lovelace", color: "red; background-image: url(//x.test/a)" }],
+          }),
+      }),
+    );
+    expect(html).not.toContain("background-image");
+    expect(html).not.toContain("--ds-avatar-bg");
+  });
+
+  it("keeps a plain colour", async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(AvatarGroup, { label: "Team", items: [{ name: "Ada Lovelace", color: "#7a52cc" }] }),
+      }),
+    );
+    expect(html).toContain("--ds-avatar-bg:#7a52cc");
   });
 });

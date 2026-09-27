@@ -50,8 +50,8 @@ const FOCUSABLE =
  * closes when focus leaves trigger + panel (non-modal semantics), and only a
  * keyboard dismiss (Escape) returns focus to the trigger.
  *
- * The panel must be rendered only while open, so the post-flush `watch` tracks
- * the open state and its cleanup runs when the panel goes away.
+ * The panel must be rendered only while open, so the post-flush watches track
+ * the panel element and their cleanup runs when it goes away.
  */
 export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): UsePopover {
   const id = useStableId("ds-popover");
@@ -84,21 +84,33 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
   const triggerRef = ref<HTMLElement | null>(null);
   const panelRef = ref<HTMLElement | null>(null);
 
+  // Position against the trigger and keep it positioned. A watch of its own,
+  // so a placement or offset changed while open moves the panel without
+  // running the focus handling below again.
   watch(
-    open,
-    (isOpen, _previous, onCleanup) => {
-      if (!isOpen) return;
-      const panel = panelRef.value;
+    () =>
+      [
+        open.value ? panelRef.value : null,
+        resolved.value.placement ?? "bottom",
+        resolved.value.offset ?? 6,
+      ] as const,
+    ([panel, placement, offset], _previous, onCleanup) => {
+      const trigger = triggerRef.value;
+      if (!panel || !trigger) return;
+      onCleanup(attachFloating(trigger, panel, { placement, offset }));
+    },
+    { flush: "post" },
+  );
+
+  // The effect keys on the panel element, not the open flag: a popover
+  // mounted with `open: true` assigns the template ref only after this
+  // composable ran, so a watch on `open` alone would find no element. The
+  // panel is present only while open, so the cleanup runs when it goes away.
+  watch(
+    () => (open.value ? panelRef.value : null),
+    (panel, _previous, onCleanup) => {
       if (!panel) return;
       const trigger = triggerRef.value;
-
-      // Position against the trigger and keep it positioned.
-      const stopFloating = trigger
-        ? attachFloating(trigger, panel, {
-            placement: resolved.value.placement ?? "bottom",
-            offset: resolved.value.offset ?? 6,
-          })
-        : () => {};
 
       // Outside press closes (focus follows the pointer, so don't restore).
       const stopOutside = onOutsidePointerDown([trigger, panel], () => setOpen(false));
@@ -124,7 +136,6 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
       (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
 
       onCleanup(() => {
-        stopFloating();
         stopOutside();
         document.removeEventListener("focusin", onFocusIn);
         panel.removeEventListener("keydown", onKeyDown, true);

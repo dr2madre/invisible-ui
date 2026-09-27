@@ -326,7 +326,7 @@ export const Calendar = defineComponent({
           ? h("span", { class: "calendar__dots", "aria-hidden": "true" }, [
               ...dayEvents.slice(0, props.maxDots).map((event, index) =>
                 h("span", {
-                  key: event.label ?? `${event.date}-${index}`,
+                  key: `${index}:${event.label ?? event.date}`,
                   class: "calendar__dot",
                   "data-tone": event.tone ?? "primary",
                   title: event.label,
@@ -537,7 +537,7 @@ export const Calendar = defineComponent({
                     ...dayEvents.map((event, index) =>
                       h(
                         "li",
-                        { key: event.label ?? `${event.date}-${index}`, class: "calendar__event" },
+                        { key: `${index}:${event.label ?? event.date}`, class: "calendar__event" },
                         [
                           h("span", {
                             class: "calendar__dot",

@@ -2,6 +2,7 @@ import {
   computed,
   defineComponent,
   h,
+  onMounted,
   onUnmounted,
   ref,
   TransitionGroup,
@@ -74,14 +75,18 @@ export const NotificationRegion = defineComponent({
     const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
 
-    const prefersReduced =
-      typeof window !== "undefined" && typeof window.matchMedia === "function"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        : false;
+    // Read after mount: the server cannot know the preference, so the first
+    // client render must match its output before the motion settles.
+    const prefersReduced = ref(false);
+    onMounted(() => {
+      if (typeof window.matchMedia === "function") {
+        prefersReduced.value = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      }
+    });
 
-    const motion = computed(() => (prefersReduced ? 0 : props.duration));
+    const motion = computed(() => (prefersReduced.value ? 0 : props.duration));
     const motionOut = computed(() =>
-      prefersReduced ? 0 : (props.exitDuration ?? Math.round(props.duration * 1.75)),
+      prefersReduced.value ? 0 : (props.exitDuration ?? Math.round(props.duration * 1.75)),
     );
 
     // New notifications always enter; past the limit the OLDEST leave. Never

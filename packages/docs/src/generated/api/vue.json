@@ -672,6 +672,11 @@
       "signature": "interface MeterProps { /** Current measured value. */ value?: number; /** Minimum value. */ min?: number; /** Maximum value. */ max?: number; /** Upper bound of the \"low\" range. */ low?: number; /** Lower bound of the \"high\" range. */ high?: number; /** * Where the good end of the scale is. Defaults to `max`, so more reads as * better; set it near `min` for a measure where less is better. */ optimum?: number; /** Accessible name for the meter (required). */ label: string; }"
     },
     {
+      "name": "MeterRange",
+      "kind": "type",
+      "signature": "type MeterRange = Pick<MeterContext, \"min\" | \"max\" | \"low\" | \"high\" | \"optimum\">;"
+    },
+    {
       "name": "MeterState",
       "kind": "type",
       "signature": "type MeterState = meter.MeterState;"
@@ -1539,7 +1544,7 @@
     {
       "name": "UseMeter",
       "kind": "interface",
-      "signature": "interface UseMeter { /** Reactive connected API; spread `api.value.rootProps` / `indicatorProps`. */ api: ComputedRef<MeterApi>; /** Filled fraction as a 0–100 percentage. */ percentage: ComputedRef<number>; /** Band relative to the low/high thresholds. */ level: ComputedRef<\"low\" | \"medium\" | \"high\">; /** Replace the current value. */ setValue: (value: number) => void; }"
+      "signature": "interface UseMeter { /** Reactive connected API; spread `api.value.rootProps` / `indicatorProps`. */ api: ComputedRef<MeterApi>; /** Filled fraction as a 0–100 percentage. */ percentage: ComputedRef<number>; /** Band relative to the low/high thresholds. */ level: ComputedRef<\"low\" | \"medium\" | \"high\">; /** Replace the current value. */ setValue: (value: number) => void; /** * Reflect the range props after mount; an omitted threshold falls back as it * does at creation. */ syncRange: (range: MeterRange) => void; }"
     },
     {
       "name": "UseMultiSelect",
@@ -1604,7 +1609,7 @@
     {
       "name": "UseProgress",
       "kind": "interface",
-      "signature": "interface UseProgress { /** Reactive connected API; spread `api.value.rootProps` / `indicatorProps`. */ api: ComputedRef<ProgressApi>; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: ComputedRef<number | null>; /** Replace the current value (`null` for indeterminate). */ setValue: (value: number | null) => void; }"
+      "signature": "interface UseProgress { /** Reactive connected API; spread `api.value.rootProps` / `indicatorProps`. */ api: ComputedRef<ProgressApi>; /** Completion as a 0–100 percentage, or `null` when indeterminate. */ percentage: ComputedRef<number | null>; /** Replace the current value (`null` for indeterminate). */ setValue: (value: number | null) => void; /** Reflect the `min` and `max` props after mount. */ syncRange: (min: number, max: number) => void; }"
     },
     {
       "name": "UseRadioGroupOptions",
