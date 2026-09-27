@@ -54,6 +54,27 @@ describe("Svelte Meter (styled)", () => {
     expect(indicator().style.inlineSize).toBe("10%");
   });
 
+  it("follows a range change after mount, not only a value change", async () => {
+    const { rerender } = render(Meter, {
+      props: { label: "Battery", value: 50, low: 20, high: 60 },
+    });
+    const meter = () => screen.getByRole("meter");
+    const indicator = () => document.querySelector(".meter__indicator") as HTMLElement;
+    expect(indicator()).toHaveAttribute("data-level", "medium");
+
+    // Same value, new bounds and thresholds: the band, the judgement and the
+    // announced range have to follow the props the meter now has.
+    const range = { label: "Battery", value: 50, min: 0, max: 200, low: 60, high: 150 };
+    await rerender(range);
+    expect(meter()).toHaveAttribute("aria-valuemax", "200");
+    expect(indicator()).toHaveAttribute("data-level", "low");
+    expect(indicator()).toHaveAttribute("data-quality", "poor");
+    expect(indicator().style.inlineSize).toBe("25%");
+
+    await rerender({ ...range, optimum: 0 });
+    expect(indicator()).toHaveAttribute("data-quality", "optimal");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Meter, { props: { value: 50, label: "Storage" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

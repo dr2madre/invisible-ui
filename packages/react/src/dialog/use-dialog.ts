@@ -69,18 +69,24 @@ export function useDialog({
     setOpenState(openProp);
   }
 
-  const latest = useRef({ onOpenChange, initialFocus, closeOnEscape, closeOnOutsideClick });
-  useIsomorphicLayoutEffect(() => {
-    latest.current = { onOpenChange, initialFocus, closeOnEscape, closeOnOutsideClick };
-  });
+  // Writes first and reports afterwards (ADR 0011), from the handler that
+  // called it, never from inside a state updater, which React may run twice
+  // or while rendering. It reports only a change the open state really makes.
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (open === next) return;
+      setOpenState(next);
+      onOpenChange?.(next);
+    },
+    [open, onOpenChange],
+  );
 
-  const setOpen = useCallback((next: boolean) => {
-    setOpenState((current) => {
-      if (current === next) return current;
-      latest.current.onOpenChange?.(next);
-      return next;
-    });
-  }, []);
+  // Latest inputs, read by the panel's listeners without re-running the effect
+  // that shows the panel (and moves focus into it) whenever they change.
+  const latest = useRef({ setOpen, initialFocus, closeOnEscape, closeOnOutsideClick });
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { setOpen, initialFocus, closeOnEscape, closeOnOutsideClick };
+  });
 
   const api = useMemo(
     () =>
@@ -114,10 +120,10 @@ export function useDialog({
     // instead of letting the platform close it out from under us.
     const onCancel = (event: Event) => {
       event.preventDefault();
-      if (latest.current.closeOnEscape !== false) setOpen(false);
+      if (latest.current.closeOnEscape !== false) latest.current.setOpen(false);
     };
     // Any other native close (e.g. a `method="dialog"` form) syncs the state.
-    const onClose = () => setOpen(false);
+    const onClose = () => latest.current.setOpen(false);
     // With the page inert, backdrop presses target the <dialog> itself; a press
     // whose coordinates fall outside the panel's box is a light dismiss.
     const onPointerDown = (event: PointerEvent) => {
@@ -130,7 +136,7 @@ export function useDialog({
         event.clientX <= rect.right;
       if (!inside) {
         event.preventDefault();
-        setOpen(false);
+        latest.current.setOpen(false);
       }
     };
 
@@ -155,7 +161,7 @@ export function useDialog({
       const restore = trigger?.isConnected ? trigger : previouslyFocused;
       if (restore?.isConnected) restore.focus();
     };
-  }, [open, setOpen]);
+  }, [open]);
 
   return { api, open, setOpen, triggerRef, panelRef };
 }

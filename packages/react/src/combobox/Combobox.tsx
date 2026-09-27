@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { useMemo, useRef, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { usePortalHost } from "../internal/portal-host";
 import { Icon } from "../icon/Icon";
@@ -114,6 +114,12 @@ export function Combobox({
 
   const selected = items.find((item) => item.value === selectedValue);
   const hasIcons = items.some((item) => item.icon);
+  // The hook filters plain core items; the icons live on the prop list, looked
+  // up by value once per list rather than once per visible option.
+  const iconByValue = useMemo(
+    () => new Map(items.map((item) => [item.value, item.icon] as const)),
+    [items],
+  );
   const clearHidden = api.clearProps["aria-hidden"] === "true";
 
   // The listbox is portalled out of the control, so it must not render before
@@ -125,10 +131,12 @@ export function Combobox({
   // selected value can be changed without clearing it first. iOS Safari can
   // synthesize a duplicate "ghost" click; ignore one that lands right after the
   // last so the list doesn't open then immediately close.
-  const [lastToggle, setLastToggle] = useState(-Infinity);
+  // The timestamp only guards the next click, so it lives in a ref: keeping it
+  // in state would re-render the control for nothing.
+  const lastToggle = useRef(-Infinity);
   const toggle = (event: MouseEvent) => {
-    if (event.timeStamp - lastToggle < 350) return;
-    setLastToggle(event.timeStamp);
+    if (event.timeStamp - lastToggle.current < 350) return;
+    lastToggle.current = event.timeStamp;
     if (open) setOpen(false);
     else openAll();
   };
@@ -137,8 +145,7 @@ export function Combobox({
     <ul {...api.listboxProps} ref={listboxRef} className="combobox__listbox" style={floatingStyles}>
       {visible.length > 0 ? (
         visible.map((item) => {
-          // The hook filters plain core items; the icon lives on the prop list.
-          const optionIcon = items.find((i) => i.value === item.value)?.icon;
+          const optionIcon = iconByValue.get(item.value);
           return (
             <li key={item.value} {...api.getOptionProps(item.value)} className="combobox__option">
               <span className="combobox__check" aria-hidden="true">
@@ -250,7 +257,7 @@ export function Combobox({
           className="combobox__chevron"
           type="button"
           tabIndex={-1}
-          aria-label={open ? "Close options" : "Show options"}
+          aria-label={open ? t("combobox.hide") : t("combobox.show")}
           disabled={disabled}
           onMouseDown={(event) => event.preventDefault()}
           onClick={toggle}

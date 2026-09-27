@@ -126,9 +126,6 @@ export interface Notifier {
   promise: <T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>) => Promise<T>;
 }
 
-let counter = 0;
-const nextId = () => `notice-${++counter}`;
-
 const resolveMessage = <A>(message: string | ((arg: A) => string), arg: A): string =>
   typeof message === "function" ? message(arg) : message;
 
@@ -139,6 +136,10 @@ const resolveMessage = <A>(message: string | ((arg: A) => string), arg: A): stri
  * simple and side-effect free.
  */
 export function createNotifier(): Notifier {
+  // Ids count per notifier, so two notifiers (one per server request, say)
+  // never share a sequence.
+  let counter = 0;
+  const nextId = () => `notice-${++counter}`;
   const { subscribe, update: updateStore } = writable<NotificationItem[]>([]);
   // onDismiss callbacks live outside the reactive list so the store stays
   // plain-data; keyed by id, cleared when the notification leaves.

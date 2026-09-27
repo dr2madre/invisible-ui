@@ -17,6 +17,16 @@ describe("createNotifier", () => {
     expect(a).not.toBe(b);
   });
 
+  it("numbers ids per notifier, not across notifiers", () => {
+    // One notifier per server request: a second one must not continue the
+    // first one's sequence.
+    const first = createNotifier();
+    const firstIds = [first.show(), first.show()];
+    const second = createNotifier();
+    const secondIds = [second.show(), second.show()];
+    expect(secondIds).toEqual(firstIds);
+  });
+
   it("dismisses by id", () => {
     const notifier = createNotifier();
     const a = notifier.show({ title: "A" });
