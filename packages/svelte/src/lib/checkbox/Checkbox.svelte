@@ -12,79 +12,93 @@
    * no extra wiring. Colors and sizing are themeable CSS custom properties
    * (`--ds-checkbox-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createCheckbox, type CheckedState } from "./create-checkbox";
   import { formReset } from "../internal/form-reset";
   import { domProps } from "../internal/dom-props";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
 
-  /** Accessible, visible label (required). Override with the default slot for rich content. */
-  export let label: string;
-  /**
-   * Visually hide the label while keeping it as the accessible name (for a
-   * checkbox whose meaning is carried by its surroundings, e.g. a selection
-   * column). The label text is always required.
-   */
-  export let hideLabel = false;
-  export let checked: CheckedState = false;
-  export let disabled = false;
-  /** Form field name — the control's value is submitted under this when checked. */
-  export let name: string | undefined = undefined;
-  /** Value submitted with the form when checked. Defaults to the native `"on"`. */
-  export let value = "on";
-  /** Mark the control required for native form validation. */
-  export let required = false;
-  /** Called whenever the checked value changes. */
-  export let onCheckedChange: ((c: CheckedState) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible, visible label (required). Override with the default slot for rich content. */
+    label: string;
+    /**
+     * Visually hide the label while keeping it as the accessible name (for a
+     * checkbox whose meaning is carried by its surroundings, e.g. a selection
+     * column). The label text is always required.
+     */
+    hideLabel?: boolean;
+    checked?: CheckedState;
+    disabled?: boolean;
+    /** Form field name — the control's value is submitted under this when checked. */
+    name?: string;
+    /** Value submitted with the form when checked. Defaults to the native `"on"`. */
+    value?: string;
+    /** Mark the control required for native form validation. */
+    required?: boolean;
+    /** Called whenever the checked value changes. */
+    onCheckedChange?: (c: CheckedState) => void;
+    /** Rich label content, in place of `label`. */
+    children?: Snippet;
+  }
 
+  let {
+    label,
+    hideLabel = false,
+    checked = $bindable(false),
+    disabled = false,
+    name,
+    value = "on",
+    required = false,
+    onCheckedChange,
+    children,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
   const {
     state: cbState,
     api,
     setChecked,
     syncChecked,
     syncDisabled,
-    // The arrow wrapper reads the prop variable at call time, so replacing the
-    // callback prop makes the next change call the new one, never a stale one.
-  } = createCheckbox({ checked, disabled, onCheckedChange: (c) => onCheckedChange?.(c) });
+  } = untrack(() =>
+    createCheckbox({
+      checked,
+      disabled,
+      // The arrow wrapper reads the prop at call time, so replacing the
+      // callback prop makes the next change call the new one, never a stale
+      // one.
+      onCheckedChange: (c) => onCheckedChange?.(c),
+    }),
+  );
 
-  // Controllable mirrors, compared against the last prop value (never against
-  // the store): an uncontrolled consumer whose prop never changes keeps its
-  // internal interactions untouched. A sync never calls onCheckedChange.
-  let lastChecked = checked;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultChecked = checked;
-  $: if (checked !== lastChecked) {
-    lastChecked = checked;
-    if (checked !== $cbState.checked) defaultChecked = checked;
-    syncChecked(checked);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastChecked = defaultChecked;
-    checked = defaultChecked;
-    syncChecked(defaultChecked);
-  };
-  let lastDisabled = disabled;
-  $: if (disabled !== lastDisabled) {
-    lastDisabled = disabled;
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => checked,
+    set: (next) => (checked = next),
+    reflect: syncChecked,
+    isGiveBack: (next) => next === $cbState.checked,
+  });
+  $effect.pre(() => {
     syncDisabled(disabled);
-  }
+  });
 
   function onChange(event: Event) {
     const target = event.currentTarget as HTMLInputElement;
     setChecked(target.indeterminate ? "indeterminate" : target.checked);
   }
 
-  $: dataState =
+  const dataState = $derived(
     $cbState.checked === "indeterminate"
       ? "indeterminate"
       : $cbState.checked
         ? "checked"
-        : "unchecked";
+        : "unchecked",
+  );
 </script>
 
-<label class="field" class:field--disabled={disabled}>
+<label class={["field", disabled && "field--disabled"]}>
   <input
     class="checkbox__input"
     type="checkbox"
@@ -93,10 +107,10 @@
     {required}
     {disabled}
     checked={$cbState.checked === true}
-    defaultChecked={defaultChecked === true}
+    defaultChecked={mirror.defaultValue === true}
     use:domProps={$api.rootDomProps}
-    on:change={onChange}
-    use:formReset={restore}
+    onchange={onChange}
+    use:formReset={mirror.restore}
     data-state={dataState}
   />
   <span class="checkbox" aria-hidden="true">
@@ -107,7 +121,9 @@
       <line x1="5" y1="12" x2="19" y2="12" />
     </Icon>
   </span>
-  <span class="field__label" class:field__label--hidden={hideLabel}><slot>{label}</slot></span>
+  <span class={["field__label", hideLabel && "field__label--hidden"]}
+    >{#if children}{@render children()}{:else}{label}{/if}</span
+  >
 </label>
 
 <style>

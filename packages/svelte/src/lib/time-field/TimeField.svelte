@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   let timeFieldId = 0;
 </script>
 
@@ -19,81 +19,97 @@
   } from "./create-time-field";
   import { timeField as core } from "@design-system/core";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { get } from "svelte/store";
+  import { untrack } from "svelte";
 
   const { t } = getI18n();
 
-  export let value: string | null = null;
-  export let hourCycle: HourCycle = 24;
-  export let withSeconds = false;
-  export let disabled = false;
-  /** Domain-level invalid state. Structural time errors are detected automatically. */
-  export let invalid = false;
-  /** Visible, actionable error text supplied by the application. */
-  export let error: string | undefined = undefined;
-  /** Accessible label for the whole field. */
-  export let label: string | undefined = undefined;
-  /** Form field name — the formatted time (`HH:mm[:ss]`) is submitted under it (via a hidden input). */
-  export let name: string | undefined = undefined;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
-  /** Called when the user finishes editing: focus leaves the field, or Enter. */
-  export let onValueCommit: ((value: string | null) => void) | undefined = undefined;
-  /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
-  export let min: string | undefined = undefined;
-  /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
-  export let max: string | undefined = undefined;
-  /** Called when structural validation changes; `null` means no structural error. */
-  export let onValidationChange: ((error: TimeValueError | null) => void) | undefined = undefined;
+  interface Props {
+    value?: string | null;
+    hourCycle?: HourCycle;
+    withSeconds?: boolean;
+    disabled?: boolean;
+    /** Domain-level invalid state. Structural time errors are detected automatically. */
+    invalid?: boolean;
+    /** Visible, actionable error text supplied by the application. */
+    error?: string;
+    /** Accessible label for the whole field. */
+    label?: string;
+    /** Form field name — the formatted time (`HH:mm[:ss]`) is submitted under it (via a hidden input). */
+    name?: string;
+    onValueChange?: (value: string | null) => void;
+    /** Called when the user finishes editing: focus leaves the field, or Enter. */
+    onValueCommit?: (value: string | null) => void;
+    /** Earliest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+    min?: string;
+    /** Latest acceptable time (`"HH:mm[:ss]"`), inclusive. */
+    max?: string;
+    /** Called when structural validation changes; `null` means no structural error. */
+    onValidationChange?: (error: TimeValueError | null) => void;
+  }
+
+  let {
+    value = $bindable(null),
+    hourCycle = 24,
+    withSeconds = false,
+    disabled = false,
+    invalid = false,
+    error,
+    label,
+    name,
+    onValueChange,
+    onValueCommit,
+    min,
+    max,
+    onValidationChange,
+  }: Props = $props();
 
   const translate = get(t);
   const id = `ds-time-field-${++timeFieldId}`;
   const errorId = `${id}-error`;
-  const field = createTimeField({
-    id,
-    value,
-    hourCycle,
-    withSeconds,
-    min,
-    max,
-    disabled,
-    invalid: invalid || Boolean(error),
-    describedBy: errorId,
-    messages: {
-      hour: translate("timeField.hour"),
-      minute: translate("timeField.minute"),
-      second: translate("timeField.second"),
-      dayPeriod: translate("timeField.dayPeriod"),
-      empty: translate("timeField.empty"),
-    },
-    // Live callback references (ADR 0011).
-    onValueChange: (next) => onValueChange?.(next),
-    onValueCommit: (next) => onValueCommit?.(next),
-    onValidationChange: (next) => onValidationChange?.(next),
-  });
+  // Seeded once from the first props; the effect and the mirror below follow
+  // later ones.
+  const field = untrack(() =>
+    createTimeField({
+      id,
+      value,
+      hourCycle,
+      withSeconds,
+      min,
+      max,
+      disabled,
+      invalid: invalid || Boolean(error),
+      describedBy: errorId,
+      messages: {
+        hour: translate("timeField.hour"),
+        minute: translate("timeField.minute"),
+        second: translate("timeField.second"),
+        dayPeriod: translate("timeField.dayPeriod"),
+        empty: translate("timeField.empty"),
+      },
+      // Live callback references (ADR 0011).
+      onValueChange: (next) => onValueChange?.(next),
+      onValueCommit: (next) => onValueCommit?.(next),
+      onValidationChange: (next) => onValidationChange?.(next),
+    }),
+  );
   const { state: tfState, api, rootAction, segmentAction, fieldAction } = field;
 
-  $: field.syncConfig({ min, max, hourCycle, withSeconds });
+  $effect.pre(() => {
+    field.syncConfig({ min, max, hourCycle, withSeconds });
+  });
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValueProp = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValueProp) {
-    lastValueProp = value;
-    if (value !== ($api.value ?? null)) defaultValue = value;
-    field.syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValueProp = defaultValue;
-    value = defaultValue;
-    field.syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: field.syncValue,
+    isGiveBack: (next) => next === ($api.value ?? null),
+  });
 
-  $: segments = core.segments($tfState.hourCycle, $tfState.withSeconds);
+  const segments = $derived(core.segments($tfState.hourCycle, $tfState.withSeconds));
   const isEmpty = (seg: TimeSegmentType, text: string) =>
     text === "hh" ||
     text === "mm" ||
@@ -119,17 +135,19 @@
     }
   };
 
-  $: validationMessage = error ?? messageFor($api.validationError);
+  const validationMessage = $derived(error ?? messageFor($api.validationError));
 </script>
 
 <div class="time-field-control">
   <div
-    class="time-field"
-    class:time-field--disabled={disabled}
-    class:time-field--invalid={invalid || Boolean(validationMessage)}
+    class={[
+      "time-field",
+      disabled && "time-field--disabled",
+      (invalid || Boolean(validationMessage)) && "time-field--invalid",
+    ]}
     use:rootAction
     use:fieldAction
-    use:formReset={restore}
+    use:formReset={mirror.restore}
     aria-label={label ?? $t("timeField.label")}
     aria-disabled={disabled || undefined}
     aria-invalid={invalid || Boolean(validationMessage) || undefined}
@@ -147,11 +165,13 @@
       {@const text = $api.getSegmentText(seg)}
       <!-- segmentAction applies role="spinbutton" at runtime, which the
          compiler cannot see in the static markup. -->
-      <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
       <span
-        class="time-field__segment"
-        class:time-field__segment--placeholder={isEmpty(seg, text)}
-        class:time-field__segment--period={seg === "dayPeriod"}
+        class={[
+          "time-field__segment",
+          isEmpty(seg, text) && "time-field__segment--placeholder",
+          seg === "dayPeriod" && "time-field__segment--period",
+        ]}
         use:segmentAction={seg}
         tabindex={disabled ? -1 : 0}
       >

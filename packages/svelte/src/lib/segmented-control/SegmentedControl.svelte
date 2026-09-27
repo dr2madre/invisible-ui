@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   import type { Component, ComponentType } from "svelte";
   import type { SegmentItem } from "./create-segmented-control";
 
@@ -26,84 +26,95 @@
    * control needs an accessible name via `label`. Colors are themeable CSS
    * custom properties (`--ds-segment-*`).
    */
+  import { untrack } from "svelte";
   import { createSegmentedControl } from "./create-segmented-control";
   import { formReset } from "../internal/form-reset";
   import { stableId } from "../internal/stable-id";
+  import { controllable } from "../internal/controllable.svelte";
 
-  export let items: SegmentedControlItem[];
-  export let value: string | null = null;
-  export let disabled = false;
-  /**
-   * Layout and arrow-key axis. `horizontal` (default) is a segment bar;
-   * `vertical` stacks the segments into a column (e.g. a sidebar). Each segment's
-   * content stays a row (icon beside label) unless `stacked` is also set.
-   */
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  /**
-   * Render only the icon for each segment, hiding the visible label (the label
-   * still names the segment via `aria-label`). Items without an icon keep their
-   * text. Defaults to `false`.
-   */
-  export let iconOnly = false;
-  /**
-   * Stack each segment's content vertically — icon on top, label below (e.g. an
-   * iOS-style tab). Implies the label stays visible. Defaults to `false`.
-   */
-  export let stacked = false;
-  /** Accessible name for the control (announced by screen readers). */
-  export let label: string;
-  /** Visually hide the label (kept for assistive tech). Defaults to `false`. */
-  export let hideLabel = false;
-  /** Form field name — the selected value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Called whenever the selected value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    items: SegmentedControlItem[];
+    value?: string | null;
+    disabled?: boolean;
+    /**
+     * Layout and arrow-key axis. `horizontal` (default) is a segment bar;
+     * `vertical` stacks the segments into a column (e.g. a sidebar). Each segment's
+     * content stays a row (icon beside label) unless `stacked` is also set.
+     */
+    orientation?: "horizontal" | "vertical";
+    /**
+     * Render only the icon for each segment, hiding the visible label (the label
+     * still names the segment via `aria-label`). Items without an icon keep their
+     * text. Defaults to `false`.
+     */
+    iconOnly?: boolean;
+    /**
+     * Stack each segment's content vertically — icon on top, label below (e.g. an
+     * iOS-style tab). Implies the label stays visible. Defaults to `false`.
+     */
+    stacked?: boolean;
+    /** Accessible name for the control (announced by screen readers). */
+    label: string;
+    /** Visually hide the label (kept for assistive tech). Defaults to `false`. */
+    hideLabel?: boolean;
+    /** Form field name — the selected value is submitted under it. */
+    name?: string;
+    /** Called whenever the selected value changes. */
+    onValueChange?: (value: string) => void;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    items,
+    value = $bindable(null),
+    disabled = false,
+    orientation = "horizontal",
+    iconOnly = false,
+    stacked = false,
+    label,
+    hideLabel = false,
+    name,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props, as before: only the value follows
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     state: segmentState,
     setValue,
     syncValue,
     name: groupName,
-  } = createSegmentedControl({
-    items,
-    value,
-    disabled,
-    orientation,
-    name,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  } = untrack(() =>
+    createSegmentedControl({
+      items,
+      value,
+      disabled,
+      orientation,
+      name,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $segmentState.value) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $segmentState.value,
+  });
 
   const labelId = stableId("ds-segmented");
 </script>
 
 <div class="segmented-field">
-  <span class="segmented-field__label" class:segmented-field__label--hidden={hideLabel} id={labelId}
-    >{label}</span
+  <span
+    class={["segmented-field__label", hideLabel && "segmented-field__label--hidden"]}
+    id={labelId}>{label}</span
   >
   <div
-    class="segmented"
-    class:segmented--vertical={orientation === "vertical"}
+    class={["segmented", orientation === "vertical" && "segmented--vertical"]}
     role="radiogroup"
-    use:formReset={restore}
+    use:formReset={mirror.restore}
     aria-labelledby={labelId}
     aria-orientation={orientation}
     data-orientation={orientation}
@@ -111,10 +122,12 @@
     {#each items as item (item.value)}
       {@const showLabel = stacked || !iconOnly || !item.icon}
       <label
-        class="segment"
-        class:segment--icon-only={iconOnly && item.icon && !stacked}
-        class:segment--stacked={stacked}
-        class:segment--disabled={disabled || item.disabled}
+        class={[
+          "segment",
+          iconOnly && item.icon && !stacked && "segment--icon-only",
+          stacked && "segment--stacked",
+          (disabled || item.disabled) && "segment--disabled",
+        ]}
       >
         <input
           class="segment__input"
@@ -122,15 +135,15 @@
           name={groupName}
           value={item.value}
           checked={$segmentState.value === item.value}
-          defaultChecked={defaultValue === item.value}
+          defaultChecked={mirror.defaultValue === item.value}
           disabled={disabled || item.disabled}
           aria-label={showLabel ? undefined : (item.label ?? item.value)}
-          on:change={() => setValue(item.value)}
+          onchange={() => setValue(item.value)}
           data-state={$segmentState.value === item.value ? "checked" : "unchecked"}
         />
         {#if item.icon}
           <span class="segment__icon" aria-hidden="true">
-            <svelte:component this={item.icon} />
+            <item.icon />
           </span>
         {/if}
         {#if showLabel}

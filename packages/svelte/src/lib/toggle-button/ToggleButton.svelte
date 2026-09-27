@@ -17,71 +17,84 @@
    * selected-state affordance of a grouped checkbox, in a chip. Pairs naturally
    * with `ToggleGroup` for a row of multi-select filter chips.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createToggleButton } from "./create-toggle-button";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
-  /**
-   * Whether the button is pressed. Controlled: changing it updates the control,
-   * so it can reflect external selection state (e.g. a filter chip driven by a
-   * list). Pass it once and drive clicks via `onPressedChange` for uncontrolled
-   * use — that keeps working too.
-   */
-  export let pressed = false;
-  export let disabled = false;
-  /**
-   * Show a leading checkmark when pressed (the filter-chip look). The check
-   * reveals the selected state explicitly, the way a checkbox does.
-   */
-  export let check = false;
-  /** Accessible name; required when the slot content is icon-only. */
-  export let label: string | undefined = undefined;
-  /** Form field name — when checked, submits `value` under it. */
-  export let name: string | undefined = undefined;
-  /** Value submitted under `name` when pressed. */
-  export let value = "on";
-  /** Called whenever the pressed value changes. */
-  export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
+  interface Props {
+    /**
+     * Whether the button is pressed. Controlled: changing it updates the control,
+     * so it can reflect external selection state (e.g. a filter chip driven by a
+     * list). Pass it once and drive clicks via `onPressedChange` for uncontrolled
+     * use — that keeps working too.
+     */
+    pressed?: boolean;
+    disabled?: boolean;
+    /**
+     * Show a leading checkmark when pressed (the filter-chip look). The check
+     * reveals the selected state explicitly, the way a checkbox does.
+     */
+    check?: boolean;
+    /** Accessible name; required when the slot content is icon-only. */
+    label?: string;
+    /** Form field name — when checked, submits `value` under it. */
+    name?: string;
+    /** Value submitted under `name` when pressed. */
+    value?: string;
+    /** Called whenever the pressed value changes. */
+    onPressedChange?: (p: boolean) => void;
+    /** The button's content. */
+    children?: Snippet;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    pressed = $bindable(false),
+    disabled = false,
+    check = false,
+    label,
+    name,
+    value = "on",
+    onPressedChange,
+    children,
+  }: Props = $props();
+
+  // Seeded once from the first props; the effect and the mirror below follow
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     state: tbState,
     syncPressed,
     setDisabled,
     rootAction,
-  } = createToggleButton({
-    pressed,
-    disabled,
-    onPressedChange: (next) => onPressedChange?.(next),
-  });
+  } = untrack(() =>
+    createToggleButton({
+      pressed,
+      disabled,
+      onPressedChange: (next) => onPressedChange?.(next),
+    }),
+  );
   // The disabled sync runs first: a control re-enabled and pressed in the same
   // update accepts the new pressed value, because a disabled control ignores it.
-  $: setDisabled(disabled);
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastPressed = pressed;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultPressed = pressed;
-  $: if (pressed !== lastPressed) {
-    lastPressed = pressed;
-    if (pressed !== $tbState.pressed) defaultPressed = pressed;
-    syncPressed(pressed);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastPressed = defaultPressed;
-    pressed = defaultPressed;
-    syncPressed(defaultPressed);
-  };
+  $effect.pre(() => {
+    setDisabled(disabled);
+  });
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => pressed,
+    set: (next) => (pressed = next),
+    reflect: syncPressed,
+    isGiveBack: (next) => next === $tbState.pressed,
+  });
 </script>
 
-<label class="toggle" class:toggle--disabled={disabled}>
+<label class={["toggle", disabled && "toggle--disabled"]}>
   <input
     class="toggle__input"
     use:rootAction
     checked={$tbState.pressed}
-    defaultChecked={defaultPressed}
-    use:formReset={restore}
+    defaultChecked={mirror.defaultValue}
+    use:formReset={mirror.restore}
     {name}
     {value}
     aria-label={label}
@@ -103,7 +116,7 @@
         <path d="M20 6 9 17l-5-5" />
       </svg>
     {/if}
-    <slot />
+    {@render children?.()}
   </span>
 </label>
 

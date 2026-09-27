@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   import type { AccordionItem } from "./create-accordion";
 
   /** An item, with an optional header label and its panel text. */
@@ -18,39 +18,53 @@
    * `createAccordion` directly. Colors are themeable CSS custom properties
    * (`--ds-accordion-*`).
    */
+  import { untrack } from "svelte";
   import { createAccordion, type AccordionType } from "./create-accordion";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
 
-  export let items: AccordionEntry[];
-  export let value: string[] = [];
-  /** `single` (default): one open at a time. `multiple`: many. */
-  export let type: AccordionType = "single";
-  /** For `single`: allow collapsing the open item. */
-  export let collapsible = true;
-  export let disabled = false;
-  /** Called whenever the expanded set changes. */
-  export let onValueChange: ((value: string[]) => void) | undefined = undefined;
+  interface Props {
+    items: AccordionEntry[];
+    value?: string[];
+    /** `single` (default): one open at a time. `multiple`: many. */
+    type?: AccordionType;
+    /** For `single`: allow collapsing the open item. */
+    collapsible?: boolean;
+    disabled?: boolean;
+    /** Called whenever the expanded set changes. */
+    onValueChange?: (value: string[]) => void;
+  }
 
-  const { rootAction, itemAction, triggerAction, panelAction, syncValue, syncConfig } =
-    createAccordion({
-      items,
-      value,
-      type,
-      collapsible,
-      disabled,
-      // A live callback reference (ADR 0011).
-      onValueChange: (next) => onValueChange?.(next),
-    });
+  let {
+    items,
+    value = $bindable([]),
+    type = "single",
+    collapsible = true,
+    disabled = false,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props; the effect and the mirror below follow
+  // later ones.
+  const { rootAction, itemAction, triggerAction, panelAction, syncValue, syncConfig } = untrack(
+    () =>
+      createAccordion({
+        items,
+        value,
+        type,
+        collapsible,
+        disabled,
+        // A live callback reference (ADR 0011).
+        onValueChange: (next) => onValueChange?.(next),
+      }),
+  );
   // Configuration changed after mount reaches the machine, and reports
   // nothing.
-  $: syncConfig({ items, type, collapsible, disabled });
-  // Controllable mirror, compared against the last prop value (ADR 0011): a
-  // sync never reports a change.
-  let lastValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    syncValue(value);
-  }
+  $effect.pre(() => {
+    syncConfig({ items, type, collapsible, disabled });
+  });
+  // Controllable mirror (ADR 0011): a sync never reports a change.
+  controllable({ get: () => value, reflect: syncValue });
 </script>
 
 <div class="accordion" use:rootAction>

@@ -41,7 +41,9 @@ export default ts.config(
     ...reactHooks.configs.flat["recommended-latest"],
   },
   {
-    files: ["**/*.svelte"],
+    // Runes modules (`.svelte.ts`) go through the Svelte parser too, and carry
+    // TypeScript like the components' scripts.
+    files: ["**/*.svelte", "**/*.svelte.ts"],
     languageOptions: {
       parserOptions: { parser: ts.parser },
     },
