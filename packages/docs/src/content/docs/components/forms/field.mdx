@@ -22,11 +22,13 @@ to a control, wiring `aria-describedby` / `aria-invalid` for you.
 
 <PropsTable component="field" />
 
-The control is the default slot, which exposes `controlProps` and `controlId`:
+In Svelte, the control is the `children` snippet, which receives `controlProps` and `controlId`:
 
 ```svelte
-<Field label="Email" let:controlProps>
-  <input {...controlProps} type="email" />
+<Field label="Email">
+  {#snippet children({ controlProps })}
+    <input {...controlProps} type="email" />
+  {/snippet}
 </Field>
 ```
 

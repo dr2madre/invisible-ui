@@ -2,11 +2,21 @@
   import SegmentedControl from "./SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
 
-  export let value: string | null = "list";
-  export let iconOnly = true;
-  export let stacked = false;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    value?: string | null;
+    iconOnly?: boolean;
+    stacked?: boolean;
+    orientation?: "horizontal" | "vertical";
+    onValueChange?: (value: string) => void;
+  }
+
+  let {
+    value = "list",
+    iconOnly = true,
+    stacked = false,
+    orientation = "horizontal",
+    onValueChange,
+  }: Props = $props();
 
   const items = [
     { value: "list", label: "List", icon: Icon },

@@ -1,6 +1,11 @@
 <script lang="ts">
   import FeedbackIcon from "./FeedbackIcon.svelte";
-  export let status: "info" | "success" | "warning" | "danger" | "neutral" = "info";
+
+  interface Props {
+    status?: "info" | "success" | "warning" | "danger" | "neutral";
+  }
+
+  let { status = "info" }: Props = $props();
 </script>
 
 <FeedbackIcon {status} label="Custom">

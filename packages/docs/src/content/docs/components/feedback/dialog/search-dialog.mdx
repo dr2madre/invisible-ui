@@ -83,7 +83,7 @@ shows it, and `close-button` adds a close button to the header.
 
 <PropsTable component="search-dialog" />
 
-The `trigger` slot is the opener button's content.
+The `trigger` snippet is the opener button's content.
 
 ### Accessibility
 
@@ -111,7 +111,7 @@ The `trigger` slot is the opener button's content.
 
 ```svelte
 <script>
-  let open = false;
+  let open = $state(false);
   const items = [
     { value: "home", label: "Home", group: "Pages" },
     { value: "new", label: "New File", group: "Actions" },
@@ -120,7 +120,7 @@ The `trigger` slot is the opener button's content.
 </script>
 
 <svelte:window
-  on:keydown={(e) => {
+  onkeydown={(e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "s") {
       e.preventDefault();
       open = true;
@@ -129,7 +129,7 @@ The `trigger` slot is the opener button's content.
 />
 
 <SearchDialog {items} bind:open onSelect={(value) => run(value)}>
-  <span slot="trigger">Search…</span>
+  {#snippet trigger()}<span>Search…</span>{/snippet}
 </SearchDialog>
 ```
 

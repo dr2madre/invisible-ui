@@ -6,62 +6,79 @@
    * title block, optional actions, optional close button. The title block
    * stacks optional context, the title and an optional subtitle; every side
    * item is centered against it. The dialog owns the wiring: it passes the
-   * title, subtitle and close actions from its own headless dialog, and a flag
-   * for each slot it forwards, because a forwarded slot always looks filled.
+   * title, subtitle and close actions from its own headless dialog, and the
+   * snippets its consumer gave it.
    *
    * When nothing in the header is visible (a hidden title and no close button),
    * the header takes no space and only names the dialog.
    */
+  import type { Snippet } from "svelte";
   import type { Action } from "svelte/action";
 
   const noop: Action<HTMLElement> = () => {};
 
-  /** Title naming the dialog; always rendered, hidden visually on request. */
-  export let title: string;
-  export let hideTitle = false;
-  /** Optional subtitle under the title. */
-  export let subtitle: string | undefined = undefined;
-  export let closeButton = true;
-  /** Accessible name of the close button. */
-  export let closeLabel: string;
-  export let titleAction: Action<HTMLElement>;
-  export let subtitleAction: Action<HTMLElement> = noop;
-  export let closeAction: Action<HTMLElement> = noop;
-  export let hasIcon = false;
-  export let hasLead = false;
-  export let hasMeta = false;
-  export let hasActions = false;
+  interface Props {
+    /** Title naming the dialog; always rendered, hidden visually on request. */
+    title: string;
+    hideTitle?: boolean;
+    /** Optional subtitle under the title. */
+    subtitle?: string;
+    closeButton?: boolean;
+    /** Accessible name of the close button. */
+    closeLabel: string;
+    titleAction: Action<HTMLElement>;
+    subtitleAction?: Action<HTMLElement>;
+    closeAction?: Action<HTMLElement>;
+    /** Leading feedback icon. */
+    icon?: Snippet;
+    /** Leading ghost button, e.g. back. */
+    lead?: Snippet;
+    /** Context above the title. */
+    meta?: Snippet;
+    /** Actions before the close button. */
+    actions?: Snippet;
+  }
 
-  $: empty =
-    hideTitle &&
-    !closeButton &&
-    subtitle === undefined &&
-    !hasIcon &&
-    !hasLead &&
-    !hasMeta &&
-    !hasActions;
+  let {
+    title,
+    hideTitle = false,
+    subtitle,
+    closeButton = true,
+    closeLabel,
+    titleAction,
+    subtitleAction = noop,
+    closeAction = noop,
+    icon,
+    lead,
+    meta,
+    actions,
+  }: Props = $props();
+
+  const empty = $derived(
+    hideTitle && !closeButton && subtitle === undefined && !icon && !lead && !meta && !actions,
+  );
 </script>
 
-<header class="dialog-header" class:dialog-header--empty={empty}>
-  {#if hasIcon}
-    <div class="dialog-header__icon"><slot name="icon" /></div>
+<header class={["dialog-header", empty && "dialog-header--empty"]}>
+  {#if icon}
+    <div class="dialog-header__icon">{@render icon()}</div>
   {/if}
-  {#if hasLead}
-    <div class="dialog-header__lead"><slot name="lead" /></div>
+  {#if lead}
+    <div class="dialog-header__lead">{@render lead()}</div>
   {/if}
-  {#if hasMeta}
+  {#if meta}
     <!-- Consumer content above the title, e.g. "Step 1 of 2". It carries no
          progress semantics: the meaning belongs to what the consumer puts here. -->
-    <div class="dialog-header__meta"><slot name="meta" /></div>
+    <div class="dialog-header__meta">{@render meta()}</div>
   {/if}
-  <h2 class="dialog-header__title" class:dialog-header__title--hidden={hideTitle} use:titleAction>
+  <h2 class={["dialog-header__title", hideTitle && "dialog-header__title--hidden"]} use:titleAction>
     {title}
   </h2>
   {#if subtitle !== undefined}
     <p class="dialog-header__subtitle" use:subtitleAction>{subtitle}</p>
   {/if}
-  {#if hasActions}
-    <div class="dialog-header__actions"><slot name="actions" /></div>
+  {#if actions}
+    <div class="dialog-header__actions">{@render actions()}</div>
   {/if}
   {#if closeButton}
     <button class="dialog-header__close" type="button" aria-label={closeLabel} use:closeAction>

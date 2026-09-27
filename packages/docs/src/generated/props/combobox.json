@@ -112,6 +112,14 @@
           "required": false,
           "description": "Called when the input text changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading icon of a select-only combobox (`searchable={false}`). Defaults to the selected option's icon.",
+          "descriptionFrom": "source"
         }
       ]
     },

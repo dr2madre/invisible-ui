@@ -14,10 +14,12 @@
 
   <!-- Leading icon (decorative label, always on the left) -->
   <TextField label="Email" type="email" placeholder="you@example.com">
-    <Icon slot="left">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="m22 7-10 5L2 7" />
-    </Icon>
+    {#snippet left()}
+      <Icon>
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 7-10 5L2 7" />
+      </Icon>
+    {/snippet}
   </TextField>
 
   <!-- Error: red ring + triangle + message. -->

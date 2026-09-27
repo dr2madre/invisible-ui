@@ -4,10 +4,18 @@
   import NotificationRegion from "./notification/NotificationRegion.svelte";
   import { createNotifier, type Notifier } from "./notification/create-notifier";
 
-  export let notifier: Notifier = createNotifier();
-  /** The application routes one event to one channel: local text or a toast. */
-  export let channel: "none" | "local" | "toast" = "none";
-  export let message = "Saving failed";
+  interface Props {
+    notifier?: Notifier;
+    /** The application routes one event to one channel: local text or a toast. */
+    channel?: "none" | "local" | "toast";
+    message?: string;
+  }
+
+  let {
+    notifier = createNotifier(),
+    channel = "none",
+    message = "Saving failed",
+  }: Props = $props();
 </script>
 
 <div>

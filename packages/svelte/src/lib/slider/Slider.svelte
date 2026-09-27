@@ -9,30 +9,54 @@
    * Provide a `label` for the accessible name. Colors, sizing and the thumb are
    * themeable via `--ds-slider-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createSlider } from "./create-slider";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
-  export let value = 0;
-  export let min = 0;
-  export let max = 100;
-  export let step = 1;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let disabled = false;
-  /** Accessible name for the slider. */
-  export let label: string;
-  /** Form field name — the value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Show the current value to the side of the track. */
-  export let showValue = false;
-  /** Show the min and max reference values under the ends of the track. */
-  export let showRange = false;
-  /** Show tick marks at each step (only when the count is reasonable). */
-  export let ticks = false;
-  /** Format the displayed value/range (e.g. add a unit). */
-  export let format: (value: number) => string = (v) => String(v);
-  /** Called whenever the value changes. */
-  export let onValueChange: ((value: number) => void) | undefined = undefined;
+  interface Props {
+    value?: number;
+    min?: number;
+    max?: number;
+    step?: number;
+    orientation?: "horizontal" | "vertical";
+    disabled?: boolean;
+    /** Accessible name for the slider. */
+    label: string;
+    /** Form field name — the value is submitted under it. */
+    name?: string;
+    /** Show the current value to the side of the track. */
+    showValue?: boolean;
+    /** Show the min and max reference values under the ends of the track. */
+    showRange?: boolean;
+    /** Show tick marks at each step (only when the count is reasonable). */
+    ticks?: boolean;
+    /** Format the displayed value/range (e.g. add a unit). */
+    format?: (value: number) => string;
+    /** Called whenever the value changes. */
+    onValueChange?: (value: number) => void;
+    /** A decorative icon before the track. */
+    icon?: Snippet;
+  }
 
+  let {
+    value = $bindable(0),
+    min = 0,
+    max = 100,
+    step = 1,
+    orientation = "horizontal",
+    disabled = false,
+    label,
+    name,
+    showValue = false,
+    showRange = false,
+    ticks = false,
+    format = (v) => String(v),
+    onValueChange,
+    icon,
+  }: Props = $props();
+
+  // Seeded once from the first props; the effects below follow later ones.
   // A live callback reference, so a swapped callback is honoured (ADR 0011).
   const {
     value: sliderValue,
@@ -40,59 +64,53 @@
     setValue,
     syncValue,
     syncConfig,
-  } = createSlider({
-    value,
-    min,
-    max,
-    step,
-    orientation,
-    disabled,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  } = untrack(() =>
+    createSlider({
+      value,
+      min,
+      max,
+      step,
+      orientation,
+      disabled,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
 
   // Constraints changed after mount reach the machine without a remount, and
   // report nothing. Declared before the value mirror, so a value and bounds
   // changed together are judged against the new bounds.
-  $: syncConfig({ min, max, step, orientation, disabled });
+  $effect.pre(() => {
+    syncConfig({ min, max, step, orientation, disabled });
+  });
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $sliderValue) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $sliderValue,
+  });
 
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));
   }
 
   // Tick positions (as %), shown only for a sane number of steps.
-  $: tickCount = step > 0 ? Math.round((max - min) / step) : 0;
-  $: tickPositions =
+  const tickCount = $derived(step > 0 ? Math.round((max - min) / step) : 0);
+  const tickPositions = $derived(
     ticks && tickCount > 0 && tickCount <= 20
       ? Array.from({ length: tickCount + 1 }, (_, i) => (i / tickCount) * 100)
-      : [];
+      : [],
+  );
 </script>
 
-<div class="slider-field" class:slider-field--disabled={disabled}>
+<div class={["slider-field", disabled && "slider-field--disabled"]}>
   <div class="slider-field__row">
-    {#if $$slots.icon}
-      <span class="slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
+    {#if icon}
+      <span class="slider-field__icon" aria-hidden="true">{@render icon()}</span>
     {/if}
     <span
-      class="slider"
-      class:slider--disabled={disabled}
+      class={["slider", disabled && "slider--disabled"]}
       data-orientation={orientation}
       style="--_slider-pct: {$percentage}%"
     >
@@ -107,9 +125,9 @@
         aria-label={label}
         aria-orientation={orientation}
         value={$sliderValue}
-        {defaultValue}
-        on:input={onInput}
-        use:formReset={restore}
+        defaultValue={mirror.defaultValue}
+        oninput={onInput}
+        use:formReset={mirror.restore}
       />
       {#if tickPositions.length}
         <span class="slider__ticks" aria-hidden="true">

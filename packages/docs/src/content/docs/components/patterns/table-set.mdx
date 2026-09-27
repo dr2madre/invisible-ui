@@ -88,8 +88,8 @@ selection, and switching `selectionMode` never clears it.
 
 Filtering itself stays in the application: predicates, schemas, query state
 and requests never enter the component. Your filter controls live in the
-`toolbar` slot; the set receives the already-filtered `rows` plus a few
-coordination inputs.
+`toolbar` snippet (a `slot="toolbar"` child in Elements); the set receives the
+already-filtered `rows` plus a few coordination inputs.
 
 - `filtersActive` says whether any filter is applied. With zero rows it
   separates two states: `totalRowCount` of `0` is an **empty dataset** (the

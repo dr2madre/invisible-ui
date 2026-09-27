@@ -152,8 +152,8 @@ a step changed:
 <script>
   import { tick } from "svelte";
 
-  let step = 1;
-  let heading;
+  let step = $state(1);
+  let heading = $state();
 
   const goTo = async (next) => {
     step = next;
@@ -163,7 +163,7 @@ a step changed:
 </script>
 
 <Dialog title="Set up project" bodyLayout="stack" initialFocus=".step-heading">
-  <span slot="headerMeta">Step {step} of 2</span>
+  {#snippet headerMeta()}<span>Step {step} of 2</span>{/snippet}
   <h3 class="step-heading" tabindex="-1" bind:this={heading}>…</h3>
 </Dialog>
 ```
@@ -198,8 +198,8 @@ Two distinct levels apply to the controls you put in these regions:
 
 ### The same regions in every adapter
 
-Svelte and Vue expose the regions as named slots, React as props of the same
-names.
+Svelte exposes the regions as snippets, Vue as named slots, React as props of
+the same names.
 
 `<ds-dialog>` has no Shadow DOM ([ADR 0008](/invisible-ui/decisions/)), so it
 marks the regions with a `slot` attribute on light-DOM children and reads them
@@ -248,7 +248,7 @@ apply.
 
 <PropsTable component="dialog" />
 
-Slots: `trigger` (the trigger button's content), the default slot (the body),
+Snippets: `trigger` (the trigger button's content), `children` (the body),
 `icon` (leading feedback icon), `headerMeta` (context above the title),
 `headerLead` (leading ghost button), `footerLead` (leading footer actions) and
 `footer` (trailing action buttons). In React the regions are props of the same
@@ -271,7 +271,7 @@ names; in Vue they are named slots.
 
 ```svelte
 <Dialog title="Edit profile" description="Make changes to your profile here.">
-  <span slot="trigger">Edit profile</span>
+  {#snippet trigger()}<span>Edit profile</span>{/snippet}
   <form>…</form>
 </Dialog>
 ```

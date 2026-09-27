@@ -1,8 +1,8 @@
 <script lang="ts">
   /**
    * Blockquote — a block-level quotation (`<blockquote>`), with an optional
-   * attribution line. The quoted text is the default slot; the attribution can be
-   * passed as the `cite` prop (plain text) or the `cite` slot (rich content).
+   * attribution line. The quoted text is the children; the attribution is the
+   * `cite` prop, as plain text or as a snippet for rich content.
    *
    * Accessibility:
    * - The quote uses the semantic `<blockquote>` element; the attribution sits in
@@ -14,19 +14,27 @@
    * Colors and the accent border are themeable CSS custom properties
    * (`--ds-blockquote-*`).
    */
-  /** Visible attribution text (e.g. an author). Use the `cite` slot for rich content. */
-  export let cite: string | undefined = undefined;
-  /** Machine-readable source URL → the native `cite` attribute (not displayed). */
-  export let citeUrl: string | undefined = undefined;
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    /** Visible attribution (e.g. an author): plain text, or a snippet for rich content. */
+    cite?: string | Snippet;
+    /** Machine-readable source URL → the native `cite` attribute (not displayed). */
+    citeUrl?: string;
+    /** The quoted text. */
+    children?: Snippet;
+  }
+
+  let { cite, citeUrl, children }: Props = $props();
 </script>
 
 <figure class="blockquote">
   <blockquote class="blockquote__quote" cite={citeUrl}>
-    <slot />
+    {@render children?.()}
   </blockquote>
-  {#if cite || $$slots.cite}
+  {#if cite}
     <figcaption class="blockquote__cite">
-      <slot name="cite">{cite}</slot>
+      {#if typeof cite === "function"}{@render cite()}{:else}{cite}{/if}
     </figcaption>
   {/if}
 </figure>

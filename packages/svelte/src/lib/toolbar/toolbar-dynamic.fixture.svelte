@@ -1,9 +1,13 @@
 <script lang="ts">
   import Toolbar from "./Toolbar.svelte";
 
-  export let italicDisabled = false;
-  export let showItalic = true;
-  export let showUnderline = false;
+  interface Props {
+    italicDisabled?: boolean;
+    showItalic?: boolean;
+    showUnderline?: boolean;
+  }
+
+  let { italicDisabled = false, showItalic = true, showUnderline = false }: Props = $props();
 </script>
 
 <Toolbar label="Text formatting">

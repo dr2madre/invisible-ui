@@ -1,10 +1,14 @@
 <script lang="ts">
   import Skeleton from "./Skeleton.svelte";
 
-  export let variant: "text" | "circle" | "rect" = "text";
-  export let lines = 1;
-  export let label: string | undefined = undefined;
-  export let animation: "pulse" | "wave" | "none" = "pulse";
+  interface Props {
+    variant?: "text" | "circle" | "rect";
+    lines?: number;
+    label?: string;
+    animation?: "pulse" | "wave" | "none";
+  }
+
+  let { variant = "text", lines = 1, label, animation = "pulse" }: Props = $props();
 </script>
 
 <Skeleton {variant} {lines} {label} {animation} width="12rem" />

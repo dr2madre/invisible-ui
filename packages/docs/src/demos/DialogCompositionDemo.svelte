@@ -17,16 +17,16 @@
     { value: "react", label: "React" },
   ];
 
-  let name = "";
+  let name = $state("");
   // Three, so removing one still leaves a neighbour to hand focus to.
-  let skillValues = ["svelte", "vue", "react"];
-  let outcome = "none";
+  let skillValues = $state(["svelte", "vue", "react"]);
+  let outcome = $state("none");
 </script>
 
 <div class="dialog-composition-demo">
   <Tooltip text="Update your profile details">
     <Dialog title="Edit profile" bodyLayout="stack">
-      <span slot="trigger">Edit profile</span>
+      {#snippet trigger()}<span>Edit profile</span>{/snippet}
       <TextField label="Name" value={name} onValueChange={(next) => (name = next)} />
       <Combobox label="City" items={cities} />
       <MultiSelect
@@ -35,7 +35,7 @@
         values={skillValues}
         onValuesChange={(next) => (skillValues = next)}
       />
-      <svelte:fragment slot="footer">
+      {#snippet footer()}
         <ConfirmDialog
           title="Discard changes?"
           description="Your edits will be lost."
@@ -44,7 +44,7 @@
         >
           Discard
         </ConfirmDialog>
-      </svelte:fragment>
+      {/snippet}
     </Dialog>
   </Tooltip>
   <p data-testid="composition-outcome">Outcome: {outcome}</p>

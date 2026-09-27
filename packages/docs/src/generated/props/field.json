@@ -56,6 +56,14 @@
           "required": false,
           "description": "Control id.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "children",
+          "type": "Snippet<[{ controlProps: FieldApi[\"controlProps\"]; controlId: string }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The control, given the props to spread onto it and its id.",
+          "descriptionFrom": "source"
         }
       ]
     },

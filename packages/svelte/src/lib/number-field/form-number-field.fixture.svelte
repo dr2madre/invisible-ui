@@ -1,7 +1,11 @@
 <script lang="ts">
   import NumberField from "./NumberField.svelte";
 
-  export let disabled = false;
+  interface Props {
+    disabled?: boolean;
+  }
+
+  let { disabled = false }: Props = $props();
 </script>
 
 <form data-testid="form">

@@ -6,7 +6,7 @@
    * close delays, Floating-UI positioning (flip/shift), and WCAG 1.4.13 "content
    * on hover" semantics (hoverable + Escape-dismissable).
    *
-   * The default slot is the trigger (wrap a focusable element); `text` is the
+   * The `children` snippet is the trigger (wrap a focusable element); `text` is the
    * tooltip label. For precise control (e.g. putting `aria-describedby` on your
    * own element), use the headless `createTooltip` instead. Themeable via
    * `--ds-tooltip-*`.

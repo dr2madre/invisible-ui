@@ -31,7 +31,7 @@ These are two different concepts (per Nielsen Norman Group):
 Use `ErrorState` only for failures. A 404 is a borderline case — it's an error
 (the route doesn't resolve), so it fits here: keep the layout and just change
 the icon and copy (see the second demo, which swaps a custom glyph through the
-`icon` slot).
+`icon` snippet).
 
 ### Import
 
@@ -50,14 +50,14 @@ It composes existing primitives — no new behavior:
 
 - **Icon**: a [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/)
   (`danger` by default). Override it with a different glyph or a bespoke
-  illustration via the `icon` slot.
+  illustration via the `icon` snippet.
 - **Actions**: [Buttons](/invisible-ui/components/forms/button/) and
   [Links](/invisible-ui/components/navigation/link/). One recovery button
   comes from `actionLabel`/`onAction`; a configurable group comes from the
   `actions` prop: an array of `{ label, onAction, variant, href }` where the
   first action renders in the `default` variant and the rest in `ghost`
   (unless an entry sets its own `variant`), and an entry with `href` renders
-  as a link (e.g. "Contact support"). For anything else, the `actions` slot
+  as a link (e.g. "Contact support"). For anything else, an `actions` snippet
   replaces the whole area. Omit all three for no actions.
 - **Density**: `size="sm"` compacts padding, icon and title for use inside
   cards, panels and table areas; the default `md` fits pages and sections.

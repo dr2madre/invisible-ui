@@ -2,7 +2,7 @@
   /**
    * Kbd — a keyboard-shortcut hint rendered with the semantic `<kbd>` element.
    *
-   * Pass a single key as the default slot (`<Kbd>Esc</Kbd>`) or a chord as the
+   * Pass a single key as `children` (`<Kbd>Esc</Kbd>`) or a chord as the
    * `keys` array (`keys={["⌘", "K"]}`) — each key gets its own nested `<kbd>` and
    * they are joined by a visible separator (default "+"). The outer element is a
    * `<kbd>` so assistive tech announces it as keyboard input.

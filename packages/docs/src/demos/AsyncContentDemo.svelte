@@ -9,9 +9,9 @@
 
   // The application owns the request lifecycle; these buttons script it
   // deterministically (no network, no timers of our own).
-  let status = "idle";
-  let content = null;
-  let lastResultEmpty = false;
+  let status = $state("idle");
+  let content = $state.raw(null);
+  let lastResultEmpty = $state(false);
 
   const startRequest = () => (status = "loading");
   const succeed = () => {
@@ -31,8 +31,10 @@
     lastResultEmpty = false;
   };
 
-  $: hasContent = content !== null && content.length > 0;
-  $: view = asyncContent.deriveAsyncView({ status, hasContent, isEmpty: lastResultEmpty });
+  const hasContent = $derived(content !== null && content.length > 0);
+  const view = $derived(
+    asyncContent.deriveAsyncView({ status, hasContent, isEmpty: lastResultEmpty }),
+  );
 </script>
 
 <div class="async-demo">

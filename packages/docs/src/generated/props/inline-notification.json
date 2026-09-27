@@ -30,15 +30,15 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Body text (required). Override with the default slot for rich content.",
-          "descriptionFrom": "source"
+          "description": "Body text (required). Override with `children` for rich content.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "href",
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Link href. When set (and no `link` slot is provided) a link is rendered.",
+          "description": "Link href. When set (and no `link` snippet is provided) a link is rendered.",
           "descriptionFrom": "source"
         },
         {
@@ -51,11 +51,11 @@
         },
         {
           "name": "actions",
-          "type": "InlineNotificationAction[] | undefined",
+          "type": "InlineNotificationAction[] | Snippet | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Action buttons (alternative to the `actions` slot).",
-          "descriptionFrom": "source"
+          "description": "Action buttons, as data, or a snippet that replaces the whole actions area.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "closable",
@@ -134,8 +134,8 @@
           "type": "import(\"svelte\").Component<any> | import(\"svelte\").ComponentType | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout.",
-          "descriptionFrom": "source"
+          "description": "Render arbitrary content as the body instead of `description` / `children` — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "componentProps",
@@ -151,6 +151,54 @@
           "default": "undefined",
           "required": false,
           "description": "Called when dismissed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onmouseenter",
+          "type": "((event: MouseEvent) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the pointer enters the live region.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onmouseleave",
+          "type": "((event: MouseEvent) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when the pointer leaves the live region.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onfocusin",
+          "type": "((event: FocusEvent) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when focus moves into the live region.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onfocusout",
+          "type": "((event: FocusEvent) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called when focus leaves the live region.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom glyph, forwarded to the FeedbackIcon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "link",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom link content, in place of the `href` link.",
           "descriptionFrom": "source"
         }
       ]

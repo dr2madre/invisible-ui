@@ -7,7 +7,7 @@
    * keeps the tri-state model (`true` / `false` / `"indeterminate"`).
    *
    * A `label` is required (a checkbox is meaningless without an accessible
-   * name); pass the default slot to override it with rich content. The native
+   * name); pass `children` to override it with rich content. The native
    * input is wrapped in a `<label>`, so clicking the box or text toggles it with
    * no extra wiring. Colors and sizing are themeable CSS custom properties
    * (`--ds-checkbox-*`).
@@ -20,7 +20,7 @@
   import Icon from "../icon/Icon.svelte";
 
   interface Props {
-    /** Accessible, visible label (required). Override with the default slot for rich content. */
+    /** Accessible, visible label (required). Override with `children` for rich content. */
     label: string;
     /**
      * Visually hide the label while keeping it as the accessible name (for a

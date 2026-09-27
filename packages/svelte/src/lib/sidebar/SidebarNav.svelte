@@ -3,42 +3,62 @@
    * The navigation landmark itself: the logo, the rail toggle, the sections and
    * the footer. The Sidebar owns every piece of state; this file places things.
    */
+  import type { Snippet } from "svelte";
   import Icon from "../icon/Icon.svelte";
   import SidebarGroup from "./SidebarGroup.svelte";
   import SidebarItems from "./SidebarItems.svelte";
   import type { ResolvedSection } from "./identity";
 
-  /** The sections with the name each answers to in `openGroups`. */
-  export let entries: ResolvedSection[];
-  export let label: string;
-  export let value: string | null = null;
-  export let collapsed = false;
-  export let mode: "inline" | "drawer" = "inline";
-  export let side: "inline-start" | "inline-end" = "inline-start";
-  export let openIds: string[];
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let onNavigate: (() => void) | undefined = undefined;
-  export let onPressGroup: ((id: string) => void) | undefined = undefined;
-  /** Given, the rail toggle is rendered; the Sidebar decides whether to. */
-  export let onToggleCollapsed: (() => void) | undefined = undefined;
-  export let collapseLabel = "";
-  export let expandLabel = "";
-  /** Whether the Sidebar was given these slots: a forwarded slot always looks
-      present from in here, so the answer has to come from outside. */
-  export let hasLogo = false;
-  export let hasFooter = false;
+  interface Props {
+    /** The sections with the name each answers to in `openGroups`. */
+    entries: ResolvedSection[];
+    label: string;
+    value?: string | null;
+    collapsed?: boolean;
+    mode?: "inline" | "drawer";
+    side?: "inline-start" | "inline-end";
+    openIds: string[];
+    onSelect?: (value: string) => void;
+    onNavigate?: () => void;
+    onPressGroup?: (id: string) => void;
+    /** Given, the rail toggle is rendered; the Sidebar decides whether to. */
+    onToggleCollapsed?: () => void;
+    collapseLabel?: string;
+    expandLabel?: string;
+    /** The logo at the top of the navigation. */
+    logo?: Snippet;
+    /** The footer at the bottom of the navigation. */
+    footer?: Snippet;
+  }
+
+  let {
+    entries,
+    label,
+    value = null,
+    collapsed = false,
+    mode = "inline",
+    side = "inline-start",
+    openIds,
+    onSelect,
+    onNavigate,
+    onPressGroup,
+    onToggleCollapsed,
+    collapseLabel = "",
+    expandLabel = "",
+    logo,
+    footer,
+  }: Props = $props();
 </script>
 
 <nav
-  class="sidebar"
-  class:sidebar--collapsed={collapsed}
+  class={["sidebar", collapsed && "sidebar--collapsed"]}
   aria-label={label}
   data-mode={mode}
   data-side={side}
   data-collapsed={collapsed ? "" : undefined}
 >
-  {#if hasLogo}
-    <div class="sidebar__logo"><slot name="logo" /></div>
+  {#if logo}
+    <div class="sidebar__logo">{@render logo()}</div>
   {/if}
 
   {#if onToggleCollapsed}
@@ -46,7 +66,7 @@
       type="button"
       class="sidebar__rail-toggle"
       aria-pressed={collapsed}
-      on:click={() => onToggleCollapsed?.()}
+      onclick={() => onToggleCollapsed?.()}
     >
       <span class="sidebar__icon" aria-hidden="true">
         <Icon size="1em">
@@ -72,7 +92,7 @@
     {:else}
       <div class="sidebar__section">
         {#if section.label}
-          <p class="sidebar__section-label" class:sidebar__label--hidden={collapsed}>
+          <p class={["sidebar__section-label", collapsed && "sidebar__label--hidden"]}>
             {section.label}
           </p>
         {/if}
@@ -81,8 +101,8 @@
     {/if}
   {/each}
 
-  {#if hasFooter}
-    <div class="sidebar__footer"><slot name="footer" /></div>
+  {#if footer}
+    <div class="sidebar__footer">{@render footer()}</div>
   {/if}
 </nav>
 

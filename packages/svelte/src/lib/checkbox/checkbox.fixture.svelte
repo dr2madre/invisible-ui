@@ -1,28 +1,34 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createCheckbox, type CheckedState } from "./create-checkbox";
   import { domProps } from "../internal/dom-props";
 
-  export let checked: CheckedState = false;
-  export let disabled = false;
-  export let onCheckedChange: ((c: CheckedState) => void) | undefined = undefined;
+  interface Props {
+    checked?: CheckedState;
+    disabled?: boolean;
+    onCheckedChange?: (c: CheckedState) => void;
+  }
+
+  let { checked = false, disabled = false, onCheckedChange }: Props = $props();
 
   const {
     state: cbState,
     api,
     setChecked,
-  } = createCheckbox({ checked, disabled, onCheckedChange });
+  } = untrack(() => createCheckbox({ checked, disabled, onCheckedChange }));
 
   function onChange(event: Event) {
     const target = event.currentTarget as HTMLInputElement;
     setChecked(target.indeterminate ? "indeterminate" : target.checked);
   }
 
-  $: dataState =
+  const dataState = $derived(
     $cbState.checked === "indeterminate"
       ? "indeterminate"
       : $cbState.checked
         ? "checked"
-        : "unchecked";
+        : "unchecked",
+  );
 </script>
 
 <input
@@ -31,6 +37,6 @@
   {disabled}
   checked={$cbState.checked === true}
   use:domProps={$api.rootDomProps}
-  on:change={onChange}
+  onchange={onChange}
   data-state={dataState}
 />

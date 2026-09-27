@@ -1,7 +1,7 @@
 <script>
   import Stepper from "@design-system/svelte/Stepper.svelte";
 
-  let current = 1;
+  let current = $state(1);
 
   const steps = [
     { label: "Cart", description: "Review items" },

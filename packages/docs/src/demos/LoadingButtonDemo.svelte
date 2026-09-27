@@ -1,7 +1,7 @@
 <script>
   import Button from "@design-system/svelte/Button.svelte";
 
-  let saving = false;
+  let saving = $state(false);
   const save = () => {
     saving = true;
     setTimeout(() => (saving = false), 2500);

@@ -56,6 +56,22 @@
           "required": false,
           "description": "Called when the remove button is pressed.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Decorative leading icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trailing",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Trailing content, e.g. a `Count`.",
+          "descriptionFrom": "source"
         }
       ]
     },

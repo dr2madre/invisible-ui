@@ -18,10 +18,10 @@
 
   // The application owns the filter: it derives the rows and tells the set
   // whether a filter is active. The set only coordinates page and copy.
-  let query = "";
-  let selectedRowIds = [];
-  $: filtered = allRows.filter((row) =>
-    String(row.city).toLowerCase().includes(query.trim().toLowerCase()),
+  let query = $state("");
+  let selectedRowIds = $state.raw([]);
+  const filtered = $derived(
+    allRows.filter((row) => String(row.city).toLowerCase().includes(query.trim().toLowerCase())),
   );
 </script>
 
@@ -41,14 +41,14 @@
   filterRevision={query.trim().toLowerCase()}
   onClearFilters={() => (query = "")}
 >
-  <svelte:fragment slot="toolbar">
+  {#snippet toolbar()}
     <TextField
       label="Filter by city"
       placeholder="Filter by city"
       value={query}
       onValueChange={(next) => (query = next)}
     />
-  </svelte:fragment>
+  {/snippet}
 </TableSet>
 
 <p data-testid="filter-readout">Selected: {selectedRowIds.join(", ") || "none"}</p>

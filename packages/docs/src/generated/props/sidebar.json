@@ -136,6 +136,30 @@
           "required": false,
           "description": "Where focus goes when a drawer with no trigger of its own closes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The drawer trigger's content (`mode=\"drawer\"`). Defaults to the catalog's label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "logo",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The logo at the top of the navigation.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footer",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The footer at the bottom of the navigation.",
+          "descriptionFrom": "source"
         }
       ]
     },

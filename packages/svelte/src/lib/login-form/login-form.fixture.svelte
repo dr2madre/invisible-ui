@@ -1,9 +1,12 @@
 <script lang="ts">
   import LoginForm from "./LoginForm.svelte";
 
-  export let providers: { id: string; label: string }[] = [];
-  export let onSubmit: ((value: { email: string; password: string }) => void) | undefined =
-    undefined;
+  interface Props {
+    providers?: { id: string; label: string }[];
+    onSubmit?: (value: { email: string; password: string }) => void;
+  }
+
+  let { providers = [], onSubmit }: Props = $props();
 </script>
 
 <LoginForm heading="Sign in" subheading="Welcome back" {providers} {onSubmit} />

@@ -5,7 +5,7 @@
   import RichToastBody from "./RichToastBody.svelte";
 
   const notifier = createNotifier();
-  let files = ["report-q3.pdf", "budget.xlsx", "notes.md"];
+  let files = $state.raw(["report-q3.pdf", "budget.xlsx", "notes.md"]);
   let n = 0;
 
   // Canonical delete + Undo: the notification auto-dismisses; onDismiss tells

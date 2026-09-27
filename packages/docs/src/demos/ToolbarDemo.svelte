@@ -9,11 +9,11 @@
   import AlignRightIcon from "./icons/AlignRightIcon.svelte";
 
   // Independent on/off toggles (native checkboxes).
-  let bold = true;
-  let italic = false;
-  let underline = false;
+  let bold = $state(true);
+  let italic = $state(false);
+  let underline = $state(false);
 
-  let align = "left";
+  let align = $state("left");
   const alignItems = [
     { value: "left", label: "Align left", icon: AlignLeftIcon },
     { value: "center", label: "Align center", icon: AlignCenterIcon },

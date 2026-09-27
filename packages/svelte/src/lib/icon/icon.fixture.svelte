@@ -1,9 +1,14 @@
 <script lang="ts">
   import Icon from "./Icon.svelte";
-  export let label: string | undefined = undefined;
-  export let size = "1em";
-  export let animation: "none" | "spin" | "pulse" = "none";
-  export let animationDuration: string | undefined = undefined;
+
+  interface Props {
+    label?: string;
+    size?: string;
+    animation?: "none" | "spin" | "pulse";
+    animationDuration?: string;
+  }
+
+  let { label, size = "1em", animation = "none", animationDuration }: Props = $props();
 </script>
 
 <Icon {label} {size} {animation} {animationDuration}>

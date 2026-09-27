@@ -38,7 +38,7 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Accessible name; required when the slot is icon-only.",
+          "description": "Accessible name; required when `children` is icon-only.",
           "descriptionFrom": "curated"
         },
         {

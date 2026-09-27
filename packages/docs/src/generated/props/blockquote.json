@@ -11,10 +11,10 @@
       "props": [
         {
           "name": "cite",
-          "type": "string | undefined",
+          "type": "string | Snippet | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Attribution text (or use the `cite` slot).",
+          "description": "Attribution: text, or a snippet for rich content.",
           "descriptionFrom": "curated"
         },
         {

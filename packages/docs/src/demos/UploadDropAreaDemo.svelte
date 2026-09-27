@@ -1,7 +1,7 @@
 <script>
   import UploadDropArea from "@design-system/svelte/UploadDropArea.svelte";
 
-  let names = [];
+  let names = $state.raw([]);
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 26rem;">

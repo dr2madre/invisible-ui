@@ -1,14 +1,15 @@
 <script lang="ts">
   import SearchField from "@design-system/svelte/SearchField.svelte";
 
-  let value = "archive";
-  let submitted = "";
+  let value = $state("archive");
+  let submitted = $state("");
 </script>
 
 <form
   class="search-demo"
   role="search"
-  on:submit|preventDefault={() => {
+  onsubmit={(event) => {
+    event.preventDefault();
     submitted = value;
   }}
 >

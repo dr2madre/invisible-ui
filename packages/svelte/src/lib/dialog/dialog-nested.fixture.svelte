@@ -4,7 +4,7 @@
 </script>
 
 <Dialog title="Edit profile" initialFocus="input">
-  <span slot="trigger">Edit profile</span>
+  {#snippet trigger()}<span>Edit profile</span>{/snippet}
   <label>Name <input type="text" /></label>
   <ConfirmDialog title="Discard changes?" description="Your edits will be lost."
     >Discard</ConfirmDialog

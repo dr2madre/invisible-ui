@@ -4,8 +4,12 @@
   // group keeps native radio semantics.
   import Radio from "./Radio.svelte";
 
-  export let value = "existing";
-  export let onChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    value?: string;
+    onChange?: (value: string) => void;
+  }
+
+  let { value = "existing", onChange }: Props = $props();
 
   const options = [
     { value: "existing", label: "Use an existing folder", description: "Already on this machine." },

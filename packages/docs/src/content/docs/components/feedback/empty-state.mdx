@@ -36,7 +36,7 @@ The three empty moments, each with its own copy:
 
 - **First use**: the feature has never been filled. Explain what will live
   here and invite the first step. *"No projects yet. Create your first
-  project to get started."* The default slot can hold a learning cue
+  project to get started."* The children can hold a learning cue
   (a short tip, starter links) that teaches how this space gets populated.
 - **No results**: a search or filter came back empty. Show the term, suggest
   a correction, and offer a way out. *"No results for 'tofu'. Check the
@@ -68,7 +68,7 @@ sanitized. See [Security](/invisible-ui/api/#security).
 It composes existing primitives, no new behavior:
 
 - **Illustration**: the space at the top accepts your own artwork through the
-  `illustration` slot (an SVG, an image, anything). Without it, the theme's
+  `illustration` snippet (an SVG, an image, anything). Without it, the theme's
   [FeedbackIcon](/invisible-ui/components/feedback/feedback-icon/) renders as
   the fallback (`neutral` by default, so the tone stays calm).
 - **Actions**: [Buttons](/invisible-ui/components/forms/button/) and
@@ -77,8 +77,8 @@ It composes existing primitives, no new behavior:
   `actions` prop: an array of `{ label, onAction, variant, href }` where the
   first action renders in the `default` variant and the rest in `ghost`
   (unless an entry sets its own `variant`), and an entry with `href` renders
-  as a link (e.g. "Learn more" documentation). For anything else, the
-  `actions` slot replaces the whole area. Omit all three for no actions.
+  as a link (e.g. "Learn more" documentation). For anything else, an
+  `actions` snippet replaces the whole area. Omit all three for no actions.
 - **Density**: `size="sm"` compacts padding, icon and title for use inside
   cards, panels and table areas; the default `md` fits pages and sections.
 

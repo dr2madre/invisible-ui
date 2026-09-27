@@ -1,8 +1,12 @@
 <script lang="ts">
   import Select from "./Select.svelte";
 
-  export let value: string | null = null;
-  export let name = "country";
+  interface Props {
+    value?: string | null;
+    name?: string;
+  }
+
+  let { value = null, name = "country" }: Props = $props();
 </script>
 
 <form data-testid="form">

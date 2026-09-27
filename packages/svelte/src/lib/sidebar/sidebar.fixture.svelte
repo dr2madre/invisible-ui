@@ -3,28 +3,52 @@
   import Dot from "./sidebar-icon.fixture.svelte";
   import type { SidebarSection } from "./types";
 
-  export let value: string | null = "home";
-  export let mode: "inline" | "drawer" = "inline";
-  export let collapsed = false;
-  export let open = false;
-  export let openGroups: string[] | undefined = undefined;
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let onCollapsedChange: ((collapsed: boolean) => void) | undefined = undefined;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  export let onOpenGroupsChange: ((groups: string[]) => void) | undefined = undefined;
-  export let closeOnNavigate = true;
-  export let renderTrigger = true;
-  export let returnFocusTo: string | undefined = undefined;
-  export let withSlots = false;
-  export let duplicateLabels = false;
-  /** Drops the icons, which is what takes the rail away. */
-  export let withoutIcons = false;
-  export let duplicateIds = false;
-  export let missingId = false;
-  /** Moves the current destination inside the collapsible section. */
-  export let movedIntoGroup = false;
-  /** Exactly the shape the former name accepted: no ids, no icons, no groups. */
-  export let legacyShape = false;
+  interface Props {
+    value?: string | null;
+    mode?: "inline" | "drawer";
+    collapsed?: boolean;
+    open?: boolean;
+    openGroups?: string[];
+    onSelect?: (value: string) => void;
+    onCollapsedChange?: (collapsed: boolean) => void;
+    onOpenChange?: (open: boolean) => void;
+    onOpenGroupsChange?: (groups: string[]) => void;
+    closeOnNavigate?: boolean;
+    renderTrigger?: boolean;
+    returnFocusTo?: string;
+    withSlots?: boolean;
+    duplicateLabels?: boolean;
+    /** Drops the icons, which is what takes the rail away. */
+    withoutIcons?: boolean;
+    duplicateIds?: boolean;
+    missingId?: boolean;
+    /** Moves the current destination inside the collapsible section. */
+    movedIntoGroup?: boolean;
+    /** Exactly the shape the former name accepted: no ids, no icons, no groups. */
+    legacyShape?: boolean;
+  }
+
+  let {
+    value = "home",
+    mode = "inline",
+    collapsed = false,
+    open = false,
+    openGroups,
+    onSelect,
+    onCollapsedChange,
+    onOpenChange,
+    onOpenGroupsChange,
+    closeOnNavigate = true,
+    renderTrigger = true,
+    returnFocusTo,
+    withSlots = false,
+    duplicateLabels = false,
+    withoutIcons = false,
+    duplicateIds = false,
+    missingId = false,
+    movedIntoGroup = false,
+    legacyShape = false,
+  }: Props = $props();
 
   // Two collapsible sections under one label, told apart by their ids.
   const duplicates: SidebarSection[] = [
@@ -80,20 +104,18 @@
     { items: [{ value: "settings", label: "Settings", href: "/settings" }] },
   ];
 
-  $: sections = legacyShape
-    ? legacy
-    : movedIntoGroup
-      ? moved
-      : withoutIcons
-        ? withoutTheIcons
-        : withIcons;
-  $: chosen = duplicateIds ? sameIds : missingId ? noId : duplicateLabels ? duplicates : sections;
+  const sections = $derived(
+    legacyShape ? legacy : movedIntoGroup ? moved : withoutIcons ? withoutTheIcons : withIcons,
+  );
+  const chosen = $derived(
+    duplicateIds ? sameIds : missingId ? noId : duplicateLabels ? duplicates : sections,
+  );
 </script>
 
 {#if withSlots}
   <Sidebar sections={chosen} {value} {mode} {collapsed} {open} {onSelect}>
-    <span slot="logo">Brand</span>
-    <span slot="footer">Signed in</span>
+    {#snippet logo()}<span>Brand</span>{/snippet}
+    {#snippet footer()}<span>Signed in</span>{/snippet}
   </Sidebar>
 {:else}
   <Sidebar

@@ -4,9 +4,9 @@
 
   // Each toggle is independent (its own on/off state). The group is only a
   // visual wrapper; `label` names the container for screen readers.
-  let bold = true;
-  let italic = false;
-  let underline = false;
+  let bold = $state(true);
+  let italic = $state(false);
+  let underline = $state(false);
 </script>
 
 <ToggleGroup label="Text formatting">

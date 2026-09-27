@@ -217,8 +217,10 @@ function statementEnd(src, from) {
 // destructuring gives its default. The entry reads as the legacy
 // `export let` one did: an optional prop with no default is `T | undefined`
 // with the default `undefined`, and a renamed prop (`class: className`, the
-// old `export { className as class }`) stays out, as it always has. The
-// `children` snippet is the default slot's content, which was never a prop.
+// old `export { className as class }`) stays out, as it always has. A plain
+// `children` snippet is the content between the tags and stays out too; one
+// that receives parameters (`Snippet<[...]>`) is listed, because the consumer
+// needs its parameters to write it.
 function parseSvelteRunes(src) {
   const call = src.search(/\}\s*:\s*Props\s*=\s*\$props\(\)/);
   if (call < 0) return null;
@@ -238,9 +240,9 @@ function parseSvelteRunes(src) {
     const { typePart: binding, defaultPart } = splitTypeDefault(entry);
     if (binding.includes(":")) continue;
     const name = binding.trim();
-    if (name === "children") continue;
     const member = byName.get(name);
     if (!member) continue;
+    if (name === "children" && !/^Snippet</.test(member.type)) continue;
     let type = member.type.replace(/^\|\s*/, "");
     let def = defaultPart == null ? null : collapse(defaultPart);
     // A bindable prop carries its default inside the rune: `$bindable(false)`

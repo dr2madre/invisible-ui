@@ -9,64 +9,92 @@
    * must interrupt (`role="alertdialog"`); for a message with nothing to cancel
    * use `AlertDialog`, to ask for a value use `PromptDialog`.
    *
-   * The default slot is the trigger. `onConfirm` runs when the confirm button is
+   * The `children` snippet is the trigger. `onConfirm` runs when the confirm button is
    * pressed. A `title` is required; `description` is optional. The header is
-   * the one the dialog family shares: an optional `icon` slot (a FeedbackIcon)
+   * the one the dialog family shares: an optional `icon` snippet (a FeedbackIcon)
    * before the title and an optional close button (`closeButton`). Colors,
    * radius and elevation are themeable via `--ds-dialog-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createDialog } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Initial open state. */
-  export let open = false;
-  /** Accessible title naming the confirmation (required). */
-  export let title: string;
-  /** Optional supporting message. */
-  export let description: string | undefined = undefined;
-  /** Label of the confirming button. Defaults to the i18n catalog's "Confirm". */
-  export let confirmLabel: string | undefined = undefined;
-  /** Label of the cancelling button (also the Escape action). Defaults to "Cancel". */
-  export let cancelLabel: string | undefined = undefined;
-  /** Variant of the confirm button (`"danger"` for a destructive-ish confirm). */
-  export let confirmVariant: ButtonVariant = "primary";
-  /**
-   * Interrupting urgency: switches the panel to `role="alertdialog"`, which
-   * screen readers announce immediately. Nothing else changes (ADR 0005).
-   */
-  export let urgent = false;
-  /** Visual variant for the trigger Button. */
-  export let triggerVariant: ButtonVariant = "default";
-  /** Called when the confirm button is pressed (before the dialog closes). */
-  export let onConfirm: (() => void) | undefined = undefined;
-  /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
-  export let closeOnOutsideClick = true;
-  /** Show a close button at the trailing end of the header; it closes like Escape. */
-  export let closeButton = false;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Initial open state. */
+    open?: boolean;
+    /** Accessible title naming the confirmation (required). */
+    title: string;
+    /** Optional supporting message. */
+    description?: string;
+    /** Label of the confirming button. Defaults to the i18n catalog's "Confirm". */
+    confirmLabel?: string;
+    /** Label of the cancelling button (also the Escape action). Defaults to "Cancel". */
+    cancelLabel?: string;
+    /** Variant of the confirm button (`"danger"` for a destructive-ish confirm). */
+    confirmVariant?: ButtonVariant;
+    /**
+     * Interrupting urgency: switches the panel to `role="alertdialog"`, which
+     * screen readers announce immediately. Nothing else changes (ADR 0005).
+     */
+    urgent?: boolean;
+    /** Visual variant for the trigger Button. */
+    triggerVariant?: ButtonVariant;
+    /** Called when the confirm button is pressed (before the dialog closes). */
+    onConfirm?: () => void;
+    /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
+    closeOnOutsideClick?: boolean;
+    /** Show a close button at the trailing end of the header; it closes like Escape. */
+    closeButton?: boolean;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The trigger button's content. Defaults to "Open". */
+    children?: Snippet;
+    /** Leading feedback icon in the header. */
+    icon?: Snippet;
+  }
 
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-  };
+  let {
+    open = $bindable(false),
+    title,
+    description,
+    confirmLabel,
+    cancelLabel,
+    confirmVariant = "primary",
+    urgent = false,
+    triggerVariant = "default",
+    onConfirm,
+    closeOnOutsideClick = true,
+    closeButton = false,
+    closeLabel,
+    onOpenChange,
+    children,
+    icon,
+  }: Props = $props();
 
-  const dialog = createDialog({
-    open,
-    role: urgent ? "alertdialog" : "dialog",
-    describedBy: Boolean(description),
-    closeOnOutsideClick,
-    // Focus the safe choice (Cancel) first.
-    initialFocus: ".confirm-dialog__actions button",
-    onOpenChange: handleOpenChange,
-  });
+  // Seeded once from the first props; the mirror below follows later ones.
+  const dialog = untrack(() =>
+    createDialog({
+      open,
+      role: urgent ? "alertdialog" : "dialog",
+      describedBy: Boolean(description),
+      closeOnOutsideClick,
+      // Focus the safe choice (Cancel) first.
+      initialFocus: ".confirm-dialog__actions button",
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+      },
+    }),
+  );
   const {
     open: isOpen,
     setOpen,
@@ -79,15 +107,15 @@
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    dialog.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: dialog.syncOpen,
+  });
 
-  $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
-  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
-  $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
+  const resolvedConfirmLabel = $derived(confirmLabel ?? $t("dialog.confirm"));
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
+  const resolvedCancelLabel = $derived(cancelLabel ?? $t("dialog.cancel"));
 
   const cancel = () => setOpen(false);
   const confirm = () => {
@@ -97,7 +125,7 @@
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot>Open</slot>
+  {#if children}{@render children()}{:else}Open{/if}
 </Button>
 
 {#if $isOpen}
@@ -108,10 +136,8 @@
       closeLabel={resolvedCloseLabel}
       {titleAction}
       {closeAction}
-      hasIcon={$$slots.icon}
-    >
-      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
-    </DialogHeader>
+      {icon}
+    />
     {#if description}
       <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
     {/if}

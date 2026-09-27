@@ -48,6 +48,14 @@
           "required": false,
           "description": "Called whenever the selected tab changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "panel",
+          "type": "Snippet<[{ item: TabsItem }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Rich content of one panel, rendered once per tab with its `item`.",
+          "descriptionFrom": "source"
         }
       ]
     },

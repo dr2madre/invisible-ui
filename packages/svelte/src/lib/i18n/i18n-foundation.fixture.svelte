@@ -7,12 +7,23 @@
   import type { Dir } from "./create-i18n";
   import type { Messages } from "./messages";
 
-  export let locale = "en";
-  export let dir: Dir | undefined = undefined;
-  export let messages: Messages = {};
-  export let calendarLocale: string | undefined = undefined;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
-  export let nestedLocale: string | undefined = undefined;
+  interface Props {
+    locale?: string;
+    dir?: Dir;
+    messages?: Messages;
+    calendarLocale?: string;
+    onValueChange?: (value: string | null) => void;
+    nestedLocale?: string;
+  }
+
+  let {
+    locale = "en",
+    dir,
+    messages = {},
+    calendarLocale,
+    onValueChange,
+    nestedLocale,
+  }: Props = $props();
 </script>
 
 <LocaleProvider {locale} {dir} {messages}>

@@ -27,34 +27,59 @@
    * activated. Compose it inside `TableSet` for header/config/pagination, or pass
    * already-prepared `columns`/`rows` directly.
    *
-   * Cells render `row[column.key]` by default; use the `cell` slot
-   * (`let:row let:column let:value let:rowIndex`) for custom content. Provide a
+   * Cells render `row[column.key]` by default; use the `cell` snippet
+   * (`{ row, column, value, rowIndex }`) for custom content. Provide a
    * `caption` to name the table for assistive tech. Themed via `--ds-table-*`.
    */
-  export let columns: TableColumnDef[];
-  export let rows: TableRow[];
-  /** The active sort, reflected on the headers (controlled). */
-  export let sort: SortState | null = null;
-  /** Called with the column key when a sortable header is activated. */
-  export let onSortToggle: ((key: string) => void) | undefined = undefined;
-  /** Accessible name for the table (rendered as a `<caption>`). */
-  export let caption: string | undefined = undefined;
-  /** Visually hide the caption (still available to assistive tech). */
-  export let hideCaption = false;
-  /** Reads a row's value for a column (defaults to `row[key]`). */
-  export let getValue: (row: TableRow, key: string) => unknown = (row, key) => row[key];
-  /** Stable row key (defaults to `row.id`, falling back to the index). */
-  export let getRowId: (row: TableRow, index: number) => string | number = defaultGetRowId;
-  /**
-   * Render a leading structural column for row selection. The content comes
-   * from the `selectionHeader` and `selectionCell` slots; this component stays
-   * free of the selection policy itself.
-   */
-  export let selectionColumn = false;
-  /** Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`. */
-  export let isRowSelected: ((row: TableRow, rowIndex: number) => boolean) | undefined = undefined;
-
+  import type { Snippet } from "svelte";
   import Icon from "../icon/Icon.svelte";
+
+  interface Props {
+    columns: TableColumnDef[];
+    rows: TableRow[];
+    /** The active sort, reflected on the headers (controlled). */
+    sort?: SortState | null;
+    /** Called with the column key when a sortable header is activated. */
+    onSortToggle?: (key: string) => void;
+    /** Accessible name for the table (rendered as a `<caption>`). */
+    caption?: string;
+    /** Visually hide the caption (still available to assistive tech). */
+    hideCaption?: boolean;
+    /** Reads a row's value for a column (defaults to `row[key]`). */
+    getValue?: (row: TableRow, key: string) => unknown;
+    /** Stable row key (defaults to `row.id`, falling back to the index). */
+    getRowId?: (row: TableRow, index: number) => string | number;
+    /**
+     * Render a leading structural column for row selection. The content comes
+     * from the `selectionHeader` and `selectionCell` snippets; this component
+     * stays free of the selection policy itself.
+     */
+    selectionColumn?: boolean;
+    /** Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`. */
+    isRowSelected?: (row: TableRow, rowIndex: number) => boolean;
+    /** Custom cell content. Defaults to the cell value. */
+    cell?: Snippet<[{ row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number }]>;
+    /** Header cell content of the selection column. */
+    selectionHeader?: Snippet;
+    /** Body cell content of the selection column, rendered for every row. */
+    selectionCell?: Snippet<[{ row: TableRow; rowId: string | number; rowIndex: number }]>;
+  }
+
+  let {
+    columns,
+    rows,
+    sort = null,
+    onSortToggle,
+    caption,
+    hideCaption = false,
+    getValue = (row, key) => row[key],
+    getRowId = defaultGetRowId,
+    selectionColumn = false,
+    isRowSelected,
+    cell,
+    selectionHeader,
+    selectionCell,
+  }: Props = $props();
 
   const ariaSort = (key: string): "ascending" | "descending" | "none" =>
     sort?.key === key ? (sort.direction === "asc" ? "ascending" : "descending") : "none";
@@ -62,13 +87,13 @@
 
 <table class="table">
   {#if caption}
-    <caption class="table__caption" class:table__caption--hidden={hideCaption}>{caption}</caption>
+    <caption class={["table__caption", hideCaption && "table__caption--hidden"]}>{caption}</caption>
   {/if}
   <thead class="table__head">
     <tr>
       {#if selectionColumn}
         <th class="table__th table__th--selection" scope="col">
-          <slot name="selectionHeader" />
+          {@render selectionHeader?.()}
         </th>
       {/if}
       {#each columns as column (column.key)}
@@ -82,7 +107,7 @@
           aria-sort={column.sortable ? ariaSort(column.key) : undefined}
         >
           {#if column.sortable}
-            <button type="button" class="table__sort" on:click={() => onSortToggle?.(column.key)}>
+            <button type="button" class="table__sort" onclick={() => onSortToggle?.(column.key)}>
               <span>{column.header}</span>
               <span class="table__sort-icon" aria-hidden="true">
                 {#if sort?.key === column.key && sort.direction === "asc"}
@@ -112,13 +137,13 @@
       >
         {#if selectionColumn}
           <td class="table__td table__td--selection">
-            <slot name="selectionCell" {row} rowId={getRowId(row, rowIndex)} {rowIndex} />
+            {@render selectionCell?.({ row, rowId: getRowId(row, rowIndex), rowIndex })}
           </td>
         {/if}
         {#each columns as column (column.key)}
           {@const value = getValue(row, column.key)}
           <td class="table__td" data-align={column.align ?? "start"}>
-            <slot name="cell" {row} {column} {value} {rowIndex}>{value}</slot>
+            {#if cell}{@render cell({ row, column, value, rowIndex })}{:else}{value}{/if}
           </td>
         {/each}
       </tr>

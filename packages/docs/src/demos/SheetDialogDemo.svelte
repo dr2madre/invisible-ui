@@ -6,14 +6,14 @@
   <!-- The classic side panel: a task (filters) the user finishes or cancels. -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <SheetDialog title="Filters" description="Refine the results." initialFocus="input">
-      <span slot="trigger">Open filters</span>
+      {#snippet trigger()}<span>Open filters</span>{/snippet}
       <label style="display: grid; gap: 0.25rem; font-size: 0.875rem;">
         Query
         <input type="text" style="font: inherit; padding: 0.4rem 0.6rem;" />
       </label>
-      <svelte:fragment slot="footer">
+      {#snippet footer()}
         <button type="button">Apply</button>
-      </svelte:fragment>
+      {/snippet}
     </SheetDialog>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
       Right panel (default side) with a pinned footer.
@@ -23,7 +23,7 @@
   <!-- Bottom variant with the drag-to-dismiss gesture. -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <SheetDialog side="bottom" draggable title="Account" description="Manage your account.">
-      <span slot="trigger">Open bottom panel</span>
+      {#snippet trigger()}<span>Open bottom panel</span>{/snippet}
       <button type="button">Sign out</button>
     </SheetDialog>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">
@@ -35,7 +35,7 @@
   <!-- Lateral variant with the same gesture. -->
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <SheetDialog side="left" draggable title="Navigation" description="Jump to a section.">
-      <span slot="trigger">Open left panel</span>
+      {#snippet trigger()}<span>Open left panel</span>{/snippet}
       <button type="button">Home</button>
     </SheetDialog>
     <figcaption style="font-size: 0.8125rem; color: var(--ds-color-text-secondary);">

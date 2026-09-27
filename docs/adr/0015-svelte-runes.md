@@ -4,8 +4,9 @@ Date: 2026-09-27
 
 ## Status
 
-Accepted. Phases 1 and 2 are done: the presentational and the controllable
-components listed below run in runes mode. Phase 3 is open.
+Accepted and complete. All three phases are done: every component, internal
+part and test fixture of the Svelte adapter runs in runes mode, and the docs
+demos and the example app use the new API.
 
 ## Context
 
@@ -179,9 +180,11 @@ Several phase 3 components also hold a controllable value. They take the phase
   the `$props()` defaults, and produces the same entries as for `export let`.
   A `$bindable(x)` default reads as `x`. A renamed prop (`class`, `for`)
   stays out of the manifest, as before.
-- Legacy and runes components coexist until phase 3 ends; the tests, the SSR
-  and hydration suites and the docs demos run against both.
-- Phase 3 needs a major-version changeset and migration notes for consumers.
+- Legacy and runes components coexisted until phase 3 ended; the tests, the
+  SSR and hydration suites and the docs demos ran against both.
+- Phase 3 is breaking. While the package is 0.x it ships as a minor changeset
+  that says so on its first line ([API stability](../api-stability.md)), with
+  the migration notes below.
 
 ## Amendment for runes
 
@@ -262,3 +265,99 @@ initial value.
 
 `.svelte.ts` modules are linted with the Svelte parser and TypeScript, like
 the components' scripts.
+
+## Amendment for phase 3
+
+Date: 2026-09-27
+
+Phase 3 moved the last 34 components and the internal `DialogHeader` and
+`SidebarNav`. No file in `packages/svelte/src/lib` holds legacy syntax any
+more: no `export let`, `$:`, `<slot>`, `$$slots`, `$$props`, `$$restProps`,
+`on:`, `slot=`, `let:`, `<svelte:fragment>`, `<svelte:component>` or
+`createEventDispatcher`. Behaviour is unchanged: the existing tests pass with
+no change to any test file.
+
+### Content: named slots become snippet props
+
+- A named slot becomes a snippet prop with the same name, typed `Snippet` in
+  the component's `Props`. Default slot content becomes `children`. Fallback
+  content stays: the component renders it when the snippet is absent.
+- Slot props become one object parameter carrying the same names, so the
+  rewrite is mechanical: `let:row let:value` becomes
+  `{#snippet cell({ row, value })}`. A default slot with slot props (Field,
+  Carousel) becomes a `children` snippet with that parameter.
+- A `$$slots.x` test becomes a test of the prop. A component that forwarded
+  a slot to an inner part now passes the snippet through. The `has*` flags
+  that `DialogHeader` and `SidebarNav` took, because a forwarded slot always
+  looked filled, are gone.
+- The API manifests list snippet props with their type. A `children` snippet
+  with parameters is listed too, because consumers need its parameters; a
+  plain `children` stays out, as the default slot did.
+
+Svelte 5 gives a prop and a snippet one namespace, so a slot that shared its
+name with a prop cannot keep both. Two rules settle every case:
+
+- **Same content, one prop.** Where the prop and the slot fill the same place
+  (text or markup for a title, data or markup for an actions area), the prop
+  takes either: `Card.title` and `Card.description` are `string | Snippet`,
+  `Blockquote.cite` is `string | Snippet`, and `actions` on `EmptyState`,
+  `ErrorState` and `InlineNotification` is the action list or a `Snippet`
+  that replaces the area. Only a text title names a Card, as before.
+- **Different meaning, `Content` suffix.** Where the prop means something
+  else, the snippet takes the suffix: Popover's `trigger` prop is the opening
+  mode (`"click" | "hover"`), so its trigger content is `triggerContent`;
+  TreeView's `label` names the tree, so a row's label is `labelContent`.
+
+One more name changes because a snippet prop must be an identifier:
+LoginForm's `provider-icon` slot is `providerIcon`.
+
+### Events: forwarded events become callback props
+
+- Link spreads every anchor attribute it does not own onto its `<a>`, so
+  `onclick` and any other attribute or listener reach the element.
+- InlineNotification forwarded `mouseenter`, `mouseleave`, `focusin` and
+  `focusout` from its root; it takes `onmouseenter`, `onmouseleave`,
+  `onfocusin` and `onfocusout` props now.
+- The ADR 0011 callbacks (`onValueChange`, `onOpenChange`, `onpress` and the
+  rest) keep their names.
+
+### Controllable values
+
+The controllable values of this phase take the phase 2 helper and
+`$bindable()`: `open` on Dialog, AlertDialog, ConfirmDialog, PromptDialog,
+SheetDialog, SearchDialog, Popover and Collapsible;
+`value` on Tabs, TextField, SearchField, Slider, RangeSlider, Combobox and
+Calendar; the view state of TableSet and TableView (`page`, `sort`,
+`hiddenColumns`, `selectedRowIds`, `activeView`); `expanded` and `selected`
+on TreeView. A component that never wrote its prop still does not, so a
+binding there stays one-way, as in phase 2. InlineNotification's `open` and
+Sidebar's `collapsed` and `open` have no machine behind them and never had a
+mirror: they are `$bindable()` props the component writes directly.
+
+Two components needed more than the helper to keep their behaviour.
+RangeSlider compares its pair position by position, as the legacy statement
+did, and keeps its reset default normalized against `min`, `max`, `step` and
+`minDistance`. PromptDialog's `value` only seeds the text each time the
+dialog opens; the component never mirrors it, so it stays a plain prop.
+
+### Migrating a consumer
+
+| Before | After |
+| --- | --- |
+| `<Dialog><span slot="trigger">Open</span>…</Dialog>` | `<Dialog>{#snippet trigger()}<span>Open</span>{/snippet}…</Dialog>` |
+| `<svelte:fragment slot="footer">…</svelte:fragment>` | `{#snippet footer()}…{/snippet}` |
+| `<Icon slot="left">…</Icon>` on Button | `{#snippet left()}<Icon>…</Icon>{/snippet}` |
+| `<Table let:row let:value>` with `slot="cell"` | `{#snippet cell({ row, value })}…{/snippet}` |
+| `<Field let:controlProps>` | `<Field>{#snippet children({ controlProps })}…{/snippet}</Field>` |
+| `<Carousel let:item let:active>` | `<Carousel>{#snippet children({ item, active })}…{/snippet}</Carousel>` |
+| Popover `slot="trigger"` | `{#snippet triggerContent()}…{/snippet}` |
+| TreeView `slot="label" let:node` | `{#snippet labelContent({ node })}…{/snippet}` |
+| LoginForm `slot="provider-icon" let:provider` | `{#snippet providerIcon({ provider })}…{/snippet}` |
+| `<Link on:click={track}>` | `<Link onclick={track}>` |
+| `<InlineNotification on:mouseenter={…}>` | `<InlineNotification onmouseenter={…}>` |
+| `bind:open`, `bind:value` | unchanged, through `$bindable()` |
+
+A consumer still written in the legacy syntax can pass snippets too: a
+`{#snippet}` block works in either mode. `slot="…"` content and `on:` on a
+component no longer reach a runes component, so those two forms have to be
+rewritten.

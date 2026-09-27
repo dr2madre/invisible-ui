@@ -1,23 +1,37 @@
 <script lang="ts">
   import InlineNotification from "./InlineNotification.svelte";
 
-  export let status: "info" | "success" | "warning" | "danger" | "neutral" = "info";
-  export let title = "Heads up";
-  export let description = "Something happened you should know about.";
-  export let href: string | undefined = undefined;
-  export let linkText: string | undefined = undefined;
-  export let closable = false;
-  export let snack = false;
-  export let open = true;
-  export let role: "status" | "alert" | "region" = "status";
-  export let onclose: (() => void) | undefined = undefined;
-  export let actions:
-    | Array<{
-        label: string;
-        variant?: "default" | "primary" | "ghost" | "danger";
-        onClick?: () => void;
-      }>
-    | undefined = undefined;
+  interface Props {
+    status?: "info" | "success" | "warning" | "danger" | "neutral";
+    title?: string;
+    description?: string;
+    href?: string;
+    linkText?: string;
+    closable?: boolean;
+    snack?: boolean;
+    open?: boolean;
+    role?: "status" | "alert" | "region";
+    onclose?: () => void;
+    actions?: Array<{
+      label: string;
+      variant?: "default" | "primary" | "ghost" | "danger";
+      onClick?: () => void;
+    }>;
+  }
+
+  let {
+    status = "info",
+    title = "Heads up",
+    description = "Something happened you should know about.",
+    href,
+    linkText,
+    closable = false,
+    snack = false,
+    open = $bindable(true),
+    role = "status",
+    onclose,
+    actions,
+  }: Props = $props();
 </script>
 
 <InlineNotification

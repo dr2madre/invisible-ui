@@ -8,58 +8,84 @@
    * Layout: a status `FeedbackIcon` (danger by default), a `title`, an optional
    * `description`, and a recovery action area at the bottom: a single `Button`
    * from `actionLabel`/`onAction` (e.g. "Try again"), or a configurable group
-   * from the `actions` prop. It is **not** dismissable: an error state
+   * from an `actions` array. It is **not** dismissable: an error state
    * replaces the content it covers, so there is nothing to close.
    *
    * Reuses the existing `FeedbackIcon` and `Button`. Swap the icon for another
-   * glyph or an ad-hoc illustration via the `icon` slot (e.g. a bespoke 404
-   * artwork), or replace the whole action area via the `actions` slot. Themeable
-   * via `--ds-error-state-*`.
+   * glyph or an ad-hoc illustration via the `icon` snippet (e.g. a bespoke 404
+   * artwork), or replace the whole action area with an `actions` snippet.
+   * Themeable via `--ds-error-state-*`.
    *
    * Accessibility: the region is a `role="alert"`, so when it appears it is
    * announced. Meaning never rests on color alone — the title (and the icon
    * glyph) carry it (WCAG 1.4.1).
    */
+  import type { Snippet } from "svelte";
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
   import Link from "../link/Link.svelte";
   import type { ButtonVariant } from "../button/create-button";
 
-  /** The headline — what went wrong, in plain language. */
-  export let title: string;
-  /** Optional secondary line — detail or next step. */
-  export let description: string | undefined = undefined;
-  /** Feedback status driving the default icon's color and glyph. */
-  export let status: "info" | "success" | "warning" | "danger" | "neutral" = "danger";
-  /** Heading level for the title, so it fits the surrounding document outline. */
-  export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2;
-  /** Recovery button label (e.g. "Try again"). Omit to render no button. */
-  export let actionLabel: string | undefined = undefined;
-  /** Called when the recovery button is pressed. */
-  export let onAction: (() => void) | undefined = undefined;
-  /**
-   * Configurable action group. An entry with `href` renders a `Link` (a
-   * direct pathway, e.g. "Learn more" documentation); the others render
-   * `Button`s: the first gets the `default` variant and the rest `ghost`,
-   * unless an entry sets its own `variant`. Takes precedence over
-   * `actionLabel`; the `actions` slot replaces the whole area.
-   */
-  export let actions: {
-    label: string;
+  interface Props {
+    /** The headline — what went wrong, in plain language. */
+    title: string;
+    /** Optional secondary line — detail or next step. */
+    description?: string;
+    /** Feedback status driving the default icon's color and glyph. */
+    status?: "info" | "success" | "warning" | "danger" | "neutral";
+    /** Heading level for the title, so it fits the surrounding document outline. */
+    headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+    /** Recovery button label (e.g. "Try again"). Omit to render no button. */
+    actionLabel?: string;
+    /** Called when the recovery button is pressed. */
     onAction?: () => void;
-    variant?: ButtonVariant;
-    href?: string;
-    target?: string;
-  }[] = [];
-  /** Density: `md` for full pages and sections, `sm` inside cards, panels and table areas. */
-  export let size: "md" | "sm" = "md";
+    /**
+     * Configurable action group. An entry with `href` renders a `Link` (a
+     * direct pathway, e.g. "Learn more" documentation); the others render
+     * `Button`s: the first gets the `default` variant and the rest `ghost`,
+     * unless an entry sets its own `variant`. Takes precedence over
+     * `actionLabel`. A snippet instead replaces the whole area.
+     */
+    actions?:
+      | {
+          label: string;
+          onAction?: () => void;
+          variant?: ButtonVariant;
+          href?: string;
+          target?: string;
+        }[]
+      | Snippet;
+    /** Density: `md` for full pages and sections, `sm` inside cards, panels and table areas. */
+    size?: "md" | "sm";
+    /** Glyph or illustration in place of the default `FeedbackIcon`. */
+    icon?: Snippet;
+    /** Extra content between the description and the actions. */
+    children?: Snippet;
+  }
+
+  let {
+    title,
+    description,
+    status = "danger",
+    headingLevel = 2,
+    actionLabel,
+    onAction,
+    actions = [],
+    size = "md",
+    icon,
+    children,
+  }: Props = $props();
+
+  const actionItems = $derived(Array.isArray(actions) ? actions : []);
 </script>
 
 <div class="error-state" role="alert" data-size={size}>
   <span class="error-state__icon">
-    <slot name="icon">
+    {#if icon}
+      {@render icon()}
+    {:else}
       <FeedbackIcon {status} box="tint" shape="round" />
-    </slot>
+    {/if}
   </span>
 
   <svelte:element this={`h${headingLevel}`} class="error-state__title">
@@ -70,30 +96,30 @@
     <p class="error-state__description">{description}</p>
   {/if}
 
-  <slot />
+  {@render children?.()}
 
-  {#if $$slots.actions || actions.length || actionLabel}
+  {#if typeof actions === "function" || actionItems.length || actionLabel}
     <div class="error-state__actions">
-      <slot name="actions">
-        {#if actions.length}
-          {#each actions as action, index (action.label)}
-            {#if action.href}
-              <Link href={action.href} target={action.target} on:click={() => action.onAction?.()}>
-                {action.label}
-              </Link>
-            {:else}
-              <Button
-                variant={action.variant ?? (index === 0 ? "default" : "ghost")}
-                onpress={action.onAction}
-              >
-                {action.label}
-              </Button>
-            {/if}
-          {/each}
-        {:else if actionLabel}
-          <Button variant="default" onpress={onAction}>{actionLabel}</Button>
-        {/if}
-      </slot>
+      {#if typeof actions === "function"}
+        {@render actions()}
+      {:else if actionItems.length}
+        {#each actionItems as action, index (action.label)}
+          {#if action.href}
+            <Link href={action.href} target={action.target} onclick={() => action.onAction?.()}>
+              {action.label}
+            </Link>
+          {:else}
+            <Button
+              variant={action.variant ?? (index === 0 ? "default" : "ghost")}
+              onpress={action.onAction}
+            >
+              {action.label}
+            </Button>
+          {/if}
+        {/each}
+      {:else if actionLabel}
+        <Button variant="default" onpress={onAction}>{actionLabel}</Button>
+      {/if}
     </div>
   {/if}
 </div>

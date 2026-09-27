@@ -10,8 +10,9 @@
    *
    * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the i18n
    * catalog (`uploadDropArea.prompt` + the styled `uploadDropArea.action` word); pass your
-   * own content in the default slot to replace it entirely.
+   * own content as the `children` snippet to replace it entirely.
    */
+  import type { Snippet } from "svelte";
   import type { Action } from "svelte/action";
   import { dropArea } from "../drop-area/drop-area";
   import { getI18n } from "../i18n/create-i18n";
@@ -19,19 +20,36 @@
 
   const { t } = getI18n();
 
-  /** Accepted file types (the input's `accept` attribute), e.g. "image/*". */
-  export let accept: string | undefined = undefined;
-  /** Allow selecting/dropping more than one file. */
-  export let multiple = false;
-  export let disabled = false;
-  /** Form field name (the underlying file input). */
-  export let name: string | undefined = undefined;
-  /** Optional grey caption under the text (e.g. accepted formats / max size). */
-  export let caption: string | undefined = undefined;
-  /** Called with the selected/dropped files. */
-  export let onFiles: ((files: File[]) => void) | undefined = undefined;
+  interface Props {
+    /** Accepted file types (the input's `accept` attribute), e.g. "image/*". */
+    accept?: string;
+    /** Allow selecting/dropping more than one file. */
+    multiple?: boolean;
+    disabled?: boolean;
+    /** Form field name (the underlying file input). */
+    name?: string;
+    /** Optional grey caption under the text (e.g. accepted formats / max size). */
+    caption?: string;
+    /** Called with the selected/dropped files. */
+    onFiles?: (files: File[]) => void;
+    /** Replaces the default prompt text. */
+    children?: Snippet;
+    /** Replaces the built-in upload icon. */
+    icon?: Snippet;
+  }
 
-  let input: HTMLInputElement;
+  let {
+    accept,
+    multiple = false,
+    disabled = false,
+    name,
+    caption,
+    onFiles,
+    children,
+    icon,
+  }: Props = $props();
+
+  let input: HTMLInputElement | undefined;
 
   // The native file dialog can take up to ~1s to appear (the OS builds the
   // panel). Per response-time UX (a wait past ~0.4–1s needs feedback), show a
@@ -39,7 +57,7 @@
   // the shared Loading component (`delay` + `overlay`/`veil` options); here we
   // only own the trigger (the dialog opening) and the clear (the dialog closing
   // — window refocus — or a file being chosen/cancelled).
-  let opening = false;
+  let opening = $state(false);
 
   function resolveOpen() {
     opening = false;
@@ -76,7 +94,7 @@
     for (const file of Array.from(dropped).slice(0, multiple ? undefined : 1)) {
       kept.items.add(file);
     }
-    input.files = kept.files;
+    if (input) input.files = kept.files;
     emit(kept.files);
   };
 
@@ -90,9 +108,11 @@
      component adds the upload business: the file input and its picker. -->
 <label
   use:dropListener
-  class="upload-drop-area"
-  class:upload-drop-area--disabled={disabled}
-  class:upload-drop-area--opening={opening}
+  class={[
+    "upload-drop-area",
+    disabled && "upload-drop-area--disabled",
+    opening && "upload-drop-area--opening",
+  ]}
   aria-busy={opening ? "true" : undefined}
   use:dropArea={{ disabled, onDrop: (data) => adopt(data.files) }}
 >
@@ -104,12 +124,14 @@
     {multiple}
     {disabled}
     {name}
-    on:click={onOpen}
-    on:cancel={resolveOpen}
-    on:change={onInput}
+    onclick={onOpen}
+    oncancel={resolveOpen}
+    onchange={onInput}
   />
   <span class="upload-drop-area__icon" aria-hidden="true">
-    <slot name="icon">
+    {#if icon}
+      {@render icon()}
+    {:else}
       <svg
         viewBox="0 0 24 24"
         width="2em"
@@ -124,15 +146,17 @@
         <polyline points="17 8 12 3 7 8" />
         <line x1="12" y1="3" x2="12" y2="15" />
       </svg>
-    </slot>
+    {/if}
   </span>
   <span class="upload-drop-area__text">
-    <slot>
+    {#if children}
+      {@render children()}
+    {:else}
       <!-- Link-like affordance only: the real interactive element is the label →
            file input, so the action word stays a non-semantic span. -->
       {$t("uploadDropArea.prompt")}
       <span class="upload-drop-area__action">{$t("uploadDropArea.action")}</span>
-    </slot>
+    {/if}
   </span>
   {#if caption}
     <span class="upload-drop-area__caption">{caption}</span>

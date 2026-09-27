@@ -15,83 +15,118 @@
    *   never relies on color alone (WCAG 1.4.1 Use of Color).
    *
    * Icons: a plain (un-boxed) leading and/or trailing icon. The built-in glyph
-   * is a plus; override either via the `left` / `right` slots. Colors and sizing
+   * is a plus; override either via the `left` / `right` snippets. Colors and sizing
    * are themeable CSS custom properties (`--ds-button-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createButton, type ButtonVariant } from "./create-button";
   import Icon from "../icon/Icon.svelte";
   import Loading from "../loading/Loading.svelte";
   import type { Action } from "svelte/action";
 
-  /**
-   * Optional extra Svelte action applied to the underlying `<button>`. Overlay
-   * components (Dialog, Popover, …) pass their `triggerAction` here to compose
-   * the Button as their trigger.
-   */
-  export let action: Action<HTMLElement> = () => {};
-
-  export let variant: ButtonVariant = "default";
-  export let disabled = false;
-  /**
-   * Loading state: shows an inline spinner in place of the leading icon (or of
-   * the glyph, for icon-only buttons), announces `aria-busy` and ignores
-   * presses. The label stays visible and the button stays focusable.
-   */
-  export let loading = false;
-  /**
-   * Live loading message announced on every change while `loading` — for a
-   * succession of backend-reported steps ("Uploading…" → "Processing…"). It is
-   * visually hidden (the button label stays stable); assistive tech hears each
-   * step through the spinner's polite status region.
-   */
-  export let loadingStatus: string | undefined = undefined;
-  export let type: "button" | "submit" | "reset" = "button";
-  /** Called when the button is activated (click, or Enter/Space when emulated). */
-  export let onpress: ((event: Event) => void) | undefined = undefined;
-  /** Show a leading icon. Defaults on for `danger` (the hazard cue). */
-  export let leftIcon: boolean | undefined = undefined;
-  /** Show a trailing icon. */
-  export let rightIcon = false;
-  /**
-   * Icon-only button: square, no text — pass a single icon in the default slot
-   * and an `ariaLabel` (e.g. the ghost "×" dismiss button in Alert).
-   */
-  export let iconOnly = false;
-  /**
-   * Accessible name. Required for icon-only buttons (no visible text); for
-   * buttons with visible text the text is the name and this is unnecessary.
-   */
-  export let ariaLabel: string | undefined = undefined;
-
-  // Every button needs an accessible name: visible text, or an `ariaLabel` for
-  // icon-only buttons (whose slot holds a glyph, not text).
-  $: if (import.meta.env?.DEV && !ariaLabel && (iconOnly || !$$slots.default)) {
-    console.warn(
-      "[ds] Button has no accessible name: provide visible text (default slot) or an `ariaLabel` for icon-only buttons.",
-    );
+  interface Props {
+    /**
+     * Optional extra Svelte action applied to the underlying `<button>`. Overlay
+     * components (Dialog, Popover, …) pass their `triggerAction` here to compose
+     * the Button as their trigger.
+     */
+    action?: Action<HTMLElement>;
+    variant?: ButtonVariant;
+    disabled?: boolean;
+    /**
+     * Loading state: shows an inline spinner in place of the leading icon (or of
+     * the glyph, for icon-only buttons), announces `aria-busy` and ignores
+     * presses. The label stays visible and the button stays focusable.
+     */
+    loading?: boolean;
+    /**
+     * Live loading message announced on every change while `loading` — for a
+     * succession of backend-reported steps ("Uploading…" → "Processing…"). It is
+     * visually hidden (the button label stays stable); assistive tech hears each
+     * step through the spinner's polite status region.
+     */
+    loadingStatus?: string;
+    type?: "button" | "submit" | "reset";
+    /** Called when the button is activated (click, or Enter/Space when emulated). */
+    onpress?: (event: Event) => void;
+    /** Show a leading icon. Defaults on for `danger` (the hazard cue). */
+    leftIcon?: boolean;
+    /** Show a trailing icon. */
+    rightIcon?: boolean;
+    /**
+     * Icon-only button: square, no text — pass a single icon as the children
+     * and an `ariaLabel` (e.g. the ghost "×" dismiss button in Alert).
+     */
+    iconOnly?: boolean;
+    /**
+     * Accessible name. Required for icon-only buttons (no visible text); for
+     * buttons with visible text the text is the name and this is unnecessary.
+     */
+    ariaLabel?: string;
+    /** The label, or the single glyph of an icon-only button. */
+    children?: Snippet;
+    /** Replaces the built-in leading icon. */
+    left?: Snippet;
+    /** Replaces the built-in trailing icon. */
+    right?: Snippet;
   }
 
-  const { rootAction, setDisabled, setVariant } = createButton({
-    variant,
-    disabled,
-    type,
-    onPress: (event) => {
-      if (!loading) onpress?.(event);
-    },
+  let {
+    action = () => {},
+    variant = "default",
+    disabled = false,
+    loading = false,
+    loadingStatus,
+    type = "button",
+    onpress,
+    leftIcon,
+    rightIcon = false,
+    iconOnly = false,
+    ariaLabel,
+    children,
+    left,
+    right,
+  }: Props = $props();
+
+  // Every button needs an accessible name: visible text, or an `ariaLabel` for
+  // icon-only buttons (whose children hold a glyph, not text).
+  $effect.pre(() => {
+    if (import.meta.env?.DEV && !ariaLabel && (iconOnly || !children)) {
+      console.warn(
+        "[ds] Button has no accessible name: provide visible text (children) or an `ariaLabel` for icon-only buttons.",
+      );
+    }
   });
 
-  $: setDisabled(disabled);
-  $: setVariant(variant);
+  // Seeded once from the first props; the effects below follow later ones.
+  const { rootAction, setDisabled, setVariant } = untrack(() =>
+    createButton({
+      variant,
+      disabled,
+      type,
+      onPress: (event) => {
+        if (!loading) onpress?.(event);
+      },
+    }),
+  );
 
-  // Icon-only buttons carry their single glyph in the default slot, so never add
+  $effect.pre(() => {
+    setDisabled(disabled);
+  });
+  $effect.pre(() => {
+    setVariant(variant);
+  });
+
+  // Icon-only buttons carry their single glyph as the children, so never add
   // the auto leading/trailing icon (avoids the danger hazard + glyph doubling up).
-  $: showLeft = !iconOnly && !loading && ((leftIcon ?? variant === "danger") || $$slots.left);
-  $: showRight = !iconOnly && (rightIcon || $$slots.right);
+  const showLeft = $derived(
+    !iconOnly && !loading && ((leftIcon ?? variant === "danger") || left !== undefined),
+  );
+  const showRight = $derived(!iconOnly && (rightIcon || right !== undefined));
 </script>
 
 <button
-  class="button"
-  class:button--icon-only={iconOnly}
+  class={["button", iconOnly && "button--icon-only"]}
   use:rootAction
   use:action
   aria-label={ariaLabel}
@@ -100,22 +135,22 @@
 >
   {#if showLeft}
     <span class="button__icon">
-      <slot name="left">
-        {#if variant === "danger"}
-          <Icon>
-            <path
-              d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-            />
-            <line x1="12" y1="9" x2="12" y2="13" />
-            <line x1="12" y1="17" x2="12" y2="17" />
-          </Icon>
-        {:else}
-          <Icon>
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </Icon>
-        {/if}
-      </slot>
+      {#if left}
+        {@render left()}
+      {:else if variant === "danger"}
+        <Icon>
+          <path
+            d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+          />
+          <line x1="12" y1="9" x2="12" y2="13" />
+          <line x1="12" y1="17" x2="12" y2="17" />
+        </Icon>
+      {:else}
+        <Icon>
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </Icon>
+      {/if}
     </span>
   {/if}
 
@@ -126,17 +161,19 @@
   {/if}
 
   {#if !(loading && iconOnly)}
-    <slot />
+    {@render children?.()}
   {/if}
 
   {#if showRight}
     <span class="button__icon">
-      <slot name="right">
+      {#if right}
+        {@render right()}
+      {:else}
         <Icon>
           <line x1="12" y1="5" x2="12" y2="19" />
           <line x1="5" y1="12" x2="19" y2="12" />
         </Icon>
-      </slot>
+      {/if}
     </span>
   {/if}
 </button>

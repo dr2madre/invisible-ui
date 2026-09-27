@@ -1,8 +1,12 @@
 <script lang="ts">
   import TextField from "./TextField.svelte";
 
-  export let value = "";
-  export let name = "email";
+  interface Props {
+    value?: string;
+    name?: string;
+  }
+
+  let { value = "", name = "email" }: Props = $props();
 </script>
 
 <form data-testid="form">

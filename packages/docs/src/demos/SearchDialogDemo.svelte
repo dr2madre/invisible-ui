@@ -1,8 +1,8 @@
 <script>
   import SearchDialog from "@design-system/svelte/SearchDialog.svelte";
 
-  let open = false;
-  let chosen = "";
+  let open = $state(false);
+  let chosen = $state("");
 
   // `group` sections the results by type — ungrouped items come first.
   const items = [
@@ -24,12 +24,12 @@
   };
 </script>
 
-<svelte:window on:keydown={onKeydown} />
+<svelte:window onkeydown={onKeydown} />
 
 <div style="display: grid; gap: 0.5rem; justify-items: start;">
   <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
     <SearchDialog {items} bind:open onSelect={(value) => (chosen = value)}>
-      <span slot="trigger">Search…</span>
+      {#snippet trigger()}<span>Search…</span>{/snippet}
     </SearchDialog>
     {#if chosen}
       <span style="font-size: 0.875rem; color: var(--ds-color-text-secondary);">

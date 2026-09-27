@@ -133,14 +133,16 @@ Each item ships as its own PR. Checkboxes track progress.
   semantics, dependencies, tokens and docs before any adapter code. The
   proposal, with the component order and the editable-grid requirements, is in
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md).
-- [ ] **16. Svelte: runes syntax** — the Svelte adapter moves from the legacy
+- [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
-  ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1, the 27 presentational
-  components with no public API change, is done. Phase 2, the 19
-  controllable components, is done: one shared mirror carries the ADR 0011
-  and ADR 0012 rules, and `bind:` keeps working through `$bindable()`. Phase 3
-  turns named slots into snippets and forwarded events into callbacks, and is
-  breaking.
+  ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27
+  presentational components with no public API change. Phase 2 moved the 19
+  controllable components: one shared mirror carries the ADR 0011 and ADR 0012
+  rules, and `bind:` keeps working through `$bindable()`. Phase 3 moved the
+  last 34 components, turned named slots into snippets and forwarded events
+  into callback props, and is breaking. Every component, internal part and
+  fixture now runs in runes mode, and the docs demos and the example app use
+  the new API.
 
 ### 🟡 P3 — polish & ecosystem
 

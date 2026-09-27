@@ -1,14 +1,22 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createCollapsible } from "./create-collapsible";
 
-  export let open = false;
-  export let disabled = false;
+  interface Props {
+    open?: boolean;
+    disabled?: boolean;
+  }
 
-  const { rootAction, triggerAction, contentAction } = createCollapsible({
-    id: "col",
-    open,
-    disabled,
-  });
+  let { open = false, disabled = false }: Props = $props();
+
+  // Seeded once from the first props.
+  const { rootAction, triggerAction, contentAction } = untrack(() =>
+    createCollapsible({
+      id: "col",
+      open,
+      disabled,
+    }),
+  );
 </script>
 
 <div use:rootAction>

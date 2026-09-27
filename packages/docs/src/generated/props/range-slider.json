@@ -128,6 +128,14 @@
           "required": false,
           "description": "Called with the complete pair whenever it changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A decorative icon before the track.",
+          "descriptionFrom": "source"
         }
       ]
     },

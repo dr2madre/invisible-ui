@@ -1,10 +1,22 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createSegmentedControl, type SegmentItem } from "./create-segmented-control";
 
-  export let value: string | null = null;
-  export let items: SegmentItem[] = [{ value: "list" }, { value: "board" }, { value: "calendar" }];
+  interface Props {
+    value?: string | null;
+    items?: SegmentItem[];
+  }
 
-  const { state: segmentState, setValue, name } = createSegmentedControl({ value, items });
+  let {
+    value = null,
+    items = [{ value: "list" }, { value: "board" }, { value: "calendar" }],
+  }: Props = $props();
+
+  const {
+    state: segmentState,
+    setValue,
+    name,
+  } = untrack(() => createSegmentedControl({ value, items }));
 </script>
 
 <div role="radiogroup" aria-label="View" aria-orientation="horizontal">
@@ -15,7 +27,7 @@
         {name}
         value={item.value}
         checked={$segmentState.value === item.value}
-        on:change={() => setValue(item.value)}
+        onchange={() => setValue(item.value)}
       />
       {item.value}
     </label>

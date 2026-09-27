@@ -10,8 +10,8 @@
     { value: "katherine", label: "Katherine Johnson" },
   ];
 
-  let values = ["grace"];
-  let submitted = "none";
+  let values = $state.raw(["grace"]);
+  let submitted = $state("none");
 
   function onSubmit(event) {
     event.preventDefault();
@@ -19,7 +19,7 @@
   }
 </script>
 
-<form class="multi-select-demo" on:submit={onSubmit}>
+<form class="multi-select-demo" onsubmit={onSubmit}>
   <MultiSelect
     label="People"
     {items}

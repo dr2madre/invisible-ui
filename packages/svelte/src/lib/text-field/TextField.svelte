@@ -12,58 +12,94 @@
    * state and announces the message. Colors and sizing are themeable CSS custom
    * properties (`--ds-field-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
   import { textField as core } from "@design-system/core";
   import { createTextField } from "./create-text-field";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
 
   type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
   type InputMode = "none" | "text" | "decimal" | "numeric" | "tel" | "search" | "email" | "url";
 
-  /** Visible label, tied to the control. */
-  export let label: string;
-  /** Visually hide the label while keeping it as the control's accessible name. */
-  export let hideLabel = false;
-  export let value = "";
-  export let type: InputType = "text";
-  export let placeholder: string | undefined = undefined;
-  /** Optional hint shown under the control and linked via aria-describedby. */
-  export let description: string | undefined = undefined;
-  /** Error message; when non-empty the field becomes invalid and announces it. */
-  export let error: string | undefined = undefined;
-  /** Success/validated message; shows a green check and a confirming caption. */
-  export let success: string | undefined = undefined;
-  export let disabled = false;
-  export let required = false;
-  export let readOnly = false;
-  /** Form field name — the value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Native length limits; the browser enforces them and reports them. */
-  export let maxlength: number | undefined = undefined;
-  export let minlength: number | undefined = undefined;
-  /** Native format constraint (paired with `title` for the browser's message). */
-  export let pattern: string | undefined = undefined;
-  /** Keyboard hint on touch devices. */
-  export let inputmode: InputMode | undefined = undefined;
-  /** Autofill hint, e.g. `"email"` or `"one-time-code"`. */
-  export let autocomplete: HTMLInputAttributes["autocomplete"] = undefined;
-  /** Turn spelling correction off for codes and identifiers. */
-  export let spellcheck: boolean | undefined = undefined;
-  /** Called whenever the value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    /** Visible label, tied to the control. */
+    label: string;
+    /** Visually hide the label while keeping it as the control's accessible name. */
+    hideLabel?: boolean;
+    value?: string;
+    type?: InputType;
+    placeholder?: string;
+    /** Optional hint shown under the control and linked via aria-describedby. */
+    description?: string;
+    /** Error message; when non-empty the field becomes invalid and announces it. */
+    error?: string;
+    /** Success/validated message; shows a green check and a confirming caption. */
+    success?: string;
+    disabled?: boolean;
+    required?: boolean;
+    readOnly?: boolean;
+    /** Form field name — the value is submitted under it. */
+    name?: string;
+    /** Native length limits; the browser enforces them and reports them. */
+    maxlength?: number;
+    minlength?: number;
+    /** Native format constraint (paired with `title` for the browser's message). */
+    pattern?: string;
+    /** Keyboard hint on touch devices. */
+    inputmode?: InputMode;
+    /** Autofill hint, e.g. `"email"` or `"one-time-code"`. */
+    autocomplete?: HTMLInputAttributes["autocomplete"];
+    /** Turn spelling correction off for codes and identifiers. */
+    spellcheck?: boolean;
+    /** Called whenever the value changes. */
+    onValueChange?: (value: string) => void;
+    /** A decorative icon before the control. */
+    left?: Snippet;
+    /** A decorative icon after the control; replaces the built-in success check. */
+    right?: Snippet;
+  }
 
-  const field = createTextField({
-    value,
-    disabled,
-    required,
-    readOnly,
-    invalid: !!error,
-    hasDescription: !!description,
-    hasSuccess: !!success,
-    // A live callback reference (ADR 0011).
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  let {
+    label,
+    hideLabel = false,
+    value = $bindable(""),
+    type = "text",
+    placeholder,
+    description,
+    error,
+    success,
+    disabled = false,
+    required = false,
+    readOnly = false,
+    name,
+    maxlength,
+    minlength,
+    pattern,
+    inputmode,
+    autocomplete,
+    spellcheck,
+    onValueChange,
+    left,
+    right,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
+  const field = untrack(() =>
+    createTextField({
+      value,
+      disabled,
+      required,
+      readOnly,
+      invalid: !!error,
+      hasDescription: !!description,
+      hasSuccess: !!success,
+      // A live callback reference (ADR 0011).
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
   const {
     state: fieldState,
     labelAction,
@@ -75,57 +111,51 @@
     syncValue,
   } = field;
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported: without that rule, bind:value would drag the
-  // default along with every keystroke (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $fieldState.value) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $fieldState.value,
+  });
 
   // Keep the headless state in sync with reactive props so the wiring
   // (aria-invalid, aria-describedby, disabled…) stays correct.
-  $: field.setFlags({
-    disabled,
-    required,
-    readOnly,
-    invalid: !!error,
-    hasDescription: !!description,
-    hasSuccess: !!success,
+  $effect.pre(() => {
+    field.setFlags({
+      disabled,
+      required,
+      readOnly,
+      invalid: !!error,
+      hasDescription: !!description,
+      hasSuccess: !!success,
+    });
   });
 
   function onInput(event: Event) {
-    value = (event.currentTarget as HTMLInputElement).value;
-    setValue(value);
+    const next = (event.currentTarget as HTMLInputElement).value;
+    // The prop first, then the report (ADR 0011).
+    mirror.write(next);
+    setValue(next);
   }
 
-  // A built-in green check (right) when validated, unless a custom right slot is used.
-  $: showSuccessIcon = !!success && !error && !$$slots.right;
+  // A built-in green check (right) when validated, unless a custom right snippet is used.
+  const showSuccessIcon = $derived(!!success && !error && !right);
 </script>
 
 <div
-  class="field"
-  class:field--invalid={!!error}
-  class:field--success={!!success && !error}
-  class:field--disabled={disabled}
+  class={[
+    "field",
+    !!error && "field--invalid",
+    !!success && !error && "field--success",
+    disabled && "field--disabled",
+  ]}
 >
   <!-- The ids are declared here as well as applied by the actions, so the
        server-rendered markup already ties the label to its control: before
        hydration the field would otherwise be a control with no name. -->
   <label
-    class="field__label"
-    class:field__label--hidden={hideLabel}
+    class={["field__label", hideLabel && "field__label--hidden"]}
     for={core.controlId($fieldState.id)}
     id={core.labelId($fieldState.id)}
     use:labelAction
@@ -134,18 +164,20 @@
   </label>
 
   <div class="field__input">
-    {#if $$slots.left}
-      <span class="field__icon field__icon--left" aria-hidden="true"><slot name="left" /></span>
+    {#if left}
+      <span class="field__icon field__icon--left" aria-hidden="true">{@render left()}</span>
     {/if}
     <input
-      class="field__control"
-      class:field__control--icon-left={$$slots.left}
-      class:field__control--icon-right={$$slots.right || showSuccessIcon}
+      class={[
+        "field__control",
+        !!left && "field__control--icon-left",
+        (!!right || showSuccessIcon) && "field__control--icon-right",
+      ]}
       {type}
       {name}
       {placeholder}
       value={$fieldState.value}
-      {defaultValue}
+      defaultValue={mirror.defaultValue}
       {maxlength}
       {minlength}
       {pattern}
@@ -153,12 +185,12 @@
       {autocomplete}
       {spellcheck}
       id={core.controlId($fieldState.id)}
-      on:input={onInput}
+      oninput={onInput}
       use:controlAction
-      use:formReset={restore}
+      use:formReset={mirror.restore}
     />
-    {#if $$slots.right}
-      <span class="field__icon field__icon--right" aria-hidden="true"><slot name="right" /></span>
+    {#if right}
+      <span class="field__icon field__icon--right" aria-hidden="true">{@render right()}</span>
     {:else if showSuccessIcon}
       <span class="field__icon field__icon--right field__icon--success" aria-hidden="true">
         <Icon><polyline points="20 6 9 17 4 12" /></Icon>

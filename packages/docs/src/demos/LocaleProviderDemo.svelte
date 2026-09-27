@@ -21,7 +21,7 @@
     },
   };
 
-  let locale = "en";
+  let locale = $state("en");
   const locales = [
     { value: "en", label: "English" },
     { value: "it-IT", label: "Italiano" },

@@ -1,14 +1,18 @@
 <script lang="ts">
   import Popover from "./Popover.svelte";
 
-  export let openDelay = 0;
-  export let closeDelay = 0;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    openDelay?: number;
+    closeDelay?: number;
+    onOpenChange?: (open: boolean) => void;
+  }
+
+  let { openDelay = 0, closeDelay = 0, onOpenChange }: Props = $props();
 </script>
 
 <a href="#before">before</a>
 <Popover trigger="hover" {openDelay} {closeDelay} {onOpenChange}>
-  <a slot="trigger" href="#ada">@ada</a>
+  {#snippet triggerContent()}<a href="#ada">@ada</a>{/snippet}
   <!-- Supplementary preview: nothing focusable inside. -->
   <div>
     <strong>Ada Lovelace</strong>

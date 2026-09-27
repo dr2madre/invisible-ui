@@ -2,7 +2,11 @@
   import Toolbar from "./Toolbar.svelte";
   import ToggleButton from "../toggle-button/ToggleButton.svelte";
 
-  export let italicDisabled = false;
+  interface Props {
+    italicDisabled?: boolean;
+  }
+
+  let { italicDisabled = false }: Props = $props();
 </script>
 
 <Toolbar label="Text formatting">

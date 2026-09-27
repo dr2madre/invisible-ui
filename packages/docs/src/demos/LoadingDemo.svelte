@@ -6,7 +6,7 @@
   // No-flash delay + overlay-without-veil: a fake ~1.2s task. Loading is mounted
   // immediately but only appears after its own 150ms delay, so a quick task
   // would never flash it.
-  let busy = false;
+  let busy = $state(false);
   function runTask() {
     busy = true;
     setTimeout(() => (busy = false), 1200);
@@ -15,12 +15,12 @@
   // Live status: a succession of steps as a backend would report them. Each new
   // message is announced (polite + atomic), not just shown.
   const STEPS = ["Connecting…", "Authenticating…", "Fetching records…", "Rendering…"];
-  let step = 0;
+  let step = $state(0);
   onMount(() => {
     const t = setInterval(() => (step = (step + 1) % STEPS.length), 1400);
     return () => clearInterval(t);
   });
-  $: currentStatus = STEPS[step];
+  const currentStatus = $derived(STEPS[step]);
 </script>
 
 <div class="demo">
@@ -48,7 +48,7 @@
     <p class="demo__caption">In buttons — including successive steps via loadingStatus</p>
     <div class="demo__row demo__row--tight">
       <Button variant="primary">
-        <svelte:fragment slot="left"><Loading variant="morph" decorative /></svelte:fragment>
+        {#snippet left()}<Loading variant="morph" decorative />{/snippet}
         Saving…
       </Button>
       <Button variant="danger" loading>Deleting…</Button>

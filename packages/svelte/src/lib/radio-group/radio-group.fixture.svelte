@@ -1,11 +1,24 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createRadioGroup, type RadioItem } from "./create-radio-group";
 
-  export let value: string | null = null;
-  export let disabled = false;
-  export let items: RadioItem[] = [{ value: "small" }, { value: "medium" }, { value: "large" }];
+  interface Props {
+    value?: string | null;
+    disabled?: boolean;
+    items?: RadioItem[];
+  }
 
-  const { state: radioState, setValue, name } = createRadioGroup({ value, items, disabled });
+  let {
+    value = null,
+    disabled = false,
+    items = [{ value: "small" }, { value: "medium" }, { value: "large" }],
+  }: Props = $props();
+
+  const {
+    state: radioState,
+    setValue,
+    name,
+  } = untrack(() => createRadioGroup({ value, items, disabled }));
 </script>
 
 <div role="radiogroup" aria-label="Size">
@@ -17,7 +30,7 @@
         value={item.value}
         checked={$radioState.value === item.value}
         disabled={disabled || item.disabled}
-        on:change={() => setValue(item.value)}
+        onchange={() => setValue(item.value)}
       />
       {item.value}
     </label>

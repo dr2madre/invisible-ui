@@ -16,7 +16,7 @@
    * `headerActions`, and the close button trailing (`closeButton`), all
    * centered against the title block.
    *
-   * Slots: `trigger` (the trigger button's content), the default slot (the
+   * Snippets: `trigger` (the trigger button's content), `children` (the
    * body), `icon` (leading feedback icon), `headerMeta` (context above the
    * title), `headerLead` (leading ghost button), `headerActions` (actions
    * before the close button), `footerLead` (leading footer
@@ -29,62 +29,105 @@
    * step context in `headerMeta`, Back in `footerLead`, and keep the step state
    * in the application.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createDialog } from "./create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "./DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Visual variant for the trigger Button. */
-  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
+  interface Props {
+    /** Visual variant for the trigger Button. */
+    triggerVariant?: "default" | "primary" | "secondary" | "ghost" | "danger";
+    /** Initial open state. */
+    open?: boolean;
+    /** Accessible title naming the dialog (required). */
+    title: string;
+    /**
+     * Visually hide the title while keeping it as the dialog's accessible name
+     * (announced by screen readers via `aria-labelledby`). The title text is
+     * always required; this only controls whether it is shown.
+     */
+    hideTitle?: boolean;
+    /** Optional description, wired via `aria-describedby`. */
+    description?: string;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Show the close button at the trailing end of the header. */
+    closeButton?: boolean;
+    /**
+     * Show an optional close/cancel button on the footer's leading (left) edge.
+     * The trailing (right) edge holds the action buttons from the `footer` snippet.
+     */
+    footerClose?: boolean;
+    /**
+     * Body layout. `plain` (the default) leaves the body untouched. `stack`
+     * spaces the direct children by `--ds-dialog-body-gap`, which saves a
+     * workflow from inventing its own spacing between sections.
+     */
+    bodyLayout?: "plain" | "stack";
+    /**
+     * CSS selector (within the panel) for the element to focus on open. When
+     * omitted, focus lands on the panel itself — never on the close button.
+     */
+    initialFocus?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The body. */
+    children?: Snippet;
+    /** The trigger button's content. Defaults to the i18n catalog's label. */
+    trigger?: Snippet;
+    /** Leading feedback icon in the header. */
+    icon?: Snippet;
+    /** Context above the title, e.g. "Step 1 of 2". */
+    headerMeta?: Snippet;
+    /** Leading ghost button in the header, e.g. back. */
+    headerLead?: Snippet;
+    /** Actions before the close button. */
+    headerActions?: Snippet;
+    /** Leading footer actions. */
+    footerLead?: Snippet;
+    /** Trailing footer action buttons. */
+    footer?: Snippet;
+  }
 
-  /** Initial open state. */
-  export let open = false;
-  /** Accessible title naming the dialog (required). */
-  export let title: string;
-  /**
-   * Visually hide the title while keeping it as the dialog's accessible name
-   * (announced by screen readers via `aria-labelledby`). The title text is
-   * always required; this only controls whether it is shown.
-   */
-  export let hideTitle = false;
-  /** Optional description, wired via `aria-describedby`. */
-  export let description: string | undefined = undefined;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Show the close button at the trailing end of the header. */
-  export let closeButton = true;
-  /**
-   * Show an optional close/cancel button on the footer's leading (left) edge.
-   * The trailing (right) edge holds the action buttons from the `footer` slot.
-   */
-  export let footerClose = false;
-  /**
-   * Body layout. `plain` (the default) leaves the body untouched. `stack`
-   * spaces the direct children by `--ds-dialog-body-gap`, which saves a
-   * workflow from inventing its own spacing between sections.
-   */
-  export let bodyLayout: "plain" | "stack" = "plain";
-  /**
-   * CSS selector (within the panel) for the element to focus on open. When
-   * omitted, focus lands on the panel itself — never on the close button.
-   */
-  export let initialFocus: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-  };
-
-  const dialog = createDialog({
-    open,
-    describedBy: description !== undefined,
+  let {
+    triggerVariant = "default",
+    open = $bindable(false),
+    title,
+    hideTitle = false,
+    description,
+    closeLabel,
+    closeButton = true,
+    footerClose = false,
+    bodyLayout = "plain",
     initialFocus,
-    onOpenChange: handleOpenChange,
-  });
+    onOpenChange,
+    children,
+    trigger,
+    icon,
+    headerMeta,
+    headerLead,
+    headerActions,
+    footerLead,
+    footer,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror below follows later ones.
+  const dialog = untrack(() =>
+    createDialog({
+      open,
+      describedBy: description !== undefined,
+      initialFocus,
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+      },
+    }),
+  );
   const {
     open: isOpen,
     triggerAction,
@@ -96,17 +139,17 @@
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    dialog.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: dialog.syncOpen,
+  });
 
-  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot name="trigger">{$t("dialog.trigger")}</slot>
+  {#if trigger}{@render trigger()}{:else}{$t("dialog.trigger")}{/if}
 </Button>
 
 {#if $isOpen}
@@ -120,31 +163,26 @@
       {titleAction}
       subtitleAction={descriptionAction}
       {closeAction}
-      hasIcon={$$slots.icon}
-      hasLead={$$slots.headerLead}
-      hasMeta={$$slots.headerMeta}
-      hasActions={$$slots.headerActions}
-    >
-      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
-      <svelte:fragment slot="lead"><slot name="headerLead" /></svelte:fragment>
-      <svelte:fragment slot="meta"><slot name="headerMeta" /></svelte:fragment>
-      <svelte:fragment slot="actions"><slot name="headerActions" /></svelte:fragment>
-    </DialogHeader>
-    <div class="dialog__body" data-layout={bodyLayout}><slot /></div>
-    {#if $$slots.footer || $$slots.footerLead || footerClose}
+      {icon}
+      lead={headerLead}
+      meta={headerMeta}
+      actions={headerActions}
+    />
+    <div class="dialog__body" data-layout={bodyLayout}>{@render children?.()}</div>
+    {#if footer || footerLead || footerClose}
       <!-- One action bar: leading actions at the logical start, the trailing
            group at the logical end. Source order matches focus order. -->
       <footer class="dialog__footer">
-        {#if $$slots.footerLead || footerClose}
+        {#if footerLead || footerClose}
           <div class="dialog__footer-lead">
-            <slot name="footerLead" />
+            {@render footerLead?.()}
             {#if footerClose}
               <Button variant="ghost" action={closeAction}>{resolvedCloseLabel}</Button>
             {/if}
           </div>
         {/if}
-        {#if $$slots.footer}
-          <div class="dialog__footer-actions"><slot name="footer" /></div>
+        {#if footer}
+          <div class="dialog__footer-actions">{@render footer()}</div>
         {/if}
       </footer>
     {/if}

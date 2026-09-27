@@ -1,9 +1,9 @@
 <script>
   import RangeSlider from "@design-system/svelte/RangeSlider.svelte";
   import Icon from "@design-system/svelte/Icon.svelte";
-  let price = [20, 80];
+  let price = $state.raw([20, 80]);
   /** @type {"horizontal" | "vertical"} */
-  let orientation = "horizontal";
+  let orientation = $state("horizontal");
 </script>
 
 <div class="range-slider-demo">
@@ -45,11 +45,13 @@
     showValue
     showRange
   >
-    <Icon slot="icon">
-      <polygon
-        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-      />
-    </Icon>
+    {#snippet icon()}
+      <Icon>
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+        />
+      </Icon>
+    {/snippet}
   </RangeSlider>
 
   <!-- Vertical: min at the bottom, max at the top -->
@@ -84,7 +86,7 @@
     />
     <button
       type="button"
-      on:click={() => (orientation = orientation === "horizontal" ? "vertical" : "horizontal")}
+      onclick={() => (orientation = orientation === "horizontal" ? "vertical" : "horizontal")}
     >
       Switch to {orientation === "horizontal" ? "vertical" : "horizontal"}
     </button>

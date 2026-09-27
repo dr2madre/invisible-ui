@@ -4,7 +4,7 @@
    * `<ToggleButton>` children and gives them a shared look. It carries no
    * selection state of its own: each ToggleButton inside is a standalone
    * on/off control (a native checkbox) that owns its own `pressed` state,
-   * label and form field. Insert the toggles via the default slot.
+   * label and form field. Insert the toggles as `children`.
    *
    * Styles:
    * - `separate` (default) — each toggle keeps its own default style, spaced by

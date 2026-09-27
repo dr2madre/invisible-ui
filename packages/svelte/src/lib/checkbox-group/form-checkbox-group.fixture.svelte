@@ -1,8 +1,12 @@
 <script lang="ts">
   import CheckboxGroup from "./CheckboxGroup.svelte";
 
-  export let value: string[] = [];
-  export let name = "notifications";
+  interface Props {
+    value?: string[];
+    name?: string;
+  }
+
+  let { value = [], name = "notifications" }: Props = $props();
 </script>
 
 <form data-testid="form">

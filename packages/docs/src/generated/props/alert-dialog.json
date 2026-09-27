@@ -88,6 +88,14 @@
           "required": false,
           "description": "Called when the alert opens/closes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
         }
       ]
     },

@@ -7,43 +7,71 @@
    *
    * Pass a (possibly nested) `nodes` forest. Each node renders a row; parents get
    * a disclosure twistie. Labels default to the node `value`; override per node
-   * via the `label` slot (`let:node`) or a `labels` map.
+   * via the `labelContent` snippet (`{ node }`) or a `labels` map. The snippet
+   * cannot be called `label`, which is the tree's accessible name. An optional
+   * `icon` snippet (`{ node }`) leads each row.
    *
    * The tree is rendered as a flat list of `treeitem`s carrying `aria-level`,
    * `aria-setsize` and `aria-posinset` (a valid alternative to nested `group`s),
    * which keeps the DOM order aligned with keyboard navigation. The control needs
    * an accessible name via `label`. Colors are themeable (`--ds-tree-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
   import {
     createTreeView,
     type TreeContext,
     type TreeLoadRequest,
     type TreeNode,
+    type VisibleNode,
   } from "./create-tree-view";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  export let nodes: TreeNode[];
-  export let expanded: string[] = [];
-  export let selected: string | null = null;
-  /** Unloaded parent values with an active request. */
-  export let loading: string[] = [];
-  /** Unloaded parent values whose latest request failed. */
-  export let loadErrors: string[] = [];
-  export let disabled = false;
-  /** Accessible name for the tree (announced by screen readers). */
-  export let label: string;
-  /** Optional per-node display labels, keyed by node value. */
-  export let labels: Record<string, string> | undefined = undefined;
-  /** Called whenever the expanded set changes. */
-  export let onExpandedChange: ((expanded: string[]) => void) | undefined = undefined;
-  /** Called whenever the selected value changes. */
-  export let onSelectedChange: ((selected: string) => void) | undefined = undefined;
-  /** Requests children from the application; the component never fetches. */
-  export let onLoadChildren: ((request: TreeLoadRequest) => void) | undefined = undefined;
+  interface Props {
+    nodes: TreeNode[];
+    expanded?: string[];
+    selected?: string | null;
+    /** Unloaded parent values with an active request. */
+    loading?: string[];
+    /** Unloaded parent values whose latest request failed. */
+    loadErrors?: string[];
+    disabled?: boolean;
+    /** Accessible name for the tree (announced by screen readers). */
+    label: string;
+    /** Optional per-node display labels, keyed by node value. */
+    labels?: Record<string, string>;
+    /** Called whenever the expanded set changes. */
+    onExpandedChange?: (expanded: string[]) => void;
+    /** Called whenever the selected value changes. */
+    onSelectedChange?: (selected: string) => void;
+    /** Requests children from the application; the component never fetches. */
+    onLoadChildren?: (request: TreeLoadRequest) => void;
+    /** Leading icon of a row, hidden from assistive tech. */
+    icon?: Snippet<[{ node: VisibleNode }]>;
+    /** A row's label. Defaults to `labels[node.value]`, then the node value. */
+    labelContent?: Snippet<[{ node: VisibleNode }]>;
+  }
 
-  const context: TreeContext = {
+  let {
+    nodes,
+    expanded = $bindable([]),
+    selected = $bindable(null),
+    loading = [],
+    loadErrors = [],
+    disabled = false,
+    label,
+    labels,
+    onExpandedChange,
+    onSelectedChange,
+    onLoadChildren,
+    icon,
+    labelContent,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirrors below follow later ones.
+  const context: TreeContext = untrack(() => ({
     nodes,
     expanded,
     selected,
@@ -54,7 +82,7 @@
     onExpandedChange: (next) => onExpandedChange?.(next),
     onSelectedChange: (next) => onSelectedChange?.(next),
     onLoadChildren: (request) => onLoadChildren?.(request),
-  };
+  }));
 
   const tree = createTreeView(context);
   const {
@@ -72,40 +100,16 @@
     syncLoadErrors,
   } = tree;
 
-  let lastNodes = nodes;
-  $: if (nodes !== lastNodes) {
-    lastNodes = nodes;
-    syncNodes(nodes);
-  }
-  let lastDisabled = disabled;
-  $: if (disabled !== lastDisabled) {
-    lastDisabled = disabled;
-    syncDisabled(disabled);
-  }
+  controllable({ get: () => nodes, reflect: syncNodes });
+  controllable({ get: () => disabled, reflect: syncDisabled });
 
   // Controllable mirrors, compared against the last prop values (ADR 0011):
   // the expanded set is compared by content, so a parent echoing it back does
   // not churn. A sync never reports a change.
-  let lastExpanded = expanded;
-  $: if (expanded !== lastExpanded) {
-    lastExpanded = expanded;
-    syncExpanded(expanded);
-  }
-  let lastSelected = selected;
-  $: if (selected !== lastSelected) {
-    lastSelected = selected;
-    syncSelected(selected);
-  }
-  let lastLoading = loading;
-  $: if (loading !== lastLoading) {
-    lastLoading = loading;
-    syncLoading(loading);
-  }
-  let lastLoadErrors = loadErrors;
-  $: if (loadErrors !== lastLoadErrors) {
-    lastLoadErrors = loadErrors;
-    syncLoadErrors(loadErrors);
-  }
+  controllable({ get: () => expanded, reflect: syncExpanded });
+  controllable({ get: () => selected, reflect: syncSelected });
+  controllable({ get: () => loading, reflect: syncLoading });
+  controllable({ get: () => loadErrors, reflect: syncLoadErrors });
 </script>
 
 <ul class="tree" use:rootAction aria-label={label}>
@@ -113,20 +117,21 @@
     {@const isSelected = $selectedStore === node.value}
     {@const isExpanded = $expandedStore.includes(node.value)}
     <li
-      class="tree__item"
-      class:tree__item--selected={isSelected}
+      class={["tree__item", isSelected && "tree__item--selected"]}
       style="--_tree-level: {node.level}"
       use:itemAction={node.value}
     >
       {#if node.hasChildren}
         <button
           type="button"
-          class="tree__twistie"
-          class:tree__twistie--open={isExpanded}
+          class={["tree__twistie", isExpanded && "tree__twistie--open"]}
           tabindex="-1"
           aria-hidden="true"
-          on:click|stopPropagation={() =>
-            node.loadState === "error" ? $api.retryLoad(node.value) : tree.toggle(node.value)}
+          onclick={(event) => {
+            event.stopPropagation();
+            if (node.loadState === "error") $api.retryLoad(node.value);
+            else tree.toggle(node.value);
+          }}
         >
           <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
             <path
@@ -142,17 +147,17 @@
       {:else}
         <span class="tree__twistie-spacer" aria-hidden="true"></span>
       {/if}
-      {#if $$slots.icon}
-        <span class="tree__icon" aria-hidden="true"><slot name="icon" {node} /></span>
+      {#if icon}
+        <span class="tree__icon" aria-hidden="true">{@render icon({ node })}</span>
       {/if}
       <span id={node.labelId} class="tree__label">
-        <slot name="label" {node}>{labels?.[node.value] ?? node.value}</slot>
+        {#if labelContent}{@render labelContent({ node })}{:else}{labels?.[node.value] ??
+            node.value}{/if}
       </span>
       {#if node.loadState === "loading" || node.loadState === "error"}
         <span
           id={node.loadStatusId}
-          class="tree__load-status"
-          class:tree__load-status--error={node.loadState === "error"}
+          class={["tree__load-status", node.loadState === "error" && "tree__load-status--error"]}
           role="status"
           aria-live="polite"
           aria-atomic="true"
@@ -162,9 +167,9 @@
             : $t("tree.loading", { name: labels?.[node.value] ?? node.value })}
         </span>
       {/if}
-      <!-- The check's slot is always reserved (hidden when unselected) so a
+      <!-- The check's space is always reserved (hidden when unselected) so a
            selected row is no wider than its siblings — the check never overflows. -->
-      <span class="tree__check" class:tree__check--shown={isSelected} aria-hidden="true">
+      <span class={["tree__check", isSelected && "tree__check--shown"]} aria-hidden="true">
         <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
           <path
             d="M3.5 8.5l3 3 6-6.5"

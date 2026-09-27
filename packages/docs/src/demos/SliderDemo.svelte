@@ -1,7 +1,7 @@
 <script>
   import Slider from "@design-system/svelte/Slider.svelte";
   import Icon from "@design-system/svelte/Icon.svelte";
-  let value = 40;
+  let value = $state(40);
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 22rem;">
@@ -20,11 +20,13 @@
   <!-- Leading icon (labels what's being changed; the input keeps the accessible
        name) + value -->
   <Slider value={60} min={0} max={100} label="Volume" showValue>
-    <Icon slot="icon">
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-    </Icon>
+    {#snippet icon()}
+      <Icon>
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+      </Icon>
+    {/snippet}
   </Slider>
 
   <!-- Stepped (ticks) -->

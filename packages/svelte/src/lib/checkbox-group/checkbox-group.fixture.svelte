@@ -1,9 +1,13 @@
 <script lang="ts">
   import CheckboxGroup from "./CheckboxGroup.svelte";
 
-  export let value: string[] = [];
-  export let disabled = false;
-  export let onValueChange: ((value: string[]) => void) | undefined = undefined;
+  interface Props {
+    value?: string[];
+    disabled?: boolean;
+    onValueChange?: (value: string[]) => void;
+  }
+
+  let { value = [], disabled = false, onValueChange }: Props = $props();
 </script>
 
 <CheckboxGroup

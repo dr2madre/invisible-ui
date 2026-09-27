@@ -1,6 +1,6 @@
 <script>
   import PinInput from "@design-system/svelte/PinInput.svelte";
-  let value = "";
+  let value = $state("");
 
   const labelStyle = "font-size: 0.875rem; font-weight: 600;";
   const helpStyle =

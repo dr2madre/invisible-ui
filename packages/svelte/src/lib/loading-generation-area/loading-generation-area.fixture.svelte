@@ -1,14 +1,27 @@
 <script lang="ts">
   import LoadingGenerationArea from "./LoadingGenerationArea.svelte";
 
-  export let label: string | undefined = undefined;
-  export let decorative = false;
-  export let loading = true;
-  export let field = true;
-  export let labelPosition: "center" | "top" | "bottom" | "left" | "right" = "center";
-  export let status: string | undefined = undefined;
-  export let value: number | null = null;
-  export let detail: string | undefined = undefined;
+  interface Props {
+    label?: string;
+    decorative?: boolean;
+    loading?: boolean;
+    field?: boolean;
+    labelPosition?: "center" | "top" | "bottom" | "left" | "right";
+    status?: string;
+    value?: number | null;
+    detail?: string;
+  }
+
+  let {
+    label,
+    decorative = false,
+    loading = true,
+    field = true,
+    labelPosition = "center",
+    status,
+    value = null,
+    detail,
+  }: Props = $props();
 </script>
 
 <LoadingGenerationArea

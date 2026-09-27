@@ -1,23 +1,30 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createPinInput, type PinInputType } from "./create-pin-input";
 
-  export let value = "";
-  export let length = 4;
-  export let type: PinInputType = "numeric";
-  export let disabled = false;
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
-  export let onComplete: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    value?: string;
+    length?: number;
+    type?: PinInputType;
+    disabled?: boolean;
+    onValueChange?: (value: string) => void;
+    onComplete?: (value: string) => void;
+  }
 
-  const { rootAction, inputAction, values } = createPinInput({
-    value,
-    length,
-    type,
-    disabled,
+  let {
+    value = "",
+    length = 4,
+    type = "numeric",
+    disabled = false,
     onValueChange,
     onComplete,
-  });
+  }: Props = $props();
 
-  const cells = Array.from({ length }, (_, i) => i);
+  const { rootAction, inputAction, values } = untrack(() =>
+    createPinInput({ value, length, type, disabled, onValueChange, onComplete }),
+  );
+
+  const cells = untrack(() => Array.from({ length }, (_, i) => i));
 </script>
 
 <div use:rootAction aria-label="Verification code">
