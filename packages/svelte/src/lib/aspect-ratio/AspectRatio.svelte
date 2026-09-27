@@ -7,14 +7,21 @@
    *
    * Radius is themeable via `--ds-aspect-ratio-radius`.
    */
-  /** Width-to-height ratio, e.g. `16 / 9`, `4 / 3`, `1`. */
-  export let ratio = 1;
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    /** Width-to-height ratio, e.g. `16 / 9`, `4 / 3`, `1`. */
+    ratio?: number;
+    children?: Snippet;
+  }
+
+  let { ratio = 1, children }: Props = $props();
 </script>
 
 <!-- The ratio flows through a private variable: the prop always sets it
      inline, so an external custom-property override could never win. -->
 <div class="aspect-ratio" style="--_aspect-ratio: {ratio};" data-aspect-ratio>
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

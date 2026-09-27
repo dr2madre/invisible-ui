@@ -13,26 +13,38 @@
    * Provide a `label` for the accessible name. Colors, height and radius are
    * themeable via `--ds-progress-*`.
    */
+  import { untrack } from "svelte";
   import { createProgress } from "./create-progress";
 
-  /** Current value (determinate — see Loading for indeterminate waiting). */
-  export let value = 0;
-  /** Minimum value. */
-  export let min = 0;
-  /** Maximum value. */
-  export let max = 100;
-  /** Shape: a linear `bar` (default) or a `circle` ring (upload/export). */
-  export let shape: "bar" | "circle" = "bar";
-  /** Show the percentage inside the circle (determinate `circle` only). */
-  export let showValue = false;
-  /** Accessible name for the progress bar. */
-  export let label: string;
+  interface Props {
+    /** Current value (determinate — see Loading for indeterminate waiting). */
+    value?: number;
+    /** Minimum value. */
+    min?: number;
+    /** Maximum value. */
+    max?: number;
+    /** Shape: a linear `bar` (default) or a `circle` ring (upload/export). */
+    shape?: "bar" | "circle";
+    /** Show the percentage inside the circle (determinate `circle` only). */
+    showValue?: boolean;
+    /** Accessible name for the progress bar. */
+    label: string;
+  }
 
-  const progress = createProgress({ value, min, max });
+  let { value = 0, min = 0, max = 100, shape = "bar", showValue = false, label }: Props = $props();
+
+  // Seeded once from the first props; the effects below follow later ones.
+  const progress = untrack(() => createProgress({ value, min, max }));
   const { rootAction, indicatorAction, percentage, setValue, syncRange } = progress;
-  $: setValue(value);
-  $: syncRange(min, max);
-  $: width = $percentage ?? 0;
+  // The machine keeps its own store, so props changed after mount are pushed
+  // into it: the value and the range each on their own, as before.
+  $effect.pre(() => {
+    setValue(value);
+  });
+  $effect.pre(() => {
+    syncRange(min, max);
+  });
+  const width = $derived($percentage ?? 0);
   // r=15.9155 makes the circumference 100, so dasharray maps 1:1 to percent.
   const R = 15.9155;
 </script>

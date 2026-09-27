@@ -12,40 +12,54 @@
    * ({ value, label?, disabled? }) and `onSelect(value)`. Colors, radius and
    * elevation reuse the shared menu tokens (`--ds-menu-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createContextMenu, type MenuItem } from "./create-context-menu";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let items: MenuItem[];
-  export let disabled = false;
-  /** Called with the chosen item's value. */
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
-  export let label: string | undefined = undefined;
+  interface Props {
+    items: MenuItem[];
+    disabled?: boolean;
+    /** Called with the chosen item's value. */
+    onSelect?: (value: string) => void;
+    /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
+    label?: string;
+    /** The region the menu opens on. */
+    children?: Snippet;
+  }
 
+  let { items, disabled = false, onSelect, label, children }: Props = $props();
+
+  // Seeded once from the first props; the effects below follow later ones.
   // A live callback reference, so a swapped callback is honoured (ADR 0011).
-  const menu = createContextMenu({
-    items,
-    disabled,
-    onSelect: (value) => onSelect?.(value),
-  });
+  const menu = untrack(() =>
+    createContextMenu({
+      items,
+      disabled,
+      onSelect: (value) => onSelect?.(value),
+    }),
+  );
   const { open, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
 
   // Items and disabled changed after mount reach the machine, so keyboard
   // navigation and typeahead follow what the template renders.
-  $: syncItems(items);
-  $: syncDisabled(disabled);
+  $effect.pre(() => {
+    syncItems(items);
+  });
+  $effect.pre(() => {
+    syncDisabled(disabled);
+  });
 
-  $: resolvedLabel = label ?? $t("contextMenu.label");
+  const resolvedLabel = $derived(label ?? $t("contextMenu.label"));
 </script>
 
 <!-- triggerAction applies aria-haspopup="menu" at runtime; tabindex keeps the
      trigger reachable for the keyboard menu key. -->
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div class="context-menu__trigger" tabindex="0" use:triggerAction>
-  <slot />
+  {@render children?.()}
 </div>
 
 <!-- Rendered only while open: the popup truly leaves the DOM (and the

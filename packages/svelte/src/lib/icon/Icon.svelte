@@ -14,23 +14,38 @@
    * Decorative by default (`aria-hidden`); pass `label` to expose it as an image
    * with an accessible name.
    */
-  export let size: string = "1em";
-  export let viewBox: string = "0 0 24 24";
-  /** Stroke width in viewBox units (glyphs are stroke-based by default). */
-  export let strokeWidth: number | string = 2;
-  /** Accessible name. When omitted the icon is decorative. */
-  export let label: string | undefined = undefined;
-  /**
-   * Built-in animation for the glyph: `spin` (continuous rotation, e.g. a
-   * loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect
-   * `prefers-reduced-motion` (the icon stays visible, static).
-   */
-  export let animation: "none" | "spin" | "pulse" = "none";
-  /** Animation duration (any CSS time, e.g. "0.8s"). */
-  export let animationDuration: string | undefined = undefined;
-  /** Extra classes merged onto the `<svg>` (e.g. for stateful styling). */
-  let className = "";
-  export { className as class };
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    size?: string;
+    viewBox?: string;
+    /** Stroke width in viewBox units (glyphs are stroke-based by default). */
+    strokeWidth?: number | string;
+    /** Accessible name. When omitted the icon is decorative. */
+    label?: string;
+    /**
+     * Built-in animation for the glyph: `spin` (continuous rotation, e.g. a
+     * loader) or `pulse` (opacity beat, e.g. a live indicator). Both respect
+     * `prefers-reduced-motion` (the icon stays visible, static).
+     */
+    animation?: "none" | "spin" | "pulse";
+    /** Animation duration (any CSS time, e.g. "0.8s"). */
+    animationDuration?: string;
+    /** Extra classes merged onto the `<svg>` (e.g. for stateful styling). */
+    class?: string;
+    children?: Snippet;
+  }
+
+  let {
+    size = "1em",
+    viewBox = "0 0 24 24",
+    strokeWidth = 2,
+    label,
+    animation = "none",
+    animationDuration,
+    class: className = "",
+    children,
+  }: Props = $props();
 </script>
 
 <svg
@@ -50,7 +65,7 @@
   aria-hidden={label ? undefined : "true"}
   focusable="false"
 >
-  <slot />
+  {@render children?.()}
 </svg>
 
 <style>

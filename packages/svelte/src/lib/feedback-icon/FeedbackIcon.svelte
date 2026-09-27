@@ -13,20 +13,27 @@
    * to override it. The box is decorative by default (`aria-hidden`); pass
    * `label` to expose it as an image with an accessible name.
    */
+  import type { Snippet } from "svelte";
   import Icon from "../icon/Icon.svelte";
 
-  export let status: "info" | "success" | "warning" | "danger" | "neutral" = "info";
-  export let label: string | undefined = undefined;
-  /**
-   * Box treatment behind the glyph:
-   * - `"tint"` (default): a soft status-colored chip.
-   * - `"transparent"`: no box — just the colored glyph. Use on already-tinted
-   *   surfaces (e.g. inside a colored Alert) so the chip doesn't clash.
-   * - `"solid"`: a full status-colored box with a contrasting (white) glyph.
-   */
-  export let box: "tint" | "transparent" | "solid" = "tint";
-  /** Box shape — `"rounded"` (default) or a full `"round"` circle. */
-  export let shape: "rounded" | "round" = "rounded";
+  interface Props {
+    status?: "info" | "success" | "warning" | "danger" | "neutral";
+    label?: string;
+    /**
+     * Box treatment behind the glyph:
+     * - `"tint"` (default): a soft status-colored chip.
+     * - `"transparent"`: no box — just the colored glyph. Use on already-tinted
+     *   surfaces (e.g. inside a colored Alert) so the chip doesn't clash.
+     * - `"solid"`: a full status-colored box with a contrasting (white) glyph.
+     */
+    box?: "tint" | "transparent" | "solid";
+    /** Box shape — `"rounded"` (default) or a full `"round"` circle. */
+    shape?: "rounded" | "round";
+    /** A custom glyph, shown in place of the built-in one. */
+    children?: Snippet;
+  }
+
+  let { status = "info", label, box = "tint", shape = "rounded", children }: Props = $props();
 </script>
 
 <span
@@ -38,44 +45,44 @@
   aria-label={label}
   aria-hidden={label ? undefined : "true"}
 >
-  <slot>
-    {#if status === "success"}
-      <Icon size="100%" strokeWidth={2.5}>
-        <polyline points="20 6 9 17 4 12" />
-      </Icon>
-    {:else if status === "warning"}
-      <Icon size="100%">
-        <path
-          d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-        />
-        <line x1="12" y1="9" x2="12" y2="13" />
-        <line x1="12" y1="17" x2="12" y2="17" />
-      </Icon>
-    {:else if status === "danger"}
-      <!-- danger = an octagon (stop sign) with an ×, distinct from the round info -->
-      <Icon size="100%">
-        <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86" />
-        <line x1="15" y1="9" x2="9" y2="15" />
-        <line x1="9" y1="9" x2="15" y2="15" />
-      </Icon>
-    {:else if status === "neutral"}
-      <!-- neutral = a tip / suggestion (lightbulb) -->
-      <Icon size="100%">
-        <path d="M9 18h6" />
-        <path d="M10 22h4" />
-        <path
-          d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"
-        />
-      </Icon>
-    {:else}
-      <!-- info (default) -->
-      <Icon size="100%">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="11" x2="12" y2="16" />
-        <line x1="12" y1="8" x2="12" y2="8" />
-      </Icon>
-    {/if}
-  </slot>
+  {#if children}
+    {@render children()}
+  {:else if status === "success"}
+    <Icon size="100%" strokeWidth={2.5}>
+      <polyline points="20 6 9 17 4 12" />
+    </Icon>
+  {:else if status === "warning"}
+    <Icon size="100%">
+      <path
+        d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+      />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12" y2="17" />
+    </Icon>
+  {:else if status === "danger"}
+    <!-- danger = an octagon (stop sign) with an ×, distinct from the round info -->
+    <Icon size="100%">
+      <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86" />
+      <line x1="15" y1="9" x2="9" y2="15" />
+      <line x1="9" y1="9" x2="15" y2="15" />
+    </Icon>
+  {:else if status === "neutral"}
+    <!-- neutral = a tip / suggestion (lightbulb) -->
+    <Icon size="100%">
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path
+        d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"
+      />
+    </Icon>
+  {:else}
+    <!-- info (default) -->
+    <Icon size="100%">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="11" x2="12" y2="16" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </Icon>
+  {/if}
 </span>
 
 <style>

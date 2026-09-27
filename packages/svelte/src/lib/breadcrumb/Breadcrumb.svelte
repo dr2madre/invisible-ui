@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script module lang="ts">
   export interface BreadcrumbItem {
     /** Visible label. */
     label: string;
@@ -23,14 +23,18 @@
 
   const { t } = getI18n();
 
-  /** The trail, from the root to the current page (rendered last). */
-  export let items: BreadcrumbItem[];
-  /** Accessible name for the landmark. Defaults to the i18n catalog's "Breadcrumb". */
-  export let label: string | undefined = undefined;
-  /** Separator between items. Defaults to "/". */
-  export let separator = "/";
+  interface Props {
+    /** The trail, from the root to the current page (rendered last). */
+    items: BreadcrumbItem[];
+    /** Accessible name for the landmark. Defaults to the i18n catalog's "Breadcrumb". */
+    label?: string;
+    /** Separator between items. Defaults to "/". */
+    separator?: string;
+  }
 
-  $: resolvedLabel = label ?? $t("breadcrumb.label");
+  let { items, label, separator = "/" }: Props = $props();
+
+  const resolvedLabel = $derived(label ?? $t("breadcrumb.label"));
 </script>
 
 <nav class="breadcrumb" aria-label={resolvedLabel}>

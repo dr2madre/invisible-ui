@@ -131,7 +131,7 @@
         },
         {
           "name": "component",
-          "type": "import(\"svelte\").ComponentType | undefined",
+          "type": "import(\"svelte\").Component<any> | import(\"svelte\").ComponentType | undefined",
           "default": "undefined",
           "required": false,
           "description": "Render arbitrary content as the body instead of `description` / the default slot — a Svelte component plus its props. Lets a data-driven notifier carry rich content (a file preview, an avatar row). Ignored in `snack` layout.",

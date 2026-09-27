@@ -27,17 +27,21 @@
    */
   import Avatar from "../avatar/Avatar.svelte";
 
-  /** The people in the group. */
-  export let items: AvatarGroupItem[];
-  /** Maximum avatars to show before collapsing the rest into a "+N" chip. */
-  export let max = 4;
-  export let size: "sm" | "md" | "lg" = "md";
-  export let shape: "circle" | "square" = "circle";
-  /** Accessible name for the group (announced by screen readers). */
-  export let label: string;
+  interface Props {
+    /** The people in the group. */
+    items: AvatarGroupItem[];
+    /** Maximum avatars to show before collapsing the rest into a "+N" chip. */
+    max?: number;
+    size?: "sm" | "md" | "lg";
+    shape?: "circle" | "square";
+    /** Accessible name for the group (announced by screen readers). */
+    label: string;
+  }
 
-  $: visible = items.slice(0, max);
-  $: overflow = Math.max(0, items.length - visible.length);
+  let { items, max = 4, size = "md", shape = "circle", label }: Props = $props();
+
+  const visible = $derived(items.slice(0, max));
+  const overflow = $derived(Math.max(0, items.length - visible.length));
 
   // The colour is data, so it is one value only: anything that could close the
   // declaration and start another is dropped (server output is a plain string).

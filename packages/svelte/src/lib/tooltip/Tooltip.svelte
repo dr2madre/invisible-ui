@@ -11,25 +11,37 @@
    * own element), use the headless `createTooltip` instead. Themeable via
    * `--ds-tooltip-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createTooltip, type TooltipContext } from "./create-tooltip";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
-  /** Tooltip label text. */
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let text: string;
-  export let placement: TooltipContext["placement"] = "top";
-  export let openDelay = 300;
-  export let closeDelay = 100;
+  interface Props {
+    /** Tooltip label text. */
+    text: string;
+    placement?: TooltipContext["placement"];
+    openDelay?: number;
+    closeDelay?: number;
+    /** The trigger. */
+    children?: Snippet;
+  }
 
-  const tooltip = createTooltip({ placement, openDelay, closeDelay });
+  let { text, placement = "top", openDelay = 300, closeDelay = 100, children }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  const tooltip = untrack(() => createTooltip({ placement, openDelay, closeDelay }));
   const { triggerAction, tooltipAction, open, syncOptions } = tooltip;
-  $: syncOptions({ placement, openDelay, closeDelay });
+  // The machine keeps its own store, so props changed after mount are pushed
+  // into it.
+  $effect.pre(() => {
+    syncOptions({ placement, openDelay, closeDelay });
+  });
 </script>
 
 <span class="tooltip__trigger" use:triggerAction>
-  <slot />
+  {@render children?.()}
 </span>
 
 {#if $open}

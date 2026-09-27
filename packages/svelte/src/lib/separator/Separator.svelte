@@ -10,9 +10,13 @@
    * Color and thickness are themeable CSS custom properties (`--ds-separator-*`,
    * falling back to `--ds-color-border`).
    */
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  /** Hide from assistive tech (purely visual). */
-  export let decorative = false;
+  interface Props {
+    orientation?: "horizontal" | "vertical";
+    /** Hide from assistive tech (purely visual). */
+    decorative?: boolean;
+  }
+
+  let { orientation = "horizontal", decorative = false }: Props = $props();
 </script>
 
 <div
