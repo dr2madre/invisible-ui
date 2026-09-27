@@ -1,11 +1,12 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, renderHook, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useState } from "react";
+import { StrictMode, useState, type ChangeEvent } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Combobox, type ComboboxProps } from "./Combobox";
 import { Dialog } from "../dialog/Dialog";
 import { LocaleProvider } from "../i18n/i18n";
+import { useCombobox } from "./use-combobox";
 
 const items = [
   { value: "apple", label: "Apple" },
@@ -348,5 +349,218 @@ describe("Combobox inside a dialog", () => {
     const listbox = screen.getByRole("listbox");
     expect(listbox.closest("dialog"), "the list must stay in the dialog's layer").not.toBeNull();
     expect(listbox.parentElement).not.toBe(document.body);
+  });
+});
+
+// ADR 0011: a callback reports after the state write, once per action, from
+// the handler. Reported from inside a state updater it would run twice under
+// StrictMode, and could run while React renders.
+describe("Combobox callbacks", () => {
+  const typed = (text: string) => ({ target: { value: text } }) as ChangeEvent<HTMLInputElement>;
+
+  it("reports each change exactly once per action under StrictMode", () => {
+    const onValueChange = vi.fn();
+    const onInputValueChange = vi.fn();
+    const onOpenChange = vi.fn();
+    const { result } = renderHook(
+      () => useCombobox({ items, onValueChange, onInputValueChange, onOpenChange }),
+      { wrapper: StrictMode },
+    );
+
+    act(() => result.current.onInputChange(typed("ba")));
+    expect(onInputValueChange.mock.calls).toEqual([["ba"]]);
+    expect(onOpenChange.mock.calls).toEqual([[true]]);
+
+    act(() => result.current.api.select("banana"));
+    expect(onValueChange.mock.calls).toEqual([["banana"]]);
+    expect(onInputValueChange.mock.calls).toEqual([["ba"], ["Banana"]]);
+    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+
+    act(() => result.current.openAll());
+    expect(onOpenChange.mock.calls).toEqual([[true], [false], [true]]);
+
+    act(() => result.current.setOpen(false));
+    expect(onOpenChange.mock.calls).toEqual([[true], [false], [true], [false]]);
+  });
+
+  it("never reports a change the value prop makes", () => {
+    const onValueChange = vi.fn();
+    const onInputValueChange = vi.fn();
+    const { rerender } = render(
+      <StrictMode>
+        <Combobox
+          label="Fruit"
+          items={items}
+          value={null}
+          onValueChange={onValueChange}
+          onInputValueChange={onInputValueChange}
+        />
+      </StrictMode>,
+    );
+    rerender(
+      <StrictMode>
+        <Combobox
+          label="Fruit"
+          items={items}
+          value="banana"
+          onValueChange={onValueChange}
+          onInputValueChange={onInputValueChange}
+        />
+      </StrictMode>,
+    );
+    expect(input()).toHaveValue("Banana");
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onInputValueChange).not.toHaveBeenCalled();
+  });
+
+  it("types into a closed list without updating the page while rendering", async () => {
+    const user = userEvent.setup();
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+    // The page owns what the control reports, so a report made while the
+    // control renders would update the page in the middle of that render.
+    function Field({
+      onOpenChange,
+      onInputValueChange,
+    }: {
+      onOpenChange: (open: boolean) => void;
+      onInputValueChange: (text: string) => void;
+    }) {
+      const { api, inputRef, inputValue, onInputChange } = useCombobox({
+        items,
+        onOpenChange,
+        onInputValueChange,
+      });
+      return (
+        <input
+          {...api.inputProps}
+          ref={inputRef}
+          aria-label="Fruit"
+          value={inputValue}
+          onChange={onInputChange}
+        />
+      );
+    }
+    function Page() {
+      const [open, setOpen] = useState(false);
+      const [text, setText] = useState("");
+      return (
+        <>
+          <Field onOpenChange={setOpen} onInputValueChange={setText} />
+          <output>{`${open} ${text}`}</output>
+        </>
+      );
+    }
+    render(
+      <StrictMode>
+        <Page />
+      </StrictMode>,
+    );
+
+    await user.type(screen.getByRole("combobox"), "b");
+    expect(screen.getByRole("status")).toHaveTextContent("true b");
+    const renderWarnings = error.mock.calls.filter((call) =>
+      String(call[0]).includes("while rendering a different component"),
+    );
+    error.mockRestore();
+    expect(renderWarnings).toEqual([]);
+  });
+});
+
+describe("Combobox items arriving after the value", () => {
+  it("fills the text in once the selected item shows up", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Combobox label="Fruit" items={[]} value="banana" />);
+    expect(input()).toHaveValue("");
+
+    rerender(<Combobox label="Fruit" items={items} value="banana" />);
+    expect(input()).toHaveValue("Banana");
+
+    // It is the control's own text, not only what the box shows: an edit
+    // undone with Escape comes back to it.
+    await user.type(input(), "x");
+    await user.keyboard("{Escape}");
+    expect(input()).toHaveValue("Banana");
+  });
+
+  it("follows a changed label, and Escape keeps the new one", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Combobox label="Fruit" items={items} value="banana" />);
+    const renamed = items.map((item) =>
+      item.value === "banana" ? { ...item, label: "Plantain" } : item,
+    );
+
+    rerender(<Combobox label="Fruit" items={renamed} value="banana" />);
+    expect(input()).toHaveValue("Plantain");
+
+    // The text an Escape settles on moved with it.
+    await user.type(input(), "x");
+    await user.keyboard("{Escape}");
+    expect(input()).toHaveValue("Plantain");
+  });
+
+  it("leaves text the user is still editing in an open list alone", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Combobox label="Fruit" items={items} value="banana" />);
+
+    await user.clear(input());
+    await user.type(input(), "ch");
+    rerender(<Combobox label="Fruit" items={[...items]} value="banana" />);
+    expect(input()).toHaveValue("ch");
+  });
+});
+
+describe("Combobox chevron", () => {
+  it("names itself from the catalog", async () => {
+    const user = userEvent.setup();
+    render(
+      <LocaleProvider messages={{ "combobox.show": "Mostra", "combobox.hide": "Nascondi" }}>
+        <Combobox label="Frutta" items={items} />
+      </LocaleProvider>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Mostra" }));
+    expect(input()).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: "Nascondi" })).toBeInTheDocument();
+  });
+});
+
+describe("Combobox popup width", () => {
+  it("keeps the list as wide as the input while it stays open", async () => {
+    const user = userEvent.setup();
+    let width = 240;
+    render(<Combobox label="Fruit" items={items} />);
+    vi.spyOn(input(), "getBoundingClientRect").mockImplementation(
+      () =>
+        ({ x: 0, y: 0, top: 0, left: 0, right: width, bottom: 32, width, height: 32 }) as DOMRect,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Show options" }));
+    await vi.waitFor(() => expect(listbox().style.minWidth).toBe("240px"));
+
+    width = 360;
+    window.dispatchEvent(new Event("resize"));
+    await vi.waitFor(() => expect(listbox().style.minWidth).toBe("360px"));
+  });
+});
+
+describe("Combobox option icons", () => {
+  it("looks icons up without scanning the list once per visible option", async () => {
+    const user = userEvent.setup();
+    const many = Array.from({ length: 30 }, (_, index) => ({
+      value: `v${index}`,
+      label: `Option ${index}`,
+      icon: "M12 5v14",
+    }));
+    const { rerender } = render(<Combobox label="Pick" items={many} />);
+    // A typed query hands the core a filtered copy, so every scan of the
+    // original list left is the control's own.
+    await user.type(input(), "Option");
+    expect(within(listbox()).getAllByRole("option")).toHaveLength(30);
+
+    const find = vi.spyOn(many, "find");
+    rerender(<Combobox label="Pick" items={many} />);
+    const scans = find.mock.calls.length;
+    find.mockRestore();
+    expect(scans).toBeLessThan(many.length);
   });
 });

@@ -1,5 +1,5 @@
 import { combobox as core } from "@design-system/core";
-import { autoUpdate, flip, offset, shift, useFloating } from "@floating-ui/react-dom";
+import { autoUpdate, flip, offset, shift, size, useFloating } from "@floating-ui/react-dom";
 import {
   useCallback,
   useEffect,
@@ -67,6 +67,13 @@ const defaultFilter = (items: ComboboxItem[], query: string) => {
 
 const labelOf = (item: ComboboxItem) => item.label ?? item.value;
 
+// The popup is at least as wide as the input it hangs from.
+const matchReferenceWidth = size({
+  apply({ rects, elements: { floating } }) {
+    floating.style.minWidth = `${rects.reference.width}px`;
+  },
+});
+
 interface InternalState {
   open: boolean;
   value: string | null;
@@ -115,10 +122,10 @@ export function useCombobox({
     items: filter(allItems, ""),
   }));
 
-  // Latest callbacks/inputs, read inside setState updaters without widening deps.
-  const latest = useRef({ filter, allItems, onValueChange, onInputValueChange, onOpenChange });
+  // Latest inputs, read by event handlers without widening their deps.
+  const latest = useRef({ filter, allItems });
   useIsomorphicLayoutEffect(() => {
-    latest.current = { filter, allItems, onValueChange, onInputValueChange, onOpenChange };
+    latest.current = { filter, allItems };
   });
 
   // --- Controlled sync: mirror the `value` prop, and the text that goes with
@@ -139,15 +146,25 @@ export function useCombobox({
     }));
   }
 
-  // --- Keep the visible list in step when the item list itself changes.
+  // --- Keep the visible list in step when the item list itself changes. The
+  // text follows too, when it is showing the selection: a value whose items
+  // arrive later, or whose label changes, would otherwise leave the input
+  // empty or stale. Text the user is still editing in an open list stays.
   const [lastItems, setLastItems] = useState(allItems);
   if (allItems !== lastItems) {
     setLastItems(allItems);
-    setState((s) => ({
-      ...s,
-      items: filter(allItems, s.inputValue),
-      activeValue: allItems.some((i) => i.value === s.activeValue) ? s.activeValue : null,
-    }));
+    setState((s) => {
+      const showsSelection = !s.open || s.inputValue === s.committedInputValue;
+      const text = s.value !== null && showsSelection ? selectedLabel(s.value) : null;
+      const inputValue = text ?? s.inputValue;
+      return {
+        ...s,
+        inputValue,
+        committedInputValue: text ?? s.committedInputValue,
+        items: filter(allItems, inputValue),
+        activeValue: allItems.some((i) => i.value === s.activeValue) ? s.activeValue : null,
+      };
+    });
   }
 
   // --- A control turned off closes its list: the keys that dismiss it live on
@@ -159,37 +176,42 @@ export function useCombobox({
     if (disabled) setState((s) => (s.open ? { ...s, open: false, activeValue: null } : s));
   }
 
-  const setValue = useCallback((next: string | null) => {
-    setState((s) => {
-      if (s.value === next) return s;
-      latest.current.onValueChange?.(next);
-      return { ...s, value: next };
-    });
-  }, []);
+  // The setters write first and report afterwards (ADR 0011), from the
+  // handler that called them: never from inside a state updater, which React
+  // may run twice or while rendering. Like the checkbox's, they close over the
+  // state of this render, which is the state the core's handlers act on, and
+  // they report only when their own piece of it actually moves.
+  const setValue = useCallback(
+    (next: string | null) => {
+      if (state.value === next) return;
+      setState((s) => ({ ...s, value: next }));
+      onValueChange?.(next);
+    },
+    [state.value, onValueChange],
+  );
 
-  const setOpen = useCallback((next: boolean) => {
-    setState((s) => {
-      if (s.open === next) return s;
-      latest.current.onOpenChange?.(next);
-      return { ...s, open: next };
-    });
-  }, []);
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (state.open === next) return;
+      setState((s) => ({ ...s, open: next }));
+      onOpenChange?.(next);
+    },
+    [state.open, onOpenChange],
+  );
 
   const setActiveValue = useCallback((next: string | null) => {
     setState((s) => (s.activeValue === next ? s : { ...s, activeValue: next }));
   }, []);
 
-  const setInputValue = useCallback((next: string) => {
-    setState((s) => {
-      if (s.inputValue === next) return s;
-      latest.current.onInputValueChange?.(next);
-      return {
-        ...s,
-        inputValue: next,
-        items: latest.current.filter(latest.current.allItems, next),
-      };
-    });
-  }, []);
+  const setInputValue = useCallback(
+    (next: string) => {
+      if (state.inputValue === next) return;
+      const items = filter(allItems, next);
+      setState((s) => ({ ...s, inputValue: next, items }));
+      onInputValueChange?.(next);
+    },
+    [state.inputValue, filter, allItems, onInputValueChange],
+  );
 
   const setCommittedInputValue = useCallback((next: string) => {
     setState((s) => (s.committedInputValue === next ? s : { ...s, committedInputValue: next }));
@@ -198,11 +220,13 @@ export function useCombobox({
   const inputEl = useRef<HTMLInputElement | null>(null);
 
   // --- Positioning. `whileElementsMounted` is gated on `open` so autoUpdate
-  // only tracks scroll/resize while the popup is actually showing.
+  // only tracks scroll/resize while the popup is actually showing. The popup
+  // is at least as wide as the input it hangs from, measured on every update
+  // so it follows the input while open.
   const { refs, elements, floatingStyles } = useFloating<HTMLInputElement>({
     placement: "bottom-start",
     strategy: "fixed",
-    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
+    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 }), matchReferenceWidth],
     whileElementsMounted: state.open ? autoUpdate : undefined,
   });
 
@@ -301,12 +325,6 @@ export function useCombobox({
     return () => document.removeEventListener("pointerdown", onPointerDown, true);
   }, [state.open, setOpen, setActiveValue]);
 
-  // --- The popup is at least as wide as the control it hangs from.
-  useEffect(() => {
-    if (!state.open || !listboxEl.current || !inputEl.current) return;
-    listboxEl.current.style.minWidth = `${inputEl.current.offsetWidth}px`;
-  }, [state.open]);
-
   // --- Keep the highlighted option in view while arrowing through a long list.
   useEffect(() => {
     if (!state.open) return;
@@ -337,18 +355,12 @@ export function useCombobox({
   // Show every option (ignoring the typed text) so a chosen value can be
   // changed without clearing it first.
   const openAll = useCallback(() => {
-    setState((s) => {
-      if (!s.open) latest.current.onOpenChange?.(true);
-      return {
-        ...s,
-        open: true,
-        items: latest.current.filter(latest.current.allItems, ""),
-        // No first-item pre-highlight; only the selected value (if any).
-        activeValue: s.value,
-      };
-    });
+    const items = filter(allItems, "");
+    // No first-item pre-highlight; only the selected value (if any).
+    setState((s) => ({ ...s, open: true, items, activeValue: s.value }));
     inputEl.current?.focus();
-  }, []);
+    if (!state.open) onOpenChange?.(true);
+  }, [state.open, filter, allItems, onOpenChange]);
 
   return {
     api,
