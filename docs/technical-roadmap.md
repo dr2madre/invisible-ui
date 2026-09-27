@@ -96,14 +96,14 @@ Each item ships as its own PR. Checkboxes track progress.
   test proves declarative server-rendered light DOM upgrades after registration
   without losing labels, options or selected state. No virtual-DOM hydration
   step is involved.
-- [ ] **13. Custom elements: full catalog** — `packages/elements` carries 32 of
-  the 81 components in the catalog; Svelte and Vue carry all of them. The
-  remaining 49 are ported as custom elements over the same core, with the
+- [x] **13. Custom elements: full catalog** — done. `packages/elements`
+  carries all 80 components in the catalog, like Svelte and Vue. The
+  components were ported as custom elements over the same core, with the
   Svelte component as the model for markup, class names, tokens and tests.
   Each batch ships as its own PR and brings its generated API manifest, docs
   tab and browser tests. Batches follow shared shape rather than the alphabet:
   the dialog family first (Alert, Confirm, Prompt and Search Dialog, after the
-  shared dialog header lands), then overlays and menus (Popover, Tooltip, Menu,
+  shared dialog header lands), then overlays and menus (Popover, Tooltip,
   Dropdown Menu, Context Menu, Menubar, Navigation Menu), then
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and

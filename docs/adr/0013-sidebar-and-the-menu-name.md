@@ -7,6 +7,10 @@ Date: 2026-09-16
 Accepted. Implemented in Svelte and Vue; React and Elements gain it through
 the adapter parity track, not here.
 
+Amended 2026-09-27: the `Menu` alias, the `menu.label` override and the five
+sidebar-only `--ds-menu-*` fallbacks are removed without the release cycle
+planned below, because the packages are unpublished and have no consumers.
+
 ## Context
 
 The component that carries an application's side navigation shipped as `Menu`.

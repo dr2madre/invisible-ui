@@ -536,7 +536,6 @@ const NOT_A_CASE: Record<string, string> = {
   ScrollArea: "layout only",
   Notification: "display only",
   NotificationRegion: "display only",
-  Menu: "a legacy name for Sidebar (ADR 0013); Sidebar is listed",
 
   // Covered by their own suites, named here so the coverage is findable.
   Pagination: "pagination.test.ts holds reflection, silence and the live callback",

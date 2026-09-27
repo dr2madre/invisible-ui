@@ -2,9 +2,10 @@
 
 React adapter over the framework-agnostic [`@design-system/core`](../../core).
 
-**Status: proof-of-concept.** Six components — Button, Checkbox, Switch,
-Select, Combobox and Dialog — chosen to exercise the integration shapes an adapter has
-to solve. The goal is to prove the core drives a second framework, not to reach
+**Status: proof-of-concept.** 11 of the 80 components in the catalog: Button,
+Checkbox, Switch, TextField, SearchField, Select, Combobox, MultiSelect,
+Dialog, Icon and LocaleProvider. The first six were chosen to exercise the
+integration shapes an adapter has to solve. The goal is to prove the core drives a second framework, not to reach
 parity with the Svelte adapter. See
 [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
