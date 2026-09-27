@@ -87,19 +87,17 @@
 </nav>
 
 <style>
-  /* Every legacy `--ds-menu-*` name is still read as a fallback: a consumer
-     who themed this component under its former spelling keeps its theme until
-     the deprecation completes (ADR 0013). */
+  /* Padding and radius fall back to `--ds-menu-padding` and `--ds-menu-radius`,
+     which the ARIA menus share (ADR 0013). */
   .sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-sidebar-gap, var(--ds-menu-gap, 0.75rem));
-    inline-size: var(--ds-sidebar-width, var(--ds-menu-width, 15rem));
+    gap: var(--ds-sidebar-gap, 0.75rem);
+    inline-size: var(--ds-sidebar-width, 15rem);
     max-inline-size: 100%;
     padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
-    background: var(--ds-sidebar-bg, var(--ds-menu-bg, var(--ds-color-background, #fff)));
-    border: 1px solid
-      var(--ds-sidebar-border, var(--ds-menu-border, var(--ds-color-border, #c7c1b7)));
+    background: var(--ds-sidebar-bg, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(
       --ds-sidebar-radius,
       var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))

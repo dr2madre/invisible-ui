@@ -171,65 +171,9 @@ describe("i18n — translate", () => {
     expect(translate(catalog, ru, "ru", "rating.stars", { count: 1 })).toBe("1 звёзд");
   });
 
-  it("keeps legacy one/many overrides working for migrated plural keys", () => {
-    const legacy = {
-      "searchDialog.resultOne": "1 risultato",
-      "searchDialog.resultMany": "{count} risultati",
-    };
-    expect(translate(catalog, legacy, "it", "searchDialog.results", { count: 1 })).toBe(
-      "1 risultato",
-    );
-    expect(translate(catalog, legacy, "it", "searchDialog.results", { count: 3 })).toBe(
-      "3 risultati",
-    );
-    const legacyStar = { "rating.star": "{count} stella" };
-    expect(translate(catalog, legacyStar, "it", "rating.stars", { count: 1 })).toBe("1 stella");
-  });
-
-  it("prefers the legacy pair when a consumer overrode both old string keys", () => {
-    const both = { "rating.star": "{count} stella", "rating.stars": "{count} stelle" };
-    expect(translate(catalog, both, "it", "rating.stars", { count: 1 })).toBe("1 stella");
-    expect(translate(catalog, both, "it", "rating.stars", { count: 3 })).toBe("3 stelle");
-    // A plural-object override of the new key beats the legacy pair.
-    const object = {
-      ...both,
-      "rating.stars": { one: "una stella", other: "{count} stelle" },
-    };
-    expect(translate(catalog, object, "it", "rating.stars", { count: 1 })).toBe("una stella");
-  });
-
   it("applies a plain-string override of a plural key to every count", () => {
     const flat = { "rating.stars": "{count} ★" };
     expect(translate(catalog, flat, "en", "rating.stars", { count: 1 })).toBe("1 ★");
     expect(translate(catalog, flat, "en", "rating.stars", { count: 3 })).toBe("3 ★");
-  });
-});
-
-describe("a renamed key during its deprecation window", () => {
-  const catalog = { "sidebar.label": "Main", "menu.label": "Main" };
-
-  it("prefers an override of the new key", () => {
-    expect(
-      translate(
-        catalog,
-        { "sidebar.label": "Navigazione", "menu.label": "Menu" },
-        "it",
-        "sidebar.label",
-      ),
-    ).toBe("Navigazione");
-  });
-
-  it("answers with an override of the former key when the new one is untouched", () => {
-    expect(translate(catalog, { "menu.label": "Menu" }, "it", "sidebar.label")).toBe("Menu");
-  });
-
-  it("falls back to the new key's catalog entry, not the former key's", () => {
-    expect(
-      translate({ "sidebar.label": "Main", "menu.label": "Stale" }, {}, "en", "sidebar.label"),
-    ).toBe("Main");
-  });
-
-  it("leaves the former key answering for itself", () => {
-    expect(translate(catalog, { "menu.label": "Menu" }, "it", "menu.label")).toBe("Menu");
   });
 });

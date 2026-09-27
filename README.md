@@ -20,7 +20,7 @@ A **headless, accessible, multi-framework** component library — built from scr
 > may change without notice. Not recommended for production use yet.
 
 > **Status:** The framework-agnostic core and the **Svelte**, **Vue** and
-> **Web Components** adapters carry the full component set (81 components
+> **Web Components** adapters carry the full component set (80 components
 > across overlays, modals, navigation, forms, data and date/time), with
 > headless APIs for behavioral primitives and styled, token-driven components.
 > The repository includes light/dark tokens, `vitest`/`vitest-axe` coverage

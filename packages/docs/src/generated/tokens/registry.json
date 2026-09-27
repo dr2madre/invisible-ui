@@ -426,7 +426,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 286,
+        "line": 279,
         "dtcg": null
       },
       "expressions": {
@@ -533,44 +533,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-color-danger-soft",
-      "id": "color-danger-soft",
-      "tier": "semantic",
-      "ownership": "frontend",
-      "valueType": "color",
-      "specimenKind": "color",
-      "source": {
-        "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 254,
-        "dtcg": null
-      },
-      "expressions": {
-        "light": "var(--ds-color-destructive-surface)",
-        "darkMedia": null,
-        "darkAttr": null,
-        "fallbackLight": null,
-        "fallbackDark": null
-      },
-      "aliasChain": [
-        "--ds-color-destructive-surface"
-      ],
-      "adapters": [
-        "svelte",
-        "vue",
-        "react",
-        "elements"
-      ],
-      "resolved": {
-        "light": "#f9ebee",
-        "dark": "#432829"
-      },
-      "hasAlpha": false,
-      "purpose": "Deprecated name for the destructive action's fill. It keeps resolving, and it goes away before 1.0.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-color-destructive-surface"
-    },
-    {
       "name": "--ds-color-danger-surface",
       "id": "color-danger-surface",
       "tier": "semantic",
@@ -615,7 +577,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 274,
+        "line": 267,
         "dtcg": null
       },
       "expressions": {
@@ -725,7 +687,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 291,
+        "line": 284,
         "dtcg": null
       },
       "expressions": {
@@ -763,7 +725,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 289,
+        "line": 282,
         "dtcg": null
       },
       "expressions": {
@@ -984,7 +946,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 263,
+        "line": 256,
         "dtcg": null
       },
       "expressions": {
@@ -1058,7 +1020,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 259,
+        "line": 252,
         "dtcg": null
       },
       "expressions": {
@@ -1083,7 +1045,7 @@
       },
       "hasAlpha": false,
       "purpose": "The edge that goes with the quiet neutral fill.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
+      "group": "The secondary action's fill and its label: the secondary button. A quiet tint of the primary; the label flips to white on dark surfaces.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -1096,7 +1058,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 258,
+        "line": 251,
         "dtcg": null
       },
       "expressions": {
@@ -1121,7 +1083,7 @@
       },
       "hasAlpha": false,
       "purpose": "The quiet fill of a control or chip that carries no status: a plain tag, a default button.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
+      "group": "The secondary action's fill and its label: the secondary button. A quiet tint of the primary; the label flips to white on dark surfaces.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -1134,7 +1096,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 280,
+        "line": 273,
         "dtcg": null
       },
       "expressions": {
@@ -1162,46 +1124,6 @@
       "group": "Status label text for use ON the tinted *-surface tokens (e.g. soft Tag). Dark, saturated in light mode so small text clears WCAG AA 4.5:1.",
       "stability": "alpha",
       "replacedBy": null
-    },
-    {
-      "name": "--ds-color-on-danger-soft",
-      "id": "color-on-danger-soft",
-      "tier": "semantic",
-      "ownership": "frontend",
-      "valueType": "color",
-      "specimenKind": "color",
-      "source": {
-        "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 255,
-        "dtcg": null
-      },
-      "expressions": {
-        "light": "var(--ds-color-on-destructive-surface)",
-        "darkMedia": null,
-        "darkAttr": null,
-        "fallbackLight": null,
-        "fallbackDark": null
-      },
-      "aliasChain": [
-        "--ds-color-on-destructive-surface",
-        "--ds-feedback-danger-hover",
-        "--ds-red-700"
-      ],
-      "adapters": [
-        "svelte",
-        "vue",
-        "react",
-        "elements"
-      ],
-      "resolved": {
-        "light": "#ab2e42",
-        "dark": "#ffffff"
-      },
-      "hasAlpha": false,
-      "purpose": "Deprecated name for the label on the destructive action's fill.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-color-on-destructive-surface"
     },
     {
       "name": "--ds-color-on-destructive-surface",
@@ -1251,7 +1173,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 290,
+        "line": 283,
         "dtcg": null
       },
       "expressions": {
@@ -1317,47 +1239,6 @@
       "group": null,
       "stability": "alpha",
       "replacedBy": null
-    },
-    {
-      "name": "--ds-color-on-primary-soft",
-      "id": "color-on-primary-soft",
-      "tier": "semantic",
-      "ownership": "frontend",
-      "valueType": "color",
-      "specimenKind": "color",
-      "source": {
-        "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 257,
-        "dtcg": null
-      },
-      "expressions": {
-        "light": "var(--ds-color-on-secondary-surface)",
-        "darkMedia": null,
-        "darkAttr": null,
-        "fallbackLight": null,
-        "fallbackDark": null
-      },
-      "aliasChain": [
-        "--ds-color-on-secondary-surface",
-        "--ds-color-primary-hover",
-        "--ds-brand-primary-hover",
-        "--ds-purple-600"
-      ],
-      "adapters": [
-        "svelte",
-        "vue",
-        "react",
-        "elements"
-      ],
-      "resolved": {
-        "light": "#6840b7",
-        "dark": "#ffffff"
-      },
-      "hasAlpha": false,
-      "purpose": "Deprecated name for the label on the secondary action's fill.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-color-on-secondary-surface"
     },
     {
       "name": "--ds-color-on-secondary",
@@ -1631,44 +1512,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-color-primary-soft",
-      "id": "color-primary-soft",
-      "tier": "semantic",
-      "ownership": "frontend",
-      "valueType": "color",
-      "specimenKind": "color",
-      "source": {
-        "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 256,
-        "dtcg": null
-      },
-      "expressions": {
-        "light": "var(--ds-color-secondary-surface)",
-        "darkMedia": null,
-        "darkAttr": null,
-        "fallbackLight": null,
-        "fallbackDark": null
-      },
-      "aliasChain": [
-        "--ds-color-secondary-surface"
-      ],
-      "adapters": [
-        "svelte",
-        "vue",
-        "react",
-        "elements"
-      ],
-      "resolved": {
-        "light": "#ebe5f7",
-        "dark": "#342b3a"
-      },
-      "hasAlpha": false,
-      "purpose": "Deprecated name for the secondary action's fill. It keeps resolving, and it goes away before 1.0.",
-      "group": "Deprecated aliases: the appearance-based \"-soft\" names keep resolving for alpha consumers. They follow the role tokens above in every theme and will be removed before 1.0.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-color-secondary-surface"
-    },
-    {
       "name": "--ds-color-secondary",
       "id": "color-secondary",
       "tier": "semantic",
@@ -1716,7 +1559,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 285,
+        "line": 278,
         "dtcg": null
       },
       "expressions": {
@@ -1871,7 +1714,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 275,
+        "line": 268,
         "dtcg": null
       },
       "expressions": {
@@ -1946,7 +1789,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 287,
+        "line": 280,
         "dtcg": null
       },
       "expressions": {
@@ -2058,7 +1901,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 264,
+        "line": 257,
         "dtcg": null
       },
       "expressions": {
@@ -2395,7 +2238,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 269,
+        "line": 262,
         "dtcg": null
       },
       "expressions": {
@@ -2503,7 +2346,7 @@
       "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 293,
+        "line": 286,
         "dtcg": null
       },
       "expressions": {
@@ -17791,212 +17634,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-menu-bg",
-      "id": "menu-bg",
-      "component": "sidebar",
-      "usedBy": [
-        "sidebar"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "background"
-      ],
-      "adapters": [
-        "elements",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "var(--ds-color-background, #fff)"
-      ],
-      "parents": [
-        "--ds-color-background"
-      ],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "background",
-          "fallback": "var(--ds-color-background, #fff)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
-          "selector": ".sidebar",
-          "property": "background",
-          "fallback": "var(--ds-color-background, #fff)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "background",
-          "fallback": "var(--ds-color-background, #fff)"
-        }
-      ],
-      "purpose": "The former spelling of --ds-sidebar-bg, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-sidebar-bg"
-    },
-    {
-      "name": "--ds-menu-border",
-      "id": "menu-border",
-      "component": "sidebar",
-      "usedBy": [
-        "sidebar"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "border"
-      ],
-      "adapters": [
-        "elements",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "var(--ds-color-border, #c7c1b7)"
-      ],
-      "parents": [
-        "--ds-color-border"
-      ],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
-          "selector": ".sidebar",
-          "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "border",
-          "fallback": "var(--ds-color-border, #c7c1b7)"
-        }
-      ],
-      "purpose": "The former spelling of --ds-sidebar-border, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-sidebar-border"
-    },
-    {
-      "name": "--ds-menu-gap",
-      "id": "menu-gap",
-      "component": "sidebar",
-      "usedBy": [
-        "sidebar"
-      ],
-      "category": "size",
-      "categories": [
-        "size"
-      ],
-      "properties": [
-        "gap"
-      ],
-      "adapters": [
-        "elements",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "0.75rem"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "gap",
-          "fallback": "0.75rem"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
-          "selector": ".sidebar",
-          "property": "gap",
-          "fallback": "0.75rem"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "gap",
-          "fallback": "0.75rem"
-        }
-      ],
-      "purpose": "The former spelling of --ds-sidebar-gap, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-sidebar-gap"
-    },
-    {
-      "name": "--ds-menu-item-text",
-      "id": "menu-item-text",
-      "component": "sidebar",
-      "usedBy": [
-        "sidebar"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "color"
-      ],
-      "adapters": [
-        "elements",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "var(--ds-color-text, #282420)"
-      ],
-      "parents": [
-        "--ds-color-text"
-      ],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sidebar.css",
-          "selector": "nav.sidebar .sidebar__item",
-          "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sidebar/SidebarItems.svelte",
-          "selector": ".sidebar__item",
-          "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sidebar.css",
-          "selector": "nav.sidebar .sidebar__item",
-          "property": "color",
-          "fallback": "var(--ds-color-text, #282420)"
-        }
-      ],
-      "purpose": "The former spelling of --ds-sidebar-item-text, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-sidebar-item-text"
-    },
-    {
       "name": "--ds-menu-min-width",
       "id": "menu-min-width",
       "component": "context-menu",
@@ -18450,56 +18087,6 @@
       "purpose": null,
       "stability": "alpha",
       "replacedBy": null
-    },
-    {
-      "name": "--ds-menu-width",
-      "id": "menu-width",
-      "component": "sidebar",
-      "usedBy": [
-        "sidebar"
-      ],
-      "category": "size",
-      "categories": [
-        "size"
-      ],
-      "properties": [
-        "inline-size"
-      ],
-      "adapters": [
-        "elements",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "15rem"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "inline-size",
-          "fallback": "15rem"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
-          "selector": ".sidebar",
-          "property": "inline-size",
-          "fallback": "15rem"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sidebar.css",
-          "selector": "nav.sidebar",
-          "property": "inline-size",
-          "fallback": "15rem"
-        }
-      ],
-      "purpose": "The former spelling of --ds-sidebar-width, from when the sidebar was called Menu. It is still read as a fallback and is removed with the alias (ADR 0013). The ARIA menus never used it.",
-      "stability": "deprecated",
-      "replacedBy": "--ds-sidebar-width"
     },
     {
       "name": "--ds-menu-z-index",
@@ -24235,7 +23822,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-menu-bg, var(--ds-color-background, #fff))"
+        "var(--ds-color-background, #fff)"
       ],
       "parents": [
         "--ds-color-background"
@@ -24246,21 +23833,21 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "background",
-          "fallback": "var(--ds-menu-bg, var(--ds-color-background, #fff))"
+          "fallback": "var(--ds-color-background, #fff)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
           "selector": ".sidebar",
           "property": "background",
-          "fallback": "var(--ds-menu-bg, var(--ds-color-background, #fff))"
+          "fallback": "var(--ds-color-background, #fff)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "background",
-          "fallback": "var(--ds-menu-bg, var(--ds-color-background, #fff))"
+          "fallback": "var(--ds-color-background, #fff)"
         }
       ],
       "purpose": null,
@@ -24287,7 +23874,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-menu-border, var(--ds-color-border, #c7c1b7))"
+        "var(--ds-color-border, #c7c1b7)"
       ],
       "parents": [
         "--ds-color-border"
@@ -24298,21 +23885,21 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
-          "fallback": "var(--ds-menu-border, var(--ds-color-border, #c7c1b7))"
+          "fallback": "var(--ds-color-border, #c7c1b7)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
           "selector": ".sidebar",
           "property": "border",
-          "fallback": "var(--ds-menu-border, var(--ds-color-border, #c7c1b7))"
+          "fallback": "var(--ds-color-border, #c7c1b7)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
-          "fallback": "var(--ds-menu-border, var(--ds-color-border, #c7c1b7))"
+          "fallback": "var(--ds-color-border, #c7c1b7)"
         }
       ],
       "purpose": null,
@@ -24339,7 +23926,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-menu-gap, 0.75rem)"
+        "0.75rem"
       ],
       "parents": [],
       "sites": [
@@ -24348,21 +23935,21 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "gap",
-          "fallback": "var(--ds-menu-gap, 0.75rem)"
+          "fallback": "0.75rem"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
           "selector": ".sidebar",
           "property": "gap",
-          "fallback": "var(--ds-menu-gap, 0.75rem)"
+          "fallback": "0.75rem"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "gap",
-          "fallback": "var(--ds-menu-gap, 0.75rem)"
+          "fallback": "0.75rem"
         }
       ],
       "purpose": null,
@@ -24441,7 +24028,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-menu-item-text, var(--ds-color-text, #282420))"
+        "var(--ds-color-text, #282420)"
       ],
       "parents": [
         "--ds-color-text"
@@ -24452,21 +24039,21 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-menu-item-text, var(--ds-color-text, #282420))"
+          "fallback": "var(--ds-color-text, #282420)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarItems.svelte",
           "selector": ".sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-menu-item-text, var(--ds-color-text, #282420))"
+          "fallback": "var(--ds-color-text, #282420)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
-          "fallback": "var(--ds-menu-item-text, var(--ds-color-text, #282420))"
+          "fallback": "var(--ds-color-text, #282420)"
         }
       ],
       "purpose": null,
@@ -24645,7 +24232,7 @@
         "vue"
       ],
       "fallbacks": [
-        "var(--ds-menu-width, 15rem)"
+        "15rem"
       ],
       "parents": [],
       "sites": [
@@ -24654,21 +24241,21 @@
           "file": "packages/elements/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "inline-size",
-          "fallback": "var(--ds-menu-width, 15rem)"
+          "fallback": "15rem"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/sidebar/SidebarNav.svelte",
           "selector": ".sidebar",
           "property": "inline-size",
-          "fallback": "var(--ds-menu-width, 15rem)"
+          "fallback": "15rem"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "inline-size",
-          "fallback": "var(--ds-menu-width, 15rem)"
+          "fallback": "15rem"
         }
       ],
       "purpose": null,
@@ -31318,11 +30905,11 @@
     }
   ],
   "counts": {
-    "total": 115,
+    "total": 111,
     "byTier": {
       "primitive": 24,
       "brand": 6,
-      "semantic": 57,
+      "semantic": 53,
       "sizing": 2,
       "elevation": 1,
       "feedback": 5,
@@ -31333,12 +30920,12 @@
     },
     "withDarkOverride": 53,
     "designOwned": 31,
-    "colors": 94
+    "colors": 90
   },
   "adapters": {
-    "svelte": 115,
-    "vue": 115,
-    "react": 115,
-    "elements": 115
+    "svelte": 111,
+    "vue": 111,
+    "react": 111,
+    "elements": 111
   }
 }

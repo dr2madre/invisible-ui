@@ -181,7 +181,6 @@ export default defineConfig({
             "components/patterns/breadcrumb",
             "components/patterns/form-workflows",
             "components/patterns/login-form",
-            "components/patterns/menu",
             "components/patterns/menubar",
             "components/patterns/navigation-menu",
             "components/patterns/notification-center",

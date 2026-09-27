@@ -230,19 +230,3 @@ describe.each([
     ).toBeGreaterThanOrEqual(4.5);
   });
 });
-
-// The aliases are declared once, in the light block: var() indirection makes
-// them follow the replacement's theme value everywhere, so the assertion
-// belongs to that block alone rather than being repeated vacuously per theme.
-describe("deprecated aliases", () => {
-  it.each([
-    ["--ds-color-primary-soft", "--ds-color-secondary-surface"],
-    ["--ds-color-on-primary-soft", "--ds-color-on-secondary-surface"],
-    ["--ds-color-danger-soft", "--ds-color-destructive-surface"],
-    ["--ds-color-on-danger-soft", "--ds-color-on-destructive-surface"],
-  ] as const)("%s resolves to %s", (alias, replacement) => {
-    expect(lightVars[alias]).toBe(`var(${replacement})`);
-    expect(darkVars[alias]).toBeUndefined();
-    expect(darkMediaVars[alias]).toBeUndefined();
-  });
-});

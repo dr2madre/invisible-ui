@@ -101,8 +101,8 @@ Each item ships as its own PR. Checkboxes track progress.
   without losing labels, options or selected state. No virtual-DOM hydration
   step is involved.
 - [x] **13. Custom elements: full catalog** — done. `packages/elements`
-  carries 80 of the 81 components in the Svelte catalog: Menu, the deprecated
-  name of Sidebar (ADR 0013), has no element of its own. All batches are merged.
+  carries all 80 components in the catalog, like Svelte and Vue. All batches
+  are merged.
   `ds-locale-provider` carries i18n, the `e2e/elements-*.spec.ts` specs cover
   the elements in real browsers, and every element has its own tree-shaken
   budget in `.size-limit.json`. The original plan: the components were ported as custom elements over the same core, with the
@@ -110,12 +110,12 @@ Each item ships as its own PR. Checkboxes track progress.
   Each batch ships as its own PR and brings its generated API manifest, docs
   tab and browser tests. Batches follow shared shape rather than the alphabet:
   the dialog family first (Alert, Confirm, Prompt and Search Dialog, after the
-  shared dialog header lands), then overlays and menus (Popover, Tooltip, Menu,
+  shared dialog header lands), then overlays and menus (Popover, Tooltip,
   Dropdown Menu, Context Menu, Menubar, Navigation Menu), then
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
   time family, then the presentational rest.
-- [ ] **14. React: full catalog** — `packages/react` carries 11 of the 81
+- [ ] **14. React: full catalog** — `packages/react` carries 11 of the 80
   components in the catalog: Button, Checkbox, Switch, TextField,
   SearchField, Select, Combobox, MultiSelect, Dialog, Icon and
   LocaleProvider. Svelte, Vue and custom elements carry all of them. The

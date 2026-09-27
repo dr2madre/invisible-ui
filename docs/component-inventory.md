@@ -54,7 +54,6 @@ because it is part of the native-first stance (ADR 0003/0005).
 | Loading | `role="status"` / `progressbar` | ARIA | — | ≠ | "Spinner" isn't a spec name either. |
 | Loading Generation Area | `role="status"` | ARIA | — | ≠ | No spec component. |
 | Login Form | HTML `<form>` | native | native | | Pattern/organism of native inputs. |
-| Menu (nav list) | HTML `<nav>` landmark | native | — | ≠ | **Collides with APG "Menu"** (which means an *actions* menu). Watch for confusion. |
 | Menubar | APG Menubar | ARIA | — | | |
 | Meter | ARIA `role="meter"` | ARIA | — | | Native `<meter>` exists — candidate to go native. |
 | Navigation Menu | APG Disclosure Navigation Menu | hybrid | — | | |
@@ -73,6 +72,7 @@ because it is part of the native-first stance (ADR 0003/0005).
 | Segmented Control | native radio group | native | native | ≠ | iOS name; spec-wise it *is* a radio group. |
 | Select | HTML `<select>` | native | native | | Exact spec name (ADR 0003). |
 | Separator | ARIA `role="separator"` | ARIA | — | | Native `<hr>` exists — candidate to go native (horizontal case). |
+| Sidebar | HTML `<nav>` landmark | native | — | | Side navigation. Formerly `Menu`, renamed because APG "Menu" means an *actions* menu (ADR 0013). |
 | Sheet Dialog | APG Dialog on `<dialog>`, edge-anchored | native | — | ≠ | "Sheet"/"drawer" have no spec name. |
 | Skeleton | `aria-hidden` placeholder | presentational | — | | |
 | Slider | native `<input type="range">` / APG Slider | native | native | | |
@@ -106,7 +106,6 @@ the native-first stance. The divergences worth a decision:
 | --- | --- | --- |
 | Collapsible | Disclosure | Keep — "Collapsible" is what the ecosystem searches for; the naming map can gain a "Disclosure" row. |
 | Dropdown Menu | Menu Button | Keep — same reasoning. |
-| Menu (nav list) | *collides* with APG Menu (actions) | The only risky one: our "Menu" is navigation, the spec's "Menu" is actions. Consider renaming the pattern page (e.g. "Nav List") or adding a loud note. |
 | Calendar | Grid (date grid) | Keep — nobody says "date grid". |
 | Segmented Control, Sheet Dialog, Search Dialog, Tag, Count, … | no spec name exists | Nothing to adopt — the spec simply has no word for these. |
 

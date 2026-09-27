@@ -57,32 +57,29 @@ Primary sources, read in September 2026:
 | Drag-resize, floating/inset | `SidebarRail`, `variant` | shadcn | Layout is the application's | Out of v1 |
 | Who owns the breakpoint | The provider detects mobile | shadcn, Carbon | The application's policy | Rejected: `mode` |
 
-## Migration contract
+## Migration
 
-`Menu` keeps, until the removal one release cycle later:
+The `Menu` name has been removed. A consumer writes `Sidebar` where it wrote
+`Menu`: the props (`sections`, `value`, `label`, `onSelect`), the `logo` and
+`footer` slots, the landmark, `aria-current="page"` and the plain sections the
+former name accepted are all unchanged.
 
-| Surface | Kept |
+| Removed | Use instead |
 | --- | --- |
-| Import | `@design-system/svelte/Menu.svelte`; `Menu` from `@design-system/vue` |
-| Props | `sections`, `value`, `label`, `onSelect`, with the same defaults |
-| Types | `MenuItem` / `MenuEntry` and `MenuSection`, aliased to the Sidebar types |
-| Slots | `logo`, `footer` |
-| Behaviour | the landmark and its name, `aria-current="page"`, links for items with `href`, one `onSelect` per activation |
-| i18n | an override of `menu.label` still answers for the landmark |
-| Tokens | every `--ds-menu-*` the organism used still themes it |
-
-Not kept: the class names, which the stability policy has never treated as
-public surface.
+| `@design-system/svelte/Menu.svelte`; `Menu` from `@design-system/vue` | `Sidebar.svelte`; `Sidebar` |
+| `MenuItem` / `MenuEntry` and `MenuSection` (the sidebar aliases) | `SidebarItem` and `SidebarSection` |
+| an override of `menu.label` | an override of `sidebar.label` |
+| `--ds-menu-gap`, `-width`, `-bg`, `-border`, `-item-text` | the `--ds-sidebar-*` token of the same suffix |
 
 ## Tokens, one by one
 
-| New | Legacy fallback | Legacy token's own future |
+| New | Fallback | Fallback token's own future |
 | --- | --- | --- |
-| `--ds-sidebar-gap` | `--ds-menu-gap` | sidebar only, retired with the alias |
-| `--ds-sidebar-width` | `--ds-menu-width` | sidebar only, retired with the alias |
-| `--ds-sidebar-bg` | `--ds-menu-bg` | sidebar only, retired with the alias |
-| `--ds-sidebar-border` | `--ds-menu-border` | sidebar only, retired with the alias |
-| `--ds-sidebar-item-text` | `--ds-menu-item-text` | sidebar only, retired with the alias |
+| `--ds-sidebar-gap` | none | `--ds-menu-gap` removed |
+| `--ds-sidebar-width` | none | `--ds-menu-width` removed |
+| `--ds-sidebar-bg` | none | `--ds-menu-bg` removed |
+| `--ds-sidebar-border` | none | `--ds-menu-border` removed |
+| `--ds-sidebar-item-text` | none | `--ds-menu-item-text` removed |
 | `--ds-sidebar-padding` | `--ds-menu-padding` | **stays canonical** for Dropdown Menu, Context Menu, Menubar |
 | `--ds-sidebar-radius` | `--ds-menu-radius` | **stays canonical** for Dropdown Menu, Menubar |
 | `--ds-sidebar-rail-width` | none (new) | — |
@@ -93,11 +90,9 @@ and `--ds-menu-z-index` belong to the ARIA menus alone and are untouched.
 
 ## i18n precedence
 
-For the landmark name, in order: an override of `sidebar.label`, then an
-override of the legacy `menu.label`, then the catalog's `sidebar.label`, then
-the key. The legacy catalog entry never wins over the new one; only a
-consumer's override does. `sidebar.collapse`, `sidebar.expand` and
-`sidebar.open` are new and have no legacy spelling.
+For the landmark name, in order: an override of `sidebar.label`, then the
+catalog's `sidebar.label`, then the key. The former `menu.label` key has been
+removed. `sidebar.collapse`, `sidebar.expand` and `sidebar.open` are new.
 
 ## State ownership
 

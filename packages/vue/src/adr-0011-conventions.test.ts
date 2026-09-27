@@ -301,7 +301,6 @@ const NOT_A_CASE: Record<string, string> = {
   // No value a consumer controls: display, layout, or a single action.
   Icon: "display only",
   HoverCard: "no conventions case yet: docs/state-ownership-audit.md",
-  Menu: "a legacy name for Sidebar (ADR 0013); Sidebar is listed",
   FeedbackIcon: "display only",
   ErrorState: "display only",
   EmptyState: "display only",

@@ -110,7 +110,7 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-sidebar-item-text, var(--ds-menu-item-text, var(--ds-color-text, #282420)));
+    color: var(--ds-sidebar-item-text, var(--ds-color-text, #282420));
     text-decoration: none;
     background: none;
     border: 0;

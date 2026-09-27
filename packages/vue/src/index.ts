@@ -13,7 +13,7 @@
  * RatingGroup, SegmentedControl, ToggleButton, ToggleGroup, PinInput, Radio,
  * Meter, Toolbar, ButtonGroup, Link, Kbd, Separator) and the dates, times &
  * navigation surfaces batch (Calendar, DatePicker, DateRangePicker, TimeField,
- * Collapsible, HoverCard, ContextMenu, Menu, Menubar, NavigationMenu) and the
+ * Collapsible, HoverCard, ContextMenu, Menubar, NavigationMenu) and the
  * long tail that completes parity with the Svelte adapter (AspectRatio,
  * Blockquote, Code, CodeBlock, EmptyState, ErrorState, LoadingGenerationArea,
  * LoginForm, UploadDropArea, ScrollArea, Stepper, TreeView, Carousel,
@@ -139,7 +139,6 @@ export { TimeField, type TimeFieldProps } from "./time-field/TimeField";
 export { Collapsible, type CollapsibleProps } from "./collapsible/Collapsible";
 export { HoverCard, type HoverCardProps } from "./hover-card/HoverCard";
 export { ContextMenu, type ContextMenuProps } from "./context-menu/ContextMenu";
-export { Menu, type MenuEntry, type MenuProps, type MenuSection } from "./menu/Menu";
 export {
   Sidebar,
   type SidebarItem,
