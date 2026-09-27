@@ -18,6 +18,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "items",
           "type": "(ComboboxItem & { icon?: string })[]",
           "default": null,
@@ -120,6 +128,14 @@
           "default": null,
           "required": true,
           "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -243,6 +259,14 @@
           "default": null,
           "required": true,
           "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {

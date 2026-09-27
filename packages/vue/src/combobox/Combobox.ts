@@ -14,6 +14,11 @@ export interface ComboboxOption extends ComboboxItem {
 export interface ComboboxProps {
   /** Accessible name for the control. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   /** Options. Each may carry a leading `icon`; with the search hidden, the
    *  control mirrors the selected option's icon. */
   items: ComboboxOption[];
@@ -71,6 +76,7 @@ export const Combobox = defineComponent({
   name: "Combobox",
   props: {
     label: { type: String, required: true },
+    hideLabel: { type: Boolean, default: false },
     items: { type: Array as PropType<ComboboxOption[]>, required: true },
     modelValue: { type: String as PropType<string | null>, default: undefined },
     value: { type: String as PropType<string | null>, default: null },
@@ -276,7 +282,14 @@ export const Combobox = defineComponent({
             })
           : null,
 
-        h("label", { ...api.value.labelProps, class: "combobox__label" }, props.label),
+        h(
+          "label",
+          {
+            ...api.value.labelProps,
+            class: ["combobox__label", { "combobox__label--hidden": props.hideLabel }],
+          },
+          props.label,
+        ),
 
         h(
           "div",

@@ -13,6 +13,11 @@ export interface ComboboxOption extends ComboboxItem {
 export interface ComboboxProps {
   /** Accessible name for the control. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   /** Options. Each may carry a leading `icon`; with the search hidden, the
    *  control mirrors the selected option's icon. */
   items: ComboboxOption[];
@@ -60,6 +65,7 @@ export interface ComboboxProps {
  */
 export function Combobox({
   label,
+  hideLabel = false,
   items,
   value = null,
   searchable = true,
@@ -172,7 +178,10 @@ export function Combobox({
         />
       )}
 
-      <label {...api.labelProps} className="combobox__label">
+      <label
+        {...api.labelProps}
+        className={hideLabel ? "combobox__label combobox__label--hidden" : "combobox__label"}
+      >
         {label}
       </label>
 
