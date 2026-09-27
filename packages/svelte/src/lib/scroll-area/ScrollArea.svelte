@@ -6,7 +6,7 @@
    * dragging the thumb. Native scrollbars are hidden but native keyboard/wheel
    * scrolling is preserved (the focusable viewport scrolls with the arrow keys).
    *
-   * Put the scrolling content in the default slot. Themeable via
+   * Put the scrolling content in `children`. Themeable via
    * `--ds-scroll-area-*`.
    */
   import type { Snippet } from "svelte";

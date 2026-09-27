@@ -2,8 +2,12 @@
   import ScrollArea from "./ScrollArea.svelte";
   import type { ScrollOrientation } from "./create-scroll-area";
 
-  export let orientation: ScrollOrientation = "vertical";
-  export let label: string | undefined = undefined;
+  interface Props {
+    orientation?: ScrollOrientation;
+    label?: string;
+  }
+
+  let { orientation = "vertical", label }: Props = $props();
 </script>
 
 <ScrollArea {orientation} {label} maxHeight="8rem">

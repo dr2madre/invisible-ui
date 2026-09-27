@@ -1,7 +1,7 @@
 <script>
   import LoginForm from "@design-system/svelte/LoginForm.svelte";
 
-  let result = "";
+  let result = $state("");
 </script>
 
 <LoginForm

@@ -2,8 +2,8 @@
   import ConfirmDialog from "@design-system/svelte/ConfirmDialog.svelte";
 
   const file = "report-q3.pdf";
-  let deleted = false;
-  let deletedUrgent = false;
+  let deleted = $state(false);
+  let deletedUrgent = $state(false);
 </script>
 
 <div style="display: grid; gap: 1.5rem;">

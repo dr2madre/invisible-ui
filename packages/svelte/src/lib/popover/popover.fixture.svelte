@@ -1,12 +1,17 @@
 <script lang="ts">
   import Popover from "./Popover.svelte";
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  export let label: string | undefined = undefined;
+
+  interface Props {
+    onOpenChange?: (open: boolean) => void;
+    label?: string;
+  }
+
+  let { onOpenChange, label }: Props = $props();
 </script>
 
 <button>before</button>
 <Popover {onOpenChange} {label}>
-  <span slot="trigger">Open popover</span>
+  {#snippet triggerContent()}<span>Open popover</span>{/snippet}
   <p>Popover body</p>
   <button class="inside">Action</button>
 </Popover>

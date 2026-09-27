@@ -15,23 +15,24 @@
     description="Fresh arrivals for the new season, hand-picked by our team."
   >
     <!-- Solid/gradient placeholder when there's no image, so it reads clearly. -->
-    <div
-      slot="media"
-      aria-hidden="true"
-      style="aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--ds-pastel-green, #8dcc7a), var(--ds-pastel-teal, #7abecc));"
-    ></div>
+    {#snippet media()}
+      <div
+        aria-hidden="true"
+        style="aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--ds-pastel-green, #8dcc7a), var(--ds-pastel-teal, #7abecc));"
+      ></div>
+    {/snippet}
 
-    <svelte:fragment slot="tags">
+    {#snippet tags()}
       <Tag status="success">New</Tag>
       <Tag status="info">Limited</Tag>
-    </svelte:fragment>
+    {/snippet}
 
-    <svelte:fragment slot="actions">
+    {#snippet actions()}
       <Button variant="ghost" onpress={() => {}}>
         <span class="card-demo__link-text">Details</span>
       </Button>
       <Button variant="primary">Shop now</Button>
-    </svelte:fragment>
+    {/snippet}
   </Card>
 </div>
 

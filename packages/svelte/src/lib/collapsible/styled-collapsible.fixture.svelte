@@ -1,12 +1,16 @@
 <script lang="ts">
   import Collapsible from "./Collapsible.svelte";
 
-  export let open = false;
-  export let disabled = false;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    open?: boolean;
+    disabled?: boolean;
+    onOpenChange?: (open: boolean) => void;
+  }
+
+  let { open = false, disabled = false, onOpenChange }: Props = $props();
 </script>
 
 <Collapsible {open} {disabled} {onOpenChange}>
-  <span slot="trigger">Details</span>
+  {#snippet trigger()}<span>Details</span>{/snippet}
   <p>Hidden details here.</p>
 </Collapsible>

@@ -70,7 +70,7 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` slot.",
+          "description": "Show an optional close/cancel button on the footer's leading (left) edge. The trailing (right) edge holds the action buttons from the `footer` snippet.",
           "descriptionFrom": "source"
         },
         {
@@ -96,6 +96,62 @@
           "required": false,
           "description": "Called when the dialog opens/closes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's content. Defaults to the i18n catalog's label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerMeta",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Context above the title, e.g. \"Step 1 of 2\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerLead",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading ghost button in the header, e.g. back.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerActions",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Actions before the close button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footerLead",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading footer actions.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footer",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Trailing footer action buttons.",
+          "descriptionFrom": "source"
         }
       ]
     },

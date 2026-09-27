@@ -86,7 +86,7 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Square, icon-only button (pass one icon in the slot + an `ariaLabel`). The CloseButton is a preset of this.",
+          "description": "Square, icon-only button (pass one icon as `children` + an `ariaLabel`). The CloseButton is a preset of this.",
           "descriptionFrom": "curated"
         },
         {
@@ -96,6 +96,22 @@
           "required": false,
           "description": "Accessible name; required for icon-only buttons.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "left",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Replaces the built-in leading icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "right",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Replaces the built-in trailing icon.",
+          "descriptionFrom": "source"
         }
       ]
     },

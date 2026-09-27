@@ -15,18 +15,18 @@
   // Controlled parents in their plainest form: whatever a control reports
   // comes straight back down as its prop. Through the callbacks, not bind:
   // most controls never assign their own prop, so a binding carries nothing.
-  let text = "Ada";
-  let checked: CheckedState = false;
-  let on = true;
-  let pressed = false;
-  let slider = 30;
-  let selected: string | null = "pear";
-  let radio: string | null = "a";
-  let boxes: string[] = ["a"];
-  let sortedBoxes: string[] = ["b"];
-  let segment: string | null = "a";
-  let stars: number | null = 2;
-  let lone = true;
+  let text = $state("Ada");
+  let checked: CheckedState = $state(false);
+  let on = $state(true);
+  let pressed = $state(false);
+  let slider = $state(30);
+  let selected: string | null = $state("pear");
+  let radio: string | null = $state("a");
+  let boxes: string[] = $state.raw(["a"]);
+  let sortedBoxes: string[] = $state.raw(["b"]);
+  let segment: string | null = $state("a");
+  let stars: number | null = $state(2);
+  let lone = $state(true);
 
   const fruit = [
     { value: "apple", label: "Apple" },

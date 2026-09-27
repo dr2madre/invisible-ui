@@ -46,7 +46,7 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Visible label (or use the default slot).",
+          "description": "Visible label (or pass it as `children`).",
           "descriptionFrom": "curated"
         },
         {

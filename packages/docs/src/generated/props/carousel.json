@@ -80,6 +80,14 @@
           "required": false,
           "description": "Called when the active slide changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "children",
+          "type": "Snippet<[{ item: CarouselSlide; index: number; active: boolean }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom markup for every item. Defaults to the built-in slide.",
+          "descriptionFrom": "source"
         }
       ]
     },

@@ -112,6 +112,14 @@
           "required": false,
           "description": "Called when the value changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A decorative icon before the track.",
+          "descriptionFrom": "source"
         }
       ]
     },

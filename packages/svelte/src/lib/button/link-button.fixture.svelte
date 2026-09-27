@@ -1,10 +1,15 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createButton } from "./create-button";
 
-  export let disabled = false;
-  export let onPress: (() => void) | undefined = undefined;
+  interface Props {
+    disabled?: boolean;
+    onPress?: () => void;
+  }
 
-  const { rootAction } = createButton({ disabled, onPress, nativeButton: false });
+  let { disabled = false, onPress }: Props = $props();
+
+  const { rootAction } = untrack(() => createButton({ disabled, onPress, nativeButton: false }));
 </script>
 
 <!-- A non-native element behaving as a button. -->

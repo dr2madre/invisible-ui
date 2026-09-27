@@ -38,7 +38,7 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Media image (falls back to the `icon` slot).",
+          "description": "Media image (falls back to the `icon` snippet).",
           "descriptionFrom": "curated"
         },
         {
@@ -46,15 +46,15 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Media image (falls back to the `icon` slot).",
+          "description": "Media image (falls back to the `icon` snippet).",
           "descriptionFrom": "curated"
         },
         {
           "name": "title",
-          "type": "string | undefined",
+          "type": "string | Snippet | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Heading (or use the `title` slot).",
+          "description": "Heading: text, or a snippet for rich content. Only a text title names the card.",
           "descriptionFrom": "curated"
         },
         {
@@ -67,10 +67,10 @@
         },
         {
           "name": "description",
-          "type": "string | undefined",
+          "type": "string | Snippet | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Body text (or the `description` slot).",
+          "description": "Body text, or a snippet for rich content.",
           "descriptionFrom": "curated"
         },
         {
@@ -96,6 +96,46 @@
           "required": false,
           "description": "Tints the change.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Icon in the media area (media variant) or beside the title (dashboard).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "media",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom media content, in place of the image or icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "tags",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Tags shown with the title.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "metric",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Dashboard: extra content after the value and change.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Actions area at the end of the card.",
+          "descriptionFrom": "source"
         }
       ]
     },

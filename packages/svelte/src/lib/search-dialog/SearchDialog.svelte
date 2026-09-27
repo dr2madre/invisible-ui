@@ -9,13 +9,14 @@
    * result count to screen readers.
    *
    * Pass `items` ({ value, label?, disabled? }); `onSelect(value)` runs when a
-   * result is chosen. The `trigger` slot is the opener button's content. No
+   * result is chosen. The `trigger` snippet is the opener button's content. No
    * keyboard shortcut is built in: bind `open` and wire the shortcut in the
    * application. The header is the one the dialog family shares; by default
    * it only names the dialog, and `hideTitle={false}` / `closeButton` show the
    * title and a close button above the search field. Themeable via
    * `--ds-search-dialog-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createSearchDialog, type SearchDialogItem } from "./create-search-dialog";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
@@ -23,61 +24,86 @@
   import Loading from "../loading/Loading.svelte";
   import Kbd from "../kbd/Kbd.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Visual variant for the trigger Button. */
-  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
-  export let items: SearchDialogItem[];
-  /**
-   * Items shown while the query is empty — recents, frequent searches. The
-   * application measures and decides; the dialog displays. They may carry
-   * their own `group` ("Recent"). Empty means: an empty query shows all items.
-   */
-  export let suggestions: SearchDialogItem[] = [];
-  /**
-   * Results are being fetched: shows an indicator, announces "Searching…"
-   * through the status region and suppresses the empty state meanwhile.
-   * Feed async results through `items` when they arrive.
-   */
-  export let loading = false;
-  export let open = false;
-  /** Accessible title for the dialog. Defaults to the i18n catalog's "Search". */
-  export let title: string | undefined = undefined;
-  /**
-   * Visually hide the title (the default: the search field reads as the
-   * header). It still names the dialog for screen readers.
-   */
-  export let hideTitle = true;
-  /** Show a close button in the header; it closes like Escape. */
-  export let closeButton = false;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Accessible label for the search input. Defaults to the i18n catalog's "Search". */
-  export let label: string | undefined = undefined;
-  /** Input placeholder. Defaults to the i18n catalog's "Type to search…". */
-  export let placeholder: string | undefined = undefined;
-  /** Text shown when nothing matches. Defaults to the i18n catalog's "No results found.". */
-  export let emptyText: string | undefined = undefined;
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let onOpenChange: ((o: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Visual variant for the trigger Button. */
+    triggerVariant?: "default" | "primary" | "secondary" | "ghost" | "danger";
+    items: SearchDialogItem[];
+    /**
+     * Items shown while the query is empty — recents, frequent searches. The
+     * application measures and decides; the dialog displays. They may carry
+     * their own `group` ("Recent"). Empty means: an empty query shows all items.
+     */
+    suggestions?: SearchDialogItem[];
+    /**
+     * Results are being fetched: shows an indicator, announces "Searching…"
+     * through the status region and suppresses the empty state meanwhile.
+     * Feed async results through `items` when they arrive.
+     */
+    loading?: boolean;
+    open?: boolean;
+    /** Accessible title for the dialog. Defaults to the i18n catalog's "Search". */
+    title?: string;
+    /**
+     * Visually hide the title (the default: the search field reads as the
+     * header). It still names the dialog for screen readers.
+     */
+    hideTitle?: boolean;
+    /** Show a close button in the header; it closes like Escape. */
+    closeButton?: boolean;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Accessible label for the search input. Defaults to the i18n catalog's "Search". */
+    label?: string;
+    /** Input placeholder. Defaults to the i18n catalog's "Type to search…". */
+    placeholder?: string;
+    /** Text shown when nothing matches. Defaults to the i18n catalog's "No results found.". */
+    emptyText?: string;
+    onSelect?: (value: string) => void;
+    onOpenChange?: (o: boolean) => void;
+    /** The trigger button's content. Defaults to the i18n catalog's label. */
+    trigger?: Snippet;
+  }
 
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-  };
+  let {
+    triggerVariant = "default",
+    items,
+    suggestions = [],
+    loading = false,
+    open = $bindable(false),
+    title,
+    hideTitle = true,
+    closeButton = false,
+    closeLabel,
+    label,
+    placeholder,
+    emptyText,
+    onSelect,
+    onOpenChange,
+    trigger,
+  }: Props = $props();
 
   const handleSelect = (value: string) => {
     onSelect?.(value);
   };
 
-  const search = createSearchDialog({
-    items,
-    suggestions,
-    open,
-    onSelect: handleSelect,
-    onOpenChange: handleOpenChange,
-  });
+  // Seeded once from the first props; the effects below follow later ones.
+  const search = untrack(() =>
+    createSearchDialog({
+      items,
+      suggestions,
+      open,
+      onSelect: handleSelect,
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+      },
+    }),
+  );
   const {
     open: isOpen,
     triggerAction,
@@ -94,36 +120,42 @@
     setSuggestions,
   } = search;
 
-  $: resolvedTitle = title ?? $t("searchDialog.title");
-  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
-  $: resolvedLabel = label ?? $t("searchDialog.label");
-  $: resolvedPlaceholder = placeholder ?? $t("searchDialog.placeholder");
-  $: resolvedEmptyText = emptyText ?? $t("searchDialog.empty");
+  const resolvedTitle = $derived(title ?? $t("searchDialog.title"));
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
+  const resolvedLabel = $derived(label ?? $t("searchDialog.label"));
+  const resolvedPlaceholder = $derived(placeholder ?? $t("searchDialog.placeholder"));
+  const resolvedEmptyText = $derived(emptyText ?? $t("searchDialog.empty"));
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    search.syncOpen(open);
-  }
-  $: setItems(items);
-  $: setSuggestions(suggestions);
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: search.syncOpen,
+  });
+  $effect.pre(() => {
+    setItems(items);
+  });
+  $effect.pre(() => {
+    setSuggestions(suggestions);
+  });
 
   // The adapter puts items in display order (ungrouped first, then one run
   // per group), so consecutive runs of the same group form the sections.
   type Section = { group: string | null; items: SearchDialogItem[] };
-  $: sections = $visible.reduce<Section[]>((acc, item) => {
-    const group = item.group ?? null;
-    const last = acc[acc.length - 1];
-    if (last && last.group === group) last.items.push(item);
-    else acc.push({ group, items: [item] });
-    return acc;
-  }, []);
+  const sections = $derived(
+    $visible.reduce<Section[]>((acc, item) => {
+      const group = item.group ?? null;
+      const last = acc[acc.length - 1];
+      if (last && last.group === group) last.items.push(item);
+      else acc.push({ group, items: [item] });
+      return acc;
+    }, []),
+  );
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot name="trigger">{$t("searchDialog.trigger")}</slot>
+  {#if trigger}{@render trigger()}{:else}{$t("searchDialog.trigger")}{/if}
 </Button>
 
 {#if $isOpen}
@@ -183,7 +215,7 @@
           <div class="search-dialog__group" role="group" aria-label={section.group}>
             <span class="search-dialog__group-header" aria-hidden="true">{section.group}</span>
             {#each section.items as item (item.value)}
-              <!-- svelte-ignore a11y-role-has-required-aria-props -->
+              <!-- svelte-ignore a11y_role_has_required_aria_props -->
               <div class="search-dialog__item" role="option" use:optionAction={item.value}>
                 <span class="search-dialog__item-label">{item.label ?? item.value}</span>
                 {#if item.shortcut}
@@ -200,7 +232,7 @@
           </div>
         {:else}
           {#each section.items as item (item.value)}
-            <!-- svelte-ignore a11y-role-has-required-aria-props -->
+            <!-- svelte-ignore a11y_role_has_required_aria_props -->
             <div class="search-dialog__item" role="option" use:optionAction={item.value}>
               <span class="search-dialog__item-label">{item.label ?? item.value}</span>
               {#if item.shortcut}

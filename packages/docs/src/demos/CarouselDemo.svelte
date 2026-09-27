@@ -25,18 +25,22 @@
   />
 
   <!-- Gallery: a scrolling row of cards. -->
-  <Carousel {items} variant="gallery" label="Destinations" let:item>
-    <div class="slide" style="background: {item.pastel};">
-      <Tag>{item.tag}</Tag>
-      <span class="slide__title">{item.title}</span>
-    </div>
+  <Carousel {items} variant="gallery" label="Destinations">
+    {#snippet children({ item })}
+      <div class="slide" style="background: {item.pastel};">
+        <Tag>{item.tag}</Tag>
+        <span class="slide__title">{item.title}</span>
+      </div>
+    {/snippet}
   </Carousel>
 
   <!-- Coverflow ("jukebox"): the active card is centered, neighbors recede. -->
-  <Carousel {items} variant="coverflow" label="Featured destinations" let:item let:active>
-    <div class="cover" style="background: {item.pastel};" data-active={active ? "" : undefined}>
-      <span class="slide__title">{item.title}</span>
-    </div>
+  <Carousel {items} variant="coverflow" label="Featured destinations">
+    {#snippet children({ item, active })}
+      <div class="cover" style="background: {item.pastel};" data-active={active ? "" : undefined}>
+        <span class="slide__title">{item.title}</span>
+      </div>
+    {/snippet}
   </Carousel>
 
   <!-- Vertical coverflow. -->
@@ -45,11 +49,12 @@
     variant="coverflow"
     orientation="vertical"
     label="Featured destinations (vertical)"
-    let:item
   >
-    <div class="cover" style="background: {item.pastel};">
-      <span class="slide__title">{item.title}</span>
-    </div>
+    {#snippet children({ item })}
+      <div class="cover" style="background: {item.pastel};">
+        <span class="slide__title">{item.title}</span>
+      </div>
+    {/snippet}
   </Carousel>
 </div>
 

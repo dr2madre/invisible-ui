@@ -6,46 +6,65 @@
    * come from the headless collapsible (`@design-system/core`); this layer adds
    * a trigger row with a rotating chevron and a content area.
    *
-   * Slots: `trigger` (the trigger's content, falling back to the `label` prop)
-   * and the default slot (the collapsible content). Colors, radius and spacing
+   * Snippets: `trigger` (the trigger's content, falling back to the `label`
+   * prop) and `children` (the collapsible content). Colors, radius and spacing
    * are themeable via `--ds-collapsible-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createCollapsible } from "./create-collapsible";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Initial open state. */
-  export let open = false;
-  /** Whether the collapsible is disabled. */
-  export let disabled = false;
-  /** Trigger text, used when the `trigger` slot is not provided. */
-  export let label: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Initial open state. */
+    open?: boolean;
+    /** Whether the collapsible is disabled. */
+    disabled?: boolean;
+    /** Trigger text, used when the `trigger` snippet is not provided. */
+    label?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The trigger's content. Defaults to `label`, then the i18n catalog's label. */
+    trigger?: Snippet;
+    /** The collapsible content. */
+    children?: Snippet;
+  }
 
-  const { rootAction, triggerAction, contentAction, syncOpen, syncDisabled } = createCollapsible({
-    open,
-    disabled,
-    // A live callback reference (ADR 0011).
-    onOpenChange: (next) => onOpenChange?.(next),
-  });
+  let {
+    open = $bindable(false),
+    disabled = false,
+    label,
+    onOpenChange,
+    trigger,
+    children,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
+  const { rootAction, triggerAction, contentAction, syncOpen, syncDisabled } = untrack(() =>
+    createCollapsible({
+      open,
+      disabled,
+      // A live callback reference (ADR 0011).
+      onOpenChange: (next) => onOpenChange?.(next),
+    }),
+  );
 
   // Controllable mirror, compared against the last prop value (ADR 0011): a
   // sync never reports a change.
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    syncOpen(open);
-  }
-  $: syncDisabled(disabled);
+  controllable({ get: () => open, reflect: syncOpen });
+  $effect.pre(() => {
+    syncDisabled(disabled);
+  });
 </script>
 
 <div class="collapsible" use:rootAction>
   <button class="collapsible__trigger" use:triggerAction>
     <span class="collapsible__label"
-      ><slot name="trigger">{label ?? $t("collapsible.toggle")}</slot></span
+      >{#if trigger}{@render trigger()}{:else}{label ?? $t("collapsible.toggle")}{/if}</span
     >
     <span class="collapsible__icon" aria-hidden="true">
       <Icon size="var(--ds-collapsible-icon-size, 1.1em)">
@@ -54,7 +73,7 @@
     </span>
   </button>
   <div class="collapsible__content" use:contentAction>
-    <slot />
+    {@render children?.()}
   </div>
 </div>
 

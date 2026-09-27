@@ -2,7 +2,7 @@
   /**
    * AspectRatio — constrains its content to a fixed width-to-height ratio using
    * the CSS `aspect-ratio` property. Presentational only (no ARIA role): drop in
-   * an image, video, iframe or any block content via the default slot, and it is
+   * an image, video, iframe or any block content as `children`, and it is
    * cropped to fill the box.
    *
    * Radius is themeable via `--ds-aspect-ratio-radius`.

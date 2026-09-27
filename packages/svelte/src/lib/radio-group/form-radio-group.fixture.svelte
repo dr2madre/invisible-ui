@@ -1,8 +1,12 @@
 <script lang="ts">
   import RadioGroup from "./RadioGroup.svelte";
 
-  export let value: string | null = null;
-  export let name = "plan";
+  interface Props {
+    value?: string | null;
+    name?: string;
+  }
+
+  let { value = null, name = "plan" }: Props = $props();
 </script>
 
 <form data-testid="form">

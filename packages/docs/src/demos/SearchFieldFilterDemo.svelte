@@ -3,8 +3,8 @@
 
   const TABLES = ["accounts", "archive", "audit_log", "invoices", "orders", "users"];
 
-  let query = "";
-  $: matches = TABLES.filter((name) => name.includes(query.trim().toLowerCase()));
+  let query = $state("");
+  const matches = $derived(TABLES.filter((name) => name.includes(query.trim().toLowerCase())));
 </script>
 
 <div class="filter-demo">

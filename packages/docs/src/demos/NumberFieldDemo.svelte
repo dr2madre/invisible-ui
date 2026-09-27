@@ -3,15 +3,15 @@
   import NumberField from "@design-system/svelte/NumberField.svelte";
   import SegmentedControl from "@design-system/svelte/SegmentedControl.svelte";
 
-  let locale = "en";
+  let locale = $state("en");
   const locales = [
     { value: "en", label: "English" },
     { value: "it-IT", label: "Italiano" },
     { value: "ar-EG", label: "العربية" },
   ];
 
-  let quantity = 2;
-  let price = 12345.5;
+  let quantity = $state(2);
+  let price = $state(12345.5);
 </script>
 
 <div class="number-field-demo">

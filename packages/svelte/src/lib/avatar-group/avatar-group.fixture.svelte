@@ -1,17 +1,24 @@
 <script lang="ts">
   import AvatarGroup, { type AvatarGroupItem } from "./AvatarGroup.svelte";
 
-  export let max = 4;
-  export let label = "Project team";
+  interface Props {
+    max?: number;
+    label?: string;
+    items?: AvatarGroupItem[];
+  }
 
-  export let items: AvatarGroupItem[] = [
-    { name: "Ada Lovelace" },
-    { name: "Grace Hopper" },
-    { name: "Alan Turing" },
-    { name: "Katherine Johnson" },
-    { name: "Edsger Dijkstra" },
-    { name: "Barbara Liskov" },
-  ];
+  let {
+    max = 4,
+    label = "Project team",
+    items = [
+      { name: "Ada Lovelace" },
+      { name: "Grace Hopper" },
+      { name: "Alan Turing" },
+      { name: "Katherine Johnson" },
+      { name: "Edsger Dijkstra" },
+      { name: "Barbara Liskov" },
+    ],
+  }: Props = $props();
 </script>
 
 <AvatarGroup {items} {max} {label} />

@@ -72,6 +72,14 @@
           "required": false,
           "description": "Called when the panel opens/closes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "triggerContent",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's content (defaults to the i18n catalog's label), or the focusable trigger element itself in hover mode.",
+          "descriptionFrom": "source"
         }
       ]
     },

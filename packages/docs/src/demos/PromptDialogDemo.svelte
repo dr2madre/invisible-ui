@@ -2,8 +2,8 @@
   import PromptDialog from "@design-system/svelte/PromptDialog.svelte";
 
   const file = "report-q3.pdf";
-  let renamed = "";
-  let deleted = false;
+  let renamed = $state("");
+  let deleted = $state(false);
 </script>
 
 <div style="display: grid; gap: 1.5rem;">

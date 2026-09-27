@@ -1,7 +1,7 @@
 <script>
   import TimeField from "@design-system/svelte/TimeField.svelte";
 
-  let value = "09:30";
+  let value = $state("09:30");
 </script>
 
 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">

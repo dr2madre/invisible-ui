@@ -14,12 +14,23 @@
     { value: "package.json" },
   ];
 
-  export let expanded: string[] = ["src"];
-  export let selected: string | null = null;
-  export let nodes: TreeNode[] = defaultNodes;
-  export let loading: string[] = [];
-  export let loadErrors: string[] = [];
-  export let onLoadChildren: ((request: TreeLoadRequest) => void) | undefined = undefined;
+  interface Props {
+    expanded?: string[];
+    selected?: string | null;
+    nodes?: TreeNode[];
+    loading?: string[];
+    loadErrors?: string[];
+    onLoadChildren?: (request: TreeLoadRequest) => void;
+  }
+
+  let {
+    expanded = ["src"],
+    selected = null,
+    nodes = defaultNodes,
+    loading = [],
+    loadErrors = [],
+    onLoadChildren,
+  }: Props = $props();
 </script>
 
 <TreeView

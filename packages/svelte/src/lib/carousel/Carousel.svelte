@@ -1,5 +1,5 @@
 <script module lang="ts">
-  /** A built-in slide's content (used when no default slot is provided). */
+  /** A built-in slide's content (used when no `children` snippet is provided). */
   export interface CarouselSlide {
     /** Background image URL (slide variant). */
     image?: string;
@@ -7,7 +7,7 @@
     title?: string;
     /** Description overlaid on the slide. */
     description?: string;
-    /** Arbitrary extra data for custom rendering via the default slot. */
+    /** Arbitrary extra data for custom rendering via the `children` snippet. */
     [key: string]: unknown;
   }
 </script>
@@ -19,8 +19,8 @@
    * - `variant="slide"` (default): full-bleed horizontal slides with a background
    *   image and an overlaid title/description, one at a time.
    * - `variant="gallery"`: a horizontally-scrolling row of items (e.g. cards —
-   *   an album/LP-cover gallery). Provide the item markup via the default slot
-   *   (`let:item let:index let:active`).
+   *   an album/LP-cover gallery). Provide the item markup via the `children`
+   *   snippet (`{ item, index, active }`).
    * - `variant="coverflow"`: a 3D "jukebox" — the active item is centered and
    *   upright while its neighbors recede, rotated and scaled down, peeking from
    *   either side. Set `orientation="vertical"` to stack the flow top-to-bottom.
@@ -30,39 +30,60 @@
    * buttons, slide-picker dots, optional `loop`, and arrow-key navigation. The
    * control needs an accessible name via `label`. Themed via `--ds-carousel-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createCarousel, type CarouselContext } from "./create-carousel";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  export let items: CarouselSlide[];
-  export let variant: "slide" | "gallery" | "coverflow" = "slide";
-  /** Coverflow only: lay the flow out horizontally (default) or vertically. */
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let loop = false;
-  /** Show the slide-picker dots. Defaults to `true`. */
-  export let showIndicators = true;
-  /** Accessible name for the carousel (announced by screen readers). */
-  export let label: string;
-  /** Previous button accessible name. Defaults to the i18n catalog's "Previous slide". */
-  export let prevLabel: string | undefined = undefined;
-  /** Next button accessible name. Defaults to the i18n catalog's "Next slide". */
-  export let nextLabel: string | undefined = undefined;
-  /** Called whenever the current slide changes. */
-  export let onIndexChange: ((index: number) => void) | undefined = undefined;
+  interface Props {
+    items: CarouselSlide[];
+    variant?: "slide" | "gallery" | "coverflow";
+    /** Coverflow only: lay the flow out horizontally (default) or vertically. */
+    orientation?: "horizontal" | "vertical";
+    loop?: boolean;
+    /** Show the slide-picker dots. Defaults to `true`. */
+    showIndicators?: boolean;
+    /** Accessible name for the carousel (announced by screen readers). */
+    label: string;
+    /** Previous button accessible name. Defaults to the i18n catalog's "Previous slide". */
+    prevLabel?: string;
+    /** Next button accessible name. Defaults to the i18n catalog's "Next slide". */
+    nextLabel?: string;
+    /** Called whenever the current slide changes. */
+    onIndexChange?: (index: number) => void;
+    /** Custom markup for every item. Defaults to the built-in slide. */
+    children?: Snippet<[{ item: CarouselSlide; index: number; active: boolean }]>;
+  }
 
-  const context: CarouselContext = {
+  let {
+    items,
+    variant = "slide",
+    orientation = "horizontal",
+    loop = false,
+    showIndicators = true,
+    label,
+    prevLabel,
+    nextLabel,
+    onIndexChange,
+    children,
+  }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  const context: CarouselContext = untrack(() => ({
     count: items.length,
     loop,
     orientation,
     // A live callback reference (ADR 0011).
     onIndexChange: (next) => onIndexChange?.(next),
-  };
+  }));
 
   const carousel = createCarousel(context);
   // The slide count, the loop and the orientation follow the props after
   // mount (ADR 0011).
-  $: carousel.syncConfig({ count: items.length, loop, orientation });
+  $effect.pre(() => {
+    carousel.syncConfig({ count: items.length, loop, orientation });
+  });
   const {
     rootAction,
     viewportAction,
@@ -73,16 +94,18 @@
     index,
   } = carousel;
 
-  let viewportEl: HTMLElement | undefined;
+  let viewportEl: HTMLElement | undefined = $state();
 
-  $: resolvedPrevLabel = prevLabel ?? $t("carousel.previous");
-  $: resolvedNextLabel = nextLabel ?? $t("carousel.next");
+  const resolvedPrevLabel = $derived(prevLabel ?? $t("carousel.previous"));
+  const resolvedNextLabel = $derived(nextLabel ?? $t("carousel.next"));
 
   // Gallery mode scrolls the active item into view; slide mode uses a transform.
-  $: if (viewportEl && variant === "gallery" && typeof viewportEl.scrollTo === "function") {
-    const child = viewportEl.querySelectorAll<HTMLElement>(".carousel__slide")[$index];
-    if (child) viewportEl.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
-  }
+  $effect.pre(() => {
+    if (viewportEl && variant === "gallery" && typeof viewportEl.scrollTo === "function") {
+      const child = viewportEl.querySelectorAll<HTMLElement>(".carousel__slide")[$index];
+      if (child) viewportEl.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+    }
+  });
 
   // Coverflow: position each slide by its signed distance from the active one —
   // translate along the flow axis, recede with a rotation + downscale, and fade
@@ -146,8 +169,8 @@ keeps the scoped rule for the vertical coverflow layout. -->
             aria-hidden={offscreen ? "true" : undefined}
             inert={offscreen || undefined}
           >
-            {#if $$slots.default}
-              <slot {item} index={i} {active} />
+            {#if children}
+              {@render children({ item, index: i, active })}
             {:else}
               <div
                 class="carousel__bg"

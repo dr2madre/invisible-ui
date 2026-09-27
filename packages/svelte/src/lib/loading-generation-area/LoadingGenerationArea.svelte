@@ -16,10 +16,10 @@
    * The dot field and an explicit indicator are **alternatives**, never stacked
    * (no loader on a loader): the field *is* the loading visual by default; turn
    * `field` off and drop a different loader — e.g. `<Loading variant="spinner"/>`
-   * — into the `indicator` slot to use that instead.
+   * — into the `indicator` snippet to use that instead.
    *
    * When loading finishes, flip `loading` to `false`: LoadingGenerationArea renders its
-   * default slot (the real content) in place of the loading placeholder.
+   * children (the real content) in place of the loading placeholder.
    *
    * Accessibility: a polite `role="status"` with an accessible name (`label`,
    * i18n default). When `status` is set it drives the announcement (the region
@@ -28,41 +28,60 @@
    * assistive tech. The twinkle respects `prefers-reduced-motion`. Themeable via
    * `--ds-loading-generation-area-*`.
    */
+  import type { Snippet } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  /** Accessible name. Defaults to the i18n catalog's "Loading…". */
-  export let label: string | undefined = undefined;
-  /** Hide from assistive tech (the surrounding region announces the state). */
-  export let decorative = false;
-  /**
-   * Whether the process is still running. While `true` (default) the loading
-   * placeholder is shown; set it to `false` when done and the default slot (the
-   * real content) is rendered in its place.
-   */
-  export let loading = true;
-  /** Show the dot field as the backdrop. */
-  export let field = true;
-  /** Where the label/indicator zone sits over the area. */
-  export let labelPosition: "center" | "top" | "bottom" | "left" | "right" = "center";
-  /** Live status message — announced on every change. */
-  export let status: string | undefined = undefined;
-  /** Percentage (0–100), shown as "N%". */
-  export let value: number | null = null;
-  /** Extra detail line, e.g. "48 MB of 128 MB" or "3 of 8 files". */
-  export let detail: string | undefined = undefined;
+  interface Props {
+    /** Accessible name. Defaults to the i18n catalog's "Loading…". */
+    label?: string;
+    /** Hide from assistive tech (the surrounding region announces the state). */
+    decorative?: boolean;
+    /**
+     * Whether the process is still running. While `true` (default) the loading
+     * placeholder is shown; set it to `false` when done and the children (the
+     * real content) are rendered in its place.
+     */
+    loading?: boolean;
+    /** Show the dot field as the backdrop. */
+    field?: boolean;
+    /** Where the label/indicator zone sits over the area. */
+    labelPosition?: "center" | "top" | "bottom" | "left" | "right";
+    /** Live status message — announced on every change. */
+    status?: string;
+    /** Percentage (0–100), shown as "N%". */
+    value?: number | null;
+    /** Extra detail line, e.g. "48 MB of 128 MB" or "3 of 8 files". */
+    detail?: string;
+    /** A loader shown in the label zone, e.g. a spinner when `field` is off. */
+    indicator?: Snippet;
+    /** The real content, rendered once `loading` is `false`. */
+    children?: Snippet;
+  }
 
-  $: resolvedLabel = label ?? $t("loading.label");
-  $: clamped = value == null ? null : Math.min(100, Math.max(0, value));
-  $: hasStatus = status != null;
-  $: hasZone = hasStatus || clamped != null || detail != null || $$slots.indicator;
+  let {
+    label,
+    decorative = false,
+    loading = true,
+    field = true,
+    labelPosition = "center",
+    status,
+    value = null,
+    detail,
+    indicator,
+    children,
+  }: Props = $props();
+
+  const resolvedLabel = $derived(label ?? $t("loading.label"));
+  const clamped = $derived(value == null ? null : Math.min(100, Math.max(0, value)));
+  const hasStatus = $derived(status != null);
+  const hasZone = $derived(hasStatus || clamped != null || detail != null || Boolean(indicator));
 </script>
 
 {#if loading}
   <div
-    class="loading-generation-area"
-    class:loading-generation-area--field={field}
+    class={["loading-generation-area", field && "loading-generation-area--field"]}
     data-position={labelPosition}
     role={decorative ? undefined : "status"}
     aria-label={decorative || hasStatus ? undefined : resolvedLabel}
@@ -71,7 +90,7 @@
   >
     {#if hasZone}
       <div class="loading-generation-area__zone">
-        <slot name="indicator" />
+        {@render indicator?.()}
         {#if hasStatus}<span class="loading-generation-area__status">{status}</span>{/if}
         {#if clamped != null}<span class="loading-generation-area__value" aria-hidden="true"
             >{Math.round(clamped)}%</span
@@ -83,7 +102,7 @@
     {/if}
   </div>
 {:else}
-  <div class="loading-generation-area__content"><slot /></div>
+  <div class="loading-generation-area__content">{@render children?.()}</div>
 {/if}
 
 <style>

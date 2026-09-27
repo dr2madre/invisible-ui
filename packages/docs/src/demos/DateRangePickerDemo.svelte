@@ -1,8 +1,8 @@
 <script>
   import DateRangePicker from "@design-system/svelte/DateRangePicker.svelte";
 
-  let start = "2026-06-10";
-  let end = "2026-06-15";
+  let start = $state("2026-06-10");
+  let end = $state("2026-06-15");
 </script>
 
 <DateRangePicker

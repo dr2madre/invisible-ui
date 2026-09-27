@@ -35,7 +35,7 @@
         },
         {
           "name": "forgotHref",
-          "type": "string | undefined",
+          "type": "string",
           "default": "\"#\"",
           "required": false,
           "description": "",
@@ -72,6 +72,22 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "logo",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A logo shown on top of the card.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "providerIcon",
+          "type": "Snippet<[{ provider: string }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The icon of a social provider button, given the provider id.",
+          "descriptionFrom": "source"
         }
       ]
     },

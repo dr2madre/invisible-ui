@@ -6,7 +6,7 @@
 <div style="display: grid; gap: 1.5rem;">
   <figure style="margin: 0; display: grid; gap: 0.5rem; justify-items: start;">
     <Popover>
-      <span slot="trigger">Open popover</span>
+      {#snippet triggerContent()}<span>Open popover</span>{/snippet}
       <div style="display:grid; gap:0.25rem; justify-items: start;">
         <strong>Popover</strong>
         <span>Non-modal floating panel, positioned with Floating UI.</span>
@@ -22,7 +22,7 @@
     <span>
       Written by
       <Popover trigger="hover">
-        <a slot="trigger" href="#ada">@ada</a>
+        {#snippet triggerContent()}<a href="#ada">@ada</a>{/snippet}
         <div style="display:grid; gap:0.25rem; max-inline-size: 16rem;">
           <strong>Ada Lovelace</strong>
           <span>Mathematician; wrote the first published algorithm.</span>

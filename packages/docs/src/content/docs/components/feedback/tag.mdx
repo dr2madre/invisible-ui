@@ -22,8 +22,8 @@ to host a [Count](/invisible-ui/components/feedback/count/).
 
 <PropsTable component="tag" />
 
-The default slot is the label; the `icon` slot holds a leading icon and the
-`trailing` slot a trailing one.
+The children are the label; the `icon` snippet holds a leading icon and the
+`trailing` snippet a trailing one.
 
 ### Example
 
@@ -31,7 +31,7 @@ The default slot is the label; the `icon` slot holds a leading icon and the
 <Tag status="success" variant="solid">Published</Tag>
 <Tag status="info" removable onRemove={() => {}}>Filter</Tag>
 <Tag status="danger">
-  <Icon slot="icon"><!-- … --></Icon>
+  {#snippet icon()}<Icon><!-- … --></Icon>{/snippet}
   Blocked
 </Tag>
 ```

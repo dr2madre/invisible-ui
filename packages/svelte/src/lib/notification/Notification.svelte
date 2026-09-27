@@ -20,7 +20,7 @@
    * Enter/leave motion, elevation and placement are handled by
    * `NotificationRegion`.
    */
-  import { onDestroy } from "svelte";
+  import { onDestroy, untrack, type Snippet } from "svelte";
   import InlineNotification from "../inline-notification/InlineNotification.svelte";
   import type {
     NotificationAction,
@@ -28,44 +28,67 @@
     NotificationStatus,
   } from "./create-notifier";
 
-  /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
-  export let status: NotificationStatus = "info";
-  export let title: string | undefined = undefined;
-  export let text: string | undefined = undefined;
-  /** Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed. */
-  export let duration = 0;
-  export let closable = true;
-  export let role: "status" | "alert" = "status";
-  export let actions: NotificationAction[] | undefined = undefined;
-  /**
-   * High-contrast inverse surface for maximum visibility. Recommended for
-   * transient info outcomes that auto-dismiss (saved, offline, downtime…).
-   */
-  export let inverted = false;
-  /** Snackbar layout: one compact row (icon + title + inline action), no description. */
-  export let snack = false;
-  /* eslint-disable @typescript-eslint/no-explicit-any -- the props are the component's own */
-  /** Rich body: a Svelte component rendered instead of `text` (ignored in snack). */
-  export let component:
-    import("svelte").Component<any> | import("svelte").ComponentType | undefined = undefined;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  /** Props for `component`. */
-  export let componentProps: Record<string, unknown> = {};
-  /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
-  export let iconShape: "rounded" | "round" = "rounded";
-  /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
-  export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
-  /** Called when the notification closes, with the reason (timeout / user / action). */
-  export let onclose: ((reason: NotificationDismissReason) => void) | undefined = undefined;
-  /**
-   * Hold the auto-dismiss countdown (the region sets this while the whole stack
-   * is hovered or focused, so a burst of toasts pauses together — not just the
-   * one under the pointer).
-   */
-  export let paused = false;
+  interface Props {
+    /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
+    status?: NotificationStatus;
+    title?: string;
+    text?: string;
+    /** Auto-dismiss delay in ms — opt-in. `0` (default) keeps it until closed. */
+    duration?: number;
+    closable?: boolean;
+    role?: "status" | "alert";
+    actions?: NotificationAction[];
+    /**
+     * High-contrast inverse surface for maximum visibility. Recommended for
+     * transient info outcomes that auto-dismiss (saved, offline, downtime…).
+     */
+    inverted?: boolean;
+    /** Snackbar layout: one compact row (icon + title + inline action), no description. */
+    snack?: boolean;
+    /* eslint-disable @typescript-eslint/no-explicit-any -- the props are the component's own */
+    /** Rich body: a Svelte component rendered instead of `text` (ignored in snack). */
+    component?: import("svelte").Component<any> | import("svelte").ComponentType;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+    /** Props for `component`. */
+    componentProps?: Record<string, unknown>;
+    /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
+    iconShape?: "rounded" | "round";
+    /** FeedbackIcon box override (see InlineNotification): force `"tint"`/`"solid"` on a tinted surface. */
+    iconBox?: "tint" | "transparent" | "solid";
+    /** Called when the notification closes, with the reason (timeout / user / action). */
+    onclose?: (reason: NotificationDismissReason) => void;
+    /**
+     * Hold the auto-dismiss countdown (the region sets this while the whole stack
+     * is hovered or focused, so a burst of toasts pauses together — not just the
+     * one under the pointer).
+     */
+    paused?: boolean;
+    /** Custom glyph, forwarded to the InlineNotification's FeedbackIcon. */
+    icon?: Snippet;
+  }
+
+  let {
+    status = "info",
+    title,
+    text,
+    duration = 0,
+    closable = true,
+    role = "status",
+    actions,
+    inverted = false,
+    snack = false,
+    component,
+    componentProps = {},
+    iconShape = "rounded",
+    iconBox,
+    onclose,
+    paused = false,
+    icon,
+  }: Props = $props();
 
   let timer: ReturnType<typeof setTimeout> | undefined;
-  let remaining = duration;
+  // Seeded once; the duration effect below resets it on every change.
+  let remaining = untrack(() => duration);
   let startedAt = 0;
 
   function clearTimer() {
@@ -87,12 +110,18 @@
     remaining -= Date.now() - startedAt;
   }
 
-  // Region-driven pause: hold while `paused`, resume when released.
-  $: if (paused) pause();
-  else start();
+  // Region-driven pause: hold while `paused`, resume when released. Only
+  // `paused` drives it: a duration change is the next effect's job.
+  $effect.pre(() => {
+    const hold = paused;
+    untrack(() => (hold ? pause() : start()));
+  });
 
   // (Re)initialise the countdown whenever the duration changes.
-  $: resetForDuration(duration);
+  $effect.pre(() => {
+    const next = duration;
+    untrack(() => resetForDuration(next));
+  });
   function resetForDuration(d: number) {
     clearTimer();
     remaining = d;
@@ -102,52 +131,35 @@
   onDestroy(clearTimer);
 
   // Action clicks run the handler, then dismiss unless told to stay open.
-  $: alertActions = actions?.map((action) => ({
-    label: action.label,
-    // Ghost by default, like the inline banner: the action must not outweigh
-    // the message (override per action when one must stand out).
-    variant: action.variant ?? "ghost",
-    onClick: () => {
-      action.onClick?.();
-      if (!action.keepOpen) onclose?.("action");
-    },
-  }));
+  const alertActions = $derived(
+    actions?.map((action) => ({
+      label: action.label,
+      // Ghost by default, like the inline banner: the action must not outweigh
+      // the message (override per action when one must stand out).
+      variant: action.variant ?? "ghost",
+      onClick: () => {
+        action.onClick?.();
+        if (!action.keepOpen) onclose?.("action");
+      },
+    })),
+  );
 </script>
 
-<!-- No wrapper: the Alert is the live region. Pause-on-hover/focus listeners
-     attach to it directly (it carries role="status"/"alert"). -->
-{#if $$slots.icon}
-  <InlineNotification
-    {status}
-    title={title ?? ""}
-    description={text ?? ""}
-    {role}
-    {closable}
-    {inverted}
-    {snack}
-    {component}
-    {componentProps}
-    {iconShape}
-    {iconBox}
-    actions={alertActions}
-    onclose={() => onclose?.("user")}
-  >
-    <slot name="icon" slot="icon" />
-  </InlineNotification>
-{:else}
-  <InlineNotification
-    {status}
-    title={title ?? ""}
-    description={text ?? ""}
-    {role}
-    {closable}
-    {inverted}
-    {snack}
-    {component}
-    {componentProps}
-    {iconShape}
-    {iconBox}
-    actions={alertActions}
-    onclose={() => onclose?.("user")}
-  />
-{/if}
+<!-- No wrapper: the InlineNotification is the live region (it carries
+     role="status"/"alert"). -->
+<InlineNotification
+  {status}
+  title={title ?? ""}
+  description={text ?? ""}
+  {role}
+  {closable}
+  {inverted}
+  {snack}
+  {component}
+  {componentProps}
+  {iconShape}
+  {iconBox}
+  actions={alertActions}
+  onclose={() => onclose?.("user")}
+  {icon}
+/>

@@ -1,9 +1,13 @@
 <script lang="ts">
   import DateRangePicker from "./DateRangePicker.svelte";
 
-  export let start: string | null = null;
-  export let end: string | null = null;
-  export let disabled = false;
+  interface Props {
+    start?: string | null;
+    end?: string | null;
+    disabled?: boolean;
+  }
+
+  let { start = null, end = null, disabled = false }: Props = $props();
 </script>
 
 <form data-testid="form">

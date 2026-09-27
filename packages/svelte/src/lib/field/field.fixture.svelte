@@ -1,11 +1,17 @@
 <script lang="ts">
   import Field from "./Field.svelte";
 
-  export let description: string | undefined = "We'll never share it.";
-  export let error: string | undefined = undefined;
-  export let required = false;
+  interface Props {
+    description?: string;
+    error?: string;
+    required?: boolean;
+  }
+
+  let { description = "We'll never share it.", error, required = false }: Props = $props();
 </script>
 
-<Field label="Email" {description} {error} {required} let:controlProps>
-  <input type="email" {...controlProps} />
+<Field label="Email" {description} {error} {required}>
+  {#snippet children({ controlProps })}
+    <input type="email" {...controlProps} />
+  {/snippet}
 </Field>

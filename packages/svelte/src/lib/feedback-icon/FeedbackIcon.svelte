@@ -9,7 +9,7 @@
    * headless primitives. Colors are CSS custom properties (`--ds-feedback-*`)
    * with sensible defaults, so they remain themeable.
    *
-   * A built-in icon is provided per status; pass your own via the default slot
+   * A built-in icon is provided per status; pass your own as `children`
    * to override it. The box is decorative by default (`aria-hidden`); pass
    * `label` to expose it as an image with an accessible name.
    */

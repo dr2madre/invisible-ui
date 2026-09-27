@@ -6,8 +6,8 @@
    * surrounding font-size), `currentColor` (so they inherit text color), rounded
    * stroke joins, and accessibility.
    *
-   * Provide the glyph itself — `<path>`, `<line>`, `<polyline>`, … — via the
-   * default slot. This is also the seam for swapping icon sets: render a Lucide
+   * Provide the glyph itself — `<path>`, `<line>`, `<polyline>`, … — as the
+   * `children` snippet. This is also the seam for swapping icon sets: render a Lucide
    * / FontAwesome / custom SVG's inner shapes inside `<Icon>` and they pick up
    * the same sizing and color everywhere.
    *

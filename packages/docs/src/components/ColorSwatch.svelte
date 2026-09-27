@@ -2,8 +2,7 @@
   // Reusable color swatch: a color chip with its name, HEX and OKLCH. The chip
   // color is a per-instance value, so it's set via the style directive (the one
   // legitimate dynamic-color case) rather than a static class.
-  export let name = "";
-  export let hex = "#000000";
+  let { name = "", hex = "#000000" } = $props();
 
   const toOklch = (r, g, b) => {
     const lin = (c) => {
@@ -25,10 +24,10 @@
     return `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${H.toFixed(1)})`;
   };
 
-  $: r = parseInt(hex.slice(1, 3), 16);
-  $: g = parseInt(hex.slice(3, 5), 16);
-  $: b = parseInt(hex.slice(5, 7), 16);
-  $: oklch = toOklch(r, g, b);
+  const r = $derived(parseInt(hex.slice(1, 3), 16));
+  const g = $derived(parseInt(hex.slice(3, 5), 16));
+  const b = $derived(parseInt(hex.slice(5, 7), 16));
+  const oklch = $derived(toOklch(r, g, b));
 </script>
 
 <figure class="swatch">

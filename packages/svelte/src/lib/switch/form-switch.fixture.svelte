@@ -1,9 +1,13 @@
 <script lang="ts">
   import Switch from "./Switch.svelte";
 
-  export let checked = false;
-  export let name = "wifi";
-  export let value = "on";
+  interface Props {
+    checked?: boolean;
+    name?: string;
+    value?: string;
+  }
+
+  let { checked = false, name = "wifi", value = "on" }: Props = $props();
 </script>
 
 <form data-testid="form">

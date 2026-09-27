@@ -75,7 +75,7 @@
         },
         {
           "name": "autocomplete",
-          "type": "HTMLInputAttributes[\"autocomplete\"]",
+          "type": "HTMLInputAttributes[\"autocomplete\"] | undefined",
           "default": "undefined",
           "required": false,
           "description": "Native browser autofill hint.",

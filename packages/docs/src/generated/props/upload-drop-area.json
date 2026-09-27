@@ -56,6 +56,14 @@
           "required": false,
           "description": "Called with the selected/dropped files.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Replaces the built-in upload icon.",
+          "descriptionFrom": "source"
         }
       ]
     },

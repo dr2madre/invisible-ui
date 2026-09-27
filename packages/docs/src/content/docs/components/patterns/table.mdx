@@ -23,15 +23,15 @@ shell (config, views, pagination) see [TableSet](/invisible-ui/components/patter
 
 <PropsTable component="table" />
 
-Use the `cell` slot (`let:row let:column let:value let:rowIndex`) for custom
-cell rendering.
+Use the `cell` snippet (`{ row, column, value, rowIndex }`) for custom cell
+rendering.
 
 ### Row selection column
 
 With `selectionColumn`, the table renders a structural first column and two
-scoped slots to fill it: `selectionHeader` for the `<th>` (the select-all
-control lives here) and `selectionCell` (`let:row let:rowId let:rowIndex`) for
-each row's control. The table itself holds no selection state: pair the slots
+snippets to fill it: `selectionHeader` for the `<th>` (the select-all control
+lives here) and `selectionCell` (`{ row, rowId, rowIndex }`) for each row's
+control. The table itself holds no selection state: pair the snippets
 with your own state or use
 [Table Set](/invisible-ui/components/patterns/table-set/), which wires
 controlled row selection on top of this column — see its

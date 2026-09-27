@@ -5,10 +5,14 @@
   import Dialog from "./Dialog.svelte";
   import Button from "../button/Button.svelte";
 
-  export let open = false;
-  export let step: 1 | 2 = 1;
+  interface Props {
+    open?: boolean;
+    step?: 1 | 2;
+  }
 
-  let heading: HTMLHeadingElement | undefined;
+  let { open = false, step = 1 }: Props = $props();
+
+  let heading: HTMLHeadingElement | undefined = $state();
 
   // Focus lands on the new step heading, so the reader hears the new context
   // before its controls, and never stays on a control the step removed.
@@ -20,22 +24,22 @@
 </script>
 
 <Dialog {open} title="Set up project" bodyLayout="stack" footerClose closeLabel="Close">
-  <span slot="trigger">Set up project</span>
-  <span slot="headerMeta">Step {step} of 2</span>
+  {#snippet trigger()}<span>Set up project</span>{/snippet}
+  {#snippet headerMeta()}<span>Step {step} of 2</span>{/snippet}
 
-  <svelte:fragment slot="footerLead">
+  {#snippet footerLead()}
     {#if step === 2}
       <Button variant="ghost" onpress={() => goTo(1)}>Back</Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="footer">
+  {#snippet footer()}
     {#if step === 1}
       <Button variant="primary" onpress={() => goTo(2)}>Continue</Button>
     {:else}
       <Button variant="primary">Create project</Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
   <h3 tabindex="-1" bind:this={heading}>
     {step === 1 ? "Choose a template" : "Name the project"}

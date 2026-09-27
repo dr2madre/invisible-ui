@@ -1,9 +1,13 @@
 <script lang="ts">
   import ToggleButton from "./ToggleButton.svelte";
 
-  export let pressed = false;
-  export let disabled = false;
-  export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
+  interface Props {
+    pressed?: boolean;
+    disabled?: boolean;
+    onPressedChange?: (p: boolean) => void;
+  }
+
+  let { pressed = false, disabled = false, onPressedChange }: Props = $props();
 </script>
 
 <ToggleButton {pressed} {disabled} {onPressedChange} label="Bold">B</ToggleButton>

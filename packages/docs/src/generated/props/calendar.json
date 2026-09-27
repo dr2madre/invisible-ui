@@ -216,6 +216,14 @@
           "required": false,
           "description": "Called when the range changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "day",
+          "type": "Snippet<[CalendarDayContext]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom content of a day in the grid views, replacing the number, dots and price.",
+          "descriptionFrom": "source"
         }
       ]
     },

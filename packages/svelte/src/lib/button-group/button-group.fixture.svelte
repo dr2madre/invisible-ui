@@ -3,9 +3,13 @@
   import Button from "../button/Button.svelte";
   import type { Orientation } from "./create-button-group";
 
-  export let label = "Text alignment";
-  export let orientation: Orientation = "horizontal";
-  export let attached = true;
+  interface Props {
+    label?: string;
+    orientation?: Orientation;
+    attached?: boolean;
+  }
+
+  let { label = "Text alignment", orientation = "horizontal", attached = true }: Props = $props();
 </script>
 
 <ButtonGroup {label} {orientation} {attached}>

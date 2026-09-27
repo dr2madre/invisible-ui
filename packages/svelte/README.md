@@ -20,8 +20,8 @@ are component-scoped and use the shared `--ds-*` theme tokens.
   import Checkbox from "@design-system/svelte/Checkbox.svelte";
   import Select from "@design-system/svelte/Select.svelte";
 
-  let subscribed = false;
-  let fruit: string | null = null;
+  let subscribed = $state(false);
+  let fruit: string | null = $state(null);
   const fruits = [
     { value: "apple", label: "Apple" },
     { value: "pear", label: "Pear" },
@@ -32,6 +32,11 @@ are component-scoped and use the shared `--ds-*` theme tokens.
 <Select bind:value={fruit} label="Fruit" items={fruits} name="fruit" />
 <Button variant="primary" onpress={() => console.log("Saved")}>Save</Button>
 ```
+
+Components are written in Svelte 5 runes mode. Named content regions are
+snippet props (`{#snippet trigger()}...{/snippet}`), forwarded DOM events are
+DOM-named callback props such as `onclick`, and `bind:` works on controllable
+values.
 
 Import `@design-system/svelte/tokens.css` when using the shared theme outside
 component-scoped styles.
@@ -48,7 +53,7 @@ that apply the connected prop bags to real DOM elements.
 <script lang="ts">
   import { createButton } from "@design-system/svelte";
 
-  let presses = 0;
+  let presses = $state(0);
   const { rootAction } = createButton({
     onPress: () => (presses += 1),
   });
@@ -67,7 +72,7 @@ locale metadata, writing direction or message overrides:
   import LocaleProvider from "@design-system/svelte/LocaleProvider.svelte";
   import Select from "@design-system/svelte/Select.svelte";
 
-  let value: string | null = null;
+  let value: string | null = $state(null);
   const messages = { "select.placeholder": "Scegli…" };
 </script>
 

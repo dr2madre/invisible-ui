@@ -6,7 +6,7 @@
    * an optional copy-to-clipboard button can be shown.
    *
    * This is a presentational container — it does not do syntax highlighting; wrap
-   * already-highlighted markup with the default slot if you need it (the `code`
+   * already-highlighted markup as `children` if you need it (the `code`
    * prop still drives the copy button).
    *
    * Accessibility:
@@ -26,7 +26,7 @@
   const { t } = getI18n();
 
   interface Props {
-    /** The source text. Drives the copy button and is rendered when no slot is given. */
+    /** The source text. Drives the copy button and is rendered when no `children` is given. */
     code?: string;
     /** Optional caption shown in the header (e.g. a language or filename). */
     language?: string;

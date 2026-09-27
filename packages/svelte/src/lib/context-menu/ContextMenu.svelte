@@ -8,7 +8,7 @@
    * (`@design-system/core`). Popup positioning (flip/shift against a virtual
    * anchor at the pointer) uses `@floating-ui/dom`.
    *
-   * Wrap the target area in the default slot; pass `items`
+   * Wrap the target area in `children`; pass `items`
    * ({ value, label?, disabled? }) and `onSelect(value)`. Colors, radius and
    * elevation reuse the shared menu tokens (`--ds-menu-*`).
    */

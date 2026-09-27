@@ -5,7 +5,7 @@
 
   // Removable tags actually leave the list on ✕; reset brings them back.
   const initial = ["Design", "Frontend", "Accessibility", "Docs"];
-  let filters = [...initial];
+  let filters = $state.raw([...initial]);
 </script>
 
 <div style="display: grid; gap: 1.25rem;">
@@ -17,13 +17,15 @@
     <Tag status="warning">Needs work</Tag>
     <!-- Leading icon (a raised "halt" hand for a blocked status) -->
     <Tag status="danger">
-      <Icon slot="icon">
-        <path
-          d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0-2-2 2 2 0 0 0-2 2v0a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"
-        />
-        <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" />
-        <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a8 8 0 0 0 16 0v-3" />
-      </Icon>
+      {#snippet icon()}
+        <Icon>
+          <path
+            d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0-2-2 2 2 0 0 0-2 2v0a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"
+          />
+          <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" />
+          <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a8 8 0 0 0 16 0v-3" />
+        </Icon>
+      {/snippet}
       Blocked
     </Tag>
   </div>

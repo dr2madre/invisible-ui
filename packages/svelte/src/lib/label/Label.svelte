@@ -5,7 +5,7 @@
    * the headless label (`@design-system/core`); this layer adds typographic
    * styling and an optional required marker.
    *
-   * The label text is the default slot. Colors are themeable via `--ds-label-*`.
+   * The label text is `children`. Colors are themeable via `--ds-label-*`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createLabel } from "./create-label";

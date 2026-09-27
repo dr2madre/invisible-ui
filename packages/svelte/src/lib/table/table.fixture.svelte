@@ -1,8 +1,12 @@
 <script lang="ts">
   import Table, { type TableColumnDef, type TableRow, type SortState } from "./Table.svelte";
 
-  export let sort: SortState | null = null;
-  export let onSortToggle: ((key: string) => void) | undefined = undefined;
+  interface Props {
+    sort?: SortState | null;
+    onSortToggle?: (key: string) => void;
+  }
+
+  let { sort = null, onSortToggle }: Props = $props();
 
   const columns: TableColumnDef[] = [
     { key: "name", header: "Name", sortable: true },

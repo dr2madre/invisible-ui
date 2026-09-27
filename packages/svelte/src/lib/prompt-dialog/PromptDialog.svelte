@@ -9,75 +9,109 @@
    * mandatory, `confirmValue` turns it into a type-to-confirm gate; `urgent`
    * switches to `role="alertdialog"` when the ask must interrupt.
    *
-   * The default slot is the trigger. `onConfirm(value)` runs with the entered
+   * The `children` snippet is the trigger. `onConfirm(value)` runs with the entered
    * text when confirmed; Enter in the field also confirms. A `title` is
    * required; `label` names the input. The header is the one the dialog family
-   * shares: an optional `icon` slot (a FeedbackIcon) before the title and an
+   * shares: an optional `icon` snippet (a FeedbackIcon) before the title and an
    * optional close button (`closeButton`). Colors, radius and elevation are
    * themeable via `--ds-dialog-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createDialog } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Initial open state. */
-  export let open = false;
-  /** Accessible title (required). */
-  export let title: string;
-  /** Optional supporting message shown under the title. */
-  export let description: string | undefined = undefined;
-  /** Visible label for the input. */
-  export let label: string;
-  /** Initial / current value. */
-  export let value = "";
-  export let placeholder = "";
-  /** Require a non-empty value: the confirm button stays disabled while blank. */
-  export let required = false;
-  /**
-   * Type-to-confirm: when set, the confirm button stays disabled until the input
-   * matches this exact value — e.g. typing a file name to confirm its deletion.
-   */
-  export let confirmValue: string | undefined = undefined;
-  export let confirmLabel: string | undefined = undefined;
-  export let cancelLabel: string | undefined = undefined;
-  /** Variant of the confirm button (`"danger"` for a destructive confirm). */
-  export let confirmVariant: ButtonVariant = "primary";
-  /**
-   * Interrupting urgency: switches the panel to `role="alertdialog"`, which
-   * screen readers announce immediately. Nothing else changes (ADR 0005).
-   */
-  export let urgent = false;
-  export let triggerVariant: ButtonVariant = "default";
-  /** Called with the entered value when confirmed (before the dialog closes). */
-  export let onConfirm: ((value: string) => void) | undefined = undefined;
-  /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
-  export let closeOnOutsideClick = true;
-  /** Show a close button at the trailing end of the header; it closes like Escape. */
-  export let closeButton = false;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Initial open state. */
+    open?: boolean;
+    /** Accessible title (required). */
+    title: string;
+    /** Optional supporting message shown under the title. */
+    description?: string;
+    /** Visible label for the input. */
+    label: string;
+    /** Initial / current value. */
+    value?: string;
+    placeholder?: string;
+    /** Require a non-empty value: the confirm button stays disabled while blank. */
+    required?: boolean;
+    /**
+     * Type-to-confirm: when set, the confirm button stays disabled until the input
+     * matches this exact value — e.g. typing a file name to confirm its deletion.
+     */
+    confirmValue?: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
+    /** Variant of the confirm button (`"danger"` for a destructive confirm). */
+    confirmVariant?: ButtonVariant;
+    /**
+     * Interrupting urgency: switches the panel to `role="alertdialog"`, which
+     * screen readers announce immediately. Nothing else changes (ADR 0005).
+     */
+    urgent?: boolean;
+    triggerVariant?: ButtonVariant;
+    /** Called with the entered value when confirmed (before the dialog closes). */
+    onConfirm?: (value: string) => void;
+    /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */
+    closeOnOutsideClick?: boolean;
+    /** Show a close button at the trailing end of the header; it closes like Escape. */
+    closeButton?: boolean;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The trigger button's content. Defaults to "Open". */
+    children?: Snippet;
+    /** Leading feedback icon in the header. */
+    icon?: Snippet;
+  }
 
-  let current = value;
+  let {
+    open = $bindable(false),
+    title,
+    description,
+    label,
+    value = "",
+    placeholder = "",
+    required = false,
+    confirmValue,
+    confirmLabel,
+    cancelLabel,
+    confirmVariant = "primary",
+    urgent = false,
+    triggerVariant = "default",
+    onConfirm,
+    closeOnOutsideClick = true,
+    closeButton = false,
+    closeLabel,
+    onOpenChange,
+    children,
+    icon,
+  }: Props = $props();
 
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-  };
+  // Seeded once; the effect below resets it on every open.
+  let current = $state(untrack(() => value));
 
-  const dialog = createDialog({
-    open,
-    role: urgent ? "alertdialog" : "dialog",
-    describedBy: Boolean(description),
-    closeOnOutsideClick,
-    initialFocus: ".prompt-dialog__input",
-    onOpenChange: handleOpenChange,
-  });
+  // Seeded once from the first props; the mirror below follows later ones.
+  const dialog = untrack(() =>
+    createDialog({
+      open,
+      role: urgent ? "alertdialog" : "dialog",
+      describedBy: Boolean(description),
+      closeOnOutsideClick,
+      initialFocus: ".prompt-dialog__input",
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+      },
+    }),
+  );
   const {
     open: isOpen,
     setOpen,
@@ -90,18 +124,21 @@
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    dialog.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: dialog.syncOpen,
+  });
   // Reset to the initial value each time it (re)opens.
-  $: if ($isOpen) current = value;
-  $: resolvedConfirmLabel = confirmLabel ?? $t("dialog.confirm");
-  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
-  $: resolvedCancelLabel = cancelLabel ?? $t("dialog.cancel");
-  $: canConfirm =
-    confirmValue != null ? current === confirmValue : !required || current.trim().length > 0;
+  $effect.pre(() => {
+    if ($isOpen) current = value;
+  });
+  const resolvedConfirmLabel = $derived(confirmLabel ?? $t("dialog.confirm"));
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
+  const resolvedCancelLabel = $derived(cancelLabel ?? $t("dialog.cancel"));
+  const canConfirm = $derived(
+    confirmValue != null ? current === confirmValue : !required || current.trim().length > 0,
+  );
 
   const cancel = () => setOpen(false);
   const confirm = () => {
@@ -118,7 +155,7 @@
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot>Open</slot>
+  {#if children}{@render children()}{:else}Open{/if}
 </Button>
 
 {#if $isOpen}
@@ -129,10 +166,8 @@
       closeLabel={resolvedCloseLabel}
       {titleAction}
       {closeAction}
-      hasIcon={$$slots.icon}
-    >
-      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
-    </DialogHeader>
+      {icon}
+    />
     {#if description}
       <p class="prompt-dialog__description" use:descriptionAction>{description}</p>
     {/if}
@@ -144,7 +179,7 @@
         autocomplete="off"
         {placeholder}
         bind:value={current}
-        on:keydown={onKeyDown}
+        onkeydown={onKeyDown}
       />
     </label>
     <footer class="prompt-dialog__actions">

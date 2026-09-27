@@ -17,9 +17,9 @@
 
   // Emptying the rows shows two contract points: the select-all control
   // disables over an empty scope, and the selection itself is retained.
-  let loaded = true;
-  let selectedRowIds = [2];
-  $: rows = loaded ? allRows : [];
+  let loaded = $state(true);
+  let selectedRowIds = $state.raw([2]);
+  const rows = $derived(loaded ? allRows : []);
 </script>
 
 <Button variant="secondary" onpress={() => (loaded = !loaded)}>

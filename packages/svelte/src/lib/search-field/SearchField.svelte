@@ -1,83 +1,108 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
   import { textField as core } from "@design-system/core";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import { createTextField } from "../text-field/create-text-field";
 
   const { t } = getI18n();
 
-  /** Visible label and accessible name of the search input. */
-  export let label: string;
-  /** Visually hide the label while preserving the accessible name. */
-  export let hideLabel = false;
-  /** Initial or controlled search query. */
-  export let value = "";
-  /** Native input placeholder. It does not replace the label. */
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  export let required = false;
-  export let readOnly = false;
-  /** Native form field name. */
-  export let name: string | undefined = undefined;
-  /** Native browser autofill hint. */
-  export let autocomplete: HTMLInputAttributes["autocomplete"] = undefined;
-  /** Accessible name for the conditional clear button. */
-  export let clearLabel: string | undefined = undefined;
-  /** Accessible name for the native submit button. */
-  export let submitLabel: string | undefined = undefined;
-  /** Render the submit button; turn it off for a filter that applies as you type. */
-  export let submitButton = true;
-  /** Called once after a user edit or clear action is committed locally. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    /** Visible label and accessible name of the search input. */
+    label: string;
+    /** Visually hide the label while preserving the accessible name. */
+    hideLabel?: boolean;
+    /** Initial or controlled search query. */
+    value?: string;
+    /** Native input placeholder. It does not replace the label. */
+    placeholder?: string;
+    disabled?: boolean;
+    required?: boolean;
+    readOnly?: boolean;
+    /** Native form field name. */
+    name?: string;
+    /** Native browser autofill hint. */
+    autocomplete?: HTMLInputAttributes["autocomplete"];
+    /** Accessible name for the conditional clear button. */
+    clearLabel?: string;
+    /** Accessible name for the native submit button. */
+    submitLabel?: string;
+    /** Render the submit button; turn it off for a filter that applies as you type. */
+    submitButton?: boolean;
+    /** Called once after a user edit or clear action is committed locally. */
+    onValueChange?: (value: string) => void;
+  }
 
-  const field = createTextField({
-    value,
-    disabled,
-    required,
-    readOnly,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  let {
+    label,
+    hideLabel = false,
+    value = $bindable(""),
+    placeholder,
+    disabled = false,
+    required = false,
+    readOnly = false,
+    name,
+    autocomplete,
+    clearLabel,
+    submitLabel,
+    submitButton = true,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
+  const field = untrack(() =>
+    createTextField({
+      value,
+      disabled,
+      required,
+      readOnly,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
   const { state: fieldState, labelAction, controlAction, setValue, syncValue } = field;
 
-  let input: HTMLInputElement;
-  let lastValue = value;
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $fieldState.value) defaultValue = value;
-    syncValue(value);
-  }
-  $: field.setFlags({ disabled, required, readOnly });
+  let input: HTMLInputElement | undefined;
 
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $fieldState.value,
+  });
+
+  $effect.pre(() => {
+    field.setFlags({ disabled, required, readOnly });
+  });
 
   const onInput = (event: Event) => {
-    value = (event.currentTarget as HTMLInputElement).value;
-    setValue(value);
+    const next = (event.currentTarget as HTMLInputElement).value;
+    // The prop first, then the report (ADR 0011).
+    mirror.write(next);
+    setValue(next);
   };
 
   const clear = () => {
     if (disabled || readOnly || $fieldState.value === "") return;
-    value = "";
+    mirror.write("");
     setValue("");
-    input.focus();
+    input?.focus();
   };
 </script>
 
 <div
-  class="search-field"
-  class:search-field--disabled={disabled}
-  class:search-field--no-submit={!submitButton}
+  class={[
+    "search-field",
+    disabled && "search-field--disabled",
+    !submitButton && "search-field--no-submit",
+  ]}
 >
   <label
-    class="search-field__label"
-    class:search-field__label--hidden={hideLabel}
+    class={["search-field__label", hideLabel && "search-field__label--hidden"]}
     for={core.controlId($fieldState.id)}
     id={core.labelId($fieldState.id)}
     use:labelAction
@@ -100,17 +125,17 @@
       {placeholder}
       {autocomplete}
       value={$fieldState.value}
-      {defaultValue}
-      on:input={onInput}
+      defaultValue={mirror.defaultValue}
+      oninput={onInput}
       use:controlAction
-      use:formReset={restore}
+      use:formReset={mirror.restore}
     />
     {#if $fieldState.value && !disabled && !readOnly}
       <button
         class="search-field__action search-field__clear"
         type="button"
         aria-label={clearLabel ?? $t("searchField.clear")}
-        on:click={clear}
+        onclick={clear}
       >
         <Icon><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon>
       </button>

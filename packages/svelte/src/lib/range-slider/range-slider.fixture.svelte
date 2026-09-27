@@ -1,16 +1,31 @@
 <script lang="ts">
   import RangeSlider from "./RangeSlider.svelte";
 
-  export let value: readonly [number, number] = [20, 80];
-  export let min = 0;
-  export let max = 100;
-  export let step = 1;
-  export let minDistance = 0;
-  export let disabled = false;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let ticks = false;
-  export let name: string | undefined = undefined;
-  export let onValueChange: ((value: readonly [number, number]) => void) | undefined = undefined;
+  interface Props {
+    value?: readonly [number, number];
+    min?: number;
+    max?: number;
+    step?: number;
+    minDistance?: number;
+    disabled?: boolean;
+    orientation?: "horizontal" | "vertical";
+    ticks?: boolean;
+    name?: string;
+    onValueChange?: (value: readonly [number, number]) => void;
+  }
+
+  let {
+    value = [20, 80],
+    min = 0,
+    max = 100,
+    step = 1,
+    minDistance = 0,
+    disabled = false,
+    orientation = "horizontal",
+    ticks = false,
+    name,
+    onValueChange,
+  }: Props = $props();
 </script>
 
 <form data-testid="form">

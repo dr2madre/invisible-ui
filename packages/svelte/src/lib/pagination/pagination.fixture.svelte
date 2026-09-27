@@ -1,15 +1,18 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createPagination } from "./create-pagination";
 
-  export let page = 1;
-  export let pageCount = 5;
-  export let onPageChange: ((page: number) => void) | undefined = undefined;
+  interface Props {
+    page?: number;
+    pageCount?: number;
+    onPageChange?: (page: number) => void;
+  }
 
-  const { rootAction, prevAction, nextAction, pageAction, items } = createPagination({
-    page,
-    pageCount,
-    onPageChange,
-  });
+  let { page = 1, pageCount = 5, onPageChange }: Props = $props();
+
+  const { rootAction, prevAction, nextAction, pageAction, items } = untrack(() =>
+    createPagination({ page, pageCount, onPageChange }),
+  );
 </script>
 
 <nav use:rootAction aria-label="Pagination">

@@ -2,7 +2,7 @@
   /**
    * Tag — a small, colored chip that labels or categorises content (what some
    * systems call a "label" or "chip"). It carries a status color, text, optional
-   * leading/trailing icons (via the `icon` / `trailing` slots), and may include a
+   * leading/trailing icons (via the `icon` / `trailing` snippets), and may include a
    * small `Count` for a number. Optionally removable.
    *
    * Note: this is distinct from `Label` (the form-control label) and from `Count`
@@ -17,42 +17,63 @@
    * Colors are themeable CSS custom properties (`--ds-tag-*`), falling back to the
    * shared status token layer (`--ds-color-*`).
    */
+  import type { Snippet } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
   type TagStatus = "neutral" | "info" | "success" | "warning" | "danger" | "selected";
 
-  /** Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`. */
-  export let status: TagStatus = "neutral";
-  /** Visual weight: a soft tinted surface (default) or a solid, filled chip. */
-  export let variant: "soft" | "solid" = "soft";
-  /** Size of the chip. */
-  export let size: "sm" | "md" = "md";
-  /** Render a remove (✕) button. Defaults to `false`. */
-  export let removable = false;
-  /** Accessible name for the remove button. Defaults to the i18n catalog's "Remove". */
-  export let removeLabel: string | undefined = undefined;
-  /** Called when the remove button is pressed. */
-  export let onRemove: (() => void) | undefined = undefined;
+  interface Props {
+    /** Status/tone: `neutral` | `info` | `success` | `warning` | `danger` | `selected`. */
+    status?: TagStatus;
+    /** Visual weight: a soft tinted surface (default) or a solid, filled chip. */
+    variant?: "soft" | "solid";
+    /** Size of the chip. */
+    size?: "sm" | "md";
+    /** Render a remove (✕) button. Defaults to `false`. */
+    removable?: boolean;
+    /** Accessible name for the remove button. Defaults to the i18n catalog's "Remove". */
+    removeLabel?: string;
+    /** Called when the remove button is pressed. */
+    onRemove?: () => void;
+    /** Decorative leading icon. */
+    icon?: Snippet;
+    /** Trailing content, e.g. a `Count`. */
+    trailing?: Snippet;
+    /** The tag text. */
+    children?: Snippet;
+  }
 
-  $: resolvedRemoveLabel = removeLabel ?? $t("tag.remove");
+  let {
+    status = "neutral",
+    variant = "soft",
+    size = "md",
+    removable = false,
+    removeLabel,
+    onRemove,
+    icon,
+    trailing,
+    children,
+  }: Props = $props();
+
+  const resolvedRemoveLabel = $derived(removeLabel ?? $t("tag.remove"));
 </script>
 
 <span class="tag" data-status={status} data-variant={variant} data-size={size}>
-  {#if $$slots.icon}
-    <span class="tag__icon" aria-hidden="true"><slot name="icon" /></span>
+  {#if icon}
+    <span class="tag__icon" aria-hidden="true">{@render icon()}</span>
   {/if}
-  <span class="tag__label"><slot /></span>
-  {#if $$slots.trailing}
-    <span class="tag__trailing"><slot name="trailing" /></span>
+  <span class="tag__label">{@render children?.()}</span>
+  {#if trailing}
+    <span class="tag__trailing">{@render trailing()}</span>
   {/if}
   {#if removable}
     <button
       type="button"
       class="tag__remove"
       aria-label={resolvedRemoveLabel}
-      on:click={() => onRemove?.()}
+      onclick={() => onRemove?.()}
     >
       <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
         <path

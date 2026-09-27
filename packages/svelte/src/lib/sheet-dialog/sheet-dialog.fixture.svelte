@@ -1,12 +1,23 @@
 <script lang="ts">
   import SheetDialog from "./SheetDialog.svelte";
 
-  export let open = false;
-  export let side: "top" | "right" | "bottom" | "left" = "right";
-  export let draggable = false;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  export let renderTrigger = true;
-  export let returnFocusTo: string | undefined = undefined;
+  interface Props {
+    open?: boolean;
+    side?: "top" | "right" | "bottom" | "left";
+    draggable?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    renderTrigger?: boolean;
+    returnFocusTo?: string;
+  }
+
+  let {
+    open = false,
+    side = "right",
+    draggable = false,
+    onOpenChange,
+    renderTrigger = true,
+    returnFocusTo,
+  }: Props = $props();
 </script>
 
 <button type="button">before</button>
@@ -20,7 +31,7 @@
   title="Filters"
   description="Refine the results."
 >
-  <span slot="trigger">Open panel</span>
+  {#snippet trigger()}<span>Open panel</span>{/snippet}
   <label>Query <input type="text" /></label>
   <button type="button">Apply</button>
 </SheetDialog>

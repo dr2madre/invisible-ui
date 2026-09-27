@@ -14,7 +14,7 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Source to render (or use the default slot).",
+          "description": "Source to render (or pass it as `children`).",
           "descriptionFrom": "curated"
         },
         {

@@ -10,68 +10,101 @@
    *   (flip/shift), outside-press + focus-leave dismissal, and focus management
    *   (focus moves into the panel on open, returns to the trigger on Escape).
    * - **`trigger="hover"`** (the pattern formerly shipped as HoverCard): the
-   *   card previews on hover **and keyboard focus** of the slotted trigger
-   *   (typically a link), with open/close delays; focus never moves into the
-   *   card, and the card holds nothing focusable. The first click/tap opens the
-   *   preview instead of activating the trigger; once open, the default action
-   *   (e.g. link navigation) proceeds — so touch users get the popover
-   *   contract. Hover content must be **supplementary**: never put essential
-   *   information only in here. Interactive content belongs to
-   *   `trigger="click"`.
+   *   card previews on hover **and keyboard focus** of the trigger passed in
+   *   `triggerContent` (typically a link), with open/close delays; focus never
+   *   moves into the card, and the card holds nothing focusable. The first
+   *   click/tap opens the preview instead of activating the trigger; once
+   *   open, the default action (e.g. link navigation) proceeds — so touch
+   *   users get the popover contract. Hover content must be
+   *   **supplementary**: never put essential information only in here.
+   *   Interactive content belongs to `trigger="click"`.
    *
-   * Slots: `trigger` (button content, or the focusable element itself in hover
-   * mode) and the default slot (the card). Themeable via `--ds-popover-*`.
+   * Snippets: `triggerContent` (button content, or the focusable element
+   * itself in hover mode) and `children` (the card). The snippet cannot be
+   * called `trigger`, which names the opening contract. Themeable via
+   * `--ds-popover-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createPopover, type PopoverContext } from "./create-popover";
   import { portal } from "../internal/portal";
   import { createHoverCard } from "../hover-card/create-hover-card";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Opening contract: an intentional click, or a hover/focus preview. */
-  export let trigger: "click" | "hover" = "click";
-  /** Visual variant for the trigger Button (`trigger="click"` only). */
-  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
-  /** Initial open state. */
-  export let open = false;
-  /** Preferred placement of the panel. */
-  export let placement: PopoverContext["placement"] = "bottom";
-  /** Delay before opening on hover, in ms (`trigger="hover"` only). */
-  export let openDelay = 300;
-  /** Delay before closing on leave, in ms (`trigger="hover"` only). */
-  export let closeDelay = 200;
-  /** Name for the panel. Defaults to being named by the trigger. */
-  export let label: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Opening contract: an intentional click, or a hover/focus preview. */
+    trigger?: "click" | "hover";
+    /** Visual variant for the trigger Button (`trigger="click"` only). */
+    triggerVariant?: "default" | "primary" | "secondary" | "ghost" | "danger";
+    /** Initial open state. */
+    open?: boolean;
+    /** Preferred placement of the panel. */
+    placement?: PopoverContext["placement"];
+    /** Delay before opening on hover, in ms (`trigger="hover"` only). */
+    openDelay?: number;
+    /** Delay before closing on leave, in ms (`trigger="hover"` only). */
+    closeDelay?: number;
+    /** Name for the panel. Defaults to being named by the trigger. */
+    label?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /**
+     * The trigger button's content (defaults to the i18n catalog's label), or
+     * the focusable trigger element itself in hover mode.
+     */
+    triggerContent?: Snippet;
+    /** The card. */
+    children?: Snippet;
+  }
 
+  let {
+    trigger = "click",
+    triggerVariant = "default",
+    open = $bindable(false),
+    placement = "bottom",
+    openDelay = 300,
+    closeDelay = 200,
+    label,
+    onOpenChange,
+    triggerContent,
+    children,
+  }: Props = $props();
+
+  // The prop first, then the report (ADR 0011).
   const handleOpenChange = (next: boolean) => {
-    open = next;
+    mirror.write(next);
     onOpenChange?.(next);
   };
 
-  // Only one primitive is ever built: `??` does not evaluate its right side
-  // when click mode already produced a popover.
-  const popover =
-    trigger === "hover"
-      ? undefined
-      : createPopover({ open, placement, label, onOpenChange: handleOpenChange });
-  const behavior =
-    popover ??
-    createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange });
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones. Only one primitive is ever built: `??` does not evaluate its
+  // right side when click mode already produced a popover.
+  const { popover, behavior } = untrack(() => {
+    const popover =
+      trigger === "hover"
+        ? undefined
+        : createPopover({ open, placement, label, onOpenChange: handleOpenChange });
+    const behavior =
+      popover ??
+      createHoverCard({ open, placement, openDelay, closeDelay, onOpenChange: handleOpenChange });
+    return { popover, behavior };
+  });
   const { triggerAction, contentAction, open: isOpen, setOpen } = behavior;
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    behavior.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: behavior.syncOpen,
+  });
   // Hover mode is a different primitive: a preview has no panel name.
-  $: popover?.setLabel(label);
+  $effect.pre(() => {
+    popover?.setLabel(label);
+  });
 
   // First activation (a tap, or a click that beat the hover delay) shows the
   // preview instead of the trigger's own action; once open, the default
@@ -86,21 +119,21 @@
 </script>
 
 {#if trigger === "hover"}
-  <!-- The wrapper carries the hover/focus listeners; the slotted element
+  <!-- The wrapper carries the hover/focus listeners; the element passed in
        (typically a link) stays the focusable trigger. -->
-  <!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events -->
-  <span class="popover__hover-trigger" use:triggerAction on:click={previewFirst}>
-    <slot name="trigger" />
+  <!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events -->
+  <span class="popover__hover-trigger" use:triggerAction onclick={previewFirst}>
+    {@render triggerContent?.()}
   </span>
 {:else}
   <Button variant={triggerVariant} action={triggerAction}>
-    <slot name="trigger">{$t("dialog.trigger")}</slot>
+    {#if triggerContent}{@render triggerContent()}{:else}{$t("dialog.trigger")}{/if}
   </Button>
 {/if}
 
 {#if $isOpen}
   <div class="popover__content" use:portal use:contentAction>
-    <slot />
+    {@render children?.()}
   </div>
 {/if}
 

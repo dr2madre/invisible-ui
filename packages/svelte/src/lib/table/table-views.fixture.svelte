@@ -11,29 +11,36 @@
     { key: "total", header: "Total", sortable: true, align: "end" },
   ];
 
-  export let activeView: string | undefined = undefined;
-  export let onViewChange: ((id: string) => void) | undefined = undefined;
+  interface Props {
+    activeView?: string;
+    onViewChange?: (id: string) => void;
+    views?: TableViewDef[];
+  }
 
-  export let views: TableViewDef[] = [
-    {
-      id: "people",
-      label: "People",
-      columns: peopleColumns,
-      rows: [
-        { id: 1, name: "Ada", city: "London" },
-        { id: 2, name: "Grace", city: "New York" },
-      ],
-    },
-    {
-      id: "orders",
-      label: "Orders",
-      columns: orderColumns,
-      rows: [
-        { id: "A1", ref: "A1", total: 120 },
-        { id: "A2", ref: "A2", total: 80 },
-      ],
-    },
-  ];
+  let {
+    activeView,
+    onViewChange,
+    views = [
+      {
+        id: "people",
+        label: "People",
+        columns: peopleColumns,
+        rows: [
+          { id: 1, name: "Ada", city: "London" },
+          { id: 2, name: "Grace", city: "New York" },
+        ],
+      },
+      {
+        id: "orders",
+        label: "Orders",
+        columns: orderColumns,
+        rows: [
+          { id: "A1", ref: "A1", total: 120 },
+          { id: "A2", ref: "A2", total: 80 },
+        ],
+      },
+    ],
+  }: Props = $props();
 </script>
 
 <TableSet {views} {activeView} {onViewChange} title="Workspace" viewsLabel="Data views" />

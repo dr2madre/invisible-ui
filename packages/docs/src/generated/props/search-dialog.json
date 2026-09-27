@@ -120,6 +120,14 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's content. Defaults to the i18n catalog's label.",
+          "descriptionFrom": "source"
         }
       ]
     },

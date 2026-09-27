@@ -1,9 +1,13 @@
 <script lang="ts">
   import Switch from "./Switch.svelte";
 
-  export let checked = false;
-  export let disabled = false;
-  export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
+  interface Props {
+    checked?: boolean;
+    disabled?: boolean;
+    onCheckedChange?: (c: boolean) => void;
+  }
+
+  let { checked = false, disabled = false, onCheckedChange }: Props = $props();
 </script>
 
 <Switch {checked} {disabled} {onCheckedChange} label="Wi-Fi" />

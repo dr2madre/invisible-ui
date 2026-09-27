@@ -7,7 +7,7 @@
    * thumb plus the visible label.
    *
    * Prefer this over a checkbox for instant on/off settings. A `label` is
-   * required (the control needs an accessible name); pass the default slot to
+   * required (the control needs an accessible name); pass `children` to
    * override it with rich content. The native input is wrapped in a `<label>`,
    * so clicking the track or text toggles it. Colors and sizing are themeable
    * CSS custom properties (`--ds-switch-*`).
@@ -21,7 +21,7 @@
   const { t } = getI18n();
 
   interface Props {
-    /** Accessible, visible label (required). Override with the default slot for rich content. */
+    /** Accessible, visible label (required). Override with `children` for rich content. */
     label: string;
     /**
      * Visually hide the label while keeping it as the accessible name. The label

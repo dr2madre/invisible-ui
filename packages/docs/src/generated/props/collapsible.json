@@ -30,7 +30,7 @@
           "type": "string | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Trigger text (or use the `trigger` slot).",
+          "description": "Trigger text (or use the `trigger` snippet).",
           "descriptionFrom": "curated"
         },
         {
@@ -40,6 +40,14 @@
           "required": false,
           "description": "Called when toggled.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger's content. Defaults to `label`, then the i18n catalog's label.",
+          "descriptionFrom": "source"
         }
       ]
     },

@@ -2,12 +2,16 @@
   import ErrorState from "./ErrorState.svelte";
   import type { ComponentProps } from "svelte";
 
-  export let onAction: (() => void) | undefined = undefined;
-  export let actions: ComponentProps<ErrorState>["actions"] = [];
-  export let size: ComponentProps<ErrorState>["size"] = "md";
+  interface Props {
+    onAction?: () => void;
+    actions?: ComponentProps<typeof ErrorState>["actions"];
+    size?: ComponentProps<typeof ErrorState>["size"];
+  }
+
+  let { onAction, actions = [], size = "md" }: Props = $props();
 </script>
 
-{#if actions?.length}
+{#if Array.isArray(actions) && actions.length}
   <ErrorState
     {size}
     title="Couldn't connect to the server"

@@ -1,9 +1,13 @@
 <script lang="ts">
   import DatePicker from "./DatePicker.svelte";
 
-  export let value: string | null = null;
-  export let name = "due";
-  export let disabled = false;
+  interface Props {
+    value?: string | null;
+    name?: string;
+    disabled?: boolean;
+  }
+
+  let { value = null, name = "due", disabled = false }: Props = $props();
 </script>
 
 <form data-testid="form">

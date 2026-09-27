@@ -152,6 +152,14 @@
           "required": false,
           "description": "Called whenever the open state changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
         }
       ]
     },

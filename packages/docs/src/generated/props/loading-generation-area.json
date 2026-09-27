@@ -30,8 +30,8 @@
           "type": "boolean",
           "default": "true",
           "required": false,
-          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and the default slot (the real content) is rendered in its place.",
-          "descriptionFrom": "source"
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder is shown; set it to `false` when done and `children` (the real content) is rendered in its place.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "field",
@@ -71,6 +71,14 @@
           "default": "undefined",
           "required": false,
           "description": "Extra detail line, e.g. \"48 MB of 128 MB\" or \"3 of 8 files\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "indicator",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A loader shown in the label zone, e.g. a spinner when `field` is off.",
           "descriptionFrom": "source"
         }
       ]

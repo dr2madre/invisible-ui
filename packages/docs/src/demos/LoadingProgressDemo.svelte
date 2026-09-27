@@ -4,7 +4,7 @@
   import Progress from "@design-system/svelte/Progress.svelte";
 
   // System-driven progress: the value advances because the system works.
-  let progress = 0;
+  let progress = $state(0);
   onMount(() => {
     const t = setInterval(() => {
       progress = progress >= 100 ? 0 : progress + 2;
@@ -15,8 +15,8 @@
   // Double download bar: the second bar tracks the current file; each time it
   // completes, the first (total) advances and the file count grows, up to 3.
   const TOTAL_FILES = 3;
-  let filesDone = 0;
-  let fileProgress = 0;
+  let filesDone = $state(0);
+  let fileProgress = $state(0);
   let hold = 0;
   onMount(() => {
     const t = setInterval(() => {
@@ -37,10 +37,11 @@
     }, 80);
     return () => clearInterval(t);
   });
-  $: overall =
-    ((filesDone + (filesDone >= TOTAL_FILES ? 0 : fileProgress / 100)) / TOTAL_FILES) * 100;
+  const overall = $derived(
+    ((filesDone + (filesDone >= TOTAL_FILES ? 0 : fileProgress / 100)) / TOTAL_FILES) * 100,
+  );
   const FILE_NAMES = ["report-january.pdf", "report-february.pdf", "report-march.pdf"];
-  $: currentFile = FILE_NAMES[Math.min(filesDone, TOTAL_FILES - 1)];
+  const currentFile = $derived(FILE_NAMES[Math.min(filesDone, TOTAL_FILES - 1)]);
 </script>
 
 <div class="demo">

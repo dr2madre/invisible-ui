@@ -59,11 +59,11 @@
         },
         {
           "name": "actions",
-          "type": "{ label: string; onAction?: () => void; variant?: ButtonVariant; href?: string; target?: string; }[]",
+          "type": "{ label: string; onAction?: () => void; variant?: ButtonVariant; href?: string; target?: string; }[] | Snippet",
           "default": "[]",
           "required": false,
-          "description": "Configurable action group. An entry with `href` renders a `Link` (a direct pathway, e.g. \"Learn more\" documentation); the others render `Button`s: the first gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`; the `actions` slot replaces the whole area.",
-          "descriptionFrom": "source"
+          "description": "Configurable action group. An entry with `href` renders a `Link` (a direct pathway, e.g. \"Learn more\" documentation); the others render `Button`s: the first gets the `default` variant and the rest `ghost`, unless an entry sets its own `variant`. Takes precedence over `actionLabel`. A snippet in its place replaces the whole area.",
+          "descriptionFrom": "curated"
         },
         {
           "name": "size",
@@ -71,6 +71,14 @@
           "default": "\"md\"",
           "required": false,
           "description": "Density: `md` for full pages and sections, `sm` inside cards, panels and table areas.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "illustration",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Bespoke artwork in place of the fallback `FeedbackIcon`.",
           "descriptionFrom": "source"
         }
       ]

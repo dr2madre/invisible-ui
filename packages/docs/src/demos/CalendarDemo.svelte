@@ -1,7 +1,7 @@
 <script>
   import Calendar from "@design-system/svelte/Calendar.svelte";
 
-  let value = "2026-06-15";
+  let value = $state("2026-06-15");
 
   const events = [
     { date: "2026-06-10", label: "Standup", tone: "primary" },

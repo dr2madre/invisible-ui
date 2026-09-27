@@ -56,8 +56,9 @@ reports what the user does; setting `open` reports nothing:
 
 <PropsTable component="popover" />
 
-Slots: `trigger` (the trigger button's content) and the default slot (the panel
-content).
+Snippets: `triggerContent` (the trigger button's content, or the trigger
+element itself with `trigger="hover"`) and `children` (the panel content). The
+snippet is not called `trigger`, which names the opening contract.
 
 ### Accessibility
 
@@ -78,14 +79,14 @@ content).
 ```svelte
 <!-- Interactive content: focus moves into the panel, Escape returns it. -->
 <Popover>
-  <span slot="trigger">Open</span>
+  {#snippet triggerContent()}<span>Open</span>{/snippet}
   <p>Panel content goes here.</p>
   <button type="button">Action</button>
 </Popover>
 
 <!-- Preview on hover/focus of a link (supplementary content only). -->
 <Popover trigger="hover">
-  <a slot="trigger" href="/users/ada">@ada</a>
+  {#snippet triggerContent()}<a href="/users/ada">@ada</a>{/snippet}
   <ProfileCard user="ada" />
 </Popover>
 ```

@@ -122,7 +122,7 @@ When the button belongs to your header instead, turn the trigger off, drive
 `open` yourself, and name the element focus should return to.
 
 ```svelte
-<button id="menu-button" on:click={() => (open = true)}>Menu</button>
+<button id="menu-button" onclick={() => (open = true)}>Menu</button>
 
 <Sidebar
   {sections}

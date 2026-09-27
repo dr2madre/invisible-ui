@@ -7,8 +7,8 @@
    * adds the button surface and the on/off styling.
    *
    * Distinct from a switch: use `Switch` for a settings-style on/off control.
-   * The label comes from the default slot; provide an explicit `label` when the
-   * slot is icon-only so the control still has an accessible name. Pass `name`
+   * The label comes from `children`; provide an explicit `label` when
+   * `children` is icon-only so the control still has an accessible name. Pass `name`
    * (and optional `value`) to submit the pressed state with a form. Colors and
    * sizing are themeable CSS custom properties (`--ds-toggle-*`).
    *

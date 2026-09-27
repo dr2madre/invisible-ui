@@ -5,6 +5,6 @@
 </script>
 
 <!-- rootAction applies the `for` attribute at runtime. -->
-<!-- svelte-ignore a11y-label-has-associated-control -->
+<!-- svelte-ignore a11y_label_has_associated_control -->
 <label use:rootAction>Email</label>
 <input id="email" type="email" />

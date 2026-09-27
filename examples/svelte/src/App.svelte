@@ -25,15 +25,17 @@
   const notifier = createNotifier();
   let noticeCount = 0;
 
-  let theme: "light" | "dark" = "light";
-  $: if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
+  let theme: "light" | "dark" = $state("light");
+  $effect(() => {
+    document.documentElement.dataset.theme = theme;
+  });
 
   const feedbackStatuses = ["info", "success", "warning", "danger", "neutral"] as const;
-  let closableShown = true;
+  let closableShown = $state(true);
 
   // The library ships behaviour + accessibility only. All styling below is
   // ours, attached through the data-* hooks the headless primitives expose.
-  let count = 0;
+  let count = $state(0);
   const { rootAction: buttonAction } = createButton({
     onPress: () => (count += 1),
   });
@@ -129,10 +131,10 @@
         closable
         role="alert"
       >
-        <svelte:fragment slot="actions">
+        {#snippet actions()}
           <Button variant="primary">Retry</Button>
           <Button variant="ghost">Cancel</Button>
-        </svelte:fragment>
+        {/snippet}
       </InlineNotification>
     </div>
   </section>
@@ -209,7 +211,7 @@
         </Button>
       </div>
     {:else}
-      <button class="reset" on:click={() => (closableShown = true)}>Reset</button>
+      <button class="reset" onclick={() => (closableShown = true)}>Reset</button>
     {/if}
   </section>
 

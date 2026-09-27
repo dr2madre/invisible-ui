@@ -2,17 +2,33 @@
   import TimeField from "./TimeField.svelte";
   import type { HourCycle, TimeValueError } from "./create-time-field";
 
-  export let value: string | null = null;
-  export let hourCycle: HourCycle = 24;
-  export let withSeconds = false;
-  export let disabled = false;
-  export let invalid = false;
-  export let error: string | undefined = undefined;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
-  export let onValueCommit: ((value: string | null) => void) | undefined = undefined;
-  export let min: string | undefined = undefined;
-  export let max: string | undefined = undefined;
-  export let onValidationChange: ((error: TimeValueError | null) => void) | undefined = undefined;
+  interface Props {
+    value?: string | null;
+    hourCycle?: HourCycle;
+    withSeconds?: boolean;
+    disabled?: boolean;
+    invalid?: boolean;
+    error?: string;
+    onValueChange?: (value: string | null) => void;
+    onValueCommit?: (value: string | null) => void;
+    min?: string;
+    max?: string;
+    onValidationChange?: (error: TimeValueError | null) => void;
+  }
+
+  let {
+    value = null,
+    hourCycle = 24,
+    withSeconds = false,
+    disabled = false,
+    invalid = false,
+    error,
+    onValueChange,
+    onValueCommit,
+    min,
+    max,
+    onValidationChange,
+  }: Props = $props();
 </script>
 
 <button type="button">before</button>

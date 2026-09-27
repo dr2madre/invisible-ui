@@ -2,7 +2,11 @@
   import NavigationMenu from "./NavigationMenu.svelte";
   import type { NavigationMenuItem } from "./create-navigation-menu";
 
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  interface Props {
+    onValueChange?: (value: string | null) => void;
+  }
+
+  let { onValueChange }: Props = $props();
 
   const items: NavigationMenuItem[] = [
     {

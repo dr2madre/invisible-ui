@@ -8,29 +8,39 @@
    *
    * `href` is required: a link navigates. An anchor without a destination is not
    * focusable and carries no link semantics, so an in-page action belongs to
-   * Button. Click events are forwarded for the work that accompanies a
-   * navigation, such as analytics.
+   * Button. Every other anchor attribute, `onclick` included, reaches the `<a>`,
+   * for the work that accompanies a navigation, such as analytics.
    *
    * Presentational only — themeable via `--ds-link-*`.
    */
-  /** Destination URL. */
-  export let href: string;
-  /** Open in a new tab (adds target/rel and a trailing arrow icon). */
-  export let external = false;
-  /** Tone down to the surrounding text colour (still underlined on hover). */
-  export let variant: "primary" | "subtle" = "primary";
+  import type { Snippet } from "svelte";
+  import type { HTMLAnchorAttributes } from "svelte/elements";
+
+  interface Props extends Omit<HTMLAnchorAttributes, "href" | "children"> {
+    /** Destination URL. */
+    href: string;
+    /** Open in a new tab (adds target/rel and a trailing arrow icon). */
+    external?: boolean;
+    /** Tone down to the surrounding text colour (still underlined on hover). */
+    variant?: "primary" | "subtle";
+    /** The link text. */
+    children?: Snippet;
+  }
+
+  let { href, external = false, variant = "primary", children, ...rest }: Props = $props();
 
   // A new tab always gets a safe `rel`, also when the target comes in as a
   // plain attribute; it is applied after the spread so nothing overrides it.
-  $: target = external ? "_blank" : ($$restProps.target as string | undefined);
-  $: rel =
+  const target = $derived(external ? "_blank" : (rest.target ?? undefined));
+  const rel = $derived(
     target === "_blank"
-      ? [$$restProps.rel, "noopener noreferrer"].filter(Boolean).join(" ")
-      : ($$restProps.rel as string | undefined);
+      ? [rest.rel, "noopener noreferrer"].filter(Boolean).join(" ")
+      : (rest.rel ?? undefined),
+  );
 </script>
 
-<a class="link" data-variant={variant} {href} on:click {...$$restProps} {target} {rel}>
-  <slot />
+<a class="link" data-variant={variant} {href} {...rest} {target} {rel}>
+  {@render children?.()}
   {#if external}
     <svg
       class="link__external"

@@ -6,7 +6,7 @@
    * use this when you want to lay out radios yourself. For a managed group with
    * roving tabindex use `RadioGroup`.
    *
-   * The label is the default slot (falling back to the `label` prop). Colors are
+   * The label is `children` (falling back to the `label` prop). Colors are
    * themeable via `--ds-radio-*`.
    */
   import type { Snippet } from "svelte";
@@ -21,7 +21,7 @@
     /** Whether this radio is selected. */
     checked?: boolean;
     disabled?: boolean;
-    /** Label text, used when the default slot is empty. */
+    /** Label text, used when no `children` is given. */
     label?: string;
     /** Called with this radio's value when it becomes selected. */
     onChange?: (value: string) => void;
