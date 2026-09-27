@@ -6,6 +6,11 @@ import { useFormReset, useLiveDom } from "../internal/form-reset";
 export interface SwitchProps {
   /** Accessible, visible label (required). Override with the default slot for rich content. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   /** `v-model` value; takes precedence over `checked` when bound. */
   modelValue?: boolean;
   checked?: boolean;
@@ -41,6 +46,7 @@ export const Switch = defineComponent({
   name: "Switch",
   props: {
     label: { type: String, required: true },
+    hideLabel: { type: Boolean, default: false },
     modelValue: { type: Boolean, default: undefined },
     checked: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
@@ -120,7 +126,11 @@ export const Switch = defineComponent({
               ]
             : undefined,
         ),
-        h("span", { class: "field__label" }, slots.default ? slots.default() : props.label),
+        h(
+          "span",
+          { class: ["field__label", { "field__label--hidden": props.hideLabel }] },
+          slots.default ? slots.default() : props.label,
+        ),
       ]);
     };
   },

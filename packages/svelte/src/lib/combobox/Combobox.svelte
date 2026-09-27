@@ -24,6 +24,11 @@
   /** Accessible name for the control. */
   export let label: string;
   /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  export let hideLabel = false;
+  /**
    * Options. Each may carry an optional leading `icon` (an SVG path `d`
    * string) shown before the label; with the search hidden, the control
    * mirrors the selected option's icon.
@@ -147,6 +152,7 @@
        server-rendered input already has a name and names its popup. -->
   <label
     class="combobox__label"
+    class:combobox__label--hidden={hideLabel}
     for={core.inputId($comboboxState.id)}
     id={core.labelId($comboboxState.id)}>{label}</label
   >
@@ -276,6 +282,19 @@
   .combobox__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .combobox__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .combobox__control {

@@ -33,12 +33,12 @@
     {
       "name": "Checkbox",
       "kind": "function",
-      "signature": "declare function Checkbox({ label, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
+      "signature": "declare function Checkbox({ label, hideLabel, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
     },
     {
       "name": "CheckboxProps",
       "kind": "interface",
-      "signature": "interface CheckboxProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; checked?: CheckedState; disabled?: boolean; /** Form field name — the value is submitted under it when checked. */ name?: string; /** Value submitted with the form when checked. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; children?: ReactNode; }"
+      "signature": "interface CheckboxProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; checked?: CheckedState; disabled?: boolean; /** Form field name — the value is submitted under it when checked. */ name?: string; /** Value submitted with the form when checked. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; children?: ReactNode; }"
     },
     {
       "name": "CheckedState",
@@ -48,7 +48,7 @@
     {
       "name": "Combobox",
       "kind": "function",
-      "signature": "declare function Combobox({ label, items, value, searchable, width, placeholder, disabled, clearLabel, emptyText, name, onValueChange, onInputValueChange, icon, }: ComboboxProps): react.JSX.Element;"
+      "signature": "declare function Combobox({ label, hideLabel, items, value, searchable, width, placeholder, disabled, clearLabel, emptyText, name, onValueChange, onInputValueChange, icon, }: ComboboxProps): react.JSX.Element;"
     },
     {
       "name": "ComboboxItem",
@@ -63,7 +63,7 @@
     {
       "name": "ComboboxProps",
       "kind": "interface",
-      "signature": "interface ComboboxProps { /** Accessible name for the control. */ label: string; /** Options. Each may carry a leading `icon`; with the search hidden, the * control mirrors the selected option's icon. */ items: ComboboxOption[]; value?: string | null; /** * With `searchable={false}` the input becomes read-only and the list always * shows every option — a select-only combobox: the advanced Select (styled * popup, per-option icons) without the autocomplete. */ searchable?: boolean; /** * Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits * the longest option, `fill` takes 100% of the container. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Clear button accessible name. Defaults to the catalog's \"Clear\". */ clearLabel?: string; /** Text shown when no option matches. Defaults to the catalog's \"No results\". */ emptyText?: string; /** Form field name — the selected option's value is submitted under it. */ name?: string; onValueChange?: (value: string | null) => void; onInputValueChange?: (text: string) => void; /** Leading icon shown when `searchable={false}` and no option icon applies. */ icon?: ReactNode; }"
+      "signature": "interface ComboboxProps { /** Accessible name for the control. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; /** Options. Each may carry a leading `icon`; with the search hidden, the * control mirrors the selected option's icon. */ items: ComboboxOption[]; value?: string | null; /** * With `searchable={false}` the input becomes read-only and the list always * shows every option — a select-only combobox: the advanced Select (styled * popup, per-option icons) without the autocomplete. */ searchable?: boolean; /** * Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits * the longest option, `fill` takes 100% of the container. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Clear button accessible name. Defaults to the catalog's \"Clear\". */ clearLabel?: string; /** Text shown when no option matches. Defaults to the catalog's \"No results\". */ emptyText?: string; /** Form field name — the selected option's value is submitted under it. */ name?: string; onValueChange?: (value: string | null) => void; onInputValueChange?: (text: string) => void; /** Leading icon shown when `searchable={false}` and no option icon applies. */ icon?: ReactNode; }"
     },
     {
       "name": "Dialog",
@@ -163,12 +163,12 @@
     {
       "name": "Switch",
       "kind": "function",
-      "signature": "declare function Switch({ label, checked, disabled, name, value, required, onOff, onText, offText, onCheckedChange, children, }: SwitchProps): react.JSX.Element;"
+      "signature": "declare function Switch({ label, hideLabel, checked, disabled, name, value, required, onOff, onText, offText, onCheckedChange, children, }: SwitchProps): react.JSX.Element;"
     },
     {
       "name": "SwitchProps",
       "kind": "interface",
-      "signature": "interface SwitchProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; checked?: boolean; disabled?: boolean; /** Form field name — the value is submitted under it when on. */ name?: string; /** Value submitted with the form when on. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Show ON/OFF text inside the track (a wider, labelled variant). */ onOff?: boolean; /** Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\". */ onText?: string; offText?: string; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; children?: ReactNode; }"
+      "signature": "interface SwitchProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; checked?: boolean; disabled?: boolean; /** Form field name — the value is submitted under it when on. */ name?: string; /** Value submitted with the form when on. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Show ON/OFF text inside the track (a wider, labelled variant). */ onOff?: boolean; /** Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\". */ onText?: string; offText?: string; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; children?: ReactNode; }"
     },
     {
       "name": "TextField",
