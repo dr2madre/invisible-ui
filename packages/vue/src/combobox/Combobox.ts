@@ -4,7 +4,8 @@ import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
-import { useFormReset } from "../internal/form-reset";
+import { useResettableValue } from "../internal/form-reset";
+import { ignoreGhostClicks } from "../internal/ghost-click";
 
 /** A combobox option, optionally carrying a leading icon (an SVG path `d`). */
 export interface ComboboxOption extends ComboboxItem {
@@ -49,9 +50,6 @@ export interface ComboboxProps {
   onValueChange?: (value: string | null) => void;
   onInputValueChange?: (text: string) => void;
 }
-
-// The window in which a second press is treated as a synthesized duplicate.
-const GHOST_CLICK_MS = 350;
 
 /**
  * Combobox: a styled editable autocomplete (WAI-ARIA editable combobox), and
@@ -104,16 +102,17 @@ export const Combobox = defineComponent({
     const i18n = useI18n();
 
     const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
-    // What the composable is told: a reset writes the default here, which is
-    // its silent path (the watch, not the setter).
-    const told = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    watch(given, (next) => {
-      if (next !== told.value) fallback.value = next;
-      told.value = next;
-    });
+    const { told } = useResettableValue(
+      given,
+      () => inputRef.value,
+      (value) => {
+        // The composable's own silent restore: its value watch returns early
+        // when the value is unchanged, which would leave the typed text and
+        // the open list standing.
+        combobox.reset(value);
+        emit("update:modelValue", value);
+      },
+    );
 
     const combobox = useCombobox(() => ({
       items: props.items,
@@ -146,35 +145,21 @@ export const Combobox = defineComponent({
       setOpen,
     } = combobox;
 
-    useFormReset(
-      () => inputRef.value,
-      () => {
-        told.value = fallback.value;
-        // The composable's own silent restore: its value watch returns early
-        // when the value is unchanged, which would leave the typed text and
-        // the open list standing.
-        combobox.reset(fallback.value);
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
-
     // The chevron toggles the list (showing all options when opening), so a
     // selected value can be changed without clearing it first. iOS Safari can
-    // synthesize a duplicate "ghost" click after a tap; a click landing right
-    // after a touch-driven one is ignored so the list doesn't open then
-    // immediately close. Mouse and keyboard presses always count.
-    const lastTouchToggle = ref(-Infinity);
-    const chevronPointerType = ref("");
-    const onChevronPointerdown = (event: PointerEvent) => {
-      chevronPointerType.value = event.pointerType;
-    };
-    const toggle = (event: MouseEvent) => {
-      if (event.timeStamp - lastTouchToggle.value < GHOST_CLICK_MS) return;
-      if (chevronPointerType.value === "touch") lastTouchToggle.value = event.timeStamp;
-      chevronPointerType.value = "";
+    // synthesize a duplicate "ghost" click after a tap, which is dropped so
+    // the list doesn't open then immediately close. Synchronous, so the guard
+    // is in place as soon as the chevron renders.
+    const chevronRef = ref<HTMLElement | null>(null);
+    watch(
+      chevronRef,
+      (node, _previous, onCleanup) => {
+        if (!node) return;
+        onCleanup(ignoreGhostClicks(node));
+      },
+      { flush: "sync" },
+    );
+    const toggle = () => {
       if (open.value) setOpen(false);
       else openAll();
     };
@@ -352,13 +337,13 @@ export const Combobox = defineComponent({
             h(
               "button",
               {
+                ref: chevronRef,
                 class: "combobox__chevron",
                 type: "button",
                 tabindex: -1,
                 "aria-label": open.value ? t("combobox.hide") : t("combobox.show"),
                 disabled: props.disabled,
                 onMousedown: (event: MouseEvent) => event.preventDefault(),
-                onPointerdown: onChevronPointerdown,
                 onClick: toggle,
               },
               [

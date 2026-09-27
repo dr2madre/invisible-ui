@@ -51,8 +51,6 @@ export interface UseDialog {
   panelRef: Ref<HTMLDialogElement | null>;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless Dialog to Vue on the native `<dialog>` element
  * (ADR 0005).

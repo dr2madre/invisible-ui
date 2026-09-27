@@ -3,9 +3,9 @@
  * (null entries are ignored, so refs that aren't mounted yet are fine).
  * Listens in the capture phase. Returns a cleanup that removes the listener.
  *
- * The shared "dismissable layer" helper for the floating overlays (Popover,
- * DropdownMenu), ported from the Svelte adapter so outside-press handling
- * lives in one place per adapter.
+ * The shared "dismissable layer" helper for the floating overlays and list
+ * popups, ported from the Svelte adapter so outside-press handling lives in
+ * one place per adapter.
  */
 export function onOutsidePointerDown(
   inside: Array<HTMLElement | null | undefined>,

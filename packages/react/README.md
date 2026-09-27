@@ -2,12 +2,14 @@
 
 React adapter over the framework-agnostic [`@design-system/core`](../../core).
 
-**Status: proof-of-concept.** 11 of the 80 components in the catalog: Button,
-Checkbox, Switch, TextField, SearchField, Select, Combobox, MultiSelect,
-Dialog, Icon and LocaleProvider. The first six were chosen to exercise the
-integration shapes an adapter has to solve. The goal is to prove the core drives a second framework, not to reach
-parity with the Svelte adapter. See
-[`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
+**Status: in scope for the full catalog.** The adapter started as the proof
+of concept that showed the core drives a second framework. It is being
+completed to the full catalog, like the Svelte, Vue and custom elements
+adapters, and carries 11 components today: Button, Checkbox, Switch,
+TextField, SearchField, Select, Combobox, MultiSelect, Dialog, Icon and
+LocaleProvider. See item 14 in
+[`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
+history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
 The package has 99 tests, including dedicated server-rendering and hydration
 coverage for every public renderable export.

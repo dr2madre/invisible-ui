@@ -74,8 +74,6 @@ export interface UseNavigationMenu {
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless navigation menu to Vue. State and ARIA (the open value,
  * `aria-expanded` / `aria-controls`, Escape, ArrowDown) live in

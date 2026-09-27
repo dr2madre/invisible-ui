@@ -1,7 +1,6 @@
 import { hoverCard as core } from "@design-system/core";
 import {
   computed,
-  onScopeDispose,
   ref,
   toValue,
   type ComputedRef,
@@ -9,6 +8,7 @@ import {
   type Ref,
   watch,
 } from "vue";
+import { useDelayedToggle } from "../internal/delayed-toggle";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -88,25 +88,11 @@ export function useHoverPreview(
   const triggerRef = ref<HTMLElement | null>(null);
   const cardRef = ref<HTMLElement | null>(null);
 
-  let showTimer: ReturnType<typeof setTimeout> | undefined;
-  let hideTimer: ReturnType<typeof setTimeout> | undefined;
-
-  const hold = () => {
-    clearTimeout(showTimer);
-    clearTimeout(hideTimer);
-  };
-  // A pending hover must not open something after the component is gone.
-  onScopeDispose(hold);
-  const show = (delay = resolved.value.openDelay ?? 300) => {
-    hold();
-    if (delay <= 0) return setOpen(true);
-    showTimer = setTimeout(() => setOpen(true), delay);
-  };
-  const hide = (delay = resolved.value.closeDelay ?? 200) => {
-    hold();
-    if (delay <= 0) return setOpen(false);
-    hideTimer = setTimeout(() => setOpen(false), delay);
-  };
+  const { show, hide, hold } = useDelayedToggle(
+    setOpen,
+    () => resolved.value.openDelay ?? 300,
+    () => resolved.value.closeDelay ?? 200,
+  );
 
   // Position against the trigger, again whenever the placement or offset
   // changes while open, without re-attaching the card-side listeners below.

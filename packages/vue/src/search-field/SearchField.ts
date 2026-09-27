@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
-import { useFormReset, useLiveDom } from "../internal/form-reset";
+import { useLiveDom, useResettableValue } from "../internal/form-reset";
 import { useTextField } from "../text-field/use-text-field";
 
 export interface SearchFieldProps {
@@ -58,13 +58,11 @@ export const SearchField = defineComponent({
     const i18n = useI18n();
     const control = ref<HTMLInputElement | null>(null);
     const given = () => props.modelValue ?? props.value ?? "";
-    const told = ref(given());
-    const fallback = ref(given());
-
-    watch(given, (next) => {
-      if (next !== told.value) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => control.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const api = useTextField(() => ({
       value: told.value,
@@ -79,13 +77,6 @@ export const SearchField = defineComponent({
     }));
 
     useLiveDom(control, () => ({ value: api.value.value }));
-    useFormReset(
-      () => control.value,
-      () => {
-        told.value = fallback.value;
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     const onInput = (event: Event) => {
       api.value.setValue((event.currentTarget as HTMLInputElement).value);

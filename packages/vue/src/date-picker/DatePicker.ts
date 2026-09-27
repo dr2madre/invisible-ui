@@ -2,11 +2,11 @@ import { i18n as coreI18n } from "@design-system/core";
 import { computed, defineComponent, h, ref, Teleport, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { WeekStart } from "../calendar/use-calendar";
-import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { usePopover } from "../popover/use-popover";
 import { useFormReset } from "../internal/form-reset";
+import { dateClearButton, dateFieldIcon, dateHiddenInput } from "../internal/date-field";
 
 /** Intl date style used for the field display. */
 export type DateStyle = "full" | "long" | "medium" | "short";
@@ -123,39 +123,9 @@ export const DatePicker = defineComponent({
 
     return () =>
       h("div", { class: ["date-picker", { "date-picker--disabled": props.disabled }] }, [
-        props.name
-          ? h("input", {
-              type: "hidden",
-              name: props.name,
-              value: selected.value ?? "",
-              disabled: props.disabled || undefined,
-            })
-          : null,
+        dateHiddenInput(props.name, selected.value, props.disabled),
         h("div", { class: "date-picker__field" }, [
-          h(
-            "span",
-            {
-              class: [
-                "date-picker__icon",
-                { "date-picker__icon--active": Boolean(selected.value) },
-              ],
-              "aria-hidden": "true",
-            },
-            [
-              h(
-                Icon,
-                { size: "1.1rem" },
-                {
-                  default: () => [
-                    h("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2" }),
-                    h("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
-                    h("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
-                    h("line", { x1: "3", y1: "10", x2: "21", y2: "10" }),
-                  ],
-                },
-              ),
-            ],
-          ),
+          dateFieldIcon(Boolean(selected.value)),
           h("input", {
             ...api.value.triggerProps,
             ref: triggerRef,
@@ -169,27 +139,7 @@ export const DatePicker = defineComponent({
             value: displayValue.value,
           }),
           props.clearable && selected.value && !props.disabled
-            ? h(
-                "button",
-                {
-                  class: "date-picker__clear",
-                  type: "button",
-                  "aria-label": i18n.value.t("datePicker.clear"),
-                  onClick: () => report(null),
-                },
-                [
-                  h(
-                    Icon,
-                    { size: "0.9rem" },
-                    {
-                      default: () => [
-                        h("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
-                        h("line", { x1: "6", y1: "6", x2: "18", y2: "18" }),
-                      ],
-                    },
-                  ),
-                ],
-              )
+            ? dateClearButton(i18n.value.t("datePicker.clear"), () => report(null))
             : null,
         ]),
 

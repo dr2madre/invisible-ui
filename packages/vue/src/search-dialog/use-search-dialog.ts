@@ -92,8 +92,6 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
   return [...ungrouped, ...[...groups.values()].flat()];
 };
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect a headless quick search to Vue: a combobox inside a modal dialog. The
  * modal shell (native `<dialog>` plus `showModal()`, scroll lock, Escape and

@@ -8,9 +8,9 @@ and maintain*.
 ## Already in place
 
 - **Headless core** — framework-agnostic `state` / `connect` / prop-getter
-  pattern (as in Zag/Ark) + complete Svelte and Vue adapters. React and custom
-  elements carry the six-component shared proof-of-concept set; Reflex wraps
-  the React set for Python consumers.
+  pattern (as in Zag/Ark) + complete Svelte, Vue and custom elements adapters.
+  React is being completed to the full catalog and carries 11 components
+  today; Reflex wraps the React set for Python consumers.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
 - **Tokens** — two tiers (primitives → semantic role/state), dark mode
@@ -36,9 +36,12 @@ Each item ships as its own PR. Checkboxes track progress.
   scope to the Invisible UI scope you own — e.g. `@invisible-ui/*` — add `NPM_TOKEN`,
   flip the trigger to `push`).
 - [x] **2. Lint / format / hooks** — ESLint 9 flat config (js +
-  typescript-eslint + eslint-plugin-svelte + prettier compat) + Prettier
+  typescript-eslint + eslint-plugin-svelte + eslint-plugin-react-hooks +
+  prettier compat) + Prettier
   (repo-wide) + husky + lint-staged + commitlint (conventional commits); `lint`
-  and `format:check` added to the CI gate.
+  and `format:check` added to the CI gate. `eslint-plugin-react-hooks`
+  (`recommended-latest`: the rules of hooks and the React Compiler checks)
+  runs on every React source: the adapter, its docs demos and the example app.
 - [x] **3. Tree-shaking guarantees** — `sideEffects` declared (`core: false`;
   `svelte: ["**/*.css","**/*.svelte"]`). Core now builds with preserved modules
   (+ a single bundled `index.d.ts`), so importing one primitive tree-shakes from
@@ -66,7 +69,7 @@ Each item ships as its own PR. Checkboxes track progress.
   catalog of 74 components as native Vue 3 components and composables, with
   `v-model`, `provide`/`inject` localization, ported CSS and 866 tests. The
   parity batches landed in PRs #193–#199 (ADR 0010). The original
-  proof-of-concept remains in **React**
+  proof of concept started in **React**
   (`packages/react`): Button, Checkbox, Switch, Select, Combobox and
   Dialog over the existing `@design-system/core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
@@ -77,6 +80,7 @@ Each item ships as its own PR. Checkboxes track progress.
   (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over
   the React build (ADR 0006) with 8 render tests — nothing re-implemented in
   Python. Full plan and integration findings: `docs/adapters-roadmap.md`.
+  React now targets the full catalog (item 14).
 - [x] **7. Adapter SSR/hydration guarantees** — `ssr.test.ts` server-renders every
   Svelte fixture (`svelte/server` `render`, node env) so no component touches
   the DOM during SSR; runs in the normal test gate. Caught and fixed a real bug:
@@ -87,7 +91,7 @@ Each item ships as its own PR. Checkboxes track progress.
   fixture hydrates representative stateful, overlay and date components without
   mismatches. Body-level Teleports render in place through hydration and move
   after mount, so Vue can locate the server nodes before creating viewport-level
-  layers. **React now carries the same guarantee across its proof-of-concept
+  layers. **React now carries the same guarantee across its first
   surface:** all six catalog components plus `Icon` and `LocaleProvider`
   server-render without a DOM and hydrate together without mismatches or
   recoverable errors; the Combobox portal is created only after hydration.
@@ -97,8 +101,11 @@ Each item ships as its own PR. Checkboxes track progress.
   without losing labels, options or selected state. No virtual-DOM hydration
   step is involved.
 - [x] **13. Custom elements: full catalog** — done. `packages/elements`
-  carries all 80 components in the catalog, like Svelte and Vue. The
-  components were ported as custom elements over the same core, with the
+  carries all 80 components in the catalog, like Svelte and Vue. All batches
+  are merged.
+  `ds-locale-provider` carries i18n, the `e2e/elements-*.spec.ts` specs cover
+  the elements in real browsers, and every element has its own tree-shaken
+  budget in `.size-limit.json`. The original plan: the components were ported as custom elements over the same core, with the
   Svelte component as the model for markup, class names, tokens and tests.
   Each batch ships as its own PR and brings its generated API manifest, docs
   tab and browser tests. Batches follow shared shape rather than the alphabet:
@@ -107,7 +114,25 @@ Each item ships as its own PR. Checkboxes track progress.
   Dropdown Menu, Context Menu, Menubar, Navigation Menu), then
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
-  time family, then the presentational rest. React stays a proof of concept.
+  time family, then the presentational rest.
+- [ ] **14. React: full catalog** — `packages/react` carries 11 of the 80
+  components in the catalog: Button, Checkbox, Switch, TextField,
+  SearchField, Select, Combobox, MultiSelect, Dialog, Icon and
+  LocaleProvider. Svelte, Vue and custom elements carry all of them. The
+  remaining components are ported as React components and `use*` hooks over
+  the same core, with the Svelte component as the model for markup, class
+  names, tokens and tests. Batches follow shared shape rather than the
+  alphabet. Each batch ships as its own PR and brings its generated API
+  manifest, docs tab and tests.
+- [ ] **15. Flutter adapter** — starts after item 14, React: full catalog.
+  The Timelog team proposes `packages/flutter`, a Dart package that
+  reimplements component behaviour, because the DOM-based core cannot run in
+  Flutter. That departs from two current rules: adapters stay thin over the
+  core, and Flutter gets tokens only (`docs/next-adapter-strategy.md`). An ADR
+  written and accepted by this team settles parity, state conventions,
+  semantics, dependencies, tokens and docs before any adapter code. The
+  proposal, with the component order and the editable-grid requirements, is in
+  [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md).
 
 ### 🟡 P3 — polish & ecosystem
 
