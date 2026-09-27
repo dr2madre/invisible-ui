@@ -3,12 +3,12 @@ import { computed, defineComponent, h, ref, watch, type PropType } from "vue";
 import { Calendar, type CalendarEvent } from "../calendar/Calendar";
 import type { CalendarView, WeekStart } from "../calendar/use-calendar";
 import type { DateStyle } from "../date-picker/DatePicker";
-import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { usePopover } from "../popover/use-popover";
 import { useFormReset } from "../internal/form-reset";
+import { dateClearButton, dateFieldIcon, dateHiddenInput } from "../internal/date-field";
 
 export interface DateRangePickerProps {
   /** Range start (ISO `YYYY-MM-DD`), or `null`. */
@@ -142,47 +142,10 @@ export const DateRangePicker = defineComponent({
 
     return () =>
       h("div", { class: ["date-picker", { "date-picker--disabled": props.disabled }] }, [
-        props.startName
-          ? h("input", {
-              type: "hidden",
-              name: props.startName,
-              value: start.value ?? "",
-              disabled: props.disabled || undefined,
-            })
-          : null,
-        props.endName
-          ? h("input", {
-              type: "hidden",
-              name: props.endName,
-              value: end.value ?? "",
-              disabled: props.disabled || undefined,
-            })
-          : null,
+        dateHiddenInput(props.startName, start.value, props.disabled),
+        dateHiddenInput(props.endName, end.value, props.disabled),
         h("div", { class: "date-picker__field" }, [
-          h(
-            "span",
-            {
-              class: [
-                "date-picker__icon",
-                { "date-picker__icon--active": Boolean(start.value || end.value) },
-              ],
-              "aria-hidden": "true",
-            },
-            [
-              h(
-                Icon,
-                { size: "1.1rem" },
-                {
-                  default: () => [
-                    h("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2" }),
-                    h("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
-                    h("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
-                    h("line", { x1: "3", y1: "10", x2: "21", y2: "10" }),
-                  ],
-                },
-              ),
-            ],
-          ),
+          dateFieldIcon(Boolean(start.value || end.value)),
           h("input", {
             ...api.value.triggerProps,
             ref: triggerRef,
@@ -196,27 +159,7 @@ export const DateRangePicker = defineComponent({
             value: displayValue.value,
           }),
           props.clearable && start.value && !props.disabled
-            ? h(
-                "button",
-                {
-                  class: "date-picker__clear",
-                  type: "button",
-                  "aria-label": i18n.value.t("dateRangePicker.clear"),
-                  onClick: () => report(null, null),
-                },
-                [
-                  h(
-                    Icon,
-                    { size: "0.9rem" },
-                    {
-                      default: () => [
-                        h("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
-                        h("line", { x1: "6", y1: "6", x2: "18", y2: "18" }),
-                      ],
-                    },
-                  ),
-                ],
-              )
+            ? dateClearButton(i18n.value.t("dateRangePicker.clear"), () => report(null, null))
             : null,
         ]),
 

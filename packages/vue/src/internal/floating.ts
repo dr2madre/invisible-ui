@@ -2,7 +2,7 @@ import { autoUpdate, computePosition, flip, offset, shift, type Placement } from
 
 export type { Placement };
 
-export interface FloatingOptions {
+interface FloatingOptions {
   /** Preferred placement; flips when there's no room. Default `"bottom-start"`. */
   placement?: Placement;
   /** Gap between anchor and floating element, in px. Default `4`. */
@@ -17,9 +17,9 @@ export interface FloatingOptions {
 
 /**
  * Position `floating` against `anchor` with Floating UI (flip + shift) and keep
- * it positioned until the returned cleanup runs. The shared overlay positioning
- * helper used by Popover, Tooltip and DropdownMenu, ported from the Svelte
- * adapter so the geometry lives in one place per adapter.
+ * it positioned until the returned cleanup runs. The shared positioning helper
+ * for the floating overlays and list popups, ported from the Svelte adapter so
+ * the geometry lives in one place per adapter.
  *
  * Sets `left`/`top` (use with `position: fixed`/`absolute` on the element).
  * Falls back to a single positioning pass when `ResizeObserver` is unavailable

@@ -26,8 +26,6 @@ export interface CardProps {
   trend?: "up" | "down" | "neutral";
 }
 
-// Stable per-instance ids for the title association, as in Select: a module
-// counter keeps the Vue peer range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Card: a presentational content container. Three shapes from one component:
  *

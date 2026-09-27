@@ -15,8 +15,6 @@ export interface RadioProps {
   onChange?: (value: string) => void;
 }
 
-// Stable per-instance id for the label association; the same module-counter
-// approach as Select (Vue's own `useId` landed after the ^3.4 peer range).
 /**
  * Radio — a single styled radio button paired with its label, ported from the
  * Svelte adapter. Built on a native `<input type="radio">`, so several `Radio`s

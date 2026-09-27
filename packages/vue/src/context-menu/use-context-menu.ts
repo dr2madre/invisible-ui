@@ -11,6 +11,8 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from "vue";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { createTypeahead, menuItemNode } from "../internal/menu";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -52,12 +54,9 @@ export interface UseContextMenu {
   openAt: (x: number, y: number) => void;
 }
 
-const TYPEAHEAD_RESET = 500;
 const LONG_PRESS = 500;
 const MOVE_TOLERANCE = 10;
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect a headless context menu to Vue: a `role="menu"` summoned by
  * right-click, by the keyboard context-menu key, or by a long press on touch.
@@ -140,11 +139,6 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
     });
   };
 
-  const itemEl = (value: string | null) =>
-    value && menuRef.value
-      ? menuRef.value.querySelector<HTMLElement>(`[data-value="${CSS.escape(value)}"]`)
-      : null;
-
   const openAt = (x: number, y: number) => {
     if (resolved.value.disabled) return;
     point = { x, y };
@@ -208,30 +202,17 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
       // enough: the menu closes on scroll and on an outside press.
       reposition();
 
-      let buffer = "";
-      let timer: ReturnType<typeof setTimeout> | undefined;
+      const typeahead = createTypeahead();
       const onKeyDown = (event: KeyboardEvent) => {
-        const printable =
-          event.key.length === 1 &&
-          !event.metaKey &&
-          !event.ctrlKey &&
-          !event.altKey &&
-          /\S/.test(event.key);
-        if (!printable) return;
-        buffer += event.key;
-        clearTimeout(timer);
-        timer = setTimeout(() => (buffer = ""), TYPEAHEAD_RESET);
-        const match = core.matchItem(resolved.value.items, buffer, activeValue.value);
+        const match = typeahead.match(event, resolved.value.items, activeValue.value);
         if (match) setActiveValue(match);
       };
       popup.addEventListener("keydown", onKeyDown);
 
-      const onOutsidePointer = (event: Event) => {
-        if (menuRef.value?.contains(event.target as Node)) return;
+      const stopOutside = onOutsidePointerDown([popup], () => {
         setOpen(false);
         setActiveValue(null);
-      };
-      document.addEventListener("pointerdown", onOutsidePointer, true);
+      });
 
       // Scrolling inside the menu itself is fine; scrolling the page under it
       // is not, because the menu is anchored to a point that has just moved.
@@ -245,9 +226,9 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
 
       onCleanup(() => {
         popup.removeEventListener("keydown", onKeyDown);
-        document.removeEventListener("pointerdown", onOutsidePointer, true);
+        stopOutside();
         window.removeEventListener("scroll", onScroll, true);
-        clearTimeout(timer);
+        typeahead.reset();
       });
     },
     { flush: "post" },
@@ -260,7 +241,7 @@ export function useContextMenu(options: MaybeRefOrGetter<UseContextMenuOptions>)
     () => {
       if (!open.value) return;
       const target = activeValue.value;
-      void nextTick().then(() => itemEl(target)?.focus());
+      void nextTick().then(() => menuItemNode(menuRef.value, target)?.focus());
     },
     { flush: "post" },
   );
