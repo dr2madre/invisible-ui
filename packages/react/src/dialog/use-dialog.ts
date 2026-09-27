@@ -1,5 +1,6 @@
 import { dialog as core } from "@design-system/core";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
+import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
 
@@ -69,7 +70,9 @@ export function useDialog({
   }
 
   const latest = useRef({ onOpenChange, initialFocus, closeOnEscape, closeOnOutsideClick });
-  latest.current = { onOpenChange, initialFocus, closeOnEscape, closeOnOutsideClick };
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { onOpenChange, initialFocus, closeOnEscape, closeOnOutsideClick };
+  });
 
   const setOpen = useCallback((next: boolean) => {
     setOpenState((current) => {
@@ -101,6 +104,7 @@ export function useDialog({
 
     // Capture focus before it moves into the dialog, to restore on close.
     const previouslyFocused = document.activeElement as HTMLElement | null;
+    const trigger = triggerRef.current;
 
     // Top layer + inert background come from the platform.
     el.showModal();
@@ -148,7 +152,7 @@ export function useDialog({
       if (el.open) el.close();
       releaseScroll();
       // Return focus to where it was (the trigger, usually).
-      const restore = triggerRef.current ?? previouslyFocused;
+      const restore = trigger?.isConnected ? trigger : previouslyFocused;
       if (restore?.isConnected) restore.focus();
     };
   }, [open, setOpen]);

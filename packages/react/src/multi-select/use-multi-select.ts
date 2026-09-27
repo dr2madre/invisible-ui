@@ -14,6 +14,7 @@ import {
 } from "react";
 import { fail } from "../internal/dev";
 import { useFormReset } from "../internal/form-reset";
+import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { normalizeProps } from "../normalize";
 
 export type MultiSelectItem = core.MultiSelectItem;
@@ -131,7 +132,9 @@ export function useMultiSelect({
 
   // Latest callbacks/inputs, read inside setState updaters without widening deps.
   const latest = useRef({ filter, allItems, onValuesChange, onInputValueChange, onOpenChange });
-  latest.current = { filter, allItems, onValuesChange, onInputValueChange, onOpenChange };
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { filter, allItems, onValuesChange, onInputValueChange, onOpenChange };
+  });
 
   // --- Controlled sync: mirror the `values` prop without an effect (matches
   // the Svelte adapter's reactive statements). Reflection never calls back;
