@@ -381,7 +381,8 @@ This plan does not include:
 - a rewrite of the core or adapters;
 - one browser test for every presentational component;
 - direct axe tests for wrappers already covered through composed components;
-- expansion of the React or custom element proof-of-concept catalogs;
+- expansion of the React catalog, tracked as its own technical-roadmap item
+  (custom elements already carry the full catalog);
 - speculative performance work;
 - visual changes without a documented usability or accessibility defect;
 - publication of the packages.

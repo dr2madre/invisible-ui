@@ -19,15 +19,16 @@ A **headless, accessible, multi-framework** component library — built from scr
 > **⚠️ Alpha — in active development.** APIs, design tokens, and package names
 > may change without notice. Not recommended for production use yet.
 
-> **Status:** The framework-agnostic core and the complete **Svelte** and
-> **Vue** adapters carry the full component set (74 components across
-> overlays, modals, navigation, forms, data and date/time), with headless APIs
-> for behavioral primitives and styled, token-driven components. The
-> repository includes light/dark tokens, `vitest`/`vitest-axe` coverage and an
-> Astro docs site with a live Svelte demo per component. **React**, **Web
-> Components** and **Reflex (Python)** expose the six-component shared
-> proof-of-concept set. The
-> [technical roadmap](./docs/technical-roadmap.md) is complete (12/12).
+> **Status:** The framework-agnostic core and the **Svelte**, **Vue** and
+> **Web Components** adapters carry the full component set (81 components
+> across overlays, modals, navigation, forms, data and date/time), with
+> headless APIs for behavioral primitives and styled, token-driven components.
+> The repository includes light/dark tokens, `vitest`/`vitest-axe` coverage
+> and an Astro docs site with a live Svelte demo per component. **React** is
+> being completed to the full catalog and carries 11 components today;
+> **Reflex (Python)** wraps the React components. The
+> [technical roadmap](./docs/technical-roadmap.md) has two open items: the
+> full React catalog, then a proposed Flutter adapter.
 
 ## What this is
 
@@ -93,8 +94,8 @@ design-system/
 ├── packages/
 │   ├── svelte/            # @design-system/svelte — the full Svelte adapter
 │   ├── vue/               # @design-system/vue — the full Vue 3 adapter
-│   ├── react/             # @design-system/react — React adapter (PoC: 6 components)
-│   ├── elements/          # @design-system/elements — custom elements (PoC: 6 components)
+│   ├── react/             # @design-system/react — React adapter (11 components, full catalog in progress)
+│   ├── elements/          # @design-system/elements — custom elements (full catalog)
 │   ├── reflex/            # invisible-ui (PyPI-style) — Reflex/Python wrappers over the React build
 │   └── docs/              # the Astro + Starlight docs site
 ├── examples/
@@ -107,11 +108,11 @@ design-system/
 
 The monorepo uses pnpm workspaces + Turborepo. A shared `core/` holds the
 framework-agnostic behavior and accessibility logic; thin per-framework
-adapters expose it idiomatically. **Svelte** and **Vue** carry the full catalog.
-**React** is the original proof-of-concept subset that confirmed the core needs
-no changes to drive another framework; **Web Components** cover the
-framework-free shared set. **Reflex** wraps the React components so Python apps
-reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
+adapters expose it idiomatically. **Svelte**, **Vue** and **Web Components**
+carry the full catalog. **React** started as the proof of concept that
+confirmed the core needs no changes to drive another framework; it is being
+completed to the full catalog and carries 11 components today. **Reflex**
+wraps the React components so Python apps reuse the same behaviour (ADR 0006) — nothing is re-implemented in Python.
 
 See [`core/README.md`](./core/README.md) for the primitive contract, state
 ownership and adapter integration model.

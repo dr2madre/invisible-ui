@@ -47,7 +47,8 @@ come from the package root (`@design-system/svelte`).
 ## React adapter: `use*` hooks
 
 The React adapter (`@design-system/react`) includes Button, Checkbox, Switch,
-Select, TextField, Combobox, MultiSelect and Dialog. Its headless primitives
+Select, TextField, SearchField, Combobox, MultiSelect, Dialog and Icon. Its
+headless primitives
 are exposed as `use*` hooks. The connected API is recomputed each render and
 its prop bags are spread onto JSX; styled components and the hooks ship from
 the package root, styles are opt-in via `@design-system/react/styles.css`.
