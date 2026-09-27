@@ -108,6 +108,15 @@ Each item ships as its own PR. Checkboxes track progress.
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
   time family, then the presentational rest. React stays a proof of concept.
+- [ ] **14. Flutter adapter** — starts after the React adapter is complete.
+  The Timelog team proposes `packages/flutter`, a Dart package that
+  reimplements component behaviour, because the DOM-based core cannot run in
+  Flutter. That departs from two current rules: adapters stay thin over the
+  core, and Flutter gets tokens only (`docs/next-adapter-strategy.md`). An ADR
+  written and accepted by this team settles parity, state conventions,
+  semantics, dependencies, tokens and docs before any adapter code. The
+  proposal, with the component order and the editable-grid requirements, is in
+  [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md).
 
 ### 🟡 P3 — polish & ecosystem
 
