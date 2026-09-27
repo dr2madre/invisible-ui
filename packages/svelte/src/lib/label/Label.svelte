@@ -20,8 +20,13 @@
 
   let { for: forControl, required = false, children }: Props = $props();
 
-  // The association is read once, when the label is created.
-  const { rootAction } = untrack(() => createLabel({ for: forControl }));
+  // Seeded once from the first props; the effect below follows later ones.
+  const { rootAction, sync } = untrack(() => createLabel({ for: forControl }));
+  // The machine keeps its own store, so a `for` changed after mount is pushed
+  // into it.
+  $effect.pre(() => {
+    sync({ for: forControl });
+  });
 </script>
 
 <label class="label" use:rootAction>

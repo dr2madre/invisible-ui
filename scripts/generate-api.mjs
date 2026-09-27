@@ -243,6 +243,10 @@ function parseSvelteRunes(src) {
     if (!member) continue;
     let type = member.type.replace(/^\|\s*/, "");
     let def = defaultPart == null ? null : collapse(defaultPart);
+    // A bindable prop carries its default inside the rune: `$bindable(false)`
+    // reads as `false`, and `$bindable()` as no default at all.
+    const bindable = def == null ? null : /^\$bindable\(([^]*)\)$/.exec(def.trim());
+    if (bindable) def = bindable[1].trim() || null;
     if (!member.required && def == null) {
       def = "undefined";
       // A function type needs its parentheses before it joins a union.

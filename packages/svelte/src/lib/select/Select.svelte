@@ -17,78 +17,90 @@
   import type { SelectItem } from "./create-select";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Accessible name for the control. */
-  export let label: string;
-  /** Visually hide the label (kept for assistive tech) — for compact toolbars. */
-  export let hideLabel = false;
-  /** Options ({ value, label?, disabled? }). Plain text only — see Combobox for rich options. */
-  export let items: SelectItem[];
-  /** Selected value (bindable). `null` shows the placeholder. */
-  export let value: string | null = null;
-  /** Shown while nothing is selected. Defaults to the i18n catalog's "Select…". */
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  /**
-   * Width behaviour: `wrap` fits the longest option (the native default),
-   * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`
-   * (16rem by default).
-   */
-  export let width: "wrap" | "fill" | "fixed" = "wrap";
-  /** Form field name — this is a real `<select>`, so it submits natively. */
-  export let name: string | undefined = undefined;
-  /** Marks the control as required (native validation + announced to AT). */
-  export let required = false;
-  /** Error message; when non-empty the select becomes invalid and announces it. */
-  export let error: string | undefined = undefined;
-  /** Called whenever the selected value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible name for the control. */
+    label: string;
+    /** Visually hide the label (kept for assistive tech) — for compact toolbars. */
+    hideLabel?: boolean;
+    /** Options ({ value, label?, disabled? }). Plain text only — see Combobox for rich options. */
+    items: SelectItem[];
+    /** Selected value (bindable). `null` shows the placeholder. */
+    value?: string | null;
+    /** Shown while nothing is selected. Defaults to the i18n catalog's "Select…". */
+    placeholder?: string;
+    disabled?: boolean;
+    /**
+     * Width behaviour: `wrap` fits the longest option (the native default),
+     * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`
+     * (16rem by default).
+     */
+    width?: "wrap" | "fill" | "fixed";
+    /** Form field name — this is a real `<select>`, so it submits natively. */
+    name?: string;
+    /** Marks the control as required (native validation + announced to AT). */
+    required?: boolean;
+    /** Error message; when non-empty the select becomes invalid and announces it. */
+    error?: string;
+    /** Called whenever the selected value changes. */
+    onValueChange?: (value: string) => void;
+  }
+
+  let {
+    label,
+    hideLabel = false,
+    items,
+    value = $bindable(null),
+    placeholder,
+    disabled = false,
+    width = "wrap",
+    name,
+    required = false,
+    error,
+    onValueChange,
+  }: Props = $props();
 
   const selectId = stableId("ds-select");
-  let selectEl: HTMLSelectElement;
+  let selectEl: HTMLSelectElement | undefined;
 
   // The reset default follows the prop, except a give-back of what the
   // control itself reported; there is no machine here, the element is the
-  // state (ADR 0012).
-  let lastValue = value;
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if ((value ?? "") !== selectEl?.value) defaultValue = value;
-  }
-
-  // The element is already restored by its selected attribute; this puts the
-  // component's own copy back beside it, without reporting.
-  function restore() {
-    lastValue = defaultValue;
-    value = defaultValue;
-  }
+  // state (ADR 0012). The element is already restored by its selected
+  // attribute; the restore puts the component's own copy back beside it,
+  // without reporting.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    isGiveBack: (next) => (next ?? "") === selectEl?.value,
+  });
   const errorId = `${selectId}-error`;
 
-  $: resolvedPlaceholder = placeholder ?? $t("select.placeholder");
+  const resolvedPlaceholder = $derived(placeholder ?? $t("select.placeholder"));
   // The native element always has a selection; `""` stands for "nothing yet"
   // (the hidden, disabled placeholder option) and maps to `value = null`.
-  $: nativeValue = value ?? "";
+  const nativeValue = $derived(value ?? "");
 
   function onChange(event: Event) {
     const next = (event.currentTarget as HTMLSelectElement).value;
-    value = next === "" ? null : next;
-    if (value != null) onValueChange?.(value);
+    const chosen = next === "" ? null : next;
+    // The prop first, then the report (ADR 0011).
+    mirror.write(chosen);
+    if (chosen != null) onValueChange?.(chosen);
   }
 </script>
 
 <div class="select" data-width={width}>
-  <label class="select__label" class:select__label--hidden={hideLabel} for={selectId}>
+  <label class={["select__label", hideLabel && "select__label--hidden"]} for={selectId}>
     {label}
   </label>
 
   <span class="select__control">
     <select
       bind:this={selectEl}
-      class="select__native"
-      class:select__native--placeholder={value == null}
+      class={["select__native", value == null && "select__native--placeholder"]}
       id={selectId}
       {name}
       {disabled}
@@ -97,14 +109,16 @@
       aria-describedby={error ? errorId : undefined}
       data-invalid={error ? "" : undefined}
       value={nativeValue}
-      on:change={onChange}
-      use:formReset={restore}
+      onchange={onChange}
+      use:formReset={mirror.restore}
     >
       <!-- Placeholder: a hidden, disabled option holding the empty value. -->
       <option value="" disabled hidden>{resolvedPlaceholder}</option>
       {#each items as item (item.value)}
-        <option value={item.value} disabled={item.disabled} selected={item.value === defaultValue}
-          >{item.label ?? item.value}</option
+        <option
+          value={item.value}
+          disabled={item.disabled}
+          selected={item.value === mirror.defaultValue}>{item.label ?? item.value}</option
         >
       {/each}
     </select>

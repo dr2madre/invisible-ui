@@ -606,7 +606,7 @@
     {
       "name": "CreateLabel",
       "kind": "interface",
-      "signature": "interface CreateLabel { /** Reactive resolved state. */ state: Readable<LabelState>; /** Reactive connected API. */ api: Readable<LabelApi>; /** Svelte action for the label element: `<label use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+      "signature": "interface CreateLabel { /** Reactive resolved state. */ state: Readable<LabelState>; /** Reactive connected API. */ api: Readable<LabelApi>; /** Mirror the association after mount: the control a label names can change. */ sync: (context: LabelContext) => void; /** Svelte action for the label element: `<label use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateMenubar",

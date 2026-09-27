@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   import type { RadioItem } from "./create-radio-group";
 
   /** An item, with an optional display label (falls back to `value`). */
@@ -17,54 +17,62 @@
    * group needs an accessible name via `label`. Colors are themeable CSS custom
    * properties (`--ds-radio-*`).
    */
+  import { untrack } from "svelte";
   import { createRadioGroup, type Orientation } from "./create-radio-group";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
-  export let items: RadioGroupItem[];
-  export let value: string | null = null;
-  export let disabled = false;
-  /** Layout and arrow-key axis. Defaults to `vertical`. */
-  export let orientation: Orientation = "vertical";
-  /** Accessible name for the group (announced by screen readers). */
-  export let label: string;
-  /** Form field name — the selected value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Called whenever the selected value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    items: RadioGroupItem[];
+    value?: string | null;
+    disabled?: boolean;
+    /** Layout and arrow-key axis. Defaults to `vertical`. */
+    orientation?: Orientation;
+    /** Accessible name for the group (announced by screen readers). */
+    label: string;
+    /** Form field name — the selected value is submitted under it. */
+    name?: string;
+    /** Called whenever the selected value changes. */
+    onValueChange?: (value: string) => void;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    items,
+    value = $bindable(null),
+    disabled = false,
+    orientation = "vertical",
+    label,
+    name,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props, as before: only the value follows
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     state: radioState,
     setValue,
     syncValue,
     name: groupName,
-  } = createRadioGroup({
-    items,
-    value,
-    disabled,
-    orientation,
-    name,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  } = untrack(() =>
+    createRadioGroup({
+      items,
+      value,
+      disabled,
+      orientation,
+      name,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $radioState.value) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $radioState.value,
+  });
 
   const labelId = stableId("ds-radio-group");
 </script>
@@ -74,22 +82,22 @@
   <div
     class="radio-group"
     role="radiogroup"
-    use:formReset={restore}
+    use:formReset={mirror.restore}
     aria-labelledby={labelId}
     aria-orientation={orientation}
     data-orientation={orientation}
   >
     {#each items as item (item.value)}
-      <label class="radio" class:radio--disabled={disabled || item.disabled}>
+      <label class={["radio", (disabled || item.disabled) && "radio--disabled"]}>
         <input
           class="radio__input"
           type="radio"
           name={groupName}
           value={item.value}
           checked={$radioState.value === item.value}
-          defaultChecked={defaultValue === item.value}
+          defaultChecked={mirror.defaultValue === item.value}
           disabled={disabled || item.disabled}
-          on:change={() => setValue(item.value)}
+          onchange={() => setValue(item.value)}
           data-state={$radioState.value === item.value ? "checked" : "unchecked"}
         />
         <span class="radio__dot" aria-hidden="true"></span>

@@ -12,77 +12,88 @@
    * so clicking the track or text toggles it. Colors and sizing are themeable
    * CSS custom properties (`--ds-switch-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createSwitch } from "./create-switch";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  /** Accessible, visible label (required). Override with the default slot for rich content. */
-  export let label: string;
-  /**
-   * Visually hide the label while keeping it as the accessible name. The label
-   * text is always required.
-   */
-  export let hideLabel = false;
-  export let checked = false;
-  export let disabled = false;
-  /** Form field name — the value is submitted under it when on. */
-  export let name: string | undefined = undefined;
-  /** Value submitted with the form when on. Defaults to the native `"on"`. */
-  export let value = "on";
-  /** Mark the control required for native form validation. */
-  export let required = false;
-  /** Show ON/OFF text inside the track (a wider, labelled variant). */
-  export let onOff = false;
-  /** Text shown in the track when on / off (only with `onOff`). Default to the i18n catalog's "ON" / "OFF". */
-  export let onText: string | undefined = undefined;
-  export let offText: string | undefined = undefined;
-  /** Called whenever the on/off value changes. */
-  export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible, visible label (required). Override with the default slot for rich content. */
+    label: string;
+    /**
+     * Visually hide the label while keeping it as the accessible name. The label
+     * text is always required.
+     */
+    hideLabel?: boolean;
+    checked?: boolean;
+    disabled?: boolean;
+    /** Form field name — the value is submitted under it when on. */
+    name?: string;
+    /** Value submitted with the form when on. Defaults to the native `"on"`. */
+    value?: string;
+    /** Mark the control required for native form validation. */
+    required?: boolean;
+    /** Show ON/OFF text inside the track (a wider, labelled variant). */
+    onOff?: boolean;
+    /** Text shown in the track when on / off (only with `onOff`). Default to the i18n catalog's "ON" / "OFF". */
+    onText?: string;
+    offText?: string;
+    /** Called whenever the on/off value changes. */
+    onCheckedChange?: (c: boolean) => void;
+    /** Rich label content, in place of `label`. */
+    children?: Snippet;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    label,
+    hideLabel = false,
+    checked = $bindable(false),
+    disabled = false,
+    name,
+    value = "on",
+    required = false,
+    onOff = false,
+    onText,
+    offText,
+    onCheckedChange,
+    children,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     state: swState,
     setChecked,
     syncChecked,
     syncDisabled,
-  } = createSwitch({ checked, disabled, onCheckedChange: (c) => onCheckedChange?.(c) });
+  } = untrack(() =>
+    createSwitch({ checked, disabled, onCheckedChange: (c) => onCheckedChange?.(c) }),
+  );
 
-  // Controllable mirrors, compared against the last prop value (never against
-  // the store): an uncontrolled consumer keeps its own interactions. A sync
-  // never reports a change.
-  let lastChecked = checked;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultChecked = checked;
-  $: if (checked !== lastChecked) {
-    lastChecked = checked;
-    if (checked !== $swState.checked) defaultChecked = checked;
-    syncChecked(checked);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastChecked = defaultChecked;
-    checked = defaultChecked;
-    syncChecked(defaultChecked);
-  };
-  let lastDisabled = disabled;
-  $: if (disabled !== lastDisabled) {
-    lastDisabled = disabled;
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => checked,
+    set: (next) => (checked = next),
+    reflect: syncChecked,
+    isGiveBack: (next) => next === $swState.checked,
+  });
+  $effect.pre(() => {
     syncDisabled(disabled);
-  }
+  });
 
-  $: resolvedOnText = onText ?? $t("switch.on");
-  $: resolvedOffText = offText ?? $t("switch.off");
+  const resolvedOnText = $derived(onText ?? $t("switch.on"));
+  const resolvedOffText = $derived(offText ?? $t("switch.off"));
 
   function onChange(event: Event) {
     setChecked((event.currentTarget as HTMLInputElement).checked);
   }
 </script>
 
-<label class="field" class:field--disabled={disabled}>
+<label class={["field", disabled && "field--disabled"]}>
   <input
     class="switch__input"
     type="checkbox"
@@ -92,18 +103,20 @@
     {required}
     {disabled}
     checked={$swState.checked}
-    {defaultChecked}
-    on:change={onChange}
-    use:formReset={restore}
+    defaultChecked={mirror.defaultValue}
+    onchange={onChange}
+    use:formReset={mirror.restore}
     data-state={$swState.checked ? "checked" : "unchecked"}
   />
-  <span class="switch" class:switch--onoff={onOff} aria-hidden="true">
+  <span class={["switch", onOff && "switch--onoff"]} aria-hidden="true">
     {#if onOff}
       <span class="switch__on">{resolvedOnText}</span>
       <span class="switch__off">{resolvedOffText}</span>
     {/if}
   </span>
-  <span class="field__label" class:field__label--hidden={hideLabel}><slot>{label}</slot></span>
+  <span class={["field__label", hideLabel && "field__label--hidden"]}
+    >{#if children}{@render children()}{:else}{label}{/if}</span
+  >
 </label>
 
 <style>

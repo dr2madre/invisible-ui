@@ -7,45 +7,66 @@
    *
    * Colors, sizing and radius are themeable via `--ds-pagination-*`.
    */
+  import { untrack } from "svelte";
   import { createPagination } from "./create-pagination";
+  import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  /**
-   * Current page. Controllable mirror: clicking a page updates it locally and
-   * reports through `onPageChange`; a later prop value overwrites the local
-   * choice (clamped to `pageCount`) without a callback. The other props keep
-   * their initial-value behaviour.
-   */
-  export let page = 1;
-  export let pageCount: number;
-  export let siblingCount = 1;
-  export let boundaryCount = 1;
-  export let disabled = false;
-  /** Accessible name for the navigation landmark. Defaults to the i18n catalog's "Pagination". */
-  export let label: string | undefined = undefined;
-  /** Called whenever the page changes. */
-  export let onPageChange: ((page: number) => void) | undefined = undefined;
+  interface Props {
+    /**
+     * Current page. Controllable mirror: clicking a page updates it locally and
+     * reports through `onPageChange`; a later prop value overwrites the local
+     * choice (clamped to `pageCount`) without a callback. The other props keep
+     * their initial-value behaviour.
+     */
+    page?: number;
+    pageCount: number;
+    siblingCount?: number;
+    boundaryCount?: number;
+    disabled?: boolean;
+    /** Accessible name for the navigation landmark. Defaults to the i18n catalog's "Pagination". */
+    label?: string;
+    /** Called whenever the page changes. */
+    onPageChange?: (page: number) => void;
+  }
 
-  const { rootAction, prevAction, nextAction, pageAction, items, syncPage, syncConfig } =
-    createPagination({
-      page,
-      pageCount,
-      siblingCount,
-      boundaryCount,
-      disabled,
-      // The arrow keeps the callback live: a handler swapped after mount is
-      // the one that fires (ADR 0011), never the value captured at creation.
-      onPageChange: (next) => onPageChange?.(next),
-    });
+  let {
+    page = $bindable(1),
+    pageCount,
+    siblingCount = 1,
+    boundaryCount = 1,
+    disabled = false,
+    label,
+    onPageChange,
+  }: Props = $props();
 
-  // Controlled sync: a later page prop follows without emitting onPageChange.
-  $: syncPage(page);
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
+  const { rootAction, prevAction, nextAction, pageAction, items, syncPage, syncConfig } = untrack(
+    () =>
+      createPagination({
+        page,
+        pageCount,
+        siblingCount,
+        boundaryCount,
+        disabled,
+        // The arrow keeps the callback live: a handler swapped after mount is
+        // the one that fires (ADR 0011), never the value captured at creation.
+        onPageChange: (next) => onPageChange?.(next),
+      }),
+  );
+
+  // Controllable mirror (ADR 0011): a later page prop follows without
+  // emitting onPageChange.
+  controllable({ get: () => page, reflect: syncPage });
   // Layout and availability follow their props the same silent way.
-  $: syncConfig({ pageCount, siblingCount, boundaryCount, disabled });
+  $effect.pre(() => {
+    syncConfig({ pageCount, siblingCount, boundaryCount, disabled });
+  });
 
-  $: resolvedLabel = label ?? $t("pagination.label");
+  const resolvedLabel = $derived(label ?? $t("pagination.label"));
 </script>
 
 <nav class="pagination" use:rootAction aria-label={resolvedLabel}>

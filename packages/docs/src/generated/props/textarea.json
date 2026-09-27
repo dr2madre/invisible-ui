@@ -107,7 +107,7 @@
         },
         {
           "name": "autocomplete",
-          "type": "HTMLTextareaAttributes[\"autocomplete\"]",
+          "type": "HTMLTextareaAttributes[\"autocomplete\"] | undefined",
           "default": "undefined",
           "required": false,
           "description": "Native textarea autocomplete hint.",

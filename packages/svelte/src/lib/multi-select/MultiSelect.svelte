@@ -20,7 +20,7 @@
    * `aria-required`, and validation belongs to the application.
    * Themeable via `--ds-multi-select-*`.
    */
-  import { tick } from "svelte";
+  import { tick, untrack } from "svelte";
   import { multiSelect as core } from "@design-system/core";
   import Icon from "../icon/Icon.svelte";
   import Tag from "../tag/Tag.svelte";
@@ -28,51 +28,75 @@
   import { getI18n } from "../i18n/create-i18n";
   import { createMultiSelect, type MultiSelectItem } from "./create-multi-select";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  /** Accessible, visible label (required). */
-  export let label: string;
-  /** Ordered list of all options. */
-  export let items: MultiSelectItem[];
-  /** The selected values (controlled). Replace the array; do not mutate it. */
-  export let values: string[] = [];
-  /** Called with the next values after a user action. */
-  export let onValuesChange: ((values: string[]) => void) | undefined = undefined;
-  export let onInputValueChange: ((text: string) => void) | undefined = undefined;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  /** Input placeholder. Defaults to the i18n catalog's "Search…". */
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  /** Review-only: focus works, opening/adding/removing do not. */
-  export let readOnly = false;
-  /** Cap on additions; never removes existing values. */
-  export let max: number | undefined = undefined;
-  /** Opt in to Backspace removal from an empty input. */
-  export let removeOnBackspace = false;
-  /** Form field name; one hidden input per value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /**
-   * Expose `aria-required` on the input. Native constraint validation cannot
-   * cover hidden multi-value inputs; validation stays with the application.
-   */
-  export let required = false;
-  /** Empty-result row text. Defaults to the i18n catalog's "No results". */
-  export let emptyText: string | undefined = undefined;
+  interface Props {
+    /** Accessible, visible label (required). */
+    label: string;
+    /** Ordered list of all options. */
+    items: MultiSelectItem[];
+    /** The selected values (controlled). Replace the array; do not mutate it. */
+    values?: string[];
+    /** Called with the next values after a user action. */
+    onValuesChange?: (values: string[]) => void;
+    onInputValueChange?: (text: string) => void;
+    onOpenChange?: (open: boolean) => void;
+    /** Input placeholder. Defaults to the i18n catalog's "Search…". */
+    placeholder?: string;
+    disabled?: boolean;
+    /** Review-only: focus works, opening/adding/removing do not. */
+    readOnly?: boolean;
+    /** Cap on additions; never removes existing values. */
+    max?: number;
+    /** Opt in to Backspace removal from an empty input. */
+    removeOnBackspace?: boolean;
+    /** Form field name; one hidden input per value is submitted under it. */
+    name?: string;
+    /**
+     * Expose `aria-required` on the input. Native constraint validation cannot
+     * cover hidden multi-value inputs; validation stays with the application.
+     */
+    required?: boolean;
+    /** Empty-result row text. Defaults to the i18n catalog's "No results". */
+    emptyText?: string;
+  }
 
-  const multiSelect = createMultiSelect({
+  let {
+    label,
     items,
-    values,
-    disabled,
-    readOnly,
+    values = $bindable([]),
+    onValuesChange,
+    onInputValueChange,
+    onOpenChange,
+    placeholder,
+    disabled = false,
+    readOnly = false,
     max,
-    removeOnBackspace,
-    // Arrow wrappers read the prop variables at call time, so replacing a
-    // callback prop makes the next action call the new one, never a stale one.
-    onValuesChange: (next) => onValuesChange?.(next),
-    onInputValueChange: (next) => onInputValueChange?.(next),
-    onOpenChange: (next) => onOpenChange?.(next),
-  });
+    removeOnBackspace = false,
+    name,
+    required = false,
+    emptyText,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirrors and the effects below follow
+  // later ones.
+  const multiSelect = untrack(() =>
+    createMultiSelect({
+      items,
+      values,
+      disabled,
+      readOnly,
+      max,
+      removeOnBackspace,
+      // Arrow wrappers read the prop variables at call time, so replacing a
+      // callback prop makes the next action call the new one, never a stale one.
+      onValuesChange: (next) => onValuesChange?.(next),
+      onInputValueChange: (next) => onInputValueChange?.(next),
+      onOpenChange: (next) => onOpenChange?.(next),
+    }),
+  );
   const {
     state: msState,
     api,
@@ -93,47 +117,47 @@
     syncRemoveOnBackspace,
   } = multiSelect;
 
-  // Controllable mirrors, compared against the last prop reference: an
-  // unrelated rerender must not undo a local interaction, and a sync never
-  // calls the consumer's callback.
-  let lastValues = values;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValues = values;
   // The same selection, whatever order each side keeps it in: the machine
   // stores pick order, a parent may store its own, and a re-ordered echo is
   // still a give-back.
   const sameValues = (a: string[], b: string[]) =>
     a.length === b.length && a.every((entry) => b.includes(entry));
-  $: if (values !== lastValues) {
-    lastValues = values;
-    if (!sameValues(values, $msState.values)) defaultValues = values;
-    syncValues(values);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
+  // Controllable mirrors (ADR 0011), compared against the last prop
+  // reference: an unrelated rerender must not undo a local interaction, and a
+  // sync never calls the consumer's callback. The values carry the reset
+  // default of ADR 0012.
+  const valuesMirror = controllable({
+    get: () => values,
+    set: (next) => (values = next),
+    reflect: syncValues,
+    isGiveBack: (next) => sameValues(next, $msState.values),
+  });
+  // A reset also clears the typed filter.
   const restore = () => {
-    lastValues = defaultValues;
-    values = defaultValues;
-    syncValues(defaultValues);
+    valuesMirror.restore();
     syncInputValue("");
   };
-  let lastItems = items;
-  $: if (items !== lastItems) {
-    lastItems = items;
-    setItems(items);
-  }
-  $: setDisabled(disabled);
-  $: syncReadOnly(readOnly);
-  $: syncMax(max ?? null);
-  $: syncRemoveOnBackspace(removeOnBackspace);
+  controllable({ get: () => items, reflect: setItems });
+  $effect.pre(() => {
+    setDisabled(disabled);
+  });
+  $effect.pre(() => {
+    syncReadOnly(readOnly);
+  });
+  $effect.pre(() => {
+    syncMax(max ?? null);
+  });
+  $effect.pre(() => {
+    syncRemoveOnBackspace(removeOnBackspace);
+  });
 
-  $: resolvedPlaceholder = placeholder ?? $t("multiSelect.placeholder");
-  $: resolvedEmptyText = emptyText ?? $t("multiSelect.empty");
+  const resolvedPlaceholder = $derived(placeholder ?? $t("multiSelect.placeholder"));
+  const resolvedEmptyText = $derived(emptyText ?? $t("multiSelect.empty"));
 
-  $: inert = disabled || readOnly;
+  const inert = $derived(disabled || readOnly);
 
-  let listEl: HTMLUListElement | null = null;
+  // Bound inside an {#if}: the block sets and clears it as the list comes and goes.
+  let listEl: HTMLUListElement | null = $state(null);
   let inputEl: HTMLInputElement | null = null;
 
   // Removing through a remove button unmounts that button, so focus would
@@ -161,9 +185,11 @@
   >
 
   <div
-    class="multi-select__control"
-    class:multi-select__control--disabled={disabled}
-    class:multi-select__control--readonly={readOnly}
+    class={[
+      "multi-select__control",
+      disabled && "multi-select__control--disabled",
+      readOnly && "multi-select__control--readonly",
+    ]}
     use:controlAction
   >
     {#if $api.selectedItems.length > 0}

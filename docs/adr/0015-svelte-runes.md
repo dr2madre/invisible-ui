@@ -4,8 +4,8 @@ Date: 2026-09-27
 
 ## Status
 
-Accepted. Phase 1 is done: the presentational components listed below run in
-runes mode. Phases 2 and 3 are open.
+Accepted. Phases 1 and 2 are done: the presentational and the controllable
+components listed below run in runes mode. Phase 3 is open.
 
 ## Context
 
@@ -37,9 +37,9 @@ whole: one file is either legacy or runes.
    hands default slot content to a runes component as its `children` snippet.
 2. **Controllable components.** Components with a controllable prop (the
    `lastX` mirror of ADR 0011) and no named slots or forwarded events. They
-   move to `$props()`, with `$bindable()` where consumers use `bind:`. An
-   amendment to ADR 0011 records how the mirror reads in runes before this
-   phase starts.
+   move to `$props()`, with `$bindable()` where consumers use `bind:`. The
+   [amendment for runes](#amendment-for-runes) below records how the mirror
+   of ADR 0011 reads in runes.
 3. **Named slots and forwarded events.** Named slots become snippet props, and
    forwarded events (`on:click` on the component) become callback props. A
    parent cannot use `on:` on a runes component, and `slot="name"` content does
@@ -168,7 +168,7 @@ Several phase 3 components also hold a controllable value. They take the phase
 | Phase | Impact |
 | --- | --- |
 | 1 | None for markup: props, default slot content and callbacks work as before. Component-typed props widen to accept runes components. |
-| 2 | None intended: `bind:` keeps working through `$bindable()`, and the ADR 0011 behaviour stays identical. |
+| 2 | None for markup: `bind:` keeps working through `$bindable()`, and the ADR 0011 and 0012 behaviour stays identical. One edge moves: `bind:` to a variable holding `undefined` now throws, see the amendment below. |
 | 3 | Breaking: named slots become snippet props and forwarded events become callback props. |
 
 ## Consequences
@@ -177,7 +177,88 @@ Several phase 3 components also hold a controllable value. They take the phase
   cannot come back unnoticed in migrated files.
 - The API manifest generator reads runes props from the `Props` interface and
   the `$props()` defaults, and produces the same entries as for `export let`.
-  A renamed prop (`class`, `for`) stays out of the manifest, as before.
+  A `$bindable(x)` default reads as `x`. A renamed prop (`class`, `for`)
+  stays out of the manifest, as before.
 - Legacy and runes components coexist until phase 3 ends; the tests, the SSR
   and hydration suites and the docs demos run against both.
 - Phase 3 needs a major-version changeset and migration notes for consumers.
+
+## Amendment for runes
+
+Date: 2026-09-27
+
+Phase 2 writes the Svelte mirror of ADR 0011 (`let lastX` and a guarded `$:`
+statement) and the reset default of ADR 0012 as one runes idiom, shared by the
+19 components through `internal/controllable.svelte.ts`. ADR 0011 and ADR 0012
+keep their rules; only the Svelte implementation changes. All 19 components
+were checked for named slots, slot props and forwarded events, and none has
+any, so the classification above holds.
+
+### The helper
+
+```ts
+const mirror = controllable({
+  get: () => value, // the prop
+  set: (next) => (value = next), // the component's own write, where it has one
+  reflect: syncValue, // pushes into the machine, reporting nothing
+  isGiveBack: (next) => next === $store.value, // the ADR 0012 give-back test
+});
+// mirror.defaultValue: the reset default, for the DOM defaults
+// mirror.write(next): the component writes its own value to the prop
+// mirror.restore: the form reset handler
+```
+
+- One `$effect.pre` reads the prop and nothing else: what it calls runs in
+  `untrack`, so a change in the machine's store never runs it again. It
+  compares the prop with the last value seen (`Object.is`), never with the
+  machine. An effect that runs again with the same value does nothing, and a
+  reflection never reports.
+- The give-back test runs before the reflection, against what the control
+  holds: the machine's store, or the element for Radio and Select. A prop that
+  differs moves the default; a give-back leaves it. Where the component writes
+  its own prop through `write` (DatePicker, DateRangePicker, NumberField),
+  `isGiveBack` is left out and every change the mirror sees moves the default:
+  the give-back is filtered by construction, as before.
+- `write` records the written value as seen by reading the prop back. A
+  bindable prop, and a runes parent's `$state`, hand back a proxy of an array
+  written to them; the next run of the effect must not take that proxy for a
+  parent's change. The prop is written before the callback reports
+  (ADR 0011).
+- `restore` writes the default to the prop, records it, and reflects it into
+  the machine, reporting nothing. NumberField keeps its machine's `reset`, and
+  MultiSelect also clears its filter text.
+- The default lives in `$state.raw`: the template reads it for the DOM
+  defaults, and a consumer's array reaches the markup as passed.
+- A prop the user cannot change inside the machine (`disabled`, the star
+  count, the layout props) is pushed with a plain `$effect.pre`, as in phase
+  1: its sync ignores an unchanged value, so it needs no mirror. The item list
+  of MultiSelect keeps its reference mirror, a `controllable` with no `set`.
+- The effects keep the order of the legacy statements: ToggleButton pushes
+  `disabled` before `pressed`, so a control enabled and pressed in the same
+  update takes the new value.
+
+Pagination used to push its page on every change of the prop, with no mirror;
+it takes the same helper now. Its sync already ignored an unchanged page, so
+nothing a user sees changes.
+
+### Bindable props
+
+Every controllable prop in the phase 2 table is `$bindable()`, and
+DateRangePicker binds both `start` and `end`. In legacy mode every prop
+accepts `bind:`, the package README binds `Checkbox.checked` and
+`Select.value`, and the form reset page documents `bind:value`. What a binding
+carries up is unchanged: the values the component writes itself (a picked
+date, a typed text, a chosen option, a typed or stepped number) and every form
+reset. Accordion, Pagination, Radio and Stepper never write their prop, so a
+binding there stays one-way, as it was.
+
+Controlled use without `bind:` works as before: the component writes into a
+local override of the prop, and the parent's next value replaces it.
+
+One edge differs from legacy mode. `bind:` to a variable that holds
+`undefined` throws (`props_invalid_value`) when the prop has a default, where
+legacy mode wrote the default back to the parent. A bound variable needs an
+initial value.
+
+`.svelte.ts` modules are linted with the Svelte parser and TypeScript, like
+the components' scripts.

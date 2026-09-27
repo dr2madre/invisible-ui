@@ -8,30 +8,48 @@
    * Provide a `label` for the group's accessible name. Sizing, colors and radius
    * are themeable via `--ds-pin-input-*`.
    */
+  import { untrack } from "svelte";
   import { createPinInput, type PinInputType } from "./create-pin-input";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import { get } from "svelte/store";
   import { getI18n } from "../i18n/create-i18n";
 
-  export let value = "";
-  export let length = 6;
-  /** Allowed characters. */
-  export let type: PinInputType = "numeric";
-  /** Render cells masked (like a password). */
-  export let mask = false;
-  export let disabled = false;
-  /** Validation state — colors the cells (red ring) and signals errors. */
-  export let invalid = false;
-  /** Validation success — colors the cells green (e.g. a verified code). */
-  export let success = false;
-  /** Form field name — the combined code is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Accessible name for the group of cells. */
-  export let label: string;
-  /** Called whenever the combined value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
-  /** Called once all cells are filled. */
-  export let onComplete: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    value?: string;
+    length?: number;
+    /** Allowed characters. */
+    type?: PinInputType;
+    /** Render cells masked (like a password). */
+    mask?: boolean;
+    disabled?: boolean;
+    /** Validation state — colors the cells (red ring) and signals errors. */
+    invalid?: boolean;
+    /** Validation success — colors the cells green (e.g. a verified code). */
+    success?: boolean;
+    /** Form field name — the combined code is submitted under it. */
+    name?: string;
+    /** Accessible name for the group of cells. */
+    label: string;
+    /** Called whenever the combined value changes. */
+    onValueChange?: (value: string) => void;
+    /** Called once all cells are filled. */
+    onComplete?: (value: string) => void;
+  }
+
+  let {
+    value = $bindable(""),
+    length = 6,
+    type = "numeric",
+    mask = false,
+    disabled = false,
+    invalid = false,
+    success = false,
+    name,
+    label,
+    onValueChange,
+    onComplete,
+  }: Props = $props();
 
   const { t } = getI18n();
 
@@ -40,38 +58,32 @@
   const cellLabel = (index: number, count: number) =>
     get(t)("pinInput.cell", { index: index + 1, length: count });
 
-  // The arrow wrappers read the props at call time, so a callback replaced
-  // after mount is the one that gets called.
-  const { rootAction, inputAction, values, syncValue } = createPinInput({
-    value,
-    length,
-    type,
-    mask,
-    disabled,
-    cellLabel,
-    onValueChange: (next) => onValueChange?.(next),
-    onComplete: (next) => onComplete?.(next),
+  // Seeded once from the first props, as before: only the value follows later
+  // ones. The arrow wrappers read the props at call time, so a callback
+  // replaced after mount is the one that gets called.
+  const { rootAction, inputAction, values, syncValue } = untrack(() =>
+    createPinInput({
+      value,
+      length,
+      type,
+      mask,
+      disabled,
+      cellLabel,
+      onValueChange: (next) => onValueChange?.(next),
+      onComplete: (next) => onComplete?.(next),
+    }),
+  );
+
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $values.join(""),
   });
 
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $values.join("")) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
-
-  const cells = Array.from({ length }, (_, i) => i);
+  // The cell count is read once, like the machine it matches.
+  const cells = untrack(() => Array.from({ length }, (_, i) => i));
 </script>
 
 <!-- The role is declared here as well as applied by the action, so the
@@ -80,7 +92,7 @@
   class="pin-input"
   role="group"
   use:rootAction
-  use:formReset={restore}
+  use:formReset={mirror.restore}
   aria-label={label}
   data-invalid={invalid ? "" : undefined}
   data-success={!invalid && success ? "" : undefined}

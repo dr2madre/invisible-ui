@@ -136,9 +136,11 @@ Each item ships as its own PR. Checkboxes track progress.
 - [ ] **16. Svelte: runes syntax** — the Svelte adapter moves from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1, the 27 presentational
-  components with no public API change, is done. Phase 2 moves the
-  controllable components. Phase 3 turns named slots into snippets and
-  forwarded events into callbacks, and is breaking.
+  components with no public API change, is done. Phase 2, the 19
+  controllable components, is done: one shared mirror carries the ADR 0011
+  and ADR 0012 rules, and `bind:` keeps working through `$bindable()`. Phase 3
+  turns named slots into snippets and forwarded events into callbacks, and is
+  breaking.
 
 ### 🟡 P3 — polish & ecosystem
 
