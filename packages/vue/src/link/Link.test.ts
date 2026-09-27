@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { EmptyState } from "../empty-state/EmptyState";
+import { ErrorState } from "../error-state/ErrorState";
 import { axe } from "vitest-axe";
 import { Link } from "./Link";
 
@@ -76,5 +78,53 @@ describe("Vue Link (styled)", () => {
       slots,
     });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});
+
+describe("Vue Link new-tab safety", () => {
+  it("adds a safe rel to a new-tab target passed as an attribute", () => {
+    render(Link, { props: { href: "https://example.com" }, attrs: { target: "_blank" }, slots });
+    expect(link()).toHaveAttribute("target", "_blank");
+    expect(link()).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("keeps the consumer's rel next to the safe one", () => {
+    render(Link, {
+      props: { href: "https://example.com" },
+      attrs: { target: "_blank", rel: "external" },
+      slots,
+    });
+    expect(link()).toHaveAttribute("rel", "external noopener noreferrer");
+  });
+
+  it("does not let an attribute drop the safe rel of an external link", () => {
+    render(Link, {
+      props: { href: "https://example.com", external: true },
+      attrs: { rel: "", target: "_self" },
+      slots,
+    });
+    expect(link()).toHaveAttribute("target", "_blank");
+    expect(link()).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("leaves rel alone for a same-tab link", () => {
+    render(Link, { props: { href: "/guide" }, attrs: { rel: "help" }, slots });
+    expect(link()).toHaveAttribute("rel", "help");
+    expect(link()).not.toHaveAttribute("target");
+  });
+
+  it.each([
+    ["EmptyState", EmptyState, { title: "No results" }],
+    ["ErrorState", ErrorState, { title: "Something went wrong" }],
+  ] as const)("%s renders a new-tab action with a safe rel", (_name, component, base) => {
+    render(component as never, {
+      props: {
+        ...base,
+        actions: [{ label: "Docs", href: "https://example.com", target: "_blank" }],
+      } as never,
+    });
+    const action = screen.getByRole("link", { name: "Docs" });
+    expect(action).toHaveAttribute("target", "_blank");
+    expect(action).toHaveAttribute("rel", "noopener noreferrer");
   });
 });

@@ -92,20 +92,27 @@ export function useTooltip(options: MaybeRefOrGetter<UseTooltipOptions> = {}): U
     hideTimer = setTimeout(() => setOpen(false), delay);
   };
 
+  // Position against the trigger, again whenever the placement or offset
+  // changes while open.
+  watch(
+    () =>
+      [
+        open.value ? tooltipRef.value : null,
+        resolved.value.placement ?? "top",
+        resolved.value.offset ?? 6,
+      ] as const,
+    ([tip, placement, offset], _previous, onCleanup) => {
+      const trigger = triggerRef.value;
+      if (!tip || !trigger) return;
+      onCleanup(attachFloating(trigger, tip, { placement, offset }));
+    },
+    { flush: "post" },
+  );
+
   watch(
     open,
     (isOpen, _previous, onCleanup) => {
-      if (!isOpen) return;
-      const tip = tooltipRef.value;
-      if (!tip) return;
-      const trigger = triggerRef.value;
-
-      const stopFloating = trigger
-        ? attachFloating(trigger, tip, {
-            placement: resolved.value.placement ?? "top",
-            offset: resolved.value.offset ?? 6,
-          })
-        : () => {};
+      if (!isOpen || !tooltipRef.value) return;
 
       // Dismissable: Escape hides immediately, even while hovering.
       const onKeyDown = (event: KeyboardEvent) => {
@@ -114,7 +121,6 @@ export function useTooltip(options: MaybeRefOrGetter<UseTooltipOptions> = {}): U
       document.addEventListener("keydown", onKeyDown);
 
       onCleanup(() => {
-        stopFloating();
         document.removeEventListener("keydown", onKeyDown);
         hold();
       });

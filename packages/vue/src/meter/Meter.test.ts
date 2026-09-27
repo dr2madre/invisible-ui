@@ -70,3 +70,16 @@ describe("Vue Meter (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue Meter range", () => {
+  it("follows min, max and thresholds changed after mount", async () => {
+    const { rerender } = render(Meter, { props: { label: "Storage", value: 50 } });
+    await rerender({ label: "Storage", value: 50, max: 200 });
+    const meter = screen.getByRole("meter");
+    expect(meter).toHaveAttribute("aria-valuemax", "200");
+    expect(document.querySelector<HTMLElement>(".meter__indicator")!.style.inlineSize).toBe("25%");
+
+    await rerender({ label: "Storage", value: 50, max: 200, low: 60, high: 150 });
+    expect(meter).toHaveAttribute("data-level", "low");
+  });
+});

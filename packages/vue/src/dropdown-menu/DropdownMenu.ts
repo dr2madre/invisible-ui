@@ -86,7 +86,11 @@ export const DropdownMenu = defineComponent({
       if (core.isGroup(entry)) {
         return h(
           "div",
-          { key: entry.label, ...api.value.getGroupProps(index), class: "menu__group" },
+          {
+            key: `${index}:${entry.label}`,
+            ...api.value.getGroupProps(index),
+            class: "menu__group",
+          },
           [
             h(
               "div",

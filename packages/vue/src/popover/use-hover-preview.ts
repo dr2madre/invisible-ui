@@ -108,20 +108,31 @@ export function useHoverPreview(
     hideTimer = setTimeout(() => setOpen(false), delay);
   };
 
+  // Position against the trigger, again whenever the placement or offset
+  // changes while open, without re-attaching the card-side listeners below.
   watch(
-    open,
-    (isOpen, _previous, onCleanup) => {
-      if (!isOpen) return;
-      const card = cardRef.value;
+    () =>
+      [
+        open.value ? cardRef.value : null,
+        resolved.value.placement ?? "bottom",
+        resolved.value.offset ?? 8,
+      ] as const,
+    ([card, placement, offset], _previous, onCleanup) => {
+      const trigger = triggerRef.value;
+      if (!card || !trigger) return;
+      onCleanup(attachFloating(trigger, card, { placement, offset }));
+    },
+    { flush: "post" },
+  );
+
+  // Keyed on the card element rather than the open flag, so a card mounted
+  // with `open: true` (its template ref is assigned after this composable
+  // ran) gets its listeners like any later open.
+  watch(
+    () => (open.value ? cardRef.value : null),
+    (card, _previous, onCleanup) => {
       if (!card) return;
       const trigger = triggerRef.value;
-
-      const stopFloating = trigger
-        ? attachFloating(trigger, card, {
-            placement: resolved.value.placement ?? "bottom",
-            offset: resolved.value.offset ?? 8,
-          })
-        : () => {};
 
       // Hoverable: keep open while the pointer is over the card.
       const onEnter = () => hold();
@@ -152,7 +163,6 @@ export function useHoverPreview(
       document.addEventListener("keydown", onKeyDown);
 
       onCleanup(() => {
-        stopFloating();
         card.removeEventListener("pointerenter", onEnter);
         card.removeEventListener("pointerleave", onLeave);
         document.removeEventListener("focusin", onFocusIn);
