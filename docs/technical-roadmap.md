@@ -101,9 +101,8 @@ Each item ships as its own PR. Checkboxes track progress.
   without losing labels, options or selected state. No virtual-DOM hydration
   step is involved.
 - [x] **13. Custom elements: full catalog** — done. `packages/elements`
-  carries 80 of the 81 components in the catalog: Hover Card is
-  `<ds-popover trigger="hover">`, and Menu, the deprecated name of Sidebar
-  (ADR 0013), has no element of its own. All batches are merged.
+  carries 80 of the 81 components in the Svelte catalog: Menu, the deprecated
+  name of Sidebar (ADR 0013), has no element of its own. All batches are merged.
   `ds-locale-provider` carries i18n, the `e2e/elements-*.spec.ts` specs cover
   the elements in real browsers, and every element has its own tree-shaken
   budget in `.size-limit.json`. The original plan: the components were ported as custom elements over the same core, with the

@@ -7,9 +7,8 @@ contexts **without** a framework — plain HTML pages, server-driven stacks
 prefer their native adapter (`@design-system/svelte`, `@design-system/react`).
 
 **Status: full catalog** (ADR 0008). The package carries 80 of the 81
-components in the catalog, each as a `ds-*` element. Hover Card is
-`<ds-popover trigger="hover">`, and Menu, the deprecated name of Sidebar
-(ADR 0013), has no element of its own. `ds-locale-provider` carries locale,
+components in the Svelte catalog, each as a `ds-*` element. Menu, the
+deprecated name of Sidebar (ADR 0013), has no element of its own. `ds-locale-provider` carries locale,
 message overrides and direction for the elements inside it.
 
 Both JavaScript entrypoints are safe to import during SSR. The server emits
