@@ -68,3 +68,25 @@ export const HazardGlyph = () => (
     <line x1="12" y1="17" x2="12" y2="17" />
   </>
 );
+
+/** The check mark of a checked box, a selected option and a success message. */
+export const CheckGlyph = () => <polyline points="20 6 9 17 4 12" />;
+
+/** The magnifying glass that marks a search input or submits a search. */
+export const SearchGlyph = () => (
+  <>
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </>
+);
+
+/** The cross of a clear button. */
+export const CloseGlyph = () => (
+  <>
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </>
+);
+
+/** The downward chevron that opens a list. */
+export const ChevronGlyph = () => <polyline points="6 9 12 15 18 9" />;

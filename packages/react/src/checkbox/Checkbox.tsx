@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, Icon } from "../icon/Icon";
 import { useDomProps } from "../use-dom-props";
 import { useCheckbox, type CheckedState } from "./use-checkbox";
 
@@ -65,7 +65,7 @@ export function Checkbox({
       />
       <span className="checkbox" aria-hidden="true">
         <Icon className="checkbox__glyph checkbox__check" size="100%" strokeWidth={3}>
-          <polyline points="20 6 9 17 4 12" />
+          <CheckGlyph />
         </Icon>
         <Icon className="checkbox__glyph checkbox__dash" size="100%" strokeWidth={3}>
           <line x1="5" y1="12" x2="19" y2="12" />

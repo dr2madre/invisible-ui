@@ -1,7 +1,7 @@
 import { useMemo, useRef, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { usePortalHost } from "../internal/portal-host";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, ChevronGlyph, CloseGlyph, Icon, SearchGlyph } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
 
@@ -150,7 +150,7 @@ export function Combobox({
             <li key={item.value} {...api.getOptionProps(item.value)} className="combobox__option">
               <span className="combobox__check" aria-hidden="true">
                 <Icon size="100%" strokeWidth={2.5}>
-                  <polyline points="20 6 9 17 4 12" />
+                  <CheckGlyph />
                 </Icon>
               </span>
               {hasIcons && (
@@ -199,8 +199,7 @@ export function Combobox({
         {searchable ? (
           <span className="combobox__search" aria-hidden="true">
             <Icon size="100%">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <SearchGlyph />
             </Icon>
           </span>
         ) : (
@@ -248,8 +247,7 @@ export function Combobox({
           aria-label={resolvedClearLabel}
         >
           <Icon size="100%">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
+            <CloseGlyph />
           </Icon>
         </button>
 
@@ -263,7 +261,7 @@ export function Combobox({
           onClick={toggle}
         >
           <Icon size="100%">
-            <polyline points="6 9 12 15 18 9" />
+            <ChevronGlyph />
           </Icon>
         </button>
       </div>

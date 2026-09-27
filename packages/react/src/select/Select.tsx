@@ -1,6 +1,6 @@
 import { useId, useRef, useState, type ChangeEvent } from "react";
-import { Icon } from "../icon/Icon";
-import { useFormDefault, useFormReset } from "../internal/form-reset";
+import { ChevronGlyph, Icon } from "../icon/Icon";
+import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 
 export interface SelectItem {
@@ -75,16 +75,10 @@ export function Select({
   // the checkbox and the switch have, and the one a reset needs, since a
   // control with no copy of its own has nothing to put back.
   const [selected, setSelected] = useState(value);
-  const [lastProp, setLastProp] = useState(value);
   // What a form reset restores. It follows the prop, except when the prop only
   // hands back what the control already holds: that is the page echoing a
   // choice, and an echo is not a new default (ADR 0012).
-  const [defaultValue, setDefaultValue] = useState(value);
-  if (value !== lastProp) {
-    setLastProp(value);
-    if (value !== selected) setDefaultValue(value);
-    setSelected(value);
-  }
+  const defaultValue = useControlledDefault(value, selected, setSelected);
 
   // React writes `selected` when an option first renders and never again, so
   // without this the browser's own reset points at the mounted selection. With
@@ -151,7 +145,7 @@ export function Select({
         </select>
         <span className="select__chevron" aria-hidden="true">
           <Icon size="100%">
-            <polyline points="6 9 12 15 18 9" />
+            <ChevronGlyph />
           </Icon>
         </span>
       </span>

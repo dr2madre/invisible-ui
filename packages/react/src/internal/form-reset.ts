@@ -1,6 +1,31 @@
 import { formReset as core } from "@design-system/core";
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { useIsomorphicLayoutEffect } from "./layout-effect";
+
+/**
+ * Mirror a controlled prop without an effect, and track the default a form
+ * reset restores.
+ *
+ * When the prop moves, `sync` hands it to the control's own state. The default
+ * follows the prop too, except when the prop only hands back what the control
+ * already holds (`current`): that is the page echoing a user change, and an
+ * echo is not a new default (ADR 0012).
+ */
+export function useControlledDefault<T>(
+  prop: T,
+  current: T,
+  sync: (prop: T) => void,
+  equal: (a: T, b: T) => boolean = (a, b) => a === b,
+): T {
+  const [lastProp, setLastProp] = useState(prop);
+  const [defaultValue, setDefaultValue] = useState(prop);
+  if (prop !== lastProp) {
+    setLastProp(prop);
+    sync(prop);
+    if (!equal(current, prop)) setDefaultValue(prop);
+  }
+  return defaultValue;
+}
 
 /** An element that can name the form it belongs to. */
 type Anchored = Element & { form: HTMLFormElement | null };
