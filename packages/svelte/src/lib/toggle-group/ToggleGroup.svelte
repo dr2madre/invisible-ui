@@ -68,19 +68,19 @@
   }
 
   /* segmented: join the toggles into one control — drop their individual
-     borders/radius and draw a single outer border with thin dividers. Targets
-     the child ToggleButton's scoped parts via :global. */
+     borders/radius through the ToggleButton's own custom properties and draw
+     a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
     border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
+    --ds-toggle-border-width: 0;
+    --ds-toggle-radius: 0;
   }
-  .toggle-group--segmented :global(.toggle__surface) {
-    border: 0;
-    border-radius: 0;
-  }
-  /* Divider between adjacent toggles (along the layout axis). */
+  /* Divider between adjacent toggles (along the layout axis). It sits on one
+     side only and keeps the border color in every state, which the child's
+     custom properties cannot express, so it targets the child's part. */
   .toggle-group--segmented[data-orientation="horizontal"]
     :global(.toggle:not(:first-child) .toggle__surface) {
     border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));

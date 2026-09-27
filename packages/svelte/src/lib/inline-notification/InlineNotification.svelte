@@ -213,11 +213,8 @@
     --ds-button-icon-min: var(--ds-close-hit-area, 2.5rem);
     --ds-button-icon-size: var(--ds-close-icon-size, 1rem);
     color: var(--ds-close-color, inherit);
-  }
-
-  /* The surface decides the close button's colour, not the ghost variant. */
-  .inline-notification__close :global(.button[data-variant="ghost"]) {
-    color: inherit;
+    /* The surface decides the close button's colour, not the ghost variant. */
+    --ds-button-ghost-color: currentColor;
   }
 
   .inline-notification__content {
@@ -312,6 +309,10 @@
     gap: 0.625rem;
     padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
     border-radius: var(--ds-snack-radius, var(--ds-radius-surface, 0.75rem));
+    /* The icon glyph at text size with no breathing room, through the
+       FeedbackIcon's own custom properties. */
+    --ds-feedback-icon-size: var(--ds-snack-icon-size, 1.25rem);
+    --ds-feedback-icon-padding: 0;
   }
   /* The message stays on a single line, however long. */
   .inline-notification:global([data-snack]) .inline-notification__title {
@@ -331,9 +332,6 @@
      entrance (plays once on mount); disabled under reduced motion. */
   .inline-notification:global([data-snack]) :global(.feedback-icon) {
     color: inherit;
-    inline-size: var(--ds-snack-icon-size, 1.25rem);
-    block-size: var(--ds-snack-icon-size, 1.25rem);
-    padding: 0;
     animation: ds-snack-icon-in 340ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
   @keyframes ds-snack-icon-in {

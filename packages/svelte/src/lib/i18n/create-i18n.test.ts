@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
 import { describe, expect, it } from "vitest";
-import { createI18n } from "./create-i18n";
+import { createI18n, getI18n } from "./create-i18n";
 
 describe("createI18n", () => {
   it("translates from the English catalog by default", () => {
@@ -28,5 +28,18 @@ describe("createI18n", () => {
     expect(get(i18n.dir)).toBe("rtl");
     expect(get(i18n.locale)).toBe("ar");
     expect(get(i18n.t)("calendar.next")).toBe("التالي");
+  });
+});
+
+describe("getI18n without a provider", () => {
+  it("keeps the shared English default when a caller tries to change it", () => {
+    const shared = getI18n();
+    const before = get(shared.locale);
+    shared.set({ locale: "ar", dir: "rtl", messages: { "calendar.today": "اليوم" } });
+
+    const next = getI18n();
+    expect(get(next.locale)).toBe(before);
+    expect(get(next.dir)).toBe("ltr");
+    expect(get(next.t)("calendar.today")).toBe("Today");
   });
 });

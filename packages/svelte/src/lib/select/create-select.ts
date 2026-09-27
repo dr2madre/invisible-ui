@@ -1,7 +1,7 @@
 import { select as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating } from "../internal/floating";
 import { ignoreGhostClicks } from "../internal/ghost-click";
@@ -185,8 +185,9 @@ export function createSelect(context: SelectContext): CreateSelect {
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getOptionProps(value))(node);
+  const optionAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getOptionProps(value),
+  );
 
   return {
     state,

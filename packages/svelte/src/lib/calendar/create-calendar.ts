@@ -2,7 +2,7 @@ import { calendar as core } from "@design-system/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -119,10 +119,12 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
 
   const gridAction = createPropsAction(api, (a) => a.gridProps);
   const rowAction = createPropsAction(api, (a) => a.rowProps);
-  const cellAction: Action<HTMLElement, string> = (node, iso) =>
-    createPropsAction(api, (a) => a.getCellProps(iso as string))(node);
-  const dayAction: Action<HTMLElement, string> = (node, iso) =>
-    createPropsAction(api, (a) => a.getDayProps(iso as string))(node);
+  const cellAction: Action<HTMLElement, string> = createItemAction(api, (a, iso: string) =>
+    a.getCellProps(iso),
+  );
+  const dayAction: Action<HTMLElement, string> = createItemAction(api, (a, iso: string) =>
+    a.getDayProps(iso),
+  );
 
   return {
     state,

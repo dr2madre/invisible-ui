@@ -195,9 +195,6 @@ export class MenuButton {
     const api = this.api();
     const { trigger, popup } = this.#options;
     applyProps(trigger, api.triggerProps);
-    // The core marks a disabled trigger with aria-disabled only; the stylesheet
-    // styles the disabled look from data-disabled.
-    trigger.toggleAttribute("data-disabled", this.#options.disabled());
     applyProps(popup, api.menuProps);
     popup.hidden = !this.open;
     syncMenuItems(popup, this.items, api);

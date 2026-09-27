@@ -70,7 +70,8 @@ export function createScrollArea(): CreateScrollArea {
     };
   };
 
-  const thumbAction: Action<HTMLElement, "vertical" | "horizontal"> = (node, axis) => {
+  const thumbAction: Action<HTMLElement, "vertical" | "horizontal"> = (node, initial) => {
+    let axis = initial;
     let dragging = false;
     let last = 0;
 
@@ -110,6 +111,9 @@ export function createScrollArea(): CreateScrollArea {
     node.addEventListener("pointerup", onPointerUp);
 
     return {
+      update(next) {
+        axis = next;
+      },
       destroy() {
         node.removeEventListener("pointerdown", onPointerDown);
         node.removeEventListener("pointermove", onPointerMove);

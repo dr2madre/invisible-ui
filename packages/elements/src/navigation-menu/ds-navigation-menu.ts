@@ -236,6 +236,9 @@ export class DsNavigationMenu extends HTMLElementBase {
     this.#cleanup = () => {
       stopFloating();
       document.removeEventListener("pointerdown", onOutside, true);
+      // A hover delay still pending, such as the one a pointer click starts,
+      // must not reopen a panel that has just closed.
+      this.#hold();
     };
   }
 

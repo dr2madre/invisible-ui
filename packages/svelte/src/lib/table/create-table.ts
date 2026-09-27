@@ -1,7 +1,7 @@
 import { table as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction } from "../internal/connect";
 import { fail } from "../internal/dev";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -163,14 +163,18 @@ export function createTable(context: TableContext): CreateTable {
     }),
   );
 
-  const headerAction: Action<HTMLElement, string> = (node, key) =>
-    createPropsAction(api, (a) => a.getColumnHeaderProps(key as string))(node);
+  const headerAction: Action<HTMLElement, string> = createItemAction(api, (a, key: string) =>
+    a.getColumnHeaderProps(key),
+  );
 
-  const sortButtonAction: Action<HTMLElement, string> = (node, key) =>
-    createPropsAction(api, (a) => a.getSortButtonProps(key as string))(node);
+  const sortButtonAction: Action<HTMLElement, string> = createItemAction(api, (a, key: string) =>
+    a.getSortButtonProps(key),
+  );
 
-  const visibilityToggleAction: Action<HTMLElement, string> = (node, key) =>
-    createPropsAction(api, (a) => a.getVisibilityToggleProps(key as string))(node);
+  const visibilityToggleAction: Action<HTMLElement, string> = createItemAction(
+    api,
+    (a, key: string) => a.getVisibilityToggleProps(key),
+  );
 
   return {
     state,

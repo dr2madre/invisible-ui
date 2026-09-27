@@ -71,7 +71,7 @@ Each item ships as its own PR. Checkboxes track progress.
   Dialog over the existing `@design-system/core`, with the near-identity
   `normalizeProps` seam, a `useX()` hook per component, a minimal
   `LocaleProvider`, ported CSS (class names identical to Svelte, tokens guarded
-  by a parity test) and 99 tests incl. axe, SSR and hydration. **Confirmed:** the core needed *no*
+  by a parity test) and tests incl. axe, SSR and hydration. **Confirmed:** the core needed *no*
   change to drive a second framework — the Combobox makes that claim
   load-bearing, the Dialog closes the overlay shape. **Reflex/Python**
   (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over

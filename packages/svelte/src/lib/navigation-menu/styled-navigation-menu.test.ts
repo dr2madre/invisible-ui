@@ -20,6 +20,24 @@ describe("Svelte NavigationMenu (styled)", () => {
     expect(products).toHaveAttribute("aria-expanded", "true");
   });
 
+  it("keeps a panel closed by click closed when the hover delay runs out", async () => {
+    vi.useFakeTimers();
+    try {
+      render(Fixture);
+      const products = trigger("Products");
+      // A pointer click hovers the trigger first, which starts the open delay.
+      await fireEvent.pointerEnter(products, { pointerType: "mouse" });
+      await fireEvent.click(products);
+      expect(products).toHaveAttribute("aria-expanded", "true");
+      await fireEvent.click(products);
+      expect(products).toHaveAttribute("aria-expanded", "false");
+      await vi.advanceTimersByTimeAsync(150);
+      expect(products).toHaveAttribute("aria-expanded", "false");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("renders a nav landmark with triggers and plain links", () => {
     render(Fixture);
     expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();

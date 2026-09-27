@@ -1,7 +1,7 @@
 import { tabs as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
-import { createPropsAction, createRootAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -98,11 +98,13 @@ export function createTabs(context: TabsContext): CreateTabs {
     };
   };
 
-  const tabAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getTabProps(value as string))(node);
+  const tabAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getTabProps(value),
+  );
 
-  const panelAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getPanelProps(value as string))(node);
+  const panelAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getPanelProps(value),
+  );
 
   return {
     state,

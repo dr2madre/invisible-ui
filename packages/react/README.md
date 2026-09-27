@@ -8,8 +8,8 @@ to solve. The goal is to prove the core drives a second framework, not to reach
 parity with the Svelte adapter. See
 [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
-The package has 99 tests, including dedicated server-rendering and hydration
-coverage for every public renderable export.
+The tests include dedicated server-rendering and hydration coverage for
+every public renderable export.
 
 ## Usage
 

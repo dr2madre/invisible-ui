@@ -104,6 +104,22 @@ tabindex where applicable. Interactive demos are checked with `vitest-axe`. Any
 control that needs an accessible name takes it from the consumer (a `label` prop,
 `aria-label`, or an associated `<label>`).
 
+## Security
+
+Labels, descriptions and messages you pass to a component are rendered as
+text, never as markup. URLs are different. A component that takes a link
+(`href`) or an image source (`src`), such as Link, Breadcrumb, Navigation
+Menu, Sidebar, Avatar or Inline Notification, writes the URL to the element as
+given. The component does not check the scheme, so a `javascript:` URL runs
+when the link is followed.
+
+The Svelte, Vue and web component adapters work this way. The React adapter
+follows React: React 19 blocks `javascript:` URLs in `href`, while React 18
+only warns about them. When a URL comes from
+users or another source you do not control, validate or sanitize it before you
+pass it, for example by allowing only `https:`, `http:`, `mailto:` and
+relative paths.
+
 ## Normalisation
 
 Adapters supply a `normalize` function that maps the generic prop bag into

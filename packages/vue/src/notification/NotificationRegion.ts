@@ -75,14 +75,19 @@ export const NotificationRegion = defineComponent({
     const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
 
-    // Read after mount: the server cannot know the preference, so the first
-    // client render must match its output before the motion settles.
+    // Read after mount and kept in sync with the OS setting: the server cannot
+    // know the preference, so the first client render must match its output.
     const prefersReduced = ref(false);
+    let stopReducedMotion = () => {};
     onMounted(() => {
-      if (typeof window.matchMedia === "function") {
-        prefersReduced.value = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      }
+      if (typeof window.matchMedia !== "function") return;
+      const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const sync = () => (prefersReduced.value = query.matches);
+      sync();
+      query.addEventListener?.("change", sync);
+      stopReducedMotion = () => query.removeEventListener?.("change", sync);
     });
+    onUnmounted(() => stopReducedMotion());
 
     const motion = computed(() => (prefersReduced.value ? 0 : props.duration));
     const motionOut = computed(() =>

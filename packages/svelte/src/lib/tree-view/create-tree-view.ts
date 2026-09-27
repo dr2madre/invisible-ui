@@ -1,7 +1,7 @@
 import { treeView as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction, createRootAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -156,8 +156,9 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getItemProps(value as string))(node);
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
   return {
     state,

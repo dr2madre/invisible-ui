@@ -2,7 +2,7 @@ import { menu as core } from "@design-system/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating } from "../internal/floating";
 import { ignoreGhostClicks } from "../internal/ghost-click";
@@ -174,8 +174,9 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) =>
-    createPropsAction(api, (a) => a.getItemProps(value as string))(node);
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
   return {
     state,
