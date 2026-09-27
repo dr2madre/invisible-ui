@@ -5,6 +5,12 @@ adapters beyond Svelte. This is technical-roadmap item **#6 (second framework
 adapter)** expanded into a concrete plan. For what comes *after* (Web
 Components, Vue, Flutter tokens, Rust): `docs/next-adapter-strategy.md`.
 
+> **Status update, 2026-09-27:** The first-pass proof-of-concept scope is
+> closed. React now targets the full catalog, like Svelte, Vue and custom
+> elements: see item 14, React: full catalog, in
+> [`docs/technical-roadmap.md`](./technical-roadmap.md). The plan below is
+> kept as the history of the first pass.
+
 **Scope for the first pass: proof-of-concept, 4–6 representative components** —
 not full parity. The goal is to establish the pattern and prove portability, so
 the chosen components exercise every integration shape the core exposes.

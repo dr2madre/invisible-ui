@@ -11,6 +11,12 @@ foundations**. Outcome of the PoC below becomes ADR 0008.
 > catalog as native Vue components and composables (ADR 0010). The historical
 > recommendation below is retained as the reasoning behind adapter order.
 
+> **Status update, 2026-09-27:** A Flutter behaviour adapter has been proposed
+> in [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md). It
+> is on the technical roadmap after the React adapter reaches the full
+> catalog. It needs an accepted ADR first, which would supersede the "tokens
+> only" Flutter row below. The table rows stay as the original reasoning.
+
 ## The constraint that shapes everything
 
 The core is TypeScript producing **DOM-shaped prop bags** (ARIA attributes,
