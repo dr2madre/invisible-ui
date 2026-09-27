@@ -13,6 +13,9 @@ export type CalendarApi = core.CalendarApi;
 export type CalendarState = core.CalendarState;
 export type CalendarContext = core.CalendarContext;
 
+/** An ISO `YYYY-MM-DD` date as local midnight, for the Intl date formatters. */
+export const localDate = (iso: string) => new Date(`${iso}T00:00:00`);
+
 export interface CreateCalendar {
   /** Reactive resolved state. */
   state: Readable<CalendarState>;
@@ -116,16 +119,10 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
 
   const gridAction = createPropsAction(api, (a) => a.gridProps);
   const rowAction = createPropsAction(api, (a) => a.rowProps);
-  const cellAction: Action<HTMLElement, string> = (node, iso) => {
-    const cellApi = derived(api, (a) => a.getCellProps(iso as string));
-    const handle = createPropsAction(cellApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
-  const dayAction: Action<HTMLElement, string> = (node, iso) => {
-    const dayApi = derived(api, (a) => a.getDayProps(iso as string));
-    const handle = createPropsAction(dayApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const cellAction: Action<HTMLElement, string> = (node, iso) =>
+    createPropsAction(api, (a) => a.getCellProps(iso as string))(node);
+  const dayAction: Action<HTMLElement, string> = (node, iso) =>
+    createPropsAction(api, (a) => a.getDayProps(iso as string))(node);
 
   return {
     state,

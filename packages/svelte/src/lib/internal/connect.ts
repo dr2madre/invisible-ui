@@ -41,11 +41,12 @@ export function applyProps(node: Element, props: ElementProps): void {
  * sync with a prop bag selected from a connected API. Event handlers are
  * dispatched to the latest props, so they always see current state. Used both
  * for a component root and for individual items of a composite component.
+ * The action ignores parameter updates, so an item action can return it as is.
  */
 export function createPropsAction<T, E extends Element = HTMLElement>(
   api: Readable<T>,
   select: (api: T) => ElementProps,
-): Action<E> {
+): (node: E) => { destroy(): void } {
   return (node) => {
     let current = select(get(api));
 

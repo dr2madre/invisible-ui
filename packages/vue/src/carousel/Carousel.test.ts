@@ -40,6 +40,19 @@ describe("Vue Carousel", () => {
     expect(slides[2]).toHaveAttribute("inert");
   });
 
+  it("sets the slide image as one quoted URL, also in server output", async () => {
+    const image = "x.jpg); position: fixed; inset: 0; (";
+    const { createSSRApp } = await import("vue");
+    const { renderToString } = await import("@vue/server-renderer");
+    const html = await renderToString(
+      createSSRApp({
+        render: () => h(Carousel, { items: [{ image, title: "One" }], label: "Photos" }),
+      }),
+    );
+    const style = /class="carousel__bg" style="([^"]*)"/.exec(html)?.[1] ?? "";
+    expect(style.replaceAll("&quot;", '"')).toBe(`background-image:url(${JSON.stringify(image)});`);
+  });
+
   it("renders the built-in slide overlay (title + description)", () => {
     setup();
     expect(screen.getByText("Peaks")).toBeInTheDocument();

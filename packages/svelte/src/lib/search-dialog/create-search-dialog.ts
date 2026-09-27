@@ -217,11 +217,8 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) => {
-    const optionApi = derived(api, (a) => a.getOptionProps(value));
-    const handle = createPropsAction(optionApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const optionAction: Action<HTMLElement, string> = (node, value) =>
+    createPropsAction(api, (a) => a.getOptionProps(value))(node);
 
   return {
     open: dialog.open,

@@ -12,7 +12,7 @@
    */
   import { createPopover } from "../popover/create-popover";
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
-  import type { CalendarView, WeekStart } from "../calendar/create-calendar";
+  import { localDate, type CalendarView, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
   import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
@@ -46,14 +46,13 @@
   const popover = createPopover({ placement: "bottom-start" });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
-  const dt = (iso: string) => new Date(`${iso}T00:00:00`);
   $: resolvedLocale = locale ?? $providerLocale;
   $: displayFmt = i18n.dateTimeFormat(resolvedLocale, { dateStyle });
   $: displayValue =
     start && end
-      ? displayFmt.formatRange(dt(start), dt(end))
+      ? displayFmt.formatRange(localDate(start), localDate(end))
       : start
-        ? `${displayFmt.format(dt(start))} – …`
+        ? `${displayFmt.format(localDate(start))} – …`
         : "";
 
   // The reset default follows the props. The write-backs move the mirrors
