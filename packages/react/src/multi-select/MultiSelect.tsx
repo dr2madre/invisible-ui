@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { usePortalHost } from "../internal/portal-host";
 import { Icon } from "../icon/Icon";
@@ -104,9 +104,20 @@ export function MultiSelect({
   // Removing through a remove button unmounts that button, so focus would
   // fall to the body: move it to the remove button now at the same index
   // (the next one), else the previous one, else the input.
+  // The pending frame is cancelled by a newer removal and on unmount, so it
+  // never reaches into a control that is gone.
+  const focusFrame = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    },
+    [],
+  );
   const removeAt = (value: string, index: number) => {
     api.remove(value);
-    requestAnimationFrame(() => {
+    if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = requestAnimationFrame(() => {
+      focusFrame.current = null;
       const buttons = listEl.current
         ? Array.from(listEl.current.querySelectorAll<HTMLElement>(".tag__remove"))
         : [];

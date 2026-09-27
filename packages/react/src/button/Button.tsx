@@ -1,4 +1,12 @@
-import { forwardRef, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useRef,
+  type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
+import { DEV } from "../internal/dev";
 import { HazardGlyph, Icon, PlusGlyph } from "../icon/Icon";
 import { useButton, type ButtonVariant } from "./use-button";
 
@@ -79,11 +87,23 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   const showLeft = !iconOnly && ((leftIcon ?? variant === "danger") || left != null);
   const showRight = !iconOnly && (rightIcon || right != null);
 
-  if (import.meta.env?.DEV && !ariaLabel && (iconOnly || children == null)) {
-    console.warn(
-      "[ds] Button has no accessible name: provide visible text (children) or an `ariaLabel` for icon-only buttons.",
-    );
-  }
+  // Warned from an effect keyed on the outcome, not while rendering: once when
+  // a button mounts without a name, and again only if it loses one later. The
+  // ref keeps a development double mount from warning twice.
+  const missingName = !ariaLabel && (iconOnly || children == null);
+  const warned = useRef(false);
+  useEffect(() => {
+    if (!missingName) {
+      warned.current = false;
+      return;
+    }
+    if (DEV && !warned.current) {
+      warned.current = true;
+      console.warn(
+        "[ds] Button has no accessible name: provide visible text (children) or an `ariaLabel` for icon-only buttons.",
+      );
+    }
+  }, [missingName]);
 
   const pressHandler = api.rootProps.onClick as ((event: Event) => void) | undefined;
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {

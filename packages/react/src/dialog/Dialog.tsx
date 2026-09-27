@@ -114,7 +114,7 @@ export function Dialog({
   return (
     <>
       <Button variant={triggerVariant} {...api.triggerProps} ref={triggerRef}>
-        {trigger ?? "Open"}
+        {trigger ?? t("dialog.trigger")}
       </Button>
 
       {isOpen && (
