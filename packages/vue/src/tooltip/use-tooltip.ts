@@ -1,7 +1,6 @@
 import { tooltip as core } from "@design-system/core";
 import {
   computed,
-  onScopeDispose,
   ref,
   toValue,
   type ComputedRef,
@@ -9,6 +8,7 @@ import {
   type Ref,
   watch,
 } from "vue";
+import { useDelayedToggle } from "../internal/delayed-toggle";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -40,8 +40,6 @@ export interface UseTooltip {
   hold: () => void;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless Tooltip to Vue. ARIA lives in `@design-system/core`
  * (`role="tooltip"`, `aria-describedby` linkage); this composable owns the DOM
@@ -72,25 +70,11 @@ export function useTooltip(options: MaybeRefOrGetter<UseTooltipOptions> = {}): U
   const triggerRef = ref<HTMLElement | null>(null);
   const tooltipRef = ref<HTMLElement | null>(null);
 
-  let showTimer: ReturnType<typeof setTimeout> | undefined;
-  let hideTimer: ReturnType<typeof setTimeout> | undefined;
-
-  const hold = () => {
-    clearTimeout(showTimer);
-    clearTimeout(hideTimer);
-  };
-  // A pending hover must not open something after the component is gone.
-  onScopeDispose(hold);
-  const show = (delay = resolved.value.openDelay ?? 300) => {
-    hold();
-    if (delay <= 0) return setOpen(true);
-    showTimer = setTimeout(() => setOpen(true), delay);
-  };
-  const hide = (delay = resolved.value.closeDelay ?? 100) => {
-    hold();
-    if (delay <= 0) return setOpen(false);
-    hideTimer = setTimeout(() => setOpen(false), delay);
-  };
+  const { show, hide, hold } = useDelayedToggle(
+    setOpen,
+    () => resolved.value.openDelay ?? 300,
+    () => resolved.value.closeDelay ?? 100,
+  );
 
   // Position against the trigger, again whenever the placement or offset
   // changes while open.

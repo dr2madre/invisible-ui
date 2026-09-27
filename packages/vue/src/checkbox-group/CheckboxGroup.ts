@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useCheckboxGroup, type CheckboxGroupItem } from "./use-checkbox-group";
-import { useFormReset, useLiveChecked } from "../internal/form-reset";
+import { useLiveChecked, useResettableValue } from "../internal/form-reset";
 
 export interface CheckboxGroupProps {
   items: CheckboxGroupItem[];
@@ -46,19 +46,15 @@ export const CheckboxGroup = defineComponent({
   setup(props, { emit }) {
     const root = ref<HTMLElement | null>(null);
     const given = () => props.modelValue ?? props.value;
-    // What the composable is told: a reset writes the default here, which is
-    // its silent path (the watch, not the setter).
-    const told = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
     // The same selection, whatever order each side keeps it in.
     const same = (a: string[], b: string[]) =>
       a.length === b.length && a.every((entry) => b.includes(entry));
-    watch(given, (next) => {
-      if (!same(next, told.value)) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => root.value,
+      (value) => emit("update:modelValue", value),
+      same,
+    );
 
     const api = useCheckboxGroup(() => ({
       items: props.items,
@@ -71,17 +67,6 @@ export const CheckboxGroup = defineComponent({
         props.onValueChange?.(next);
       },
     }));
-
-    useFormReset(
-      () => root.value,
-      () => {
-        told.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     // The attributes are the defaults; the properties follow the state.
     useLiveChecked(

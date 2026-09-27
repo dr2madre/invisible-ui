@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { useI18n } from "../i18n/i18n";
 import { useSwitch } from "./use-switch";
-import { useFormReset, useLiveDom } from "../internal/form-reset";
+import { useLiveDom, useResettableValue } from "../internal/form-reset";
 
 export interface SwitchProps {
   /** Accessible, visible label (required). Override with the default slot for rich content. */
@@ -67,16 +67,11 @@ export const Switch = defineComponent({
   setup(props, { emit, slots }) {
     const input = ref<HTMLInputElement | null>(null);
     const given = () => props.modelValue ?? props.checked;
-    // What the composable is told: a reset writes the default here, which is
-    // its silent path (the watch, not the setter).
-    const told = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    watch(given, (next) => {
-      if (next !== told.value) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => input.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const api = useSwitch(() => ({
       checked: told.value,
@@ -92,16 +87,6 @@ export const Switch = defineComponent({
     // The attribute carries the default, so a native reset and a no-script
     // render both have one; the property carries what the user sees.
     useLiveDom(input, () => ({ checked: api.value.checked }));
-    useFormReset(
-      () => input.value,
-      () => {
-        told.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     return () => {
       const { t } = i18n.value;
