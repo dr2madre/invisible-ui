@@ -78,10 +78,6 @@ export const en = {
   "searchDialog.label": "Search",
   "searchDialog.placeholder": "Type to search…",
   "searchDialog.empty": "No results found.",
-  "searchDialog.resultOne": "1 result available",
-  "searchDialog.resultMany": "{count} results available",
-  // Plural form used by the components; the two legacy keys above remain
-  // supported as consumer overrides.
   "searchDialog.results": {
     one: "{count} result available",
     other: "{count} results available",
@@ -113,9 +109,6 @@ export const en = {
   "pagination.previous": "Go to previous page",
   "pagination.next": "Go to next page",
   "pagination.page": "Go to page {page}",
-  "rating.star": "{count} star",
-  // Plural form used by the components; the legacy one-form key above remains
-  // supported as a consumer override.
   "rating.stars": {
     one: "{count} star",
     other: "{count} stars",
@@ -123,14 +116,11 @@ export const en = {
   "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
   "contextMenu.label": "Context menu",
-  // The sidebar's landmark name. `menu.label` is the same name under the
-  // component's former spelling: it stays, and an override of it still wins,
-  // until the deprecation completes (ADR 0013).
+  // The sidebar's landmark name.
   "sidebar.label": "Main",
   "sidebar.collapse": "Collapse the navigation",
   "sidebar.expand": "Expand the navigation",
   "sidebar.open": "Open the navigation",
-  "menu.label": "Main",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",

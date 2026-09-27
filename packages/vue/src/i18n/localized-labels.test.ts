@@ -18,8 +18,7 @@ const messages = {
   "pagination.previous": "Pagina precedente",
   "pagination.next": "Pagina successiva",
   "pagination.page": "Vai a pagina {page}",
-  "rating.star": "{count} stella",
-  "rating.stars": "{count} stelle",
+  "rating.stars": { one: "{count} stella", other: "{count} stelle" },
   "pinInput.cell": "Carattere {index} di {length}",
 };
 

@@ -122,25 +122,5 @@
   },
   "--ds-color-on-destructive-surface": {
     "purpose": "Text and icons drawn on the destructive action's fill."
-  },
-  "--ds-color-primary-soft": {
-    "purpose": "Deprecated name for the secondary action's fill. It keeps resolving, and it goes away before 1.0.",
-    "stability": "deprecated",
-    "replacedBy": "--ds-color-secondary-surface"
-  },
-  "--ds-color-on-primary-soft": {
-    "purpose": "Deprecated name for the label on the secondary action's fill.",
-    "stability": "deprecated",
-    "replacedBy": "--ds-color-on-secondary-surface"
-  },
-  "--ds-color-danger-soft": {
-    "purpose": "Deprecated name for the destructive action's fill. It keeps resolving, and it goes away before 1.0.",
-    "stability": "deprecated",
-    "replacedBy": "--ds-color-destructive-surface"
-  },
-  "--ds-color-on-danger-soft": {
-    "purpose": "Deprecated name for the label on the destructive action's fill.",
-    "stability": "deprecated",
-    "replacedBy": "--ds-color-on-destructive-surface"
   }
 }
