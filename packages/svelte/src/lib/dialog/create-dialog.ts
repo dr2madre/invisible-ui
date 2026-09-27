@@ -74,17 +74,30 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
   );
   const closeOnOutsideClick = context.closeOnOutsideClick ?? true;
 
+  // Set while a panel is mounted: gives focus back and leaves the top layer.
+  // A close runs it before the state changes, so focus is out of the panel
+  // before Svelte removes it. A focused element that leaves the page fires
+  // focusout, and a listener that writes state from there, a tooltip around
+  // the dialog for one, would do so while Svelte updates the block, which
+  // Svelte refuses (`state_unsafe_mutation`) and which stops every update
+  // after it.
+  let releasePanel: (() => void) | null = null;
+
   const setOpen = (open: boolean) => {
     const current = get(state);
     if (current.open === open) return;
+    if (!open) releasePanel?.();
     state.set({ ...current, open });
     context.onOpenChange?.(open);
   };
 
   // Reflect a controlled `open` prop without reporting a change: opening a
   // dialog from the outside is not the user asking for it.
-  const syncOpen = (open: boolean) =>
-    state.update((current) => (current.open === open ? current : { ...current, open }));
+  const syncOpen = (open: boolean) => {
+    if (get(state).open === open) return;
+    if (!open) releasePanel?.();
+    state.update((current) => ({ ...current, open }));
+  };
 
   const api = derived(state, ($state) =>
     core.connect({
@@ -157,21 +170,34 @@ export function createDialog(context: DialogContext = {}): CreateDialog {
       (target ?? node).focus();
     });
 
+    // Runs once: on close, before the state changes, or on destroy when the
+    // panel goes away some other way (the component unmounts while open).
+    let released = false;
+    const release = () => {
+      if (released) return;
+      released = true;
+      if (releasePanel === release) releasePanel = null;
+      dialogEl.removeEventListener("cancel", onCancel);
+      dialogEl.removeEventListener("close", onClose);
+      dialogEl.removeEventListener("pointerdown", onPointerDown);
+      // Out of the top layer first: while it is modal the page is inert and
+      // focus cannot go back to it.
+      if (dialogEl.open) dialogEl.close();
+      releaseScroll();
+      // Where focus goes back to: what the consumer named, else this
+      // dialog's own trigger, else whatever held focus when it opened.
+      const named = context.returnFocusTo
+        ? document.querySelector<HTMLElement>(context.returnFocusTo)
+        : null;
+      const restore = named ?? triggerEl ?? previouslyFocused;
+      if (restore?.isConnected) restore.focus();
+    };
+    releasePanel = release;
+
     return {
       destroy() {
-        dialogEl.removeEventListener("cancel", onCancel);
-        dialogEl.removeEventListener("close", onClose);
-        dialogEl.removeEventListener("pointerdown", onPointerDown);
-        if (dialogEl.open) dialogEl.close();
+        release();
         base?.destroy?.();
-        releaseScroll();
-        // Where focus goes back to: what the consumer named, else this
-        // dialog's own trigger, else whatever held focus when it opened.
-        const named = context.returnFocusTo
-          ? document.querySelector<HTMLElement>(context.returnFocusTo)
-          : null;
-        const restore = named ?? triggerEl ?? previouslyFocused;
-        if (restore?.isConnected) restore.focus();
       },
     };
   };

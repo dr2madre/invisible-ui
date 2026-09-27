@@ -1,9 +1,10 @@
 import { fireEvent, render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./dialog.fixture.svelte";
 import NestedFixture from "./dialog-nested.fixture.svelte";
+import NestedTooltipFixture from "./dialog-nested-tooltip.fixture.svelte";
 import WorkflowFixture from "./dialog-workflow.fixture.svelte";
 
 // Native <dialog>: backdrop presses target the element itself with
@@ -16,6 +17,10 @@ const pressBackdrop = (panel: HTMLElement) => {
 };
 
 describe("Svelte Dialog (styled)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("is closed by default with the trigger advertising the dialog", () => {
     render(Fixture);
     const trigger = screen.getByRole("button", { name: "Open dialog" });
@@ -122,6 +127,36 @@ describe("Svelte Dialog (styled)", () => {
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("closes each layer of a stack when a focus listener writes state", async () => {
+    // Chromium fires focusout when a focused element leaves the page; jsdom
+    // does not. Emulate it, so a panel removed while it still holds focus
+    // reaches the tooltip's listener while Svelte is updating the block.
+    const remove = Element.prototype.remove;
+    vi.spyOn(Element.prototype, "remove").mockImplementation(function (this: Element) {
+      const focused = document.activeElement;
+      if (focused && focused !== document.body && this.contains(focused)) {
+        focused.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+      }
+      remove.call(this);
+    });
+    const user = userEvent.setup();
+    render(NestedTooltipFixture);
+    const trigger = screen.getByRole("button", { name: "Edit profile" });
+    await user.click(trigger);
+    const discard = screen.getByRole("button", { name: "Discard" });
+    await user.click(discard);
+
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog", { name: "Discard changes?" })).not.toBeInTheDocument();
+    expect(discard).toHaveFocus();
+
+    // Focus leaves each panel before the panel leaves the page, so the second
+    // Escape still closes the editor.
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
   });
 
   it("has no accessibility violations when open", async () => {
