@@ -39,8 +39,6 @@ export interface UsePagination {
   rootRef: Ref<HTMLElement | null>;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless pagination to Vue: previous, the visible page numbers
  * (with ellipsis gaps) and next form a single-select roving collection, like

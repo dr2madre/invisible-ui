@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
-import { useFormReset, useLiveDom } from "../internal/form-reset";
+import { useLiveDom, useResettableValue } from "../internal/form-reset";
 import { useStableId } from "../internal/use-stable-id";
 
 export interface SelectItem {
@@ -40,9 +40,6 @@ export interface SelectProps {
   onValueChange?: (value: string) => void;
 }
 
-// Stable per-instance ids for the label / error association. The React adapter
-// gets these from `useId`; a module counter keeps the Vue peer range at ^3.4
-// (Vue's own `useId` landed in 3.5) and is enough for the client-rendered PoC.
 /**
  * Select: a styled **native** `<select>`. The browser owns the popup,
  * keyboard, typeahead, form participation and the platform picker on mobile;
@@ -90,14 +87,11 @@ export const Select = defineComponent({
     const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
     // What the element shows. There is no machine here: the element is the
     // state, and this is the component's own copy of it.
-    const shown = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    watch(given, (next) => {
-      if (next !== shown.value) fallback.value = next;
-      shown.value = next;
-    });
+    const { told: shown, fallback } = useResettableValue(
+      given,
+      () => control.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const onChange = (event: Event) => {
       const next = (event.target as HTMLSelectElement).value;
@@ -110,16 +104,6 @@ export const Select = defineComponent({
     // The selected attribute carries the default, so a native reset and a
     // no-script render both have one; the property carries the selection.
     useLiveDom(control, () => ({ value: shown.value ?? "" }));
-    useFormReset(
-      () => control.value,
-      () => {
-        shown.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     return () => {
       const { t } = i18n.value;

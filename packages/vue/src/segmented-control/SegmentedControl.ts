@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type Component, type PropType } from "vue";
+import { defineComponent, h, ref, type Component, type PropType } from "vue";
 import { useStableId } from "../internal/use-stable-id";
 import { useSegmentedControl, type SegmentItem } from "./use-segmented-control";
-import { useFormReset, useLiveChecked } from "../internal/form-reset";
+import { useLiveChecked, useResettableValue } from "../internal/form-reset";
 
 /**
  * A segment, with an optional display `label` (falls back to `value`) and an
@@ -46,9 +46,6 @@ export interface SegmentedControlProps {
   onValueChange?: (value: string) => void;
 }
 
-// Stable per-instance id for the group label association; the same
-// module-counter approach as Select (Vue's own `useId` landed after the ^3.4
-// peer range).
 /**
  * SegmentedControl — the styled, batteries-included segmented control, ported
  * from the Svelte adapter. A single-select group built on native
@@ -88,17 +85,11 @@ export const SegmentedControl = defineComponent({
 
     const root = ref<HTMLElement | null>(null);
     const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
-    // What the composable is told: a reset writes the default here, which is
-    // its silent path (the watch, not the setter).
-    const told = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    const same = (a: unknown, b: unknown) => a === b;
-    watch(given, (next) => {
-      if (!same(next, told.value)) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => root.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const api = useSegmentedControl(() => ({
       items: props.items,
@@ -112,17 +103,6 @@ export const SegmentedControl = defineComponent({
         props.onValueChange?.(next);
       },
     }));
-
-    useFormReset(
-      () => root.value,
-      () => {
-        told.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     // The attributes are the defaults; the properties follow the state.
     useLiveChecked(

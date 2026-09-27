@@ -1,7 +1,6 @@
-import { defineComponent, h, watch, type ComponentPublicInstance, type PropType } from "vue";
+import { defineComponent, h, type ComponentPublicInstance, type PropType } from "vue";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
-import { ignoreGhostClicks } from "../internal/ghost-click";
 import type { Placement } from "../internal/floating";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
@@ -157,12 +156,6 @@ export const Popover = defineComponent({
       const node = el && "$el" in el ? (el.$el as Element) : el;
       triggerRef.value = node instanceof HTMLElement ? node : null;
     };
-
-    // Drop iOS's synthesized duplicate click so the popover doesn't toggle twice.
-    watch(triggerRef, (node, _previous, onCleanup) => {
-      if (!node) return;
-      onCleanup(ignoreGhostClicks(node));
-    });
 
     return () => [
       h(

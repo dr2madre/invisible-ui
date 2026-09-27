@@ -1,8 +1,6 @@
 import { combobox as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import {
   computed,
-  onScopeDispose,
   ref,
   shallowRef,
   toValue,
@@ -11,6 +9,8 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from "vue";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -67,10 +67,6 @@ const defaultFilter = (items: ComboboxItem[], query: string) => {
 
 const labelOf = (item: ComboboxItem) => item.label ?? item.value;
 
-const PLACEMENT: Placement = "bottom-start";
-
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless Combobox to Vue, the adapter's hard case.
  *
@@ -205,72 +201,28 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
   const listboxRef = ref<HTMLElement | null>(null);
   const controlRef = ref<HTMLElement | null>(null);
 
-  // --- Positioning. Floating UI writes into `x`/`y`, which the component binds
-  // as inline styles on the listbox.
-  const x = ref(0);
-  const y = ref(0);
-  const floatingStyles = computed(() => ({
-    position: "fixed",
-    left: `${x.value}px`,
-    top: `${y.value}px`,
-  }));
+  // A constant, so a re-render never writes over the coordinates the
+  // positioning helper keeps on the element.
+  const floatingStyles = computed(() => ({ position: "fixed" }));
 
-  const reposition = () => {
-    const reference = inputRef.value;
-    const floating = listboxRef.value;
-    if (!reference || !floating) return;
-    void computePosition(reference, floating, {
-      placement: PLACEMENT,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then((position) => {
-      x.value = position.x;
-      y.value = position.y;
-    });
-  };
-
-  // --- Close when a pointer goes down anywhere outside the control or popup.
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (
-      controlRef.value?.contains(target) ||
-      inputRef.value?.contains(target) ||
-      listboxRef.value?.contains(target)
-    ) {
-      return;
-    }
-    setOpen(false);
-    setActiveValue(null);
-  };
-
-  let stopAutoUpdate: (() => void) | null = null;
-
-  const teardownOpen = () => {
-    stopAutoUpdate?.();
-    stopAutoUpdate = null;
-    document.removeEventListener("pointerdown", onOutsidePointer, true);
-  };
-
+  // --- While open: position against the input (the popup at least as wide as
+  // the control it hangs from) and close when a pointer goes down anywhere
+  // outside the control or popup.
   watch(
     open,
-    (isOpen) => {
-      if (!isOpen) {
-        teardownOpen();
-        return;
-      }
+    (isOpen, _previous, onCleanup) => {
       const reference = inputRef.value;
       const floating = listboxRef.value;
-      if (!reference || !floating || stopAutoUpdate) return;
-
-      // The popup is at least as wide as the control it hangs from.
-      floating.style.minWidth = `${reference.offsetWidth}px`;
-      // `autoUpdate` needs ResizeObserver; where it is missing (jsdom) a single
-      // measurement is enough.
-      stopAutoUpdate =
-        typeof ResizeObserver !== "undefined"
-          ? autoUpdate(reference, floating, reposition)
-          : (reposition(), () => {});
-      document.addEventListener("pointerdown", onOutsidePointer, true);
+      if (!isOpen || !reference || !floating) return;
+      const stopFloating = attachFloating(reference, floating, { sameWidth: true });
+      const stopOutside = onOutsidePointerDown([controlRef.value, reference, floating], () => {
+        setOpen(false);
+        setActiveValue(null);
+      });
+      onCleanup(() => {
+        stopFloating();
+        stopOutside();
+      });
     },
     { flush: "post" },
   );
@@ -288,8 +240,6 @@ export function useCombobox(options: MaybeRefOrGetter<UseComboboxOptions>): UseC
     },
     { flush: "post" },
   );
-
-  onScopeDispose(teardownOpen);
 
   const onInputChange = (event: Event) => {
     const text = (event.target as HTMLInputElement).value;

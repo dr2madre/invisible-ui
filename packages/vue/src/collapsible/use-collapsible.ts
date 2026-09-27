@@ -23,8 +23,6 @@ export interface UseCollapsible {
   toggle: () => void;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless collapsible (WAI-ARIA disclosure pattern) to Vue: one
  * trigger button showing or hiding one content region. Behaviour and

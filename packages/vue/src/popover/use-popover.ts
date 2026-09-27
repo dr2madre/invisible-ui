@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating, type Placement } from "../internal/floating";
+import { ignoreGhostClicks } from "../internal/ghost-click";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -38,8 +39,6 @@ export interface UsePopover {
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless Popover to Vue. Behaviour and ARIA live in
  * `@design-system/core` (open/close, `aria-haspopup`/`aria-expanded` wiring,
@@ -83,6 +82,17 @@ export function usePopover(options: MaybeRefOrGetter<UsePopoverOptions> = {}): U
 
   const triggerRef = ref<HTMLElement | null>(null);
   const panelRef = ref<HTMLElement | null>(null);
+
+  // Drop iOS's synthesized duplicate click so the popover doesn't toggle twice.
+  // Synchronous, so the guard is in place as soon as the trigger renders.
+  watch(
+    triggerRef,
+    (node, _previous, onCleanup) => {
+      if (!node) return;
+      onCleanup(ignoreGhostClicks(node));
+    },
+    { flush: "sync" },
+  );
 
   // Position against the trigger and keep it positioned. A watch of its own,
   // so a placement or offset changed while open moves the panel without
