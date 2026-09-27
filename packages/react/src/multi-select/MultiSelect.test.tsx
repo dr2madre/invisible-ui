@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createElement, useState } from "react";
+import { StrictMode, createElement, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { MultiSelect, type MultiSelectProps } from "./MultiSelect";
@@ -294,5 +294,94 @@ describe("MultiSelect inside a dialog", () => {
     const listbox = screen.getByRole("listbox");
     expect(listbox.closest("dialog"), "the list must stay in the dialog's layer").not.toBeNull();
     expect(listbox.parentElement).not.toBe(document.body);
+  });
+});
+
+// ADR 0011: a callback reports after the state write, once per action, from
+// the handler. Reported from inside a state updater it would run twice under
+// StrictMode.
+describe("MultiSelect callbacks", () => {
+  it("reports each change exactly once per action under StrictMode", async () => {
+    const user = userEvent.setup();
+    const onValuesChange = vi.fn();
+    const onInputValueChange = vi.fn();
+    const onOpenChange = vi.fn();
+    render(
+      <StrictMode>
+        <MultiSelect
+          label="People"
+          items={items}
+          onValuesChange={onValuesChange}
+          onInputValueChange={onInputValueChange}
+          onOpenChange={onOpenChange}
+        />
+      </StrictMode>,
+    );
+
+    await user.type(input(), "gr");
+    expect(onInputValueChange.mock.calls).toEqual([["g"], ["gr"]]);
+    expect(onOpenChange.mock.calls).toEqual([[true]]);
+
+    await user.keyboard("{Enter}");
+    expect(onValuesChange.mock.calls).toEqual([[["grace"]]]);
+
+    await user.keyboard("{Escape}");
+    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+  });
+});
+
+describe("MultiSelect turned off while open", () => {
+  it.each([{ disabled: true }, { readOnly: true }])("closes its list when %o", async (extra) => {
+    const user = userEvent.setup();
+    const { rerender } = render(<MultiSelect label="People" items={items} />);
+    input().focus();
+    await user.keyboard("{ArrowDown}");
+    expect(input()).toHaveAttribute("data-state", "open");
+
+    rerender(<MultiSelect label="People" items={items} {...extra} />);
+    expect(input()).toHaveAttribute("data-state", "closed");
+    expect(input()).not.toHaveAttribute("aria-activedescendant");
+  });
+});
+
+describe("MultiSelect removal focus", () => {
+  it("drops the pending focus move when the control unmounts first", async () => {
+    const user = userEvent.setup();
+    let nextId = 0;
+    const requested: number[] = [];
+    const cancelled: number[] = [];
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation(() => {
+      requested.push(++nextId);
+      return nextId;
+    });
+    vi.spyOn(window, "cancelAnimationFrame").mockImplementation((id) => {
+      cancelled.push(id);
+    });
+    const { unmount } = setup({ values: ["ada", "grace"] });
+
+    await user.click(removeButton("Ada"));
+    unmount();
+    vi.restoreAllMocks();
+    expect(requested.length).toBeGreaterThan(0);
+    expect(requested.filter((id) => !cancelled.includes(id))).toEqual([]);
+  });
+});
+
+describe("MultiSelect popup width", () => {
+  it("keeps the list as wide as the control while it stays open", async () => {
+    const user = userEvent.setup();
+    let width = 280;
+    setup();
+    const control = input().closest<HTMLElement>(".multi-select__control")!;
+    Object.defineProperty(control, "offsetWidth", { configurable: true, get: () => width });
+
+    input().focus();
+    await user.keyboard("{ArrowDown}");
+    const listbox = screen.getByRole("listbox");
+    await vi.waitFor(() => expect(listbox.style.minWidth).toBe("280px"));
+
+    width = 420;
+    window.dispatchEvent(new Event("resize"));
+    await vi.waitFor(() => expect(listbox.style.minWidth).toBe("420px"));
   });
 });

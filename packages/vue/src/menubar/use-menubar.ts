@@ -11,10 +11,11 @@ import {
   type Ref,
 } from "vue";
 import {
-  useDropdownMenu,
+  dropdownMenuWithId,
   type MenuItem,
   type UseDropdownMenu,
 } from "../dropdown-menu/use-dropdown-menu";
+import { useStableId } from "../internal/use-stable-id";
 
 export type { MenuItem };
 
@@ -62,61 +63,75 @@ export interface UseMenubar {
  * between triggers (or, while a menu is open, to switch the open menu),
  * Home/End, hover-to-switch while open, and one menu open at a time.
  *
- * Each menu owns a composable instance, created in its own effect scope the
- * first time that position exists, so adding, removing or reordering top-level
- * menus works without remounting. Scopes for positions the list no longer has
- * are stopped, and all of them stop with the owning scope.
+ * Each menu owns a composable instance, keyed by its `value` and created in
+ * its own effect scope, so adding, removing or reordering top-level menus
+ * works without remounting and a menu keeps its state (open, active item)
+ * wherever it moves, in step with the DOM, which is keyed by value too.
+ * Scopes for menus the list no longer has are stopped, and all of them stop
+ * with the owning scope.
  */
 export function useMenubar(options: MaybeRefOrGetter<UseMenubarOptions>): UseMenubar {
   const resolved = computed(() => toValue(options));
 
-  // One dropdown per position, built on demand. A composable cannot be called
-  // outside a setup unless it owns a scope, so each instance gets one.
-  const dropdowns: UseDropdownMenu[] = [];
-  const scopes: EffectScope[] = [];
+  // Menus can arrive after setup, where no component instance is there to
+  // hand out ids, so the bar takes one stable id now and numbers its menus
+  // from it in creation order, the same on the server and in the browser.
+  const baseId = useStableId("ds-menubar");
+  let created = 0;
 
-  const dropdownAt = (index: number): UseDropdownMenu => {
-    const existing = dropdowns[index];
-    if (existing) return existing;
+  // One dropdown per menu value. A composable cannot run outside a setup
+  // unless it owns a scope, so each instance gets one.
+  const dropdowns = new Map<string, { scope: EffectScope; menu: UseDropdownMenu }>();
+
+  const dropdownFor = (value: string): UseDropdownMenu => {
+    const existing = dropdowns.get(value);
+    if (existing) return existing.menu;
     const scope = effectScope(true);
-    const instance = scope.run(() =>
-      useDropdownMenu(() => {
-        const current = resolved.value.menus[index];
+    const menu = scope.run(() =>
+      dropdownMenuWithId(`${baseId}-menu-${++created}`, () => {
+        const current = resolved.value.menus.find((candidate) => candidate.value === value);
         return {
           items: current?.items ?? [],
           disabled: current?.disabled,
-          onSelect: (itemValue: string) =>
-            current && resolved.value.onSelect?.(current.value, itemValue),
+          onSelect: (itemValue: string) => resolved.value.onSelect?.(value, itemValue),
         };
       }),
     )!;
-    scopes[index] = scope;
-    dropdowns[index] = instance;
-    return instance;
+    dropdowns.set(value, { scope, menu });
+    return menu;
   };
 
   const menus = computed(() =>
-    resolved.value.menus.map((config, index) => ({ ...config, menu: dropdownAt(index) })),
+    resolved.value.menus.map((config) => ({ ...config, menu: dropdownFor(config.value) })),
   );
-
-  // Positions the list dropped keep no live watchers behind them.
-  const release = (from: number) => {
-    for (let index = from; index < scopes.length; index += 1) {
-      scopes[index]?.stop();
-      delete scopes[index];
-      delete dropdowns[index];
-    }
-    scopes.length = from;
-    dropdowns.length = from;
-  };
 
   const count = () => resolved.value.menus.length;
 
-  watch(count, (total) => release(total));
-
-  onScopeDispose(() => release(0), true);
-
   const focusedIndex = ref(0);
+
+  // Build the dropdowns of the current list (in setup, the first time), stop
+  // the ones whose menu left it, and keep the tab stop on a trigger that
+  // still exists.
+  watch(
+    () => resolved.value.menus.map((menu) => menu.value),
+    (values) => {
+      values.forEach(dropdownFor);
+      for (const [value, entry] of dropdowns) {
+        if (values.includes(value)) continue;
+        entry.scope.stop();
+        dropdowns.delete(value);
+      }
+      if (focusedIndex.value >= values.length) {
+        focusedIndex.value = Math.max(0, values.length - 1);
+      }
+    },
+    { immediate: true },
+  );
+
+  onScopeDispose(() => {
+    for (const entry of dropdowns.values()) entry.scope.stop();
+    dropdowns.clear();
+  }, true);
 
   const openIndex = () => menus.value.findIndex((entry) => entry.menu.open.value);
 

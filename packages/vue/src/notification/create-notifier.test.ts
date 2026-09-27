@@ -132,3 +132,14 @@ describe("createNotifier", () => {
     });
   });
 });
+
+describe("Vue createNotifier ids", () => {
+  // A module-level counter was shared by every notifier in the process, so on
+  // a server each request continued the previous request's sequence.
+  it("numbers each notifier's notices on its own", () => {
+    const first = createNotifier();
+    first.show({ title: "A" });
+    first.show({ title: "B" });
+    expect(createNotifier().show({ title: "C" })).toBe("notice-1");
+  });
+});

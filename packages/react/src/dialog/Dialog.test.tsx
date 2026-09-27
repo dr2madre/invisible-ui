@@ -1,9 +1,10 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useEffect, useRef, useState } from "react";
+import { StrictMode, useEffect, useRef, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { Button } from "../button/Button";
+import { LocaleProvider } from "../i18n/i18n";
 import { Dialog } from "./Dialog";
 
 // Native <dialog>: backdrop presses target the element itself, with
@@ -372,5 +373,44 @@ describe("React Dialog header", () => {
     const actions = screen.getByRole("button", { name: "Reset" }).parentElement!;
     expect(actions).toHaveClass("dialog-header__actions");
     expect(actions.nextElementSibling).toHaveClass("dialog-header__close");
+  });
+});
+
+describe("Dialog open reports", () => {
+  it("reports each open and close exactly once under StrictMode", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    render(
+      <StrictMode>
+        <Basic onOpenChange={onOpenChange} />
+      </StrictMode>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Open dialog" }));
+    expect(onOpenChange.mock.calls).toEqual([[true]]);
+
+    await user.click(screen.getByRole("button", { name: "Close" }));
+    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+  });
+
+  it("never reports an open the prop makes", () => {
+    const onOpenChange = vi.fn();
+    const { rerender } = render(<Basic onOpenChange={onOpenChange} />);
+    rerender(<Basic open onOpenChange={onOpenChange} />);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(onOpenChange).not.toHaveBeenCalled();
+  });
+});
+
+describe("Dialog trigger text", () => {
+  it("falls back to the catalog when no trigger is given", () => {
+    render(
+      <LocaleProvider messages={{ "dialog.trigger": "Apri" }}>
+        <Dialog title="Condividi">
+          <p>Body content</p>
+        </Dialog>
+      </LocaleProvider>,
+    );
+    expect(screen.getByRole("button", { name: "Apri" })).toHaveAttribute("aria-haspopup", "dialog");
   });
 });

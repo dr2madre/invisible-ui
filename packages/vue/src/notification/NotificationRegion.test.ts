@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { renderToString } from "@vue/server-renderer";
+import { createSSRApp, h, nextTick } from "vue";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { createNotifier } from "./create-notifier";
 import { NotificationRegion } from "./NotificationRegion";
@@ -150,5 +152,46 @@ describe("Vue NotificationRegion", () => {
     notifier.show({ title: "Saved", text: "All good", duration: 0 });
     await screen.findByText("Saved");
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("Vue NotificationRegion hydration", () => {
+  // The reduced-motion preference was read during setup, so a browser that
+  // prefers reduced motion rendered a different style than the server did.
+  it("hydrates without a mismatch when the user prefers reduced motion", async () => {
+    const App = { render: () => h(NotificationRegion, { notifier: createNotifier() }) };
+    // The server knows no preference; the browser then reports one.
+    const prefers = (matches: boolean) => (query: string) => ({ matches, media: query });
+    vi.stubGlobal("matchMedia", prefers(false));
+    const html = await renderToString(createSSRApp(App));
+
+    vi.stubGlobal("matchMedia", prefers(true));
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const host = document.createElement("div");
+    host.innerHTML = html;
+    document.body.append(host);
+    try {
+      const app = createSSRApp(App);
+      app.mount(host);
+      await nextTick();
+      const messages = [...warn.mock.calls, ...error.mock.calls]
+        .flat()
+        .map(String)
+        .filter((message) => /hydration|mismatch/i.test(message));
+      expect(messages).toEqual([]);
+      // After mount the preference applies.
+      await nextTick();
+      expect(
+        document
+          .querySelector<HTMLElement>(".notification-region")!
+          .style.getPropertyValue("--_notice-motion"),
+      ).toBe("0ms");
+      app.unmount();
+    } finally {
+      host.remove();
+      vi.unstubAllGlobals();
+      vi.restoreAllMocks();
+    }
   });
 });

@@ -49,6 +49,9 @@ export const Radio = defineComponent({
           name: props.name,
           value: props.value,
           checked: props.checked,
+          // The attribute is the default a native form reset restores; set it
+          // explicitly rather than rely on the Vue release mirroring it.
+          "^checked": props.checked ? "" : undefined,
           disabled: props.disabled,
           onChange: () => props.onChange?.(props.value),
         }),

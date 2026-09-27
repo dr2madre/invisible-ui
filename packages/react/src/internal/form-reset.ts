@@ -1,5 +1,6 @@
 import { formReset as core } from "@design-system/core";
 import { useEffect, useRef, type RefObject } from "react";
+import { useIsomorphicLayoutEffect } from "./layout-effect";
 
 /** An element that can name the form it belongs to. */
 type Anchored = Element & { form: HTMLFormElement | null };
@@ -15,7 +16,9 @@ type Anchored = Element & { form: HTMLFormElement | null };
  */
 export function useFormReset(anchor: RefObject<Anchored | null>, restore: () => void): void {
   const latest = useRef({ anchor, restore });
-  latest.current = { anchor, restore };
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { anchor, restore };
+  });
 
   useEffect(
     () =>
@@ -44,14 +47,19 @@ export function useFormDefault<T extends Element>(
   apply: (node: T) => void,
   deps?: readonly unknown[],
 ): void {
-  const latest = useRef(apply);
-  latest.current = apply;
+  // The list is compared here rather than handed to React, which cannot check
+  // a dependency list it does not see written out.
+  const applied = useRef<readonly unknown[] | null>(null);
 
-  useEffect(
-    () => {
-      const node = ref.current;
-      if (node) latest.current(node);
-    },
-    deps === undefined ? undefined : [ref, ...deps],
-  );
+  useEffect(() => {
+    const current = deps === undefined ? null : [ref, ...deps];
+    if (current && applied.current && sameDeps(applied.current, current)) return;
+    applied.current = current;
+    const node = ref.current;
+    if (node) apply(node);
+  });
+}
+
+function sameDeps(a: readonly unknown[], b: readonly unknown[]): boolean {
+  return a.length === b.length && a.every((value, i) => Object.is(value, b[i]));
 }

@@ -14,6 +14,7 @@ import {
 } from "react";
 import { fail } from "../internal/dev";
 import { useFormReset } from "../internal/form-reset";
+import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { normalizeProps } from "../normalize";
 
 export type MultiSelectItem = core.MultiSelectItem;
@@ -129,9 +130,11 @@ export function useMultiSelect({
     };
   });
 
-  // Latest callbacks/inputs, read inside setState updaters without widening deps.
-  const latest = useRef({ filter, allItems, onValuesChange, onInputValueChange, onOpenChange });
-  latest.current = { filter, allItems, onValuesChange, onInputValueChange, onOpenChange };
+  // Latest inputs, read by event handlers without widening their deps.
+  const latest = useRef({ filter, allItems });
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { filter, allItems };
+  });
 
   // --- Controlled sync: mirror the `values` prop without an effect (matches
   // the Svelte adapter's reactive statements). Reflection never calls back;
@@ -161,37 +164,52 @@ export function useMultiSelect({
     }));
   }
 
-  const setValues = useCallback((next: string[]) => {
-    setState((s) => {
-      if (valuesEqual(s.values, next)) return s;
-      latest.current.onValuesChange?.(next);
-      return { ...s, values: next };
-    });
-  }, []);
+  // --- A control turned off, or turned review-only, closes its list: the keys
+  // that dismiss it live on an input that no longer takes any. Adjusted while
+  // rendering, like the controlled sync above, rather than in an effect.
+  const inert = disabled || readOnly;
+  const [lastInert, setLastInert] = useState(inert);
+  if (inert !== lastInert) {
+    setLastInert(inert);
+    if (inert) setState((s) => (s.open ? { ...s, open: false, activeValue: null } : s));
+  }
 
-  const setOpen = useCallback((next: boolean) => {
-    setState((s) => {
-      if (s.open === next) return s;
-      latest.current.onOpenChange?.(next);
-      return { ...s, open: next };
-    });
-  }, []);
+  // The setters write first and report afterwards (ADR 0011), from the
+  // handler that called them: never from inside a state updater, which React
+  // may run twice or while rendering. Like the checkbox's, they close over the
+  // state of this render, which is the state the core's handlers act on, and
+  // they report only when their own piece of it actually moves.
+  const setValues = useCallback(
+    (next: string[]) => {
+      if (valuesEqual(state.values, next)) return;
+      setState((s) => ({ ...s, values: next }));
+      onValuesChange?.(next);
+    },
+    [state.values, onValuesChange],
+  );
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (state.open === next) return;
+      setState((s) => ({ ...s, open: next }));
+      onOpenChange?.(next);
+    },
+    [state.open, onOpenChange],
+  );
 
   const setActiveValue = useCallback((next: string | null) => {
     setState((s) => (s.activeValue === next ? s : { ...s, activeValue: next }));
   }, []);
 
-  const setInputValue = useCallback((next: string) => {
-    setState((s) => {
-      if (s.inputValue === next) return s;
-      latest.current.onInputValueChange?.(next);
-      return {
-        ...s,
-        inputValue: next,
-        items: latest.current.filter(latest.current.allItems, next),
-      };
-    });
-  }, []);
+  const setInputValue = useCallback(
+    (next: string) => {
+      if (state.inputValue === next) return;
+      const items = filter(allItems, next);
+      setState((s) => ({ ...s, inputValue: next, items }));
+      onInputValueChange?.(next);
+    },
+    [state.inputValue, filter, allItems, onInputValueChange],
+  );
 
   const api = useMemo(
     () =>
@@ -286,11 +304,16 @@ export function useMultiSelect({
     return () => document.removeEventListener("pointerdown", onPointerDown, true);
   }, [state.open, setOpen, setActiveValue]);
 
-  // --- The popup is at least as wide as the control it hangs from.
+  // --- The popup is at least as wide as the control it hangs from, and stays
+  // so while open: tags wrapping onto a new line or a resized container change
+  // that width. Floating UI's watcher reports both.
   useEffect(() => {
-    if (!state.open || !listboxEl.current) return;
     const reference = controlRef.current ?? inputEl.current;
-    if (reference) listboxEl.current.style.minWidth = `${reference.offsetWidth}px`;
+    const listbox = listboxEl.current;
+    if (!state.open || !reference || !listbox) return;
+    return autoUpdate(reference, listbox, () => {
+      listbox.style.minWidth = `${reference.offsetWidth}px`;
+    });
   }, [state.open]);
 
   // --- Keep the highlighted option in view while arrowing through a long list.

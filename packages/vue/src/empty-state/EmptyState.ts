@@ -81,7 +81,7 @@ export const EmptyState = defineComponent({
               ? h(
                   Link,
                   {
-                    key: action.label,
+                    key: `${index}:${action.label}`,
                     href: action.href,
                     target: action.target,
                     onClick: action.onAction,
@@ -91,7 +91,7 @@ export const EmptyState = defineComponent({
               : h(
                   Button,
                   {
-                    key: action.label,
+                    key: `${index}:${action.label}`,
                     variant: action.variant ?? (index === 0 ? "default" : "ghost"),
                     onPress: action.onAction,
                   },

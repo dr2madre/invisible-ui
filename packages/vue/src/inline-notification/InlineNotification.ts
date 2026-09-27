@@ -178,11 +178,11 @@ export const InlineNotification = defineComponent({
               "div",
               { class: "inline-notification__actions" },
               props.actions?.length
-                ? props.actions.map((action) =>
+                ? props.actions.map((action, index) =>
                     h(
                       Button,
                       {
-                        key: action.label,
+                        key: `${index}:${action.label}`,
                         variant: action.variant ?? "ghost",
                         onPress: () => action.onClick?.(),
                       },

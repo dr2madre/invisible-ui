@@ -292,6 +292,7 @@ export {
   useMeter,
   type MeterApi,
   type MeterContext,
+  type MeterRange,
   type MeterState,
   type UseMeter,
 } from "./meter/use-meter";
