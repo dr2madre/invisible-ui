@@ -1,6 +1,8 @@
 name: Visual regression
 
-# Pixel-diff the styled component demos against committed baselines.
+# Pixel-diff the styled components of every adapter against committed
+# baselines: the Svelte demos on the docs site, and the Elements, Vue and React
+# visual pages the Vue example serves.
 #
 # Runs inside the pinned Playwright container so font/anti-aliasing rendering is
 # deterministic (the reason this is opt-in rather than part of the per-PR gate:
@@ -41,8 +43,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       # Build both sites Playwright's web servers serve: the docs and the Vue
-      # example (its preview refuses to start without a dist).
-      - name: Build docs
+      # example, which also serves the Elements, Vue and React visual pages
+      # (its preview refuses to start without a dist).
+      - name: Build docs and the Vue example
         run: >
           pnpm exec turbo run build
           --filter=@design-system/docs
@@ -62,13 +65,14 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "dr2madre"
           git config user.email "48051639+dr2madre@users.noreply.github.com"
-          if git diff --quiet -- e2e/visual.spec.ts-snapshots/ && \
-             [ -z "$(git status --porcelain e2e/visual.spec.ts-snapshots/)" ]; then
+          # Every visual spec's folder: the Svelte one and one per adapter.
+          snapshots=':(glob)e2e/visual*.spec.ts-snapshots/**'
+          if [ -z "$(git status --porcelain --untracked-files=all -- "$snapshots")" ]; then
             echo "Baselines unchanged; nothing to push."
             exit 0
           fi
           git checkout -B test/visual-baselines
-          git add e2e/visual.spec.ts-snapshots/
+          git add -- "$snapshots"
           git commit -m "test(visual): refresh baselines from the pinned container"
           git push --force origin test/visual-baselines
 

@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elements visual page</title>
+  </head>
+  <body>
+    <!-- One frame per component, the same set and the same data as the Svelte
+         demos the visual suite shoots on the docs site. e2e/visual-elements.spec.ts
+         screenshots each [data-visual] frame. Static on purpose: nothing here
+         changes after the first render. -->
+    <main class="visual-page">
+      <section class="visual-frame" data-visual="button">
+        <div class="visual-row">
+          <ds-button>Default</ds-button>
+          <ds-button variant="primary">Primary</ds-button>
+          <ds-button variant="secondary">Secondary</ds-button>
+          <ds-button variant="danger">Destructive</ds-button>
+          <ds-button variant="ghost">Ghost</ds-button>
+          <ds-button disabled>Disabled</ds-button>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="empty-state">
+        <div class="visual-stack visual-stack--fill visual-stack--loose">
+          <ds-empty-state
+            title="No projects yet"
+            description="Create your first project to get started."
+            action-label="Add a project"
+          ></ds-empty-state>
+          <ds-empty-state
+            title="No results for “tofu”"
+            description="Check the spelling or try a broader search."
+          >
+            <svg
+              slot="illustration"
+              viewBox="0 0 24 24"
+              width="72"
+              height="72"
+              fill="none"
+              stroke="var(--ds-color-text-secondary)"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <path d="M8 13c.9-1.2 2-1.8 3-1.8s2.1.6 3 1.8" transform="rotate(180 11 12)" />
+            </svg>
+            <ds-button slot="actions">Clear search</ds-button>
+            <ds-button slot="actions" variant="ghost">Browse all recipes</ds-button>
+          </ds-empty-state>
+          <div class="visual-panel">
+            <ds-empty-state size="sm" title="No favorites yet">
+              <p class="visual-note">Star any component and it appears here.</p>
+              <ds-button slot="actions">Browse components</ds-button>
+              <ds-link slot="actions" href="https://en.wikipedia.org/wiki/Bookmark_(digital)"
+                >Learn more</ds-link
+              >
+            </ds-empty-state>
+          </div>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="error-state">
+        <div class="visual-stack visual-stack--fill visual-stack--loose">
+          <ds-error-state
+            title="Couldn't connect to the server"
+            description="An unknown error occurred."
+            action-label="Refresh"
+          ></ds-error-state>
+          <ds-error-state
+            status="neutral"
+            title="Page not found"
+            description="The page you're looking for doesn't exist or was moved."
+            action-label="Go to homepage"
+          >
+            <svg
+              slot="icon"
+              viewBox="0 0 24 24"
+              width="3.5rem"
+              height="3.5rem"
+              fill="none"
+              stroke="var(--ds-color-text-secondary)"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <line x1="8" y1="11" x2="14" y2="11" />
+            </svg>
+          </ds-error-state>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="tag">
+        <div class="visual-tags">
+          <div class="visual-row">
+            <ds-tag status="neutral">Draft</ds-tag>
+            <ds-tag status="info">In review</ds-tag>
+            <ds-tag status="success">Published</ds-tag>
+            <ds-tag status="warning">Needs work</ds-tag>
+            <ds-tag status="danger">
+              <ds-icon slot="icon">
+                <svg>
+                  <path
+                    d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0-2-2 2 2 0 0 0-2 2v0a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"
+                  />
+                  <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" />
+                  <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a8 8 0 0 0 16 0v-3" />
+                </svg>
+              </ds-icon>
+              Blocked
+            </ds-tag>
+          </div>
+          <div class="visual-row visual-tags__removable">
+            <ds-tag status="selected" removable remove-label="Remove Design">Design</ds-tag>
+            <ds-tag status="selected" removable remove-label="Remove Frontend">Frontend</ds-tag>
+            <ds-tag status="selected" removable remove-label="Remove Accessibility"
+              >Accessibility</ds-tag
+            >
+            <ds-tag status="selected" removable remove-label="Remove Docs">Docs</ds-tag>
+          </div>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="card">
+        <div class="visual-cards">
+          <ds-card
+            variant="dashboard"
+            title="Monthly revenue"
+            value="€48,200"
+            change="+12.5%"
+            trend="up"
+          ></ds-card>
+          <ds-card
+            title="Spring collection"
+            description="Fresh arrivals for the new season, hand-picked by our team."
+          >
+            <div slot="media" class="visual-card-media" aria-hidden="true"></div>
+            <ds-tag slot="tags" status="success">New</ds-tag>
+            <ds-tag slot="tags" status="info">Limited</ds-tag>
+            <ds-button slot="actions" variant="ghost"
+              ><span class="visual-link-text">Details</span></ds-button
+            >
+            <ds-button slot="actions" variant="primary">Shop now</ds-button>
+          </ds-card>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="inline-notification">
+        <div class="visual-stack visual-stack--fill visual-stack--notes">
+          <ds-inline-notification
+            status="success"
+            title="Saved"
+            description="Your changes have been saved."
+          ></ds-inline-notification>
+          <ds-inline-notification
+            status="danger"
+            title="Payment failed"
+            description="Try a different card."
+            closable
+          ></ds-inline-notification>
+          <ds-inline-notification
+            icon-shape="round"
+            icon-box="tint"
+            status="warning"
+            title="Storage almost full"
+            description="You are using 90% of your space — the round chip variant."
+          ></ds-inline-notification>
+          <ds-inline-notification
+            status="info"
+            title="Update available"
+            description="A new version of the app is ready to install."
+            href="#"
+            link-text="See what's new"
+          ></ds-inline-notification>
+          <ds-inline-notification
+            plain
+            status="info"
+            title="Heads up"
+            description="This sits on the page with no surface — just the colored icon chip."
+          ></ds-inline-notification>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="checkbox">
+        <div class="visual-stack visual-stack--tight">
+          <ds-checkbox label="Accept terms" checked></ds-checkbox>
+          <ds-checkbox label="Subscribe to the newsletter"></ds-checkbox>
+          <ds-checkbox label="Select all" indeterminate></ds-checkbox>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="checkbox-group">
+        <ds-checkbox-group label="Notifications" value="email">
+          <option value="email">Email</option>
+          <option value="sms">SMS</option>
+          <option value="push" disabled>Push</option>
+        </ds-checkbox-group>
+      </section>
+
+      <section class="visual-frame" data-visual="switch">
+        <div class="visual-stack visual-stack--tight">
+          <ds-switch label="Wi-Fi" checked></ds-switch>
+          <ds-switch label="Bluetooth"></ds-switch>
+          <ds-switch label="Airplane mode" disabled></ds-switch>
+          <ds-switch label="Notifications" on-off checked></ds-switch>
+          <ds-switch label="Auto-update" on-off></ds-switch>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="radio-group">
+        <ds-radio-group label="Size" value="medium">
+          <option value="small"></option>
+          <option value="medium"></option>
+          <option value="large"></option>
+        </ds-radio-group>
+      </section>
+
+      <section class="visual-frame" data-visual="segmented-control">
+        <div class="visual-segmented">
+          <section>
+            <p class="visual-caption">Bar (text)</p>
+            <ds-segmented-control label="View" value="list">
+              <option value="list">List</option>
+              <option value="board">Board</option>
+              <option value="calendar">Calendar</option>
+            </ds-segmented-control>
+          </section>
+          <section>
+            <p class="visual-caption">Toolbar — icons only</p>
+            <ds-segmented-control label="Tools" icon-only value="home" data-visual-nav>
+            </ds-segmented-control>
+          </section>
+          <section>
+            <p class="visual-caption">Bottom bar (mobile)</p>
+            <div class="visual-bottombar">
+              <ds-segmented-control label="Sections" stacked value="home" data-visual-nav>
+              </ds-segmented-control>
+            </div>
+          </section>
+          <section>
+            <p class="visual-caption">Vertical — compact (label under icon)</p>
+            <ds-segmented-control
+              label="Sections"
+              orientation="vertical"
+              stacked
+              value="home"
+              data-visual-nav
+            >
+            </ds-segmented-control>
+          </section>
+          <section>
+            <p class="visual-caption">Vertical — icons only</p>
+            <ds-segmented-control
+              label="Sections"
+              orientation="vertical"
+              icon-only
+              value="home"
+              data-visual-nav
+            >
+            </ds-segmented-control>
+          </section>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="slider">
+        <div class="visual-stack visual-stack--narrow">
+          <ds-slider
+            value="40"
+            min="0"
+            max="100"
+            step="5"
+            label="Volume"
+            show-value
+            show-range
+          ></ds-slider>
+          <ds-slider value="60" min="0" max="100" label="Volume" show-value>
+            <ds-icon slot="icon">
+              <svg>
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            </ds-icon>
+          </ds-slider>
+          <ds-slider
+            value="2"
+            min="0"
+            max="5"
+            step="1"
+            label="Rating"
+            ticks
+            show-value
+            show-range
+          ></ds-slider>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="range-slider">
+        <div class="visual-range">
+          <ds-range-slider
+            value="20,80"
+            min="0"
+            max="100"
+            step="5"
+            label="Price range"
+            lower-label="Minimum price"
+            upper-label="Maximum price"
+            show-value
+            show-range
+          ></ds-range-slider>
+          <ds-range-slider
+            value="30,70"
+            min="0"
+            max="100"
+            min-distance="20"
+            label="Temperature range"
+            lower-label="Lowest temperature"
+            upper-label="Highest temperature"
+            show-value
+            data-visual-degrees
+          ></ds-range-slider>
+          <ds-range-slider
+            value="2,4"
+            min="0"
+            max="5"
+            step="1"
+            label="Rating range"
+            lower-label="Lowest rating"
+            upper-label="Highest rating"
+            ticks
+            show-value
+            show-range
+          >
+            <ds-icon slot="icon">
+              <svg>
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </ds-icon>
+          </ds-range-slider>
+          <ds-range-slider
+            value="30,70"
+            step="10"
+            orientation="vertical"
+            label="Volume range"
+            lower-label="Minimum volume"
+            upper-label="Maximum volume"
+            ticks
+            show-value
+          ></ds-range-slider>
+          <div dir="rtl">
+            <ds-range-slider
+              value="20,80"
+              label="Budget range"
+              lower-label="Minimum budget"
+              upper-label="Maximum budget"
+              show-value
+              show-range
+            ></ds-range-slider>
+          </div>
+          <div class="visual-range__switch">
+            <ds-range-slider
+              value="40,60"
+              label="Brightness range"
+              lower-label="Minimum brightness"
+              upper-label="Maximum brightness"
+            ></ds-range-slider>
+            <button type="button">Switch to vertical</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="rating-group">
+        <ds-rating-group value="3" max="5" label="Rating"></ds-rating-group>
+      </section>
+
+      <section class="visual-frame" data-visual="progress">
+        <div class="visual-progress">
+          <section>
+            <p class="visual-progress__caption">Step completion — driven by the user</p>
+            <div class="visual-progress__group">
+              <ds-progress value="0" max="4" label="Onboarding steps"></ds-progress>
+              <div class="visual-row">
+                <ds-button>Complete “Account”</ds-button>
+                <ds-button variant="ghost" disabled>Reset</ds-button>
+              </div>
+              <p class="visual-progress__note visual-progress__note--flush">
+                0 of 4 steps completed
+              </p>
+            </div>
+          </section>
+          <section>
+            <p class="visual-progress__caption">
+              Gamification and analytics — a value against a reference
+            </p>
+            <div class="visual-progress__group visual-progress__group--loose">
+              <div>
+                <ds-progress value="7" max="10" label="Achievements unlocked"></ds-progress>
+                <p class="visual-progress__note">7 of 10 achievements</p>
+              </div>
+              <div>
+                <ds-progress value="82" label="Profile completeness"></ds-progress>
+                <p class="visual-progress__note">82% profile complete</p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <p class="visual-progress__caption">Circle — the same value as a ring</p>
+            <div class="visual-progress__circles">
+              <ds-progress shape="circle" value="68" show-value label="Yearly goal"></ds-progress>
+              <ds-progress shape="circle" value="0" show-value label="Onboarding"></ds-progress>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="meter">
+        <div class="visual-meters">
+          <ds-meter value="72" label="Disk usage" low="25" high="80"></ds-meter>
+          <ds-meter value="92" label="Memory" low="25" high="80"></ds-meter>
+          <ds-meter value="12" label="Battery" low="25" high="80"></ds-meter>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="text-field">
+        <!-- The Svelte demo's second field carries a leading icon; the element
+             has no icon region, so that field is left out here. -->
+        <div class="visual-stack">
+          <ds-text-field
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            description="We'll never share it."
+          ></ds-text-field>
+          <ds-text-field
+            label="Email"
+            type="email"
+            value="not-an-email"
+            error="Enter a valid email address."
+          ></ds-text-field>
+          <ds-text-field
+            label="Username"
+            type="text"
+            value="ada_lovelace"
+            success="This username is available."
+          ></ds-text-field>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="select">
+        <div class="visual-stack visual-stack--fill">
+          <ds-select label="Fruit" value="banana" placeholder="Select a fruit…">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="cherry" disabled>Cherry</option>
+          </ds-select>
+          <ds-select label="Team" width="fill" placeholder="Assign to…">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="cherry" disabled>Cherry</option>
+          </ds-select>
+          <ds-select label="Country" width="fixed" placeholder="Choose a country…">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="cherry" disabled>Cherry</option>
+          </ds-select>
+          <ds-select
+            label="Payment method"
+            required
+            error="Choose a payment method to continue"
+            placeholder="Choose…"
+          >
+            <option value="card">Credit card</option>
+            <option value="paypal">PayPal</option>
+            <option value="transfer">Bank transfer</option>
+          </ds-select>
+        </div>
+      </section>
+
+      <section class="visual-frame" data-visual="pagination">
+        <ds-pagination page="3" page-count="10"></ds-pagination>
+      </section>
+
+      <section class="visual-frame" data-visual="avatar">
+        <ds-avatar name="Ada Lovelace"></ds-avatar>
+        <ds-avatar name="Grace Hopper" data-visual-portrait></ds-avatar>
+        <ds-avatar name="Alan Turing" shape="square"></ds-avatar>
+        <ds-avatar name="Ada Lovelace" size="lg"></ds-avatar>
+      </section>
+
+      <section class="visual-frame" data-visual="label">
+        <div class="visual-stack visual-stack--label">
+          <ds-label for="visual-name" required>Full name</ds-label>
+          <input
+            id="visual-name"
+            class="visual-native-input"
+            type="text"
+            placeholder="Ada Lovelace"
+          />
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/visual/elements-main.ts"></script>
+  </body>
+</html>

@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
+import { compareFrame, DARK_TOO, guardNetwork } from "./visual-shared";
 
 // Visual-regression baselines for the styled components. Each test screenshots
 // the live demo frame (`.ds-preview`) on its docs page and compares it pixel-by
@@ -11,6 +12,9 @@ import { test, expect } from "@playwright/test";
 // surfaces (Calendar's "today"), no looping animation (Skeleton). Baselines are
 // authoritative when generated in the pinned Playwright container (see
 // docs/visual-testing.md); run `pnpm visual:update` to refresh them.
+//
+// The same set runs against the other adapters in visual-elements.spec.ts,
+// visual-vue.spec.ts and visual-react.spec.ts.
 const components = [
   ["forms", "button"],
   ["feedback", "empty-state"],
@@ -35,27 +39,11 @@ const components = [
   ["forms", "label"],
 ] as const;
 
-// A baseline may only depend on what this repository serves. Anything the
-// page fetches from another host is recorded and fails the test, whether the
-// URL was written in the source or assembled at runtime.
-const LOCAL = new Set(["127.0.0.1", "localhost"]);
-
-// A few demos are compared in dark as well: their colours come from role
-// tokens that change with the theme, so a light shot alone would not see a
-// wrong one.
-const darkToo = new Set(["meter"]);
-
 for (const [group, name] of components) {
-  for (const theme of darkToo.has(name) ? (["light", "dark"] as const) : (["light"] as const)) {
+  for (const theme of DARK_TOO.has(name) ? (["light", "dark"] as const) : (["light"] as const)) {
     const label = theme === "dark" ? `${name} dark` : name;
     test(`visual: ${label}`, async ({ page }) => {
-      const remote: string[] = [];
-      await page.route("**/*", (route) => {
-        const host = new URL(route.request().url()).hostname;
-        if (LOCAL.has(host)) return route.continue();
-        remote.push(route.request().url());
-        return route.abort();
-      });
+      const remote = await guardNetwork(page);
       // Before the first paint: a theme set later animates its way in, and
       // the shot would catch the transition.
       await page.addInitScript((value) => {
@@ -64,10 +52,11 @@ for (const [group, name] of components) {
         );
       }, theme);
       await page.goto(`components/${group}/${name}/`, { waitUntil: "networkidle" });
-      const preview = page.locator(".ds-preview").first();
-      await expect(preview).toBeVisible();
-      expect(remote, remote.join("\n")).toEqual([]);
-      await expect(preview).toHaveScreenshot(`${label.replace(/ /g, "-")}.png`);
+      await compareFrame(
+        page.locator(".ds-preview").first(),
+        remote,
+        `${label.replace(/ /g, "-")}.png`,
+      );
     });
   }
 }
