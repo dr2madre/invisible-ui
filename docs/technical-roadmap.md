@@ -54,7 +54,10 @@ Each item ships as its own PR. Checkboxes track progress.
   component has a live demo): smoke (hydration / no page errors) + interaction
   tests (dialog, calendar, switch, combobox), run in CI (`e2e.yml`). **Visual
   regression** added: `e2e/visual.spec.ts` pixel-diffs the styled demos against
-  committed baselines (`pnpm visual` / `visual:update`); the `visual.yml`
+  committed baselines (`pnpm visual` / `visual:update`), and
+  `e2e/visual-elements.spec.ts`, `e2e/visual-vue.spec.ts` and
+  `e2e/visual-react.spec.ts` shoot the same set for the other adapters on
+  pages the Vue example serves; the `visual.yml`
   workflow runs in the pinned Playwright container for deterministic rendering
   (see `docs/visual-testing.md`). The functional suite runs in a per-browser CI
   matrix for Chromium, Firefox and WebKit; visual baselines remain Chromium-only
