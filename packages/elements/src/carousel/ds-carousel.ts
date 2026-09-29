@@ -250,6 +250,10 @@ export class DsCarousel extends HTMLElementBase {
         orientation: this.#orientation(),
         id: this.#id,
       },
+      direction:
+        this.isConnected && getComputedStyle(this.#root ?? this).direction === "rtl"
+          ? "rtl"
+          : "ltr",
       setIndex: (next) => {
         if (next === this.#index) return;
         const focused = document.activeElement;

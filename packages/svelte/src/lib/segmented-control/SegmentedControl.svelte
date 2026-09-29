@@ -279,4 +279,11 @@
       outline-offset: -2px;
     }
   }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .segment {
+      transition: none;
+    }
+  }
 </style>

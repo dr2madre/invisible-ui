@@ -9,10 +9,29 @@ afterEach(() => {
 });
 
 describe("<ds-loading>", () => {
-  it("renders a named polite indicator by default", () => {
+  it("renders a polite indicator announcing its label by default", () => {
     document.body.innerHTML = "<ds-loading></ds-loading>";
-    expect(screen.getByRole("status", { name: "Loading…" })).toBeVisible();
+    expect(screen.getByRole("status")).toHaveTextContent("Loading…");
+    expect(document.querySelector(".loading")).toHaveAttribute("aria-hidden", "true");
     expect(document.querySelectorAll(".loading__dot")).toHaveLength(3);
+  });
+
+  it("keeps one live region and updates its text in place", () => {
+    vi.useFakeTimers();
+    const host = document.createElement("ds-loading");
+    host.setAttribute("delay", "100");
+    document.body.appendChild(host);
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    vi.advanceTimersByTime(100);
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("Loading…");
+    host.setAttribute("status", "Connecting…");
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("Connecting…");
+    host.setAttribute("variant", "spinner");
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).not.toHaveAttribute("aria-label");
   });
 
   it("renders clamped determinate progress and reactive visible detail", () => {
@@ -38,7 +57,8 @@ describe("<ds-loading>", () => {
     expect(status).toHaveAttribute("aria-atomic", "true");
     expect(status).toHaveTextContent("Connecting…");
     document.querySelector("ds-loading")!.setAttribute("decorative", "");
-    expect(screen.queryByRole("status")).toBeNull();
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
     expect(document.querySelector(".loading")).toHaveAttribute("aria-hidden", "true");
   });
 

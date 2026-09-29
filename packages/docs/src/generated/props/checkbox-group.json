@@ -165,6 +165,20 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

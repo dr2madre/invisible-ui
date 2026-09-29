@@ -367,8 +367,11 @@
     border-radius: var(--ds-radius-control, 0.5rem);
     cursor: pointer;
   }
+  /* Focus stays in the input, so a ring marks the active option (WCAG 2.4.7,
+     1.4.11); the tint alone is too faint. */
   .multi-select__option:global([data-active]) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .multi-select__option:global([data-disabled]) {
     opacity: 0.5;

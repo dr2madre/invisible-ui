@@ -183,4 +183,18 @@ describe("<ds-menubar>", () => {
     await user.click(trigger("File"));
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("writes no empty name and warns once without a label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { host } = mount();
+    host.removeAttribute("label");
+    const bar = screen.getByRole("menubar");
+    expect(bar).not.toHaveAttribute("aria-label");
+    host.menus = MENUS;
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/<ds-menubar> needs a label/);
+    host.setAttribute("label", "Main");
+    expect(bar).toHaveAttribute("aria-label", "Main");
+    warn.mockRestore();
+  });
 });

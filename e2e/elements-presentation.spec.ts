@@ -45,7 +45,7 @@ test("Elements Empty State is announced and exposes a keyboard action", async ({
     await customElements.whenDefined("ds-empty-state");
     document.body.innerHTML = `
       <ds-empty-state title="No rules yet" description="Create the first rule."
-        action-label="Add rule" size="sm"></ds-empty-state>`;
+        action-label="Add rule" size="sm" live></ds-empty-state>`;
     document.querySelector("ds-empty-state")?.addEventListener("action", (event) => {
       (event.currentTarget as HTMLElement).dataset.actionRequested = "true";
     });
@@ -68,7 +68,7 @@ test("Elements Error State is announced and exposes a keyboard recovery action",
     await customElements.whenDefined("ds-error-state");
     document.body.innerHTML = `
       <ds-error-state title="Connection failed" description="Check the server and try again."
-        action-label="Try again" size="sm"></ds-error-state>`;
+        action-label="Try again" size="sm" live></ds-error-state>`;
     document.querySelector("ds-error-state")?.addEventListener("action", (event) => {
       (event.currentTarget as HTMLElement).dataset.actionRequested = "true";
     });

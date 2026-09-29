@@ -1,6 +1,7 @@
 import { multiSelect as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon } from "../internal/icons";
 import { localized, onLocaleChange, t } from "../internal/i18n";
@@ -43,7 +44,8 @@ const parseValues = (attr: string | null): string[] =>
  * is submitted in selection order; `required` only sets `aria-required`.
  *
  * Attributes: `label` (required), `values`, `placeholder`, `disabled`,
- * `readonly`, `max`, `remove-on-backspace`, `required`, `empty-text`, `name`.
+ * `readonly`, `max`, `remove-on-backspace`, `required`, `empty-text`, `name`,
+ * `description`, `error`.
  * Emits: `change` (`detail.values: string[]`), `input-change`
  * (`detail.value`).
  */
@@ -59,6 +61,8 @@ export class DsMultiSelect extends HTMLElementBase {
     "label",
     "name",
     "placeholder",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
@@ -67,6 +71,7 @@ export class DsMultiSelect extends HTMLElementBase {
   #tagList: HTMLUListElement | null = null;
   #label: HTMLLabelElement | null = null;
   #hiddenHost: HTMLSpanElement | null = null;
+  #messages: FieldMessages | null = null;
 
   #all: MultiSelectItem[] = [];
   #itemsAssigned = false;
@@ -194,6 +199,7 @@ export class DsMultiSelect extends HTMLElementBase {
     // The markup's values are the first default a reset can restore.
     this.#defaultValues = this.#state.values;
     this.#id = core.initialState({ items: this.#all }).id;
+    this.#messages = new FieldMessages(this.#id);
 
     const root = document.createElement("div");
     root.className = "multi-select";
@@ -311,6 +317,7 @@ export class DsMultiSelect extends HTMLElementBase {
     const tagList = this.#tagList!;
 
     applyProps(input, api.inputProps);
+    this.#messages!.sync(this, this.#control!.parentElement!, [input]);
     if (input.value !== this.#state.inputValue) input.value = this.#state.inputValue;
     applyProps(listbox, api.listboxProps);
     applyProps(this.#label!, api.labelProps);

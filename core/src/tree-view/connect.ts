@@ -45,6 +45,12 @@ export interface ConnectOptions {
   focus?: (value: string) => void;
   /** Report a request for an unloaded parent's children. */
   requestLoad?: (request: TreeLoadRequest) => void;
+  /**
+   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * right arrows swap meaning, so the arrow that points inward
+   * still expands and the one that points outward still collapses.
+   */
+  direction?: "ltr" | "rtl";
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -63,6 +69,7 @@ export function connect({
   setFocused,
   focus,
   requestLoad,
+  direction = "ltr",
   normalize = identityNormalize,
 }: ConnectOptions): TreeApi {
   const { expanded, selected, disabled, id } = state;
@@ -116,6 +123,11 @@ export function connect({
     : canReceiveFocus(selected)
       ? selected
       : firstVisible(state);
+
+  // Right expands and Left collapses in left-to-right text; right-to-left
+  // text mirrors them.
+  const [inKey, outKey] =
+    direction === "rtl" ? ["ArrowLeft", "ArrowRight"] : ["ArrowRight", "ArrowLeft"];
 
   const onArrowRight = (value: string) => {
     const node = visibleNode(state, value);
@@ -196,11 +208,11 @@ export function connect({
               event.preventDefault();
               move(prevVisible(state, value));
               break;
-            case "ArrowRight":
+            case inKey:
               event.preventDefault();
               onArrowRight(value);
               break;
-            case "ArrowLeft":
+            case outKey:
               event.preventDefault();
               onArrowLeft(value);
               break;

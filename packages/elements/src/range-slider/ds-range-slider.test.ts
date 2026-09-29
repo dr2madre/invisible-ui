@@ -272,4 +272,22 @@ describe("<ds-range-slider>", () => {
     mount(`value="20,80" show-value ticks step="10"`);
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("writes no empty names and warns once without its labels", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    document.body.innerHTML = `<ds-range-slider value="20,80"></ds-range-slider>`;
+    const host = document.querySelector("ds-range-slider") as DsRangeSlider;
+    expect(screen.getByRole("group")).not.toHaveAttribute("aria-label");
+    for (const thumb of screen.getAllByRole("slider")) {
+      expect(thumb).not.toHaveAttribute("aria-label");
+    }
+    host.setAttribute("value", "30,70");
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/<ds-range-slider> needs label/);
+    host.setAttribute("label", "Price");
+    host.setAttribute("lower-label", "Minimum price");
+    expect(screen.getByRole("group", { name: "Price" })).toBeInTheDocument();
+    expect(lower()).toBeInTheDocument();
+    warn.mockRestore();
+  });
 });

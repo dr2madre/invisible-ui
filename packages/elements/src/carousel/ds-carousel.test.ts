@@ -80,6 +80,18 @@ describe("<ds-carousel>", () => {
     expect(track.style.transform).toBe("translateX(calc(1 * 2 * 100%))");
   });
 
+  it("follows the visual order with the arrow keys in right-to-left text", async () => {
+    const user = userEvent.setup();
+    const host = mount();
+    document.querySelector("main")!.setAttribute("dir", "rtl");
+    await user.click(next());
+    expect(host.index).toBe(1);
+    await user.keyboard("{ArrowLeft}");
+    expect(host.index).toBe(2);
+    await user.keyboard("{ArrowRight}");
+    expect(host.index).toBe(1);
+  });
+
   it("advances with the next button, marks the active slide and reports it", async () => {
     const user = userEvent.setup();
     const host = mount();

@@ -24,6 +24,8 @@ const checkIcon = `
       stroke-linecap="round" stroke-linejoin="round"></path>
   </svg>`;
 
+let warnedUnlabelled = false;
+
 /**
  * `<ds-tree-view>` implements the single-select WAI-ARIA tree pattern.
  *
@@ -36,7 +38,10 @@ const checkIcon = `
  * `detail.value` and `detail.requestId`; the element never fetches. Reflect
  * the request through `loading`, then replace `nodes` and clear `loading` on
  * success, or move the value to `loadErrors` on failure. The twistie or Right
- * Arrow on a failed node retries with a new request id.
+ * Arrow on a failed node retries with a new request id. Loading and error
+ * messages are announced through one visually hidden live region, created
+ * once and updated in place. Right and Left Arrow follow the reading
+ * direction.
  *
  * Emits: `expanded-change` with `detail.expanded`, `selected-change` with
  * `detail.selected`, and `load-children` with `detail.value` and
@@ -53,6 +58,9 @@ export class DsTreeView extends HTMLElementBase {
   #focused: string | null = null;
   #labels: Record<string, string> = {};
   #id = nextId("ds-tree");
+  #live: HTMLElement | null = null;
+  // The load message shown for each node, to announce only new ones.
+  #messages = new Map<string, string>();
 
   constructor() {
     super();
@@ -158,6 +166,7 @@ export class DsTreeView extends HTMLElementBase {
         }
       },
       focus: (value) => this.#item(value)?.focus(),
+      direction: getComputedStyle(this).direction === "rtl" ? "rtl" : "ltr",
       requestLoad: (request) => {
         if (this.#loading.includes(request.value)) return;
         this.#loading = [...this.#loading, request.value];
@@ -172,13 +181,20 @@ export class DsTreeView extends HTMLElementBase {
     const active = this.contains(document.activeElement)
       ? (document.activeElement as Element).closest<HTMLElement>("[data-value]")?.dataset.value
       : undefined;
-    this.textContent = "";
+    const live = this.#liveRegion();
+    for (const child of Array.from(this.childNodes)) if (child !== live) child.remove();
     const state = this.#state();
     const api = this.#api();
     const root = document.createElement("ul");
     root.className = "tree";
-    root.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const treeLabel = this.getAttribute("label");
+    if (treeLabel) root.setAttribute("aria-label", treeLabel);
+    else if (!warnedUnlabelled) {
+      warnedUnlabelled = true;
+      console.warn("[ds] <ds-tree-view> needs a label attribute to name the tree.");
+    }
     applyProps(root, api.rootProps);
+    const messages = new Map<string, string>();
 
     for (const node of core.visibleNodes(state)) {
       const item = document.createElement("li");
@@ -219,9 +235,6 @@ export class DsTreeView extends HTMLElementBase {
         status.id = node.loadStatusId;
         status.className = "tree__load-status";
         if (node.loadState === "error") status.classList.add("tree__load-status--error");
-        status.setAttribute("role", "status");
-        status.setAttribute("aria-live", "polite");
-        status.setAttribute("aria-atomic", "true");
         const name = this.#labels[node.value] ?? node.value;
         const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
         const template = this.getAttribute(attribute);
@@ -229,6 +242,7 @@ export class DsTreeView extends HTMLElementBase {
           template == null
             ? t(this, node.loadState === "error" ? "tree.loadError" : "tree.loading", { name })
             : template.replaceAll("{name}", name);
+        messages.set(node.value, status.textContent);
         item.appendChild(status);
       }
 
@@ -241,8 +255,30 @@ export class DsTreeView extends HTMLElementBase {
       root.appendChild(item);
     }
 
-    this.appendChild(root);
+    this.insertBefore(root, live);
+    this.#announce(messages);
     if (active) this.#item(active)?.focus({ preventScroll: true });
+  }
+
+  #liveRegion() {
+    if (!this.#live) {
+      const live = document.createElement("span");
+      live.className = "tree__live";
+      live.setAttribute("role", "status");
+      live.setAttribute("aria-atomic", "true");
+      this.#live = live;
+    }
+    if (this.#live.parentNode !== this) this.appendChild(this.#live);
+    return this.#live;
+  }
+
+  /** Announce the load messages that are new since the last render. */
+  #announce(messages: Map<string, string>) {
+    const live = this.#live!;
+    const fresh = [...messages].filter(([value, text]) => this.#messages.get(value) !== text);
+    this.#messages = messages;
+    if (fresh.length) live.textContent = fresh.map(([, text]) => text).join(" ");
+    else if (!messages.size && live.textContent) live.textContent = "";
   }
 
   #item(value: string) {

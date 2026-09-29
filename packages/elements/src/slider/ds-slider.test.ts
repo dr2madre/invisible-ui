@@ -137,4 +137,16 @@ describe("<ds-slider> in a native form", () => {
     document.body.innerHTML = `<form><ds-slider label="Volume" name="volume" disabled></ds-slider></form>`;
     expect([...new FormData(document.querySelector("form")!).keys()]).toEqual([]);
   });
+
+  it("writes no empty name and warns once without a label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const host = mount(`<ds-slider value="40"></ds-slider>`);
+    expect(control()).not.toHaveAttribute("aria-label");
+    move("50");
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/<ds-slider> needs a label/);
+    host.setAttribute("label", "Volume");
+    expect(control()).toHaveAccessibleName("Volume");
+    warn.mockRestore();
+  });
 });

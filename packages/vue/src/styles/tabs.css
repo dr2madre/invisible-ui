@@ -54,6 +54,20 @@
   color: var(--ds-color-text-secondary, #524c44);
   background: var(--ds-color-neutral-surface, #f4f2ef);
 }
+/* The count read out as part of the tab's name; the badge itself is hidden
+   from assistive technology. */
+.tabs__sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .tabs__tab[data-state="active"] .tabs__tab-count {
   color: var(--ds-color-on-selected, var(--ds-color-on-secondary, #fff));
   background: var(--ds-color-selected, #7a52cc);
@@ -90,5 +104,12 @@
 @media (forced-colors: active) {
   .tabs__tab:focus-visible {
     outline-offset: -2px;
+  }
+}
+
+/* Reduced motion: state changes apply at once. */
+@media (prefers-reduced-motion: reduce) {
+  .tabs__tab {
+    transition: none;
   }
 }

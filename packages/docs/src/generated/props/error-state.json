@@ -210,6 +210,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "live",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

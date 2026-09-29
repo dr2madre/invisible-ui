@@ -612,15 +612,21 @@ export class DsCalendar extends HTMLElementBase {
           const price = this.#prices[day.date];
           const { cell, button } = this.#dayCell(api, day.date, "calendar__day");
           button.classList.toggle("calendar__day--outside", !inMonth);
+          let label = this.#dayLabel(locale, day.date, dayEvents.length, price);
           if (inRangeMode) {
-            button.toggleAttribute("data-range-start", day.date === range.start);
-            button.toggleAttribute("data-range-end", day.date === range.end);
-            button.toggleAttribute("data-in-range", core.isWithinRange(range, day.date));
+            const isStart = day.date === range.start;
+            const isEnd = day.date === range.end;
+            const within = core.isWithinRange(range, day.date);
+            button.toggleAttribute("data-range-start", isStart);
+            button.toggleAttribute("data-range-end", isEnd);
+            button.toggleAttribute("data-in-range", within);
+            // Every day of the range is selected, not only the single value
+            // the core knows about.
+            if (isStart || isEnd || within) cell.setAttribute("aria-selected", "true");
+            if (isStart) label += `, ${t(this, "calendar.rangeStart")}`;
+            if (isEnd) label += `, ${t(this, "calendar.rangeEnd")}`;
           }
-          button.setAttribute(
-            "aria-label",
-            this.#dayLabel(locale, day.date, dayEvents.length, price),
-          );
+          button.setAttribute("aria-label", label);
 
           const num = document.createElement("span");
           num.className = "calendar__daynum";

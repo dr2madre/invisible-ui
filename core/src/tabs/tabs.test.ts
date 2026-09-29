@@ -94,6 +94,21 @@ describe("tabs connect", () => {
     expect(setValue).toHaveBeenCalledWith("three");
   });
 
+  it("mirrors the horizontal arrows in right-to-left text", () => {
+    const focus = vi.fn();
+    const four = [...items, { value: "four" }];
+    const api = connect({
+      state: initialState({ id: "t", items: four, value: "three" }),
+      setValue: noop,
+      focus,
+      direction: "rtl",
+    });
+    (api.getTabProps("three").onKeyDown as (e: Event) => void)(keyEvent("ArrowLeft"));
+    expect(focus).toHaveBeenLastCalledWith("four");
+    (api.getTabProps("three").onKeyDown as (e: Event) => void)(keyEvent("ArrowRight"));
+    expect(focus).toHaveBeenLastCalledWith("one");
+  });
+
   it("uses vertical arrow keys when vertical", () => {
     const focus = vi.fn();
     const api = connect({ state: make({ orientation: "vertical" }), setValue: noop, focus });

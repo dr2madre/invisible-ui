@@ -29,6 +29,9 @@ export const en = {
     one: "{count} event",
     other: "{count} events",
   },
+  // Appended to the name of the first and last day of a selected range.
+  "calendar.rangeStart": "range start",
+  "calendar.rangeEnd": "range end",
   // Date Picker
   "datePicker.label": "Date",
   "datePicker.placeholder": "Select a date",
@@ -147,6 +150,11 @@ export const en = {
   "table.selectPage": "Select all visible rows",
   "table.selection": "Selection",
   "table.noResults": "No rows match the current filters",
+  // Announced through a live region when filtering changes the row count.
+  "table.results": {
+    one: "{count} result",
+    other: "{count} results",
+  },
   "table.clearFilters": "Clear filters",
   // The switch between the table and the card presentation.
   "table.view": "View",

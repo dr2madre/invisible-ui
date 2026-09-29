@@ -54,7 +54,8 @@ const CHEVRON_LEFT = "M15 18l-6-6 6-6";
  * Attributes: `label` (the landmark name; "Main" by default), `value` (the
  * current destination), `collapsed` (the rail), `rail-toggle` (renders the
  * button that collapses and expands the rail), `side` (inline-start|inline-end),
- * `collapse-label`, `expand-label`.
+ * `collapse-label` (the rail toggle's name, the same in both states: the
+ * button reports the rail through `aria-pressed`).
  * Properties: `sections`, `value`, `openGroups` (ids of the open sections).
  * Regions: `slot="logo"`, `slot="footer"`.
  * Emits: bubbling `select` (`detail.value`, items without `href`), `navigate`
@@ -69,7 +70,6 @@ export class DsSidebar extends HTMLElementBase {
     "rail-toggle",
     "side",
     "collapse-label",
-    "expand-label",
   ];
 
   #sections: SidebarSection[] = [];
@@ -321,10 +321,9 @@ export class DsSidebar extends HTMLElementBase {
       toggle.dataset.focusKey = "rail-toggle";
       toggle.setAttribute("aria-pressed", String(rail));
       toggle.appendChild(this.#icon(rail ? CHEVRON_RIGHT : CHEVRON_LEFT));
-      const text = rail
-        ? localized(this, "expand-label", "sidebar.expand")
-        : localized(this, "collapse-label", "sidebar.collapse");
-      toggle.appendChild(this.#label(text, true));
+      // A toggle button keeps one name and reports its state through
+      // aria-pressed; a name that swaps as well would contradict it.
+      toggle.appendChild(this.#label(localized(this, "collapse-label", "sidebar.collapse"), true));
       toggle.addEventListener("click", () => this.#setCollapsed(!rail));
       nodes.push(toggle);
     }

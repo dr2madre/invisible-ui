@@ -7,6 +7,7 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 
@@ -36,12 +37,21 @@ export type RadioGroupItem = core.RadioItem & { label: string };
  * property, the same escape hatch `<ds-select>` offers.
  *
  * Attributes: `label` (required), `value`, `name` (generated when absent, so
- * the radios still form one group), `orientation`, `disabled`.
+ * the radios still form one group), `orientation`, `disabled`, `description`,
+ * `error`.
  * Properties: `value`, `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsRadioGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "orientation", "label", "name"];
+  static observedAttributes = [
+    "value",
+    "disabled",
+    "orientation",
+    "label",
+    "name",
+    "description",
+    "error",
+  ];
 
   #group: HTMLElement | null = null;
   #legend: HTMLElement | null = null;
@@ -49,6 +59,7 @@ export class DsRadioGroup extends HTMLElementBase {
   #itemsAssigned = false;
   #inputs = new Map<string, HTMLInputElement>();
   #labelId = nextId("ds-radio-group-label");
+  #messages = new FieldMessages(nextId("ds-radio-group"));
   // Without a shared name the browser treats every radio as its own group:
   // arrow keys stop moving between them and more than one can be checked.
   #fallbackName = nextId("ds-radio-group");
@@ -208,5 +219,6 @@ export class DsRadioGroup extends HTMLElementBase {
       input.defaultChecked = this.#defaultValue === item.value;
       input.closest("label")?.classList.toggle("radio--disabled", disabled || !!item.disabled);
     }
+    this.#messages.sync(this, group.parentElement!, [group]);
   }
 }

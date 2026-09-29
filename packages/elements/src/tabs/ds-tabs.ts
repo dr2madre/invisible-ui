@@ -42,6 +42,7 @@ export class DsTabs extends HTMLElementBase {
   #tabs = new Map<string, HTMLButtonElement>();
   #panels = new Map<string, HTMLDivElement>();
   #id = core.initialState({ items: [] }).id;
+  #warnedLabel = false;
 
   connectedCallback() {
     upgradeProperty(this, "items");
@@ -97,7 +98,7 @@ export class DsTabs extends HTMLElementBase {
     const api = this.#api();
     for (const list of lists) {
       applyProps(list, api.rootProps);
-      list.setAttribute("aria-label", list.getAttribute("label") ?? "");
+      this.#name(list, list.getAttribute("label"), "<ds-tab-list>");
     }
     for (const tab of tabs) applyProps(tab, api.getTabProps(tab.getAttribute("value") ?? ""));
     for (const panel of panels) {
@@ -164,7 +165,12 @@ export class DsTabs extends HTMLElementBase {
       const tab = document.createElement("button");
       tab.type = "button";
       tab.className = item.iconOnly ? "tabs__tab tabs__tab--icon-only" : "tabs__tab";
-      if (item.iconOnly) tab.setAttribute("aria-label", item.label ?? item.value);
+      const name = item.label ?? item.value;
+      // The count is part of the name; the badge itself stays hidden so it is
+      // not read as a separate word.
+      if (item.iconOnly) {
+        tab.setAttribute("aria-label", item.count != null ? `${name} (${item.count})` : name);
+      }
       if (item.icon) {
         const icon = document.createElement("span");
         icon.className = "tabs__tab-icon";
@@ -175,7 +181,7 @@ export class DsTabs extends HTMLElementBase {
       if (!item.iconOnly) {
         const label = document.createElement("span");
         label.className = "tabs__tab-label";
-        label.textContent = item.label ?? item.value;
+        label.textContent = name;
         tab.appendChild(label);
       }
       if (item.count != null) {
@@ -184,6 +190,12 @@ export class DsTabs extends HTMLElementBase {
         count.setAttribute("aria-hidden", "true");
         count.textContent = String(item.count);
         tab.appendChild(count);
+        if (!item.iconOnly) {
+          const spoken = document.createElement("span");
+          spoken.className = "tabs__sr";
+          spoken.textContent = ` (${item.count})`;
+          tab.appendChild(spoken);
+        }
       }
       list.appendChild(tab);
       this.#tabs.set(item.value, tab);
@@ -227,13 +239,28 @@ export class DsTabs extends HTMLElementBase {
         emit(this, "change", { value: next });
       },
       focus: (value) => this.#tabs.get(value)?.focus(),
+      // Right-to-left text swaps the arrows, so they follow the visual order.
+      direction: getComputedStyle(this.#list ?? this).direction === "rtl" ? "rtl" : "ltr",
     });
+  }
+
+  /** Name a tablist, or leave it unnamed and warn once rather than write an empty name. */
+  #name(list: HTMLElement, label: string | null, tag: string) {
+    if (label) {
+      list.setAttribute("aria-label", label);
+      return;
+    }
+    list.removeAttribute("aria-label");
+    if (!this.#warnedLabel) {
+      this.#warnedLabel = true;
+      console.warn(`[ds] ${tag} needs a label attribute to name its tablist.`);
+    }
   }
 
   #apply() {
     const api = this.#api();
     applyProps(this.#list!, api.rootProps);
-    this.#list!.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    this.#name(this.#list!, this.getAttribute("label"), "<ds-tabs>");
     for (const item of this.#items) {
       applyProps(this.#tabs.get(item.value)!, api.getTabProps(item.value));
       applyProps(this.#panels.get(item.value)!, api.getPanelProps(item.value));

@@ -90,6 +90,18 @@ describe("composed <ds-tabs>", () => {
     expect(screen.getByText("Inner panel")).toHaveAttribute("aria-labelledby", inner.id);
   });
 
+  it("writes no empty tablist name and warns once when the list has no label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mount(MARKUP.replace(' label="Editor"', ""));
+    const list = screen.getByRole("tablist");
+    expect(list).not.toHaveAttribute("aria-label");
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/<ds-tab-list> needs a label/);
+    list.setAttribute("label", "Editor");
+    expect(list).toHaveAttribute("aria-label", "Editor");
+    warn.mockRestore();
+  });
+
   it("has no accessibility violations", async () => {
     mount();
     expect(await axe(document.body)).toHaveNoViolations();

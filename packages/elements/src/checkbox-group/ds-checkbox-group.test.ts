@@ -136,4 +136,20 @@ describe("items assigned before connection", () => {
     expect(host.items).toEqual([]);
     expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
   });
+
+  it("describes the group by its description and error, and cleans up", () => {
+    const host = mount(group);
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = screen.getByRole("group", { name: "Toppings" });
+    // A group role takes no aria-invalid.
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
+  });
 });

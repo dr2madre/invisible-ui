@@ -99,11 +99,18 @@ describe("<ds-sidebar>", () => {
     sidebar.addEventListener("collapsed-change", (e) =>
       seen.push((e as CustomEvent).detail.collapsed),
     );
-    await user.click(screen.getByRole("button", { name: "Collapse the navigation" }));
+    const toggle = () => screen.getByRole("button", { name: "Collapse the navigation" });
+    expect(toggle()).toHaveAttribute("aria-pressed", "false");
+    await user.click(toggle());
     expect(seen).toEqual([true]);
     expect(screen.getByRole("navigation")).toHaveAttribute("data-collapsed");
     expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Expand the navigation" })).toHaveFocus();
+    // One name in both states: the pressed state alone says the rail is on.
+    expect(toggle()).toHaveFocus();
+    expect(toggle()).toHaveAttribute("aria-pressed", "true");
+    await user.click(toggle());
+    expect(seen).toEqual([true, false]);
+    expect(toggle()).toHaveAttribute("aria-pressed", "false");
   });
 
   it("offers no rail when a destination has no icon", () => {

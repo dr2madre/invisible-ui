@@ -11,30 +11,41 @@ const mount = (markup: string) => {
 describe("<ds-count>", () => {
   it("renders, clamps and reacts to count changes", () => {
     const host = mount(`<ds-count count="5" max="9"></ds-count>`);
-    expect(screen.getByRole("status", { name: "5" })).toHaveTextContent("5");
+    const status = screen.getByRole("status");
+    expect(status).toHaveTextContent("5");
+    expect(status).not.toHaveAttribute("aria-label");
+    expect(document.querySelector(".count")).toHaveTextContent("5");
 
     host.count = 12;
-    expect(screen.getByRole("status", { name: "9+" })).toHaveTextContent("9+");
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("9+");
 
     host.count = 0;
-    expect(screen.queryByRole("status")).toBeNull();
+    expect(document.querySelector(".count")).toBeNull();
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
     host.showZero = true;
-    expect(screen.getByRole("status", { name: "0" })).toBeInTheDocument();
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("0");
   });
 
   it("uses the fuller label without announcing the visible digits twice", () => {
     mount(`<ds-count count="3" label="3 unread messages"></ds-count>`);
-    const status = screen.getByRole("status", { name: "3 unread messages" });
-    expect(status.querySelector("[aria-hidden='true']")).toHaveTextContent("3");
+    expect(screen.getByRole("status")).toHaveTextContent("3 unread messages");
+    expect(document.querySelector(".count")).toHaveAttribute("aria-hidden", "true");
+    expect(document.querySelector(".count")).toHaveTextContent("3");
   });
 
   it("supports labelled and decorative dots", () => {
     const host = mount(`<ds-count dot label="New activity"></ds-count>`);
-    expect(screen.getByRole("status", { name: "New activity" })).toHaveClass("count--dot");
+    const status = screen.getByRole("status");
+    expect(status).toHaveTextContent("New activity");
+    expect(document.querySelector(".count")).toHaveClass("count--dot");
 
     host.removeAttribute("label");
     expect(document.querySelector(".count")).toHaveAttribute("aria-hidden", "true");
-    expect(screen.queryByRole("status")).toBeNull();
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
   });
 
   it("reflects the status and has no accessibility violations", async () => {

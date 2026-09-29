@@ -149,6 +149,19 @@ describe("<ds-number-field>", () => {
     expect(screen.getByText("Inserisci un numero non superiore a 10.000.")).toBeVisible();
   });
 
+  it("describes the input by the built-in validation message while it shows", async () => {
+    mount('max="10" description="Up to ten"');
+    await fireEvent.input(input(), { target: { value: "99" } });
+    const ids = (input().getAttribute("aria-describedby") ?? "").split(" ");
+    expect(input()).toHaveAttribute("aria-invalid", "true");
+    expect(ids).toHaveLength(2);
+    expect(document.getElementById(ids[0]!)!.textContent).toBe("Up to ten");
+    expect(document.getElementById(ids[1]!)!.textContent).toMatch(/10/);
+    await fireEvent.input(input(), { target: { value: "5" } });
+    expect(input()).not.toHaveAttribute("aria-invalid");
+    expect(input().getAttribute("aria-describedby")).toBe(ids[0]);
+  });
+
   it("names the spin buttons from the catalog, and a label attribute wins", () => {
     const host = inItalian();
     expect(screen.getByRole("button", { name: "Aumenta Amount" })).toBeInTheDocument();

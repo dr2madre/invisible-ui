@@ -110,4 +110,20 @@ describe("<ds-switch>", () => {
     mount(`<ds-switch label="Notifications"></ds-switch>`);
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("describes the switch by its description and error, and cleans up", () => {
+    const host = mount(`<ds-switch label="Notifications"></ds-switch>`);
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const el = control();
+    expect(el).toHaveAttribute("aria-invalid", "true");
+    expect(el).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(el).not.toHaveAttribute("aria-invalid");
+    expect(el).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(el).not.toHaveAttribute("aria-describedby");
+  });
 });

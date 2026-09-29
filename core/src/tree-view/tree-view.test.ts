@@ -174,6 +174,27 @@ describe("tree connect", () => {
     expect(setExpanded).toHaveBeenCalledWith(["src"]);
   });
 
+  it("mirrors expand and collapse in right-to-left text", () => {
+    const setExpanded = vi.fn();
+    const rtl = (overrides = {}) =>
+      connect({
+        state: make(overrides),
+        setExpanded,
+        setSelected: vi.fn(),
+        setFocused: vi.fn(),
+        direction: "rtl",
+      });
+    (rtl().getItemProps("src").onKeyDown as (e: Event) => void)(keyEvent("ArrowLeft"));
+    expect(setExpanded).toHaveBeenLastCalledWith(["src"]);
+    setExpanded.mockClear();
+    (rtl().getItemProps("src").onKeyDown as (e: Event) => void)(keyEvent("ArrowRight"));
+    expect(setExpanded).not.toHaveBeenCalled();
+    (rtl({ expanded: ["src"] }).getItemProps("src").onKeyDown as (e: Event) => void)(
+      keyEvent("ArrowRight"),
+    );
+    expect(setExpanded).toHaveBeenLastCalledWith([]);
+  });
+
   it("requests unloaded children once and identifies each retry", () => {
     const state = initialState({
       id: "async",

@@ -1,6 +1,7 @@
 import { combobox as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon, chevronIcon, closeIcon, pathIcon, searchIcon } from "../internal/icons";
 import { localized, onLocaleChange, t } from "../internal/i18n";
@@ -36,7 +37,7 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  *
  * Attributes: `label` (required), `hide-label`, `value`, `searchable`, `width`
  * (wrap|fill|fixed), `placeholder`, `disabled`, `clear-label`, `empty-text`,
- * `name` (submits via a hidden input).
+ * `name` (submits via a hidden input), `description`, `error`.
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
  */
 export class DsCombobox extends HTMLElementBase {
@@ -51,6 +52,8 @@ export class DsCombobox extends HTMLElementBase {
     "clear-label",
     "searchable",
     "width",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
@@ -65,6 +68,7 @@ export class DsCombobox extends HTMLElementBase {
   #root: HTMLDivElement | null = null;
   #label: HTMLLabelElement | null = null;
   #lead: HTMLSpanElement | null = null;
+  #messages: FieldMessages | null = null;
 
   #all: ComboboxItem[] = [];
   #itemsAssigned = false;
@@ -177,6 +181,7 @@ export class DsCombobox extends HTMLElementBase {
     // The markup's value is the first default a reset can restore.
     this.#defaultValue = this.getAttribute("value");
     this.#id = core.initialState({ items: this.#all }).id;
+    this.#messages = new FieldMessages(this.#id);
 
     const root = document.createElement("div");
     root.className = "combobox";
@@ -364,6 +369,7 @@ export class DsCombobox extends HTMLElementBase {
     const listbox = this.#listbox!;
 
     applyProps(input, api.inputProps);
+    this.#messages!.sync(this, this.#root!, [input]);
     if (input.value !== this.#state.inputValue) input.value = this.#state.inputValue;
     applyProps(listbox, api.listboxProps);
     applyProps(this.querySelector(".combobox__label")!, api.labelProps);

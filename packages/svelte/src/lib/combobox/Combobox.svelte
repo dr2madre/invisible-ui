@@ -487,6 +487,11 @@
   .combobox__option:global([data-active]:not([data-state="selected"])) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* Focus stays in the input, so the ring marks the option the arrows are on,
+     the selected one included (WCAG 2.4.7, 1.4.11). */
+  .combobox__option:global([data-active]) {
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+  }
   /* The selected option keeps a faint selection tint. */
   .combobox__option:global([data-state="selected"]) {
     background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
@@ -531,6 +536,14 @@
     .combobox__option:global([data-active]) {
       outline: var(--ds-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
+    }
+  }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .combobox__control,
+    .combobox__chevron {
+      transition: none;
     }
   }
 </style>

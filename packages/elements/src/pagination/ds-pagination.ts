@@ -132,13 +132,24 @@ export class DsPagination extends HTMLElementBase {
       state: this.#state(),
       setPage: (next) => {
         if (next === this.#page) return;
+        const focused = document.activeElement;
         this.#page = next;
         this.setAttribute("page", String(next));
+        this.#keepFocus(focused);
         emit(this, "change", { page: next });
       },
       focus: (value) =>
         this.#root?.querySelector<HTMLElement>(`[data-value="${CSS.escape(value)}"]`)?.focus(),
+      direction: getComputedStyle(this.#root ?? this).direction === "rtl" ? "rtl" : "ltr",
     });
+  }
+
+  // Previous or Next turns disabled at an end and would drop focus to the
+  // page; the current page button takes it instead.
+  #keepFocus(focused: Element | null) {
+    if (focused !== this.#previous && focused !== this.#next) return;
+    if (!(focused as HTMLButtonElement).disabled) return;
+    this.#pages.get(this.#page)?.focus();
   }
 
   #sync() {

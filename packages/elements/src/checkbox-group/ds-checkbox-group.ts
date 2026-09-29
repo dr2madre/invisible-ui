@@ -1,5 +1,13 @@
 import { checkboxGroup as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon } from "../internal/icons";
 
@@ -31,18 +39,20 @@ const sameValues = (a: string[], b: string[] | null) =>
  * consumed: they are not a live source. Replace the set through the `items`
  * property, the same escape hatch `<ds-select>` offers.
  *
- * Attributes: `label` (required), `value`, `name`, `disabled`.
+ * Attributes: `label` (required), `value`, `name`, `disabled`, `description`,
+ * `error`.
  * Properties: `value` (string[]), `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value` (string[]).
  */
 export class DsCheckboxGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "label", "name"];
+  static observedAttributes = ["value", "disabled", "label", "name", "description", "error"];
 
   #fieldset: HTMLFieldSetElement | null = null;
   #legend: HTMLLegendElement | null = null;
   #items: core.CheckboxGroupItem[] = [];
   #itemsAssigned = false;
   #inputs = new Map<string, HTMLInputElement>();
+  #messages = new FieldMessages(nextId("ds-checkbox-group"));
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string[] = [];
   #stopFormReset: (() => void) | null = null;
@@ -196,5 +206,7 @@ export class DsCheckboxGroup extends HTMLElementBase {
         .closest("label")
         ?.classList.toggle("checkbox-group__item--disabled", disabled || !!item.disabled);
     }
+    // A group role takes no aria-invalid: the error reaches it as a description.
+    this.#messages.sync(this, fieldset, [fieldset], { ariaInvalid: false });
   }
 }

@@ -159,4 +159,23 @@ describe("<ds-accordion>", () => {
     document.body.innerHTML = markup(`value="shipping"`);
     expect(await axe(document.body, noAxeColorContrast)).toHaveNoViolations();
   });
+
+  it("sets the header level from heading-level, falling back to 3", () => {
+    document.body.innerHTML = markup('heading-level="2"');
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(3);
+    const returns = document.querySelector('ds-accordion-item[value="returns"]')!;
+    returns.setAttribute("heading-level", "4");
+    expect(screen.getByRole("heading", { level: 4, name: "Returns" })).toBeInTheDocument();
+    returns.setAttribute("heading-level", "9");
+    host().setAttribute("heading-level", "banana");
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(3);
+    // The button survives the swap and stays wired to its panel.
+    expect(trigger("Returns")).toHaveAttribute("aria-controls");
+  });
+
+  it("gives items rendered from the items property the accordion's heading level", () => {
+    document.body.innerHTML = `<ds-accordion heading-level="5"></ds-accordion>`;
+    host().items = [{ value: "a", label: "Alpha", content: "One" }];
+    expect(screen.getByRole("heading", { level: 5, name: "Alpha" })).toBeInTheDocument();
+  });
 });

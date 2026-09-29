@@ -58,6 +58,7 @@ export class DsSlider extends HTMLElementBase {
   #row: HTMLDivElement | null = null;
   #track: HTMLSpanElement | null = null;
   #input: HTMLInputElement | null = null;
+  #warnedLabel = false;
   #icon: Element | null = null;
   /** The value the control shows, snapped onto the current grid. */
   #value = 0;
@@ -210,7 +211,15 @@ export class DsSlider extends HTMLElementBase {
     const name = this.getAttribute("name");
     if (name) input.name = name;
     else input.removeAttribute("name");
-    input.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) input.setAttribute("aria-label", label);
+    else {
+      input.removeAttribute("aria-label");
+      if (!this.#warnedLabel) {
+        this.#warnedLabel = true;
+        console.warn("[ds] <ds-slider> needs a label attribute to name its slider.");
+      }
+    }
     // The attribute is the default, so the browser's own reset works and so
     // does one in markup the script never reaches; the property is what the
     // user sees.

@@ -693,11 +693,14 @@
   .calendar__day[data-range-end] .calendar__daynum {
     color: inherit;
   }
+  /* The band's tint is too faint to read as a boundary on its own (WCAG
+     1.4.11), so lines in the selection colour close it above and below. */
   .calendar__day[data-in-range] {
     background: var(
       --ds-calendar-range-band,
       color-mix(in srgb, var(--ds-color-selected, #7a52cc) 12%, transparent)
     );
+    border-block-color: var(--ds-color-selected, #7a52cc);
     border-radius: 0;
   }
 
@@ -781,8 +784,10 @@
     flex-direction: column;
     gap: 0.1rem;
   }
+  /* Each mini day keeps a 24px target (WCAG 2.5.8). */
   .calendar__mini-week,
   .calendar__mini-weekdays {
+    grid-template-columns: repeat(7, minmax(1.5rem, 1fr));
     gap: 0.1rem;
   }
   .calendar__mini-weekday {
@@ -792,6 +797,7 @@
   }
   .calendar__mini-day {
     inline-size: 100%;
+    min-block-size: 1.5rem;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
@@ -909,5 +915,21 @@
   .calendar__agenda-empty {
     color: var(--ds-color-text-secondary, #524c44);
     text-align: center;
+  }
+
+  /* Forced colors: backgrounds are flattened away, so the selected days, the
+     range endpoints and the band between them take system colours. */
+  @media (forced-colors: active) {
+    .calendar__day:global([data-selected]),
+    .calendar__day[data-range-start],
+    .calendar__day[data-range-end],
+    .calendar__mini-day:global([data-selected]),
+    .calendar__agenda-head:global([data-selected]) {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .calendar__day[data-in-range] {
+      border-block-color: Highlight;
+    }
   }
 </style>

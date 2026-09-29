@@ -285,6 +285,18 @@ describe("<ds-calendar> range mode", () => {
     expect(day("2026-06-15")).not.toHaveAttribute("data-in-range");
   });
 
+  it("selects every day of the range and names its endpoints", () => {
+    mount('mode="range" range-start="2026-06-10" range-end="2026-06-14" focused-date="2026-06-10"');
+    const cell = (iso: string) => day(iso).closest('[role="gridcell"]');
+    for (const iso of ["2026-06-10", "2026-06-12", "2026-06-14"]) {
+      expect(cell(iso)).toHaveAttribute("aria-selected", "true");
+    }
+    expect(cell("2026-06-15")).not.toHaveAttribute("aria-selected");
+    expect(day("2026-06-10").getAttribute("aria-label")).toMatch(/, range start$/);
+    expect(day("2026-06-14").getAttribute("aria-label")).toMatch(/, range end$/);
+    expect(day("2026-06-12").getAttribute("aria-label")).not.toMatch(/range/);
+  });
+
   it("completes a range across two picks, swapping an earlier second pick", async () => {
     const user = userEvent.setup();
     const host = mount('mode="range" focused-date="2026-06-10"');

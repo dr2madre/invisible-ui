@@ -36,12 +36,14 @@ const parseValue = (raw: string | null): string[] =>
  *
  * Attributes: `value` (the expanded values, comma-separated), `type`
  * (single|multiple), `collapsible` (single only: the open item can close; on
- * by default, `collapsible="false"` turns it off), `disabled`.
+ * by default, `collapsible="false"` turns it off), `disabled`, `heading-level`
+ * (2 to 6, default 3: the level of every item header; an item's own
+ * `heading-level` wins).
  * Properties: `value` (string[]), `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value` (string[]).
  */
 export class DsAccordion extends HTMLElementBase {
-  static observedAttributes = ["value", "type", "collapsible", "disabled"];
+  static observedAttributes = ["value", "type", "collapsible", "disabled", "heading-level"];
 
   #value: string[] = [];
   #entries: AccordionEntry[] | null = null;
@@ -144,6 +146,7 @@ export class DsAccordion extends HTMLElementBase {
     applyProps(this, api.rootProps);
     items.forEach((item, index) => {
       const value = entries[index]!.value;
+      item.syncHeading();
       applyProps(item, api.getItemProps(value));
       applyProps(item.trigger!, api.getTriggerProps(value));
       applyProps(item.panel!, api.getPanelProps(value));
