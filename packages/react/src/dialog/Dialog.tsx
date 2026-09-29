@@ -1,12 +1,27 @@
-import type { ReactNode } from "react";
+import { forwardRef, useImperativeHandle, type ReactNode } from "react";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import { DialogHeader } from "./DialogHeader";
+import { DialogStatus } from "./DialogStatus";
 import { useDialog } from "./use-dialog";
+import type { DialogNoticeOptions } from "./use-dialog-notices";
 
 /** How the dialog body spaces its direct children. */
 export type DialogBodyLayout = "plain" | "stack";
+
+/**
+ * What a ref on `Dialog` holds: the status area (ADR 0016), for messages about
+ * the dialog's own task.
+ */
+export interface DialogHandle {
+  /** Show a notice and return its id; an empty string while the dialog is closed. */
+  notify: (options: DialogNoticeOptions) => string;
+  /** Remove one notice. */
+  dismissNotice: (id: string) => void;
+  /** Remove every notice. */
+  clearNotices: () => void;
+}
 
 export interface DialogProps {
   /** Visual variant for the trigger Button. */
@@ -72,35 +87,51 @@ export interface DialogProps {
  * Layout: a grid panel with a fixed header and footer and a scrolling body.
  * The header is the one the whole dialog family shares; `closeButton` turns
  * its close button off. Themeable via `--ds-dialog-*`.
+ *
+ * Status area (ADR 0016): a ref on the Dialog holds `notify(options)`,
+ * `dismissNotice(id)` and `clearNotices()`. A notice about the dialog's own
+ * task shows between the body and the footer with the Inline Notification
+ * look, is announced once through a polite live region, never takes focus,
+ * and is cleared when the dialog closes.
  */
-export function Dialog({
-  triggerVariant = "default",
-  trigger,
-  open = false,
-  title,
-  hideTitle = false,
-  description,
-  closeLabel,
-  closeButton = true,
-  icon,
-  headerMeta,
-  headerLead,
-  headerActions,
-  footerLead,
-  footer,
-  footerClose = false,
-  bodyLayout = "plain",
-  initialFocus,
-  closeOnOutsideClick = true,
-  onOpenChange,
-  children,
-}: DialogProps) {
+// Marked pure: a bare call at module level is one a bundler must keep, so an
+// import of any other component would carry the whole dialog.
+export const Dialog = /* @__PURE__ */ forwardRef<DialogHandle, DialogProps>(function Dialog(
+  {
+    triggerVariant = "default",
+    trigger,
+    open = false,
+    title,
+    hideTitle = false,
+    description,
+    closeLabel,
+    closeButton = true,
+    icon,
+    headerMeta,
+    headerLead,
+    headerActions,
+    footerLead,
+    footer,
+    footerClose = false,
+    bodyLayout = "plain",
+    initialFocus,
+    closeOnOutsideClick = true,
+    onOpenChange,
+    children,
+  },
+  ref,
+) {
   const { t } = useI18n();
   const {
     api,
     open: isOpen,
     triggerRef,
     panelRef,
+    notices,
+    announcement,
+    notify,
+    dismissNotice,
+    clearNotices,
   } = useDialog({
     open,
     describedBy: description !== undefined,
@@ -108,6 +139,12 @@ export function Dialog({
     closeOnOutsideClick,
     onOpenChange,
   });
+
+  useImperativeHandle(ref, () => ({ notify, dismissNotice, clearNotices }), [
+    notify,
+    dismissNotice,
+    clearNotices,
+  ]);
 
   const resolvedCloseLabel = closeLabel ?? t("dialog.close");
 
@@ -138,6 +175,12 @@ export function Dialog({
             {children}
           </div>
 
+          <DialogStatus
+            notices={notices}
+            announcement={announcement}
+            dismissNotice={dismissNotice}
+          />
+
           {/* One action bar: the leading group first, so source order matches
               focus order, then the trailing group. */}
           {(footer || footerLead || footerClose) && (
@@ -159,4 +202,4 @@ export function Dialog({
       )}
     </>
   );
-}
+});

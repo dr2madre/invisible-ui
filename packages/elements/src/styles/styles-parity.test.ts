@@ -30,6 +30,9 @@ const REACT_SHEETS = [
   "combobox.css",
   "dialog.css",
   "dialog-header.css",
+  "dialog-status.css",
+  "feedback-icon.css",
+  "inline-notification.css",
   "text-field.css",
   "search-field.css",
 ];
