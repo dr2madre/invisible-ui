@@ -59,6 +59,27 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
     expect(val("style.danger.hover")).toBe(cssVar("feedback-danger-hover"));
   });
 
+  it("style.focus.onDark matches the dark --ds-color-focus-ring mix", () => {
+    // tokens.css mixes it at runtime: secondary 70% with neutral-0. DTCG has
+    // no color-mix, so the source holds the computed sRGB value.
+    const dark = /\[data-theme="dark"\][^}]*--ds-color-focus-ring:\s*([^;]+);/.exec(css);
+    expect(dark?.[1]).toBe(
+      "color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0))",
+    );
+    const channels = (hex: string) =>
+      [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
+    const secondary = channels(cssVar("brand-secondary"));
+    const white = channels(cssVar("neutral-0"));
+    const mixed = secondary
+      .map((c, i) =>
+        Math.round(c * 0.7 + white[i]! * 0.3)
+          .toString(16)
+          .padStart(2, "0"),
+      )
+      .join("");
+    expect(val("style.focus.onDark")).toBe(`#${mixed}`);
+  });
+
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {
     const grey = walk("palette.grey");
     for (const weight of Object.keys(grey).filter((k) => !k.startsWith("$"))) {
