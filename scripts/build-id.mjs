@@ -63,6 +63,7 @@ export const SITE_INPUTS = {
     "examples/vue/harness.html",
     "examples/vue/react-harness.html",
     "examples/vue/elements-harness.html",
+    "examples/vue/elements-lab.html",
     "examples/vue/visual-elements.html",
     "examples/vue/visual-vue.html",
     "examples/vue/visual-react.html",

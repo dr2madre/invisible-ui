@@ -5,13 +5,15 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import {
   CHECKS,
   COLUMNS,
+  ELEMENTS_PAGE,
+  ELEMENTS_SCENARIOS,
   ENVIRONMENT,
   OPEN_SCENARIOS,
   emptyField,
@@ -142,7 +144,8 @@ test("every table has a place to write and a place to judge, and both are empty"
   assert.ok(text.includes("| Check | What was seen | Verdict |"), "a column went missing");
   assert.deepEqual(COLUMNS, ["Check", "What was seen", "Verdict"]);
   const rows = bodyRows(text);
-  assert.equal(rows.length, CHECKS.length + OPEN_SCENARIOS.length);
+  const recorded = ELEMENTS_SCENARIOS.reduce((sum, scenario) => sum + scenario.record.length, 0);
+  assert.equal(rows.length, CHECKS.length + OPEN_SCENARIOS.length + recorded);
   for (const row of rows) {
     const cells = row.split("|").map((cell) => cell.trim());
     assert.equal(cells.length, 5, `a row has the wrong number of cells: ${row}`);
@@ -199,5 +202,57 @@ test("the environment is asked for, empty, before anything else", () => {
       text.indexOf(`- ${field}: `) < text.indexOf("### Button"),
       `${field} is asked for after the pages`,
     );
+  }
+});
+
+test("the elements scenarios reach the sheet, between the open scenarios and the checks", () => {
+  const text = sheet(one);
+  // Named literally, for the same reason as the checks above.
+  for (const title of [
+    "Calendar: range day names and selected state",
+    "Notification Region: announced once, inside a modal Dialog",
+    "Table Set: result count announcements",
+    "Count: updates, standalone and inside a button",
+    "Tree View: loading, error and success status",
+    "Tabs: tab name with a count",
+    "Sidebar: rail toggle pressed state",
+    "Date Picker: description and error on the combobox",
+    "Empty State: with and without live",
+    "Table View: focus after Load more",
+    "Navigation Menu: focus leaving the menu",
+    "Pagination: arrow keys in right-to-left text",
+  ]) {
+    assert.ok(text.includes(`### ${title}\n`), `the sheet does not carry "${title}"`);
+  }
+  assert.equal(ELEMENTS_SCENARIOS.length, 21);
+  assert.ok(text.includes("## Elements scenarios (21)"));
+  const at = text.indexOf("## Elements scenarios");
+  assert.ok(text.indexOf("## Open scenarios") < at && at < text.indexOf("## Checks"));
+});
+
+test("every elements scenario says where, what to do and what to write down", () => {
+  const titles = new Set();
+  for (const scenario of ELEMENTS_SCENARIOS) {
+    assert.ok(!titles.has(scenario.title), `two scenarios share "${scenario.title}"`);
+    titles.add(scenario.title);
+    assert.ok(scenario.steps.length > 0, `${scenario.title} has no steps`);
+    assert.ok(scenario.record.length > 0, `${scenario.title} records nothing`);
+  }
+  const text = sheet(one);
+  for (const scenario of ELEMENTS_SCENARIOS) {
+    const block = text.slice(text.indexOf(`### ${scenario.title}\n`));
+    assert.ok(block.includes(`${ELEMENTS_PAGE}#${scenario.section}\n`), scenario.title);
+    assert.ok(block.includes(`1. ${scenario.steps[0]}\n`), scenario.title);
+    for (const item of scenario.record) {
+      assert.ok(block.includes(`| ${item} |  |  |`), `"${item}" is not a blank row`);
+    }
+  }
+});
+
+test("every elements scenario opens a section the elements page has", () => {
+  const page = readFileSync(new URL("../examples/vue/elements-lab.html", import.meta.url), "utf8");
+  assert.ok(ELEMENTS_PAGE.endsWith("/elements-lab.html"));
+  for (const { section, title } of ELEMENTS_SCENARIOS) {
+    assert.ok(page.includes(`<section id="${section}"`), `${title}: no section #${section}`);
   }
 });

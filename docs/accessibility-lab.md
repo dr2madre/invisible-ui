@@ -24,6 +24,31 @@ a person, and they are still open. The run sheet puts them first, before the
 page sweep. They are few, they are specific, and somebody already decided they
 were worth a session. This lab adds to that list; it does not replace it.
 
+The Elements accessibility review (pull request #420) left 21 more to a person
+with a screen reader, all on the custom elements adapter: range day names in
+the calendar, notifications announced once (on the page and inside a modal
+dialog), result counts, Loading and Count updates, tree status, tab names
+with a count, the sidebar rail toggle, description and error wiring, Error
+and Empty State with and without `live`, where focus lands after Load more,
+a popover and the navigation menu, and arrow keys in right-to-left text. The
+run sheet lists them second, each with its steps and a blank row per thing to
+write down. They live in `ELEMENTS_SCENARIOS` in
+`scripts/generate-a11y-lab.mjs`.
+
+The docs demos are Svelte, so these scenarios run on
+`examples/vue/elements-lab.html`, one section per scenario. Serve it from the
+build:
+
+```
+pnpm build
+pnpm --filter @design-system/example-vue preview
+```
+
+It serves on `http://localhost:4173`; the sheet's URLs carry that origin and
+the section's fragment, such as `/elements-lab.html#calendar-range`.
+`pnpm --filter @design-system/example-vue dev` serves the same page on
+`http://localhost:5173` while it is being edited.
+
 ## What the automated suite already answers
 
 Do not repeat these by hand. Each row also says what its answer does not
@@ -83,7 +108,9 @@ the table above are covered; a whole page's focus order is not.
    ```
 
    It serves on `http://localhost:4321`, which is the origin the sheet's URLs
-   already carry.
+   already carry. For the elements scenarios, also run
+   `pnpm --filter @design-system/example-vue preview`, which serves on
+   `http://localhost:4173`.
 
 2. Generate a fresh run sheet:
 
@@ -91,13 +118,13 @@ the table above are covered; a whole page's focus order is not.
    pnpm a11y:lab
    ```
 
-   It writes `a11y-lab-run.md`: the eight open scenarios, then every component
-   page with its URL and the six checks. It is empty. It is regenerated rather
+   It writes `a11y-lab-run.md`: the eight open scenarios, the 21 elements
+   scenarios, then every component page with its URL and the six checks. It is empty. It is regenerated rather
    than edited in place, and never committed with results in it.
 
 3. Fill in the environment block first.
 
-4. Work down the open scenarios, then the pages. For each check, write what
+4. Work down the open scenarios, the elements scenarios, then the pages. For each check, write what
    happened, not whether it passed. "VoiceOver read 'Fruit, combo box,
    collapsed' and did not announce the filtered count" is a finding. "Pass" is
    not.

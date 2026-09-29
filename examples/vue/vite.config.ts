@@ -16,6 +16,8 @@ export default defineConfig({
         harness: fileURLToPath(new URL("harness.html", import.meta.url)),
         reactHarness: fileURLToPath(new URL("react-harness.html", import.meta.url)),
         elementsHarness: fileURLToPath(new URL("elements-harness.html", import.meta.url)),
+        // The page the manual accessibility session opens for the elements.
+        elementsLab: fileURLToPath(new URL("elements-lab.html", import.meta.url)),
         // The pages the visual-regression suite shoots, one per adapter.
         visualElements: fileURLToPath(new URL("visual-elements.html", import.meta.url)),
         visualVue: fileURLToPath(new URL("visual-vue.html", import.meta.url)),
