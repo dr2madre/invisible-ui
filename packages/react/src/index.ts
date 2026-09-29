@@ -25,7 +25,14 @@ export {
   type UseMultiSelect,
   type UseMultiSelectOptions,
 } from "./multi-select/use-multi-select";
-export { Dialog, type DialogProps } from "./dialog/Dialog";
+export { Dialog, type DialogHandle, type DialogProps } from "./dialog/Dialog";
+export type {
+  DialogNotice,
+  DialogNoticeAction,
+  DialogNoticeOptions,
+  DialogNoticeStatus,
+  DialogNotices,
+} from "./dialog/use-dialog-notices";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
