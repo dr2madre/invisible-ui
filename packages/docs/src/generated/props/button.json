@@ -301,6 +301,22 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "copy",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Text the button copies to the clipboard when pressed (ADR 0016). After a successful copy, `copiedLabel` shows beside the button for two seconds, announced through a polite live region; the button keeps its name and focus. A refused clipboard shows nothing.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The confirmation shown after a copy. Defaults to the catalog's \"Copied\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "children",
           "type": "ReactNode",
           "default": null,

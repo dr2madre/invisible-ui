@@ -12,7 +12,7 @@ React follow later with the same logic and the same public contract.
 | Elements | Implemented. |
 | Svelte | Pending. |
 | Vue | Implemented. |
-| React | Pending. |
+| React | Implemented for Dialog (status area, dialogs on top) and Button (`copy`). React has no notification region yet: case 2 applies when the region is ported. |
 
 ## Context
 

@@ -15,6 +15,9 @@
 @import "./multi-select.css";
 @import "./dialog-header.css";
 @import "./dialog.css";
+@import "./feedback-icon.css";
+@import "./inline-notification.css";
+@import "./dialog-status.css";
 @import "./select.css";
 @import "./text-field.css";
 @import "./search-field.css";
