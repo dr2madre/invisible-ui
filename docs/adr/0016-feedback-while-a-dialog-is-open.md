@@ -4,8 +4,9 @@ Date: 2026-09-29
 
 ## Status
 
-Accepted. The custom elements adapter implements it today. Svelte, Vue and
-React follow later with the same logic and the same public contract.
+Accepted. The custom elements and Vue adapters implement it, and React
+implements it for the components it has. Svelte follows with the same logic
+and the same public contract.
 
 | Adapter | Contract |
 | --- | --- |
