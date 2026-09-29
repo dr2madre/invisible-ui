@@ -72,7 +72,7 @@ const names = (page: Page) =>
 test("sorting from the keyboard reorders the rows and keeps focus on the header", async ({
   page,
 }) => {
-  await mountSet(page, `title="People" caption="People"`);
+  await mountSet(page, `heading="People" caption="People"`);
   const table = page.getByRole("table", { name: "People" });
   const nameHeader = table.getByRole("columnheader", { name: /Name/ });
   const ageHeader = table.getByRole("columnheader", { name: /Age/ });
@@ -102,7 +102,7 @@ test("sorting from the keyboard reorders the rows and keeps focus on the header"
 });
 
 test("row selection toggles from the keyboard and survives paging", async ({ page }) => {
-  await mountSet(page, `title="People" caption="People" selection-mode="multiple" page-size="2"`);
+  await mountSet(page, `heading="People" caption="People" selection-mode="multiple" page-size="2"`);
   const ada = page.getByRole("checkbox", { name: "Select Ada" });
   await ada.focus();
   await page.keyboard.press("Space");
@@ -134,7 +134,7 @@ test("row selection toggles from the keyboard and survives paging", async ({ pag
 });
 
 test("tabs switch between views, and the view toggle shows cards", async ({ page }) => {
-  await mountSet(page, `title="Workspace" views-label="Data views" allow-view-toggle`, true);
+  await mountSet(page, `heading="Workspace" views-label="Data views" allow-view-toggle`, true);
   const tabs = page.getByRole("tablist", { name: "Data views" });
   const people = tabs.getByRole("tab", { name: "People" });
   const orders = tabs.getByRole("tab", { name: "Orders" });
@@ -172,7 +172,7 @@ test.describe("Elements table set at 320 CSS pixels", () => {
   test("the page does not scroll sideways; the table scrolls in its own box", async ({ page }) => {
     await mountSet(
       page,
-      `title="People" caption="People" configurable allow-view-toggle selection-mode="multiple" page-size="2"`,
+      `heading="People" caption="People" configurable allow-view-toggle selection-mode="multiple" page-size="2"`,
     );
     await expect(page.getByRole("table", { name: "People" })).toBeVisible();
     await expect(page.getByRole("navigation", { name: "Table pages" })).toBeVisible();

@@ -1,6 +1,7 @@
 import { i18n } from "@design-system/core";
 import { boolAttr, definePart, emit, HTMLElementBase } from "../internal/base";
 import { LOCALE_CHANGE_EVENT, localeScope, localized, onLocaleChange } from "../internal/i18n";
+import { overlayRoot } from "../internal/overlay-root";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
 import {
   DsNotification,
@@ -96,8 +97,11 @@ const nextFrame = (callback: () => void) =>
  * focus.
  *
  * The region is moved to `<body>` while the element is connected, so no
- * ancestor stacking context can paint over it; it keeps the element's
- * language and direction. The newest notification is on top and past
+ * ancestor stacking context can paint over it; inside an open modal
+ * `<dialog>` it moves into that dialog instead, so it stays above the page and
+ * operable. It keeps the element's language and direction. Notifications
+ * shown before the element is connected wait in the queue and appear once it
+ * is. The newest notification is on top and past
  * `max-visible` the oldest leave. Hovering or focusing any notification holds
  * every countdown. Notifications enter, leave and reflow with motion, none
  * under reduced motion, and can be swiped away.
@@ -147,8 +151,7 @@ export class DsNotificationRegion extends HTMLElementBase {
 
   connectedCallback() {
     definePart("ds-notification", DsNotification);
-    if (!this.#region) this.#region = this.#createRegion();
-    document.body.appendChild(this.#region);
+    this.#region ??= this.#createRegion();
     this.#render();
   }
 
@@ -160,7 +163,7 @@ export class DsNotificationRegion extends HTMLElementBase {
   }
 
   attributeChangedCallback() {
-    if (this.#region && this.isConnected) this.#render();
+    this.#render();
   }
 
   /** The queue, oldest first. */
@@ -303,7 +306,12 @@ export class DsNotificationRegion extends HTMLElementBase {
   }
 
   #render() {
-    const region = this.#region!;
+    const region = this.#region;
+    // Before the element is connected the queue only collects; connecting
+    // renders it.
+    if (!region || !this.isConnected) return;
+    const root = overlayRoot(this);
+    if (region.parentElement !== root) root.appendChild(region);
     const { locale } = localeScope(this);
     region.dataset.placement = this.#placement();
     region.setAttribute("aria-label", localized(this, "label", "notificationRegion.label"));

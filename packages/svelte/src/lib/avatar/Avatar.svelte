@@ -76,7 +76,7 @@
     overflow: hidden;
     inline-size: var(--ds-avatar-size, 2.5rem);
     block-size: var(--ds-avatar-size, 2.5rem);
-    background: var(--ds-avatar-bg, var(--ds-color-surface, #e6e0d8));
+    background-color: var(--ds-avatar-bg, var(--ds-color-surface, #e6e0d8));
     color: var(--ds-avatar-color, var(--ds-color-text, #282420));
     font-weight: 600;
     line-height: 1;

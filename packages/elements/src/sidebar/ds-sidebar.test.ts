@@ -41,6 +41,22 @@ describe("<ds-sidebar>", () => {
     expect(within(nav).getByText("v1").closest(".sidebar__footer")).not.toBeNull();
   });
 
+  it("keeps the footer content in place and focused across renders", () => {
+    document.body.innerHTML = `
+      <ds-sidebar label="Primary">
+        <button slot="footer" type="button">Account</button>
+      </ds-sidebar>`;
+    const sidebar = document.querySelector("ds-sidebar") as DsSidebar;
+    sidebar.sections = sections;
+    const account = screen.getByRole("button", { name: "Account" });
+    const region = account.parentElement;
+    account.focus();
+    sidebar.value = "weekly";
+    expect(account).toHaveFocus();
+    expect(account.parentElement).toBe(region);
+    expect(region!.parentElement?.lastElementChild).toBe(region);
+  });
+
   it("marks the current destination and opens the section holding it", () => {
     mount('value="weekly"');
     expect(screen.getByRole("button", { name: "Weekly" })).toHaveAttribute("aria-current", "page");

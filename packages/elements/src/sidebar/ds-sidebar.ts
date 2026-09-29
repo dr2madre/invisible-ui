@@ -6,6 +6,7 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  setChildren,
   upgradeProperty,
 } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
@@ -76,6 +77,9 @@ export class DsSidebar extends HTMLElementBase {
   #nav: HTMLElement | null = null;
   #logo: Element[] = [];
   #footer: Element[] = [];
+  /** The regions stay in place across renders, so what they hold keeps its state. */
+  #logoRegion: HTMLDivElement | null = null;
+  #footerRegion: HTMLDivElement | null = null;
   #groupIds = new Map<string, string>();
 
   constructor() {
@@ -288,7 +292,9 @@ export class DsSidebar extends HTMLElementBase {
 
   #render() {
     const nav = this.#nav!;
-    // The whole bar is rebuilt; focus goes back to the control that held it.
+    // The sections are rebuilt; focus goes back to the control that held it.
+    // The logo and footer regions stay attached, so their content keeps its
+    // focus and state.
     const focused = (document.activeElement as HTMLElement | null)?.dataset?.focusKey;
     const rail = this.#isRail();
 
@@ -297,13 +303,15 @@ export class DsSidebar extends HTMLElementBase {
     nav.dataset.mode = "inline";
     nav.dataset.side = this.getAttribute("side") === "inline-end" ? "inline-end" : "inline-start";
     nav.toggleAttribute("data-collapsed", rail);
-    nav.textContent = "";
+    const nodes: Node[] = [];
 
     if (this.#logo.length > 0) {
-      const logo = document.createElement("div");
-      logo.className = "sidebar__logo";
-      logo.append(...this.#logo);
-      nav.appendChild(logo);
+      if (!this.#logoRegion) {
+        this.#logoRegion = document.createElement("div");
+        this.#logoRegion.className = "sidebar__logo";
+        this.#logoRegion.append(...this.#logo);
+      }
+      nodes.push(this.#logoRegion);
     }
 
     if (boolAttr(this, "rail-toggle") && this.#railable()) {
@@ -318,13 +326,13 @@ export class DsSidebar extends HTMLElementBase {
         : localized(this, "collapse-label", "sidebar.collapse");
       toggle.appendChild(this.#label(text, true));
       toggle.addEventListener("click", () => this.#setCollapsed(!rail));
-      nav.appendChild(toggle);
+      nodes.push(toggle);
     }
 
     this.#sections.forEach((section, index) => {
       const id = this.#sectionId(section, index);
       if (section.collapsible && section.label) {
-        nav.appendChild(this.#group(section, id, rail));
+        nodes.push(this.#group(section, id, rail));
         return;
       }
       const wrapper = document.createElement("div");
@@ -338,15 +346,18 @@ export class DsSidebar extends HTMLElementBase {
         wrapper.appendChild(heading);
       }
       wrapper.appendChild(this.#list(section, rail));
-      nav.appendChild(wrapper);
+      nodes.push(wrapper);
     });
 
     if (this.#footer.length > 0) {
-      const footer = document.createElement("div");
-      footer.className = "sidebar__footer";
-      footer.append(...this.#footer);
-      nav.appendChild(footer);
+      if (!this.#footerRegion) {
+        this.#footerRegion = document.createElement("div");
+        this.#footerRegion.className = "sidebar__footer";
+        this.#footerRegion.append(...this.#footer);
+      }
+      nodes.push(this.#footerRegion);
     }
+    setChildren(nav, nodes);
 
     if (focused) {
       nav.querySelector<HTMLElement>(`[data-focus-key="${CSS.escape(focused)}"]`)?.focus();

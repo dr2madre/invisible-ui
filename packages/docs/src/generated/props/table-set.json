@@ -735,14 +735,14 @@
           "descriptionFrom": "none"
         },
         {
-          "name": "title",
+          "name": "heading",
           "reactive": true,
           "required": false,
           "description": "",
           "descriptionFrom": "none"
         },
         {
-          "name": "title-level",
+          "name": "heading-level",
           "reactive": true,
           "required": false,
           "description": "",

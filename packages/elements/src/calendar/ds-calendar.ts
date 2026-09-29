@@ -112,6 +112,8 @@ export class DsCalendar extends HTMLElementBase {
   #prev: HTMLButtonElement | null = null;
   #next: HTMLButtonElement | null = null;
   #switcher: DsSegmentedControl | null = null;
+  /** The switcher items last assigned, to skip assigning the same ones. */
+  #switcherItems = "";
   #body: HTMLElement | null = null;
   #arrowsRtl: boolean | null = null;
 
@@ -432,10 +434,17 @@ export class DsCalendar extends HTMLElementBase {
     }
     const switcher = this.#switcher;
     switcher.setAttribute("label", localized(this, "views-label", "calendar.viewsLabel"));
-    switcher.items = views.map((view) => ({
+    const items = views.map((view) => ({
       value: view,
       label: this.#viewLabels[view] ?? t(this, `calendar.view.${view}` as i18n.MessageKey),
     }));
+    // Assigning the items rebuilds the segments; only a change of views or
+    // labels needs that.
+    const key = JSON.stringify(items);
+    if (key !== this.#switcherItems) {
+      this.#switcherItems = key;
+      switcher.items = items;
+    }
     switcher.value = api.view;
     if (!switcher.isConnected) this.#controls!.prepend(switcher);
   }

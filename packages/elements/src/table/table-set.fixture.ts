@@ -32,7 +32,7 @@ export interface MountOptions {
 /** A titled people set, like the Svelte fixture; options override the defaults. */
 export const mountSet = ({ attrs = {}, props = {} }: MountOptions = {}) => {
   const set = document.createElement("ds-table-set") as DsTableSet;
-  for (const [name, value] of Object.entries({ title: "People", caption: "People", ...attrs }))
+  for (const [name, value] of Object.entries({ heading: "People", caption: "People", ...attrs }))
     setAttr(set, name, value);
   set.columns = peopleColumns;
   set.rows = peopleRows;

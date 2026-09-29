@@ -39,6 +39,17 @@ describe("<ds-radio-group>", () => {
     expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();
   });
 
+  it("submits nothing when no name is given, keeping one group", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<form>${group.replace(' name="plan"', "")}</form>`;
+    const form = document.querySelector("form")!;
+    await user.click(screen.getByRole("radio", { name: "Free" }));
+    await user.click(screen.getByRole("radio", { name: "Pro" }));
+    expect([...new FormData(form).keys()]).toEqual([]);
+    expect(screen.getByRole("radio", { name: "Free" })).not.toBeChecked();
+    expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();
+  });
+
   it("starts from the value attribute", () => {
     mount(group.replace('name="plan"', 'name="plan" value="pro"'));
     expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();

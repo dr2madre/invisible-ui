@@ -29,13 +29,28 @@ describe("<ds-table-view>", () => {
     expect(view.querySelector(".table-view")).toHaveAttribute("tabindex", "-1");
   });
 
-  it("puts a title beside the controls and hides the caption it repeats", () => {
-    const view = mount({ title: "People", "title-level": "3", configurable: "" });
+  it("puts a heading beside the controls and hides the caption it repeats", () => {
+    const view = mount({ heading: "People", "heading-level": "3", configurable: "" });
     const heading = screen.getByRole("heading", { level: 3, name: "People" });
     expect(heading.closest(".table-view__header")).toContainElement(
       screen.getByRole("button", { name: "Columns" }),
     );
     expect(view.querySelector("caption")).toHaveClass("table__caption--hidden");
+  });
+
+  it("mounts the columns popover inside an open modal dialog", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<ds-dialog heading="People" trigger="Open"></ds-dialog>`;
+    await user.click(screen.getByRole("button", { name: "Open" }));
+    const panel = document.querySelector("dialog")!;
+    const view = document.createElement("ds-table-view") as DsTableView;
+    view.setAttribute("caption", "People");
+    view.setAttribute("configurable", "");
+    view.columns = peopleColumns;
+    view.rows = peopleRows;
+    panel.querySelector(".dialog__body")!.appendChild(view);
+    await user.click(within(view).getByRole("button", { name: "Columns" }));
+    expect(panel).toContainElement(screen.getByRole("dialog", { name: "Columns" }));
   });
 
   it("emits its events from itself and reflects the current page", async () => {
@@ -83,7 +98,7 @@ describe("<ds-table-view>", () => {
   });
 
   it("has no accessibility violations", async () => {
-    mount({ title: "People", "allow-view-toggle": "", configurable: "", "page-size": "2" });
+    mount({ heading: "People", "allow-view-toggle": "", configurable: "", "page-size": "2" });
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });

@@ -356,7 +356,7 @@ const makeViews = (): TableViewDef[] => [
 
 const mountViews = (activeView?: string, views = makeViews()) => {
   const set = document.createElement("ds-table-set") as DsTableSet;
-  set.setAttribute("title", "Workspace");
+  set.setAttribute("heading", "Workspace");
   set.setAttribute("views-label", "Data views");
   setAttr(set, "active-view", activeView);
   set.views = views;
@@ -367,6 +367,28 @@ const mountViews = (activeView?: string, views = makeViews()) => {
 const tab = (name: string) => screen.getByRole("tab", { name });
 
 describe("<ds-table-set> (tabs as distinct views)", () => {
+  it("switches views inside a form without submitting it", async () => {
+    const user = userEvent.setup();
+    const form = document.createElement("form");
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    form.addEventListener("submit", onSubmit);
+    document.body.appendChild(form);
+    const set = document.createElement("ds-table-set") as DsTableSet;
+    set.views = makeViews();
+    form.appendChild(set);
+    await user.click(tab("Orders"));
+    expect(tab("Orders")).toHaveAttribute("type", "button");
+    expect(tab("Orders")).toHaveAttribute("aria-selected", "true");
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("takes its heading from `heading`, leaving the global title alone", () => {
+    const set = mountViews();
+    set.setAttribute("title", "Tooltip text");
+    expect(screen.getByRole("heading", { name: "Workspace" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Tooltip text" })).toBeNull();
+  });
+
   it("renders a tablist of the views with the first one active", () => {
     mountViews();
     expect(screen.getByRole("heading", { name: "Workspace" })).toBeInTheDocument();

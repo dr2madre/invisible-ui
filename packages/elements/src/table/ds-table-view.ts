@@ -17,6 +17,7 @@ import {
   upgradeProperty,
 } from "../internal/base";
 import { onLocaleChange, t } from "../internal/i18n";
+import { overlayRoot } from "../internal/overlay-root";
 import { settingsIcon } from "../internal/icons";
 import { DsCard } from "../card/ds-card";
 import { DsCheckbox } from "../checkbox/ds-checkbox";
@@ -72,7 +73,7 @@ const VIEW_ITEMS: { value: TableBodyView; key: i18n.MessageKey }[] = [
  * `<ds-table-view>` is one view of a data table: the body `<ds-table-set>`
  * renders for each of its views, usable on its own for a single view. It owns
  * sorting, column visibility, the table or cards layout and the current page,
- * and renders a header (optional title, a table/cards switcher, a column
+ * and renders a header (optional heading, a table/cards switcher, a column
  * settings popover), the body (a `<ds-table>` in a bordered card, or a
  * labelled list of `<ds-card>`s) and a footer (pagination or infinite scroll).
  *
@@ -92,7 +93,7 @@ const VIEW_ITEMS: { value: TableBodyView; key: i18n.MessageKey }[] = [
  * a no-results Empty State; `filters-clearable` adds its Clear filters action.
  * Changing `filters-active` or `filter-revision` resets the page to one.
  *
- * Attributes: `caption`, `hide-caption`, `title`, `title-level`, `page-size`,
+ * Attributes: `caption`, `hide-caption`, `heading`, `heading-level`, `page-size`,
  * `page`, `pagination-label`, `infinite`, `has-more`, `loading`,
  * `load-more-label`, `loading-label`, `view` (table|card), `allow-view-toggle`,
  * `configurable`, `config-label`, `card-title-key`, `card-description-key`,
@@ -112,8 +113,8 @@ export class DsTableView extends HTMLElementBase {
   static observedAttributes = [
     "caption",
     "hide-caption",
-    "title",
-    "title-level",
+    "heading",
+    "heading-level",
     "page-size",
     "page",
     "pagination-label",
@@ -558,7 +559,7 @@ export class DsTableView extends HTMLElementBase {
   }
 
   #syncHeader(api: core.TableApi): HTMLElement | null {
-    const title = this.getAttribute("title");
+    const title = this.getAttribute("heading");
     const toggle = boolAttr(this, "allow-view-toggle");
     const configurable = boolAttr(this, "configurable");
     if (!configurable) this.#closePopover(false);
@@ -567,7 +568,7 @@ export class DsTableView extends HTMLElementBase {
     const header = this.#header!;
     const nodes: Node[] = [];
     if (title) {
-      const heading = document.createElement(`h${this.#titleLevel()}`);
+      const heading = document.createElement(`h${this.#headingLevel()}`);
       heading.className = "table-view__title";
       heading.textContent = title;
       nodes.push(heading);
@@ -581,8 +582,8 @@ export class DsTableView extends HTMLElementBase {
     return header;
   }
 
-  #titleLevel() {
-    const value = Number(this.getAttribute("title-level") ?? 2);
+  #headingLevel() {
+    const value = Number(this.getAttribute("heading-level") ?? 2);
     return Number.isInteger(value) && value >= 2 && value <= 6 ? value : 2;
   }
 
@@ -719,7 +720,7 @@ export class DsTableView extends HTMLElementBase {
     this.#syncPopover();
     const trigger = this.#trigger;
     const panel = this.#panel;
-    document.body.appendChild(panel);
+    overlayRoot(this).appendChild(panel);
 
     const reposition = () =>
       computePosition(trigger, panel, {
@@ -821,7 +822,7 @@ export class DsTableView extends HTMLElementBase {
     const frame = this.#frame!;
     const selection = frame.mode !== "none";
     const caption = this.getAttribute("caption");
-    const hideCaption = boolAttr(this, "hide-caption") || !!this.getAttribute("title");
+    const hideCaption = boolAttr(this, "hide-caption") || !!this.getAttribute("heading");
 
     const setAttr = (name: string, value: string | null) => {
       if (table.getAttribute(name) !== value) {

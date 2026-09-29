@@ -41,6 +41,14 @@ describe("<ds-tree-view>", () => {
     expect(screen.queryByRole("treeitem", { name: /button\.ts/ })).not.toBeInTheDocument();
   });
 
+  it('reads disabled="false" as enabled', async () => {
+    const user = userEvent.setup();
+    const tree = mount();
+    tree.setAttribute("disabled", "false");
+    await user.click(screen.getByRole("treeitem", { name: /package\.json/ }));
+    expect(tree.selected).toBe("package.json");
+  });
+
   it("reports expansion and selection once per user action", async () => {
     const user = userEvent.setup();
     const tree = mount();

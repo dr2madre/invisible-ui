@@ -109,11 +109,14 @@ export class DsPinInput extends HTMLElementBase {
     const value = this.getAttribute("value") ?? "";
     // The value the element just reported comes back as an echo, and an echo
     // is not a new reset default (ADR 0012).
-    if (value !== core.value(s)) this.#defaultValue = value;
+    const echo = value === core.value(s);
+    if (!echo) this.#defaultValue = value;
     this.#state = {
       ...s,
       length,
-      values: core.splitValue(value, length),
+      // An echo keeps the cells as they are: the joined value drops empty
+      // cells, so splitting it again would shift the characters left.
+      values: echo && length === s.length ? s.values : core.splitValue(value, length),
       type: this.getAttribute("type") === "alphanumeric" ? "alphanumeric" : "numeric",
       mask: boolAttr(this, "mask"),
       disabled: boolAttr(this, "disabled"),

@@ -206,7 +206,8 @@ export class DsDialog extends HTMLElementBase {
     if (describedBy) applyProps(this.header.subtitle, api.descriptionProps);
     applyProps(this.header.close, api.closeProps);
 
-    if (this.open && !this.#cleanup) this.#show();
+    // A disconnected <dialog> cannot be shown; connecting syncs again.
+    if (this.open && !this.#cleanup && this.isConnected) this.#show();
     if (!this.open && this.#cleanup) {
       this.#cleanup();
       this.#cleanup = null;

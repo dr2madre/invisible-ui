@@ -323,7 +323,7 @@
       ],
       "notes": [
         "Properties: `value`, `validationError` (read only).",
-        "Emits: `change` (`detail.value`) on every value change, `commit` (`detail.value`) when editing ends (focus leaves the field, or Enter), and `validation-change` (`detail.error`) when the parsed value's own error changes."
+        "Emits: `change` (`detail.value`) on every value change, `commit` (`detail.value`) when editing ends (focus leaves the field, or Enter), and `validation-change` (`detail.error`) when an edit changes the value's own error. A value set from outside, or put back by a form reset, updates `validationError` without an event (ADR 0011, ADR 0012). Inside a disabled `<fieldset>` the field is disabled too."
       ]
     }
   }

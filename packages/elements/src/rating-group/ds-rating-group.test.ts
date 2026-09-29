@@ -92,6 +92,17 @@ describe("<ds-rating-group>", () => {
     expect(new FormData(form).get("rating")).toBe("4");
   });
 
+  it("submits nothing when no name is given, keeping one group", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<form><ds-rating-group label="Rating"></ds-rating-group></form>`;
+    const form = document.querySelector("form")!;
+    await user.click(star("2 stars"));
+    await user.click(star("4 stars"));
+    expect([...new FormData(form).keys()]).toEqual([]);
+    expect(star("2 stars").checked).toBe(false);
+    expect(star("4 stars").checked).toBe(true);
+  });
+
   it("reads the star names from the locale provider around it", () => {
     document.body.innerHTML = `<ds-locale-provider locale="it"><ds-rating-group label="Rating"></ds-rating-group></ds-locale-provider>`;
     const provider = document.querySelector("ds-locale-provider") as HTMLElement & {
