@@ -20,11 +20,19 @@
    * `description`, shown as the subtitle under the title. Colors, radius and elevation
    * are themeable via `--ds-dialog-*`; the panel extent via
    * `--ds-sheet-dialog-size`.
+   *
+   * A status area between the body and the footer holds messages about the
+   * sheet's own task (ADR 0016), with the same contract as `Dialog`:
+   * `notify(options)`, `dismissNotice(id)` and `clearNotices()` on the
+   * instance; notices are announced once through a polite live region, never
+   * take focus, and are cleared when the sheet closes.
    */
   import { untrack, type Snippet } from "svelte";
   import { createSheetDialog, type SheetDialogSide } from "./create-sheet-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
+  import type { DialogNoticeOptions } from "../dialog/create-dialog";
   import { getI18n } from "../i18n/create-i18n";
   import { controllable } from "../internal/controllable.svelte";
 
@@ -149,6 +157,21 @@
             ? `translateX(${-$dragOffset}px)`
             : undefined,
   );
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return sheet.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    sheet.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    sheet.clearNotices();
+  }
 </script>
 
 {#if renderTrigger}
@@ -180,6 +203,7 @@
       actions={headerActions}
     />
     <div class="sheet-dialog__body">{@render children?.()}</div>
+    <DialogStatus dialog={sheet} />
     {#if footer}
       <footer class="sheet-dialog__footer">{@render footer()}</footer>
     {/if}

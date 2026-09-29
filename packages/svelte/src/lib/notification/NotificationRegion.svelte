@@ -13,17 +13,29 @@
    * cap for consumers who want one — unset by default, so the window height is
    * the only bound.
    *
+   * While a modal dialog is open anywhere in the document, new notifications
+   * wait in the queue, unshown and unannounced (ADR 0016): the dialog holds
+   * the user's attention and makes the page behind it inert. When the last
+   * modal closes they appear in order, and their auto-dismiss countdowns start
+   * then. Notifications already shown when a modal opens stay, with their
+   * countdowns held; a change to one of them shows, and is announced, after
+   * the modal closes. A message about the dialog's own task belongs in the
+   * dialog's status area (`notify()` on the dialog), and a message that needs
+   * a decision now belongs in a dialog opened on top. The region always
+   * mounts in `<body>`, even when it is placed inside a dialog.
+   *
    *   <NotificationRegion {notifier} placement="top-end" />
    */
+  import { untrack } from "svelte";
   import { flip } from "svelte/animate";
   import type { Attachment } from "svelte/attachments";
   import { fly } from "svelte/transition";
   import { cubicIn, cubicOut } from "svelte/easing";
-  import { portal } from "../internal/portal";
+  import { hasOpenModal, onModalChange } from "../internal/modal-stack";
   import { swipeDismiss } from "../internal/swipe";
   import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
-  import type { Notifier } from "./create-notifier";
+  import type { NotificationItem, Notifier } from "./create-notifier";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
@@ -85,9 +97,41 @@
   const motion = $derived(prefersReduced ? 0 : duration);
   const motionOut = $derived(prefersReduced ? 0 : (exitDuration ?? Math.round(duration * 1.75)));
   const flyY = $derived(placement.startsWith("top") ? -16 : 16);
-  // New notifications always enter; past the limit the OLDEST leave. Never
-  // hold a new notification in an invisible queue.
-  const visible = $derived(maxVisible > 0 ? $notifier.slice(-maxVisible) : $notifier);
+  // Whether a modal dialog is open in the document, and, while one is, the
+  // notifications that were on screen when it opened, as they were then: only
+  // those stay, and a change to one of them waits for the modal to close.
+  let modalOpen = $state(typeof document !== "undefined" && hasOpenModal(document));
+  let held = $state.raw(new Map<string, NotificationItem>());
+  const eligible = $derived(
+    modalOpen
+      ? $notifier.flatMap((n) => {
+          const shown = held.get(n.id);
+          return shown ? [shown] : [];
+        })
+      : $notifier,
+  );
+  // New notifications always enter; past the limit the OLDEST leave.
+  const visible = $derived(maxVisible > 0 ? eligible.slice(-maxVisible) : eligible);
+
+  const syncModal = (doc: Document) => {
+    const open = hasOpenModal(doc);
+    if (open === modalOpen) return;
+    held = open ? new Map(visible.map((n) => [n.id, n])) : new Map();
+    modalOpen = open;
+  };
+  // Mounted in <body>, never in a dialog around it: a notification inside a
+  // modal would compete with the dialog for attention (ADR 0016). The same
+  // attachment follows every dialog that opens or closes.
+  const mountInBody: Attachment<HTMLElement> = (node) => {
+    const doc = node.ownerDocument;
+    doc.body.appendChild(node);
+    untrack(() => syncModal(doc));
+    const stop = onModalChange(doc, () => syncModal(doc));
+    return () => {
+      stop();
+      node.remove();
+    };
+  };
 
   // Stable paint order, assigned once per notification: older = higher, so
   // every toast covers the shadow of the one above (the newer one) — and a
@@ -124,7 +168,7 @@
   let regionEl: HTMLElement | undefined;
   let pointerInside = $state(false);
   let focusInside = $state(false);
-  const paused = $derived(pointerInside || focusInside);
+  const paused = $derived(pointerInside || focusInside || modalOpen);
   const inside = (target: EventTarget | null) =>
     target instanceof Node && regionEl?.contains(target);
 </script>
@@ -149,7 +193,7 @@
   }}
   lang={$i18nLocale}
   dir={$i18nDir}
-  use:portal
+  {@attach mountInBody}
   {@attach followReducedMotion}
 >
   {#each visible as notice (notice.id)}

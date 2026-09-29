@@ -4,13 +4,13 @@ Date: 2026-09-29
 
 ## Status
 
-Accepted. The custom elements adapter implements it today. Svelte, Vue and
-React follow later with the same logic and the same public contract.
+Accepted. The custom elements and Svelte adapters implement it today. Vue
+and React follow later with the same logic and the same public contract.
 
 | Adapter | Contract |
 | --- | --- |
 | Elements | Implemented. |
-| Svelte | Pending. |
+| Svelte | Implemented. |
 | Vue | Pending. |
 | React | Pending. |
 
@@ -127,5 +127,5 @@ for a stack of dialogs.
 - Focus return changes for dialogs opened without their trigger: focus goes
   back to where it was, as with a native `<dialog>`, instead of to a trigger
   the user never pressed.
-- The Svelte, Vue and React adapters are not equivalent until they implement
+- The Vue and React adapters are not equivalent until they implement
   the same three cases.

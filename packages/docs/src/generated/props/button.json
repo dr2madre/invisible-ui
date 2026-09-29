@@ -66,6 +66,22 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "copy",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Text to copy to the clipboard when the button is pressed. After a successful copy, a confirmation shows beside the button for two seconds and is announced politely (ADR 0016).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The confirmation shown after a copy. Defaults to the i18n catalog's \"Copied\".",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "leftIcon",
           "type": "boolean | undefined",
           "default": "undefined",

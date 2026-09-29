@@ -102,12 +102,42 @@ message goes depends on what it is about
 3. **Unrelated, and it needs a decision now:** a dialog on top, which takes
    focus and gives it back to the dialog below when it closes.
 
-The custom elements implement all three today; Svelte, Vue and React follow
-with the same contract. Every dialog element in the family has `notify()`,
+The custom elements and Svelte implement all three today; Vue and React
+follow with the same contract. Every dialog in the family has `notify()`,
 `dismissNotice(id)` and `clearNotices()`. A notice looks like an Inline
 Notification, is announced once through a polite live region, never takes
-focus, and is cleared when the dialog closes. `copy` on `<ds-button>` gives
-the confirmation beside the control:
+focus, and is cleared when the dialog closes. `notify()` on a closed dialog
+shows nothing and returns an empty string.
+
+In Svelte the three functions are on the component instance (`bind:this`),
+and `copy` on `Button` gives the confirmation beside the control:
+
+```svelte
+<script lang="ts">
+  import Button from "@design-system/svelte/Button.svelte";
+  import Dialog from "@design-system/svelte/Dialog.svelte";
+
+  let dialog: ReturnType<typeof Dialog> | undefined = $state();
+
+  // Called by the application when an upload started in the dialog fails.
+  function onUploadError() {
+    dialog?.notify({
+      status: "danger",
+      title: "Upload failed",
+      description: "The connection dropped.",
+      action: { label: "Retry", onAction: retryUpload },
+    });
+  }
+</script>
+
+<Dialog bind:this={dialog} title="Share the report">
+  {#snippet trigger()}Share{/snippet}
+  <Button copy="https://example.com/reports/q3" copiedLabel="Link copied">Copy the link</Button>
+</Dialog>
+```
+
+With the custom elements, the methods are on the element, and `copy` on
+`<ds-button>` gives the confirmation:
 
 ```html
 <ds-dialog heading="Share the report" trigger="Share">

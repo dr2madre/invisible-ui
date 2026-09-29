@@ -36,12 +36,18 @@ and [Loading Button](/invisible-ui/components/forms/loading-button/)
 
 ### Copy confirmation
 
-In Elements, `copy` holds text for the button to copy. After a successful
-copy, "Copied" (or `copied-label`) shows beside the button for two seconds,
-announced through a polite live region; the button keeps its name and focus.
+In Elements and Svelte, `copy` holds text for the button to copy. After a
+successful copy, "Copied" (or `copied-label`, `copiedLabel` in Svelte) shows
+beside the button for two seconds, announced through a polite live region;
+the button keeps its name and focus. Nothing shows when the clipboard refuses
+the text.
 It is the confirmation at the source that
 [ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)
 asks for inside a dialog.
+
+```svelte
+<Button copy="https://example.com/reports/q3" copiedLabel="Link copied">Copy the link</Button>
+```
 
 ```html
 <ds-button copy="https://example.com/reports/q3" copied-label="Link copied">Copy the link</ds-button>

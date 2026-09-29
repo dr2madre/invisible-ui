@@ -22,6 +22,7 @@
   import type { Snippet } from "svelte";
   import type { Attachment } from "svelte/attachments";
   import { getI18n } from "../i18n/create-i18n";
+  import { CopyFeedback } from "../internal/copy-feedback.svelte";
 
   const { t } = getI18n();
 
@@ -42,24 +43,12 @@
 
   const resolvedCopyLabel = $derived(copyLabel ?? $t("codeBlock.copy"));
 
-  let copied = $state(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-
-  async function copy() {
-    try {
-      await navigator.clipboard?.writeText(code);
-      copied = true;
-      clearTimeout(timer);
-      timer = setTimeout(() => (copied = false), 2000);
-    } catch {
-      // Clipboard may be unavailable (insecure context / denied permission);
-      // fail silently rather than throwing in the user's face.
-    }
-  }
+  // The clipboard and timing logic the copy Button shares (ADR 0016).
+  const feedback = new CopyFeedback();
 
   // An attachment (not a lifecycle hook) keeps this client-only and SSR-safe:
   // the copy confirmation timer is dropped when the block goes away.
-  const dropTimer: Attachment = () => () => clearTimeout(timer);
+  const dropTimer: Attachment = () => () => feedback.reset();
 </script>
 
 <figure
@@ -75,10 +64,10 @@
         <button
           type="button"
           class="code-block__copy"
-          onclick={copy}
+          onclick={() => void feedback.copy(code)}
           aria-label={resolvedCopyLabel}
         >
-          {copied ? "Copied" : "Copy"}
+          {feedback.copied ? $t("codeBlock.copiedText") : $t("codeBlock.copyText")}
         </button>
       {/if}
     </figcaption>
@@ -97,7 +86,7 @@
       >{#if children}{@render children()}{:else}{code}{/if}</code
     ></pre>
   <span class="code-block__live" role="status" aria-live="polite">
-    {copied ? "Copied to clipboard" : ""}
+    {feedback.copied ? $t("codeBlock.copied") : ""}
   </span>
 </figure>
 
