@@ -374,6 +374,7 @@
         }
       ],
       "notes": [
+        "Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status area, ADR 0016).",
         "Emits: `open-change` with `detail.open`."
       ]
     }

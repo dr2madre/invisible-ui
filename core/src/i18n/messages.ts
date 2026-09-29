@@ -72,6 +72,8 @@ export const en = {
   // Notification
   "notificationRegion.label": "Notifications",
   // Forms & inputs
+  // Shown beside a button after it copied its value, and announced (ADR 0016).
+  "button.copied": "Copied",
   "combobox.placeholder": "Search…",
   "combobox.clear": "Clear",
   "combobox.empty": "No results",

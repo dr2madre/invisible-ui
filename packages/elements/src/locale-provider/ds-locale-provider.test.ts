@@ -47,6 +47,10 @@ afterEach(() => {
   document.documentElement.removeAttribute("lang");
 });
 
+// The results count region; the dialog's status area holds another one.
+const resultsStatus = () =>
+  document.querySelector<HTMLElement>(".search-dialog__sr-only[role='status']");
+
 describe("<ds-locale-provider>", () => {
   it("writes lang and a derived dir on itself", () => {
     const provider = mount("", 'locale="AR-eg"');
@@ -95,9 +99,9 @@ describe("<ds-locale-provider>", () => {
     await user.click(screen.getByRole("button", { name: "Cerca…" }));
     const input = screen.getByRole("combobox", { name: "Cerca nel sito" });
     expect(input).toHaveAttribute("placeholder", "Scrivi per cercare…");
-    expect(screen.getByRole("status")).toHaveTextContent("2 risultati");
+    expect(resultsStatus()).toHaveTextContent("2 risultati");
     await user.type(input, "Alf");
-    expect(screen.getByRole("status")).toHaveTextContent("1 risultato");
+    expect(resultsStatus()).toHaveTextContent("1 risultato");
   });
 
   it("localizes the sidebar's rail toggle", async () => {

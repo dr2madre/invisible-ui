@@ -87,6 +87,48 @@ task wants a different shape, not a deeper stack.
 </Dialog>
 ```
 
+### Messages while a dialog is open
+
+A toast above or below a modal dialog is either unseen or in the way. Where a
+message goes depends on what it is about
+([ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)):
+
+1. **About the dialog's own task:** in the dialog. Beside the control that
+   caused it ("Link copied" next to the copy button), or in the dialog's
+   status area, between the body and the footer (a failed upload with Retry).
+2. **Unrelated, and it can wait:** the
+   [Notification Region](/invisible-ui/components/feedback/notification-region/)
+   holds it and shows it after the dialog closes.
+3. **Unrelated, and it needs a decision now:** a dialog on top, which takes
+   focus and gives it back to the dialog below when it closes.
+
+The custom elements implement all three today; Svelte, Vue and React follow
+with the same contract. Every dialog element in the family has `notify()`,
+`dismissNotice(id)` and `clearNotices()`. A notice looks like an Inline
+Notification, is announced once through a polite live region, never takes
+focus, and is cleared when the dialog closes. `copy` on `<ds-button>` gives
+the confirmation beside the control:
+
+```html
+<ds-dialog heading="Share the report" trigger="Share">
+  <ds-button copy="https://example.com/reports/q3" copied-label="Link copied">
+    Copy the link
+  </ds-button>
+</ds-dialog>
+<script type="module">
+  const dialog = document.querySelector("ds-dialog");
+  // Called by the application when an upload started in the dialog fails.
+  function onUploadError() {
+    dialog.notify({
+      status: "danger",
+      title: "Upload failed",
+      description: "The connection dropped.",
+      action: { label: "Retry", onAction: retryUpload },
+    });
+  }
+</script>
+```
+
 Live: an edit dialog composing form controls (with their own overlays) and a
 confirm-on-close, with a tooltip on the trigger.
 

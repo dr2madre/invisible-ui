@@ -91,6 +91,14 @@ describe("<ds-code-block>", () => {
     expect(screen.getByRole("button", { name: "Copy code" })).toHaveTextContent("Copy");
   });
 
+  it("announces nothing when there is no clipboard", async () => {
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined });
+    mount();
+    await press(screen.getByRole("button", { name: "Copy code" }));
+    expect(screen.getByRole("status")).toHaveTextContent("");
+    expect(screen.getByRole("button", { name: "Copy code" })).not.toHaveTextContent("Copied");
+  });
+
   it("omits the copy button when copyable is false", () => {
     mount('copyable="false"');
     expect(screen.queryByRole("button")).not.toBeInTheDocument();

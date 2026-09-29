@@ -4,6 +4,7 @@
 import "@design-system/elements/styles.css";
 import "@design-system/elements/define";
 import type {
+  DsDialog,
   DsNavigationMenu,
   DsNotificationRegion,
   DsPopover,
@@ -19,16 +20,27 @@ import type {
 
 const one = <T extends Element>(selector: string) => document.querySelector(selector) as T;
 
-// Notifications: the page's region, and the dialog's own region for the
-// buttons inside the modal dialog. Delegated, because the dialog moves its
-// body when it renders.
+// Notifications: every button, on the page or in the dialog, goes to the
+// page's region, which holds them while the dialog is open (ADR 0016). The
+// failed upload is about the dialog's task, so it goes to the dialog's status
+// area. Delegated, because the dialog moves its body when it renders.
 let notices = 0;
 document.addEventListener("click", (event) => {
-  const button = (event.target as Element).closest<HTMLElement>("[data-notify]");
+  const target = event.target as Element;
+  if (target.closest("[data-lab-upload]")) {
+    notices += 1;
+    const dialog = one<DsDialog>("[data-lab-share]");
+    dialog.notify({
+      status: "danger",
+      title: `Upload ${notices} failed`,
+      description: "The connection dropped.",
+      action: { label: "Retry", onAction: () => {} },
+    });
+    return;
+  }
+  const button = target.closest<HTMLElement>("[data-notify]");
   if (!button) return;
-  const region =
-    button.closest("dialog")?.querySelector<DsNotificationRegion>("ds-notification-region") ??
-    one<DsNotificationRegion>("[data-lab-page-region]");
+  const region = one<DsNotificationRegion>("[data-lab-page-region]");
   notices += 1;
   if (button.dataset.notify === "assertive")
     region.show({ title: `Upload ${notices} failed`, status: "danger", role: "alert" });

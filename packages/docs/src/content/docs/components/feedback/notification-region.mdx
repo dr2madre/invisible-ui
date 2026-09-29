@@ -38,6 +38,22 @@ notifier. `show()` and the status shorthands return the id that `update()` and
 </script>
 ```
 
+### Messages while a dialog is open
+
+In Elements, the region holds new notifications while any modal dialog is
+open in the document, including a native `<dialog>` opened with
+`showModal()`
+([ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)).
+They are neither shown nor announced until the last modal closes; then they
+appear in order and their auto-dismiss countdowns start. Notifications already
+on screen when a modal opens stay, with their countdowns held. The region
+always mounts in `<body>`, even when the element sits inside a dialog.
+
+A message about the dialog's own task belongs in the dialog: call `notify()`
+on the dialog element to show it in the dialog's status area. A message that
+needs a decision now opens a dialog on top. Svelte, Vue and React follow with
+the same contract.
+
 ### Props
 
 <PropsTable component="notification-region" />

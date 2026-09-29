@@ -65,6 +65,8 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
  * `close-label`.
  * Properties: `open` (boolean), `items` and `suggestions` (arrays of
  * `{ value, label?, disabled?, group?, shortcut? }`).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: bubbling `open-change` CustomEvent with `detail.open`, and `select`
  * with `detail.value` when a result is chosen.
  */
@@ -238,7 +240,8 @@ export class DsSearchDialog extends ModalHost {
     this.#empty = document.createElement("p");
     this.#empty.className = "search-dialog__empty";
 
-    panel.append(this.#header.header, search, this.#status, this.#listbox);
+    // No footer: the status area closes the panel, after the results.
+    panel.append(this.#header.header, search, this.#status, this.#listbox, ...this.status.parts);
     this.textContent = "";
     this.append(this.trigger);
     this.panel = panel;

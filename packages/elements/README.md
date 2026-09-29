@@ -62,6 +62,11 @@ customElements.define("ds-button", DsButton);
   `change` is stopped so listeners never receive doubles.
 - **`heading`, not `title`.** The global HTML `title` attribute is a browser
   tooltip, so `<ds-dialog>` names its title `heading`.
+- **Messages while a dialog is open (ADR 0016).** Every dialog element has a
+  status area for its own task (`notify()`, `dismissNotice()`,
+  `clearNotices()`), `<ds-button copy>` confirms a copy beside itself, and
+  `<ds-notification-region>` holds its notifications until the last modal
+  dialog closes. A dialog opened from inside another returns focus there.
 - **Attributes in, properties too**: attributes are the declarative API
   (`checked`, `value`, `open`, `disabled` — observed and reflected);
   `checked` / `value` / `open` / `items` also exist as JS properties.

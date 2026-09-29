@@ -57,18 +57,100 @@ describe("<ds-notification-region>", () => {
     expect(region).toHaveAttribute("data-placement", "top-end");
   });
 
-  it("moves the region into an open modal dialog around it", async () => {
-    const user = userEvent.setup();
-    document.body.innerHTML = `
-      <ds-dialog heading="Upload" trigger="Open">
-        <ds-notification-region duration="0"></ds-notification-region>
-      </ds-dialog>`;
-    await user.click(screen.getByRole("button", { name: "Open" }));
-    const host = document.querySelector("ds-notification-region") as DsNotificationRegion;
-    host.success("Uploaded");
-    const panel = screen.getByRole("dialog");
-    expect(panel).toContainElement(screen.getByRole("region", { name: "Notifications" }));
-    expect(within(panel).getByText("Uploaded")).toBeInTheDocument();
+  describe("while a modal dialog is open (ADR 0016)", () => {
+    // The observer that follows dialogs reports in a microtask.
+    const settle = async () => {
+      for (let tick = 0; tick < 3; tick++) await Promise.resolve();
+    };
+    const mountWithDialog = () => {
+      document.body.innerHTML = `
+        <ds-dialog heading="Upload" trigger="Open"><p>Body</p></ds-dialog>
+        <ds-notification-region duration="0"></ds-notification-region>`;
+      return {
+        dialog: document.querySelector("ds-dialog") as HTMLElement & { open: boolean },
+        host: document.querySelector("ds-notification-region") as DsNotificationRegion,
+      };
+    };
+
+    it("holds new notifications, then shows them in order after the dialog closes", async () => {
+      const { dialog, host } = mountWithDialog();
+      dialog.open = true;
+      await settle();
+      host.info("First");
+      host.info("Second");
+      expect(slots()).toHaveLength(0);
+      expect(host.notifications.map((item) => item.title)).toEqual(["First", "Second"]);
+
+      dialog.open = false;
+      await settle();
+      // Queue order in the DOM; the stylesheet puts the newest on top.
+      expect(slots().map((slot) => slot.getAttribute("title"))).toEqual(["First", "Second"]);
+    });
+
+    it("never mounts the region inside the dialog, even when placed in it", async () => {
+      document.body.innerHTML = `
+        <ds-dialog heading="Upload" trigger="Open">
+          <ds-notification-region duration="0"></ds-notification-region>
+        </ds-dialog>`;
+      const dialog = document.querySelector("ds-dialog") as HTMLElement & { open: boolean };
+      const host = document.querySelector("ds-notification-region") as DsNotificationRegion;
+      dialog.open = true;
+      await settle();
+      host.success("Uploaded");
+      const panel = screen.getByRole("dialog");
+      const region = screen.getByRole("region", { name: "Notifications" });
+      expect(region.parentElement).toBe(document.body);
+      expect(panel).not.toContainElement(region);
+      expect(screen.queryByText("Uploaded")).toBeNull();
+
+      dialog.open = false;
+      await settle();
+      expect(within(region).getByRole("group", { name: "Uploaded" })).toBeInTheDocument();
+    });
+
+    it("announces a held notification only once it is shown", async () => {
+      const { dialog, host } = mountWithDialog();
+      const polite = within(screen.getByRole("region", { name: "Notifications" })).getByRole(
+        "status",
+      );
+      dialog.open = true;
+      await settle();
+      host.info("Report ready");
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      expect(polite).toBeEmptyDOMElement();
+
+      dialog.open = false;
+      await settle();
+      await waitFor(() => expect(polite).toHaveTextContent("Report ready"));
+    });
+
+    it("waits for every stacked modal, and for a modal opened outside the package", async () => {
+      const { dialog, host } = mountWithDialog();
+      const native = document.createElement("dialog");
+      document.body.append(native);
+      // jsdom never matches :modal; a browser does for a showModal() dialog.
+      const matches = Element.prototype.matches;
+      vi.spyOn(Element.prototype, "matches").mockImplementation(function (
+        this: Element,
+        selector: string,
+      ) {
+        if (selector === ":modal") return this === native && native.hasAttribute("open");
+        return matches.call(this, selector);
+      });
+      dialog.open = true;
+      native.showModal();
+      await settle();
+      host.info("Later");
+
+      dialog.open = false;
+      await settle();
+      expect(slots()).toHaveLength(0);
+
+      native.close();
+      await settle();
+      expect(slots()).toHaveLength(1);
+      vi.restoreAllMocks();
+    });
   });
 
   it("queues notifications shown before it is connected", () => {
@@ -345,6 +427,50 @@ describe("<ds-notification-region>", () => {
       (document.activeElement as HTMLElement).blur();
       vi.advanceTimersByTime(1000);
       expect(onDismiss).toHaveBeenCalledTimes(2);
+    });
+
+    it("starts a held countdown only when the notification is shown", async () => {
+      document.body.innerHTML = `
+        <ds-dialog heading="Upload" trigger="Open"><p>Body</p></ds-dialog>
+        <ds-notification-region duration="0"></ds-notification-region>`;
+      const dialog = document.querySelector("ds-dialog") as HTMLElement & { open: boolean };
+      const host = document.querySelector("ds-notification-region") as DsNotificationRegion;
+      const onDismiss = vi.fn();
+      dialog.open = true;
+      await Promise.resolve();
+      host.show({ title: "Held", duration: 1000, onDismiss });
+      vi.advanceTimersByTime(5000);
+      expect(onDismiss).not.toHaveBeenCalled();
+
+      dialog.open = false;
+      await Promise.resolve();
+      expect(slots()).toHaveLength(1);
+      vi.advanceTimersByTime(999);
+      expect(onDismiss).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(1);
+      expect(onDismiss).toHaveBeenCalledWith("timeout");
+    });
+
+    it("holds the countdown of a shown notification while a modal is open", async () => {
+      document.body.innerHTML = `
+        <ds-dialog heading="Upload" trigger="Open"><p>Body</p></ds-dialog>
+        <ds-notification-region duration="0"></ds-notification-region>`;
+      const dialog = document.querySelector("ds-dialog") as HTMLElement & { open: boolean };
+      const host = document.querySelector("ds-notification-region") as DsNotificationRegion;
+      const onDismiss = vi.fn();
+      host.show({ title: "Shown", duration: 1000, onDismiss });
+      vi.advanceTimersByTime(400);
+      dialog.open = true;
+      await Promise.resolve();
+      // It stays where it was, behind the dialog, and its time stands still.
+      expect(slots()).toHaveLength(1);
+      vi.advanceTimersByTime(5000);
+      expect(onDismiss).not.toHaveBeenCalled();
+
+      dialog.open = false;
+      await Promise.resolve();
+      vi.advanceTimersByTime(600);
+      expect(onDismiss).toHaveBeenCalledWith("timeout");
     });
 
     it("releases the pause when the focused notification is dismissed", () => {

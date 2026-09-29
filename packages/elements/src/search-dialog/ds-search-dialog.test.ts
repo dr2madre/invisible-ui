@@ -24,6 +24,10 @@ const openPalette = (user: ReturnType<typeof userEvent.setup>) =>
   user.click(screen.getByRole("button", { name: "Open palette" }));
 const options = () => within(screen.getByRole("listbox")).queryAllByRole("option");
 
+// The results count region; the dialog's status area holds another one.
+const resultsStatus = () =>
+  document.querySelector<HTMLElement>(".search-dialog__sr-only[role='status']");
+
 describe("<ds-search-dialog>", () => {
   it("is closed by default", () => {
     mount();
@@ -158,11 +162,11 @@ describe("<ds-search-dialog>", () => {
     const user = userEvent.setup();
     mount();
     await openPalette(user);
-    expect(screen.getByRole("status")).toHaveTextContent("4 results available");
+    expect(resultsStatus()).toHaveTextContent("4 results available");
     await user.type(screen.getByRole("combobox"), "sa");
-    expect(screen.getByRole("status")).toHaveTextContent("1 result available");
+    expect(resultsStatus()).toHaveTextContent("1 result available");
     await user.type(screen.getByRole("combobox"), "zzz");
-    expect(screen.getByRole("status")).toHaveTextContent("No results found.");
+    expect(resultsStatus()).toHaveTextContent("No results found.");
   });
 
   const grouped: SearchDialogItem[] = [
@@ -224,7 +228,7 @@ describe("<ds-search-dialog>", () => {
     const user = userEvent.setup();
     mount([], "loading");
     await openPalette(user);
-    expect(screen.getByRole("status")).toHaveTextContent("Searching…");
+    expect(resultsStatus()).toHaveTextContent("Searching…");
     expect(document.querySelector(".search-dialog__loading")).not.toBeNull();
     expect(screen.queryByText("No results found.", { selector: "p" })).not.toBeInTheDocument();
   });

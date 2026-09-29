@@ -159,7 +159,7 @@
     "name": "@design-system/elements — alert dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsAlertDialog }",
-    "limit": "6 kB"
+    "limit": "6.5 kB"
   },
   {
     "name": "@design-system/elements — avatar only, tree-shaken",
@@ -207,7 +207,7 @@
     "name": "@design-system/elements — confirm dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsConfirmDialog }",
-    "limit": "6 kB"
+    "limit": "6.5 kB"
   },
   {
     "name": "@design-system/elements — dropdown menu only, tree-shaken",
@@ -273,7 +273,7 @@
     "name": "@design-system/elements — prompt dialog only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPromptDialog }",
-    "limit": "6.5 kB"
+    "limit": "7 kB"
   },
   {
     "name": "@design-system/elements — radio only, tree-shaken",

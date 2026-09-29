@@ -26,8 +26,8 @@ were worth a session. This lab adds to that list; it does not replace it.
 
 The Elements accessibility review (pull request #420) left 21 more to a person
 with a screen reader, all on the custom elements adapter: range day names in
-the calendar, notifications announced once (on the page and inside a modal
-dialog), result counts, Loading and Count updates, tree status, tab names
+the calendar, notifications announced once on the page, messages while a
+modal dialog is open (ADR 0016), result counts, Loading and Count updates, tree status, tab names
 with a count, the sidebar rail toggle, description and error wiring, Error
 and Empty State with and without `live`, where focus lands after Load more,
 a popover and the navigation menu, and arrow keys in right-to-left text. The
