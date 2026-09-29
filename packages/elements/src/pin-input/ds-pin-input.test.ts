@@ -203,4 +203,33 @@ describe("<ds-pin-input>", () => {
     await user.keyboard("7");
     expect(cells().map((cell) => cell.value)).toEqual(["", "", "", "7", "", ""]);
   });
+
+  it("describes the cells by its description and error, and cleans up", () => {
+    const host = mount();
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = cells()[0]!;
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("writes no empty group name and warns once without a label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    document.body.innerHTML = `<ds-pin-input length="4"></ds-pin-input>`;
+    const host = document.querySelector("ds-pin-input") as DsPinInput;
+    expect(screen.getByRole("group")).not.toHaveAttribute("aria-label");
+    host.setAttribute("value", "12");
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/<ds-pin-input> needs a label/);
+    host.setAttribute("label", "Code");
+    expect(screen.getByRole("group", { name: "Code" })).toBeInTheDocument();
+    warn.mockRestore();
+  });
 });

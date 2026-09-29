@@ -67,6 +67,31 @@ describe("<ds-pagination>", () => {
     expect(nextPage).toHaveFocus();
   });
 
+  it("moves focus to the current page when Next or Previous turns disabled", async () => {
+    const user = userEvent.setup();
+    mount('page="4" page-count="5"');
+    await user.click(screen.getByRole("button", { name: "Go to next page" }));
+    expect(screen.getByRole("button", { name: "Go to next page" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Go to page 5" })).toHaveFocus();
+
+    document.body.innerHTML = "";
+    mount('page="2" page-count="5"');
+    await user.click(screen.getByRole("button", { name: "Go to previous page" }));
+    expect(screen.getByRole("button", { name: "Go to previous page" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Go to page 1" })).toHaveFocus();
+  });
+
+  it("follows the visual direction in right-to-left text", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<div dir="rtl"><ds-pagination page="1" page-count="5"></ds-pagination></div>`;
+    screen.getByRole("button", { name: "Go to page 1" }).focus();
+    // The visual start is on the right, so ArrowLeft walks forward.
+    await user.keyboard("{ArrowLeft}");
+    expect(screen.getByRole("button", { name: "Go to page 2" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("button", { name: "Go to page 1" })).toHaveFocus();
+  });
+
   it("follows configuration changes, clamps silently and updates labels", () => {
     const host = mount('page="8" page-count="10"');
     const changes = vi.fn();

@@ -132,4 +132,14 @@
     text-align: center;
     color: var(--ds-color-text-secondary, #524c44);
   }
+
+  /* Forced colors: the fill that marks the current page is flattened away, so
+     it takes system colours. */
+  @media (forced-colors: active) {
+    .pagination__page:global([data-selected]) {
+      background: Highlight;
+      border-color: Highlight;
+      color: HighlightText;
+    }
+  }
 </style>

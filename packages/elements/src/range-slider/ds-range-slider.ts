@@ -76,6 +76,7 @@ export class DsRangeSlider extends HTMLElementBase {
   #field: HTMLDivElement | null = null;
   #row: HTMLDivElement | null = null;
   #root: HTMLDivElement | null = null;
+  #warnedLabel = false;
   #track: HTMLDivElement | null = null;
   #range: HTMLSpanElement | null = null;
   #inputs: [HTMLInputElement, HTMLInputElement] | null = null;
@@ -294,19 +295,29 @@ export class DsRangeSlider extends HTMLElementBase {
     const root = this.#root!;
     root.classList.toggle("range-slider--disabled", disabled);
     applyProps(root, api.rootProps);
-    root.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) root.setAttribute("aria-label", label);
+    else root.removeAttribute("aria-label");
     root.style.setProperty("--_range-lower-pct", `${api.percentages[0]}%`);
     root.style.setProperty("--_range-upper-pct", `${api.percentages[1]}%`);
     applyProps(this.#range!, api.rangeProps);
 
     const name = this.getAttribute("name");
     const labels = [this.getAttribute("lower-label"), this.getAttribute("upper-label")];
+    if ((!label || !labels[0] || !labels[1]) && !this.#warnedLabel) {
+      this.#warnedLabel = true;
+      console.warn(
+        "[ds] <ds-range-slider> needs label, lower-label and upper-label attributes to name the group and its thumbs.",
+      );
+    }
     this.#inputs!.forEach((input, index) => {
       const props = api.getThumbProps(index as 0 | 1);
       applyProps(input, props);
       if (name) input.name = name;
       else input.removeAttribute("name");
-      input.setAttribute("aria-label", labels[index] ?? "");
+      const thumbLabel = labels[index];
+      if (thumbLabel) input.setAttribute("aria-label", thumbLabel);
+      else input.removeAttribute("aria-label");
       // The bound named is the one the clamp really uses, read from the same
       // override core computes, so the text and the attribute never disagree.
       input.setAttribute(

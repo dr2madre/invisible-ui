@@ -133,4 +133,11 @@
   .accordion__panel {
     padding: 0 0.8rem 0.8rem;
   }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .accordion__icon {
+      transition: none;
+    }
+  }
 </style>

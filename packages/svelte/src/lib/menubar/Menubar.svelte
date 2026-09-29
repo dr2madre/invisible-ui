@@ -167,9 +167,12 @@
   .menubar__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
+     marks the focused item. The menu clips, so the ring goes inside. */
   .menubar__item:focus-visible {
     outline: none;
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .menubar__item:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #757067);

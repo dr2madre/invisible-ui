@@ -451,6 +451,20 @@
           "required": false,
           "description": "submits via a hidden input",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

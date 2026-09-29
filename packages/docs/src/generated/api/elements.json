@@ -106,7 +106,7 @@
     {
       "name": "DsAccordionItem",
       "kind": "class",
-      "signature": "declare class DsAccordionItem extends HTMLElementBase { #private; static observedAttributes: string[]; /** The header button, once the item has rendered. */ get trigger(): HTMLButtonElement | null; /** The panel, once the item has rendered. */ get panel(): HTMLDivElement | null; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; }"
+      "signature": "declare class DsAccordionItem extends HTMLElementBase { #private; static observedAttributes: string[]; /** The header button, once the item has rendered. */ get trigger(): HTMLButtonElement | null; /** The panel, once the item has rendered. */ get panel(): HTMLDivElement | null; connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; /** * Give the header the level that fits the page outline. Also called by the * accordion when its own `heading-level` changes. */ syncHeading(): void; }"
     },
     {
       "name": "DsAlertDialog",
@@ -211,7 +211,7 @@
     {
       "name": "DsDatePicker",
       "kind": "class",
-      "signature": "declare class DsDatePicker extends PickerField { #private; static observedAttributes: string[]; protected readonly messages: { readonly label: \"datePicker.label\"; readonly placeholder: \"datePicker.placeholder\"; readonly clear: \"datePicker.clear\"; }; connectedCallback(): void; get value(): string | null; set value(next: string | null); protected syncValue(): void; protected hasValue(): boolean; protected displayText(format: Intl.DateTimeFormat): string; protected formFields(): { name: string | null; value: string; }[]; protected configureCalendar(calendar: DsCalendar): void; protected onCalendarPick(event: CustomEvent<{ value: string; }>): boolean; protected clearValue(): void; protected restore(): void; }"
+      "signature": "declare class DsDatePicker extends PickerField { #private; static observedAttributes: string[]; protected readonly messages: { readonly label: \"datePicker.label\"; readonly placeholder: \"datePicker.placeholder\"; readonly clear: \"datePicker.clear\"; }; connectedCallback(): void; get value(): string | null; set value(next: string | null); protected syncValue(): void; protected syncMessages(input: HTMLInputElement): void; protected hasValue(): boolean; protected displayText(format: Intl.DateTimeFormat): string; protected formFields(): { name: string | null; value: string; }[]; protected configureCalendar(calendar: DsCalendar): void; protected onCalendarPick(event: CustomEvent<{ value: string; }>): boolean; protected clearValue(): void; protected restore(): void; }"
     },
     {
       "name": "DsDateRangePicker",

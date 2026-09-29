@@ -14,10 +14,7 @@ describe("<ds-button> badge", () => {
     // browser test checks the description itself.
     const badge = document.getElementById(button.getAttribute("aria-describedby")!)!;
     expect(badge).toHaveClass("button__badge");
-    expect(badge.querySelector("[aria-label]")).toHaveAttribute(
-      "aria-label",
-      "3 unread notifications",
-    );
+    expect(badge.querySelector('[role="status"]')).toHaveTextContent("3 unread notifications");
     expect(button).not.toContainElement(badge as HTMLElement);
     expect(document.querySelector("ds-button")).toHaveClass("button__badge-anchor");
   });
@@ -29,7 +26,7 @@ describe("<ds-button> badge", () => {
       </ds-button>`;
     const button = screen.getByRole("button", { name: "Inbox" });
     const badge = document.getElementById(button.getAttribute("aria-describedby")!)!;
-    expect(badge.querySelector("[aria-label]")).toHaveAttribute("aria-label", "New messages");
+    expect(badge.querySelector('[role="status"]')).toHaveTextContent("New messages");
   });
 
   it("renders no badge when none is given", () => {

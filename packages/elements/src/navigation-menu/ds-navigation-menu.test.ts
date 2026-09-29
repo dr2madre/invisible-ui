@@ -90,6 +90,39 @@ describe("<ds-navigation-menu>", () => {
     expect(screen.queryByRole("link", { name: /Catalog/ })).toBeNull();
   });
 
+  it("closes when Tab moves focus out of the trigger and the panel", async () => {
+    const user = userEvent.setup();
+    mount();
+    const trigger = screen.getByRole("button", { name: "Products" });
+    await user.click(trigger);
+    await user.tab();
+    expect(screen.getByRole("link", { name: /Catalog/ })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("link", { name: /Lineage/ })).toHaveFocus();
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await user.tab();
+    const docs = screen.getByRole("button", { name: "Docs" });
+    expect(docs).toHaveFocus();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("link", { name: /Catalog/ })).toBeNull();
+  });
+
+  it("writes no empty landmark name and warns once without a label", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    document.body.innerHTML = `<ds-navigation-menu></ds-navigation-menu>`;
+    const menu = document.querySelector("ds-navigation-menu") as DsNavigationMenu;
+    menu.items = items;
+    const nav = menu.querySelector("nav")!;
+    expect(nav).not.toHaveAttribute("aria-label");
+    expect(warn).toHaveBeenCalledTimes(1);
+    menu.setAttribute("label", "Site");
+    expect(nav).toHaveAttribute("aria-label", "Site");
+    menu.removeAttribute("label");
+    expect(nav).not.toHaveAttribute("aria-label");
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockRestore();
+  });
+
   it("opens on hover after the delay and switches at once while open", () => {
     vi.useFakeTimers();
     mount();

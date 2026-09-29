@@ -23,6 +23,11 @@ export interface ConnectOptions {
   setValue: (value: string) => void;
   /** Move DOM focus to the tab with the given value (adapter-provided). */
   focus?: (value: string) => void;
+  /**
+   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * right arrows swap meaning, so they keep following the visual order.
+   */
+  direction?: "ltr" | "rtl";
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -37,6 +42,7 @@ export function connect({
   state,
   setValue,
   focus,
+  direction = "ltr",
   normalize = identityNormalize,
 }: ConnectOptions): TabsApi {
   const { value, items, orientation, activationMode, id } = state;
@@ -58,7 +64,11 @@ export function connect({
   };
 
   const [nextKey, prevKey] =
-    orientation === "vertical" ? ["ArrowDown", "ArrowUp"] : ["ArrowRight", "ArrowLeft"];
+    orientation === "vertical"
+      ? ["ArrowDown", "ArrowUp"]
+      : direction === "rtl"
+        ? ["ArrowLeft", "ArrowRight"]
+        : ["ArrowRight", "ArrowLeft"];
 
   return {
     value,

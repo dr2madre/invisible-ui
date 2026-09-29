@@ -1,5 +1,13 @@
 import { switchControl as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { localized, onLocaleChange } from "../internal/i18n";
 
@@ -11,7 +19,8 @@ import { localized, onLocaleChange } from "../internal/i18n";
  * `role="switch"` makes screen readers announce on/off.
  *
  * Attributes: `label` (required), `hide-label`, `checked`, `disabled`, `name`, `value`,
- * `required`, `on-off` (text-in-track variant), `on-text`, `off-text`.
+ * `required`, `on-off` (text-in-track variant), `on-text`, `off-text`,
+ * `description`, `error`.
  * Properties: `checked` (boolean).
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
@@ -27,11 +36,14 @@ export class DsSwitch extends HTMLElementBase {
     "on-off",
     "on-text",
     "off-text",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
   #track: HTMLSpanElement | null = null;
   #text: HTMLSpanElement | null = null;
+  #messages = new FieldMessages(nextId("ds-switch"));
   /** What a form reset restores: the last state set from outside. */
   #defaultChecked = false;
   #stopFormReset: (() => void) | null = null;
@@ -148,5 +160,8 @@ export class DsSwitch extends HTMLElementBase {
     // The real DOM default, so the browser's own reset works and so does one
     // in markup the script never reaches.
     input.defaultChecked = this.#defaultChecked;
+    // Outside the label, so the messages describe the switch without joining
+    // its name.
+    this.#messages.sync(this, this, [input]);
   }
 }

@@ -262,4 +262,14 @@
       outline-offset: 2px;
     }
   }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .switch,
+    .switch::after,
+    .switch--onoff .switch__on,
+    .switch--onoff .switch__off {
+      transition: none;
+    }
+  }
 </style>

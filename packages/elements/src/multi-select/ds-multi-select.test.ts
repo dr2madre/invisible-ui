@@ -230,4 +230,20 @@ describe("<ds-multi-select>", () => {
     expect(input()).toHaveFocus();
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("describes the input by its description and error, and cleans up", () => {
+    const host = mount();
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = input();
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
+  });
 });

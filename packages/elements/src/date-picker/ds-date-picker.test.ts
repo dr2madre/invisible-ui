@@ -209,6 +209,22 @@ describe("<ds-date-picker> in a form", () => {
     await settled();
     expect(host.value).toBe("2026-06-01");
   });
+
+  it("describes the field by its description and error, and cleans up", () => {
+    const host = mount("");
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = field();
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
+  });
 });
 
 /** The restore runs one task after the reset event; wait past it. */

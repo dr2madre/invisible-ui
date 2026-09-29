@@ -36,6 +36,11 @@ export interface ConnectOptions {
   state: CarouselState;
   /** Request a new current index; the adapter owns how state updates. */
   setIndex: (index: number) => void;
+  /**
+   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * right arrows swap meaning, so they keep following the visual order.
+   */
+  direction?: "ltr" | "rtl";
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -50,6 +55,7 @@ export interface ConnectOptions {
 export function connect({
   state,
   setIndex,
+  direction = "ltr",
   normalize = identityNormalize,
 }: ConnectOptions): CarouselApi {
   const { index, count, orientation, id } = state;
@@ -61,8 +67,9 @@ export function connect({
   const next = () => go(nextIndex(state));
   const prev = () => go(prevIndex(state));
 
-  const forwardKey = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
-  const backKey = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+  const rtl = direction === "rtl";
+  const forwardKey = orientation === "vertical" ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
+  const backKey = orientation === "vertical" ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
 
   return {
     index,

@@ -107,7 +107,10 @@ describe("<ds-locale-provider>", () => {
     sidebar.sections = [{ items: [{ value: "home", label: "Home", icon: "M3 12l9-9 9 9" }] }];
     const toggle = screen.getByRole("button", { name: "Comprimi la navigazione" });
     await user.click(toggle);
-    expect(screen.getByRole("button", { name: "Espandi la navigazione" })).toBeInTheDocument();
+    // One name in both states; aria-pressed tells them apart.
+    expect(
+      screen.getByRole("button", { name: "Comprimi la navigazione", pressed: true }),
+    ).toBeInTheDocument();
   });
 
   it("names the avatar group's overflow chip with the plural message", () => {

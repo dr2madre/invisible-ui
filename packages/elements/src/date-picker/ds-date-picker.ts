@@ -1,5 +1,6 @@
 import type { DsCalendar } from "../calendar/ds-calendar";
-import { emit, upgradeProperty } from "../internal/base";
+import { emit, nextId, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { asDate, dt, PickerField } from "./picker-field";
 
 /**
@@ -18,7 +19,7 @@ import { asDate, dt, PickerField } from "./picker-field";
  * Attributes: `value` (ISO `YYYY-MM-DD`), `name`, `min`, `max`,
  * `week-starts-on` (0 = Sunday to 6), `locale`, `date-style`
  * (full|long|medium|short), `label`, `placeholder`, `clear-label`,
- * `disabled`, `clearable`.
+ * `disabled`, `clearable`, `description`, `error`.
  * Properties: `value`, `events`, `prices` (forwarded to the calendar), `open`
  * (read only).
  * Emits: `change` (`detail.value`, `null` when cleared).
@@ -37,6 +38,8 @@ export class DsDatePicker extends PickerField {
     "clear-label",
     "disabled",
     "clearable",
+    "description",
+    "error",
   ];
 
   protected readonly messages = {
@@ -49,6 +52,7 @@ export class DsDatePicker extends PickerField {
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string | null = null;
   #synced = false;
+  #messages = new FieldMessages(nextId("ds-date-picker"));
 
   override connectedCallback() {
     upgradeProperty(this, "value");
@@ -73,6 +77,12 @@ export class DsDatePicker extends PickerField {
     if (!this.#synced || attr !== this.#value) this.#defaultValue = attr;
     this.#synced = true;
     this.#value = attr;
+  }
+
+  // On the host, after the field: the popup opens inside the field's root,
+  // and would otherwise push the messages out of place.
+  protected override syncMessages(input: HTMLInputElement) {
+    this.#messages.sync(this, this, [input]);
   }
 
   protected hasValue() {

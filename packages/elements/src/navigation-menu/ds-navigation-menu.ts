@@ -53,6 +53,7 @@ export class DsNavigationMenu extends HTMLElementBase {
   #openTimer: ReturnType<typeof setTimeout> | undefined;
   #closeTimer: ReturnType<typeof setTimeout> | undefined;
   #cleanup: (() => void) | null = null;
+  #warnedLabel = false;
 
   connectedCallback() {
     upgradeProperty(this, "items");
@@ -232,10 +233,19 @@ export class DsNavigationMenu extends HTMLElementBase {
       if (trigger.contains(target) || panel.contains(target)) return;
       this.#setValue(null, true);
     };
+    // Tab out of the trigger and panel closes; focus stays where it went.
+    const onFocusOut = (event: FocusEvent) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && !trigger.contains(next) && !panel.contains(next)) this.#setValue(null, true);
+    };
     document.addEventListener("pointerdown", onOutside, true);
+    trigger.addEventListener("focusout", onFocusOut);
+    panel.addEventListener("focusout", onFocusOut);
     this.#cleanup = () => {
       stopFloating();
       document.removeEventListener("pointerdown", onOutside, true);
+      trigger.removeEventListener("focusout", onFocusOut);
+      panel.removeEventListener("focusout", onFocusOut);
       // A hover delay still pending, such as the one a pointer click starts,
       // must not reopen a panel that has just closed.
       this.#hold();
@@ -244,7 +254,15 @@ export class DsNavigationMenu extends HTMLElementBase {
 
   #apply() {
     const nav = this.#nav!;
-    nav.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) nav.setAttribute("aria-label", label);
+    else {
+      nav.removeAttribute("aria-label");
+      if (!this.#warnedLabel) {
+        this.#warnedLabel = true;
+        console.warn("[ds] <ds-navigation-menu> needs a label attribute to name its landmark.");
+      }
+    }
     const open = this.#items.find((item) => item.value === this.#value && item.links);
     if (!open || this.#panel?.dataset.value !== open.value) {
       this.#closePanel();

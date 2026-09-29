@@ -50,6 +50,7 @@ export class DsMenubar extends HTMLElementBase {
   #parts: MenubarPart[] = [];
   #focusedIndex = 0;
   #bar: HTMLDivElement | null = null;
+  #warnedLabel = false;
 
   connectedCallback() {
     upgradeProperty(this, "menus");
@@ -139,7 +140,15 @@ export class DsMenubar extends HTMLElementBase {
 
   #apply() {
     if (!this.#bar) return;
-    this.#bar.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) this.#bar.setAttribute("aria-label", label);
+    else {
+      this.#bar.removeAttribute("aria-label");
+      if (!this.#warnedLabel) {
+        this.#warnedLabel = true;
+        console.warn("[ds] <ds-menubar> needs a label attribute to name its menubar.");
+      }
+    }
     this.#parts.forEach((part, index) => {
       part.menu.apply();
       part.trigger.tabIndex = index === this.#focusedIndex ? 0 : -1;

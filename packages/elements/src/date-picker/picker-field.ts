@@ -250,7 +250,11 @@ export abstract class PickerField extends HTMLElementBase {
     }
 
     if (this.#panel) applyProps(this.#panel, this.#popoverApi().contentProps);
+    this.syncMessages(input);
   }
+
+  /** Render the field's messages and describe `input` by them; none by default. */
+  protected syncMessages(_input: HTMLInputElement): void {}
 
   /** Forward the attributes the calendar shares with the picker. */
   protected forwardToCalendar(calendar: DsCalendar) {

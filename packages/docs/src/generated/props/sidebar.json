@@ -352,15 +352,8 @@
           "name": "collapse-label",
           "reactive": true,
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
-        },
-        {
-          "name": "expand-label",
-          "reactive": true,
-          "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "the rail toggle's name, the same in both states: the button reports the rail through `aria-pressed`",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [

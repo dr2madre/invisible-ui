@@ -61,6 +61,8 @@ export class DsPopover extends HTMLElementBase {
   #floatingPlacement: Placement | null = null;
   /** Set while the user opens the card, so only that opening moves focus. */
   #userOpening = false;
+  /** Set while the user closes the card, which handles focus on its own. */
+  #userClosing = false;
   #stopGhost: (() => void) | null = null;
   #showTimer: ReturnType<typeof setTimeout> | undefined;
   #hideTimer: ReturnType<typeof setTimeout> | undefined;
@@ -99,10 +101,12 @@ export class DsPopover extends HTMLElementBase {
   #setOpen = (next: boolean) => {
     if (this.open === next) return;
     this.#userOpening = next;
+    this.#userClosing = !next;
     try {
       this.open = next;
     } finally {
       this.#userOpening = false;
+      this.#userClosing = false;
     }
     emit(this, "open-change", { open: next });
   };
@@ -182,6 +186,10 @@ export class DsPopover extends HTMLElementBase {
       applyProps(trigger, api.triggerProps);
       applyProps(panel, api.contentProps);
     }
+    // Closing through `open` would leave focus on a hidden node inside the
+    // card; it returns to the trigger.
+    const restoreFocus =
+      !open && !this.#hover && !this.#userClosing && panel.contains(document.activeElement);
     panel.hidden = !open;
 
     if (open && this.isConnected) {
@@ -190,6 +198,7 @@ export class DsPopover extends HTMLElementBase {
       this.#cleanup ??= this.#hover ? this.#showHover() : this.#showClick(this.#userOpening);
     } else if (!open) {
       this.#close();
+      if (restoreFocus && trigger.isConnected) trigger.focus();
     }
   }
 

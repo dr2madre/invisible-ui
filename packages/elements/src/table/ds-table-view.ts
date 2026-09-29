@@ -160,6 +160,12 @@ export class DsTableView extends HTMLElementBase {
   #connected = false;
   #initialized = false;
   #focusAfterClear = false;
+  #rowsAssigned = false;
+  /** The row count and filters last announced; `null` before the first render. */
+  #announced: { count: number; filters: string } | null = null;
+  #announcePending = false;
+  /** How many rows were rendered when the latest load-more was requested. */
+  #loadStart = 0;
 
   /** What the parts' callbacks read: the state of the latest render. */
   #frame: {
@@ -192,6 +198,7 @@ export class DsTableView extends HTMLElementBase {
   #cardList: HTMLDivElement | null = null;
   #selectAllBox: DsCheckbox | null = null;
   #rowBoxes = new Map<TableRowId, DsCheckbox>();
+  #announcer: HTMLDivElement | null = null;
   #infinite: HTMLDivElement | null = null;
   #status: HTMLParagraphElement | null = null;
   #loadMore: HTMLButtonElement | null = null;
@@ -286,6 +293,7 @@ export class DsTableView extends HTMLElementBase {
   }
   set rows(value: TableRow[]) {
     this.#rows = Array.isArray(value) ? value : [];
+    this.#rowsAssigned = true;
     this.#update();
     // The clear action left with the no-results panel; when content returns,
     // the view root takes focus so it does not fall to the page.
@@ -467,6 +475,13 @@ export class DsTableView extends HTMLElementBase {
     this.appendChild(root);
     this.#root = root;
 
+    // One persistent live region: created once so every change is announced.
+    const announcer = document.createElement("div");
+    announcer.className = "table-view__sr";
+    announcer.setAttribute("role", "status");
+    announcer.setAttribute("aria-live", "polite");
+    this.#announcer = announcer;
+
     const header = document.createElement("header");
     header.className = "table-view__header";
     const controls = document.createElement("div");
@@ -545,7 +560,8 @@ export class DsTableView extends HTMLElementBase {
       if (!rendered.has(id)) this.#rowBoxes.delete(id);
     }
 
-    const nodes: Node[] = [];
+    // The region stays first so reordering the rest never moves it.
+    const nodes: Node[] = [this.#announcer!];
     const header = this.#syncHeader(api);
     if (header) nodes.push(header);
     nodes.push(...body);
@@ -555,6 +571,11 @@ export class DsTableView extends HTMLElementBase {
 
     // A part may have moved the focused control while rebuilding around it.
     if (restore && restore.isConnected && document.activeElement !== restore) restore.focus();
+    // The last page loaded took the Load more button away: focus moves to the
+    // first row it added, or to the view root.
+    else if (restore && restore === this.#loadMore && !restore.isConnected)
+      this.#focusRow(this.#loadStart);
+    this.#scheduleAnnounce();
     if (clamped != null) emit(this, "page-change", { page: clamped });
   }
 
@@ -977,7 +998,10 @@ export class DsTableView extends HTMLElementBase {
       const loadMore = document.createElement("button");
       loadMore.type = "button";
       loadMore.className = "table-view__load-more";
-      loadMore.addEventListener("click", () => emit(this, "load-more"));
+      // Kept focusable while loading (aria-disabled), so a click then is ignored.
+      loadMore.addEventListener("click", () => {
+        if (!boolAttr(this, "loading")) this.#requestMore();
+      });
       const sentinel = document.createElement("div");
       sentinel.className = "table-view__sentinel";
       sentinel.setAttribute("aria-hidden", "true");
@@ -990,7 +1014,8 @@ export class DsTableView extends HTMLElementBase {
     const loading = boolAttr(this, "loading");
     const loadingLabel = this.getAttribute("loading-label") ?? t(this, "table.loading");
     this.#status!.textContent = loading ? loadingLabel : "";
-    this.#loadMore!.disabled = loading;
+    if (loading) this.#loadMore!.setAttribute("aria-disabled", "true");
+    else this.#loadMore!.removeAttribute("aria-disabled");
     this.#loadMore!.textContent = loading
       ? loadingLabel
       : (this.getAttribute("load-more-label") ?? t(this, "table.loadMore"));
@@ -1010,9 +1035,54 @@ export class DsTableView extends HTMLElementBase {
         boolAttr(this, "has-more") &&
         !boolAttr(this, "loading")
       )
-        emit(this, "load-more");
+        this.#requestMore();
     });
     this.#observer.observe(this.#sentinel);
+  }
+
+  #requestMore() {
+    this.#loadStart = this.#renderedRows().length;
+    emit(this, "load-more");
+  }
+
+  #renderedRows(): HTMLElement[] {
+    const rows =
+      this.#view === "card"
+        ? this.#cardList?.querySelectorAll<HTMLElement>('[role="listitem"]')
+        : this.#table?.querySelectorAll<HTMLElement>("tbody tr[data-row-id]");
+    return rows ? Array.from(rows).filter((row) => row.isConnected) : [];
+  }
+
+  #focusRow(index: number) {
+    const row = this.#renderedRows()[index];
+    if (!row) {
+      this.#root?.focus();
+      return;
+    }
+    if (!row.hasAttribute("tabindex")) row.tabIndex = -1;
+    row.focus();
+  }
+
+  // Filtering that changes the row count is announced, once the page has
+  // handed in both rows and filter attributes, in either order. The first
+  // render and other re-renders are not announced.
+  #scheduleAnnounce() {
+    if (this.#announcePending || !this.#rowsAssigned) return;
+    this.#announcePending = true;
+    void Promise.resolve().then(() => {
+      this.#announcePending = false;
+      const active = isOn(this.getAttribute("filters-active"));
+      const filters = `${active}|${this.getAttribute("filter-revision") ?? ""}`;
+      const count = this.#rows.length;
+      const previous = this.#announced;
+      this.#announced = { count, filters };
+      if (!previous || previous.count === count) return;
+      if (!active && previous.filters === filters) return;
+      const noResults = count === 0 && active && numberAttr(this, "total-row-count") !== 0;
+      this.#announcer!.textContent = noResults
+        ? (this.getAttribute("no-results-label") ?? t(this, "table.noResults"))
+        : t(this, "table.results", { count });
+    });
   }
 
   #pagerFooter(pageCount: number): HTMLDivElement {

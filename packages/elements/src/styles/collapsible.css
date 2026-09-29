@@ -43,3 +43,10 @@
 .collapsible__content {
   padding: var(--ds-collapsible-content-padding, 0.625rem 0.75rem);
 }
+
+/* Reduced motion: state changes apply at once. */
+@media (prefers-reduced-motion: reduce) {
+  .collapsible__icon {
+    transition: none;
+  }
+}

@@ -48,7 +48,9 @@ test("Elements Tabs keeps browser focus, selection and count semantics", async (
   await expect(page.getByRole("tabpanel")).toHaveText("Column list");
   await expect(page.locator("ds-tabs")).toHaveAttribute("data-reported-value", "columns");
 
-  await expect(page.getByRole("status", { name: "3 pending updates" })).toHaveText("3");
+  // The label is the live text; the visible number is hidden from the tree.
+  await expect(page.getByRole("status")).toHaveText("3 pending updates");
+  await expect(page.locator("ds-count .count")).toHaveText("3");
 });
 
 test("Elements Tabs remains reachable at 320 CSS pixels", async ({ page }) => {

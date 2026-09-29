@@ -27,6 +27,12 @@ export interface NotificationAction {
  */
 export const localeAnchors = new WeakMap<Element, Element>();
 
+/**
+ * Notifications a region announces through its own persistent live regions.
+ * They are not live regions themselves, so nothing is announced twice.
+ */
+export const regionAnnounced = new WeakSet<Element>();
+
 const STATUSES = ["info", "success", "warning", "danger", "neutral"];
 
 const numberAttr = (element: Element, name: string) => {
@@ -38,8 +44,10 @@ const numberAttr = (element: Element, name: string) => {
  * `<ds-notification>` — a floating message (toast or snack), ported from the
  * Svelte adapter. It reuses the Inline Notification anatomy and, like
  * `<ds-inline-notification>`, the element itself is the live region
- * (`role="status"`, or `role="alert"` for urgent messages), named by its title. Usually a `<ds-notification-region>`
- * creates and stacks it; it also works on its own.
+ * (`role="status"`, or `role="alert"` for urgent messages), named by its title.
+ * Usually a `<ds-notification-region>` creates and stacks it; the region then
+ * announces it and the notification is a group named by its title. It also
+ * works on its own.
  *
  * It stays until closed. Auto-dismiss is opt-in through `duration` (ms) and
  * the countdown holds while `paused` is set; the region sets it while the stack
@@ -174,7 +182,11 @@ export class DsNotification extends HTMLElementBase {
   }
 
   #render() {
-    const role = this.getAttribute("role") === "alert" ? "alert" : "status";
+    const role = regionAnnounced.has(this)
+      ? "group"
+      : this.getAttribute("role") === "alert"
+        ? "alert"
+        : "status";
     // Normalizing the attribute calls back into this render.
     if (this.getAttribute("role") !== role) {
       this.setAttribute("role", role);

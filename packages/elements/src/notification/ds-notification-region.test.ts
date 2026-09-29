@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from "@testing-library/dom";
+import { fireEvent, screen, waitFor, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -101,16 +101,42 @@ describe("<ds-notification-region>", () => {
     expect(screen.getByRole("region", { name: "Avvisi" })).toBeInTheDocument();
   });
 
-  it("renders queued notifications as live regions and removes them on dismiss", async () => {
+  it("renders queued notifications as named groups and removes them on dismiss", async () => {
     const host = mount();
     host.show({ title: "First", text: "one" });
     host.show({ title: "Second", text: "two", role: "alert" });
-    expect(screen.getByRole("status", { name: "First" })).toHaveTextContent("one");
-    expect(screen.getByRole("alert", { name: "Second" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "First" })).toHaveTextContent("one");
+    expect(screen.getByRole("group", { name: "Second" })).toBeInTheDocument();
 
     await userEvent.click(screen.getAllByRole("button", { name: "Close" })[0]!);
-    expect(screen.queryByText("First")).toBeNull();
-    expect(screen.getByText("Second")).toBeInTheDocument();
+    // The live regions may hold the titles too, depending on timing: query the toasts.
+    expect(screen.queryByRole("group", { name: "First" })).toBeNull();
+    expect(screen.getByRole("group", { name: "Second" })).toBeInTheDocument();
+  });
+
+  it("announces through persistent live regions that exist empty beforehand", async () => {
+    const host = mount();
+    const region = screen.getByRole("region", { name: "Notifications" });
+    const polite = within(region).getByRole("status");
+    const assertive = within(region).getByRole("alert");
+    expect(polite).toBeEmptyDOMElement();
+    expect(assertive).toBeEmptyDOMElement();
+
+    const id = host.show({ title: "Saved", text: "All changes are stored." });
+    // Written after the insertion, never inserted already filled.
+    expect(polite).toBeEmptyDOMElement();
+    await waitFor(() => expect(polite).toHaveTextContent("Saved All changes are stored."));
+    expect(within(region).getByRole("status")).toBe(polite);
+    expect(assertive).toBeEmptyDOMElement();
+    // The notification itself is not a live region.
+    expect(slots()[0]).toHaveAttribute("role", "group");
+
+    host.update(id, { status: "danger", title: "Save failed", text: undefined, role: "alert" });
+    await waitFor(() => expect(assertive).toHaveTextContent("Save failed"));
+    expect(within(region).getByRole("alert")).toBe(assertive);
+
+    host.dismiss(id);
+    expect(assertive).toBeEmptyDOMElement();
   });
 
   it("returns ids, reports every dismissal once with its reason", async () => {
@@ -140,7 +166,7 @@ describe("<ds-notification-region>", () => {
     const first = slots()[0];
     host.show({ id: "save", title: "Saved", status: "success" });
     expect(slots()).toEqual([first]);
-    expect(screen.getByRole("status", { name: "Saved" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Saved" })).toBeInTheDocument();
     host.update("save", { closable: true });
     expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
   });
@@ -174,11 +200,11 @@ describe("<ds-notification-region>", () => {
       success: (name) => `${name} uploaded`,
       error: "Upload failed",
     });
-    expect(screen.getByRole("status", { name: "Uploading…" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Uploading…" })).toBeInTheDocument();
     expect(screen.queryByRole("button")).toBeNull();
     resolve("photo.png");
     await done;
-    expect(screen.getByRole("status", { name: "photo.png uploaded" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "photo.png uploaded" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
   });
 

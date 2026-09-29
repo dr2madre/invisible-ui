@@ -203,4 +203,11 @@
       outline-offset: -2px;
     }
   }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .tabs__tab {
+      transition: none;
+    }
+  }
 </style>

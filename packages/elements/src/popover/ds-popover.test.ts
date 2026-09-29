@@ -102,6 +102,22 @@ describe("<ds-popover>", () => {
     expect(before).toHaveFocus();
   });
 
+  it("returns focus to the trigger when the page closes it with focus inside", async () => {
+    const user = userEvent.setup();
+    const { host } = mount();
+    await user.click(trigger());
+    expect(screen.getByRole("button", { name: "Action" })).toHaveFocus();
+    host.open = false;
+    expect(body()).not.toBeVisible();
+    expect(trigger()).toHaveFocus();
+
+    const before = screen.getByRole("button", { name: "before" });
+    host.open = true;
+    before.focus();
+    host.removeAttribute("open");
+    expect(before).toHaveFocus();
+  });
+
   it("moves the open card when the placement changes", async () => {
     const { host } = mount('placement="bottom"');
     host.open = true;

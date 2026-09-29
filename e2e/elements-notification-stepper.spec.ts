@@ -33,20 +33,24 @@ test.describe("Elements notification region", () => {
 
     const region = page.getByRole("region", { name: "Notifications" });
     await expect(region).toBeVisible();
-    const status = region.getByRole("status", { name: "Changes saved" });
+    // The toast is a group named by its title; the region's persistent live
+    // region carries the announcement.
+    const status = region.getByRole("group", { name: "Changes saved" });
     await expect(status).toBeVisible();
     await expect(status).toContainText("Your profile is up to date.");
+    await expect(region.getByRole("status")).toContainText("Changes saved");
     // Announcing never moves focus.
     await expect(page.locator("body")).toBeFocused();
 
     await show(page, { title: "Upload failed", role: "alert" });
-    await expect(region.getByRole("alert", { name: "Upload failed" })).toBeVisible();
+    await expect(region.getByRole("group", { name: "Upload failed" })).toBeVisible();
+    await expect(region.getByRole("alert")).toContainText("Upload failed");
   });
 
   test("holds the countdown while the pointer is over the stack", async ({ page }) => {
     await openRegion(page);
     await show(page, { title: "Hover me", duration: 1200 });
-    const notice = page.getByRole("status", { name: "Hover me" });
+    const notice = page.getByRole("group", { name: "Hover me" });
     await expect(notice).toBeVisible();
 
     await notice.hover();
@@ -60,7 +64,7 @@ test.describe("Elements notification region", () => {
   test("holds the countdown while a notification holds focus", async ({ page }) => {
     await openRegion(page);
     await show(page, { title: "Focus me", duration: 1200 });
-    const notice = page.getByRole("status", { name: "Focus me" });
+    const notice = page.getByRole("group", { name: "Focus me" });
     await notice.getByRole("button", { name: "Close" }).focus();
 
     await page.waitForTimeout(2000);
@@ -74,7 +78,7 @@ test.describe("Elements notification region", () => {
     await openRegion(page);
     await show(page, { title: "Stays briefly", duration: 1500 });
     await show(page, { title: "Close me" });
-    const closing = page.getByRole("status", { name: "Close me" });
+    const closing = page.getByRole("group", { name: "Close me" });
     const close = closing.getByRole("button", { name: "Close" });
     await close.focus();
     await expect(close).toBeFocused();
@@ -82,12 +86,12 @@ test.describe("Elements notification region", () => {
     await expect(closing).toHaveCount(0);
 
     // The dismissed notification held focus; the other countdown runs again.
-    await expect(page.getByRole("status", { name: "Stays briefly" })).toBeHidden({
+    await expect(page.getByRole("group", { name: "Stays briefly" })).toBeHidden({
       timeout: 4000,
     });
 
     await show(page, { title: "Space closes too" });
-    const spaced = page.getByRole("status", { name: "Space closes too" });
+    const spaced = page.getByRole("group", { name: "Space closes too" });
     await spaced.getByRole("button", { name: "Close" }).focus();
     await page.keyboard.press("Space");
     await expect(spaced).toHaveCount(0);
@@ -105,7 +109,7 @@ test.describe("Elements notification region", () => {
       });
     });
     await page.getByRole("button", { name: "Undo" }).click();
-    await expect(page.getByRole("status", { name: "Draft deleted" })).toHaveCount(0);
+    await expect(page.getByRole("group", { name: "Draft deleted" })).toHaveCount(0);
     await expect(page).toHaveTitle("undone");
   });
 });

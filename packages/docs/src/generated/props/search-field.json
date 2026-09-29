@@ -393,6 +393,20 @@
           "descriptionFrom": "none"
         },
         {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
           "name": "disabled",
           "reactive": true,
           "required": false,

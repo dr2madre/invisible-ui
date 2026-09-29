@@ -6,6 +6,7 @@ import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
 import {
   DsNotification,
   localeAnchors,
+  regionAnnounced,
   type NotificationAction,
   type NotificationDismissReason,
   type NotificationStatus,
@@ -66,6 +67,8 @@ const PLACEMENTS = [
 ];
 // How many dismissed notifications keep their paint order while they animate out.
 const RECENT = 8;
+// Text written right after a live region empties is announced more reliably.
+const ANNOUNCE_DELAY = 100;
 
 let counter = 0;
 const nextNoticeId = () => `notice-${++counter}`;
@@ -92,9 +95,11 @@ const nextFrame = (callback: () => void) =>
  * `<ds-notification-region>` — a fixed stack of notifications, ported from the
  * Svelte adapter with the Vue DOM. The element owns the queue: call `show()`
  * (or a status shorthand) and it renders a `<ds-notification>` for each entry.
- * The region is a labelled landmark (`role="region"`) and every notification
- * inside is its own live region, so additions are announced without moving
- * focus.
+ * The region is a labelled landmark (`role="region"`). It keeps two empty,
+ * visually hidden live regions, one polite and one assertive (`role: "alert"`),
+ * and writes each new or changed notification into one of them, so additions
+ * are announced without moving focus. The notifications themselves are
+ * groups named by their title, not live regions.
  *
  * The region is moved to `<body>` while the element is connected, so no
  * ancestor stacking context can paint over it; inside an open modal
@@ -135,6 +140,15 @@ export class DsNotificationRegion extends HTMLElementBase {
   #swipes = new Map<string, SwipeDismissHandle>();
   #paintOrder = new Map<string, number>();
   #region: HTMLDivElement | null = null;
+  #polite: HTMLElement | null = null;
+  #assertive: HTMLElement | null = null;
+  // The text last announced for each notification.
+  #announced = new Map<string, string>();
+  // Messages waiting to be written, per live region.
+  #pending = new Map<HTMLElement, { id: string; parts: string[] }[]>();
+  // The notifications whose text each live region holds.
+  #liveIds = new Map<HTMLElement, Set<string>>();
+  #announceTimer: ReturnType<typeof setTimeout> | undefined;
   #pointerInside = false;
   #focusInside = false;
 
@@ -263,6 +277,16 @@ export class DsNotificationRegion extends HTMLElementBase {
     const region = document.createElement("div");
     region.className = "notification-region";
     region.setAttribute("role", "region");
+    const live = (role: "status" | "alert") => {
+      const element = document.createElement("div");
+      element.className = "notification-region__live";
+      element.setAttribute("role", role);
+      element.setAttribute("aria-atomic", "true");
+      region.appendChild(element);
+      return element;
+    };
+    this.#polite = live("status");
+    this.#assertive = live("alert");
     const inside = (target: EventTarget | null) =>
       target instanceof Node && region.contains(target);
     region.addEventListener("pointerover", () => this.#setPointer(true));
@@ -333,6 +357,7 @@ export class DsNotificationRegion extends HTMLElementBase {
     }
 
     const showing = new Set(visible.map((item) => item.id));
+    for (const id of this.#announced.keys()) if (!showing.has(id)) this.#announced.delete(id);
     for (const [id, notice] of this.#notices) {
       if (showing.has(id)) continue;
       this.#notices.delete(id);
@@ -351,6 +376,7 @@ export class DsNotificationRegion extends HTMLElementBase {
         this.#notices.set(item.id, notice);
       }
       this.#applyItem(notice, item);
+      this.#announce(item);
       notice.paused = paused;
       notice.style.zIndex = String(100000 - (this.#paintOrder.get(item.id) ?? 0));
       if (!notice.isConnected) {
@@ -366,6 +392,59 @@ export class DsNotificationRegion extends HTMLElementBase {
 
     for (const notice of entering) this.#enter(notice);
     this.#move(before);
+    this.#clearStale(showing);
+  }
+
+  #announce(item: NotificationItem) {
+    const parts = [item.title, item.snack ? undefined : item.text].filter(
+      (part): part is string => !!part,
+    );
+    const message = parts.join("\n");
+    if (this.#announced.get(item.id) === message) return;
+    this.#announced.set(item.id, message);
+    if (!message) return;
+    const live = item.role === "alert" ? this.#assertive! : this.#polite!;
+    let queue = this.#pending.get(live);
+    if (!queue) {
+      // Emptied first, so the same text shown twice is still a change.
+      live.textContent = "";
+      this.#liveIds.delete(live);
+      queue = [];
+      this.#pending.set(live, queue);
+    }
+    queue.push({ id: item.id, parts });
+    if (this.#announceTimer === undefined) {
+      this.#announceTimer = setTimeout(() => this.#flushAnnouncements(), ANNOUNCE_DELAY);
+    }
+  }
+
+  #flushAnnouncements() {
+    this.#announceTimer = undefined;
+    for (const [live, pending] of this.#pending) {
+      // A notification dismissed before its turn is not announced.
+      const queue = pending.filter(({ id }) => this.#announced.has(id));
+      if (!queue.length) continue;
+      // One paragraph per line, spaced so the text also reads as words.
+      const lines = queue.flatMap(({ parts }) =>
+        parts.flatMap((part) => {
+          const line = document.createElement("p");
+          line.textContent = part;
+          return [line, document.createTextNode(" ")];
+        }),
+      );
+      live.replaceChildren(...lines);
+      this.#liveIds.set(live, new Set(queue.map(({ id }) => id)));
+    }
+    this.#pending.clear();
+  }
+
+  /** Empty a live region once none of the notifications it announced is shown. */
+  #clearStale(showing: Set<string>) {
+    for (const [live, ids] of this.#liveIds) {
+      if ([...ids].some((id) => showing.has(id))) continue;
+      live.textContent = "";
+      this.#liveIds.delete(live);
+    }
   }
 
   #updatePaintOrder(visible: NotificationItem[]) {
@@ -385,6 +464,7 @@ export class DsNotificationRegion extends HTMLElementBase {
   #createNotice(id: string) {
     const notice = new DsNotification();
     notice.classList.add("notice-slot");
+    regionAnnounced.add(notice);
     localeAnchors.set(notice, this);
     notice.addEventListener("close", (event) => {
       event.preventDefault();
@@ -404,7 +484,6 @@ export class DsNotificationRegion extends HTMLElementBase {
     set("text", item.text ?? null);
     set("duration", item.duration ? String(item.duration) : null);
     set("closable", item.closable === false ? "false" : null);
-    set("role", item.role ?? null);
     set("inverted", flag(item.inverted));
     set("snack", flag(item.snack));
     set("icon-shape", item.iconShape ?? null);

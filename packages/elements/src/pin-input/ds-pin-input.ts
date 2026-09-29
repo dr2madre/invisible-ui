@@ -7,6 +7,7 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { onLocaleChange, t } from "../internal/i18n";
 
@@ -28,7 +29,8 @@ const lengthAttr = (el: Element): number => {
  * comes from the catalog in the element's locale.
  *
  * Attributes: `label` (required), `value`, `length` (number of cells, default 6), `type`
- * (numeric|alphanumeric), `mask`, `disabled`, `invalid`, `success`, `name`.
+ * (numeric|alphanumeric), `mask`, `disabled`, `invalid`, `success`, `name`,
+ * `description`, `error` (a message that also marks the cells invalid).
  * Properties: `value` (string).
  * Emits: bubbling `change` CustomEvent with `detail.value` on every edit, and
  * `complete` CustomEvent with `detail.value` once every cell is filled.
@@ -44,11 +46,15 @@ export class DsPinInput extends HTMLElementBase {
     "invalid",
     "success",
     "name",
+    "description",
+    "error",
   ];
 
   #root: HTMLDivElement | null = null;
   #cells: HTMLInputElement[] = [];
   #hidden: HTMLInputElement | null = null;
+  #warnedLabel = false;
+  #messages = new FieldMessages(nextId("ds-pin-input"));
   #state: core.PinInputState | null = null;
   /** What a form reset restores: the last value set from outside. */
   #defaultValue = "";
@@ -150,7 +156,7 @@ export class DsPinInput extends HTMLElementBase {
   #update() {
     const s = this.#state!;
     const root = this.#root!;
-    const invalid = boolAttr(this, "invalid");
+    const invalid = boolAttr(this, "invalid") || Boolean(this.getAttribute("error"));
     const api = core.connect({
       state: s,
       setValues: (values) => this.#setValues(values),
@@ -159,7 +165,15 @@ export class DsPinInput extends HTMLElementBase {
     });
 
     applyProps(root, api.rootProps);
-    root.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) root.setAttribute("aria-label", label);
+    else {
+      root.removeAttribute("aria-label");
+      if (!this.#warnedLabel) {
+        this.#warnedLabel = true;
+        console.warn("[ds] <ds-pin-input> needs a label attribute to name its group.");
+      }
+    }
     root.toggleAttribute("data-invalid", invalid);
     root.toggleAttribute("data-success", !invalid && boolAttr(this, "success"));
 
@@ -187,6 +201,9 @@ export class DsPinInput extends HTMLElementBase {
       // The real DOM default, so the browser's own reset agrees with ours.
       cell.defaultValue = restored[index] ?? "";
     });
+    // After the row, not in it: each cell is described, so the text is heard
+    // whichever cell has focus.
+    this.#messages.sync(this, this, this.#cells, { ariaInvalid: false });
   }
 
   #syncHidden(value: string) {

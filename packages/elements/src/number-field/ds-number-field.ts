@@ -232,6 +232,11 @@ export class DsNumberField extends HTMLElementBase {
     const error = this.getAttribute("error");
     const descriptionId = `${s.id}-description`;
     const errorId = `${s.id}-error`;
+    // Worked out before connecting: the built-in message has to be in the
+    // input's description as much as a consumer error.
+    const message =
+      error ??
+      this.#validationMessage(core.readValue(s.inputValue, s.locale, s.min, s.max, s.step).error);
 
     const api = core.connect({
       state: s,
@@ -246,9 +251,9 @@ export class DsNumberField extends HTMLElementBase {
         emit(this, "change", { value });
       },
       focus: () => this.#input?.focus(),
-      invalid: Boolean(error),
+      invalid: Boolean(message),
       describedBy:
-        [description ? descriptionId : null, error ? errorId : null].filter(Boolean).join(" ") ||
+        [description ? descriptionId : null, message ? errorId : null].filter(Boolean).join(" ") ||
         undefined,
       messages: {
         increment: localized(this, "increment-label", "numberField.increment", { label }),
@@ -277,7 +282,6 @@ export class DsNumberField extends HTMLElementBase {
     applyProps(this.#decrement!, api.decrementProps);
 
     const root = this.#root!;
-    const message = error ?? this.#validationMessage(api.validationError);
     root.classList.toggle("number-field--invalid", Boolean(message));
     root.classList.toggle("number-field--disabled", s.disabled);
 

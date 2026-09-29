@@ -408,7 +408,7 @@
     {
       "name": "carousel.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#1cb6850d { /** Current resolved state. */ state: CarouselState; /** Request a new current index; the adapter owns how state updates. */ setIndex: (index: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#c2f132c2 { /** Current resolved state. */ state: CarouselState; /** Request a new current index; the adapter owns how state updates. */ setIndex: (index: number) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "carousel.Orientation",
@@ -433,7 +433,7 @@
     {
       "name": "carousel.connect",
       "kind": "function",
-      "signature": "declare function connect#950a49e3({ state, setIndex, normalize, }: ConnectOptions#1cb6850d): CarouselApi;"
+      "signature": "declare function connect#e0789c37({ state, setIndex, direction, normalize, }: ConnectOptions#c2f132c2): CarouselApi;"
     },
     {
       "name": "carousel.initialState",
@@ -1438,7 +1438,7 @@
     {
       "name": "pagination.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#f3870136 { /** Current resolved state. */ state: PaginationState; /** Request a new page; the adapter owns how state updates. */ setPage: (page: number) => void; /** Move DOM focus to the control with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#43edbfb0 { /** Current resolved state. */ state: PaginationState; /** Request a new page; the adapter owns how state updates. */ setPage: (page: number) => void; /** Move DOM focus to the control with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "pagination.PageItem",
@@ -1468,7 +1468,7 @@
     {
       "name": "pagination.connect",
       "kind": "function",
-      "signature": "declare function connect#5e82912d({ state, setPage, focus, normalize, }: ConnectOptions#f3870136): PaginationApi;"
+      "signature": "declare function connect#b768233a({ state, setPage, focus, direction, normalize, }: ConnectOptions#43edbfb0): PaginationApi;"
     },
     {
       "name": "pagination.initialState",
@@ -2193,7 +2193,7 @@
     {
       "name": "tabs.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#05abcc1d { /** Current resolved state. */ state: TabsState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Move DOM focus to the tab with the given value (adapter-provided). */ focus?: (value: string) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#bd325ef2 { /** Current resolved state. */ state: TabsState; /** Request a new selected value; the adapter owns how state updates. */ setValue: (value: string) => void; /** Move DOM focus to the tab with the given value (adapter-provided). */ focus?: (value: string) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so they keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "tabs.Orientation",
@@ -2223,7 +2223,7 @@
     {
       "name": "tabs.connect",
       "kind": "function",
-      "signature": "declare function connect#3a0178b8({ state, setValue, focus, normalize, }: ConnectOptions#05abcc1d): TabsApi;"
+      "signature": "declare function connect#5bafe566({ state, setValue, focus, direction, normalize, }: ConnectOptions#bd325ef2): TabsApi;"
     },
     {
       "name": "tabs.firstEnabled",
@@ -2578,7 +2578,7 @@
     {
       "name": "treeView.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#65b9318c { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Report a request for an unloaded parent's children. */ requestLoad?: (request: TreeLoadRequest) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#fe9830a0 { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Report a request for an unloaded parent's children. */ requestLoad?: (request: TreeLoadRequest) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so the arrow that points inward * still expands and the one that points outward still collapses. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "treeView.TreeApi",
@@ -2613,7 +2613,7 @@
     {
       "name": "treeView.connect",
       "kind": "function",
-      "signature": "declare function connect#da8e3842({ state, setExpanded, setSelected, setFocused, focus, requestLoad, normalize, }: ConnectOptions#65b9318c): TreeApi;"
+      "signature": "declare function connect#cf6d35b9({ state, setExpanded, setSelected, setFocused, focus, requestLoad, direction, normalize, }: ConnectOptions#fe9830a0): TreeApi;"
     },
     {
       "name": "treeView.firstVisible",
