@@ -110,8 +110,9 @@ control that needs an accessible name takes it from the consumer (a `label` prop
 Labels, descriptions and messages you pass to a component are rendered as
 text, never as markup. URLs are different. A component that takes a link
 (`href`) or an image source (`src`), such as Link, Breadcrumb, Navigation
-Menu, Sidebar, Avatar or Inline Notification, writes the URL to the element as
-given. The component does not check the scheme, so a `javascript:` URL runs
+Menu, Sidebar, Avatar, Avatar Group, Card (image), Carousel (slide images),
+Login Form (forgot-password link) or Inline Notification, writes the URL to
+the element as given. The component does not check the scheme, so a `javascript:` URL runs
 when the link is followed.
 
 The Svelte, Vue and web component adapters work this way. The React adapter

@@ -1,5 +1,12 @@
 import { treeView as core } from "@design-system/core";
-import { applyProps, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
 import { onLocaleChange, t } from "../internal/i18n";
 
 export type TreeNode = core.TreeNode;
@@ -121,7 +128,7 @@ export class DsTreeView extends HTMLElementBase {
       loading: this.#loading,
       loadErrors: this.#loadErrors,
       focused: this.#focused,
-      disabled: this.hasAttribute("disabled"),
+      disabled: boolAttr(this, "disabled"),
       id: this.id || this.#id,
     };
   }

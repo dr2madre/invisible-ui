@@ -57,6 +57,34 @@ describe("<ds-notification-region>", () => {
     expect(region).toHaveAttribute("data-placement", "top-end");
   });
 
+  it("moves the region into an open modal dialog around it", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `
+      <ds-dialog heading="Upload" trigger="Open">
+        <ds-notification-region duration="0"></ds-notification-region>
+      </ds-dialog>`;
+    await user.click(screen.getByRole("button", { name: "Open" }));
+    const host = document.querySelector("ds-notification-region") as DsNotificationRegion;
+    host.success("Uploaded");
+    const panel = screen.getByRole("dialog");
+    expect(panel).toContainElement(screen.getByRole("region", { name: "Notifications" }));
+    expect(within(panel).getByText("Uploaded")).toBeInTheDocument();
+  });
+
+  it("queues notifications shown before it is connected", () => {
+    const host = document.createElement("ds-notification-region") as DsNotificationRegion;
+    host.setAttribute("duration", "0");
+    const id = host.info("Saved");
+    host.update(id, { title: "Saved twice" });
+    const other = host.warning("Offline");
+    host.dismiss(other);
+    expect(host.notifications.map((item) => item.title)).toEqual(["Saved twice"]);
+    document.body.appendChild(host);
+    expect(screen.getByText("Saved twice")).toBeInTheDocument();
+    host.clear();
+    expect(host.notifications).toEqual([]);
+  });
+
   it("takes the region label and the close label from the provider", () => {
     document.body.innerHTML = `
       <ds-locale-provider locale="it"><ds-notification-region duration="0"></ds-notification-region></ds-locale-provider>`;

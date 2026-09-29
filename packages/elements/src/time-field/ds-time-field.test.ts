@@ -178,6 +178,29 @@ describe("<ds-time-field>", () => {
     expect(seen).toEqual([]);
   });
 
+  it("is disabled inside a disabled fieldset", () => {
+    document.body.innerHTML = `<form lang="it"><fieldset disabled>
+      <ds-time-field label="Start time" name="time" value="09:30"></ds-time-field>
+    </fieldset></form>`;
+    const host = document.querySelector("ds-time-field") as DsTimeField;
+    const seen = record(host);
+    fireEvent.keyDown(seg("minute"), { key: "ArrowUp" });
+    expect(seg("minute")).toHaveTextContent("30");
+    expect(seg("minute")).toHaveAttribute("tabindex", "-1");
+    expect(seen).toEqual([]);
+    expect([...new FormData(document.querySelector("form")!).keys()]).toEqual([]);
+  });
+
+  it("reports no validation change for a value set from outside", () => {
+    const host = mount();
+    const errors = record(host, "validation-change");
+    host.value = "25:99";
+    expect(host.validationError).toBe("out-of-range");
+    host.value = "10:00";
+    expect(host.validationError).toBeNull();
+    expect(errors).toEqual([]);
+  });
+
   it("takes segment labels from the provider's catalog", () => {
     document.body.innerHTML = `<ds-locale-provider locale="it">
       <ds-time-field value="09:30"></ds-time-field>
@@ -234,6 +257,17 @@ describe("<ds-time-field> in a form", () => {
     fireEvent.keyDown(seg("minute"), { key: "Escape" });
     expect(seg("minute")).toHaveTextContent("30");
     expect(seen).toHaveLength(1);
+  });
+
+  it("reports no validation change when a reset brings back an invalid default", async () => {
+    const { form, host } = mountForm('value="25:99"');
+    const errors = record(host, "validation-change");
+    fireEvent.keyDown(seg("hour"), { key: "ArrowUp" });
+    expect(errors).toEqual([{ error: null }]);
+    form.reset();
+    await settled();
+    expect(host.validationError).not.toBeNull();
+    expect(errors).toEqual([{ error: null }]);
   });
 
   it("adopts a page's own value as the default, never an echo", async () => {

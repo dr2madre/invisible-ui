@@ -187,4 +187,20 @@ describe("<ds-pin-input>", () => {
     await settled();
     expect(new FormData(form).get("code")).toBe("7");
   });
+
+  it("keeps the other cells in place when a middle cell is cleared", async () => {
+    const user = userEvent.setup();
+    mount('length="6" value="123456"');
+    await user.click(cells()[2]!);
+    await user.keyboard("{Backspace}");
+    expect(cells().map((cell) => cell.value)).toEqual(["1", "2", "", "4", "5", "6"]);
+  });
+
+  it("keeps a character typed into a later cell of an empty field in that cell", async () => {
+    const user = userEvent.setup();
+    mount('length="6"');
+    await user.click(cells()[3]!);
+    await user.keyboard("7");
+    expect(cells().map((cell) => cell.value)).toEqual(["", "", "", "7", "", ""]);
+  });
 });

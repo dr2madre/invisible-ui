@@ -69,6 +69,17 @@ describe("<ds-carousel>", () => {
     expect(bg.style.color).toBe("");
   });
 
+  it("moves the slide track the other way in right-to-left text", async () => {
+    const user = userEvent.setup();
+    mount();
+    const track = document.querySelector<HTMLElement>(".carousel__track")!;
+    await user.click(next());
+    expect(track.style.transform).toBe("translateX(calc(-1 * 1 * 100%))");
+    document.querySelector("main")!.setAttribute("dir", "rtl");
+    await user.click(next());
+    expect(track.style.transform).toBe("translateX(calc(1 * 2 * 100%))");
+  });
+
   it("advances with the next button, marks the active slide and reports it", async () => {
     const user = userEvent.setup();
     const host = mount();

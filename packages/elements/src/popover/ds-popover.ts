@@ -27,9 +27,9 @@ const numberAttr = (element: Element, name: string, fallback: number) => {
  * - `click` (default): a button opens the card intentionally. The headless
  *   popover (`@design-system/core`) wires `aria-haspopup="dialog"`,
  *   `aria-expanded` and Escape; the card is a `role="dialog"` named by
- *   `label`, or by the trigger. Focus moves into the card on open and returns
- *   to the trigger on Escape. An outside press, or focus leaving trigger and
- *   card, closes it.
+ *   `label`, or by the trigger. Focus moves into the card when the user opens
+ *   it, not when the page sets `open`, and returns to the trigger on Escape.
+ *   An outside press, or focus leaving trigger and card, closes it.
  * - `hover`: the card previews on hover and on keyboard focus of the trigger
  *   (typically a link), after `open-delay` and before `close-delay`. Focus
  *   never moves into the card, and the card holds nothing focusable. The first
@@ -57,6 +57,10 @@ export class DsPopover extends HTMLElementBase {
   #defaultLabel: HTMLSpanElement | null = null;
   #panel: HTMLDivElement | null = null;
   #cleanup: (() => void) | null = null;
+  #stopFloating: (() => void) | null = null;
+  #floatingPlacement: Placement | null = null;
+  /** Set while the user opens the card, so only that opening moves focus. */
+  #userOpening = false;
   #stopGhost: (() => void) | null = null;
   #showTimer: ReturnType<typeof setTimeout> | undefined;
   #hideTimer: ReturnType<typeof setTimeout> | undefined;
@@ -78,8 +82,7 @@ export class DsPopover extends HTMLElementBase {
     this.#hold();
     this.#stopGhost?.();
     this.#stopGhost = null;
-    this.#cleanup?.();
-    this.#cleanup = null;
+    this.#close();
   }
 
   attributeChangedCallback() {
@@ -95,7 +98,12 @@ export class DsPopover extends HTMLElementBase {
 
   #setOpen = (next: boolean) => {
     if (this.open === next) return;
-    this.open = next;
+    this.#userOpening = next;
+    try {
+      this.open = next;
+    } finally {
+      this.#userOpening = false;
+    }
     emit(this, "open-change", { open: next });
   };
 
@@ -176,25 +184,41 @@ export class DsPopover extends HTMLElementBase {
     }
     panel.hidden = !open;
 
-    if (open && !this.#cleanup && this.isConnected) {
-      this.#cleanup = this.#hover ? this.#showHover() : this.#showClick();
-    } else if (!open && this.#cleanup) {
-      this.#cleanup();
-      this.#cleanup = null;
+    if (open && this.isConnected) {
+      // A placement change while open moves the card at once.
+      this.#float();
+      this.#cleanup ??= this.#hover ? this.#showHover() : this.#showClick(this.#userOpening);
+    } else if (!open) {
+      this.#close();
     }
+  }
+
+  #float() {
+    const placement = this.#placement();
+    if (this.#stopFloating && placement === this.#floatingPlacement) return;
+    this.#stopFloating?.();
+    this.#stopFloating = attachFloating(this.#trigger!, this.#panel!, {
+      placement,
+      offset: this.#hover ? 8 : 6,
+    });
+    this.#floatingPlacement = placement;
+  }
+
+  #close() {
+    this.#stopFloating?.();
+    this.#stopFloating = null;
+    this.#floatingPlacement = null;
+    this.#cleanup?.();
+    this.#cleanup = null;
   }
 
   #placement() {
     return (this.getAttribute("placement") as Placement | null) ?? "bottom";
   }
 
-  #showClick(): () => void {
+  #showClick(moveFocus: boolean): () => void {
     const trigger = this.#trigger!;
     const panel = this.#panel!;
-    const stopFloating = attachFloating(trigger, panel, {
-      placement: this.#placement(),
-      offset: 6,
-    });
 
     const outside = (target: Node) => !panel.contains(target) && !trigger.contains(target);
     // An outside press or focus leaving both parts closes; focus stays where
@@ -215,10 +239,9 @@ export class DsPopover extends HTMLElementBase {
     document.addEventListener("focusin", onFocusIn);
     panel.addEventListener("keydown", onKeyDown, true);
 
-    (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
+    if (moveFocus) (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
 
     return () => {
-      stopFloating();
       document.removeEventListener("pointerdown", onPointerDown, true);
       document.removeEventListener("focusin", onFocusIn);
       panel.removeEventListener("keydown", onKeyDown, true);
@@ -229,10 +252,6 @@ export class DsPopover extends HTMLElementBase {
   #showHover(): () => void {
     const trigger = this.#trigger!;
     const panel = this.#panel!;
-    const stopFloating = attachFloating(trigger, panel, {
-      placement: this.#placement(),
-      offset: 8,
-    });
 
     const onFocusIn = (event: FocusEvent) => {
       const target = event.target as Node;
@@ -251,7 +270,6 @@ export class DsPopover extends HTMLElementBase {
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
-      stopFloating();
       document.removeEventListener("focusin", onFocusIn);
       document.removeEventListener("keydown", onKeyDown);
       this.#hold();

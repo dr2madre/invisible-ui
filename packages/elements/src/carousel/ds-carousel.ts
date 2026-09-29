@@ -323,8 +323,11 @@ export class DsCarousel extends HTMLElementBase {
     if (variant === "gallery") viewport.tabIndex = 0;
     else viewport.removeAttribute("tabindex");
 
+    // The track flows with the text, so in right-to-left text the next slide
+    // sits on the left and the track moves the other way.
+    const flow = this.isConnected && getComputedStyle(root).direction === "rtl" ? 1 : -1;
     this.#track!.style.transform =
-      variant === "slide" ? `translateX(calc(-1 * ${this.#index} * 100%))` : "";
+      variant === "slide" ? `translateX(calc(${flow} * ${this.#index} * 100%))` : "";
 
     this.#slides.forEach((slide, i) => {
       applyProps(slide, api.getSlideProps(i));

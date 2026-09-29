@@ -183,12 +183,14 @@ export class DsMenubar extends HTMLElementBase {
       if (open !== -1) this.#openAt(next);
       else this.#focusTrigger(next);
     };
+    // In right-to-left text the next menu is on the left.
+    const forward = getComputedStyle(this).direction === "rtl" ? -1 : 1;
     switch (event.key) {
       case "ArrowRight":
-        move(1);
+        move(forward);
         break;
       case "ArrowLeft":
-        move(-1);
+        move(-forward as 1 | -1);
         break;
       // Home and End move between triggers only while closed; an open menu
       // uses them to jump between its own items.

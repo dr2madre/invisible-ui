@@ -8,6 +8,7 @@ import {
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
+import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 
 /** A radio in the group. The label is what the item shows. */
 export type RadioGroupItem = core.RadioItem & { label: string };
@@ -62,7 +63,7 @@ export class DsRadioGroup extends HTMLElementBase {
     this.#sync();
     this.#stopFormReset ??= watchFormReset(
       this,
-      () => this.#inputs.values().next().value ?? null,
+      () => radioResetAnchor(this, this.#inputs.values().next().value ?? null),
       () => this.#restore(),
     );
   }
@@ -200,6 +201,7 @@ export class DsRadioGroup extends HTMLElementBase {
     for (const item of this.#items) {
       const input = this.#inputs.get(item.value)!;
       applyProps(input, api.getItemProps(item.value));
+      syncRadioForm(input, this.hasAttribute("name"));
       input.checked = api.value === item.value;
       // The real DOM default, so the browser's own reset works and so does one
       // in markup the script never reaches.

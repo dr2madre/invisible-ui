@@ -8,6 +8,7 @@ import {
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
+import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 import { onLocaleChange, t } from "../internal/i18n";
 import { starIcon } from "../internal/icons";
 
@@ -70,7 +71,7 @@ export class DsRatingGroup extends HTMLElementBase {
     this.#sync();
     this.#stopFormReset ??= watchFormReset(
       this,
-      () => this.#stars[0]?.input ?? null,
+      () => radioResetAnchor(this, this.#stars[0]?.input ?? null),
       () => this.#restore(),
     );
   }
@@ -203,6 +204,7 @@ export class DsRatingGroup extends HTMLElementBase {
     for (const star of this.#stars) {
       const item = String(star.position);
       applyProps(star.input, api.getItemProps(item));
+      syncRadioForm(star.input, this.hasAttribute("name"));
       star.input.setAttribute("aria-label", t(this, "rating.stars", { count: star.position }));
       star.input.checked = api.value === item;
       // The real DOM default, so the browser's own reset works and so does one

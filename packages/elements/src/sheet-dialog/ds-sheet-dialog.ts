@@ -174,7 +174,8 @@ export class DsSheetDialog extends HTMLElementBase {
     if (describedBy) applyProps(this.header.subtitle, api.descriptionProps);
     applyProps(this.header.close, api.closeProps);
 
-    if (this.open && !this.#cleanup) this.#show();
+    // A disconnected <dialog> cannot be shown; connecting syncs again.
+    if (this.open && !this.#cleanup && this.isConnected) this.#show();
     if (!this.open && this.#cleanup) {
       this.#cleanup();
       this.#cleanup = null;
@@ -277,8 +278,8 @@ export class DsSheetDialog extends HTMLElementBase {
       if (move.pointerId !== event.pointerId) return;
       this.#dragCleanup?.();
       this.#dragCleanup = null;
-      panel.classList.remove("sheet-dialog__panel--dragging");
-      panel.style.removeProperty("transform");
+      // A cancelled pointer carries no real position: the sheet snaps back.
+      if (move.type === "pointercancel") return;
       const offset = Math.max(0, outward(move));
       if ((extent > 0 && offset > extent * 0.25) || velocity > 0.5) this.#setOpen(false);
     };
@@ -286,6 +287,8 @@ export class DsSheetDialog extends HTMLElementBase {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
+      panel.classList.remove("sheet-dialog__panel--dragging");
+      panel.style.removeProperty("transform");
     };
     panel.classList.add("sheet-dialog__panel--dragging");
     this.handle.setPointerCapture?.(event.pointerId);

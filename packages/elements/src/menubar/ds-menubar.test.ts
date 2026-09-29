@@ -101,6 +101,18 @@ describe("<ds-menubar>", () => {
     expect(trigger("View")).toHaveFocus();
   });
 
+  it("follows the visual direction in right-to-left text", async () => {
+    const user = userEvent.setup();
+    mount();
+    document.querySelector("ds-menubar")!.setAttribute("dir", "rtl");
+    trigger("File").focus();
+    // The visual start is on the right, so ArrowLeft walks forward.
+    await user.keyboard("{ArrowLeft}");
+    expect(trigger("Edit")).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(trigger("File")).toHaveFocus();
+  });
+
   it("switches the open menu with ArrowRight while open", async () => {
     const user = userEvent.setup();
     mount();

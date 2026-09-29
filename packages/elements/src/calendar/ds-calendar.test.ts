@@ -261,6 +261,13 @@ describe("<ds-calendar> views", () => {
     expect(seen).toEqual([]);
   });
 
+  it("keeps focus on the view switcher after switching", async () => {
+    const user = userEvent.setup();
+    mount('value="2026-06-15" views="month week day"');
+    await user.click(screen.getByRole("radio", { name: "Day" }));
+    expect(screen.getByRole("radio", { name: "Day" })).toHaveFocus();
+  });
+
   it("has no accessibility violations in the week and year views", async () => {
     mount('value="2026-06-15" view="week" views="month week"');
     expect(await axe(document.body)).toHaveNoViolations();

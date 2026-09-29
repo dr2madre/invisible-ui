@@ -90,6 +90,29 @@ describe("<ds-popover>", () => {
     expect(onOpenChange).not.toHaveBeenCalled();
   });
 
+  it("leaves focus where it is when the page opens it", () => {
+    mount("open");
+    expect(body()).toBeVisible();
+    expect(document.body).toHaveFocus();
+    const before = screen.getByRole("button", { name: "before" });
+    before.focus();
+    const host = document.querySelector("ds-popover") as DsPopover;
+    host.open = false;
+    host.open = true;
+    expect(before).toHaveFocus();
+  });
+
+  it("moves the open card when the placement changes", async () => {
+    const { host } = mount('placement="bottom"');
+    host.open = true;
+    const panel = body()!.parentElement!;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const below = [panel.style.left, panel.style.top];
+    host.setAttribute("placement", "right");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect([panel.style.left, panel.style.top]).not.toEqual(below);
+  });
+
   it("uses the catalog label for a trigger without content", () => {
     document.body.innerHTML = `<ds-popover><p>Body</p></ds-popover>`;
     expect(screen.getByRole("button", { name: "Open" })).toBeInTheDocument();

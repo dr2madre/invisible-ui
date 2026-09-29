@@ -35,8 +35,10 @@ type Segment = core.TimeSegmentType;
  * Properties: `value`, `validationError` (read only).
  * Emits: `change` (`detail.value`) on every value change, `commit`
  * (`detail.value`) when editing ends (focus leaves the field, or Enter), and
- * `validation-change` (`detail.error`) when the parsed value's own error
- * changes.
+ * `validation-change` (`detail.error`) when an edit changes the value's own
+ * error. A value set from outside, or put back by a form reset, updates
+ * `validationError` without an event (ADR 0011, ADR 0012). Inside a disabled
+ * `<fieldset>` the field is disabled too.
  */
 export class DsTimeField extends HTMLElementBase {
   static observedAttributes = [
@@ -150,13 +152,27 @@ export class DsTimeField extends HTMLElementBase {
     this.#invalidSegment = parsed.invalidSegment;
     this.#buffer = "";
     this.#bufferSeg = null;
-    this.#setValidationError(parsed.error);
+    // A value from outside is reflected, never reported.
+    this.#validationError = parsed.error;
   }
 
+  /** An edit changed the value's own error: report it. */
   #setValidationError(error: TimeValueError | null) {
     if (error === this.#validationError) return;
     this.#validationError = error;
-    if (this.#group) emit(this, "validation-change", { error });
+    emit(this, "validation-change", { error });
+  }
+
+  /**
+   * The segments are spans, which a disabled `<fieldset>` does not reach; the
+   * hidden input is a form control, so it tells whether one disables the field.
+   */
+  #disabled(): boolean {
+    if (boolAttr(this, "disabled")) return true;
+    const hidden = this.#hidden;
+    if (!hidden) return false;
+    hidden.disabled = false;
+    return hidden.matches(":disabled");
   }
 
   #bound(name: "min" | "max") {
@@ -199,7 +215,7 @@ export class DsTimeField extends HTMLElementBase {
       onCommit: (value) => emit(this, "commit", { value }),
       focus: (seg) => this.#segments.get(seg)?.focus(),
       invalid: boolAttr(this, "invalid") || this.hasAttribute("error"),
-      disabled: boolAttr(this, "disabled"),
+      disabled: this.#disabled(),
       messages: {
         hour: t(this, "timeField.hour"),
         minute: t(this, "timeField.minute"),
@@ -217,6 +233,10 @@ export class DsTimeField extends HTMLElementBase {
 
     const group = document.createElement("div");
     group.className = "time-field";
+    // A fieldset may have been disabled since the last render.
+    group.addEventListener("focusin", () => {
+      if (group.classList.contains("time-field--disabled") !== this.#disabled()) this.#render();
+    });
     // Moving between segments is editing; focus leaving the field is the end.
     group.addEventListener("focusout", (event) => {
       const next = event.relatedTarget;
@@ -263,7 +283,7 @@ export class DsTimeField extends HTMLElementBase {
     const group = this.#group;
     if (!group) return;
     const api = this.#api();
-    const disabled = boolAttr(this, "disabled");
+    const disabled = this.#disabled();
     const message = this.getAttribute("error") ?? this.#messageFor(api.validationError);
     const invalid = boolAttr(this, "invalid") || Boolean(message);
 

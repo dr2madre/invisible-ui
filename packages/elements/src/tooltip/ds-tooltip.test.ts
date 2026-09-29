@@ -71,4 +71,33 @@ describe("<ds-tooltip>", () => {
     await user.tab();
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("keeps the ids the page set in aria-describedby", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `
+      <p id="hint">Opens the table settings</p>
+      <ds-tooltip text="Settings for this table">
+        <button type="button" aria-label="Settings" aria-describedby="hint">⚙</button>
+      </ds-tooltip>`;
+    const button = screen.getByRole("button", { name: "Settings" });
+    await user.tab();
+    const tip = screen.getByRole("tooltip");
+    expect(button.getAttribute("aria-describedby")).toBe(`hint ${tip.id}`);
+    await user.keyboard("{Escape}");
+    expect(button.getAttribute("aria-describedby")).toBe("hint");
+  });
+
+  it("mounts the tooltip inside an open modal dialog", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `
+      <ds-dialog heading="Table" trigger="Open">
+        <ds-tooltip text="Settings for this table">
+          <button type="button" aria-label="Settings">⚙</button>
+        </ds-tooltip>
+      </ds-dialog>`;
+    await user.click(screen.getByRole("button", { name: "Open" }));
+    screen.getByRole("button", { name: "Settings" }).focus();
+    const panel = screen.getByRole("dialog");
+    expect(panel).toContainElement(screen.getByRole("tooltip"));
+  });
 });

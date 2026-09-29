@@ -9,6 +9,15 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
+/** A pointer-ish event (jsdom lacks a reliable PointerEvent constructor). */
+function pointer(type: string, x: number, timeStamp: number) {
+  const event = new MouseEvent(type, { clientX: x, clientY: 10, button: 0, bubbles: true });
+  Object.defineProperty(event, "pointerId", { value: 1 });
+  Object.defineProperty(event, "pointerType", { value: "touch" });
+  Object.defineProperty(event, "timeStamp", { value: timeStamp });
+  return event;
+}
+
 const mount = (extra = "") => {
   document.body.innerHTML = `<ds-sheet-dialog heading="Filters" trigger="Open filters" ${extra}>
     <button slot="header-lead">Back</button>
@@ -90,6 +99,57 @@ describe("<ds-sheet-dialog>", () => {
     expect(handle.hidden).toBe(false);
     host.setAttribute("side", "top");
     expect(handle.hidden).toBe(true);
+  });
+
+  it("opens on connect when opened while out of the page", () => {
+    const host = mount();
+    // Browsers refuse to show a disconnected <dialog>; jsdom does not. The
+    // refusal would surface as a reported error, not a thrown one.
+    const showModal = HTMLDialogElement.prototype.showModal;
+    const refused: HTMLDialogElement[] = [];
+    vi.spyOn(HTMLDialogElement.prototype, "showModal").mockImplementation(function (
+      this: HTMLDialogElement,
+    ) {
+      if (!this.isConnected) refused.push(this);
+      else showModal.call(this);
+    });
+    host.remove();
+    host.open = true;
+    expect(refused).toEqual([]);
+    document.body.appendChild(host);
+    vi.restoreAllMocks();
+    expect((host.querySelector("dialog") as HTMLDialogElement).open).toBe(true);
+  });
+
+  it("snaps back without closing when the drag pointer is cancelled", async () => {
+    const user = userEvent.setup();
+    // A cancelled pointer reports (0, 0): on the left side that reads as a
+    // long outward drag.
+    const host = mount('side="left" draggable');
+    await user.click(screen.getByRole("button", { name: "Open filters" }));
+    const panel = host.querySelector<HTMLElement>(".sheet-dialog__panel")!;
+    Object.defineProperty(panel, "offsetWidth", { configurable: true, value: 400 });
+    const handle = host.querySelector<HTMLElement>(".sheet-dialog__handle")!;
+    handle.dispatchEvent(pointer("pointerdown", 300, 0));
+    window.dispatchEvent(pointer("pointermove", 290, 1000));
+    expect(panel).toHaveClass("sheet-dialog__panel--dragging");
+    window.dispatchEvent(pointer("pointercancel", 0, 1001));
+    expect(host.open).toBe(true);
+    expect(panel).not.toHaveClass("sheet-dialog__panel--dragging");
+    expect(panel.style.transform).toBe("");
+  });
+
+  it("clears the drag state when it closes mid-drag", async () => {
+    const user = userEvent.setup();
+    const host = mount('side="bottom" draggable');
+    await user.click(screen.getByRole("button", { name: "Open filters" }));
+    const panel = host.querySelector<HTMLElement>(".sheet-dialog__panel")!;
+    const handle = host.querySelector<HTMLElement>(".sheet-dialog__handle")!;
+    handle.dispatchEvent(pointer("pointerdown", 300, 0));
+    window.dispatchEvent(pointer("pointermove", 350, 1000));
+    host.open = false;
+    expect(panel).not.toHaveClass("sheet-dialog__panel--dragging");
+    expect(panel.style.transform).toBe("");
   });
 
   it("has no accessibility violations when open", async () => {
