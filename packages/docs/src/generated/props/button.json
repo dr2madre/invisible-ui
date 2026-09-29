@@ -370,6 +370,20 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "copy",
+          "reactive": true,
+          "required": false,
+          "description": "text copied on activation",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copied-label",
+          "reactive": true,
+          "required": false,
+          "description": "the confirmation shown after a copy, \"Copied\" by default",
+          "descriptionFrom": "source"
         }
       ],
       "notes": []

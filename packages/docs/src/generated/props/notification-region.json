@@ -224,7 +224,7 @@
         }
       ],
       "notes": [
-        "Properties: `notifications` (the queue, oldest first, read only).",
+        "Properties: `notifications` (the queue, oldest first, read only, including the notifications waiting for a modal to close).",
         "Methods: `show(options)` returns the id, `info`, `success`, `warning`, `danger` and `neutral(title, options)`, `update(id, patch)`, `dismiss(id, reason)`, `clear()`, `promise(promise, messages)`.",
         "Emits: `dismiss` (`detail.id`, `detail.reason`) after a notification leaves the queue."
       ]

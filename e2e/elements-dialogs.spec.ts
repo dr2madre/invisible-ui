@@ -240,14 +240,16 @@ test.describe("Elements search dialog", () => {
     await expect(input).toBeFocused();
     await expect(dialog.getByRole("option")).toHaveCount(4);
 
+    // The results count; the dialog's status area has a live region too.
+    const results = dialog.locator(".search-dialog__sr-only[role='status']");
     await page.keyboard.type("file");
     await expect(dialog.getByRole("option")).toHaveText(["New File", "Open File"]);
-    await expect(dialog.getByRole("status")).toHaveText("2 results available");
+    await expect(results).toHaveText("2 results available");
     await expect(input).toBeFocused();
 
     await page.keyboard.type("zz");
     await expect(dialog.getByRole("option")).toHaveCount(0);
-    await expect(dialog.getByRole("status")).toHaveText("No results found.");
+    await expect(results).toHaveText("No results found.");
     await expect(dialog.locator(".search-dialog__empty")).toBeVisible();
 
     await page.keyboard.press("Escape");
@@ -326,5 +328,108 @@ test.describe("Elements dialogs at 320 CSS pixels", () => {
       await page.keyboard.press("Escape");
       await expect(dialog).toBeHidden();
     }
+  });
+});
+
+// ADR 0016: feedback while a dialog is open.
+test.describe("Elements feedback while a dialog is open", () => {
+  test.beforeEach(async ({ page }) => {
+    await mount(
+      page,
+      ["ds-dialog", "ds-confirm-dialog", "ds-notification-region"],
+      `<ds-dialog data-testid="edit" heading="Edit file" trigger="Edit">
+        <button type="button" data-delete>Delete file</button>
+        <button slot="footer" type="button">Done</button>
+      </ds-dialog>
+      <ds-confirm-dialog data-testid="confirm" heading="Delete file?" trigger="Delete elsewhere"
+        confirm-label="Delete file" cancel-label="Keep file"></ds-confirm-dialog>
+      <ds-notification-region duration="0"></ds-notification-region>`,
+    );
+    await page.evaluate(() => {
+      const confirm = document.querySelector("ds-confirm-dialog") as HTMLElement & {
+        open: boolean;
+      };
+      document
+        .querySelector("[data-delete]")!
+        .addEventListener("click", () => (confirm.open = true));
+    });
+  });
+
+  test("a preset opened over a dialog takes focus, closes alone and returns focus", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Edit" }).click();
+    const edit = page.getByRole("dialog", { name: "Edit file" });
+    const deleteButton = edit.getByRole("button", { name: "Delete file" });
+    await deleteButton.click();
+
+    const top = page.getByRole("dialog", { name: "Delete file?" });
+    await expect(top).toBeVisible();
+    expect(await top.evaluate((node) => node.matches(":modal"))).toBe(true);
+    await expect(top.getByRole("button", { name: "Keep file" })).toBeFocused();
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    await page.keyboard.press("Escape");
+    await expect(top).toBeHidden();
+    await expect(edit).toBeVisible();
+    await expect(deleteButton).toBeFocused();
+    // The dialog below still holds the page.
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    await page.keyboard.press("Escape");
+    await expect(edit).toBeHidden();
+    await expect(page.getByRole("button", { name: "Edit" })).toBeFocused();
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+  });
+
+  test("a notice about the dialog's task shows in its status area without moving focus", async ({
+    page,
+    browserName,
+  }) => {
+    await page.getByRole("button", { name: "Edit" }).click();
+    const edit = page.getByRole("dialog", { name: "Edit file" });
+    const deleteButton = edit.getByRole("button", { name: "Delete file" });
+    await deleteButton.focus();
+    await page.evaluate(() => {
+      const dialog = document.querySelector("ds-dialog") as HTMLElement & {
+        notify(options: object): string;
+      };
+      dialog.notify({
+        status: "danger",
+        title: "Upload failed",
+        action: { label: "Retry", onAction() {} },
+      });
+    });
+    const notice = edit.getByRole("group", { name: "Upload failed" });
+    await expect(notice).toBeVisible();
+    await expect(deleteButton).toBeFocused();
+    await expect(edit.locator(".dialog-status__live")).toHaveText("Upload failed");
+
+    // Between the body and the footer, and in the tab order.
+    const noticeBox = (await notice.boundingBox())!;
+    const footerBox = (await edit.locator(".dialog__footer").boundingBox())!;
+    expect(noticeBox.y + noticeBox.height).toBeLessThanOrEqual(footerBox.y);
+    if (tabReachesButtons(browserName)) {
+      await page.keyboard.press("Tab");
+      await expect(notice.getByRole("button", { name: "Retry" })).toBeFocused();
+    }
+  });
+
+  test("the notification region waits for the last modal to close", async ({ page }) => {
+    await page.getByRole("button", { name: "Edit" }).click();
+    await page.getByRole("button", { name: "Delete file" }).click();
+    await page.evaluate(() => {
+      const region = document.querySelector("ds-notification-region") as HTMLElement & {
+        success(title: string): string;
+      };
+      region.success("Report exported");
+    });
+    const notice = page.getByRole("group", { name: "Report exported" });
+    await expect(notice).toHaveCount(0);
+
+    await page.keyboard.press("Escape");
+    await expect(notice).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await expect(notice).toBeVisible();
   });
 });

@@ -34,6 +34,19 @@ and [Loading Button](/invisible-ui/components/forms/loading-button/)
 - `danger` shows a hazard icon by default, so meaning never relies on color alone (WCAG 1.4.1).
 - Behaviour and a11y (focus, Enter/Space activation) come from the headless button.
 
+### Copy confirmation
+
+In Elements, `copy` holds text for the button to copy. After a successful
+copy, "Copied" (or `copied-label`) shows beside the button for two seconds,
+announced through a polite live region; the button keeps its name and focus.
+It is the confirmation at the source that
+[ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)
+asks for inside a dialog.
+
+```html
+<ds-button copy="https://example.com/reports/q3" copied-label="Link copied">Copy the link</ds-button>
+```
+
 ### Example
 
 ```svelte

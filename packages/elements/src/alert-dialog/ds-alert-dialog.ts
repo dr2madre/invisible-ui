@@ -23,6 +23,8 @@ import { localized } from "../internal/i18n";
  * `open`, `close-button` (shows a close button in the header), `close-label`,
  * `no-outside-close`.
  * Properties: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: bubbling `open-change` CustomEvent with `detail.open`, and `dismiss`
  * when the alert is acknowledged.
  */
@@ -66,7 +68,7 @@ export class DsAlertDialog extends ModalHost {
     this.#dismiss.addEventListener("click", () => this.setOpen(false));
     actions.append(this.#dismiss);
 
-    panel.append(this.#header.header, this.#description, actions);
+    panel.append(this.#header.header, this.#description, ...this.status.parts, actions);
     this.textContent = "";
     this.append(this.trigger);
     this.panel = panel;

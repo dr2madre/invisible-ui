@@ -210,7 +210,7 @@ test("the elements scenarios reach the sheet, between the open scenarios and the
   // Named literally, for the same reason as the checks above.
   for (const title of [
     "Calendar: range day names and selected state",
-    "Notification Region: announced once, inside a modal Dialog",
+    "Dialog: messages while it is open",
     "Table Set: result count announcements",
     "Count: updates, standalone and inside a button",
     "Tree View: loading, error and success status",

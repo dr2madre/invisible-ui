@@ -463,6 +463,7 @@
       ],
       "notes": [
         "Properties: `open` (boolean).",
+        "Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status area, ADR 0016).",
         "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `confirm` with `detail.value` when the value is confirmed."
       ]
     }

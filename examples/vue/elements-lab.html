@@ -67,13 +67,19 @@
           <button type="button" data-notify="polite">Show a polite notification</button>
           <button type="button" data-notify="assertive">Show an assertive notification</button>
         </div>
-        <ds-dialog heading="Notifications in a dialog" trigger="Open the dialog">
+        <!-- ADR 0016: the dialog's own messages stay in it; the page's
+             notifications wait until it closes. -->
+        <ds-dialog heading="Share the report" trigger="Open the dialog" data-lab-share>
+          <div class="lab-row">
+            <ds-button copy="https://example.com/reports/q3" copied-label="Link copied"
+              >Copy the link</ds-button
+            >
+            <button type="button" data-lab-upload>Report a failed upload</button>
+          </div>
           <div class="lab-row">
             <button type="button" data-notify="polite">Show a polite notification</button>
             <button type="button" data-notify="assertive">Show an assertive notification</button>
           </div>
-          <!-- A region inside the dialog mounts in it while it is open. -->
-          <ds-notification-region label="Dialog notifications"></ds-notification-region>
         </ds-dialog>
         <ds-notification-region data-lab-page-region></ds-notification-region>
       </section>

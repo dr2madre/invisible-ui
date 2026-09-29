@@ -12,6 +12,8 @@ import {
   syncDialogHeader,
   type DialogHeaderParts,
 } from "../internal/dialog-header";
+import { DialogStatus, type DialogNoticeOptions } from "../internal/dialog-status";
+import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
 import { localized, onLocaleChange } from "../internal/i18n";
 
@@ -29,7 +31,16 @@ export type SheetDialogSide = "top" | "right" | "bottom" | "left";
  * `close-button` (`"false"` drops the close button),
  * `initial-focus`, `render-trigger`, `return-focus-to`, `no-outside-close`.
  * Property: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: `open-change` with `detail.open`.
+ *
+ * A status area between the body and the footer holds messages about the
+ * sheet's own task (ADR 0016), with the same contract as `<ds-dialog>`:
+ * notices announced once through a polite live region, never taking focus,
+ * cleared when the sheet closes. Closing returns focus to `return-focus-to`
+ * when the trigger is not rendered, else to the element that had focus when
+ * the sheet opened, else to the trigger.
  */
 export class DsSheetDialog extends HTMLElementBase {
   static observedAttributes = [
@@ -50,11 +61,14 @@ export class DsSheetDialog extends HTMLElementBase {
   #cleanup: (() => void) | null = null;
   #dragCleanup: (() => void) | null = null;
   #instanceId = nextId("ds-sheet-dialog");
+  #status = new DialogStatus(this, () => this.#panel);
 
   constructor() {
     super();
     onLocaleChange(this, () => {
-      if (this.#panel) this.#sync();
+      if (!this.#panel) return;
+      this.#sync();
+      this.#status.relabel();
     });
   }
 
@@ -81,6 +95,21 @@ export class DsSheetDialog extends HTMLElementBase {
 
   set open(value: boolean) {
     this.toggleAttribute("open", value);
+  }
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  notify(options: DialogNoticeOptions): string {
+    return this.#status.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  dismissNotice(id: string): void {
+    this.#status.dismiss(id);
+  }
+
+  /** Remove every notice from the status area. */
+  clearNotices(): void {
+    this.#status.clear();
   }
 
   #setOpen = (next: boolean) => {
@@ -131,7 +160,7 @@ export class DsSheetDialog extends HTMLElementBase {
       actions: headerActionsContent,
     });
 
-    panel.append(handle, header.header, body);
+    panel.append(handle, header.header, body, ...this.#status.parts);
     const footer = this.#region("sheet-dialog__footer", footerContent);
     if (footer) panel.appendChild(footer);
     this.append(trigger, panel);
@@ -186,13 +215,18 @@ export class DsSheetDialog extends HTMLElementBase {
     const panel = this.#panel!;
     const previouslyFocused = document.activeElement as HTMLElement | null;
     panel.showModal();
+    const releaseModal = trackModal(panel);
     const releaseScroll = lockScroll();
 
     const onCancel = (event: Event) => {
       event.preventDefault();
       this.#setOpen(false);
     };
-    const onClose = () => this.#setOpen(false);
+    // Only the panel's own close: an element inside it, such as a closable
+    // inline notification, emits a bubbling `close` too.
+    const onClose = (event: Event) => {
+      if (event.target === panel) this.#setOpen(false);
+    };
     const onPointerDown = (event: PointerEvent) => {
       if (boolAttr(this, "no-outside-close") || event.target !== panel) return;
       const rect = panel.getBoundingClientRect();
@@ -221,14 +255,15 @@ export class DsSheetDialog extends HTMLElementBase {
       panel.removeEventListener("close", onClose);
       panel.removeEventListener("pointerdown", onPointerDown);
       if (panel.open) panel.close();
+      releaseModal();
       releaseScroll();
-      const restore = this.#restoreTarget(previouslyFocused);
-      if (restore?.isConnected) restore.focus();
+      this.#status.clear();
+      const trigger = this.#trigger!.hidden ? null : this.#trigger;
+      returnFocus(trigger ? previouslyFocused : this.#returnFocusTo(previouslyFocused), trigger);
     };
   }
 
-  #restoreTarget(previouslyFocused: HTMLElement | null) {
-    if (!this.#trigger!.hidden) return this.#trigger;
+  #returnFocusTo(previouslyFocused: HTMLElement | null) {
     const selector = this.getAttribute("return-focus-to");
     if (selector) {
       try {

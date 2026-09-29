@@ -99,6 +99,16 @@
       "signature": "type DateStyle = \"full\" | \"long\" | \"medium\" | \"short\";"
     },
     {
+      "name": "DialogNoticeAction",
+      "kind": "interface",
+      "signature": "interface DialogNoticeAction { label: string; /** Runs when the button is pressed; the notice then closes. */ onAction: () => void; }"
+    },
+    {
+      "name": "DialogNoticeOptions",
+      "kind": "interface",
+      "signature": "interface DialogNoticeOptions { /** `info` by default. */ status?: FeedbackStatus; title: string; description?: string; action?: DialogNoticeAction; /** Whether the notice has a close button. Defaults to `true`. */ dismissible?: boolean; }"
+    },
+    {
       "name": "DsAccordion",
       "kind": "class",
       "signature": "declare class DsAccordion extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(name: string): void; get value(): string[]; set value(next: string[]); get items(): AccordionEntry[]; set items(value: AccordionEntry[]); /** Re-wire every item. Called by the items when they arrive, leave or change. */ syncItems(): void; }"
@@ -141,7 +151,7 @@
     {
       "name": "DsButton",
       "kind": "class",
-      "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; connectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
+      "signature": "declare class DsButton extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get disabled(): boolean; set disabled(value: boolean); }"
     },
     {
       "name": "DsButtonGroup",
@@ -221,7 +231,7 @@
     {
       "name": "DsDialog",
       "kind": "class",
-      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; }"
+      "signature": "declare class DsDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); /** Show a notice in the status area and return its id (ADR 0016). */ notify(options: DialogNoticeOptions): string; /** Remove one notice from the status area. */ dismissNotice(id: string): void; /** Remove every notice from the status area. */ clearNotices(): void; private header; }"
     },
     {
       "name": "DsDropdownMenu",
@@ -406,7 +416,7 @@
     {
       "name": "DsSheetDialog",
       "kind": "class",
-      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); private header; private handle; }"
+      "signature": "declare class DsSheetDialog extends HTMLElementBase { #private; static observedAttributes: string[]; constructor(); connectedCallback(): void; disconnectedCallback(): void; attributeChangedCallback(): void; get open(): boolean; set open(value: boolean); /** Show a notice in the status area and return its id (ADR 0016). */ notify(options: DialogNoticeOptions): string; /** Remove one notice from the status area. */ dismissNotice(id: string): void; /** Remove every notice from the status area. */ clearNotices(): void; private header; private handle; }"
     },
     {
       "name": "DsSidebar",

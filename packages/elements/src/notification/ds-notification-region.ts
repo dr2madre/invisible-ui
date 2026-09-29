@@ -1,7 +1,7 @@
 import { i18n } from "@design-system/core";
 import { boolAttr, definePart, emit, HTMLElementBase } from "../internal/base";
 import { LOCALE_CHANGE_EVENT, localeScope, localized, onLocaleChange } from "../internal/i18n";
-import { overlayRoot } from "../internal/overlay-root";
+import { hasOpenModal, onModalChange } from "../internal/modal-stack";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
 import {
   DsNotification,
@@ -102,11 +102,21 @@ const nextFrame = (callback: () => void) =>
  * groups named by their title, not live regions.
  *
  * The region is moved to `<body>` while the element is connected, so no
- * ancestor stacking context can paint over it; inside an open modal
- * `<dialog>` it moves into that dialog instead, so it stays above the page and
- * operable. It keeps the element's language and direction. Notifications
- * shown before the element is connected wait in the queue and appear once it
- * is. The newest notification is on top and past
+ * ancestor stacking context can paint over it. It keeps the element's
+ * language and direction. Notifications shown before the element is
+ * connected wait in the queue and appear once it is.
+ *
+ * While a modal dialog is open anywhere in the document, new notifications
+ * wait in the queue, unshown and unannounced (ADR 0016): the dialog holds
+ * the user's attention and makes the page behind it inert. When the last
+ * modal closes they appear in order, and their auto-dismiss countdowns start
+ * then. Notifications already shown when a modal opens stay, with their
+ * countdowns held; a change to one of them is announced after the modal
+ * closes. A message about the dialog's own task belongs in the dialog's
+ * status area (`notify()` on the dialog), and a message that needs a
+ * decision now belongs in a dialog opened on top.
+ *
+ * The newest notification is on top and past
  * `max-visible` the oldest leave. Hovering or focusing any notification holds
  * every countdown. Notifications enter, leave and reflow with motion, none
  * under reduced motion, and can be swiped away.
@@ -116,7 +126,8 @@ const nextFrame = (callback: () => void) =>
  * edges, `1rem`), `swipeable` (on by default, `"false"` turns it off),
  * `duration` (enter and reflow ms, `200`), `exit-duration` (leave ms, 1.75
  * times `duration`).
- * Properties: `notifications` (the queue, oldest first, read only).
+ * Properties: `notifications` (the queue, oldest first, read only, including
+ * the notifications waiting for a modal to close).
  * Methods: `show(options)` returns the id, `info`, `success`, `warning`, `danger` and
  * `neutral(title, options)`, `update(id, patch)`, `dismiss(id, reason)`,
  * `clear()`, `promise(promise, messages)`.
@@ -151,6 +162,11 @@ export class DsNotificationRegion extends HTMLElementBase {
   #announceTimer: ReturnType<typeof setTimeout> | undefined;
   #pointerInside = false;
   #focusInside = false;
+  // Whether a modal dialog is open in the document, and which notifications
+  // have been shown: only those stay on screen while one is.
+  #modalOpen = false;
+  #shown = new Set<string>();
+  #stopWatching: (() => void) | null = null;
 
   constructor() {
     super();
@@ -166,6 +182,8 @@ export class DsNotificationRegion extends HTMLElementBase {
   connectedCallback() {
     definePart("ds-notification", DsNotification);
     this.#region ??= this.#createRegion();
+    this.#modalOpen = hasOpenModal(this.ownerDocument);
+    this.#stopWatching ??= onModalChange(this.ownerDocument, () => this.#syncModal());
     this.#render();
   }
 
@@ -174,6 +192,8 @@ export class DsNotificationRegion extends HTMLElementBase {
     for (const handle of this.#swipes.values()) handle.destroy();
     this.#swipes.clear();
     this.#region?.remove();
+    this.#stopWatching?.();
+    this.#stopWatching = null;
   }
 
   attributeChangedCallback() {
@@ -310,8 +330,19 @@ export class DsNotificationRegion extends HTMLElementBase {
     this.#syncPaused();
   }
 
+  #syncModal() {
+    const open = hasOpenModal(this.ownerDocument);
+    if (open === this.#modalOpen) return;
+    this.#modalOpen = open;
+    this.#render();
+  }
+
+  #isPaused() {
+    return this.#pointerInside || this.#focusInside || this.#modalOpen;
+  }
+
   #syncPaused() {
-    const paused = this.#pointerInside || this.#focusInside;
+    const paused = this.#isPaused();
     for (const notice of this.#notices.values()) notice.paused = paused;
   }
 
@@ -334,7 +365,7 @@ export class DsNotificationRegion extends HTMLElementBase {
     // Before the element is connected the queue only collects; connecting
     // renders it.
     if (!region || !this.isConnected) return;
-    const root = overlayRoot(this);
+    const root = this.ownerDocument.body;
     if (region.parentElement !== root) root.appendChild(region);
     const { locale } = localeScope(this);
     region.dataset.placement = this.#placement();
@@ -346,9 +377,16 @@ export class DsNotificationRegion extends HTMLElementBase {
     region.style.setProperty("--_notice-motion", `${this.#motion()}ms`);
     region.style.setProperty("--_notice-motion-out", `${this.#motionOut()}ms`);
 
+    // While a modal is open, only what was already on screen stays there.
+    const ids = new Set(this.#items.map((item) => item.id));
+    for (const id of this.#shown) if (!ids.has(id)) this.#shown.delete(id);
+    const eligible = this.#modalOpen
+      ? this.#items.filter((item) => this.#shown.has(item.id))
+      : this.#items;
     const max = numberAttr(this, "max-visible", 0);
     // New notifications always enter; past the cap the oldest leave.
-    const visible = max > 0 ? this.#items.slice(-max) : this.#items;
+    const visible = max > 0 ? eligible.slice(-max) : eligible;
+    for (const item of visible) this.#shown.add(item.id);
     this.#updatePaintOrder(visible);
 
     const before = new Map<DsNotification, DOMRect>();
@@ -366,7 +404,7 @@ export class DsNotificationRegion extends HTMLElementBase {
       this.#leave(notice);
     }
 
-    const paused = this.#pointerInside || this.#focusInside;
+    const paused = this.#isPaused();
     const entering: DsNotification[] = [];
     let after: Node | null = null;
     for (const item of [...visible].reverse()) {
@@ -376,7 +414,8 @@ export class DsNotificationRegion extends HTMLElementBase {
         this.#notices.set(item.id, notice);
       }
       this.#applyItem(notice, item);
-      this.#announce(item);
+      // Behind a modal nothing is announced; closing it renders again.
+      if (!this.#modalOpen) this.#announce(item);
       notice.paused = paused;
       notice.style.zIndex = String(100000 - (this.#paintOrder.get(item.id) ?? 0));
       if (!notice.isConnected) {

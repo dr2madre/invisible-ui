@@ -1,8 +1,6 @@
 import { boolAttr, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { CopyFeedback } from "../internal/copy-feedback";
 import { localized, onLocaleChange, t } from "../internal/i18n";
-
-/** How long the "Copied" confirmation stays up, in ms. */
-const COPIED_DURATION = 2000;
 
 /**
  * `<ds-code-block>` — block code: a multi-line, monospaced, preformatted
@@ -35,8 +33,9 @@ export class DsCodeBlock extends HTMLElementBase {
   #code: HTMLElement | null = null;
   #live: HTMLSpanElement | null = null;
   #markup: Node[] = [];
-  #copied = false;
-  #timer: ReturnType<typeof setTimeout> | undefined;
+  #feedback = new CopyFeedback(() => {
+    if (this.#figure) this.#render();
+  });
 
   constructor() {
     super();
@@ -52,8 +51,7 @@ export class DsCodeBlock extends HTMLElementBase {
   }
 
   disconnectedCallback() {
-    clearTimeout(this.#timer);
-    this.#copied = false;
+    this.#feedback.reset();
   }
 
   attributeChangedCallback() {
@@ -84,7 +82,7 @@ export class DsCodeBlock extends HTMLElementBase {
     const copy = document.createElement("button");
     copy.type = "button";
     copy.className = "code-block__copy";
-    copy.addEventListener("click", () => void this.#copyCode());
+    copy.addEventListener("click", () => void this.#feedback.copy(this.#source()));
 
     const pre = document.createElement("pre");
     pre.className = "code-block__pre";
@@ -114,22 +112,6 @@ export class DsCodeBlock extends HTMLElementBase {
     return this.code || (this.#markup.length ? (this.#code?.textContent ?? "") : "");
   }
 
-  async #copyCode() {
-    try {
-      await navigator.clipboard?.writeText(this.#source());
-      this.#copied = true;
-      clearTimeout(this.#timer);
-      this.#timer = setTimeout(() => {
-        this.#copied = false;
-        if (this.#figure) this.#render();
-      }, COPIED_DURATION);
-      this.#render();
-    } catch {
-      // The clipboard can be unavailable (an insecure context, a denied
-      // permission): nothing was copied, so nothing is announced.
-    }
-  }
-
   #render() {
     const figure = this.#figure!;
     const header = this.#header!;
@@ -150,7 +132,10 @@ export class DsCodeBlock extends HTMLElementBase {
 
     if (copyable) {
       copy.setAttribute("aria-label", localized(this, "copy-label", "codeBlock.copy"));
-      copy.textContent = t(this, this.#copied ? "codeBlock.copiedText" : "codeBlock.copyText");
+      copy.textContent = t(
+        this,
+        this.#feedback.copied ? "codeBlock.copiedText" : "codeBlock.copyText",
+      );
       header.appendChild(copy);
     } else copy.remove();
 
@@ -170,6 +155,6 @@ export class DsCodeBlock extends HTMLElementBase {
       code.textContent = this.code;
     }
 
-    this.#live!.textContent = this.#copied && copyable ? t(this, "codeBlock.copied") : "";
+    this.#live!.textContent = this.#feedback.copied && copyable ? t(this, "codeBlock.copied") : "";
   }
 }

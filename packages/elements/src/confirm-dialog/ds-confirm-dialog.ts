@@ -25,6 +25,8 @@ import { localized } from "../internal/i18n";
  * `trigger` (opener text), `trigger-variant`, `open`, `close-button` (shows a
  * close button in the header), `close-label`, `no-outside-close`.
  * Properties: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: bubbling `open-change` CustomEvent with `detail.open`, and `confirm`
  * when the confirm button is pressed.
  */
@@ -72,7 +74,7 @@ export class DsConfirmDialog extends ModalHost {
     });
     actions.append(this.#cancel, this.#confirm);
 
-    panel.append(this.#header.header, this.#description, actions);
+    panel.append(this.#header.header, this.#description, ...this.status.parts, actions);
     this.textContent = "";
     this.append(this.trigger);
     this.panel = panel;

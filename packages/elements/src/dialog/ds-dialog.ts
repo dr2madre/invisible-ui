@@ -12,6 +12,8 @@ import {
   syncDialogHeader,
   type DialogHeaderParts,
 } from "../internal/dialog-header";
+import { DialogStatus, type DialogNoticeOptions } from "../internal/dialog-status";
+import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
 import { localized, onLocaleChange } from "../internal/i18n";
 
@@ -44,10 +46,21 @@ import { localized, onLocaleChange } from "../internal/i18n";
  * `no-outside-close`, `body-layout` (`plain` by default, or `stack` to space
  * the body's direct sections by `--ds-dialog-body-gap`).
  * Properties: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  *
  * `initial-focus` and `no-outside-close` are read at the moment they apply —
  * when the dialog opens, and when a pointer goes down outside it — so they
  * follow the host without being observed.
+ *
+ * A status area between the body and the footer holds messages about the
+ * dialog's own task (ADR 0016): `notify(options)` adds a notice styled as an
+ * inline notification and returns its id, announced once through a polite
+ * live region, without moving focus; `dismissNotice(id)` and `clearNotices()`
+ * remove them. Notices belong to one opening: `notify()` while closed returns
+ * an empty string, and closing clears them. Closing returns focus to the
+ * element that had it when the dialog opened, so a dialog opened from inside
+ * another hands focus back there; otherwise to the trigger.
  *
  * Emits: bubbling `open-change` CustomEvent with `detail.open`.
  */
@@ -67,11 +80,14 @@ export class DsDialog extends HTMLElementBase {
   #panel: HTMLDialogElement | null = null;
   #body: HTMLDivElement | null = null;
   #cleanup: (() => void) | null = null;
+  #status = new DialogStatus(this, () => this.#panel);
 
   constructor() {
     super();
     onLocaleChange(this, () => {
-      if (this.#panel) this.#sync();
+      if (!this.#panel) return;
+      this.#sync();
+      this.#status.relabel();
     });
   }
 
@@ -95,6 +111,21 @@ export class DsDialog extends HTMLElementBase {
   }
   set open(value: boolean) {
     this.toggleAttribute("open", value);
+  }
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  notify(options: DialogNoticeOptions): string {
+    return this.#status.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  dismissNotice(id: string): void {
+    this.#status.dismiss(id);
+  }
+
+  /** Remove every notice from the status area. */
+  clearNotices(): void {
+    this.#status.clear();
   }
 
   #setOpen = (next: boolean) => {
@@ -148,7 +179,7 @@ export class DsDialog extends HTMLElementBase {
       actions: actionsContent,
     });
 
-    panel.append(header.header, body);
+    panel.append(header.header, body, ...this.#status.parts);
 
     // One action bar: the leading group first, so source order matches focus
     // order, then the trailing group.
@@ -220,13 +251,18 @@ export class DsDialog extends HTMLElementBase {
 
     // Top layer + inert background come from the platform.
     panel.showModal();
+    const releaseModal = trackModal(panel);
     const releaseScroll = lockScroll();
 
     const onCancel = (event: Event) => {
       event.preventDefault();
       this.#setOpen(false);
     };
-    const onClose = () => this.#setOpen(false);
+    // Only the panel's own close: an element inside it, such as a closable
+    // inline notification, emits a bubbling `close` too.
+    const onClose = (event: Event) => {
+      if (event.target === panel) this.#setOpen(false);
+    };
     // With the page inert, backdrop presses target the <dialog> itself; a
     // press whose coordinates fall outside the panel box is a light dismiss.
     const onPointerDown = (event: PointerEvent) => {
@@ -258,9 +294,10 @@ export class DsDialog extends HTMLElementBase {
       panel.removeEventListener("close", onClose);
       panel.removeEventListener("pointerdown", onPointerDown);
       if (panel.open) panel.close();
+      releaseModal();
       releaseScroll();
-      const restore = this.#trigger ?? previouslyFocused;
-      if (restore?.isConnected) restore.focus();
+      this.#status.clear();
+      returnFocus(previouslyFocused, this.#trigger);
     };
   }
 }

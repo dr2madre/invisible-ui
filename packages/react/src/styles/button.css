@@ -145,3 +145,12 @@
 .button__badge:dir(rtl) {
   translate: -35% -35%;
 }
+
+/* Copy confirmation: short text beside the button that caused it, which is
+   also the polite live region announcing it (ADR 0016). Empty, it takes no
+   room. */
+.button__status:not(:empty) {
+  margin-inline-start: 0.5rem;
+  color: var(--ds-color-text-secondary, #524c44);
+  font-size: 0.875em;
+}

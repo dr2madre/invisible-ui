@@ -98,17 +98,23 @@ export const ELEMENTS_SCENARIOS = [
     ],
   },
   {
-    title: "Notification Region: announced once, inside a modal Dialog",
+    // ADR 0016: a message about the dialog's task stays in the dialog, and a
+    // page notification waits for the dialog to close.
+    title: "Dialog: messages while it is open",
     section: "notifications",
     steps: [
       "Press Open the dialog.",
-      "Inside the dialog, press Show a polite notification, then Show an assertive notification.",
-      "Browse the dialog with the screen reader's reading keys, then close it with Escape.",
+      "Press Copy the link.",
+      "Press Report a failed upload, then press Tab once.",
+      "Press Show a polite notification, then Show an assertive notification.",
+      "Close the dialog with Escape, and wait for the speech to end.",
     ],
     record: [
-      "How many times each notification's title is read while the dialog is open",
-      "Whether the notifications can be reached with the reading keys inside the dialog",
-      "Where focus is after each press, and after Escape",
+      "What is read after Copy the link, and where focus is",
+      "What is read for the failed upload, how many times, and where focus is",
+      "What is read after Tab, and whether it is the Retry button",
+      "Whether anything is read for the two notifications while the dialog is open",
+      "What is read after Escape, in which order, and where focus is",
     ],
   },
   {
