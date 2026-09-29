@@ -1,5 +1,8 @@
 ---
 "@design-system/react": minor
+"@design-system/elements": patch
+"@design-system/svelte": patch
+"@design-system/vue": patch
 ---
 
 Messages while a dialog is open follow ADR 0016 in the React adapter.
