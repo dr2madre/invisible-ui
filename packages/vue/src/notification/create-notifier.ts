@@ -96,7 +96,10 @@ export interface NotificationPromiseMessages<T> {
 export type StatusOptions = Omit<NotificationOptions, "status" | "title">;
 
 export interface Notifier {
-  /** The reactive list of active notifications (oldest first). */
+  /**
+   * The reactive list of active notifications (oldest first), including the
+   * ones a region holds back while a modal dialog is open.
+   */
   notifications: ComputedRef<NotificationItem[]>;
   /**
    * Queue a notification; returns its id. If `options.id` matches a live

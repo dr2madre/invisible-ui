@@ -102,8 +102,8 @@ message goes depends on what it is about
 3. **Unrelated, and it needs a decision now:** a dialog on top, which takes
    focus and gives it back to the dialog below when it closes.
 
-The custom elements implement all three today; Svelte, Vue and React follow
-with the same contract. Every dialog element in the family has `notify()`,
+The custom elements and Vue implement all three today; Svelte and React
+follow with the same contract. Every dialog element in the family has `notify()`,
 `dismissNotice(id)` and `clearNotices()`. A notice looks like an Inline
 Notification, is announced once through a polite live region, never takes
 focus, and is cleared when the dialog closes. `copy` on `<ds-button>` gives
@@ -127,6 +127,42 @@ the confirmation beside the control:
     });
   }
 </script>
+```
+
+In Vue, every dialog in the family exposes the same three methods on its
+template ref (type it with `DialogNoticeControls`), and `useDialog` returns
+them too. `copy` and `copiedLabel` on `Button` give the confirmation beside
+the control:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import { Button, Dialog, type DialogNoticeControls } from "@design-system/vue";
+
+const share = ref<DialogNoticeControls | null>(null);
+
+const retryUpload = () => {
+  // Start the upload again.
+};
+
+// Called by the application when an upload started in the dialog fails.
+function onUploadError() {
+  share.value?.notify({
+    status: "danger",
+    title: "Upload failed",
+    description: "The connection dropped.",
+    action: { label: "Retry", onAction: retryUpload },
+  });
+}
+</script>
+
+<template>
+  <Dialog ref="share" title="Share the report" trigger="Share">
+    <Button copy="https://example.com/reports/q3" copied-label="Link copied">
+      Copy the link
+    </Button>
+  </Dialog>
+</template>
 ```
 
 Live: an edit dialog composing form controls (with their own overlays) and a

@@ -10,6 +10,7 @@ import {
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { dialogHeader } from "../dialog/dialog-header";
+import { dialogStatus } from "../dialog/dialog-status";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "../dialog/use-dialog";
 
@@ -76,6 +77,9 @@ export interface PromptDialogProps {
  *
  * The header is the one the dialog family shares: an optional `icon` slot (a
  * FeedbackIcon) before the title and an optional close button (`closeButton`).
+ *
+ * The status area of `Dialog` sits before the buttons (ADR 0016): the template
+ * ref exposes `notify(options)`, `dismissNotice(id)` and `clearNotices()`.
  */
 export const PromptDialog = defineComponent({
   name: "PromptDialog",
@@ -103,11 +107,11 @@ export const PromptDialog = defineComponent({
   emits: {
     "update:open": (open: boolean) => typeof open === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, expose, slots }) {
     const i18n = useI18n();
     const current = ref(props.value);
 
-    const { api, open, setOpen, triggerRef, panelRef } = useDialog(() => ({
+    const dialog = useDialog(() => ({
       open: props.open,
       role: props.urgent ? "alertdialog" : "dialog",
       describedBy: props.description !== undefined,
@@ -118,6 +122,9 @@ export const PromptDialog = defineComponent({
         props.onOpenChange?.(next);
       },
     }));
+    const { api, open, setOpen, triggerRef, panelRef, notify, dismissNotice, clearNotices } =
+      dialog;
+    expose({ notify, dismissNotice, clearNotices });
 
     // Reset to the initial value each time it (re)opens.
     watch(open, (isOpen) => {
@@ -198,6 +205,7 @@ export const PromptDialog = defineComponent({
               onKeydown: onInputKeydown,
             }),
           ]),
+          ...dialogStatus({ status: dialog, closeLabel: t("inlineNotification.close") }),
           h("footer", { class: "prompt-dialog__actions" }, [
             h(
               Button,

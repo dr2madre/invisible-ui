@@ -11,7 +11,7 @@ React follow later with the same logic and the same public contract.
 | --- | --- |
 | Elements | Implemented. |
 | Svelte | Pending. |
-| Vue | Pending. |
+| Vue | Implemented. |
 | React | Pending. |
 
 ## Context

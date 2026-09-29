@@ -32,11 +32,12 @@ progress belongs *inside* the dialog, as an
 A notification is the wrong place for a message while a modal dialog is open
 ([ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)).
 A message about the dialog's task goes in the dialog: beside the control that
-caused it, or in the dialog's status area (`notify()` on the dialog element).
-An unrelated message waits: in the custom elements, the
+caused it, or in the dialog's status area (`notify()` on the dialog element,
+or on the Vue dialog's template ref). An unrelated message waits: in the
+custom elements and in Vue, the
 [Notification Region](/invisible-ui/components/feedback/notification-region/#messages-while-a-dialog-is-open)
 holds it until the dialog closes. A message that needs a decision now opens a
-dialog on top. Svelte, Vue and React follow with the same contract.
+dialog on top. Svelte and React follow with the same contract.
 
 ### Auto-dismiss is opt-in
 

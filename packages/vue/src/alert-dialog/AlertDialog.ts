@@ -2,6 +2,7 @@ import { defineComponent, h, type ComponentPublicInstance, type PropType } from 
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { dialogHeader } from "../dialog/dialog-header";
+import { dialogStatus } from "../dialog/dialog-status";
 import { useI18n } from "../i18n/i18n";
 import { useDialog } from "../dialog/use-dialog";
 
@@ -53,6 +54,9 @@ export interface AlertDialogProps {
  *
  * The header is the one the dialog family shares: an optional `icon` slot (a
  * FeedbackIcon) before the title and an optional close button (`closeButton`).
+ *
+ * The status area of `Dialog` sits before the button (ADR 0016): the template
+ * ref exposes `notify(options)`, `dismissNotice(id)` and `clearNotices()`.
  */
 export const AlertDialog = defineComponent({
   name: "AlertDialog",
@@ -72,10 +76,10 @@ export const AlertDialog = defineComponent({
   emits: {
     "update:open": (open: boolean) => typeof open === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, expose, slots }) {
     const i18n = useI18n();
 
-    const { api, open, setOpen, triggerRef, panelRef } = useDialog(() => ({
+    const dialog = useDialog(() => ({
       open: props.open,
       role: "alertdialog",
       describedBy: true,
@@ -89,6 +93,9 @@ export const AlertDialog = defineComponent({
         if (!next) props.onDismiss?.();
       },
     }));
+    const { api, open, setOpen, triggerRef, panelRef, notify, dismissNotice, clearNotices } =
+      dialog;
+    expose({ notify, dismissNotice, clearNotices });
 
     // A template ref on a component yields its instance; the composable wants
     // the DOM node it renders, to restore focus to it on close.
@@ -125,6 +132,7 @@ export const AlertDialog = defineComponent({
             { ...api.value.descriptionProps, class: "alert-dialog__description" },
             props.description,
           ),
+          ...dialogStatus({ status: dialog, closeLabel: t("inlineNotification.close") }),
           h("footer", { class: "alert-dialog__actions" }, [
             h(
               Button,
