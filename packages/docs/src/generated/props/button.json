@@ -201,6 +201,22 @@
           "required": false,
           "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "copy",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Text copied to the clipboard when the button is activated.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "The confirmation shown after a copy. Defaults to the catalog's \"Copied\".",
+          "descriptionFrom": "source"
         }
       ],
       "emits": [],
@@ -298,6 +314,22 @@
           "default": null,
           "required": false,
           "description": "Accessible name. Required for icon-only buttons; for buttons with visible text the text is the name and this is unnecessary.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copy",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Text the button copies to the clipboard when pressed (ADR 0016). After a successful copy, `copiedLabel` shows beside the button for two seconds, announced through a polite live region; the button keeps its name and focus. A refused clipboard shows nothing.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The confirmation shown after a copy. Defaults to the catalog's \"Copied\".",
           "descriptionFrom": "source"
         },
         {

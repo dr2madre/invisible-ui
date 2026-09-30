@@ -24,6 +24,10 @@ const setup = (props: Record<string, unknown> = {}) =>
 const openPalette = (user: ReturnType<typeof userEvent.setup>) =>
   user.click(screen.getByRole("button", { name: "Open palette" }));
 
+// The results count region; the dialog's status area holds another one.
+const resultsStatus = () =>
+  document.querySelector<HTMLElement>(".search-dialog__sr-only[role='status']");
+
 const groupedItems: SearchDialogItem[] = [
   { value: "home", label: "Home", group: "Pages" },
   { value: "settings-page", label: "Settings page", group: "Pages" },
@@ -145,11 +149,11 @@ describe("Vue SearchDialog", () => {
     setup();
     await openPalette(user);
 
-    expect(screen.getByRole("status")).toHaveTextContent("4 results available");
+    expect(resultsStatus()).toHaveTextContent("4 results available");
     await user.type(screen.getByRole("combobox"), "sa");
-    expect(screen.getByRole("status")).toHaveTextContent("1 result available");
+    expect(resultsStatus()).toHaveTextContent("1 result available");
     await user.type(screen.getByRole("combobox"), "zzz");
-    expect(screen.getByRole("status")).toHaveTextContent("No results found.");
+    expect(resultsStatus()).toHaveTextContent("No results found.");
   });
 
   it("renders grouped results under labelled sections, ungrouped first", async () => {
@@ -214,7 +218,7 @@ describe("Vue SearchDialog", () => {
     setup({ items: [], loading: true });
     await openPalette(user);
 
-    expect(screen.getByRole("status")).toHaveTextContent("Searching…");
+    expect(resultsStatus()).toHaveTextContent("Searching…");
     expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
   });
 

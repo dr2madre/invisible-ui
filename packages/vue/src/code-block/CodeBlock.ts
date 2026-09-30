@@ -1,5 +1,6 @@
-import { defineComponent, h, onScopeDispose, ref } from "vue";
+import { defineComponent, h } from "vue";
 import { useI18n } from "../i18n/i18n";
+import { useCopyFeedback } from "../internal/copy-feedback";
 
 export interface CodeBlockProps {
   /** The source text. Drives the copy button and is rendered when no slot is given. */
@@ -11,9 +12,6 @@ export interface CodeBlockProps {
   /** Accessible name for the copy button. Defaults to the catalog's "Copy code". */
   copyLabel?: string;
 }
-
-/** How long the "Copied" confirmation stays up, in ms. */
-const COPIED_DURATION = 2000;
 
 /**
  * CodeBlock — block code: a multi-line, monospaced, preformatted snippet
@@ -46,22 +44,9 @@ export const CodeBlock = defineComponent({
   },
   setup(props, { slots }) {
     const i18n = useI18n();
-    const copied = ref(false);
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    const copy = async () => {
-      try {
-        await navigator.clipboard?.writeText(props.code);
-        copied.value = true;
-        clearTimeout(timer);
-        timer = setTimeout(() => (copied.value = false), COPIED_DURATION);
-      } catch {
-        // Clipboard may be unavailable (insecure context, denied permission);
-        // stay quiet rather than throwing in the user's face.
-      }
-    };
-
-    onScopeDispose(() => clearTimeout(timer));
+    // The clipboard and timing logic of Button's `copy` (ADR 0016).
+    const { copied, copy: copyText } = useCopyFeedback();
+    const copy = () => void copyText(props.code);
 
     return () => {
       const { t } = i18n.value;

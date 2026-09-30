@@ -1,5 +1,7 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, mergeProps, type PropType } from "vue";
+import { useI18n } from "../i18n/i18n";
 import { HazardGlyph, Icon, PlusGlyph } from "../icon/Icon";
+import { useCopyFeedback } from "../internal/copy-feedback";
 import { useButton, type ButtonVariant } from "./use-button";
 
 export interface ButtonProps {
@@ -29,6 +31,10 @@ export interface ButtonProps {
    * text the text is the name and this is unnecessary.
    */
   ariaLabel?: string;
+  /** Text copied to the clipboard when the button is activated. */
+  copy?: string;
+  /** The confirmation shown after a copy. Defaults to the catalog's "Copied". */
+  copiedLabel?: string;
 }
 
 /**
@@ -43,10 +49,20 @@ export interface ButtonProps {
  * spreading. Vue merges a fallthrough `@click` with the button's own press
  * handler, so both run.
  *
+ * `copy` makes it a copy button (ADR 0016): activating it writes that text to
+ * the clipboard and, when that works, shows "Copied" beside the button for two
+ * seconds. That text is a polite live region, so it is also announced; the
+ * button keeps its name and focus. `copiedLabel` replaces the confirmation
+ * text. A refused clipboard shows nothing. With `copy` set the component
+ * renders the button and the confirmation side by side; extra attributes
+ * still go to the `<button>`.
+ *
  * Colours and sizing are themeable via `--ds-button-*`.
  */
 export const Button = defineComponent({
   name: "Button",
+  // Attributes go to the <button> even when the copy confirmation sits beside it.
+  inheritAttrs: false,
   props: {
     variant: { type: String as PropType<ButtonVariant>, default: "default" },
     disabled: { type: Boolean, default: false },
@@ -56,13 +72,22 @@ export const Button = defineComponent({
     rightIcon: { type: Boolean, default: false },
     iconOnly: { type: Boolean, default: false },
     ariaLabel: { type: String, default: undefined },
+    copy: { type: String, default: undefined },
+    copiedLabel: { type: String, default: undefined },
   },
   setup(props, { attrs, slots }) {
+    const i18n = useI18n();
+    const feedback = useCopyFeedback();
+
     const api = useButton(() => ({
       variant: props.variant,
       disabled: props.disabled,
       type: props.type,
-      onPress: props.onPress,
+      onPress: (event: Event) => {
+        props.onPress?.(event);
+        // Read at the press, so a `copy` value changed later is the one copied.
+        if (props.copy != null) void feedback.copy(props.copy);
+      },
     }));
 
     return () => {
@@ -81,13 +106,16 @@ export const Button = defineComponent({
 
       const glyph = () => (props.variant === "danger" ? HazardGlyph() : PlusGlyph());
 
-      return h(
+      const button = h(
         "button",
-        {
-          ...api.value.rootProps,
-          class: props.iconOnly ? "button button--icon-only" : "button",
-          "aria-label": props.ariaLabel ?? (attrs["aria-label"] as string | undefined),
-        },
+        mergeProps(
+          {
+            ...api.value.rootProps,
+            class: props.iconOnly ? "button button--icon-only" : "button",
+            "aria-label": props.ariaLabel ?? (attrs["aria-label"] as string | undefined),
+          },
+          attrs,
+        ),
         [
           showLeft
             ? h("span", { class: "button__icon" }, [
@@ -102,6 +130,15 @@ export const Button = defineComponent({
             : null,
         ],
       );
+      if (props.copy == null) return button;
+
+      // The confirmation lives beside the button, never inside it: text inside
+      // would change the button's name. It exists while `copy` is set, so the
+      // live region is in the page before it speaks.
+      const confirmation = feedback.copied.value
+        ? (props.copiedLabel ?? i18n.value.t("button.copied"))
+        : "";
+      return [button, h("span", { class: "button__status", role: "status" }, confirmation)];
     };
   },
 });

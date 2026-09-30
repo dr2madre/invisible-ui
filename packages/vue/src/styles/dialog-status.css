@@ -1,0 +1,30 @@
+/* The status area of the dialog family (ADR 0016): notices about the dialog's
+   own task, between the body and the footer. The notices reuse the Inline
+   Notification rules; this sheet only places them. */
+
+.dialog-status {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
+}
+/* The grid dialog spaces its rows with its own gap. */
+.dialog__panel > .dialog-status {
+  margin-block-start: 0;
+}
+.dialog-status[hidden] {
+  display: none;
+}
+/* The persistent live region: read by screen readers, never shown. Absolute,
+   so it takes no row in the panel's grid or flex layout. */
+.dialog-status__live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

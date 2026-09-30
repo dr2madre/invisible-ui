@@ -36,6 +36,24 @@ describe("Vue CodeBlock", () => {
     expect(writeText).toHaveBeenCalledWith("echo hi");
   });
 
+  it("confirms a copy, and announces nothing when there is no clipboard", async () => {
+    render(CodeBlock, { props: { code: "echo hi" } });
+    const button = screen.getByRole("button", { name: "Copy code" });
+    // A plain click: user-event would install a clipboard of its own.
+    button.click();
+    await vi.waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Copied"));
+    expect(button).toHaveTextContent("Copied");
+
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined });
+    render(CodeBlock, { props: { code: "echo hi", language: "bash" } });
+    const other = screen.getByRole("group", { name: "Code: bash" });
+    const otherButton = other.querySelector("button")!;
+    otherButton.click();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(other.querySelector("[role=status]")).toHaveTextContent("");
+    expect(otherButton).not.toHaveTextContent("Copied");
+  });
+
   it("omits the copy button when copyable is false", () => {
     render(CodeBlock, { props: { code: "pnpm install", copyable: false } });
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
