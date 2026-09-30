@@ -17,12 +17,21 @@
    * Icons: a plain (un-boxed) leading and/or trailing icon. The built-in glyph
    * is a plus; override either via the `left` / `right` snippets. Colors and sizing
    * are themeable CSS custom properties (`--ds-button-*`).
+   *
+   * `copy` makes it a copy button (ADR 0016): pressing it writes the text to
+   * the clipboard and, when that works, shows "Copied" beside the button for
+   * two seconds. That text is a polite live region, so it is also announced;
+   * the button keeps its name and focus. `copiedLabel` replaces the
+   * confirmation text. A refused clipboard shows nothing.
    */
   import { untrack, type Snippet } from "svelte";
   import { createButton, type ButtonVariant } from "./create-button";
   import Icon from "../icon/Icon.svelte";
   import Loading from "../loading/Loading.svelte";
+  import { getI18n } from "../i18n/create-i18n";
+  import { CopyFeedback } from "../internal/copy-feedback.svelte";
   import type { Action } from "svelte/action";
+  import type { Attachment } from "svelte/attachments";
 
   interface Props {
     /**
@@ -49,6 +58,14 @@
     type?: "button" | "submit" | "reset";
     /** Called when the button is activated (click, or Enter/Space when emulated). */
     onpress?: (event: Event) => void;
+    /**
+     * Text to copy to the clipboard when the button is pressed. After a
+     * successful copy, a confirmation shows beside the button for two seconds
+     * and is announced politely (ADR 0016).
+     */
+    copy?: string;
+    /** The confirmation shown after a copy. Defaults to the i18n catalog's "Copied". */
+    copiedLabel?: string;
     /** Show a leading icon. Defaults on for `danger` (the hazard cue). */
     leftIcon?: boolean;
     /** Show a trailing icon. */
@@ -79,6 +96,8 @@
     loadingStatus,
     type = "button",
     onpress,
+    copy,
+    copiedLabel,
     leftIcon,
     rightIcon = false,
     iconOnly = false,
@@ -98,6 +117,12 @@
     }
   });
 
+  const { t } = getI18n();
+  const feedback = new CopyFeedback();
+  // An attachment keeps this client-only: the confirmation timer is dropped
+  // when the button goes away.
+  const dropFeedback: Attachment = () => () => feedback.reset();
+
   // Seeded once from the first props; the effects below follow later ones.
   const { rootAction, setDisabled, setVariant } = untrack(() =>
     createButton({
@@ -105,7 +130,10 @@
       disabled,
       type,
       onPress: (event) => {
-        if (!loading) onpress?.(event);
+        if (loading) return;
+        onpress?.(event);
+        // Read at the press, so a `copy` value changed later is the one copied.
+        if (copy != null) void feedback.copy(copy);
       },
     }),
   );
@@ -129,6 +157,7 @@
   class={["button", iconOnly && "button--icon-only"]}
   use:rootAction
   use:action
+  {@attach dropFeedback}
   aria-label={ariaLabel}
   aria-busy={loading ? "true" : undefined}
   data-loading={loading ? "" : undefined}
@@ -177,6 +206,14 @@
     </span>
   {/if}
 </button>
+{#if copy != null}
+  <!-- Beside the button, never inside it: text inside would change its name.
+       It exists while `copy` is set, so the live region is in the page before
+       it speaks. -->
+  <span class="button__status" role="status"
+    >{feedback.copied ? (copiedLabel ?? $t("button.copied")) : ""}</span
+  >
+{/if}
 
 <style>
   .button {
@@ -240,6 +277,15 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  /* Copy confirmation: short text beside the button that caused it, which is
+     also the polite live region announcing it (ADR 0016). Empty, it takes no
+     room. */
+  .button__status:not(:empty) {
+    margin-inline-start: 0.5rem;
+    color: var(--ds-color-text-secondary, #524c44);
+    font-size: 0.875em;
   }
 
   .button__icon {

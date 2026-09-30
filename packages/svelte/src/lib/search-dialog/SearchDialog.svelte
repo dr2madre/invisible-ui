@@ -15,12 +15,18 @@
    * it only names the dialog, and `hideTitle={false}` / `closeButton` show the
    * title and a close button above the search field. Themeable via
    * `--ds-search-dialog-*`.
+   *
+   * The status area after the results holds messages about the dialog's own
+   * task (ADR 0016): `notify(options)`, `dismissNotice(id)` and
+   * `clearNotices()` on the instance, with the same contract as `Dialog`.
    */
   import { untrack, type Snippet } from "svelte";
   import { createSearchDialog, type SearchDialogItem } from "./create-search-dialog";
   import Icon from "../icon/Icon.svelte";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
+  import type { DialogNoticeOptions } from "../dialog/create-dialog";
   import Loading from "../loading/Loading.svelte";
   import Kbd from "../kbd/Kbd.svelte";
   import { getI18n } from "../i18n/create-i18n";
@@ -152,6 +158,21 @@
       return acc;
     }, []),
   );
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return search.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    search.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    search.clearNotices();
+  }
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -252,6 +273,8 @@
     {#if $visible.length === 0 && !loading}
       <p class="search-dialog__empty">{resolvedEmptyText}</p>
     {/if}
+    <!-- No footer: the status area closes the panel, after the results. -->
+    <DialogStatus dialog={search} />
   </dialog>
 {/if}
 
@@ -371,6 +394,12 @@
     cursor: default;
   }
 
+  /* The panel is flush, so the status area brings its own inset. */
+  .search-dialog__panel > :global(.dialog-status) {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-block-start: 1px solid var(--ds-color-border, #c7c1b7);
+  }
   .search-dialog__sr-only {
     position: absolute;
     inline-size: 1px;

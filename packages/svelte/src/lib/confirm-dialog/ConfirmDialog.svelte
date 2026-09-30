@@ -14,11 +14,16 @@
    * the one the dialog family shares: an optional `icon` snippet (a FeedbackIcon)
    * before the title and an optional close button (`closeButton`). Colors,
    * radius and elevation are themeable via `--ds-dialog-*`.
+   *
+   * The status area before the actions holds messages about the dialog's own
+   * task (ADR 0016): `notify(options)`, `dismissNotice(id)` and
+   * `clearNotices()` on the instance, with the same contract as `Dialog`.
    */
   import { untrack, type Snippet } from "svelte";
-  import { createDialog } from "../dialog/create-dialog";
+  import { createDialog, type DialogNoticeOptions } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
   import { controllable } from "../internal/controllable.svelte";
@@ -122,6 +127,21 @@
     onConfirm?.();
     setOpen(false);
   };
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return dialog.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    dialog.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    dialog.clearNotices();
+  }
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -141,6 +161,7 @@
     {#if description}
       <p class="confirm-dialog__description" use:descriptionAction>{description}</p>
     {/if}
+    <DialogStatus {dialog} />
     <footer class="confirm-dialog__actions">
       <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
       <Button variant={confirmVariant} onpress={confirm}>{resolvedConfirmLabel}</Button>

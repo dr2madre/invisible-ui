@@ -15,11 +15,16 @@
    * shares: an optional `icon` snippet (a FeedbackIcon) before the title and an
    * optional close button (`closeButton`). Colors, radius and elevation are
    * themeable via `--ds-dialog-*`.
+   *
+   * The status area before the actions holds messages about the dialog's own
+   * task (ADR 0016): `notify(options)`, `dismissNotice(id)` and
+   * `clearNotices()` on the instance, with the same contract as `Dialog`.
    */
   import { untrack, type Snippet } from "svelte";
-  import { createDialog } from "../dialog/create-dialog";
+  import { createDialog, type DialogNoticeOptions } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
   import { controllable } from "../internal/controllable.svelte";
@@ -152,6 +157,21 @@
       confirm();
     }
   };
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return dialog.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    dialog.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    dialog.clearNotices();
+  }
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -182,6 +202,7 @@
         onkeydown={onKeyDown}
       />
     </label>
+    <DialogStatus {dialog} />
     <footer class="prompt-dialog__actions">
       <Button variant="ghost" onpress={cancel}>{resolvedCancelLabel}</Button>
       <Button variant={confirmVariant} disabled={!canConfirm} onpress={confirm}

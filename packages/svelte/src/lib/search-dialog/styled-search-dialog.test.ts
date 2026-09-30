@@ -7,6 +7,10 @@ import Fixture from "./search-dialog.fixture.svelte";
 const openPalette = async (user: ReturnType<typeof userEvent.setup>) =>
   user.click(screen.getByRole("button", { name: "Open palette" }));
 
+// The results count region; the dialog's status area holds another one.
+const resultsStatus = () =>
+  document.querySelector<HTMLElement>(".search-dialog__sr-only[role='status']");
+
 describe("Svelte SearchDialog (styled)", () => {
   it("is closed by default", () => {
     render(Fixture);
@@ -126,11 +130,11 @@ describe("Svelte SearchDialog (styled)", () => {
     render(Fixture);
     await openPalette(user);
 
-    expect(screen.getByRole("status")).toHaveTextContent("4 results available");
+    expect(resultsStatus()).toHaveTextContent("4 results available");
     await user.type(screen.getByRole("combobox"), "sa");
-    expect(screen.getByRole("status")).toHaveTextContent("1 result available");
+    expect(resultsStatus()).toHaveTextContent("1 result available");
     await user.type(screen.getByRole("combobox"), "zzz");
-    expect(screen.getByRole("status")).toHaveTextContent("No results found.");
+    expect(resultsStatus()).toHaveTextContent("No results found.");
   });
 
   const groupedItems = [
@@ -214,7 +218,7 @@ describe("Svelte SearchDialog (styled)", () => {
     render(Fixture, { props: { items: [], loading: true } });
     await openPalette(user);
 
-    expect(screen.getByRole("status")).toHaveTextContent("Searching…");
+    expect(resultsStatus()).toHaveTextContent("Searching…");
     expect(screen.queryByText("No results found.")).not.toBeInTheDocument();
   });
 

@@ -586,7 +586,7 @@
     {
       "name": "CreateDialog",
       "kind": "interface",
-      "signature": "interface CreateDialog { state: Readable<DialogState>; api: Readable<DialogApi>; /** Whether the dialog is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Svelte action for the title element. */ titleAction: Action<HTMLElement>; /** Svelte action for the description element. */ descriptionAction: Action<HTMLElement>; /** Svelte action for a close button inside the dialog. */ closeAction: Action<HTMLElement>; }"
+      "signature": "interface CreateDialog { state: Readable<DialogState>; api: Readable<DialogApi>; /** Whether the dialog is open. */ open: Readable<boolean>; /** Imperatively set the open state. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** Svelte action for the trigger: `<button use:triggerAction>`. */ triggerAction: Action<HTMLElement>; /** Svelte action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Svelte action for the title element. */ titleAction: Action<HTMLElement>; /** Svelte action for the description element. */ descriptionAction: Action<HTMLElement>; /** Svelte action for a close button inside the dialog. */ closeAction: Action<HTMLElement>; /** The notices of the status area, oldest first (ADR 0016). */ notices: Readable<DialogNotice[]>; /** What the status area's polite live region reads out now. */ announcement: Readable<DialogAnnouncement[]>; /** * Show a notice in the status area and return its id. On a closed dialog * it shows nothing and returns an empty string. */ notify: (options: DialogNoticeOptions) => string; /** Remove one notice from the status area. */ dismissNotice: (id: string) => void; /** Remove every notice from the status area. */ clearNotices: () => void; }"
     },
     {
       "name": "CreateDropdownMenu",
@@ -686,7 +686,7 @@
     {
       "name": "CreateSearchDialog",
       "kind": "interface",
-      "signature": "interface CreateSearchDialog { /** Whether the palette is open. */ open: Readable<boolean>; /** Imperatively open/close the palette. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** The currently visible (filtered) commands. */ items: Readable<SearchDialogItem[]>; /** The current query text. */ inputValue: Readable<string>; /** Replace the result list (e.g. when results load asynchronously). */ setItems: (items: SearchDialogItem[]) => void; /** Replace the empty-query suggestions. */ setSuggestions: (suggestions: SearchDialogItem[]) => void; /** Action for the trigger button. */ triggerAction: Action<HTMLElement>; /** Action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Action for the dialog title (names the modal). */ titleAction: Action<HTMLElement>; /** Action for an optional close button. */ closeAction: Action<HTMLElement>; /** Action for the (combobox) search label. */ labelAction: Action<HTMLElement>; /** Action for the search input. */ inputAction: Action<HTMLElement>; /** Action for the results listbox. */ listboxAction: Action<HTMLElement>; /** Action for a result option: `use:optionAction={value}`. */ optionAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateSearchDialog extends Pick<CreateDialog, \"notices\" | \"announcement\" | \"notify\" | \"dismissNotice\" | \"clearNotices\"> { /** Whether the palette is open. */ open: Readable<boolean>; /** Imperatively open/close the palette. */ setOpen: (open: boolean) => void; /** Reflect a controlled `open` prop without reporting a change. */ syncOpen: (open: boolean) => void; /** The currently visible (filtered) commands. */ items: Readable<SearchDialogItem[]>; /** The current query text. */ inputValue: Readable<string>; /** Replace the result list (e.g. when results load asynchronously). */ setItems: (items: SearchDialogItem[]) => void; /** Replace the empty-query suggestions. */ setSuggestions: (suggestions: SearchDialogItem[]) => void; /** Action for the trigger button. */ triggerAction: Action<HTMLElement>; /** Action for the dialog panel (render only while open). */ contentAction: Action<HTMLElement>; /** Action for the dialog title (names the modal). */ titleAction: Action<HTMLElement>; /** Action for an optional close button. */ closeAction: Action<HTMLElement>; /** Action for the (combobox) search label. */ labelAction: Action<HTMLElement>; /** Action for the search input. */ inputAction: Action<HTMLElement>; /** Action for the results listbox. */ listboxAction: Action<HTMLElement>; /** Action for a result option: `use:optionAction={value}`. */ optionAction: Action<HTMLElement, string>; }"
     },
     {
       "name": "CreateSegmentedControl",
@@ -754,6 +754,11 @@
       "signature": "interface CreateTreeView { /** Reactive resolved state. */ state: Readable<TreeState>; /** Reactive connected API. */ api: Readable<TreeApi>; /** The currently-visible, flattened node list (for rendering). */ visible: Readable<VisibleNode[]>; /** Expanded parent values. */ expanded: Readable<string[]>; /** The selected value (or `null`). */ selected: Readable<string | null>; /** Unloaded parents with an active request. */ loading: Readable<string[]>; /** Unloaded parents whose latest request failed. */ loadErrors: Readable<string[]>; /** Reflect controlled nodes without reporting a change. */ syncNodes: (nodes: TreeNode[]) => void; /** Reflect the controlled disabled state. */ syncDisabled: (disabled: boolean) => void; /** Reflect a controlled `expanded` prop without reporting a change. */ syncExpanded: (expanded: string[]) => void; /** Reflect a controlled `selected` prop without reporting a change. */ syncSelected: (value: string | null) => void; /** Reflect controlled loading values without reporting a request. */ syncLoading: (loading: string[]) => void; /** Reflect controlled failures without reporting a request. */ syncLoadErrors: (loadErrors: string[]) => void; /** Imperatively expand/collapse a parent. */ toggle: (value: string) => void; /** Imperatively select a value. */ select: (value: string) => void; /** Svelte action for the tree container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a treeitem: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
     },
     {
+      "name": "DialogAnnouncement",
+      "kind": "interface",
+      "signature": "interface DialogAnnouncement { id: string; text: string; }"
+    },
+    {
       "name": "DialogApi",
       "kind": "type",
       "signature": "type DialogApi = dialog.DialogApi;"
@@ -762,6 +767,26 @@
       "name": "DialogContext",
       "kind": "interface",
       "signature": "interface DialogContext extends dialog.DialogContext { /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop / outside the panel closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; /** * CSS selector (anywhere in the page) for the element focus goes back to on * close. Only needed when the dialog has no trigger of its own: without it * focus returns to whatever held it when the dialog opened, which is right * when a button opened it and wrong when something else did (ADR 0013). */ returnFocusTo?: string; }"
+    },
+    {
+      "name": "DialogNotice",
+      "kind": "interface",
+      "signature": "interface DialogNotice extends DialogNoticeOptions { id: string; status: DialogNoticeStatus; }"
+    },
+    {
+      "name": "DialogNoticeAction",
+      "kind": "interface",
+      "signature": "interface DialogNoticeAction { label: string; /** Runs when the button is pressed; the notice then closes. */ onAction: () => void; }"
+    },
+    {
+      "name": "DialogNoticeOptions",
+      "kind": "interface",
+      "signature": "interface DialogNoticeOptions { /** `info` by default. */ status?: DialogNoticeStatus; title: string; description?: string; action?: DialogNoticeAction; /** Whether the notice has a close button. Defaults to `true`. */ dismissible?: boolean; }"
+    },
+    {
+      "name": "DialogNoticeStatus",
+      "kind": "type",
+      "signature": "type DialogNoticeStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
     },
     {
       "name": "DialogRole",

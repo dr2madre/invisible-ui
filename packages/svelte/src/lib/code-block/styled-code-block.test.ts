@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { tick } from "svelte";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./code-block.fixture.svelte";
 
@@ -8,8 +9,16 @@ import Fixture from "./code-block.fixture.svelte";
 const landmarkRules = { runOnly: { type: "rule" as const, values: ["landmark-unique"] } };
 
 describe("Svelte CodeBlock (styled)", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
-    Object.assign(navigator, { clipboard: { writeText: vi.fn().mockResolvedValue(undefined) } });
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      writable: true,
+      value: { writeText: vi.fn().mockResolvedValue(undefined) },
+    });
   });
 
   it("renders the source preformatted with a language caption", () => {
@@ -30,6 +39,34 @@ describe("Svelte CodeBlock (styled)", () => {
     render(Fixture, { props: { code: "echo hi" } });
     await fireEvent.click(screen.getByRole("button", { name: "Copy code" }));
     expect(writeText).toHaveBeenCalledWith("echo hi");
+  });
+
+  it("confirms a copy for two seconds through the shared copy logic", async () => {
+    vi.useFakeTimers();
+    render(Fixture, { props: { code: "echo hi" } });
+    const button = screen.getByRole("button", { name: "Copy code" });
+    await fireEvent.click(button);
+    for (let step = 0; step < 3; step++) await Promise.resolve();
+    await tick();
+    expect(button).toHaveTextContent("Copied");
+    expect(screen.getByRole("status")).toHaveTextContent("Copied to clipboard");
+
+    vi.advanceTimersByTime(2000);
+    await tick();
+    expect(button).toHaveTextContent("Copy");
+    expect(screen.getByRole("status")?.textContent?.trim()).toBe("");
+  });
+
+  it("announces nothing when the page has no clipboard", async () => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      writable: true,
+      value: undefined,
+    });
+    render(Fixture, { props: { code: "echo hi" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Copy code" }));
+    await tick();
+    expect(screen.getByRole("status")?.textContent?.trim()).toBe("");
   });
 
   it("omits the copy button when copyable is false", () => {

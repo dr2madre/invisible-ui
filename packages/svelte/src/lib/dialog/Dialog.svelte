@@ -28,11 +28,22 @@
    * Multi-step workflows are a composition, not a separate component: put the
    * step context in `headerMeta`, Back in `footerLead`, and keep the step state
    * in the application.
+   *
+   * A status area between the body and the footer holds messages about the
+   * dialog's own task (ADR 0016). `notify(options)`, exported from the
+   * instance (`bind:this`), adds a notice styled as an Inline Notification and
+   * returns its id; it is announced once through a polite live region and
+   * never moves focus. `dismissNotice(id)` and `clearNotices()` remove notices.
+   * Notices belong to one opening: `notify()` while closed returns an empty
+   * string, and closing clears them. Closing returns focus to the element that
+   * had it when the dialog opened, so a dialog opened from inside another
+   * hands focus back there; otherwise to the trigger.
    */
   import { untrack, type Snippet } from "svelte";
-  import { createDialog } from "./create-dialog";
+  import { createDialog, type DialogNoticeOptions } from "./create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "./DialogHeader.svelte";
+  import DialogStatus from "./DialogStatus.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { controllable } from "../internal/controllable.svelte";
 
@@ -146,6 +157,21 @@
   });
 
   const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return dialog.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    dialog.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    dialog.clearNotices();
+  }
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
@@ -169,6 +195,7 @@
       actions={headerActions}
     />
     <div class="dialog__body" data-layout={bodyLayout}>{@render children?.()}</div>
+    <DialogStatus {dialog} />
     {#if footer || footerLead || footerClose}
       <!-- One action bar: leading actions at the logical start, the trailing
            group at the logical end. Source order matches focus order. -->
@@ -237,6 +264,10 @@
   .dialog__body {
     min-block-size: 0;
     overflow-y: auto;
+  }
+  /* The grid spaces its rows with its own gap. */
+  .dialog__panel > :global(.dialog-status) {
+    margin-block-start: 0;
   }
   /* Opt-in spacing between the body's direct sections, so a workflow does not
      invent its own. */

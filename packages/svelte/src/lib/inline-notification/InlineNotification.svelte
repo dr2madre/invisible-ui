@@ -12,6 +12,8 @@
    * - The container is a live region. `role` defaults to `"status"` (polite);
    *   pass `role="alert"` for urgent, interrupting messages. The title names
    *   the container via `aria-labelledby` (required when `role="region"`).
+   *   `role="group"` makes it a named group that is not a live region, for a
+   *   container that announces it some other way.
    * - The FeedbackIcon is decorative (the message text carries the meaning); the
    *   status is also conveyed visually by color + glyph + surface tint, so it
    *   never relies on color alone.
@@ -63,8 +65,13 @@
      * to `true` to show the notification again.
      */
     open?: boolean;
-    /** Live-region role. `"status"` (polite) by default; `"alert"` for urgent. */
-    role?: "status" | "alert" | "region";
+    /**
+     * Live-region role. `"status"` (polite) by default; `"alert"` for urgent.
+     * `"group"` is for a notice announced by a live region elsewhere, such as a
+     * dialog's status area (ADR 0016): it is named by its title and is not a
+     * live region itself.
+     */
+    role?: "status" | "alert" | "region" | "group";
     /** High-contrast inverse surface (opposite of the page) for maximum visibility. */
     inverted?: boolean;
     /**

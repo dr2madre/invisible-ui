@@ -83,11 +83,11 @@
         },
         {
           "name": "role",
-          "type": "\"status\" | \"alert\" | \"region\"",
+          "type": "\"status\" | \"alert\" | \"region\" | \"group\"",
           "default": "\"status\"",
           "required": false,
           "description": "Live-region role. `\"status\"` (polite) by default; `\"alert\"` for urgent.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "inverted",

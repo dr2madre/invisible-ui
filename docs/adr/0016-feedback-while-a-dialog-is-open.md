@@ -4,14 +4,13 @@ Date: 2026-09-29
 
 ## Status
 
-Accepted. The custom elements and Vue adapters implement it, and React
-implements it for the components it has. Svelte follows with the same logic
-and the same public contract.
+Accepted. The custom elements, Svelte and Vue adapters implement it, and
+React implements it for the components it has.
 
 | Adapter | Contract |
 | --- | --- |
 | Elements | Implemented. |
-| Svelte | Pending. |
+| Svelte | Implemented. |
 | Vue | Implemented. |
 | React | Implemented for Dialog (status area, dialogs on top) and Button (`copy`). React has no notification region yet: case 2 applies when the region is ported. |
 
@@ -128,5 +127,5 @@ for a stack of dialogs.
 - Focus return changes for dialogs opened without their trigger: focus goes
   back to where it was, as with a native `<dialog>`, instead of to a trigger
   the user never pressed.
-- The Svelte, Vue and React adapters are not equivalent until they implement
+- The Vue and React adapters are not equivalent until they implement
   the same three cases.
