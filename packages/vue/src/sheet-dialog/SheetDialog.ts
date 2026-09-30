@@ -2,6 +2,7 @@ import { defineComponent, h, type ComponentPublicInstance, type PropType } from 
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { dialogHeader } from "../dialog/dialog-header";
+import { dialogStatus } from "../dialog/dialog-status";
 import { useI18n } from "../i18n/i18n";
 import { useSheetDialog, type SheetDialogSide } from "./use-sheet-dialog";
 
@@ -57,6 +58,14 @@ export interface SheetDialogProps {
  * close button). Pass a `title` (required) and an optional `description`,
  * shown as the subtitle under the title. Colors, radius and elevation are themeable via
  * `--ds-dialog-*`; the panel extent via `--ds-sheet-dialog-size`.
+ *
+ * A status area between the body and the footer holds messages about the
+ * sheet's own task (ADR 0016), with the same contract as `Dialog`: the
+ * template ref exposes `notify(options)`, `dismissNotice(id)` and
+ * `clearNotices()`; notices are announced once through a polite live region,
+ * never take focus, and are cleared when the sheet closes. Closing returns
+ * focus to `returnFocusTo` when it is set, else to the element that had focus
+ * when the sheet opened, else to the trigger.
  */
 export const SheetDialog = defineComponent({
   name: "SheetDialog",
@@ -85,21 +94,23 @@ export const SheetDialog = defineComponent({
   emits: {
     "update:open": (open: boolean) => typeof open === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, expose, slots }) {
     const i18n = useI18n();
 
-    const { api, open, triggerRef, panelRef, dragOffset, dragging, onHandlePointerDown } =
-      useSheetDialog(() => ({
-        open: props.open,
-        side: props.side,
-        describedBy: props.description !== undefined,
-        initialFocus: props.initialFocus,
-        returnFocusTo: props.returnFocusTo,
-        onOpenChange: (next: boolean) => {
-          emit("update:open", next);
-          props.onOpenChange?.(next);
-        },
-      }));
+    const sheet = useSheetDialog(() => ({
+      open: props.open,
+      side: props.side,
+      describedBy: props.description !== undefined,
+      initialFocus: props.initialFocus,
+      returnFocusTo: props.returnFocusTo,
+      onOpenChange: (next: boolean) => {
+        emit("update:open", next);
+        props.onOpenChange?.(next);
+      },
+    }));
+    const { api, open, triggerRef, panelRef, dragOffset, dragging, onHandlePointerDown } = sheet;
+    const { notify, dismissNotice, clearNotices } = sheet;
+    expose({ notify, dismissNotice, clearNotices });
 
     // A template ref on a component yields its instance; the composable wants
     // the DOM node it renders, to restore focus to it on close.
@@ -164,6 +175,8 @@ export const SheetDialog = defineComponent({
             actions: slots.headerActions?.(),
           }),
           h("div", { class: "sheet-dialog__body" }, slots.default?.()),
+
+          ...dialogStatus({ status: sheet, closeLabel: t("inlineNotification.close") }),
 
           slots.footer ? h("footer", { class: "sheet-dialog__footer" }, slots.footer()) : null,
         ],

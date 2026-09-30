@@ -3,6 +3,7 @@ import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import { dialogHeader } from "./dialog-header";
+import { dialogStatus } from "./dialog-status";
 import { useDialog } from "./use-dialog";
 
 /** How the dialog body spaces its direct children. */
@@ -68,6 +69,17 @@ export interface DialogProps {
  * Multi-step workflows are a composition, not a separate component: put the
  * step context in `headerMeta`, Back in `footerLead`, and keep the step state
  * in the application.
+ *
+ * A status area between the body and the footer holds messages about the
+ * dialog's own task (ADR 0016). The template ref exposes `notify(options)`,
+ * which adds a notice styled as an inline notification and returns its id,
+ * announced once through a polite live region without moving focus, and
+ * `dismissNotice(id)` and `clearNotices()`, which remove notices (type the
+ * ref with `DialogNoticeControls`). Notices belong to one opening: `notify()`
+ * while closed returns an empty string, and closing clears them. Closing
+ * returns focus to the element that had it when the dialog opened, so a
+ * dialog opened from inside another hands focus back there; otherwise to the
+ * trigger.
  */
 export const Dialog = defineComponent({
   name: "Dialog",
@@ -90,10 +102,10 @@ export const Dialog = defineComponent({
   emits: {
     "update:open": (open: boolean) => typeof open === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, expose, slots }) {
     const i18n = useI18n();
 
-    const { api, open, triggerRef, panelRef } = useDialog(() => ({
+    const dialog = useDialog(() => ({
       open: props.open,
       describedBy: props.description !== undefined,
       initialFocus: props.initialFocus,
@@ -103,6 +115,8 @@ export const Dialog = defineComponent({
         props.onOpenChange?.(next);
       },
     }));
+    const { api, open, triggerRef, panelRef, notify, dismissNotice, clearNotices } = dialog;
+    expose({ notify, dismissNotice, clearNotices });
 
     // A template ref on a component yields its instance; the composable wants
     // the DOM node it renders, to restore focus to it on close.
@@ -164,6 +178,8 @@ export const Dialog = defineComponent({
           }),
 
           h("div", { class: "dialog__body", "data-layout": props.bodyLayout }, slots.default?.()),
+
+          ...dialogStatus({ status: dialog, closeLabel: t("inlineNotification.close") }),
 
           footerNodes.length > 0 ? h("footer", { class: "dialog__footer" }, footerNodes) : null,
         ],

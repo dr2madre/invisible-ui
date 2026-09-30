@@ -82,6 +82,7 @@ const VUE_SHEETS = [
   "confirm-dialog.css",
   "prompt-dialog.css",
   "search-dialog.css",
+  "dialog-status.css",
   "toggle-button.css",
   "toggle-group.css",
   "accordion.css",

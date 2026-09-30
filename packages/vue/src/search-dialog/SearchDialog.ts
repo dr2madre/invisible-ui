@@ -9,6 +9,7 @@ import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { Icon } from "../icon/Icon";
 import { dialogHeader } from "../dialog/dialog-header";
+import { dialogStatus } from "../dialog/dialog-status";
 import { useI18n } from "../i18n/i18n";
 import { Kbd } from "../kbd/Kbd";
 import { Loading } from "../loading/Loading";
@@ -77,6 +78,10 @@ interface Section {
  * family shares; by default it only names the dialog, and `hideTitle: false` /
  * `closeButton` show the title and a close button above the search field.
  * Themeable via `--ds-search-dialog-*`.
+ *
+ * The status area of `Dialog` closes the panel, after the results, since
+ * there is no footer (ADR 0016): the template ref exposes `notify(options)`,
+ * `dismissNotice(id)` and `clearNotices()`.
  */
 export const SearchDialog = defineComponent({
   name: "SearchDialog",
@@ -100,20 +105,22 @@ export const SearchDialog = defineComponent({
   emits: {
     "update:open": (open: boolean) => typeof open === "boolean",
   },
-  setup(props, { emit, slots }) {
+  setup(props, { emit, expose, slots }) {
     const i18n = useI18n();
 
-    const { api, dialogApi, open, items, inputValue, onInputChange, triggerRef, panelRef } =
-      useSearchDialog(() => ({
-        items: props.items,
-        suggestions: props.suggestions,
-        open: props.open,
-        onSelect: props.onSelect,
-        onOpenChange: (next: boolean) => {
-          emit("update:open", next);
-          props.onOpenChange?.(next);
-        },
-      }));
+    const search = useSearchDialog(() => ({
+      items: props.items,
+      suggestions: props.suggestions,
+      open: props.open,
+      onSelect: props.onSelect,
+      onOpenChange: (next: boolean) => {
+        emit("update:open", next);
+        props.onOpenChange?.(next);
+      },
+    }));
+    const { api, dialogApi, open, items, inputValue, onInputChange, triggerRef, panelRef } = search;
+    const { notify, dismissNotice, clearNotices } = search;
+    expose({ notify, dismissNotice, clearNotices });
 
     // A template ref on a component yields its instance; the composable wants
     // the DOM node it renders, to restore focus to it on close.
@@ -254,6 +261,8 @@ export const SearchDialog = defineComponent({
           count === 0 && !props.loading
             ? h("p", { class: "search-dialog__empty" }, resolvedEmptyText)
             : null,
+
+          ...dialogStatus({ status: search, closeLabel: t("inlineNotification.close") }),
         ],
       );
 

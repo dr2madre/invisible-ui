@@ -33,6 +33,12 @@ export { Switch, type SwitchProps } from "./switch/Switch";
 export { Select, type SelectItem, type SelectProps } from "./select/Select";
 export { Combobox, type ComboboxOption, type ComboboxProps } from "./combobox/Combobox";
 export { Dialog, type DialogProps } from "./dialog/Dialog";
+export type {
+  DialogNotice,
+  DialogNoticeAction,
+  DialogNoticeControls,
+  DialogNoticeOptions,
+} from "./internal/dialog-status";
 export { TextField, type TextFieldProps } from "./text-field/TextField";
 export { SearchField, type SearchFieldProps } from "./search-field/SearchField";
 export { NumberField, type NumberFieldProps } from "./number-field/NumberField";
