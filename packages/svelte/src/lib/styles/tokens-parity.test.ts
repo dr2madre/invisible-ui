@@ -78,6 +78,7 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
       )
       .join("");
     expect(val("style.focus.onDark")).toBe(`#${mixed}`);
+    expect(val("style.focus.onDark")).toBe(cssVar("color-focus-ring-on-dark"));
   });
 
   it("palette.grey.* matches the --ds-neutral-* ramp", () => {

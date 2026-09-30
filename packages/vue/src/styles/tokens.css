@@ -181,6 +181,9 @@
   --ds-state-hover: rgb(0 0 0 / 0.06);
   --ds-state-pressed: rgb(0 0 0 / 0.12);
   --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
+  /* The dark-mode ring as one fixed value, for consumers that cannot mix colours (the
+     Flutter apps): the dark ring below resolves to the same #a286db. */
+  --ds-color-focus-ring-on-dark: #a286db;
   /* Focus indicator: a solid inner ring + a transparent halo of the same color. */
   --ds-focus-ring-width: 2px;
   --ds-focus-ring-offset: 2px;
