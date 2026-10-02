@@ -260,6 +260,9 @@ function cssNameForDtcg(path) {
     return `--ds-${hue}-${parts[2]}`;
   }
   if (parts[0] === "radius") return `--ds-radius-${parts[1]}`;
+  if (parts[0] === "style" && parts[1] === "focus") {
+    return `--ds-color-focus-ring-${parts[2].replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}`;
+  }
   if (parts[0] === "style") {
     const family = ["primary", "secondary", "white", "black"].includes(parts[1])
       ? "brand"
