@@ -131,7 +131,7 @@ Each item ships as its own PR. Checkboxes track progress.
   catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
   groundwork comes first: `tokens.json` moves to `packages/tokens/`, the
   roles, sizes, focus ring and density move into it, and the menu spec gains
-  submenus. Then `packages/flutter` (Dart package `invisible_ui`)
+  submenus ([`docs/menu-submenu-spec.md`](./menu-submenu-spec.md)). Then `packages/flutter` (Dart package `invisible_ui`)
   reimplements component behaviour against the Svelte reference, with the
   first wave the ADR lists. The Timelog proposal is in
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
