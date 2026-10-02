@@ -136,6 +136,9 @@ Each item ships as its own PR. Checkboxes track progress.
   semantics, dependencies, tokens and docs before any adapter code. The
   proposal, with the component order and the editable-grid requirements, is in
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md).
+  The proposed record is
+  [ADR 0017](./adr/0017-flutter-adapter.md), with its discovery in
+  [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27
