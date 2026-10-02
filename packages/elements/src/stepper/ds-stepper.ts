@@ -1,6 +1,7 @@
 import { stepper as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
+import { SVG_NS } from "../internal/icons";
 
 /** A step's display content. */
 export interface StepDescriptor {
@@ -11,8 +12,6 @@ export interface StepDescriptor {
 }
 
 export type StepperOrientation = core.Orientation;
-
-const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** The check drawn on a completed step's indicator. */
 const checkGlyph = () => {

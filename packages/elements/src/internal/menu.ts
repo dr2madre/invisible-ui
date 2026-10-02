@@ -1,7 +1,8 @@
 import { menu as core } from "@design-system/core";
 import { applyProps, nextId } from "./base";
 import { attachFloating } from "./floating";
-import { pathIcon } from "./icons";
+import { CHECK_PATH, pathIcon } from "./icons";
+import { onOutside } from "./outside";
 
 /**
  * The menu parts the menu elements share: `ds-dropdown-menu`, `ds-context-menu`
@@ -29,7 +30,7 @@ export function renderMenuEntries(
       const check = document.createElement("span");
       check.className = `${prefix}__check`;
       check.setAttribute("aria-hidden", "true");
-      if (item.checked) check.appendChild(pathIcon("M20 6 9 17 4 12"));
+      if (item.checked) check.appendChild(pathIcon(CHECK_PATH));
       button.appendChild(check);
     }
     button.append(core.labelOf(item));
@@ -134,6 +135,7 @@ export class MenuButton {
 
   #options: MenuButtonOptions;
   #stopFloating: (() => void) | null = null;
+  #stopOutside: (() => void) | null = null;
   #typeahead = new Typeahead();
 
   constructor(options: MenuButtonOptions) {
@@ -212,20 +214,15 @@ export class MenuButton {
     this.#teardownOpen();
     const { trigger, popup, sameWidth } = this.#options;
     this.#stopFloating = attachFloating(trigger, popup, { sameWidth });
-    document.addEventListener("pointerdown", this.#onOutside, true);
+    this.#stopOutside = onOutside([trigger, popup], () => this.api().closeMenu());
   }
 
   #teardownOpen() {
     this.#stopFloating?.();
     this.#stopFloating = null;
-    document.removeEventListener("pointerdown", this.#onOutside, true);
+    this.#stopOutside?.();
+    this.#stopOutside = null;
   }
-
-  #onOutside = (event: Event) => {
-    const target = event.target as Node;
-    if (this.#options.trigger.contains(target) || this.#options.popup.contains(target)) return;
-    this.api().closeMenu();
-  };
 
   // Runs beside the core's own keydown handler on the popup.
   #onTypeahead = (event: KeyboardEvent) => {

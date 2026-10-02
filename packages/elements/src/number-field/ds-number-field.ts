@@ -5,19 +5,12 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  numberAttr,
   syncAttribute,
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 import { localeScope, localized, onLocaleChange, t } from "../internal/i18n";
-
-/** A numeric attribute, or `undefined` when it is absent or not a number. */
-const numberAttr = (el: Element, name: string): number | undefined => {
-  const raw = el.getAttribute(name);
-  if (raw == null || raw.trim() === "") return undefined;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : undefined;
-};
 
 /** The `value` attribute holds the canonical ASCII form, or nothing for empty. */
 const valueAttr = (el: Element): number | null => numberAttr(el, "value") ?? null;

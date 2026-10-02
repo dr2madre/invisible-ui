@@ -1,13 +1,13 @@
 import { pagination as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  numberAttr,
+  upgradeProperty,
+} from "../internal/base";
 import { localized, onLocaleChange, t } from "../internal/i18n";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-pagination>` renders the shared pagination state machine as native

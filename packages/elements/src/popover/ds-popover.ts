@@ -3,21 +3,17 @@ import {
   applyProps,
   boolAttr,
   emit,
+  FOCUSABLE,
   HTMLElementBase,
   nextId,
+  numberAttr,
   upgradeProperty,
 } from "../internal/base";
 import { attachFloating, type Placement } from "../internal/floating";
 import { ignoreGhostClicks } from "../internal/ghost-click";
+import { HoverDelay } from "../internal/hover-delay";
 import { onLocaleChange, t } from "../internal/i18n";
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const value = Number(element.getAttribute(name));
-  return element.hasAttribute(name) && Number.isFinite(value) ? value : fallback;
-};
+import { onOutside } from "../internal/outside";
 
 /**
  * `<ds-popover>` — a non-modal floating card anchored to a trigger. Ported from
@@ -64,8 +60,7 @@ export class DsPopover extends HTMLElementBase {
   /** Set while the user closes the card, which handles focus on its own. */
   #userClosing = false;
   #stopGhost: (() => void) | null = null;
-  #showTimer: ReturnType<typeof setTimeout> | undefined;
-  #hideTimer: ReturnType<typeof setTimeout> | undefined;
+  #delay = new HoverDelay();
   #touch = false;
 
   constructor() {
@@ -229,30 +224,21 @@ export class DsPopover extends HTMLElementBase {
     const trigger = this.#trigger!;
     const panel = this.#panel!;
 
-    const outside = (target: Node) => !panel.contains(target) && !trigger.contains(target);
     // An outside press or focus leaving both parts closes; focus stays where
     // the user put it.
-    const onPointerDown = (event: Event) => {
-      if (outside(event.target as Node)) this.#setOpen(false);
-    };
-    const onFocusIn = (event: FocusEvent) => {
-      if (outside(event.target as Node)) this.#setOpen(false);
-    };
+    const stopOutside = onOutside([panel, trigger], () => this.#setOpen(false), { focus: true });
     // Only a keyboard dismissal sends focus back to the trigger. Capture
     // phase: the flag must be set before the close handler runs.
     let restoreFocus = false;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") restoreFocus = true;
     };
-    document.addEventListener("pointerdown", onPointerDown, true);
-    document.addEventListener("focusin", onFocusIn);
     panel.addEventListener("keydown", onKeyDown, true);
 
     if (moveFocus) (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
 
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown, true);
-      document.removeEventListener("focusin", onFocusIn);
+      stopOutside();
       panel.removeEventListener("keydown", onKeyDown, true);
       if (restoreFocus && trigger.isConnected) trigger.focus();
     };
@@ -286,20 +272,15 @@ export class DsPopover extends HTMLElementBase {
   }
 
   #hold() {
-    clearTimeout(this.#showTimer);
-    clearTimeout(this.#hideTimer);
+    this.#delay.cancel();
   }
 
   #show(delay = numberAttr(this, "open-delay", 300)) {
-    this.#hold();
-    if (delay <= 0) this.#setOpen(true);
-    else this.#showTimer = setTimeout(() => this.#setOpen(true), delay);
+    this.#delay.run(delay, () => this.#setOpen(true));
   }
 
   #hide(delay = numberAttr(this, "close-delay", 200)) {
-    this.#hold();
-    if (delay <= 0) this.#setOpen(false);
-    else this.#hideTimer = setTimeout(() => this.#setOpen(false), delay);
+    this.#delay.run(delay, () => this.#setOpen(false));
   }
 
   // The first activation shows the preview in place of the trigger's own

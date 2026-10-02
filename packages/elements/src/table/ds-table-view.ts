@@ -5,18 +5,22 @@ import {
   radioGroup as radioCore,
   table as core,
 } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import {
   applyProps,
   boolAttr,
   definePart,
   emit,
+  FOCUSABLE,
   HTMLElementBase,
   nextId,
+  numberAttr,
+  sameItems,
   setChildren,
   upgradeProperty,
 } from "../internal/base";
+import { attachFloating } from "../internal/floating";
 import { onLocaleChange, t } from "../internal/i18n";
+import { onOutside } from "../internal/outside";
 import { overlayRoot } from "../internal/overlay-root";
 import { settingsIcon } from "../internal/icons";
 import { DsCard } from "../card/ds-card";
@@ -44,25 +48,12 @@ const defaultSort = (columns: TableColumnDef[]): TableSortState | null => {
   return key ? { key, direction: "asc" } : null;
 };
 
-const sameItems = <T>(a: readonly T[], b: readonly T[]) =>
-  a === b || (a.length === b.length && a.every((item, index) => item === b[index]));
-
 const isOn = (value: string | null) => value !== null && value !== "false";
-
-const numberAttr = (element: Element, name: string): number | undefined => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return undefined;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : undefined;
-};
 
 const appendContent = (parent: HTMLElement, content: TableCellContent) => {
   if (content instanceof Node) parent.appendChild(content);
   else parent.textContent = content == null ? "" : String(content);
 };
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 const VIEW_ITEMS: { value: TableBodyView; key: i18n.MessageKey }[] = [
   { value: "table", key: "table.viewTable" },
@@ -743,34 +734,14 @@ export class DsTableView extends HTMLElementBase {
     const panel = this.#panel;
     overlayRoot(this).appendChild(panel);
 
-    const reposition = () =>
-      computePosition(trigger, panel, {
-        placement: "bottom-end",
-        strategy: "fixed",
-        middleware: [offset(6), flip({ padding: 8 }), shift({ padding: 8 })],
-      }).then(({ x, y }) => {
-        panel.style.left = `${x}px`;
-        panel.style.top = `${y}px`;
-      });
-    const stopFloating =
-      typeof ResizeObserver !== "undefined"
-        ? autoUpdate(trigger, panel, reposition)
-        : (void reposition(), () => {});
+    const stopFloating = attachFloating(trigger, panel, { placement: "bottom-end", offset: 6 });
     // A press outside, or focus leaving both parts, closes without moving focus.
-    const onPointerDown = (event: Event) => {
-      const target = event.target as Node;
-      if (!panel.contains(target) && !trigger.contains(target)) this.#closePopover(false);
-    };
-    const onFocusIn = (event: FocusEvent) => {
-      const target = event.target as Node;
-      if (!panel.contains(target) && !trigger.contains(target)) this.#closePopover(false);
-    };
-    document.addEventListener("pointerdown", onPointerDown, true);
-    document.addEventListener("focusin", onFocusIn);
+    const stopOutside = onOutside([panel, trigger], () => this.#closePopover(false), {
+      focus: true,
+    });
     this.#stopPopover = () => {
       stopFloating();
-      document.removeEventListener("pointerdown", onPointerDown, true);
-      document.removeEventListener("focusin", onFocusIn);
+      stopOutside();
     };
     (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
   }

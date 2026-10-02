@@ -7,7 +7,7 @@ import { i18n } from "@design-system/core";
  * label attribute the consumer sets still wins over the catalog.
  */
 
-export const LOCALE_PROVIDER_TAG = "ds-locale-provider";
+const LOCALE_PROVIDER_TAG = "ds-locale-provider";
 
 /**
  * Sent, without bubbling, to every `ds-*` element inside a provider whose

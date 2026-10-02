@@ -1,7 +1,8 @@
 import type { DsCalendar } from "../calendar/ds-calendar";
 import { emit, nextId, upgradeProperty } from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
-import { asDate, dt, PickerField } from "./picker-field";
+import { asDate, dt } from "../internal/date";
+import { PickerField } from "./picker-field";
 
 /**
  * `<ds-date-picker>` — a date field that opens a `<ds-calendar>` in a popup,

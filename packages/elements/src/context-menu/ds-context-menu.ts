@@ -1,5 +1,4 @@
 import { menu as core } from "@design-system/core";
-import { computePosition, flip, offset, shift } from "@floating-ui/dom";
 import {
   applyProps,
   boolAttr,
@@ -8,8 +7,10 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { positionFloating } from "../internal/floating";
 import { localized, onLocaleChange } from "../internal/i18n";
 import { menuItemNode, renderMenuEntries, syncMenuItems, Typeahead } from "../internal/menu";
+import { onOutside } from "../internal/outside";
 
 export type ContextMenuItem = core.MenuItem;
 
@@ -56,6 +57,7 @@ export class DsContextMenu extends HTMLElementBase {
   #typeahead = new Typeahead();
   #pressTimer: ReturnType<typeof setTimeout> | undefined;
   #pressStart = { x: 0, y: 0 };
+  #stopOutside: (() => void) | null = null;
 
   constructor() {
     super();
@@ -175,12 +177,13 @@ export class DsContextMenu extends HTMLElementBase {
     // The anchor is a point in the viewport: the menu closes on scroll and on
     // an outside press, so one positioning pass is enough.
     this.#reposition();
-    document.addEventListener("pointerdown", this.#onOutside, true);
+    this.#stopOutside = onOutside([popup], () => this.#close());
     window.addEventListener("scroll", this.#onScroll, true);
   }
 
   #unmount(restoreFocus: boolean) {
-    document.removeEventListener("pointerdown", this.#onOutside, true);
+    this.#stopOutside?.();
+    this.#stopOutside = null;
     window.removeEventListener("scroll", this.#onScroll, true);
     this.#typeahead.reset();
     this.#popup?.remove();
@@ -206,14 +209,7 @@ export class DsContextMenu extends HTMLElementBase {
         bottom: y,
       }),
     };
-    void computePosition(anchor, popup, {
-      placement: "right-start",
-      strategy: "fixed",
-      middleware: [offset(2), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then((position) => {
-      popup.style.left = `${position.x}px`;
-      popup.style.top = `${position.y}px`;
-    });
+    positionFloating(anchor, popup, { placement: "right-start", offset: 2 });
   }
 
   #close() {
@@ -248,11 +244,6 @@ export class DsContextMenu extends HTMLElementBase {
   };
 
   #cancelPress = () => clearTimeout(this.#pressTimer);
-
-  #onOutside = (event: Event) => {
-    if (this.#popup?.contains(event.target as Node)) return;
-    this.#close();
-  };
 
   // Scrolling inside the menu is fine; scrolling the page moves the point the
   // menu is anchored to.

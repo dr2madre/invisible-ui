@@ -1,5 +1,12 @@
 import { slider as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  numberAttr,
+  upgradeProperty,
+} from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 
 export type SliderOrientation = core.Orientation;
@@ -7,13 +14,6 @@ export type SliderOrientation = core.Orientation;
 // Above this many steps the ticks would crowd into a solid line, so they are
 // dropped instead.
 const MAX_TICKS = 20;
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-slider>` — a styled single-thumb slider as a custom element, ported

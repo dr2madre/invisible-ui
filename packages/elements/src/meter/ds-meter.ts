@@ -1,12 +1,5 @@
 import { meter } from "@design-system/core";
-import { applyProps, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
-
-const numberAttr = (element: Element, name: string): number | undefined => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return undefined;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : undefined;
-};
+import { applyProps, HTMLElementBase, nextId, numberAttr, upgradeProperty } from "../internal/base";
 
 const NUMBERS = ["value", "min", "max", "low", "high", "optimum"] as const;
 

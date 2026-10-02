@@ -9,7 +9,7 @@ import {
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
-import { pathIcon } from "../internal/icons";
+import { CHECK_PATH, pathIcon } from "../internal/icons";
 
 /**
  * `<ds-toggle-button>` — an independent on/off control (Bold in a toolbar, a
@@ -143,7 +143,7 @@ export class DsToggleButton extends HTMLElementBase {
       return;
     }
     if (this.#check) return;
-    const check = pathIcon("M20 6 9 17l-5-5", "toggle__check");
+    const check = pathIcon(CHECK_PATH, "toggle__check");
     check.setAttribute("stroke-width", "2.5");
     this.#surface!.insertBefore(check, this.#surface!.firstChild);
     this.#check = check;

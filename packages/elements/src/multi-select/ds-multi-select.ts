@@ -1,28 +1,25 @@
 import { multiSelect as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  sameItems,
+  upgradeProperty,
+} from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
+import { attachFloating } from "../internal/floating";
 import { watchFormReset } from "../internal/form-reset";
-import { checkIcon } from "../internal/icons";
+import { checkIcon, removeIcon } from "../internal/icons";
 import { localized, onLocaleChange, t } from "../internal/i18n";
+import { defaultFilter, labelOf } from "../internal/listbox";
+import { onOutside } from "../internal/outside";
 
 export interface MultiSelectItem {
   value: string;
   label?: string;
   disabled?: boolean;
 }
-
-const defaultFilter = (items: MultiSelectItem[], query: string) => {
-  const q = query.trim().toLowerCase();
-  if (!q) return items;
-  return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
-};
-
-const labelOf = (item: MultiSelectItem) => item.label ?? item.value;
-
-/** Same values in the same order. */
-const sameValues = (a: string[], b: string[] | null) =>
-  b != null && a.length === b.length && a.every((value, index) => value === b[index]);
 
 const parseValues = (attr: string | null): string[] =>
   attr ? attr.split(/\s+/).filter(Boolean) : [];
@@ -83,8 +80,7 @@ export class DsMultiSelect extends HTMLElementBase {
     items: [] as MultiSelectItem[],
   };
   #id = "";
-  #stopFloating: (() => void) | null = null;
-  #onOutside: ((event: Event) => void) | null = null;
+  #stopOpen: (() => void) | null = null;
   #renderedItems: MultiSelectItem[] | null = null;
   #renderedValues: string[] | null = null;
   #renderedInert: boolean | null = null;
@@ -325,20 +321,24 @@ export class DsMultiSelect extends HTMLElementBase {
     tagList.setAttribute("aria-label", t(this, "multiSelect.selected"));
     tagList.hidden = this.#state.values.length === 0;
 
-    // Hidden inputs: one per value, selection order, none when empty.
+    // Hidden inputs: one per value, selection order, none when empty or
+    // unnamed. The inputs already there are reused.
     const name = this.getAttribute("name");
-    this.#hiddenHost!.textContent = "";
-    if (name) {
-      for (const value of this.#state.values) {
-        const hidden = document.createElement("input");
+    const values = name ? this.#state.values : [];
+    const hiddenHost = this.#hiddenHost!;
+    values.forEach((value, index) => {
+      let hidden = hiddenHost.children[index] as HTMLInputElement | undefined;
+      if (!hidden) {
+        hidden = document.createElement("input");
         hidden.type = "hidden";
-        hidden.name = name;
-        hidden.value = value;
-        // A disabled control sends nothing, like every native one.
-        hidden.disabled = boolAttr(this, "disabled");
-        this.#hiddenHost!.appendChild(hidden);
+        hiddenHost.appendChild(hidden);
       }
-    }
+      hidden.name = name!;
+      hidden.value = value;
+      // A disabled control sends nothing, like every native one.
+      hidden.disabled = boolAttr(this, "disabled");
+    });
+    while (hiddenHost.children.length > values.length) hiddenHost.lastElementChild!.remove();
 
     // Tags rebuild when the selection, the item list or the inert state
     // changed; labels are consumer data and go through textContent, never
@@ -369,8 +369,7 @@ export class DsMultiSelect extends HTMLElementBase {
           remove.type = "button";
           remove.className = "tag__remove";
           remove.setAttribute("aria-label", t(this, "multiSelect.remove", { name: labelOf(item) }));
-          remove.innerHTML =
-            '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>';
+          remove.innerHTML = removeIcon();
           remove.addEventListener("click", () => this.#removeAt(item.value, index));
           tag.appendChild(remove);
         }
@@ -443,39 +442,19 @@ export class DsMultiSelect extends HTMLElementBase {
     this.#teardownOpen();
     const input = this.#input!;
     const listbox = this.#listbox!;
-    const reposition = () => {
-      // Measured here rather than once: reconnecting can land in a subtree
-      // that is not laid out yet, where the width reads as zero.
-      listbox.style.minWidth = `${this.#control?.offsetWidth ?? input.offsetWidth}px`;
-      computePosition(input, listbox, {
-        placement: "bottom-start",
-        strategy: "fixed",
-        middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-      }).then(({ x, y }) => {
-        listbox.style.left = `${x}px`;
-        listbox.style.top = `${y}px`;
-      });
+    const stopFloating = attachFloating(input, listbox, { sameWidth: this.#control! });
+    const stopOutside = onOutside([this.#control!, listbox], () =>
+      this.#update({ open: false, activeValue: null }),
+    );
+    this.#stopOpen = () => {
+      stopFloating();
+      stopOutside();
     };
-    this.#stopFloating =
-      typeof ResizeObserver !== "undefined"
-        ? autoUpdate(input, listbox, reposition)
-        : (reposition(), () => {});
-
-    this.#onOutside = (event: Event) => {
-      const target = event.target as Node;
-      if (this.#control?.contains(target) || listbox.contains(target)) return;
-      this.#update({ open: false, activeValue: null });
-    };
-    document.addEventListener("pointerdown", this.#onOutside, true);
   }
 
   #teardownOpen() {
-    this.#stopFloating?.();
-    this.#stopFloating = null;
-    if (this.#onOutside) {
-      document.removeEventListener("pointerdown", this.#onOutside, true);
-      this.#onOutside = null;
-    }
+    this.#stopOpen?.();
+    this.#stopOpen = null;
   }
 
   /**
@@ -506,19 +485,13 @@ export class DsMultiSelect extends HTMLElementBase {
     // hands back what the control already holds: that is the page echoing a
     // selection, and an echo is not a new default (ADR 0012).
     const declared = parseValues(this.getAttribute("values"));
-    if (!sameValues(declared, this.#state.values)) this.#defaultValues = declared;
+    if (!sameItems(declared, this.#state.values)) this.#defaultValues = declared;
 
     // A `values` attribute change from outside is a controlled reflection;
     // one this element just wrote is already in state.
-    if (!this.#reflectingValues) {
-      const attr = parseValues(this.getAttribute("values"));
-      const same =
-        attr.length === this.#state.values.length &&
-        attr.every((value, index) => value === this.#state.values[index]);
-      if (!same) {
-        this.#update({ values: attr });
-        return;
-      }
+    if (!this.#reflectingValues && !sameItems(declared, this.#state.values)) {
+      this.#update({ values: declared });
+      return;
     }
     this.#applyAll();
   }

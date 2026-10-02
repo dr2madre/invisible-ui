@@ -5,24 +5,28 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  sameItems,
+  setChildren,
   upgradeProperty,
 } from "../internal/base";
 import { onLocaleChange, t } from "../internal/i18n";
+import { treeCheckIcon, twistieIcon } from "../internal/icons";
 
 export type TreeNode = core.TreeNode;
 export type TreeLoadRequest = core.TreeLoadRequest;
 
-const twistieIcon = `
-  <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
-    <path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.75"
-      stroke-linecap="round" stroke-linejoin="round"></path>
-  </svg>`;
-
-const checkIcon = `
-  <svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false">
-    <path d="M3.5 8.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="1.75"
-      stroke-linecap="round" stroke-linejoin="round"></path>
-  </svg>`;
+/** The parts of one rendered row, kept while its node stays visible. */
+interface TreeRow {
+  item: HTMLLIElement;
+  /** The twistie of a parent, the spacer of a leaf: one of the two is set. */
+  twistie: HTMLButtonElement | null;
+  spacer: HTMLSpanElement | null;
+  label: HTMLSpanElement;
+  status: HTMLSpanElement | null;
+  check: HTMLSpanElement;
+  /** The node the row shows, as of the last render. */
+  node: core.VisibleNode;
+}
 
 let warnedUnlabelled = false;
 
@@ -59,6 +63,9 @@ export class DsTreeView extends HTMLElementBase {
   #labels: Record<string, string> = {};
   #id = nextId("ds-tree");
   #live: HTMLElement | null = null;
+  #root: HTMLUListElement | null = null;
+  // The rendered rows by node value, updated in place on each render.
+  #rows = new Map<string, TreeRow>();
   // The load message shown for each node, to announce only new ones.
   #messages = new Map<string, string>();
 
@@ -146,7 +153,7 @@ export class DsTreeView extends HTMLElementBase {
     return core.connect({
       state,
       setExpanded: (expanded) => {
-        if (this.#same(this.#expanded, expanded)) return;
+        if (sameItems(this.#expanded, expanded)) return;
         this.#expanded = expanded;
         this.#render();
         emit(this, "expanded-change", { expanded: [...expanded] });
@@ -181,83 +188,117 @@ export class DsTreeView extends HTMLElementBase {
     const active = this.contains(document.activeElement)
       ? (document.activeElement as Element).closest<HTMLElement>("[data-value]")?.dataset.value
       : undefined;
-    const live = this.#liveRegion();
-    for (const child of Array.from(this.childNodes)) if (child !== live) child.remove();
     const state = this.#state();
     const api = this.#api();
-    const root = document.createElement("ul");
+    const root = (this.#root ??= document.createElement("ul"));
     root.className = "tree";
     const treeLabel = this.getAttribute("label");
     if (treeLabel) root.setAttribute("aria-label", treeLabel);
-    else if (!warnedUnlabelled) {
-      warnedUnlabelled = true;
-      console.warn("[ds] <ds-tree-view> needs a label attribute to name the tree.");
+    else {
+      root.removeAttribute("aria-label");
+      if (!warnedUnlabelled) {
+        warnedUnlabelled = true;
+        console.warn("[ds] <ds-tree-view> needs a label attribute to name the tree.");
+      }
     }
     applyProps(root, api.rootProps);
     const messages = new Map<string, string>();
 
+    // Rows are keyed by value: a node that stays visible keeps its <li>, so
+    // the row that has focus keeps it.
+    const rows = new Map<string, TreeRow>();
+    const items: HTMLLIElement[] = [];
     for (const node of core.visibleNodes(state)) {
-      const item = document.createElement("li");
-      item.className = "tree__item";
-      if (node.value === this.#selected) item.classList.add("tree__item--selected");
-      item.style.setProperty("--_tree-level", String(node.level));
-      applyProps(item, api.getItemProps(node.value));
+      const known = rows.has(node.value) ? undefined : this.#rows.get(node.value);
+      const row = known ?? this.#createRow(node);
+      row.node = node;
+      if (!rows.has(node.value)) rows.set(node.value, row);
+      this.#updateRow(row, api, messages);
+      items.push(row.item);
+    }
+    this.#rows = rows;
+    setChildren(root, items);
 
-      if (node.hasChildren) {
+    setChildren(this, [root, this.#liveRegion()]);
+    this.#announce(messages);
+    if (active) this.#item(active)?.focus({ preventScroll: true });
+  }
+
+  #createRow(node: core.VisibleNode): TreeRow {
+    const item = document.createElement("li");
+    const label = document.createElement("span");
+    label.className = "tree__label";
+    const check = document.createElement("span");
+    check.setAttribute("aria-hidden", "true");
+    check.innerHTML = treeCheckIcon();
+    return { item, twistie: null, spacer: null, label, status: null, check, node };
+  }
+
+  /** Bring a row's parts in line with its node. */
+  #updateRow(row: TreeRow, api: core.TreeApi, messages: Map<string, string>) {
+    const { item, node } = row;
+    const selected = node.value === this.#selected;
+    item.className = "tree__item";
+    if (selected) item.classList.add("tree__item--selected");
+    item.style.setProperty("--_tree-level", String(node.level));
+    applyProps(item, api.getItemProps(node.value));
+
+    if (node.hasChildren) {
+      row.spacer = null;
+      if (!row.twistie) {
         const twistie = document.createElement("button");
         twistie.type = "button";
-        twistie.className = "tree__twistie";
-        if (node.expanded) twistie.classList.add("tree__twistie--open");
         twistie.tabIndex = -1;
         twistie.setAttribute("aria-hidden", "true");
-        twistie.innerHTML = twistieIcon;
+        twistie.innerHTML = twistieIcon();
         twistie.addEventListener("click", (event) => {
           event.stopPropagation();
-          if (node.loadState === "error") this.#api().retryLoad(node.value);
-          else this.#api().toggle(node.value);
+          const { value, loadState } = row.node;
+          if (loadState === "error") this.#api().retryLoad(value);
+          else this.#api().toggle(value);
         });
-        item.appendChild(twistie);
-      } else {
+        row.twistie = twistie;
+      }
+      row.twistie.className = "tree__twistie";
+      if (node.expanded) row.twistie.classList.add("tree__twistie--open");
+    } else {
+      row.twistie = null;
+      if (!row.spacer) {
         const spacer = document.createElement("span");
         spacer.className = "tree__twistie-spacer";
         spacer.setAttribute("aria-hidden", "true");
-        item.appendChild(spacer);
+        row.spacer = spacer;
       }
-
-      const label = document.createElement("span");
-      label.id = node.labelId;
-      label.className = "tree__label";
-      label.textContent = this.#labels[node.value] ?? node.value;
-      item.appendChild(label);
-
-      if (node.loadState === "loading" || node.loadState === "error") {
-        const status = document.createElement("span");
-        status.id = node.loadStatusId;
-        status.className = "tree__load-status";
-        if (node.loadState === "error") status.classList.add("tree__load-status--error");
-        const name = this.#labels[node.value] ?? node.value;
-        const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
-        const template = this.getAttribute(attribute);
-        status.textContent =
-          template == null
-            ? t(this, node.loadState === "error" ? "tree.loadError" : "tree.loading", { name })
-            : template.replaceAll("{name}", name);
-        messages.set(node.value, status.textContent);
-        item.appendChild(status);
-      }
-
-      const check = document.createElement("span");
-      check.className = "tree__check";
-      if (node.value === this.#selected) check.classList.add("tree__check--shown");
-      check.setAttribute("aria-hidden", "true");
-      check.innerHTML = checkIcon;
-      item.appendChild(check);
-      root.appendChild(item);
     }
 
-    this.insertBefore(root, live);
-    this.#announce(messages);
-    if (active) this.#item(active)?.focus({ preventScroll: true });
+    const name = this.#labels[node.value] ?? node.value;
+    row.label.id = node.labelId;
+    if (row.label.textContent !== name) row.label.textContent = name;
+
+    if (node.loadState === "loading" || node.loadState === "error") {
+      const status = (row.status ??= document.createElement("span"));
+      status.id = node.loadStatusId;
+      status.className = "tree__load-status";
+      if (node.loadState === "error") status.classList.add("tree__load-status--error");
+      const attribute = node.loadState === "error" ? "load-error-label" : "loading-label";
+      const template = this.getAttribute(attribute);
+      const text =
+        template == null
+          ? t(this, node.loadState === "error" ? "tree.loadError" : "tree.loading", { name })
+          : template.replaceAll("{name}", name);
+      if (status.textContent !== text) status.textContent = text;
+      messages.set(node.value, text);
+    } else {
+      row.status = null;
+    }
+
+    row.check.className = "tree__check";
+    if (selected) row.check.classList.add("tree__check--shown");
+
+    const parts: Node[] = [row.twistie ?? row.spacer!, row.label];
+    if (row.status) parts.push(row.status);
+    parts.push(row.check);
+    setChildren(item, parts);
   }
 
   #liveRegion() {
@@ -268,7 +309,6 @@ export class DsTreeView extends HTMLElementBase {
       live.setAttribute("aria-atomic", "true");
       this.#live = live;
     }
-    if (this.#live.parentNode !== this) this.appendChild(this.#live);
     return this.#live;
   }
 
@@ -285,9 +325,5 @@ export class DsTreeView extends HTMLElementBase {
     return Array.from(this.querySelectorAll<HTMLElement>("[data-value]")).find(
       (item) => item.dataset.value === value,
     );
-  }
-
-  #same(left: string[], right: string[]) {
-    return left.length === right.length && left.every((value, index) => value === right[index]);
   }
 }

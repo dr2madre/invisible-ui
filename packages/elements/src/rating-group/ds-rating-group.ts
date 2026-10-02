@@ -5,19 +5,13 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  numberAttr,
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
 import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 import { onLocaleChange, t } from "../internal/i18n";
 import { starIcon } from "../internal/icons";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-rating-group>` — a star rating as a custom element, ported from the

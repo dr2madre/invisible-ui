@@ -1,14 +1,10 @@
 import { tooltip as core } from "@design-system/core";
-import { applyProps, HTMLElementBase, nextId } from "../internal/base";
+import { applyProps, HTMLElementBase, nextId, numberAttr } from "../internal/base";
 import { attachFloating, type Placement } from "../internal/floating";
+import { HoverDelay } from "../internal/hover-delay";
 import { overlayRoot } from "../internal/overlay-root";
 
 const FOCUSABLE = "button, a[href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const value = Number(element.getAttribute(name));
-  return element.hasAttribute(name) && Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-tooltip>` — a descriptive label shown on hover or focus of the control
@@ -30,8 +26,7 @@ export class DsTooltip extends HTMLElementBase {
   #id = nextId("ds-tooltip");
   #open = false;
   #tip: HTMLDivElement | null = null;
-  #showTimer: ReturnType<typeof setTimeout> | undefined;
-  #hideTimer: ReturnType<typeof setTimeout> | undefined;
+  #delay = new HoverDelay();
   #stop: (() => void) | null = null;
   #touch = false;
 
@@ -67,20 +62,15 @@ export class DsTooltip extends HTMLElementBase {
   }
 
   #hold() {
-    clearTimeout(this.#showTimer);
-    clearTimeout(this.#hideTimer);
+    this.#delay.cancel();
   }
 
   #show(delay = numberAttr(this, "open-delay", 300)) {
-    this.#hold();
-    if (delay <= 0) this.#setOpen(true);
-    else this.#showTimer = setTimeout(() => this.#setOpen(true), delay);
+    this.#delay.run(delay, () => this.#setOpen(true));
   }
 
   #hide(delay = numberAttr(this, "close-delay", 100)) {
-    this.#hold();
-    if (delay <= 0) this.#setOpen(false);
-    else this.#hideTimer = setTimeout(() => this.#setOpen(false), delay);
+    this.#delay.run(delay, () => this.#setOpen(false));
   }
 
   #onPointerEnter = (event: PointerEvent) => {

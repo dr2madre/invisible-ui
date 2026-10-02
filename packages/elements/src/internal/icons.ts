@@ -119,7 +119,10 @@ export const feedbackIcon = (status: FeedbackStatus) => {
   );
 };
 
-const SVG_NS = "http://www.w3.org/2000/svg";
+export const SVG_NS = "http://www.w3.org/2000/svg";
+
+/** The check drawn as a path, for {@link pathIcon}: the menus' checkable items. */
+export const CHECK_PATH = "M20 6 9 17 4 12";
 
 /**
  * Build the same glyph as {@link svg} for a consumer-supplied path, through the
@@ -157,3 +160,16 @@ export const starIcon = () =>
     "",
     { width: "var(--ds-rating-size, 1.5rem)", height: "var(--ds-rating-size, 1.5rem)" },
   );
+
+/** A small mark on a 16-unit grid, stroked at text size: the list parts' glyphs. */
+const smallGlyph = (d: string) =>
+  `<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/** The cross on a removable tag. */
+export const removeIcon = () => smallGlyph("M4 4l8 8M12 4l-8 8");
+
+/** The tree's expand arrow, turned by its stylesheet when open. */
+export const twistieIcon = () => smallGlyph("M6 4l4 4-4 4");
+
+/** The tree's selection check. */
+export const treeCheckIcon = () => smallGlyph("M3.5 8.5l3 3 6-6.5");
