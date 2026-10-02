@@ -127,17 +127,15 @@ Each item ships as its own PR. Checkboxes track progress.
   names, tokens and tests. Batches follow shared shape rather than the
   alphabet. Each batch ships as its own PR and brings its generated API
   manifest, docs tab and tests.
-- [ ] **15. Flutter adapter** — starts after item 14, React: full catalog.
-  The Timelog team proposes `packages/flutter`, a Dart package that
-  reimplements component behaviour, because the DOM-based core cannot run in
-  Flutter. That departs from two current rules: adapters stay thin over the
-  core, and Flutter gets tokens only (`docs/next-adapter-strategy.md`). An ADR
-  written and accepted by this team settles parity, state conventions,
-  semantics, dependencies, tokens and docs before any adapter code. The
-  proposal, with the component order and the editable-grid requirements, is in
-  [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md).
-  The proposed record is
-  [ADR 0017](./adr/0017-flutter-adapter.md), with its discovery in
+- [ ] **15. Flutter adapter** — runs in parallel with item 14, React: full
+  catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
+  groundwork comes first: `tokens.json` moves to `packages/tokens/`, the
+  roles, sizes, focus ring and density move into it, and the menu spec gains
+  submenus. Then `packages/flutter` (Dart package `invisible_ui`)
+  reimplements component behaviour against the Svelte reference, with the
+  first wave the ADR lists. The Timelog proposal is in
+  [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
+  the discovery in
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases

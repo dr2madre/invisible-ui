@@ -4,8 +4,8 @@ Date: 2026-10-02
 
 ## Status
 
-Proposed. No adapter code is written before this record is accepted. Once
-accepted, it supersedes the "Flutter: tokens only" row of
+Accepted on 2026-10-02, with the maintainer's decisions recorded under
+"Decisions taken" below. It supersedes the "Flutter: tokens only" row of
 [`docs/next-adapter-strategy.md`](../next-adapter-strategy.md) and adds a
 scoped exception to the rule "adapters stay thin, shared behaviour stays in
 `core/`" in [AGENTS.md](../../AGENTS.md).
@@ -280,14 +280,10 @@ would get the wrong size).
   follow; then Timelog's wave 2 and wave 3 in its order. The editable grid
   spec is written once for every platform and the web Data Table gains it
   when the maintainer schedules it.
-- **Roadmap.** Item 14 (React: full catalog, 11 of 80 components today)
-  comes before item 15 (Flutter). The trade-off: keeping the order delays
-  both consumers until React is complete; starting Flutter earlier splits
-  review time, and the shared groundwork (the role and density tiers in
-  `tokens.json`, the submenu spec, the editable grid spec) also serves the
-  web adapters. Flutter code comes from the consumer teams, so the
-  maintainer's cost is specs and review more than implementation. The order
-  is the maintainer's decision; see the open questions.
+- **Roadmap.** React's full catalog (item 14) and Flutter (item 15) run in
+  parallel. The shared groundwork comes first: the token file in a neutral
+  path, the role, sizing, focus and density tiers in it, and the submenu
+  spec. Then the two implementations proceed separately.
 
 **Recommendation:** the merged first wave above, with the token tiers and
 the submenu spec as prerequisites.
@@ -312,15 +308,14 @@ the submenu spec as prerequisites.
 - No path dependency outside `packages/flutter` and no pub workspace
   setting the package needs to resolve. Generated files are committed.
 - No pub.dev publishing: the project publishes no packages today.
-- **SDK constraint.** Recommend `sdk: ^3.12.0` with `flutter: ">=3.44.0"`.
-  Flutter 3.44 changed the close order of `RawMenuAnchor`, which the menus
-  depend on; one lower bound means one menu behaviour to test. Wireframe
-  is on `^3.12.0`; Timelog raises its lower bound from `^3.8.0` to
-  `^3.12.0`.
+- **SDK constraint.** `sdk: ^3.8.0`, so Timelog is not excluded. It is
+  raised only when the package needs an API available in a later release,
+  and that change names the API. The menus are tested on both sides of the
+  Flutter 3.44 change to the close order of `RawMenuAnchor` while the lower
+  bound sits below it.
 
-Alternatives considered: `sdk: ^3.8.0` with `flutter: ">=3.32.0"` (no
-change for Timelog; the menus would need tests on both sides of the 3.44
-close-order change, so CI runs two Flutter versions); a separate
+Alternatives considered: `sdk: ^3.12.0` with `flutter: ">=3.44.0"` (one menu
+behaviour to test, but it excludes Timelog with no API need); a separate
 repository (loses the shared review, token source and spec in one pull
 request).
 
@@ -384,42 +379,54 @@ entry, and the docs-site tab when the extractor exists.
 - The project carries a second implementation of behaviour. Every change to
   a ported component's behaviour now has a Flutter side: the drift report
   names it, and the checklist is updated in a follow-up pull request.
-- `tokens.json` becomes the source for the role tier and a density tier,
-  which the web adapters can use as well. Markdown Funk keeps its paths.
+- `tokens.json` moves to `packages/tokens/tokens.json` and becomes the
+  source for the role, sizing, focus and density tiers, which the web
+  adapters use as well. Markdown Funk updates its path in the same change.
 - The shared menu spec gains submenus and the project gains an editable
   grid spec, both for every platform.
 - ADR 0011, 0012 and 0016 bind the Flutter adapter. A Flutter component is
   not called equivalent until its checklist shows them.
 - CI gains a workflow that only contributors to `packages/flutter` need to
   run locally.
-- Timelog raises its Dart SDK lower bound to `^3.12.0` if the recommended
-  constraint is taken.
+- Product looks stay with the products: a consumer's visual choices
+  (Markdown Funk's selection band, borderless buttons, light field borders)
+  ship as a theme or preset, not as new defaults.
 
-## Open questions for the maintainer
+## Decisions taken
 
-1. **Order.** Keep Flutter after React's full catalog (item 14), start the
-   shared groundwork (token tiers, submenu and grid specs) in parallel, or
-   start Flutter components in parallel too?
-2. **Token tiers.** Approve moving the role tier, a spacing and control
-   sizing tier, the focus ring and a density tier into `tokens.json`. This
-   is a design-owned change.
-3. **Token file location.** Keep `tokens.json` under `packages/svelte`, or
-   move it to a neutral path? Moving it changes the path Markdown Funk
-   reads.
-4. **SDK lower bound.** `^3.12.0` (recommended) or `^3.8.0`. Can Timelog
-   raise its constraint?
-5. **Desktop target size.** Is 24 by 24 under compact and regular density
+Recorded by the maintainer on 2026-10-02:
+
+1. **Order.** React and Flutter run in parallel. The shared work on tokens,
+   roles and submenus comes first; then the two implementations proceed
+   separately.
+2. **Token tiers.** The roles, sizes, focus ring and density move into
+   `tokens.json`. When the values stay the same this is not a visual design
+   change: it corrects the source of truth.
+3. **Token file location.** `tokens.json` moves to a neutral path,
+   `packages/tokens/tokens.json`, because several implementations use it.
+   Markdown Funk updates its path in the same change.
+4. **SDK lower bound.** `^3.8.0`, until the package needs an API that only
+   a later release has. Timelog is not excluded without a reason.
+5. **Product looks.** Markdown Funk's choices (a selected item with a fill,
+   a 2 px band and bold text; borderless buttons; light field borders) ship
+   as a theme or preset, not as new global defaults. Invisible UI shares
+   behaviour, accessibility and semantic tokens; it does not impose one look
+   on every product.
+
+## Open questions, not blocking
+
+1. **Desktop target size.** Is 24 by 24 under compact and regular density
    the right floor for desktop, with 44 by 44 under touch and as Timelog's
    explicit setting?
-6. **New components.** Is a section header a catalog component or a
+2. **New components.** Is a section header a catalog component or a
    heading plus actions in the app? Is a colour swatch a component on its
    own now, ahead of the Color Picker the backlog lists as later?
-7. **Text controllers.** Should text widgets accept a
+3. **Text controllers.** Should text widgets accept a
    `TextEditingController` beside `value` and `defaultValue`?
-8. **Docs site.** Is a Flutter tab in the component pages wanted, and
+4. **Docs site.** Is a Flutter tab in the component pages wanted, and
    when?
-9. **Golden tests.** Wanted at all, and on which platform?
-10. **Contributor access.** Do Timelog and Wireframe contributors open pull
+5. **Golden tests.** Wanted at all, and on which platform?
+6. **Contributor access.** Do Timelog and Wireframe contributors open pull
     requests from forks or from branches in this repository?
 
 ## References
