@@ -12,7 +12,7 @@ test-results/
 playwright-report/
 .last-run.json
 
-# Generated design-token outputs (source: packages/svelte/tokens/tokens.json)
+# Generated design-token outputs (source: packages/tokens/tokens.json)
 packages/svelte/dist/tokens/
 
 # Optional local tooling (agents, hooks, skills), installed per machine

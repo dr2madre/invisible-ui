@@ -268,13 +268,13 @@
       "name": "--ds-color-background",
       "id": "color-background",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 168,
-        "dtcg": null
+        "dtcg": "role.light.color-background"
       },
       "expressions": {
         "light": "var(--ds-neutral-0)",
@@ -306,13 +306,13 @@
       "name": "--ds-color-border",
       "id": "color-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 172,
-        "dtcg": null
+        "dtcg": "role.light.color-border"
       },
       "expressions": {
         "light": "var(--ds-neutral-200)",
@@ -344,13 +344,13 @@
       "name": "--ds-color-control-border",
       "id": "color-control-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 177,
-        "dtcg": null
+        "dtcg": "role.light.color-control-border"
       },
       "expressions": {
         "light": "var(--ds-neutral-400)",
@@ -382,13 +382,13 @@
       "name": "--ds-color-danger",
       "id": "color-danger",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 206,
-        "dtcg": null
+        "dtcg": "role.light.color-danger"
       },
       "expressions": {
         "light": "var(--ds-feedback-danger)",
@@ -421,13 +421,13 @@
       "name": "--ds-color-danger-body-text",
       "id": "color-danger-body-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 282,
-        "dtcg": null
+        "dtcg": "role.light.color-danger-body-text"
       },
       "expressions": {
         "light": "var(--ds-color-danger)",
@@ -461,13 +461,13 @@
       "name": "--ds-color-danger-border",
       "id": "color-danger-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 236,
-        "dtcg": null
+        "dtcg": "role.light.color-danger-border"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-danger) 30%, var(--ds-neutral-0))",
@@ -497,13 +497,13 @@
       "name": "--ds-color-danger-hover",
       "id": "color-danger-hover",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 207,
-        "dtcg": null
+        "dtcg": "role.light.color-danger-hover"
       },
       "expressions": {
         "light": "var(--ds-feedback-danger-hover)",
@@ -536,13 +536,13 @@
       "name": "--ds-color-danger-surface",
       "id": "color-danger-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 235,
-        "dtcg": null
+        "dtcg": "role.light.color-danger-surface"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-danger) 8%, var(--ds-neutral-0))",
@@ -572,13 +572,13 @@
       "name": "--ds-color-danger-text",
       "id": "color-danger-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 270,
-        "dtcg": null
+        "dtcg": "role.light.color-danger-text"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-danger) 58%, var(--ds-neutral-900))",
@@ -608,13 +608,13 @@
       "name": "--ds-color-destructive-surface",
       "id": "color-destructive-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 240,
-        "dtcg": null
+        "dtcg": "role.light.color-destructive-surface"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-danger) 10%, var(--ds-neutral-0) )",
@@ -644,13 +644,13 @@
       "name": "--ds-color-disabled",
       "id": "color-disabled",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 180,
-        "dtcg": null
+        "dtcg": "role.light.color-disabled"
       },
       "expressions": {
         "light": "var(--ds-neutral-200)",
@@ -682,13 +682,13 @@
       "name": "--ds-color-emphasis-border",
       "id": "color-emphasis-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 287,
-        "dtcg": null
+        "dtcg": "role.light.color-emphasis-border"
       },
       "expressions": {
         "light": "var(--ds-neutral-700)",
@@ -720,13 +720,13 @@
       "name": "--ds-color-emphasis-surface",
       "id": "color-emphasis-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 285,
-        "dtcg": null
+        "dtcg": "role.light.color-emphasis-surface"
       },
       "expressions": {
         "light": "var(--ds-neutral-800)",
@@ -758,13 +758,13 @@
       "name": "--ds-color-focus-halo",
       "id": "color-focus-halo",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 191,
-        "dtcg": null
+        "dtcg": "role.light.color-focus-halo"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-color-focus-ring) 30%, transparent)",
@@ -794,13 +794,13 @@
       "name": "--ds-color-focus-ring",
       "id": "color-focus-ring",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 183,
-        "dtcg": null
+        "dtcg": "role.light.color-focus-ring"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0))",
@@ -866,13 +866,13 @@
       "name": "--ds-color-info",
       "id": "color-info",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 203,
-        "dtcg": null
+        "dtcg": "role.light.color-info"
       },
       "expressions": {
         "light": "var(--ds-feedback-info)",
@@ -905,13 +905,13 @@
       "name": "--ds-color-info-border",
       "id": "color-info-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 214,
-        "dtcg": null
+        "dtcg": "role.light.color-info-border"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-info) 30%, var(--ds-neutral-0))",
@@ -941,13 +941,13 @@
       "name": "--ds-color-info-surface",
       "id": "color-info-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 213,
-        "dtcg": null
+        "dtcg": "role.light.color-info-surface"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0))",
@@ -977,13 +977,13 @@
       "name": "--ds-color-info-text",
       "id": "color-info-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 259,
-        "dtcg": null
+        "dtcg": "role.light.color-info-text"
       },
       "expressions": {
         "light": "color-mix(in srgb, var(--ds-feedback-info) 48%, var(--ds-neutral-900))",
@@ -1013,13 +1013,13 @@
       "name": "--ds-color-neutral",
       "id": "color-neutral",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 208,
-        "dtcg": null
+        "dtcg": "role.light.color-neutral"
       },
       "expressions": {
         "light": "var(--ds-neutral-500)",
@@ -1051,13 +1051,13 @@
       "name": "--ds-color-neutral-border",
       "id": "color-neutral-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 255,
-        "dtcg": null
+        "dtcg": "role.light.color-neutral-border"
       },
       "expressions": {
         "light": "var(--ds-neutral-200)",
@@ -1089,13 +1089,13 @@
       "name": "--ds-color-neutral-surface",
       "id": "color-neutral-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 254,
-        "dtcg": null
+        "dtcg": "role.light.color-neutral-surface"
       },
       "expressions": {
         "light": "var(--ds-neutral-50)",
@@ -1127,13 +1127,13 @@
       "name": "--ds-color-neutral-text",
       "id": "color-neutral-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 276,
-        "dtcg": null
+        "dtcg": "role.light.color-neutral-text"
       },
       "expressions": {
         "light": "var(--ds-neutral-700)",
@@ -1165,13 +1165,13 @@
       "name": "--ds-color-on-destructive-surface",
       "id": "color-on-destructive-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 245,
-        "dtcg": null
+        "dtcg": "role.light.color-on-destructive-surface"
       },
       "expressions": {
         "light": "var(--ds-feedback-danger-hover)",
@@ -1204,13 +1204,13 @@
       "name": "--ds-color-on-emphasis",
       "id": "color-on-emphasis",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 286,
-        "dtcg": null
+        "dtcg": "role.light.color-on-emphasis"
       },
       "expressions": {
         "light": "var(--ds-neutral-50)",
@@ -1242,13 +1242,13 @@
       "name": "--ds-color-on-primary",
       "id": "color-on-primary",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 198,
-        "dtcg": null
+        "dtcg": "role.light.color-on-primary"
       },
       "expressions": {
         "light": "var(--ds-neutral-0)",
@@ -1280,13 +1280,13 @@
       "name": "--ds-color-on-secondary",
       "id": "color-on-secondary",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 201,
-        "dtcg": null
+        "dtcg": "role.light.color-on-secondary"
       },
       "expressions": {
         "light": "var(--ds-neutral-0)",
@@ -1318,13 +1318,13 @@
       "name": "--ds-color-on-secondary-surface",
       "id": "color-on-secondary-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 253,
-        "dtcg": null
+        "dtcg": "role.light.color-on-secondary-surface"
       },
       "expressions": {
         "light": "var(--ds-color-primary-hover)",
@@ -1358,13 +1358,13 @@
       "name": "--ds-color-on-selected",
       "id": "color-on-selected",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 99,
-        "dtcg": null
+        "dtcg": "role.light.color-on-selected"
       },
       "expressions": {
         "light": "var(--ds-color-on-secondary, #fff)",
@@ -1397,13 +1397,13 @@
       "name": "--ds-color-on-status",
       "id": "color-on-status",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 209,
-        "dtcg": null
+        "dtcg": "role.light.color-on-status"
       },
       "expressions": {
         "light": "var(--ds-neutral-0)",
@@ -1435,13 +1435,13 @@
       "name": "--ds-color-on-warning",
       "id": "color-on-warning",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 210,
-        "dtcg": null
+        "dtcg": "role.light.color-on-warning"
       },
       "expressions": {
         "light": "var(--ds-neutral-900)",
@@ -1473,13 +1473,13 @@
       "name": "--ds-color-primary",
       "id": "color-primary",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 196,
-        "dtcg": null
+        "dtcg": "role.light.color-primary"
       },
       "expressions": {
         "light": "var(--ds-brand-primary)",
@@ -1512,13 +1512,13 @@
       "name": "--ds-color-primary-hover",
       "id": "color-primary-hover",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 197,
-        "dtcg": null
+        "dtcg": "role.light.color-primary-hover"
       },
       "expressions": {
         "light": "var(--ds-brand-primary-hover)",
@@ -1551,13 +1551,13 @@
       "name": "--ds-color-secondary",
       "id": "color-secondary",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 199,
-        "dtcg": null
+        "dtcg": "role.light.color-secondary"
       },
       "expressions": {
         "light": "var(--ds-brand-secondary)",
@@ -1590,13 +1590,13 @@
       "name": "--ds-color-secondary-body-text",
       "id": "color-secondary-body-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 281,
-        "dtcg": null
+        "dtcg": "role.light.color-secondary-body-text"
       },
       "expressions": {
         "light": "var(--ds-color-secondary)",
@@ -1630,13 +1630,13 @@
       "name": "--ds-color-secondary-hover",
       "id": "color-secondary-hover",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 200,
-        "dtcg": null
+        "dtcg": "role.light.color-secondary-hover"
       },
       "expressions": {
         "light": "var(--ds-brand-secondary-hover)",
@@ -1669,13 +1669,13 @@
       "name": "--ds-color-secondary-surface",
       "id": "color-secondary-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 248,
-        "dtcg": null
+        "dtcg": "role.light.color-secondary-surface"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-color-primary) 15%, var(--ds-neutral-0) )",
@@ -1705,13 +1705,13 @@
       "name": "--ds-color-selected",
       "id": "color-selected",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 98,
-        "dtcg": null
+        "dtcg": "role.light.color-selected"
       },
       "expressions": {
         "light": "var(--ds-color-primary, #7a52cc)",
@@ -1745,13 +1745,13 @@
       "name": "--ds-color-selected-text",
       "id": "color-selected-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 271,
-        "dtcg": null
+        "dtcg": "role.light.color-selected-text"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-color-secondary) 55%, var(--ds-neutral-900) )",
@@ -1781,13 +1781,13 @@
       "name": "--ds-color-success",
       "id": "color-success",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 204,
-        "dtcg": null
+        "dtcg": "role.light.color-success"
       },
       "expressions": {
         "light": "var(--ds-feedback-success)",
@@ -1820,13 +1820,13 @@
       "name": "--ds-color-success-body-text",
       "id": "color-success-body-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 283,
-        "dtcg": null
+        "dtcg": "role.light.color-success-body-text"
       },
       "expressions": {
         "light": "var(--ds-color-success)",
@@ -1860,13 +1860,13 @@
       "name": "--ds-color-success-border",
       "id": "color-success-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 220,
-        "dtcg": null
+        "dtcg": "role.light.color-success-border"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-success) 30%, var(--ds-neutral-0) )",
@@ -1896,13 +1896,13 @@
       "name": "--ds-color-success-surface",
       "id": "color-success-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 215,
-        "dtcg": null
+        "dtcg": "role.light.color-success-surface"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-success) 8%, var(--ds-neutral-0) )",
@@ -1932,13 +1932,13 @@
       "name": "--ds-color-success-text",
       "id": "color-success-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 260,
-        "dtcg": null
+        "dtcg": "role.light.color-success-text"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-success) 52%, var(--ds-neutral-900) )",
@@ -1968,13 +1968,13 @@
       "name": "--ds-color-surface",
       "id": "color-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 178,
-        "dtcg": null
+        "dtcg": "role.light.color-surface"
       },
       "expressions": {
         "light": "var(--ds-neutral-100)",
@@ -2006,13 +2006,13 @@
       "name": "--ds-color-surface-hover",
       "id": "color-surface-hover",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 179,
-        "dtcg": null
+        "dtcg": "role.light.color-surface-hover"
       },
       "expressions": {
         "light": "var(--ds-neutral-200)",
@@ -2044,13 +2044,13 @@
       "name": "--ds-color-text",
       "id": "color-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 169,
-        "dtcg": null
+        "dtcg": "role.light.color-text"
       },
       "expressions": {
         "light": "var(--ds-neutral-900)",
@@ -2082,13 +2082,13 @@
       "name": "--ds-color-text-disabled",
       "id": "color-text-disabled",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 171,
-        "dtcg": null
+        "dtcg": "role.light.color-text-disabled"
       },
       "expressions": {
         "light": "var(--ds-neutral-400)",
@@ -2120,13 +2120,13 @@
       "name": "--ds-color-text-secondary",
       "id": "color-text-secondary",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 170,
-        "dtcg": null
+        "dtcg": "role.light.color-text-secondary"
       },
       "expressions": {
         "light": "var(--ds-neutral-600)",
@@ -2158,13 +2158,13 @@
       "name": "--ds-color-warning",
       "id": "color-warning",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 205,
-        "dtcg": null
+        "dtcg": "role.light.color-warning"
       },
       "expressions": {
         "light": "var(--ds-feedback-warning)",
@@ -2197,13 +2197,13 @@
       "name": "--ds-color-warning-border",
       "id": "color-warning-border",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 230,
-        "dtcg": null
+        "dtcg": "role.light.color-warning-border"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-warning) 30%, var(--ds-neutral-0) )",
@@ -2233,13 +2233,13 @@
       "name": "--ds-color-warning-surface",
       "id": "color-warning-surface",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 225,
-        "dtcg": null
+        "dtcg": "role.light.color-warning-surface"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-warning) 8%, var(--ds-neutral-0) )",
@@ -2269,13 +2269,13 @@
       "name": "--ds-color-warning-text",
       "id": "color-warning-text",
       "tier": "semantic",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 265,
-        "dtcg": null
+        "dtcg": "role.light.color-warning-text"
       },
       "expressions": {
         "light": "color-mix( in srgb, var(--ds-feedback-warning) 42%, var(--ds-neutral-900) )",
@@ -2305,13 +2305,13 @@
       "name": "--ds-control-padding-x",
       "id": "control-padding-x",
       "tier": "sizing",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "dimension",
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 93,
-        "dtcg": null
+        "dtcg": "density.regular.control-padding-x"
       },
       "expressions": {
         "light": "0.875rem",
@@ -2341,13 +2341,13 @@
       "name": "--ds-control-padding-y",
       "id": "control-padding-y",
       "tier": "sizing",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "dimension",
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 92,
-        "dtcg": null
+        "dtcg": "density.regular.control-padding-y"
       },
       "expressions": {
         "light": "0.5rem",
@@ -2603,13 +2603,13 @@
       "name": "--ds-focus-halo-width",
       "id": "focus-halo-width",
       "tier": "focus",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "dimension",
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 190,
-        "dtcg": null
+        "dtcg": "focus.halo-width"
       },
       "expressions": {
         "light": "3px",
@@ -2639,13 +2639,13 @@
       "name": "--ds-focus-ring-offset",
       "id": "focus-ring-offset",
       "tier": "focus",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "dimension",
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 189,
-        "dtcg": null
+        "dtcg": "focus.ring-offset"
       },
       "expressions": {
         "light": "2px",
@@ -2711,13 +2711,13 @@
       "name": "--ds-focus-ring-width",
       "id": "focus-ring-width",
       "tier": "focus",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "dimension",
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 188,
-        "dtcg": null
+        "dtcg": "focus.ring-width"
       },
       "expressions": {
         "light": "2px",
@@ -2819,13 +2819,13 @@
       "name": "--ds-font-size-h1",
       "id": "font-size-h1",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 117,
-        "dtcg": null
+        "dtcg": "typography.font-size-h1"
       },
       "expressions": {
         "light": "2.375rem",
@@ -2855,13 +2855,13 @@
       "name": "--ds-font-size-h2",
       "id": "font-size-h2",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 118,
-        "dtcg": null
+        "dtcg": "typography.font-size-h2"
       },
       "expressions": {
         "light": "2rem",
@@ -2891,13 +2891,13 @@
       "name": "--ds-font-size-h3",
       "id": "font-size-h3",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 119,
-        "dtcg": null
+        "dtcg": "typography.font-size-h3"
       },
       "expressions": {
         "light": "1.75rem",
@@ -2927,13 +2927,13 @@
       "name": "--ds-font-size-h4",
       "id": "font-size-h4",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 120,
-        "dtcg": null
+        "dtcg": "typography.font-size-h4"
       },
       "expressions": {
         "light": "1.5rem",
@@ -2963,13 +2963,13 @@
       "name": "--ds-font-size-h5",
       "id": "font-size-h5",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 121,
-        "dtcg": null
+        "dtcg": "typography.font-size-h5"
       },
       "expressions": {
         "light": "1.25rem",
@@ -2999,13 +2999,13 @@
       "name": "--ds-font-size-h6",
       "id": "font-size-h6",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 122,
-        "dtcg": null
+        "dtcg": "typography.font-size-h6"
       },
       "expressions": {
         "light": "1rem",
@@ -3071,13 +3071,13 @@
       "name": "--ds-heading-weight",
       "id": "heading-weight",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 116,
-        "dtcg": null
+        "dtcg": "typography.heading-weight"
       },
       "expressions": {
         "light": "700",
@@ -3107,13 +3107,13 @@
       "name": "--ds-line-height",
       "id": "line-height",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 111,
-        "dtcg": null
+        "dtcg": "typography.line-height"
       },
       "expressions": {
         "light": "1.4",
@@ -3143,13 +3143,13 @@
       "name": "--ds-line-height-tight",
       "id": "line-height-tight",
       "tier": "typography",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "typography",
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 112,
-        "dtcg": null
+        "dtcg": "typography.line-height-tight"
       },
       "expressions": {
         "light": "1.2",
@@ -4079,13 +4079,13 @@
       "name": "--ds-state-hover",
       "id": "state-hover",
       "tier": "state",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 181,
-        "dtcg": null
+        "dtcg": "role.light.state-hover"
       },
       "expressions": {
         "light": "rgb(0 0 0 / 0.06)",
@@ -4115,13 +4115,13 @@
       "name": "--ds-state-pressed",
       "id": "state-pressed",
       "tier": "state",
-      "ownership": "frontend",
+      "ownership": "design",
       "valueType": "color",
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
         "line": 182,
-        "dtcg": null
+        "dtcg": "role.light.state-pressed"
       },
       "expressions": {
         "light": "rgb(0 0 0 / 0.12)",
@@ -31181,7 +31181,7 @@
       "state": 2
     },
     "withDarkOverride": 53,
-    "designOwned": 32,
+    "designOwned": 101,
     "colors": 91
   },
   "adapters": {
