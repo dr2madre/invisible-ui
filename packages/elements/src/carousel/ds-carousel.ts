@@ -1,6 +1,7 @@
 import { carousel as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { localized, onLocaleChange, t } from "../internal/i18n";
+import { SVG_NS } from "../internal/icons";
 
 /** A built-in slide's content (used when the element has no children). */
 export interface CarouselSlide {
@@ -14,8 +15,6 @@ export interface CarouselSlide {
 
 export type CarouselVariant = "slide" | "gallery" | "coverflow";
 export type CarouselOrientation = core.Orientation;
-
-const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** Chevron for the previous and next arrows; `d` picks the direction. */
 function arrowGlyph(d: string): SVGSVGElement {

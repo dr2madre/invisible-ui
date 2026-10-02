@@ -8,6 +8,7 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { asDate, dt } from "../internal/date";
 import { localeScope, localized, onLocaleChange, t } from "../internal/i18n";
 import { stepIcon } from "../internal/icons";
 import { DsSegmentedControl } from "../segmented-control/ds-segmented-control";
@@ -27,13 +28,9 @@ export interface CalendarEvent {
 }
 
 const VIEWS: CalendarView[] = ["month", "two-month", "week", "three-day", "day", "year"];
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const asView = (value: string | null, fallback: CalendarView): CalendarView =>
   VIEWS.includes(value as CalendarView) ? (value as CalendarView) : fallback;
-const asDate = (value: string | null | undefined) => (value && ISO_DATE.test(value) ? value : null);
-/** Midnight local time, so `Intl` shows the same calendar day as the ISO date. */
-const dt = (iso: string) => new Date(`${iso}T00:00:00`);
 /** A reference Sunday, so a weekday name can be rendered from an index. */
 const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
   fmt.format(new Date(Date.UTC(2024, 0, 7 + weekday)));

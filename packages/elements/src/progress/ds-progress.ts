@@ -1,18 +1,18 @@
 import { progress } from "@design-system/core";
-import { applyProps, boolAttr, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  HTMLElementBase,
+  nextId,
+  numberAttr,
+  upgradeProperty,
+} from "../internal/base";
+import { SVG_NS } from "../internal/icons";
 
 export type ProgressShape = "bar" | "circle";
 
-const SVG_NS = "http://www.w3.org/2000/svg";
 // r=15.9155 makes the circumference 100, so dasharray maps 1:1 to percent.
 const R = "15.9155";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-progress>` — a determinate progress bar (WAI-ARIA progressbar pattern),

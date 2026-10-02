@@ -1,4 +1,4 @@
-import { boolAttr, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import { boolAttr, HTMLElementBase, nextId, numberAttr, upgradeProperty } from "../internal/base";
 import { closeIcon, feedbackIcon, type FeedbackStatus } from "../internal/icons";
 import { onLocaleChange, t } from "../internal/i18n";
 
@@ -34,11 +34,6 @@ export const localeAnchors = new WeakMap<Element, Element>();
 export const regionAnnounced = new WeakSet<Element>();
 
 const STATUSES = ["info", "success", "warning", "danger", "neutral"];
-
-const numberAttr = (element: Element, name: string) => {
-  const value = Number(element.getAttribute(name));
-  return Number.isFinite(value) && value > 0 ? value : 0;
-};
 
 /**
  * `<ds-notification>` — a floating message (toast or snack), ported from the
@@ -132,7 +127,7 @@ export class DsNotification extends HTMLElementBase {
   }
 
   get duration(): number {
-    return numberAttr(this, "duration");
+    return Math.max(0, numberAttr(this, "duration", 0));
   }
   set duration(value: number) {
     this.setAttribute("duration", String(value));

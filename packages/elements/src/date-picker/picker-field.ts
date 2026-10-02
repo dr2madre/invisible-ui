@@ -6,19 +6,11 @@ import { watchFormReset } from "../internal/form-reset";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { localeScope, localized, onLocaleChange } from "../internal/i18n";
 import { calendarIcon, smallCloseIcon } from "../internal/icons";
+import { onOutside } from "../internal/outside";
 
 export type DateStyle = "full" | "long" | "medium" | "short";
 
 const DATE_STYLES: DateStyle[] = ["full", "long", "medium", "short"];
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-/** An ISO `YYYY-MM-DD` date, or `null` for anything else (the empty string included). */
-export const asDate = (value: string | null | undefined) =>
-  value && ISO_DATE.test(value) ? value : null;
-
-/** Midnight local time, so `Intl` shows the same calendar day as the ISO date. */
-export const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-
 /** The catalog keys a picker names its parts with. */
 export interface PickerMessages {
   label: i18n.MessageKey;
@@ -307,16 +299,10 @@ export abstract class PickerField extends HTMLElementBase {
       },
       true,
     );
-    const outside = (event: Event) => {
-      const target = event.target as Node;
-      if (!panel.contains(target) && !this.#field!.contains(target)) this.#close(false);
-    };
-    this.ownerDocument.addEventListener("pointerdown", outside, true);
-    this.ownerDocument.addEventListener("focusin", outside);
+    const stopOutside = onOutside([panel, this.#field!], () => this.#close(false), { focus: true });
     this.#stopOpen = () => {
       stopFloating();
-      this.ownerDocument.removeEventListener("pointerdown", outside, true);
-      this.ownerDocument.removeEventListener("focusin", outside);
+      stopOutside();
     };
 
     (panel.querySelector<HTMLElement>('[data-date][tabindex="0"]') ?? panel).focus();

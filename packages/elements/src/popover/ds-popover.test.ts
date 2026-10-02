@@ -203,6 +203,20 @@ describe("<ds-popover trigger=hover>", () => {
     expect(fireEvent.click(link)).toBe(true);
   });
 
+  it("reads an empty open-delay as the default delay, not as zero", () => {
+    vi.useFakeTimers();
+    try {
+      const { host } = mountHover();
+      host.setAttribute("open-delay", "");
+      fireEvent.pointerEnter(wrap());
+      expect(card()).not.toBeVisible();
+      vi.advanceTimersByTime(300);
+      expect(card()).toBeVisible();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("closes when focus leaves the trigger and the card", () => {
     mountHover();
     screen.getByRole("link", { name: "@ada" }).focus();

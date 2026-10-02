@@ -136,6 +136,18 @@ describe("<ds-navigation-menu>", () => {
     expect(screen.queryByRole("link", { name: /Catalog/ })).toBeNull();
   });
 
+  it("reads an empty open-delay as the default delay, not as zero", () => {
+    vi.useFakeTimers();
+    const menu = mount();
+    menu.setAttribute("open-delay", "");
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(0);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    vi.advanceTimersByTime(150);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+  });
+
   it("keeps a panel closed by click closed when the hover delay runs out", () => {
     vi.useFakeTimers();
     mount();

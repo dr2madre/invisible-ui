@@ -13,6 +13,84 @@ export function createButton(variant = "default"): HTMLButtonElement {
   return button;
 }
 
+export interface ModalOptions {
+  /** Close as a user action: Escape, the panel's own `close`, a backdrop press. */
+  dismiss: () => void;
+  /** Whether a backdrop press closes the dialog right now. */
+  closesOnOutsidePress: () => boolean;
+  /** CSS selector, within the panel, of the element focused on open; else the panel. */
+  initialFocus: string | null;
+  /** The status area, emptied when the dialog closes (ADR 0016). */
+  status: DialogStatus;
+  /** Runs right after the panel closed, before the page is released. */
+  afterClose?: () => void;
+  /** Give focus back, last, given the element that had it at open. */
+  restoreFocus: (previouslyFocused: HTMLElement | null) => void;
+}
+
+/**
+ * Show `panel` as a modal (ADR 0005) and return the cleanup that closes it.
+ * Top layer and inert background come from `showModal()`; this adds the
+ * modal registry, scroll lock, Escape, backdrop light dismiss and initial
+ * focus, and on close empties the status area and gives focus back. The one
+ * open sequence of `<ds-dialog>`, `<ds-sheet-dialog>` and the presets.
+ */
+export function openModal(panel: HTMLDialogElement, options: ModalOptions): () => void {
+  const previouslyFocused = document.activeElement as HTMLElement | null;
+
+  panel.showModal();
+  const releaseModal = trackModal(panel);
+  const releaseScroll = lockScroll();
+
+  const onCancel = (event: Event) => {
+    event.preventDefault();
+    options.dismiss();
+  };
+  // Only the panel's own close: an element inside it, such as a closable
+  // inline notification, emits a bubbling `close` too.
+  const onClose = (event: Event) => {
+    if (event.target === panel) options.dismiss();
+  };
+  // With the page inert, backdrop presses target the <dialog> itself; a
+  // press whose coordinates fall outside the panel box is a light dismiss.
+  const onPointerDown = (event: PointerEvent) => {
+    if (!options.closesOnOutsidePress() || event.target !== panel) return;
+    const rect = panel.getBoundingClientRect();
+    const inside =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.bottom &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.right;
+    if (!inside) {
+      event.preventDefault();
+      options.dismiss();
+    }
+  };
+
+  panel.addEventListener("cancel", onCancel);
+  panel.addEventListener("close", onClose);
+  panel.addEventListener("pointerdown", onPointerDown);
+
+  // `showModal()` focuses the first focusable, which can be the close
+  // button; the caller names its own starting point instead.
+  const target = options.initialFocus
+    ? panel.querySelector<HTMLElement>(options.initialFocus)
+    : null;
+  (target ?? panel).focus();
+
+  return () => {
+    panel.removeEventListener("cancel", onCancel);
+    panel.removeEventListener("close", onClose);
+    panel.removeEventListener("pointerdown", onPointerDown);
+    if (panel.open) panel.close();
+    options.afterClose?.();
+    releaseModal();
+    releaseScroll();
+    options.status.clear();
+    options.restoreFocus(previouslyFocused);
+  };
+}
+
 /**
  * The shared shell of the dialog presets (internal): an opener button plus a
  * native `<dialog>` shown with `showModal()` (ADR 0005), the same modal
@@ -126,59 +204,15 @@ export abstract class ModalHost extends HTMLElementBase {
 
   #show() {
     const panel = this.panel!;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-
     this.willOpen();
     this.append(panel);
-    // Top layer + inert background come from the platform.
-    panel.showModal();
-    const releaseModal = trackModal(panel);
-    const releaseScroll = lockScroll();
-
-    const onCancel = (event: Event) => {
-      event.preventDefault();
-      this.setOpen(false);
-    };
-    // Only the panel's own close: an element inside it, such as a closable
-    // inline notification, emits a bubbling `close` too.
-    const onClose = (event: Event) => {
-      if (event.target === panel) this.setOpen(false);
-    };
-    // With the page inert, backdrop presses target the <dialog> itself; a
-    // press whose coordinates fall outside the panel box is a light dismiss.
-    const onPointerDown = (event: PointerEvent) => {
-      if (!this.closesOnOutsidePress() || event.target !== panel) return;
-      const rect = panel.getBoundingClientRect();
-      const inside =
-        rect.top <= event.clientY &&
-        event.clientY <= rect.bottom &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.right;
-      if (!inside) {
-        event.preventDefault();
-        this.setOpen(false);
-      }
-    };
-
-    panel.addEventListener("cancel", onCancel);
-    panel.addEventListener("close", onClose);
-    panel.addEventListener("pointerdown", onPointerDown);
-
-    // `showModal()` focuses the first focusable, which can be the close
-    // button; each preset names its own starting point instead.
-    const target = panel.querySelector<HTMLElement>(this.initialFocus);
-    (target ?? panel).focus();
-
-    this.#cleanup = () => {
-      panel.removeEventListener("cancel", onCancel);
-      panel.removeEventListener("close", onClose);
-      panel.removeEventListener("pointerdown", onPointerDown);
-      if (panel.open) panel.close();
-      panel.remove();
-      releaseModal();
-      releaseScroll();
-      this.status.clear();
-      returnFocus(previouslyFocused, this.trigger);
-    };
+    this.#cleanup = openModal(panel, {
+      dismiss: () => this.setOpen(false),
+      closesOnOutsidePress: () => this.closesOnOutsidePress(),
+      initialFocus: this.initialFocus,
+      status: this.status,
+      afterClose: () => panel.remove(),
+      restoreFocus: (previous) => returnFocus(previous, this.trigger),
+    });
   }
 }

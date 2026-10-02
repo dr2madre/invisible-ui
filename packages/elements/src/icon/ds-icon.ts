@@ -1,6 +1,5 @@
 import { HTMLElementBase } from "../internal/base";
-
-const SVG_NS = "http://www.w3.org/2000/svg";
+import { SVG_NS } from "../internal/icons";
 
 /**
  * `<ds-icon>` renders a standardized SVG glyph: a 24×24 viewBox, `1em`

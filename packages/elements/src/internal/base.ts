@@ -124,3 +124,24 @@ export function definePart(tag: string, ctor: CustomElementConstructor): void {
 let uid = 0;
 /** Unique id for wiring labels and descriptions inside one element. */
 export const nextId = (prefix: string) => `${prefix}-${++uid}`;
+
+/**
+ * Read a numeric attribute. A missing, blank or non-numeric value falls back:
+ * to `fallback` when one is given, else to `undefined`.
+ */
+export function numberAttr(el: Element, name: string): number | undefined;
+export function numberAttr(el: Element, name: string, fallback: number): number;
+export function numberAttr(el: Element, name: string, fallback?: number): number | undefined {
+  const raw = el.getAttribute(name);
+  if (raw == null || raw.trim() === "") return fallback;
+  const value = Number(raw);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+/** Same items in the same order. */
+export const sameItems = <T>(a: readonly T[], b: readonly T[] | null): boolean =>
+  a === b || (b != null && a.length === b.length && a.every((item, index) => item === b[index]));
+
+/** What can take focus when a panel opens: the first match gets it. */
+export const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';

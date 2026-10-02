@@ -1,5 +1,5 @@
 import { i18n } from "@design-system/core";
-import { boolAttr, definePart, emit, HTMLElementBase } from "../internal/base";
+import { boolAttr, definePart, emit, HTMLElementBase, nextId, numberAttr } from "../internal/base";
 import { LOCALE_CHANGE_EVENT, localeScope, localized, onLocaleChange } from "../internal/i18n";
 import { hasOpenModal, onModalChange } from "../internal/modal-stack";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
@@ -70,18 +70,13 @@ const RECENT = 8;
 // Text written right after a live region empties is announced more reliably.
 const ANNOUNCE_DELAY = 100;
 
-let counter = 0;
-const nextNoticeId = () => `notice-${++counter}`;
-
 const resolveMessage = <A>(message: string | ((arg: A) => string), arg: A): string =>
   typeof message === "function" ? message(arg) : message;
 
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  const value = Number(raw);
-  return raw != null && raw.trim() !== "" && Number.isFinite(value) && value >= 0
-    ? value
-    : fallback;
+/** A numeric attribute that cannot be negative: a negative value falls back. */
+const countAttr = (element: Element, name: string, fallback: number) => {
+  const value = numberAttr(element, name, fallback);
+  return value >= 0 ? value : fallback;
 };
 
 const prefersReducedMotion = () =>
@@ -211,7 +206,7 @@ export class DsNotificationRegion extends HTMLElementBase {
       this.update(options.id, options);
       return options.id;
     }
-    const id = options.id ?? nextNoticeId();
+    const id = options.id ?? nextId("notice");
     if (options.onDismiss) this.#handlers.set(id, options.onDismiss);
     this.#items = [...this.#items, { ...options, id }];
     this.#render();
@@ -347,12 +342,12 @@ export class DsNotificationRegion extends HTMLElementBase {
   }
 
   #motion() {
-    return prefersReducedMotion() ? 0 : numberAttr(this, "duration", 200);
+    return prefersReducedMotion() ? 0 : countAttr(this, "duration", 200);
   }
 
   #motionOut() {
     if (prefersReducedMotion()) return 0;
-    return numberAttr(this, "exit-duration", Math.round(numberAttr(this, "duration", 200) * 1.75));
+    return countAttr(this, "exit-duration", Math.round(countAttr(this, "duration", 200) * 1.75));
   }
 
   #placement(): NotificationPlacement {
@@ -383,7 +378,7 @@ export class DsNotificationRegion extends HTMLElementBase {
     const eligible = this.#modalOpen
       ? this.#items.filter((item) => this.#shown.has(item.id))
       : this.#items;
-    const max = numberAttr(this, "max-visible", 0);
+    const max = countAttr(this, "max-visible", 0);
     // New notifications always enter; past the cap the oldest leave.
     const visible = max > 0 ? eligible.slice(-max) : eligible;
     for (const item of visible) this.#shown.add(item.id);

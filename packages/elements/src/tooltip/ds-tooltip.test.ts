@@ -57,6 +57,17 @@ describe("<ds-tooltip>", () => {
     expect(screen.queryByRole("tooltip")).toBeNull();
   });
 
+  it("reads an empty open-delay as the default delay, not as zero", () => {
+    vi.useFakeTimers();
+    mount();
+    const host = document.querySelector("ds-tooltip")!;
+    host.setAttribute("open-delay", "");
+    fireEvent.pointerEnter(host, { pointerType: "mouse" });
+    expect(screen.queryByRole("tooltip")).toBeNull();
+    vi.advanceTimersByTime(300);
+    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+  });
+
   it("removes its tooltip when the element leaves the page", async () => {
     const user = userEvent.setup();
     mount();

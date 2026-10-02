@@ -13,8 +13,8 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { DialogStatus, type DialogNoticeOptions } from "../internal/dialog-status";
-import { returnFocus, trackModal } from "../internal/modal-stack";
-import { lockScroll } from "../internal/scroll-lock";
+import { openModal } from "../internal/modal-host";
+import { returnFocus } from "../internal/modal-stack";
 import { localized, onLocaleChange } from "../internal/i18n";
 
 export type SheetDialogSide = "top" | "right" | "bottom" | "left";
@@ -212,54 +212,20 @@ export class DsSheetDialog extends HTMLElementBase {
   }
 
   #show() {
-    const panel = this.#panel!;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    panel.showModal();
-    const releaseModal = trackModal(panel);
-    const releaseScroll = lockScroll();
-
-    const onCancel = (event: Event) => {
-      event.preventDefault();
-      this.#setOpen(false);
-    };
-    // Only the panel's own close: an element inside it, such as a closable
-    // inline notification, emits a bubbling `close` too.
-    const onClose = (event: Event) => {
-      if (event.target === panel) this.#setOpen(false);
-    };
-    const onPointerDown = (event: PointerEvent) => {
-      if (boolAttr(this, "no-outside-close") || event.target !== panel) return;
-      const rect = panel.getBoundingClientRect();
-      const inside =
-        rect.top <= event.clientY &&
-        event.clientY <= rect.bottom &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.right;
-      if (!inside) {
-        event.preventDefault();
-        this.#setOpen(false);
-      }
-    };
-    panel.addEventListener("cancel", onCancel);
-    panel.addEventListener("close", onClose);
-    panel.addEventListener("pointerdown", onPointerDown);
-
-    const selector = this.getAttribute("initial-focus");
-    const target = selector ? panel.querySelector<HTMLElement>(selector) : null;
-    (target ?? panel).focus();
-
+    const closeModal = openModal(this.#panel!, {
+      dismiss: () => this.#setOpen(false),
+      closesOnOutsidePress: () => !boolAttr(this, "no-outside-close"),
+      initialFocus: this.getAttribute("initial-focus"),
+      status: this.#status,
+      restoreFocus: (previous) => {
+        const trigger = this.#trigger!.hidden ? null : this.#trigger;
+        returnFocus(trigger ? previous : this.#returnFocusTo(previous), trigger);
+      },
+    });
     this.#cleanup = () => {
       this.#dragCleanup?.();
       this.#dragCleanup = null;
-      panel.removeEventListener("cancel", onCancel);
-      panel.removeEventListener("close", onClose);
-      panel.removeEventListener("pointerdown", onPointerDown);
-      if (panel.open) panel.close();
-      releaseModal();
-      releaseScroll();
-      this.#status.clear();
-      const trigger = this.#trigger!.hidden ? null : this.#trigger;
-      returnFocus(trigger ? previouslyFocused : this.#returnFocusTo(previouslyFocused), trigger);
+      closeModal();
     };
   }
 
