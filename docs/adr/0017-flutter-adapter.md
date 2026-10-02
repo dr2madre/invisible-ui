@@ -263,7 +263,8 @@ would get the wrong size).
 - **Specified once.** A component missing on the web (the editable grid,
   submenus, a section header, a colour swatch) gets one spec for every
   platform before any Flutter code. Submenus extend the shared menu spec
-  in `core/`, so the web menus gain them too.
+  in `core/`, so the web menus gain them too. The submenu spec is
+  [`docs/menu-submenu-spec.md`](../menu-submenu-spec.md).
 - **Inspector blocks.** These look like a composition of Collapsible or
   Accordion, Field and value controls. They stay in Wireframe unless the
   spec work finds a generic pattern.
