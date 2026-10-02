@@ -32,8 +32,8 @@ Two Flutter desktop apps ask for it:
   text field, menu and dropdown menu, toolbar, section header, tooltip,
   colour swatch and inspector blocks.
 
-A third app, **Markdown Funk**, reads `packages/svelte/tokens/tokens.json`
-directly and uses no components.
+A third app, **Markdown Funk**, reads the token source directly and uses no
+components. The source now lives at `packages/tokens/tokens.json`.
 
 The discovery behind the decisions below, with sources, is in
 [`docs/proposals/flutter-discovery.md`](../proposals/flutter-discovery.md).
