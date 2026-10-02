@@ -134,6 +134,9 @@ const tokenColor = (path: string): Rgba => {
   return { c: fromHex(value.hex), a: value.alpha ?? 1 };
 };
 
+/** The $extensions key that holds a mixed colour's recipe. */
+const MIX = "com.invisible-ui.mix";
+
 // Composite or theme-only values the role tier leaves to the stylesheet.
 const NOT_IN_ROLE_TIER = new Set([
   "--ds-focus-ring-shadow", // built from the focus tokens below
@@ -161,24 +164,11 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
   });
 
   it("style.focus.onDark matches the dark --ds-color-focus-ring mix", () => {
-    // tokens.css mixes it at runtime: secondary 70% with neutral-0. DTCG has
-    // no color-mix, so the source holds the computed sRGB value.
-    const dark = /\[data-theme="dark"\][^}]*--ds-color-focus-ring:\s*([^;]+);/.exec(css);
-    expect(dark?.[1]).toBe(
+    // tokens.css mixes it at runtime; the mix recipe test below recomputes it.
+    // The light block also carries it as one fixed value.
+    expect(darkDecls.get("--ds-color-focus-ring")).toBe(
       "color-mix(in srgb, var(--ds-brand-secondary) 70%, var(--ds-neutral-0))",
     );
-    const channels = (hex: string) =>
-      [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
-    const secondary = channels(cssVar("brand-secondary"));
-    const white = channels(cssVar("neutral-0"));
-    const mixed = secondary
-      .map((c, i) =>
-        Math.round(c * 0.7 + white[i]! * 0.3)
-          .toString(16)
-          .padStart(2, "0"),
-      )
-      .join("");
-    expect(val("style.focus.onDark")).toBe(`#${mixed}`);
     expect(val("style.focus.onDark")).toBe(cssVar("color-focus-ring-on-dark"));
   });
 
@@ -233,11 +223,105 @@ describe("design tokens — DTCG source ↔ runtime parity", () => {
   });
 
   it("density.regular matches the stylesheet; target sizes follow ADR 0017", () => {
-    for (const key of keysOf("density.regular").filter((k) => k !== "min-target-size")) {
+    for (const key of keysOf("density.regular")) {
       expect(val(`density.regular.${key}`)).toBe(cssVar(key));
     }
-    expect(val("density.compact.min-target-size")).toBe("24px");
     expect(val("density.regular.min-target-size")).toBe("24px");
+    expect(val("density.compact.min-target-size")).toBe("24px");
     expect(val("density.touch.min-target-size")).toBe("44px");
+    // The stylesheet renders the regular level only: one declaration, no
+    // per-density selector.
+    expect(stripped.match(/--ds-min-target-size\s*:/g)).toHaveLength(1);
+    expect(stripped).not.toMatch(/data-density/);
+  });
+
+  // A mixed role keeps the resolved colour in $value and the mix it comes
+  // from under $extensions, so a platform without color-mix() can recompute a
+  // tint after overriding a brand or feedback colour.
+  describe("mix recipes", () => {
+    type Recipe = { space: string; base: string; amount: number; with: string };
+    type Mixed = { path: string; recipe: Recipe; css: string; mode: Mode };
+
+    const mixed: Mixed[] = [];
+    const collect = (node: TokenNode, path: string[]) => {
+      for (const [key, child] of Object.entries(node)) {
+        if (key.startsWith("$") || !child || typeof child !== "object") continue;
+        const token = child as TokenNode & { $extensions?: Record<string, unknown> };
+        if (!("$value" in token)) {
+          collect(token, [...path, key]);
+          continue;
+        }
+        const recipe = token.$extensions?.[MIX] as Recipe | undefined;
+        if (!recipe) continue;
+        const at = [...path, key].join(".");
+        const mode: Mode = path[1] === "light" ? "light" : "dark";
+        const css =
+          at === "style.focus.onDark"
+            ? darkDecls.get("--ds-color-focus-ring")!
+            : lookup(mode, `--ds-${key}`)!;
+        mixed.push({ path: at, recipe, css, mode });
+      }
+    };
+    collect(tokens, []);
+
+    /** A recipe colour: a token reference, a hex, or `transparent`. */
+    const operand = (value: string): Rgba => {
+      if (value === "transparent") return { c: [0, 0, 0], a: 0 };
+      const alias = /^\{(.+)\}$/.exec(value);
+      return alias ? tokenColor(alias[1]!) : { c: fromHex(value), a: 1 };
+    };
+
+    /** The token reference a stylesheet operand stands for, in a theme. */
+    const asRecipeOperand = (mode: Mode, value: string): string => {
+      const name = /^var\(--ds-([\w-]+)\)$/.exec(value)?.[1];
+      if (!name) return value;
+      const grey = /^neutral-(\d+)$/.exec(name);
+      if (grey) return `{palette.grey.${grey[1]}}`;
+      const style = /^(?:brand|feedback)-([a-z]+)(-hover)?$/.exec(name);
+      if (style) return `{style.${style[1]}.${style[2] ? "hover" : "default"}}`;
+      return `{role.${mode}.${name}}`;
+    };
+
+    it("covers every color-mix() role and style.focus.onDark", () => {
+      const expected = (["light", "dark"] as const).flatMap((mode) =>
+        keysOf(`role.${mode}`)
+          .filter((key) => lookup(mode, `--ds-${key}`)?.startsWith("color-mix("))
+          // The dark ring is a reference to style.focus.onDark, which holds the mix.
+          .filter((key) => !String(walk(`role.${mode}.${key}`).$value).startsWith("{"))
+          .map((key) => `role.${mode}.${key}`),
+      );
+      expect(mixed.map((entry) => entry.path).sort()).toEqual(
+        [...expected, "style.focus.onDark"].sort(),
+      );
+    });
+
+    it("each recipe is the mix tokens.css writes", () => {
+      for (const { path, recipe, css: expression, mode } of mixed) {
+        const mix = /^color-mix\(in ([a-z]+), (.+) (\d+)%, (.+)\)$/.exec(expression);
+        expect(mix, path).not.toBeNull();
+        expect(recipe, path).toEqual({
+          space: mix![1],
+          base: asRecipeOperand(mode, mix![2]!),
+          amount: Number(mix![3]) / 100,
+          with: asRecipeOperand(mode, mix![4]!),
+        });
+      }
+    });
+
+    it("each recipe recomputes to its $value and to the stylesheet", () => {
+      for (const { path, recipe, css: expression, mode } of mixed) {
+        expect(recipe.space, path).toBe("srgb");
+        const base = operand(recipe.base);
+        const other = operand(recipe.with);
+        const p = recipe.amount;
+        // sRGB mixing with premultiplied alpha, as color-mix() does.
+        const a = base.a * p + other.a * (1 - p);
+        const c = base.c.map((x, i) => (x * base.a * p + other.c[i]! * other.a * (1 - p)) / a);
+        const value = tokenColor(path);
+        expect(hexOf(c), `${path} $value`).toBe(hexOf(value.c));
+        expect(Math.round(a * 1000) / 1000, `${path} alpha`).toBe(value.a);
+        expect(hexOf(c), `${path} in tokens.css`).toBe(hexOf(color(mode, expression).c));
+      }
+    });
   });
 });

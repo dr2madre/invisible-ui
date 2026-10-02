@@ -244,7 +244,7 @@ const TIERS = [
   { tier: "radius", test: (n) => n.startsWith("--ds-radius-") },
   { tier: "elevation", test: (n) => n.startsWith("--ds-elevation-") },
   { tier: "typography", test: (n) => /^--ds-(font|line-height|heading)/.test(n) },
-  { tier: "sizing", test: (n) => n.startsWith("--ds-control-") },
+  { tier: "sizing", test: (n) => n.startsWith("--ds-control-") || n === "--ds-min-target-size" },
 ];
 const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other";
 
@@ -284,13 +284,12 @@ function cssNameForDtcg(path) {
 
 /**
  * Design-source paths with no stylesheet form, with the reason. The web
- * renders the regular density only, and each control sizes its own hit area.
+ * renders the regular density only.
  */
 function noStylesheetForm(path) {
   const parts = path.split(".");
   if (parts[0] !== "density") return null;
   if (parts[1] !== "regular") return "a density level the stylesheet does not render";
-  if (parts[2] === "min-target-size") return "a hit area each control sizes in its own styles";
   return null;
 }
 
