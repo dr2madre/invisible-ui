@@ -8,6 +8,7 @@ import {
 import { searchIcon } from "../internal/icons";
 import { createButton, ModalHost } from "../internal/modal-host";
 import { localized, t } from "../internal/i18n";
+import { defaultFilter, labelOf } from "../internal/listbox";
 
 export interface SearchDialogItem {
   value: string;
@@ -18,14 +19,6 @@ export interface SearchDialogItem {
   /** Shortcut hint shown on the result ("⌘S", or ["⌘", "S"] for a chord). */
   shortcut?: string | string[];
 }
-
-const labelOf = (item: SearchDialogItem) => item.label ?? item.value;
-
-const defaultFilter = (items: SearchDialogItem[], query: string) => {
-  const q = query.trim().toLowerCase();
-  if (!q) return items;
-  return items.filter((item) => labelOf(item).toLowerCase().includes(q));
-};
 
 // Ungrouped results first, then one run per group in order of first
 // appearance: keyboard navigation follows this order, so it must match what

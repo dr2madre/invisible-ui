@@ -1,5 +1,6 @@
 import { boolAttr, HTMLElementBase } from "../internal/base";
 import { localized, onLocaleChange } from "../internal/i18n";
+import { SVG_NS } from "../internal/icons";
 
 export type LoadingVariant = "dots" | "spinner" | "bar" | "typing" | "morph";
 
@@ -150,7 +151,7 @@ export class DsLoading extends HTMLElementBase {
     const indicator = document.createElement("span");
     indicator.className = "loading__indicator";
     if (variant === "spinner") {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      const svg = document.createElementNS(SVG_NS, "svg");
       svg.setAttribute("class", "loading__spinner");
       svg.setAttribute("viewBox", "0 0 24 24");
       svg.setAttribute("fill", "none");
@@ -159,7 +160,7 @@ export class DsLoading extends HTMLElementBase {
       svg.setAttribute("stroke-linecap", "round");
       svg.setAttribute("aria-hidden", "true");
       svg.setAttribute("focusable", "false");
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      const path = document.createElementNS(SVG_NS, "path");
       path.setAttribute("d", "M21 12a9 9 0 1 1-6.2-8.56");
       svg.appendChild(path);
       indicator.appendChild(svg);

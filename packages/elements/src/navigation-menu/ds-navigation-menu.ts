@@ -1,7 +1,17 @@
 import { navigationMenu as core } from "@design-system/core";
-import { applyProps, emit, HTMLElementBase, nextId, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  emit,
+  FOCUSABLE,
+  HTMLElementBase,
+  nextId,
+  numberAttr,
+  upgradeProperty,
+} from "../internal/base";
 import { attachFloating } from "../internal/floating";
+import { HoverDelay } from "../internal/hover-delay";
 import { pathIcon } from "../internal/icons";
+import { onOutside } from "../internal/outside";
 
 /** A link inside a navigation menu panel. */
 export interface NavigationMenuLink {
@@ -18,13 +28,7 @@ export interface NavigationMenuItem {
   links?: NavigationMenuLink[];
 }
 
-const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const CHEVRON_DOWN = "M6 9l6 6 6-6";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const value = Number(element.getAttribute(name));
-  return element.hasAttribute(name) && Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-navigation-menu>` — a site navigation bar where some items reveal a
@@ -50,8 +54,7 @@ export class DsNavigationMenu extends HTMLElementBase {
   #nav: HTMLElement | null = null;
   #triggers = new Map<string, HTMLButtonElement>();
   #panel: HTMLDivElement | null = null;
-  #openTimer: ReturnType<typeof setTimeout> | undefined;
-  #closeTimer: ReturnType<typeof setTimeout> | undefined;
+  #delay = new HoverDelay();
   #cleanup: (() => void) | null = null;
   #warnedLabel = false;
 
@@ -114,16 +117,11 @@ export class DsNavigationMenu extends HTMLElementBase {
   }
 
   #hold() {
-    clearTimeout(this.#openTimer);
-    clearTimeout(this.#closeTimer);
+    this.#delay.cancel();
   }
 
   #scheduleClose = () => {
-    this.#hold();
-    this.#closeTimer = setTimeout(
-      () => this.#setValue(null, true),
-      numberAttr(this, "close-delay", 150),
-    );
+    this.#delay.schedule(numberAttr(this, "close-delay", 150), () => this.#setValue(null, true));
   };
 
   #onTriggerEnter(value: string, event: PointerEvent) {
@@ -133,10 +131,7 @@ export class DsNavigationMenu extends HTMLElementBase {
     this.#hold();
     if (this.#value !== null && this.#value !== value) this.#setValue(value, true);
     else if (this.#value === null) {
-      this.#openTimer = setTimeout(
-        () => this.#setValue(value, true),
-        numberAttr(this, "open-delay", 150),
-      );
+      this.#delay.schedule(numberAttr(this, "open-delay", 150), () => this.#setValue(value, true));
     }
   }
 
@@ -228,22 +223,17 @@ export class DsNavigationMenu extends HTMLElementBase {
     this.#panel = panel;
 
     const stopFloating = attachFloating(trigger, panel, { placement: "bottom-start", offset: 8 });
-    const onOutside = (event: Event) => {
-      const target = event.target as Node;
-      if (trigger.contains(target) || panel.contains(target)) return;
-      this.#setValue(null, true);
-    };
+    const stopOutside = onOutside([trigger, panel], () => this.#setValue(null, true));
     // Tab out of the trigger and panel closes; focus stays where it went.
     const onFocusOut = (event: FocusEvent) => {
       const next = event.relatedTarget as Node | null;
       if (next && !trigger.contains(next) && !panel.contains(next)) this.#setValue(null, true);
     };
-    document.addEventListener("pointerdown", onOutside, true);
     trigger.addEventListener("focusout", onFocusOut);
     panel.addEventListener("focusout", onFocusOut);
     this.#cleanup = () => {
       stopFloating();
-      document.removeEventListener("pointerdown", onOutside, true);
+      stopOutside();
       trigger.removeEventListener("focusout", onFocusOut);
       panel.removeEventListener("focusout", onFocusOut);
       // A hover delay still pending, such as the one a pointer click starts,

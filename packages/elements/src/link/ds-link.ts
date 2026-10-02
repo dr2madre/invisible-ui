@@ -1,8 +1,7 @@
 import { boolAttr, HTMLElementBase, syncAttribute, upgradeProperty } from "../internal/base";
+import { SVG_NS } from "../internal/icons";
 
 export type LinkVariant = "primary" | "subtle";
-
-const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** The arrow that marks a link opening in a new tab. */
 function externalIcon(): SVGSVGElement {

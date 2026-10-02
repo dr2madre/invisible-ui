@@ -1,13 +1,6 @@
-import { boolAttr, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { boolAttr, HTMLElementBase, numberAttr, upgradeProperty } from "../internal/base";
 
 export type CountStatus = "danger" | "neutral" | "info" | "success" | "warning";
-
-const numberAttr = (element: Element, name: string, fallback: number) => {
-  const raw = element.getAttribute(name);
-  if (raw == null || raw.trim() === "") return fallback;
-  const value = Number(raw);
-  return Number.isFinite(value) ? value : fallback;
-};
 
 /**
  * `<ds-count>` renders a notification count or presence dot.

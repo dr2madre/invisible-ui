@@ -5,15 +5,12 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  sameItems,
   upgradeProperty,
 } from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon } from "../internal/icons";
-
-/** Same values in the same order. */
-const sameValues = (a: string[], b: string[] | null) =>
-  b != null && a.length === b.length && a.every((value, index) => value === b[index]);
 
 /**
  * `<ds-checkbox-group>` — several checkboxes under one legend, as a custom
@@ -180,7 +177,7 @@ export class DsCheckboxGroup extends HTMLElementBase {
     // click, and an echo is not a new default (ADR 0012).
     const value = this.value;
     const shown = [...this.#inputs].filter(([, input]) => input.checked).map(([item]) => item);
-    if (!sameValues(value, shown)) this.#defaultValue = value;
+    if (!sameItems(value, shown)) this.#defaultValue = value;
 
     this.#legend!.textContent = this.getAttribute("label") ?? "";
 

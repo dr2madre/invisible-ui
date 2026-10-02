@@ -1,6 +1,7 @@
 import type { CalendarView, DsCalendar } from "../calendar/ds-calendar";
 import { emit, upgradeProperty } from "../internal/base";
-import { asDate, dt, PickerField } from "../date-picker/picker-field";
+import { PickerField } from "../date-picker/picker-field";
+import { asDate, dt } from "../internal/date";
 
 /**
  * `<ds-date-range-picker>` — a field that opens a range `<ds-calendar>` in a

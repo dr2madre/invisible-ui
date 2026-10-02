@@ -1,10 +1,12 @@
 import { combobox as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
 import { FieldMessages } from "../internal/field-message";
+import { attachFloating } from "../internal/floating";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon, chevronIcon, closeIcon, pathIcon, searchIcon } from "../internal/icons";
 import { localized, onLocaleChange, t } from "../internal/i18n";
+import { defaultFilter, labelOf } from "../internal/listbox";
+import { onOutside } from "../internal/outside";
 
 export interface ComboboxItem {
   value: string;
@@ -13,14 +15,6 @@ export interface ComboboxItem {
   /** Optional leading icon (an SVG path `d` string). */
   icon?: string;
 }
-
-const defaultFilter = (items: ComboboxItem[], query: string) => {
-  const q = query.trim().toLowerCase();
-  if (!q) return items;
-  return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
-};
-
-const labelOf = (item: ComboboxItem) => item.label ?? item.value;
 
 /**
  * `<ds-combobox>` — the editable autocomplete (and the design system's
@@ -83,8 +77,7 @@ export class DsCombobox extends HTMLElementBase {
   };
   #id = "";
   #searchable = true;
-  #stopFloating: (() => void) | null = null;
-  #onOutside: ((event: Event) => void) | null = null;
+  #stopOpen: (() => void) | null = null;
   #lastToggle = -Infinity;
   #renderedItems: ComboboxItem[] | null = null;
 
@@ -464,39 +457,19 @@ export class DsCombobox extends HTMLElementBase {
     this.#teardownOpen();
     const input = this.#input!;
     const listbox = this.#listbox!;
-    const reposition = () => {
-      // Measured here rather than once: reconnecting can land in a subtree
-      // that is not laid out yet, where the width reads as zero.
-      listbox.style.minWidth = `${input.offsetWidth}px`;
-      computePosition(input, listbox, {
-        placement: "bottom-start",
-        strategy: "fixed",
-        middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-      }).then(({ x, y }) => {
-        listbox.style.left = `${x}px`;
-        listbox.style.top = `${y}px`;
-      });
+    const stopFloating = attachFloating(input, listbox, { sameWidth: input });
+    const stopOutside = onOutside([this.#control!, listbox], () =>
+      this.#update({ open: false, activeValue: null }),
+    );
+    this.#stopOpen = () => {
+      stopFloating();
+      stopOutside();
     };
-    this.#stopFloating =
-      typeof ResizeObserver !== "undefined"
-        ? autoUpdate(input, listbox, reposition)
-        : (reposition(), () => {});
-
-    this.#onOutside = (event: Event) => {
-      const target = event.target as Node;
-      if (this.#control?.contains(target) || listbox.contains(target)) return;
-      this.#update({ open: false, activeValue: null });
-    };
-    document.addEventListener("pointerdown", this.#onOutside, true);
   }
 
   #teardownOpen() {
-    this.#stopFloating?.();
-    this.#stopFloating = null;
-    if (this.#onOutside) {
-      document.removeEventListener("pointerdown", this.#onOutside, true);
-      this.#onOutside = null;
-    }
+    this.#stopOpen?.();
+    this.#stopOpen = null;
   }
 
   /**
