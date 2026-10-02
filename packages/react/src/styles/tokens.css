@@ -91,6 +91,10 @@
      Combobox line up at the same height + font when placed side by side. */
   --ds-control-padding-y: 0.5rem;
   --ds-control-padding-x: 0.875rem;
+  /* The side of the smallest square hit area a control keeps, whatever its
+     painted size: 24 by 24 meets WCAG 2.5.8. The regular density only; the
+     compact and touch levels are not specified yet. */
+  --ds-min-target-size: 24px; /* smallest hit area a control keeps */
 
   /* Selection color (checked/selected states). Alias of the secondary (violet);
      distinct in name from the primary ACTION color, even if both are violet in

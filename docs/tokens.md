@@ -31,12 +31,13 @@ gets the same theme from the same file:
 | `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection. | `role.dark.color-text` is `--ds-color-text` in the dark theme |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
-| `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x` |
+| `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size` |
 
 - **Roles.** A role that `tokens.css` points at another token keeps the
   reference (`{palette.grey.900}`, `{style.danger.hover}`). A role that
   `tokens.css` builds with `color-mix()` holds the computed sRGB value to the
-  nearest 8-bit channel, because DTCG has no colour mixing. A translucent role
+  nearest 8-bit channel, because DTCG has no colour mixing, and carries the mix
+  itself as a recipe (see [Mix recipes](#mix-recipes)). A translucent role
   (`state-hover`, `color-focus-halo`) uses the DTCG colour object, which keeps
   the exact alpha. The dark focus ring is `{style.focus.onDark}`.
 - **Density.** `regular` is the default and holds the values the web renders
@@ -44,8 +45,54 @@ gets the same theme from the same file:
   control keeps, whatever its painted size: 24 under `compact` and `regular`
   (WCAG 2.5.8), 44 under `touch`. `compact` and `touch` hold only that value
   for now: no other compact or touch size has been decided. The stylesheet
-  renders the regular level only, so the compact and touch values and the
-  target sizes have no `--ds-*` property.
+  renders the regular level only: `--ds-min-target-size` is the regular
+  value, 24px, and the compact and touch levels have no `--ds-*` property
+  and no per-density selector. Components still write their own 24px
+  minimum; the property is there for consumer styles to read.
+
+## Mix recipes
+
+Each colour that `tokens.css` builds with `color-mix()` keeps the resolved
+colour in `$value` and the mix it comes from under `$extensions`, with the
+key `com.invisible-ui.mix`. That covers the mixed roles of `role.light` and
+`role.dark` and `style.focus.onDark`:
+
+```json
+"color-info-surface": {
+  "$value": "#f0f3f9",
+  "$extensions": {
+    "com.invisible-ui.mix": {
+      "space": "srgb",
+      "base": "{style.info.default}",
+      "amount": 0.08,
+      "with": "{palette.grey.0}"
+    }
+  }
+}
+```
+
+The fields read in the order of the CSS: `color-mix(in srgb,
+var(--ds-feedback-info) 8%, var(--ds-neutral-0))`.
+
+| Field | Holds |
+| --- | --- |
+| `space` | The colour space of the mix. Every recipe today is `srgb`. |
+| `base` | The first colour, as a token reference. |
+| `amount` | The share of `base` in the mix, from 0 to 1. `with` takes the rest. |
+| `with` | The second colour: a token reference, or `transparent` (the focus halo). |
+
+A reference names the token the stylesheet reads. A role that `tokens.css`
+mixes from another role points at that role in the same theme
+(`{role.dark.color-secondary}`); one that mixes a brand, feedback or neutral
+primitive points at `style` or `palette`.
+
+The recipe is there so a platform without `color-mix()` can recolour its
+tints. The Flutter adapter (ADR 0017) builds its theme from the resolved
+values; an app that overrides a brand or feedback colour recomputes each
+role whose recipe reads that colour, as the stylesheet does at runtime.
+To recompute, mix each channel in sRGB with premultiplied alpha, then round
+to the nearest 8-bit value. The parity test does this for every recipe and
+checks the result against `$value` and against `tokens.css`.
 
 ## Naming grammar
 
@@ -75,7 +122,9 @@ optional; property after a double dash. Canonical states:
   `color-mix()` arithmetic), and asserts the two are equal. It also fails when
   the stylesheet gains a colour role the source lacks.
 - The token registry (`pnpm tokens:check`) fails when a token in the source
-  has no property in the stylesheet, except the density values above.
+  has no property in the stylesheet, except the compact and touch density
+  levels. It leaves the mix recipes out: its entries already carry the
+  stylesheet's `color-mix()` expressions.
 
 ## Why the runtime stays in `tokens.css`
 
@@ -85,4 +134,5 @@ remapping through `prefers-color-scheme` and `[data-theme]`, tinted surfaces
 mixed from the feedback hue with `color-mix()` (so a brand or feedback
 override recolours its tints), the fallback for engines without `color-mix()`,
 the composed focus shadow and the elevation shadows. The source holds the
-resolved values of the same roles, and the parity test keeps the two equal.
+resolved values of the same roles and their mix recipes, and the parity test
+keeps the two equal.
