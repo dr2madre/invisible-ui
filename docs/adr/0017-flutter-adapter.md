@@ -45,6 +45,10 @@ packages, and the widgets layer has the primitives a headless adapter needs
 (`Semantics`, `Shortcuts` and `Actions`, `OverlayPortal`, `RawMenuAnchor`,
 `Form`).
 
+The working guidance for the Flutter team, which adds the Flutter-specific
+constraints and review criteria to this record, is in
+[`docs/flutter-team-guidance.md`](../flutter-team-guidance.md).
+
 ## Decision
 
 ### 1. Behaviour parity without `core/`
@@ -89,13 +93,14 @@ DOM-shaped); parity by review alone (no record of what was compared).
 
 ### 2. State and callbacks
 
-The rules of [ADR 0011](./0011-state-and-callback-conventions.md) apply
-unchanged; only the wiring is Dart.
+The rules of [ADR 0011](./0011-state-and-callback-conventions.md) apply to
+behaviour unchanged; the wiring and the names are idiomatic Dart and Flutter.
+Parity with the web adapters covers behaviour and meaning, not necessarily
+property names.
 
 - **Controlled and uncontrolled.** A stateful widget has a controlled
-  constructor, `Switch(value: …, onValueChange: …)`, and an uncontrolled
-  named constructor, `Switch.uncontrolled(defaultValue: …, onValueChange:
-  …)`. Two constructors keep `null` usable as a value: an empty
+  constructor, `Switch(value: …, onChanged: …)`, and an uncontrolled
+  named constructor, `Switch.uncontrolled(initialValue: …, onChanged: …)`. Two constructors keep `null` usable as a value: an empty
   `NumberField` is `value: null`, distinct from `0`, in both modes.
 - **Reflection never emits.** `didUpdateWidget` applies a changed `value`
   to the internal state and calls no callback. It compares the new value
@@ -107,9 +112,13 @@ unchanged; only the wiring is Dart.
   before it reports the chosen item.
 - **Live replacement.** Callbacks are read from `widget` at call time,
   never stored in `initState`.
-- **Names.** The ADR 0011 vocabulary carries over: `value`,
-  `defaultValue`, `onValueChange`, `open`, `onOpenChange`, `disabled`,
-  `readOnly`, `invalid`, `required`.
+- **Names.** Idiomatic Flutter names, not the web prop names: `onChanged`
+  for a value control (where the web says `onValueChange`), `initialValue`
+  for the uncontrolled default (`defaultValue`), `onSelected` for menus and
+  segmented choices, `onPressed` for buttons, and the names Flutter's own
+  widgets use for open state and enabled state. Each component's parity
+  checklist maps its Flutter names to the ADR 0011 names, so the behaviour
+  stays comparable.
 - **Text and values.** Draft and committed value stay apart; the draft
   commits on blur, Enter or a step action; Escape reverts it and is
   consumed only when it undid something, so an enclosing dialog still
@@ -119,11 +128,13 @@ unchanged; only the wiring is Dart.
   restores the current default (the last `value` passed, under the same
   give-back rule) and calls no change callback.
 
-**Recommendation:** two constructors per stateful widget, ADR 0011 names,
-form reset in scope through `FormField`.
+**Decision:** two constructors per stateful widget, idiomatic Flutter names
+mapped to ADR 0011 in each parity checklist, form reset in scope through
+`FormField`.
 
-Alternatives considered: Flutter's `onChanged` name (idiomatic in Flutter,
-breaks the cross-adapter vocabulary and the generated docs); controller
+Alternatives considered: the ADR 0011 names in Dart (one vocabulary across
+adapters, but foreign to Flutter developers, who expect `onChanged`);
+controller
 objects for every value, in the style of `TextEditingController` (more
 code for each consumer and a second source of truth; text widgets may
 accept a controller as well, see the open questions); declaring form reset
@@ -413,6 +424,12 @@ Recorded by the maintainer on 2026-10-02:
    as a theme or preset, not as new global defaults. Invisible UI shares
    behaviour, accessibility and semantic tokens; it does not impose one look
    on every product.
+
+Recorded by the maintainer on 2026-10-03:
+
+6. **API names.** Flutter APIs are idiomatic Flutter APIs. Parity with the
+   web adapters covers behaviour and meaning, not necessarily property names
+   (for example `onChanged` where the web says `onValueChange`).
 
 ## Open questions, not blocking
 
