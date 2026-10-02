@@ -6,7 +6,7 @@
 //   node scripts/generate-token-registry.mjs --check  # fail if it is stale
 //
 // Sources, in order of authority:
-//   1. packages/svelte/tokens/tokens.json  — the design-owned DTCG source
+//   1. packages/tokens/tokens.json  — the design-owned DTCG source
 //   2. packages/svelte/src/lib/styles/tokens.css — the runtime theme that ships
 //   3. the other three adapters' tokens.css — to record who exposes what
 //   4. packages/docs/src/data/token-notes.json — the only hand-written part:
@@ -26,7 +26,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
 const rel = (path) => relative(root, path).split("\\").join("/");
 
-const DTCG = resolve(root, "packages/svelte/tokens/tokens.json");
+const DTCG = resolve(root, "packages/tokens/tokens.json");
 const SHEETS = {
   svelte: resolve(root, "packages/svelte/src/lib/styles/tokens.css"),
   vue: resolve(root, "packages/vue/src/styles/tokens.css"),
@@ -251,10 +251,19 @@ const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other
 /**
  * The CSS name a DTCG path ships as. `palette.grey.700` becomes
  * `--ds-neutral-700`, `style.primary.hover` becomes `--ds-brand-primary-hover`,
- * `style.danger.default` becomes `--ds-feedback-danger`.
+ * `style.danger.default` becomes `--ds-feedback-danger`. The role, focus,
+ * typography and regular density tiers name the property itself:
+ * `role.dark.color-text` is `--ds-color-text`, `focus.ring-width` is
+ * `--ds-focus-ring-width`.
  */
 function cssNameForDtcg(path) {
   const parts = path.split(".");
+  if (parts[0] === "role" && parts.length === 3) return `--ds-${parts[2]}`;
+  if (parts[0] === "focus" && parts.length === 2) return `--ds-focus-${parts[1]}`;
+  if (parts[0] === "typography" && parts.length === 2) return `--ds-${parts[1]}`;
+  if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {
+    return `--ds-${parts[2]}`;
+  }
   if (parts[0] === "palette") {
     const hue = parts[1] === "grey" ? "neutral" : parts[1];
     return `--ds-${hue}-${parts[2]}`;
@@ -270,6 +279,18 @@ function cssNameForDtcg(path) {
     const suffix = parts[2] === "default" ? "" : `-${parts[2]}`;
     return `--ds-${family}-${parts[1]}${suffix}`;
   }
+  return null;
+}
+
+/**
+ * Design-source paths with no stylesheet form, with the reason. The web
+ * renders the regular density only, and each control sizes its own hit area.
+ */
+function noStylesheetForm(path) {
+  const parts = path.split(".");
+  if (parts[0] !== "density") return null;
+  if (parts[1] !== "regular") return "a density level the stylesheet does not render";
+  if (parts[2] === "min-target-size") return "a hit area each control sizes in its own styles";
   return null;
 }
 
@@ -760,8 +781,9 @@ function gates(registry, byName, adapters, notes, dtcgPaths, componentNotes) {
   }
 
   // 2b. Every token in the design source must ship as a CSS token, or the two
-  // have quietly diverged.
+  // have quietly diverged. The paths noStylesheetForm names are the exception.
   for (const path of dtcgPaths) {
+    if (noStylesheetForm(path)) continue;
     const name = cssNameForDtcg(path);
     if (!name) problems.push(`the design source defines ${path}, which maps to no CSS name`);
     else if (!known.has(name)) {

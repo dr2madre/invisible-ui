@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/amzn/style-dictionary/main/types/config.schema.json",
-  "source": ["tokens/tokens.json"],
+  "source": ["../tokens/tokens.json"],
   "platforms": {
     "css": {
       "transformGroup": "css",
