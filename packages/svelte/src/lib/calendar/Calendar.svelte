@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   /** An appointment/event on a given day, shown as a coloured dot. */
   export interface CalendarEvent {
     /** ISO `YYYY-MM-DD`. */
@@ -7,6 +7,20 @@
     label?: string;
     /** Semantic tone for the dot. */
     tone?: "primary" | "success" | "warning" | "danger" | "neutral";
+  }
+
+  /** What the `day` snippet receives for each day of the grid views. */
+  export interface CalendarDayContext {
+    /** ISO `YYYY-MM-DD`. */
+    date: string;
+    /** Whether the day belongs to the month shown. */
+    inMonth: boolean;
+    /** Whether the day is the selected one. */
+    selected: boolean;
+    /** The day's events. */
+    events: CalendarEvent[];
+    /** The day's price label, if any. */
+    price: string | undefined;
   }
 </script>
 
@@ -20,16 +34,18 @@
    * Views: `month`, `two-month` (two months side by side), `week`,
    * `three-day`, `day` (these last three are day-column agendas). Each day can
    * show **appointment dots** (`events`) and a **price** (`prices`), or custom
-   * content via the `day` slot
-   * (`let:date let:inMonth let:today let:selected let:events let:price`).
+   * content via the `day` snippet
+   * (`{ date, inMonth, selected, events, price }`).
    * Colours, radius and sizing are themeable via `--ds-calendar-*`.
    */
-  import { createCalendar, type CalendarView, type WeekStart } from "./create-calendar";
+  import { untrack, type Snippet } from "svelte";
+  import { createCalendar, localDate, type CalendarView, type WeekStart } from "./create-calendar";
   import { calendar as core, i18n } from "@design-system/core";
   import SegmentedControl from "../segmented-control/SegmentedControl.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { MessageKey } from "../i18n/messages";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t, locale: providerLocale } = getI18n();
 
@@ -45,49 +61,77 @@
     toISO,
   } = core;
 
-  export let value: string | null = null;
-  export let focusedDate: string | undefined = undefined;
-  export let view: CalendarView = "month";
-  export let weekStartsOn: WeekStart = 1;
-  export let min: string | undefined = undefined;
-  export let max: string | undefined = undefined;
-  /** BCP-47 locale for month/weekday names. Defaults to the provider's locale. */
-  export let locale: string | undefined = undefined;
+  interface Props {
+    value?: string | null;
+    focusedDate?: string;
+    view?: CalendarView;
+    weekStartsOn?: WeekStart;
+    min?: string;
+    max?: string;
+    /** BCP-47 locale for month/weekday names. Defaults to the provider's locale. */
+    locale?: string;
+    /** Appointment dots, keyed by their `date`. */
+    events?: CalendarEvent[];
+    /** Per-day price label, keyed by ISO date (e.g. `{ "2026-06-25": "€120" }`). */
+    prices?: Record<string, string>;
+    /** Maximum dots rendered before a "+N" overflow marker (grid views). */
+    maxDots?: number;
+    /** Year view: how many mini-months per row. Defaults to 1 (stacked). */
+    yearColumns?: number;
+    /** Views offered in the built-in switcher. With one entry no switcher shows. */
+    views?: CalendarView[];
+    /** Override the switcher labels per view. */
+    viewLabels?: Partial<Record<CalendarView, string>>;
+    showToday?: boolean;
+    // Labels default to the i18n catalog (overridable per instance or via LocaleProvider).
+    prevLabel?: string;
+    nextLabel?: string;
+    todayLabel?: string;
+    viewsLabel?: string;
+    /** Accessible name for the grid. */
+    label?: string;
+    /** Selection mode: a single date, or a start–end `range`. */
+    mode?: "single" | "range";
+    /** Range endpoints (ISO), used when `mode="range"`. */
+    rangeStart?: string | null;
+    rangeEnd?: string | null;
+    onValueChange?: (iso: string) => void;
+    onFocusChange?: (iso: string) => void;
+    onViewChange?: (view: CalendarView) => void;
+    onRangeChange?: (start: string | null, end: string | null) => void;
+    /** Custom content of a day in the grid views, replacing the number, dots and price. */
+    day?: Snippet<[CalendarDayContext]>;
+  }
 
-  /** Appointment dots, keyed by their `date`. */
-  export let events: CalendarEvent[] = [];
-  /** Per-day price label, keyed by ISO date (e.g. `{ "2026-06-25": "€120" }`). */
-  export let prices: Record<string, string> = {};
-  /** Maximum dots rendered before a "+N" overflow marker (grid views). */
-  export let maxDots = 3;
-  /** Year view: how many mini-months per row. Defaults to 1 (stacked). */
-  export let yearColumns = 1;
-
-  /** Views offered in the built-in switcher. With one entry no switcher shows. */
-  export let views: CalendarView[] = ["month"];
-  /** Override the switcher labels per view. */
-  export let viewLabels: Partial<Record<CalendarView, string>> = {};
-
-  export let showToday = true;
-  // Labels default to the i18n catalog (overridable per instance or via LocaleProvider).
-  export let prevLabel: string | undefined = undefined;
-  export let nextLabel: string | undefined = undefined;
-  export let todayLabel: string | undefined = undefined;
-  export let viewsLabel: string | undefined = undefined;
-  /** Accessible name for the grid. */
-  export let label: string | undefined = undefined;
-
-  /** Selection mode: a single date, or a start–end `range`. */
-  export let mode: "single" | "range" = "single";
-  /** Range endpoints (ISO), used when `mode="range"`. */
-  export let rangeStart: string | null = null;
-  export let rangeEnd: string | null = null;
-
-  export let onValueChange: ((iso: string) => void) | undefined = undefined;
-  export let onFocusChange: ((iso: string) => void) | undefined = undefined;
-  export let onViewChange: ((view: CalendarView) => void) | undefined = undefined;
-  export let onRangeChange: ((start: string | null, end: string | null) => void) | undefined =
-    undefined;
+  let {
+    value = $bindable(null),
+    focusedDate = $bindable(),
+    view = $bindable("month"),
+    weekStartsOn = 1,
+    min,
+    max,
+    locale,
+    events = [],
+    prices = {},
+    maxDots = 3,
+    yearColumns = 1,
+    views = ["month"],
+    viewLabels = {},
+    showToday = true,
+    prevLabel,
+    nextLabel,
+    todayLabel,
+    viewsLabel,
+    label,
+    mode = "single",
+    rangeStart = $bindable(null),
+    rangeEnd = $bindable(null),
+    onValueChange,
+    onFocusChange,
+    onViewChange,
+    onRangeChange,
+    day,
+  }: Props = $props();
 
   // In range mode each click extends or restarts the range; otherwise it's a
   // single selection. The range rule lives in core so both adapters share it.
@@ -102,18 +146,22 @@
     }
   }
 
-  const calendar = createCalendar({
-    value,
-    focusedDate,
-    view,
-    weekStartsOn,
-    min,
-    max,
-    onValueChange: handleSelect,
-    // Live callback references (ADR 0011).
-    onFocusChange: (next) => onFocusChange?.(next),
-    onViewChange: (next) => onViewChange?.(next),
-  });
+  // Seeded once from the first props; the effect and the mirrors below follow
+  // later ones.
+  const calendar = untrack(() =>
+    createCalendar({
+      value,
+      focusedDate,
+      view,
+      weekStartsOn,
+      min,
+      max,
+      onValueChange: handleSelect,
+      // Live callback references (ADR 0011).
+      onFocusChange: (next) => onFocusChange?.(next),
+      onViewChange: (next) => onViewChange?.(next),
+    }),
+  );
   const {
     state: calState,
     api,
@@ -124,60 +172,66 @@
     syncValue,
     syncFocus,
     syncView,
+    syncConfig,
   } = calendar;
+
+  // Constraints changed after mount reach the machine, and report nothing.
+  $effect.pre(() => {
+    syncConfig({ min, max, weekStartsOn });
+  });
 
   // Controllable mirrors, compared against the last prop values (ADR 0011): a
   // sync never reports a change.
-  let lastValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    syncValue(value);
-  }
-  let lastFocusedDate = focusedDate;
-  $: if (focusedDate !== lastFocusedDate) {
-    lastFocusedDate = focusedDate;
-    if (focusedDate !== undefined) syncFocus(focusedDate);
-  }
-  let lastView = view;
-  $: if (view !== lastView) {
-    lastView = view;
-    syncView(view);
-  }
+  controllable({ get: () => value, reflect: syncValue });
+  controllable({
+    get: () => focusedDate,
+    reflect: (next) => {
+      if (next !== undefined) syncFocus(next);
+    },
+  });
+  controllable({ get: () => view, reflect: syncView });
 
-  $: switcherItems = views.map((v) => ({
-    value: v,
-    label: viewLabels[v] ?? $t(`calendar.view.${v}` as MessageKey),
-  }));
+  const switcherItems = $derived(
+    views.map((v) => ({
+      value: v,
+      label: viewLabels[v] ?? $t(`calendar.view.${v}` as MessageKey),
+    })),
+  );
 
   // Intl formatters through the shared cached factories: the explicit prop
   // wins, then the provider's resolved locale; never the runtime default.
-  const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-  $: resolvedLocale = locale ?? $providerLocale;
-  $: titleFmt = i18n.dateTimeFormat(resolvedLocale, { month: "long", year: "numeric" });
-  $: rangeFmt = i18n.dateTimeFormat(resolvedLocale, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-  $: weekdayShort = i18n.dateTimeFormat(resolvedLocale, { weekday: "short" });
-  $: weekdayLong = i18n.dateTimeFormat(resolvedLocale, { weekday: "long" });
-  $: dayFmt = i18n.dateTimeFormat(resolvedLocale, {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const resolvedLocale = $derived(locale ?? $providerLocale);
+  const titleFmt = $derived(
+    i18n.dateTimeFormat(resolvedLocale, { month: "long", year: "numeric" }),
+  );
+  const rangeFmt = $derived(
+    i18n.dateTimeFormat(resolvedLocale, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }),
+  );
+  const weekdayShort = $derived(i18n.dateTimeFormat(resolvedLocale, { weekday: "short" }));
+  const weekdayLong = $derived(i18n.dateTimeFormat(resolvedLocale, { weekday: "long" }));
+  const dayFmt = $derived(
+    i18n.dateTimeFormat(resolvedLocale, {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+  );
   // A reference Sunday (2024-01-07) to render weekday names from an index.
   const weekdayName = (fmt: Intl.DateTimeFormat, wd: number) =>
     fmt.format(new Date(Date.UTC(2024, 0, 7 + wd)));
 
-  $: v = $calState.view;
-  $: ref = describe($calState.focusedDate);
-  $: order = weekdayOrder($calState.weekStartsOn);
-  $: isGrid = v === "month" || v === "two-month";
+  const v = $derived($calState.view);
+  const ref = $derived(describe($calState.focusedDate));
+  const order = $derived(weekdayOrder($calState.weekStartsOn));
+  const isGrid = $derived(v === "month" || v === "two-month");
 
   // The month(s) shown by the grid views.
-  $: gridMonths =
+  const gridMonths = $derived(
     v === "two-month"
       ? [
           { year: ref.year, month: ref.month },
@@ -186,54 +240,61 @@
             return { year: n.year, month: n.month };
           })(),
         ]
-      : [{ year: ref.year, month: ref.month }];
+      : [{ year: ref.year, month: ref.month }],
+  );
 
   // The consecutive days shown by the agenda views.
-  $: agendaDays =
+  const agendaDays = $derived(
     v === "week"
       ? weekDays($calState.focusedDate, $calState.weekStartsOn)
       : v === "three-day"
         ? rangeDays($calState.focusedDate, 3)
         : v === "day"
           ? rangeDays($calState.focusedDate, 1)
-          : [];
+          : [],
+  );
 
   // Group events by date for O(1) per-cell lookup.
-  $: eventsByDate = events.reduce<Record<string, CalendarEvent[]>>((acc, ev) => {
-    (acc[ev.date] ??= []).push(ev);
-    return acc;
-  }, {});
+  const eventsByDate = $derived(
+    events.reduce<Record<string, CalendarEvent[]>>((acc, ev) => {
+      (acc[ev.date] ??= []).push(ev);
+      return acc;
+    }, {}),
+  );
 
-  $: yearFmt = i18n.dateTimeFormat(resolvedLocale, { year: "numeric" });
-  $: shortMonthFmt = i18n.dateTimeFormat(resolvedLocale, { month: "long" });
+  const yearFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { year: "numeric" }));
+  const shortMonthFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { month: "long" }));
   const shortMonthName = (year: number, month: number) =>
     shortMonthFmt.format(new Date(Date.UTC(year, month - 1, 1)));
   // Narrow weekday initials for the simplified mini-months.
-  $: weekdayNarrow = i18n.dateTimeFormat(resolvedLocale, { weekday: "narrow" });
+  const weekdayNarrow = $derived(i18n.dateTimeFormat(resolvedLocale, { weekday: "narrow" }));
 
-  $: periodTitle = (() => {
+  const periodTitle = $derived.by(() => {
     const f = $calState.focusedDate;
-    if (v === "year") return yearFmt.format(dt(f));
-    if (v === "day") return dayFmt.format(dt(f));
+    if (v === "year") return yearFmt.format(localDate(f));
+    if (v === "day") return dayFmt.format(localDate(f));
     if (v === "week") {
       const days = weekDays(f, $calState.weekStartsOn);
-      return rangeFmt.formatRange(dt(days[0]!.date), dt(days[6]!.date));
+      return rangeFmt.formatRange(localDate(days[0]!.date), localDate(days[6]!.date));
     }
     if (v === "three-day") {
       const days = rangeDays(f, 3);
-      return rangeFmt.formatRange(dt(days[0]!.date), dt(days[2]!.date));
+      return rangeFmt.formatRange(localDate(days[0]!.date), localDate(days[2]!.date));
     }
     if (v === "two-month") {
-      return titleFmt.formatRange(dt(startOfMonth(f)), dt(addMonths(startOfMonth(f), 1)));
+      return titleFmt.formatRange(
+        localDate(startOfMonth(f)),
+        localDate(addMonths(startOfMonth(f), 1)),
+      );
     }
-    return titleFmt.format(dt(f));
-  })();
+    return titleFmt.format(localDate(f));
+  });
 
   const monthLabel = (gm: { year: number; month: number }) =>
     titleFmt.format(new Date(Date.UTC(gm.year, gm.month - 1, 1)));
 
   const dayAria = (iso: string, count: number, price: string | undefined) => {
-    let aria = dayFmt.format(dt(iso));
+    let aria = dayFmt.format(localDate(iso));
     if (count) aria += `, ${count} ${count === 1 ? "event" : "events"}`;
     if (price) aria += `, ${price}`;
     return aria;
@@ -254,7 +315,7 @@
       {/if}
       <div class="calendar__nav">
         {#if showToday}
-          <button type="button" class="calendar__today" on:click={() => $api.goToday()}>
+          <button type="button" class="calendar__today" onclick={() => $api.goToday()}>
             {todayLabel ?? $t("calendar.today")}
           </button>
         {/if}
@@ -262,7 +323,7 @@
           type="button"
           class="calendar__arrow"
           aria-label={prevLabel ?? $t("calendar.previous")}
-          on:click={() => $api.goPrev()}
+          onclick={() => $api.goPrev()}
         >
           <Icon size="1.25rem"><polyline points="15 18 9 12 15 6" /></Icon>
         </button>
@@ -270,7 +331,7 @@
           type="button"
           class="calendar__arrow"
           aria-label={nextLabel ?? $t("calendar.next")}
-          on:click={() => $api.goNext()}
+          onclick={() => $api.goNext()}
         >
           <Icon size="1.25rem"><polyline points="9 18 15 12 9 6" /></Icon>
         </button>
@@ -322,8 +383,7 @@
                         core.isWithinRange({ start: rangeStart, end: rangeEnd }, cell.date)}
                       <div class="calendar__cell" role="gridcell" use:cellAction={cell.date}>
                         <button
-                          class="calendar__day"
-                          class:calendar__day--outside={!inMonth}
+                          class={["calendar__day", !inMonth && "calendar__day--outside"]}
                           use:dayAction={cell.date}
                           data-range-start={mode === "range" && cell.date === rangeStart
                             ? ""
@@ -334,18 +394,21 @@
                           data-in-range={inSpan ? "" : undefined}
                           aria-label={dayAria(cell.date, dayEvents.length, price)}
                         >
-                          <slot
-                            name="day"
-                            date={cell.date}
-                            {inMonth}
-                            selected={$calState.value === cell.date}
-                            events={dayEvents}
-                            {price}
-                          >
+                          {#if day}
+                            {@render day({
+                              date: cell.date,
+                              inMonth,
+                              selected: $calState.value === cell.date,
+                              events: dayEvents,
+                              price,
+                            })}
+                          {:else}
                             <span class="calendar__daynum">{cell.day}</span>
                             {#if dayEvents.length}
                               <span class="calendar__dots" aria-hidden="true">
-                                {#each dayEvents.slice(0, maxDots) as ev (ev.label ?? ev.date)}
+                                <!-- Events carry no id and two on one day may share
+                                     a label, so their position is their key. -->
+                                {#each dayEvents.slice(0, maxDots) as ev, e (e)}
                                   <span
                                     class="calendar__dot"
                                     data-tone={ev.tone ?? "primary"}
@@ -358,7 +421,7 @@
                               </span>
                             {/if}
                             {#if price}<span class="calendar__price">{price}</span>{/if}
-                          </slot>
+                          {/if}
                         </button>
                       </div>
                     {/if}
@@ -377,7 +440,7 @@
           <button
             type="button"
             class="calendar__mini-title"
-            on:click={() => {
+            onclick={() => {
               $api.setFocus(toISO(gm.year, gm.month, 1));
               $api.setView("month");
             }}
@@ -412,7 +475,7 @@
                         <button
                           class="calendar__mini-day"
                           use:dayAction={cell.date}
-                          aria-label={dayFmt.format(dt(cell.date))}
+                          aria-label={dayFmt.format(localDate(cell.date))}
                         >
                           {cell.day}
                         </button>
@@ -453,7 +516,9 @@
               <span class="calendar__agenda-num">{cell.day}</span>
             </button>
             <ul class="calendar__agenda-events">
-              {#each dayEvents as ev (ev.label ?? ev.date)}
+              <!-- Events carry no id and two on one day may share a label, so
+                   their position is their key. -->
+              {#each dayEvents as ev, e (e)}
                 <li class="calendar__event">
                   <span class="calendar__dot" data-tone={ev.tone ?? "primary"} aria-hidden="true"
                   ></span>
@@ -628,11 +693,14 @@
   .calendar__day[data-range-end] .calendar__daynum {
     color: inherit;
   }
+  /* The band's tint is too faint to read as a boundary on its own (WCAG
+     1.4.11), so lines in the selection colour close it above and below. */
   .calendar__day[data-in-range] {
     background: var(
       --ds-calendar-range-band,
       color-mix(in srgb, var(--ds-color-selected, #7a52cc) 12%, transparent)
     );
+    border-block-color: var(--ds-color-selected, #7a52cc);
     border-radius: 0;
   }
 
@@ -716,8 +784,10 @@
     flex-direction: column;
     gap: 0.1rem;
   }
+  /* Each mini day keeps a 24px target (WCAG 2.5.8). */
   .calendar__mini-week,
   .calendar__mini-weekdays {
+    grid-template-columns: repeat(7, minmax(1.5rem, 1fr));
     gap: 0.1rem;
   }
   .calendar__mini-weekday {
@@ -727,6 +797,7 @@
   }
   .calendar__mini-day {
     inline-size: 100%;
+    min-block-size: 1.5rem;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
@@ -844,5 +915,21 @@
   .calendar__agenda-empty {
     color: var(--ds-color-text-secondary, #524c44);
     text-align: center;
+  }
+
+  /* Forced colors: backgrounds are flattened away, so the selected days, the
+     range endpoints and the band between them take system colours. */
+  @media (forced-colors: active) {
+    .calendar__day:global([data-selected]),
+    .calendar__day[data-range-start],
+    .calendar__day[data-range-end],
+    .calendar__mini-day:global([data-selected]),
+    .calendar__agenda-head:global([data-selected]) {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .calendar__day[data-in-range] {
+      border-block-color: Highlight;
+    }
   }
 </style>

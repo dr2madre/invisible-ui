@@ -1,5 +1,6 @@
 import { HTMLElementBase, upgradeProperty } from "../internal/base";
 import { pathIcon } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /** One step of the trail. */
 export interface BreadcrumbItem {
@@ -28,6 +29,13 @@ export class DsBreadcrumb extends HTMLElementBase {
 
   #items: BreadcrumbItem[] = [];
   #nav: HTMLElement | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#nav) this.#render();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "items");
@@ -60,7 +68,7 @@ export class DsBreadcrumb extends HTMLElementBase {
 
   #render() {
     const nav = this.#nav!;
-    nav.setAttribute("aria-label", this.getAttribute("label") ?? "Breadcrumb");
+    nav.setAttribute("aria-label", localized(this, "label", "breadcrumb.label"));
     const separator = this.getAttribute("separator") ?? "/";
 
     const list = document.createElement("ol");

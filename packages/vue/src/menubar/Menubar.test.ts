@@ -70,6 +70,12 @@ describe("Vue Menubar (styled)", () => {
     );
   });
 
+  it("gives a disabled trigger the disabled look", () => {
+    renderMenubar({ menus: [{ value: "file", label: "File", items: [], disabled: true }] });
+    expect(trigger("File")).toHaveAttribute("aria-disabled", "true");
+    expect(trigger("File")).toHaveAttribute("data-disabled");
+  });
+
   it("activates an item and closes", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();

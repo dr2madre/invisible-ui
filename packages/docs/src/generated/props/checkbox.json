@@ -14,7 +14,7 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label; override with the default slot.",
+          "description": "Accessible, visible label; override with `children`.",
           "descriptionFrom": "curated"
         },
         {
@@ -182,6 +182,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "checked",
           "type": "CheckedState",
           "default": "false",
@@ -297,6 +305,20 @@
         },
         {
           "name": "required",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
           "reactive": true,
           "required": false,
           "description": "",

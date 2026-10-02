@@ -21,21 +21,32 @@
    */
   type CountStatus = "danger" | "neutral" | "info" | "success" | "warning";
 
-  /** The number to display. */
-  export let count = 0;
-  /** Ceiling before showing "N+". Defaults to 99. */
-  export let max = 99;
-  /** Render a bare dot (presence indicator) instead of a number. */
-  export let dot = false;
-  /** Show the bubble even when `count` is 0. Defaults to `false`. */
-  export let showZero = false;
-  /** Status color. Defaults to `danger` (the conventional unread red). */
-  export let status: CountStatus = "danger";
-  /** Fuller accessible label (e.g. "3 unread messages"). */
-  export let label: string | undefined = undefined;
+  interface Props {
+    /** The number to display. */
+    count?: number;
+    /** Ceiling before showing "N+". Defaults to 99. */
+    max?: number;
+    /** Render a bare dot (presence indicator) instead of a number. */
+    dot?: boolean;
+    /** Show the bubble even when `count` is 0. Defaults to `false`. */
+    showZero?: boolean;
+    /** Status color. Defaults to `danger` (the conventional unread red). */
+    status?: CountStatus;
+    /** Fuller accessible label (e.g. "3 unread messages"). */
+    label?: string;
+  }
 
-  $: display = count > max ? `${max}+` : `${count}`;
-  $: visible = dot || showZero || count > 0;
+  let {
+    count = 0,
+    max = 99,
+    dot = false,
+    showZero = false,
+    status = "danger",
+    label,
+  }: Props = $props();
+
+  const display = $derived(count > max ? `${max}+` : `${count}`);
+  const visible = $derived(dot || showZero || count > 0);
 </script>
 
 {#if visible}

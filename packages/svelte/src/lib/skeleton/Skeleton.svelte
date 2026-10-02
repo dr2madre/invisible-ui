@@ -14,21 +14,33 @@
    * follows the line height. The shimmer is themeable via `--ds-skeleton-*` and
    * respects `prefers-reduced-motion`.
    */
-  export let variant: "text" | "circle" | "rect" = "text";
-  /** Number of lines for the `text` variant. */
-  export let lines = 1;
-  /** Any CSS length (e.g. "12rem", "100%"). For `circle`, also sets height. */
-  export let width: string | undefined = undefined;
-  /** Any CSS length. Ignored by `text` (uses line height). */
-  export let height: string | undefined = undefined;
-  /** Border radius override (any CSS length). */
-  export let radius: string | undefined = undefined;
-  /** Shimmer animation. Defaults to `pulse`. */
-  export let animation: "pulse" | "wave" | "none" = "pulse";
-  /** When set, the skeleton becomes a polite status with this accessible name. */
-  export let label: string | undefined = undefined;
+  interface Props {
+    variant?: "text" | "circle" | "rect";
+    /** Number of lines for the `text` variant. */
+    lines?: number;
+    /** Any CSS length (e.g. "12rem", "100%"). For `circle`, also sets height. */
+    width?: string;
+    /** Any CSS length. Ignored by `text` (uses line height). */
+    height?: string;
+    /** Border radius override (any CSS length). */
+    radius?: string;
+    /** Shimmer animation. Defaults to `pulse`. */
+    animation?: "pulse" | "wave" | "none";
+    /** When set, the skeleton becomes a polite status with this accessible name. */
+    label?: string;
+  }
 
-  $: rootRole = label ? "status" : undefined;
+  let {
+    variant = "text",
+    lines = 1,
+    width,
+    height,
+    radius,
+    animation = "pulse",
+    label,
+  }: Props = $props();
+
+  const rootRole = $derived(label ? "status" : undefined);
 
   const lengths = (n: number) => Array.from({ length: Math.max(1, n) }, (_, i) => i);
 </script>
@@ -52,8 +64,7 @@
     {/each}
   {:else}
     <span
-      class="skeleton__bar"
-      class:skeleton__circle={variant === "circle"}
+      class={["skeleton__bar", variant === "circle" && "skeleton__circle"]}
       style:width
       style:height={variant === "circle" ? (width ?? height) : height}
       style:border-radius={radius}

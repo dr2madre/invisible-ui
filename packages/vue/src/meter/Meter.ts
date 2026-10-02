@@ -46,7 +46,7 @@ export const Meter = defineComponent({
     label: { type: String, required: true },
   },
   setup(props) {
-    const { api, percentage, setValue } = useMeter({
+    const { api, percentage, setValue, syncRange } = useMeter({
       value: props.value,
       min: props.min,
       max: props.max,
@@ -57,6 +57,10 @@ export const Meter = defineComponent({
     watch(
       () => props.value,
       (value) => setValue(value),
+    );
+    watch(
+      () => [props.min, props.max, props.low, props.high, props.optimum] as const,
+      ([min, max, low, high, optimum]) => syncRange({ min, max, low, high, optimum }),
     );
 
     return () =>

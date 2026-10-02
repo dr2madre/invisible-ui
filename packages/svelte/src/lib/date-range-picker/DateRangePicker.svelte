@@ -12,96 +12,108 @@
    */
   import { createPopover } from "../popover/create-popover";
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
-  import type { CalendarView, WeekStart } from "../calendar/create-calendar";
+  import { localDate, type CalendarView, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
   import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t, locale: providerLocale } = getI18n();
 
-  export let start: string | null = null;
-  export let end: string | null = null;
-  export let min: string | undefined = undefined;
-  export let max: string | undefined = undefined;
-  export let weekStartsOn: WeekStart = 1;
-  export let locale: string | undefined = undefined;
-  export let dateStyle: "full" | "long" | "medium" | "short" = "medium";
-  /** Calendar view inside the popover. Defaults to two months side by side. */
-  export let view: CalendarView = "two-month";
-  export let label: string | undefined = undefined;
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  export let clearable = false;
-  export let events: CalendarEvent[] = [];
-  export let prices: Record<string, string> = {};
+  interface Props {
+    start?: string | null;
+    end?: string | null;
+    min?: string;
+    max?: string;
+    weekStartsOn?: WeekStart;
+    locale?: string;
+    dateStyle?: "full" | "long" | "medium" | "short";
+    /** Calendar view inside the popover. Defaults to two months side by side. */
+    view?: CalendarView;
+    label?: string;
+    placeholder?: string;
+    disabled?: boolean;
+    clearable?: boolean;
+    events?: CalendarEvent[];
+    prices?: Record<string, string>;
+    /** Form field name for the start date (submitted as an ISO value via a hidden input). */
+    startName?: string;
+    /** Form field name for the end date (submitted as an ISO value via a hidden input). */
+    endName?: string;
+    onChange?: (start: string | null, end: string | null) => void;
+  }
 
-  /** Form field name for the start date (submitted as an ISO value via a hidden input). */
-  export let startName: string | undefined = undefined;
-  /** Form field name for the end date (submitted as an ISO value via a hidden input). */
-  export let endName: string | undefined = undefined;
-  export let onChange: ((start: string | null, end: string | null) => void) | undefined = undefined;
+  let {
+    start = $bindable(null),
+    end = $bindable(null),
+    min,
+    max,
+    weekStartsOn = 1,
+    locale,
+    dateStyle = "medium",
+    view = "two-month",
+    label,
+    placeholder,
+    disabled = false,
+    clearable = false,
+    events = [],
+    prices = {},
+    startName,
+    endName,
+    onChange,
+  }: Props = $props();
 
   const popover = createPopover({ placement: "bottom-start" });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
-  const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-  $: resolvedLocale = locale ?? $providerLocale;
-  $: displayFmt = i18n.dateTimeFormat(resolvedLocale, { dateStyle });
-  $: displayValue =
+  const resolvedLocale = $derived(locale ?? $providerLocale);
+  const displayFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { dateStyle }));
+  const displayValue = $derived(
     start && end
-      ? displayFmt.formatRange(dt(start), dt(end))
+      ? displayFmt.formatRange(localDate(start), localDate(end))
       : start
-        ? `${displayFmt.format(dt(start))} – …`
-        : "";
+        ? `${displayFmt.format(localDate(start))} – …`
+        : "",
+  );
 
-  // The reset default follows the props. The write-backs move the mirrors
-  // first, so they only ever fire for a consumer's own change: the give-back
-  // is filtered by construction (ADR 0012).
-  let lastStart = start;
-  let lastEnd = end;
-  let defaultStart = start;
-  let defaultEnd = end;
-  $: if (start !== lastStart) {
-    lastStart = start;
-    defaultStart = start;
-  }
-  $: if (end !== lastEnd) {
-    lastEnd = end;
-    defaultEnd = end;
-  }
+  // Controllable mirrors (ADR 0011). The props are the whole state here, and
+  // the component's own writes go through `write`, so every change a mirror
+  // sees is the consumer's and moves the reset default (ADR 0012). Putting
+  // the defaults back reports nothing.
+  const startMirror = controllable({
+    get: () => start,
+    set: (next) => (start = next),
+  });
+  const endMirror = controllable({
+    get: () => end,
+    set: (next) => (end = next),
+  });
 
   const handleRange = (s: string | null, e: string | null) => {
-    lastStart = s;
-    lastEnd = e;
-    start = s;
-    end = e;
+    startMirror.write(s);
+    endMirror.write(e);
     onChange?.(s, e);
     if (s && e) setOpen(false);
   };
 
   const clear = () => {
-    lastStart = null;
-    lastEnd = null;
-    start = null;
-    end = null;
+    startMirror.write(null);
+    endMirror.write(null);
     onChange?.(null, null);
   };
 
-  // The props are the whole state here; putting them back reports nothing.
   const restore = () => {
-    lastStart = defaultStart;
-    lastEnd = defaultEnd;
-    start = defaultStart;
-    end = defaultEnd;
+    startMirror.restore();
+    endMirror.restore();
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
   const popupId = `${stableId("dsDateRangePicker")}-popup`;
 </script>
 
-<div class="date-picker" class:date-picker--disabled={disabled} use:formReset={restore}>
+<div class={["date-picker", disabled && "date-picker--disabled"]} use:formReset={restore}>
   {#if startName}
     <input type="hidden" name={startName} value={start ?? ""} disabled={disabled || undefined} />
   {/if}
@@ -110,8 +122,7 @@
   {/if}
   <div class="date-picker__field">
     <span
-      class="date-picker__icon"
-      class:date-picker__icon--active={start || end}
+      class={["date-picker__icon", (start || end) && "date-picker__icon--active"]}
       aria-hidden="true"
     >
       <Icon size="1.1rem">
@@ -139,7 +150,7 @@
         class="date-picker__clear"
         type="button"
         aria-label={$t("dateRangePicker.clear")}
-        on:click={clear}
+        onclick={clear}
       >
         <Icon size="0.9rem"
           ><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon

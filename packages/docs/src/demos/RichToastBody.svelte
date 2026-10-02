@@ -1,8 +1,7 @@
 <script>
   // Arbitrary rich body rendered inside a notification via the notifier's
   // `component` option — here an avatar + a two-line message.
-  export let name = "Ada Lovelace";
-  export let message = "commented on your pull request";
+  let { name = "Ada Lovelace", message = "commented on your pull request" } = $props();
 </script>
 
 <span style="display: flex; align-items: center; gap: 0.625rem;">

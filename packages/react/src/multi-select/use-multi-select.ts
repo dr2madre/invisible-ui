@@ -1,11 +1,8 @@
 import { multiSelect as core } from "@design-system/core";
-import { autoUpdate, flip, offset, shift, useFloating } from "@floating-ui/react-dom";
 import {
   useCallback,
-  useEffect,
   useId,
   useMemo,
-  useRef,
   useState,
   type ChangeEvent,
   type CSSProperties,
@@ -13,7 +10,9 @@ import {
   type RefObject,
 } from "react";
 import { fail } from "../internal/dev";
-import { useFormReset } from "../internal/form-reset";
+import { useControlledDefault, useFormReset } from "../internal/form-reset";
+import { useListboxPopup } from "../internal/listbox-popup";
+import { defaultFilter, useListboxState } from "../internal/listbox-state";
 import { normalizeProps } from "../normalize";
 
 export type MultiSelectItem = core.MultiSelectItem;
@@ -64,12 +63,6 @@ export interface UseMultiSelect {
   onInputPointerDown: () => void;
   setOpen: (open: boolean) => void;
 }
-
-const defaultFilter = (items: MultiSelectItem[], query: string) => {
-  const q = query.trim().toLowerCase();
-  if (!q) return items;
-  return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
-};
 
 // A stable default: a fresh [] per render would defeat the identity mirror.
 const NO_VALUES: string[] = [];
@@ -129,69 +122,50 @@ export function useMultiSelect({
     };
   });
 
-  // Latest callbacks/inputs, read inside setState updaters without widening deps.
-  const latest = useRef({ filter, allItems, onValuesChange, onInputValueChange, onOpenChange });
-  latest.current = { filter, allItems, onValuesChange, onInputValueChange, onOpenChange };
-
   // --- Controlled sync: mirror the `values` prop without an effect (matches
   // the Svelte adapter's reactive statements). Reflection never calls back;
   // a give-back with equal content never churns.
-  const [lastValues, setLastValues] = useState(controlledValues);
-  const [defaultValues, setDefaultValues] = useState(controlledValues);
-  if (controlledValues !== lastValues) {
-    setLastValues(controlledValues);
-    assertUniqueValues(controlledValues);
-    // The default a reset restores follows the prop, except when the prop
-    // only hands back what the control already holds: that is the page
-    // echoing a selection, and an echo is not a new default (ADR 0012).
-    if (!valuesEqual(state.values, controlledValues)) setDefaultValues(controlledValues);
-    setState((s) =>
-      valuesEqual(s.values, controlledValues) ? s : { ...s, values: controlledValues },
-    );
+  const defaultValues = useControlledDefault(
+    controlledValues,
+    state.values,
+    (next) => {
+      assertUniqueValues(next);
+      setState((s) => (valuesEqual(s.values, next) ? s : { ...s, values: next }));
+    },
+    valuesEqual,
+  );
+
+  // --- The visible list follows the item list; the open, highlight and text
+  // setters are the shared ones.
+  const { latest, setOpen, setActiveValue, setInputValue, onInputChange } = useListboxState({
+    state,
+    setState,
+    allItems,
+    filter,
+    onInputValueChange,
+    onOpenChange,
+  });
+
+  // --- A control turned off, or turned review-only, closes its list: the keys
+  // that dismiss it live on an input that no longer takes any. Adjusted while
+  // rendering, like the controlled sync above, rather than in an effect.
+  const inert = disabled || readOnly;
+  const [lastInert, setLastInert] = useState(inert);
+  if (inert !== lastInert) {
+    setLastInert(inert);
+    if (inert) setState((s) => (s.open ? { ...s, open: false, activeValue: null } : s));
   }
 
-  // --- Keep the visible list in step when the item list itself changes.
-  const [lastItems, setLastItems] = useState(allItems);
-  if (allItems !== lastItems) {
-    setLastItems(allItems);
-    setState((s) => ({
-      ...s,
-      items: filter(allItems, s.inputValue),
-      activeValue: allItems.some((i) => i.value === s.activeValue) ? s.activeValue : null,
-    }));
-  }
-
-  const setValues = useCallback((next: string[]) => {
-    setState((s) => {
-      if (valuesEqual(s.values, next)) return s;
-      latest.current.onValuesChange?.(next);
-      return { ...s, values: next };
-    });
-  }, []);
-
-  const setOpen = useCallback((next: boolean) => {
-    setState((s) => {
-      if (s.open === next) return s;
-      latest.current.onOpenChange?.(next);
-      return { ...s, open: next };
-    });
-  }, []);
-
-  const setActiveValue = useCallback((next: string | null) => {
-    setState((s) => (s.activeValue === next ? s : { ...s, activeValue: next }));
-  }, []);
-
-  const setInputValue = useCallback((next: string) => {
-    setState((s) => {
-      if (s.inputValue === next) return s;
-      latest.current.onInputValueChange?.(next);
-      return {
-        ...s,
-        inputValue: next,
-        items: latest.current.filter(latest.current.allItems, next),
-      };
-    });
-  }, []);
+  // The selection setter writes first and reports afterwards, like the shared
+  // setters (ADR 0011), and only when the selection actually moves.
+  const setValues = useCallback(
+    (next: string[]) => {
+      if (valuesEqual(state.values, next)) return;
+      setState((s) => ({ ...s, values: next }));
+      onValuesChange?.(next);
+    },
+    [state.values, onValuesChange],
+  );
 
   const api = useMemo(
     () =>
@@ -224,32 +198,16 @@ export function useMultiSelect({
     ],
   );
 
-  const { refs, floatingStyles } = useFloating({
-    placement: "bottom-start",
-    strategy: "fixed",
-    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    whileElementsMounted: state.open ? autoUpdate : undefined,
+  // --- Positioning, outside presses and the active option in view. The popup
+  // is at least as wide as the control it hangs from, which tags wrapping onto
+  // a new line or a resized container change while it is open.
+  const { inputRef, listboxRef, controlRef, inputEl, floatingStyles } = useListboxPopup({
+    open: state.open,
+    activeValue: state.activeValue,
+    setOpen,
+    setActiveValue,
+    widthOf: "control",
   });
-
-  const controlRef = useRef<HTMLDivElement>(null);
-  const inputEl = useRef<HTMLInputElement | null>(null);
-  const listboxEl = useRef<HTMLElement | null>(null);
-
-  const inputRef = useCallback(
-    (node: HTMLInputElement | null) => {
-      inputEl.current = node;
-      refs.setReference(node);
-    },
-    [refs],
-  );
-
-  const listboxRef = useCallback(
-    (node: HTMLElement | null) => {
-      listboxEl.current = node;
-      refs.setFloating(node);
-    },
-    [refs],
-  );
 
   // The values travel in hidden inputs, whose values are their own defaults,
   // so a form reset leaves them exactly where they were: the whole restore
@@ -265,60 +223,9 @@ export function useMultiSelect({
     }));
   });
 
-  // --- Close when a pointer goes down anywhere outside the control or popup.
-  useEffect(() => {
-    if (!state.open) return;
-
-    const onPointerDown = (event: Event) => {
-      const target = event.target as Node;
-      if (
-        controlRef.current?.contains(target) ||
-        inputEl.current?.contains(target) ||
-        listboxEl.current?.contains(target)
-      ) {
-        return;
-      }
-      setOpen(false);
-      setActiveValue(null);
-    };
-
-    document.addEventListener("pointerdown", onPointerDown, true);
-    return () => document.removeEventListener("pointerdown", onPointerDown, true);
-  }, [state.open, setOpen, setActiveValue]);
-
-  // --- The popup is at least as wide as the control it hangs from.
-  useEffect(() => {
-    if (!state.open || !listboxEl.current) return;
-    const reference = controlRef.current ?? inputEl.current;
-    if (reference) listboxEl.current.style.minWidth = `${reference.offsetWidth}px`;
-  }, [state.open]);
-
-  // --- Keep the highlighted option in view while arrowing through a long list.
-  useEffect(() => {
-    if (!state.open) return;
-    const frame = requestAnimationFrame(() => {
-      listboxEl.current
-        ?.querySelector<HTMLElement>("[data-active]")
-        ?.scrollIntoView?.({ block: "nearest" });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [state.open, state.activeValue]);
-
-  const onInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const text = event.target.value;
-      const next = latest.current.filter(latest.current.allItems, text);
-      setInputValue(text);
-      // Typing highlights the first match, and opens the list if it was closed.
-      setActiveValue(core.firstEnabled(next));
-      setOpen(true);
-    },
-    [setInputValue, setActiveValue, setOpen],
-  );
-
-  const onInputPointerDown = useCallback(() => {
+  const onInputPointerDown = () => {
     if (!state.open) api.openListbox();
-  }, [state.open, api]);
+  };
 
   return {
     api,

@@ -192,8 +192,8 @@ here and deliberately not fixed in this audit.
   `openGroups` is controlled a press reports the request and moves nothing. The
   base was
   already shipped under the name `Menu`, which carried the landmark, the
-  sections and `aria-current`; it is `Sidebar` now, and `Menu` is a deprecated
-  alias (ADR 0013).
+  sections and `aria-current`; it is `Sidebar` now, and the `Menu` name has
+  been removed (ADR 0013).
 - **Application, certainly**: the active destination and the routing, and the
   breakpoint policy. Sidebar, Collapsible and Sheet Dialog own none of them.
 - **Decided since**: the desktop and mobile presentations (a rail, and a

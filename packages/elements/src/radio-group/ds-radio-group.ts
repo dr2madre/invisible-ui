@@ -7,7 +7,9 @@ import {
   nextId,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
+import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 
 /** A radio in the group. The label is what the item shows. */
 export type RadioGroupItem = core.RadioItem & { label: string };
@@ -34,12 +36,22 @@ export type RadioGroupItem = core.RadioItem & { label: string };
  * consumed: they are not a live source. Replace the set through the `items`
  * property, the same escape hatch `<ds-select>` offers.
  *
- * Attributes: `label` (required), `value`, `name`, `orientation`, `disabled`.
+ * Attributes: `label` (required), `value`, `name` (generated when absent, so
+ * the radios still form one group), `orientation`, `disabled`, `description`,
+ * `error`.
  * Properties: `value`, `items`.
  * Emits: bubbling `change` CustomEvent with `detail.value`.
  */
 export class DsRadioGroup extends HTMLElementBase {
-  static observedAttributes = ["value", "disabled", "orientation", "label", "name"];
+  static observedAttributes = [
+    "value",
+    "disabled",
+    "orientation",
+    "label",
+    "name",
+    "description",
+    "error",
+  ];
 
   #group: HTMLElement | null = null;
   #legend: HTMLElement | null = null;
@@ -47,6 +59,10 @@ export class DsRadioGroup extends HTMLElementBase {
   #itemsAssigned = false;
   #inputs = new Map<string, HTMLInputElement>();
   #labelId = nextId("ds-radio-group-label");
+  #messages = new FieldMessages(nextId("ds-radio-group"));
+  // Without a shared name the browser treats every radio as its own group:
+  // arrow keys stop moving between them and more than one can be checked.
+  #fallbackName = nextId("ds-radio-group");
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string | null = null;
   #stopFormReset: (() => void) | null = null;
@@ -58,7 +74,7 @@ export class DsRadioGroup extends HTMLElementBase {
     this.#sync();
     this.#stopFormReset ??= watchFormReset(
       this,
-      () => this.#inputs.values().next().value ?? null,
+      () => radioResetAnchor(this, this.#inputs.values().next().value ?? null),
       () => this.#restore(),
     );
   }
@@ -182,7 +198,7 @@ export class DsRadioGroup extends HTMLElementBase {
         orientation,
         disabled,
       }),
-      name: this.getAttribute("name") ?? undefined,
+      name: this.getAttribute("name") ?? this.#fallbackName,
       setValue: (next) => {
         this.value = next;
         emit(this, "change", { value: next });
@@ -196,11 +212,13 @@ export class DsRadioGroup extends HTMLElementBase {
     for (const item of this.#items) {
       const input = this.#inputs.get(item.value)!;
       applyProps(input, api.getItemProps(item.value));
+      syncRadioForm(input, this.hasAttribute("name"));
       input.checked = api.value === item.value;
       // The real DOM default, so the browser's own reset works and so does one
       // in markup the script never reaches.
       input.defaultChecked = this.#defaultValue === item.value;
       input.closest("label")?.classList.toggle("radio--disabled", disabled || !!item.disabled);
     }
+    this.#messages.sync(this, group.parentElement!, [group]);
   }
 }

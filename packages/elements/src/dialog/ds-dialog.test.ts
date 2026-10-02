@@ -24,6 +24,26 @@ const pressBackdrop = (panel: HTMLElement) => {
 };
 
 describe("<ds-dialog>", () => {
+  it("opens on connect when opened while out of the page", () => {
+    const host = mount();
+    // Browsers refuse to show a disconnected <dialog>; jsdom does not. The
+    // refusal would surface as a reported error, not a thrown one.
+    const showModal = HTMLDialogElement.prototype.showModal;
+    const refused: HTMLDialogElement[] = [];
+    vi.spyOn(HTMLDialogElement.prototype, "showModal").mockImplementation(function (
+      this: HTMLDialogElement,
+    ) {
+      if (!this.isConnected) refused.push(this);
+      else showModal.call(this);
+    });
+    host.remove();
+    host.open = true;
+    expect(refused).toEqual([]);
+    document.body.appendChild(host);
+    vi.restoreAllMocks();
+    expect(screen.getByRole("dialog", { name: "Share this file" })).toHaveProperty("open", true);
+  });
+
   it("is closed by default with the trigger advertising the dialog", () => {
     mount();
     const trigger = screen.getByRole("button", { name: "Open dialog" });

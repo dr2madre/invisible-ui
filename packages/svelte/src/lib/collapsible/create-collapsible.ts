@@ -1,7 +1,7 @@
 import { collapsible as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -20,6 +20,8 @@ export interface CreateCollapsible {
   setOpen: (open: boolean) => void;
   /** Reflect a controlled `open` prop without reporting a change. */
   syncOpen: (open: boolean) => void;
+  /** Reflect the controlled disabled state. */
+  syncDisabled: (disabled: boolean) => void;
   /** Toggle the open state (ignored while disabled). */
   toggle: () => void;
   /** Svelte action for the collapsible container: `<div use:rootAction>`. */
@@ -53,6 +55,9 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
   const syncOpen = (open: boolean) =>
     state.update((current) => (current.open === open ? current : { ...current, open }));
 
+  const syncDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setOpen, normalize: normalizeProps }),
   );
@@ -63,8 +68,9 @@ export function createCollapsible(context: CollapsibleContext = {}): CreateColla
     open: derived(state, ($state) => $state.open),
     setOpen,
     syncOpen,
+    syncDisabled,
     toggle: () => get(api).toggle(),
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    rootAction: createRootAction(api),
     triggerAction: createPropsAction(api, (a) => a.triggerProps),
     contentAction: createPropsAction(api, (a) => a.contentProps),
   };

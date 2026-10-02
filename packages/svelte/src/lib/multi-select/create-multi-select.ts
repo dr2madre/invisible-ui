@@ -1,9 +1,10 @@
 import { multiSelect as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { fail } from "../internal/dev";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -181,24 +182,7 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
   let listboxEl: HTMLElement | null = null;
   let controlEl: HTMLElement | null = null;
 
-  const placement: Placement = "bottom-start";
-  const reposition = () => {
-    if (!inputEl || !listboxEl) return;
-    computePosition(inputEl, listboxEl, {
-      placement,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then(({ x, y }) => {
-      if (!listboxEl) return;
-      listboxEl.style.left = `${x}px`;
-      listboxEl.style.top = `${y}px`;
-    });
-  };
-
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (controlEl?.contains(target) || inputEl?.contains(target) || listboxEl?.contains(target))
-      return;
+  const close = () => {
     setOpen(false);
     setActiveValue(null);
   };
@@ -247,22 +231,22 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
     listboxEl = node;
     const base = createPropsAction(api, (a) => a.listboxProps)(node);
 
-    let stopAutoUpdate: (() => void) | null = null;
+    let stopFloating: (() => void) | null = null;
+    let stopDismiss: (() => void) | null = null;
     const teardown = () => {
-      stopAutoUpdate?.();
-      stopAutoUpdate = null;
-      document.removeEventListener("pointerdown", onOutsidePointer, true);
+      stopFloating?.();
+      stopFloating = null;
+      stopDismiss?.();
+      stopDismiss = null;
     };
 
     const unsubscribe = state.subscribe(($state) => {
       if ($state.open) {
-        if (!stopAutoUpdate && inputEl) {
+        if (!stopFloating && inputEl) {
+          // Sized to the whole control (tags + input), anchored to the input.
           node.style.minWidth = `${controlEl?.offsetWidth ?? inputEl.offsetWidth}px`;
-          stopAutoUpdate =
-            typeof ResizeObserver !== "undefined"
-              ? autoUpdate(inputEl, node, reposition)
-              : (reposition(), () => {});
-          document.addEventListener("pointerdown", onOutsidePointer, true);
+          stopFloating = attachFloating(inputEl, node);
+          stopDismiss = onOutsidePointerDown([controlEl, inputEl, node], close);
         }
         requestAnimationFrame(() => {
           node.querySelector<HTMLElement>("[data-active]")?.scrollIntoView?.({ block: "nearest" });
@@ -282,11 +266,9 @@ export function createMultiSelect(context: MultiSelectContext): CreateMultiSelec
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) => {
-    const optionApi = derived(api, (a) => a.getOptionProps(value));
-    const handle = createPropsAction(optionApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const optionAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getOptionProps(value),
+  );
 
   const valuesListAction = createPropsAction(api, (a) => a.valuesListProps);
 

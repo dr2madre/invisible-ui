@@ -68,3 +68,11 @@ describe("<ds-inline-notification>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+describe("<ds-inline-notification> close button", () => {
+  it("renders the close button as an icon-only button", () => {
+    document.body.innerHTML = `<ds-inline-notification title="Saved" closable></ds-inline-notification>`;
+    const close = document.querySelector(".inline-notification__close button")!;
+    expect(close).toHaveClass("button--icon-only");
+  });
+});

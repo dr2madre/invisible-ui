@@ -1,7 +1,7 @@
 import { table as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction } from "../internal/connect";
 import { fail } from "../internal/dev";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -163,23 +163,18 @@ export function createTable(context: TableContext): CreateTable {
     }),
   );
 
-  const headerAction: Action<HTMLElement, string> = (node, key) => {
-    const headerApi = derived(api, (a) => a.getColumnHeaderProps(key as string));
-    const handle = createPropsAction(headerApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const headerAction: Action<HTMLElement, string> = createItemAction(api, (a, key: string) =>
+    a.getColumnHeaderProps(key),
+  );
 
-  const sortButtonAction: Action<HTMLElement, string> = (node, key) => {
-    const buttonApi = derived(api, (a) => a.getSortButtonProps(key as string));
-    const handle = createPropsAction(buttonApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const sortButtonAction: Action<HTMLElement, string> = createItemAction(api, (a, key: string) =>
+    a.getSortButtonProps(key),
+  );
 
-  const visibilityToggleAction: Action<HTMLElement, string> = (node, key) => {
-    const toggleApi = derived(api, (a) => a.getVisibilityToggleProps(key as string));
-    const handle = createPropsAction(toggleApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const visibilityToggleAction: Action<HTMLElement, string> = createItemAction(
+    api,
+    (a, key: string) => a.getVisibilityToggleProps(key),
+  );
 
   return {
     state,

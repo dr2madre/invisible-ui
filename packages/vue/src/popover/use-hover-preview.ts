@@ -1,7 +1,6 @@
 import { hoverCard as core } from "@design-system/core";
 import {
   computed,
-  onScopeDispose,
   ref,
   toValue,
   type ComputedRef,
@@ -9,6 +8,7 @@ import {
   type Ref,
   watch,
 } from "vue";
+import { useDelayedToggle } from "../internal/delayed-toggle";
 import { attachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -88,40 +88,37 @@ export function useHoverPreview(
   const triggerRef = ref<HTMLElement | null>(null);
   const cardRef = ref<HTMLElement | null>(null);
 
-  let showTimer: ReturnType<typeof setTimeout> | undefined;
-  let hideTimer: ReturnType<typeof setTimeout> | undefined;
+  const { show, hide, hold } = useDelayedToggle(
+    setOpen,
+    () => resolved.value.openDelay ?? 300,
+    () => resolved.value.closeDelay ?? 200,
+  );
 
-  const hold = () => {
-    clearTimeout(showTimer);
-    clearTimeout(hideTimer);
-  };
-  // A pending hover must not open something after the component is gone.
-  onScopeDispose(hold);
-  const show = (delay = resolved.value.openDelay ?? 300) => {
-    hold();
-    if (delay <= 0) return setOpen(true);
-    showTimer = setTimeout(() => setOpen(true), delay);
-  };
-  const hide = (delay = resolved.value.closeDelay ?? 200) => {
-    hold();
-    if (delay <= 0) return setOpen(false);
-    hideTimer = setTimeout(() => setOpen(false), delay);
-  };
-
+  // Position against the trigger, again whenever the placement or offset
+  // changes while open, without re-attaching the card-side listeners below.
   watch(
-    open,
-    (isOpen, _previous, onCleanup) => {
-      if (!isOpen) return;
-      const card = cardRef.value;
+    () =>
+      [
+        open.value ? cardRef.value : null,
+        resolved.value.placement ?? "bottom",
+        resolved.value.offset ?? 8,
+      ] as const,
+    ([card, placement, offset], _previous, onCleanup) => {
+      const trigger = triggerRef.value;
+      if (!card || !trigger) return;
+      onCleanup(attachFloating(trigger, card, { placement, offset }));
+    },
+    { flush: "post" },
+  );
+
+  // Keyed on the card element rather than the open flag, so a card mounted
+  // with `open: true` (its template ref is assigned after this composable
+  // ran) gets its listeners like any later open.
+  watch(
+    () => (open.value ? cardRef.value : null),
+    (card, _previous, onCleanup) => {
       if (!card) return;
       const trigger = triggerRef.value;
-
-      const stopFloating = trigger
-        ? attachFloating(trigger, card, {
-            placement: resolved.value.placement ?? "bottom",
-            offset: resolved.value.offset ?? 8,
-          })
-        : () => {};
 
       // Hoverable: keep open while the pointer is over the card.
       const onEnter = () => hold();
@@ -152,7 +149,6 @@ export function useHoverPreview(
       document.addEventListener("keydown", onKeyDown);
 
       onCleanup(() => {
-        stopFloating();
         card.removeEventListener("pointerenter", onEnter);
         card.removeEventListener("pointerleave", onLeave);
         document.removeEventListener("focusin", onFocusIn);

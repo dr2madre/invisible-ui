@@ -13,6 +13,9 @@ afterEach(() => {
 // Filtering happens outside the element, so the tests hand in filtered rows.
 // The selection column comes first, so names sit in the second column.
 const bodyNames = () => names(2);
+// The view's own live region announces the result count, so the no-results
+// Empty State is not a live region too: one announcement, not two.
+const emptyState = () => document.querySelector(".table-view__no-results .empty-state");
 
 const mount = ({ attrs = {}, props = {} }: MountOptions = {}) =>
   mountSet({
@@ -24,7 +27,7 @@ describe("<ds-table-set> filtering coordination", () => {
   describe("distinguished states", () => {
     it("keeps a plain empty dataset as an empty table, never no-results", () => {
       mount({ attrs: { "filters-active": true, "total-row-count": 0 }, props: { rows: [] } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(emptyState()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
@@ -33,14 +36,14 @@ describe("<ds-table-set> filtering coordination", () => {
         attrs: { "filters-active": true, "total-row-count": 5, "filters-clearable": true },
         props: { rows: [] },
       });
-      expect(screen.getByRole("status")).toHaveTextContent("No rows match the current filters");
+      expect(emptyState()).toHaveTextContent("No rows match the current filters");
       expect(screen.getByRole("button", { name: "Clear filters" })).toBeInTheDocument();
       expect(screen.queryByRole("table")).not.toBeInTheDocument();
     });
 
     it("treats an unknown total as not empty", () => {
       mount({ attrs: { "filters-active": true }, props: { rows: [] } });
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(emptyState()).toBeInTheDocument();
     });
 
     it("offers no clear action unless clearable and honours custom copy", () => {
@@ -48,19 +51,19 @@ describe("<ds-table-set> filtering coordination", () => {
         attrs: { "filters-active": true, "no-results-label": "Nobody here" },
         props: { rows: [] },
       });
-      expect(screen.getByRole("status")).toHaveTextContent("Nobody here");
+      expect(emptyState()).toHaveTextContent("Nobody here");
       expect(screen.queryByRole("button", { name: "Clear filters" })).not.toBeInTheDocument();
     });
 
     it("renders content normally while filters are active and rows exist", () => {
       mount({ attrs: { "filters-active": true, "total-row-count": 9 } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(emptyState()).not.toBeInTheDocument();
       expect(screen.getByRole("table", { name: "People" })).toBeInTheDocument();
     });
 
     it("shows zero rows without active filters as an empty table", () => {
       mount({ attrs: { "total-row-count": 5 }, props: { rows: [] } });
-      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(emptyState()).not.toBeInTheDocument();
     });
   });
 
@@ -150,7 +153,7 @@ describe("<ds-table-set> filtering coordination", () => {
       set.setAttribute("filters-active", "");
       set.setAttribute("filter-revision", "b");
       set.rows = [];
-      expect(screen.getByRole("status")).toBeInTheDocument();
+      expect(emptyState()).toBeInTheDocument();
       set.removeAttribute("filters-active");
       set.rows = [
         { id: 1, name: "Ada", age: 36, city: "London" },
@@ -190,6 +193,51 @@ describe("<ds-table-set> filtering coordination", () => {
     });
   });
 
+  describe("results announcement", () => {
+    const announcer = () => document.querySelector(".table-view > .table-view__sr[role='status']");
+    const settle = () => Promise.resolve();
+
+    it("announces the result count when filtering changes it, never on first render", async () => {
+      const set = mount({ attrs: { "total-row-count": 5 } });
+      await settle();
+      expect(announcer()).toHaveAttribute("aria-live", "polite");
+      expect(announcer()).toBeEmptyDOMElement();
+
+      set.rows = set.rows.slice(0, 2);
+      set.setAttribute("filters-active", "");
+      await settle();
+      expect(announcer()).toHaveTextContent("2 results");
+
+      set.rows = set.rows.slice(0, 1);
+      await settle();
+      expect(announcer()).toHaveTextContent("1 result");
+
+      const region = announcer();
+      set.rows = [];
+      await settle();
+      expect(announcer()).toBe(region);
+      expect(announcer()).toHaveTextContent("No rows match the current filters");
+    });
+
+    it("announces a cleared filter and stays silent on other re-renders", async () => {
+      const set = mount({ attrs: { "filters-active": true }, props: { rows: [] } });
+      await settle();
+      expect(announcer()).toBeEmptyDOMElement();
+      set.removeAttribute("filters-active");
+      set.rows = [
+        { id: 1, name: "Ada", age: 36, city: "London" },
+        { id: 2, name: "Grace", age: 85, city: "New York" },
+        { id: 3, name: "alan", age: 41, city: "London" },
+      ];
+      await settle();
+      expect(announcer()).toHaveTextContent("3 results");
+      announcer()!.textContent = "";
+      set.rows = set.rows.slice(0, 2);
+      await settle();
+      expect(announcer()).toBeEmptyDOMElement();
+    });
+  });
+
   it("forwards the coordination inputs into tabbed views", () => {
     mount({
       attrs: { "filters-active": true, "total-row-count": 5 },
@@ -199,17 +247,22 @@ describe("<ds-table-set> filtering coordination", () => {
         ],
       },
     });
-    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(emptyState()).toBeInTheDocument();
   });
 
-  it("adds no live region around the table and passes axe", async () => {
+  it("puts no live region around the table and passes axe", async () => {
     mount({ attrs: { "filters-active": true, "total-row-count": 9 } });
-    expect(document.body.querySelector("[aria-live]")).toBeNull();
+    // Only the view's empty announcer is live; the table stays outside it.
+    const live = document.body.querySelectorAll("[aria-live]");
+    expect(live).toHaveLength(1);
+    expect(live[0]).toBeEmptyDOMElement();
+    expect(live[0]).not.toContainElement(screen.getByRole("table"));
     expect(await axe(document.body)).toHaveNoViolations();
   });
 
   it("passes axe in the no-results state", async () => {
     mount({ attrs: { "filters-active": true, "filters-clearable": true }, props: { rows: [] } });
+    expect(emptyState()).not.toHaveAttribute("role");
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });

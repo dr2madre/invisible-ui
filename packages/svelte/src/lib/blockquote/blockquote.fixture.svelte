@@ -1,8 +1,12 @@
 <script lang="ts">
   import Blockquote from "./Blockquote.svelte";
 
-  export let cite: string | undefined = undefined;
-  export let citeUrl: string | undefined = undefined;
+  interface Props {
+    cite?: string;
+    citeUrl?: string;
+  }
+
+  let { cite, citeUrl }: Props = $props();
 </script>
 
 <Blockquote {cite} {citeUrl}>Simplicity is the ultimate sophistication.</Blockquote>

@@ -2,7 +2,7 @@ import { calendar as core } from "@design-system/core";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -12,6 +12,9 @@ export type CalendarDay = core.CalendarDay;
 export type CalendarApi = core.CalendarApi;
 export type CalendarState = core.CalendarState;
 export type CalendarContext = core.CalendarContext;
+
+/** An ISO `YYYY-MM-DD` date as local midnight, for the Intl date formatters. */
+export const localDate = (iso: string) => new Date(`${iso}T00:00:00`);
 
 export interface CreateCalendar {
   /** Reactive resolved state. */
@@ -25,6 +28,11 @@ export interface CreateCalendar {
   syncFocus: (iso: string) => void;
   /** Reflect a controlled `view` prop without reporting a change. */
   syncView: (view: CalendarView) => void;
+  /**
+   * Reflect the constraints after mount: `min`, `max`, `weekStartsOn`.
+   * Reporting nothing, like any reflection.
+   */
+  syncConfig: (config: CalendarConfig) => void;
   setFocus: (iso: string) => void;
   setView: (view: CalendarView) => void;
   /** Svelte action for the grid container: `<div use:gridAction>`. */
@@ -35,6 +43,13 @@ export interface CreateCalendar {
   cellAction: Action<HTMLElement, string>;
   /** Svelte action for the focusable day button: `<button use:dayAction={iso}>`. */
   dayAction: Action<HTMLElement, string>;
+}
+
+/** The props a consumer may change after mount, besides value, focus and view. */
+export interface CalendarConfig {
+  min?: string | null;
+  max?: string | null;
+  weekStartsOn?: WeekStart;
 }
 
 /**
@@ -81,6 +96,17 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
   const syncView = (view: CalendarView) =>
     state.update((s) => (s.view === view ? s : { ...s, view }));
 
+  // Normalized the way the initial state is, so an unchanged prop is a no-op.
+  const syncConfig = (config: CalendarConfig) =>
+    state.update((s) => {
+      const min = config.min ?? null;
+      const max = config.max ?? null;
+      const weekStartsOn = config.weekStartsOn ?? 1;
+      return s.min === min && s.max === max && s.weekStartsOn === weekStartsOn
+        ? s
+        : { ...s, min, max, weekStartsOn };
+    });
+
   const focus = (iso: string) => {
     void tick().then(() => {
       document.getElementById(core.dayId(baseId, iso))?.focus();
@@ -93,16 +119,12 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
 
   const gridAction = createPropsAction(api, (a) => a.gridProps);
   const rowAction = createPropsAction(api, (a) => a.rowProps);
-  const cellAction: Action<HTMLElement, string> = (node, iso) => {
-    const cellApi = derived(api, (a) => a.getCellProps(iso as string));
-    const handle = createPropsAction(cellApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
-  const dayAction: Action<HTMLElement, string> = (node, iso) => {
-    const dayApi = derived(api, (a) => a.getDayProps(iso as string));
-    const handle = createPropsAction(dayApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const cellAction: Action<HTMLElement, string> = createItemAction(api, (a, iso: string) =>
+    a.getCellProps(iso),
+  );
+  const dayAction: Action<HTMLElement, string> = createItemAction(api, (a, iso: string) =>
+    a.getDayProps(iso),
+  );
 
   return {
     state,
@@ -113,6 +135,7 @@ export function createCalendar(context: CalendarContext): CreateCalendar {
     syncValue,
     syncFocus,
     syncView,
+    syncConfig,
     gridAction,
     rowAction,
     cellAction,

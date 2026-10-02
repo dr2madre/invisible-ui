@@ -1,8 +1,8 @@
 import { combobox as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createDialog } from "../dialog/create-dialog";
-import { createPropsAction } from "../internal/connect";
+import { createDialog, type CreateDialog } from "../dialog/create-dialog";
+import { createItemAction, createPropsAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -39,7 +39,10 @@ export interface SearchDialogContext {
   onOpenChange?: (open: boolean) => void;
 }
 
-export interface CreateSearchDialog {
+export interface CreateSearchDialog extends Pick<
+  CreateDialog,
+  "notices" | "announcement" | "notify" | "dismissNotice" | "clearNotices"
+> {
   /** Whether the palette is open. */
   open: Readable<boolean>;
   /** Imperatively open/close the palette. */
@@ -217,11 +220,9 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     };
   };
 
-  const optionAction: Action<HTMLElement, string> = (node, value) => {
-    const optionApi = derived(api, (a) => a.getOptionProps(value));
-    const handle = createPropsAction(optionApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const optionAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getOptionProps(value),
+  );
 
   return {
     open: dialog.open,
@@ -239,5 +240,10 @@ export function createSearchDialog(context: SearchDialogContext): CreateSearchDi
     inputAction,
     listboxAction: createPropsAction(api, (a) => a.listboxProps),
     optionAction,
+    notices: dialog.notices,
+    announcement: dialog.announcement,
+    notify: dialog.notify,
+    dismissNotice: dialog.dismissNotice,
+    clearNotices: dialog.clearNotices,
   };
 }

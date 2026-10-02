@@ -1,6 +1,6 @@
 <script>
   import Radio from "@design-system/svelte/Radio.svelte";
-  let plan = "pro";
+  let plan = $state("pro");
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 0.5rem;">

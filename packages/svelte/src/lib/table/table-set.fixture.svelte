@@ -4,35 +4,55 @@
 
   import type { SortState } from "./create-table";
 
-  export let pageSize: number | undefined = undefined;
-  export let page = 1;
-  export let view: "table" | "card" = "table";
-  export let allowViewToggle = false;
-  export let configurable = false;
-  export let infinite = false;
-  export let hasMore = false;
-  export let loading = false;
-  export let caption = "People";
-  export let onLoadMore: (() => void) | undefined = undefined;
-  export let sort: SortState | null = null;
-  export let hiddenColumns: string[] = [];
-  export let onPageChange: ((page: number) => void) | undefined = undefined;
-  export let onSortChange: ((sort: SortState | null) => void) | undefined = undefined;
-  export let onHiddenColumnsChange: ((hidden: string[]) => void) | undefined = undefined;
+  interface Props {
+    pageSize?: number;
+    page?: number;
+    view?: "table" | "card";
+    allowViewToggle?: boolean;
+    configurable?: boolean;
+    infinite?: boolean;
+    hasMore?: boolean;
+    loading?: boolean;
+    caption?: string;
+    onLoadMore?: () => void;
+    sort?: SortState | null;
+    hiddenColumns?: string[];
+    onPageChange?: (page: number) => void;
+    onSortChange?: (sort: SortState | null) => void;
+    onHiddenColumnsChange?: (hidden: string[]) => void;
+    columns?: TableColumnDef[];
+    rows?: TableRow[];
+  }
 
-  export let columns: TableColumnDef[] = [
-    { key: "name", header: "Name", sortable: true, hideable: false },
-    { key: "age", header: "Age", sortable: true, align: "end" },
-    { key: "city", header: "City" },
-  ];
-
-  export let rows: TableRow[] = [
-    { id: 1, name: "Ada", age: 36, city: "London" },
-    { id: 2, name: "Grace", age: 85, city: "New York" },
-    { id: 3, name: "alan", age: 41, city: "London" },
-    { id: 4, name: "Edsger", age: 60, city: "Rotterdam" },
-    { id: 5, name: "Barbara", age: 80, city: "Boston" },
-  ];
+  let {
+    pageSize,
+    page = 1,
+    view = "table",
+    allowViewToggle = false,
+    configurable = false,
+    infinite = false,
+    hasMore = false,
+    loading = false,
+    caption = "People",
+    onLoadMore,
+    sort = null,
+    hiddenColumns = [],
+    onPageChange,
+    onSortChange,
+    onHiddenColumnsChange,
+    columns = [
+      { key: "name", header: "Name", sortable: true, hideable: false },
+      { key: "age", header: "Age", sortable: true, align: "end" },
+      { key: "city", header: "City" },
+    ],
+    rows = [
+      { id: 1, name: "Ada", age: 36, city: "London" },
+      { id: 2, name: "Grace", age: 85, city: "New York" },
+      { id: 3, name: "alan", age: 41, city: "London" },
+      { id: 4, name: "Edsger", age: 60, city: "Rotterdam" },
+      { id: 5, name: "Barbara", age: 80, city: "Boston" },
+    ],
+  }: Props = $props();
 </script>
 
 <TableSet

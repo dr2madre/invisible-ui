@@ -1,7 +1,7 @@
 import { progress as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -18,6 +18,8 @@ export interface CreateProgress {
   percentage: Readable<number | null>;
   /** Replace the current value (`null` for indeterminate). */
   setValue: (value: number | null) => void;
+  /** Reflect the `min` and `max` props after mount. */
+  syncRange: (min: number, max: number) => void;
   /** Svelte action for the progressbar element: `<div use:rootAction>`. */
   rootAction: Action<HTMLElement>;
   /**
@@ -42,6 +44,11 @@ export function createProgress(context: core.ProgressContext = {}): CreateProgre
     state.update((current) => ({ ...current, value }));
   };
 
+  const syncRange = (min: number, max: number) =>
+    state.update((current) =>
+      current.min === min && current.max === max ? current : { ...current, min, max },
+    );
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, normalize: normalizeProps }),
   );
@@ -51,7 +58,8 @@ export function createProgress(context: core.ProgressContext = {}): CreateProgre
     api,
     percentage: derived(api, ($api) => $api.percentage),
     setValue,
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    syncRange,
+    rootAction: createRootAction(api),
     indicatorAction: createPropsAction<ProgressApi, Element>(api, (a) => a.indicatorProps),
   };
 }

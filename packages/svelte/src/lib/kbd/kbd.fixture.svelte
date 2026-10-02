@@ -1,8 +1,12 @@
 <script lang="ts">
   import Kbd from "./Kbd.svelte";
 
-  export let keys: string[] | undefined = undefined;
-  export let separator = "+";
+  interface Props {
+    keys?: string[];
+    separator?: string;
+  }
+
+  let { keys, separator = "+" }: Props = $props();
 </script>
 
 {#if keys}

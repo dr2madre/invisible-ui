@@ -2,13 +2,13 @@
   import TreeView from "@design-system/svelte/TreeView.svelte";
   import type { TreeLoadRequest, TreeNode } from "@design-system/svelte";
 
-  let nodes: TreeNode[] = [
+  let nodes: TreeNode[] = $state.raw([
     { value: "production", hasChildren: true },
     { value: "archive", hasChildren: true },
-  ];
-  let expanded: string[] = [];
-  let loading: string[] = [];
-  let loadErrors: string[] = [];
+  ]);
+  let expanded: string[] = $state.raw([]);
+  let loading: string[] = $state.raw([]);
+  let loadErrors: string[] = $state.raw([]);
   const latest: Record<string, number> = {};
   const attempts: Record<string, number> = {};
 

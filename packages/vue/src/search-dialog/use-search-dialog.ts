@@ -9,6 +9,7 @@ import {
   type Ref,
 } from "vue";
 import { useDialog, type UseDialog } from "../dialog/use-dialog";
+import type { DialogStatus } from "../internal/dialog-status";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -45,7 +46,8 @@ export interface UseSearchDialogOptions {
   onOpenChange?: (open: boolean) => void;
 }
 
-export interface UseSearchDialog {
+/** The status area comes from `useDialog` (ADR 0016). */
+export interface UseSearchDialog extends DialogStatus {
   /** The connected combobox API: prop bags plus imperative helpers. */
   api: ComputedRef<core.ComboboxApi>;
   /** The connected dialog API: trigger, panel and title prop bags. */
@@ -92,8 +94,6 @@ const orderItems = (items: SearchDialogItem[]): SearchDialogItem[] => {
   return [...ungrouped, ...[...groups.values()].flat()];
 };
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect a headless quick search to Vue: a combobox inside a modal dialog. The
  * modal shell (native `<dialog>` plus `showModal()`, scroll lock, Escape and
@@ -198,5 +198,10 @@ export function useSearchDialog(
     onInputChange,
     triggerRef: dialog.triggerRef,
     panelRef: dialog.panelRef,
+    notices: dialog.notices,
+    announcement: dialog.announcement,
+    notify: dialog.notify,
+    dismissNotice: dialog.dismissNotice,
+    clearNotices: dialog.clearNotices,
   };
 }

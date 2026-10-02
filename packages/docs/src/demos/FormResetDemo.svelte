@@ -18,9 +18,9 @@
 
   // The one notification the contract gives a consumer: the form's own reset
   // event. It arrives before the browser restores anything.
-  let resets = 0;
-  let reports = 0;
-  let blockResets = false;
+  let resets = $state(0);
+  let reports = $state(0);
+  let blockResets = $state(false);
 
   const onReset = (event: Event) => {
     resets += 1;
@@ -32,7 +32,7 @@
 </script>
 
 <div class="form-reset-demo">
-  <form data-testid="library-form" on:reset={onReset}>
+  <form data-testid="library-form" onreset={onReset}>
     <h3>Library form</h3>
     <TextField label="Name" name="name" value="Ada" onValueChange={report} />
     <Checkbox label="Subscribe" name="subscribe" checked onCheckedChange={report} />

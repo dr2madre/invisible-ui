@@ -18,6 +18,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "items",
           "type": "(ComboboxItem & { icon?: string })[]",
           "default": null,
@@ -104,6 +112,14 @@
           "required": false,
           "description": "Called when the input text changes.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading icon of a select-only combobox (`searchable={false}`). Defaults to the selected option's icon.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -120,6 +136,14 @@
           "default": null,
           "required": true,
           "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -243,6 +267,14 @@
           "default": null,
           "required": true,
           "description": "Accessible name for the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -419,6 +451,20 @@
           "required": false,
           "description": "submits via a hidden input",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
         }
       ],
       "notes": [

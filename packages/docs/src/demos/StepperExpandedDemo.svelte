@@ -4,7 +4,7 @@
   // scrolling.
   import Stepper from "@design-system/svelte/Stepper.svelte";
 
-  let current = 1;
+  let current = $state(1);
 
   const steps = [
     { label: "Zahlungsinformationen bestätigen", description: "Kreditkarte oder Lastschrift" },

@@ -1,9 +1,13 @@
 <script lang="ts">
   import Checkbox from "./Checkbox.svelte";
 
-  export let checked = false;
-  export let name = "subscribe";
-  export let value = "yes";
+  interface Props {
+    checked?: boolean;
+    name?: string;
+    value?: string;
+  }
+
+  let { checked = false, name = "subscribe", value = "yes" }: Props = $props();
 </script>
 
 <form data-testid="form">

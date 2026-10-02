@@ -16,12 +16,16 @@
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
-  /** Accessible name for the navigation landmark. */
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let label: string;
-  export let items: NavigationMenuItem[];
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible name for the navigation landmark. */
+    label: string;
+    items: NavigationMenuItem[];
+    onValueChange?: (value: string | null) => void;
+  }
+
+  let { label, items, onValueChange }: Props = $props();
 
   // A live callback reference (ADR 0011).
   const nav = createNavigationMenu({ onValueChange: (next) => onValueChange?.(next) });

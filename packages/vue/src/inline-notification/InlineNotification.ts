@@ -72,8 +72,6 @@ export interface InlineNotificationProps {
   onClose?: () => void;
 }
 
-// Stable per-instance title ids, as in Select: a module counter keeps the Vue
-// peer range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * InlineNotification — a banner that communicates a feedback message, ported
  * from the Svelte adapter and composed from the existing building blocks: a
@@ -178,11 +176,11 @@ export const InlineNotification = defineComponent({
               "div",
               { class: "inline-notification__actions" },
               props.actions?.length
-                ? props.actions.map((action) =>
+                ? props.actions.map((action, index) =>
                     h(
                       Button,
                       {
-                        key: action.label,
+                        key: `${index}:${action.label}`,
                         variant: action.variant ?? "ghost",
                         onPress: () => action.onClick?.(),
                       },

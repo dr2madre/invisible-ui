@@ -23,6 +23,58 @@ they are exactly where the user may not be looking.
 
 <ImportSnippet component="notification-region" helpers={["createNotifier"]} />
 
+In Elements, the region element owns the queue: there is no separate
+notifier. `show()` and the status shorthands return the id that `update()` and
+`dismiss()` take, and the element sends a bubbling `dismiss` event with
+`detail.id` and `detail.reason`:
+
+```html
+<ds-notification-region placement="bottom-center"></ds-notification-region>
+
+<script type="module">
+  const region = document.querySelector("ds-notification-region");
+  const id = region.info("Saving…", { closable: false });
+  region.update(id, { status: "success", title: "Saved", closable: true, duration: 5000 });
+</script>
+```
+
+### Messages while a dialog is open
+
+In Elements, Svelte and Vue, the region holds new notifications while any modal
+dialog is open in the document, including a native `<dialog>` opened with
+`showModal()`
+([ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)).
+They are neither shown nor announced until the last modal closes; then they
+appear in order and their auto-dismiss countdowns start. Notifications already
+on screen when a modal opens stay, with their countdowns held, and a change
+to one of them shows after the modal closes. The region always mounts in
+`<body>`, even when it sits inside a dialog. In Svelte and Vue, the
+notifier's list still holds the waiting notifications.
+
+A message about the dialog's own task belongs in the dialog: call `notify()`
+on the dialog (the element, the Svelte instance or the Vue template ref) to
+show it in the dialog's status area. A message that needs a decision now
+opens a dialog on top. React has no notification region yet.
+
+```svelte
+<script lang="ts">
+  import { createNotifier } from "@design-system/svelte";
+  import Dialog from "@design-system/svelte/Dialog.svelte";
+  import NotificationRegion from "@design-system/svelte/NotificationRegion.svelte";
+
+  const notifier = createNotifier();
+  let dialog: ReturnType<typeof Dialog> | undefined = $state();
+
+  // Unrelated to the dialog: the region shows it after the dialog closes.
+  const onReportReady = () => notifier.info("Report ready", { duration: 6000 });
+  // About the dialog's task: shown in its status area right away.
+  const onUploadError = () => dialog?.notify({ status: "danger", title: "Upload failed" });
+</script>
+
+<Dialog bind:this={dialog} title="Upload files">…</Dialog>
+<NotificationRegion {notifier} />
+```
+
 ### Props
 
 <PropsTable component="notification-region" />

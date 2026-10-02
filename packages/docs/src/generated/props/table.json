@@ -78,7 +78,7 @@
           "type": "boolean",
           "default": "false",
           "required": false,
-          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` slots; this component stays free of the selection policy itself.",
+          "description": "Render a leading structural column for row selection. The content comes from the `selectionHeader` and `selectionCell` snippets; this component stays free of the selection policy itself.",
           "descriptionFrom": "source"
         },
         {
@@ -87,6 +87,30 @@
           "default": "undefined",
           "required": false,
           "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "cell",
+          "type": "Snippet<[{ row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom cell content. Defaults to the cell value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "selectionHeader",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header cell content of the selection column.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "selectionCell",
+          "type": "Snippet<[{ row: TableRow; rowId: string | number; rowIndex: number }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Body cell content of the selection column, rendered for every row.",
           "descriptionFrom": "source"
         }
       ]

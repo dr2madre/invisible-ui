@@ -1,8 +1,10 @@
 import { combobox as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon, chevronIcon, closeIcon, pathIcon, searchIcon } from "../internal/icons";
+import { localized, onLocaleChange, t } from "../internal/i18n";
 
 export interface ComboboxItem {
   value: string;
@@ -35,7 +37,7 @@ const labelOf = (item: ComboboxItem) => item.label ?? item.value;
  *
  * Attributes: `label` (required), `hide-label`, `value`, `searchable`, `width`
  * (wrap|fill|fixed), `placeholder`, `disabled`, `clear-label`, `empty-text`,
- * `name` (submits via a hidden input).
+ * `name` (submits via a hidden input), `description`, `error`.
  * Emits: `change` (`detail.value`), `input-change` (`detail.value`).
  */
 export class DsCombobox extends HTMLElementBase {
@@ -50,12 +52,15 @@ export class DsCombobox extends HTMLElementBase {
     "clear-label",
     "searchable",
     "width",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
   #listbox: HTMLUListElement | null = null;
   #control: HTMLDivElement | null = null;
   #clear: HTMLButtonElement | null = null;
+  #chevron: HTMLButtonElement | null = null;
   #hidden: HTMLInputElement | null = null;
   /** What a form reset restores: the last value set from outside. */
   #defaultValue: string | null = null;
@@ -63,6 +68,7 @@ export class DsCombobox extends HTMLElementBase {
   #root: HTMLDivElement | null = null;
   #label: HTMLLabelElement | null = null;
   #lead: HTMLSpanElement | null = null;
+  #messages: FieldMessages | null = null;
 
   #all: ComboboxItem[] = [];
   #itemsAssigned = false;
@@ -81,6 +87,15 @@ export class DsCombobox extends HTMLElementBase {
   #onOutside: ((event: Event) => void) | null = null;
   #lastToggle = -Infinity;
   #renderedItems: ComboboxItem[] | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (!this.#input) return;
+      this.#syncPresentation();
+      this.#applyAll();
+    });
+  }
 
   connectedCallback() {
     // Taken out of the page and put back while open (a server-driven swap, a
@@ -166,6 +181,7 @@ export class DsCombobox extends HTMLElementBase {
     // The markup's value is the first default a reset can restore.
     this.#defaultValue = this.getAttribute("value");
     this.#id = core.initialState({ items: this.#all }).id;
+    this.#messages = new FieldMessages(this.#id);
 
     const root = document.createElement("div");
     root.className = "combobox";
@@ -202,7 +218,7 @@ export class DsCombobox extends HTMLElementBase {
     chevron.className = "combobox__chevron";
     chevron.type = "button";
     chevron.tabIndex = -1;
-    chevron.setAttribute("aria-label", "Show options");
+    this.#chevron = chevron;
     chevron.innerHTML = chevronIcon();
     chevron.addEventListener("mousedown", (event) => event.preventDefault());
     chevron.addEventListener("click", (event) => {
@@ -246,8 +262,8 @@ export class DsCombobox extends HTMLElementBase {
     this.#label!.textContent = this.getAttribute("label") ?? "";
     // Hidden from view, still the input's accessible name.
     this.#label!.classList.toggle("combobox__label--hidden", boolAttr(this, "hide-label"));
-    input.placeholder = this.getAttribute("placeholder") ?? "Search…";
-    this.#clear!.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear");
+    input.placeholder = localized(this, "placeholder", "combobox.placeholder");
+    this.#clear!.setAttribute("aria-label", localized(this, "clear-label", "combobox.clear"));
 
     // Select-only mode drops the search glyph, freezes the input and stops the
     // filtering, so a change has to re-derive the visible item list.
@@ -353,10 +369,15 @@ export class DsCombobox extends HTMLElementBase {
     const listbox = this.#listbox!;
 
     applyProps(input, api.inputProps);
+    this.#messages!.sync(this, this.#root!, [input]);
     if (input.value !== this.#state.inputValue) input.value = this.#state.inputValue;
     applyProps(listbox, api.listboxProps);
     applyProps(this.querySelector(".combobox__label")!, api.labelProps);
     applyProps(this.#clear!, api.clearProps);
+    this.#chevron!.setAttribute(
+      "aria-label",
+      t(this, this.#state.open ? "combobox.hide" : "combobox.show"),
+    );
 
     // Only the look is decided here, and from core's own rule: clearProps
     // already carry tabindex and aria-hidden, and a second copy of the rule
@@ -420,7 +441,7 @@ export class DsCombobox extends HTMLElementBase {
     // attribute, not on the item list, so it has to refresh even when the list
     // is untouched and the nodes are reused.
     const emptyNode = listbox.querySelector(".combobox__empty");
-    if (emptyNode) emptyNode.textContent = this.getAttribute("empty-text") ?? "No results";
+    if (emptyNode) emptyNode.textContent = localized(this, "empty-text", "combobox.empty");
 
     // Decorate every option node with the connected props (selected/active
     // state, ids, handlers) — listeners are bookkept and replaced in place.

@@ -1,4 +1,5 @@
 import { HTMLElementBase, upgradeProperty } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
 
 /** One person in the group. */
 export interface AvatarGroupItem {
@@ -31,6 +32,13 @@ export class DsAvatarGroup extends HTMLElementBase {
 
   #items: AvatarGroupItem[] = [];
   #root: HTMLDivElement | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#root) this.#render();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "items");
@@ -94,7 +102,7 @@ export class DsAvatarGroup extends HTMLElementBase {
       chip.dataset.size = size;
       chip.dataset.shape = shape;
       chip.setAttribute("role", "img");
-      chip.setAttribute("aria-label", `${overflow} more`);
+      chip.setAttribute("aria-label", t(this, "avatarGroup.more", { count: overflow }));
       const text = document.createElement("span");
       text.setAttribute("aria-hidden", "true");
       text.textContent = `+${overflow}`;

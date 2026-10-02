@@ -9,7 +9,8 @@ import {
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
+import { onOutsidePointerDown } from "../internal/dismiss";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -43,6 +44,10 @@ export interface CreateContextMenu {
   menuAction: Action<HTMLElement>;
   /** Svelte action for a menu item: `<button use:itemAction={value}>`. */
   itemAction: Action<HTMLElement, string>;
+  /** Reflect controlled items without reporting a change. */
+  syncItems: (items: MenuItem[]) => void;
+  /** Reflect the controlled disabled state. */
+  syncDisabled: (disabled: boolean) => void;
 }
 
 const TYPEAHEAD_RESET = 500;
@@ -77,6 +82,14 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     state.update((current) =>
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
+
+  // Reflect controlled props without reporting a change, so keyboard
+  // navigation and typeahead walk the items the template renders.
+  const syncItems = (items: MenuItem[]) =>
+    state.update((current) => (current.items === items ? current : { ...current, items }));
+
+  const syncDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
 
   const api = derived(state, ($state) =>
     core.connect({
@@ -124,8 +137,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
       ? menuEl.querySelector<HTMLElement>(`[data-value="${CSS.escape(value)}"]`)
       : null;
 
-  const onOutsidePointer = (event: Event) => {
-    if (menuEl?.contains(event.target as Node)) return;
+  const close = () => {
     setOpen(false);
     setActiveValue(null);
   };
@@ -134,8 +146,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
   // not, because the menu is anchored to a point that has just moved.
   const onScroll = (event: Event) => {
     if (menuEl && event.target instanceof Node && menuEl.contains(event.target)) return;
-    setOpen(false);
-    setActiveValue(null);
+    close();
   };
 
   /** Open (or re-summon) the menu at a viewport point, focusing the first item. */
@@ -237,7 +248,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     // scrolls under it that point means nothing, so the menu closes instead
     // of following. One positioning pass is therefore enough.
     reposition();
-    document.addEventListener("pointerdown", onOutsidePointer, true);
+    const stopDismiss = onOutsidePointerDown([node], close);
     window.addEventListener("scroll", onScroll, true);
 
     // Move DOM focus to the active item (roving) on open and as it changes.
@@ -250,7 +261,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     return {
       destroy() {
         unsubscribe();
-        document.removeEventListener("pointerdown", onOutsidePointer, true);
+        stopDismiss();
         window.removeEventListener("scroll", onScroll, true);
         node.removeEventListener("keydown", onKeyDown);
         clearTimeout(timer);
@@ -262,11 +273,9 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) => {
-    const itemApi = derived(api, (a) => a.getItemProps(value as string));
-    const handle = createPropsAction(itemApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
   return {
     state,
@@ -275,5 +284,7 @@ export function createContextMenu(context: ContextMenuContext): CreateContextMen
     triggerAction,
     menuAction,
     itemAction,
+    syncItems,
+    syncDisabled,
   };
 }

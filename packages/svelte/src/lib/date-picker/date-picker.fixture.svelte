@@ -1,13 +1,24 @@
 <script lang="ts">
   import DatePicker from "./DatePicker.svelte";
 
-  export let value: string | null = null;
-  export let min: string | undefined = undefined;
-  export let max: string | undefined = undefined;
-  export let clearable = false;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
-  /** When set, the page refuses the chosen date and writes this one instead. */
-  export let putBack: string | null = null;
+  interface Props {
+    value?: string | null;
+    min?: string;
+    max?: string;
+    clearable?: boolean;
+    onValueChange?: (value: string | null) => void;
+    /** When set, the page refuses the chosen date and writes this one instead. */
+    putBack?: string | null;
+  }
+
+  let {
+    value = null,
+    min,
+    max,
+    clearable = false,
+    onValueChange,
+    putBack = null,
+  }: Props = $props();
 
   function handleValueChange(next: string | null) {
     onValueChange?.(next);

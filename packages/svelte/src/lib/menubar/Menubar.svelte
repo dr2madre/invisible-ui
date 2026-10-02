@@ -12,21 +12,39 @@
    * for the bar; `onSelect(menuValue, itemValue)` runs when an item is chosen.
    * Themeable via `--ds-menu-*` (shared with DropdownMenu) and `--ds-menubar-*`.
    */
+  import { untrack } from "svelte";
   import { createMenubar, type MenubarMenu } from "./create-menubar";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
-  /** Accessible name for the menubar. */
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let label: string;
-  /** The top-level menus. */
-  export let menus: MenubarMenu[];
-  /** Called with the chosen item's menu value and item value. */
-  export let onSelect: ((menuValue: string, itemValue: string) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible name for the menubar. */
+    label: string;
+    /** The top-level menus. */
+    menus: MenubarMenu[];
+    /** Called with the chosen item's menu value and item value. */
+    onSelect?: (menuValue: string, itemValue: string) => void;
+  }
 
-  const menubar = createMenubar({ menus, onSelect });
-  const { menubarAction, focusedIndex, menus: items } = menubar;
+  let { label, menus, onSelect }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menubar = untrack(() =>
+    createMenubar({
+      menus,
+      onSelect: (menuValue, itemValue) => onSelect?.(menuValue, itemValue),
+    }),
+  );
+  const { menubarAction, focusedIndex, menus: items, syncMenus } = menubar;
+
+  // Menus changed after mount reach the machine, so the bar renders and
+  // navigates the menus it is given now.
+  $effect.pre(() => {
+    syncMenus(menus);
+  });
 </script>
 
 <div
@@ -36,7 +54,7 @@
   aria-orientation="horizontal"
   use:menubarAction
 >
-  {#each items as menu, i (menu.value)}
+  {#each $items as menu, i (menu.value)}
     <div class="menubar__menu">
       <button
         class="menubar__trigger"
@@ -149,9 +167,12 @@
   .menubar__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
+     marks the focused item. The menu clips, so the ring goes inside. */
   .menubar__item:focus-visible {
     outline: none;
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .menubar__item:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #757067);

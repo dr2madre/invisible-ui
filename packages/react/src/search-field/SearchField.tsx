@@ -1,5 +1,6 @@
 import { useRef, type InputHTMLAttributes } from "react";
-import { Icon } from "../icon/Icon";
+import { CloseGlyph, Icon, SearchGlyph } from "../icon/Icon";
+import { cx } from "../internal/cx";
 import { useI18n } from "../i18n/i18n";
 import { useTextField } from "../text-field/use-text-field";
 
@@ -64,13 +65,11 @@ export function SearchField({
 
   return (
     <div
-      className={[
+      className={cx(
         "search-field",
         disabled ? "search-field--disabled" : "",
         submitButton ? "" : "search-field--no-submit",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
     >
       <label
         {...api.labelProps}
@@ -89,8 +88,7 @@ export function SearchField({
         {submitButton ? null : (
           <span className="search-field__icon" aria-hidden="true">
             <Icon>
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <SearchGlyph />
             </Icon>
           </span>
         )}
@@ -113,8 +111,7 @@ export function SearchField({
             onClick={clear}
           >
             <Icon>
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
+              <CloseGlyph />
             </Icon>
           </button>
         ) : null}
@@ -126,8 +123,7 @@ export function SearchField({
             disabled={disabled}
           >
             <Icon>
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <SearchGlyph />
             </Icon>
           </button>
         ) : null}

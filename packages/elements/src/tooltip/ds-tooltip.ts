@@ -1,6 +1,7 @@
 import { tooltip as core } from "@design-system/core";
 import { applyProps, HTMLElementBase, nextId } from "../internal/base";
 import { attachFloating, type Placement } from "../internal/floating";
+import { overlayRoot } from "../internal/overlay-root";
 
 const FOCUSABLE = "button, a[href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
 
@@ -113,7 +114,7 @@ export class DsTooltip extends HTMLElementBase {
       // Hoverable: the pointer may move onto the tooltip without closing it.
       tip.addEventListener("pointerenter", () => this.#hold());
       tip.addEventListener("pointerleave", () => this.#hide());
-      document.body.appendChild(tip);
+      overlayRoot(this).appendChild(tip);
       this.#tip = tip;
       this.#stop = attachFloating(this, tip, {
         placement: (this.getAttribute("placement") as Placement | null) ?? "top",
@@ -132,7 +133,24 @@ export class DsTooltip extends HTMLElementBase {
 
   #sync() {
     const api = core.connect({ state: { open: this.#open, id: this.#id } });
-    applyProps(this.#trigger(), api.triggerProps);
+    const { "aria-describedby": describedBy, ...triggerProps } = api.triggerProps;
+    const trigger = this.#trigger();
+    applyProps(trigger, triggerProps);
+    this.#describe(trigger, typeof describedBy === "string" ? describedBy : null);
     if (this.#tip) applyProps(this.#tip, api.tooltipProps);
+  }
+
+  /**
+   * Add or remove only the tooltip's own id in the trigger's
+   * `aria-describedby`, so ids the page set there stay.
+   */
+  #describe(trigger: HTMLElement, id: string | null) {
+    const own = core.tooltipId(this.#id);
+    const tokens = (trigger.getAttribute("aria-describedby") ?? "")
+      .split(/\s+/)
+      .filter((token) => token && token !== own);
+    if (id) tokens.push(id);
+    if (tokens.length) trigger.setAttribute("aria-describedby", tokens.join(" "));
+    else trigger.removeAttribute("aria-describedby");
   }
 }

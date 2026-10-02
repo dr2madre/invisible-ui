@@ -37,6 +37,14 @@ Nothing is silently corrected.
 
 <ImportSnippet component="time-field" />
 
+In Elements, the hour cycle follows the locale unless `hour-cycle` is set, and `name` submits the time with the form:
+
+```html
+<form>
+  <ds-time-field label="Start" name="start" value="08:30" min="09:00"></ds-time-field>
+</form>
+```
+
 ### Props
 
 <PropsTable component="time-field" />

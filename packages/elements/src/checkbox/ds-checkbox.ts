@@ -5,8 +5,10 @@ import {
   boolAttr,
   emit,
   HTMLElementBase,
+  nextId,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon, dashIcon } from "../internal/icons";
 
@@ -20,7 +22,7 @@ import { checkIcon, dashIcon } from "../internal/icons";
  * through `rootDomProps`.
  *
  * Attributes: `label` (required), `hide-label`, `checked`, `indeterminate`, `disabled`,
- * `name`, `value`, `required`.
+ * `name`, `value`, `required`, `description`, `error`.
  * Properties: `checked` (boolean | "indeterminate").
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
@@ -34,10 +36,13 @@ export class DsCheckbox extends HTMLElementBase {
     "name",
     "value",
     "required",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
   #text: HTMLSpanElement | null = null;
+  #messages = new FieldMessages(nextId("ds-checkbox"));
   /** What a form reset restores: the last state set from outside. */
   #defaultChecked: core.CheckedState = false;
   /** Set while the two state attributes are written as one change. */
@@ -152,5 +157,8 @@ export class DsCheckbox extends HTMLElementBase {
     // The real DOM default, so the browser's own reset works and so does one
     // in markup the script never reaches.
     input.defaultChecked = this.#defaultChecked === true;
+    // Outside the label, so the messages describe the checkbox without
+    // joining its name.
+    this.#messages.sync(this, this, [input]);
   }
 }

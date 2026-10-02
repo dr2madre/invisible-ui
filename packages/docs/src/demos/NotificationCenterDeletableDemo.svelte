@@ -14,7 +14,7 @@
       "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z",
     system: "M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z M12 8v4 M12 16h.01",
   };
-  let items = [
+  let items = $state([
     {
       id: 1,
       topic: "deploys",
@@ -36,29 +36,31 @@
       text: "5 issues closed, 2 opened.",
       time: "Mon",
     },
-  ];
+  ]);
   const remove = (id) => (items = items.filter((i) => i.id !== id));
   const clearAll = () => (items = []);
 </script>
 
 <SheetDialog side="right" title="Notifications" triggerVariant="ghost">
-  <span slot="trigger">
-    <span style="position: relative; display: inline-flex;">
-      <Icon>
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </Icon>
-      {#if items.length > 0}
-        <span style="position: absolute; inset-block-start: -0.5rem; inset-inline-end: -0.5rem;">
-          <Count count={items.length} label={`${items.length} notifications`} />
-        </span>
-      {/if}
+  {#snippet trigger()}
+    <span>
+      <span style="position: relative; display: inline-flex;">
+        <Icon>
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </Icon>
+        {#if items.length > 0}
+          <span style="position: absolute; inset-block-start: -0.5rem; inset-inline-end: -0.5rem;">
+            <Count count={items.length} label={`${items.length} notifications`} />
+          </span>
+        {/if}
+      </span>
     </span>
-  </span>
+  {/snippet}
 
-  <svelte:fragment slot="headerActions">
+  {#snippet headerActions()}
     <Button variant="ghost" onpress={clearAll} disabled={items.length === 0}>Clear all</Button>
-  </svelte:fragment>
+  {/snippet}
 
   {#if items.length === 0}
     <p style="color: var(--ds-color-text-secondary);">No notifications.</p>
@@ -74,7 +76,7 @@
           closeLabel={`Delete “${item.title}”`}
           onclose={() => remove(item.id)}
         >
-          <Icon slot="icon"><path d={ICONS[item.topic]} /></Icon>
+          {#snippet icon()}<Icon><path d={ICONS[item.topic]} /></Icon>{/snippet}
           <span style="display: grid; gap: 0.15rem;">
             <span>{item.text}</span>
             <span style="font-size: 0.75rem; color: var(--ds-color-text-secondary);"

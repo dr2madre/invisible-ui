@@ -26,6 +26,12 @@ describe("Svelte Link (styled)", () => {
     expect(el).toHaveAttribute("rel", "noopener noreferrer");
   });
 
+  it("adds the safe rel when a new tab comes in as a plain target", () => {
+    render(Fixture, { props: { href: "https://example.com", target: "_blank" } });
+    expect(link()).toHaveAttribute("target", "_blank");
+    expect(link()).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   it("marks the external icon as decorative so it is not announced", () => {
     render(Fixture, { props: { href: "https://example.com", external: true } });
     const icon = document.querySelector(".link__external")!;

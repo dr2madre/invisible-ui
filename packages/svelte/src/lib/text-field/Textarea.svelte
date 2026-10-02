@@ -10,49 +10,82 @@
    * announces the message. Colors and sizing are themeable CSS custom
    * properties (`--ds-field-*`).
    */
+  import { untrack } from "svelte";
   import { textField as core } from "@design-system/core";
   import type { HTMLTextareaAttributes } from "svelte/elements";
   import Icon from "../icon/Icon.svelte";
   import { createTextField } from "./create-text-field";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
-  /** Visible label, tied to the control. */
-  export let label: string;
-  export let value = "";
-  export let placeholder: string | undefined = undefined;
-  export let rows = 3;
-  /** Optional hint shown under the control and linked via aria-describedby. */
-  export let description: string | undefined = undefined;
-  /** Error message; when non-empty the field becomes invalid and announces it. */
-  export let error: string | undefined = undefined;
-  /** Success/validated message; shows a confirming caption. */
-  export let success: string | undefined = undefined;
-  export let disabled = false;
-  export let required = false;
-  export let readOnly = false;
-  /** Form field name — the value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Native textarea autocomplete hint. */
-  export let autocomplete: HTMLTextareaAttributes["autocomplete"] = undefined;
-  /** Native length limits; the browser enforces them and reports them. */
-  export let maxlength: number | undefined = undefined;
-  export let minlength: number | undefined = undefined;
-  /** Turn spelling correction off for codes and identifiers. */
-  export let spellcheck: boolean | undefined = undefined;
-  /** Called whenever the value changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    /** Visible label, tied to the control. */
+    label: string;
+    /**
+     * Visually hide the label while keeping it as the accessible name. The label
+     * text is always required.
+     */
+    hideLabel?: boolean;
+    value?: string;
+    placeholder?: string;
+    rows?: number;
+    /** Optional hint shown under the control and linked via aria-describedby. */
+    description?: string;
+    /** Error message; when non-empty the field becomes invalid and announces it. */
+    error?: string;
+    /** Success/validated message; shows a confirming caption. */
+    success?: string;
+    disabled?: boolean;
+    required?: boolean;
+    readOnly?: boolean;
+    /** Form field name — the value is submitted under it. */
+    name?: string;
+    /** Native textarea autocomplete hint. */
+    autocomplete?: HTMLTextareaAttributes["autocomplete"];
+    /** Native length limits; the browser enforces them and reports them. */
+    maxlength?: number;
+    minlength?: number;
+    /** Turn spelling correction off for codes and identifiers. */
+    spellcheck?: boolean;
+    /** Called whenever the value changes. */
+    onValueChange?: (value: string) => void;
+  }
 
-  const field = createTextField({
-    value,
-    disabled,
-    required,
-    readOnly,
-    invalid: !!error,
-    hasDescription: !!description,
-    hasSuccess: !!success,
-    // A live callback reference (ADR 0011).
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  let {
+    label,
+    hideLabel = false,
+    value = $bindable(""),
+    placeholder,
+    rows = 3,
+    description,
+    error,
+    success,
+    disabled = false,
+    required = false,
+    readOnly = false,
+    name,
+    autocomplete,
+    maxlength,
+    minlength,
+    spellcheck,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effect below follow
+  // later ones.
+  const field = untrack(() =>
+    createTextField({
+      value,
+      disabled,
+      required,
+      readOnly,
+      invalid: !!error,
+      hasDescription: !!description,
+      hasSuccess: !!success,
+      // A live callback reference (ADR 0011).
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
   const {
     state: fieldState,
     labelAction,
@@ -64,47 +97,43 @@
     syncValue,
   } = field;
 
-  // Controllable mirror, compared against the last prop value: see ADR 0011.
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $fieldState.value) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $fieldState.value,
+  });
 
-  $: field.setFlags({
-    disabled,
-    required,
-    readOnly,
-    invalid: !!error,
-    hasDescription: !!description,
-    hasSuccess: !!success,
+  $effect.pre(() => {
+    field.setFlags({
+      disabled,
+      required,
+      readOnly,
+      invalid: !!error,
+      hasDescription: !!description,
+      hasSuccess: !!success,
+    });
   });
 
   function onInput(event: Event) {
-    value = (event.currentTarget as HTMLTextAreaElement).value;
-    setValue(value);
+    const next = (event.currentTarget as HTMLTextAreaElement).value;
+    // The prop first, then the report (ADR 0011).
+    mirror.write(next);
+    setValue(next);
   }
 </script>
 
 <div
-  class="field"
-  class:field--invalid={!!error}
-  class:field--success={!!success && !error}
-  class:field--disabled={disabled}
+  class={[
+    "field",
+    !!error && "field--invalid",
+    !!success && !error && "field--success",
+    disabled && "field--disabled",
+  ]}
 >
   <label
-    class="field__label"
+    class={["field__label", hideLabel && "field__label--hidden"]}
     for={core.controlId($fieldState.id)}
     id={core.labelId($fieldState.id)}
     use:labelAction
@@ -119,14 +148,14 @@
     {placeholder}
     {rows}
     value={$fieldState.value}
-    {defaultValue}
+    defaultValue={mirror.defaultValue}
     {maxlength}
     {minlength}
     {spellcheck}
     id={core.controlId($fieldState.id)}
-    on:input={onInput}
+    oninput={onInput}
     use:controlAction
-    use:formReset={restore}></textarea>
+    use:formReset={mirror.restore}></textarea>
 
   {#if description}
     <p class="field__description" id={core.descriptionId($fieldState.id)} use:descriptionAction>
@@ -169,6 +198,19 @@
   .field__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .field__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .field--disabled .field__label {
     color: var(--ds-color-text-disabled, #757067);

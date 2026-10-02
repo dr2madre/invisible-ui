@@ -296,11 +296,13 @@ export const TableView = defineComponent({
     );
 
     // The sentinel drives infinite scroll: it loads more as soon as the bottom
-    // of the list comes into view.
+    // of the list comes into view. The observer starts again whenever loading
+    // ends or more rows become available: a fresh observer reports the current
+    // intersection, so a sentinel that never left the view asks again.
     const sentinelRef = ref<HTMLElement | null>(null);
     watch(
-      sentinelRef,
-      (node, _previous, onCleanup) => {
+      () => [sentinelRef.value, props.loading, props.hasMore] as const,
+      ([node], _previous, onCleanup) => {
         if (!node || typeof IntersectionObserver === "undefined") return;
         const observer = new IntersectionObserver((entries) => {
           if (entries.some((entry) => entry.isIntersecting) && props.hasMore && !props.loading) {

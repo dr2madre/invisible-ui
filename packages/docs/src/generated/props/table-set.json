@@ -14,16 +14,16 @@
           "type": "TableColumnDef[]",
           "default": "[]",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "Single-view columns (used when `views` is not provided).",
+          "descriptionFrom": "source"
         },
         {
           "name": "rows",
           "type": "TableRow[]",
           "default": "[]",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "Single-view rows (used when `views` is not provided).",
+          "descriptionFrom": "source"
         },
         {
           "name": "views",
@@ -343,6 +343,22 @@
           "default": "undefined",
           "required": false,
           "description": "Copy for the no-results state. Defaults to the i18n catalog's message.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "toolbar",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Header content beside the title, e.g. filters or actions.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "cell",
+          "type": "Snippet<[{ row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom cell content, in the table and in the cards. Defaults to the cell value.",
           "descriptionFrom": "source"
         }
       ]
@@ -719,14 +735,14 @@
           "descriptionFrom": "none"
         },
         {
-          "name": "title",
+          "name": "heading",
           "reactive": true,
           "required": false,
           "description": "",
           "descriptionFrom": "none"
         },
         {
-          "name": "title-level",
+          "name": "heading-level",
           "reactive": true,
           "required": false,
           "description": "",

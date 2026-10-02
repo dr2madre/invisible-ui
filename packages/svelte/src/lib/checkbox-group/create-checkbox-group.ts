@@ -1,7 +1,7 @@
 import { checkboxGroup as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
 export type CheckboxGroupItem = core.CheckboxGroupItem;
@@ -52,13 +52,11 @@ export function createCheckboxGroup(context: CheckboxGroupContext): CreateCheckb
     core.connect({ state: $state, setValue, normalize: normalizeProps }),
   );
 
-  const rootAction = createPropsAction(api, (a) => a.rootProps);
+  const rootAction = createRootAction(api);
 
-  const itemAction: Action<HTMLElement, string> = (node, value) => {
-    const itemApi = derived(api, (a) => a.getItemProps(value as string));
-    const handle = createPropsAction(itemApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
   return {
     state,

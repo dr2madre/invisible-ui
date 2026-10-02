@@ -9,30 +9,40 @@
    * Provide a `label` for the accessible name. Colors, height and radius are
    * themeable via `--ds-meter-*` (per level: `--ds-meter-fill-poor|suboptimal|optimal`).
    */
+  import { untrack } from "svelte";
   import { createMeter } from "./create-meter";
 
-  /** Current measured value. */
-  export let value = 0;
-  /** Minimum value. */
-  export let min = 0;
-  /** Maximum value. */
-  export let max = 100;
-  /** Upper bound of the "low" range. */
-  export let low: number | undefined = undefined;
-  /** Lower bound of the "high" range. */
-  export let high: number | undefined = undefined;
-  /**
-   * Where the good end of the scale is. Defaults to `max`, so more reads as
-   * better; set it near `min` for a measure where less is better.
-   */
-  export let optimum: number | undefined = undefined;
-  /** Accessible name for the meter. */
-  export let label: string;
+  interface Props {
+    /** Current measured value. */
+    value?: number;
+    /** Minimum value. */
+    min?: number;
+    /** Maximum value. */
+    max?: number;
+    /** Upper bound of the "low" range. */
+    low?: number;
+    /** Lower bound of the "high" range. */
+    high?: number;
+    /**
+     * Where the good end of the scale is. Defaults to `max`, so more reads as
+     * better; set it near `min` for a measure where less is better.
+     */
+    optimum?: number;
+    /** Accessible name for the meter. */
+    label: string;
+  }
 
-  const meter = createMeter({ value, min, max, low, high, optimum });
+  let { value = 0, min = 0, max = 100, low, high, optimum, label }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  const meter = untrack(() => createMeter({ value, min, max, low, high, optimum }));
   const { rootAction, indicatorAction, percentage } = meter;
 
-  $: meter.sync({ value, min, max, low, high, optimum });
+  // The machine keeps its own store, so props changed after mount are pushed
+  // into it.
+  $effect.pre(() => {
+    meter.sync({ value, min, max, low, high, optimum });
+  });
 </script>
 
 <!-- The role is declared here as well as applied by the action, so the

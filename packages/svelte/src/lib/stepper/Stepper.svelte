@@ -21,22 +21,38 @@
    * controlled component via `current` + `onStepChange`. Completed steps show a
    * check; the current/upcoming steps show their number. Themed (`--ds-step-*`).
    */
+  import { untrack } from "svelte";
   import { createStepper, type StepperContext } from "./create-stepper";
+  import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  export let steps: StepDescriptor[];
-  export let current = 0;
-  export let linear = true;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let disabled = false;
-  /** Accessible name for the progress nav (announced by screen readers). Defaults to the i18n catalog's "Progress". */
-  export let label: string | undefined = undefined;
-  /** Called whenever the current step changes. */
-  export let onStepChange: ((current: number) => void) | undefined = undefined;
+  interface Props {
+    steps: StepDescriptor[];
+    current?: number;
+    linear?: boolean;
+    orientation?: "horizontal" | "vertical";
+    disabled?: boolean;
+    /** Accessible name for the progress nav (announced by screen readers). Defaults to the i18n catalog's "Progress". */
+    label?: string;
+    /** Called whenever the current step changes. */
+    onStepChange?: (current: number) => void;
+  }
 
-  const context: StepperContext = {
+  let {
+    steps,
+    current = $bindable(0),
+    linear = true,
+    orientation = "horizontal",
+    disabled = false,
+    label,
+    onStepChange,
+  }: Props = $props();
+
+  // Seeded once from the first props, as before: only the current step
+  // follows later ones.
+  const context: StepperContext = untrack(() => ({
     count: steps.length,
     current,
     linear,
@@ -44,27 +60,24 @@
     disabled,
     // A live callback reference (ADR 0011).
     onStepChange: (next) => onStepChange?.(next),
-  };
+  }));
 
   const stepper = createStepper(context);
   const { rootAction, listAction, stepAction, current: currentStore, syncStep } = stepper;
 
-  // Controllable mirror, compared against the last prop value (ADR 0011): a
-  // sync never reports a change.
-  let lastCurrent = current;
-  $: if (current !== lastCurrent) {
-    lastCurrent = current;
-    syncStep(current);
-  }
+  // Controllable mirror (ADR 0011): a sync never reports a change.
+  controllable({ get: () => current, reflect: syncStep });
 
   // One status per step, recomputed when the step changes: read through a
   // plain function the template never recomputed it, so a step reflected from
   // the outside kept the status it had at mount.
-  $: statuses = steps.map((_, index) =>
-    index < $currentStore ? "complete" : index === $currentStore ? "current" : "upcoming",
+  const statuses = $derived(
+    steps.map((_, index) =>
+      index < $currentStore ? "complete" : index === $currentStore ? "current" : "upcoming",
+    ),
   );
 
-  $: resolvedLabel = label ?? $t("stepper.label");
+  const resolvedLabel = $derived(label ?? $t("stepper.label"));
 </script>
 
 <nav class="stepper" use:rootAction aria-label={resolvedLabel}>

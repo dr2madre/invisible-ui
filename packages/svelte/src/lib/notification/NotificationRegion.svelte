@@ -13,92 +13,162 @@
    * cap for consumers who want one — unset by default, so the window height is
    * the only bound.
    *
+   * While a modal dialog is open anywhere in the document, new notifications
+   * wait in the queue, unshown and unannounced (ADR 0016): the dialog holds
+   * the user's attention and makes the page behind it inert. When the last
+   * modal closes they appear in order, and their auto-dismiss countdowns start
+   * then. Notifications already shown when a modal opens stay, with their
+   * countdowns held; a change to one of them shows, and is announced, after
+   * the modal closes. A message about the dialog's own task belongs in the
+   * dialog's status area (`notify()` on the dialog), and a message that needs
+   * a decision now belongs in a dialog opened on top. The region always
+   * mounts in `<body>`, even when it is placed inside a dialog.
+   *
    *   <NotificationRegion {notifier} placement="top-end" />
    */
+  import { untrack } from "svelte";
   import { flip } from "svelte/animate";
-  import { SvelteMap } from "svelte/reactivity";
+  import type { Attachment } from "svelte/attachments";
   import { fly } from "svelte/transition";
   import { cubicIn, cubicOut } from "svelte/easing";
-  import { portal } from "../internal/portal";
+  import { hasOpenModal, onModalChange } from "../internal/modal-stack";
   import { swipeDismiss } from "../internal/swipe";
   import Notification from "./Notification.svelte";
   import { getI18n } from "../i18n/create-i18n";
-  import type { Notifier } from "./create-notifier";
+  import type { NotificationItem, Notifier } from "./create-notifier";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let notifier: Notifier;
-  export let placement:
-    "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end" =
-    "top-end";
-  /** Accessible name for the region landmark. Defaults to the i18n catalog's "Notices". */
-  export let label: string | undefined = undefined;
-  /**
-   * Optional cap on notifications rendered at once. `0` (default) means no
-   * count cap — the pile fills the window height and clips the oldest at the
-   * far edge. Set a number to also limit by count.
-   */
-  export let maxVisible = 0;
-  /** Distance from the viewport edges, as a CSS length. Default `1rem`. */
-  export let inset = "1rem";
-  /** Allow swiping a notification away (pointer/touch). Default `true`. */
-  export let swipeable = true;
-  /** Enter/reflow duration in ms. */
-  export let duration = 200;
-  /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
-  export let exitDuration: number | undefined = undefined;
-  /** Easing for enter/reflow. Ease-out by default. */
-  export let easing: (t: number) => number = cubicOut;
-  /**
-   * Easing for the leave animation. Ease-in by default: starts slow and
-   * accelerates away, so a dismissal never snaps.
-   */
-  export let exitEasing: (t: number) => number = cubicIn;
+  interface Props {
+    notifier: Notifier;
+    placement?:
+      "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end";
+    /** Accessible name for the region landmark. Defaults to the i18n catalog's "Notices". */
+    label?: string;
+    /**
+     * Optional cap on notifications rendered at once. `0` (default) means no
+     * count cap — the pile fills the window height and clips the oldest at the
+     * far edge. Set a number to also limit by count.
+     */
+    maxVisible?: number;
+    /** Distance from the viewport edges, as a CSS length. Default `1rem`. */
+    inset?: string;
+    /** Allow swiping a notification away (pointer/touch). Default `true`. */
+    swipeable?: boolean;
+    /** Enter/reflow duration in ms. */
+    duration?: number;
+    /** Leave duration in ms. Defaults to 1.75× `duration` — a gentler exit. */
+    exitDuration?: number;
+    /** Easing for enter/reflow. Ease-out by default. */
+    easing?: (t: number) => number;
+    /**
+     * Easing for the leave animation. Ease-in by default: starts slow and
+     * accelerates away, so a dismissal never snaps.
+     */
+    exitEasing?: (t: number) => number;
+  }
 
-  const prefersReduced =
-    typeof window !== "undefined" && typeof window.matchMedia === "function"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
+  let {
+    notifier,
+    placement = "top-end",
+    label,
+    maxVisible = 0,
+    inset = "1rem",
+    swipeable = true,
+    duration = 200,
+    exitDuration,
+    easing = cubicOut,
+    exitEasing = cubicIn,
+  }: Props = $props();
 
-  $: resolvedLabel = label ?? $t("notificationRegion.label");
-  $: motion = prefersReduced ? 0 : duration;
-  $: motionOut = prefersReduced ? 0 : (exitDuration ?? Math.round(duration * 1.75));
-  $: flyY = placement.startsWith("top") ? -16 : 16;
-  // New notifications always enter; past the limit the OLDEST leave. Never
-  // hold a new notification in an invisible queue.
-  $: visible = maxVisible > 0 ? $notifier.slice(-maxVisible) : $notifier;
+  // Read after mount and kept in sync with the OS setting: the server cannot
+  // know the preference, so the first client render must match its output.
+  let prefersReduced = $state(false);
+  const followReducedMotion: Attachment<HTMLElement> = () => {
+    if (typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => (prefersReduced = query.matches);
+    sync();
+    query.addEventListener?.("change", sync);
+    return () => query.removeEventListener?.("change", sync);
+  };
+
+  const resolvedLabel = $derived(label ?? $t("notificationRegion.label"));
+  const motion = $derived(prefersReduced ? 0 : duration);
+  const motionOut = $derived(prefersReduced ? 0 : (exitDuration ?? Math.round(duration * 1.75)));
+  const flyY = $derived(placement.startsWith("top") ? -16 : 16);
+  // Whether a modal dialog is open in the document, and, while one is, the
+  // notifications that were on screen when it opened, as they were then: only
+  // those stay, and a change to one of them waits for the modal to close.
+  let modalOpen = $state(typeof document !== "undefined" && hasOpenModal(document));
+  let held = $state.raw(new Map<string, NotificationItem>());
+  const eligible = $derived(
+    modalOpen
+      ? $notifier.flatMap((n) => {
+          const shown = held.get(n.id);
+          return shown ? [shown] : [];
+        })
+      : $notifier,
+  );
+  // New notifications always enter; past the limit the OLDEST leave.
+  const visible = $derived(maxVisible > 0 ? eligible.slice(-maxVisible) : eligible);
+
+  const syncModal = (doc: Document) => {
+    const open = hasOpenModal(doc);
+    if (open === modalOpen) return;
+    held = open ? new Map(visible.map((n) => [n.id, n])) : new Map();
+    modalOpen = open;
+  };
+  // Mounted in <body>, never in a dialog around it: a notification inside a
+  // modal would compete with the dialog for attention (ADR 0016). The same
+  // attachment follows every dialog that opens or closes.
+  const mountInBody: Attachment<HTMLElement> = (node) => {
+    const doc = node.ownerDocument;
+    doc.body.appendChild(node);
+    untrack(() => syncModal(doc));
+    const stop = onModalChange(doc, () => syncModal(doc));
+    return () => {
+      stop();
+      node.remove();
+    };
+  };
 
   // Stable paint order, assigned once per notification: older = higher, so
   // every toast covers the shadow of the one above (the newer one) — and a
   // dismissed toast keeps its slot in the order while it animates out,
   // instead of momentarily tying with a neighbour when indexes shift.
-  const paintOrder = new SvelteMap<string, number>();
+  // The order remembers earlier runs, so it lives in a plain map that each
+  // new list of notifications updates; the derived hands out a fresh copy,
+  // and that copy is what the template reads.
+  // eslint-disable-next-line svelte/prefer-svelte-reactivity -- a memo only the derived below reads
+  const order = new Map<string, number>();
   let seq = 0;
   // How many dismissed notifications keep their slot: enough to cover the ones
   // still animating out, not enough to grow for the life of the region.
   const RECENT = 8;
-  $: {
-    for (const n of visible) if (!paintOrder.has(n.id)) paintOrder.set(n.id, ++seq);
+  const paintOrder = $derived.by(() => {
+    for (const n of visible) if (!order.has(n.id)) order.set(n.id, ++seq);
     const showing = new Set(visible.map((n) => n.id));
-    const gone = [...paintOrder.keys()].filter((id) => !showing.has(id));
-    for (const id of gone.slice(0, Math.max(0, gone.length - RECENT))) paintOrder.delete(id);
+    const gone = [...order.keys()].filter((id) => !showing.has(id));
+    for (const id of gone.slice(0, Math.max(0, gone.length - RECENT))) order.delete(id);
     // The numbers are then closed up again, so what is left is what is on
     // screen plus a few on their way out. Counting on for the life of the
     // region would push the paint order out of its range.
     let renumbered = 0;
-    for (const id of [...paintOrder.keys()]) paintOrder.set(id, ++renumbered);
+    for (const id of [...order.keys()]) order.set(id, ++renumbered);
     seq = renumbered;
-  }
+    return new Map(order);
+  });
   const zOf = (id: string) => 100000 - (paintOrder.get(id) ?? 0);
 
   // Pause the WHOLE stack while any notification is hovered or holds focus, so
   // a burst pauses together (not just the one under the pointer). pointerover/
   // out and focusin/out bubble from the interactive slots through the region's
   // pointer-events:none root; leaving is "no longer inside the region".
-  let regionEl: HTMLElement;
-  let pointerInside = false;
-  let focusInside = false;
-  $: paused = pointerInside || focusInside;
+  let regionEl: HTMLElement | undefined;
+  let pointerInside = $state(false);
+  let focusInside = $state(false);
+  const paused = $derived(pointerInside || focusInside || modalOpen);
   const inside = (target: EventTarget | null) =>
     target instanceof Node && regionEl?.contains(target);
 </script>
@@ -113,17 +183,18 @@
   role="region"
   aria-label={resolvedLabel}
   style:padding={inset}
-  on:pointerover={() => (pointerInside = true)}
-  on:pointerout={(e) => {
+  onpointerover={() => (pointerInside = true)}
+  onpointerout={(e) => {
     if (!inside(e.relatedTarget)) pointerInside = false;
   }}
-  on:focusin={() => (focusInside = true)}
-  on:focusout={(e) => {
+  onfocusin={() => (focusInside = true)}
+  onfocusout={(e) => {
     if (!inside(e.relatedTarget)) focusInside = false;
   }}
   lang={$i18nLocale}
   dir={$i18nDir}
-  use:portal
+  {@attach mountInBody}
+  {@attach followReducedMotion}
 >
   {#each visible as notice (notice.id)}
     <div

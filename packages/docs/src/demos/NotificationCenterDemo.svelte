@@ -31,7 +31,7 @@
   ];
   const iconOf = (topic) => TOPICS.find((t) => t.id === topic)?.icon ?? "";
 
-  let items = [
+  let items = $state([
     {
       id: 1,
       topic: "deploys",
@@ -77,35 +77,38 @@
       when: "week",
       read: true,
     },
-  ];
+  ]);
 
-  let enabled = Object.fromEntries(TOPICS.map((t) => [t.id, true]));
-  // Selected filter topics. A plain array reassigned on toggle — a reactive
-  // source `$:` actually tracks (a mutated Set/SvelteSet would not re-run it).
-  let activeTopics = [];
-  let query = "";
-  let showSettings = false;
+  let enabled = $state(Object.fromEntries(TOPICS.map((t) => [t.id, true])));
+  // Selected filter topics, reassigned on toggle.
+  let activeTopics = $state([]);
+  let query = $state("");
+  let showSettings = $state(false);
 
   const toggleChip = (id, on) => {
     activeTopics = on ? [...activeTopics, id] : activeTopics.filter((t) => t !== id);
   };
 
-  $: visible = items.filter(
-    (i) =>
-      enabled[i.topic] &&
-      (activeTopics.length === 0 || activeTopics.includes(i.topic)) &&
-      (query === "" || (i.title + " " + i.text).toLowerCase().includes(query.toLowerCase())),
+  const visible = $derived(
+    items.filter(
+      (i) =>
+        enabled[i.topic] &&
+        (activeTopics.length === 0 || activeTopics.includes(i.topic)) &&
+        (query === "" || (i.title + " " + i.text).toLowerCase().includes(query.toLowerCase())),
+    ),
   );
-  $: unread = items.filter((i) => !i.read && enabled[i.topic]).length;
+  const unread = $derived(items.filter((i) => !i.read && enabled[i.topic]).length);
   const SECTIONS = [
     { key: "today", label: "Today" },
     { key: "yesterday", label: "Yesterday" },
     { key: "week", label: "This week" },
   ];
-  $: bySection = SECTIONS.map((s) => ({
-    ...s,
-    rows: visible.filter((i) => i.when === s.key),
-  })).filter((s) => s.rows.length > 0);
+  const bySection = $derived(
+    SECTIONS.map((s) => ({
+      ...s,
+      rows: visible.filter((i) => i.when === s.key),
+    })).filter((s) => s.rows.length > 0),
+  );
 
   const markAllRead = () => (items = items.map((i) => ({ ...i, read: true })));
   // Notifications are not deleted — only marked read.
@@ -117,22 +120,24 @@
   title={showSettings ? "Notification Settings" : "Notifications"}
   triggerVariant="ghost"
 >
-  <span slot="trigger" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-    <span style="position: relative; display: inline-flex;">
-      <Icon>
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-      </Icon>
-      {#if unread > 0}
-        <span style="position: absolute; inset-block-start: -0.5rem; inset-inline-end: -0.5rem;">
-          <Count count={unread} label={`${unread} unread notifications`} />
-        </span>
-      {/if}
+  {#snippet trigger()}
+    <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+      <span style="position: relative; display: inline-flex;">
+        <Icon>
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </Icon>
+        {#if unread > 0}
+          <span style="position: absolute; inset-block-start: -0.5rem; inset-inline-end: -0.5rem;">
+            <Count count={unread} label={`${unread} unread notifications`} />
+          </span>
+        {/if}
+      </span>
+      Notifications
     </span>
-    Notifications
-  </span>
+  {/snippet}
 
-  <svelte:fragment slot="headerLead">
+  {#snippet headerLead()}
     {#if showSettings}
       <!-- Back to the notifications list — on the leading edge, before the title. -->
       <Button
@@ -144,9 +149,9 @@
         <Icon><path d="M19 12H5m7-7-7 7 7 7" /></Icon>
       </Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="headerActions">
+  {#snippet headerActions()}
     {#if !showSettings}
       <!-- Settings gear sits last, next to the close button. -->
       <Button
@@ -163,7 +168,7 @@
         </Icon>
       </Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
   {#if showSettings}
     <div style="display: grid; gap: 0.75rem;">
@@ -215,7 +220,7 @@
             {#each section.rows as item (item.id)}
               <div class="nc-row">
                 <InlineNotification plain status="neutral" iconBox="transparent" title={item.title}>
-                  <Icon slot="icon"><path d={iconOf(item.topic)} /></Icon>
+                  {#snippet icon()}<Icon><path d={iconOf(item.topic)} /></Icon>{/snippet}
                   <span style="display: grid; gap: 0.15rem;">
                     <span>{item.text}</span>
                     <span style="font-size: 0.75rem; color: var(--ds-color-text-secondary);">
@@ -229,7 +234,7 @@
                     type="button"
                     class="nc-dot"
                     aria-label={`Mark “${item.title}” as read`}
-                    on:click={() => markRead(item.id)}
+                    onclick={() => markRead(item.id)}
                   ></button>
                 {/if}
               </div>

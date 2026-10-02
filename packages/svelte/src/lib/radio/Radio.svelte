@@ -6,38 +6,53 @@
    * use this when you want to lay out radios yourself. For a managed group with
    * roving tabindex use `RadioGroup`.
    *
-   * The label is the default slot (falling back to the `label` prop). Colors are
+   * The label is `children` (falling back to the `label` prop). Colors are
    * themeable via `--ds-radio-*`.
    */
+  import type { Snippet } from "svelte";
   import { stableId } from "../internal/stable-id";
-  /** The value submitted / reported when this radio is chosen. */
-  export let value: string;
-  /** Group name; radios sharing a name are mutually exclusive. */
-  export let name: string;
-  /** Whether this radio is selected. */
-  export let checked = false;
-  export let disabled = false;
-  /** Label text, used when the default slot is empty. */
-  export let label: string | undefined = undefined;
-  /** Called with this radio's value when it becomes selected. */
-  export let onChange: ((value: string) => void) | undefined = undefined;
+  import { controllable } from "../internal/controllable.svelte";
+
+  interface Props {
+    /** The value submitted / reported when this radio is chosen. */
+    value: string;
+    /** Group name; radios sharing a name are mutually exclusive. */
+    name: string;
+    /** Whether this radio is selected. */
+    checked?: boolean;
+    disabled?: boolean;
+    /** Label text, used when no `children` is given. */
+    label?: string;
+    /** Called with this radio's value when it becomes selected. */
+    onChange?: (value: string) => void;
+    /** Rich label content, in place of `label`. */
+    children?: Snippet;
+  }
+
+  let {
+    value,
+    name,
+    checked = $bindable(false),
+    disabled = false,
+    label,
+    onChange,
+    children,
+  }: Props = $props();
 
   const id = stableId("ds-radio");
-  let inputEl: HTMLInputElement;
+  let inputEl: HTMLInputElement | undefined;
 
   // The reset default follows the prop, except a give-back of what the
   // control itself reported. The element is the whole state, so the checked
   // attribute alone carries the reset; there is nothing else to put back
   // (ADR 0012).
-  let lastChecked = checked;
-  let defaultChecked = checked;
-  $: if (checked !== lastChecked) {
-    lastChecked = checked;
-    if (checked !== inputEl?.checked) defaultChecked = checked;
-  }
+  const mirror = controllable({
+    get: () => checked,
+    isGiveBack: (next) => next === inputEl?.checked,
+  });
 </script>
 
-<label class="radio" class:radio--disabled={disabled} for={id}>
+<label class={["radio", disabled && "radio--disabled"]} for={id}>
   <input
     bind:this={inputEl}
     {id}
@@ -46,12 +61,14 @@
     {name}
     {value}
     {checked}
-    {defaultChecked}
+    defaultChecked={mirror.defaultValue}
     {disabled}
-    on:change={() => onChange?.(value)}
+    onchange={() => onChange?.(value)}
   />
   <span class="radio__dot" aria-hidden="true"></span>
-  <span class="radio__label"><slot>{label}</slot></span>
+  <span class="radio__label"
+    >{#if children}{@render children()}{:else}{label}{/if}</span
+  >
 </label>
 
 <style>

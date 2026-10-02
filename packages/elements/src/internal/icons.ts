@@ -31,6 +31,10 @@ export const dashIcon = (cls = "") =>
 export const chevronIcon = () =>
   svg(`<polyline points="6 9 12 15 18 9" />`, "", { width: "100%", height: "100%" });
 
+/** A disclosure chevron: a single polyline at a themeable size. */
+export const disclosureIcon = (points: string, size: string) =>
+  svg(`<polyline points="${points}" />`, "", { width: size, height: size });
+
 export const searchIcon = () =>
   svg(`<circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />`, "", {
     width: "100%",
@@ -42,6 +46,31 @@ export const closeIcon = () =>
     width: "100%",
     height: "100%",
   });
+
+/** The calendar glyph on the date pickers' field. */
+export const calendarIcon = () =>
+  svg(
+    `<rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />`,
+    "",
+    { width: "1.1rem", height: "1.1rem" },
+  );
+
+/** The clear glyph at the date pickers' size. */
+export const smallCloseIcon = () =>
+  svg(`<line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />`, "", {
+    width: "0.9rem",
+    height: "0.9rem",
+  });
+
+/** A step arrow pointing left or right, for previous and next. */
+export const stepIcon = (towards: "left" | "right") =>
+  svg(
+    towards === "left"
+      ? `<polyline points="15 18 9 12 15 6" />`
+      : `<polyline points="9 18 15 12 9 6" />`,
+    "",
+    { width: "1.25rem", height: "1.25rem" },
+  );
 
 export const sortIcon = (direction: "asc" | "desc" | null) => {
   if (direction === "asc") return svg(`<polyline points="6 14 12 8 18 14" />`);
@@ -120,3 +149,11 @@ export function pathIcon(d: string, cls = "icon"): SVGSVGElement {
   root.appendChild(path);
   return root;
 }
+
+/** The rating star, sized by the rating's own token. */
+export const starIcon = () =>
+  svg(
+    `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />`,
+    "",
+    { width: "var(--ds-rating-size, 1.5rem)", height: "var(--ds-rating-size, 1.5rem)" },
+  );

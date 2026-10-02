@@ -1,8 +1,6 @@
 import { multiSelect as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import {
   computed,
-  onScopeDispose,
   ref,
   shallowRef,
   toValue,
@@ -12,6 +10,8 @@ import {
   type Ref,
 } from "vue";
 import { fail } from "../internal/dev";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -69,8 +69,6 @@ const defaultFilter = (items: MultiSelectItem[], query: string) => {
   if (!q) return items;
   return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
 };
-
-const PLACEMENT: Placement = "bottom-start";
 
 /**
  * The values contract keeps entries unique; a controlled value that already
@@ -188,67 +186,29 @@ export function useMultiSelect(options: MaybeRefOrGetter<UseMultiSelectOptions>)
   const listboxRef = ref<HTMLElement | null>(null);
   const controlRef = ref<HTMLElement | null>(null);
 
-  const x = ref(0);
-  const y = ref(0);
-  const floatingStyles = computed(() => ({
-    position: "fixed",
-    left: `${x.value}px`,
-    top: `${y.value}px`,
-  }));
+  // A constant, so a re-render never writes over the coordinates the
+  // positioning helper keeps on the element.
+  const floatingStyles = computed(() => ({ position: "fixed" }));
 
-  const reposition = () => {
-    const reference = inputRef.value;
-    const floating = listboxRef.value;
-    if (!reference || !floating) return;
-    void computePosition(reference, floating, {
-      placement: PLACEMENT,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then((position) => {
-      x.value = position.x;
-      y.value = position.y;
-    });
-  };
-
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (
-      controlRef.value?.contains(target) ||
-      inputRef.value?.contains(target) ||
-      listboxRef.value?.contains(target)
-    ) {
-      return;
-    }
-    setOpen(false);
-    setActiveValue(null);
-  };
-
-  let stopAutoUpdate: (() => void) | null = null;
-
-  const teardownOpen = () => {
-    stopAutoUpdate?.();
-    stopAutoUpdate = null;
-    document.removeEventListener("pointerdown", onOutsidePointer, true);
-  };
-
+  // While open: position against the input (the popup at least as wide as
+  // the whole control, chips included) and close when a pointer goes down
+  // anywhere outside the control or popup.
   watch(
     open,
-    (isOpen) => {
-      if (!isOpen) {
-        teardownOpen();
-        return;
-      }
+    (isOpen, _previous, onCleanup) => {
       const reference = inputRef.value;
       const floating = listboxRef.value;
-      if (!reference || !floating || stopAutoUpdate) return;
-
-      // The popup is at least as wide as the control it hangs from.
+      if (!isOpen || !reference || !floating) return;
       floating.style.minWidth = `${controlRef.value?.offsetWidth ?? reference.offsetWidth}px`;
-      stopAutoUpdate =
-        typeof ResizeObserver !== "undefined"
-          ? autoUpdate(reference, floating, reposition)
-          : (reposition(), () => {});
-      document.addEventListener("pointerdown", onOutsidePointer, true);
+      const stopFloating = attachFloating(reference, floating);
+      const stopOutside = onOutsidePointerDown([controlRef.value, reference, floating], () => {
+        setOpen(false);
+        setActiveValue(null);
+      });
+      onCleanup(() => {
+        stopFloating();
+        stopOutside();
+      });
     },
     { flush: "post" },
   );
@@ -265,8 +225,6 @@ export function useMultiSelect(options: MaybeRefOrGetter<UseMultiSelectOptions>)
     },
     { flush: "post" },
   );
-
-  onScopeDispose(teardownOpen);
 
   const onInputChange = (event: Event) => {
     const text = (event.target as HTMLInputElement).value;

@@ -8,10 +8,10 @@
    *
    * Layout: an illustration area, a `title`, an optional `description`, and
    * an action area at the bottom. The illustration area accepts a bespoke
-   * artwork via the `illustration` slot and falls back to the theme's
+   * artwork via the `illustration` snippet and falls back to the theme's
    * `FeedbackIcon` (neutral by default). The action area renders a single
-   * `Button` from `actionLabel`/`onAction`, a configurable group from the
-   * `actions` prop, or any custom content via the `actions` slot. Themeable
+   * `Button` from `actionLabel`/`onAction`, a configurable group from an
+   * `actions` array, or any custom content from an `actions` snippet. Themeable
    * via `--ds-empty-state-*`.
    *
    * Accessibility: the region is a `role="status"` (polite live region), so
@@ -19,46 +19,72 @@
    * interrupting. Meaning never rests on color alone: the title carries it
    * (WCAG 1.4.1).
    */
+  import type { Snippet } from "svelte";
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
   import Link from "../link/Link.svelte";
   import type { ButtonVariant } from "../button/create-button";
 
-  /** The headline — what this space is for, in plain language. */
-  export let title: string;
-  /** Optional secondary line — detail or the suggested next step. */
-  export let description: string | undefined = undefined;
-  /** Feedback status driving the fallback icon's color and glyph. */
-  export let status: "info" | "success" | "warning" | "danger" | "neutral" = "neutral";
-  /** Heading level for the title, so it fits the surrounding document outline. */
-  export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 2;
-  /** Action button label (e.g. "Add a project"). Omit to render no button. */
-  export let actionLabel: string | undefined = undefined;
-  /** Called when the action button is pressed. */
-  export let onAction: (() => void) | undefined = undefined;
-  /**
-   * Configurable action group. An entry with `href` renders a `Link` (a
-   * direct pathway, e.g. "Learn more" documentation); the others render
-   * `Button`s: the first gets the `default` variant and the rest `ghost`,
-   * unless an entry sets its own `variant`. Takes precedence over
-   * `actionLabel`; the `actions` slot replaces the whole area.
-   */
-  export let actions: {
-    label: string;
+  interface Props {
+    /** The headline — what this space is for, in plain language. */
+    title: string;
+    /** Optional secondary line — detail or the suggested next step. */
+    description?: string;
+    /** Feedback status driving the fallback icon's color and glyph. */
+    status?: "info" | "success" | "warning" | "danger" | "neutral";
+    /** Heading level for the title, so it fits the surrounding document outline. */
+    headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+    /** Action button label (e.g. "Add a project"). Omit to render no button. */
+    actionLabel?: string;
+    /** Called when the action button is pressed. */
     onAction?: () => void;
-    variant?: ButtonVariant;
-    href?: string;
-    target?: string;
-  }[] = [];
-  /** Density: `md` for full pages and sections, `sm` inside cards, panels and table areas. */
-  export let size: "md" | "sm" = "md";
+    /**
+     * Configurable action group. An entry with `href` renders a `Link` (a
+     * direct pathway, e.g. "Learn more" documentation); the others render
+     * `Button`s: the first gets the `default` variant and the rest `ghost`,
+     * unless an entry sets its own `variant`. Takes precedence over
+     * `actionLabel`. A snippet instead replaces the whole area.
+     */
+    actions?:
+      | {
+          label: string;
+          onAction?: () => void;
+          variant?: ButtonVariant;
+          href?: string;
+          target?: string;
+        }[]
+      | Snippet;
+    /** Density: `md` for full pages and sections, `sm` inside cards, panels and table areas. */
+    size?: "md" | "sm";
+    /** Bespoke artwork in place of the fallback `FeedbackIcon`. */
+    illustration?: Snippet;
+    /** Extra content between the description and the actions. */
+    children?: Snippet;
+  }
+
+  let {
+    title,
+    description,
+    status = "neutral",
+    headingLevel = 2,
+    actionLabel,
+    onAction,
+    actions = [],
+    size = "md",
+    illustration,
+    children,
+  }: Props = $props();
+
+  const actionItems = $derived(Array.isArray(actions) ? actions : []);
 </script>
 
 <div class="empty-state" role="status" data-size={size}>
   <span class="empty-state__illustration">
-    <slot name="illustration">
+    {#if illustration}
+      {@render illustration()}
+    {:else}
       <FeedbackIcon {status} box="tint" shape="round" />
-    </slot>
+    {/if}
   </span>
 
   <svelte:element this={`h${headingLevel}`} class="empty-state__title">
@@ -69,30 +95,30 @@
     <p class="empty-state__description">{description}</p>
   {/if}
 
-  <slot />
+  {@render children?.()}
 
-  {#if $$slots.actions || actions.length || actionLabel}
+  {#if typeof actions === "function" || actionItems.length || actionLabel}
     <div class="empty-state__actions">
-      <slot name="actions">
-        {#if actions.length}
-          {#each actions as action, index (action.label)}
-            {#if action.href}
-              <Link href={action.href} target={action.target} on:click={() => action.onAction?.()}>
-                {action.label}
-              </Link>
-            {:else}
-              <Button
-                variant={action.variant ?? (index === 0 ? "default" : "ghost")}
-                onpress={action.onAction}
-              >
-                {action.label}
-              </Button>
-            {/if}
-          {/each}
-        {:else if actionLabel}
-          <Button variant="default" onpress={onAction}>{actionLabel}</Button>
-        {/if}
-      </slot>
+      {#if typeof actions === "function"}
+        {@render actions()}
+      {:else if actionItems.length}
+        {#each actionItems as action, index (action.label)}
+          {#if action.href}
+            <Link href={action.href} target={action.target} onclick={() => action.onAction?.()}>
+              {action.label}
+            </Link>
+          {:else}
+            <Button
+              variant={action.variant ?? (index === 0 ? "default" : "ghost")}
+              onpress={action.onAction}
+            >
+              {action.label}
+            </Button>
+          {/if}
+        {/each}
+      {:else if actionLabel}
+        <Button variant="default" onpress={onAction}>{actionLabel}</Button>
+      {/if}
     </div>
   {/if}
 </div>

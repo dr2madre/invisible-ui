@@ -5,6 +5,11 @@ import { useSwitch } from "./use-switch";
 export interface SwitchProps {
   /** Accessible, visible label (required). Override with `children` for rich content. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   checked?: boolean;
   disabled?: boolean;
   /** Form field name — the value is submitted under it when on. */
@@ -34,6 +39,7 @@ export interface SwitchProps {
  */
 export function Switch({
   label,
+  hideLabel = false,
   checked = false,
   disabled = false,
   name,
@@ -68,7 +74,9 @@ export function Switch({
           </>
         )}
       </span>
-      <span className="field__label">{children ?? label}</span>
+      <span className={hideLabel ? "field__label field__label--hidden" : "field__label"}>
+        {children ?? label}
+      </span>
     </label>
   );
 }

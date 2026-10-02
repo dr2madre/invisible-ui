@@ -12,6 +12,7 @@
    * the trigger; `onSelect(value)` runs when an item is chosen. Colors, radius
    * and elevation are themeable CSS custom properties (`--ds-menu-*`).
    */
+  import { untrack } from "svelte";
   import { menu as core } from "@design-system/core";
   import { createDropdownMenu, type MenuEntry } from "./create-dropdown-menu";
   import { portal } from "../internal/portal";
@@ -20,14 +21,35 @@
 
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let label: string;
-  export let items: MenuEntry[];
-  export let disabled = false;
-  /** Called with the chosen item's value. */
-  export let onSelect: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    label: string;
+    items: MenuEntry[];
+    disabled?: boolean;
+    /** Called with the chosen item's value. */
+    onSelect?: (value: string) => void;
+  }
 
-  const menu = createDropdownMenu({ items, disabled, onSelect });
-  const { api, triggerAction, menuAction, itemAction } = menu;
+  let { label, items, disabled = false, onSelect }: Props = $props();
+
+  // Seeded once from the first props; the effects below follow later ones.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menu = untrack(() =>
+    createDropdownMenu({
+      items,
+      disabled,
+      onSelect: (value) => onSelect?.(value),
+    }),
+  );
+  const { api, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
+
+  // Items and disabled changed after mount reach the machine, so keyboard
+  // navigation and typeahead follow what the template renders.
+  $effect.pre(() => {
+    syncItems(items);
+  });
+  $effect.pre(() => {
+    syncDisabled(disabled);
+  });
 
   // Separators have no value of their own, so their position is their key.
   const entryKey = (entry: MenuEntry, index: number) =>
@@ -186,12 +208,22 @@
   .menu__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
+     marks the focused item. The menu clips, so the ring goes inside. */
   .menu__item:focus-visible {
     outline: none;
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .menu__item:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #757067);
     cursor: not-allowed;
+  }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .menu__chevron {
+      transition: none;
+    }
   }
 </style>

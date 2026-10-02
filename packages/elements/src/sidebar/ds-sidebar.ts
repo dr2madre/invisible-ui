@@ -2,12 +2,16 @@ import { collapsible } from "@design-system/core";
 import {
   applyProps,
   boolAttr,
+  definePart,
   emit,
   HTMLElementBase,
   nextId,
+  setChildren,
   upgradeProperty,
 } from "../internal/base";
+import { localized, onLocaleChange } from "../internal/i18n";
 import { pathIcon } from "../internal/icons";
+import { DsTooltip } from "../tooltip/ds-tooltip";
 
 /** One destination in the sidebar. */
 export interface SidebarItem {
@@ -42,14 +46,16 @@ const CHEVRON_LEFT = "M15 18l-6-6 6-6";
  *
  * The routing, which destination is current and which viewport gets which
  * presentation stay with the application. Sections can collapse, and the bar
- * can collapse to a rail of icons when every destination has one. For a
+ * can collapse to a rail of icons when every destination has one; on the
+ * rail each name comes back as a `<ds-tooltip>` on hover and focus. For a
  * drawer, put the element inside a `<ds-sheet-dialog>` and close it on
  * `navigate`.
  *
  * Attributes: `label` (the landmark name; "Main" by default), `value` (the
  * current destination), `collapsed` (the rail), `rail-toggle` (renders the
  * button that collapses and expands the rail), `side` (inline-start|inline-end),
- * `collapse-label`, `expand-label`.
+ * `collapse-label` (the rail toggle's name, the same in both states: the
+ * button reports the rail through `aria-pressed`).
  * Properties: `sections`, `value`, `openGroups` (ids of the open sections).
  * Regions: `slot="logo"`, `slot="footer"`.
  * Emits: bubbling `select` (`detail.value`, items without `href`), `navigate`
@@ -64,7 +70,6 @@ export class DsSidebar extends HTMLElementBase {
     "rail-toggle",
     "side",
     "collapse-label",
-    "expand-label",
   ];
 
   #sections: SidebarSection[] = [];
@@ -72,7 +77,17 @@ export class DsSidebar extends HTMLElementBase {
   #nav: HTMLElement | null = null;
   #logo: Element[] = [];
   #footer: Element[] = [];
+  /** The regions stay in place across renders, so what they hold keeps its state. */
+  #logoRegion: HTMLDivElement | null = null;
+  #footerRegion: HTMLDivElement | null = null;
   #groupIds = new Map<string, string>();
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#nav) this.#render();
+    });
+  }
 
   connectedCallback() {
     for (const property of ["sections", "value", "openGroups"]) upgradeProperty(this, property);
@@ -220,7 +235,20 @@ export class DsSidebar extends HTMLElementBase {
     list.className = rail ? "sidebar__list sidebar__list--collapsed" : "sidebar__list";
     for (const entry of section.items) {
       const li = document.createElement("li");
-      li.appendChild(this.#item(entry, rail));
+      const item = this.#item(entry, rail);
+      if (rail) {
+        // Registered here too, so a selective import of the sidebar works.
+        definePart("ds-tooltip", DsTooltip);
+        // The rail hides names from sight, never from a screen reader, and the
+        // tooltip gives them back to whoever is looking.
+        const tooltip = document.createElement("ds-tooltip");
+        tooltip.setAttribute("text", entry.label);
+        tooltip.setAttribute("placement", "right");
+        tooltip.appendChild(item);
+        li.appendChild(tooltip);
+      } else {
+        li.appendChild(item);
+      }
       list.appendChild(li);
     }
     return list;
@@ -264,22 +292,26 @@ export class DsSidebar extends HTMLElementBase {
 
   #render() {
     const nav = this.#nav!;
-    // The whole bar is rebuilt; focus goes back to the control that held it.
+    // The sections are rebuilt; focus goes back to the control that held it.
+    // The logo and footer regions stay attached, so their content keeps its
+    // focus and state.
     const focused = (document.activeElement as HTMLElement | null)?.dataset?.focusKey;
     const rail = this.#isRail();
 
     nav.className = rail ? "sidebar sidebar--collapsed" : "sidebar";
-    nav.setAttribute("aria-label", this.getAttribute("label") ?? "Main");
+    nav.setAttribute("aria-label", localized(this, "label", "sidebar.label"));
     nav.dataset.mode = "inline";
     nav.dataset.side = this.getAttribute("side") === "inline-end" ? "inline-end" : "inline-start";
     nav.toggleAttribute("data-collapsed", rail);
-    nav.textContent = "";
+    const nodes: Node[] = [];
 
     if (this.#logo.length > 0) {
-      const logo = document.createElement("div");
-      logo.className = "sidebar__logo";
-      logo.append(...this.#logo);
-      nav.appendChild(logo);
+      if (!this.#logoRegion) {
+        this.#logoRegion = document.createElement("div");
+        this.#logoRegion.className = "sidebar__logo";
+        this.#logoRegion.append(...this.#logo);
+      }
+      nodes.push(this.#logoRegion);
     }
 
     if (boolAttr(this, "rail-toggle") && this.#railable()) {
@@ -289,18 +321,17 @@ export class DsSidebar extends HTMLElementBase {
       toggle.dataset.focusKey = "rail-toggle";
       toggle.setAttribute("aria-pressed", String(rail));
       toggle.appendChild(this.#icon(rail ? CHEVRON_RIGHT : CHEVRON_LEFT));
-      const text = rail
-        ? (this.getAttribute("expand-label") ?? "Expand the navigation")
-        : (this.getAttribute("collapse-label") ?? "Collapse the navigation");
-      toggle.appendChild(this.#label(text, true));
+      // A toggle button keeps one name and reports its state through
+      // aria-pressed; a name that swaps as well would contradict it.
+      toggle.appendChild(this.#label(localized(this, "collapse-label", "sidebar.collapse"), true));
       toggle.addEventListener("click", () => this.#setCollapsed(!rail));
-      nav.appendChild(toggle);
+      nodes.push(toggle);
     }
 
     this.#sections.forEach((section, index) => {
       const id = this.#sectionId(section, index);
       if (section.collapsible && section.label) {
-        nav.appendChild(this.#group(section, id, rail));
+        nodes.push(this.#group(section, id, rail));
         return;
       }
       const wrapper = document.createElement("div");
@@ -314,15 +345,18 @@ export class DsSidebar extends HTMLElementBase {
         wrapper.appendChild(heading);
       }
       wrapper.appendChild(this.#list(section, rail));
-      nav.appendChild(wrapper);
+      nodes.push(wrapper);
     });
 
     if (this.#footer.length > 0) {
-      const footer = document.createElement("div");
-      footer.className = "sidebar__footer";
-      footer.append(...this.#footer);
-      nav.appendChild(footer);
+      if (!this.#footerRegion) {
+        this.#footerRegion = document.createElement("div");
+        this.#footerRegion.className = "sidebar__footer";
+        this.#footerRegion.append(...this.#footer);
+      }
+      nodes.push(this.#footerRegion);
     }
+    setChildren(nav, nodes);
 
     if (focused) {
       nav.querySelector<HTMLElement>(`[data-focus-key="${CSS.escape(focused)}"]`)?.focus();

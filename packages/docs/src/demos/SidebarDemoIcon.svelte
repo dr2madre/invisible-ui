@@ -1,7 +1,7 @@
 <script>
   /** A destination's mark in the demo: the rail shows icons, so every
       destination in it needs one. */
-  export let size = 16;
+  let { size = 16 } = $props();
 </script>
 
 <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">

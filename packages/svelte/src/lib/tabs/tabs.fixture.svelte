@@ -1,16 +1,28 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createTabs, type ActivationMode, type TabItem } from "./create-tabs";
 
-  export let value = "one";
-  export let activationMode: ActivationMode = "automatic";
-  export let items: TabItem[] = [{ value: "one" }, { value: "two" }, { value: "three" }];
+  interface Props {
+    value?: string;
+    activationMode?: ActivationMode;
+    items?: TabItem[];
+  }
 
-  const { rootAction, tabAction, panelAction } = createTabs({
-    id: "t",
-    items,
-    value,
-    activationMode,
-  });
+  let {
+    value = "one",
+    activationMode = "automatic",
+    items = [{ value: "one" }, { value: "two" }, { value: "three" }],
+  }: Props = $props();
+
+  // Seeded once from the first props.
+  const { rootAction, tabAction, panelAction } = untrack(() =>
+    createTabs({
+      id: "t",
+      items,
+      value,
+      activationMode,
+    }),
+  );
 </script>
 
 <div use:rootAction aria-label="Sections">

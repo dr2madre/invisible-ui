@@ -1,21 +1,36 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createSlider } from "./create-slider";
 
-  export let value = 0;
-  export let min = 0;
-  export let max = 100;
-  export let step = 1;
-  export let disabled = false;
-  export let onValueChange: ((value: number) => void) | undefined = undefined;
+  interface Props {
+    value?: number;
+    min?: number;
+    max?: number;
+    step?: number;
+    disabled?: boolean;
+    onValueChange?: (value: number) => void;
+  }
 
-  const { value: sliderValue, setValue } = createSlider({
-    value,
-    min,
-    max,
-    step,
-    disabled,
+  let {
+    value = 0,
+    min = 0,
+    max = 100,
+    step = 1,
+    disabled = false,
     onValueChange,
-  });
+  }: Props = $props();
+
+  // Seeded once from the first props.
+  const { value: sliderValue, setValue } = untrack(() =>
+    createSlider({
+      value,
+      min,
+      max,
+      step,
+      disabled,
+      onValueChange,
+    }),
+  );
 
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));
@@ -30,5 +45,5 @@
   {step}
   {disabled}
   value={$sliderValue}
-  on:input={onInput}
+  oninput={onInput}
 />

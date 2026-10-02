@@ -1,7 +1,7 @@
 import { pinInput as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -97,7 +97,7 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
     }),
   );
 
-  const baseRootAction = createPropsAction(api, (a) => a.rootProps);
+  const baseRootAction = createRootAction(api);
   const rootAction: Action<HTMLElement> = (node) => {
     rootEl = node;
     const handle = baseRootAction(node);
@@ -109,11 +109,9 @@ export function createPinInput(context: CreatePinInputContext = {}): CreatePinIn
     };
   };
 
-  const inputAction: Action<HTMLElement, number> = (node, index) => {
-    const inputApi = derived(api, (a) => a.getInputProps(index as number));
-    const handle = createPropsAction(inputApi, (p) => p)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const inputAction: Action<HTMLElement, number> = createItemAction(api, (a, index: number) =>
+    a.getInputProps(index),
+  );
 
   return {
     state,

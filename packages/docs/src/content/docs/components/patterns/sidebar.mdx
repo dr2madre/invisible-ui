@@ -17,9 +17,6 @@ otherwise buttons that report `onSelect`. Sections can collapse, the bar itself
 can collapse to a rail of icons, and on a narrow viewport the same navigation
 goes inside a sheet.
 
-Formerly called `Menu`, which is still exported and still works; see
-[Menu](/invisible-ui/components/patterns/menu/).
-
 ### Import
 
 <ImportSnippet component="sidebar" />
@@ -49,6 +46,9 @@ close it on `navigate`.
 ### Props
 
 <PropsTable component="sidebar" />
+
+Every `href` is rendered as given: pass only URLs you trust or have
+sanitized. See [Security](/invisible-ui/api/#security).
 
 A section becomes a disclosure with `collapsible: true`, a `label` and an
 `id`. The id is the name it answers to in `openGroups`: two sections may share
@@ -122,7 +122,7 @@ When the button belongs to your header instead, turn the trigger off, drive
 `open` yourself, and name the element focus should return to.
 
 ```svelte
-<button id="menu-button" on:click={() => (open = true)}>Menu</button>
+<button id="menu-button" onclick={() => (open = true)}>Menu</button>
 
 <Sidebar
   {sections}

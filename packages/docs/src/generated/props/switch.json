@@ -14,8 +14,16 @@
           "type": "string",
           "default": null,
           "required": true,
-          "description": "Accessible, visible label; override with the default slot.",
+          "description": "Accessible, visible label; override with `children`.",
           "descriptionFrom": "curated"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
+          "descriptionFrom": "source"
         },
         {
           "name": "checked",
@@ -104,6 +112,14 @@
           "default": null,
           "required": true,
           "description": "Accessible, visible label (required). Override with the default slot for rich content.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -211,6 +227,14 @@
           "default": null,
           "required": true,
           "description": "Accessible, visible label (required). Override with `children` for rich content.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the label while keeping it as the accessible name. The label text is always required.",
           "descriptionFrom": "source"
         },
         {
@@ -367,6 +391,20 @@
         },
         {
           "name": "off-text",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
           "reactive": true,
           "required": false,
           "description": "",

@@ -68,3 +68,52 @@ export const HazardGlyph = () => (
     <line x1="12" y1="17" x2="12" y2="17" />
   </>
 );
+
+/** The check mark of a checked box, a selected option and a success message. */
+export const CheckGlyph = () => <polyline points="20 6 9 17 4 12" />;
+
+/** The magnifying glass that marks a search input or submits a search. */
+export const SearchGlyph = () => (
+  <>
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </>
+);
+
+/** The cross of a clear button. */
+export const CloseGlyph = () => (
+  <>
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </>
+);
+
+/** The downward chevron that opens a list. */
+export const ChevronGlyph = () => <polyline points="6 9 12 15 18 9" />;
+
+/** The circled "i" of an informational message. */
+export const InfoGlyph = () => (
+  <>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="11" x2="12" y2="16" />
+    <line x1="12" y1="8" x2="12" y2="8" />
+  </>
+);
+
+/** The octagon cross of an error message. */
+export const DangerGlyph = () => (
+  <>
+    <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86" />
+    <line x1="15" y1="9" x2="9" y2="15" />
+    <line x1="9" y1="9" x2="15" y2="15" />
+  </>
+);
+
+/** The light bulb of a neutral message. */
+export const NeutralGlyph = () => (
+  <>
+    <path d="M9 18h6" />
+    <path d="M10 22h4" />
+    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
+  </>
+);

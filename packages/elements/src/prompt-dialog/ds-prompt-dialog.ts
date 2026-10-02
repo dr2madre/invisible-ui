@@ -6,6 +6,7 @@ import {
   type DialogHeaderParts,
 } from "../internal/dialog-header";
 import { createButton, ModalHost } from "../internal/modal-host";
+import { localized } from "../internal/i18n";
 
 /**
  * `<ds-prompt-dialog>` asks the user for a single value, the accessible
@@ -28,6 +29,8 @@ import { createButton, ModalHost } from "../internal/modal-host";
  * `trigger` (opener text), `trigger-variant`, `open`, `close-button` (shows a
  * close button in the header), `close-label`, `no-outside-close`.
  * Properties: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: bubbling `open-change` CustomEvent with `detail.open`, and `confirm`
  * with `detail.value` when the value is confirmed.
  */
@@ -117,7 +120,7 @@ export class DsPromptDialog extends ModalHost {
     this.#confirm.addEventListener("click", () => this.#submit());
     actions.append(this.#cancel, this.#confirm);
 
-    panel.append(this.#header.header, this.#description, field, actions);
+    panel.append(this.#header.header, this.#description, field, ...this.status.parts, actions);
     this.textContent = "";
     this.append(this.trigger);
     this.panel = panel;
@@ -139,16 +142,16 @@ export class DsPromptDialog extends ModalHost {
       heading: this.getAttribute("heading") ?? "",
       subtitle: null,
       closeButton: boolAttr(this, "close-button", false),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "dialog.close"),
     });
     this.#description.hidden = description == null;
     this.#description.textContent = description ?? "";
     this.#label.textContent = this.getAttribute("label") ?? "";
     this.#input.placeholder = this.getAttribute("placeholder") ?? "";
-    this.#cancel.textContent = this.getAttribute("cancel-label") ?? "Cancel";
-    this.#confirm.textContent = this.getAttribute("confirm-label") ?? "Confirm";
+    this.#cancel.textContent = localized(this, "cancel-label", "dialog.cancel");
+    this.#confirm.textContent = localized(this, "confirm-label", "dialog.confirm");
     this.#confirm.dataset.variant = this.getAttribute("confirm-variant") ?? "primary";
-    this.trigger.textContent = this.getAttribute("trigger") ?? "Open";
+    this.trigger.textContent = localized(this, "trigger", "dialog.trigger");
     this.trigger.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.trigger, api.triggerProps);

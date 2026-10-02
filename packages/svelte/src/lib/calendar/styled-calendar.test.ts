@@ -79,6 +79,28 @@ describe("Svelte Calendar (month view)", () => {
   // own: the calendar has to end on the page's day. This is the round trip
   // through the prop, not the commit order inside the factory, which
   // ../adr-0011-commit-order.test.ts asserts.
+  it("follows min, max and weekStartsOn changed after mount", async () => {
+    const { rerender } = render(Fixture);
+    await rerender({ min: "2026-06-10", max: "2026-06-20", weekStartsOn: 0 });
+
+    expect(dayButton("2026-06-05")).toHaveAttribute("aria-disabled", "true");
+    expect(dayButton("2026-06-25")).toHaveAttribute("aria-disabled", "true");
+    expect(dayButton("2026-06-15")).not.toHaveAttribute("aria-disabled");
+    expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName(/Sunday/);
+  });
+
+  it("renders two events of one day that share a label", async () => {
+    const twin = [
+      { date: "2026-06-10", label: "Standup" },
+      { date: "2026-06-10", label: "Standup" },
+      { date: "2026-06-11" },
+      { date: "2026-06-11" },
+    ];
+    render(Fixture, { props: { events: twin } });
+    expect(dayButton("2026-06-10").querySelectorAll(".calendar__dot")).toHaveLength(2);
+    expect(dayButton("2026-06-11").querySelectorAll(".calendar__dot")).toHaveLength(2);
+  });
+
   it("settles on the day a controlled page writes back", async () => {
     const onValueChange = vi.fn();
     render(Fixture, { props: { onValueChange, putBack: "2026-06-02" } });

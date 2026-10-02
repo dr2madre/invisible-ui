@@ -104,7 +104,7 @@
    underlined so the affordance never relies on colour alone. */
 .button[data-variant="ghost"] {
   background: transparent;
-  color: var(--ds-color-text, #282420);
+  color: var(--ds-button-ghost-color, var(--ds-color-text, #282420));
 }
 .button[data-variant="ghost"]:not(.button--icon-only) {
   text-decoration: underline;
@@ -144,4 +144,13 @@
 }
 .button__badge:dir(rtl) {
   translate: -35% -35%;
+}
+
+/* Copy confirmation: short text beside the button that caused it, which is
+   also the polite live region announcing it (ADR 0016). Empty, it takes no
+   room. */
+.button__status:not(:empty) {
+  margin-inline-start: 0.5rem;
+  color: var(--ds-color-text-secondary, #524c44);
+  font-size: 0.875em;
 }

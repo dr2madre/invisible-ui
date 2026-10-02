@@ -1,37 +1,56 @@
 <script lang="ts">
   /**
    * LoginForm — a sign-in organism composed from the primitives: an optional
-   * logo (slot) on top, optional social-login buttons, the email + password
+   * logo (snippet) on top, optional social-login buttons, the email + password
    * fields, a "forgot password" link, and the submit button.
    *
    * It is a real `<form>`: the fields are native inputs (via TextField) and
    * `onSubmit` receives `{ email, password }`. Presentation is a centered card;
    * themeable via `--ds-login-*` and the underlying component tokens.
    */
+  import type { Snippet } from "svelte";
   import TextField from "../text-field/TextField.svelte";
   import Button from "../button/Button.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t } = getI18n();
 
-  export let heading: string | undefined = undefined;
-  export let subheading: string | undefined = undefined;
-  /** Submit button label. Defaults to the i18n catalog's "Sign in". */
-  export let submitLabel: string | undefined = undefined;
-  export let forgotHref: string | undefined = "#";
-  /** Forgot-password link text. Defaults to the i18n catalog's "Forgot password?". */
-  export let forgotLabel: string | undefined = undefined;
-  /** Social providers rendered as white buttons above the fields. */
-  export let providers: { id: string; label: string }[] = [];
-  export let onSubmit: ((value: { email: string; password: string }) => void) | undefined =
-    undefined;
-  export let onProvider: ((id: string) => void) | undefined = undefined;
+  interface Props {
+    heading?: string;
+    subheading?: string;
+    /** Submit button label. Defaults to the i18n catalog's "Sign in". */
+    submitLabel?: string;
+    forgotHref?: string;
+    /** Forgot-password link text. Defaults to the i18n catalog's "Forgot password?". */
+    forgotLabel?: string;
+    /** Social providers rendered as white buttons above the fields. */
+    providers?: { id: string; label: string }[];
+    onSubmit?: (value: { email: string; password: string }) => void;
+    onProvider?: (id: string) => void;
+    /** A logo shown on top of the card. */
+    logo?: Snippet;
+    /** The icon of a social provider button, given the provider id. */
+    providerIcon?: Snippet<[{ provider: string }]>;
+  }
 
-  let email = "";
-  let password = "";
+  let {
+    heading,
+    subheading,
+    submitLabel,
+    forgotHref = "#",
+    forgotLabel,
+    providers = [],
+    onSubmit,
+    onProvider,
+    logo,
+    providerIcon,
+  }: Props = $props();
 
-  $: resolvedSubmitLabel = submitLabel ?? $t("loginForm.submit");
-  $: resolvedForgotLabel = forgotLabel ?? $t("loginForm.forgot");
+  let email = $state("");
+  let password = $state("");
+
+  const resolvedSubmitLabel = $derived(submitLabel ?? $t("loginForm.submit"));
+  const resolvedForgotLabel = $derived(forgotLabel ?? $t("loginForm.forgot"));
 
   function submit(event: SubmitEvent) {
     event.preventDefault();
@@ -50,9 +69,9 @@
   }
 </script>
 
-<form class="login" on:submit={submit} on:reset={onReset}>
-  {#if $$slots.logo}
-    <div class="login__logo"><slot name="logo" /></div>
+<form class="login" onsubmit={submit} onreset={onReset}>
+  {#if logo}
+    <div class="login__logo">{@render logo()}</div>
   {/if}
 
   <div class="login__head">
@@ -63,10 +82,10 @@
   {#if providers.length}
     <div class="login__providers">
       {#each providers as p (p.id)}
-        <Button variant="default" onpress={() => onProvider?.(p.id)}>
-          <svelte:fragment slot="left"
-            ><slot name="provider-icon" provider={p.id} /></svelte:fragment
-          >
+        <!-- Always passed: every provider button keeps its icon box, with or
+             without a providerIcon, as it did before snippets. -->
+        {#snippet providerLeft()}{@render providerIcon?.({ provider: p.id })}{/snippet}
+        <Button variant="default" onpress={() => onProvider?.(p.id)} left={providerLeft}>
           Continue with {p.label}
         </Button>
       {/each}
@@ -97,7 +116,12 @@
     display: flex;
     flex-direction: column;
     gap: var(--ds-login-gap, 1rem);
-    inline-size: min(100%, var(--ds-login-width, 22rem));
+    /* The width is the content box: the padding and the 1px border come out of
+       100%, so the card never overflows a narrow container. */
+    inline-size: min(
+      100% - 2 * var(--ds-login-padding, 1.75rem) - 2px,
+      var(--ds-login-width, 22rem)
+    );
     padding: var(--ds-login-padding, 1.75rem);
     background: var(--ds-login-bg, var(--ds-color-background, #fff));
     border: 1px solid var(--ds-login-border, var(--ds-color-border, #c7c1b7));

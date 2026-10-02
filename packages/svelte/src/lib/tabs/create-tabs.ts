@@ -1,7 +1,7 @@
 import { tabs as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { get, derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -86,7 +86,7 @@ export function createTabs(context: TabsContext): CreateTabs {
     core.connect({ state: $state, setValue, focus, normalize: normalizeProps }),
   );
 
-  const baseRootAction = createPropsAction(api, (a) => a.rootProps);
+  const baseRootAction = createRootAction(api);
   const rootAction: Action<HTMLElement> = (node) => {
     rootEl = node;
     const handle = baseRootAction(node);
@@ -98,17 +98,13 @@ export function createTabs(context: TabsContext): CreateTabs {
     };
   };
 
-  const tabAction: Action<HTMLElement, string> = (node, value) => {
-    const tabApi = derived(api, (a) => a.getTabProps(value as string));
-    const handle = createPropsAction(tabApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const tabAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getTabProps(value),
+  );
 
-  const panelAction: Action<HTMLElement, string> = (node, value) => {
-    const panelApi = derived(api, (a) => a.getPanelProps(value as string));
-    const handle = createPropsAction(panelApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const panelAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getPanelProps(value),
+  );
 
   return {
     state,

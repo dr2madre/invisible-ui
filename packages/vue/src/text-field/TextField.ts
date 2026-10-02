@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { HazardGlyph, Icon } from "../icon/Icon";
 import { useTextField } from "./use-text-field";
-import { useFormReset, useLiveDom } from "../internal/form-reset";
+import { useLiveDom, useResettableValue } from "../internal/form-reset";
 
 type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
 
@@ -90,18 +90,11 @@ export const TextField = defineComponent({
     const control = ref<HTMLInputElement | null>(null);
     const given = () => props.modelValue ?? props.value ?? "";
 
-    // What the composable is told. It normally follows the prop and the
-    // control's own reports; a reset writes the default straight into it,
-    // which is the composable's silent path (its watch, not its setter).
-    const told = ref(given());
-
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    watch(given, (next) => {
-      if (next !== told.value) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => control.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const api = useTextField(() => ({
       value: told.value,
@@ -125,16 +118,6 @@ export const TextField = defineComponent({
     // The attribute carries the default, so a native reset and a no-script
     // render both have one; the property carries what the user sees.
     useLiveDom(control, () => ({ value: api.value.value }));
-    useFormReset(
-      () => control.value,
-      () => {
-        told.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     return () => {
       // A built-in green check (right) when validated, unless a custom right

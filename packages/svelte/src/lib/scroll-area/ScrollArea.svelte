@@ -6,38 +6,45 @@
    * dragging the thumb. Native scrollbars are hidden but native keyboard/wheel
    * scrolling is preserved (the focusable viewport scrolls with the arrow keys).
    *
-   * Put the scrolling content in the default slot. Themeable via
+   * Put the scrolling content in `children`. Themeable via
    * `--ds-scroll-area-*`.
    */
+  import type { Snippet } from "svelte";
   import { createScrollArea, type ScrollOrientation } from "./create-scroll-area";
 
-  /** Which axes scroll. Defaults to `vertical`. */
-  export let orientation: ScrollOrientation = "vertical";
-  /** Max size of the viewport (the scroll constraint), e.g. `"12rem"`. */
-  export let maxHeight = "12rem";
-  /**
-   * Optional accessible name; makes the viewport a labelled scroll region.
-   * The name is yours to choose, so two scroll areas on a page should not
-   * share one: the landmark list would show the same entry twice.
-   */
-  export let label: string | undefined = undefined;
+  interface Props {
+    /** Which axes scroll. Defaults to `vertical`. */
+    orientation?: ScrollOrientation;
+    /** Max size of the viewport (the scroll constraint), e.g. `"12rem"`. */
+    maxHeight?: string;
+    /**
+     * Optional accessible name; makes the viewport a labelled scroll region.
+     * The name is yours to choose, so two scroll areas on a page should not
+     * share one: the landmark list would show the same entry twice.
+     */
+    label?: string;
+    children?: Snippet;
+  }
+
+  let { orientation = "vertical", maxHeight = "12rem", label, children }: Props = $props();
 
   const { vertical, horizontal, viewportAction, thumbAction } = createScrollArea();
 
-  $: showV = orientation === "vertical" || orientation === "both";
-  $: showH = orientation === "horizontal" || orientation === "both";
-  $: overflowStyle =
+  const showV = $derived(orientation === "vertical" || orientation === "both");
+  const showH = $derived(orientation === "horizontal" || orientation === "both");
+  const overflowStyle = $derived(
     orientation === "horizontal"
       ? "overflow-x:auto;overflow-y:hidden;"
       : orientation === "both"
         ? "overflow:auto;"
-        : "overflow-y:auto;overflow-x:hidden;";
+        : "overflow-y:auto;overflow-x:hidden;",
+  );
 </script>
 
 <div class="scroll-area" data-orientation={orientation}>
   <!-- A scrollable region has to be reachable by keyboard, so the viewport
        carries tabindex on purpose. -->
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div
     class="scroll-area__viewport"
     use:viewportAction
@@ -46,7 +53,7 @@
     aria-label={label}
     style="max-block-size:{maxHeight}; {overflowStyle}"
   >
-    <slot />
+    {@render children?.()}
   </div>
 
   {#if showV && $vertical.overflow}

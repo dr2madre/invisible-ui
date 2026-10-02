@@ -120,6 +120,14 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's content. Defaults to the i18n catalog's label.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -348,6 +356,7 @@
       ],
       "notes": [
         "Properties: `open` (boolean), `items` and `suggestions` (arrays of `{ value, label?, disabled?, group?, shortcut? }`).",
+        "Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status area, ADR 0016).",
         "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `select` with `detail.value` when a result is chosen."
       ]
     }

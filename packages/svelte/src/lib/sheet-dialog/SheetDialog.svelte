@@ -12,71 +12,118 @@
    * threshold to close; anything less snaps home. The handle is a pointer
    * affordance only — keyboard users have Escape and the close button.
    *
-   * Slots: `trigger` (the trigger button's content), the default slot (the
-   * body), an optional `footer` (actions), and the header slots the dialog
+   * Snippets: `trigger` (the trigger button's content), `children` (the
+   * body), an optional `footer` (actions), and the header snippets the dialog
    * family shares — `icon` (a leading FeedbackIcon), `headerLead` (before the
    * title, e.g. a back affordance) and `headerActions` (after the title, just
    * before the close button). Pass a `title` (required) and an optional
    * `description`, shown as the subtitle under the title. Colors, radius and elevation
    * are themeable via `--ds-dialog-*`; the panel extent via
    * `--ds-sheet-dialog-size`.
+   *
+   * A status area between the body and the footer holds messages about the
+   * sheet's own task (ADR 0016), with the same contract as `Dialog`:
+   * `notify(options)`, `dismissNotice(id)` and `clearNotices()` on the
+   * instance; notices are announced once through a polite live region, never
+   * take focus, and are cleared when the sheet closes.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createSheetDialog, type SheetDialogSide } from "./create-sheet-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
+  import type { DialogNoticeOptions } from "../dialog/create-dialog";
   import { getI18n } from "../i18n/create-i18n";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Visual variant for the trigger Button. */
-  export let triggerVariant: "default" | "primary" | "secondary" | "ghost" | "danger" = "default";
-  /**
-   * Whether this component renders its own trigger button. Turn it off when
-   * the button belongs somewhere this panel cannot reach, an application
-   * header for instance: drive `open` yourself and name `returnFocusTo`, since
-   * there is no trigger left for focus to go back to (ADR 0013).
-   */
-  export let renderTrigger = true;
-  /** CSS selector for the element focus returns to when there is no trigger. */
-  export let returnFocusTo: string | undefined = undefined;
-  /** Which edge the panel is anchored to. */
-  export let side: SheetDialogSide = "right";
-  /**
-   * Show a grab handle and enable the drag-to-dismiss gesture. Available on the
-   * bottom and lateral sides (ignored on `side="top"`).
-   */
-  export let draggable = false;
-  /** Initial open state. */
-  export let open = false;
-  /** Accessible title naming the panel (required). */
-  export let title: string;
-  /** Optional description, wired via `aria-describedby`. */
-  export let description: string | undefined = undefined;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Show the close button at the trailing end of the header. */
-  export let closeButton = true;
-  /**
-   * CSS selector (within the panel) for the element to focus on open — e.g.
-   * `"input"` to land on a form's first field instead of the close button.
-   */
-  export let initialFocus: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Visual variant for the trigger Button. */
+    triggerVariant?: "default" | "primary" | "secondary" | "ghost" | "danger";
+    /**
+     * Whether this component renders its own trigger button. Turn it off when
+     * the button belongs somewhere this panel cannot reach, an application
+     * header for instance: drive `open` yourself and name `returnFocusTo`, since
+     * there is no trigger left for focus to go back to (ADR 0013).
+     */
+    renderTrigger?: boolean;
+    /** CSS selector for the element focus returns to when there is no trigger. */
+    returnFocusTo?: string;
+    /** Which edge the panel is anchored to. */
+    side?: SheetDialogSide;
+    /**
+     * Show a grab handle and enable the drag-to-dismiss gesture. Available on the
+     * bottom and lateral sides (ignored on `side="top"`).
+     */
+    draggable?: boolean;
+    /** Initial open state. */
+    open?: boolean;
+    /** Accessible title naming the panel (required). */
+    title: string;
+    /** Optional description, wired via `aria-describedby`. */
+    description?: string;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Show the close button at the trailing end of the header. */
+    closeButton?: boolean;
+    /**
+     * CSS selector (within the panel) for the element to focus on open — e.g.
+     * `"input"` to land on a form's first field instead of the close button.
+     */
+    initialFocus?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The body. */
+    children?: Snippet;
+    /** The trigger button's content. Defaults to the i18n catalog's label. */
+    trigger?: Snippet;
+    /** Leading feedback icon in the header. */
+    icon?: Snippet;
+    /** Leading ghost button in the header, e.g. back. */
+    headerLead?: Snippet;
+    /** Actions before the close button. */
+    headerActions?: Snippet;
+    /** Footer actions. */
+    footer?: Snippet;
+  }
 
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-  };
-
-  const sheet = createSheetDialog({
-    open,
-    side,
-    describedBy: description !== undefined,
-    initialFocus,
+  let {
+    triggerVariant = "default",
+    renderTrigger = true,
     returnFocusTo,
-    onOpenChange: handleOpenChange,
-  });
+    side = "right",
+    draggable = false,
+    open = $bindable(false),
+    title,
+    description,
+    closeLabel,
+    closeButton = true,
+    initialFocus,
+    onOpenChange,
+    children,
+    trigger,
+    icon,
+    headerLead,
+    headerActions,
+    footer,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror below follows later ones.
+  const sheet = untrack(() =>
+    createSheetDialog({
+      open,
+      side,
+      describedBy: description !== undefined,
+      initialFocus,
+      returnFocusTo,
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+      },
+    }),
+  );
   const {
     open: isOpen,
     triggerAction,
@@ -91,15 +138,15 @@
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    sheet.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: sheet.syncOpen,
+  });
 
-  $: resolvedCloseLabel = closeLabel ?? $t("sheetDialog.close");
-  $: hasHandle = draggable && side !== "top";
-  $: dragTransform =
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("sheetDialog.close"));
+  const hasHandle = $derived(draggable && side !== "top");
+  const dragTransform = $derived(
     $dragOffset === 0
       ? undefined
       : side === "bottom"
@@ -108,19 +155,34 @@
           ? `translateX(${$dragOffset}px)`
           : side === "left"
             ? `translateX(${-$dragOffset}px)`
-            : undefined;
+            : undefined,
+  );
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return sheet.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    sheet.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    sheet.clearNotices();
+  }
 </script>
 
 {#if renderTrigger}
   <Button variant={triggerVariant} action={triggerAction}>
-    <slot name="trigger">{$t("dialog.trigger")}</slot>
+    {#if trigger}{@render trigger()}{:else}{$t("dialog.trigger")}{/if}
   </Button>
 {/if}
 
 {#if $isOpen}
   <dialog
-    class="sheet-dialog__panel"
-    class:sheet-dialog__panel--dragging={$dragging}
+    class={["sheet-dialog__panel", $dragging && "sheet-dialog__panel--dragging"]}
     data-side={side}
     style:transform={dragTransform}
     use:contentAction
@@ -136,17 +198,14 @@
       {titleAction}
       subtitleAction={descriptionAction}
       {closeAction}
-      hasIcon={$$slots.icon}
-      hasLead={$$slots.headerLead}
-      hasActions={$$slots.headerActions}
-    >
-      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
-      <svelte:fragment slot="lead"><slot name="headerLead" /></svelte:fragment>
-      <svelte:fragment slot="actions"><slot name="headerActions" /></svelte:fragment>
-    </DialogHeader>
-    <div class="sheet-dialog__body"><slot /></div>
-    {#if $$slots.footer}
-      <footer class="sheet-dialog__footer"><slot name="footer" /></footer>
+      {icon}
+      lead={headerLead}
+      actions={headerActions}
+    />
+    <div class="sheet-dialog__body">{@render children?.()}</div>
+    <DialogStatus dialog={sheet} />
+    {#if footer}
+      <footer class="sheet-dialog__footer">{@render footer()}</footer>
     {/if}
   </dialog>
 {/if}

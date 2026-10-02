@@ -92,13 +92,6 @@ export function upgradeProperty(el: HTMLElement, prop: string): void {
   }
 }
 
-/** Build an element from a template literal (light-DOM rendering helper). */
-export function fragment(html: string): DocumentFragment {
-  const template = document.createElement("template");
-  template.innerHTML = html;
-  return template.content;
-}
-
 /**
  * Make `parent`'s children exactly `nodes`, in order, moving only what is out
  * of place. A node that stays put is never detached, so it keeps its focus.

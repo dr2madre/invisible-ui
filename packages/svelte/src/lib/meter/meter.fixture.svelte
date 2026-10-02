@@ -1,13 +1,20 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createMeter } from "./create-meter";
 
-  export let value = 0;
-  export let min = 0;
-  export let max = 100;
-  export let low: number | undefined = undefined;
-  export let high: number | undefined = undefined;
+  interface Props {
+    value?: number;
+    min?: number;
+    max?: number;
+    low?: number;
+    high?: number;
+  }
 
-  const { rootAction, indicatorAction } = createMeter({ value, min, max, low, high });
+  let { value = 0, min = 0, max = 100, low, high }: Props = $props();
+
+  const { rootAction, indicatorAction } = untrack(() =>
+    createMeter({ value, min, max, low, high }),
+  );
 </script>
 
 <div use:rootAction aria-label="Disk usage">

@@ -38,24 +38,30 @@
    * (`role="img"` + `aria-label`), so it reads the same whether the photo or the
    * initials are showing. Size/shape/colors are themeable (`--ds-avatar-*`).
    */
-  export let name: string;
-  /** Image URL. When absent or it fails to load, initials are shown. */
-  export let src: string | undefined = undefined;
-  /** Accessible name; defaults to `name`. */
-  export let alt: string | undefined = undefined;
-  export let size: "sm" | "md" | "lg" = "md";
-  export let shape: "circle" | "square" = "circle";
+  interface Props {
+    name: string;
+    /** Image URL. When absent or it fails to load, initials are shown. */
+    src?: string;
+    /** Accessible name; defaults to `name`. */
+    alt?: string;
+    size?: "sm" | "md" | "lg";
+    shape?: "circle" | "square";
+  }
 
-  let failed = false;
-  // Reset the failure flag if the src changes.
-  $: if (src) failed = false;
-  $: showImage = Boolean(src) && !failed;
-  $: initials = initialsOf(name);
+  let { name, src, alt, size = "md", shape = "circle" }: Props = $props();
+
+  // Set when the image fails to load; a new src clears it and tries again.
+  let failed = $derived.by(() => {
+    void src;
+    return false;
+  });
+  const showImage = $derived(Boolean(src) && !failed);
+  const initials = $derived(initialsOf(name));
 </script>
 
 <span class="avatar" data-size={size} data-shape={shape} role="img" aria-label={alt ?? name}>
   {#if showImage}
-    <img class="avatar__img" {src} alt="" on:error={() => (failed = true)} />
+    <img class="avatar__img" {src} alt="" onerror={() => (failed = true)} />
   {:else}
     <span class="avatar__initials" aria-hidden="true">{initials}</span>
   {/if}
@@ -70,7 +76,7 @@
     overflow: hidden;
     inline-size: var(--ds-avatar-size, 2.5rem);
     block-size: var(--ds-avatar-size, 2.5rem);
-    background: var(--ds-avatar-bg, var(--ds-color-surface, #e6e0d8));
+    background-color: var(--ds-avatar-bg, var(--ds-color-surface, #e6e0d8));
     color: var(--ds-avatar-color, var(--ds-color-text, #282420));
     font-weight: 600;
     line-height: 1;

@@ -1,4 +1,4 @@
-import { defineComponent, h, type PropType } from "vue";
+import { defineComponent, h, mergeProps, type PropType } from "vue";
 
 export type LinkVariant = "primary" | "subtle";
 
@@ -30,22 +30,28 @@ export interface LinkProps {
  */
 export const Link = defineComponent({
   name: "Link",
+  inheritAttrs: false,
   props: {
     href: { type: String, required: true },
     external: { type: Boolean, default: false },
     variant: { type: String as PropType<LinkVariant>, default: "primary" },
   },
-  setup(props, { slots }) {
-    return () =>
-      h(
+  setup(props, { attrs, slots }) {
+    return () => {
+      // A new tab always gets a safe `rel`, also when the target comes in as a
+      // plain attribute; both are merged last so no attribute overrides them.
+      const target = props.external ? "_blank" : (attrs.target as string | undefined);
+      const rel =
+        target === "_blank"
+          ? [attrs.rel, "noopener noreferrer"].filter(Boolean).join(" ")
+          : (attrs.rel as string | undefined);
+      return h(
         "a",
-        {
-          class: "link",
-          "data-variant": props.variant,
+        mergeProps({ class: "link", "data-variant": props.variant }, attrs, {
           href: props.href,
-          target: props.external ? "_blank" : undefined,
-          rel: props.external ? "noopener noreferrer" : undefined,
-        },
+          target,
+          rel,
+        }),
         [
           slots.default?.(),
           props.external
@@ -69,5 +75,6 @@ export const Link = defineComponent({
             : null,
         ],
       );
+    };
   },
 });

@@ -3,42 +3,62 @@
    * The navigation landmark itself: the logo, the rail toggle, the sections and
    * the footer. The Sidebar owns every piece of state; this file places things.
    */
+  import type { Snippet } from "svelte";
   import Icon from "../icon/Icon.svelte";
   import SidebarGroup from "./SidebarGroup.svelte";
   import SidebarItems from "./SidebarItems.svelte";
   import type { ResolvedSection } from "./identity";
 
-  /** The sections with the name each answers to in `openGroups`. */
-  export let entries: ResolvedSection[];
-  export let label: string;
-  export let value: string | null = null;
-  export let collapsed = false;
-  export let mode: "inline" | "drawer" = "inline";
-  export let side: "inline-start" | "inline-end" = "inline-start";
-  export let openIds: string[];
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let onNavigate: (() => void) | undefined = undefined;
-  export let onPressGroup: ((id: string) => void) | undefined = undefined;
-  /** Given, the rail toggle is rendered; the Sidebar decides whether to. */
-  export let onToggleCollapsed: (() => void) | undefined = undefined;
-  export let collapseLabel = "";
-  export let expandLabel = "";
-  /** Whether the Sidebar was given these slots: a forwarded slot always looks
-      present from in here, so the answer has to come from outside. */
-  export let hasLogo = false;
-  export let hasFooter = false;
+  interface Props {
+    /** The sections with the name each answers to in `openGroups`. */
+    entries: ResolvedSection[];
+    label: string;
+    value?: string | null;
+    collapsed?: boolean;
+    mode?: "inline" | "drawer";
+    side?: "inline-start" | "inline-end";
+    openIds: string[];
+    onSelect?: (value: string) => void;
+    onNavigate?: () => void;
+    onPressGroup?: (id: string) => void;
+    /** Given, the rail toggle is rendered; the Sidebar decides whether to. */
+    onToggleCollapsed?: () => void;
+    collapseLabel?: string;
+    expandLabel?: string;
+    /** The logo at the top of the navigation. */
+    logo?: Snippet;
+    /** The footer at the bottom of the navigation. */
+    footer?: Snippet;
+  }
+
+  let {
+    entries,
+    label,
+    value = null,
+    collapsed = false,
+    mode = "inline",
+    side = "inline-start",
+    openIds,
+    onSelect,
+    onNavigate,
+    onPressGroup,
+    onToggleCollapsed,
+    collapseLabel = "",
+    expandLabel = "",
+    logo,
+    footer,
+  }: Props = $props();
 </script>
 
 <nav
-  class="sidebar"
-  class:sidebar--collapsed={collapsed}
+  class={["sidebar", collapsed && "sidebar--collapsed"]}
   aria-label={label}
   data-mode={mode}
   data-side={side}
   data-collapsed={collapsed ? "" : undefined}
 >
-  {#if hasLogo}
-    <div class="sidebar__logo"><slot name="logo" /></div>
+  {#if logo}
+    <div class="sidebar__logo">{@render logo()}</div>
   {/if}
 
   {#if onToggleCollapsed}
@@ -46,7 +66,7 @@
       type="button"
       class="sidebar__rail-toggle"
       aria-pressed={collapsed}
-      on:click={() => onToggleCollapsed?.()}
+      onclick={() => onToggleCollapsed?.()}
     >
       <span class="sidebar__icon" aria-hidden="true">
         <Icon size="1em">
@@ -72,7 +92,7 @@
     {:else}
       <div class="sidebar__section">
         {#if section.label}
-          <p class="sidebar__section-label" class:sidebar__label--hidden={collapsed}>
+          <p class={["sidebar__section-label", collapsed && "sidebar__label--hidden"]}>
             {section.label}
           </p>
         {/if}
@@ -81,25 +101,23 @@
     {/if}
   {/each}
 
-  {#if hasFooter}
-    <div class="sidebar__footer"><slot name="footer" /></div>
+  {#if footer}
+    <div class="sidebar__footer">{@render footer()}</div>
   {/if}
 </nav>
 
 <style>
-  /* Every legacy `--ds-menu-*` name is still read as a fallback: a consumer
-     who themed this component under its former spelling keeps its theme until
-     the deprecation completes (ADR 0013). */
+  /* Padding and radius fall back to `--ds-menu-padding` and `--ds-menu-radius`,
+     which the ARIA menus share (ADR 0013). */
   .sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-sidebar-gap, var(--ds-menu-gap, 0.75rem));
-    inline-size: var(--ds-sidebar-width, var(--ds-menu-width, 15rem));
+    gap: var(--ds-sidebar-gap, 0.75rem);
+    inline-size: var(--ds-sidebar-width, 15rem);
     max-inline-size: 100%;
     padding: var(--ds-sidebar-padding, var(--ds-menu-padding, 0.75rem));
-    background: var(--ds-sidebar-bg, var(--ds-menu-bg, var(--ds-color-background, #fff)));
-    border: 1px solid
-      var(--ds-sidebar-border, var(--ds-menu-border, var(--ds-color-border, #c7c1b7)));
+    background: var(--ds-sidebar-bg, var(--ds-color-background, #fff));
+    border: 1px solid var(--ds-sidebar-border, var(--ds-color-border, #c7c1b7));
     border-radius: var(
       --ds-sidebar-radius,
       var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))

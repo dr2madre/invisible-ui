@@ -8,16 +8,20 @@
   import Tooltip from "../tooltip/Tooltip.svelte";
   import type { SidebarItem } from "./types";
 
-  export let items: SidebarItem[];
-  export let value: string | null = null;
-  export let collapsed = false;
-  /** Called when an item without an `href` is activated. */
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  /** Called after any item is activated, link or not. */
-  export let onNavigate: (() => void) | undefined = undefined;
+  interface Props {
+    items: SidebarItem[];
+    value?: string | null;
+    collapsed?: boolean;
+    /** Called when an item without an `href` is activated. */
+    onSelect?: (value: string) => void;
+    /** Called after any item is activated, link or not. */
+    onNavigate?: () => void;
+  }
+
+  let { items, value = null, collapsed = false, onSelect, onNavigate }: Props = $props();
 </script>
 
-<ul class="sidebar__list" class:sidebar__list--collapsed={collapsed}>
+<ul class={["sidebar__list", collapsed && "sidebar__list--collapsed"]}>
   {#each items as item (item.value)}
     {@const current = item.value === value}
     <li>
@@ -25,62 +29,54 @@
         <Tooltip text={item.label} placement="right">
           {#if item.href}
             <a
-              class="sidebar__item"
-              class:sidebar__item--active={current}
+              class={["sidebar__item", current && "sidebar__item--active"]}
               href={item.href}
               aria-current={current ? "page" : undefined}
               data-current={current ? "" : undefined}
-              on:click={() => onNavigate?.()}
+              onclick={() => onNavigate?.()}
             >
-              {#if item.icon}<span class="sidebar__icon"><svelte:component this={item.icon} /></span
-                >{/if}
+              {#if item.icon}<span class="sidebar__icon"><item.icon /></span>{/if}
               <span class="sidebar__label--hidden">{item.label}</span>
             </a>
           {:else}
             <button
               type="button"
-              class="sidebar__item"
-              class:sidebar__item--active={current}
+              class={["sidebar__item", current && "sidebar__item--active"]}
               aria-current={current ? "page" : undefined}
               data-current={current ? "" : undefined}
-              on:click={() => {
+              onclick={() => {
                 onSelect?.(item.value);
                 onNavigate?.();
               }}
             >
-              {#if item.icon}<span class="sidebar__icon"><svelte:component this={item.icon} /></span
-                >{/if}
+              {#if item.icon}<span class="sidebar__icon"><item.icon /></span>{/if}
               <span class="sidebar__label--hidden">{item.label}</span>
             </button>
           {/if}
         </Tooltip>
       {:else if item.href}
         <a
-          class="sidebar__item"
-          class:sidebar__item--active={current}
+          class={["sidebar__item", current && "sidebar__item--active"]}
           href={item.href}
           aria-current={current ? "page" : undefined}
           data-current={current ? "" : undefined}
-          on:click={() => onNavigate?.()}
+          onclick={() => onNavigate?.()}
         >
-          {#if item.icon}<span class="sidebar__icon"><svelte:component this={item.icon} /></span
-            >{/if}
+          {#if item.icon}<span class="sidebar__icon"><item.icon /></span>{/if}
           <span class="sidebar__label">{item.label}</span>
         </a>
       {:else}
         <button
           type="button"
-          class="sidebar__item"
-          class:sidebar__item--active={current}
+          class={["sidebar__item", current && "sidebar__item--active"]}
           aria-current={current ? "page" : undefined}
           data-current={current ? "" : undefined}
-          on:click={() => {
+          onclick={() => {
             onSelect?.(item.value);
             onNavigate?.();
           }}
         >
-          {#if item.icon}<span class="sidebar__icon"><svelte:component this={item.icon} /></span
-            >{/if}
+          {#if item.icon}<span class="sidebar__icon"><item.icon /></span>{/if}
           <span class="sidebar__label">{item.label}</span>
         </button>
       {/if}
@@ -110,7 +106,7 @@
     padding: 0.5rem 0.625rem;
     font: inherit;
     text-align: start;
-    color: var(--ds-sidebar-item-text, var(--ds-menu-item-text, var(--ds-color-text, #282420)));
+    color: var(--ds-sidebar-item-text, var(--ds-color-text, #282420));
     text-decoration: none;
     background: none;
     border: 0;

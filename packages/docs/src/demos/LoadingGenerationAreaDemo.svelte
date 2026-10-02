@@ -5,8 +5,8 @@
   import logoDark from "../assets/logo-white.svg";
 
   const STEPS = ["Connecting…", "Composing…", "Rendering…"];
-  let step = 0;
-  let files = 0;
+  let step = $state(0);
+  let files = $state(0);
   onMount(() => {
     const t = setInterval(() => {
       step = (step + 1) % STEPS.length;
@@ -16,7 +16,7 @@
   });
 
   // Reveal demo: generate for ~2.6s, show the result for a beat, then loop.
-  let loading = true;
+  let loading = $state(true);
   onMount(() => {
     const t = setInterval(() => (loading = !loading), 2600);
     return () => clearInterval(t);

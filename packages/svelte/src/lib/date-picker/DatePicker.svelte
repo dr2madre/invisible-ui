@@ -13,83 +13,92 @@
    */
   import { createPopover } from "../popover/create-popover";
   import Calendar, { type CalendarEvent } from "../calendar/Calendar.svelte";
-  import type { WeekStart } from "../calendar/create-calendar";
+  import { localDate, type WeekStart } from "../calendar/create-calendar";
   import Icon from "../icon/Icon.svelte";
   import { i18n } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { stableId } from "../internal/stable-id";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t, locale: providerLocale } = getI18n();
 
-  export let value: string | null = null;
-  export let min: string | undefined = undefined;
-  export let max: string | undefined = undefined;
-  export let weekStartsOn: WeekStart = 1;
-  export let locale: string | undefined = undefined;
-  /** Intl date style for the field display. */
-  export let dateStyle: "full" | "long" | "medium" | "short" = "medium";
-  /** Accessible label for the field (required for a meaningful control). */
-  export let label: string | undefined = undefined;
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  /** Show a clear button when a date is selected. */
-  export let clearable = false;
-  /** Forwarded to the calendar. */
-  export let events: CalendarEvent[] = [];
-  export let prices: Record<string, string> = {};
+  interface Props {
+    value?: string | null;
+    min?: string;
+    max?: string;
+    weekStartsOn?: WeekStart;
+    locale?: string;
+    /** Intl date style for the field display. */
+    dateStyle?: "full" | "long" | "medium" | "short";
+    /** Accessible label for the field (required for a meaningful control). */
+    label?: string;
+    placeholder?: string;
+    disabled?: boolean;
+    /** Show a clear button when a date is selected. */
+    clearable?: boolean;
+    /** Forwarded to the calendar. */
+    events?: CalendarEvent[];
+    prices?: Record<string, string>;
+    /** Form field name — the selected ISO date is submitted under it (via a hidden input). */
+    name?: string;
+    onValueChange?: (value: string | null) => void;
+  }
 
-  /** Form field name — the selected ISO date is submitted under it (via a hidden input). */
-  export let name: string | undefined = undefined;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
+  let {
+    value = $bindable(null),
+    min,
+    max,
+    weekStartsOn = 1,
+    locale,
+    dateStyle = "medium",
+    label,
+    placeholder,
+    disabled = false,
+    clearable = false,
+    events = [],
+    prices = {},
+    name,
+    onValueChange,
+  }: Props = $props();
 
   const popover = createPopover({ placement: "bottom-start" });
   const { triggerAction, contentAction, open: isOpen, setOpen } = popover;
 
-  const dt = (iso: string) => new Date(`${iso}T00:00:00`);
-  $: resolvedLocale = locale ?? $providerLocale;
-  $: displayFmt = i18n.dateTimeFormat(resolvedLocale, { dateStyle });
-  $: displayValue = value ? displayFmt.format(dt(value)) : "";
+  const resolvedLocale = $derived(locale ?? $providerLocale);
+  const displayFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { dateStyle }));
+  const displayValue = $derived(value ? displayFmt.format(localDate(value)) : "");
 
-  // The reset default follows the prop. The write-backs move lastValue
-  // first, so the mirror only ever fires for a consumer's own change: the
-  // give-back is filtered by construction (ADR 0012).
-  let lastValue = value;
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    defaultValue = value;
-  }
+  // Controllable mirror (ADR 0011). The prop is the whole state here, and the
+  // component's own writes go through `mirror.write`, so every change the
+  // mirror sees is the consumer's and moves the reset default (ADR 0012).
+  // Putting the default back reports nothing.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+  });
 
   const pick = (iso: string) => {
-    lastValue = iso;
-    value = iso;
+    mirror.write(iso);
     onValueChange?.(iso);
     setOpen(false);
   };
 
   const clear = () => {
-    lastValue = null;
-    value = null;
+    mirror.write(null);
     onValueChange?.(null);
-  };
-
-  // The prop is the whole state here; putting it back reports nothing.
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
   };
 
   // The combobox names the panel it controls; the panel exists only while open.
   const popupId = `${stableId("dsDatePicker")}-popup`;
 </script>
 
-<div class="date-picker" class:date-picker--disabled={disabled} use:formReset={restore}>
+<div class={["date-picker", disabled && "date-picker--disabled"]} use:formReset={mirror.restore}>
   {#if name}
     <input type="hidden" {name} value={value ?? ""} disabled={disabled || undefined} />
   {/if}
   <div class="date-picker__field">
-    <span class="date-picker__icon" class:date-picker__icon--active={value} aria-hidden="true">
+    <span class={["date-picker__icon", value && "date-picker__icon--active"]} aria-hidden="true">
       <Icon size="1.1rem">
         <rect x="3" y="4" width="18" height="18" rx="2" />
         <line x1="16" y1="2" x2="16" y2="6" />
@@ -115,7 +124,7 @@
         class="date-picker__clear"
         type="button"
         aria-label={$t("datePicker.clear")}
-        on:click={clear}
+        onclick={clear}
       >
         <Icon size="0.9rem"
           ><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></Icon

@@ -1,4 +1,4 @@
-import { i18n, tabs as tabsCore } from "@design-system/core";
+import { tabs as tabsCore } from "@design-system/core";
 import {
   applyProps,
   definePart,
@@ -15,6 +15,7 @@ import type {
   TableSortState,
 } from "./ds-table";
 import { DsTableView, type TableRowId } from "./ds-table-view";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /** A named view (a tab): its own columns and rows. */
 export interface TableViewDef {
@@ -54,7 +55,7 @@ const FORWARDED = [
 ];
 
 /** Attributes the single view receives; with tabs, the set uses them itself. */
-const SINGLE_VIEW = ["title", "title-level", "caption"];
+const SINGLE_VIEW = ["heading", "heading-level", "caption"];
 
 type ViewProperty =
   | "sort"
@@ -66,11 +67,9 @@ type ViewProperty =
   | "getRowLabel"
   | "renderCell";
 
-const t = (key: i18n.MessageKey) => i18n.translate(i18n.en, {}, i18n.DEFAULT_LOCALE, key);
-
 /**
  * `<ds-table-set>` is the composed data table: a header with an optional
- * title and a toolbar region, optional tabs that switch between distinct views
+ * heading and a toolbar region, optional tabs that switch between distinct views
  * (each with its own columns and rows), and one `<ds-table-view>` per view
  * with sorting, column visibility, a table/cards switcher, pagination or
  * infinite scroll, row selection and the no-results state.
@@ -86,7 +85,7 @@ const t = (key: i18n.MessageKey) => i18n.translate(i18n.en, {}, i18n.DEFAULT_LOC
  * The active view id is a controllable mirror (ADR 0011): setting
  * `active-view` switches without an event; selecting a tab emits one.
  *
- * Attributes: `active-view`, `views-label`, `title`, `title-level`,
+ * Attributes: `active-view`, `views-label`, `heading`, `heading-level`,
  * `caption`, `hide-caption`, `page-size`, `page`, `pagination-label`,
  * `infinite`, `has-more`, `loading`, `load-more-label`, `loading-label`,
  * `view` (table|card), `allow-view-toggle`, `configurable`, `config-label`,
@@ -106,8 +105,8 @@ export class DsTableSet extends HTMLElementBase {
   static observedAttributes = [
     "active-view",
     "views-label",
-    "title",
-    "title-level",
+    "heading",
+    "heading-level",
     "caption",
     "hide-caption",
     "page-size",
@@ -151,6 +150,13 @@ export class DsTableSet extends HTMLElementBase {
   /** Which view `#view` renders: a view id, or null for the single view. */
   #viewKey: string | null = null;
 
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      this.#update();
+    });
+  }
+
   connectedCallback() {
     definePart("ds-table-view", DsTableView);
     for (const property of [
@@ -185,7 +191,7 @@ export class DsTableSet extends HTMLElementBase {
     } else if (FORWARDED.includes(name) || (SINGLE_VIEW.includes(name) && !this.#hasViews())) {
       // The view compares the value with its own, so forwarding is enough.
       if (this.#view) this.#copyAttribute(this.#view, name);
-      if (name !== "title") return;
+      if (name !== "heading") return;
     }
     this.#update();
   }
@@ -379,9 +385,9 @@ export class DsTableSet extends HTMLElementBase {
       this.#header.className = "table-set__header";
     }
     const nodes: Node[] = [];
-    const title = this.getAttribute("title");
+    const title = this.getAttribute("heading");
     if (title && hasViews) {
-      const heading = document.createElement(`h${this.#titleLevel()}`);
+      const heading = document.createElement(`h${this.#headingLevel()}`);
       heading.className = "table-set__title";
       heading.textContent = title;
       nodes.push(heading);
@@ -392,8 +398,8 @@ export class DsTableSet extends HTMLElementBase {
     return this.#header;
   }
 
-  #titleLevel() {
-    const value = Number(this.getAttribute("title-level") ?? 2);
+  #headingLevel() {
+    const value = Number(this.getAttribute("heading-level") ?? 2);
     return Number.isInteger(value) && value >= 2 && value <= 6 ? value : 2;
   }
 
@@ -424,7 +430,7 @@ export class DsTableSet extends HTMLElementBase {
     const api = this.#tabsApi();
     const list = this.#tabList;
     applyProps(list, api.rootProps);
-    list.setAttribute("aria-label", this.getAttribute("views-label") ?? t("table.views"));
+    list.setAttribute("aria-label", localized(this, "views-label", "table.views"));
 
     const ids = new Set(this.#views.map((view) => view.id));
     for (const id of this.#tabs.keys()) {
@@ -434,6 +440,7 @@ export class DsTableSet extends HTMLElementBase {
       let tab = this.#tabs.get(view.id);
       if (!tab) {
         tab = document.createElement("button");
+        tab.type = "button";
         tab.className = "table-set__tab";
         this.#tabs.set(view.id, tab);
       }

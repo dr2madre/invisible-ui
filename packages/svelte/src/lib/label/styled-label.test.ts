@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./styled-label.fixture.svelte";
+import Label from "./Label.svelte";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
 
@@ -25,6 +26,15 @@ describe("Svelte Label (styled)", () => {
     const label = container.querySelector("label.label")!;
     expect(label).toHaveAttribute("for", "name");
     expect(screen.getByRole("textbox")).toHaveAttribute("id", "name");
+  });
+
+  it("follows a `for` changed after mount", async () => {
+    const { container, rerender } = render(Label, { props: { for: "first" } });
+    const label = container.querySelector("label.label")!;
+    expect(label).toHaveAttribute("for", "first");
+
+    await rerender({ for: "second" });
+    expect(label).toHaveAttribute("for", "second");
   });
 
   it("has no accessibility violations", async () => {

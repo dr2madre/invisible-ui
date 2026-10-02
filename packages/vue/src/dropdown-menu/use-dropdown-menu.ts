@@ -10,6 +10,8 @@ import {
 } from "vue";
 import { onOutsidePointerDown } from "../internal/dismiss";
 import { attachFloating } from "../internal/floating";
+import { ignoreGhostClicks } from "../internal/ghost-click";
+import { createTypeahead, menuItemNode } from "../internal/menu";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -36,10 +38,6 @@ export interface UseDropdownMenu {
   menuRef: Ref<HTMLElement | null>;
 }
 
-const TYPEAHEAD_RESET = 500;
-
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless menu (WAI-ARIA menu button) to Vue. Behaviour and
  * accessibility live in `@design-system/core` (open/close, arrow & Home/End
@@ -55,7 +53,18 @@ const TYPEAHEAD_RESET = 500;
 export function useDropdownMenu(
   options: MaybeRefOrGetter<UseDropdownMenuOptions>,
 ): UseDropdownMenu {
-  const id = useStableId("ds-menu");
+  return dropdownMenuWithId(useStableId("ds-menu"), options);
+}
+
+/**
+ * The body of {@link useDropdownMenu} with the id supplied by the caller, for
+ * a composable (Menubar) that builds menus after setup, where no component
+ * instance is there to hand out a stable id. Internal: not re-exported.
+ */
+export function dropdownMenuWithId(
+  id: string,
+  options: MaybeRefOrGetter<UseDropdownMenuOptions>,
+): UseDropdownMenu {
   const resolved = computed(() => toValue(options));
 
   const open = ref(false);
@@ -99,28 +108,23 @@ export function useDropdownMenu(
   const triggerRef = ref<HTMLElement | null>(null);
   const menuRef = ref<HTMLElement | null>(null);
 
-  const itemEl = (value: string | null) =>
-    value && menuRef.value
-      ? menuRef.value.querySelector<HTMLElement>(`[data-value="${CSS.escape(value)}"]`)
-      : null;
+  // Drop iOS's synthesized duplicate click so the menu doesn't toggle twice.
+  // Synchronous, so the guard is in place as soon as the trigger renders.
+  watch(
+    triggerRef,
+    (node, _previous, onCleanup) => {
+      if (!node) return;
+      onCleanup(ignoreGhostClicks(node));
+    },
+    { flush: "sync" },
+  );
 
   // Typeahead while the menu is open. A native listener on the popup element,
   // so it runs alongside the core's own keydown handling.
-  let buffer = "";
-  let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
+  const typeahead = createTypeahead();
   const onTypeahead = (event: KeyboardEvent) => {
     if (!open.value) return;
-    const printable =
-      event.key.length === 1 &&
-      !event.metaKey &&
-      !event.ctrlKey &&
-      !event.altKey &&
-      /\S/.test(event.key);
-    if (!printable) return;
-    buffer += event.key;
-    clearTimeout(typeaheadTimer);
-    typeaheadTimer = setTimeout(() => (buffer = ""), TYPEAHEAD_RESET);
-    const match = core.matchItem(resolved.value.items, buffer, activeValue.value);
+    const match = typeahead.match(event, resolved.value.items, activeValue.value);
     if (match) setActiveValue(match);
   };
 
@@ -129,7 +133,7 @@ export function useDropdownMenu(
     node.addEventListener("keydown", onTypeahead);
     onCleanup(() => {
       node.removeEventListener("keydown", onTypeahead);
-      clearTimeout(typeaheadTimer);
+      typeahead.reset();
     });
   });
 
@@ -165,7 +169,7 @@ export function useDropdownMenu(
   watch(
     [open, activeValue],
     () => {
-      if (open.value) itemEl(activeValue.value)?.focus();
+      if (open.value) menuItemNode(menuRef.value, activeValue.value)?.focus();
     },
     { flush: "post" },
   );

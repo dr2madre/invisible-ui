@@ -35,6 +35,14 @@ describe("Svelte Menubar (styled)", () => {
     );
   });
 
+  it("gives a disabled trigger the disabled look", () => {
+    render(Fixture, {
+      props: { menus: [{ value: "file", label: "File", items: [], disabled: true }] },
+    });
+    expect(trigger("File")).toHaveAttribute("aria-disabled", "true");
+    expect(trigger("File")).toHaveAttribute("data-disabled");
+  });
+
   it("activates an item and closes", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
@@ -95,6 +103,30 @@ describe("Svelte Menubar (styled)", () => {
     await user.keyboard("{Escape}");
     expect(trigger("View")).toHaveAttribute("aria-expanded", "false");
     expect(trigger("View")).toHaveFocus();
+  });
+
+  it("renders and navigates menus given after mount, with the callback given after mount", async () => {
+    const user = userEvent.setup();
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = render(Fixture, { props: { onSelect: first } });
+    await rerender({
+      onSelect: second,
+      menus: [
+        { value: "file", label: "File", items: [{ value: "close", label: "Close" }] },
+        { value: "help", label: "Help", items: [{ value: "about", label: "About" }] },
+      ],
+    });
+    expect(screen.queryByRole("menuitem", { name: "Edit" })).not.toBeInTheDocument();
+
+    trigger("File").focus();
+    await user.keyboard("{ArrowRight}");
+    expect(trigger("Help")).toHaveFocus();
+    await user.keyboard("{ArrowLeft}");
+    await user.keyboard("{ArrowDown}"); // open File, active = Close
+    await user.keyboard("{Enter}");
+    expect(second).toHaveBeenCalledWith("file", "close");
+    expect(first).not.toHaveBeenCalled();
   });
 
   it("has no accessibility violations", async () => {

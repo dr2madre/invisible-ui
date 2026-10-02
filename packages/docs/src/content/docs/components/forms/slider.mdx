@@ -18,6 +18,14 @@ keyboard control and form participation come from the browser.
 
 <ImportSnippet component="slider" />
 
+In Elements, the attributes set the value and the range. The `format`
+property turns a number into the text the readouts show, and moving the thumb
+sends a bubbling `change` event with `detail.value`:
+
+```html
+<ds-slider label="Volume" name="volume" value="40" step="10" show-value></ds-slider>
+```
+
 ### Props
 
 <PropsTable component="slider" />

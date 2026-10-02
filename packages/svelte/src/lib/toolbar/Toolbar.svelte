@@ -12,19 +12,26 @@
    * A `label` is required (the toolbar needs an accessible name). Layout gap is
    * themeable via `--ds-toolbar-gap`.
    */
+  import type { Snippet } from "svelte";
+  import type { Attachment } from "svelte/attachments";
   import { toolbar as core } from "@design-system/core";
-  import type { Action } from "svelte/action";
 
-  export let label: string;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  /**
-   * Flat presentation: the controls inside lose their individual borders and
-   * fill at rest (they read as one group, divided only by separators), with a
-   * subtle hover overlay. The toolbar's own frame still groups them.
-   */
-  export let flat = false;
+  interface Props {
+    label: string;
+    orientation?: "horizontal" | "vertical";
+    /**
+     * Flat presentation: the controls inside lose their individual borders and
+     * fill at rest (they read as one group, divided only by separators), with a
+     * subtle hover overlay. The toolbar's own frame still groups them.
+     */
+    flat?: boolean;
+    children?: Snippet;
+  }
 
-  let root: HTMLElement;
+  let { label, orientation = "horizontal", flat = false, children }: Props = $props();
+
+  // The toolbar element, set once it is in the page.
+  let root: HTMLElement | undefined;
 
   const FOCUSABLE =
     'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
@@ -96,9 +103,10 @@
   }
 
   // Set the roving tab stop once mounted and keep it valid across DOM changes.
-  // An action (not onMount) keeps this client-only and SSR-safe — the container
-  // renders fine on the server.
-  const manageTabStop: Action<HTMLElement> = (node) => {
+  // An attachment (not onMount) keeps this client-only and SSR-safe: the
+  // container renders fine on the server.
+  const manageTabStop: Attachment<HTMLElement> = (node) => {
+    root = node;
     reconcile();
     const observer = new MutationObserver(reconcile);
     observer.observe(node, {
@@ -106,7 +114,7 @@
       subtree: true,
       attributeFilter: ["disabled", "aria-disabled"],
     });
-    return { destroy: () => observer.disconnect() };
+    return () => observer.disconnect();
   };
 </script>
 
@@ -120,12 +128,11 @@
   aria-orientation={orientation}
   data-orientation={orientation}
   data-flat={flat ? "" : undefined}
-  bind:this={root}
-  use:manageTabStop
-  on:keydown={onKeyDown}
-  on:focusin={onFocusIn}
+  {@attach manageTabStop}
+  onkeydown={onKeyDown}
+  onfocusin={onFocusIn}
 >
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

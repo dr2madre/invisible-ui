@@ -1,6 +1,5 @@
-import { defineComponent, h, watch, type PropType } from "vue";
+import { defineComponent, h, type PropType } from "vue";
 import { CheckGlyph, Icon } from "../icon/Icon";
-import { ignoreGhostClicks } from "../internal/ghost-click";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { menu as core } from "@design-system/core";
@@ -46,12 +45,6 @@ export const DropdownMenu = defineComponent({
       onSelect: props.onSelect,
     }));
 
-    // Drop iOS's synthesized duplicate click so the menu doesn't toggle twice.
-    watch(triggerRef, (node, _previous, onCleanup) => {
-      if (!node) return;
-      onCleanup(ignoreGhostClicks(node));
-    });
-
     // A checkable item shows a tick in a fixed column so labels line up
     // whether or not the item is currently on.
     const itemNode = (item: MenuItem) =>
@@ -86,7 +79,11 @@ export const DropdownMenu = defineComponent({
       if (core.isGroup(entry)) {
         return h(
           "div",
-          { key: entry.label, ...api.value.getGroupProps(index), class: "menu__group" },
+          {
+            key: `${index}:${entry.label}`,
+            ...api.value.getGroupProps(index),
+            class: "menu__group",
+          },
           [
             h(
               "div",

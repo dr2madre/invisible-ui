@@ -14,7 +14,7 @@
           "type": "string",
           "default": "\"\"",
           "required": false,
-          "description": "Source to render (or use the default slot).",
+          "description": "Source to render (or pass it as `children`).",
           "descriptionFrom": "curated"
         },
         {
@@ -86,6 +86,46 @@
       "emits": [],
       "slots": [
         "default"
+      ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-code-block",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "code",
+          "reactive": true,
+          "required": false,
+          "description": "the source text",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "language",
+          "reactive": true,
+          "required": false,
+          "description": "a caption such as a language or a filename",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copyable",
+          "reactive": true,
+          "required": false,
+          "description": "`copyable=\"false\"` removes the copy button",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copy-label",
+          "reactive": true,
+          "required": false,
+          "description": "the copy button's name; \"Copy code\" by default",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": [
+        "Properties: `code`."
       ]
     }
   }

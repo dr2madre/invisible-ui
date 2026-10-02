@@ -113,6 +113,19 @@ pass, which stay with the maintainer.
 
 <ImportSnippet component="stepper" />
 
+In Elements, assign the steps as a property. `current` is the 0-based step,
+and picking a step sends a bubbling `change` event with `detail.current`:
+
+```html
+<ds-stepper label="Checkout progress" current="1"></ds-stepper>
+
+<script type="module">
+  const stepper = document.querySelector("ds-stepper");
+  stepper.steps = [{ label: "Account" }, { label: "Shipping" }, { label: "Payment" }];
+  stepper.addEventListener("change", (event) => console.log(event.detail.current));
+</script>
+```
+
 ### Props
 
 <PropsTable component="stepper" />

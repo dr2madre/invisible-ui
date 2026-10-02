@@ -1,14 +1,17 @@
 import { textField as core } from "@design-system/core";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { closeIcon, searchIcon } from "../internal/icons";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * `<ds-search-field>` — a native search input with clear and submit actions in
  * one visual control. The actions remain real buttons in the surrounding form.
  *
  * Attributes: `label` (required), `hide-label`, `value`, `placeholder`,
- * `disabled`, `readonly`, `required`, `name`, `autocomplete`, `clear-label`,
+ * `description`, `error`, `disabled`, `readonly`, `required`, `name`,
+ * `autocomplete`, `clear-label`,
  * `submit-label`, `submit-button` (`"false"` drops the submit button for a
  * filter that applies as you type).
  * Properties: `value`.
@@ -28,6 +31,8 @@ export class DsSearchField extends HTMLElementBase {
     "clear-label",
     "submit-label",
     "submit-button",
+    "description",
+    "error",
   ];
 
   #root: HTMLDivElement | null = null;
@@ -37,8 +42,16 @@ export class DsSearchField extends HTMLElementBase {
   #submit: HTMLButtonElement | null = null;
   #icon: HTMLSpanElement | null = null;
   #fieldId = "";
+  #messages: FieldMessages | null = null;
   #defaultValue = "";
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#root) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "value");
@@ -135,6 +148,8 @@ export class DsSearchField extends HTMLElementBase {
 
     if (value !== input.value) this.#defaultValue = value;
     this.#fieldId ||= core.initialState().id;
+    // The same base id as the core's, so its description ids match these.
+    this.#messages ??= new FieldMessages(this.#fieldId);
     const api = core.connect({
       state: core.initialState({
         id: this.#fieldId,
@@ -142,6 +157,8 @@ export class DsSearchField extends HTMLElementBase {
         disabled,
         readOnly,
         required,
+        invalid: this.hasAttribute("error"),
+        hasDescription: this.hasAttribute("description"),
       }),
       setValue: (next) => this.setAttribute("value", next),
     });
@@ -170,14 +187,15 @@ export class DsSearchField extends HTMLElementBase {
     root.classList.toggle("search-field--disabled", disabled);
     clear.hidden = value.length === 0 || disabled || readOnly;
     clear.disabled = disabled || readOnly;
-    clear.setAttribute("aria-label", this.getAttribute("clear-label") ?? "Clear search");
+    clear.setAttribute("aria-label", localized(this, "clear-label", "searchField.clear"));
     // Without a submit button the glyph only marks the field as a search.
     const noSubmit = !boolAttr(this, "submit-button", true);
     root.classList.toggle("search-field--no-submit", noSubmit);
     this.#icon!.hidden = !noSubmit;
     submit.hidden = noSubmit;
     submit.disabled = disabled;
-    submit.setAttribute("aria-label", this.getAttribute("submit-label") ?? "Search");
+    submit.setAttribute("aria-label", localized(this, "submit-label", "searchField.submit"));
+    this.#messages.sync(this, root, [input]);
   }
 
   #clearValue() {

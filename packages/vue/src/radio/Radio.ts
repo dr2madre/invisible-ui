@@ -15,8 +15,6 @@ export interface RadioProps {
   onChange?: (value: string) => void;
 }
 
-// Stable per-instance id for the label association; the same module-counter
-// approach as Select (Vue's own `useId` landed after the ^3.4 peer range).
 /**
  * Radio — a single styled radio button paired with its label, ported from the
  * Svelte adapter. Built on a native `<input type="radio">`, so several `Radio`s
@@ -49,6 +47,9 @@ export const Radio = defineComponent({
           name: props.name,
           value: props.value,
           checked: props.checked,
+          // The attribute is the default a native form reset restores; set it
+          // explicitly rather than rely on the Vue release mirroring it.
+          "^checked": props.checked ? "" : undefined,
           disabled: props.disabled,
           onChange: () => props.onChange?.(props.value),
         }),

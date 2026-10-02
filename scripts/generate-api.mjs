@@ -212,7 +212,63 @@ function statementEnd(src, from) {
   return src.length;
 }
 
+// A runes component declares its props as a `Props` interface destructured
+// from `$props()`: the interface gives each prop its type and its JSDoc, the
+// destructuring gives its default. The entry reads as the legacy
+// `export let` one did: an optional prop with no default is `T | undefined`
+// with the default `undefined`, and a renamed prop (`class: className`, the
+// old `export { className as class }`) stays out, as it always has. A plain
+// `children` snippet is the content between the tags and stays out too; one
+// that receives parameters (`Snippet<[...]>`) is listed, because the consumer
+// needs its parameters to write it.
+function parseSvelteRunes(src) {
+  const call = src.search(/\}\s*:\s*Props\s*=\s*\$props\(\)/);
+  if (call < 0) return null;
+  const open = src.lastIndexOf("{", src.lastIndexOf("let {", call) + 4);
+  const body = src.slice(open + 1, blockEnd(src, open));
+  const members =
+    parseInterface(
+      src.replace(/(^|\n)(\s*)interface\s+Props\b/, "$1$2export interface Props"),
+      "Props",
+    )?.members ?? [];
+  const byName = new Map(members.map((m) => [m.name, m]));
+  const props = [];
+  for (const chunk of splitTop(body, ",")) {
+    const { rest } = takeLeadingDoc(chunk);
+    const entry = rest.trim();
+    if (!entry || entry.startsWith("...")) continue;
+    const { typePart: binding, defaultPart } = splitTypeDefault(entry);
+    if (binding.includes(":")) continue;
+    const name = binding.trim();
+    const member = byName.get(name);
+    if (!member) continue;
+    if (name === "children" && !/^Snippet</.test(member.type)) continue;
+    let type = member.type.replace(/^\|\s*/, "");
+    let def = defaultPart == null ? null : collapse(defaultPart);
+    // A bindable prop carries its default inside the rune: `$bindable(false)`
+    // reads as `false`, and `$bindable()` as no default at all.
+    const bindable = def == null ? null : /^\$bindable\(([^]*)\)$/.exec(def.trim());
+    if (bindable) def = bindable[1].trim() || null;
+    if (!member.required && def == null) {
+      def = "undefined";
+      // A function type needs its parentheses before it joins a union.
+      if (!/\bundefined\b/.test(type))
+        type = `${type.includes("=>") ? `(${type})` : type} | undefined`;
+    }
+    props.push({
+      name,
+      type,
+      default: def,
+      required: def == null,
+      description: member.description,
+    });
+  }
+  return props;
+}
+
 function parseSvelte(src) {
+  const runes = parseSvelteRunes(src);
+  if (runes) return runes;
   const props = [];
   // The JSDoc body uses a tempered token `(?:(?!\*\/)[\s\S])*?` so it can't span
   // across a `*/` — otherwise a comment on a preceding non-prop declaration (e.g.
@@ -440,18 +496,18 @@ function splitProse(text) {
   return items.map((s) => s.trim()).filter(Boolean);
 }
 
-// Pull the `Attributes:` / `Properties:` / `Emits:` paragraphs out of the JSDoc
+// Pull the `Attributes:` / `Properties:` / `Methods:` / `Emits:` paragraphs out of the JSDoc
 // header. Each runs from its marker to the line that ends the sentence.
 function docSections(doc) {
   const lines = doc.split("\n").map((l) => l.replace(/^\s*\*?/, "").trim());
   const sections = {};
   for (let i = 0; i < lines.length; i++) {
-    const marker = /^(Attributes|Properties|Emits|Events):\s*(.*)$/.exec(lines[i]);
+    const marker = /^(Attributes|Properties|Methods|Emits|Events):\s*(.*)$/.exec(lines[i]);
     if (!marker) continue;
     const collected = [marker[2]];
     while (!/\.$/.test(collected[collected.length - 1]) && i + 1 < lines.length) {
       const next = lines[++i];
-      if (!next || /^(Attributes|Properties|Emits|Events):/.test(next)) break;
+      if (!next || /^(Attributes|Properties|Methods|Emits|Events):/.test(next)) break;
       collected.push(next);
     }
     sections[marker[1].toLowerCase()] = collapse(collected.join(" "));
@@ -487,7 +543,7 @@ function parseElement(src, className) {
   }
 
   const notes = [];
-  for (const key of ["properties", "emits", "events"]) {
+  for (const key of ["properties", "methods", "emits", "events"]) {
     if (sections[key]) notes.push(`${key[0].toUpperCase()}${key.slice(1)}: ${sections[key]}`);
   }
 

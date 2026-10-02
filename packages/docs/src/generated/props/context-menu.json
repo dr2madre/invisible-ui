@@ -87,6 +87,33 @@
       "slots": [
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-context-menu",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ],
+      "notes": [
+        "Properties: `items` (`ContextMenuItem[]`: `{ value, label?, disabled? }`).",
+        "Emits: bubbling `select` CustomEvent with `detail.value`, after the menu closes."
+      ]
     }
   }
 }

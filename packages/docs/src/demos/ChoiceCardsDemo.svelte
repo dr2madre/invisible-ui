@@ -17,7 +17,7 @@
     },
   ];
 
-  let mode = "existing";
+  let mode = $state("existing");
 </script>
 
 <fieldset class="choice">

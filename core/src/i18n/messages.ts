@@ -24,6 +24,14 @@ export const en = {
   "calendar.view.three-day": "3 Days",
   "calendar.view.day": "Day",
   "calendar.view.year": "Year",
+  // Appended to a day's accessible name when it carries events.
+  "calendar.events": {
+    one: "{count} event",
+    other: "{count} events",
+  },
+  // Appended to the name of the first and last day of a selected range.
+  "calendar.rangeStart": "range start",
+  "calendar.rangeEnd": "range end",
   // Date Picker
   "datePicker.label": "Date",
   "datePicker.placeholder": "Select a date",
@@ -64,6 +72,8 @@ export const en = {
   // Notification
   "notificationRegion.label": "Notifications",
   // Forms & inputs
+  // Shown beside a button after it copied its value, and announced (ADR 0016).
+  "button.copied": "Copied",
   "combobox.placeholder": "Search…",
   "combobox.clear": "Clear",
   "combobox.empty": "No results",
@@ -73,12 +83,8 @@ export const en = {
   "searchDialog.label": "Search",
   "searchDialog.placeholder": "Type to search…",
   "searchDialog.empty": "No results found.",
-  "searchDialog.resultOne": "1 result available",
-  "searchDialog.resultMany": "{count} results available",
-  // Plural form used by the components; the two legacy keys above remain
-  // supported as consumer overrides.
   "searchDialog.results": {
-    one: "1 result available",
+    one: "{count} result available",
     other: "{count} results available",
   },
   "searchDialog.loading": "Searching…",
@@ -97,14 +103,17 @@ export const en = {
   "switch.off": "OFF",
   "loginForm.submit": "Sign in",
   "loginForm.forgot": "Forgot password?",
+  "loginForm.email": "Email",
+  "loginForm.emailPlaceholder": "you@example.com",
+  "loginForm.password": "Password",
+  // Separates the social sign-in buttons from the email and password fields.
+  "loginForm.divider": "or",
+  "loginForm.provider": "Continue with {name}",
   // Navigation
   "pagination.label": "Pagination",
   "pagination.previous": "Go to previous page",
   "pagination.next": "Go to next page",
   "pagination.page": "Go to page {page}",
-  "rating.star": "{count} star",
-  // Plural form used by the components; the legacy one-form key above remains
-  // supported as a consumer override.
   "rating.stars": {
     one: "{count} star",
     other: "{count} stars",
@@ -112,14 +121,11 @@ export const en = {
   "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
   "contextMenu.label": "Context menu",
-  // The sidebar's landmark name. `menu.label` is the same name under the
-  // component's former spelling: it stays, and an override of it still wins,
-  // until the deprecation completes (ADR 0013).
+  // The sidebar's landmark name.
   "sidebar.label": "Main",
   "sidebar.collapse": "Collapse the navigation",
   "sidebar.expand": "Expand the navigation",
   "sidebar.open": "Open the navigation",
-  "menu.label": "Main",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
@@ -128,6 +134,12 @@ export const en = {
   "carousel.previous": "Previous slide",
   "carousel.next": "Next slide",
   "carousel.choose": "Choose slide",
+  // Read out as each slide's name and on each slide-picker dot.
+  "carousel.slide": "{index} of {count}",
+  "carousel.goTo": "Go to slide {index}",
+  // The spoken role names of the carousel and its slides (aria-roledescription).
+  "carousel.roleDescription": "carousel",
+  "carousel.slideRoleDescription": "slide",
   "combobox.show": "Show options",
   "combobox.hide": "Close options",
   // Data
@@ -140,9 +152,33 @@ export const en = {
   "table.selectPage": "Select all visible rows",
   "table.selection": "Selection",
   "table.noResults": "No rows match the current filters",
+  // Announced through a live region when filtering changes the row count.
+  "table.results": {
+    one: "{count} result",
+    other: "{count} results",
+  },
   "table.clearFilters": "Clear filters",
+  // The switch between the table and the card presentation.
+  "table.view": "View",
+  "table.viewTable": "Table",
+  "table.viewCards": "Cards",
   // Misc
+  // The name of the "+N" chip that stands for the avatars left out.
+  "avatarGroup.more": {
+    one: "{count} more",
+    other: "{count} more",
+  },
   "codeBlock.copy": "Copy code",
+  // The copy button's visible text, before and after a copy.
+  "codeBlock.copyText": "Copy",
+  "codeBlock.copiedText": "Copied",
+  // Announced through a live region after a copy.
+  "codeBlock.copied": "Copied to clipboard",
+  "codeBlock.label": "Code",
+  "codeBlock.labelLanguage": "Code: {language}",
+  // The name of the focusable scroller that holds the code.
+  "codeBlock.sample": "Code sample",
+  "codeBlock.sampleLanguage": "Code sample, {language}",
   "tag.remove": "Remove",
   "multiSelect.selected": "Selected values",
   "multiSelect.remove": "Remove {name}",

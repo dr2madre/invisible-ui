@@ -2,17 +2,27 @@
   import Card from "./Card.svelte";
   import Tag from "../tag/Tag.svelte";
 
-  export let variant: "media" | "dashboard" = "media";
-  export let orientation: "vertical" | "horizontal" = "vertical";
-  export let surface: "default" | "secondary" = "default";
-  /** Use an icon in the media area instead of an image. */
-  export let withIcon = false;
-  export let imageSrc: string | undefined = "https://example.com/photo.jpg";
+  interface Props {
+    variant?: "media" | "dashboard";
+    orientation?: "vertical" | "horizontal";
+    surface?: "default" | "secondary";
+    /** Use an icon in the media area instead of an image. */
+    withIcon?: boolean;
+    imageSrc?: string;
+  }
+
+  let {
+    variant = "media",
+    orientation = "vertical",
+    surface = "default",
+    withIcon = false,
+    imageSrc = "https://example.com/photo.jpg",
+  }: Props = $props();
 </script>
 
 {#if variant === "dashboard"}
   <Card {surface} variant="dashboard" title="Revenue" value="€48.2k" change="+12%" trend="up">
-    <svg slot="icon" viewBox="0 0 16 16"><rect width="16" height="16" /></svg>
+    {#snippet icon()}<svg viewBox="0 0 16 16"><rect width="16" height="16" /></svg>{/snippet}
   </Card>
 {:else if withIcon}
   <Card
@@ -21,15 +31,15 @@
     title="Mountain retreat"
     description="A quiet cabin with a view of the valley."
   >
-    <svg slot="icon" viewBox="0 0 16 16"><rect width="16" height="16" /></svg>
-    <svelte:fragment slot="tags">
+    {#snippet icon()}<svg viewBox="0 0 16 16"><rect width="16" height="16" /></svg>{/snippet}
+    {#snippet tags()}
       <Tag status="success">Available</Tag>
       <Tag status="info">New</Tag>
-    </svelte:fragment>
-    <svelte:fragment slot="actions">
+    {/snippet}
+    {#snippet actions()}
       <button type="button">Details</button>
       <button type="button">Book</button>
-    </svelte:fragment>
+    {/snippet}
   </Card>
 {:else}
   <Card
@@ -40,13 +50,13 @@
     title="Mountain retreat"
     description="A quiet cabin with a view of the valley."
   >
-    <svelte:fragment slot="tags">
+    {#snippet tags()}
       <Tag status="success">Available</Tag>
       <Tag status="info">New</Tag>
-    </svelte:fragment>
-    <svelte:fragment slot="actions">
+    {/snippet}
+    {#snippet actions()}
       <button type="button">Details</button>
       <button type="button">Book</button>
-    </svelte:fragment>
+    {/snippet}
   </Card>
 {/if}

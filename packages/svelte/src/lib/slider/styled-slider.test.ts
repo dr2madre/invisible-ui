@@ -16,6 +16,25 @@ describe("Svelte Slider (styled)", () => {
     expect(onValueChange).toHaveBeenLastCalledWith(20);
   });
 
+  it("accepts input once a slider mounted disabled is enabled", async () => {
+    const onValueChange = vi.fn();
+    const { rerender } = render(Slider, {
+      props: { value: 10, disabled: true, label: "Brightness", onValueChange },
+    });
+    await rerender({ disabled: false });
+    await fireEvent.input(screen.getByRole("slider"), { target: { value: "30" } });
+    expect(onValueChange).toHaveBeenLastCalledWith(30);
+  });
+
+  it("follows bounds changed after mount", async () => {
+    const { container, rerender } = render(Slider, {
+      props: { value: 50, max: 100, label: "Brightness" },
+    });
+    await rerender({ max: 200 });
+    const track = container.querySelector<HTMLElement>(".slider");
+    expect(track?.style.getPropertyValue("--_slider-pct")).toBe("25%");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Slider, { props: { value: 50, label: "Brightness" } });
     expect(await axe(container)).toHaveNoViolations();

@@ -312,6 +312,14 @@
           "required": false,
           "description": "Copy for the no-results state. Defaults to the i18n catalog's message.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "cell",
+          "type": "Snippet<[{ row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Custom cell content, in the table and in the cards. Defaults to the cell value.",
+          "descriptionFrom": "source"
         }
       ]
     }

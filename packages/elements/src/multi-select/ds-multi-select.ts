@@ -1,8 +1,10 @@
 import { multiSelect as core } from "@design-system/core";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { checkIcon } from "../internal/icons";
+import { localized, onLocaleChange, t } from "../internal/i18n";
 
 export interface MultiSelectItem {
   value: string;
@@ -42,7 +44,8 @@ const parseValues = (attr: string | null): string[] =>
  * is submitted in selection order; `required` only sets `aria-required`.
  *
  * Attributes: `label` (required), `values`, `placeholder`, `disabled`,
- * `readonly`, `max`, `remove-on-backspace`, `required`, `empty-text`, `name`.
+ * `readonly`, `max`, `remove-on-backspace`, `required`, `empty-text`, `name`,
+ * `description`, `error`.
  * Emits: `change` (`detail.values: string[]`), `input-change`
  * (`detail.value`).
  */
@@ -58,6 +61,8 @@ export class DsMultiSelect extends HTMLElementBase {
     "label",
     "name",
     "placeholder",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
@@ -66,6 +71,7 @@ export class DsMultiSelect extends HTMLElementBase {
   #tagList: HTMLUListElement | null = null;
   #label: HTMLLabelElement | null = null;
   #hiddenHost: HTMLSpanElement | null = null;
+  #messages: FieldMessages | null = null;
 
   #all: MultiSelectItem[] = [];
   #itemsAssigned = false;
@@ -86,6 +92,17 @@ export class DsMultiSelect extends HTMLElementBase {
   /** What a form reset restores: the last values set from outside. */
   #defaultValues: string[] = [];
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (!this.#input) return;
+      this.#syncPresentation();
+      // Remove buttons carry a localized name: rebuild them.
+      this.#renderedValues = null;
+      this.#applyAll();
+    });
+  }
 
   connectedCallback() {
     // Taken out of the page and put back while open (a server-driven swap, a
@@ -182,6 +199,7 @@ export class DsMultiSelect extends HTMLElementBase {
     // The markup's values are the first default a reset can restore.
     this.#defaultValues = this.#state.values;
     this.#id = core.initialState({ items: this.#all }).id;
+    this.#messages = new FieldMessages(this.#id);
 
     const root = document.createElement("div");
     root.className = "multi-select";
@@ -234,7 +252,7 @@ export class DsMultiSelect extends HTMLElementBase {
   #syncPresentation() {
     const input = this.#input!;
     this.#label!.textContent = this.getAttribute("label") ?? "";
-    input.placeholder = this.getAttribute("placeholder") ?? "Search…";
+    input.placeholder = localized(this, "placeholder", "multiSelect.placeholder");
     input.disabled = boolAttr(this, "disabled");
     input.readOnly = boolAttr(this, "readonly");
     if (boolAttr(this, "required")) input.setAttribute("aria-required", "true");
@@ -299,11 +317,12 @@ export class DsMultiSelect extends HTMLElementBase {
     const tagList = this.#tagList!;
 
     applyProps(input, api.inputProps);
+    this.#messages!.sync(this, this.#control!.parentElement!, [input]);
     if (input.value !== this.#state.inputValue) input.value = this.#state.inputValue;
     applyProps(listbox, api.listboxProps);
     applyProps(this.#label!, api.labelProps);
     applyProps(tagList, api.valuesListProps);
-    tagList.setAttribute("aria-label", "Selected values");
+    tagList.setAttribute("aria-label", t(this, "multiSelect.selected"));
     tagList.hidden = this.#state.values.length === 0;
 
     // Hidden inputs: one per value, selection order, none when empty.
@@ -349,7 +368,7 @@ export class DsMultiSelect extends HTMLElementBase {
           const remove = document.createElement("button");
           remove.type = "button";
           remove.className = "tag__remove";
-          remove.setAttribute("aria-label", `Remove ${labelOf(item)}`);
+          remove.setAttribute("aria-label", t(this, "multiSelect.remove", { name: labelOf(item) }));
           remove.innerHTML =
             '<svg viewBox="0 0 16 16" width="1em" height="1em" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>';
           remove.addEventListener("click", () => this.#removeAt(item.value, index));
@@ -391,7 +410,7 @@ export class DsMultiSelect extends HTMLElementBase {
     }
 
     const emptyNode = listbox.querySelector(".multi-select__empty");
-    if (emptyNode) emptyNode.textContent = this.getAttribute("empty-text") ?? "No results";
+    if (emptyNode) emptyNode.textContent = localized(this, "empty-text", "multiSelect.empty");
 
     const options = listbox.querySelectorAll<HTMLElement>(".multi-select__option");
     this.#state.items.forEach((item, index) => {

@@ -10,57 +10,64 @@
    * checked item's value under a shared field. Colors and sizing are themeable
    * CSS custom properties (`--ds-checkbox-*`).
    */
+  import { untrack } from "svelte";
   import { createCheckboxGroup, type CheckboxGroupItem } from "./create-checkbox-group";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
 
-  export let items: CheckboxGroupItem[];
-  export let value: string[] = [];
-  export let disabled = false;
-  /** Accessible name for the group (required; rendered as the legend). */
-  export let label: string;
-  /** Shared form field name — each checked item submits its value under it. */
-  export let name: string | undefined = undefined;
-  /** Called whenever the selected values change. */
-  export let onValueChange: ((value: string[]) => void) | undefined = undefined;
+  interface Props {
+    items: CheckboxGroupItem[];
+    value?: string[];
+    disabled?: boolean;
+    /** Accessible name for the group (required; rendered as the legend). */
+    label: string;
+    /** Shared form field name — each checked item submits its value under it. */
+    name?: string;
+    /** Called whenever the selected values change. */
+    onValueChange?: (value: string[]) => void;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    items,
+    value = $bindable([]),
+    disabled = false,
+    label,
+    name,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props, as before: only the value follows later
+  // ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     state: groupState,
     setValue,
     syncValue,
-  } = createCheckboxGroup({
-    items,
-    value,
-    disabled,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  } = untrack(() =>
+    createCheckboxGroup({
+      items,
+      value,
+      disabled,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
 
-  // Controllable mirror, compared against the last prop value (never against
-  // the store). The selection is an array, so it is compared by content: a
-  // parent echoing the reported value back must not churn. A sync never
-  // reports a change.
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
   // The same selection, whatever order each side keeps it in: the machine
   // stores toggle order, a parent may store its own, and a re-ordered echo is
   // still a give-back.
   const sameValues = (a: string[], b: string[]) =>
     a.length === b.length && a.every((entry) => b.includes(entry));
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (!sameValues(value, $groupState.value)) defaultValue = value;
-    syncValue(value);
-  }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012. The
+  // mirror compares the prop by reference; the give-back compares the
+  // selection by content, so a parent echoing the reported value back does
+  // not churn.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => sameValues(next, $groupState.value),
+  });
 
   function onItemChange(itemValue: string, event: Event) {
     const checked = (event.currentTarget as HTMLInputElement).checked;
@@ -69,11 +76,11 @@
   }
 </script>
 
-<fieldset class="checkbox-group" {disabled} use:formReset={restore}>
+<fieldset class="checkbox-group" {disabled} use:formReset={mirror.restore}>
   <legend class="checkbox-group__label">{label}</legend>
 
   {#each items as item (item.value)}
-    <label class="field" class:field--disabled={disabled || item.disabled}>
+    <label class={["field", (disabled || item.disabled) && "field--disabled"]}>
       <input
         class="checkbox__input"
         type="checkbox"
@@ -81,8 +88,8 @@
         value={item.value}
         disabled={disabled || item.disabled}
         checked={$groupState.value.includes(item.value)}
-        defaultChecked={defaultValue.includes(item.value)}
-        on:change={(event) => onItemChange(item.value, event)}
+        defaultChecked={mirror.defaultValue.includes(item.value)}
+        onchange={(event) => onItemChange(item.value, event)}
         data-state={$groupState.value.includes(item.value) ? "checked" : "unchecked"}
       />
       <span class="checkbox" aria-hidden="true">

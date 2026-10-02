@@ -69,8 +69,8 @@ export const NavigationMenu = defineComponent({
             h(
               "ul",
               { class: "navmenu__links" },
-              (item.links ?? []).map((link) =>
-                h("li", { key: link.href }, [
+              (item.links ?? []).map((link, index) =>
+                h("li", { key: `${index}:${link.href}` }, [
                   h("a", { class: "navmenu__link", href: link.href }, [
                     h("span", { class: "navmenu__link-label" }, link.label),
                     link.description

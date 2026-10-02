@@ -11,66 +11,103 @@
    * filters the list; choosing an option fills the input. Themeable via
    * `--ds-combobox-*` (and the shared `--ds-select-*` listbox tokens).
    */
+  import { untrack, type Snippet } from "svelte";
   import { combobox as core } from "@design-system/core";
   import { createCombobox, type ComboboxItem } from "./create-combobox";
   import { formReset } from "../internal/form-reset";
+  import { ignoreGhostClicks } from "../internal/ghost-click";
   import { portal } from "../internal/portal";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  /** Accessible name for the control. */
-  export let label: string;
-  /**
-   * Options. Each may carry an optional leading `icon` (an SVG path `d`
-   * string) shown before the label; with the search hidden, the control
-   * mirrors the selected option's icon.
-   */
-  export let items: (ComboboxItem & { icon?: string })[];
-  export let value: string | null = null;
-  /**
-   * With `searchable={false}` the text input becomes read-only and the list
-   * always shows every option — a select-only combobox: the advanced Select
-   * (styled popup, per-option icons) without the autocomplete.
-   */
-  export let searchable = true;
-  /**
-   * Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem),
-   * `wrap` fits the longest option, `fill` takes 100% of the container.
-   */
-  export let width: "wrap" | "fill" | "fixed" = "fixed";
-  /** Input placeholder. Defaults to the i18n catalog's "Search…". */
-  export let placeholder: string | undefined = undefined;
-  export let disabled = false;
-  /** Clear button accessible name. Defaults to the i18n catalog's "Clear". */
-  export let clearLabel: string | undefined = undefined;
-  /** Text shown when no option matches. Defaults to the i18n catalog's "No results". */
-  export let emptyText: string | undefined = undefined;
-  /** Form field name — the selected option's value is submitted under it. */
-  export let name: string | undefined = undefined;
-  export let onValueChange: ((value: string | null) => void) | undefined = undefined;
-  export let onInputValueChange: ((text: string) => void) | undefined = undefined;
+  interface Props {
+    /** Accessible name for the control. */
+    label: string;
+    /**
+     * Visually hide the label while keeping it as the accessible name. The label
+     * text is always required.
+     */
+    hideLabel?: boolean;
+    /**
+     * Options. Each may carry an optional leading `icon` (an SVG path `d`
+     * string) shown before the label; with the search hidden, the control
+     * mirrors the selected option's icon.
+     */
+    items: (ComboboxItem & { icon?: string })[];
+    value?: string | null;
+    /**
+     * With `searchable={false}` the text input becomes read-only and the list
+     * always shows every option — a select-only combobox: the advanced Select
+     * (styled popup, per-option icons) without the autocomplete.
+     */
+    searchable?: boolean;
+    /**
+     * Width behaviour: `fixed` (default) uses `--ds-combobox-width` (16rem),
+     * `wrap` fits the longest option, `fill` takes 100% of the container.
+     */
+    width?: "wrap" | "fill" | "fixed";
+    /** Input placeholder. Defaults to the i18n catalog's "Search…". */
+    placeholder?: string;
+    disabled?: boolean;
+    /** Clear button accessible name. Defaults to the i18n catalog's "Clear". */
+    clearLabel?: string;
+    /** Text shown when no option matches. Defaults to the i18n catalog's "No results". */
+    emptyText?: string;
+    /** Form field name — the selected option's value is submitted under it. */
+    name?: string;
+    onValueChange?: (value: string | null) => void;
+    onInputValueChange?: (text: string) => void;
+    /**
+     * Leading icon of a select-only combobox (`searchable={false}`). Defaults
+     * to the selected option's icon.
+     */
+    icon?: Snippet;
+  }
 
+  let {
+    label,
+    hideLabel = false,
+    items,
+    value = $bindable(null),
+    searchable = true,
+    width = "fixed",
+    placeholder,
+    disabled = false,
+    clearLabel,
+    emptyText,
+    name,
+    onValueChange,
+    onInputValueChange,
+    icon,
+  }: Props = $props();
+
+  // The prop first, then the report (ADR 0011).
   const handleValueChange = (next: string | null) => {
-    value = next;
+    mirror.write(next);
     onValueChange?.(next);
   };
   const handleInputValueChange = (text: string) => {
     onInputValueChange?.(text);
   };
 
-  const initialSelected = items.find((item) => item.value === value);
-  const combobox = createCombobox({
-    items,
-    value,
-    inputValue: initialSelected ? (initialSelected.label ?? initialSelected.value) : "",
-    disabled,
-    // Select-only mode never filters: the read-only input is a trigger, so the
-    // list must always show every option (keyboard opening included).
-    filter: searchable ? undefined : (all) => all,
-    onValueChange: handleValueChange,
-    onInputValueChange: handleInputValueChange,
+  // Seeded once from the first props; the mirror and the effects below follow
+  // later ones.
+  const combobox = untrack(() => {
+    const initialSelected = items.find((item) => item.value === value);
+    return createCombobox({
+      items,
+      value,
+      inputValue: initialSelected ? (initialSelected.label ?? initialSelected.value) : "",
+      disabled,
+      // Select-only mode never filters: the read-only input is a trigger, so the
+      // list must always show every option (keyboard opening included).
+      filter: searchable ? undefined : (all) => all,
+      onValueChange: handleValueChange,
+      onInputValueChange: handleInputValueChange,
+    });
   });
   const {
     state: comboboxState,
@@ -93,48 +130,57 @@
     setDisabled,
   } = combobox;
 
-  $: resolvedPlaceholder = placeholder ?? $t("combobox.placeholder");
-  $: resolvedClearLabel = clearLabel ?? $t("combobox.clear");
-  $: resolvedEmptyText = emptyText ?? $t("combobox.empty");
+  const resolvedPlaceholder = $derived(placeholder ?? $t("combobox.placeholder"));
+  const resolvedClearLabel = $derived(clearLabel ?? $t("combobox.clear"));
+  const resolvedEmptyText = $derived(emptyText ?? $t("combobox.empty"));
 
-  $: selected = items.find((item) => item.value === value);
-  $: selectedInputValue = selected ? (selected.label ?? selected.value) : "";
+  const selected = $derived(items.find((item) => item.value === value));
+  const selectedInputValue = $derived(selected ? (selected.label ?? selected.value) : "");
   // The reset default follows the prop, except a give-back of what the
   // control itself reported (ADR 0012).
-  let lastValue = value;
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $selectedValue) defaultValue = value;
-  }
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $selectedValue,
+  });
   // The restore puts the control's own copy back beside the machine's, so a
   // later prop change is judged against what the page now shows (ADR 0012).
   const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
+    const defaultValue = mirror.defaultValue;
+    mirror.write(defaultValue);
     resetValue(defaultValue, labelOf(defaultValue));
   };
   const labelOf = (target: string | null) => {
     const match = items.find((item) => item.value === target);
     return match ? (match.label ?? match.value) : "";
   };
-  $: syncValue(value);
-  $: syncInputValue(selectedInputValue);
-  $: setItems(items);
-  $: setDisabled(disabled);
-  $: iconByValue = new Map(items.map((item) => [item.value, item.icon]));
-  $: hasIcons = items.some((item) => item.icon);
+  $effect.pre(() => {
+    syncInputValue(selectedInputValue);
+  });
+  $effect.pre(() => {
+    setItems(items);
+  });
+  $effect.pre(() => {
+    setDisabled(disabled);
+  });
+  const iconByValue = $derived(new Map(items.map((item) => [item.value, item.icon])));
+  const hasIcons = $derived(items.some((item) => item.icon));
 
   // The chevron toggles the list open/closed (showing all options when opened),
   // so a selected value can be changed without clearing it first. iOS Safari can
   // synthesize a duplicate "ghost" click; ignore one that arrives right after the
   // last so the list doesn't open then immediately close.
-  let lastToggle = -Infinity;
-  function toggle(event: MouseEvent) {
-    if (event.timeStamp - lastToggle < 350) return;
-    lastToggle = event.timeStamp;
+  function ghostClickGuard(node: HTMLElement) {
+    return { destroy: ignoreGhostClicks(node) };
+  }
+  function toggle() {
     if ($open) setOpen(false);
     else openAll();
+  }
+  // Keeps focus on the input when the chevron is pressed.
+  function keepFocus(event: MouseEvent) {
+    event.preventDefault();
   }
 </script>
 
@@ -145,12 +191,12 @@
   <!-- The ids are declared here as well as applied by the actions, so the
        server-rendered input already has a name and names its popup. -->
   <label
-    class="combobox__label"
+    class={["combobox__label", hideLabel && "combobox__label--hidden"]}
     for={core.inputId($comboboxState.id)}
     id={core.labelId($comboboxState.id)}>{label}</label
   >
 
-  <div class="combobox__control" class:combobox__control--disabled={disabled} use:controlAction>
+  <div class={["combobox__control", disabled && "combobox__control--disabled"]} use:controlAction>
     {#if searchable}
       <span class="combobox__search" aria-hidden="true">
         <Icon size="100%">
@@ -158,17 +204,16 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </Icon>
       </span>
-    {:else if $$slots.icon || selected?.icon}
-      <!-- No search: the leading slot (or the selected option's icon). -->
+    {:else if icon || selected?.icon}
+      <!-- No search: the leading snippet (or the selected option's icon). -->
       <span class="combobox__search" aria-hidden="true">
-        <slot name="icon">
-          {#if selected?.icon}<Icon size="100%"><path d={selected.icon} /></Icon>{/if}
-        </slot>
+        {#if icon}
+          {@render icon()}
+        {:else if selected?.icon}<Icon size="100%"><path d={selected.icon} /></Icon>{/if}
       </span>
     {/if}
     <input
-      class="combobox__input"
-      class:combobox__input--select-only={!searchable}
+      class={["combobox__input", !searchable && "combobox__input--select-only"]}
       type="text"
       placeholder={resolvedPlaceholder}
       readonly={!searchable}
@@ -187,8 +232,10 @@
     <!-- The clear button always occupies its slot (hidden when empty) so the
          input width stays stable instead of jumping as text is typed/cleared. -->
     <button
-      class="combobox__clear"
-      class:combobox__clear--hidden={$api.clearProps["aria-hidden"] === "true"}
+      class={[
+        "combobox__clear",
+        $api.clearProps["aria-hidden"] === "true" && "combobox__clear--hidden",
+      ]}
       aria-label={resolvedClearLabel}
       use:clearAction
     >
@@ -204,8 +251,9 @@
       tabindex="-1"
       aria-label={$open ? $t("combobox.hide") : $t("combobox.show")}
       {disabled}
-      on:mousedown|preventDefault
-      on:click={toggle}
+      use:ghostClickGuard
+      onmousedown={keepFocus}
+      onclick={toggle}
     >
       <Icon size="100%"><polyline points="6 9 12 15 18 9" /></Icon>
     </button>
@@ -235,10 +283,10 @@
           <Icon size="100%" strokeWidth={2.5}><polyline points="20 6 9 17 4 12" /></Icon>
         </span>
         {#if hasIcons}
-          {@const icon = iconByValue.get(item.value)}
+          {@const optionIcon = iconByValue.get(item.value)}
           <span class="combobox__option-icon" aria-hidden="true">
-            {#if icon}
-              <Icon size="100%"><path d={icon} /></Icon>
+            {#if optionIcon}
+              <Icon size="100%"><path d={optionIcon} /></Icon>
             {/if}
           </span>
         {/if}
@@ -274,6 +322,19 @@
   .combobox__label {
     font-size: 0.875rem;
     font-weight: 600;
+  }
+  /* Kept in the accessibility tree (names the control), removed from view. */
+  .combobox__label--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .combobox__control {
@@ -426,6 +487,11 @@
   .combobox__option:global([data-active]:not([data-state="selected"])) {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* Focus stays in the input, so the ring marks the option the arrows are on,
+     the selected one included (WCAG 2.4.7, 1.4.11). */
+  .combobox__option:global([data-active]) {
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
+  }
   /* The selected option keeps a faint selection tint. */
   .combobox__option:global([data-state="selected"]) {
     background: color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent);
@@ -470,6 +536,14 @@
     .combobox__option:global([data-active]) {
       outline: var(--ds-focus-ring-width, 2px) solid Highlight;
       outline-offset: -2px;
+    }
+  }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .combobox__control,
+    .combobox__chevron {
+      transition: none;
     }
   }
 </style>

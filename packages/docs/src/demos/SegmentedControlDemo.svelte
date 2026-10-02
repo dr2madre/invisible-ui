@@ -51,7 +51,7 @@
 </div>
 
 <!-- The full desktop sidebar (logo + dividers + several nav groups) is an
-     organism, not a segmented control — see the Menu component. -->
+     organism, not a segmented control — see the Sidebar component. -->
 
 <style>
   .demos {

@@ -1,4 +1,14 @@
-import { forwardRef, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useRef,
+  type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
+import { useI18n } from "../i18n/i18n";
+import { useCopyFeedback } from "../internal/copy-feedback";
+import { DEV } from "../internal/dev";
 import { HazardGlyph, Icon, PlusGlyph } from "../icon/Icon";
 import { useButton, type ButtonVariant } from "./use-button";
 
@@ -38,6 +48,15 @@ export interface ButtonProps extends NativeButtonProps {
    * text the text is the name and this is unnecessary.
    */
   ariaLabel?: string;
+  /**
+   * Text the button copies to the clipboard when pressed (ADR 0016). After a
+   * successful copy, `copiedLabel` shows beside the button for two seconds,
+   * announced through a polite live region; the button keeps its name and
+   * focus. A refused clipboard shows nothing.
+   */
+  copy?: string;
+  /** The confirmation shown after a copy. Defaults to the catalog's "Copied". */
+  copiedLabel?: string;
   children?: ReactNode;
 }
 
@@ -51,6 +70,11 @@ export interface ButtonProps extends NativeButtonProps {
  * spreading its `triggerProps` — the React counterpart of the Svelte adapter's
  * `action` prop. A forwarded `onClick` is *composed* with the button's own
  * press handler rather than replacing it, so both run.
+ *
+ * **Copy.** With `copy`, pressing the button writes that text to the
+ * clipboard and confirms beside the button (ADR 0016): the confirmation sits
+ * outside the `<button>`, so the button's name never changes, and it is a live
+ * region present from the first render, so it is in the page before it speaks.
  *
  * Colours and sizing are themeable via `--ds-button-*`.
  */
@@ -66,6 +90,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     right,
     iconOnly = false,
     ariaLabel,
+    copy,
+    copiedLabel,
     children,
     onClick: composedOnClick,
     ...rest
@@ -73,25 +99,41 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   ref,
 ) {
   const api = useButton({ variant, disabled, type, onPress });
+  const { t } = useI18n();
+  const feedback = useCopyFeedback();
 
   // Icon-only buttons carry their single glyph as children, so they never get
   // the automatic leading/trailing icon (which would double up with it).
   const showLeft = !iconOnly && ((leftIcon ?? variant === "danger") || left != null);
   const showRight = !iconOnly && (rightIcon || right != null);
 
-  if (import.meta.env?.DEV && !ariaLabel && (iconOnly || children == null)) {
-    console.warn(
-      "[ds] Button has no accessible name: provide visible text (children) or an `ariaLabel` for icon-only buttons.",
-    );
-  }
+  // Warned from an effect keyed on the outcome, not while rendering: once when
+  // a button mounts without a name, and again only if it loses one later. The
+  // ref keeps a development double mount from warning twice.
+  const missingName = !ariaLabel && (iconOnly || children == null);
+  const warned = useRef(false);
+  useEffect(() => {
+    if (!missingName) {
+      warned.current = false;
+      return;
+    }
+    if (DEV && !warned.current) {
+      warned.current = true;
+      console.warn(
+        "[ds] Button has no accessible name: provide visible text (children) or an `ariaLabel` for icon-only buttons.",
+      );
+    }
+  }, [missingName]);
 
   const pressHandler = api.rootProps.onClick as ((event: Event) => void) | undefined;
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     pressHandler?.(event.nativeEvent);
     composedOnClick?.(event);
+    // Read at the press, so the value copied is the one the button shows now.
+    if (copy != null) void feedback.copy(copy);
   };
 
-  return (
+  const button = (
     <button
       {...api.rootProps}
       {...rest}
@@ -118,5 +160,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         </span>
       )}
     </button>
+  );
+
+  if (copy == null) return button;
+  return (
+    <>
+      {button}
+      <span className="button__status" role="status">
+        {feedback.copied ? (copiedLabel ?? t("button.copied")) : null}
+      </span>
+    </>
   );
 });

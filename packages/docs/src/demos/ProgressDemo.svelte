@@ -5,7 +5,7 @@
   // User-driven completion: the value advances because the user acts,
   // not because the system is working.
   const STEPS = ["Account", "Profile", "Preferences", "Review"];
-  let done = 0;
+  let done = $state(0);
 </script>
 
 <div class="demo">

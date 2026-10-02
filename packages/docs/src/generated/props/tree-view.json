@@ -96,6 +96,22 @@
           "required": false,
           "description": "Requests children from the application; the component never fetches.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet<[{ node: VisibleNode }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading icon of a row, hidden from assistive tech.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "labelContent",
+          "type": "Snippet<[{ node: VisibleNode }]> | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A row's label. Defaults to `labels[node.value]`, then the node value.",
+          "descriptionFrom": "source"
         }
       ]
     },

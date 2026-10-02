@@ -4,7 +4,7 @@ import { afterEach } from "vitest";
 import { axe } from "vitest-axe";
 import "../define";
 import type { DsTableSet, TableViewDef } from "./ds-table-set";
-import { bodyNames, listen, mountSet, setAttr } from "./table-set.fixture";
+import { bodyNames, listen, mountSet, peopleRows, setAttr } from "./table-set.fixture";
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -153,10 +153,31 @@ describe("<ds-table-set> (composed)", () => {
       expect(onLoadMore).toHaveBeenCalledOnce();
     });
 
-    it("disables the button and shows a status while loading", () => {
-      mountSet({ attrs: { infinite: true, "has-more": true, loading: true } });
-      expect(screen.getByRole("button", { name: "Loading…" })).toBeDisabled();
-      expect(screen.getByRole("status")).toHaveTextContent("Loading…");
+    it("keeps the button focusable but inert and shows a status while loading", async () => {
+      const user = userEvent.setup();
+      const set = mountSet({ attrs: { infinite: true, "has-more": true, loading: true } });
+      const onLoadMore = listen(set, "load-more");
+      const button = screen.getByRole("button", { name: "Loading…" });
+      expect(button).toBeEnabled();
+      expect(button).toHaveAttribute("aria-disabled", "true");
+      await user.click(button);
+      expect(onLoadMore).not.toHaveBeenCalled();
+      expect(button).toHaveFocus();
+      expect(document.querySelector(".table-view__status")).toHaveTextContent("Loading…");
+    });
+
+    it("moves focus to the first new row when the last page removes Load more", async () => {
+      const user = userEvent.setup();
+      const set = mountSet({ attrs: { infinite: true, "has-more": true } });
+      set.addEventListener("load-more", () => set.setAttribute("loading", ""));
+      await user.click(screen.getByRole("button", { name: "Load more" }));
+      set.rows = [...peopleRows, { id: 6, name: "Linus", age: 30, city: "Helsinki" }];
+      set.removeAttribute("loading");
+      set.removeAttribute("has-more");
+      expect(screen.queryByRole("button", { name: /Load more/ })).not.toBeInTheDocument();
+      const added = screen.getByRole("cell", { name: "Linus" }).closest("tr");
+      expect(added).toHaveFocus();
+      expect(added).toHaveAttribute("tabindex", "-1");
     });
 
     it("shows no load-more button when there is nothing more", () => {
@@ -356,7 +377,7 @@ const makeViews = (): TableViewDef[] => [
 
 const mountViews = (activeView?: string, views = makeViews()) => {
   const set = document.createElement("ds-table-set") as DsTableSet;
-  set.setAttribute("title", "Workspace");
+  set.setAttribute("heading", "Workspace");
   set.setAttribute("views-label", "Data views");
   setAttr(set, "active-view", activeView);
   set.views = views;
@@ -367,6 +388,28 @@ const mountViews = (activeView?: string, views = makeViews()) => {
 const tab = (name: string) => screen.getByRole("tab", { name });
 
 describe("<ds-table-set> (tabs as distinct views)", () => {
+  it("switches views inside a form without submitting it", async () => {
+    const user = userEvent.setup();
+    const form = document.createElement("form");
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    form.addEventListener("submit", onSubmit);
+    document.body.appendChild(form);
+    const set = document.createElement("ds-table-set") as DsTableSet;
+    set.views = makeViews();
+    form.appendChild(set);
+    await user.click(tab("Orders"));
+    expect(tab("Orders")).toHaveAttribute("type", "button");
+    expect(tab("Orders")).toHaveAttribute("aria-selected", "true");
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("takes its heading from `heading`, leaving the global title alone", () => {
+    const set = mountViews();
+    set.setAttribute("title", "Tooltip text");
+    expect(screen.getByRole("heading", { name: "Workspace" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Tooltip text" })).toBeNull();
+  });
+
   it("renders a tablist of the views with the first one active", () => {
     mountViews();
     expect(screen.getByRole("heading", { name: "Workspace" })).toBeInTheDocument();

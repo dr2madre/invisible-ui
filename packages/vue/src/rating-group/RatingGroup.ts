@@ -1,7 +1,7 @@
-import { defineComponent, h, ref, watch, type PropType } from "vue";
+import { defineComponent, h, ref, type PropType } from "vue";
 import { Icon } from "../icon/Icon";
 import { useRatingGroup } from "./use-rating-group";
-import { useFormReset, useLiveChecked } from "../internal/form-reset";
+import { useLiveChecked, useResettableValue } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 import { useStableId } from "../internal/use-stable-id";
 
@@ -21,9 +21,6 @@ export interface RatingGroupProps {
   onValueChange?: (value: number) => void;
 }
 
-// Stable per-instance id for the group label association; the same
-// module-counter approach as Select (Vue's own `useId` landed after the ^3.4
-// peer range).
 const STAR_POINTS =
   "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2";
 
@@ -60,16 +57,11 @@ export const RatingGroup = defineComponent({
 
     const root = ref<HTMLElement | null>(null);
     const given = () => (props.modelValue !== undefined ? props.modelValue : props.value);
-    // What the composable is told: a reset writes the default here, which is
-    // its silent path (the watch, not the setter).
-    const told = ref(given());
-    // The reset default follows the prop, except a give-back of what the
-    // control itself reported (ADR 0012).
-    const fallback = ref(given());
-    watch(given, (next) => {
-      if (next !== told.value) fallback.value = next;
-      told.value = next;
-    });
+    const { told, fallback } = useResettableValue(
+      given,
+      () => root.value,
+      (value) => emit("update:modelValue", value),
+    );
 
     const { items, api, value } = useRatingGroup(() => ({
       max: props.max,
@@ -82,17 +74,6 @@ export const RatingGroup = defineComponent({
         props.onValueChange?.(next);
       },
     }));
-
-    useFormReset(
-      () => root.value,
-      () => {
-        told.value = fallback.value;
-        // The control's own copy of the value goes back too, which in Vue
-        // is the v-model binding. Not the change callback: a reset is not a
-        // user change (ADR 0012).
-        emit("update:modelValue", fallback.value);
-      },
-    );
 
     // The attributes are the defaults; the properties follow the state.
     useLiveChecked(

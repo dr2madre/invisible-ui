@@ -1,11 +1,15 @@
 <script lang="ts">
   import PromptDialog from "./PromptDialog.svelte";
 
-  export let open = false;
-  export let value = "report";
-  export let confirmValue: string | undefined = undefined;
-  export let onConfirm: ((value: string) => void) | undefined = undefined;
-  export let urgent = false;
+  interface Props {
+    open?: boolean;
+    value?: string;
+    confirmValue?: string;
+    onConfirm?: (value: string) => void;
+    urgent?: boolean;
+  }
+
+  let { open = false, value = "report", confirmValue, onConfirm, urgent = false }: Props = $props();
 </script>
 
 <PromptDialog

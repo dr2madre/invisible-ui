@@ -15,6 +15,8 @@ import { useEffect, useState, type RefObject } from "react";
 export function usePortalHost(anchor: RefObject<HTMLElement | null>): HTMLElement | null {
   const [host, setHost] = useState<HTMLElement | null>(null);
   useEffect(() => {
+    // The host is read from the DOM, which exists only once the anchor has committed.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHost(anchor.current?.closest("dialog") ?? document.body);
   }, [anchor]);
   return host;

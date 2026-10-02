@@ -7,35 +7,45 @@
 
 <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 22rem;">
   <!-- Field is the generic wrapper: it wires label + description + error +
-       required onto ANY control you put in the slot (here a native input). -->
-  <Field label="Email" description="We'll never share it." let:controlProps>
-    <input {...controlProps} type="email" placeholder="you@example.com" style={inputStyle} />
+       required onto ANY control you put in the snippet (here a native input). -->
+  <Field label="Email" description="We'll never share it.">
+    {#snippet children({ controlProps })}
+      <input {...controlProps} type="email" placeholder="you@example.com" style={inputStyle} />
+    {/snippet}
   </Field>
 
   <!-- Required + error state (the message is announced; control gets aria-invalid). -->
-  <Field label="Username" required error="That name is taken." let:controlProps>
-    <input {...controlProps} type="text" value="admin" style={inputStyle} />
+  <Field label="Username" required error="That name is taken.">
+    {#snippet children({ controlProps })}
+      <input {...controlProps} type="text" value="admin" style={inputStyle} />
+    {/snippet}
   </Field>
 
   <!-- The control can be anything — e.g. a native <select>… -->
-  <Field label="Country" description="Where you're based." let:controlProps>
-    <select {...controlProps} style={inputStyle}>
-      <option>Italy</option>
-      <option>France</option>
-      <option>Spain</option>
-    </select>
+  <Field label="Country" description="Where you're based.">
+    {#snippet children({ controlProps })}
+      <select {...controlProps} style={inputStyle}>
+        <option>Italy</option>
+        <option>France</option>
+        <option>Spain</option>
+      </select>
+    {/snippet}
   </Field>
 
   <!-- …or a multi-line native textarea — Field doesn't care what the control is. -->
-  <Field label="Notes" description="Optional." let:controlProps>
-    <textarea {...controlProps} rows="3" style={inputStyle}></textarea>
+  <Field label="Notes" description="Optional.">
+    {#snippet children({ controlProps })}
+      <textarea {...controlProps} rows="3" style={inputStyle}></textarea>
+    {/snippet}
   </Field>
 
-  <!-- A component control works too, as long as it accepts the slot's
+  <!-- A component control works too, as long as it accepts the snippet's
        `controlProps`: they carry the id the label points at, plus the
        description and error wiring. A component that names itself, like
        Slider, brings its own label and needs no Field. -->
-  <Field label="Delivery date" description="Weekdays only." let:controlProps>
-    <input {...controlProps} type="date" value="2026-08-14" style={inputStyle} />
+  <Field label="Delivery date" description="Weekdays only.">
+    {#snippet children({ controlProps })}
+      <input {...controlProps} type="date" value="2026-08-14" style={inputStyle} />
+    {/snippet}
   </Field>
 </div>

@@ -2,8 +2,12 @@
   import ToggleGroup from "./ToggleGroup.svelte";
   import ToggleButton from "../toggle-button/ToggleButton.svelte";
 
-  export let label: string | undefined = undefined;
-  export let variant: "separate" | "segmented" = "separate";
+  interface Props {
+    label?: string;
+    variant?: "separate" | "segmented";
+  }
+
+  let { label, variant = "separate" }: Props = $props();
 </script>
 
 <ToggleGroup {label} {variant}>

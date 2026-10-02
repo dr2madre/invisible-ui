@@ -44,7 +44,7 @@ export const Progress = defineComponent({
     label: { type: String, required: true },
   },
   setup(props) {
-    const { api, percentage, setValue } = useProgress({
+    const { api, percentage, setValue, syncRange } = useProgress({
       value: props.value,
       min: props.min,
       max: props.max,
@@ -52,6 +52,10 @@ export const Progress = defineComponent({
     watch(
       () => props.value,
       (value) => setValue(value),
+    );
+    watch(
+      () => [props.min, props.max] as const,
+      ([min, max]) => syncRange(min, max),
     );
 
     return () => {

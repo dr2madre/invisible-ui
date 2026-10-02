@@ -1,18 +1,17 @@
 import { combobox as core } from "@design-system/core";
-import { autoUpdate, flip, offset, shift, useFloating } from "@floating-ui/react-dom";
 import {
   useCallback,
-  useEffect,
   useId,
   useMemo,
-  useRef,
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
   type ChangeEvent,
   type RefObject,
 } from "react";
-import { useFormDefault, useFormReset } from "../internal/form-reset";
+import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
+import { useListboxPopup } from "../internal/listbox-popup";
+import { defaultFilter, useListboxState } from "../internal/listbox-state";
 import { normalizeProps } from "../normalize";
 
 export type ComboboxItem = core.ComboboxItem;
@@ -58,12 +57,6 @@ export interface UseCombobox {
   setOpen: (open: boolean) => void;
 }
 
-const defaultFilter = (items: ComboboxItem[], query: string) => {
-  const q = query.trim().toLowerCase();
-  if (!q) return items;
-  return items.filter((item) => (item.label ?? item.value).toLowerCase().includes(q));
-};
-
 const labelOf = (item: ComboboxItem) => item.label ?? item.value;
 
 interface InternalState {
@@ -96,13 +89,10 @@ export function useCombobox({
 }: UseComboboxOptions): UseCombobox {
   const id = `ds-combobox-${useId()}`;
 
-  const selectedLabel = useCallback(
-    (v: string | null) => {
-      const item = allItems.find((i) => i.value === v);
-      return item ? labelOf(item) : "";
-    },
-    [allItems],
-  );
+  const selectedLabel = (v: string | null) => {
+    const item = allItems.find((i) => i.value === v);
+    return item ? labelOf(item) : "";
+  };
 
   const [state, setState] = useState<InternalState>(() => ({
     open: false,
@@ -114,76 +104,76 @@ export function useCombobox({
     items: filter(allItems, ""),
   }));
 
-  // Latest callbacks/inputs, read inside setState updaters without widening deps.
-  const latest = useRef({ filter, allItems, onValueChange, onInputValueChange, onOpenChange });
-  latest.current = { filter, allItems, onValueChange, onInputValueChange, onOpenChange };
-
   // --- Controlled sync: mirror the `value` prop, and the text that goes with
   // it, without an effect (matches the Svelte adapter's reactive statements).
-  const [lastValue, setLastValue] = useState(value);
-  const [defaultValue, setDefaultValue] = useState(value);
-  if (value !== lastValue) {
-    setLastValue(value);
-    // The default a reset restores follows the prop, except when the prop
-    // only hands back what the control already holds: that is the page
-    // echoing a selection, and an echo is not a new default (ADR 0012).
-    if (value !== state.value) setDefaultValue(value);
+  const defaultValue = useControlledDefault(value, state.value, (next) =>
     setState((s) => ({
       ...s,
-      value,
-      inputValue: selectedLabel(value),
-      committedInputValue: selectedLabel(value),
-    }));
-  }
+      value: next,
+      inputValue: selectedLabel(next),
+      committedInputValue: selectedLabel(next),
+    })),
+  );
 
-  // --- Keep the visible list in step when the item list itself changes.
-  const [lastItems, setLastItems] = useState(allItems);
-  if (allItems !== lastItems) {
-    setLastItems(allItems);
-    setState((s) => ({
-      ...s,
-      items: filter(allItems, s.inputValue),
-      activeValue: allItems.some((i) => i.value === s.activeValue) ? s.activeValue : null,
-    }));
-  }
-
-  const setValue = useCallback((next: string | null) => {
-    setState((s) => {
-      if (s.value === next) return s;
-      latest.current.onValueChange?.(next);
-      return { ...s, value: next };
-    });
-  }, []);
-
-  const setOpen = useCallback((next: boolean) => {
-    setState((s) => {
-      if (s.open === next) return s;
-      latest.current.onOpenChange?.(next);
-      return { ...s, open: next };
-    });
-  }, []);
-
-  const setActiveValue = useCallback((next: string | null) => {
-    setState((s) => (s.activeValue === next ? s : { ...s, activeValue: next }));
-  }, []);
-
-  const setInputValue = useCallback((next: string) => {
-    setState((s) => {
-      if (s.inputValue === next) return s;
-      latest.current.onInputValueChange?.(next);
+  // --- The visible list follows the item list, and so does the text, when it
+  // is showing the selection: a value whose items arrive later, or whose label
+  // changes, would otherwise leave the input empty or stale. Text the user is
+  // still editing in an open list stays.
+  const { latest, setOpen, setActiveValue, setInputValue, onInputChange } = useListboxState({
+    state,
+    setState,
+    allItems,
+    filter,
+    onInputValueChange,
+    onOpenChange,
+    followItems: (s) => {
+      const showsSelection = !s.open || s.inputValue === s.committedInputValue;
+      const text = s.value !== null && showsSelection ? selectedLabel(s.value) : null;
       return {
         ...s,
-        inputValue: next,
-        items: latest.current.filter(latest.current.allItems, next),
+        inputValue: text ?? s.inputValue,
+        committedInputValue: text ?? s.committedInputValue,
       };
-    });
-  }, []);
+    },
+  });
+
+  // --- A control turned off closes its list: the keys that dismiss it live on
+  // an input that no longer takes any. Adjusted while rendering, like the
+  // controlled sync above, rather than in an effect after the fact.
+  const [lastDisabled, setLastDisabled] = useState(disabled);
+  if (disabled !== lastDisabled) {
+    setLastDisabled(disabled);
+    if (disabled) setState((s) => (s.open ? { ...s, open: false, activeValue: null } : s));
+  }
+
+  // The selection setter writes first and reports afterwards, like the shared
+  // setters (ADR 0011), and only when the selection actually moves.
+  const setValue = useCallback(
+    (next: string | null) => {
+      if (state.value === next) return;
+      setState((s) => ({ ...s, value: next }));
+      onValueChange?.(next);
+    },
+    [state.value, onValueChange],
+  );
 
   const setCommittedInputValue = useCallback((next: string) => {
     setState((s) => (s.committedInputValue === next ? s : { ...s, committedInputValue: next }));
   }, []);
 
-  const inputEl = useRef<HTMLInputElement | null>(null);
+  // --- Positioning, outside presses and the active option in view. The popup
+  // is at least as wide as the input it hangs from.
+  const { reference, inputRef, listboxRef, controlRef, inputEl, floatingStyles } = useListboxPopup({
+    open: state.open,
+    activeValue: state.activeValue,
+    setOpen,
+    setActiveValue,
+    widthOf: "input",
+  });
+
+  // The input as positioning holds it, in state, so the core's handlers reach
+  // it without a ref being read while rendering.
+  const focusInput = useCallback(() => reference?.focus(), [reference]);
 
   const api = useMemo(
     () =>
@@ -194,38 +184,20 @@ export function useCombobox({
         setActiveValue,
         setInputValue,
         setCommittedInputValue,
-        focusInput: () => inputEl.current?.focus(),
+        focusInput,
         normalize: normalizeProps,
       }),
-    [state, disabled, id, setValue, setOpen, setActiveValue, setInputValue, setCommittedInputValue],
-  );
-
-  // --- Positioning. `whileElementsMounted` is gated on `open` so autoUpdate
-  // only tracks scroll/resize while the popup is actually showing.
-  const { refs, floatingStyles } = useFloating({
-    placement: "bottom-start",
-    strategy: "fixed",
-    middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    whileElementsMounted: state.open ? autoUpdate : undefined,
-  });
-
-  const controlRef = useRef<HTMLDivElement>(null);
-  const listboxEl = useRef<HTMLElement | null>(null);
-
-  const inputRef = useCallback(
-    (node: HTMLInputElement | null) => {
-      inputEl.current = node;
-      refs.setReference(node);
-    },
-    [refs],
-  );
-
-  const listboxRef = useCallback(
-    (node: HTMLElement | null) => {
-      listboxEl.current = node;
-      refs.setFloating(node);
-    },
-    [refs],
+    [
+      state,
+      disabled,
+      id,
+      setValue,
+      setOpen,
+      setActiveValue,
+      setInputValue,
+      setCommittedInputValue,
+      focusInput,
+    ],
   );
 
   // The value travels in a hidden input, whose value is its own default, so a
@@ -254,84 +226,19 @@ export function useCombobox({
     node.defaultValue = selectedLabel(defaultValue);
   });
 
-  // A control turned off closes its list: the keys that dismiss it live on an
-  // input that no longer takes any.
-  useEffect(() => {
-    if (!disabled) return;
-    setState((current) =>
-      current.open ? { ...current, open: false, activeValue: null } : current,
-    );
-  }, [disabled]);
-
-  // --- Close when a pointer goes down anywhere outside the control or popup.
-  useEffect(() => {
-    if (!state.open) return;
-
-    const onPointerDown = (event: Event) => {
-      const target = event.target as Node;
-      if (
-        controlRef.current?.contains(target) ||
-        inputEl.current?.contains(target) ||
-        listboxEl.current?.contains(target)
-      ) {
-        return;
-      }
-      setOpen(false);
-      setActiveValue(null);
-    };
-
-    document.addEventListener("pointerdown", onPointerDown, true);
-    return () => document.removeEventListener("pointerdown", onPointerDown, true);
-  }, [state.open, setOpen, setActiveValue]);
-
-  // --- The popup is at least as wide as the control it hangs from.
-  useEffect(() => {
-    if (!state.open || !listboxEl.current || !inputEl.current) return;
-    listboxEl.current.style.minWidth = `${inputEl.current.offsetWidth}px`;
-  }, [state.open]);
-
-  // --- Keep the highlighted option in view while arrowing through a long list.
-  useEffect(() => {
-    if (!state.open) return;
-    const frame = requestAnimationFrame(() => {
-      listboxEl.current
-        ?.querySelector<HTMLElement>("[data-active]")
-        ?.scrollIntoView?.({ block: "nearest" });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [state.open, state.activeValue]);
-
-  const onInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const text = event.target.value;
-      const next = latest.current.filter(latest.current.allItems, text);
-      setInputValue(text);
-      // Typing highlights the first match, and opens the list if it was closed.
-      setActiveValue(core.firstEnabled(next));
-      setOpen(true);
-    },
-    [setInputValue, setActiveValue, setOpen],
-  );
-
-  const onInputPointerDown = useCallback(() => {
+  const onInputPointerDown = () => {
     if (!state.open) api.openListbox();
-  }, [state.open, api]);
+  };
 
   // Show every option (ignoring the typed text) so a chosen value can be
   // changed without clearing it first.
   const openAll = useCallback(() => {
-    setState((s) => {
-      if (!s.open) latest.current.onOpenChange?.(true);
-      return {
-        ...s,
-        open: true,
-        items: latest.current.filter(latest.current.allItems, ""),
-        // No first-item pre-highlight; only the selected value (if any).
-        activeValue: s.value,
-      };
-    });
+    const items = filter(allItems, "");
+    // No first-item pre-highlight; only the selected value (if any).
+    setState((s) => ({ ...s, open: true, items, activeValue: s.value }));
     inputEl.current?.focus();
-  }, []);
+    if (!state.open) onOpenChange?.(true);
+  }, [state.open, filter, allItems, onOpenChange, inputEl]);
 
   return {
     api,

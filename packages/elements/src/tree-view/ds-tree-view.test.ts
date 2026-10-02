@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/dom";
+import { screen, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { afterEach, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -39,6 +39,14 @@ describe("<ds-tree-view>", () => {
     expect(src).toHaveAttribute("aria-level", "1");
     expect(screen.getByRole("treeitem", { name: /index\.ts/ })).toHaveAttribute("aria-level", "2");
     expect(screen.queryByRole("treeitem", { name: /button\.ts/ })).not.toBeInTheDocument();
+  });
+
+  it('reads disabled="false" as enabled', async () => {
+    const user = userEvent.setup();
+    const tree = mount();
+    tree.setAttribute("disabled", "false");
+    await user.click(screen.getByRole("treeitem", { name: /package\.json/ }));
+    expect(tree.selected).toBe("package.json");
   });
 
   it("reports expansion and selection once per user action", async () => {
@@ -176,8 +184,67 @@ describe("<ds-tree-view>", () => {
     await user.click(screen.getByRole("treeitem", { name: /one/ }).querySelector("button")!);
     await user.click(screen.getByRole("treeitem", { name: /two/ }).querySelector("button")!);
     expect(values).toEqual(["one", "two"]);
-    expect(screen.getByText("Caricamento di one…")).toBeInTheDocument();
-    expect(screen.getByText("Caricamento di two…")).toBeInTheDocument();
+    const list = screen.getByRole("tree");
+    expect(within(list).getByText("Caricamento di one…")).toBeInTheDocument();
+    expect(within(list).getByText("Caricamento di two…")).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Caricamento di two…");
+  });
+
+  it("announces loading, error and success through one persistent status region", () => {
+    const tree = mount();
+    tree.nodes = [{ value: "remote", hasChildren: true }];
+    tree.expanded = ["remote"];
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+
+    tree.loading = ["remote"];
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("Loading remote…");
+    // The row text describes the item but is not a live region of its own.
+    expect(screen.getAllByRole("status")).toHaveLength(1);
+
+    tree.loading = [];
+    tree.loadErrors = ["remote"];
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toHaveTextContent("Could not load remote.");
+
+    tree.loadErrors = [];
+    tree.nodes = [{ value: "remote", children: [{ value: "child" }] }];
+    expect(screen.getByRole("status")).toBe(status);
+    expect(status).toBeEmptyDOMElement();
+    expect(screen.getByRole("treeitem", { name: /child/ })).toBeInTheDocument();
+  });
+
+  it("follows the reading direction in right-to-left text", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = '<div dir="rtl"></div>';
+    const tree = document.createElement("ds-tree-view") as DsTreeView;
+    tree.setAttribute("label", "Project files");
+    tree.nodes = nodes;
+    document.body.firstElementChild!.appendChild(tree);
+    screen.getByRole("treeitem", { name: /src/ }).focus();
+    // In right-to-left text Left Arrow points inward and expands.
+    await user.keyboard("{ArrowLeft}");
+    expect(tree.expanded).toEqual(["src"]);
+    await user.keyboard("{ArrowRight}");
+    expect(tree.expanded).toEqual([]);
+  });
+
+  it("names the tree only from a label, and warns once without one", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      document.body.innerHTML = "<ds-tree-view></ds-tree-view><ds-tree-view></ds-tree-view>";
+      const [first] = screen.getAllByRole("tree");
+      expect(first).not.toHaveAttribute("aria-label");
+      expect(warn).toHaveBeenCalledOnce();
+      expect(warn.mock.calls[0]![0]).toContain("[ds] <ds-tree-view> needs a label attribute");
+      first!.parentElement!.setAttribute("label", "Project files");
+      expect(screen.getByRole("tree", { name: "Project files" })).toBeInTheDocument();
+      document.querySelector("ds-tree-view")!.removeAttribute("label");
+      expect(screen.getAllByRole("tree")[0]).not.toHaveAttribute("aria-label");
+    } finally {
+      warn.mockRestore();
+    }
   });
 
   it("has no accessibility violations", async () => {

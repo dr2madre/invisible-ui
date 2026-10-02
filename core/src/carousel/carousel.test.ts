@@ -91,4 +91,13 @@ describe("carousel connect", () => {
     (api.rootProps.onKeyDown as (e: Event) => void)(keyEvent("ArrowLeft"));
     expect(setIndex).toHaveBeenCalledWith(0);
   });
+
+  it("mirrors the horizontal arrows in right-to-left text", () => {
+    const setIndex = vi.fn();
+    const api = connect({ state: make({ index: 1 }), setIndex, direction: "rtl" });
+    (api.rootProps.onKeyDown as (e: Event) => void)(keyEvent("ArrowLeft"));
+    expect(setIndex).toHaveBeenLastCalledWith(2);
+    (api.rootProps.onKeyDown as (e: Event) => void)(keyEvent("ArrowRight"));
+    expect(setIndex).toHaveBeenLastCalledWith(0);
+  });
 });

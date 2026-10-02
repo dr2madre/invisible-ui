@@ -5,8 +5,8 @@
   import Dialog from "@design-system/svelte/Dialog.svelte";
   import Button from "@design-system/svelte/Button.svelte";
 
-  let step = 1;
-  let heading;
+  let step = $state(1);
+  let heading = $state();
 
   // Focus moves to the heading of the new step, so the new context is read
   // before its controls and focus never stays on a control the step removed.
@@ -18,22 +18,22 @@
 </script>
 
 <Dialog title="Set up project" bodyLayout="stack" initialFocus=".workflow-demo__heading">
-  <span slot="trigger">Set up project</span>
-  <span slot="headerMeta">Step {step} of 2</span>
+  {#snippet trigger()}<span>Set up project</span>{/snippet}
+  {#snippet headerMeta()}<span>Step {step} of 2</span>{/snippet}
 
-  <svelte:fragment slot="footerLead">
+  {#snippet footerLead()}
     {#if step === 2}
       <Button variant="ghost" onpress={() => goTo(1)}>Back</Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
-  <svelte:fragment slot="footer">
+  {#snippet footer()}
     {#if step === 1}
       <Button variant="primary" onpress={() => goTo(2)}>Continue</Button>
     {:else}
       <Button variant="primary">Create project</Button>
     {/if}
-  </svelte:fragment>
+  {/snippet}
 
   <h3 class="workflow-demo__heading" tabindex="-1" bind:this={heading}>
     {step === 1 ? "Choose a template" : "Name the project"}

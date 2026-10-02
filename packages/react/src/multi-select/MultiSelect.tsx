@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { usePortalHost } from "../internal/portal-host";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, Icon } from "../icon/Icon";
+import { cx } from "../internal/cx";
 import { useI18n } from "../i18n/i18n";
 import { useMultiSelect, type MultiSelectItem } from "./use-multi-select";
 
@@ -104,9 +105,20 @@ export function MultiSelect({
   // Removing through a remove button unmounts that button, so focus would
   // fall to the body: move it to the remove button now at the same index
   // (the next one), else the previous one, else the input.
+  // The pending frame is cancelled by a newer removal and on unmount, so it
+  // never reaches into a control that is gone.
+  const focusFrame = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    },
+    [],
+  );
   const removeAt = (value: string, index: number) => {
     api.remove(value);
-    requestAnimationFrame(() => {
+    if (focusFrame.current !== null) cancelAnimationFrame(focusFrame.current);
+    focusFrame.current = requestAnimationFrame(() => {
+      focusFrame.current = null;
       const buttons = listEl.current
         ? Array.from(listEl.current.querySelectorAll<HTMLElement>(".tag__remove"))
         : [];
@@ -121,7 +133,7 @@ export function MultiSelect({
         <li key={item.value} className="multi-select__option" {...api.getOptionProps(item.value)}>
           <span className="multi-select__check" aria-hidden="true">
             <Icon size="100%" strokeWidth={2.5}>
-              <polyline points="20 6 9 17 4 12" />
+              <CheckGlyph />
             </Icon>
           </span>
           <span className="multi-select__option-label">{item.label ?? item.value}</span>
@@ -151,13 +163,11 @@ export function MultiSelect({
       </label>
 
       <div
-        className={[
+        className={cx(
           "multi-select__control",
           disabled ? "multi-select__control--disabled" : "",
           readOnly ? "multi-select__control--readonly" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+        )}
         ref={controlRef}
       >
         {api.selectedItems.length > 0 ? (

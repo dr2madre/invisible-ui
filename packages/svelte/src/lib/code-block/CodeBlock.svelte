@@ -6,7 +6,7 @@
    * an optional copy-to-clipboard button can be shown.
    *
    * This is a presentational container — it does not do syntax highlighting; wrap
-   * already-highlighted markup with the default slot if you need it (the `code`
+   * already-highlighted markup as `children` if you need it (the `code`
    * prop still drives the copy button).
    *
    * Accessibility:
@@ -19,47 +19,43 @@
    *
    * Colors are themeable CSS custom properties (`--ds-code-block-*`).
    */
-  import type { Action } from "svelte/action";
+  import type { Snippet } from "svelte";
+  import type { Attachment } from "svelte/attachments";
   import { getI18n } from "../i18n/create-i18n";
+  import { CopyFeedback } from "../internal/copy-feedback.svelte";
 
   const { t } = getI18n();
 
-  /** The source text. Drives the copy button and is rendered when no slot is given. */
-  export let code = "";
-  /** Optional caption shown in the header (e.g. a language or filename). */
-  export let language: string | undefined = undefined;
-  /** Render a copy-to-clipboard button. Defaults to `true`. */
-  export let copyable = true;
-  /** Accessible name for the copy button. Defaults to the i18n catalog's "Copy code". */
-  export let copyLabel: string | undefined = undefined;
-
-  $: resolvedCopyLabel = copyLabel ?? $t("codeBlock.copy");
-
-  let copied = false;
-  let timer: ReturnType<typeof setTimeout> | undefined;
-
-  async function copy() {
-    try {
-      await navigator.clipboard?.writeText(code);
-      copied = true;
-      clearTimeout(timer);
-      timer = setTimeout(() => (copied = false), 2000);
-    } catch {
-      // Clipboard may be unavailable (insecure context / denied permission);
-      // fail silently rather than throwing in the user's face.
-    }
+  interface Props {
+    /** The source text. Drives the copy button and is rendered when no `children` is given. */
+    code?: string;
+    /** Optional caption shown in the header (e.g. a language or filename). */
+    language?: string;
+    /** Render a copy-to-clipboard button. Defaults to `true`. */
+    copyable?: boolean;
+    /** Accessible name for the copy button. Defaults to the i18n catalog's "Copy code". */
+    copyLabel?: string;
+    /** Already highlighted markup, shown in place of `code`. */
+    children?: Snippet;
   }
 
-  // An action (not a lifecycle hook) keeps this client-only and SSR-safe:
+  let { code = "", language, copyable = true, copyLabel, children }: Props = $props();
+
+  const resolvedCopyLabel = $derived(copyLabel ?? $t("codeBlock.copy"));
+
+  // The clipboard and timing logic the copy Button shares (ADR 0016).
+  const feedback = new CopyFeedback();
+
+  // An attachment (not a lifecycle hook) keeps this client-only and SSR-safe:
   // the copy confirmation timer is dropped when the block goes away.
-  const dropTimer: Action = () => ({ destroy: () => clearTimeout(timer) });
+  const dropTimer: Attachment = () => () => feedback.reset();
 </script>
 
 <figure
   class="code-block"
   role="group"
   aria-label={language ? `Code: ${language}` : "Code"}
-  use:dropTimer
+  {@attach dropTimer}
 >
   {#if language || copyable}
     <figcaption class="code-block__header">
@@ -68,10 +64,10 @@
         <button
           type="button"
           class="code-block__copy"
-          on:click={copy}
+          onclick={() => void feedback.copy(code)}
           aria-label={resolvedCopyLabel}
         >
-          {copied ? "Copied" : "Copy"}
+          {feedback.copied ? $t("codeBlock.copiedText") : $t("codeBlock.copyText")}
         </button>
       {/if}
     </figcaption>
@@ -86,10 +82,11 @@
     tabindex="0"
     role="group"
     aria-label={language ? `Code sample, ${language}` : "Code sample"}><code
-      class="code-block__code"><slot>{code}</slot></code
+      class="code-block__code"
+      >{#if children}{@render children()}{:else}{code}{/if}</code
     ></pre>
   <span class="code-block__live" role="status" aria-live="polite">
-    {copied ? "Copied to clipboard" : ""}
+    {feedback.copied ? $t("codeBlock.copied") : ""}
   </span>
 </figure>
 

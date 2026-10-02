@@ -1,7 +1,11 @@
 <script lang="ts">
   import AspectRatio from "./AspectRatio.svelte";
 
-  export let ratio = 1;
+  interface Props {
+    ratio?: number;
+  }
+
+  let { ratio = 1 }: Props = $props();
 </script>
 
 <AspectRatio {ratio}>

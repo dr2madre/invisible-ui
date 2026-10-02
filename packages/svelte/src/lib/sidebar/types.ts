@@ -1,4 +1,4 @@
-import type { ComponentType } from "svelte";
+import type { Component, ComponentType } from "svelte";
 
 /** One destination in the sidebar. */
 export interface SidebarItem {
@@ -7,11 +7,13 @@ export interface SidebarItem {
   /** Renders the item as a link. Without it the item reports `onSelect`. */
   href?: string;
   /**
-   * Optional leading icon component (rendered as `<svelte:component>`). The
+   * Optional leading icon component, rendered without props. The
    * rail is only offered when every destination has one: an icon is the whole
-   * of what a destination shows once the labels are out of sight.
+   * of what a destination shows once the labels are out of sight. A runes
+   * component and a legacy class component both work.
    */
-  icon?: ComponentType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the props are the component's own
+  icon?: Component<any> | ComponentType;
 }
 
 /** A group of destinations under an optional heading. */

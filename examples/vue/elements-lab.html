@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elements accessibility lab</title>
+    <!-- The page the manual accessibility session opens for the custom
+         elements adapter (docs/accessibility-lab.md). One section per open
+         scenario, each reachable by its fragment. No browser test drives it. -->
+    <style>
+      main {
+        display: grid;
+        gap: 2.5rem;
+        padding: 2rem 1rem;
+        max-inline-size: 60rem;
+      }
+      section {
+        display: grid;
+        gap: 1rem;
+        justify-items: start;
+      }
+      .lab-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      /* The table view loads on its own when its end scrolls into view. A
+         scroll box keeps that end out of view until the session scrolls to it. */
+      .lab-scroll {
+        inline-size: 100%;
+        max-block-size: 22rem;
+        overflow: auto;
+      }
+      .lab-slide {
+        display: grid;
+        place-items: center;
+        min-block-size: 8rem;
+      }
+      .lab-wide {
+        inline-size: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Elements accessibility lab</h1>
+      <p>
+        Scenarios for a person with a screen reader and a keyboard. Each section is one open
+        scenario from the run sheet. Reload the page before each scenario.
+      </p>
+
+      <section id="calendar-range" aria-labelledby="calendar-range-title">
+        <h2 id="calendar-range-title">Calendar range</h2>
+        <ds-calendar
+          label="Stay dates"
+          mode="range"
+          range-start="2026-03-10"
+          range-end="2026-03-14"
+          focused-date="2026-03-10"
+        ></ds-calendar>
+      </section>
+
+      <section id="notifications" aria-labelledby="notifications-title">
+        <h2 id="notifications-title">Notifications</h2>
+        <div class="lab-row">
+          <button type="button" data-notify="polite">Show a polite notification</button>
+          <button type="button" data-notify="assertive">Show an assertive notification</button>
+        </div>
+        <!-- ADR 0016: the dialog's own messages stay in it; the page's
+             notifications wait until it closes. -->
+        <ds-dialog heading="Share the report" trigger="Open the dialog" data-lab-share>
+          <div class="lab-row">
+            <ds-button copy="https://example.com/reports/q3" copied-label="Link copied"
+              >Copy the link</ds-button
+            >
+            <button type="button" data-lab-upload>Report a failed upload</button>
+          </div>
+          <div class="lab-row">
+            <button type="button" data-notify="polite">Show a polite notification</button>
+            <button type="button" data-notify="assertive">Show an assertive notification</button>
+          </div>
+        </ds-dialog>
+        <ds-notification-region data-lab-page-region></ds-notification-region>
+      </section>
+
+      <section id="table-set-results" aria-labelledby="table-set-results-title">
+        <h2 id="table-set-results-title">Table Set result count</h2>
+        <ds-table-set class="lab-wide" heading="People" caption="People" data-lab-people>
+          <ds-text-field slot="toolbar" label="Filter by name" data-lab-filter></ds-text-field>
+        </ds-table-set>
+      </section>
+
+      <section id="loading-count" aria-labelledby="loading-count-title">
+        <h2 id="loading-count-title">Loading and Count</h2>
+        <ds-loading label="Loading the report" status="Fetching rows" data-lab-loading></ds-loading>
+        <button type="button" data-lab-loading-next>Change the loading status</button>
+        <div class="lab-row">
+          <ds-count count="2" label="2 unread messages" data-lab-count></ds-count>
+          <button type="button" data-lab-count-add>Add a message</button>
+        </div>
+        <div class="lab-row">
+          <ds-button icon-only variant="ghost" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20h4"
+                fill="none"
+                stroke="currentColor"
+              />
+            </svg>
+            <ds-count
+              slot="badge"
+              count="1"
+              label="1 unread notification"
+              data-lab-badge
+            ></ds-count>
+          </ds-button>
+          <button type="button" data-lab-badge-add>Add a notification</button>
+        </div>
+      </section>
+
+      <section id="tree-status" aria-labelledby="tree-status-title">
+        <h2 id="tree-status-title">Tree View loading, error and success</h2>
+        <p>The first load of "remote" fails. The retry succeeds.</p>
+        <ds-tree-view label="Project files" data-lab-tree></ds-tree-view>
+      </section>
+
+      <section id="tabs-count" aria-labelledby="tabs-count-title">
+        <h2 id="tabs-count-title">Tabs with a count</h2>
+        <ds-tabs class="lab-wide" label="Mailbox" data-lab-tabs></ds-tabs>
+      </section>
+
+      <section id="sidebar-rail" aria-labelledby="sidebar-rail-title">
+        <h2 id="sidebar-rail-title">Sidebar rail toggle</h2>
+        <ds-sidebar label="Main" value="home" rail-toggle data-lab-sidebar></ds-sidebar>
+      </section>
+
+      <section id="field-messages" aria-labelledby="field-messages-title">
+        <h2 id="field-messages-title">Description and error wiring</h2>
+        <ds-checkbox-group
+          label="Toppings"
+          description="Pick up to two."
+          error="Pick at least one topping."
+        >
+          <option value="olive">Olive</option>
+          <option value="caper">Caper</option>
+        </ds-checkbox-group>
+        <ds-pin-input
+          label="Verification code"
+          length="6"
+          description="Sent to your phone."
+          error="The code has expired."
+        ></ds-pin-input>
+        <ds-date-picker
+          label="Start date"
+          description="The first day of the booking."
+          error="Pick a date after today."
+        ></ds-date-picker>
+      </section>
+
+      <section id="states-live" aria-labelledby="states-live-title">
+        <h2 id="states-live-title">Error State and Empty State, with and without live</h2>
+        <div class="lab-row">
+          <button type="button" data-lab-state="error-state" data-live="true">
+            Insert an Error State with live
+          </button>
+          <button type="button" data-lab-state="error-state" data-live="false">
+            Insert an Error State without live
+          </button>
+          <button type="button" data-lab-state="empty-state" data-live="true">
+            Insert an Empty State with live
+          </button>
+          <button type="button" data-lab-state="empty-state" data-live="false">
+            Insert an Empty State without live
+          </button>
+        </div>
+        <div class="lab-wide" data-lab-state-slot></div>
+      </section>
+
+      <section id="table-view-load-more" aria-labelledby="table-view-load-more-title">
+        <h2 id="table-view-load-more-title">Table View Load more</h2>
+        <p>Three more batches load, one second each. The last one removes Load more.</p>
+        <div class="lab-scroll">
+          <ds-table-view caption="Orders" infinite has-more data-lab-orders></ds-table-view>
+        </div>
+      </section>
+
+      <section id="popover-close" aria-labelledby="popover-close-title">
+        <h2 id="popover-close-title">Popover closed from inside</h2>
+        <ds-popover label="Share settings">
+          <span slot="trigger">Share settings</span>
+          <ds-checkbox label="Anyone with the link can view"></ds-checkbox>
+          <button type="button" data-lab-popover-done>Done</button>
+        </ds-popover>
+      </section>
+
+      <section id="navigation-menu" aria-labelledby="navigation-menu-title">
+        <h2 id="navigation-menu-title">Navigation Menu focus leaving</h2>
+        <ds-navigation-menu label="Site" data-lab-nav></ds-navigation-menu>
+        <button type="button">After the menu</button>
+      </section>
+
+      <section id="rtl" dir="rtl" aria-labelledby="rtl-title">
+        <h2 id="rtl-title">Right-to-left arrow keys</h2>
+        <ds-tabs class="lab-wide" label="Sections" data-lab-rtl-tabs></ds-tabs>
+        <ds-carousel class="lab-wide" label="Featured">
+          <div class="lab-slide">Slide one</div>
+          <div class="lab-slide">Slide two</div>
+          <div class="lab-slide">Slide three</div>
+          <div class="lab-slide">Slide four</div>
+        </ds-carousel>
+        <ds-tree-view label="Folders" data-lab-rtl-tree></ds-tree-view>
+        <ds-pagination page="3" page-count="7" label="Pages"></ds-pagination>
+      </section>
+    </main>
+    <script type="module" src="/src/harness/elements-lab-main.ts"></script>
+  </body>
+</html>

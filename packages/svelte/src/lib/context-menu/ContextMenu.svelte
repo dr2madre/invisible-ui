@@ -8,34 +8,58 @@
    * (`@design-system/core`). Popup positioning (flip/shift against a virtual
    * anchor at the pointer) uses `@floating-ui/dom`.
    *
-   * Wrap the target area in the default slot; pass `items`
+   * Wrap the target area in `children`; pass `items`
    * ({ value, label?, disabled? }) and `onSelect(value)`. Colors, radius and
    * elevation reuse the shared menu tokens (`--ds-menu-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createContextMenu, type MenuItem } from "./create-context-menu";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
   const { t, locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let items: MenuItem[];
-  export let disabled = false;
-  /** Called with the chosen item's value. */
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
-  export let label: string | undefined = undefined;
+  interface Props {
+    items: MenuItem[];
+    disabled?: boolean;
+    /** Called with the chosen item's value. */
+    onSelect?: (value: string) => void;
+    /** Accessible name for the menu popup (no labelling trigger exists). Defaults to the i18n catalog's "Context menu". */
+    label?: string;
+    /** The region the menu opens on. */
+    children?: Snippet;
+  }
 
-  const menu = createContextMenu({ items, disabled, onSelect });
-  const { open, triggerAction, menuAction, itemAction } = menu;
+  let { items, disabled = false, onSelect, label, children }: Props = $props();
 
-  $: resolvedLabel = label ?? $t("contextMenu.label");
+  // Seeded once from the first props; the effects below follow later ones.
+  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  const menu = untrack(() =>
+    createContextMenu({
+      items,
+      disabled,
+      onSelect: (value) => onSelect?.(value),
+    }),
+  );
+  const { open, triggerAction, menuAction, itemAction, syncItems, syncDisabled } = menu;
+
+  // Items and disabled changed after mount reach the machine, so keyboard
+  // navigation and typeahead follow what the template renders.
+  $effect.pre(() => {
+    syncItems(items);
+  });
+  $effect.pre(() => {
+    syncDisabled(disabled);
+  });
+
+  const resolvedLabel = $derived(label ?? $t("contextMenu.label"));
 </script>
 
 <!-- triggerAction applies aria-haspopup="menu" at runtime; tabindex keeps the
      trigger reachable for the keyboard menu key. -->
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div class="context-menu__trigger" tabindex="0" use:triggerAction>
-  <slot />
+  {@render children?.()}
 </div>
 
 <!-- Rendered only while open: the popup truly leaves the DOM (and the
@@ -110,9 +134,12 @@
   .context-menu__item:hover {
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
+  /* The tint alone is too faint to find (WCAG 2.4.7, 1.4.11): an inset ring
+     marks the focused item. The menu clips, so the ring goes inside. */
   .context-menu__item:focus-visible {
     outline: none;
     background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+    box-shadow: inset 0 0 0 var(--ds-focus-ring-width, 2px) var(--ds-color-focus-ring, #8e6cd4);
   }
   .context-menu__item:global([data-disabled]) {
     color: var(--ds-color-text-disabled, #757067);

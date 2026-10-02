@@ -55,4 +55,20 @@ describe("<ds-search-field>", () => {
     );
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("describes the search input by its description and error, and cleans up", () => {
+    const host = mount();
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = screen.getByRole("searchbox");
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
+  });
 });

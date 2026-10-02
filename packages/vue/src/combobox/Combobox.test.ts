@@ -422,3 +422,27 @@ describe("Vue Combobox (select-only, the advanced select)", () => {
     expect(container.querySelector(".combobox")).toHaveAttribute("data-width", "wrap");
   });
 });
+
+describe("Vue Combobox items loaded late", () => {
+  it("shows the selected label once the items arrive", async () => {
+    const { rerender } = render(Combobox, {
+      props: { label: "Fruit", items: [], value: "banana" },
+    });
+    expect(input()).toHaveValue("");
+
+    await rerender({ label: "Fruit", items, value: "banana" });
+    expect(input()).toHaveValue("Banana");
+  });
+
+  it("leaves text the user is typing alone when the items change", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(Combobox, {
+      props: { label: "Fruit", items, value: "banana" },
+    });
+    await user.clear(input());
+    await user.type(input(), "ch");
+
+    await rerender({ label: "Fruit", items: [...items], value: "banana" });
+    expect(input()).toHaveValue("ch");
+  });
+});

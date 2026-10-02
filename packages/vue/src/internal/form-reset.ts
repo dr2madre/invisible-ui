@@ -1,5 +1,5 @@
 import { formReset as core } from "@design-system/core";
-import { onMounted, onUnmounted, watch, type Ref } from "vue";
+import { onMounted, onUnmounted, ref, watch, type Ref } from "vue";
 
 /** An element that can name its form owner. */
 type Associated = Element & { form: HTMLFormElement | null };
@@ -31,6 +31,46 @@ export function useFormReset(anchor: () => Element | null, restore: () => void):
     stop = core.onFormReset(node.ownerDocument, () => associated(anchor()), restore);
   });
   onUnmounted(() => stop?.());
+}
+
+/** The two copies of a control's value that a form reset needs. */
+export interface ResettableValue<T> {
+  /**
+   * What the composable is told. It follows the prop and the control's own
+   * reports (the caller writes those back); a reset writes the default straight
+   * into it, which is the composable's silent path (its watch, not its setter).
+   */
+  told: Ref<T>;
+  /**
+   * The reset default. It follows the prop, except a give-back of what the
+   * control itself reported (ADR 0012).
+   */
+  fallback: Ref<T>;
+}
+
+/**
+ * The controlled value of a control that a form reset puts back. On reset the
+ * default goes into `told`, then to `restore`: the control's own copy of the
+ * value, which in Vue is the v-model binding. Not the change callback: a reset
+ * is not a user change (ADR 0012).
+ */
+export function useResettableValue<T>(
+  given: () => T,
+  anchor: () => Element | null,
+  restore: (value: T) => void,
+  same: (a: T, b: T) => boolean = (a, b) => a === b,
+): ResettableValue<T> {
+  const told = ref(given()) as Ref<T>;
+  const fallback = ref(given()) as Ref<T>;
+  watch(given, (next) => {
+    if (!same(next, told.value)) fallback.value = next;
+    told.value = next;
+  });
+  useFormReset(anchor, () => {
+    told.value = fallback.value;
+    restore(fallback.value);
+  });
+  return { told, fallback };
 }
 
 /**

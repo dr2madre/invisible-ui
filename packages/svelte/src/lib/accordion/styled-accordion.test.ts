@@ -52,6 +52,28 @@ describe("Svelte Accordion (styled)", () => {
     );
   });
 
+  it("follows type and disabled changed after mount", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    const { rerender } = render(Accordion, {
+      props: { items, value: ["shipping"], disabled: true, onValueChange },
+    });
+    await rerender({ type: "multiple", disabled: false });
+
+    await user.click(screen.getByRole("button", { name: "Support" }));
+    expect(onValueChange).toHaveBeenCalledWith(["shipping", "support"]);
+  });
+
+  it("navigates items given after mount", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(Accordion, { props: { items } });
+    await rerender({ items: [...items, { value: "faq", label: "FAQ", content: "Answers." }] });
+
+    screen.getByRole("button", { name: "Shipping" }).focus();
+    await user.keyboard("{End}");
+    expect(screen.getByRole("button", { name: "FAQ" })).toHaveFocus();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Accordion, { props: { items, value: ["shipping"] } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

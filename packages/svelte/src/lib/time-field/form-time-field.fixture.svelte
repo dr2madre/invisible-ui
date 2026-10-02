@@ -1,9 +1,13 @@
 <script lang="ts">
   import TimeField from "./TimeField.svelte";
 
-  export let value: string | null = null;
-  export let name = "time";
-  export let disabled = false;
+  interface Props {
+    value?: string | null;
+    name?: string;
+    disabled?: boolean;
+  }
+
+  let { value = null, name = "time", disabled = false }: Props = $props();
 </script>
 
 <form data-testid="form">

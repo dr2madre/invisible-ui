@@ -1,10 +1,14 @@
 <script lang="ts">
   import AlertDialog from "./AlertDialog.svelte";
 
-  export let onDismiss: (() => void) | undefined = undefined;
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
-  export let closeOnOutsideClick = true;
-  export let dismissLabel: string | undefined = undefined;
+  interface Props {
+    onDismiss?: () => void;
+    onOpenChange?: (open: boolean) => void;
+    closeOnOutsideClick?: boolean;
+    dismissLabel?: string;
+  }
+
+  let { onDismiss, onOpenChange, closeOnOutsideClick = true, dismissLabel }: Props = $props();
 </script>
 
 <button type="button">before</button>

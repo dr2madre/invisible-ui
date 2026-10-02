@@ -24,7 +24,7 @@ A WAI-ARIA tabs widget: a tablist linked to panels, with arrow navigation.
 ### Accessibility
 
 - WAI-ARIA tabs pattern: roving tabindex, arrow/Home/End navigation, automatic or manual activation.
-- Each panel is correctly wired to its tab (`aria-labelledby` / `role="tabpanel"`), whether it holds text `content` or slotted markup.
+- Each panel is correctly wired to its tab (`aria-labelledby` / `role="tabpanel"`), whether it holds text `content` or custom markup.
 
 ### Example
 
@@ -59,19 +59,19 @@ In Elements, assign the item list as a property. Selection is reflected by the
 
 ### Rich panels
 
-For anything beyond text, use the scoped `panel` slot: it renders once per tab
-with `let:item`, so you put whatever you want in the (correctly wired) panel and
+For anything beyond text, use the `panel` snippet: it renders once per tab
+with `{ item }`, so you put whatever you want in the (correctly wired) panel and
 switch on `item.value`.
 
 ```svelte
 <Tabs label="Inbox" value="all" items={[{ value: "all", label: "All" }, { value: "news", label: "News" }]}>
-  <svelte:fragment slot="panel" let:item>
+  {#snippet panel({ item })}
     {#if item.value === "all"}
       <MyList items={everything} />
     {:else if item.value === "news"}
       <MyList items={news} />
     {/if}
-  </svelte:fragment>
+  {/snippet}
 </Tabs>
 ```
 

@@ -4,7 +4,7 @@
    * `<ToggleButton>` children and gives them a shared look. It carries no
    * selection state of its own: each ToggleButton inside is a standalone
    * on/off control (a native checkbox) that owns its own `pressed` state,
-   * label and form field. Insert the toggles via the default slot.
+   * label and form field. Insert the toggles as `children`.
    *
    * Styles:
    * - `separate` (default) — each toggle keeps its own default style, spaced by
@@ -20,32 +20,47 @@
    * it entirely. Radius, spacing and colors are themeable via
    * `--ds-toggle-group-*`.
    */
+  import type { Snippet } from "svelte";
 
-  /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
-  export let variant: "separate" | "segmented" = "separate";
-  /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  /**
-   * Let the toggles wrap onto multiple lines when they overflow the available
-   * width (e.g. a row of filter chips in a narrow panel). Only meaningful on a
-   * horizontal `separate` group; ignored when `segmented`, which is one control.
-   */
-  export let wrap = false;
-  /**
-   * Optional container name for screen readers (the group's `aria-label`). Names
-   * the container, not the items; omit it when the toggles are unrelated.
-   */
-  export let label: string | undefined = undefined;
+  interface Props {
+    /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */
+    variant?: "separate" | "segmented";
+    /** Layout axis. Purely visual — the group has no keyboard navigation of its own. */
+    orientation?: "horizontal" | "vertical";
+    /**
+     * Let the toggles wrap onto multiple lines when they overflow the available
+     * width (e.g. a row of filter chips in a narrow panel). Only meaningful on a
+     * horizontal `separate` group; ignored when `segmented`, which is one control.
+     */
+    wrap?: boolean;
+    /**
+     * Optional container name for screen readers (the group's `aria-label`). Names
+     * the container, not the items; omit it when the toggles are unrelated.
+     */
+    label?: string;
+    children?: Snippet;
+  }
+
+  let {
+    variant = "separate",
+    orientation = "horizontal",
+    wrap = false,
+    label,
+    children,
+  }: Props = $props();
 </script>
 
 <div
-  class="toggle-group toggle-group--{variant}"
-  class:toggle-group--wrap={wrap && variant === "separate"}
+  class={[
+    "toggle-group",
+    `toggle-group--${variant}`,
+    wrap && variant === "separate" && "toggle-group--wrap",
+  ]}
   role="group"
   aria-label={label}
   data-orientation={orientation}
 >
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>
@@ -68,19 +83,19 @@
   }
 
   /* segmented: join the toggles into one control — drop their individual
-     borders/radius and draw a single outer border with thin dividers. Targets
-     the child ToggleButton's scoped parts via :global. */
+     borders/radius through the ToggleButton's own custom properties and draw
+     a single outer border with thin dividers. */
   .toggle-group--segmented {
     gap: 0;
     border: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));
     border-radius: var(--ds-toggle-group-radius, var(--ds-radius-control, 0.5rem));
     overflow: hidden;
+    --ds-toggle-border-width: 0;
+    --ds-toggle-radius: 0;
   }
-  .toggle-group--segmented :global(.toggle__surface) {
-    border: 0;
-    border-radius: 0;
-  }
-  /* Divider between adjacent toggles (along the layout axis). */
+  /* Divider between adjacent toggles (along the layout axis). It sits on one
+     side only and keeps the border color in every state, which the child's
+     custom properties cannot express, so it targets the child's part. */
   .toggle-group--segmented[data-orientation="horizontal"]
     :global(.toggle:not(:first-child) .toggle__surface) {
     border-inline-start: 1px solid var(--ds-toggle-border, var(--ds-color-control-border, #757067));

@@ -33,6 +33,15 @@ describe("Svelte Progress (styled)", () => {
     expect(container.querySelector(".progress__value")).toHaveTextContent("40%");
   });
 
+  it("follows min and max changed after mount", async () => {
+    const { rerender } = render(Progress, { props: { value: 50, label: "Loading" } });
+    await rerender({ max: 200 });
+    expect(screen.getByRole("progressbar", { name: "Loading" })).toHaveAttribute(
+      "aria-valuemax",
+      "200",
+    );
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(Progress, { props: { value: 70, label: "Loading" } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

@@ -1,4 +1,5 @@
 import { boolAttr, HTMLElementBase } from "../internal/base";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type LoadingGenerationAreaPosition = "center" | "top" | "bottom" | "left" | "right";
 
@@ -27,6 +28,13 @@ export class DsLoadingGenerationArea extends HTMLElementBase {
 
   #regions = new Map<Region, Node[]>();
   #captured = false;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#captured && this.isConnected) this.#render();
+    });
+  }
 
   connectedCallback() {
     if (!this.#captured) this.#capture();
@@ -75,7 +83,8 @@ export class DsLoadingGenerationArea extends HTMLElementBase {
     if (decorative) root.setAttribute("aria-hidden", "true");
     else {
       root.setAttribute("role", "status");
-      if (status == null) root.setAttribute("aria-label", this.getAttribute("label") ?? "Loading…");
+      if (status == null)
+        root.setAttribute("aria-label", localized(this, "label", "loading.label"));
       else root.setAttribute("aria-atomic", "true");
     }
 

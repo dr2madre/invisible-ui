@@ -1,7 +1,7 @@
 import { accordion as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -22,6 +22,11 @@ export interface CreateAccordion {
   setValue: (value: string[]) => void;
   /** Reflect a controlled `value` prop without reporting a change. */
   syncValue: (value: string[]) => void;
+  /**
+   * Reflect the configuration after mount: `items`, `type`, `collapsible`,
+   * `disabled`. Reporting nothing, like any reflection.
+   */
+  syncConfig: (config: AccordionConfig) => void;
   /** Toggle a single item open/closed (ignored when disabled). */
   toggle: (value: string) => void;
   /** Svelte action for the accordion container: `<div use:rootAction>`. */
@@ -33,6 +38,9 @@ export interface CreateAccordion {
   /** Svelte action for a panel: `<div use:panelAction={value}>`. */
   panelAction: Action<HTMLElement, string>;
 }
+
+/** The props a consumer may change after mount, besides the value. */
+export type AccordionConfig = Pick<AccordionState, "items" | "type" | "collapsible" | "disabled">;
 
 const sameSet = (a: string[], b: string[]) =>
   a.length === b.length && a.every((v) => b.includes(v));
@@ -73,11 +81,23 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
   const syncValue = (value: string[]) =>
     state.update((current) => (sameValues(current.value, value) ? current : { ...current, value }));
 
+  // Every field is compared, so a configuration changed after mount reaches
+  // the machine instead of being frozen at construction.
+  const syncConfig = (config: AccordionConfig) =>
+    state.update((current) =>
+      current.items === config.items &&
+      current.type === config.type &&
+      current.collapsible === config.collapsible &&
+      current.disabled === config.disabled
+        ? current
+        : { ...current, ...config },
+    );
+
   const api = derived(state, ($state) =>
     core.connect({ state: $state, setValue, focus, normalize: normalizeProps }),
   );
 
-  const baseRootAction = createPropsAction(api, (a) => a.rootProps);
+  const baseRootAction = createRootAction(api);
   const rootAction: Action<HTMLElement> = (node) => {
     rootEl = node;
     const handle = baseRootAction(node);
@@ -89,23 +109,17 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) => {
-    const itemApi = derived(api, (a) => a.getItemProps(value as string));
-    const handle = createPropsAction(itemApi, (p) => p)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
-  const triggerAction: Action<HTMLElement, string> = (node, value) => {
-    const triggerApi = derived(api, (a) => a.getTriggerProps(value as string));
-    const handle = createPropsAction(triggerApi, (p) => p)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const triggerAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getTriggerProps(value),
+  );
 
-  const panelAction: Action<HTMLElement, string> = (node, value) => {
-    const panelApi = derived(api, (a) => a.getPanelProps(value as string));
-    const handle = createPropsAction(panelApi, (p) => p)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const panelAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getPanelProps(value),
+  );
 
   return {
     state,
@@ -113,6 +127,7 @@ export function createAccordion(context: AccordionContext): CreateAccordion {
     value: derived(state, ($state) => $state.value),
     setValue,
     syncValue,
+    syncConfig,
     toggle: (value: string) => get(api).toggle(value),
     rootAction,
     itemAction,

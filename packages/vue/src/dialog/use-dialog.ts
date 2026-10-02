@@ -8,6 +8,8 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from "vue";
+import { useDialogStatus, type DialogStatus } from "../internal/dialog-status";
+import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
@@ -41,7 +43,7 @@ export interface UseDialogOptions {
   onOpenChange?: (open: boolean) => void;
 }
 
-export interface UseDialog {
+export interface UseDialog extends DialogStatus {
   api: ComputedRef<core.DialogApi>;
   open: ComputedRef<boolean>;
   setOpen: (open: boolean) => void;
@@ -51,8 +53,6 @@ export interface UseDialog {
   panelRef: Ref<HTMLDialogElement | null>;
 }
 
-// Stable per-instance ids, as in Select: a module counter keeps the Vue peer
-// range at ^3.4 (Vue's own `useId` landed in 3.5).
 /**
  * Connect the headless Dialog to Vue on the native `<dialog>` element
  * (ADR 0005).
@@ -63,6 +63,15 @@ export interface UseDialog {
  * browser enforces for keyboard *and* assistive tech) and a stylable
  * `::backdrop`. This composable adds only what the platform leaves out: body
  * scroll lock, backdrop light-dismiss, initial focus and focus restore.
+ *
+ * It also holds the status area (ADR 0016): `notify(options)` adds a notice
+ * about the dialog's own task and returns its id, `dismissNotice(id)` and
+ * `clearNotices()` remove notices, and `notices` and `announcement` are what
+ * the panel renders between its body and its footer (the styled dialogs use
+ * `dialogStatus()`). Notices belong to one opening: `notify()` while closed
+ * returns an empty string, and closing clears them. Closing returns focus to
+ * the element that had it when the dialog opened, so a dialog opened from
+ * inside another hands focus back there; otherwise to the trigger.
  *
  * The panel must be rendered only while open, so the post-flush `watch` tracks
  * the panel element itself (assigned while open, including a mount that starts
@@ -100,6 +109,7 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
 
   const triggerRef = ref<HTMLElement | null>(null);
   const panelRef = ref<HTMLDialogElement | null>(null);
+  const status = useDialogStatus(id, panelRef);
 
   // The effect keys on the panel element, not the open flag: a component
   // mounted with `open: true` assigns the template ref only after this
@@ -117,6 +127,7 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
 
       // Top layer + inert background come from the platform.
       el.showModal();
+      const releaseModal = trackModal(el);
       const releaseScroll = lockScroll();
 
       // Native Escape: route it through our state (Vue unmounts the element)
@@ -125,8 +136,12 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
         event.preventDefault();
         if (resolved.value.closeOnEscape !== false) setOpen(false);
       };
-      // Any other native close (e.g. a `method="dialog"` form) syncs the state.
-      const onClose = () => setOpen(false);
+      // Any other native close (e.g. a `method="dialog"` form) syncs the
+      // state. Only the panel's own close: an element inside it can emit a
+      // bubbling `close` too.
+      const onClose = (event: Event) => {
+        if (event.target === el) setOpen(false);
+      };
       // With the page inert, backdrop presses target the <dialog> itself; a
       // press whose coordinates fall outside the panel's box is a light
       // dismiss.
@@ -161,14 +176,15 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
         el.removeEventListener("close", onClose);
         el.removeEventListener("pointerdown", onPointerDown);
         if (el.open) el.close();
+        releaseModal();
         releaseScroll();
-        // Where focus goes back to: what the consumer named, else this
-        // dialog's own trigger, else whatever held focus when it opened.
+        status.clearNotices();
+        // Where focus goes back to: what the consumer named, else whatever
+        // held focus when the dialog opened, else this dialog's own trigger.
         const named = resolved.value.returnFocusTo
           ? document.querySelector<HTMLElement>(resolved.value.returnFocusTo)
           : null;
-        const restore = named ?? triggerRef.value ?? previouslyFocused;
-        if (restore?.isConnected) restore.focus();
+        returnFocus(named ?? previouslyFocused, triggerRef.value);
       });
     },
     { flush: "post" },
@@ -180,5 +196,6 @@ export function useDialog(options: MaybeRefOrGetter<UseDialogOptions> = {}): Use
     setOpen,
     triggerRef,
     panelRef,
+    ...status,
   };
 }

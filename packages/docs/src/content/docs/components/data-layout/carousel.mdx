@@ -15,15 +15,31 @@ A carousel with three modes: `slide` (full-bleed background slides with an
 overlay), `gallery` (a scrolling row of cards), and `coverflow` — a 3D
 "jukebox" where the active item is centered and its neighbors recede (set
 `orientation="vertical"` to stack the flow top-to-bottom). Render custom slide
-content with the default slot (`let:item let:index let:active`).
+content with the `children` snippet (`{ item, index, active }`).
 
 ### Import
 
 <ImportSnippet component="carousel" />
 
+In Elements:
+
+```html
+<ds-carousel label="Featured photos" loop>
+  <article>First slide</article>
+  <article>Second slide</article>
+  <article>Third slide</article>
+</ds-carousel>
+```
+
+Each child becomes a slide. Without children, set the `items` property to
+draw the built-in slides. The element sends `change` with `detail.index`.
+
 ### Props
 
 <PropsTable component="carousel" />
+
+Each slide's `image` is rendered as given: pass only URLs you trust or have
+sanitized. See [Security](/invisible-ui/api/#security).
 
 ### Accessibility
 

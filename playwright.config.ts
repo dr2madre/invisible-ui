@@ -16,6 +16,10 @@ const BASE = `http://127.0.0.1:${PORT}/invisible-ui/`;
 const VUE_PORT = 4390;
 export const VUE_BASE = `http://127.0.0.1:${VUE_PORT}/harness.html`;
 
+// The visual specs: the Svelte demos on the docs site (visual.spec.ts) and the
+// other adapters' visual pages in the Vue example (visual-<adapter>.spec.ts).
+const VISUAL_SPECS = /visual(-[a-z]+)?\.spec\.ts$/;
+
 export default defineConfig({
   testDir: "./e2e",
   // Before any test: the servers must serve this checkout, built from the
@@ -53,7 +57,7 @@ export default defineConfig({
     {
       name: "chromium",
       // Functional e2e (smoke + interactions); visual specs run separately.
-      testIgnore: /visual\.spec\.ts/,
+      testIgnore: VISUAL_SPECS,
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: executablePath ? { executablePath } : {},
@@ -61,17 +65,17 @@ export default defineConfig({
     },
     {
       name: "firefox",
-      testIgnore: /visual\.spec\.ts/,
+      testIgnore: VISUAL_SPECS,
       use: devices["Desktop Firefox"],
     },
     {
       name: "webkit",
-      testIgnore: /visual\.spec\.ts/,
+      testIgnore: VISUAL_SPECS,
       use: devices["Desktop Safari"],
     },
     {
       name: "visual",
-      testMatch: /visual\.spec\.ts/,
+      testMatch: VISUAL_SPECS,
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: executablePath ? { executablePath } : {},

@@ -100,4 +100,23 @@ describe("pagination connect", () => {
     } as unknown as Event);
     expect(focus).toHaveBeenCalledWith("2");
   });
+
+  it("mirrors the horizontal arrows in right-to-left text", () => {
+    const focus = vi.fn();
+    const api = connect({
+      state: make({ page: 2, pageCount: 5 }),
+      setPage: noop,
+      focus,
+      direction: "rtl",
+    });
+    const press = (key: string) =>
+      (api.getPageProps(2).onKeyDown as (e: Event) => void)({
+        key,
+        preventDefault: vi.fn(),
+      } as unknown as Event);
+    press("ArrowLeft");
+    expect(focus).toHaveBeenLastCalledWith("3");
+    press("ArrowRight");
+    expect(focus).toHaveBeenLastCalledWith("1");
+  });
 });

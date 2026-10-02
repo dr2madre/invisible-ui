@@ -33,7 +33,7 @@ Three rules to build on:
 ```svelte
 <!-- Svelte -->
 <form
-  on:reset={(event) => {
+  onreset={(event) => {
     setTimeout(() => {
       if (event.defaultPrevented) return;
       draft = "";

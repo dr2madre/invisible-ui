@@ -9,60 +9,103 @@
    * - `variant="dashboard"`: an icon over a title on the left, a large value with
    *   a smaller change/percentage beside it on the right (a metric tile).
    *
-   * The media area is an image (`imageSrc`) or, when the `icon` slot is provided,
-   * an icon in its place. Tags and actions are slots so you compose them with the
+   * The media area is an image (`imageSrc`) or, when the `icon` snippet is provided,
+   * an icon in its place. Tags and actions are snippets so you compose them with the
    * existing `Tag` and `ButtonGroup`/`Button` components (e.g. a ghost action on
    * the left and the primary action on the right).
    *
-   * Accessibility: renders as an `<article>`; when a `title` prop is given it
+   * Accessibility: renders as an `<article>`; when a `title` string is given it
    * becomes a heading (level via `headingLevel`) and labels the card
    * (`aria-labelledby`). Colors/spacing are themeable (`--ds-card-*`).
    */
+  import type { Snippet } from "svelte";
   import { stableId } from "../internal/stable-id";
-  export let variant: "media" | "dashboard" = "media";
-  export let orientation: "vertical" | "horizontal" = "vertical";
-  /** Surface hierarchy. `secondary` uses the quieter secondary card surface token. */
-  export let surface: "default" | "secondary" = "default";
-  /** Image URL for the media area (ignored when the `icon` slot is used). */
-  export let imageSrc: string | undefined = undefined;
-  /** Alt text for the image. Defaults to empty (decorative). */
-  export let imageAlt = "";
-  /** Card title; rendered as a heading and used to label the card. */
-  export let title: string | undefined = undefined;
-  /** Heading level for the title (2–6). Defaults to `3`. */
-  export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3;
-  /** Body description text (override with the `description` slot for rich content). */
-  export let description: string | undefined = undefined;
-  /** Dashboard: the large metric value. */
-  export let value: string | number | undefined = undefined;
-  /** Dashboard: the smaller change/percentage shown beside the value. */
-  export let change: string | undefined = undefined;
-  /** Dashboard: direction of the change, for coloring. */
-  export let trend: "up" | "down" | "neutral" = "neutral";
+
+  interface Props {
+    variant?: "media" | "dashboard";
+    orientation?: "vertical" | "horizontal";
+    /** Surface hierarchy. `secondary` uses the quieter secondary card surface token. */
+    surface?: "default" | "secondary";
+    /** Image URL for the media area (ignored when the `icon` snippet is used). */
+    imageSrc?: string;
+    /** Alt text for the image. Defaults to empty (decorative). */
+    imageAlt?: string;
+    /**
+     * Card title. A string is rendered as a heading and labels the card; a
+     * snippet replaces the heading with your own markup.
+     */
+    title?: string | Snippet;
+    /** Heading level for the title (2–6). Defaults to `3`. */
+    headingLevel?: 2 | 3 | 4 | 5 | 6;
+    /** Body description: plain text, or a snippet for rich content. */
+    description?: string | Snippet;
+    /** Dashboard: the large metric value. */
+    value?: string | number;
+    /** Dashboard: the smaller change/percentage shown beside the value. */
+    change?: string;
+    /** Dashboard: direction of the change, for coloring. */
+    trend?: "up" | "down" | "neutral";
+    /** Icon in the media area (media variant) or beside the title (dashboard). */
+    icon?: Snippet;
+    /** Custom media content, in place of the image or icon. */
+    media?: Snippet;
+    /** Tags shown with the title. */
+    tags?: Snippet;
+    /** Dashboard: extra content after the value and change. */
+    metric?: Snippet;
+    /** Actions area at the end of the card. */
+    actions?: Snippet;
+    /** Extra body content below the description. */
+    children?: Snippet;
+  }
+
+  let {
+    variant = "media",
+    orientation = "vertical",
+    surface = "default",
+    imageSrc,
+    imageAlt = "",
+    title,
+    headingLevel = 3,
+    description,
+    value,
+    change,
+    trend = "neutral",
+    icon,
+    media,
+    tags,
+    metric,
+    actions,
+    children,
+  }: Props = $props();
 
   const titleId = stableId("ds-card");
-  $: labelledBy = title ? titleId : undefined;
-  $: hasMedia = Boolean(imageSrc) || Boolean($$slots.icon) || Boolean($$slots.media);
+  const labelledBy = $derived(typeof title === "string" && title ? titleId : undefined);
+  const hasMedia = $derived(Boolean(imageSrc) || Boolean(icon) || Boolean(media));
 </script>
+
+{#snippet heading()}
+  {#if typeof title === "function"}
+    {@render title()}
+  {:else if title}
+    <svelte:element this={`h${headingLevel}`} class="card__title" id={titleId}>
+      {title}
+    </svelte:element>
+  {/if}
+{/snippet}
 
 {#if variant === "dashboard"}
   <article class="card card--dashboard" data-surface={surface} aria-labelledby={labelledBy}>
     <div class="card__dash-head">
-      {#if $$slots.icon}
-        <span class="card__icon" aria-hidden="true"><slot name="icon" /></span>
+      {#if icon}
+        <span class="card__icon" aria-hidden="true">{@render icon()}</span>
       {/if}
-      {#if $$slots.title}
-        <slot name="title" />
-      {:else if title}
-        <svelte:element this={`h${headingLevel}`} class="card__title" id={titleId}>
-          {title}
-        </svelte:element>
-      {/if}
+      {@render heading()}
     </div>
     <div class="card__metric">
       {#if value != null}<span class="card__value">{value}</span>{/if}
       {#if change}<span class="card__change" data-trend={trend}>{change}</span>{/if}
-      <slot name="metric" />
+      {@render metric?.()}
     </div>
   </article>
 {:else}
@@ -73,14 +116,11 @@
     aria-labelledby={labelledBy}
   >
     {#if hasMedia}
-      <div
-        class="card__media"
-        class:card__media--icon={$$slots.icon && !imageSrc && !$$slots.media}
-      >
-        {#if $$slots.media}
-          <slot name="media" />
-        {:else if $$slots.icon}
-          <span class="card__icon" aria-hidden="true"><slot name="icon" /></span>
+      <div class={["card__media", icon && !imageSrc && !media && "card__media--icon"]}>
+        {#if media}
+          {@render media()}
+        {:else if icon}
+          <span class="card__icon" aria-hidden="true">{@render icon()}</span>
         {:else if imageSrc}
           <img class="card__image" src={imageSrc} alt={imageAlt} />
         {/if}
@@ -89,29 +129,25 @@
 
     <div class="card__body">
       <div class="card__head">
-        {#if $$slots.title}
-          <slot name="title" />
-        {:else if title}
-          <svelte:element this={`h${headingLevel}`} class="card__title" id={titleId}>
-            {title}
-          </svelte:element>
-        {/if}
-        {#if $$slots.tags}
-          <div class="card__tags"><slot name="tags" /></div>
+        {@render heading()}
+        {#if tags}
+          <div class="card__tags">{@render tags()}</div>
         {/if}
       </div>
 
-      {#if description || $$slots.description}
-        <div class="card__description"><slot name="description">{description}</slot></div>
+      {#if description}
+        <div class="card__description">
+          {#if typeof description === "function"}{@render description()}{:else}{description}{/if}
+        </div>
       {/if}
 
-      {#if $$slots.default}
-        <div class="card__content"><slot /></div>
+      {#if children}
+        <div class="card__content">{@render children()}</div>
       {/if}
     </div>
 
-    {#if $$slots.actions}
-      <div class="card__actions"><slot name="actions" /></div>
+    {#if actions}
+      <div class="card__actions">{@render actions()}</div>
     {/if}
   </article>
 {/if}

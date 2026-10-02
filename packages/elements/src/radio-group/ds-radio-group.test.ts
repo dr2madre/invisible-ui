@@ -39,6 +39,17 @@ describe("<ds-radio-group>", () => {
     expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();
   });
 
+  it("submits nothing when no name is given, keeping one group", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<form>${group.replace(' name="plan"', "")}</form>`;
+    const form = document.querySelector("form")!;
+    await user.click(screen.getByRole("radio", { name: "Free" }));
+    await user.click(screen.getByRole("radio", { name: "Pro" }));
+    expect([...new FormData(form).keys()]).toEqual([]);
+    expect(screen.getByRole("radio", { name: "Free" })).not.toBeChecked();
+    expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();
+  });
+
   it("starts from the value attribute", () => {
     mount(group.replace('name="plan"', 'name="plan" value="pro"'));
     expect(screen.getByRole("radio", { name: "Pro" })).toBeChecked();
@@ -120,5 +131,40 @@ describe("items assigned before connection", () => {
 
     expect(host.items).toEqual([]);
     expect(screen.queryAllByRole("radio")).toHaveLength(0);
+  });
+});
+
+describe("<ds-radio-group> without a name", () => {
+  it("still groups its radios, so only one can be checked", () => {
+    document.body.innerHTML = `
+      <ds-radio-group label="Plan">
+        <option value="free">Free</option>
+        <option value="pro">Pro</option>
+      </ds-radio-group>`;
+    const [free, pro] = Array.from(
+      document.querySelectorAll<HTMLInputElement>("input[type=radio]"),
+    );
+    expect(free!.name).not.toBe("");
+    expect(free!.name).toBe(pro!.name);
+    free!.click();
+    pro!.click();
+    expect(free!.checked).toBe(false);
+    expect(pro!.checked).toBe(true);
+  });
+
+  it("describes the radio group by its description and error, and cleans up", () => {
+    const host = mount(group);
+    host.setAttribute("error", "Fix this");
+    host.setAttribute("description", "A hint");
+    const control = screen.getByRole("radiogroup", { name: "Plan" });
+    expect(control).toHaveAttribute("aria-invalid", "true");
+    expect(control).toHaveAccessibleDescription("A hint Fix this");
+    expect(screen.getByRole("alert")).toHaveTextContent("Fix this");
+    host.removeAttribute("error");
+    expect(control).not.toHaveAttribute("aria-invalid");
+    expect(control).toHaveAccessibleDescription("A hint");
+    expect(screen.queryByRole("alert")).toBeNull();
+    host.removeAttribute("description");
+    expect(control).not.toHaveAttribute("aria-describedby");
   });
 });

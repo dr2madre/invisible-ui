@@ -52,11 +52,13 @@ to `idle`.
 ```svelte
 <script>
   import { asyncContent } from "@design-system/core";
-  let status = "idle";
-  let content = null;
-  let lastResultEmpty = false;
-  $: hasContent = content !== null && content.length > 0;
-  $: view = asyncContent.deriveAsyncView({ status, hasContent, isEmpty: lastResultEmpty });
+  let status = $state("idle");
+  let content = $state(null);
+  let lastResultEmpty = $state(false);
+  const hasContent = $derived(content !== null && content.length > 0);
+  const view = $derived(
+    asyncContent.deriveAsyncView({ status, hasContent, isEmpty: lastResultEmpty }),
+  );
 </script>
 
 {#if view === "initial-loading"}

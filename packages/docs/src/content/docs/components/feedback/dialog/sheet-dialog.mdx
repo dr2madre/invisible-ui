@@ -47,7 +47,7 @@ the application's choice.
 
 <PropsTable component="sheet-dialog" />
 
-Slots: `trigger` (the trigger button's content), the default slot (the body)
+Snippets: `trigger` (the trigger button's content), `children` (the body)
 and an optional `footer` pinned to the panel's end.
 
 ### Accessibility
@@ -66,7 +66,7 @@ and an optional `footer` pinned to the panel's end.
 
 ```svelte
 <SheetDialog side="bottom" draggable title="Account" description="Manage your account.">
-  <span slot="trigger">Account</span>
+  {#snippet trigger()}<span>Account</span>{/snippet}
   <button type="button">Sign out</button>
 </SheetDialog>
 ```

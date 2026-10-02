@@ -12,7 +12,10 @@ import {
   syncDialogHeader,
   type DialogHeaderParts,
 } from "../internal/dialog-header";
+import { DialogStatus, type DialogNoticeOptions } from "../internal/dialog-status";
+import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type SheetDialogSide = "top" | "right" | "bottom" | "left";
 
@@ -28,7 +31,16 @@ export type SheetDialogSide = "top" | "right" | "bottom" | "left";
  * `close-button` (`"false"` drops the close button),
  * `initial-focus`, `render-trigger`, `return-focus-to`, `no-outside-close`.
  * Property: `open` (boolean).
+ * Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status
+ * area, ADR 0016).
  * Emits: `open-change` with `detail.open`.
+ *
+ * A status area between the body and the footer holds messages about the
+ * sheet's own task (ADR 0016), with the same contract as `<ds-dialog>`:
+ * notices announced once through a polite live region, never taking focus,
+ * cleared when the sheet closes. Closing returns focus to `return-focus-to`
+ * when the trigger is not rendered, else to the element that had focus when
+ * the sheet opened, else to the trigger.
  */
 export class DsSheetDialog extends HTMLElementBase {
   static observedAttributes = [
@@ -49,6 +61,16 @@ export class DsSheetDialog extends HTMLElementBase {
   #cleanup: (() => void) | null = null;
   #dragCleanup: (() => void) | null = null;
   #instanceId = nextId("ds-sheet-dialog");
+  #status = new DialogStatus(this, () => this.#panel);
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (!this.#panel) return;
+      this.#sync();
+      this.#status.relabel();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
@@ -73,6 +95,21 @@ export class DsSheetDialog extends HTMLElementBase {
 
   set open(value: boolean) {
     this.toggleAttribute("open", value);
+  }
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  notify(options: DialogNoticeOptions): string {
+    return this.#status.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  dismissNotice(id: string): void {
+    this.#status.dismiss(id);
+  }
+
+  /** Remove every notice from the status area. */
+  clearNotices(): void {
+    this.#status.clear();
   }
 
   #setOpen = (next: boolean) => {
@@ -123,7 +160,7 @@ export class DsSheetDialog extends HTMLElementBase {
       actions: headerActionsContent,
     });
 
-    panel.append(handle, header.header, body);
+    panel.append(handle, header.header, body, ...this.#status.parts);
     const footer = this.#region("sheet-dialog__footer", footerContent);
     if (footer) panel.appendChild(footer);
     this.append(trigger, panel);
@@ -150,14 +187,14 @@ export class DsSheetDialog extends HTMLElementBase {
       heading: this.getAttribute("heading") ?? "",
       subtitle: this.getAttribute("description"),
       closeButton: boolAttr(this, "close-button", true),
-      closeLabel: this.getAttribute("close-label") ?? "Close",
+      closeLabel: localized(this, "close-label", "sheetDialog.close"),
     });
     panel.dataset.side = this.#side();
     this.handle.hidden = !boolAttr(this, "draggable") || this.#side() === "top";
 
     const renderTrigger = boolAttr(this, "render-trigger", true);
     this.#trigger!.hidden = !renderTrigger;
-    this.#trigger!.textContent = this.getAttribute("trigger") ?? "Open";
+    this.#trigger!.textContent = localized(this, "trigger", "dialog.trigger");
     this.#trigger!.dataset.variant = this.getAttribute("trigger-variant") ?? "default";
 
     applyProps(this.#trigger!, api.triggerProps);
@@ -166,7 +203,8 @@ export class DsSheetDialog extends HTMLElementBase {
     if (describedBy) applyProps(this.header.subtitle, api.descriptionProps);
     applyProps(this.header.close, api.closeProps);
 
-    if (this.open && !this.#cleanup) this.#show();
+    // A disconnected <dialog> cannot be shown; connecting syncs again.
+    if (this.open && !this.#cleanup && this.isConnected) this.#show();
     if (!this.open && this.#cleanup) {
       this.#cleanup();
       this.#cleanup = null;
@@ -177,13 +215,18 @@ export class DsSheetDialog extends HTMLElementBase {
     const panel = this.#panel!;
     const previouslyFocused = document.activeElement as HTMLElement | null;
     panel.showModal();
+    const releaseModal = trackModal(panel);
     const releaseScroll = lockScroll();
 
     const onCancel = (event: Event) => {
       event.preventDefault();
       this.#setOpen(false);
     };
-    const onClose = () => this.#setOpen(false);
+    // Only the panel's own close: an element inside it, such as a closable
+    // inline notification, emits a bubbling `close` too.
+    const onClose = (event: Event) => {
+      if (event.target === panel) this.#setOpen(false);
+    };
     const onPointerDown = (event: PointerEvent) => {
       if (boolAttr(this, "no-outside-close") || event.target !== panel) return;
       const rect = panel.getBoundingClientRect();
@@ -212,14 +255,15 @@ export class DsSheetDialog extends HTMLElementBase {
       panel.removeEventListener("close", onClose);
       panel.removeEventListener("pointerdown", onPointerDown);
       if (panel.open) panel.close();
+      releaseModal();
       releaseScroll();
-      const restore = this.#restoreTarget(previouslyFocused);
-      if (restore?.isConnected) restore.focus();
+      this.#status.clear();
+      const trigger = this.#trigger!.hidden ? null : this.#trigger;
+      returnFocus(trigger ? previouslyFocused : this.#returnFocusTo(previouslyFocused), trigger);
     };
   }
 
-  #restoreTarget(previouslyFocused: HTMLElement | null) {
-    if (!this.#trigger!.hidden) return this.#trigger;
+  #returnFocusTo(previouslyFocused: HTMLElement | null) {
     const selector = this.getAttribute("return-focus-to");
     if (selector) {
       try {
@@ -269,8 +313,8 @@ export class DsSheetDialog extends HTMLElementBase {
       if (move.pointerId !== event.pointerId) return;
       this.#dragCleanup?.();
       this.#dragCleanup = null;
-      panel.classList.remove("sheet-dialog__panel--dragging");
-      panel.style.removeProperty("transform");
+      // A cancelled pointer carries no real position: the sheet snaps back.
+      if (move.type === "pointercancel") return;
       const offset = Math.max(0, outward(move));
       if ((extent > 0 && offset > extent * 0.25) || velocity > 0.5) this.#setOpen(false);
     };
@@ -278,6 +322,8 @@ export class DsSheetDialog extends HTMLElementBase {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
+      panel.classList.remove("sheet-dialog__panel--dragging");
+      panel.style.removeProperty("transform");
     };
     panel.classList.add("sheet-dialog__panel--dragging");
     this.handle.setPointerCapture?.(event.pointerId);

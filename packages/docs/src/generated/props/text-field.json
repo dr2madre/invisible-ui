@@ -139,7 +139,7 @@
         },
         {
           "name": "autocomplete",
-          "type": "HTMLInputAttributes[\"autocomplete\"]",
+          "type": "HTMLInputAttributes[\"autocomplete\"] | undefined",
           "default": "undefined",
           "required": false,
           "description": "Autofill hint, e.g. `\"email\"` or `\"one-time-code\"`.",
@@ -159,6 +159,22 @@
           "default": "undefined",
           "required": false,
           "description": "Called whenever the value changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "left",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A decorative icon before the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "right",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "A decorative icon after the control; replaces the built-in success check.",
           "descriptionFrom": "source"
         }
       ]

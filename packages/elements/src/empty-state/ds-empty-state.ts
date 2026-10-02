@@ -1,4 +1,4 @@
-import { emit, HTMLElementBase } from "../internal/base";
+import { boolAttr, emit, HTMLElementBase } from "../internal/base";
 import { feedbackIcon, type FeedbackStatus } from "../internal/icons";
 
 type EmptyStateRegion = "illustration" | "actions";
@@ -9,7 +9,11 @@ type EmptyStateRegion = "illustration" | "actions";
  * `slot="illustration"` or `slot="actions"` replace those regions.
  *
  * Attributes: `title` (required), `description`, `status`, `heading-level`,
- * `size`, `action-label`.
+ * `size`, `action-label`, `live`.
+ * `live` makes the state a polite `role="status"`, for an empty result
+ * that appears after the page loaded; without it the state has no live role.
+ * The content is built once and updated in place, so an attribute change
+ * never rebuilds, and never announces again, what did not change.
  * Events: `action` when the generated action button is pressed.
  */
 export class DsEmptyState extends HTMLElementBase {
@@ -20,10 +24,17 @@ export class DsEmptyState extends HTMLElementBase {
     "heading-level",
     "size",
     "action-label",
+    "live",
   ];
 
   #regions = new Map<EmptyStateRegion | "default", Node[]>();
   #captured = false;
+  #root: HTMLDivElement | null = null;
+  #icon: HTMLSpanElement | null = null;
+  #heading: HTMLHeadingElement | null = null;
+  #description: HTMLParagraphElement | null = null;
+  #actions: HTMLDivElement | null = null;
+  #button: HTMLButtonElement | null = null;
 
   connectedCallback() {
     if (!this.#captured) this.#capture();
@@ -51,11 +62,52 @@ export class DsEmptyState extends HTMLElementBase {
   }
 
   #render() {
-    this.textContent = "";
+    const root = this.#root ?? this.#build();
+    if (root.parentNode !== this) this.appendChild(root);
+
+    if (boolAttr(this, "live")) root.setAttribute("role", "status");
+    else root.removeAttribute("role");
+    setData(root, "size", this.getAttribute("size") === "sm" ? "sm" : "md");
+
+    if (this.#icon) {
+      const status = this.#status();
+      if (this.#icon.dataset.status !== status) {
+        this.#icon.dataset.status = status;
+        this.#icon.innerHTML = feedbackIcon(status);
+      }
+    }
+
+    const tag = `H${this.#headingLevel()}`;
+    let heading = this.#heading!;
+    if (heading.tagName !== tag) {
+      const next = document.createElement(tag.toLowerCase()) as HTMLHeadingElement;
+      next.className = heading.className;
+      next.textContent = heading.textContent;
+      heading.replaceWith(next);
+      heading = this.#heading = next;
+    }
+    setText(heading, this.getAttribute("title") ?? "");
+
+    const description = this.getAttribute("description");
+    const text = this.#description!;
+    if (description) {
+      setText(text, description);
+      if (text.parentNode !== root) heading.after(text);
+    } else text.remove();
+
+    const actionLabel = this.getAttribute("action-label");
+    if (this.#actions) {
+      if (actionLabel) {
+        setText(this.#button!, actionLabel);
+        if (this.#actions.parentNode !== root) root.appendChild(this.#actions);
+      } else this.#actions.remove();
+    }
+  }
+
+  /** Build the parts once; later renders update them in place. */
+  #build() {
     const root = document.createElement("div");
     root.className = "empty-state";
-    root.setAttribute("role", "status");
-    root.dataset.size = this.getAttribute("size") === "sm" ? "sm" : "md";
 
     const illustration = document.createElement("span");
     illustration.className = "empty-state__illustration";
@@ -64,51 +116,46 @@ export class DsEmptyState extends HTMLElementBase {
     else {
       const icon = document.createElement("span");
       icon.className = "feedback-icon";
-      icon.dataset.status = this.#status();
       icon.dataset.box = "tint";
       icon.dataset.shape = "round";
       icon.setAttribute("aria-hidden", "true");
-      icon.innerHTML = feedbackIcon(this.#status());
       illustration.appendChild(icon);
+      this.#icon = icon;
     }
     root.appendChild(illustration);
 
-    const heading = document.createElement(`h${this.#headingLevel()}`);
+    const heading = document.createElement(`h${this.#headingLevel()}`) as HTMLHeadingElement;
     heading.className = "empty-state__title";
-    heading.textContent = this.getAttribute("title") ?? "";
     root.appendChild(heading);
+    this.#heading = heading;
 
-    const description = this.getAttribute("description");
-    if (description) {
-      const text = document.createElement("p");
-      text.className = "empty-state__description";
-      text.textContent = description;
-      root.appendChild(text);
-    }
+    const text = document.createElement("p");
+    text.className = "empty-state__description";
+    this.#description = text;
 
     const content = this.#regions.get("default");
     if (content?.length) root.append(...content);
 
     const customActions = this.#region("actions", "empty-state__actions");
-    const actionLabel = this.getAttribute("action-label");
     if (customActions) root.appendChild(customActions);
-    else if (actionLabel) {
+    else {
       const actions = document.createElement("div");
       actions.className = "empty-state__actions";
       const button = document.createElement("button");
       button.type = "button";
       button.className = "button";
       button.dataset.variant = "default";
-      button.textContent = actionLabel;
       button.addEventListener("click", () => emit(this, "action"));
       actions.appendChild(button);
-      root.appendChild(actions);
+      this.#actions = actions;
+      this.#button = button;
     }
 
-    this.appendChild(root);
+    this.#root = root;
+    return root;
   }
 
-  #region(region: EmptyStateRegion | "default", className: string) {
+  #region(region: EmptyStateRegion, className: string) {
     const nodes = this.#regions.get(region);
     if (!nodes?.length) return null;
     const element = document.createElement("div");
@@ -129,3 +176,11 @@ export class DsEmptyState extends HTMLElementBase {
     return Number.isInteger(value) && value >= 1 && value <= 6 ? value : 2;
   }
 }
+
+const setText = (element: HTMLElement, text: string) => {
+  if (element.textContent !== text) element.textContent = text;
+};
+
+const setData = (element: HTMLElement, key: string, value: string) => {
+  if (element.dataset[key] !== value) element.dataset[key] = value;
+};

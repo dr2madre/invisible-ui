@@ -16,6 +16,8 @@ import {
   setChildren,
   upgradeProperty,
 } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
+import { overlayRoot } from "../internal/overlay-root";
 import { settingsIcon } from "../internal/icons";
 import { DsCard } from "../card/ds-card";
 import { DsCheckbox } from "../checkbox/ds-checkbox";
@@ -33,9 +35,6 @@ import {
 export type TableRowId = core.RowId;
 export type TableSelectionMode = core.SelectionMode;
 export type TableBodyView = "table" | "card";
-
-const t = (key: i18n.MessageKey, vars?: i18n.TranslateVars) =>
-  i18n.translate(i18n.en, {}, i18n.DEFAULT_LOCALE, key, vars);
 
 const defaultGetValue = (row: TableRow, key: string) => row[key];
 
@@ -65,16 +64,16 @@ const appendContent = (parent: HTMLElement, content: TableCellContent) => {
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const VIEW_ITEMS: { value: TableBodyView; label: string }[] = [
-  { value: "table", label: "Table" },
-  { value: "card", label: "Cards" },
+const VIEW_ITEMS: { value: TableBodyView; key: i18n.MessageKey }[] = [
+  { value: "table", key: "table.viewTable" },
+  { value: "card", key: "table.viewCards" },
 ];
 
 /**
  * `<ds-table-view>` is one view of a data table: the body `<ds-table-set>`
  * renders for each of its views, usable on its own for a single view. It owns
  * sorting, column visibility, the table or cards layout and the current page,
- * and renders a header (optional title, a table/cards switcher, a column
+ * and renders a header (optional heading, a table/cards switcher, a column
  * settings popover), the body (a `<ds-table>` in a bordered card, or a
  * labelled list of `<ds-card>`s) and a footer (pagination or infinite scroll).
  *
@@ -94,7 +93,7 @@ const VIEW_ITEMS: { value: TableBodyView; label: string }[] = [
  * a no-results Empty State; `filters-clearable` adds its Clear filters action.
  * Changing `filters-active` or `filter-revision` resets the page to one.
  *
- * Attributes: `caption`, `hide-caption`, `title`, `title-level`, `page-size`,
+ * Attributes: `caption`, `hide-caption`, `heading`, `heading-level`, `page-size`,
  * `page`, `pagination-label`, `infinite`, `has-more`, `loading`,
  * `load-more-label`, `loading-label`, `view` (table|card), `allow-view-toggle`,
  * `configurable`, `config-label`, `card-title-key`, `card-description-key`,
@@ -114,8 +113,8 @@ export class DsTableView extends HTMLElementBase {
   static observedAttributes = [
     "caption",
     "hide-caption",
-    "title",
-    "title-level",
+    "heading",
+    "heading-level",
     "page-size",
     "page",
     "pagination-label",
@@ -161,6 +160,12 @@ export class DsTableView extends HTMLElementBase {
   #connected = false;
   #initialized = false;
   #focusAfterClear = false;
+  #rowsAssigned = false;
+  /** The row count and filters last announced; `null` before the first render. */
+  #announced: { count: number; filters: string } | null = null;
+  #announcePending = false;
+  /** How many rows were rendered when the latest load-more was requested. */
+  #loadStart = 0;
 
   /** What the parts' callbacks read: the state of the latest render. */
   #frame: {
@@ -193,6 +198,7 @@ export class DsTableView extends HTMLElementBase {
   #cardList: HTMLDivElement | null = null;
   #selectAllBox: DsCheckbox | null = null;
   #rowBoxes = new Map<TableRowId, DsCheckbox>();
+  #announcer: HTMLDivElement | null = null;
   #infinite: HTMLDivElement | null = null;
   #status: HTMLParagraphElement | null = null;
   #loadMore: HTMLButtonElement | null = null;
@@ -200,6 +206,11 @@ export class DsTableView extends HTMLElementBase {
   #observer: IntersectionObserver | null = null;
   #pager: HTMLDivElement | null = null;
   #pagination: DsPagination | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => this.#update());
+  }
 
   connectedCallback() {
     for (const [tag, ctor] of [
@@ -282,6 +293,7 @@ export class DsTableView extends HTMLElementBase {
   }
   set rows(value: TableRow[]) {
     this.#rows = Array.isArray(value) ? value : [];
+    this.#rowsAssigned = true;
     this.#update();
     // The clear action left with the no-results panel; when content returns,
     // the view root takes focus so it does not fall to the page.
@@ -463,6 +475,13 @@ export class DsTableView extends HTMLElementBase {
     this.appendChild(root);
     this.#root = root;
 
+    // One persistent live region: created once so every change is announced.
+    const announcer = document.createElement("div");
+    announcer.className = "table-view__sr";
+    announcer.setAttribute("role", "status");
+    announcer.setAttribute("aria-live", "polite");
+    this.#announcer = announcer;
+
     const header = document.createElement("header");
     header.className = "table-view__header";
     const controls = document.createElement("div");
@@ -541,7 +560,8 @@ export class DsTableView extends HTMLElementBase {
       if (!rendered.has(id)) this.#rowBoxes.delete(id);
     }
 
-    const nodes: Node[] = [];
+    // The region stays first so reordering the rest never moves it.
+    const nodes: Node[] = [this.#announcer!];
     const header = this.#syncHeader(api);
     if (header) nodes.push(header);
     nodes.push(...body);
@@ -551,11 +571,16 @@ export class DsTableView extends HTMLElementBase {
 
     // A part may have moved the focused control while rebuilding around it.
     if (restore && restore.isConnected && document.activeElement !== restore) restore.focus();
+    // The last page loaded took the Load more button away: focus moves to the
+    // first row it added, or to the view root.
+    else if (restore && restore === this.#loadMore && !restore.isConnected)
+      this.#focusRow(this.#loadStart);
+    this.#scheduleAnnounce();
     if (clamped != null) emit(this, "page-change", { page: clamped });
   }
 
   #syncHeader(api: core.TableApi): HTMLElement | null {
-    const title = this.getAttribute("title");
+    const title = this.getAttribute("heading");
     const toggle = boolAttr(this, "allow-view-toggle");
     const configurable = boolAttr(this, "configurable");
     if (!configurable) this.#closePopover(false);
@@ -564,7 +589,7 @@ export class DsTableView extends HTMLElementBase {
     const header = this.#header!;
     const nodes: Node[] = [];
     if (title) {
-      const heading = document.createElement(`h${this.#titleLevel()}`);
+      const heading = document.createElement(`h${this.#headingLevel()}`);
       heading.className = "table-view__title";
       heading.textContent = title;
       nodes.push(heading);
@@ -578,8 +603,8 @@ export class DsTableView extends HTMLElementBase {
     return header;
   }
 
-  #titleLevel() {
-    const value = Number(this.getAttribute("title-level") ?? 2);
+  #headingLevel() {
+    const value = Number(this.getAttribute("heading-level") ?? 2);
     return Number.isInteger(value) && value >= 2 && value <= 6 ? value : 2;
   }
 
@@ -590,7 +615,6 @@ export class DsTableView extends HTMLElementBase {
       const label = document.createElement("span");
       label.className = "segmented-field__label segmented-field__label--hidden";
       label.id = nextId("ds-segmented-label");
-      label.textContent = "View";
       const group = document.createElement("div");
       group.className = "segmented";
       group.setAttribute("aria-labelledby", label.id);
@@ -601,7 +625,6 @@ export class DsTableView extends HTMLElementBase {
         input.className = "segment__input";
         const text = document.createElement("span");
         text.className = "segment__label";
-        text.textContent = item.label;
         segment.append(input, text);
         group.appendChild(segment);
         this.#segmentInputs.set(item.value, input);
@@ -620,7 +643,11 @@ export class DsTableView extends HTMLElementBase {
         this.#update();
       },
     });
-    applyProps(this.#segmented.querySelector(".segmented")!, api.rootProps);
+    const field = this.#segmented;
+    field.querySelector(".segmented-field__label")!.textContent = t(this, "table.view");
+    const texts = field.querySelectorAll(".segment__label");
+    VIEW_ITEMS.forEach((item, index) => (texts[index]!.textContent = t(this, item.key)));
+    applyProps(field.querySelector(".segmented")!, api.rootProps);
     for (const [value, input] of this.#segmentInputs) {
       applyProps(input, api.getItemProps(value));
       input.checked = value === this.#view;
@@ -629,7 +656,7 @@ export class DsTableView extends HTMLElementBase {
   }
 
   #syncSettings(api: core.TableApi): HTMLButtonElement {
-    const label = this.getAttribute("config-label") ?? t("table.columns");
+    const label = this.getAttribute("config-label") ?? t(this, "table.columns");
     if (!this.#trigger) {
       const trigger = document.createElement("button");
       trigger.className = "button";
@@ -714,7 +741,7 @@ export class DsTableView extends HTMLElementBase {
     this.#syncPopover();
     const trigger = this.#trigger;
     const panel = this.#panel;
-    document.body.appendChild(panel);
+    overlayRoot(this).appendChild(panel);
 
     const reposition = () =>
       computePosition(trigger, panel, {
@@ -767,7 +794,7 @@ export class DsTableView extends HTMLElementBase {
     }
     const label = document.createElement("span");
     label.className = "table-view__sr";
-    label.textContent = t("table.selection");
+    label.textContent = t(this, "table.selection");
     return label;
   }
 
@@ -785,7 +812,7 @@ export class DsTableView extends HTMLElementBase {
     const frame = this.#frame;
     const state =
       frame && frame.mode === "multiple" ? frame.api.getScopeSelectionState(frame.scope) : "none";
-    box.setAttribute("label", t("table.selectPage"));
+    box.setAttribute("label", t(this, "table.selectPage"));
     box.toggleAttribute("disabled", !frame || frame.scope.length === 0);
     box.checked = state === "all" ? true : state === "some" ? "indeterminate" : false;
     return box;
@@ -802,7 +829,7 @@ export class DsTableView extends HTMLElementBase {
       });
       this.#rowBoxes.set(id, box);
     }
-    box.setAttribute("label", t("table.selectRow", { name: this.#selectionLabel(row, id) }));
+    box.setAttribute("label", t(this, "table.selectRow", { name: this.#selectionLabel(row, id) }));
     box.checked = this.#frame?.api.isRowSelected(id) ?? false;
     return box;
   }
@@ -816,7 +843,7 @@ export class DsTableView extends HTMLElementBase {
     const frame = this.#frame!;
     const selection = frame.mode !== "none";
     const caption = this.getAttribute("caption");
-    const hideCaption = boolAttr(this, "hide-caption") || !!this.getAttribute("title");
+    const hideCaption = boolAttr(this, "hide-caption") || !!this.getAttribute("heading");
 
     const setAttr = (name: string, value: string | null) => {
       if (table.getAttribute(name) !== value) {
@@ -950,9 +977,9 @@ export class DsTableView extends HTMLElementBase {
       this.#emptyState = empty;
     }
     const empty = this.#emptyState!;
-    const title = this.getAttribute("no-results-label") ?? t("table.noResults");
+    const title = this.getAttribute("no-results-label") ?? t(this, "table.noResults");
     if (empty.getAttribute("title") !== title) empty.setAttribute("title", title);
-    const action = boolAttr(this, "filters-clearable") ? t("table.clearFilters") : null;
+    const action = boolAttr(this, "filters-clearable") ? t(this, "table.clearFilters") : null;
     if (empty.getAttribute("action-label") !== action) {
       if (action == null) empty.removeAttribute("action-label");
       else empty.setAttribute("action-label", action);
@@ -971,7 +998,10 @@ export class DsTableView extends HTMLElementBase {
       const loadMore = document.createElement("button");
       loadMore.type = "button";
       loadMore.className = "table-view__load-more";
-      loadMore.addEventListener("click", () => emit(this, "load-more"));
+      // Kept focusable while loading (aria-disabled), so a click then is ignored.
+      loadMore.addEventListener("click", () => {
+        if (!boolAttr(this, "loading")) this.#requestMore();
+      });
       const sentinel = document.createElement("div");
       sentinel.className = "table-view__sentinel";
       sentinel.setAttribute("aria-hidden", "true");
@@ -982,12 +1012,13 @@ export class DsTableView extends HTMLElementBase {
       this.#observe();
     }
     const loading = boolAttr(this, "loading");
-    const loadingLabel = this.getAttribute("loading-label") ?? t("table.loading");
+    const loadingLabel = this.getAttribute("loading-label") ?? t(this, "table.loading");
     this.#status!.textContent = loading ? loadingLabel : "";
-    this.#loadMore!.disabled = loading;
+    if (loading) this.#loadMore!.setAttribute("aria-disabled", "true");
+    else this.#loadMore!.removeAttribute("aria-disabled");
     this.#loadMore!.textContent = loading
       ? loadingLabel
-      : (this.getAttribute("load-more-label") ?? t("table.loadMore"));
+      : (this.getAttribute("load-more-label") ?? t(this, "table.loadMore"));
     const nodes: Node[] = [this.#status!];
     if (boolAttr(this, "has-more")) nodes.push(this.#loadMore!);
     nodes.push(this.#sentinel!);
@@ -1004,9 +1035,54 @@ export class DsTableView extends HTMLElementBase {
         boolAttr(this, "has-more") &&
         !boolAttr(this, "loading")
       )
-        emit(this, "load-more");
+        this.#requestMore();
     });
     this.#observer.observe(this.#sentinel);
+  }
+
+  #requestMore() {
+    this.#loadStart = this.#renderedRows().length;
+    emit(this, "load-more");
+  }
+
+  #renderedRows(): HTMLElement[] {
+    const rows =
+      this.#view === "card"
+        ? this.#cardList?.querySelectorAll<HTMLElement>('[role="listitem"]')
+        : this.#table?.querySelectorAll<HTMLElement>("tbody tr[data-row-id]");
+    return rows ? Array.from(rows).filter((row) => row.isConnected) : [];
+  }
+
+  #focusRow(index: number) {
+    const row = this.#renderedRows()[index];
+    if (!row) {
+      this.#root?.focus();
+      return;
+    }
+    if (!row.hasAttribute("tabindex")) row.tabIndex = -1;
+    row.focus();
+  }
+
+  // Filtering that changes the row count is announced, once the page has
+  // handed in both rows and filter attributes, in either order. The first
+  // render and other re-renders are not announced.
+  #scheduleAnnounce() {
+    if (this.#announcePending || !this.#rowsAssigned) return;
+    this.#announcePending = true;
+    void Promise.resolve().then(() => {
+      this.#announcePending = false;
+      const active = isOn(this.getAttribute("filters-active"));
+      const filters = `${active}|${this.getAttribute("filter-revision") ?? ""}`;
+      const count = this.#rows.length;
+      const previous = this.#announced;
+      this.#announced = { count, filters };
+      if (!previous || previous.count === count) return;
+      if (!active && previous.filters === filters) return;
+      const noResults = count === 0 && active && numberAttr(this, "total-row-count") !== 0;
+      this.#announcer!.textContent = noResults
+        ? (this.getAttribute("no-results-label") ?? t(this, "table.noResults"))
+        : t(this, "table.results", { count });
+    });
   }
 
   #pagerFooter(pageCount: number): HTMLDivElement {
@@ -1027,7 +1103,7 @@ export class DsTableView extends HTMLElementBase {
     pagination.setAttribute("page", String(this.#page));
     pagination.setAttribute(
       "label",
-      this.getAttribute("pagination-label") ?? t("table.pagination"),
+      this.getAttribute("pagination-label") ?? t(this, "table.pagination"),
     );
     return this.#pager;
   }

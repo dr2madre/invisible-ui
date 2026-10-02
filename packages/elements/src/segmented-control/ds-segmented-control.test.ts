@@ -64,6 +64,32 @@ describe("<ds-segmented-control>", () => {
     expect(new Set(names).size).toBe(1);
   });
 
+  it("submits nothing and still resets when no name is given", async () => {
+    const user = userEvent.setup();
+    document.body.innerHTML = `<form>${markup('value="list"').replace('name="view" ', "")}</form>`;
+    const form = document.querySelector("form")!;
+    await user.click(screen.getByRole("radio", { name: "Board" }));
+    expect([...new FormData(form).keys()]).toEqual([]);
+    expect(screen.getByRole("radio", { name: "List" })).not.toBeChecked();
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(screen.getByRole("radio", { name: "List" })).toBeChecked();
+  });
+
+  it("keeps a focused segment focused when the same items are assigned again", async () => {
+    const user = userEvent.setup();
+    const host = mount(markup('value="list"'));
+    await user.click(screen.getByRole("radio", { name: "Board" }));
+    const board = screen.getByRole("radio", { name: "Board" });
+    host.items = [
+      { value: "list", label: "List" },
+      { value: "board", label: "Board" },
+    ];
+    expect(screen.getByRole("radio", { name: "Board" })).toBe(board);
+    expect(board).toHaveFocus();
+    expect(board).toBeChecked();
+  });
+
   it("falls back to the value when an item has no label", () => {
     const host = mount(markup());
     host.items = [{ value: "list" }];

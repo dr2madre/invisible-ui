@@ -1,7 +1,7 @@
 import { pagination as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction, createRootAction } from "../internal/connect";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
 
@@ -100,7 +100,7 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
     core.connect({ state: $state, setPage, focus, normalize: normalizeProps }),
   );
 
-  const baseRootAction = createPropsAction(api, (a) => a.rootProps);
+  const baseRootAction = createRootAction(api);
   const rootAction: Action<HTMLElement> = (node) => {
     rootEl = node;
     const handle = baseRootAction(node);
@@ -115,11 +115,9 @@ export function createPagination(context: core.PaginationContext): CreatePaginat
   const prevAction = createPropsAction(api, (a) => a.getPrevProps());
   const nextAction = createPropsAction(api, (a) => a.getNextProps());
 
-  const pageAction: Action<HTMLElement, number> = (node, page) => {
-    const pageApi = derived(api, (a) => a.getPageProps(page as number));
-    const handle = createPropsAction(pageApi, (p) => p)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const pageAction: Action<HTMLElement, number> = createItemAction(api, (a, page: number) =>
+    a.getPageProps(page),
+  );
 
   return {
     state,

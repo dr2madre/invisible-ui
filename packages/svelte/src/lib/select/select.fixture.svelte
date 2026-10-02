@@ -1,22 +1,29 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createSelect, type SelectItem } from "./create-select";
 
-  export let value: string | null = null;
-  export let disabled = false;
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
-  export let items: SelectItem[] = [
-    { value: "apple", label: "Apple" },
-    { value: "banana", label: "Banana" },
-    { value: "cherry", label: "Cherry", disabled: true },
-    { value: "date", label: "Date" },
-  ];
+  interface Props {
+    value?: string | null;
+    disabled?: boolean;
+    onValueChange?: (value: string) => void;
+    items?: SelectItem[];
+  }
 
-  const { labelAction, triggerAction, listboxAction, optionAction } = createSelect({
-    items,
-    value,
-    disabled,
+  let {
+    value = null,
+    disabled = false,
     onValueChange,
-  });
+    items = [
+      { value: "apple", label: "Apple" },
+      { value: "banana", label: "Banana" },
+      { value: "cherry", label: "Cherry", disabled: true },
+      { value: "date", label: "Date" },
+    ],
+  }: Props = $props();
+
+  const { labelAction, triggerAction, listboxAction, optionAction } = untrack(() =>
+    createSelect({ items, value, disabled, onValueChange }),
+  );
 </script>
 
 <span use:labelAction>Fruit</span>

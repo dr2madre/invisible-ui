@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { h } from "vue";
+import { h, nextTick } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { DatePicker } from "./DatePicker";
@@ -89,6 +89,27 @@ describe("Vue DatePicker (styled)", () => {
     });
     const form = screen.getByTestId("form") as HTMLFormElement;
     expect(new FormData(form).get("due")).toBe("2026-06-15");
+  });
+
+  it("ignores an iOS ghost click arriving right after a tap", async () => {
+    renderPicker();
+    const input = field();
+
+    // A tap: touch pointerdown, then the click the browser derives from it.
+    // (jsdom has no PointerEvent constructor; a MouseEvent with the field
+    // defined carries the same information to the handler.)
+    const tap = new MouseEvent("pointerdown", { bubbles: true });
+    Object.defineProperty(tap, "pointerType", { value: "touch" });
+    input.dispatchEvent(tap);
+    input.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await nextTick();
+    expect(input).toHaveAttribute("aria-expanded", "true");
+
+    // The synthesized duplicate arrives inside the window with no fresh
+    // press: it must not close what the tap opened.
+    input.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await nextTick();
+    expect(input).toHaveAttribute("aria-expanded", "true");
   });
 
   it("has no accessibility violations when open", async () => {

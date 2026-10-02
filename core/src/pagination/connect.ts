@@ -35,6 +35,11 @@ export interface ConnectOptions {
   setPage: (page: number) => void;
   /** Move DOM focus to the control with the given value (adapter-provided). */
   focus?: (value: string) => void;
+  /**
+   * Reading direction. Defaults to `"ltr"`. In right-to-left text the left and
+   * right arrows swap meaning, so they keep following the visual order.
+   */
+  direction?: "ltr" | "rtl";
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -53,6 +58,7 @@ export function connect({
   state,
   setPage,
   focus,
+  direction = "ltr",
   normalize = identityNormalize,
 }: ConnectOptions): PaginationApi {
   const { page, pageCount, disabled } = state;
@@ -78,8 +84,18 @@ export function connect({
     if (target != null) focus?.(target);
   };
 
+  // In right-to-left text Left moves forward and Right moves back.
+  const mirror = (key: string) =>
+    direction !== "rtl"
+      ? key
+      : key === "ArrowLeft"
+        ? "ArrowRight"
+        : key === "ArrowRight"
+          ? "ArrowLeft"
+          : key;
+
   const navKeyDown = (value: string) => (event: Event) => {
-    const key = (event as KeyboardEvent).key;
+    const key = mirror((event as KeyboardEvent).key);
     switch (key) {
       case "ArrowRight":
       case "ArrowDown":

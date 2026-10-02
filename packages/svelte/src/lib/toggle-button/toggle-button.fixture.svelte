@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createToggleButton } from "./create-toggle-button";
 
-  export let pressed = false;
-  export let disabled = false;
-  export let onPressedChange: ((p: boolean) => void) | undefined = undefined;
+  interface Props {
+    pressed?: boolean;
+    disabled?: boolean;
+    onPressedChange?: (p: boolean) => void;
+  }
 
-  const { state: tbState, rootAction } = createToggleButton({ pressed, disabled, onPressedChange });
+  let { pressed = false, disabled = false, onPressedChange }: Props = $props();
+
+  const { state: tbState, rootAction } = untrack(() =>
+    createToggleButton({ pressed, disabled, onPressedChange }),
+  );
 </script>
 
 <label>

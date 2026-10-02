@@ -18,6 +18,14 @@ browser-provided roving tabindex, arrow keys and form participation.
 
 <ImportSnippet component="rating-group" />
 
+In Elements, the stars take their names from the locale catalog. Choosing a
+star sends a bubbling `change` event with the rating as a number in
+`detail.value`:
+
+```html
+<ds-rating-group label="Rating" name="rating" value="4"></ds-rating-group>
+```
+
 ### Props
 
 <PropsTable component="rating-group" />

@@ -6,10 +6,9 @@ contexts **without** a framework — plain HTML pages, server-driven stacks
 (HTMX, LiveView, Hotwire, Livewire) and legacy portals. Framework users should
 prefer their native adapter (`@design-system/svelte`, `@design-system/react`).
 
-**Status: proof-of-concept** (ADR 0008) — twelve components: Button, Checkbox,
-Switch, Select, Combobox, Dialog, Label, Field, TextField, Textarea,
-RadioGroup, CheckboxGroup. The first six match the React PoC; the forms core
-that follows them has no React counterpart yet.
+**Status: full catalog** (ADR 0008). The package carries all 80 components in
+the catalog, each as a `ds-*` element. `ds-locale-provider` carries locale,
+message overrides and direction for the elements inside it.
 
 Both JavaScript entrypoints are safe to import during SSR. The server emits
 declarative `<ds-*>` light-DOM markup; when `@design-system/elements/define`
@@ -63,6 +62,11 @@ customElements.define("ds-button", DsButton);
   `change` is stopped so listeners never receive doubles.
 - **`heading`, not `title`.** The global HTML `title` attribute is a browser
   tooltip, so `<ds-dialog>` names its title `heading`.
+- **Messages while a dialog is open (ADR 0016).** Every dialog element has a
+  status area for its own task (`notify()`, `dismissNotice()`,
+  `clearNotices()`), `<ds-button copy>` confirms a copy beside itself, and
+  `<ds-notification-region>` holds its notifications until the last modal
+  dialog closes. A dialog opened from inside another returns focus there.
 - **Attributes in, properties too**: attributes are the declarative API
   (`checked`, `value`, `open`, `disabled` — observed and reflected);
   `checked` / `value` / `open` / `items` also exist as JS properties.
@@ -86,7 +90,7 @@ customElements.define("ds-button", DsButton);
 
 ## Tests
 
-130 tests across 14 files: component tests (jsdom, Testing Library, axe on
+Component tests (jsdom, Testing Library, axe on
 every component), a CSS parity suite over 13 sheets, two Node import checks and
 a browser upgrade test for server-rendered light DOM. The parity suite keeps
 the stylesheets byte-identical to the React adapter's, and to the Vue

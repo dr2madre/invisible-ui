@@ -5,9 +5,11 @@ import {
   emit,
   HTMLElementBase,
   nextId,
+  setChildren,
   upgradeProperty,
 } from "../internal/base";
 import { watchFormReset } from "../internal/form-reset";
+import { radioResetAnchor, syncRadioForm } from "../internal/radio-name";
 import { pathIcon } from "../internal/icons";
 
 /**
@@ -75,7 +77,7 @@ export class DsSegmentedControl extends HTMLElementBase {
     this.#sync();
     this.#stopFormReset ??= watchFormReset(
       this,
-      () => this.#inputs.values().next().value ?? null,
+      () => radioResetAnchor(this, this.#inputs.values().next().value ?? null),
       () => this.#restore(),
     );
   }
@@ -149,44 +151,54 @@ export class DsSegmentedControl extends HTMLElementBase {
     // A rebuild must keep what the page shows, which may be a choice the
     // value attribute has not caught up with.
     const shown = this.#shown();
-    group.replaceChildren();
-    this.#inputs.clear();
+    // A segment whose value stays keeps its input, so a focused radio keeps
+    // its focus when the items are assigned again.
+    const previous = this.#inputs;
+    this.#inputs = new Map();
 
-    for (const item of this.#items) {
+    const segments = this.#items.map((item) => {
       const text = item.label ?? item.value;
       const showLabel = stacked || !iconOnly || !item.icon;
 
-      const segment = document.createElement("label");
+      let input = previous.get(item.value);
+      previous.delete(item.value);
+      if (!input) {
+        input = document.createElement("input");
+        input.className = "segment__input";
+        input.checked = shown === item.value;
+        // The host re-emits a CustomEvent with a typed detail; stop the native
+        // change here so listeners on the host don't receive the event twice.
+        input.addEventListener("change", (event) => event.stopPropagation());
+      }
+      const segment =
+        input.parentElement instanceof HTMLLabelElement
+          ? input.parentElement
+          : document.createElement("label");
       segment.className = "segment";
       segment.classList.toggle("segment--icon-only", iconOnly && !!item.icon && !stacked);
       segment.classList.toggle("segment--stacked", stacked);
+      if (showLabel) input.removeAttribute("aria-label");
+      else input.setAttribute("aria-label", text);
 
-      const input = document.createElement("input");
-      input.className = "segment__input";
-      if (!showLabel) input.setAttribute("aria-label", text);
-      input.checked = shown === item.value;
-      // The host re-emits a CustomEvent with a typed detail; stop the native
-      // change here so listeners on the host don't receive the event twice.
-      input.addEventListener("change", (event) => event.stopPropagation());
-      segment.appendChild(input);
-
+      const parts: Node[] = [input];
       if (item.icon) {
         const icon = document.createElement("span");
         icon.className = "segment__icon";
         icon.setAttribute("aria-hidden", "true");
         icon.appendChild(pathIcon(item.icon));
-        segment.appendChild(icon);
+        parts.push(icon);
       }
       if (showLabel) {
         const label = document.createElement("span");
         label.className = "segment__label";
         label.textContent = text;
-        segment.appendChild(label);
+        parts.push(label);
       }
-
-      group.appendChild(segment);
+      setChildren(segment, parts);
       this.#inputs.set(item.value, input);
-    }
+      return segment;
+    });
+    setChildren(group, segments);
   }
 
   #shown(): string | null {
@@ -233,6 +245,7 @@ export class DsSegmentedControl extends HTMLElementBase {
     for (const item of this.#items) {
       const input = this.#inputs.get(item.value)!;
       applyProps(input, api.getItemProps(item.value));
+      syncRadioForm(input, this.hasAttribute("name"));
       input.checked = api.value === item.value;
       // The real DOM default, so the browser's own reset works and so does one
       // in markup the script never reaches.

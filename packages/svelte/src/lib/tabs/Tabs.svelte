@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   import type { TabItem } from "./create-tabs";
 
   /**
@@ -24,48 +24,75 @@
    * this layer adds the underline indicator and panels.
    *
    * Each item supplies a tab `label` (falling back to `value`) and, optionally,
-   * its panel `content` as text. For rich panel markup, use the scoped `panel`
-   * slot — it renders once per tab with `let:item`, so the consumer can put any
-   * content in the (correctly wired) panel and switch on `item.value`; the text
-   * `content` is the fallback when the slot is absent. Colors are themeable CSS
-   * custom properties (`--ds-tabs-*`).
+   * its panel `content` as text. For rich panel markup, use the `panel`
+   * snippet — it renders once per tab with `{ item }`, so the consumer can put
+   * any content in the (correctly wired) panel and switch on `item.value`; the
+   * text `content` is the fallback when the snippet is absent. Colors are
+   * themeable CSS custom properties (`--ds-tabs-*`).
    */
+  import { untrack, type Snippet } from "svelte";
   import { createTabs, type ActivationMode } from "./create-tabs";
   import Icon from "../icon/Icon.svelte";
+  import { controllable } from "../internal/controllable.svelte";
 
-  export let items: TabsItem[];
-  export let value: string | null = null;
-  export let activationMode: ActivationMode = "automatic";
-  /** Accessible name for the tab list (announced by screen readers). */
-  export let label: string;
-  /** Called whenever the selected tab changes. */
-  export let onValueChange: ((value: string) => void) | undefined = undefined;
+  interface Props {
+    items: TabsItem[];
+    value?: string | null;
+    activationMode?: ActivationMode;
+    /** Accessible name for the tab list (announced by screen readers). */
+    label: string;
+    /** Called whenever the selected tab changes. */
+    onValueChange?: (value: string) => void;
+    /** Rich content of one panel, rendered once per tab with its `item`. */
+    panel?: Snippet<[{ item: TabsItem }]>;
+  }
 
+  let {
+    items,
+    value = $bindable(null),
+    activationMode = "automatic",
+    label,
+    onValueChange,
+    panel,
+  }: Props = $props();
+
+  // The prop first, then the report (ADR 0011).
   const handleValueChange = (next: string) => {
-    value = next;
+    mirror.write(next);
     onValueChange?.(next);
   };
 
-  const { rootAction, tabAction, panelAction, syncValue, setItems, setActivationMode } = createTabs(
-    {
-      items,
-      value,
-      activationMode,
-      onValueChange: handleValueChange,
-    },
+  // Seeded once from the first props; the mirror and the effects below follow
+  // later ones.
+  const { rootAction, tabAction, panelAction, syncValue, setItems, setActivationMode } = untrack(
+    () =>
+      createTabs({
+        items,
+        value,
+        activationMode,
+        onValueChange: handleValueChange,
+      }),
   );
 
-  $: syncValue(value);
-  $: setItems(items);
-  $: setActivationMode(activationMode);
+  // Controllable mirror (ADR 0011): a sync never reports a change.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+  });
+  $effect.pre(() => {
+    setItems(items);
+  });
+  $effect.pre(() => {
+    setActivationMode(activationMode);
+  });
 </script>
 
 <div class="tabs">
   <div class="tabs__list" use:rootAction aria-label={label}>
     {#each items as item (item.value)}
       <button
-        class="tabs__tab"
-        class:tabs__tab--icon-only={item.iconOnly}
+        class={["tabs__tab", item.iconOnly && "tabs__tab--icon-only"]}
         use:tabAction={item.value}
         aria-label={item.iconOnly ? (item.label ?? item.value) : undefined}
       >
@@ -85,9 +112,9 @@
   </div>
   {#each items as item (item.value)}
     <div class="tabs__panel" use:panelAction={item.value}>
-      <!-- Rich per-panel content via a scoped slot; falls back to the item's
-           text `content` when no slot is provided (backward compatible). -->
-      <slot name="panel" {item}>{item.content ?? ""}</slot>
+      <!-- Rich per-panel content via the snippet; falls back to the item's
+           text `content` when no snippet is provided (backward compatible). -->
+      {#if panel}{@render panel({ item })}{:else}{item.content ?? ""}{/if}
     </div>
   {/each}
 </div>
@@ -174,6 +201,13 @@
   @media (forced-colors: active) {
     .tabs__tab:global(:focus-visible) {
       outline-offset: -2px;
+    }
+  }
+
+  /* Reduced motion: state changes apply at once. */
+  @media (prefers-reduced-motion: reduce) {
+    .tabs__tab {
+      transition: none;
     }
   }
 </style>

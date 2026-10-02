@@ -26,7 +26,7 @@
   <Select label="Fruit" items={fruit} value="apple" />
   <Tabs label="Settings" items={tabItems} value="account" />
   <Popover>
-    <span slot="trigger">Open details</span>
+    {#snippet triggerContent()}<span>Open details</span>{/snippet}
     <p>Details panel.</p>
   </Popover>
 </main>

@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
   let inlineNotificationCount = 0;
 </script>
 
@@ -12,6 +12,8 @@
    * - The container is a live region. `role` defaults to `"status"` (polite);
    *   pass `role="alert"` for urgent, interrupting messages. The title names
    *   the container via `aria-labelledby` (required when `role="region"`).
+   *   `role="group"` makes it a named group that is not a live region, for a
+   *   container that announces it some other way.
    * - The FeedbackIcon is decorative (the message text carries the meaning); the
    *   status is also conveyed visually by color + glyph + surface tint, so it
    *   never relies on color alone.
@@ -22,6 +24,7 @@
    * adapts to light/dark. Set `inverted` for a high-contrast surface (the
    * opposite of the page) — useful for transient notices.
    */
+  import type { Snippet } from "svelte";
   import FeedbackIcon from "../feedback-icon/FeedbackIcon.svelte";
   import Button from "../button/Button.svelte";
   import Icon from "../icon/Icon.svelte";
@@ -31,7 +34,7 @@
   const { t } = getI18n();
   const titleId = `ds-alert-${++inlineNotificationCount}-title`;
 
-  /** A data-driven action button (alternative to the `actions` slot). */
+  /** A data-driven action button (alternative to an `actions` snippet). */
   interface InlineNotificationAction {
     label: string;
     variant?: ButtonVariant;
@@ -40,74 +43,128 @@
 
   type FeedbackStatus = "info" | "success" | "warning" | "danger" | "neutral";
 
-  /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
-  export let status: FeedbackStatus = "info";
-  /** Heading (required). */
-  export let title: string;
-  /** Body text (required). Override with the default slot for rich content. */
-  export let description: string;
-  /** Link href. When set (and no `link` slot is provided) a link is rendered. */
-  export let href: string | undefined = undefined;
-  /** Link text. Defaults to the i18n catalog's "Learn more". */
-  export let linkText: string | undefined = undefined;
-  /** Action buttons (alternative to the `actions` slot). */
-  export let actions: InlineNotificationAction[] | undefined = undefined;
-  /** Render the close button. Defaults to `false` (not dismissible). */
-  export let closable = false;
-  /** Close button accessible name. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /**
-   * Controls visibility (bindable). Dismissing sets it to `false`; set it back
-   * to `true` to show the notification again.
-   */
-  export let open = true;
-  /** Live-region role. `"status"` (polite) by default; `"alert"` for urgent. */
-  export let role: "status" | "alert" | "region" = "status";
-  /** High-contrast inverse surface (opposite of the page) for maximum visibility. */
-  export let inverted = false;
-  /**
-   * No-surface variant: drop the tinted background and border (the message sits
-   * on the page). The status stays visible via the colored FeedbackIcon chip.
-   */
-  export let plain = false;
-  /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
-  export let iconShape: "rounded" | "round" = "rounded";
-  /**
-   * FeedbackIcon box override. By default the box is tinted on plain/inverted
-   * alerts and transparent on tinted surfaces (so it doesn't clash); set
-   * `"tint"` or `"solid"` to force a visible chip on a tinted surface too.
-   */
-  export let iconBox: "tint" | "transparent" | "solid" | undefined = undefined;
-  /**
-   * Snackbar layout: one compact, vertically-centered row — icon, title and
-   * inline actions — in a container that wraps its content. The description is
-   * dropped and the icon takes the text color with no box. Meant for the
-   * floating `Notification`, not the in-page banner.
-   */
-  export let snack = false;
-  /**
-   * Render arbitrary content as the body instead of `description` / the default
-   * slot — a Svelte component plus its props. Lets a data-driven notifier carry
-   * rich content (a file preview, an avatar row). Ignored in `snack` layout.
-   */
-  export let component: import("svelte").ComponentType | undefined = undefined;
-  /** Props passed to `component`. */
-  export let componentProps: Record<string, unknown> = {};
-  /** Called when dismissed. */
-  export let onclose: (() => void) | undefined = undefined;
+  interface Props {
+    /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */
+    status?: FeedbackStatus;
+    /** Heading (required). */
+    title: string;
+    /** Body text (required). Override with the children for rich content. */
+    description: string;
+    /** Link href. When set (and no `link` snippet is provided) a link is rendered. */
+    href?: string;
+    /** Link text. Defaults to the i18n catalog's "Learn more". */
+    linkText?: string;
+    /** Action buttons as data, or a snippet with your own action content. */
+    actions?: InlineNotificationAction[] | Snippet;
+    /** Render the close button. Defaults to `false` (not dismissible). */
+    closable?: boolean;
+    /** Close button accessible name. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /**
+     * Controls visibility (bindable). Dismissing sets it to `false`; set it back
+     * to `true` to show the notification again.
+     */
+    open?: boolean;
+    /**
+     * Live-region role. `"status"` (polite) by default; `"alert"` for urgent.
+     * `"group"` is for a notice announced by a live region elsewhere, such as a
+     * dialog's status area (ADR 0016): it is named by its title and is not a
+     * live region itself.
+     */
+    role?: "status" | "alert" | "region" | "group";
+    /** High-contrast inverse surface (opposite of the page) for maximum visibility. */
+    inverted?: boolean;
+    /**
+     * No-surface variant: drop the tinted background and border (the message sits
+     * on the page). The status stays visible via the colored FeedbackIcon chip.
+     */
+    plain?: boolean;
+    /** Shape of the FeedbackIcon box — `"rounded"` (default) or a full `"round"` circle. */
+    iconShape?: "rounded" | "round";
+    /**
+     * FeedbackIcon box override. By default the box is tinted on plain/inverted
+     * alerts and transparent on tinted surfaces (so it doesn't clash); set
+     * `"tint"` or `"solid"` to force a visible chip on a tinted surface too.
+     */
+    iconBox?: "tint" | "transparent" | "solid";
+    /**
+     * Snackbar layout: one compact, vertically-centered row — icon, title and
+     * inline actions — in a container that wraps its content. The description is
+     * dropped and the icon takes the text color with no box. Meant for the
+     * floating `Notification`, not the in-page banner.
+     */
+    snack?: boolean;
+    /* eslint-disable @typescript-eslint/no-explicit-any -- the props are the component's own */
+    /**
+     * Render arbitrary content as the body instead of `description` / the
+     * children — a Svelte component plus its props. Lets a data-driven notifier
+     * carry rich content (a file preview, an avatar row). Ignored in `snack` layout.
+     */
+    component?: import("svelte").Component<any> | import("svelte").ComponentType;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+    /** Props passed to `component`. */
+    componentProps?: Record<string, unknown>;
+    /** Called when dismissed. */
+    onclose?: () => void;
+    /** Called when the pointer enters the live region. */
+    onmouseenter?: (event: MouseEvent) => void;
+    /** Called when the pointer leaves the live region. */
+    onmouseleave?: (event: MouseEvent) => void;
+    /** Called when focus moves into the live region. */
+    onfocusin?: (event: FocusEvent) => void;
+    /** Called when focus leaves the live region. */
+    onfocusout?: (event: FocusEvent) => void;
+    /** Custom glyph, forwarded to the FeedbackIcon. */
+    icon?: Snippet;
+    /** Custom link content, in place of the `href` link. */
+    link?: Snippet;
+    /** Rich body content, in place of `description`. */
+    children?: Snippet;
+  }
+
+  let {
+    status = "info",
+    title,
+    description,
+    href,
+    linkText,
+    actions,
+    closable = false,
+    closeLabel,
+    open = $bindable(true),
+    role = "status",
+    inverted = false,
+    plain = false,
+    iconShape = "rounded",
+    iconBox,
+    snack = false,
+    component,
+    componentProps = {},
+    onclose,
+    onmouseenter,
+    onmouseleave,
+    onfocusin,
+    onfocusout,
+    icon,
+    link,
+    children,
+  }: Props = $props();
 
   function close() {
     open = false;
     onclose?.();
   }
 
-  $: resolvedLinkText = linkText ?? $t("inlineNotification.learnMore");
-  $: resolvedCloseLabel = closeLabel ?? $t("inlineNotification.close");
+  const resolvedLinkText = $derived(linkText ?? $t("inlineNotification.learnMore"));
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("inlineNotification.close"));
+  const actionItems = $derived(Array.isArray(actions) ? actions : []);
+  // The dynamic tag needs a capitalised name.
+  const Body = $derived(component);
 </script>
 
 {#if open}
-  <!-- Pointer/focus events are forwarded so a Notice can pause its
-       auto-dismiss countdown on the live region itself (no extra wrapper). -->
+  <!-- Pointer/focus callbacks reach the live region itself, so a Notice can
+       pause its auto-dismiss countdown without an extra wrapper. -->
   <div
     class="inline-notification"
     data-status={status}
@@ -116,21 +173,21 @@
     data-snack={snack ? "" : undefined}
     {role}
     aria-labelledby={title ? titleId : undefined}
-    on:mouseenter
-    on:mouseleave
-    on:focusin
-    on:focusout
+    {onmouseenter}
+    {onmouseleave}
+    {onfocusin}
+    {onfocusout}
   >
     <!-- On the plain (no-surface) variant the colored chip carries the status; on
          a tinted surface the chip box goes transparent so it doesn't clash. Pass
-         a custom glyph via the `icon` slot (forwarded to the FeedbackIcon). -->
-    {#if $$slots.icon}
+         a custom glyph via the `icon` snippet (forwarded to the FeedbackIcon). -->
+    {#if icon}
       <FeedbackIcon
         {status}
         shape={iconShape}
         box={iconBox ?? (snack ? "transparent" : plain || inverted ? "tint" : "transparent")}
       >
-        <slot name="icon" />
+        {@render icon()}
       </FeedbackIcon>
     {:else}
       <FeedbackIcon
@@ -145,30 +202,32 @@
         <p class="inline-notification__title" id={titleId}>{title}</p>
       {/if}
 
-      {#if !snack && component}
+      {#if !snack && Body}
         <div class="inline-notification__body">
-          <svelte:component this={component} {...componentProps} />
+          <Body {...componentProps} />
         </div>
-      {:else if !snack && (description || $$slots.default)}
-        <div class="inline-notification__body"><slot>{description}</slot></div>
+      {:else if !snack && (description || children)}
+        <div class="inline-notification__body">
+          {#if children}{@render children()}{:else}{description}{/if}
+        </div>
       {/if}
 
-      {#if $$slots.link}
-        <slot name="link" />
+      {#if link}
+        {@render link()}
       {:else if href}
         <a class="inline-notification__link" {href}>{resolvedLinkText}</a>
       {/if}
 
-      {#if actions?.length || $$slots.actions}
+      {#if actionItems.length || typeof actions === "function"}
         <div class="inline-notification__actions">
-          {#if actions?.length}
-            {#each actions as action (action.label)}
+          {#if actionItems.length}
+            {#each actionItems as action (action.label)}
               <Button variant={action.variant ?? "ghost"} onpress={() => action.onClick?.()}>
                 {action.label}
               </Button>
             {/each}
-          {:else}
-            <slot name="actions" />
+          {:else if typeof actions === "function"}
+            {@render actions()}
           {/if}
         </div>
       {/if}
@@ -213,11 +272,8 @@
     --ds-button-icon-min: var(--ds-close-hit-area, 2.5rem);
     --ds-button-icon-size: var(--ds-close-icon-size, 1rem);
     color: var(--ds-close-color, inherit);
-  }
-
-  /* The surface decides the close button's colour, not the ghost variant. */
-  .inline-notification__close :global(.button[data-variant="ghost"]) {
-    color: inherit;
+    /* The surface decides the close button's colour, not the ghost variant. */
+    --ds-button-ghost-color: currentColor;
   }
 
   .inline-notification__content {
@@ -312,6 +368,10 @@
     gap: 0.625rem;
     padding: var(--ds-snack-padding, 0.5rem 0.75rem 0.5rem 1rem);
     border-radius: var(--ds-snack-radius, var(--ds-radius-surface, 0.75rem));
+    /* The icon glyph at text size with no breathing room, through the
+       FeedbackIcon's own custom properties. */
+    --ds-feedback-icon-size: var(--ds-snack-icon-size, 1.25rem);
+    --ds-feedback-icon-padding: 0;
   }
   /* The message stays on a single line, however long. */
   .inline-notification:global([data-snack]) .inline-notification__title {
@@ -331,9 +391,6 @@
      entrance (plays once on mount); disabled under reduced motion. */
   .inline-notification:global([data-snack]) :global(.feedback-icon) {
     color: inherit;
-    inline-size: var(--ds-snack-icon-size, 1.25rem);
-    block-size: var(--ds-snack-icon-size, 1.25rem);
-    padding: 0;
     animation: ds-snack-icon-in 340ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
   @keyframes ds-snack-icon-in {

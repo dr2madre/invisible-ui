@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import ts from "typescript-eslint";
 import svelte from "eslint-plugin-svelte";
+import reactHooks from "eslint-plugin-react-hooks";
 import prettier from "eslint-config-prettier";
 import globals from "globals";
 
@@ -34,7 +35,15 @@ export default ts.config(
     },
   },
   {
-    files: ["**/*.svelte"],
+    // The React team's rules of hooks and the React Compiler checks, on every
+    // React source: the adapter, its docs demos and the example app.
+    files: ["**/*.{jsx,tsx}", "packages/react/**/*.ts"],
+    ...reactHooks.configs.flat["recommended-latest"],
+  },
+  {
+    // Runes modules (`.svelte.ts`) go through the Svelte parser too, and carry
+    // TypeScript like the components' scripts.
+    files: ["**/*.svelte", "**/*.svelte.ts"],
     languageOptions: {
       parserOptions: { parser: ts.parser },
     },

@@ -104,6 +104,46 @@
           "required": false,
           "description": "Called whenever the open state changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "The trigger button's content. Defaults to the i18n catalog's label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerLead",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading ghost button in the header, e.g. back.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerActions",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Actions before the close button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footer",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Footer actions.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -334,6 +374,7 @@
         }
       ],
       "notes": [
+        "Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status area, ADR 0016).",
         "Emits: `open-change` with `detail.open`."
       ]
     }

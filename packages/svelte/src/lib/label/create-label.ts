@@ -1,7 +1,7 @@
 import { label as core } from "@design-system/core";
 import type { Action } from "svelte/action";
 import { derived, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createRootAction } from "../internal/connect";
 import { normalizeProps } from "../normalize";
 
 export type LabelApi = core.LabelApi;
@@ -13,6 +13,8 @@ export interface CreateLabel {
   state: Readable<LabelState>;
   /** Reactive connected API. */
   api: Readable<LabelApi>;
+  /** Mirror the association after mount: the control a label names can change. */
+  sync: (context: LabelContext) => void;
   /** Svelte action for the label element: `<label use:rootAction>`. */
   rootAction: Action<HTMLElement>;
 }
@@ -29,9 +31,16 @@ export function createLabel(context: core.LabelContext = {}): CreateLabel {
     core.connect({ state: $state, normalize: normalizeProps }),
   );
 
+  const sync = (next: core.LabelContext) =>
+    state.update((current) => {
+      const resolved = core.initialState(next);
+      return resolved.for === current.for && resolved.id === current.id ? current : resolved;
+    });
+
   return {
     state,
     api,
-    rootAction: createPropsAction(api, (a) => a.rootProps),
+    sync,
+    rootAction: createRootAction(api),
   };
 }

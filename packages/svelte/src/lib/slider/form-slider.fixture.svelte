@@ -1,8 +1,12 @@
 <script lang="ts">
   import Slider from "./Slider.svelte";
 
-  export let value = 30;
-  export let name = "volume";
+  interface Props {
+    value?: number;
+    name?: string;
+  }
+
+  let { value = 30, name = "volume" }: Props = $props();
 </script>
 
 <form data-testid="form">

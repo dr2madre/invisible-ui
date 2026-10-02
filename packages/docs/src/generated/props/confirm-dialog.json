@@ -112,6 +112,14 @@
           "required": false,
           "description": "Called whenever the open state changes.",
           "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
         }
       ]
     },
@@ -340,6 +348,7 @@
       ],
       "notes": [
         "Properties: `open` (boolean).",
+        "Methods: `notify(options)`, `dismissNotice(id)`, `clearNotices()` (the status area, ADR 0016).",
         "Emits: bubbling `open-change` CustomEvent with `detail.open`, and `confirm` when the confirm button is pressed."
       ]
     }

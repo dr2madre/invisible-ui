@@ -6,29 +6,42 @@
    * close delays, Floating-UI positioning (flip/shift), and WCAG 1.4.13 "content
    * on hover" semantics (hoverable + Escape-dismissable).
    *
-   * The default slot is the trigger (wrap a focusable element); `text` is the
+   * The `children` snippet is the trigger (wrap a focusable element); `text` is the
    * tooltip label. For precise control (e.g. putting `aria-describedby` on your
    * own element), use the headless `createTooltip` instead. Themeable via
    * `--ds-tooltip-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createTooltip, type TooltipContext } from "./create-tooltip";
   import { portal } from "../internal/portal";
   import { getI18n } from "../i18n/create-i18n";
 
-  /** Tooltip label text. */
   const { locale: i18nLocale, dir: i18nDir } = getI18n();
 
-  export let text: string;
-  export let placement: TooltipContext["placement"] = "top";
-  export let openDelay = 300;
-  export let closeDelay = 100;
+  interface Props {
+    /** Tooltip label text. */
+    text: string;
+    placement?: TooltipContext["placement"];
+    openDelay?: number;
+    closeDelay?: number;
+    /** The trigger. */
+    children?: Snippet;
+  }
 
-  const tooltip = createTooltip({ placement, openDelay, closeDelay });
-  const { triggerAction, tooltipAction, open } = tooltip;
+  let { text, placement = "top", openDelay = 300, closeDelay = 100, children }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  const tooltip = untrack(() => createTooltip({ placement, openDelay, closeDelay }));
+  const { triggerAction, tooltipAction, open, syncOptions } = tooltip;
+  // The machine keeps its own store, so props changed after mount are pushed
+  // into it.
+  $effect.pre(() => {
+    syncOptions({ placement, openDelay, closeDelay });
+  });
 </script>
 
 <span class="tooltip__trigger" use:triggerAction>
-  <slot />
+  {@render children?.()}
 </span>
 
 {#if $open}

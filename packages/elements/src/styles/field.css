@@ -32,3 +32,22 @@
   font-size: 0.875em;
   color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
 }
+
+/* The description and error a control renders for itself (checkbox, switch,
+   the groups, the pickers): the same look as the text field's messages. */
+.field__message {
+  margin: 0.25rem 0 0;
+}
+.field__message.field__description {
+  color: var(--ds-field-description-color, var(--ds-color-text-secondary, #524c44));
+}
+.field__message.field__error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ds-field-error-color, var(--ds-color-danger-body-text, #be3b50));
+}
+.field__message .field__msg-icon {
+  display: inline-flex;
+  flex: none;
+}

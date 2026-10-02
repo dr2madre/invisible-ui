@@ -53,6 +53,7 @@ export class DsNavigationMenu extends HTMLElementBase {
   #openTimer: ReturnType<typeof setTimeout> | undefined;
   #closeTimer: ReturnType<typeof setTimeout> | undefined;
   #cleanup: (() => void) | null = null;
+  #warnedLabel = false;
 
   connectedCallback() {
     upgradeProperty(this, "items");
@@ -160,10 +161,14 @@ export class DsNavigationMenu extends HTMLElementBase {
         trigger.appendChild(chevron);
         trigger.addEventListener("pointerenter", (e) => this.#onTriggerEnter(item.value, e));
         trigger.addEventListener("pointerleave", this.#scheduleClose);
-        // ArrowDown also moves focus into the panel, once it is rendered.
+        // ArrowDown also moves focus into the panel. This listener runs before
+        // the core's, and a browser runs microtasks between listeners, so the
+        // panel is opened here rather than awaited; the core's open is then a
+        // no-op.
         trigger.addEventListener("keydown", (event) => {
           if (event.key !== "ArrowDown") return;
-          queueMicrotask(() => this.#panel?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+          this.#setValue(item.value, true);
+          this.#panel?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
         });
         li.appendChild(trigger);
         this.#triggers.set(item.value, trigger);
@@ -228,16 +233,36 @@ export class DsNavigationMenu extends HTMLElementBase {
       if (trigger.contains(target) || panel.contains(target)) return;
       this.#setValue(null, true);
     };
+    // Tab out of the trigger and panel closes; focus stays where it went.
+    const onFocusOut = (event: FocusEvent) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && !trigger.contains(next) && !panel.contains(next)) this.#setValue(null, true);
+    };
     document.addEventListener("pointerdown", onOutside, true);
+    trigger.addEventListener("focusout", onFocusOut);
+    panel.addEventListener("focusout", onFocusOut);
     this.#cleanup = () => {
       stopFloating();
       document.removeEventListener("pointerdown", onOutside, true);
+      trigger.removeEventListener("focusout", onFocusOut);
+      panel.removeEventListener("focusout", onFocusOut);
+      // A hover delay still pending, such as the one a pointer click starts,
+      // must not reopen a panel that has just closed.
+      this.#hold();
     };
   }
 
   #apply() {
     const nav = this.#nav!;
-    nav.setAttribute("aria-label", this.getAttribute("label") ?? "");
+    const label = this.getAttribute("label");
+    if (label) nav.setAttribute("aria-label", label);
+    else {
+      nav.removeAttribute("aria-label");
+      if (!this.#warnedLabel) {
+        this.#warnedLabel = true;
+        console.warn("[ds] <ds-navigation-menu> needs a label attribute to name its landmark.");
+      }
+    }
     const open = this.#items.find((item) => item.value === this.#value && item.links);
     if (!open || this.#panel?.dataset.value !== open.value) {
       this.#closePanel();

@@ -2,7 +2,11 @@
   import NavigationMenu from "./NavigationMenu.svelte";
   import type { NavigationMenuItem } from "./create-navigation-menu";
 
-  export let dropLast = false;
+  interface Props {
+    dropLast?: boolean;
+  }
+
+  let { dropLast = false }: Props = $props();
 
   const all: NavigationMenuItem[] = [
     {
@@ -16,7 +20,7 @@
       links: [{ label: "About", href: "#about" }],
     },
   ];
-  $: items = dropLast ? all.slice(0, 1) : all;
+  const items = $derived(dropLast ? all.slice(0, 1) : all);
 </script>
 
 <NavigationMenu label="Main" {items} />

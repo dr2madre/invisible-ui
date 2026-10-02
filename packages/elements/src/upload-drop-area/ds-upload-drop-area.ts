@@ -1,4 +1,6 @@
-import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { boolAttr, definePart, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { onLocaleChange, t } from "../internal/i18n";
+import { DsLoading } from "../loading/ds-loading";
 
 /** No-flash delay before the picker spinner appears, in ms. */
 const PICKER_SPINNER_DELAY = 150;
@@ -18,8 +20,8 @@ const UPLOAD_ICON =
  * the first dropped file.
  *
  * Unslotted children replace the default prompt. A child with `slot="icon"`
- * replaces the upload glyph. The `ds-loading` element must be registered for
- * the picker spinner to show.
+ * replaces the upload glyph. While the picker opens, a `<ds-loading>` spinner
+ * shows; the element registers it when the page has not.
  *
  * Attributes: `accept`, `multiple`, `disabled`, `name`, `caption`.
  * Properties: `files` (read-only), `disabled`.
@@ -34,6 +36,13 @@ export class DsUploadDropArea extends HTMLElementBase {
   #caption: HTMLSpanElement | null = null;
   #spinner: HTMLElement | null = null;
   #opening = false;
+  #prompt: Text | null = null;
+  #action: HTMLSpanElement | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => this.#localize());
+  }
 
   connectedCallback() {
     upgradeProperty(this, "disabled");
@@ -120,14 +129,21 @@ export class DsUploadDropArea extends HTMLElementBase {
       // control, so the action word stays a plain span.
       const action = document.createElement("span");
       action.className = "upload-drop-area__action";
-      action.textContent = "browse";
-      text.append("Drag & drop files or ", action);
+      this.#prompt = document.createTextNode("");
+      this.#action = action;
+      text.append(this.#prompt, action);
     }
 
     root.append(input, iconWrap, text);
     this.appendChild(root);
     this.#root = root;
     this.#input = input;
+    this.#localize();
+  }
+
+  #localize() {
+    if (this.#prompt) this.#prompt.data = `${t(this, "uploadDropArea.prompt")} `;
+    if (this.#action) this.#action.textContent = t(this, "uploadDropArea.action");
   }
 
   #sync() {
@@ -198,6 +214,7 @@ export class DsUploadDropArea extends HTMLElementBase {
     else root.removeAttribute("aria-busy");
     if (opening && !this.#spinner) {
       // No veil: the OS dialog is already modal.
+      definePart("ds-loading", DsLoading);
       const spinner = document.createElement("ds-loading");
       spinner.setAttribute("variant", "spinner");
       spinner.setAttribute("overlay", "");

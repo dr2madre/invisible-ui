@@ -1,8 +1,14 @@
 <script lang="ts">
   import Tooltip from "./Tooltip.svelte";
-  export let text = "Copy to clipboard";
+
+  interface Props {
+    text?: string;
+    openDelay?: number;
+  }
+
+  let { text = "Copy to clipboard", openDelay = 0 }: Props = $props();
 </script>
 
-<Tooltip {text} openDelay={0} closeDelay={0}>
+<Tooltip {text} {openDelay} closeDelay={0}>
   <button>Copy</button>
 </Tooltip>

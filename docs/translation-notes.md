@@ -44,3 +44,12 @@ pages fall back to English automatically).
 - The button-copy guideline ("buttons name outcomes") must be re-validated in
   Italian, not translated literally — e.g. *Delete file* / *Keep file* →
   «Elimina il file» / «Conserva il file».
+
+## Component strings
+
+- One English catalog (`core/src/i18n/messages.ts`) serves every adapter:
+  Svelte, Vue and React through `LocaleProvider`, the custom elements through
+  `<ds-locale-provider>`. A translation written once applies everywhere.
+- Count messages (`searchDialog.results`, `rating.stars`, `avatarGroup.more`)
+  are plural objects: supply every CLDR category the language uses (Russian
+  needs `few` and `many`, Arabic `zero` and `two`), not only `one` and `other`.

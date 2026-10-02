@@ -1,6 +1,6 @@
 import { i18n as core } from "@design-system/core";
 import { getContext, setContext } from "svelte";
-import { derived, writable, type Readable } from "svelte/store";
+import { derived, readonly, writable, type Readable } from "svelte/store";
 import { en, type MessageKey, type Messages } from "./messages";
 
 export type Dir = "ltr" | "rtl";
@@ -61,6 +61,19 @@ export function setI18nContext(i18n: I18n): void {
 let fallback: I18n | undefined;
 
 /**
+ * The English default shared by every component with no `LocaleProvider`, and
+ * on the server by every request. It never changes: `set` does nothing, so no
+ * caller can switch the locale for everyone else.
+ */
+function sharedDefault(): I18n {
+  if (!fallback) {
+    const { locale, dir, t } = createI18n();
+    fallback = Object.freeze({ locale: readonly(locale), dir, t, set: () => {} });
+  }
+  return fallback;
+}
+
+/**
  * Read the active i18n from context, or a shared English default when there is
  * no `LocaleProvider` ancestor. Call during component initialisation.
  *
@@ -70,8 +83,8 @@ let fallback: I18n | undefined;
  */
 export function getI18n(): I18n {
   try {
-    return getContext<I18n>(I18N_KEY) ?? (fallback ??= createI18n());
+    return getContext<I18n>(I18N_KEY) ?? sharedDefault();
   } catch {
-    return (fallback ??= createI18n());
+    return sharedDefault();
   }
 }

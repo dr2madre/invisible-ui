@@ -8,64 +8,94 @@
    * equivalent to the button.
    *
    * A `title` and `description` are both required (an alert must be named and
-   * described). The default slot is the trigger. `onDismiss` runs whenever the
+   * described). The `children` snippet is the trigger. `onDismiss` runs whenever the
    * alert is acknowledged — button, Escape or backdrop. For a choice that can
    * stop a process use `ConfirmDialog`; to ask for a value use `PromptDialog`.
-   * The header is the one the dialog family shares: an optional `icon` slot
+   * The header is the one the dialog family shares: an optional `icon` snippet
    * (a FeedbackIcon) before the title and an optional close button
    * (`closeButton`). Colors, radius and elevation are themeable via `--ds-dialog-*`.
+   *
+   * The status area before the actions holds messages about the dialog's own
+   * task (ADR 0016): `notify(options)`, `dismissNotice(id)` and
+   * `clearNotices()` on the instance, with the same contract as `Dialog`.
    */
-  import { createDialog } from "../dialog/create-dialog";
+  import { untrack, type Snippet } from "svelte";
+  import { createDialog, type DialogNoticeOptions } from "../dialog/create-dialog";
   import Button from "../button/Button.svelte";
   import DialogHeader from "../dialog/DialogHeader.svelte";
+  import DialogStatus from "../dialog/DialogStatus.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import type { ButtonVariant } from "../button/create-button";
+  import { controllable } from "../internal/controllable.svelte";
 
   const { t } = getI18n();
 
-  /** Initial open state. */
-  export let open = false;
-  /** Accessible title naming the alert (required). */
-  export let title: string;
-  /** The message to acknowledge (required). */
-  export let description: string;
-  /**
-   * Label of the single acknowledging button. Defaults to the i18n catalog's
-   * "OK"; prefer naming the outcome in context ("Done", "Close", "I understood").
-   */
-  export let dismissLabel: string | undefined = undefined;
-  /** Visual variant for the trigger Button. */
-  export let triggerVariant: ButtonVariant = "default";
-  /** Called when the alert is acknowledged (button, Escape or backdrop). */
-  export let onDismiss: (() => void) | undefined = undefined;
-  /**
-   * Whether pressing the backdrop acknowledges and closes. Defaults to `true`;
-   * set `false` to require an explicit button press (e.g. "I understood").
-   */
-  export let closeOnOutsideClick = true;
-  /** Show a close button at the trailing end of the header; it closes like Escape. */
-  export let closeButton = false;
-  /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
-  export let closeLabel: string | undefined = undefined;
-  /** Called whenever the open state changes. */
-  export let onOpenChange: ((open: boolean) => void) | undefined = undefined;
+  interface Props {
+    /** Initial open state. */
+    open?: boolean;
+    /** Accessible title naming the alert (required). */
+    title: string;
+    /** The message to acknowledge (required). */
+    description: string;
+    /**
+     * Label of the single acknowledging button. Defaults to the i18n catalog's
+     * "OK"; prefer naming the outcome in context ("Done", "Close", "I understood").
+     */
+    dismissLabel?: string;
+    /** Visual variant for the trigger Button. */
+    triggerVariant?: ButtonVariant;
+    /** Called when the alert is acknowledged (button, Escape or backdrop). */
+    onDismiss?: () => void;
+    /**
+     * Whether pressing the backdrop acknowledges and closes. Defaults to `true`;
+     * set `false` to require an explicit button press (e.g. "I understood").
+     */
+    closeOnOutsideClick?: boolean;
+    /** Show a close button at the trailing end of the header; it closes like Escape. */
+    closeButton?: boolean;
+    /** Accessible label for the close button. Defaults to the i18n catalog's "Close". */
+    closeLabel?: string;
+    /** Called whenever the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /** The trigger button's content. Defaults to "Open". */
+    children?: Snippet;
+    /** Leading feedback icon in the header. */
+    icon?: Snippet;
+  }
 
-  const handleOpenChange = (next: boolean) => {
-    open = next;
-    onOpenChange?.(next);
-    // Every way of closing an acknowledgement is the acknowledgement.
-    if (!next) onDismiss?.();
-  };
+  let {
+    open = $bindable(false),
+    title,
+    description,
+    dismissLabel,
+    triggerVariant = "default",
+    onDismiss,
+    closeOnOutsideClick = true,
+    closeButton = false,
+    closeLabel,
+    onOpenChange,
+    children,
+    icon,
+  }: Props = $props();
 
-  const dialog = createDialog({
-    open,
-    role: "alertdialog",
-    describedBy: true,
-    closeOnOutsideClick,
-    // Focus the only action: taking note.
-    initialFocus: ".alert-dialog__actions button",
-    onOpenChange: handleOpenChange,
-  });
+  // Seeded once from the first props; the mirror below follows later ones.
+  const dialog = untrack(() =>
+    createDialog({
+      open,
+      role: "alertdialog",
+      describedBy: true,
+      closeOnOutsideClick,
+      // Focus the only action: taking note.
+      initialFocus: ".alert-dialog__actions button",
+      // The prop first, then the report (ADR 0011).
+      onOpenChange: (next) => {
+        mirror.write(next);
+        onOpenChange?.(next);
+        // Every way of closing an acknowledgement is the acknowledgement.
+        if (!next) onDismiss?.();
+      },
+    }),
+  );
   const {
     open: isOpen,
     setOpen,
@@ -78,20 +108,35 @@
 
   // Controllable mirror through the no-notify sync: opening from the outside
   // is not the user asking for it, so it reports nothing (ADR 0011).
-  let lastOpen = open;
-  $: if (open !== lastOpen) {
-    lastOpen = open;
-    dialog.syncOpen(open);
-  }
+  const mirror = controllable({
+    get: () => open,
+    set: (next) => (open = next),
+    reflect: dialog.syncOpen,
+  });
 
-  $: resolvedCloseLabel = closeLabel ?? $t("dialog.close");
-  $: resolvedDismissLabel = dismissLabel ?? $t("dialog.dismiss");
+  const resolvedCloseLabel = $derived(closeLabel ?? $t("dialog.close"));
+  const resolvedDismissLabel = $derived(dismissLabel ?? $t("dialog.dismiss"));
 
   const dismiss = () => setOpen(false);
+
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  export function notify(options: DialogNoticeOptions): string {
+    return dialog.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  export function dismissNotice(id: string): void {
+    dialog.dismissNotice(id);
+  }
+
+  /** Remove every notice from the status area. */
+  export function clearNotices(): void {
+    dialog.clearNotices();
+  }
 </script>
 
 <Button variant={triggerVariant} action={triggerAction}>
-  <slot>Open</slot>
+  {#if children}{@render children()}{:else}Open{/if}
 </Button>
 
 {#if $isOpen}
@@ -102,11 +147,10 @@
       closeLabel={resolvedCloseLabel}
       {titleAction}
       {closeAction}
-      hasIcon={$$slots.icon}
-    >
-      <svelte:fragment slot="icon"><slot name="icon" /></svelte:fragment>
-    </DialogHeader>
+      {icon}
+    />
     <p class="alert-dialog__description" use:descriptionAction>{description}</p>
+    <DialogStatus {dialog} />
     <footer class="alert-dialog__actions">
       <Button variant="primary" onpress={dismiss}>{resolvedDismissLabel}</Button>
     </footer>

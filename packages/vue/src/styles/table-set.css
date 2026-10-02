@@ -57,6 +57,13 @@
 .table-view:focus {
   outline: none;
 }
+/* A row or card takes focus only programmatically, when the button that
+   loaded it goes away; the ring shows where focus landed (WCAG 2.4.7). */
+.table-view tbody tr[tabindex="-1"]:focus-visible,
+.table-view [role="listitem"][tabindex="-1"]:focus-visible {
+  outline: var(--ds-focus-ring-width, 2px) solid var(--ds-color-focus-ring, #8e6cd4);
+  outline-offset: calc(-1 * var(--ds-focus-ring-width, 2px));
+}
 .table-view__no-results {
   display: grid;
   justify-items: center;
@@ -197,7 +204,8 @@
   box-shadow: var(--ds-focus-ring-shadow);
   outline-offset: 2px;
 }
-.table-view__load-more:disabled {
+.table-view__load-more:disabled,
+.table-view__load-more[aria-disabled="true"] {
   opacity: 0.6;
   cursor: progress;
 }

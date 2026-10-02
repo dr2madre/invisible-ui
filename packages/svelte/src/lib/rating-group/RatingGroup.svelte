@@ -8,55 +8,67 @@
    * The group needs an accessible name via `label`; each star is a radio
    * labelled "N star(s)". Themeable via `--ds-rating-*`.
    */
+  import { untrack } from "svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { createRatingGroup } from "./create-rating-group";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import Icon from "../icon/Icon.svelte";
   import { stableId } from "../internal/stable-id";
 
-  /** Accessible name for the rating group. */
-  export let label: string;
-  /** Number of stars. */
-  export let max = 5;
-  /** Selected rating (1..max), or null. */
-  export let value: number | null = null;
-  export let disabled = false;
-  /** Form field name — the rating is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Called whenever the rating changes. */
-  export let onValueChange: ((value: number) => void) | undefined = undefined;
-
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
-  const rating = createRatingGroup({
-    max,
-    value,
-    disabled,
-    name,
-    onValueChange: (next) => onValueChange?.(next),
-  });
-  const { items, setValue, syncValue, name: groupName, value: selected } = rating;
-
-  // Controllable mirror, compared against the last prop value (ADR 0011).
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012).
-  let defaultValue = value;
-  $: if (value !== lastValue) {
-    lastValue = value;
-    if (value !== $selected) defaultValue = value;
-    syncValue(value);
+  interface Props {
+    /** Accessible name for the rating group. */
+    label: string;
+    /** Number of stars. */
+    max?: number;
+    /** Selected rating (1..max), or null. */
+    value?: number | null;
+    disabled?: boolean;
+    /** Form field name — the rating is submitted under it. */
+    name?: string;
+    /** Called whenever the rating changes. */
+    onValueChange?: (value: number) => void;
   }
-  // The restore puts the control's own copy back beside the machine's, so a
-  // later prop change is judged against what the page now shows (ADR 0012).
-  const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
-  };
+
+  let {
+    label,
+    max = 5,
+    value = $bindable(null),
+    disabled = false,
+    name,
+    onValueChange,
+  }: Props = $props();
+
+  // Seeded once from the first props; the effect and the mirror below follow
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
+  const rating = untrack(() =>
+    createRatingGroup({
+      max,
+      value,
+      disabled,
+      name,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
+  const { items, setValue, syncValue, syncMax, name: groupName, value: selected } = rating;
+
+  // A star count changed after mount redraws the stars, reporting nothing.
+  $effect.pre(() => {
+    syncMax(max);
+  });
+
+  // Controllable mirror (ADR 0011), with the reset default of ADR 0012.
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next === $selected,
+  });
 
   // While hovering, stars up to `hovered` show a grey preview; otherwise the
   // selected stars show the selection color.
-  let hovered = 0;
+  let hovered = $state(0);
 
   const labelId = stableId("ds-rating");
   const { t } = getI18n();
@@ -67,22 +79,23 @@
   <span class="rating__label" id={labelId}>{label}</span>
   <!-- The native radios own focus and the roving tabindex, so the group
        itself takes none. -->
-  <!-- svelte-ignore a11y-interactive-supports-focus -->
+  <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div
-    class="rating"
-    class:rating--disabled={disabled}
+    class={["rating", disabled && "rating--disabled"]}
     role="radiogroup"
-    use:formReset={restore}
+    use:formReset={mirror.restore}
     aria-labelledby={labelId}
     aria-orientation="horizontal"
-    on:pointerleave={() => (hovered = 0)}
+    onpointerleave={() => (hovered = 0)}
   >
-    {#each items as item (item.value)}
+    {#each $items as item (item.value)}
       <label
-        class="rating__star"
-        class:rating__star--filled={!hovered && item.position <= ($selected ?? 0)}
-        class:rating__star--preview={hovered > 0 && item.position <= hovered}
-        on:pointerenter={() => {
+        class={[
+          "rating__star",
+          !hovered && item.position <= ($selected ?? 0) && "rating__star--filled",
+          hovered > 0 && item.position <= hovered && "rating__star--preview",
+        ]}
+        onpointerenter={() => {
           if (!disabled) hovered = item.position;
         }}
       >
@@ -92,10 +105,10 @@
           name={groupName}
           value={item.value}
           checked={$selected === item.position}
-          defaultChecked={defaultValue === item.position}
+          defaultChecked={mirror.defaultValue === item.position}
           {disabled}
           aria-label={starLabel(item.position, $t)}
-          on:change={() => setValue(item.position)}
+          onchange={() => setValue(item.position)}
         />
         <Icon size="var(--ds-rating-size, 1.5rem)">
           <polygon

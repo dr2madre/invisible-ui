@@ -1,4 +1,7 @@
 import { boolAttr, emit, HTMLElementBase, upgradeProperty } from "./base";
+import { DialogStatus, type DialogNoticeOptions } from "./dialog-status";
+import { onLocaleChange } from "./i18n";
+import { returnFocus, trackModal } from "./modal-stack";
 import { lockScroll } from "./scroll-lock";
 
 /** A styled button (the `.button` rules of button.css). */
@@ -19,10 +22,18 @@ export function createButton(variant = "default"): HTMLButtonElement {
  * The panel is in the page only while open, as in the other adapters: a
  * closed preset has no dialog in the DOM, and a panel whose stylesheet sets
  * its own `display` never shows while closed.
+ *
+ * Every preset has the status area of `<ds-dialog>` (ADR 0016): each places
+ * `status.parts` before its actions, and `notify()`, `dismissNotice()` and
+ * `clearNotices()` follow the same contract. Closing returns focus to the
+ * element that had it when the preset opened, so a preset opened from inside
+ * another dialog hands focus back there; otherwise to the trigger.
  */
 export abstract class ModalHost extends HTMLElementBase {
   protected trigger!: HTMLButtonElement;
   protected panel: HTMLDialogElement | null = null;
+  /** The status area; each preset places `status.parts` in its panel. */
+  protected readonly status = new DialogStatus(this, () => this.panel);
   #cleanup: (() => void) | null = null;
 
   /** Build the trigger and the panel, once. */
@@ -37,6 +48,15 @@ export abstract class ModalHost extends HTMLElementBase {
   }
   /** Reset per-opening state before the panel is shown. */
   protected willOpen(): void {}
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (!this.panel) return;
+      this.sync();
+      this.status.relabel();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "open");
@@ -60,6 +80,21 @@ export abstract class ModalHost extends HTMLElementBase {
     this.toggleAttribute("open", value);
   }
 
+  /** Show a notice in the status area and return its id (ADR 0016). */
+  notify(options: DialogNoticeOptions): string {
+    return this.status.notify(options);
+  }
+
+  /** Remove one notice from the status area. */
+  dismissNotice(id: string): void {
+    this.status.dismiss(id);
+  }
+
+  /** Remove every notice from the status area. */
+  clearNotices(): void {
+    this.status.clear();
+  }
+
   /** A change the user asked for: it updates the state and reports it. */
   protected setOpen = (next: boolean) => {
     if (this.open === next) return;
@@ -81,7 +116,8 @@ export abstract class ModalHost extends HTMLElementBase {
   }
 
   protected syncModal() {
-    if (this.open && !this.#cleanup) this.#show();
+    // A disconnected <dialog> cannot be shown; connecting syncs again.
+    if (this.open && !this.#cleanup && this.isConnected) this.#show();
     if (!this.open && this.#cleanup) {
       this.#cleanup();
       this.#cleanup = null;
@@ -96,13 +132,18 @@ export abstract class ModalHost extends HTMLElementBase {
     this.append(panel);
     // Top layer + inert background come from the platform.
     panel.showModal();
+    const releaseModal = trackModal(panel);
     const releaseScroll = lockScroll();
 
     const onCancel = (event: Event) => {
       event.preventDefault();
       this.setOpen(false);
     };
-    const onClose = () => this.setOpen(false);
+    // Only the panel's own close: an element inside it, such as a closable
+    // inline notification, emits a bubbling `close` too.
+    const onClose = (event: Event) => {
+      if (event.target === panel) this.setOpen(false);
+    };
     // With the page inert, backdrop presses target the <dialog> itself; a
     // press whose coordinates fall outside the panel box is a light dismiss.
     const onPointerDown = (event: PointerEvent) => {
@@ -134,9 +175,10 @@ export abstract class ModalHost extends HTMLElementBase {
       panel.removeEventListener("pointerdown", onPointerDown);
       if (panel.open) panel.close();
       panel.remove();
+      releaseModal();
       releaseScroll();
-      const restore = this.trigger ?? previouslyFocused;
-      if (restore?.isConnected) restore.focus();
+      this.status.clear();
+      returnFocus(previouslyFocused, this.trigger);
     };
   }
 }

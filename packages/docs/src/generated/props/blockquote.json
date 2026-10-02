@@ -11,10 +11,10 @@
       "props": [
         {
           "name": "cite",
-          "type": "string | undefined",
+          "type": "string | Snippet | undefined",
           "default": "undefined",
           "required": false,
-          "description": "Attribution text (or use the `cite` slot).",
+          "description": "Attribution: text, or a snippet for rich content.",
           "descriptionFrom": "curated"
         },
         {
@@ -56,6 +56,30 @@
         "cite",
         "default"
       ]
+    },
+    "elements": {
+      "import": {
+        "kind": "element",
+        "name": "ds-blockquote",
+        "specifier": "@design-system/elements/define"
+      },
+      "attributes": [
+        {
+          "name": "cite",
+          "reactive": true,
+          "required": false,
+          "description": "the visible attribution",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "cite-url",
+          "reactive": true,
+          "required": false,
+          "description": "the source URL",
+          "descriptionFrom": "source"
+        }
+      ],
+      "notes": []
     }
   }
 }

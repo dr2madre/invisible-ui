@@ -1,9 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { tick } from "svelte";
 import { get } from "svelte/store";
 import { createNotifier } from "./create-notifier";
 import NotificationRegion from "./NotificationRegion.svelte";
+import DialogFixture from "./notification-region-dialog.fixture.svelte";
 
 /** A pointer-ish event (jsdom lacks a reliable PointerEvent constructor). */
 function pointer(type: string, x: number, timeStamp?: number) {
@@ -50,6 +52,31 @@ describe("NotificationRegion", () => {
     await user.click(screen.getAllByRole("button", { name: "Close" })[0]!);
     expect(screen.queryByText("First")).not.toBeInTheDocument();
     expect(screen.getByText("Second")).toBeInTheDocument();
+  });
+
+  it("follows the reduced motion setting when it changes after mount", async () => {
+    let matches = false;
+    const listeners = new Set<() => void>();
+    window.matchMedia = ((q: string) => ({
+      get matches() {
+        return matches;
+      },
+      media: q,
+      addEventListener: (_: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_: string, listener: () => void) => listeners.delete(listener),
+    })) as unknown as typeof window.matchMedia;
+
+    const notifier = createNotifier();
+    render(NotificationRegion, { props: { notifier, duration: 200 } });
+    matches = true;
+    for (const listener of listeners) listener();
+
+    const id = notifier.show({ title: "Saved", duration: 0 });
+    await screen.findByText("Saved");
+    notifier.dismiss(id, "user");
+    await tick();
+    // Reduced motion leaves at once; the default exit would still be running.
+    expect(screen.queryByText("Saved")).not.toBeInTheDocument();
   });
 
   it("does not remember every notification it has ever shown", async () => {
@@ -153,6 +180,136 @@ describe("NotificationRegion", () => {
     await fireEvent(window, pointer("pointerup", 214, 400));
 
     expect(screen.getByText("Stay")).toBeInTheDocument();
+  });
+
+  describe("while a modal dialog is open (ADR 0016)", () => {
+    // The observer that follows dialogs reports in a microtask; Svelte then
+    // renders.
+    const settle = async () => {
+      for (let step = 0; step < 3; step++) await Promise.resolve();
+      await tick();
+    };
+    const slots = () => [...document.querySelectorAll<HTMLElement>(".notice-slot")];
+    const titles = () =>
+      slots().map((slot) => slot.querySelector(".inline-notification__title")?.textContent);
+    const mountWithDialog = (inside = false) => {
+      const notifier = createNotifier();
+      const dialog = render(DialogFixture, { props: { notifier, inside } }).component;
+      return { notifier, dialog };
+    };
+
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it("holds new notifications, then shows them in order after the dialog closes", async () => {
+      const { notifier, dialog } = mountWithDialog();
+      dialog.setOpen(true);
+      await settle();
+      notifier.info("First");
+      notifier.info("Second");
+      await settle();
+      expect(slots()).toHaveLength(0);
+      expect(get(notifier).map((item) => item.title)).toEqual(["First", "Second"]);
+
+      dialog.setOpen(false);
+      await settle();
+      expect(titles()).toEqual(["First", "Second"]);
+    });
+
+    it("never mounts the region inside the dialog, even when placed in it", async () => {
+      const { notifier, dialog } = mountWithDialog(true);
+      dialog.setOpen(true);
+      await settle();
+      notifier.success("Uploaded");
+      await settle();
+      const panel = screen.getByRole("dialog");
+      const region = screen.getByRole("region", { name: "Notifications" });
+      expect(region.parentElement).toBe(document.body);
+      expect(panel).not.toContainElement(region);
+      expect(screen.queryByText("Uploaded")).toBeNull();
+    });
+
+    it("keeps a shown notification as it was, and shows a change after the dialog closes", async () => {
+      const { notifier, dialog } = mountWithDialog();
+      const id = notifier.info("Uploading");
+      await settle();
+      dialog.setOpen(true);
+      await settle();
+      notifier.update(id, { status: "success", title: "Uploaded" });
+      await settle();
+      // It stays where it was, and its live region says nothing new yet.
+      expect(titles()).toEqual(["Uploading"]);
+
+      dialog.setOpen(false);
+      await settle();
+      expect(titles()).toEqual(["Uploaded"]);
+    });
+
+    it("waits for a modal opened outside the package", async () => {
+      const { notifier } = mountWithDialog();
+      const native = document.createElement("dialog");
+      document.body.append(native);
+      // jsdom never matches :modal; a browser does for a showModal() dialog.
+      const matches = Element.prototype.matches;
+      vi.spyOn(Element.prototype, "matches").mockImplementation(function (
+        this: Element,
+        selector: string,
+      ) {
+        if (selector === ":modal") return this === native && native.hasAttribute("open");
+        return matches.call(this, selector);
+      });
+      native.showModal();
+      await settle();
+      notifier.info("Later");
+      await settle();
+      expect(slots()).toHaveLength(0);
+
+      native.close();
+      await settle();
+      expect(slots()).toHaveLength(1);
+      native.remove();
+    });
+
+    it("starts a held countdown only when the notification is shown", async () => {
+      vi.useFakeTimers();
+      const { notifier, dialog } = mountWithDialog();
+      const onDismiss = vi.fn();
+      dialog.setOpen(true);
+      await settle();
+      notifier.show({ title: "Held", duration: 1000, onDismiss });
+      await settle();
+      vi.advanceTimersByTime(5000);
+      expect(onDismiss).not.toHaveBeenCalled();
+
+      dialog.setOpen(false);
+      await settle();
+      expect(slots()).toHaveLength(1);
+      vi.advanceTimersByTime(999);
+      expect(onDismiss).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(1);
+      expect(onDismiss).toHaveBeenCalledWith("timeout");
+    });
+
+    it("holds the countdown of a shown notification while a modal is open", async () => {
+      vi.useFakeTimers();
+      const { notifier, dialog } = mountWithDialog();
+      const onDismiss = vi.fn();
+      notifier.show({ title: "Shown", duration: 1000, onDismiss });
+      await settle();
+      vi.advanceTimersByTime(400);
+      dialog.setOpen(true);
+      await settle();
+      expect(slots()).toHaveLength(1);
+      vi.advanceTimersByTime(5000);
+      expect(onDismiss).not.toHaveBeenCalled();
+
+      dialog.setOpen(false);
+      await settle();
+      vi.advanceTimersByTime(600);
+      expect(onDismiss).toHaveBeenCalledWith("timeout");
+    });
   });
 
   it("swipe can be turned off with swipeable=false", async () => {

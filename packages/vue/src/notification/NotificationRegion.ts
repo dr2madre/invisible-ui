@@ -2,17 +2,20 @@ import {
   computed,
   defineComponent,
   h,
+  onMounted,
   onUnmounted,
   ref,
+  shallowRef,
   TransitionGroup,
   type PropType,
 } from "vue";
 import { useI18n } from "../i18n/i18n";
+import { hasOpenModal, onModalChange } from "../internal/modal-stack";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
 import { useHydratedTeleport } from "../internal/use-hydrated-teleport";
 import { scopedTeleport } from "../internal/locale-teleport";
 import { Notification } from "./Notification";
-import type { Notifier } from "./create-notifier";
+import type { NotificationItem, Notifier } from "./create-notifier";
 
 export type NotificationPlacement =
   "top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end";
@@ -56,6 +59,16 @@ export interface NotificationRegionProps {
  * cap for consumers who want one — unset by default, so the window height is
  * the only bound.
  *
+ * While a modal dialog is open anywhere in the document, new notifications
+ * wait in the notifier's queue, unshown and unannounced (ADR 0016): the dialog
+ * holds the user's attention and makes the page behind it inert. When the
+ * last modal closes they appear in order, and their auto-dismiss countdowns
+ * start then. Notifications already shown when a modal opens stay, with their
+ * countdowns held; a change to one of them shows, and is announced, after the
+ * modal closes. A message about the dialog's own task belongs in the dialog's
+ * status area (`notify()` on the dialog), and a message that needs a decision
+ * now belongs in a dialog opened on top. The region always mounts in `<body>`.
+ *
  *   h(NotificationRegion, { notifier, placement: "top-end" })
  */
 export const NotificationRegion = defineComponent({
@@ -74,21 +87,57 @@ export const NotificationRegion = defineComponent({
     const teleportDisabled = useHydratedTeleport();
     const i18n = useI18n();
 
-    const prefersReduced =
-      typeof window !== "undefined" && typeof window.matchMedia === "function"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        : false;
+    // Read after mount and kept in sync with the OS setting: the server cannot
+    // know the preference, so the first client render must match its output.
+    const prefersReduced = ref(false);
+    let stopReducedMotion = () => {};
+    onMounted(() => {
+      if (typeof window.matchMedia !== "function") return;
+      const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const sync = () => (prefersReduced.value = query.matches);
+      sync();
+      query.addEventListener?.("change", sync);
+      stopReducedMotion = () => query.removeEventListener?.("change", sync);
+    });
+    onUnmounted(() => stopReducedMotion());
 
-    const motion = computed(() => (prefersReduced ? 0 : props.duration));
+    const motion = computed(() => (prefersReduced.value ? 0 : props.duration));
     const motionOut = computed(() =>
-      prefersReduced ? 0 : (props.exitDuration ?? Math.round(props.duration * 1.75)),
+      prefersReduced.value ? 0 : (props.exitDuration ?? Math.round(props.duration * 1.75)),
     );
 
-    // New notifications always enter; past the limit the OLDEST leave. Never
-    // hold a new notification in an invisible queue.
-    const visible = computed(() => {
+    // New notifications always enter; past the limit the OLDEST leave. Only an
+    // open modal holds a new notification back.
+    const capped = computed(() => {
       const list = props.notifier.notifications.value;
       return props.maxVisible > 0 ? list.slice(-props.maxVisible) : list;
+    });
+
+    // Whether a modal dialog is open in the document, and what was on screen
+    // when one opened: only that stays there, as it was, while one is. A
+    // region mounted behind a modal had nothing on screen, so its snapshot
+    // starts empty. The server has no document and sees no modal.
+    const modalOpen = shallowRef(typeof document !== "undefined" && hasOpenModal(document));
+    const held = shallowRef<ReadonlyMap<string, NotificationItem>>(new Map());
+    let stopWatchingModals = () => {};
+    onMounted(() => {
+      modalOpen.value = hasOpenModal(document);
+      stopWatchingModals = onModalChange(document, () => {
+        const open = hasOpenModal(document);
+        if (open === modalOpen.value) return;
+        if (open) held.value = new Map(capped.value.map((notice) => [notice.id, notice]));
+        modalOpen.value = open;
+      });
+    });
+    onUnmounted(() => stopWatchingModals());
+
+    const visible = computed(() => {
+      if (!modalOpen.value) return capped.value;
+      const snapshot = held.value;
+      return props.notifier.notifications.value.flatMap((notice) => {
+        const shown = snapshot.get(notice.id);
+        return shown ? [shown] : [];
+      });
     });
 
     // Stable paint order, assigned once per notification: older = higher, so
@@ -110,7 +159,7 @@ export const NotificationRegion = defineComponent({
     const regionEl = ref<HTMLElement | null>(null);
     const pointerInside = ref(false);
     const focusInside = ref(false);
-    const paused = computed(() => pointerInside.value || focusInside.value);
+    const paused = computed(() => pointerInside.value || focusInside.value || modalOpen.value);
     const inside = (target: EventTarget | null) =>
       target instanceof Node && (regionEl.value?.contains(target) ?? false);
 

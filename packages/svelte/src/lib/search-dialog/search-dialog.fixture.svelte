@@ -2,20 +2,30 @@
   import SearchDialog from "./SearchDialog.svelte";
   import type { SearchDialogItem } from "./create-search-dialog";
 
-  export let open = false;
-  export let onSelect: ((value: string) => void) | undefined = undefined;
-  export let onOpenChange: ((o: boolean) => void) | undefined = undefined;
-  export let suggestions: SearchDialogItem[] = [];
-  export let loading = false;
+  interface Props {
+    open?: boolean;
+    onSelect?: (value: string) => void;
+    onOpenChange?: (o: boolean) => void;
+    suggestions?: SearchDialogItem[];
+    loading?: boolean;
+    items?: SearchDialogItem[];
+  }
 
-  export let items: SearchDialogItem[] = [
-    { value: "new-file", label: "New File" },
-    { value: "open", label: "Open…" },
-    { value: "save", label: "Save" },
-    { value: "settings", label: "Settings" },
-  ];
+  let {
+    open = false,
+    onSelect,
+    onOpenChange,
+    suggestions = [],
+    loading = false,
+    items = [
+      { value: "new-file", label: "New File" },
+      { value: "open", label: "Open…" },
+      { value: "save", label: "Save" },
+      { value: "settings", label: "Settings" },
+    ],
+  }: Props = $props();
 </script>
 
 <SearchDialog {items} {open} {onSelect} {onOpenChange} {suggestions} {loading}>
-  <span slot="trigger">Open palette</span>
+  {#snippet trigger()}<span>Open palette</span>{/snippet}
 </SearchDialog>

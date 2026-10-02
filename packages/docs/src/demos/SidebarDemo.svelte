@@ -2,8 +2,8 @@
   import Sidebar from "@design-system/svelte/Sidebar.svelte";
   import Dot from "./SidebarDemoIcon.svelte";
 
-  let active = "home";
-  let collapsed = false;
+  let active = $state("home");
+  let collapsed = $state(false);
   const sections = [
     {
       label: "Main",

@@ -1,7 +1,7 @@
-import { useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { useMemo, useRef, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { usePortalHost } from "../internal/portal-host";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, ChevronGlyph, CloseGlyph, Icon, SearchGlyph } from "../icon/Icon";
 import { useI18n } from "../i18n/i18n";
 import { useCombobox, type ComboboxItem } from "./use-combobox";
 
@@ -13,6 +13,11 @@ export interface ComboboxOption extends ComboboxItem {
 export interface ComboboxProps {
   /** Accessible name for the control. */
   label: string;
+  /**
+   * Visually hide the label while keeping it as the accessible name. The label
+   * text is always required.
+   */
+  hideLabel?: boolean;
   /** Options. Each may carry a leading `icon`; with the search hidden, the
    *  control mirrors the selected option's icon. */
   items: ComboboxOption[];
@@ -60,6 +65,7 @@ export interface ComboboxProps {
  */
 export function Combobox({
   label,
+  hideLabel = false,
   items,
   value = null,
   searchable = true,
@@ -108,6 +114,12 @@ export function Combobox({
 
   const selected = items.find((item) => item.value === selectedValue);
   const hasIcons = items.some((item) => item.icon);
+  // The hook filters plain core items; the icons live on the prop list, looked
+  // up by value once per list rather than once per visible option.
+  const iconByValue = useMemo(
+    () => new Map(items.map((item) => [item.value, item.icon] as const)),
+    [items],
+  );
   const clearHidden = api.clearProps["aria-hidden"] === "true";
 
   // The listbox is portalled out of the control, so it must not render before
@@ -119,10 +131,12 @@ export function Combobox({
   // selected value can be changed without clearing it first. iOS Safari can
   // synthesize a duplicate "ghost" click; ignore one that lands right after the
   // last so the list doesn't open then immediately close.
-  const [lastToggle, setLastToggle] = useState(-Infinity);
+  // The timestamp only guards the next click, so it lives in a ref: keeping it
+  // in state would re-render the control for nothing.
+  const lastToggle = useRef(-Infinity);
   const toggle = (event: MouseEvent) => {
-    if (event.timeStamp - lastToggle < 350) return;
-    setLastToggle(event.timeStamp);
+    if (event.timeStamp - lastToggle.current < 350) return;
+    lastToggle.current = event.timeStamp;
     if (open) setOpen(false);
     else openAll();
   };
@@ -131,13 +145,12 @@ export function Combobox({
     <ul {...api.listboxProps} ref={listboxRef} className="combobox__listbox" style={floatingStyles}>
       {visible.length > 0 ? (
         visible.map((item) => {
-          // The hook filters plain core items; the icon lives on the prop list.
-          const optionIcon = items.find((i) => i.value === item.value)?.icon;
+          const optionIcon = iconByValue.get(item.value);
           return (
             <li key={item.value} {...api.getOptionProps(item.value)} className="combobox__option">
               <span className="combobox__check" aria-hidden="true">
                 <Icon size="100%" strokeWidth={2.5}>
-                  <polyline points="20 6 9 17 4 12" />
+                  <CheckGlyph />
                 </Icon>
               </span>
               {hasIcons && (
@@ -172,7 +185,10 @@ export function Combobox({
         />
       )}
 
-      <label {...api.labelProps} className="combobox__label">
+      <label
+        {...api.labelProps}
+        className={hideLabel ? "combobox__label combobox__label--hidden" : "combobox__label"}
+      >
         {label}
       </label>
 
@@ -183,8 +199,7 @@ export function Combobox({
         {searchable ? (
           <span className="combobox__search" aria-hidden="true">
             <Icon size="100%">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <SearchGlyph />
             </Icon>
           </span>
         ) : (
@@ -232,8 +247,7 @@ export function Combobox({
           aria-label={resolvedClearLabel}
         >
           <Icon size="100%">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
+            <CloseGlyph />
           </Icon>
         </button>
 
@@ -241,13 +255,13 @@ export function Combobox({
           className="combobox__chevron"
           type="button"
           tabIndex={-1}
-          aria-label={open ? "Close options" : "Show options"}
+          aria-label={open ? t("combobox.hide") : t("combobox.show")}
           disabled={disabled}
           onMouseDown={(event) => event.preventDefault()}
           onClick={toggle}
         >
           <Icon size="100%">
-            <polyline points="6 9 12 15 18 9" />
+            <ChevronGlyph />
           </Icon>
         </button>
       </div>

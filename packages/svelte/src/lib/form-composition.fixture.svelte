@@ -8,16 +8,29 @@
   import TextField from "./text-field/TextField.svelte";
   import TimeField from "./time-field/TimeField.svelte";
 
-  /** Application errors injected mid-edit onto three control families. */
-  export let nameError: string | undefined = undefined;
-  export let amountError: string | undefined = undefined;
-  export let timeError: string | undefined = undefined;
-  export let onNameChange: ((value: string) => void) | undefined = undefined;
-  export let onAmountChange: ((value: number | null) => void) | undefined = undefined;
-  export let onAmountCommit: ((value: number | null) => void) | undefined = undefined;
-  /** Render the same composed form twice to prove ids and payloads stay apart. */
-  export let second = false;
-  export let allDisabled = false;
+  interface Props {
+    /** Application errors injected mid-edit onto three control families. */
+    nameError?: string;
+    amountError?: string;
+    timeError?: string;
+    onNameChange?: (value: string) => void;
+    onAmountChange?: (value: number | null) => void;
+    onAmountCommit?: (value: number | null) => void;
+    /** Render the same composed form twice to prove ids and payloads stay apart. */
+    second?: boolean;
+    allDisabled?: boolean;
+  }
+
+  let {
+    nameError,
+    amountError,
+    timeError,
+    onNameChange,
+    onAmountChange,
+    onAmountCommit,
+    second = false,
+    allDisabled = false,
+  }: Props = $props();
 
   const countries = [
     { value: "it", label: "Italy" },

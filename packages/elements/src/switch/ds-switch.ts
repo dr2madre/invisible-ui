@@ -1,6 +1,15 @@
 import { switchControl as core } from "@design-system/core";
-import { applyProps, boolAttr, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import {
+  applyProps,
+  boolAttr,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 /**
  * `<ds-switch>` — the styled switch as a custom element.
@@ -10,7 +19,8 @@ import { watchFormReset } from "../internal/form-reset";
  * `role="switch"` makes screen readers announce on/off.
  *
  * Attributes: `label` (required), `hide-label`, `checked`, `disabled`, `name`, `value`,
- * `required`, `on-off` (text-in-track variant), `on-text`, `off-text`.
+ * `required`, `on-off` (text-in-track variant), `on-text`, `off-text`,
+ * `description`, `error`.
  * Properties: `checked` (boolean).
  * Emits: bubbling `change` CustomEvent with `detail.checked`.
  */
@@ -26,14 +36,24 @@ export class DsSwitch extends HTMLElementBase {
     "on-off",
     "on-text",
     "off-text",
+    "description",
+    "error",
   ];
 
   #input: HTMLInputElement | null = null;
   #track: HTMLSpanElement | null = null;
   #text: HTMLSpanElement | null = null;
+  #messages = new FieldMessages(nextId("ds-switch"));
   /** What a form reset restores: the last state set from outside. */
   #defaultChecked = false;
   #stopFormReset: (() => void) | null = null;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.#input) this.#sync();
+    });
+  }
 
   connectedCallback() {
     upgradeProperty(this, "checked");
@@ -123,9 +143,9 @@ export class DsSwitch extends HTMLElementBase {
       track.textContent = "";
     }
     const on = track.querySelector(".switch__on");
-    if (on) on.textContent = this.getAttribute("on-text") ?? "ON";
+    if (on) on.textContent = localized(this, "on-text", "switch.on");
     const off = track.querySelector(".switch__off");
-    if (off) off.textContent = this.getAttribute("off-text") ?? "OFF";
+    if (off) off.textContent = localized(this, "off-text", "switch.off");
 
     const api = core.connect({
       state: { checked: this.checked, disabled },
@@ -140,5 +160,8 @@ export class DsSwitch extends HTMLElementBase {
     // The real DOM default, so the browser's own reset works and so does one
     // in markup the script never reaches.
     input.defaultChecked = this.#defaultChecked;
+    // Outside the label, so the messages describe the switch without joining
+    // its name.
+    this.#messages.sync(this, this, [input]);
   }
 }

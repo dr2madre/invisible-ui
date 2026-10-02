@@ -75,7 +75,7 @@
         },
         {
           "name": "autocomplete",
-          "type": "HTMLInputAttributes[\"autocomplete\"]",
+          "type": "HTMLInputAttributes[\"autocomplete\"] | undefined",
           "default": "undefined",
           "required": false,
           "description": "Native browser autofill hint.",
@@ -387,6 +387,20 @@
         },
         {
           "name": "placeholder",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "description",
+          "reactive": true,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
           "reactive": true,
           "required": false,
           "description": "",

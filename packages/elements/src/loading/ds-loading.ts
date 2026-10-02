@@ -1,4 +1,5 @@
 import { boolAttr, HTMLElementBase } from "../internal/base";
+import { localized, onLocaleChange } from "../internal/i18n";
 
 export type LoadingVariant = "dots" | "spinner" | "bar" | "typing" | "morph";
 
@@ -7,6 +8,9 @@ export type LoadingVariant = "dots" | "spinner" | "bar" | "typing" | "morph";
  *
  * Attributes: `variant`, `value`, `label`, `show-label`, `show-value`,
  * `detail`, `decorative`, `status`, `delay`, `overlay`, `veil`.
+ *
+ * An indeterminate indicator announces its `status` (or `label`) through one
+ * visually hidden live region, created once and updated in place.
  */
 export class DsLoading extends HTMLElementBase {
   static observedAttributes = [
@@ -24,7 +28,15 @@ export class DsLoading extends HTMLElementBase {
   ];
 
   #visible = false;
+  #live: HTMLElement | null = null;
   #timer: ReturnType<typeof setTimeout> | undefined;
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => {
+      if (this.isConnected && this.#visible) this.#render();
+    });
+  }
 
   connectedCallback() {
     this.#schedule();
@@ -58,15 +70,19 @@ export class DsLoading extends HTMLElementBase {
   }
 
   #render() {
-    this.textContent = "";
-    if (!this.#visible) return;
+    const live = this.#liveRegion();
+    for (const child of Array.from(this.childNodes)) if (child !== live) child.remove();
+    if (!this.#visible) {
+      this.#announce("");
+      return;
+    }
 
     const variant = this.#variant();
     const value = this.#value();
     const determinate = variant === "bar" && value != null;
     const decorative = boolAttr(this, "decorative");
     const status = this.getAttribute("status");
-    const label = this.getAttribute("label") ?? "Loading…";
+    const label = localized(this, "label", "loading.label");
     const detail = this.getAttribute("detail");
 
     const root = document.createElement("span");
@@ -77,6 +93,8 @@ export class DsLoading extends HTMLElementBase {
     }
     root.dataset.variant = variant;
 
+    // Only an indeterminate, non-decorative indicator speaks, through the live region.
+    this.#announce(decorative || determinate ? "" : (status ?? label));
     if (decorative) root.setAttribute("aria-hidden", "true");
     else if (determinate) {
       root.setAttribute("role", "progressbar");
@@ -85,11 +103,7 @@ export class DsLoading extends HTMLElementBase {
       root.setAttribute("aria-valuemax", "100");
       root.setAttribute("aria-valuenow", String(value));
       if (detail ?? status) root.setAttribute("aria-valuetext", detail ?? status!);
-    } else {
-      root.setAttribute("role", "status");
-      if (status == null) root.setAttribute("aria-label", label);
-      else root.setAttribute("aria-atomic", "true");
-    }
+    } else root.setAttribute("aria-hidden", "true");
 
     root.appendChild(variant === "bar" ? this.#bar(value) : this.#indicator(variant));
 
@@ -113,6 +127,23 @@ export class DsLoading extends HTMLElementBase {
     }
 
     this.appendChild(root);
+  }
+
+  #liveRegion() {
+    if (!this.#live) {
+      const live = document.createElement("span");
+      live.className = "loading__live";
+      live.setAttribute("role", "status");
+      live.setAttribute("aria-atomic", "true");
+      this.#live = live;
+    }
+    if (this.#live.parentNode !== this) this.prepend(this.#live);
+    return this.#live;
+  }
+
+  #announce(text: string) {
+    // Unchanged text stays untouched, so unrelated updates are not announced again.
+    if (this.#live && this.#live.textContent !== text) this.#live.textContent = text;
   }
 
   #indicator(variant: LoadingVariant) {

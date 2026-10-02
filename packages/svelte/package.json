@@ -167,10 +167,6 @@
       "svelte": "./src/lib/login-form/LoginForm.svelte",
       "default": "./src/lib/login-form/LoginForm.svelte"
     },
-    "./Menu.svelte": {
-      "svelte": "./src/lib/menu/Menu.svelte",
-      "default": "./src/lib/menu/Menu.svelte"
-    },
     "./Sidebar.svelte": {
       "svelte": "./src/lib/sidebar/Sidebar.svelte",
       "default": "./src/lib/sidebar/Sidebar.svelte"

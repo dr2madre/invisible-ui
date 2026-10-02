@@ -5,21 +5,32 @@
    * the headless label (`@design-system/core`); this layer adds typographic
    * styling and an optional required marker.
    *
-   * The label text is the default slot. Colors are themeable via `--ds-label-*`.
+   * The label text is `children`. Colors are themeable via `--ds-label-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createLabel } from "./create-label";
 
-  /** Id of the control this labels (sets `for`). */
-  let forControl: string | undefined = undefined;
-  export { forControl as for };
-  /** Show a required marker (`*`) after the text. */
-  export let required = false;
+  interface Props {
+    /** Id of the control this labels (sets `for`). */
+    for?: string;
+    /** Show a required marker (`*`) after the text. */
+    required?: boolean;
+    children?: Snippet;
+  }
 
-  const { rootAction } = createLabel({ for: forControl });
+  let { for: forControl, required = false, children }: Props = $props();
+
+  // Seeded once from the first props; the effect below follows later ones.
+  const { rootAction, sync } = untrack(() => createLabel({ for: forControl }));
+  // The machine keeps its own store, so a `for` changed after mount is pushed
+  // into it.
+  $effect.pre(() => {
+    sync({ for: forControl });
+  });
 </script>
 
 <label class="label" use:rootAction>
-  <slot />
+  {@render children?.()}
   {#if required}<span class="label__required" aria-hidden="true">*</span>{/if}
 </label>
 

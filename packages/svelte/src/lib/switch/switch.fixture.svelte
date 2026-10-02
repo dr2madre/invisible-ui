@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { createSwitch } from "./create-switch";
 
-  export let checked = false;
-  export let disabled = false;
-  export let onCheckedChange: ((c: boolean) => void) | undefined = undefined;
+  interface Props {
+    checked?: boolean;
+    disabled?: boolean;
+    onCheckedChange?: (c: boolean) => void;
+  }
 
-  const { state: swState, setChecked } = createSwitch({ checked, disabled, onCheckedChange });
+  let { checked = false, disabled = false, onCheckedChange }: Props = $props();
+
+  const { state: swState, setChecked } = untrack(() =>
+    createSwitch({ checked, disabled, onCheckedChange }),
+  );
 
   function onChange(event: Event) {
     setChecked((event.currentTarget as HTMLInputElement).checked);
@@ -18,6 +25,6 @@
   aria-label="Wi-Fi"
   {disabled}
   checked={$swState.checked}
-  on:change={onChange}
+  onchange={onChange}
   data-state={$swState.checked ? "checked" : "unchecked"}
 />

@@ -7,6 +7,8 @@ import {
   syncAttribute,
   upgradeProperty,
 } from "../internal/base";
+import { CopyFeedback } from "../internal/copy-feedback";
+import { localized, onLocaleChange } from "../internal/i18n";
 import { hazardIcon, plusIcon } from "../internal/icons";
 
 /**
@@ -20,12 +22,19 @@ import { hazardIcon, plusIcon } from "../internal/icons";
  * Attributes: `variant` (default|primary|secondary|ghost|danger), `disabled`,
  * `type` (button|submit|reset), `icon-only`, `left-icon`, `right-icon`,
  * `aria-label` (forwarded — required for icon-only), `aria-haspopup`,
- * `aria-controls`, `title`.
+ * `aria-controls`, `title`, `copy` (text copied on activation), `copied-label`
+ * (the confirmation shown after a copy, "Copied" by default).
  * Activation is the native `click` event.
  *
  * A child marked `slot="badge"` (a `<ds-count>`, number or dot) sits on the
  * button's corner, outside the `<button>`, so the button keeps its own name
  * and the badge describes it (`aria-describedby`).
+ *
+ * `copy` makes it a copy button (ADR 0016): activating it writes the
+ * attribute's text to the clipboard and, when that works, shows "Copied"
+ * beside the button for two seconds. That text is a polite live region, so it
+ * is also announced; the button keeps its name and focus. `copied-label`
+ * replaces the confirmation text. A refused clipboard shows nothing.
  */
 export class DsButton extends HTMLElementBase {
   static observedAttributes = [
@@ -39,16 +48,30 @@ export class DsButton extends HTMLElementBase {
     "aria-haspopup",
     "aria-controls",
     "title",
+    "copy",
+    "copied-label",
   ];
 
   #button: HTMLButtonElement | null = null;
   #leftIcon: HTMLSpanElement | null = null;
   #rightIcon: HTMLSpanElement | null = null;
+  #status: HTMLSpanElement | null = null;
+  #feedback = new CopyFeedback(() => this.#syncStatus());
+
+  constructor() {
+    super();
+    onLocaleChange(this, () => this.#syncStatus());
+  }
 
   connectedCallback() {
     upgradeProperty(this, "disabled");
     if (!this.#button) this.#render();
     this.#sync();
+  }
+
+  disconnectedCallback() {
+    this.#feedback.reset();
+    this.#syncStatus();
   }
 
   attributeChangedCallback() {
@@ -87,6 +110,11 @@ export class DsButton extends HTMLElementBase {
     const label = document.createDocumentFragment();
     while (this.firstChild) label.appendChild(this.firstChild);
     button.appendChild(label);
+    // Read at the press, so a `copy` value changed later is the one copied.
+    button.addEventListener("click", () => {
+      const text = this.getAttribute("copy");
+      if (text != null) void this.#feedback.copy(text);
+    });
 
     this.appendChild(button);
     if (badge) this.appendChild(badge);
@@ -132,6 +160,28 @@ export class DsButton extends HTMLElementBase {
       type: (this.getAttribute("type") ?? "button") as "button" | "submit" | "reset",
     });
     applyProps(button, api.rootProps);
+    this.#syncStatus();
+  }
+
+  // The confirmation lives beside the button, never inside it: text inside
+  // would change the button's name. It exists while `copy` is set, so the
+  // live region is in the page before it speaks.
+  #syncStatus() {
+    if (!this.#button) return;
+    if (!this.hasAttribute("copy")) {
+      this.#feedback.reset();
+      this.#status?.remove();
+      this.#status = null;
+      return;
+    }
+    if (!this.#status) {
+      this.#status = document.createElement("span");
+      this.#status.className = "button__status";
+      this.#status.setAttribute("role", "status");
+      this.#button.after(this.#status);
+    }
+    const text = this.#feedback.copied ? localized(this, "copied-label", "button.copied") : "";
+    if (this.#status.textContent !== text) this.#status.textContent = text;
   }
 
   #icon(

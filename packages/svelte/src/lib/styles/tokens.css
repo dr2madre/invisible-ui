@@ -251,13 +251,6 @@
     var(--ds-neutral-0)
   );
   --ds-color-on-secondary-surface: var(--ds-color-primary-hover);
-  /* Deprecated aliases: the appearance-based "-soft" names keep resolving for
-     alpha consumers. They follow the role tokens above in every theme and will
-     be removed before 1.0. */
-  --ds-color-danger-soft: var(--ds-color-destructive-surface);
-  --ds-color-on-danger-soft: var(--ds-color-on-destructive-surface);
-  --ds-color-primary-soft: var(--ds-color-secondary-surface);
-  --ds-color-on-primary-soft: var(--ds-color-on-secondary-surface);
   --ds-color-neutral-surface: var(--ds-neutral-50);
   --ds-color-neutral-border: var(--ds-neutral-200);
 

@@ -7,61 +7,88 @@
    * spin buttons, optional description and error message, the hidden form
    * input, and the field styling. Themeable via `--ds-field-*`.
    */
+  import { untrack } from "svelte";
   import { numberField as core } from "@design-system/core";
   import { getI18n } from "../i18n/create-i18n";
   import { createNumberField } from "./create-number-field";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import type { NumberFieldError } from "./create-number-field";
 
   const { t, locale: providerLocale } = getI18n();
 
-  /** Visible label, tied to the control. */
-  export let label: string;
-  /** The canonical value; `null` means empty. Bindable through `onValueChange`. */
-  export let value: number | null = null;
-  /** BCP-47 locale for parsing and display. Defaults to the provider's locale. */
-  export let locale: string | undefined = undefined;
-  export let min: number | undefined = undefined;
-  export let max: number | undefined = undefined;
-  /** Step for the spin actions; typed values are validated against it. */
-  export let step = 1;
-  export let disabled = false;
-  export let readOnly = false;
-  export let required = false;
-  /** Opt in to wheel stepping while the input is focused and hovered. */
-  export let changeOnWheel = false;
-  /** Optional hint shown under the control and linked via aria-describedby. */
-  export let description: string | undefined = undefined;
-  /** Error message; when non-empty the field becomes invalid and announces it. */
-  export let error: string | undefined = undefined;
-  /** Form field name; the canonical ASCII value is submitted under it. */
-  export let name: string | undefined = undefined;
-  /** Id of the owning form when the field renders outside of it. */
-  export let form: string | undefined = undefined;
-  /** Called when the canonical value changes while editing. */
-  export let onValueChange: ((value: number | null) => void) | undefined = undefined;
-  /** Called at commit boundaries: blur, Enter, and spin actions. */
-  export let onValueCommit: ((value: number | null) => void) | undefined = undefined;
+  interface Props {
+    /** Visible label, tied to the control. */
+    label: string;
+    /** The canonical value; `null` means empty. Bindable through `onValueChange`. */
+    value?: number | null;
+    /** BCP-47 locale for parsing and display. Defaults to the provider's locale. */
+    locale?: string;
+    min?: number;
+    max?: number;
+    /** Step for the spin actions; typed values are validated against it. */
+    step?: number;
+    disabled?: boolean;
+    readOnly?: boolean;
+    required?: boolean;
+    /** Opt in to wheel stepping while the input is focused and hovered. */
+    changeOnWheel?: boolean;
+    /** Optional hint shown under the control and linked via aria-describedby. */
+    description?: string;
+    /** Error message; when non-empty the field becomes invalid and announces it. */
+    error?: string;
+    /** Form field name; the canonical ASCII value is submitted under it. */
+    name?: string;
+    /** Id of the owning form when the field renders outside of it. */
+    form?: string;
+    /** Called when the canonical value changes while editing. */
+    onValueChange?: (value: number | null) => void;
+    /** Called at commit boundaries: blur, Enter, and spin actions. */
+    onValueCommit?: (value: number | null) => void;
+  }
 
-  $: resolvedLocale = locale ?? $providerLocale;
-
-  const field = createNumberField({
-    value,
-    locale: locale ?? $providerLocale,
+  let {
+    label,
+    value = $bindable(null),
+    locale,
     min,
     max,
-    step,
-    disabled,
-    readOnly,
-    required,
-    changeOnWheel,
-    onValueChange: (next) => {
-      lastValue = next;
-      value = next;
-      onValueChange?.(next);
-    },
-    onValueCommit: (next) => onValueCommit?.(next),
-  });
+    step = 1,
+    disabled = false,
+    readOnly = false,
+    required = false,
+    changeOnWheel = false,
+    description,
+    error,
+    name,
+    form,
+    onValueChange,
+    onValueCommit,
+  }: Props = $props();
+
+  const resolvedLocale = $derived(locale ?? $providerLocale);
+
+  // Seeded once from the first props; the mirror and the effects below follow
+  // later ones.
+  const field = untrack(() =>
+    createNumberField({
+      value,
+      locale: locale ?? $providerLocale,
+      min,
+      max,
+      step,
+      disabled,
+      readOnly,
+      required,
+      changeOnWheel,
+      onValueChange: (next) => {
+        // The prop first, then the report (ADR 0011).
+        mirror.write(next);
+        onValueChange?.(next);
+      },
+      onValueCommit: (next) => onValueCommit?.(next),
+    }),
+  );
   const {
     state: fieldState,
     api,
@@ -77,36 +104,37 @@
   const descriptionId = `${baseId}-description`;
   const errorId = `${baseId}-error`;
 
-  // Last-prop mirror: only a value the parent actually changed reflects.
-  let lastValue = value;
-  // The reset default follows the prop. The write-back moves lastValue first,
-  // so this mirror only ever fires for a consumer's own change: the give-back
-  // is filtered by construction (ADR 0012).
-  let defaultValue = value;
-  $: if (!Object.is(value, lastValue)) {
-    lastValue = value;
-    defaultValue = value;
-    syncValue(value);
-  }
-  $: syncConfig({
-    locale: resolvedLocale,
-    min,
-    max,
-    step,
-    disabled,
-    readOnly,
-    required,
-    changeOnWheel,
+  // Controllable mirror (ADR 0011). The component's own writes go through
+  // `mirror.write`, so every change the mirror sees is the consumer's, and
+  // each one moves the reset default (ADR 0012).
+  const mirror = controllable({
+    get: () => value,
+    set: (next) => (value = next),
+    reflect: syncValue,
   });
-  $: setExtras({
-    invalid: Boolean(error),
-    describedBy:
-      [description ? descriptionId : null, error ? errorId : null].filter(Boolean).join(" ") ||
-      undefined,
-    messages: {
-      increment: $t("numberField.increment", { label }),
-      decrement: $t("numberField.decrement", { label }),
-    },
+  $effect.pre(() => {
+    syncConfig({
+      locale: resolvedLocale,
+      min,
+      max,
+      step,
+      disabled,
+      readOnly,
+      required,
+      changeOnWheel,
+    });
+  });
+  $effect.pre(() => {
+    setExtras({
+      invalid: Boolean(error),
+      describedBy:
+        [description ? descriptionId : null, error ? errorId : null].filter(Boolean).join(" ") ||
+        undefined,
+      messages: {
+        increment: $t("numberField.increment", { label }),
+        decrement: $t("numberField.decrement", { label }),
+      },
+    });
   });
 
   function onInput(event: Event) {
@@ -132,13 +160,19 @@
     }
   };
 
-  $: validationMessage = error ?? messageFor($api.validationError);
+  const validationMessage = $derived(error ?? messageFor($api.validationError));
+
+  // The machine restores the value and its display together, reporting
+  // nothing (ADR 0012).
+  const restore = () => field.reset(mirror.defaultValue);
 </script>
 
 <div
-  class="number-field"
-  class:number-field--invalid={Boolean(validationMessage)}
-  class:number-field--disabled={disabled}
+  class={[
+    "number-field",
+    Boolean(validationMessage) && "number-field--invalid",
+    disabled && "number-field--disabled",
+  ]}
 >
   <!-- The id pair is declared statically too, so the server-rendered markup
        already ties the label to its control before hydration. -->
@@ -155,9 +189,9 @@
       id={core.inputId(baseId)}
       value={$fieldState.inputValue}
       {form}
-      on:input={onInput}
+      oninput={onInput}
       use:inputAction
-      use:formReset={() => field.reset(defaultValue)}
+      use:formReset={restore}
     />
     <button class="number-field__spin number-field__spin--increment" use:incrementAction>
       <span aria-hidden="true">+</span>

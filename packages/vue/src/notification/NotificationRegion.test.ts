@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { renderToString } from "@vue/server-renderer";
+import { createSSRApp, h, nextTick } from "vue";
+import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { createNotifier } from "./create-notifier";
 import { NotificationRegion } from "./NotificationRegion";
@@ -51,6 +53,33 @@ describe("Vue NotificationRegion", () => {
     await user.click(screen.getAllByRole("button", { name: "Close" })[0]!);
     await waitFor(() => expect(screen.queryByText("First")).not.toBeInTheDocument());
     expect(screen.getByText("Second")).toBeInTheDocument();
+  });
+
+  it("follows the reduced motion setting when it changes after mount", async () => {
+    let matches = false;
+    const listeners = new Set<() => void>();
+    window.matchMedia = ((query: string) => ({
+      get matches() {
+        return matches;
+      },
+      media: query,
+      addEventListener: (_: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_: string, listener: () => void) => listeners.delete(listener),
+    })) as unknown as typeof window.matchMedia;
+
+    const { unmount } = render(NotificationRegion, {
+      props: { notifier: createNotifier(), duration: 200 },
+    });
+    const region = document.querySelector<HTMLElement>(".notification-region")!;
+    expect(region.style.getPropertyValue("--_notice-motion")).toBe("200ms");
+
+    matches = true;
+    for (const listener of listeners) listener();
+    await nextTick();
+    expect(region.style.getPropertyValue("--_notice-motion")).toBe("0ms");
+
+    unmount();
+    expect(listeners.size).toBe(0);
   });
 
   it("does not remember every notification it has ever shown", async () => {
@@ -150,5 +179,46 @@ describe("Vue NotificationRegion", () => {
     notifier.show({ title: "Saved", text: "All good", duration: 0 });
     await screen.findByText("Saved");
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("Vue NotificationRegion hydration", () => {
+  // The reduced-motion preference was read during setup, so a browser that
+  // prefers reduced motion rendered a different style than the server did.
+  it("hydrates without a mismatch when the user prefers reduced motion", async () => {
+    const App = { render: () => h(NotificationRegion, { notifier: createNotifier() }) };
+    // The server knows no preference; the browser then reports one.
+    const prefers = (matches: boolean) => (query: string) => ({ matches, media: query });
+    vi.stubGlobal("matchMedia", prefers(false));
+    const html = await renderToString(createSSRApp(App));
+
+    vi.stubGlobal("matchMedia", prefers(true));
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const host = document.createElement("div");
+    host.innerHTML = html;
+    document.body.append(host);
+    try {
+      const app = createSSRApp(App);
+      app.mount(host);
+      await nextTick();
+      const messages = [...warn.mock.calls, ...error.mock.calls]
+        .flat()
+        .map(String)
+        .filter((message) => /hydration|mismatch/i.test(message));
+      expect(messages).toEqual([]);
+      // After mount the preference applies.
+      await nextTick();
+      expect(
+        document
+          .querySelector<HTMLElement>(".notification-region")!
+          .style.getPropertyValue("--_notice-motion"),
+      ).toBe("0ms");
+      app.unmount();
+    } finally {
+      host.remove();
+      vi.unstubAllGlobals();
+      vi.restoreAllMocks();
+    }
   });
 });

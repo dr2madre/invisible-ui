@@ -201,3 +201,14 @@ describe("<ds-dropdown-menu>", () => {
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });
+
+describe("<ds-dropdown-menu> disabled look", () => {
+  it("marks a disabled trigger for the stylesheet, and clears it when enabled", () => {
+    document.body.innerHTML = `<ds-dropdown-menu label="Actions" disabled></ds-dropdown-menu>`;
+    const menu = document.querySelector("ds-dropdown-menu")!;
+    const trigger = menu.querySelector(".menu__trigger")!;
+    expect(trigger).toHaveAttribute("data-disabled");
+    menu.removeAttribute("disabled");
+    expect(trigger).not.toHaveAttribute("data-disabled");
+  });
+});

@@ -14,6 +14,8 @@ export interface UseProgress {
   percentage: ComputedRef<number | null>;
   /** Replace the current value (`null` for indeterminate). */
   setValue: (value: number | null) => void;
+  /** Reflect the `min` and `max` props after mount. */
+  syncRange: (min: number, max: number) => void;
 }
 
 /**
@@ -32,11 +34,17 @@ export function useProgress(context: core.ProgressContext = {}): UseProgress {
     state.value = { ...state.value, value };
   };
 
+  const syncRange = (min: number, max: number) => {
+    if (state.value.min === min && state.value.max === max) return;
+    state.value = { ...state.value, min, max };
+  };
+
   const api = computed(() => core.connect({ state: state.value, normalize: normalizeProps }));
 
   return {
     api,
     percentage: computed(() => api.value.percentage),
     setValue,
+    syncRange,
   };
 }

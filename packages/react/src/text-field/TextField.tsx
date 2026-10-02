@@ -1,5 +1,6 @@
 import { useRef, type InputHTMLAttributes, type ReactNode } from "react";
-import { Icon } from "../icon/Icon";
+import { CheckGlyph, HazardGlyph, Icon } from "../icon/Icon";
+import { cx } from "../internal/cx";
 import { useTextField } from "./use-text-field";
 
 type InputType = "text" | "search" | "email" | "password" | "tel" | "url" | "number";
@@ -89,14 +90,12 @@ export function TextField({
 
   return (
     <div
-      className={[
+      className={cx(
         "text-field",
         error ? "text-field--invalid" : "",
         success && !error ? "text-field--success" : "",
         disabled ? "text-field--disabled" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      )}
     >
       <label
         {...api.labelProps}
@@ -119,13 +118,11 @@ export function TextField({
         <input
           {...api.controlProps}
           ref={controlRef}
-          className={[
+          className={cx(
             "field__control",
             left ? "field__control--icon-left" : "",
             right || showSuccessIcon ? "field__control--icon-right" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
+          )}
           type={type}
           name={name}
           placeholder={placeholder}
@@ -145,7 +142,7 @@ export function TextField({
         ) : showSuccessIcon ? (
           <span className="field__icon field__icon--right field__icon--success" aria-hidden="true">
             <Icon>
-              <polyline points="20 6 9 17 4 12" />
+              <CheckGlyph />
             </Icon>
           </span>
         ) : null}
@@ -160,9 +157,7 @@ export function TextField({
         <p className="field__error" {...api.errorProps}>
           <span className="field__msg-icon" aria-hidden="true">
             <Icon size="1em">
-              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-              <line x1="12" y1="9" x2="12" y2="13" />
-              <line x1="12" y1="17" x2="12" y2="17" />
+              <HazardGlyph />
             </Icon>
           </span>
           {error}
@@ -171,7 +166,7 @@ export function TextField({
         <p className="field__success" {...api.successProps}>
           <span className="field__msg-icon" aria-hidden="true">
             <Icon size="1em">
-              <polyline points="20 6 9 17 4 12" />
+              <CheckGlyph />
             </Icon>
           </span>
           {success}

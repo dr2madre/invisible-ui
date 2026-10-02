@@ -29,10 +29,10 @@ composable parts.
 The dot field and an explicit indicator are **alternatives**, never stacked (no
 loader on a loader): turn `field` off and put a different loader — e.g. a
 [Loading](/invisible-ui/components/feedback/loading/) `spinner` — into the
-`indicator` slot to use that as the area's loader instead.
+`indicator` snippet to use that as the area's loader instead.
 
-When the process finishes, set `loading={false}`: LoadingGenerationArea renders its **default
-slot** (the real content) in place of the placeholder, with a gentle fade.
+When the process finishes, set `loading={false}`: LoadingGenerationArea renders its
+**children** (the real content) in place of the placeholder, with a gentle fade.
 
 Unlike the inline `Loading` variants, LoadingGenerationArea **covers a surface**; use `Loading`
 for an inline indicator next to text or in a button.
@@ -45,7 +45,7 @@ for an inline indicator next to text or in a button.
 
 Give it a sized, positioned container (or drop it in as a filling layer). Add a
 label zone (position + status / percentage / detail), and optionally an explicit
-indicator through the slot:
+indicator through the `indicator` snippet:
 
 ```svelte
 <div style="position: relative; aspect-ratio: 16 / 10;">
@@ -54,14 +54,14 @@ indicator through the slot:
 </div>
 
 <div style="position: relative; aspect-ratio: 16 / 10;">
-  <!-- A plain area (no dot field) with an explicit spinner via the slot -->
+  <!-- A plain area (no dot field) with an explicit spinner via the snippet -->
   <LoadingGenerationArea field={false} label="Loading">
-    <Loading slot="indicator" variant="spinner" decorative />
+    {#snippet indicator()}<Loading variant="spinner" decorative />{/snippet}
   </LoadingGenerationArea>
 </div>
 ```
 
-When the data arrives, flip `loading` and the default slot's content replaces the
+When the data arrives, flip `loading` and the children replace the
 placeholder (with a gentle fade):
 
 ```svelte

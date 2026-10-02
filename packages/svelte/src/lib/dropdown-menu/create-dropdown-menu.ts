@@ -1,9 +1,10 @@
 import { menu as core } from "@design-system/core";
-import { autoUpdate, computePosition, flip, offset, shift, type Placement } from "@floating-ui/dom";
 import { tick } from "svelte";
 import type { Action } from "svelte/action";
 import { derived, get, writable, type Readable } from "svelte/store";
-import { createPropsAction } from "../internal/connect";
+import { createItemAction, createPropsAction } from "../internal/connect";
+import { onOutsidePointerDown } from "../internal/dismiss";
+import { attachFloating } from "../internal/floating";
 import { ignoreGhostClicks } from "../internal/ghost-click";
 import { stableId } from "../internal/stable-id";
 import { normalizeProps } from "../normalize";
@@ -27,10 +28,13 @@ export interface CreateDropdownMenu {
   menuAction: Action<HTMLElement>;
   /** Svelte action for a menu item: `<button use:itemAction={value}>`. */
   itemAction: Action<HTMLElement, string>;
+  /** Reflect controlled items without reporting a change. */
+  syncItems: (items: MenuEntry[]) => void;
+  /** Reflect the controlled disabled state. */
+  syncDisabled: (disabled: boolean) => void;
 }
 
 const TYPEAHEAD_RESET = 500;
-const placement: Placement = "bottom-start";
 
 /**
  * Create a headless dropdown menu (WAI-ARIA menu button). Behaviour and
@@ -56,6 +60,14 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
       current.activeValue === activeValue ? current : { ...current, activeValue },
     );
 
+  // Reflect controlled props without reporting a change, so keyboard
+  // navigation and typeahead walk the items the template renders.
+  const syncItems = (items: MenuEntry[]) =>
+    state.update((current) => (current.items === items ? current : { ...current, items }));
+
+  const syncDisabled = (disabled: boolean) =>
+    state.update((current) => (current.disabled === disabled ? current : { ...current, disabled }));
+
   const api = derived(state, ($state) =>
     core.connect({
       state: $state,
@@ -69,27 +81,12 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
   let triggerEl: HTMLElement | null = null;
   let menuEl: HTMLElement | null = null;
 
-  const reposition = () => {
-    if (!triggerEl || !menuEl) return;
-    computePosition(triggerEl, menuEl, {
-      placement,
-      strategy: "fixed",
-      middleware: [offset(4), flip({ padding: 8 }), shift({ padding: 8 })],
-    }).then(({ x, y }) => {
-      if (!menuEl) return;
-      menuEl.style.left = `${x}px`;
-      menuEl.style.top = `${y}px`;
-    });
-  };
-
   const itemEl = (value: string | null) =>
     value && menuEl
       ? menuEl.querySelector<HTMLElement>(`[data-value="${CSS.escape(value)}"]`)
       : null;
 
-  const onOutsidePointer = (event: Event) => {
-    const target = event.target as Node;
-    if (triggerEl?.contains(target) || menuEl?.contains(target)) return;
+  const close = () => {
     setOpen(false);
     setActiveValue(null);
   };
@@ -112,14 +109,16 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     menuEl = node;
     const base = createPropsAction(api, (a) => a.menuProps)(node);
 
-    let stopAutoUpdate: (() => void) | null = null;
+    let stopFloating: (() => void) | null = null;
+    let stopDismiss: (() => void) | null = null;
     let buffer = "";
     let timer: ReturnType<typeof setTimeout> | undefined;
 
     const teardown = () => {
-      stopAutoUpdate?.();
-      stopAutoUpdate = null;
-      document.removeEventListener("pointerdown", onOutsidePointer, true);
+      stopFloating?.();
+      stopFloating = null;
+      stopDismiss?.();
+      stopDismiss = null;
     };
 
     // Typeahead while the menu is open.
@@ -144,12 +143,8 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     const unsubscribe = state.subscribe(($state) => {
       if ($state.open && !wasOpen) {
         if (triggerEl) {
-          node.style.minWidth = `${triggerEl.offsetWidth}px`;
-          stopAutoUpdate =
-            typeof ResizeObserver !== "undefined"
-              ? autoUpdate(triggerEl, node, reposition)
-              : (reposition(), () => {});
-          document.addEventListener("pointerdown", onOutsidePointer, true);
+          stopFloating = attachFloating(triggerEl, node, { sameWidth: true });
+          stopDismiss = onOutsidePointerDown([triggerEl, node], close);
         }
       } else if (!$state.open && wasOpen) {
         teardown();
@@ -179,11 +174,9 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = (node, value) => {
-    const itemApi = derived(api, (a) => a.getItemProps(value as string));
-    const handle = createPropsAction(itemApi, (props) => props)(node);
-    return { destroy: () => handle?.destroy?.() };
-  };
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
+    a.getItemProps(value),
+  );
 
   return {
     state,
@@ -192,5 +185,7 @@ export function createDropdownMenu(context: MenuContext): CreateDropdownMenu {
     triggerAction,
     menuAction,
     itemAction,
+    syncItems,
+    syncDisabled,
   };
 }

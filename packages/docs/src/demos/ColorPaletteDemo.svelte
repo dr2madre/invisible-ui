@@ -238,9 +238,9 @@
   // White is not a shade in any hue column, so it lives apart among the neutrals.
   const white = "#FFFFFF";
 
-  let fmt = "hex";
-  let copiedKey = null;
-  let copiedValue = "";
+  let fmt = $state("hex");
+  let copiedKey = $state(null);
+  let copiedValue = $state("");
   let copyTimer;
 
   const toOklch = (r, g, b) => {
@@ -321,12 +321,12 @@
             class="cell dspal--{hue.key}-{s}"
             aria-label={`${hue.name} ${s} ${hue.hex[s]}, click to copy`}
             title={hue.hex[s]}
-            on:click={() => copy(hue.hex[s], `${hue.key}-${s}`)}
+            onclick={() => copy(hue.hex[s], `${hue.key}-${s}`)}
           >
             {#if copiedKey === `${hue.key}-${s}`}
               <span class="cell__toast">
                 <Tag status="neutral" variant="solid">
-                  <Icon slot="icon"><path d="M20 6 9 17l-5-5" /></Icon>
+                  {#snippet icon()}<Icon><path d="M20 6 9 17l-5-5" /></Icon>{/snippet}
                   Copied to clipboard
                 </Tag>
               </span>
@@ -347,12 +347,12 @@
         class="cell cell--white"
         aria-label={`White ${white} — click to copy`}
         title={white}
-        on:click={() => copy(white, "white")}
+        onclick={() => copy(white, "white")}
       >
         {#if copiedKey === "white"}
           <span class="cell__toast">
             <Tag status="neutral" variant="solid">
-              <Icon slot="icon"><path d="M20 6 9 17l-5-5" /></Icon>
+              {#snippet icon()}<Icon><path d="M20 6 9 17l-5-5" /></Icon>{/snippet}
               Copied to clipboard
             </Tag>
           </span>

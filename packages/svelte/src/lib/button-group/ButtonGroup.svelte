@@ -10,19 +10,31 @@
    * holds no selection — each button stays an independent action. Give it an
    * accessible `label`. Spacing is themeable via `--ds-button-group-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createButtonGroup, type Orientation } from "./create-button-group";
 
-  /** Accessible name for the group. */
-  export let label: string;
-  export let orientation: Orientation = "horizontal";
-  /** Visually merge the buttons into one bar (vs. spacing them apart). */
-  export let attached = true;
-  /**
-   * Cross-axis alignment of the items. Defaults to `center` so a taller sibling
-   * (e.g. a Select with a label) never stretches the buttons; use `end` to line
-   * buttons up with a labelled control's input row, or `stretch` for equal heights.
-   */
-  export let align: "start" | "center" | "end" | "stretch" = "center";
+  interface Props {
+    /** Accessible name for the group. */
+    label: string;
+    orientation?: Orientation;
+    /** Visually merge the buttons into one bar (vs. spacing them apart). */
+    attached?: boolean;
+    /**
+     * Cross-axis alignment of the items. Defaults to `center` so a taller sibling
+     * (e.g. a Select with a label) never stretches the buttons; use `end` to line
+     * buttons up with a labelled control's input row, or `stretch` for equal heights.
+     */
+    align?: "start" | "center" | "end" | "stretch";
+    children?: Snippet;
+  }
+
+  let {
+    label,
+    orientation = "horizontal",
+    attached = true,
+    align = "center",
+    children,
+  }: Props = $props();
 
   const alignItems = {
     start: "flex-start",
@@ -31,19 +43,26 @@
     stretch: "stretch",
   };
 
-  const { rootAction, setState } = createButtonGroup({ label, orientation });
+  // Seeded once from the first props; the effect below follows later ones.
+  const { rootAction, setState } = untrack(() => createButtonGroup({ label, orientation }));
 
-  $: setState({ orientation, label });
+  // The machine keeps its own store, so props changed after mount are pushed
+  // into it.
+  $effect.pre(() => {
+    setState({ orientation, label });
+  });
 </script>
 
 <div
-  class="button-group"
-  class:button-group--attached={attached}
-  class:button-group--vertical={orientation === "vertical"}
+  class={[
+    "button-group",
+    attached && "button-group--attached",
+    orientation === "vertical" && "button-group--vertical",
+  ]}
   style="align-items: {alignItems[align]};"
   use:rootAction
 >
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

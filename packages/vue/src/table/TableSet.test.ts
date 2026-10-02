@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { nextTick } from "vue";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { TableSet, type TableViewDef } from "./TableSet";
 import type { TableColumnDef, TableRow } from "./Table";
@@ -532,5 +533,43 @@ describe("Vue TableSet (controlled views)", () => {
     expect(tab("Logs")).toHaveFocus();
     await user.keyboard("{Enter}");
     expect(tab("Logs")).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+describe("Vue TableSet infinite scroll sentinel", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  // Like the browser, a new observer reports the current intersection once;
+  // this sentinel never leaves the view.
+  class VisibleObserver {
+    constructor(private callback: IntersectionObserverCallback) {}
+    observe() {
+      this.callback(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        this as unknown as IntersectionObserver,
+      );
+    }
+    disconnect() {}
+  }
+
+  it("loads more when loading ends with the sentinel still in view", async () => {
+    vi.stubGlobal("IntersectionObserver", VisibleObserver);
+    const onLoadMore = vi.fn();
+    const { rerender } = setup({ infinite: true, hasMore: true, loading: true, onLoadMore });
+    // The observer attaches after mount and sees the load still running.
+    await nextTick();
+    expect(onLoadMore).not.toHaveBeenCalled();
+
+    await rerender({
+      columns,
+      rows,
+      title: "People",
+      caption: "People",
+      infinite: true,
+      hasMore: true,
+      loading: false,
+      onLoadMore,
+    });
+    expect(onLoadMore).toHaveBeenCalledOnce();
   });
 });

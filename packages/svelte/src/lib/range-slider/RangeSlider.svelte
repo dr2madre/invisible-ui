@@ -16,41 +16,68 @@
    * fall back to. Colors, sizing and the thumbs are themeable via
    * `--ds-range-slider-*`.
    */
+  import { untrack, type Snippet } from "svelte";
   import { createRangeSlider } from "./create-range-slider";
   import { nearestThumb } from "./nearest-thumb";
   import { formReset } from "../internal/form-reset";
+  import { controllable } from "../internal/controllable.svelte";
   import { getI18n } from "../i18n/create-i18n";
   import { rangeSlider as core } from "@design-system/core";
 
   const { t } = getI18n();
 
-  export let value: readonly [number, number] = [0, 100];
-  export let min = 0;
-  export let max = 100;
-  export let step = 1;
-  /** The gap the two thumbs may not close. They may touch; they never cross. */
-  export let minDistance = 0;
-  export let orientation: "horizontal" | "vertical" = "horizontal";
-  export let disabled = false;
-  /** Accessible name for the group. */
-  export let label: string;
-  /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */
-  export let thumbLabels: readonly [string, string];
-  /** Form field name — both thumbs submit under it, in order:
-   * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */
-  export let name: string | undefined = undefined;
-  /** Show the current values to the side of the track. */
-  export let showValue = false;
-  /** Show the min and max reference values under the ends of the track. */
-  export let showRange = false;
-  /** Show tick marks at each step (only when the count is reasonable). */
-  export let ticks = false;
-  /** Format a displayed value (e.g. add a unit). */
-  export let format: (value: number) => string = (v) => String(v);
-  /** Called with the complete pair whenever it changes. */
-  export let onValueChange: ((value: readonly [number, number]) => void) | undefined = undefined;
+  interface Props {
+    value?: readonly [number, number];
+    min?: number;
+    max?: number;
+    step?: number;
+    /** The gap the two thumbs may not close. They may touch; they never cross. */
+    minDistance?: number;
+    orientation?: "horizontal" | "vertical";
+    disabled?: boolean;
+    /** Accessible name for the group. */
+    label: string;
+    /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */
+    thumbLabels: readonly [string, string];
+    /** Form field name — both thumbs submit under it, in order:
+     * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */
+    name?: string;
+    /** Show the current values to the side of the track. */
+    showValue?: boolean;
+    /** Show the min and max reference values under the ends of the track. */
+    showRange?: boolean;
+    /** Show tick marks at each step (only when the count is reasonable). */
+    ticks?: boolean;
+    /** Format a displayed value (e.g. add a unit). */
+    format?: (value: number) => string;
+    /** Called with the complete pair whenever it changes. */
+    onValueChange?: (value: readonly [number, number]) => void;
+    /** A decorative icon before the track. */
+    icon?: Snippet;
+  }
 
-  // A live callback reference, so a swapped callback is honoured (ADR 0011).
+  let {
+    value = $bindable([0, 100]),
+    min = 0,
+    max = 100,
+    step = 1,
+    minDistance = 0,
+    orientation = "horizontal",
+    disabled = false,
+    label,
+    thumbLabels,
+    name,
+    showValue = false,
+    showRange = false,
+    ticks = false,
+    format = (v) => String(v),
+    onValueChange,
+    icon,
+  }: Props = $props();
+
+  // Seeded once from the first props; the mirror and the effects below follow
+  // later ones. A live callback reference, so a swapped callback is honoured
+  // (ADR 0011).
   const {
     api,
     value: pairValue,
@@ -58,43 +85,69 @@
     setValue,
     syncValue,
     syncConfig,
-  } = createRangeSlider({
-    value,
-    min,
-    max,
-    step,
-    minDistance,
-    orientation,
-    disabled,
-    onValueChange: (next) => onValueChange?.(next),
-  });
+  } = untrack(() =>
+    createRangeSlider({
+      value,
+      min,
+      max,
+      step,
+      minDistance,
+      orientation,
+      disabled,
+      onValueChange: (next) => onValueChange?.(next),
+    }),
+  );
+
+  // The pair is compared by position, never by reference: a fresh array
+  // holding the same two numbers is no change.
+  let seenPair = untrack(() => value);
+  const samePair = (next: readonly [number, number]) => {
+    if (next[0] !== seenPair[0] || next[1] !== seenPair[1]) seenPair = next;
+    return seenPair;
+  };
 
   // Controllable mirror, atomic across both positions (ADR 0011): a pair
   // matching what the control itself last reported in only one position is
   // not a give-back, and is taken as the application's own choice.
-  let lastValue = value;
-  // The reset default follows the prop, except a give-back of what the
-  // control itself reported (ADR 0012). Normalized the same way a user's own
-  // drag would be, so a native reset can never restore an invalid pair.
-  let defaultValue = core.normalizePair(value, min, max, step, minDistance);
-  $: if (value[0] !== lastValue[0] || value[1] !== lastValue[1]) {
-    lastValue = value;
-    const isGiveBack = value[0] === $pairValue[0] && value[1] === $pairValue[1];
-    if (!isGiveBack) defaultValue = core.normalizePair(value, min, max, step, minDistance);
-    syncValue(value);
-  }
+  const mirror = controllable({
+    get: () => samePair(value),
+    set: (next) => (value = next),
+    reflect: syncValue,
+    isGiveBack: (next) => next[0] === $pairValue[0] && next[1] === $pairValue[1],
+  });
+
   // Constraints changed after mount reach the machine, the DOM and the
-  // dependent bounds without a remount, and report nothing. The reset
-  // default is normalized against them too, so a native reset can never put
-  // back a pair the new constraints would not allow.
-  $: syncConfig({ min, max, step, minDistance, orientation, disabled });
-  $: defaultValue = core.normalizePair(defaultValue, min, max, step, minDistance);
+  // dependent bounds without a remount, and report nothing.
+  $effect.pre(() => {
+    syncConfig({ min, max, step, minDistance, orientation, disabled });
+  });
+
+  // The reset default (ADR 0012), normalized the same way a user's own drag
+  // would be, so a native reset can never restore an invalid pair. A new
+  // default is normalized once against the constraints of its time; a later
+  // constraint change normalizes the held default again.
+  let defaultValue = $state.raw(
+    untrack(() => core.normalizePair(value, min, max, step, minDistance)),
+  );
+  $effect.pre(() => {
+    const next = mirror.defaultValue;
+    untrack(() => {
+      defaultValue = core.normalizePair(next, min, max, step, minDistance);
+    });
+  });
+  $effect.pre(() => {
+    const constraints = [min, max, step, minDistance] as const;
+    defaultValue = core.normalizePair(
+      untrack(() => defaultValue),
+      ...constraints,
+    );
+  });
   // The restore puts the control's own copy back beside the machine's, so a
   // later prop change is judged against what the page now shows (ADR 0012).
   const restore = () => {
-    lastValue = defaultValue;
-    value = defaultValue;
-    syncValue(defaultValue);
+    const pair = defaultValue;
+    mirror.write(pair);
+    syncValue(pair);
   };
 
   function onInput(index: 0 | 1) {
@@ -109,43 +162,46 @@
     };
   }
 
-  let lowerEl: HTMLInputElement | null = null;
-  let upperEl: HTMLInputElement | null = null;
-  let trackEl: HTMLElement;
+  let lowerEl: HTMLInputElement | null = $state(null);
+  let upperEl: HTMLInputElement | null = $state(null);
+  let trackEl: HTMLElement | undefined;
 
   // Tick positions (as %), one per grid point the arrows can reach, shown
   // only for a sane number of steps. Spaced by the step, not by dividing the
   // span: a max the grid does not reach (0-95 on a step of 10) has no tick.
-  $: tickCount = step > 0 ? Math.floor((max - min) / step) : 0;
-  $: tickPositions =
+  const tickCount = $derived(step > 0 ? Math.floor((max - min) / step) : 0);
+  const tickPositions = $derived(
     ticks && tickCount > 0 && tickCount <= 20
       ? Array.from({ length: tickCount + 1 }, (_, i) => ((i * step) / (max - min)) * 100)
-      : [];
+      : [],
+  );
 
   // The bound named is the one the clamp really uses, read from the same
   // override core computes, so the text and the attribute never disagree.
-  $: lowerAriaText = $t("rangeSlider.lowerText", {
-    value: format($pairValue[0]),
-    bound: format(Number($api.getThumbProps(0)["aria-valuemax"])),
-  });
-  $: upperAriaText = $t("rangeSlider.upperText", {
-    value: format($pairValue[1]),
-    bound: format(Number($api.getThumbProps(1)["aria-valuemin"])),
-  });
+  const lowerAriaText = $derived(
+    $t("rangeSlider.lowerText", {
+      value: format($pairValue[0]),
+      bound: format(Number($api.getThumbProps(0)["aria-valuemax"])),
+    }),
+  );
+  const upperAriaText = $derived(
+    $t("rangeSlider.upperText", {
+      value: format($pairValue[1]),
+      bound: format(Number($api.getThumbProps(1)["aria-valuemin"])),
+    }),
+  );
 </script>
 
 <div
-  class="range-slider-field"
-  class:range-slider-field--disabled={disabled}
+  class={["range-slider-field", disabled && "range-slider-field--disabled"]}
   data-orientation={orientation}
 >
   <div class="range-slider-field__row">
-    {#if $$slots.icon}
-      <span class="range-slider-field__icon" aria-hidden="true"><slot name="icon" /></span>
+    {#if icon}
+      <span class="range-slider-field__icon" aria-hidden="true">{@render icon()}</span>
     {/if}
     <div
-      class="range-slider"
-      class:range-slider--disabled={disabled}
+      class={["range-slider", disabled && "range-slider--disabled"]}
       aria-label={label}
       role="group"
       data-orientation={orientation}
@@ -174,7 +230,7 @@
           aria-valuetext={lowerAriaText}
           value={$pairValue[0]}
           defaultValue={defaultValue[0]}
-          on:input={onInput(0)}
+          oninput={onInput(0)}
           use:formReset={restore}
         />
         <input
@@ -186,7 +242,7 @@
           aria-valuetext={upperAriaText}
           value={$pairValue[1]}
           defaultValue={defaultValue[1]}
-          on:input={onInput(1)}
+          oninput={onInput(1)}
         />
       </div>
     </div>

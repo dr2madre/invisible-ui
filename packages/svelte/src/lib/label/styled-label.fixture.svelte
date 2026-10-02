@@ -1,7 +1,11 @@
 <script lang="ts">
   import Label from "./Label.svelte";
 
-  export let required = false;
+  interface Props {
+    required?: boolean;
+  }
+
+  let { required = false }: Props = $props();
 </script>
 
 <Label for="name" {required}>Full name</Label>

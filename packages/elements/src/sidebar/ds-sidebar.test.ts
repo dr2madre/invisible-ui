@@ -41,6 +41,22 @@ describe("<ds-sidebar>", () => {
     expect(within(nav).getByText("v1").closest(".sidebar__footer")).not.toBeNull();
   });
 
+  it("keeps the footer content in place and focused across renders", () => {
+    document.body.innerHTML = `
+      <ds-sidebar label="Primary">
+        <button slot="footer" type="button">Account</button>
+      </ds-sidebar>`;
+    const sidebar = document.querySelector("ds-sidebar") as DsSidebar;
+    sidebar.sections = sections;
+    const account = screen.getByRole("button", { name: "Account" });
+    const region = account.parentElement;
+    account.focus();
+    sidebar.value = "weekly";
+    expect(account).toHaveFocus();
+    expect(account.parentElement).toBe(region);
+    expect(region!.parentElement?.lastElementChild).toBe(region);
+  });
+
   it("marks the current destination and opens the section holding it", () => {
     mount('value="weekly"');
     expect(screen.getByRole("button", { name: "Weekly" })).toHaveAttribute("aria-current", "page");
@@ -83,11 +99,18 @@ describe("<ds-sidebar>", () => {
     sidebar.addEventListener("collapsed-change", (e) =>
       seen.push((e as CustomEvent).detail.collapsed),
     );
-    await user.click(screen.getByRole("button", { name: "Collapse the navigation" }));
+    const toggle = () => screen.getByRole("button", { name: "Collapse the navigation" });
+    expect(toggle()).toHaveAttribute("aria-pressed", "false");
+    await user.click(toggle());
     expect(seen).toEqual([true]);
     expect(screen.getByRole("navigation")).toHaveAttribute("data-collapsed");
     expect(screen.getByRole("button", { name: "Home" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Expand the navigation" })).toHaveFocus();
+    // One name in both states: the pressed state alone says the rail is on.
+    expect(toggle()).toHaveFocus();
+    expect(toggle()).toHaveAttribute("aria-pressed", "true");
+    await user.click(toggle());
+    expect(seen).toEqual([true, false]);
+    expect(toggle()).toHaveAttribute("aria-pressed", "false");
   });
 
   it("offers no rail when a destination has no icon", () => {
@@ -101,5 +124,23 @@ describe("<ds-sidebar>", () => {
   it("has no accessibility violations", async () => {
     mount('value="home"');
     expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+describe("<ds-sidebar> rail tooltips", () => {
+  it("gives each destination its name back as a tooltip on the rail", async () => {
+    const user = userEvent.setup();
+    mount("collapsed");
+    const home = screen.getByRole("button", { name: "Home" });
+    expect(home.closest("ds-tooltip")).toHaveAttribute("text", "Home");
+    home.focus();
+    await user.keyboard("{Shift>}{Tab}{/Shift}");
+    await user.tab();
+    expect(screen.getByRole("tooltip")).toHaveTextContent("Home");
+  });
+
+  it("renders no tooltip when the bar is expanded", () => {
+    mount();
+    expect(document.querySelector("ds-sidebar ds-tooltip")).toBeNull();
   });
 });

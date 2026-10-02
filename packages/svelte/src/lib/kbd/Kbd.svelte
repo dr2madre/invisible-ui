@@ -2,7 +2,7 @@
   /**
    * Kbd — a keyboard-shortcut hint rendered with the semantic `<kbd>` element.
    *
-   * Pass a single key as the default slot (`<Kbd>Esc</Kbd>`) or a chord as the
+   * Pass a single key as `children` (`<Kbd>Esc</Kbd>`) or a chord as the
    * `keys` array (`keys={["⌘", "K"]}`) — each key gets its own nested `<kbd>` and
    * they are joined by a visible separator (default "+"). The outer element is a
    * `<kbd>` so assistive tech announces it as keyboard input.
@@ -10,10 +10,17 @@
    * Presentational only — a light, raised "keycap" on a white surface. Themeable
    * via `--ds-kbd-*`.
    */
-  /** A chord of keys, each rendered as its own keycap and joined by `separator`. */
-  export let keys: string[] | undefined = undefined;
-  /** Separator shown between chord keys. Defaults to "+". */
-  export let separator = "+";
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    /** A chord of keys, each rendered as its own keycap and joined by `separator`. */
+    keys?: string[];
+    /** Separator shown between chord keys. Defaults to "+". */
+    separator?: string;
+    children?: Snippet;
+  }
+
+  let { keys, separator = "+", children }: Props = $props();
 </script>
 
 {#if keys && keys.length}
@@ -24,7 +31,7 @@
     {/each}
   </kbd>
 {:else}
-  <kbd class="kbd kbd__key"><slot /></kbd>
+  <kbd class="kbd kbd__key">{@render children?.()}</kbd>
 {/if}
 
 <style>

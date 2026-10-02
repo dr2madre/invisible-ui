@@ -35,6 +35,16 @@ describe("Svelte Collapsible (styled)", () => {
     expect(onOpenChange).toHaveBeenLastCalledWith(false);
   });
 
+  it("toggles once a collapsible mounted disabled is enabled", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    const { rerender } = render(Fixture, { props: { disabled: true, onOpenChange } });
+    await rerender({ disabled: false });
+
+    await user.click(screen.getByRole("button", { name: "Details" }));
+    expect(onOpenChange).toHaveBeenLastCalledWith(true);
+  });
+
   it("has no accessibility violations when open", async () => {
     const { container } = render(Fixture, { props: { open: true } });
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();

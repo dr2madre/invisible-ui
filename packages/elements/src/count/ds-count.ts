@@ -14,11 +14,14 @@ const numberAttr = (element: Element, name: string, fallback: number) => {
  *
  * Attributes: `count`, `max`, `dot`, `show-zero`, `status`, `label`.
  * Counts above `max` render as `N+`. Zero is hidden unless `show-zero` is set.
- * A labelled count or dot exposes a status name; an unlabelled dot is
- * decorative.
+ * A labelled count or dot is announced through one visually hidden live
+ * region, created once and updated in place; the visible badge is hidden from
+ * assistive technology. An unlabelled dot is decorative.
  */
 export class DsCount extends HTMLElementBase {
   static observedAttributes = ["count", "max", "dot", "show-zero", "status", "label"];
+
+  #live: HTMLElement | null = null;
 
   connectedCallback() {
     for (const property of ["count", "max", "dot", "showZero"]) upgradeProperty(this, property);
@@ -60,32 +63,44 @@ export class DsCount extends HTMLElementBase {
   }
 
   #render() {
-    this.textContent = "";
-    if (!this.dot && !this.showZero && this.count <= 0) return;
+    const live = this.#liveRegion();
+    for (const child of Array.from(this.childNodes)) if (child !== live) child.remove();
+    if (!this.dot && !this.showZero && this.count <= 0) {
+      this.#announce("");
+      return;
+    }
 
     const root = document.createElement("span");
     root.className = this.dot ? "count count--dot" : "count";
     root.dataset.status = this.#status();
+    root.setAttribute("aria-hidden", "true");
     const label = this.getAttribute("label");
 
-    if (this.dot) {
-      if (label) {
-        root.setAttribute("role", "status");
-        root.setAttribute("aria-label", label);
-      } else {
-        root.setAttribute("aria-hidden", "true");
-      }
-    } else {
+    if (this.dot) this.#announce(label ?? "");
+    else {
       const display = this.count > this.max ? `${this.max}+` : String(this.count);
-      root.setAttribute("role", "status");
-      root.setAttribute("aria-label", label ?? display);
-      const visible = document.createElement("span");
-      visible.setAttribute("aria-hidden", "true");
-      visible.textContent = display;
-      root.appendChild(visible);
+      this.#announce(label ?? display);
+      root.textContent = display;
     }
 
     this.appendChild(root);
+  }
+
+  #liveRegion() {
+    if (!this.#live) {
+      const live = document.createElement("span");
+      live.className = "count__live";
+      live.setAttribute("role", "status");
+      live.setAttribute("aria-atomic", "true");
+      this.#live = live;
+    }
+    if (this.#live.parentNode !== this) this.prepend(this.#live);
+    return this.#live;
+  }
+
+  #announce(text: string) {
+    // Unchanged text stays untouched, so unrelated updates are not announced again.
+    if (this.#live && this.#live.textContent !== text) this.#live.textContent = text;
   }
 
   #status(): CountStatus {

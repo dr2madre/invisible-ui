@@ -3,7 +3,11 @@
   import Calendar from "../calendar/Calendar.svelte";
   import type { Dir } from "./create-i18n";
 
-  export let dir: Dir = "rtl";
+  interface Props {
+    dir?: Dir;
+  }
+
+  let { dir = "rtl" }: Props = $props();
 
   const messages = {
     "calendar.previous": "Indietro",
