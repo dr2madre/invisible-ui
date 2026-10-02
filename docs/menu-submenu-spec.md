@@ -33,12 +33,12 @@ Read on 2026-10-02.
 | --- | --- | --- | --- |
 | How a submenu is written | Compound parts: `Sub`, `SubTrigger`, `SubContent` | [Radix DropdownMenu](https://www.radix-ui.com/primitives/docs/components/dropdown-menu) (shadcn/ui), [Bits UI DropdownMenu](https://bits-ui.com/docs/components/dropdown-menu) | A `submenu` entry in the items data, like `group` and `separator` today |
 | | A `Menu` passed as the children of a `MenuItem` | [Carbon React MenuItem](https://github.com/carbon-design-system/carbon/blob/main/packages/react/src/components/Menu/MenuItem.tsx) | |
-| Open state of a submenu | `open`, `defaultOpen`, `onOpenChange` on `Sub` | Radix, Bits UI | Internal only in v1 (open question 1) |
+| Open state of a submenu | `open`, `defaultOpen`, `onOpenChange` on `Sub` | Radix, Bits UI | Internal only in v1 (decision 1) |
 | Keys that open and close | Enter, Space and ArrowRight open; ArrowLeft closes; swapped in RTL | [Radix menu source](https://github.com/radix-ui/primitives/blob/main/packages/react/menu/src/menu.tsx) | The APG map, mirrored in RTL |
 | Escape inside a submenu | Closes every level | Radix | Closes one level (APG) |
 | Hover open delay | 100 ms | Radix, Carbon | 100 ms |
 | Diagonal pointer path | A polygon from the pointer to the submenu keeps it open for up to 300 ms | Radix | Adopted as the grace area |
-| A press on the trigger | Opens it, never closes it | Radix | Opens; closes only on touch and pen (open question 2) |
+| A press on the trigger | Opens it, never closes it | Radix | Opens; closes only on touch and pen (decision 2) |
 | Disabled trigger | `disabled` on `SubTrigger` | Radix, Bits UI | Supported: never opens |
 | | `disabled` is ignored on an item that holds a submenu | Carbon | |
 | Depth | "Avoid multiple levels of nesting" | [Carbon menu usage](https://carbondesignsystem.com/components/menu/usage/) | Any depth in the model, one level recommended |
@@ -125,7 +125,8 @@ left side in right-to-left text; **inline-start** is the opposite.
 | ArrowDown, ArrowUp | Next or previous enabled item of this level, wrapping (existing) | Same |
 | Home, End | First or last enabled item of this level (existing) | Same |
 | Printable characters | Typeahead over this level only | Same |
-| Enter, Space | Activate the item: close every level, then report (existing) | Open the submenu, focus its first enabled item |
+| Enter | Activate the item: close every level, then report (existing) | Open the submenu, focus its first enabled item |
+| Space | Activate the item and close every level; on a checkbox or radio item, change its state and keep the menu open (decision 3) | Open the submenu, focus its first enabled item |
 | Arrow toward inline-end | Nothing in Dropdown and Context Menu; in Menubar, see below | Open the submenu, focus its first enabled item |
 | Arrow toward inline-start | In a submenu: close this level, focus the parent item. In the root menu: nothing in Dropdown and Context Menu; in Menubar, see below | Same |
 | Escape | Close this level only. Focus returns to the parent item, or from the root menu to the trigger (Dropdown, Menubar) or to the element focused before opening (Context Menu) | Same |
@@ -139,9 +140,11 @@ left side in right-to-left text; **inline-start** is the opposite.
 - **RTL.** The arrows follow the direction of the menu, read from the
   platform (`dir` and computed `direction` on the web, `Directionality` in
   Flutter). In right-to-left text ArrowLeft opens and ArrowRight closes.
-- **Checkable items.** Enter and Space activate a checkbox or radio item the
-  same way as an action: every level closes, then `onSelect` reports. Open
-  question 3 asks whether Space keeps the menu open for checkable items.
+- **Checkable items.** Enter and a press activate a checkbox or radio item
+  the same way as an action: every level closes, then `onSelect` reports.
+  Space changes the item's state and keeps the menu open, as the APG allows,
+  so several options can be set in a row; `onSelect` reports each change
+  once. This applies in submenus and in the root menu, in every adapter.
 
 ### Menubar
 
@@ -177,9 +180,12 @@ Wrapping across the top menus and Home and End on the bar stay as they are.
   focus has returned (ADR 0011). Menubar keeps `onSelect(menuValue,
   itemValue)`, where `menuValue` is the top menu.
 - A submenu trigger never reports through `onSelect`. Opening and closing a
-  submenu reports nothing in v1 (open question 1).
+  submenu reports nothing: submenu state is internal (decision 1).
 - `onOpenChange` keeps reporting the root menu only: `true` when it opens,
   `false` when the last level closes.
+- `onSelect` reports the item value only. Values are unique in the tree, and
+  `findEntry(value)` gives the path when an application needs it
+  (decision 5).
 - An item that opens a dialog: the menu has closed and returned focus to its
   trigger before `onSelect` runs, so the dialog returns focus to that trigger
   when it closes (ADR 0016).
@@ -211,7 +217,7 @@ Wrapping across the top menus and Home and End on the bar stay as they are.
 - **Press on a trigger.** A press opens a closed submenu. On touch and pen a
   press on an open submenu's trigger closes it. A mouse press on an open
   trigger keeps it open, because hover has usually opened it a moment
-  before (open question 2).
+  before (decision 2).
 - **Touch has no hover.** A tap opens the submenu, and only a tap. Context
   Menu keeps its long press (500 ms, 10 px tolerance) to open the root menu.
 - **Leaving the menus.** Moving the pointer out of all levels closes nothing;
@@ -249,7 +255,7 @@ Wrapping across the top menus and Home and End on the bar stay as they are.
 
 | Part | Web | Flutter |
 | --- | --- | --- |
-| Submenu trigger | `role="menuitem"`, `aria-haspopup="menu"`, `aria-expanded`, `aria-controls` while open, `aria-disabled` when disabled | `SemanticsRole.menuItem`, `expanded`, `enabled`, a localized hint when no popup property exists (open question 6) |
+| Submenu trigger | `role="menuitem"`, `aria-haspopup="menu"`, `aria-expanded`, `aria-controls` while open, `aria-disabled` when disabled | `SemanticsRole.menuItem`, `expanded`, `enabled`, a localized "submenu" hint from the message catalog when no popup property exists (decision 6) |
 | Submenu | `role="menu"`, `aria-labelledby` the trigger's id, `tabindex="-1"` | `SemanticsRole.menu`, labelled by the trigger's label |
 | Items inside | `menuitem`, `menuitemcheckbox`, `menuitemradio`, `group`, `separator` (existing) | `menuItem`, `menuItemCheckbox`, `menuItemRadio`, `checked` |
 | Data hooks | `data-state="open" \| "closed"` and `data-kind="submenu"` on the trigger, `data-level` on each menu | Not applicable |
@@ -267,6 +273,9 @@ manual check, written as not yet verified until a dated session exists
 
 - **Web.** Every item, submenu triggers included, is at least 24 by 24 CSS
   pixels ([WCAG 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)).
+  Under `@media (pointer: coarse)` the minimum grows to 44 by 44, the touch
+  target Invisible UI specifies in `density.touch.min-target-size`. It is a
+  minimum size, not extra padding (decision 8).
   `e2e/target-size.spec.ts` already checks `menuitem` roles on every component
   page, and covers submenu triggers on a demo that shows them open.
 - **Flutter.** The hit area follows `minTargetSize` from ADR 0017: 24 by 24
@@ -312,6 +321,10 @@ The rules live once in `core/src/menu`; the web adapters stay thin.
   inline-start in the root menu are left unhandled (`preventDefault` not
   called), so a Menubar acts on them only when `event.defaultPrevented` is
   false.
+- **Menubar.** A new `core/src/menubar` module owns the coordination between
+  top menus: which top menu is open, the arrow rule between top menus and
+  submenus, and RTL mirroring. The adapters' `createMenubar`, `useMenubar`
+  and `ds-menubar` become thin over it (decision 7).
 - **Timing and geometry stay in the adapters.** The hover delay, the grace
   area and positioning are DOM concerns, as the tooltip delays are today. The
   grace-area test (a point in a polygon) and the placement choice are pure
@@ -365,7 +378,7 @@ React has no menus today. Its Dropdown Menu, Context Menu and Menubar
   typeahead runs the Dart port of `matchItem` on the open level only.
 - **Pointer.** `MouseRegion` with a 100 ms `Timer` opens on hover; the grace
   area runs the Dart port of the polygon test. A tap opens; touch and pen
-  close an open trigger on a second tap.
+  close an open trigger on a second tap (decision 2).
 - **Placement.** The `overlayBuilder` receives the anchor rectangle and the
   overlay size; a layout delegate applies the placement, flip and shift rules
   above, with `AlignmentDirectional` so they mirror under right-to-left.
@@ -435,6 +448,8 @@ Language-neutral JSON files, read by the `core/` tests and the Flutter tests
 - Diagonal pointer move from a trigger to its submenu across a sibling item.
 - Flip to inline-start near the viewport edge; overlap at 320 px width;
   scroll inside a tall submenu.
+- Space on a checkbox or radio item, in a submenu and in the root menu, changes its state, keeps the menu open and reports once.
+- Under an emulated coarse pointer, every menu item and submenu trigger measures at least 44 by 44.
 - Touch emulation: tap opens, second tap closes, long press opens Context
   Menu.
 - Target size and forced colors with a submenu open.
@@ -460,28 +475,29 @@ placement, flip and overlap; maximum height and scroll; each semantics
 mapping; target size per density; reduced motion; close order on both sides
 of 3.44.
 
-## Open questions for the maintainer
+## Decisions taken
 
-1. **Controlled submenus.** Radix and Bits UI expose `open` and
-   `onOpenChange` per submenu. The recommendation keeps submenu state
-   internal in v1 and reports only the root `onOpenChange`. Is a controlled
-   open path wanted?
-2. **Mouse press on an open trigger.** The recommendation keeps it open for a
-   mouse and closes it for touch and pen. Should a press toggle for every
-   pointer?
-3. **Checkable items.** APG allows a checkbox item to change state without
-   closing the menu. Today every activation closes it. Should Space on a
-   checkable item keep the menu open, in submenus and in the root menu?
-4. **Phone layout.** When neither side has room, the submenu overlaps its
-   parent. Is a drill-in layout (the submenu replaces the parent, with a
-   back item) wanted for narrow screens instead?
-5. **Reported value.** `onSelect` reports the item value, which is unique in
-   the tree. Should it also report the path of submenu values?
-6. **Flutter popup semantics.** `SemanticsRole.menuItem` with `expanded`
-   covers the open state. If no Flutter semantics property says "opens a
-   submenu", is a localized hint ("submenu") acceptable as the replacement?
-7. **Menubar in `core/`.** The Menubar coordination lives in each adapter
-   today. Should it move into a `core/src/menubar` module with the submenu
-   work, so the arrow rules exist once on the web?
-8. **Web touch sizing.** Should web menus grow items to 44 by 44 under
-   `pointer: coarse`, as the Flutter `touch` density does?
+Recorded by the maintainer on 2026-10-03:
+
+1. **Submenu state is internal.** No `open` or `onOpenChange` per submenu in
+   v1; `onOpenChange` reports the root menu only. A controlled open path can
+   be added later without a breaking change.
+2. **A press on an open trigger.** A mouse press keeps the submenu open;
+   touch and pen close it on a second tap.
+3. **Checkable items.** Space changes a checkbox or radio item's state and
+   keeps the menu open, in submenus and in the root menu. Enter and a press
+   still close every level. This changes today's behaviour in every adapter.
+4. **Narrow screens.** No drill-in layout: the submenu flips side, or
+   overlaps its parent when neither side has room. Phones are expected to use
+   one level. Revisited if a consumer needs it.
+5. **Reported value.** `onSelect` reports the item value only; the path comes
+   from `findEntry`.
+6. **Flutter popup semantics.** Where Flutter has no property for "opens a
+   submenu", the trigger carries a localized "submenu" hint from the message
+   catalog.
+7. **Menubar in `core/`.** The Menubar coordination moves into a
+   `core/src/menubar` module together with the submenu work, so the arrow
+   rules, RTL mirroring included, exist once for every web adapter.
+8. **Web touch sizing.** Under `pointer: coarse`, menu items, submenu
+   triggers included, have a 44 by 44 minimum target, from
+   `density.touch.min-target-size`.
