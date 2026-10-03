@@ -1,0 +1,109 @@
+name: Flutter
+
+# The Flutter package's own checks (ADR 0017). Separate from ci.yml, which
+# scripts/gate.test.mjs holds to one job; the token staleness check stays in
+# the gate, since it needs no Flutter.
+#
+# Two Flutter versions: the package's lower bound (Flutter 3.32, Dart 3.8) and
+# the current stable. The widget previews need Flutter 3.35, so the lower-bound
+# job analyzes lib/ and test/ only.
+
+on:
+  pull_request:
+    paths:
+      - "packages/flutter/**"
+      - "packages/tokens/**"
+      - "packages/svelte/style-dictionary.config.mjs"
+      - "scripts/tokens-dart-format.mjs"
+      - "core/src/button/**"
+      - "packages/svelte/src/lib/button/**"
+      - ".github/workflows/flutter.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packages/flutter/**"
+      - "packages/tokens/**"
+      - "packages/svelte/style-dictionary.config.mjs"
+      - "scripts/tokens-dart-format.mjs"
+      - "core/src/button/**"
+      - "packages/svelte/src/lib/button/**"
+      - ".github/workflows/flutter.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: packages/flutter
+
+jobs:
+  flutter:
+    name: Flutter (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: lower bound
+            channel: stable
+            version: 3.32.8
+            analyze: lib test
+          - name: stable
+            channel: stable
+            version: ""
+            analyze: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ matrix.channel }}
+          flutter-version: ${{ matrix.version }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Formatting follows the package's language version (3.8), so both
+      # versions agree; it runs once.
+      - name: Format
+        if: matrix.name == 'lower bound'
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze ${{ matrix.analyze }}
+
+      - name: Test
+        run: flutter test
+
+  # Reports, never blocks: a parity checklist checked against an older state
+  # of its reference component than the one on this branch.
+  parity-drift:
+    name: Parity drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compare each checklist with its reference
+        working-directory: .
+        run: |
+          {
+            echo "## Parity drift"
+            echo
+            for checklist in packages/flutter/parity/*.md; do
+              ref=$(sed -n 's/^Reference commit: `\([0-9a-f]*\)`.*/\1/p' "$checklist")
+              paths=$(sed -n 's/^Reference paths: //p' "$checklist" | tr -d '`')
+              last=$(git log -1 --format=%H -- $paths)
+              if [ -z "$ref" ] || [ -z "$paths" ]; then
+                echo "- \`$checklist\`: no reference commit or paths"
+              elif git merge-base --is-ancestor "$last" "$ref"; then
+                echo "- \`$checklist\`: up to date with \`${ref:0:8}\`"
+              else
+                echo "- \`$checklist\`: out of date, \`${last:0:8}\` changed the reference after \`${ref:0:8}\`"
+              fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
