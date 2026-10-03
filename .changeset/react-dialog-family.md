@@ -1,5 +1,8 @@
 ---
 "@design-system/react": minor
+"@design-system/elements": patch
+"@design-system/svelte": patch
+"@design-system/vue": patch
 ---
 
 The React adapter now ships the rest of the dialog family: `AlertDialog`,
