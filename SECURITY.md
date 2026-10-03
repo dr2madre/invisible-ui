@@ -18,12 +18,12 @@ as soon as is practical, crediting the reporter unless they prefer otherwise.
 `pnpm audit` runs in the gate and fails on any advisory. An exception is
 granted only when no patched release exists, the vulnerable package is
 reached only through development or documentation tooling, and no shipped
-package depends on it. Each exception names one advisory, and it is removed
-as soon as a patched release exists.
+package depends on it. Each exception names one advisory, carries a review date by which it is
+checked again, and is removed as soon as a patched release exists.
 
-| Advisory | Package | Reached through | Added | Remove when |
-| --- | --- | --- | --- | --- |
-| [GHSA-ch52-4w7c-c8xp](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) | `http-cache-semantics` (all releases up to 4.2.0, the latest) | `astro`, used only to build the documentation site (`@design-system/docs`, private); Astro calls it only to cache remote images during the build | 2026-10-04 | A patched `http-cache-semantics` is released, or Astro drops the dependency. Then delete the entry from `pnpm.auditConfig.ignoreGhsas` in `package.json` and this row. |
+| Advisory | Package | Reached through | Added | Review by | Remove when |
+| --- | --- | --- | --- | --- | --- |
+| [GHSA-ch52-4w7c-c8xp](https://github.com/advisories/GHSA-ch52-4w7c-c8xp) | `http-cache-semantics` (all releases up to 4.2.0, the latest) | `astro`, used only to build the documentation site (`@design-system/docs`, private); Astro calls it only to cache remote images during the build | 2026-10-04 | 2026-11-04 | A patched `http-cache-semantics` is released, or Astro drops the dependency. Then delete the entry from `pnpm.auditConfig.ignoreGhsas` in `package.json` and this row. |
 
 The exception lives in `pnpm.auditConfig.ignoreGhsas` in the root
 `package.json`. `scripts/audit-exceptions.test.mjs` fails if that list holds
