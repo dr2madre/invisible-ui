@@ -1,0 +1,196 @@
+{
+  "description": "Grace area (docs/menu-submenu-spec.md, Pointer and touch): a triangle from the exit point, moved 5 px away from the submenu, to the submenu's two near corners. side is the physical side of the trigger the submenu sits on. Coordinates are viewport pixels, y down.",
+  "bleed": 5,
+  "cases": [
+    {
+      "name": "On the straight line to the submenu",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 195,
+        "y": 150
+      },
+      "inside": true
+    },
+    {
+      "name": "Moving diagonally down toward the submenu",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 195,
+        "y": 200
+      },
+      "inside": true
+    },
+    {
+      "name": "Above the triangle",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 195,
+        "y": 110
+      },
+      "inside": false
+    },
+    {
+      "name": "Behind the exit point, beyond the bleed",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 180,
+        "y": 150
+      },
+      "inside": false
+    },
+    {
+      "name": "Within the bleed behind the exit point",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 187,
+        "y": 150
+      },
+      "inside": true
+    },
+    {
+      "name": "Past the near edge, inside the submenu itself",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 205,
+        "y": 150
+      },
+      "inside": false
+    },
+    {
+      "name": "Below the submenu",
+      "exit": {
+        "x": 190,
+        "y": 150
+      },
+      "submenu": {
+        "x": 200,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "right",
+      "point": {
+        "x": 199,
+        "y": 310
+      },
+      "inside": false
+    },
+    {
+      "name": "Submenu on the left: toward it",
+      "exit": {
+        "x": 200,
+        "y": 150
+      },
+      "submenu": {
+        "x": 40,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "left",
+      "point": {
+        "x": 195,
+        "y": 150
+      },
+      "inside": true
+    },
+    {
+      "name": "Submenu on the left: moving away",
+      "exit": {
+        "x": 200,
+        "y": 150
+      },
+      "submenu": {
+        "x": 40,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "left",
+      "point": {
+        "x": 210,
+        "y": 150
+      },
+      "inside": false
+    },
+    {
+      "name": "Submenu on the left: diagonally up toward it",
+      "exit": {
+        "x": 200,
+        "y": 150
+      },
+      "submenu": {
+        "x": 40,
+        "y": 100,
+        "width": 150,
+        "height": 200
+      },
+      "side": "left",
+      "point": {
+        "x": 193,
+        "y": 120
+      },
+      "inside": true
+    }
+  ]
+}
