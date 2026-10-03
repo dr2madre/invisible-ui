@@ -993,27 +993,37 @@
     {
       "name": "menu.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#4cd65565 { state: MenuState; /** Request the open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Request a new active value. */ setActiveValue: (value: string | null) => void; /** Run the item's action. */ onSelect?: (value: string) => void; normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#aad9d11e { state: MenuState; /** Request the root menu's open state to change; the adapter owns how state updates. */ setOpen: (open: boolean) => void; /** Request a new active value. */ setActiveValue: (value: string | null) => void; /** * Request a new open path. Submenu state is internal: the adapter stores it * and reports nothing. Without it, submenus never open. */ setOpenPath?: (path: string[]) => void; /** Run the item's action. */ onSelect?: (value: string) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text ArrowLeft * opens a submenu and ArrowRight closes one, so they keep following the * visual side a submenu opens on. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
+    },
+    {
+      "name": "menu.GRACE_BLEED",
+      "kind": "const",
+      "signature": "menu_GRACE_BLEED: typeof GRACE_BLEED"
     },
     {
       "name": "menu.MenuApi",
       "kind": "type",
-      "signature": "menu.MenuApi = interface MenuApi { open: boolean; activeValue: string | null; /** Open the menu, focusing the first enabled item. */ openMenu(from?: \"first\" | \"last\"): void; /** Close the menu. */ closeMenu(): void; /** Make an item active (focused). */ setActive(value: string): void; /** Activate an item: close, then run onSelect (ignored when disabled). */ select(value: string): void; /** Props for the trigger button (`aria-haspopup=\"menu\"`). */ triggerProps: ElementProps; /** Props for the menu popup (`role=\"menu\"`). */ menuProps: ElementProps; /** Props for a menu item, by value (`role=\"menuitem\"`). */ getItemProps(value: string): ElementProps; /** Props for a separator line between groups of items. */ separatorProps: ElementProps; /** Props for a group wrapper, named by its label. */ getGroupProps(index: number): ElementProps; /** Props for the element holding a group's label text. */ getGroupLabelProps(index: number): ElementProps; }"
+      "signature": "menu.MenuApi = interface MenuApi { open: boolean; activeValue: string | null; /** * Values of the open submenu triggers, from the root menu outward, cut at * any value the items no longer hold. `[]` while only the root menu is open. */ openPath: string[]; /** Open the menu, focusing the first enabled item. */ openMenu(from?: \"first\" | \"last\"): void; /** Close the menu and every open submenu. */ closeMenu(): void; /** Make an item active (focused). */ setActive(value: string): void; /** * Activate an item: close every level, then run onSelect. Ignored for a * disabled item and for a submenu trigger, which never reports. */ select(value: string): void; /** * Open a submenu and the submenus that contain it, closing any other open * submenu of the same level. `\"first\"` (keys) focuses its first enabled * item; `\"none\"` (hover) leaves focus where it is. A disabled or empty * submenu does not open. */ openSubmenu(value: string, focus?: \"first\" | \"none\"): void; /** Close the deepest open submenu and make its trigger active. */ closeSubmenu(): void; /** The entries of the level a path of submenu values opens (`[]` is the root). */ entriesAt(path: readonly string[]): MenuEntry[]; /** The level an item or submenu trigger sits on: 0 for the root menu, -1 when absent. */ levelOf(value: string): number; /** An item or submenu trigger with the path of the submenus that contain it. */ findEntry(value: string): MenuEntryLocation | null; /** Props for the trigger button (`aria-haspopup=\"menu\"`). */ triggerProps: ElementProps; /** * Props for the root menu popup (`role=\"menu\"`). Its key handler serves * every level: submenu popups stay DOM descendants of this element, so * their keys bubble to it. */ menuProps: ElementProps; /** Props for a menu item, by value (`role=\"menuitem\"`); a submenu trigger gets its own props. */ getItemProps(value: string): ElementProps; /** Props for a submenu trigger (`aria-haspopup=\"menu\"`, `aria-expanded`). */ getSubmenuTriggerProps(value: string): ElementProps; /** Props for the popup of a submenu, by its trigger's value (`role=\"menu\"`). */ getSubmenuProps(value: string): ElementProps; /** Props for a separator line between groups of items. */ separatorProps: ElementProps; /** Props for a group wrapper, named by its label; `submenu` names the level it sits in. */ getGroupProps(index: number, submenu?: string): ElementProps; /** Props for the element holding a group's label text. */ getGroupLabelProps(index: number, submenu?: string): ElementProps; }"
     },
     {
       "name": "menu.MenuContext",
       "kind": "type",
-      "signature": "menu.MenuContext = interface MenuContext { /** Items, separators and groups, in the order they are shown. */ items: MenuEntry[]; disabled?: boolean; id?: string; /** Called when an item is activated (selected/clicked). */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
+      "signature": "menu.MenuContext = interface MenuContext { /** Items, separators, groups and submenus, in the order they are shown. */ items: MenuEntry[]; disabled?: boolean; id?: string; /** Called when an item is activated (selected/clicked). */ onSelect?: (value: string) => void; /** Called whenever the root menu opens or closes; submenus report nothing. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "menu.MenuEntry",
       "kind": "type",
-      "signature": "menu.MenuEntry = type MenuEntry = MenuItem | MenuSeparator | MenuGroup;"
+      "signature": "menu.MenuEntry = type MenuEntry = MenuItem | MenuSeparator | MenuGroup | MenuSubmenu;"
+    },
+    {
+      "name": "menu.MenuEntryLocation",
+      "kind": "type",
+      "signature": "menu.MenuEntryLocation = interface MenuEntryLocation { entry: MenuStop; path: string[]; }"
     },
     {
       "name": "menu.MenuGroup",
       "kind": "type",
-      "signature": "menu.MenuGroup = interface MenuGroup { type: \"group\"; /** Visible label naming the group. */ label: string; items: MenuItem[]; }"
+      "signature": "menu.MenuGroup = interface MenuGroup { type: \"group\"; /** Visible label naming the group. */ label: string; items: (MenuItem | MenuSubmenu)[]; }"
     },
     {
       "name": "menu.MenuItem",
@@ -1033,17 +1043,72 @@
     {
       "name": "menu.MenuState",
       "kind": "type",
-      "signature": "menu.MenuState = interface MenuState { /** Whether the menu popup is open. */ open: boolean; /** The active (focused) item value, or `null`. */ activeValue: string | null; /** Everything the menu holds, in the order it is shown. */ items: MenuEntry[]; /** Whether the whole menu is disabled. */ disabled: boolean; /** Base id used to link the trigger and menu. */ id: string; }"
+      "signature": "menu.MenuState = interface MenuState { /** Whether the menu popup is open. */ open: boolean; /** The active (focused) item value, or `null`. */ activeValue: string | null; /** Everything the menu holds, in the order it is shown. */ items: MenuEntry[]; /** Whether the whole menu is disabled. */ disabled: boolean; /** Base id used to link the trigger and menu. */ id: string; /** * Values of the open submenu triggers, from the root menu outward. Empty, or * left out, while only the root menu is open. A value that is no longer an * enabled submenu of the items cuts the path there, silently. */ openPath?: string[]; }"
+    },
+    {
+      "name": "menu.MenuStop",
+      "kind": "type",
+      "signature": "menu.MenuStop = type MenuStop = MenuItem | MenuSubmenu;"
+    },
+    {
+      "name": "menu.MenuSubmenu",
+      "kind": "type",
+      "signature": "menu.MenuSubmenu = interface MenuSubmenu { type: \"submenu\"; /** * Identity: the trigger's id, its place in the open path and the typeahead * target. Unique across the whole tree, like every item value. */ value: string; /** Visible label; the accessible name and the typeahead text. */ label: string; /** A disabled trigger opens by no key, hover or press. */ disabled?: boolean; /** Items, separators, groups and further submenus, in the order shown. */ items: MenuEntry[]; /** * A submenu trigger is never checkable. Declared so code that reads `kind` * or `checked` on any stop keeps compiling. */ kind?: never; checked?: never; }"
+    },
+    {
+      "name": "menu.Point",
+      "kind": "type",
+      "signature": "menu.Point = interface Point { x: number; y: number; }"
+    },
+    {
+      "name": "menu.Rect",
+      "kind": "type",
+      "signature": "menu.Rect = interface Rect { x: number; y: number; width: number; height: number; }"
+    },
+    {
+      "name": "menu.Side",
+      "kind": "type",
+      "signature": "menu.Side = type Side = \"left\" | \"right\";"
+    },
+    {
+      "name": "menu.Size",
+      "kind": "type",
+      "signature": "menu.Size = interface Size { width: number; height: number; }"
+    },
+    {
+      "name": "menu.SubmenuPlacement",
+      "kind": "type",
+      "signature": "menu.SubmenuPlacement = interface SubmenuPlacement { /** Where the submenu went: beside the trigger at either side, or over its parent. */ side: \"inline-end\" | \"inline-start\" | \"overlap\"; /** Physical side, for the grace area; `null` when the submenu overlaps its parent. */ physicalSide: Side | null; x: number; y: number; /** Tallest the submenu may be; it scrolls inside beyond this. */ maxHeight: number; }"
+    },
+    {
+      "name": "menu.SubmenuPlacementInput",
+      "kind": "type",
+      "signature": "menu.SubmenuPlacementInput = interface SubmenuPlacementInput { /** The submenu trigger's rectangle. */ anchor: Rect; /** The submenu's natural size. */ menu: Size; /** The viewport size. */ viewport: Size; /** Reading direction; inline-end is the right side in `\"ltr\"`. */ direction?: \"ltr\" | \"rtl\"; /** Space kept free at the viewport edges. Defaults to 8. */ padding?: number; }"
     },
     {
       "name": "menu.connect",
       "kind": "function",
-      "signature": "declare function connect#10eaa5ac({ state, setOpen, setActiveValue, onSelect, normalize, }: ConnectOptions#4cd65565): MenuApi;"
+      "signature": "declare function connect#83c4bcbb({ state, setOpen, setActiveValue, setOpenPath, onSelect, direction, normalize, }: ConnectOptions#aad9d11e): MenuApi;"
+    },
+    {
+      "name": "menu.entriesAt",
+      "kind": "const",
+      "signature": "menu_entriesAt: typeof entriesAt"
+    },
+    {
+      "name": "menu.findEntry",
+      "kind": "const",
+      "signature": "menu_findEntry: typeof findEntry"
     },
     {
       "name": "menu.firstEnabled",
       "kind": "const",
       "signature": "menu_firstEnabled: typeof firstEnabled"
+    },
+    {
+      "name": "menu.graceArea",
+      "kind": "const",
+      "signature": "menu_graceArea: typeof graceArea"
     },
     {
       "name": "menu.groupLabelId",
@@ -1061,9 +1126,24 @@
       "signature": "menu_isGroup: typeof isGroup"
     },
     {
+      "name": "menu.isInGraceArea",
+      "kind": "const",
+      "signature": "menu_isInGraceArea: typeof isInGraceArea"
+    },
+    {
       "name": "menu.isSeparator",
       "kind": "const",
       "signature": "menu_isSeparator: typeof isSeparator"
+    },
+    {
+      "name": "menu.isStopDisabled",
+      "kind": "const",
+      "signature": "menu_isStopDisabled: typeof isStopDisabled"
+    },
+    {
+      "name": "menu.isSubmenu",
+      "kind": "const",
+      "signature": "menu_isSubmenu: typeof isSubmenu"
     },
     {
       "name": "menu.itemId",
@@ -1078,7 +1158,7 @@
     {
       "name": "menu.labelOf",
       "kind": "const",
-      "signature": "labelOf#f33e666a: (item: MenuItem) => string"
+      "signature": "labelOf#a33b5b6d: (item: MenuStop) => string"
     },
     {
       "name": "menu.lastEnabled",
@@ -1101,14 +1181,59 @@
       "signature": "menu_nextEnabled: typeof nextEnabled"
     },
     {
+      "name": "menu.placeSubmenu",
+      "kind": "const",
+      "signature": "menu_placeSubmenu: typeof placeSubmenu"
+    },
+    {
+      "name": "menu.pointInPolygon",
+      "kind": "const",
+      "signature": "menu_pointInPolygon: typeof pointInPolygon"
+    },
+    {
       "name": "menu.prevEnabled",
       "kind": "const",
       "signature": "menu_prevEnabled: typeof prevEnabled"
     },
     {
+      "name": "menu.submenuId",
+      "kind": "const",
+      "signature": "menu_submenuId: typeof submenuId"
+    },
+    {
       "name": "menu.triggerId",
       "kind": "const",
       "signature": "triggerId#158668af: (baseId: string) => string"
+    },
+    {
+      "name": "menubar",
+      "kind": "namespace",
+      "signature": "namespace menubar"
+    },
+    {
+      "name": "menubar.ConnectOptions",
+      "kind": "interface",
+      "signature": "interface ConnectOptions#31130def { state: MenubarState; /** Request a new tab stop among the triggers. */ setFocusedIndex: (index: number) => void; /** Open the top menu at `index`, focusing its first item (the menu's `openMenu(\"first\")`). */ openMenu: (index: number) => void; /** Close the top menu at `index` with every level of it (the menu's `closeMenu()`). */ closeMenu: (index: number) => void; /** Move DOM focus to the trigger at `index`. */ focusTrigger: (index: number) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text ArrowLeft * goes to the next top menu and ArrowRight to the previous one, so the keys * keep following the visual order. */ direction?: \"ltr\" | \"rtl\"; normalize?: Normalize; }"
+    },
+    {
+      "name": "menubar.MenubarApi",
+      "kind": "type",
+      "signature": "menubar.MenubarApi = interface MenubarApi { focusedIndex: number; openIndex: number; /** * Open the top menu at `index` and close the one open before, with every * level of it. A disabled menu stays closed and its trigger takes focus. */ openAt(index: number): void; /** * Go to the next (`1`) or previous (`-1`) top menu in visual order, wrapping: * it switches the open menu, or moves focus between triggers while every * menu is closed. */ move(delta: 1 | -1): void; /** Props for the bar (`role=\"menubar\"`), with the keys that move between top menus. */ menubarProps: ElementProps; /** Props the bar adds to a top menu's trigger, beside the menu's own trigger props. */ getTriggerProps(index: number): ElementProps; }"
+    },
+    {
+      "name": "menubar.MenubarMenuRef",
+      "kind": "type",
+      "signature": "menubar.MenubarMenuRef = interface MenubarMenuRef { /** Stable value identifying the menu. */ value: string; /** A disabled menu takes focus on its trigger but never opens. */ disabled?: boolean; }"
+    },
+    {
+      "name": "menubar.MenubarState",
+      "kind": "type",
+      "signature": "menubar.MenubarState = interface MenubarState { /** The top menus, in the order shown. */ menus: MenubarMenuRef[]; /** Index of the trigger that is the tab stop (roving tabindex). */ focusedIndex: number; /** Index of the open top menu, or `-1` while every menu is closed. */ openIndex: number; }"
+    },
+    {
+      "name": "menubar.connect",
+      "kind": "function",
+      "signature": "declare function connect#66498871({ state, setFocusedIndex, openMenu, closeMenu, focusTrigger, direction, normalize, }: ConnectOptions#31130def): MenubarApi;"
     },
     {
       "name": "meter",

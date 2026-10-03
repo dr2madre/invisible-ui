@@ -1,0 +1,76 @@
+{
+  "description": "Typeahead per level: matchItem(entriesAt(tree, path), query, from) on the tree in menu-tree.json. expect is the matched value, or null.",
+  "tree": "menu-tree.json",
+  "cases": [
+    {
+      "name": "Matches a submenu trigger by its label",
+      "path": [],
+      "query": "o",
+      "from": null,
+      "expect": "recent"
+    },
+    {
+      "name": "Skips a disabled trigger",
+      "path": [],
+      "query": "sh",
+      "from": null,
+      "expect": null
+    },
+    {
+      "name": "Skips an empty submenu",
+      "path": [],
+      "query": "em",
+      "from": null,
+      "expect": null
+    },
+    {
+      "name": "Searches grouped items",
+      "path": [],
+      "query": "w",
+      "from": null,
+      "expect": "wrap"
+    },
+    {
+      "name": "Wraps around to the current item",
+      "path": [],
+      "query": "q",
+      "from": "quit",
+      "expect": "quit"
+    },
+    {
+      "name": "Scoped to the submenu level",
+      "path": ["recent"],
+      "query": "b",
+      "from": "alpha",
+      "expect": "beta"
+    },
+    {
+      "name": "A root item is not found from a submenu",
+      "path": ["recent"],
+      "query": "n",
+      "from": "alpha",
+      "expect": null
+    },
+    {
+      "name": "A submenu item is not found from the root",
+      "path": [],
+      "query": "al",
+      "from": null,
+      "expect": null
+    },
+    {
+      "name": "A nested trigger is a target",
+      "path": ["recent"],
+      "query": "m",
+      "from": null,
+      "expect": "more"
+    },
+    {
+      "name": "Matches case-insensitively",
+      "path": ["recent", "more"],
+      "query": "OL",
+      "from": null,
+      "expect": "older"
+    }
+  ]
+}
