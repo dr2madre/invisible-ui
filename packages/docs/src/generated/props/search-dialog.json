@@ -269,6 +269,144 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "SearchDialog",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content. Defaults to the catalog's \"Search…\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "items",
+          "type": "SearchDialogItem[]",
+          "default": null,
+          "required": true,
+          "description": "The searchable results.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "suggestions",
+          "type": "SearchDialogItem[]",
+          "default": null,
+          "required": false,
+          "description": "Items shown while the query is empty: recents, frequent searches. The application measures and decides; the dialog displays. They may carry their own `group` (\"Recent\"). Empty means an empty query shows all items.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Results are being fetched: shows an indicator, announces \"Searching…\" through the status region and holds back the empty state meanwhile. Feed async results through `items` when they arrive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible title for the dialog. Defaults to the catalog's \"Search\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideTitle",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Visually hide the title (the default: the search field reads as the header). It still names the dialog for screen readers.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button in the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the search input. Defaults to the catalog's \"Search\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Input placeholder. Defaults to the catalog's \"Type to search…\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Text shown when nothing matches. Defaults to the catalog's \"No results found.\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "filter",
+          "type": "(items: SearchDialogItem[], query: string) => SearchDialogItem[]",
+          "default": null,
+          "required": false,
+          "description": "Filter results against the query. Defaults to case-insensitive substring.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when a result is chosen (before the dialog closes).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

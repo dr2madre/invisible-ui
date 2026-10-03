@@ -83,6 +83,21 @@ In Elements:
 `urgent` switches the panel to `role="alertdialog"`; `close-button` adds a
 close button to the header.
 
+In React, `onConfirm` runs on the confirm button, and `trigger` is the
+trigger's content:
+
+```tsx
+<ConfirmDialog
+  title="Delete file"
+  description="Do you want to delete “report-q3.pdf”? The file will be permanently deleted."
+  confirmLabel="Delete file"
+  cancelLabel="Keep file"
+  confirmVariant="danger"
+  trigger="Delete file"
+  onConfirm={() => deleteFile()}
+/>
+```
+
 ### Props
 
 <PropsTable component="confirm-dialog" />

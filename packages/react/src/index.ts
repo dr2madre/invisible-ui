@@ -26,6 +26,11 @@ export {
   type UseMultiSelectOptions,
 } from "./multi-select/use-multi-select";
 export { Dialog, type DialogHandle, type DialogProps } from "./dialog/Dialog";
+export { AlertDialog, type AlertDialogProps } from "./alert-dialog/AlertDialog";
+export { ConfirmDialog, type ConfirmDialogProps } from "./confirm-dialog/ConfirmDialog";
+export { PromptDialog, type PromptDialogProps } from "./prompt-dialog/PromptDialog";
+export { SheetDialog, type SheetDialogProps } from "./sheet-dialog/SheetDialog";
+export { SearchDialog, type SearchDialogProps } from "./search-dialog/SearchDialog";
 export type {
   DialogNotice,
   DialogNoticeAction,
@@ -52,6 +57,18 @@ export {
   type UseDialog,
   type UseDialogOptions,
 } from "./dialog/use-dialog";
+export {
+  useSheetDialog,
+  type SheetDialogSide,
+  type UseSheetDialog,
+  type UseSheetDialogOptions,
+} from "./sheet-dialog/use-sheet-dialog";
+export {
+  useSearchDialog,
+  type SearchDialogItem,
+  type UseSearchDialog,
+  type UseSearchDialogOptions,
+} from "./search-dialog/use-search-dialog";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

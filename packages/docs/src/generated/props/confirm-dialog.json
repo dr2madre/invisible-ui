@@ -254,6 +254,136 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "ConfirmDialog",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content. Defaults to the catalog's \"Open\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the confirmation (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional supporting message.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label of the confirming button. Defaults to the catalog's \"Confirm\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "cancelLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label of the cancelling button (also the Escape action). Defaults to \"Cancel\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "confirmVariant",
+          "type": "ButtonVariant",
+          "default": "\"primary\"",
+          "required": false,
+          "description": "Variant of the confirm button (`\"danger\"` for a destructive confirm).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "urgent",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which screen readers announce immediately. Nothing else changes (ADR 0005).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the confirm button is pressed (before the dialog closes).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop cancels and closes. Defaults to `true`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button at the trailing end of the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
