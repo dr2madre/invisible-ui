@@ -14,6 +14,11 @@ const fixtures: Record<string, ReactElement> = {
   Combobox: <adapter.Combobox label="Framework" items={[]} />,
   MultiSelect: <adapter.MultiSelect label="Skills" items={[]} values={["vue"]} />,
   Dialog: <adapter.Dialog title="Details">Dialog body</adapter.Dialog>,
+  AlertDialog: <adapter.AlertDialog title="File deleted" description="The file is gone." />,
+  ConfirmDialog: <adapter.ConfirmDialog title="Discard changes?" />,
+  PromptDialog: <adapter.PromptDialog title="Rename file" label="File name" />,
+  SheetDialog: <adapter.SheetDialog title="Filters">Sheet body</adapter.SheetDialog>,
+  SearchDialog: <adapter.SearchDialog items={[{ value: "save", label: "Save" }]} />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />
@@ -50,6 +55,22 @@ describe("React adapter SSR", () => {
       expect(html.length).toBeGreaterThan(0);
     });
   }
+});
+
+describe("React adapter SSR: the dialog family opened on the server", () => {
+  // An open dialog renders its panel on the server too; showModal() waits for
+  // the browser, so the markup is there with nothing touching the DOM.
+  it.each([
+    ["AlertDialog", <adapter.AlertDialog key="a" open title="Saved" description="Done." />],
+    ["ConfirmDialog", <adapter.ConfirmDialog key="c" open title="Discard changes?" />],
+    ["PromptDialog", <adapter.PromptDialog key="p" open title="Rename" label="Name" value="a" />],
+    ["SheetDialog", <adapter.SheetDialog key="s" open draggable side="bottom" title="Filters" />],
+    ["SearchDialog", <adapter.SearchDialog key="q" open items={[{ value: "a", label: "A" }]} />],
+  ])("server-renders an open %s", (_, element) => {
+    const html = renderToString(element);
+    expect(html).toContain("<dialog");
+    expect(html).toContain('aria-modal="true"');
+  });
 });
 
 describe("React adapter SSR — i18n determinism", () => {

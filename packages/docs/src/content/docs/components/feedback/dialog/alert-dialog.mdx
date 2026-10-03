@@ -65,6 +65,18 @@ In Elements:
 The `dismiss` event fires for the button, Escape and a backdrop press alike.
 `close-button` adds a close button to the header.
 
+In React, `trigger` is the trigger's content and a ref holds the status area:
+
+```tsx
+<AlertDialog
+  title="File deleted"
+  description="“report-q3.pdf” was permanently deleted."
+  dismissLabel="Done"
+  trigger="Show outcome"
+  onDismiss={() => refresh()}
+/>
+```
+
 ### Props
 
 <PropsTable component="alert-dialog" />

@@ -72,6 +72,23 @@ In Elements:
 The `confirm` event carries the entered text in `detail.value`, from the
 button or Enter in the input.
 
+In React, `onConfirm` receives the entered text, from the button or Enter in
+the input:
+
+```tsx
+<PromptDialog
+  title="Delete file"
+  label="Type the file name to confirm"
+  confirmValue="report-q3.pdf"
+  confirmLabel="Delete file"
+  cancelLabel="Keep file"
+  confirmVariant="danger"
+  urgent
+  trigger="Delete file"
+  onConfirm={(value) => deleteFile(value)}
+/>
+```
+
 ### Props
 
 <PropsTable component="prompt-dialog" />

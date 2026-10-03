@@ -16,6 +16,16 @@
   ],
   "symbols": [
     {
+      "name": "AlertDialog",
+      "kind": "const",
+      "signature": "AlertDialog: react.ForwardRefExoticComponent<AlertDialogProps & react.RefAttributes<DialogHandle>>"
+    },
+    {
+      "name": "AlertDialogProps",
+      "kind": "interface",
+      "signature": "interface AlertDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the alert (required). */ title: string; /** The message to acknowledge (required). */ description: string; /** * Label of the single acknowledging button. Defaults to the catalog's \"OK\"; * prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\"). */ dismissLabel?: string; /** Called when the alert is acknowledged (button, Escape or backdrop). */ onDismiss?: () => void; /** * Whether pressing the backdrop acknowledges and closes. Defaults to `true`; * set `false` to require an explicit button press (e.g. \"I understood\"). */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
+    },
+    {
       "name": "Button",
       "kind": "const",
       "signature": "Button: react.ForwardRefExoticComponent<ButtonProps & react.RefAttributes<HTMLButtonElement>>"
@@ -64,6 +74,16 @@
       "name": "ComboboxProps",
       "kind": "interface",
       "signature": "interface ComboboxProps { /** Accessible name for the control. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; /** Options. Each may carry a leading `icon`; with the search hidden, the * control mirrors the selected option's icon. */ items: ComboboxOption[]; value?: string | null; /** * With `searchable={false}` the input becomes read-only and the list always * shows every option — a select-only combobox: the advanced Select (styled * popup, per-option icons) without the autocomplete. */ searchable?: boolean; /** * Width behaviour: `fixed` (default) uses `--ds-combobox-width`, `wrap` fits * the longest option, `fill` takes 100% of the container. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Clear button accessible name. Defaults to the catalog's \"Clear\". */ clearLabel?: string; /** Text shown when no option matches. Defaults to the catalog's \"No results\". */ emptyText?: string; /** Form field name — the selected option's value is submitted under it. */ name?: string; onValueChange?: (value: string | null) => void; onInputValueChange?: (text: string) => void; /** Leading icon shown when `searchable={false}` and no option icon applies. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "ConfirmDialog",
+      "kind": "const",
+      "signature": "ConfirmDialog: react.ForwardRefExoticComponent<ConfirmDialogProps & react.RefAttributes<DialogHandle>>"
+    },
+    {
+      "name": "ConfirmDialogProps",
+      "kind": "interface",
+      "signature": "interface ConfirmDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the confirmation (required). */ title: string; /** Optional supporting message. */ description?: string; /** Label of the confirming button. Defaults to the catalog's \"Confirm\". */ confirmLabel?: string; /** Label of the cancelling button (also the Escape action). Defaults to \"Cancel\". */ cancelLabel?: string; /** Variant of the confirm button (`\"danger\"` for a destructive confirm). */ confirmVariant?: ButtonVariant; /** * Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which * screen readers announce immediately. Nothing else changes (ADR 0005). */ urgent?: boolean; /** Called when the confirm button is pressed (before the dialog closes). */ onConfirm?: () => void; /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "Dialog",
@@ -166,6 +186,31 @@
       "signature": "interface MultiSelectProps { /** Accessible, visible label (required). */ label: string; /** Ordered list of all options. */ items: MultiSelectItem[]; /** The selected values (controlled). Replace the array; do not mutate it. */ values?: string[]; /** Called with the next values after a user action. */ onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. */ removeOnBackspace?: boolean; /** Form field name; one hidden input per value is submitted under it. */ name?: string; /** * Expose `aria-required` on the input. Native constraint validation cannot * cover hidden multi-value inputs; validation stays with the application. */ required?: boolean; /** Empty-result row text. Defaults to the catalog's \"No results\". */ emptyText?: string; }"
     },
     {
+      "name": "PromptDialog",
+      "kind": "const",
+      "signature": "PromptDialog: react.ForwardRefExoticComponent<PromptDialogProps & react.RefAttributes<DialogHandle>>"
+    },
+    {
+      "name": "PromptDialogProps",
+      "kind": "interface",
+      "signature": "interface PromptDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title (required). */ title: string; /** Optional supporting message shown under the title. */ description?: string; /** Visible label for the input. */ label: string; /** Initial value the input is seeded with on each open. */ value?: string; placeholder?: string; /** Require a non-empty value: the confirm button stays disabled while blank. */ required?: boolean; /** * Type-to-confirm: when set, the confirm button stays disabled until the * input matches this exact value, e.g. typing a file name to confirm its * deletion. */ confirmValue?: string; /** Label of the confirming button; prefer naming the outcome (\"Rename\"). */ confirmLabel?: string; /** Label of the cancelling button (also the Escape action). */ cancelLabel?: string; /** Variant of the confirm button (`\"danger\"` for a destructive confirm). */ confirmVariant?: ButtonVariant; /** * Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which * screen readers announce immediately. Nothing else changes (ADR 0005). */ urgent?: boolean; /** Called with the entered value when confirmed (before the dialog closes). */ onConfirm?: (value: string) => void; /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "SearchDialog",
+      "kind": "const",
+      "signature": "SearchDialog: react.ForwardRefExoticComponent<SearchDialogProps & react.RefAttributes<DialogHandle>>"
+    },
+    {
+      "name": "SearchDialogItem",
+      "kind": "interface",
+      "signature": "interface SearchDialogItem extends combobox.ComboboxItem { /** * Optional section the result belongs to (\"Pages\", \"Actions\"). Grouped * results render under a section header; ungrouped results come first. */ group?: string; /** * Keyboard-shortcut hint shown right-aligned on the result (\"⌘S\", or * [\"⌘\", \"S\"] for a chord). A label, not a binding: the dialog leaves live * shortcuts to the application. */ shortcut?: string | string[]; }"
+    },
+    {
+      "name": "SearchDialogProps",
+      "kind": "interface",
+      "signature": "interface SearchDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Search…\". */ trigger?: ReactNode; /** The searchable results. */ items: SearchDialogItem[]; /** * Items shown while the query is empty: recents, frequent searches. The * application measures and decides; the dialog displays. They may carry their * own `group` (\"Recent\"). Empty means an empty query shows all items. */ suggestions?: SearchDialogItem[]; /** * Results are being fetched: shows an indicator, announces \"Searching…\" * through the status region and holds back the empty state meanwhile. Feed * async results through `items` when they arrive. */ loading?: boolean; /** Initial / controlled open state. */ open?: boolean; /** Accessible title for the dialog. Defaults to the catalog's \"Search\". */ title?: string; /** * Visually hide the title (the default: the search field reads as the * header). It still names the dialog for screen readers. */ hideTitle?: boolean; /** Show a close button in the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Accessible label for the search input. Defaults to the catalog's \"Search\". */ label?: string; /** Input placeholder. Defaults to the catalog's \"Type to search…\". */ placeholder?: string; /** Text shown when nothing matches. Defaults to the catalog's \"No results found.\". */ emptyText?: string; /** Filter results against the query. Defaults to case-insensitive substring. */ filter?: (items: SearchDialogItem[], query: string) => SearchDialogItem[]; /** Called when a result is chosen (before the dialog closes). */ onSelect?: (value: string) => void; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
+    },
+    {
       "name": "SearchField",
       "kind": "function",
       "signature": "declare function SearchField({ label, hideLabel, value, placeholder, disabled, required, readOnly, name, autoComplete, clearLabel, submitLabel, submitButton, onValueChange, }: SearchFieldProps): react.JSX.Element;"
@@ -189,6 +234,21 @@
       "name": "SelectProps",
       "kind": "interface",
       "signature": "interface SelectProps { /** Accessible name for the control. */ label: string; /** Visually hide the label (kept for assistive tech) — for compact toolbars. */ hideLabel?: boolean; /** Options. Plain text only — see the note on rich options below. */ items: SelectItem[]; /** Selected value. `null` shows the placeholder. */ value?: string | null; /** Shown while nothing is selected. Defaults to the catalog's \"Select…\". */ placeholder?: string; disabled?: boolean; /** * Width behaviour: `wrap` fits the longest option (the native default), * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Form field name — this is a real `<select>`, so it submits natively. */ name?: string; /** Marks the control as required (native validation + announced to AT). */ required?: boolean; /** Error message; when non-empty the select becomes invalid and announces it. */ error?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
+    },
+    {
+      "name": "SheetDialog",
+      "kind": "const",
+      "signature": "SheetDialog: react.ForwardRefExoticComponent<SheetDialogProps & react.RefAttributes<DialogHandle>>"
+    },
+    {
+      "name": "SheetDialogProps",
+      "kind": "interface",
+      "signature": "interface SheetDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** * Whether this component renders its own trigger button. Turn it off when * the button belongs somewhere this panel cannot reach, an application * header for instance: drive `open` yourself and name `returnFocusTo`, since * there is no trigger left for focus to go back to (ADR 0013). */ renderTrigger?: boolean; /** CSS selector for the element focus returns to when there is no trigger. */ returnFocusTo?: string; /** Which edge the panel is anchored to. */ side?: SheetDialogSide; /** * Show a grab handle and enable the drag-to-dismiss gesture. Available on the * bottom and lateral sides (ignored on `side=\"top\"`). */ draggable?: boolean; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the panel (required). */ title: string; /** Optional description, wired via `aria-describedby`. */ description?: string; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Show the close button at the trailing end of the header. */ closeButton?: boolean; /** * CSS selector (within the panel) for the element to focus on open, e.g. * `\"input\"` to land on a form's first field. */ initialFocus?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Leading ghost button in the header, e.g. back. */ headerLead?: ReactNode; /** Actions before the close button. */ headerActions?: ReactNode; /** Footer actions. */ footer?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** The body. */ children?: ReactNode; }"
+    },
+    {
+      "name": "SheetDialogSide",
+      "kind": "type",
+      "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
     },
     {
       "name": "Switch",
@@ -243,7 +303,7 @@
     {
       "name": "UseDialogOptions",
       "kind": "interface",
-      "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; onOpenChange?: (open: boolean) => void; }"
+      "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; /** * CSS selector for the element focus returns to on close, for a dialog * opened without a trigger of its own. It wins over the element that had * focus when the dialog opened. */ returnFocusTo?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "UseMultiSelect",
@@ -254,6 +314,26 @@
       "name": "UseMultiSelectOptions",
       "kind": "interface",
       "signature": "interface UseMultiSelectOptions { /** Ordered list of all options; filtering is applied here, in the adapter. */ items: MultiSelectItem[]; /** Selected values (controlled): ordered, unique. */ values?: string[]; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. Defaults to `false`. */ removeOnBackspace?: boolean; /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; an empty query matches all. */ filter?: (items: MultiSelectItem[], query: string) => MultiSelectItem[]; onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseSearchDialog",
+      "kind": "interface",
+      "signature": "interface UseSearchDialog extends DialogNotices { /** The connected combobox API: label, input, listbox and option prop bags. */ api: combobox.ComboboxApi; /** The connected dialog API: trigger, panel, title and close prop bags. */ dialogApi: UseDialog[\"api\"]; /** Whether the palette is open. */ open: boolean; /** Open or close the palette. */ setOpen: (open: boolean) => void; /** The currently visible (filtered) results, in display order. */ items: SearchDialogItem[]; /** The current query text. */ inputValue: string; /** Typing filters the results and highlights the first match. */ onInputChange: (event: ChangeEvent<HTMLInputElement>) => void; /** Attach to the trigger; used to restore focus on close. */ triggerRef: UseDialog[\"triggerRef\"]; /** Attach to the `<dialog>` panel. Render it only while `open`. */ panelRef: UseDialog[\"panelRef\"]; }"
+    },
+    {
+      "name": "UseSearchDialogOptions",
+      "kind": "interface",
+      "signature": "interface UseSearchDialogOptions { /** The searchable results. */ items: SearchDialogItem[]; /** * Items shown while the query is empty (recents, frequent searches: the * application measures, the dialog displays). They may carry their own * `group` (\"Recent\"). When omitted or empty, an empty query shows all items. */ suggestions?: SearchDialogItem[]; /** Initial / controlled open state. */ open?: boolean; /** Filter results against the query. Defaults to case-insensitive substring. */ filter?: (items: SearchDialogItem[], query: string) => SearchDialogItem[]; /** Called when a result is chosen (before the dialog closes). */ onSelect?: (value: string) => void; /** Called whenever the dialog opens or closes. */ onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseSheetDialog",
+      "kind": "interface",
+      "signature": "interface UseSheetDialog extends UseDialog { /** Whether a drag is in progress (turn the snap transition off while true). */ dragging: boolean; /** Start the drag-to-dismiss gesture; attach to the grab handle's `onPointerDown`. */ onHandlePointerDown: (event: PointerEvent<HTMLElement>) => void; }"
+    },
+    {
+      "name": "UseSheetDialogOptions",
+      "kind": "interface",
+      "signature": "interface UseSheetDialogOptions extends Omit<UseDialogOptions, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
     },
     {
       "name": "UseSwitchOptions",
@@ -293,7 +373,7 @@
     {
       "name": "useDialog",
       "kind": "function",
-      "signature": "declare function useDialog({ open: openProp, role, describedBy, closeOnEscape, closeOnOutsideClick, initialFocus, onOpenChange, }?: UseDialogOptions): UseDialog;"
+      "signature": "declare function useDialog({ open: openProp, role, describedBy, closeOnEscape, closeOnOutsideClick, initialFocus, returnFocusTo, onOpenChange, }?: UseDialogOptions): UseDialog;"
     },
     {
       "name": "useDomProps",
@@ -309,6 +389,16 @@
       "name": "useMultiSelect",
       "kind": "function",
       "signature": "declare function useMultiSelect({ items: allItems, values: controlledValues, disabled, readOnly, max, removeOnBackspace, filter, onValuesChange, onInputValueChange, onOpenChange, }: UseMultiSelectOptions): UseMultiSelect;"
+    },
+    {
+      "name": "useSearchDialog",
+      "kind": "function",
+      "signature": "declare function useSearchDialog({ items, suggestions, open, filter, onSelect, onOpenChange, }: UseSearchDialogOptions): UseSearchDialog;"
+    },
+    {
+      "name": "useSheetDialog",
+      "kind": "function",
+      "signature": "declare function useSheetDialog({ side, ...options }?: UseSheetDialogOptions): UseSheetDialog;"
     },
     {
       "name": "useSwitch",

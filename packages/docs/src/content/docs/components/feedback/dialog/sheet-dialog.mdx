@@ -43,6 +43,23 @@ the application's choice.
 
 <ImportSnippet component="sheet-dialog" />
 
+In React the regions are props: `trigger`, `children` (the body), `footer`,
+`icon`, `headerLead` and `headerActions`. `useSheetDialog` gives the same
+behaviour, drag included, for markup of your own:
+
+```tsx
+<SheetDialog
+  side="right"
+  title="Filters"
+  description="Refine the results."
+  trigger="Open filters"
+  headerActions={<Button variant="ghost">Reset</Button>}
+  footer={<Button variant="primary">Apply</Button>}
+>
+  <FilterForm />
+</SheetDialog>
+```
+
 ### Props
 
 <PropsTable component="sheet-dialog" />

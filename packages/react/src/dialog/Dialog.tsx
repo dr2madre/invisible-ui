@@ -1,27 +1,16 @@
-import { forwardRef, useImperativeHandle, type ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { Button } from "../button/Button";
 import type { ButtonVariant } from "../button/use-button";
 import { useI18n } from "../i18n/i18n";
 import { DialogHeader } from "./DialogHeader";
 import { DialogStatus } from "./DialogStatus";
 import { useDialog } from "./use-dialog";
-import type { DialogNoticeOptions } from "./use-dialog-notices";
+import { useDialogHandle, type DialogHandle } from "./use-dialog-handle";
 
 /** How the dialog body spaces its direct children. */
 export type DialogBodyLayout = "plain" | "stack";
 
-/**
- * What a ref on `Dialog` holds: the status area (ADR 0016), for messages about
- * the dialog's own task.
- */
-export interface DialogHandle {
-  /** Show a notice and return its id; an empty string while the dialog is closed. */
-  notify: (options: DialogNoticeOptions) => string;
-  /** Remove one notice. */
-  dismissNotice: (id: string) => void;
-  /** Remove every notice. */
-  clearNotices: () => void;
-}
+export type { DialogHandle };
 
 export interface DialogProps {
   /** Visual variant for the trigger Button. */
@@ -122,17 +111,7 @@ export const Dialog = /* @__PURE__ */ forwardRef<DialogHandle, DialogProps>(func
   ref,
 ) {
   const { t } = useI18n();
-  const {
-    api,
-    open: isOpen,
-    triggerRef,
-    panelRef,
-    notices,
-    announcement,
-    notify,
-    dismissNotice,
-    clearNotices,
-  } = useDialog({
+  const dialog = useDialog({
     open,
     describedBy: description !== undefined,
     initialFocus,
@@ -140,11 +119,8 @@ export const Dialog = /* @__PURE__ */ forwardRef<DialogHandle, DialogProps>(func
     onOpenChange,
   });
 
-  useImperativeHandle(ref, () => ({ notify, dismissNotice, clearNotices }), [
-    notify,
-    dismissNotice,
-    clearNotices,
-  ]);
+  const { api, open: isOpen, triggerRef, panelRef } = dialog;
+  useDialogHandle(ref, dialog);
 
   const resolvedCloseLabel = closeLabel ?? t("dialog.close");
 
@@ -175,11 +151,7 @@ export const Dialog = /* @__PURE__ */ forwardRef<DialogHandle, DialogProps>(func
             {children}
           </div>
 
-          <DialogStatus
-            notices={notices}
-            announcement={announcement}
-            dismissNotice={dismissNotice}
-          />
+          <DialogStatus {...dialog} />
 
           {/* One action bar: the leading group first, so source order matches
               focus order, then the trailing group. */}

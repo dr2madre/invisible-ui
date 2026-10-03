@@ -12,7 +12,7 @@ React implements it for the components it has.
 | Elements | Implemented. |
 | Svelte | Implemented. |
 | Vue | Implemented. |
-| React | Implemented for Dialog (status area, dialogs on top) and Button (`copy`). React has no notification region yet: case 2 applies when the region is ported. |
+| React | Implemented for the dialog family (Dialog, Sheet Dialog and the Alert, Confirm, Prompt and Search presets: status area, dialogs on top) and Button (`copy`). React has no notification region yet: case 2 applies when the region is ported. |
 
 ## Context
 
