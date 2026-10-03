@@ -5,9 +5,10 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 11 components today: Button, Checkbox, Switch,
-TextField, SearchField, Select, Combobox, MultiSelect, Dialog, Icon and
-LocaleProvider. See item 14 in
+adapters, and carries 16 components today: Button, Checkbox, Switch,
+TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
+(Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
+SearchDialog), Icon and LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -66,7 +67,10 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
 - **`useDialog`** runs on the native `<dialog>` + `showModal()`, so the top
   layer, the inert background (a real focus trap) and `::backdrop` come from the
   browser. It adds only scroll lock, backdrop light-dismiss, `initialFocus` and
-  focus restore, in an effect gated on `open`.
+  focus restore, in an effect gated on `open`. The rest of the dialog family
+  runs on it: the Alert, Confirm and Prompt presets share one shell,
+  `useSheetDialog` adds the edge drag (written to the panel's transform, not
+  rendered) and `useSearchDialog` wires the headless combobox inside it.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 
@@ -75,9 +79,10 @@ behaviour.
 
 ## SSR and hydration
 
-All six catalog components, `Icon` and `LocaleProvider` render in a Node
-environment without accessing the DOM. A browser test then hydrates the same
-public surface and fails on React hydration mismatches or recoverable errors.
+Every public component renders in a Node environment without accessing the
+DOM, and the dialogs render open there too. A browser test then hydrates the
+same public surface, closed and open dialogs included, and fails on React
+hydration mismatches or recoverable errors.
 The Combobox renders its body-level portal only after hydration, keeping the
 server and initial client trees identical before moving the listbox into its
 runtime layer.

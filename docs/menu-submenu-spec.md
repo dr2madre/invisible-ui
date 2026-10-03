@@ -8,9 +8,11 @@ groundwork named in [ADR 0017](./adr/0017-flutter-adapter.md) §6: Wireframe's
 Flutter app needs menus with submenus, and the web menus gain them from the
 same spec.
 
-Status: proposal, for the maintainer's review. Nothing here is
-implemented. The current menu is `core/src/menu` (items model, `connect`, `matchItem`)
-and the adapters built on it.
+Status: decided (see [Decisions taken](#decisions-taken)). The `core/`
+part is implemented: the `submenu` entry, the open path and the keyboard map
+in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
+grace-area and placement functions in `core/src/internal`. The web adapters
+and the Flutter adapter do not render submenus yet.
 
 ## Pattern
 
@@ -295,16 +297,18 @@ manual check, written as not yet verified until a dated session exists
 
 ## Mapping per platform
 
-### `core/` (proposal)
+### `core/`
 
 The rules live once in `core/src/menu`; the web adapters stay thin.
 
 - **Types.** `MenuSubmenu` and the widened `MenuGroup` and `MenuEntry` above;
   `isSubmenu(entry)`; `itemsOf` keeps submenu triggers and leaves out their
   children; `findEntry(entries, value)` returns the entry and its path.
-- **State.** `MenuState.openPath: string[]`, default `[]`.
+- **State.** `MenuState.openPath: string[]`, default `[]`. The field is
+  optional, so a state object written before submenus stays valid.
 - **`ConnectOptions`.** `setOpenPath(path)` beside `setOpen` and
   `setActiveValue`, and `direction?: "ltr" | "rtl"`, as Tabs has.
+  `setOpenPath` is optional: without it no submenu opens.
 - **`MenuApi`.**
   - `openSubmenu(value, focus: "first" | "none")`: opens the submenu and its
     path; `"first"` for keys, `"none"` for hover.
@@ -329,7 +333,8 @@ The rules live once in `core/src/menu`; the web adapters stay thin.
   area and positioning are DOM concerns, as the tooltip delays are today. The
   grace-area test (a point in a polygon) and the placement choice are pure
   functions, so they are written once in `core/src/internal` and covered by
-  the shared test vectors below.
+  the shared test vectors below. The `menu` namespace re-exports them as
+  `isInGraceArea`, `graceArea`, `pointInPolygon` and `placeSubmenu`.
 
 ### Svelte (reference)
 
@@ -401,7 +406,10 @@ React has no menus today. Its Dropdown Menu, Context Menu and Menubar
 ### Shared test vectors
 
 Language-neutral JSON files, read by the `core/` tests and the Flutter tests
-(ADR 0017 §1):
+(ADR 0017 §1). They live in `core/src/menu/__vectors__/`; the Flutter tests
+read them from that path in the repository, and `core/src/menu/vectors.test.ts`
+runs every case against `core/`. The keyboard and typeahead files share the
+tree in `menu-tree.json`.
 
 - `menu-keyboard.json`: for a tree, a starting focus, an open path and a
   direction, each key gives the resulting focus, open path and report.

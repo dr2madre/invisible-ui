@@ -25,6 +25,12 @@ export interface UseDialogOptions {
    * screen reader announces the dialog without snapping focus to a "✕".
    */
   initialFocus?: string;
+  /**
+   * CSS selector for the element focus returns to on close, for a dialog
+   * opened without a trigger of its own. It wins over the element that had
+   * focus when the dialog opened.
+   */
+  returnFocusTo?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -54,9 +60,9 @@ export interface UseDialog extends DialogNotices {
  * and `clearNotices()` remove notices, and `notices` and `announcement` are
  * what to render, between the body and the footer. Notices belong to one
  * opening: `notify()` while closed returns an empty string, and closing clears
- * them. Closing returns focus to the element that had it when the dialog
- * opened, so a dialog opened from inside another hands focus back there;
- * otherwise to the trigger.
+ * them. Closing returns focus to `returnFocusTo` when it names an element,
+ * else to the element that had it when the dialog opened, so a dialog opened
+ * from inside another hands focus back there, else to the trigger.
  *
  * The panel must be rendered only while open, so the effect's lifecycle tracks
  * the open state — the React counterpart of the Svelte action's lifecycle.
@@ -68,6 +74,7 @@ export function useDialog({
   closeOnEscape = true,
   closeOnOutsideClick = true,
   initialFocus,
+  returnFocusTo,
   onOpenChange,
 }: UseDialogOptions = {}): UseDialog {
   const id = `ds-dialog-${useId()}`;
@@ -94,9 +101,15 @@ export function useDialog({
 
   // Latest inputs, read by the panel's listeners without re-running the effect
   // that shows the panel (and moves focus into it) whenever they change.
-  const latest = useRef({ setOpen, initialFocus, closeOnEscape, closeOnOutsideClick });
+  const latest = useRef({
+    setOpen,
+    initialFocus,
+    returnFocusTo,
+    closeOnEscape,
+    closeOnOutsideClick,
+  });
   useIsomorphicLayoutEffect(() => {
-    latest.current = { setOpen, initialFocus, closeOnEscape, closeOnOutsideClick };
+    latest.current = { setOpen, initialFocus, returnFocusTo, closeOnEscape, closeOnOutsideClick };
   });
 
   const api = useMemo(
@@ -172,9 +185,11 @@ export function useDialog({
       el.removeEventListener("pointerdown", onPointerDown);
       if (el.open) el.close();
       releaseScroll();
-      // Back to where focus was, inside a dialog below when there is one;
-      // the trigger when that element is gone.
-      returnFocus(previouslyFocused, trigger);
+      // Back to the named element, else to where focus was (inside a dialog
+      // below when there is one), else to the trigger when that is gone.
+      const selector = latest.current.returnFocusTo;
+      const named = selector ? document.querySelector<HTMLElement>(selector) : null;
+      returnFocus(named ?? previouslyFocused, trigger);
     };
   }, [open]);
 

@@ -79,6 +79,20 @@ In Elements, assign the results as a property and listen for `select`:
 The title names the dialog and stays visually hidden: `hide-title="false"`
 shows it, and `close-button` adds a close button to the header.
 
+In React, pass the results as `items` and read the choice in `onSelect`.
+`useSearchDialog` gives the same behaviour for markup of your own:
+
+```tsx
+<SearchDialog
+  items={[
+    { value: "home", label: "Home", group: "Pages" },
+    { value: "save", label: "Save", group: "Actions", shortcut: ["⌘", "S"] },
+  ]}
+  suggestions={[{ value: "home", label: "Home", group: "Recent" }]}
+  onSelect={(value) => run(value)}
+/>
+```
+
 ### Props
 
 <PropsTable component="search-dialog" />

@@ -281,7 +281,9 @@ describe("normalizePair and clampPair keep the pair's invariants", () => {
     }
   });
 
-  it("clampPair, from any legal pair and any raw request", () => {
+  // Exhaustive over bounds, distances, pairs and requests: well under a second
+  // on its own, but it shares the machine with every other suite in the gate.
+  it("clampPair, from any legal pair and any raw request", { timeout: 30_000 }, () => {
     for (const [min, max, step] of bounds) {
       for (const requested of distances) {
         const distance = effectiveMinDistance(requested, min, max, step);

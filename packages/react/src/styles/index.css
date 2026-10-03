@@ -18,6 +18,13 @@
 @import "./feedback-icon.css";
 @import "./inline-notification.css";
 @import "./dialog-status.css";
+@import "./alert-dialog.css";
+@import "./confirm-dialog.css";
+@import "./prompt-dialog.css";
+@import "./sheet-dialog.css";
+@import "./kbd.css";
+@import "./loading.css";
+@import "./search-dialog.css";
 @import "./select.css";
 @import "./text-field.css";
 @import "./search-field.css";

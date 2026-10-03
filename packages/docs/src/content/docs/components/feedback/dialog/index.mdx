@@ -196,8 +196,10 @@ function onUploadError() {
 </template>
 ```
 
-In React, a ref on `Dialog` holds `notify()`, `dismissNotice(id)` and
-`clearNotices()`, and `useDialog()` returns them with the `notices` to render.
+In React, a ref on any dialog of the family (type it with `DialogHandle`)
+holds `notify()`, `dismissNotice(id)` and `clearNotices()`, and `useDialog()`,
+`useSheetDialog()` and `useSearchDialog()` return them with the `notices` to
+render.
 `copy` on `Button` gives the confirmation beside the control:
 
 ```tsx
