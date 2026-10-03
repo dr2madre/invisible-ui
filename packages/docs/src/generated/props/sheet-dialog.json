@@ -274,6 +274,160 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "SheetDialog",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content. Defaults to the catalog's \"Open\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether this component renders its own trigger button. Turn it off when the button belongs somewhere this panel cannot reach, an application header for instance: drive `open` yourself and name `returnFocusTo`, since there is no trigger left for focus to go back to (ADR 0013).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "CSS selector for the element focus returns to when there is no trigger.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "side",
+          "type": "SheetDialogSide",
+          "default": "\"right\"",
+          "required": false,
+          "description": "Which edge the panel is anchored to.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a grab handle and enable the drag-to-dismiss gesture. Available on the bottom and lateral sides (ignored on `side=\"top\"`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the panel (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional description, wired via `aria-describedby`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the close button at the trailing end of the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "initialFocus",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "CSS selector (within the panel) for the element to focus on open, e.g. `\"input\"` to land on a form's first field.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerLead",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading ghost button in the header, e.g. back.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headerActions",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Actions before the close button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Footer actions.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The body.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

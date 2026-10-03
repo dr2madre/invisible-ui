@@ -40,6 +40,13 @@ const SHARED_SHEETS = [
   "select.css",
   "text-field.css",
   "search-field.css",
+  "alert-dialog.css",
+  "confirm-dialog.css",
+  "prompt-dialog.css",
+  "search-dialog.css",
+  "sheet-dialog.css",
+  "kbd.css",
+  "loading.css",
 ];
 
 const VUE_SOURCE_SHEETS = [
@@ -51,12 +58,8 @@ const VUE_SOURCE_SHEETS = [
   "popover.css",
   "tooltip.css",
   "dropdown-menu.css",
-  "alert-dialog.css",
-  "confirm-dialog.css",
-  "prompt-dialog.css",
   "notification-region.css",
   "progress.css",
-  "loading.css",
   "skeleton.css",
   "count.css",
   "tabs.css",
@@ -78,7 +81,6 @@ const VUE_SOURCE_SHEETS = [
   "toolbar.css",
   "button-group.css",
   "link.css",
-  "kbd.css",
   "separator.css",
   "calendar.css",
   "date-picker.css",
@@ -103,8 +105,6 @@ const VUE_SOURCE_SHEETS = [
   "stepper.css",
   "tree-view.css",
   "carousel.css",
-  "sheet-dialog.css",
-  "search-dialog.css",
   "table-set.css",
 ];
 

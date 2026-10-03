@@ -206,6 +206,112 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "AlertDialog",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content. Defaults to the catalog's \"Open\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible title naming the alert (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The message to acknowledge (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "dismissLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label of the single acknowledging button. Defaults to the catalog's \"OK\"; prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\").",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the alert is acknowledged (button, Escape or backdrop).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeOnOutsideClick",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether pressing the backdrop acknowledges and closes. Defaults to `true`; set `false` to require an explicit button press (e.g. \"I understood\").",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeButton",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a close button at the trailing end of the header; it closes like Escape.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the close button. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading feedback icon in the header.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the open state changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
