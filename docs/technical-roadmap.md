@@ -139,6 +139,11 @@ Each item ships as its own PR. Checkboxes track progress.
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
   the discovery in
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
+  Progress: `packages/flutter` carries the foundation (generated tokens
+  checked by `pnpm tokens:check`, `InvisibleTheme` with light and dark,
+  density, minimum target size, focus ring and messages) and Button, with
+  its parity checklist in `packages/flutter/parity/button.md` and the
+  `flutter.yml` workflow. The rest of the first wave is still open.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27

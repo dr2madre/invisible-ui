@@ -1,0 +1,23 @@
+name: invisible_ui
+description: >-
+  Invisible UI for Flutter: accessible components built on the widgets layer,
+  themed from the Invisible UI design tokens.
+version: 0.1.0-alpha.0
+repository: https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter
+# The project publishes no packages: consumers depend on it by git.
+publish_to: none
+
+environment:
+  # Flutter 3.32 ships Dart 3.8. Raise both only for an API a later release
+  # adds, and name that API in the change.
+  sdk: ^3.8.0
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

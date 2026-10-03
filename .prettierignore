@@ -14,6 +14,10 @@ pnpm-lock.yaml
 # Auto-generated API manifests (canonical format is the generator's)
 **/src/generated/**
 
+# Flutter's local build and tool state (packages/flutter/.gitignore)
+packages/flutter/.dart_tool/**
+packages/flutter/build/**
+
 # Agent tooling is advisory and not project source. Shared skills may be
 # committed, while tool-specific state remains local.
 .agents/**

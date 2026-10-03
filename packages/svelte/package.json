@@ -360,7 +360,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "check": "svelte-check --tsconfig ./tsconfig.check.json --threshold warning",
-    "tokens:build": "style-dictionary build --config style-dictionary.config.json"
+    "tokens:build": "style-dictionary build --config style-dictionary.config.mjs"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
