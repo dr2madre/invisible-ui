@@ -1,0 +1,231 @@
+{
+  "description": "Submenu placement (docs/menu-submenu-spec.md, Positioning): inline-end of the trigger, top aligned; inline-start when inline-end has no room; overlapping the parent, shifted inside the viewport, when neither side has room. 8 px padding at the viewport edges.",
+  "padding": 8,
+  "cases": [
+    {
+      "name": "Opens at inline-end in left-to-right",
+      "anchor": {
+        "x": 100,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "inline-end",
+        "physicalSide": "right",
+        "x": 300,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Flips to inline-start near the right edge",
+      "anchor": {
+        "x": 500,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "inline-start",
+        "physicalSide": "left",
+        "x": 320,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Opens at inline-end (left) in right-to-left",
+      "anchor": {
+        "x": 300,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "rtl",
+      "expect": {
+        "side": "inline-end",
+        "physicalSide": "left",
+        "x": 120,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Flips to inline-start (right) near the left edge in right-to-left",
+      "anchor": {
+        "x": 50,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "rtl",
+      "expect": {
+        "side": "inline-start",
+        "physicalSide": "right",
+        "x": 250,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Overlaps the parent when neither side has room",
+      "anchor": {
+        "x": 8,
+        "y": 50,
+        "width": 304,
+        "height": 40
+      },
+      "menu": {
+        "width": 200,
+        "height": 240
+      },
+      "viewport": {
+        "width": 320,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "overlap",
+        "physicalSide": null,
+        "x": 112,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "A menu wider than the viewport sits at the padding",
+      "anchor": {
+        "x": 8,
+        "y": 50,
+        "width": 304,
+        "height": 40
+      },
+      "menu": {
+        "width": 400,
+        "height": 240
+      },
+      "viewport": {
+        "width": 320,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "overlap",
+        "physicalSide": null,
+        "x": 8,
+        "y": 50,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Shifts up to stay in the viewport",
+      "anchor": {
+        "x": 100,
+        "y": 500,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "inline-end",
+        "physicalSide": "right",
+        "x": 300,
+        "y": 352,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "A tall menu starts at the padding and scrolls inside",
+      "anchor": {
+        "x": 100,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 900
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "inline-end",
+        "physicalSide": "right",
+        "x": 300,
+        "y": 8,
+        "maxHeight": 584
+      }
+    },
+    {
+      "name": "Fits exactly against the padding",
+      "anchor": {
+        "x": 412,
+        "y": 50,
+        "width": 200,
+        "height": 32
+      },
+      "menu": {
+        "width": 180,
+        "height": 240
+      },
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "direction": "ltr",
+      "expect": {
+        "side": "inline-end",
+        "physicalSide": "right",
+        "x": 612,
+        "y": 50,
+        "maxHeight": 584
+      }
+    }
+  ]
+}

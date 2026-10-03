@@ -29,6 +29,7 @@ export * as carousel from "./carousel";
 export * as table from "./table";
 export * as select from "./select";
 export * as menu from "./menu";
+export * as menubar from "./menubar";
 export * as multiSelect from "./multi-select";
 export * as popover from "./popover";
 export * as dialog from "./dialog";

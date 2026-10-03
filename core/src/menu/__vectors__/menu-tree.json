@@ -1,0 +1,44 @@
+{
+  "description": "The menu tree the keyboard and typeahead vectors share. Root stops: new, recent, share (disabled), empty (no enabled item, so disabled), wrap, theme-dark, quit.",
+  "tree": [
+    { "value": "new", "label": "New file" },
+    {
+      "type": "submenu",
+      "value": "recent",
+      "label": "Open recent",
+      "items": [
+        { "value": "alpha", "label": "Alpha" },
+        { "value": "beta", "label": "Beta", "kind": "checkbox", "checked": false },
+        {
+          "type": "submenu",
+          "value": "more",
+          "label": "More",
+          "items": [{ "value": "older", "label": "Older" }]
+        }
+      ]
+    },
+    {
+      "type": "submenu",
+      "value": "share",
+      "label": "Share",
+      "disabled": true,
+      "items": [{ "value": "mail", "label": "Mail" }]
+    },
+    {
+      "type": "submenu",
+      "value": "empty",
+      "label": "Empty",
+      "items": [{ "value": "ghost", "label": "Ghost", "disabled": true }]
+    },
+    { "type": "separator" },
+    {
+      "type": "group",
+      "label": "View",
+      "items": [
+        { "value": "wrap", "label": "Word wrap", "kind": "checkbox", "checked": true },
+        { "value": "theme-dark", "label": "Dark theme", "kind": "radio", "checked": false }
+      ]
+    },
+    { "value": "quit", "label": "Quit" }
+  ]
+}

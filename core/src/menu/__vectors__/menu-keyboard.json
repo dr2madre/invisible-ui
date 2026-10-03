@@ -1,0 +1,468 @@
+{
+  "description": "Keyboard map of an open menu with submenus (docs/menu-submenu-spec.md). Each case starts with the root menu open on the tree in menu-tree.json, with the given open path, active value and direction, then presses one key. expect gives the open state, the resolved open path, the active value, the values reported through onSelect in order, and whether the key was handled (preventDefault called).",
+  "tree": "menu-tree.json",
+  "cases": [
+    {
+      "name": "ArrowRight on a submenu trigger opens it and focuses its first item",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "RTL: ArrowLeft on a submenu trigger opens it",
+      "direction": "rtl",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "ArrowLeft",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Enter on a submenu trigger opens it and focuses its first item",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "Enter",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Space on a submenu trigger opens it and focuses its first item",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": " ",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "A trigger inside a submenu opens the next level",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "more",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": ["recent", "more"],
+        "activeValue": "older",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowRight on a plain item is left unhandled",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "new",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "new",
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "ArrowLeft in the root menu is left unhandled",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "ArrowLeft",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "RTL: ArrowRight in the root menu is left unhandled",
+      "direction": "rtl",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "RTL: ArrowRight on a plain item in a submenu closes the level",
+      "direction": "rtl",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "RTL: ArrowLeft on a plain item in a submenu is left unhandled",
+      "direction": "rtl",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "ArrowLeft",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "ArrowLeft in a submenu closes the level and focuses the parent item",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "ArrowLeft",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowLeft in a second level closes only that level",
+      "direction": "ltr",
+      "openPath": ["recent", "more"],
+      "activeValue": "older",
+      "key": "ArrowLeft",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "more",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Escape in a submenu closes one level",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "Escape",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Escape in a second level closes one level",
+      "direction": "ltr",
+      "openPath": ["recent", "more"],
+      "activeValue": "older",
+      "key": "Escape",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "more",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Escape with a hovered submenu open below the focus closes that submenu only",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "recent",
+      "key": "Escape",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Escape in the root menu closes the menu",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "new",
+      "key": "Escape",
+      "expect": {
+        "open": false,
+        "openPath": [],
+        "activeValue": null,
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Tab closes every level and is left to the browser",
+      "direction": "ltr",
+      "openPath": ["recent", "more"],
+      "activeValue": "older",
+      "key": "Tab",
+      "expect": {
+        "open": false,
+        "openPath": [],
+        "activeValue": null,
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "Enter on an item in a submenu closes every level, then reports",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "Enter",
+      "expect": {
+        "open": false,
+        "openPath": [],
+        "activeValue": null,
+        "reported": ["alpha"],
+        "handled": true
+      }
+    },
+    {
+      "name": "Enter on a checkbox item closes every level, then reports",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "beta",
+      "key": "Enter",
+      "expect": {
+        "open": false,
+        "openPath": [],
+        "activeValue": null,
+        "reported": ["beta"],
+        "handled": true
+      }
+    },
+    {
+      "name": "Space on a checkbox item in a submenu reports and keeps the menu open",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "beta",
+      "key": " ",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "beta",
+        "reported": ["beta"],
+        "handled": true
+      }
+    },
+    {
+      "name": "Space on a checkbox item in the root menu reports and keeps the menu open",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "wrap",
+      "key": " ",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "wrap",
+        "reported": ["wrap"],
+        "handled": true
+      }
+    },
+    {
+      "name": "Space on a radio item reports and keeps the menu open",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "theme-dark",
+      "key": " ",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "theme-dark",
+        "reported": ["theme-dark"],
+        "handled": true
+      }
+    },
+    {
+      "name": "Space on an action closes every level, then reports",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "new",
+      "key": " ",
+      "expect": {
+        "open": false,
+        "openPath": [],
+        "activeValue": null,
+        "reported": ["new"],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowDown skips a disabled trigger and an empty submenu",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "recent",
+      "key": "ArrowDown",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "wrap",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowUp skips them the other way",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "wrap",
+      "key": "ArrowUp",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "ArrowDown wraps within a submenu level",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "more",
+      "key": "ArrowDown",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Home moves to the first item of the level",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "more",
+      "key": "Home",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "alpha",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "End moves to the last item of the level",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "alpha",
+      "key": "End",
+      "expect": {
+        "open": true,
+        "openPath": ["recent"],
+        "activeValue": "more",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "Moving within a level closes the submenu open below it",
+      "direction": "ltr",
+      "openPath": ["recent"],
+      "activeValue": "recent",
+      "key": "ArrowDown",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "wrap",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "A disabled trigger opens by no key: Enter",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "share",
+      "key": "Enter",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "share",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "A disabled trigger leaves the arrow toward inline-end unhandled",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "share",
+      "key": "ArrowRight",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "share",
+        "reported": [],
+        "handled": false
+      }
+    },
+    {
+      "name": "An empty submenu behaves as disabled",
+      "direction": "ltr",
+      "openPath": [],
+      "activeValue": "empty",
+      "key": "Enter",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "empty",
+        "reported": [],
+        "handled": true
+      }
+    },
+    {
+      "name": "An open path through a disabled submenu is cut",
+      "direction": "ltr",
+      "openPath": ["share"],
+      "activeValue": "new",
+      "key": "ArrowDown",
+      "expect": {
+        "open": true,
+        "openPath": [],
+        "activeValue": "recent",
+        "reported": [],
+        "handled": true
+      }
+    }
+  ]
+}
