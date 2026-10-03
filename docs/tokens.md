@@ -107,14 +107,22 @@ optional; property after a double dash. Canonical states:
 ## Source of truth & build
 
 - Edit **`packages/tokens/tokens.json`** first. It exports everywhere.
-- Generate CSS variables (and, later, SCSS/Swift/Kotlin/Dart) with:
+- Generate CSS variables and the Dart tokens with:
 
   ```sh
-  pnpm --filter @design-system/svelte tokens:build
+  pnpm tokens:build
   ```
 
   → `packages/svelte/dist/tokens/tokens.generated.css`
-  (`--ds-style-primary-default`, `--ds-palette-blue-600`, …).
+  (`--ds-style-primary-default`, `--ds-palette-blue-600`, …), and
+  `packages/flutter/lib/src/tokens/tokens.g.dart`: typed constants for the
+  palette, the style tier, the radii, the focus ring, the type scale and the
+  density levels, the roles as a light and a dark `InvisibleColors`, and the
+  mix recipes as `InvisibleColorMixes`. The Dart format is
+  `scripts/tokens-dart-format.mjs`. The Dart file is committed, because a git
+  consumer of the Flutter package runs no build step, and
+  `pnpm tokens:check` fails when it differs from what the source produces.
+  A density level that leaves a size undefined holds null there.
 
 - A **parity test** (`packages/svelte/src/lib/styles/tokens-parity.test.ts`)
   resolves every token in the source, works out the value `tokens.css` gives

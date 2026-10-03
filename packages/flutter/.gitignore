@@ -1,0 +1,6 @@
+.dart_tool/
+build/
+# A library package leaves dependency resolution to the app that uses it.
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
