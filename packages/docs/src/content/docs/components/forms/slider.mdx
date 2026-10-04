@@ -42,4 +42,11 @@ sends a bubbling `change` event with `detail.value`:
 <Slider value={40} step={5} label="Volume" />
 ```
 
+In React, `onValueChange` reports each move, and the `icon` prop takes the
+leading glyph:
+
+```tsx
+<Slider label="Volume" value={volume} showValue icon={<VolumeIcon />} onValueChange={setVolume} />
+```
+
 Themeable via `--ds-slider-*`.

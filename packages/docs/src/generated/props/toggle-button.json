@@ -149,6 +149,80 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "ToggleButton",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether the button is pressed: the initial value, or the current one when it changes between renders (e.g. a filter chip driven by a list).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "check",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a leading checkmark when pressed (the filter-chip look). The check reveals the selected state explicitly, the way a checkbox does.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name; required when the content is icon-only.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; when pressed, submits `value` under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"on\"",
+          "required": false,
+          "description": "Value submitted under `name` when pressed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the pressed value changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The button's content.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

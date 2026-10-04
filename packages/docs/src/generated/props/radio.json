@@ -120,6 +120,72 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Radio",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The value submitted / reported when this radio is chosen.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Group name; radios sharing a name are mutually exclusive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Whether this radio is selected.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label text, used when no `children` is given.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with this radio's value when it becomes selected.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Rich label content, in place of `label`.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

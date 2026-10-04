@@ -1,6 +1,6 @@
-import { useId, useRef, useState, type ChangeEvent } from "react";
+import { useId, useRef, type ChangeEvent } from "react";
 import { ChevronGlyph, Icon } from "../icon/Icon";
-import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
+import { useFormDefault, useResettable } from "../internal/form-reset";
 import { useI18n } from "../i18n/i18n";
 
 export interface SelectItem {
@@ -73,12 +73,14 @@ export function Select({
 
   // The resolved selection, mirroring the prop: the same controllable shape
   // the checkbox and the switch have, and the one a reset needs, since a
-  // control with no copy of its own has nothing to put back.
-  const [selected, setSelected] = useState(value);
-  // What a form reset restores. It follows the prop, except when the prop only
-  // hands back what the control already holds: that is the page echoing a
-  // choice, and an echo is not a new default (ADR 0012).
-  const defaultValue = useControlledDefault(value, selected, setSelected);
+  // control with no copy of its own has nothing to put back. The default it
+  // restores follows the prop, except when the prop only hands back what the
+  // control already holds: an echo is not a new default (ADR 0012).
+  const [selected, setSelected, defaultValue] = useResettable<string | null>(
+    value,
+    onValueChange as ((value: string | null) => void) | undefined,
+    ref,
+  );
 
   // React writes `selected` when an option first renders and never again, so
   // without this the browser's own reset points at the mounted selection. With
@@ -94,7 +96,6 @@ export function Select({
     },
     [defaultValue, items],
   );
-  useFormReset(ref, () => setSelected(defaultValue));
 
   const resolvedPlaceholder = placeholder ?? t("select.placeholder");
   // The native element always has a selection; `""` stands for "nothing yet"
@@ -103,9 +104,7 @@ export function Select({
 
   const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const next = event.currentTarget.value;
-    if (next === "") return;
-    setSelected(next);
-    onValueChange?.(next);
+    if (next !== "") setSelected(next);
   };
 
   return (

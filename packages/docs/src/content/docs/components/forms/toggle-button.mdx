@@ -44,4 +44,13 @@ event with `detail.pressed`:
 <ToggleButton label="Bold" onPressedChange={(on) => setBold(on)}>B</ToggleButton>
 ```
 
+In React, the content is `children`, and `onPressedChange` reports each
+press:
+
+```tsx
+<ToggleButton label="Bold" pressed={bold} onPressedChange={setBold}>
+  <BoldIcon />
+</ToggleButton>
+```
+
 Themeable via `--ds-toggle-*`.

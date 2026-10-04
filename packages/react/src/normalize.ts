@@ -16,6 +16,9 @@ const RENAME: Record<string, string> = {
   maxlength: "maxLength",
   autocomplete: "autoComplete",
   autofocus: "autoFocus",
+  autocorrect: "autoCorrect",
+  inputmode: "inputMode",
+  spellcheck: "spellCheck",
 };
 
 /**
@@ -38,3 +41,13 @@ export const normalizeProps: Normalize = <T extends ElementProps>(props: T): T =
 
   return out as T;
 };
+
+/**
+ * The core answers an input's `input` event; React reports that event as
+ * `onChange`, and an input with a live `value` and no `onChange` is read-only
+ * to it. The handler moves over.
+ */
+export const inputEvent = ({ onInput, ...props }: ElementProps): ElementProps => ({
+  ...props,
+  onChange: onInput,
+});

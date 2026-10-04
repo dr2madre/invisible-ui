@@ -88,6 +88,56 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "ToggleGroup",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "ToggleGroupVariant",
+          "default": "\"separate\"",
+          "required": false,
+          "description": "Visual style. `separate` keeps each toggle's own style; `segmented` joins them.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "type": "ToggleGroupOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout axis. Purely visual: the group has no keyboard navigation of its own.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Let the toggles wrap onto multiple lines when they overflow the available width (e.g. a row of filter chips in a narrow panel). Meaningful on a horizontal `separate` group; ignored when `segmented`, which is one control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional container name for screen readers (the group's `aria-label`). It names the container, not the items; omit it when the toggles are unrelated.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The `ToggleButton`s.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

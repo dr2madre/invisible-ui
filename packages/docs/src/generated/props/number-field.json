@@ -291,6 +291,144 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "NumberField",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible label, tied to the control.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) value; `null` means empty.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "BCP-47 locale for parsing and display. Defaults to the provider's locale.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Step for the spin actions; typed values are validated against it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "changeOnWheel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Opt in to wheel stepping while the input is focused and hovered.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional hint shown under the control and linked via `aria-describedby`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Error message; when non-empty the field becomes invalid and announces it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; the canonical ASCII value is submitted under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Id of the owning form when the field renders outside of it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the canonical value changes while editing.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueCommit",
+          "type": "(value: number | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called at commit boundaries: blur, Enter, and spin actions.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

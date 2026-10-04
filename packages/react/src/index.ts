@@ -57,6 +57,27 @@ export {
   type NavigationMenuLink,
   type NavigationMenuProps,
 } from "./navigation-menu/NavigationMenu";
+export { Radio, type RadioProps } from "./radio/Radio";
+export { RadioGroup, type RadioGroupItem, type RadioGroupProps } from "./radio-group/RadioGroup";
+export { CheckboxGroup, type CheckboxGroupProps } from "./checkbox-group/CheckboxGroup";
+export {
+  SegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlOrientation,
+  type SegmentedControlProps,
+} from "./segmented-control/SegmentedControl";
+export { ToggleButton, type ToggleButtonProps } from "./toggle-button/ToggleButton";
+export {
+  ToggleGroup,
+  type ToggleGroupOrientation,
+  type ToggleGroupProps,
+  type ToggleGroupVariant,
+} from "./toggle-group/ToggleGroup";
+export { Slider, type SliderProps } from "./slider/Slider";
+export { RangeSlider, type RangeSliderProps } from "./range-slider/RangeSlider";
+export { NumberField, type NumberFieldProps } from "./number-field/NumberField";
+export { PinInput, type PinInputProps } from "./pin-input/PinInput";
+export { RatingGroup, type RatingGroupProps } from "./rating-group/RatingGroup";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -100,6 +121,37 @@ export {
   type UseNavigationMenu,
   type UseNavigationMenuOptions,
 } from "./navigation-menu/use-navigation-menu";
+export {
+  useRadioGroup,
+  type RadioGroupOrientation,
+  type RadioItem,
+  type UseRadioGroupOptions,
+} from "./radio-group/use-radio-group";
+export {
+  useCheckboxGroup,
+  type CheckboxGroupItem,
+  type UseCheckboxGroupOptions,
+} from "./checkbox-group/use-checkbox-group";
+export { useToggleButton, type UseToggleButtonOptions } from "./toggle-button/use-toggle-button";
+export { useSlider, type SliderOrientation, type UseSliderOptions } from "./slider/use-slider";
+export {
+  useRangeSlider,
+  type RangeSliderOrientation,
+  type RangeValue,
+  type UseRangeSliderOptions,
+} from "./range-slider/use-range-slider";
+export {
+  useNumberField,
+  type NumberFieldError,
+  type UseNumberFieldOptions,
+} from "./number-field/use-number-field";
+export { usePinInput, type PinInputType, type UsePinInputOptions } from "./pin-input/use-pin-input";
+export {
+  useRatingGroup,
+  type RatingItem,
+  type UseRatingGroup,
+  type UseRatingGroupOptions,
+} from "./rating-group/use-rating-group";
 export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 

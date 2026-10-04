@@ -41,4 +41,10 @@ star sends a bubbling `change` event with the rating as a number in
 <RatingGroup value={3} max={5} label="Rating" />
 ```
 
+In React, `onValueChange` reports the rating as a number:
+
+```tsx
+<RatingGroup label="Rating" value={rating} onValueChange={setRating} />
+```
+
 Themeable via `--ds-rating-*`.

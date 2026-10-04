@@ -9,6 +9,12 @@ import { Combobox } from "./combobox/Combobox";
 import { MultiSelect } from "./multi-select/MultiSelect";
 import { Select } from "./select/Select";
 import { Switch } from "./switch/Switch";
+import { ToggleButton } from "./toggle-button/ToggleButton";
+import { RadioGroup } from "./radio-group/RadioGroup";
+import { SegmentedControl } from "./segmented-control/SegmentedControl";
+import { CheckboxGroup } from "./checkbox-group/CheckboxGroup";
+import { RatingGroup } from "./rating-group/RatingGroup";
+import { PinInput } from "./pin-input/PinInput";
 
 const fruit = [
   { value: "apple", label: "Apple" },
@@ -78,6 +84,16 @@ const CONTROLS: Row[] = [
     ),
     toggle: (user) => user.click(screen.getByRole("switch", { name: "F" })),
     visible: () => (screen.getByRole("switch", { name: "F" }) as HTMLInputElement).checked,
+  },
+  {
+    name: "ToggleButton",
+    render: (checked, onChange) => (
+      <ToggleButton label="F" name="f" pressed={checked} onPressedChange={onChange}>
+        F
+      </ToggleButton>
+    ),
+    toggle: (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    visible: () => (screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked,
   },
 ];
 
@@ -659,5 +675,137 @@ describe("form reset on server-rendered markup", () => {
     expect(payload(form), "the next render undid the reset").toBe("on");
 
     await act(async () => root?.unmount());
+  });
+});
+
+// The value controls that keep a choice of their own over native radios or
+// boxes, and the PIN input whose code travels in a hidden input. The page
+// echoes every report back, as React consumers do.
+const ab = [{ value: "a" }, { value: "b" }];
+
+interface Choice<T> {
+  name: string;
+  start: T;
+  render: (value: T, onChange: (next: T) => void) => ReactNode;
+  edit: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
+  /** The form payload before and after the edit. */
+  payloads: [string, string];
+  /** What the control shows. */
+  visible: () => string;
+}
+
+const CHOICES = [
+  {
+    name: "RadioGroup",
+    start: "a",
+    render: (value, onChange) => (
+      <RadioGroup label="F" name="f" items={ab} value={value} onValueChange={onChange} />
+    ),
+    edit: (user) => user.click(screen.getByRole("radio", { name: "b" })),
+    payloads: ["a", "b"],
+    visible: () => (screen.getByRole("radio", { checked: true }) as HTMLInputElement).value,
+  } satisfies Choice<string | null>,
+  {
+    name: "SegmentedControl",
+    start: "a",
+    render: (value, onChange) => (
+      <SegmentedControl label="F" name="f" items={ab} value={value} onValueChange={onChange} />
+    ),
+    edit: (user) => user.click(screen.getByRole("radio", { name: "b" })),
+    payloads: ["a", "b"],
+    visible: () => (screen.getByRole("radio", { checked: true }) as HTMLInputElement).value,
+  } satisfies Choice<string | null>,
+  {
+    name: "RatingGroup",
+    start: 2,
+    render: (value, onChange) => (
+      <RatingGroup label="F" name="f" value={value} onValueChange={onChange} />
+    ),
+    edit: (user) => user.click(screen.getByRole("radio", { name: "4 stars" })),
+    payloads: ["2", "4"],
+    visible: () => (screen.getByRole("radio", { checked: true }) as HTMLInputElement).value,
+  } satisfies Choice<number | null>,
+  {
+    name: "CheckboxGroup",
+    start: ["a"],
+    render: (value, onChange) => (
+      <CheckboxGroup label="F" name="f" items={ab} value={value} onValueChange={onChange} />
+    ),
+    edit: (user) => user.click(screen.getByRole("checkbox", { name: "b" })),
+    payloads: ["a", "a,b"],
+    visible: () =>
+      screen
+        .getAllByRole<HTMLInputElement>("checkbox", { checked: true })
+        .map((box) => box.value)
+        .join(","),
+  } satisfies Choice<string[]>,
+  {
+    name: "PinInput",
+    start: "12",
+    render: (value, onChange) => (
+      <PinInput label="F" name="f" length={2} value={value} onValueChange={onChange} />
+    ),
+    edit: async (user) => {
+      await user.click(screen.getByRole("textbox", { name: "Character 2 of 2" }));
+      await user.paste("9");
+    },
+    payloads: ["12", "19"],
+    visible: () =>
+      screen
+        .getAllByRole<HTMLInputElement>("textbox")
+        .map((cell) => cell.value)
+        .join(""),
+  } satisfies Choice<string>,
+] as Choice<unknown>[];
+
+describe.each(CHOICES)("React form reset restores $name", (entry) => {
+  const Page = ({ onChange }: { onChange: (next: unknown) => void }) => {
+    const [value, setValue] = useState(entry.start);
+    const [tick, setTick] = useState(0);
+    return (
+      <>
+        <Form>
+          {entry.render(value, (next) => {
+            setValue(next);
+            onChange(next);
+          })}
+        </Form>
+        <button type="button" onClick={() => setTick(tick + 1)}>
+          Render again
+        </button>
+      </>
+    );
+  };
+
+  it("puts the payload, the page and the control's own copy back, and reports nothing", async () => {
+    const user = userEvent.setup();
+    const reported = vi.fn();
+    render(<Page onChange={reported} />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    const [before, after] = entry.payloads;
+
+    expect(payload(form)).toBe(before);
+    await entry.edit(user);
+    expect(payload(form)).toBe(after);
+    expect(reported, "the edit itself must have been reported").toHaveBeenCalledTimes(1);
+
+    await resetAndSettle(form);
+    expect(payload(form)).toBe(before);
+    expect(entry.visible(), "the page must agree with the payload").toBe(before);
+    expect(reported, "a reset is not a user change").toHaveBeenCalledTimes(1);
+
+    await user.click(screen.getByRole("button", { name: "Render again" }));
+    expect(payload(form), "the next render undid the reset").toBe(before);
+    expect(entry.visible()).toBe(before);
+  });
+
+  it("restores nothing when the reset is cancelled", async () => {
+    const user = userEvent.setup();
+    render(<Page onChange={() => {}} />);
+    const form = screen.getByTestId("host") as HTMLFormElement;
+    form.addEventListener("reset", (event) => event.preventDefault());
+    await entry.edit(user);
+    await resetAndSettle(form);
+    expect(payload(form), "a cancelled reset must leave the edit alone").toBe(entry.payloads[1]);
   });
 });

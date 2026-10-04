@@ -44,4 +44,20 @@ A multi-select group of checkboxes — a native `<fieldset>` of
 />
 ```
 
+In React, `value` is the list of checked items. `onValueChange` reports the
+whole list after each change:
+
+```tsx
+<CheckboxGroup
+  label="Toppings"
+  name="toppings"
+  value={toppings}
+  items={[
+    { value: "basil", label: "Basil" },
+    { value: "olives", label: "Olives" },
+  ]}
+  onValueChange={setToppings}
+/>
+```
+
 Themeable via `--ds-checkbox-*`.

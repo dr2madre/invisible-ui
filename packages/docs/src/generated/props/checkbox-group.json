@@ -131,6 +131,64 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "CheckboxGroup",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxGroupItem[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) selected values.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group (required; rendered as the legend).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Shared form field name; each checked item submits its value under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the selected values change.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

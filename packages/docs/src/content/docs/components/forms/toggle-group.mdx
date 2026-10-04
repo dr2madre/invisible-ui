@@ -64,6 +64,15 @@ In Elements, place the `<ds-toggle-button>` children inside the group:
 </ToggleGroup>
 ```
 
+In React, the toggles are the group's `children`:
+
+```tsx
+<ToggleGroup label="Formatting" variant="segmented">
+  <ToggleButton label="Bold">B</ToggleButton>
+  <ToggleButton label="Italic">I</ToggleButton>
+</ToggleGroup>
+```
+
 ### Filter chips
 
 Multi-select filter chips are just a `wrap` group of `check` toggles: each is a

@@ -96,4 +96,20 @@ describe("React TextField", () => {
     );
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it("keeps the DOM default after an edit, so the browser's own reset lands on it", async () => {
+    const user = userEvent.setup();
+    render(
+      <form>
+        <TextField label="Full name" name="name" value="Ada" />
+      </form>,
+    );
+    const input = screen.getByRole<HTMLInputElement>("textbox", { name: "Full name" });
+    await user.type(input, " Lovelace");
+    // React writes the edited value into the attribute when it settles the
+    // input after the event; the default is written back after that.
+    await act(() => Promise.resolve());
+    expect(input.value).toBe("Ada Lovelace");
+    expect(input.defaultValue, "the DOM default must not follow the edit").toBe("Ada");
+  });
 });

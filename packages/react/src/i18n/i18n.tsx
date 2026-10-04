@@ -1,6 +1,6 @@
 import { i18n as core } from "@design-system/core";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
-import { en, type MessageKey, type Messages } from "./messages";
+import type { MessageKey, Messages } from "./messages";
 
 export type Dir = "ltr" | "rtl";
 export type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;
@@ -17,15 +17,12 @@ export interface I18nValue {
 const translator =
   (messages: Messages, locale: string): TranslateFn =>
   (key, vars) =>
-    core.translate(en, messages, locale, key, vars);
+    core.translate(core.en, messages, locale, key, vars);
 
-const DEFAULT: I18nValue = {
-  locale: core.DEFAULT_LOCALE,
-  dir: "ltr",
-  t: translator({}, core.DEFAULT_LOCALE),
-};
-
-const I18nContext = createContext<I18nValue>(DEFAULT);
+// Empty outside a provider. The English fallback is built on first use, so a
+// bundle that never reads the locale leaves the catalog out.
+const I18nContext = /* @__PURE__ */ createContext<I18nValue | null>(null);
+let fallback: I18nValue | undefined;
 
 /**
  * Read the active i18n value. Components call this for their *default* labels;
@@ -33,7 +30,14 @@ const I18nContext = createContext<I18nValue>(DEFAULT);
  * adapter works with no setup.
  */
 export function useI18n(): I18nValue {
-  return useContext(I18nContext);
+  return (
+    useContext(I18nContext) ??
+    (fallback ??= {
+      locale: core.DEFAULT_LOCALE,
+      dir: "ltr",
+      t: translator({}, core.DEFAULT_LOCALE),
+    })
+  );
 }
 
 export interface LocaleProviderProps {

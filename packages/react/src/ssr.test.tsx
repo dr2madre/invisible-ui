@@ -59,6 +59,21 @@ const fixtures: Record<string, ReactElement> = {
       ]}
     />
   ),
+  Radio: <adapter.Radio name="plan" value="free" label="Free" checked />,
+  RadioGroup: <adapter.RadioGroup label="Size" items={[{ value: "s" }]} value="s" />,
+  CheckboxGroup: <adapter.CheckboxGroup label="Toppings" items={[{ value: "basil" }]} />,
+  SegmentedControl: <adapter.SegmentedControl label="View" items={[{ value: "list" }]} />,
+  ToggleButton: <adapter.ToggleButton label="Bold">B</adapter.ToggleButton>,
+  ToggleGroup: (
+    <adapter.ToggleGroup label="Formatting">
+      <adapter.ToggleButton label="Bold">B</adapter.ToggleButton>
+    </adapter.ToggleGroup>
+  ),
+  Slider: <adapter.Slider label="Volume" value={30} />,
+  RangeSlider: <adapter.RangeSlider label="Price" thumbLabels={["Minimum", "Maximum"]} />,
+  NumberField: <adapter.NumberField label="Quantity" value={2} />,
+  PinInput: <adapter.PinInput label="Code" length={4} />,
+  RatingGroup: <adapter.RatingGroup label="Rating" value={3} />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />

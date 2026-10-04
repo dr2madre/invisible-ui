@@ -47,6 +47,21 @@
       "signature": "declare function Checkbox({ label, hideLabel, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
     },
     {
+      "name": "CheckboxGroup",
+      "kind": "function",
+      "signature": "declare function CheckboxGroup({ items, value, disabled, label, name, onValueChange, }: CheckboxGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "CheckboxGroupItem",
+      "kind": "type",
+      "signature": "type CheckboxGroupItem = checkboxGroup.CheckboxGroupItem;"
+    },
+    {
+      "name": "CheckboxGroupProps",
+      "kind": "interface",
+      "signature": "interface CheckboxGroupProps { items: CheckboxGroupItem[]; /** Initial (uncontrolled) or current (controlled) selected values. */ value?: string[]; disabled?: boolean; /** Accessible name for the group (required; rendered as the legend). */ label: string; /** Shared form field name; each checked item submits its value under it. */ name?: string; /** Called whenever the selected values change. */ onValueChange?: (value: string[]) => void; }"
+    },
+    {
       "name": "CheckboxProps",
       "kind": "interface",
       "signature": "interface CheckboxProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; checked?: CheckedState; disabled?: boolean; /** Form field name — the value is submitted under it when checked. */ name?: string; /** Value submitted with the form when checked. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; children?: ReactNode; }"
@@ -267,6 +282,36 @@
       "signature": "interface NavigationMenuProps { /** Accessible name for the navigation landmark. */ label: string; items: NavigationMenuItem[]; /** The open item's value, or `null`; initial / controlled. */ value?: string | null; /** Called whenever the user opens, switches or closes a panel. */ onValueChange?: (value: string | null) => void; }"
     },
     {
+      "name": "NumberField",
+      "kind": "function",
+      "signature": "declare function NumberField({ label, value, locale, min, max, step, disabled, readOnly, required, changeOnWheel, description, error, name, form, onValueChange, onValueCommit, }: NumberFieldProps): react.JSX.Element;"
+    },
+    {
+      "name": "NumberFieldError",
+      "kind": "type",
+      "signature": "type NumberFieldError = numberField.NumberFieldError;"
+    },
+    {
+      "name": "NumberFieldProps",
+      "kind": "interface",
+      "signature": "interface NumberFieldProps { /** Visible label, tied to the control. */ label: string; /** Initial (uncontrolled) or current (controlled) value; `null` means empty. */ value?: number | null; /** BCP-47 locale for parsing and display. Defaults to the provider's locale. */ locale?: string; min?: number; max?: number; /** Step for the spin actions; typed values are validated against it. */ step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; /** Opt in to wheel stepping while the input is focused and hovered. */ changeOnWheel?: boolean; /** Optional hint shown under the control and linked via `aria-describedby`. */ description?: string; /** Error message; when non-empty the field becomes invalid and announces it. */ error?: string; /** Form field name; the canonical ASCII value is submitted under it. */ name?: string; /** Id of the owning form when the field renders outside of it. */ form?: string; /** Called when the canonical value changes while editing. */ onValueChange?: (value: number | null) => void; /** Called at commit boundaries: blur, Enter, and spin actions. */ onValueCommit?: (value: number | null) => void; }"
+    },
+    {
+      "name": "PinInput",
+      "kind": "function",
+      "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
+    },
+    {
+      "name": "PinInputProps",
+      "kind": "interface",
+      "signature": "interface PinInputProps { /** Initial (uncontrolled) or current (controlled) code. */ value?: string; length?: number; /** Allowed characters. */ type?: PinInputType; /** Render cells masked (like a password). */ mask?: boolean; disabled?: boolean; /** Validation state; colors the cells (red ring) and signals errors. */ invalid?: boolean; /** Validation success; colors the cells green (e.g. a verified code). */ success?: boolean; /** Form field name; the combined code is submitted under it. */ name?: string; /** Accessible name for the group of cells (required). */ label: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
+    },
+    {
+      "name": "PinInputType",
+      "kind": "type",
+      "signature": "type PinInputType = pinInput.PinInputType;"
+    },
+    {
       "name": "Placement",
       "kind": "type",
       "signature": "export declare type Placement = Prettify<Side | AlignedPlacement>;"
@@ -292,6 +337,76 @@
       "signature": "interface PromptDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title (required). */ title: string; /** Optional supporting message shown under the title. */ description?: string; /** Visible label for the input. */ label: string; /** Initial value the input is seeded with on each open. */ value?: string; placeholder?: string; /** Require a non-empty value: the confirm button stays disabled while blank. */ required?: boolean; /** * Type-to-confirm: when set, the confirm button stays disabled until the * input matches this exact value, e.g. typing a file name to confirm its * deletion. */ confirmValue?: string; /** Label of the confirming button; prefer naming the outcome (\"Rename\"). */ confirmLabel?: string; /** Label of the cancelling button (also the Escape action). */ cancelLabel?: string; /** Variant of the confirm button (`\"danger\"` for a destructive confirm). */ confirmVariant?: ButtonVariant; /** * Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which * screen readers announce immediately. Nothing else changes (ADR 0005). */ urgent?: boolean; /** Called with the entered value when confirmed (before the dialog closes). */ onConfirm?: (value: string) => void; /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "Radio",
+      "kind": "function",
+      "signature": "declare function Radio({ value, name, checked, disabled, label, onChange, children, }: RadioProps): react.JSX.Element;"
+    },
+    {
+      "name": "RadioGroup",
+      "kind": "function",
+      "signature": "declare function RadioGroup({ items, value, disabled, orientation, label, name, onValueChange, }: RadioGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "RadioGroupItem",
+      "kind": "type",
+      "signature": "type RadioGroupItem = RadioItem & { label?: string; };"
+    },
+    {
+      "name": "RadioGroupOrientation",
+      "kind": "type",
+      "signature": "type RadioGroupOrientation = radioGroup.Orientation;"
+    },
+    {
+      "name": "RadioGroupProps",
+      "kind": "interface",
+      "signature": "interface RadioGroupProps { items: RadioGroupItem[]; /** Initial (uncontrolled) or current (controlled) selected value. */ value?: string | null; disabled?: boolean; /** Layout and arrow-key axis. Defaults to `vertical`. */ orientation?: RadioGroupOrientation; /** Accessible name for the group (announced by screen readers). */ label: string; /** Form field name; the selected value is submitted under it. */ name?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
+    },
+    {
+      "name": "RadioItem",
+      "kind": "type",
+      "signature": "type RadioItem = radioGroup.RadioItem;"
+    },
+    {
+      "name": "RadioProps",
+      "kind": "interface",
+      "signature": "interface RadioProps { /** The value submitted / reported when this radio is chosen. */ value: string; /** Group name; radios sharing a name are mutually exclusive. */ name: string; /** Whether this radio is selected. */ checked?: boolean; disabled?: boolean; /** Label text, used when no `children` is given. */ label?: string; /** Called with this radio's value when it becomes selected. */ onChange?: (value: string) => void; /** Rich label content, in place of `label`. */ children?: ReactNode; }"
+    },
+    {
+      "name": "RangeSlider",
+      "kind": "function",
+      "signature": "declare function RangeSlider({ value, min, max, step, minDistance, orientation, disabled, label, thumbLabels, name, showValue, showRange, ticks, format, onValueChange, icon, }: RangeSliderProps): react.JSX.Element;"
+    },
+    {
+      "name": "RangeSliderOrientation",
+      "kind": "type",
+      "signature": "type RangeSliderOrientation = rangeSlider.Orientation;"
+    },
+    {
+      "name": "RangeSliderProps",
+      "kind": "interface",
+      "signature": "interface RangeSliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** Accessible name for the group (required). */ label: string; /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */ thumbLabels: readonly [string, string]; /** * Form field name. Both thumbs submit under it, in order: * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */ name?: string; /** Show the current values to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (only when the count is reasonable). */ ticks?: boolean; /** Format a displayed value (e.g. add a unit). */ format?: (value: number) => string; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "RangeValue",
+      "kind": "type",
+      "signature": "type RangeValue = readonly [number, number];"
+    },
+    {
+      "name": "RatingGroup",
+      "kind": "function",
+      "signature": "declare function RatingGroup({ label, max, value, disabled, name, onValueChange, }: RatingGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "RatingGroupProps",
+      "kind": "interface",
+      "signature": "interface RatingGroupProps { /** Accessible name for the rating group (required). */ label: string; /** Number of stars. */ max?: number; /** Selected rating (1..max), or null. */ value?: number | null; disabled?: boolean; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
+    },
+    {
+      "name": "RatingItem",
+      "kind": "interface",
+      "signature": "interface RatingItem { value: string; position: number; }"
+    },
+    {
       "name": "SearchDialog",
       "kind": "const",
       "signature": "SearchDialog: react.ForwardRefExoticComponent<SearchDialogProps & react.RefAttributes<DialogHandle>>"
@@ -315,6 +430,26 @@
       "name": "SearchFieldProps",
       "kind": "interface",
       "signature": "interface SearchFieldProps { /** Visible label and accessible name of the search input. */ label: string; /** Visually hide the label while preserving the accessible name. */ hideLabel?: boolean; /** Initial or controlled search query. */ value?: string; /** Native input placeholder. It does not replace the label. */ placeholder?: string; disabled?: boolean; required?: boolean; readOnly?: boolean; /** Native form field name. */ name?: string; /** Native browser autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Accessible name for the conditional clear button. */ clearLabel?: string; /** Accessible name for the native submit button. */ submitLabel?: string; /** Render the submit button; turn it off for a filter that applies as you type. */ submitButton?: boolean; /** Called once after a user edit or clear action is committed locally. */ onValueChange?: (value: string) => void; }"
+    },
+    {
+      "name": "SegmentedControl",
+      "kind": "function",
+      "signature": "declare function SegmentedControl({ items, value, disabled, orientation, iconOnly, stacked, label, hideLabel, name, onValueChange, }: SegmentedControlProps): react.JSX.Element;"
+    },
+    {
+      "name": "SegmentedControlItem",
+      "kind": "type",
+      "signature": "type SegmentedControlItem = RadioItem & { label?: string; icon?: ReactNode; };"
+    },
+    {
+      "name": "SegmentedControlOrientation",
+      "kind": "type",
+      "signature": "type SegmentedControlOrientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "SegmentedControlProps",
+      "kind": "interface",
+      "signature": "interface SegmentedControlProps { items: SegmentedControlItem[]; /** Initial (uncontrolled) or current (controlled) selected value. */ value?: string | null; disabled?: boolean; /** * Layout and arrow-key axis. `horizontal` (default) is a segment bar; * `vertical` stacks the segments into a column (e.g. a sidebar). Each * segment's content stays a row (icon beside label) unless `stacked` is set. */ orientation?: SegmentedControlOrientation; /** * Render only the icon for each segment, hiding the visible label (the label * still names the segment via `aria-label`). Items without an icon keep their * text. */ iconOnly?: boolean; /** * Stack each segment's content vertically: icon on top, label below (e.g. an * iOS-style tab). Implies the label stays visible. */ stacked?: boolean; /** Accessible name for the control (announced by screen readers). */ label: string; /** Visually hide the label (kept for assistive tech). */ hideLabel?: boolean; /** Form field name; the selected value is submitted under it. */ name?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "Select",
@@ -347,6 +482,21 @@
       "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
     },
     {
+      "name": "Slider",
+      "kind": "function",
+      "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, }: SliderProps): react.JSX.Element;"
+    },
+    {
+      "name": "SliderOrientation",
+      "kind": "type",
+      "signature": "type SliderOrientation = slider.Orientation;"
+    },
+    {
+      "name": "SliderProps",
+      "kind": "interface",
+      "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+    },
+    {
       "name": "Switch",
       "kind": "function",
       "signature": "declare function Switch({ label, hideLabel, checked, disabled, name, value, required, onOff, onText, offText, onCheckedChange, children, }: SwitchProps): react.JSX.Element;"
@@ -367,6 +517,36 @@
       "signature": "interface TextFieldProps { /** Visible label and accessible name for the control. */ label: string; /** Visually hide the label while keeping it as the control's accessible name. */ hideLabel?: boolean; /** Initial or current value. */ value?: string; /** Native input type. */ type?: InputType; /** Native placeholder. It does not replace the label. */ placeholder?: string; /** Hint linked to the control through `aria-describedby`. */ description?: string; /** Error message that marks the control invalid and is announced. */ error?: string; /** Confirmation message announced politely when the field is valid. */ success?: string; /** Prevent interaction and form submission. */ disabled?: boolean; /** Mark the native input as required. */ required?: boolean; /** Keep the input focusable and submittable but prevent edits. */ readOnly?: boolean; /** Native form field name. */ name?: string; /** Native maximum length constraint. */ maxLength?: number; /** Native minimum length constraint. */ minLength?: number; /** Native validation pattern. */ pattern?: string; /** Preferred virtual keyboard mode. */ inputMode?: InputHTMLAttributes<HTMLInputElement>[\"inputMode\"]; /** Native autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Enable or disable browser spelling correction. */ spellCheck?: boolean; /** Called once after a user edit is committed locally. */ onValueChange?: (value: string) => void; /** Decorative content placed inside the control at the inline start. */ left?: ReactNode; /** Decorative content placed inside the control at the inline end. */ right?: ReactNode; }"
     },
     {
+      "name": "ToggleButton",
+      "kind": "function",
+      "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, }: ToggleButtonProps): react.JSX.Element;"
+    },
+    {
+      "name": "ToggleButtonProps",
+      "kind": "interface",
+      "signature": "interface ToggleButtonProps { /** * Whether the button is pressed: the initial value, or the current one when * it changes between renders (e.g. a filter chip driven by a list). */ pressed?: boolean; disabled?: boolean; /** * Show a leading checkmark when pressed (the filter-chip look). The check * reveals the selected state explicitly, the way a checkbox does. */ check?: boolean; /** Accessible name; required when the content is icon-only. */ label?: string; /** Form field name; when pressed, submits `value` under it. */ name?: string; /** Value submitted under `name` when pressed. */ value?: string; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** The button's content. */ children?: ReactNode; }"
+    },
+    {
+      "name": "ToggleGroup",
+      "kind": "function",
+      "signature": "declare function ToggleGroup({ variant, orientation, wrap, label, children, }: ToggleGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "ToggleGroupOrientation",
+      "kind": "type",
+      "signature": "type ToggleGroupOrientation = \"horizontal\" | \"vertical\";"
+    },
+    {
+      "name": "ToggleGroupProps",
+      "kind": "interface",
+      "signature": "interface ToggleGroupProps { /** Visual style. `separate` keeps each toggle's own style; `segmented` joins them. */ variant?: ToggleGroupVariant; /** Layout axis. Purely visual: the group has no keyboard navigation of its own. */ orientation?: ToggleGroupOrientation; /** * Let the toggles wrap onto multiple lines when they overflow the available * width (e.g. a row of filter chips in a narrow panel). Meaningful on a * horizontal `separate` group; ignored when `segmented`, which is one control. */ wrap?: boolean; /** * Optional container name for screen readers (the group's `aria-label`). It * names the container, not the items; omit it when the toggles are unrelated. */ label?: string; /** The `ToggleButton`s. */ children?: ReactNode; }"
+    },
+    {
+      "name": "ToggleGroupVariant",
+      "kind": "type",
+      "signature": "type ToggleGroupVariant = \"separate\" | \"segmented\";"
+    },
+    {
       "name": "Tooltip",
       "kind": "function",
       "signature": "declare function Tooltip({ text, placement, openDelay, closeDelay, children, }: TooltipProps): react.JSX.Element;"
@@ -385,6 +565,11 @@
       "name": "UseButtonOptions",
       "kind": "interface",
       "signature": "interface UseButtonOptions { variant?: ButtonVariant; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** * Whether a native `<button>` is rendered (default). Set `false` when * rendering another element: role, focusability and Enter/Space activation * are then emulated by the core. */ nativeButton?: boolean; }"
+    },
+    {
+      "name": "UseCheckboxGroupOptions",
+      "kind": "interface",
+      "signature": "interface UseCheckboxGroupOptions { items: CheckboxGroupItem[]; /** Initial (uncontrolled) or current (controlled) selected values. */ value?: string[]; disabled?: boolean; /** Shared form field name applied to every item. */ name?: string; /** Called whenever the selected values change. */ onValueChange?: (value: string[]) => void; /** * The `<fieldset>` holding the boxes. Given it, the boxes carry the DOM * default a form reset restores, and the group puts its own selection back * when its form is reset, silently (ADR 0012). */ rootRef?: RefObject<HTMLFieldSetElement | null>; }"
     },
     {
       "name": "UseCheckboxOptions",
@@ -442,6 +627,16 @@
       "signature": "interface UseNavigationMenuOptions { /** The open item's value, or `null`; initial / controlled. */ value?: string | null; onValueChange?: (value: string | null) => void; /** Preferred placement of the panels. Default `\"bottom-start\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `150`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `150`. */ closeDelay?: number; }"
     },
     {
+      "name": "UseNumberFieldOptions",
+      "kind": "interface",
+      "signature": "interface UseNumberFieldOptions { /** Initial (uncontrolled) or current (controlled) value, or `null` when empty. */ value?: number | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; /** BCP-47 locale for parsing and display. Defaults to `\"en\"`. */ locale?: string; min?: number; max?: number; /** Step for the spin actions; typed values are validated against it. */ step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; /** Opt in to wheel stepping while the input is focused and hovered. */ changeOnWheel?: boolean; /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<numberField.NumberFieldMessages>; /** Called when the canonical value changes while editing. */ onValueChange?: (value: number | null) => void; /** Called at commit boundaries: blur, Enter, and spin actions. */ onValueCommit?: (value: number | null) => void; /** * The text input. Given it, the spin buttons keep focus on it, the wheel * steps it, and a reset of its form puts the value and its text back, * silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UsePinInputOptions",
+      "kind": "interface",
+      "signature": "interface UsePinInputOptions { /** Initial (uncontrolled) or current (controlled) value; spread across the cells. */ value?: string; /** Number of cells. Defaults to `6`. */ length?: number; /** Allowed characters. Defaults to `numeric`. */ type?: PinInputType; /** Render cells masked. */ mask?: boolean; disabled?: boolean; /** Accessible name for a cell, by zero-based index. Defaults to the catalog. */ cellLabel?: (index: number, length: number) => string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; /** * The element holding the cells, which `rootProps` go on. Given it, a reset * of its form puts the code back, silently (ADR 0012). */ rootRef?: RefObject<HTMLElement | null>; }"
+    },
+    {
       "name": "UsePopover",
       "kind": "interface",
       "signature": "interface UsePopover { api: popover.PopoverApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger; the positioning anchor and Escape's focus target. */ triggerRef: RefObject<HTMLButtonElement | null>; /** Attach to the panel. Render it only while `open`. */ panelRef: (node: HTMLElement | null) => void; }"
@@ -450,6 +645,26 @@
       "name": "UsePopoverOptions",
       "kind": "interface",
       "signature": "interface UsePopoverOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseRadioGroupOptions",
+      "kind": "interface",
+      "signature": "interface UseRadioGroupOptions { /** Ordered list of items. */ items: RadioItem[]; /** Initial (uncontrolled) or current (controlled) selected value. */ value?: string | null; disabled?: boolean; /** Layout and arrow-key axis. Defaults to `vertical`. */ orientation?: RadioGroupOrientation; /** Shared form/group name; generated when omitted so the radios group. */ name?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; /** * The element holding the radios. Given it, the radios carry the DOM default * a form reset restores, and the group puts its own value back when its form * is reset, silently (ADR 0012). */ rootRef?: RefObject<HTMLElement | null>; }"
+    },
+    {
+      "name": "UseRangeSliderOptions",
+      "kind": "interface",
+      "signature": "interface UseRangeSliderOptions { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** * The two native range inputs, lower first. Given them, they carry the DOM * defaults a form reset restores, and the pair is put back as a whole when * their form is reset, silently (ADR 0012). */ thumbRefs?: readonly [RefObject<HTMLInputElement | null>, RefObject<HTMLInputElement | null>]; }"
+    },
+    {
+      "name": "UseRatingGroup",
+      "kind": "interface",
+      "signature": "interface UseRatingGroup { /** The stars (1..max). */ items: RatingItem[]; /** The connected radio-group API driving the stars. */ api: radioGroup.RadioGroupApi; /** The selected rating, or `null`. */ value: number | null; }"
+    },
+    {
+      "name": "UseRatingGroupOptions",
+      "kind": "interface",
+      "signature": "interface UseRatingGroupOptions { /** Number of stars. Defaults to `5`. */ max?: number; /** Selected rating (`1..max`), or `null`. */ value?: number | null; disabled?: boolean; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; /** The element holding the star radios; see `useRadioGroup`. */ rootRef?: RefObject<HTMLElement | null>; }"
     },
     {
       "name": "UseSearchDialog",
@@ -472,6 +687,11 @@
       "signature": "interface UseSheetDialogOptions extends Omit<UseDialogOptions, \"role\"> { /** Which edge the panel is anchored to. Default `\"right\"`. */ side?: SheetDialogSide; }"
     },
     {
+      "name": "UseSliderOptions",
+      "kind": "interface",
+      "signature": "interface UseSliderOptions { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; /** Step increment. Defaults to `1`. */ step?: number; /** Layout and arrow-key axis. Defaults to `horizontal`. */ orientation?: SliderOrientation; disabled?: boolean; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** * The native range input. Given it, the control carries the DOM default a * form reset restores, and puts its own value back when its form is reset, * silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
       "name": "UseSwitchOptions",
       "kind": "interface",
       "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
@@ -480,6 +700,11 @@
       "name": "UseTextFieldOptions",
       "kind": "interface",
       "signature": "interface UseTextFieldOptions { /** Initial or current value. */ value?: string; disabled?: boolean; readOnly?: boolean; required?: boolean; invalid?: boolean; hasDescription?: boolean; hasSuccess?: boolean; /** Called once after a user edit has been committed locally. */ onValueChange?: (value: string) => void; /** Native input carrying the form default and reset subscription. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UseToggleButtonOptions",
+      "kind": "interface",
+      "signature": "interface UseToggleButtonOptions { /** Initial (uncontrolled) or current (controlled) pressed value. */ pressed?: boolean; disabled?: boolean; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
       "name": "UseTooltip",
@@ -510,6 +735,11 @@
       "name": "useCheckbox",
       "kind": "function",
       "signature": "declare function useCheckbox({ checked, disabled, onCheckedChange, controlRef, }?: UseCheckboxOptions): checkbox.CheckboxApi;"
+    },
+    {
+      "name": "useCheckboxGroup",
+      "kind": "function",
+      "signature": "declare function useCheckboxGroup({ items, value: valueProp, disabled, name, onValueChange, rootRef, }: UseCheckboxGroupOptions): checkboxGroup.CheckboxGroupApi;"
     },
     {
       "name": "useCombobox",
@@ -547,9 +777,34 @@
       "signature": "declare function useNavigationMenu({ value: valueProp, onValueChange, placement, offset, openDelay, closeDelay, }?: UseNavigationMenuOptions): UseNavigationMenu;"
     },
     {
+      "name": "useNumberField",
+      "kind": "function",
+      "signature": "declare function useNumberField({ value: valueProp, id: idProp, locale: localeProp, min, max, step, disabled, readOnly, required, changeOnWheel, invalid, describedBy, messages, onValueChange, onValueCommit, controlRef, }?: UseNumberFieldOptions): numberField.NumberFieldApi;"
+    },
+    {
+      "name": "usePinInput",
+      "kind": "function",
+      "signature": "declare function usePinInput({ value, length, type, mask, disabled, cellLabel, onValueChange, onComplete, rootRef, }?: UsePinInputOptions): pinInput.PinInputApi;"
+    },
+    {
       "name": "usePopover",
       "kind": "function",
       "signature": "declare function usePopover({ open: openProp, placement, offset, label, onOpenChange, }?: UsePopoverOptions): UsePopover;"
+    },
+    {
+      "name": "useRadioGroup",
+      "kind": "function",
+      "signature": "declare function useRadioGroup({ items, value: valueProp, disabled, orientation, name, onValueChange, rootRef, }: UseRadioGroupOptions): radioGroup.RadioGroupApi;"
+    },
+    {
+      "name": "useRangeSlider",
+      "kind": "function",
+      "signature": "declare function useRangeSlider({ value, min: minProp, max: maxProp, step, minDistance, orientation, disabled, onValueChange, thumbRefs, }?: UseRangeSliderOptions): rangeSlider.RangeSliderApi;"
+    },
+    {
+      "name": "useRatingGroup",
+      "kind": "function",
+      "signature": "declare function useRatingGroup({ max, value, disabled, name, onValueChange, rootRef, }?: UseRatingGroupOptions): UseRatingGroup;"
     },
     {
       "name": "useSearchDialog",
@@ -562,6 +817,11 @@
       "signature": "declare function useSheetDialog({ side, ...options }?: UseSheetDialogOptions): UseSheetDialog;"
     },
     {
+      "name": "useSlider",
+      "kind": "function",
+      "signature": "declare function useSlider({ value, min, max, step, orientation, disabled, onValueChange, controlRef, }?: UseSliderOptions): slider.SliderApi;"
+    },
+    {
       "name": "useSwitch",
       "kind": "function",
       "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, controlRef, }?: UseSwitchOptions): switchControl.SwitchApi;"
@@ -570,6 +830,11 @@
       "name": "useTextField",
       "kind": "function",
       "signature": "declare function useTextField({ value, disabled, readOnly, required, invalid, hasDescription, hasSuccess, onValueChange, controlRef, }?: UseTextFieldOptions): textField.TextFieldApi;"
+    },
+    {
+      "name": "useToggleButton",
+      "kind": "function",
+      "signature": "declare function useToggleButton({ pressed, disabled, onPressedChange, controlRef, }?: UseToggleButtonOptions): toggleButton.ToggleButtonApi;"
     },
     {
       "name": "useTooltip",

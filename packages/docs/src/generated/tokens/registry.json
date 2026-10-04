@@ -10206,6 +10206,13 @@
         },
         {
           "adapter": "react",
+          "file": "packages/react/src/styles/checkbox-group.css",
+          "selector": ".checkbox-group__item",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
           "file": "packages/react/src/styles/checkbox.css",
           "selector": ".field",
           "property": "gap",
@@ -10260,6 +10267,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10271,6 +10279,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/checkbox-group.css",
+          "selector": ".checkbox-group",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/checkbox-group.css",
           "selector": ".checkbox-group",
           "property": "gap",
           "fallback": "0.5rem"
@@ -14576,6 +14591,13 @@
         },
         {
           "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
           "file": "packages/react/src/styles/search-field.css",
           "selector": ".search-field",
           "property": "gap",
@@ -14948,6 +14970,13 @@
         },
         {
           "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field .field__control",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
+          "adapter": "react",
           "file": "packages/react/src/styles/search-field.css",
           "selector": ".search-field__input",
           "property": "padding",
@@ -15102,6 +15131,34 @@
           "file": "packages/elements/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field__spin--decrement",
+          "property": "border-start-start-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field__spin--decrement",
+          "property": "border-end-start-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field__spin--increment",
+          "property": "border-start-end-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field__spin--increment",
+          "property": "border-end-end-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
         },
         {
@@ -15334,6 +15391,13 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/textarea.css",
           "selector": ".textarea",
+          "property": "inline-size",
+          "fallback": "18rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/number-field.css",
+          "selector": ".number-field",
           "property": "inline-size",
           "fallback": "18rem"
         },
@@ -20585,6 +20649,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20596,6 +20661,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pin-input.css",
+          "selector": ".pin-input__cell",
+          "property": "font-size",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pin-input.css",
           "selector": ".pin-input__cell",
           "property": "font-size",
           "fallback": "1.25rem"
@@ -20635,6 +20707,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20646,6 +20719,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pin-input.css",
+          "selector": ".pin-input",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pin-input.css",
           "selector": ".pin-input",
           "property": "gap",
           "fallback": "0.5rem"
@@ -20685,6 +20765,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20698,6 +20779,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pin-input.css",
+          "selector": ".pin-input__cell",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pin-input.css",
           "selector": ".pin-input__cell",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -20738,6 +20826,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20756,6 +20845,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pin-input.css",
+          "selector": ".pin-input__cell",
+          "property": "block-size",
+          "fallback": "2.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pin-input.css",
+          "selector": ".pin-input__cell",
+          "property": "inline-size",
+          "fallback": "2.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pin-input.css",
           "selector": ".pin-input__cell",
           "property": "block-size",
           "fallback": "2.75rem"
@@ -21601,6 +21704,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21612,6 +21716,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/radio-group.css",
+          "selector": ".radio-group",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/radio-group.css",
           "selector": ".radio-group",
           "property": "gap",
           "fallback": "0.5rem"
@@ -21651,6 +21762,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21662,6 +21774,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/radio-group.css",
+          "selector": ".radio-group[data-orientation=\"horizontal\"]",
+          "property": "column-gap",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/radio-group.css",
           "selector": ".radio-group[data-orientation=\"horizontal\"]",
           "property": "column-gap",
           "fallback": "1.25rem"
@@ -21701,6 +21820,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21712,6 +21832,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/radio-group.css",
+          "selector": ".radio-field",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/radio-group.css",
           "selector": ".radio-field",
           "property": "gap",
           "fallback": "0.5rem"
@@ -21753,6 +21880,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21771,6 +21899,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/radio-group.css",
+          "selector": ".radio__dot",
+          "property": "block-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/radio-group.css",
+          "selector": ".radio__dot",
+          "property": "inline-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/radio-group.css",
           "selector": ".radio__dot",
           "property": "block-size",
           "fallback": "1.1rem"
@@ -21838,6 +21980,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21849,6 +21992,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
           "selector": ".range-slider-field",
           "property": "inline-size",
           "fallback": "14rem"
@@ -21890,6 +22040,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21936,6 +22087,48 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__input",
+          "property": "width",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider__input",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
           "selector": ".range-slider__input::-webkit-slider-thumb",
           "property": "block-size",
           "fallback": "1.5rem"
@@ -22046,6 +22239,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22064,6 +22258,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider__track",
+          "property": "block-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "inline-size",
+          "fallback": "4px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
           "selector": ".range-slider__track",
           "property": "block-size",
           "fallback": "4px"
@@ -22117,6 +22325,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22128,6 +22337,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/range-slider.css",
+          "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
+          "property": "block-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/range-slider.css",
           "selector": ".range-slider[data-orientation=\"vertical\"] .range-slider__track",
           "property": "block-size",
           "fallback": "12rem"
@@ -22167,6 +22383,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22180,6 +22397,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star--filled",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating__star--filled",
           "property": "color",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -22219,6 +22443,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22232,6 +22457,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star",
+          "property": "color",
+          "fallback": "var(--ds-neutral-400, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating__star",
           "property": "color",
           "fallback": "var(--ds-neutral-400, #757067)"
@@ -22271,6 +22503,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22282,6 +22515,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating",
+          "property": "gap",
+          "fallback": "0.125rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating",
           "property": "gap",
           "fallback": "0.125rem"
@@ -22321,6 +22561,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22332,6 +22573,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating-field",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating-field",
           "property": "gap",
           "fallback": "0.5rem"
@@ -22371,6 +22619,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -22384,6 +22633,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/rating-group.css",
+          "selector": ".rating__star--preview",
+          "property": "color",
+          "fallback": "var(--ds-neutral-300, #a8a297)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/rating-group.css",
           "selector": ".rating__star--preview",
           "property": "color",
           "fallback": "var(--ds-neutral-300, #a8a297)"
@@ -23086,6 +23342,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23097,6 +23354,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment",
+          "property": "gap",
+          "fallback": "0.4rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment",
           "property": "gap",
           "fallback": "0.4rem"
@@ -23136,6 +23400,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23147,6 +23412,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment--icon-only",
+          "property": "padding",
+          "fallback": "0.45rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment--icon-only",
           "property": "padding",
           "fallback": "0.45rem"
@@ -23187,6 +23459,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23205,6 +23478,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment__icon",
+          "property": "block-size",
+          "fallback": "1.15em"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
+          "selector": ".segment__icon",
+          "property": "inline-size",
+          "fallback": "1.15em"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment__icon",
           "property": "block-size",
           "fallback": "1.15em"
@@ -23258,6 +23545,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23269,6 +23557,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segmented-field",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segmented-field",
           "property": "gap",
           "fallback": "0.375rem"
@@ -23308,6 +23603,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23321,6 +23617,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment",
+          "property": "padding",
+          "fallback": "var(--ds-control-padding-y, 0.5rem) 0.9rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment",
           "property": "padding",
           "fallback": "var(--ds-control-padding-y, 0.5rem) 0.9rem"
@@ -23360,6 +23663,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23373,6 +23677,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segmented",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segmented",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -23412,6 +23723,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23423,6 +23735,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment--stacked",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment--stacked",
           "property": "gap",
           "fallback": "0.25rem"
@@ -23462,6 +23781,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23473,6 +23793,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment--stacked .segment__label",
+          "property": "font-size",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment--stacked .segment__label",
           "property": "font-size",
           "fallback": "0.75rem"
@@ -23512,6 +23839,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -23523,6 +23851,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/segmented-control.css",
+          "selector": ".segment--stacked",
+          "property": "padding",
+          "fallback": "0.5rem 0.9rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/segmented-control.css",
           "selector": ".segment--stacked",
           "property": "padding",
           "fallback": "0.5rem 0.9rem"
@@ -25538,6 +25873,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25556,6 +25892,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"]",
+          "property": "block-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider-field",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider[data-orientation=\"vertical\"]",
           "property": "block-size",
           "fallback": "14rem"
@@ -25610,6 +25960,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25651,6 +26002,41 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "border",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-progress",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "border",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-thumb",
           "property": "border",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -25748,6 +26134,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25787,6 +26174,41 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "margin-block-start",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "inline-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-progress",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-track",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "block-size",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-thumb",
           "property": "margin-block-start",
           "fallback": "0.375rem"
@@ -25882,6 +26304,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25902,6 +26325,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-thumb",
           "property": "background",
           "fallback": "var(--ds-color-background, #fff)"
@@ -25957,6 +26394,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25996,6 +26434,41 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "margin-block-start",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "inline-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-thumb",
+          "property": "block-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "inline-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-thumb",
+          "property": "block-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-thumb",
           "property": "margin-block-start",
           "fallback": "1rem"
@@ -26091,6 +26564,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -26104,6 +26578,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__tick",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__tick",
           "property": "background",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -26143,6 +26624,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -26170,6 +26652,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/slider.css",
+          "selector": ".slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider[data-orientation=\"vertical\"] .slider__input::-webkit-slider-runnable-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
+          "selector": ".slider__input::-moz-range-track",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/slider.css",
           "selector": ".slider__input::-webkit-slider-runnable-track",
           "property": "background",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -29457,6 +29960,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29477,6 +29981,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
+          "selector": ".toggle:hover .toggle__surface",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "background",
           "fallback": "var(--ds-color-background, #fff)"
@@ -29530,6 +30048,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29543,6 +30062,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle:hover .toggle__surface",
+          "property": "background",
+          "fallback": "var(--ds-toggle-bg, var(--ds-color-background, #fff))"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle:hover .toggle__surface",
           "property": "background",
           "fallback": "var(--ds-toggle-bg, var(--ds-color-background, #fff))"
@@ -29585,6 +30111,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29619,6 +30146,34 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
+          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
+          "property": "border-block-start",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-group.css",
+          "selector": ".toggle-group--segmented",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-group.css",
+          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] .toggle:not(:first-child) .toggle__surface",
+          "property": "border-inline-start",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
@@ -29700,6 +30255,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29711,6 +30267,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "border",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border",
           "fallback": "1px"
@@ -29750,6 +30313,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29761,6 +30325,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
+          "selector": ".toggle-group--separate",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--separate",
           "property": "gap",
           "fallback": "0.375rem"
@@ -29800,6 +30371,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29813,6 +30385,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
+          "selector": ".toggle-group--segmented",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-group.css",
           "selector": ".toggle-group--segmented",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -29853,6 +30432,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29871,6 +30451,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface svg",
+          "property": "block-size",
+          "fallback": "1.15rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
+          "selector": ".toggle__surface svg",
+          "property": "inline-size",
+          "fallback": "1.15rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface svg",
           "property": "block-size",
           "fallback": "1.15rem"
@@ -29924,6 +30518,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29935,6 +30530,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "padding",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "padding",
           "fallback": "0.5rem"
@@ -29974,6 +30576,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29987,6 +30590,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -30027,6 +30637,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30045,6 +30656,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "block-size",
+          "fallback": "2.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
+          "selector": ".toggle__surface",
+          "property": "min-inline-size",
+          "fallback": "2.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toggle-button.css",
           "selector": ".toggle__surface",
           "property": "block-size",
           "fallback": "2.25rem"
