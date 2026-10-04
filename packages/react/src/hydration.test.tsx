@@ -64,6 +64,19 @@ import { Link } from "./link/Link";
 import { Label } from "./label/Label";
 import { Field } from "./field/Field";
 import { Card } from "./card/Card";
+import { FeedbackIcon } from "./feedback-icon/FeedbackIcon";
+import { Loading } from "./loading/Loading";
+import { LoadingGenerationArea } from "./loading-generation-area/LoadingGenerationArea";
+import { EmptyState } from "./empty-state/EmptyState";
+import { ErrorState } from "./error-state/ErrorState";
+import { InlineNotification } from "./inline-notification/InlineNotification";
+import { Notification } from "./notification/Notification";
+import { NotificationRegion } from "./notification/NotificationRegion";
+import { createNotifier } from "./notification/create-notifier";
+
+// Queued before the page renders: the region shows it once hydrated.
+const notifier = createNotifier();
+notifier.info("Welcome back");
 
 function HydrationFixture(): ReactElement {
   return (
@@ -256,6 +269,24 @@ function HydrationFixture(): ReactElement {
           {({ controlProps }) => <input type="email" {...controlProps} />}
         </Field>
         <Card title="Mountain retreat" imageSrc="/photo.jpg" description="A cabin." />
+        <FeedbackIcon status="success" label="Done" />
+        <Loading variant="bar" value={30} label="Import" status="Fetching records…" />
+        <Loading label="Waiting" delay={60000} />
+        <LoadingGenerationArea status="Rendering…" value={40} detail="3 of 8 files" />
+        <EmptyState
+          title="No projects yet"
+          actions={[{ label: "Add a project" }, { label: "Learn more", href: "/docs" }]}
+        />
+        <ErrorState title="Couldn't load" actionLabel="Try again" headingLevel={3} />
+        <InlineNotification
+          status="warning"
+          title="Storage almost full"
+          description="Free some space."
+          href="/storage"
+          closable
+        />
+        <Notification title="Saved" text="All changes are stored." duration={4000} />
+        <NotificationRegion notifier={notifier} />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -352,6 +383,16 @@ describe("React adapter hydration", () => {
     expect(host.querySelector(".link")).toHaveAttribute("rel", "noopener noreferrer");
     expect(host.querySelector('input[type="email"]')).toHaveAttribute("aria-invalid", "true");
     expect(host.querySelector("article.card")).toHaveAccessibleName("Mountain retreat");
+    expect(host.querySelector(".loading__fill")).toHaveStyle({ inlineSize: "30%" });
+    expect(host.querySelector('[role="status"][aria-label="Waiting"]')).toBeNull();
+    expect(host.querySelector(".loading-generation-area__value")).toHaveTextContent("40%");
+    expect(host.querySelector(".empty-state .link")).toHaveAttribute("href", "/docs");
+    expect(host.querySelector(".error-state h3")).toHaveTextContent("Couldn't load");
+    expect(host.querySelector(".inline-notification__link")).toHaveTextContent("Learn more");
+    // The region renders in the browser only, in <body>, with what was queued.
+    const region = document.body.querySelector<HTMLElement>(".notification-region")!;
+    expect(region.parentElement).toBe(document.body);
+    expect(region).toHaveTextContent("Welcome back");
 
     await unmount();
   });

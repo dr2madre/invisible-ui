@@ -1,7 +1,7 @@
 import { dialog as core } from "@design-system/core";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
-import { returnFocus } from "../internal/modal-stack";
+import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
 import { normalizeProps } from "../normalize";
 import { useDialogNotices, type DialogNotices } from "./use-dialog-notices";
@@ -139,6 +139,7 @@ export function useDialog({
 
     // Top layer + inert background come from the platform.
     el.showModal();
+    const releaseModal = trackModal(el);
     const releaseScroll = lockScroll();
 
     // Native Escape: route it through our state (React unmounts the element)
@@ -184,6 +185,7 @@ export function useDialog({
       el.removeEventListener("close", onClose);
       el.removeEventListener("pointerdown", onPointerDown);
       if (el.open) el.close();
+      releaseModal();
       releaseScroll();
       // Back to the named element, else to where focus was (inside a dialog
       // below when there is one), else to the trigger when that is gone.

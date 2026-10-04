@@ -1,30 +1,14 @@
 import { Fragment } from "react";
 import { Button } from "../button/Button";
 import { useI18n } from "../i18n/i18n";
-import {
-  CheckGlyph,
-  CloseGlyph,
-  DangerGlyph,
-  HazardGlyph,
-  Icon,
-  InfoGlyph,
-  NeutralGlyph,
-} from "../icon/Icon";
-import type { DialogNotice, DialogNoticeStatus } from "./use-dialog-notices";
+import { FeedbackIcon } from "../feedback-icon/FeedbackIcon";
+import { CloseGlyph, Icon } from "../icon/Icon";
+import type { DialogNotice } from "./use-dialog-notices";
 
 export interface DialogStatusProps {
   notices: readonly DialogNotice[];
   announcement: readonly string[];
   dismissNotice: (id: string) => void;
-}
-
-/** The glyph of a notice's status, as in the other adapters' feedback icon. */
-function FeedbackGlyph({ status }: { status: DialogNoticeStatus }) {
-  if (status === "success") return <CheckGlyph />;
-  if (status === "warning") return <HazardGlyph />;
-  if (status === "danger") return <DangerGlyph />;
-  if (status === "neutral") return <NeutralGlyph />;
-  return <InfoGlyph />;
 }
 
 /**
@@ -48,17 +32,7 @@ export function DialogStatus({ notices, announcement, dismissNotice }: DialogSta
           return (
             <div key={notice.id} id={notice.id} role="group" aria-labelledby={titleId}>
               <div className="inline-notification" data-status={notice.status}>
-                <span
-                  className="feedback-icon"
-                  data-status={notice.status}
-                  data-shape="rounded"
-                  data-box="transparent"
-                  aria-hidden="true"
-                >
-                  <Icon>
-                    <FeedbackGlyph status={notice.status} />
-                  </Icon>
-                </span>
+                <FeedbackIcon status={notice.status} box="transparent" />
                 <div className="inline-notification__content">
                   <p className="inline-notification__title" id={titleId}>
                     {notice.title}

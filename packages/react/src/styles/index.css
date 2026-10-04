@@ -17,6 +17,7 @@
 @import "./dialog.css";
 @import "./feedback-icon.css";
 @import "./inline-notification.css";
+@import "./notification-region.css";
 @import "./dialog-status.css";
 @import "./alert-dialog.css";
 @import "./confirm-dialog.css";
@@ -74,3 +75,6 @@
 @import "./code.css";
 @import "./code-block.css";
 @import "./scroll-area.css";
+@import "./empty-state.css";
+@import "./error-state.css";
+@import "./loading-generation-area.css";

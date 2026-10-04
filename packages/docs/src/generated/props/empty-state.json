@@ -162,6 +162,96 @@
         "illustration"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "EmptyState",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The headline: what this space is for, in plain language.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional secondary line: detail or the suggested next step.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "status",
+          "type": "FeedbackStatus",
+          "default": "\"neutral\"",
+          "required": false,
+          "description": "Feedback status driving the fallback icon's colour and glyph.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "default": "2",
+          "required": false,
+          "description": "Heading level for the title, so it fits the surrounding document outline.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "actionLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Action button label (such as \"Add a project\"). Omit it to render no button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onAction",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the action button is pressed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "EmptyStateAction[] | ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The action area: entries, or markup of your own. An entry with `href` renders a `Link`; the others render `Button`s, the first `default` and the rest `ghost` unless an entry sets its own `variant`. Takes precedence over `actionLabel`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"sm\"",
+          "default": "\"md\"",
+          "required": false,
+          "description": "Density: `md` for pages and sections, `sm` inside cards, panels and tables.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "illustration",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Artwork of your own, in place of the fallback `FeedbackIcon`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Extra content between the description and the actions.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

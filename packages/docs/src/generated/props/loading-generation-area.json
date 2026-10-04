@@ -161,6 +161,96 @@
         "indicator"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "LoadingGenerationArea",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name. Defaults to the catalog's \"Loading…\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive technology (the surrounding region announces the state).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the process is still running. While `true` (default) the loading placeholder shows; set it to `false` when done and `children` (the real content) render in its place.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "field",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the dot field as the backdrop.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "labelPosition",
+          "type": "LoadingGenerationAreaPosition",
+          "default": "\"center\"",
+          "required": false,
+          "description": "Where the label and indicator zone sits over the area.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Live status message, announced on every change.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Percentage (0 to 100), shown as \"N%\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Extra detail line, such as \"48 MB of 128 MB\" or \"3 of 8 files\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "indicator",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A loader shown in the label zone, such as a spinner when `field` is off.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The real content, rendered once `loading` is `false`.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

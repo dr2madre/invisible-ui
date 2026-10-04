@@ -272,6 +272,144 @@
         "icon"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Notification",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "status",
+          "type": "NotificationStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Auto-dismiss delay in ms, opt-in. `0` (default) keeps it until closed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "actions",
+          "type": "NotificationAction[]",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A high-contrast surface, for short outcomes that auto-dismiss.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact row (icon, title, inline action), no body text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "component",
+          "type": "ComponentType<any>",
+          "default": null,
+          "required": false,
+          "description": "Rich body: a component rendered in place of `text` (ignored in `snack`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": null,
+          "required": false,
+          "description": "Props for `component`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the icon box: `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\"",
+          "default": null,
+          "required": false,
+          "description": "Icon box override (see `InlineNotification`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onClose",
+          "type": "(reason: NotificationDismissReason) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the notification closes, with the reason (timeout, user or action).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hold the auto-dismiss countdown. The region sets it while the stack is hovered or focused, so a burst of notifications pauses together.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A custom glyph for the icon.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

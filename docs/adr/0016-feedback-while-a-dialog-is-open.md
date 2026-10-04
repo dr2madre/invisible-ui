@@ -12,7 +12,7 @@ React and Flutter implement it for the components they have.
 | Elements | Implemented. |
 | Svelte | Implemented. |
 | Vue | Implemented. |
-| React | Implemented for the dialog family (Dialog, Sheet Dialog and the Alert, Confirm, Prompt and Search presets: status area, dialogs on top) and Button (`copy`). Popover, Tooltip, the menus and Navigation Menu render inside the dialog their trigger sits in, and a menu returns focus to its trigger before an item opens a dialog. React has no notification region yet: case 2 applies when the region is ported. |
+| React | Implemented for the dialog family (Dialog, Sheet Dialog and the Alert, Confirm, Prompt and Search presets: status area, dialogs on top) and Button (`copy`). Popover, Tooltip, the menus and Navigation Menu render inside the dialog their trigger sits in, and a menu returns focus to its trigger before an item opens a dialog. Case 2 in `NotificationRegion`: the dialog family registers its panels, and the region also counts a native `<dialog>` opened with `showModal()`. |
 | Flutter | Implemented for the dialog family (Dialog, Alert Dialog and Confirm Dialog): a status area with `notify`, `dismissNotice` and `clearNotices` on a `DialogController` (case 1), and a dialog opened on top takes focus and returns it to the element in the dialog below (case 3). Case 2 in `NotificationRegion`: it holds new notifications while a modal route or a held overlay is open (`ModalObserver`, which counts the family's routes), and hides the ones already shown until it closes, since the region paints over the navigator. |
 
 ## Context
