@@ -157,14 +157,20 @@ Each item ships as its own PR. Checkboxes track progress.
   Dropdown Menu with submenus (on a shared menu keyboard layer that runs the
   `core/` menu vectors), Inline Notification, Notification and Notification
   Region (holding notifications while a modal is open, ADR 0016), Loading,
-  Empty State, Error State, Card and the dialog family (Dialog, Alert Dialog
-  and Confirm Dialog, with the ADR 0016 status area and dialogs on top),
-  each with its parity checklist in `packages/flutter/parity/`, and the
-  `flutter.yml` workflow. The number field's logic answers the shared test
-  vectors in `core/src/number-field/__vectors__`, read by the core and the
-  Flutter tests. Every component of the first wave in ADR 0017 is in. Of
-  what follows it, Card and Timelog's dialogs are in; Collapsible and the
-  specs for the section header and the colour swatch are next.
+  Empty State, Error State, Card, the dialog family (Dialog, Alert Dialog
+  and Confirm Dialog, with the ADR 0016 status area and dialogs on top) and
+  the first part of Timelog's second wave: Checkbox, Checkbox Group, Switch,
+  Radio Group (`RadioButtonGroup`, since the widgets library has a
+  `RadioGroup`), Segmented Control, Select, Combobox and Popover, each with
+  its parity checklist in `packages/flutter/parity/`, and the `flutter.yml`
+  workflow. The number field's logic answers the shared test vectors in
+  `core/src/number-field/__vectors__`, and the select typeahead and
+  collection navigation those in `core/src/select/__vectors__`, read by the
+  core and the Flutter tests. Every component of the first wave in ADR 0017
+  is in. Of what follows it, Card and Timelog's dialogs, forms and pickers
+  are in; the rest of wave 2 (Date Picker, the navigation bar) and
+  Collapsible and the specs for the section header and the colour swatch
+  are next.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27
