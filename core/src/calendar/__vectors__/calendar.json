@@ -1,0 +1,367 @@
+{
+  "description": "Calendar logic, language-neutral, from core/src/calendar: monthMatrix(year, month, weekStartsOn) as its first and last cell (six weeks of consecutive days) and weekdayOrder(weekStartsOn); the day grid keys from connect(), the date focus lands on after one key in left-to-right text (right-to-left swaps ArrowLeft and ArrowRight in each adapter); goPrev and goNext in the month view; inRange(date, min, max); extendRange(range, picked) and isWithinRange(range, date). Dates are ISO YYYY-MM-DD. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "grid": [
+    {
+      "year": 2026,
+      "month": 6,
+      "weekStartsOn": 1,
+      "first": "2026-06-01",
+      "last": "2026-07-12",
+      "weekdays": [1, 2, 3, 4, 5, 6, 0]
+    },
+    {
+      "year": 2026,
+      "month": 6,
+      "weekStartsOn": 0,
+      "first": "2026-05-31",
+      "last": "2026-07-11",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6]
+    },
+    {
+      "year": 2026,
+      "month": 6,
+      "weekStartsOn": 6,
+      "first": "2026-05-30",
+      "last": "2026-07-10",
+      "weekdays": [6, 0, 1, 2, 3, 4, 5]
+    },
+    {
+      "year": 2026,
+      "month": 2,
+      "weekStartsOn": 1,
+      "first": "2026-01-26",
+      "last": "2026-03-08",
+      "weekdays": [1, 2, 3, 4, 5, 6, 0]
+    },
+    {
+      "year": 2026,
+      "month": 2,
+      "weekStartsOn": 0,
+      "first": "2026-02-01",
+      "last": "2026-03-14",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6]
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "weekStartsOn": 1,
+      "first": "2024-01-29",
+      "last": "2024-03-10",
+      "weekdays": [1, 2, 3, 4, 5, 6, 0]
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "weekStartsOn": 4,
+      "first": "2024-02-01",
+      "last": "2024-03-13",
+      "weekdays": [4, 5, 6, 0, 1, 2, 3]
+    },
+    {
+      "year": 2025,
+      "month": 12,
+      "weekStartsOn": 1,
+      "first": "2025-12-01",
+      "last": "2026-01-11",
+      "weekdays": [1, 2, 3, 4, 5, 6, 0]
+    },
+    {
+      "year": 2027,
+      "month": 1,
+      "weekStartsOn": 0,
+      "first": "2026-12-27",
+      "last": "2027-02-06",
+      "weekdays": [0, 1, 2, 3, 4, 5, 6]
+    },
+    {
+      "year": 2026,
+      "month": 11,
+      "weekStartsOn": 3,
+      "first": "2026-10-28",
+      "last": "2026-12-08",
+      "weekdays": [3, 4, 5, 6, 0, 1, 2]
+    }
+  ],
+  "keyboard": [
+    {
+      "name": "ArrowRight moves to the next day",
+      "focused": "2026-06-30",
+      "key": "ArrowRight",
+      "weekStartsOn": 1,
+      "expect": "2026-07-01"
+    },
+    {
+      "name": "ArrowLeft moves to the previous day across a month",
+      "focused": "2026-06-01",
+      "key": "ArrowLeft",
+      "weekStartsOn": 1,
+      "expect": "2026-05-31"
+    },
+    {
+      "name": "ArrowDown moves a week",
+      "focused": "2026-06-28",
+      "key": "ArrowDown",
+      "weekStartsOn": 1,
+      "expect": "2026-07-05"
+    },
+    {
+      "name": "ArrowUp moves a week back across a year",
+      "focused": "2026-01-03",
+      "key": "ArrowUp",
+      "weekStartsOn": 1,
+      "expect": "2025-12-27"
+    },
+    {
+      "name": "Home goes to the week's first day, Monday",
+      "focused": "2026-06-04",
+      "key": "Home",
+      "weekStartsOn": 1,
+      "expect": "2026-06-01"
+    },
+    {
+      "name": "Home goes to the week's first day, Sunday",
+      "focused": "2026-06-04",
+      "key": "Home",
+      "weekStartsOn": 0,
+      "expect": "2026-05-31"
+    },
+    {
+      "name": "End goes to the week's last day, Monday start",
+      "focused": "2026-06-04",
+      "key": "End",
+      "weekStartsOn": 1,
+      "expect": "2026-06-07"
+    },
+    {
+      "name": "End goes to the week's last day, Saturday start",
+      "focused": "2026-06-04",
+      "key": "End",
+      "weekStartsOn": 6,
+      "expect": "2026-06-05"
+    },
+    {
+      "name": "PageDown moves a month, clamping the day",
+      "focused": "2026-01-31",
+      "key": "PageDown",
+      "weekStartsOn": 1,
+      "expect": "2026-02-28"
+    },
+    {
+      "name": "PageUp moves a month back",
+      "focused": "2026-03-31",
+      "key": "PageUp",
+      "weekStartsOn": 1,
+      "expect": "2026-02-28"
+    },
+    {
+      "name": "Shift+PageDown moves a year from a leap day",
+      "focused": "2024-02-29",
+      "key": "PageDown",
+      "shift": true,
+      "weekStartsOn": 1,
+      "expect": "2025-02-28"
+    },
+    {
+      "name": "Shift+PageUp moves a year back",
+      "focused": "2026-06-15",
+      "key": "PageUp",
+      "shift": true,
+      "weekStartsOn": 1,
+      "expect": "2025-06-15"
+    },
+    {
+      "name": "ArrowRight stops at max",
+      "focused": "2026-06-20",
+      "key": "ArrowRight",
+      "weekStartsOn": 1,
+      "max": "2026-06-20",
+      "expect": "2026-06-20"
+    },
+    {
+      "name": "ArrowDown past max lands on max",
+      "focused": "2026-06-18",
+      "key": "ArrowDown",
+      "weekStartsOn": 1,
+      "max": "2026-06-20",
+      "expect": "2026-06-20"
+    },
+    {
+      "name": "ArrowUp past min lands on min",
+      "focused": "2026-06-12",
+      "key": "ArrowUp",
+      "weekStartsOn": 1,
+      "min": "2026-06-10",
+      "expect": "2026-06-10"
+    },
+    {
+      "name": "PageUp past min lands on min",
+      "focused": "2026-06-12",
+      "key": "PageUp",
+      "weekStartsOn": 1,
+      "min": "2026-06-01",
+      "expect": "2026-06-01"
+    },
+    {
+      "name": "Home past min lands on min",
+      "focused": "2026-06-11",
+      "key": "Home",
+      "weekStartsOn": 1,
+      "min": "2026-06-10",
+      "expect": "2026-06-10"
+    },
+    {
+      "name": "End past max lands on max",
+      "focused": "2026-06-11",
+      "key": "End",
+      "weekStartsOn": 1,
+      "max": "2026-06-12",
+      "expect": "2026-06-12"
+    }
+  ],
+  "steps": [
+    {
+      "focused": "2026-01-31",
+      "direction": 1,
+      "expect": "2026-02-28"
+    },
+    {
+      "focused": "2026-03-31",
+      "direction": -1,
+      "expect": "2026-02-28"
+    },
+    {
+      "focused": "2026-12-15",
+      "direction": 1,
+      "expect": "2027-01-15"
+    },
+    {
+      "focused": "2026-06-15",
+      "direction": -1,
+      "min": "2026-06-01",
+      "expect": "2026-06-01"
+    },
+    {
+      "focused": "2026-06-15",
+      "direction": 1,
+      "max": "2026-07-04",
+      "expect": "2026-07-04"
+    }
+  ],
+  "selectable": [
+    {
+      "date": "2026-06-10",
+      "min": "2026-06-10",
+      "max": null,
+      "expect": true
+    },
+    {
+      "date": "2026-06-09",
+      "min": "2026-06-10",
+      "max": null,
+      "expect": false
+    },
+    {
+      "date": "2026-06-20",
+      "min": null,
+      "max": "2026-06-20",
+      "expect": true
+    },
+    {
+      "date": "2026-06-21",
+      "min": null,
+      "max": "2026-06-20",
+      "expect": false
+    },
+    {
+      "date": "2026-06-15",
+      "min": "2026-06-10",
+      "max": "2026-06-20",
+      "expect": true
+    },
+    {
+      "date": "2027-01-01",
+      "min": null,
+      "max": null,
+      "expect": true
+    }
+  ],
+  "range": [
+    {
+      "start": null,
+      "end": null,
+      "picked": "2026-06-10",
+      "expect": {
+        "start": "2026-06-10",
+        "end": null
+      }
+    },
+    {
+      "start": "2026-06-10",
+      "end": null,
+      "picked": "2026-06-14",
+      "expect": {
+        "start": "2026-06-10",
+        "end": "2026-06-14"
+      }
+    },
+    {
+      "start": "2026-06-10",
+      "end": null,
+      "picked": "2026-06-04",
+      "expect": {
+        "start": "2026-06-04",
+        "end": "2026-06-10"
+      }
+    },
+    {
+      "start": "2026-06-10",
+      "end": null,
+      "picked": "2026-06-10",
+      "expect": {
+        "start": "2026-06-10",
+        "end": "2026-06-10"
+      }
+    },
+    {
+      "start": "2026-06-10",
+      "end": "2026-06-14",
+      "picked": "2026-06-20",
+      "expect": {
+        "start": "2026-06-20",
+        "end": null
+      }
+    }
+  ],
+  "within": [
+    {
+      "start": "2026-06-10",
+      "end": "2026-06-14",
+      "date": "2026-06-12",
+      "expect": true
+    },
+    {
+      "start": "2026-06-10",
+      "end": "2026-06-14",
+      "date": "2026-06-10",
+      "expect": false
+    },
+    {
+      "start": "2026-06-10",
+      "end": "2026-06-14",
+      "date": "2026-06-14",
+      "expect": false
+    },
+    {
+      "start": "2026-06-10",
+      "end": null,
+      "date": "2026-06-12",
+      "expect": false
+    },
+    {
+      "start": "2026-06-28",
+      "end": "2026-07-03",
+      "date": "2026-07-01",
+      "expect": true
+    }
+  ]
+}

@@ -57,6 +57,52 @@ void main() {
       expect(messages.comboboxShow, _english('combobox.show'));
       expect(messages.comboboxHide, _english('combobox.hide'));
       expect(messages.popoverTriggerLabel, _english('dialog.trigger'));
+      expect(messages.calendarLabel, _english('calendar.label'));
+      expect(messages.calendarPrevious, _english('calendar.previous'));
+      expect(messages.calendarNext, _english('calendar.next'));
+      expect(messages.calendarToday, _english('calendar.today'));
+      expect(messages.calendarCurrent, _english('calendar.current'));
+      expect(messages.calendarRangeStart, _english('calendar.rangeStart'));
+      expect(messages.calendarRangeEnd, _english('calendar.rangeEnd'));
+      expect(messages.datePickerLabel, _english('datePicker.label'));
+      expect(
+        messages.datePickerPlaceholder,
+        _english('datePicker.placeholder'),
+      );
+      expect(messages.datePickerClear, _english('datePicker.clear'));
+      expect(messages.dateRangePickerLabel, _english('dateRangePicker.label'));
+      expect(
+        messages.dateRangePickerPlaceholder,
+        _english('dateRangePicker.placeholder'),
+      );
+      expect(messages.dateRangePickerClear, _english('dateRangePicker.clear'));
+      expect(messages.timeFieldLabel, _english('timeField.label'));
+      expect(messages.timeFieldHour, _english('timeField.hour'));
+      expect(messages.timeFieldMinute, _english('timeField.minute'));
+      expect(messages.timeFieldSecond, _english('timeField.second'));
+      expect(messages.timeFieldDayPeriod, _english('timeField.dayPeriod'));
+      expect(messages.timeFieldEmpty, _english('timeField.empty'));
+      expect(
+        messages.timeFieldInvalidFormat,
+        _english('timeField.invalidFormat'),
+      );
+      expect(messages.timeFieldOutOfRange, _english('timeField.outOfRange'));
+      expect(
+        messages.timeFieldSecondsRequired,
+        _english('timeField.secondsRequired'),
+      );
+      expect(
+        messages.timeFieldSecondsNotAllowed,
+        _english('timeField.secondsNotAllowed'),
+      );
+      expect(
+        messages.timeFieldRangeUnderflow,
+        _english('timeField.rangeUnderflow'),
+      );
+      expect(
+        messages.timeFieldRangeOverflow,
+        _english('timeField.rangeOverflow'),
+      );
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

@@ -3,10 +3,14 @@
 library;
 
 export 'src/button/button.dart' show Button, ButtonVariant;
+export 'src/calendar/calendar.dart' show Calendar, CalendarView;
+export 'src/calendar/calendar_date.dart' show DateRange;
+export 'src/calendar/date_symbols.dart' show DateSymbols;
 export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
 export 'src/checkbox/checkbox.dart' show Checkbox, CheckboxGroup;
 export 'src/choice/choice_item.dart';
 export 'src/combobox/combobox.dart' show ChoiceFilter, Combobox;
+export 'src/date_picker/date_picker.dart' show DatePicker, DateRangePicker;
 export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
 export 'src/dialog/dialog_route.dart'
@@ -40,6 +44,8 @@ export 'src/select/select.dart' show Select;
 export 'src/switch/switch.dart' show Switch;
 export 'src/text_field/text_field.dart' show TextField, Textarea;
 export 'src/theme/theme.dart';
+export 'src/time_field/time_field.dart' show TimeField;
+export 'src/time_field/time_logic.dart' show TimeFieldError, TimeInputStatus;
 export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;

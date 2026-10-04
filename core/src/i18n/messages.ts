@@ -32,6 +32,9 @@ export const en = {
   // Appended to the name of the first and last day of a selected range.
   "calendar.rangeStart": "range start",
   "calendar.rangeEnd": "range end",
+  // Appended to today's name on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "calendar.current": "today",
   // Date Picker
   "datePicker.label": "Date",
   "datePicker.placeholder": "Select a date",

@@ -1,0 +1,2852 @@
+{
+  "description": "Calendar names, language-neutral: weekday and month names, the digits, the hour cycle and three date patterns (day: a day's full accessible name; title: a month's title; medium: a picker field's text) per locale, Gregorian calendar. A pattern's tokens are {EEEE} the long weekday, {d} and {dd} the day, {M} and {MM} the month number, {MMMM} the month name from that pattern's own list, and {y} the year, each written in the locale's digits; everything else is literal. A locale missing from the table falls back to its language, then to English. The core tests check the table against the runtime's Intl data; the Flutter adapter carries the same table, and its tests render the same cases.",
+  "locales": {
+    "en": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 12,
+      "weekdays": {
+        "long": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        "narrow": ["S", "M", "T", "W", "T", "F", "S"]
+      },
+      "months": {
+        "day": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "title": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "medium": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {MMMM} {d}, {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{MMMM} {d}, {y}"
+      }
+    },
+    "it": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"],
+        "short": ["dom", "lun", "mar", "mer", "gio", "ven", "sab"],
+        "narrow": ["D", "L", "M", "M", "G", "V", "S"]
+      },
+      "months": {
+        "day": [
+          "gennaio",
+          "febbraio",
+          "marzo",
+          "aprile",
+          "maggio",
+          "giugno",
+          "luglio",
+          "agosto",
+          "settembre",
+          "ottobre",
+          "novembre",
+          "dicembre"
+        ],
+        "title": [
+          "gennaio",
+          "febbraio",
+          "marzo",
+          "aprile",
+          "maggio",
+          "giugno",
+          "luglio",
+          "agosto",
+          "settembre",
+          "ottobre",
+          "novembre",
+          "dicembre"
+        ],
+        "medium": [
+          "gen",
+          "feb",
+          "mar",
+          "apr",
+          "mag",
+          "giu",
+          "lug",
+          "ago",
+          "set",
+          "ott",
+          "nov",
+          "dic"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "de": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+        "short": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+        "narrow": ["S", "M", "D", "M", "D", "F", "S"]
+      },
+      "months": {
+        "day": [
+          "Januar",
+          "Februar",
+          "März",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Dezember"
+        ],
+        "title": [
+          "Januar",
+          "Februar",
+          "März",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Dezember"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}, {d}. {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}.{MM}.{y}"
+      }
+    },
+    "de-CH": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+        "short": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+        "narrow": ["S", "M", "D", "M", "D", "F", "S"]
+      },
+      "months": {
+        "day": [
+          "Januar",
+          "Februar",
+          "März",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Dezember"
+        ],
+        "title": [
+          "Januar",
+          "Februar",
+          "März",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Dezember"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}, {d}. {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}.{MM}.{y}"
+      }
+    },
+    "fr": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+        "short": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+        "narrow": ["D", "L", "M", "M", "J", "V", "S"]
+      },
+      "months": {
+        "day": [
+          "janvier",
+          "février",
+          "mars",
+          "avril",
+          "mai",
+          "juin",
+          "juillet",
+          "août",
+          "septembre",
+          "octobre",
+          "novembre",
+          "décembre"
+        ],
+        "title": [
+          "janvier",
+          "février",
+          "mars",
+          "avril",
+          "mai",
+          "juin",
+          "juillet",
+          "août",
+          "septembre",
+          "octobre",
+          "novembre",
+          "décembre"
+        ],
+        "medium": [
+          "janv.",
+          "févr.",
+          "mars",
+          "avr.",
+          "mai",
+          "juin",
+          "juil.",
+          "août",
+          "sept.",
+          "oct.",
+          "nov.",
+          "déc."
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "fr-CA": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+        "short": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+        "narrow": ["D", "L", "M", "M", "J", "V", "S"]
+      },
+      "months": {
+        "day": [
+          "janvier",
+          "février",
+          "mars",
+          "avril",
+          "mai",
+          "juin",
+          "juillet",
+          "août",
+          "septembre",
+          "octobre",
+          "novembre",
+          "décembre"
+        ],
+        "title": [
+          "janvier",
+          "février",
+          "mars",
+          "avril",
+          "mai",
+          "juin",
+          "juillet",
+          "août",
+          "septembre",
+          "octobre",
+          "novembre",
+          "décembre"
+        ],
+        "medium": [
+          "janv.",
+          "févr.",
+          "mars",
+          "avr.",
+          "mai",
+          "juin",
+          "juill.",
+          "août",
+          "sept.",
+          "oct.",
+          "nov.",
+          "déc."
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "es": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+        "short": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+        "narrow": ["D", "L", "M", "X", "J", "V", "S"]
+      },
+      "months": {
+        "day": [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre"
+        ],
+        "title": [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre"
+        ],
+        "medium": [
+          "ene",
+          "feb",
+          "mar",
+          "abr",
+          "may",
+          "jun",
+          "jul",
+          "ago",
+          "sept",
+          "oct",
+          "nov",
+          "dic"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} de {MMMM} de {y}",
+        "title": "{MMMM} de {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "es-MX": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 12,
+      "weekdays": {
+        "long": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+        "short": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+        "narrow": ["D", "L", "M", "M", "J", "V", "S"]
+      },
+      "months": {
+        "day": [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre"
+        ],
+        "title": [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre"
+        ],
+        "medium": [
+          "ene",
+          "feb",
+          "mar",
+          "abr",
+          "may",
+          "jun",
+          "jul",
+          "ago",
+          "sep",
+          "oct",
+          "nov",
+          "dic"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} de {MMMM} de {y}",
+        "title": "{MMMM} de {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "pt": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": [
+          "domingo",
+          "segunda-feira",
+          "terça-feira",
+          "quarta-feira",
+          "quinta-feira",
+          "sexta-feira",
+          "sábado"
+        ],
+        "short": ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."],
+        "narrow": ["D", "S", "T", "Q", "Q", "S", "S"]
+      },
+      "months": {
+        "day": [
+          "janeiro",
+          "fevereiro",
+          "março",
+          "abril",
+          "maio",
+          "junho",
+          "julho",
+          "agosto",
+          "setembro",
+          "outubro",
+          "novembro",
+          "dezembro"
+        ],
+        "title": [
+          "janeiro",
+          "fevereiro",
+          "março",
+          "abril",
+          "maio",
+          "junho",
+          "julho",
+          "agosto",
+          "setembro",
+          "outubro",
+          "novembro",
+          "dezembro"
+        ],
+        "medium": [
+          "jan.",
+          "fev.",
+          "mar.",
+          "abr.",
+          "mai.",
+          "jun.",
+          "jul.",
+          "ago.",
+          "set.",
+          "out.",
+          "nov.",
+          "dez."
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} de {MMMM} de {y}",
+        "title": "{MMMM} de {y}",
+        "medium": "{d} de {MMMM} de {y}"
+      }
+    },
+    "pt-PT": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": [
+          "domingo",
+          "segunda-feira",
+          "terça-feira",
+          "quarta-feira",
+          "quinta-feira",
+          "sexta-feira",
+          "sábado"
+        ],
+        "short": ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"],
+        "narrow": ["D", "S", "T", "Q", "Q", "S", "S"]
+      },
+      "months": {
+        "day": [
+          "janeiro",
+          "fevereiro",
+          "março",
+          "abril",
+          "maio",
+          "junho",
+          "julho",
+          "agosto",
+          "setembro",
+          "outubro",
+          "novembro",
+          "dezembro"
+        ],
+        "title": [
+          "janeiro",
+          "fevereiro",
+          "março",
+          "abril",
+          "maio",
+          "junho",
+          "julho",
+          "agosto",
+          "setembro",
+          "outubro",
+          "novembro",
+          "dezembro"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} de {MMMM} de {y}",
+        "title": "{MMMM} de {y}",
+        "medium": "{dd}/{MM}/{y}"
+      }
+    },
+    "nl": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"],
+        "short": ["zo", "ma", "di", "wo", "do", "vr", "za"],
+        "narrow": ["Z", "M", "D", "W", "D", "V", "Z"]
+      },
+      "months": {
+        "day": [
+          "januari",
+          "februari",
+          "maart",
+          "april",
+          "mei",
+          "juni",
+          "juli",
+          "augustus",
+          "september",
+          "oktober",
+          "november",
+          "december"
+        ],
+        "title": [
+          "januari",
+          "februari",
+          "maart",
+          "april",
+          "mei",
+          "juni",
+          "juli",
+          "augustus",
+          "september",
+          "oktober",
+          "november",
+          "december"
+        ],
+        "medium": [
+          "jan",
+          "feb",
+          "mrt",
+          "apr",
+          "mei",
+          "jun",
+          "jul",
+          "aug",
+          "sep",
+          "okt",
+          "nov",
+          "dec"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "pl": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"],
+        "short": ["niedz.", "pon.", "wt.", "śr.", "czw.", "pt.", "sob."],
+        "narrow": ["N", "P", "W", "Ś", "C", "P", "S"]
+      },
+      "months": {
+        "day": [
+          "stycznia",
+          "lutego",
+          "marca",
+          "kwietnia",
+          "maja",
+          "czerwca",
+          "lipca",
+          "sierpnia",
+          "września",
+          "października",
+          "listopada",
+          "grudnia"
+        ],
+        "title": [
+          "styczeń",
+          "luty",
+          "marzec",
+          "kwiecień",
+          "maj",
+          "czerwiec",
+          "lipiec",
+          "sierpień",
+          "wrzesień",
+          "październik",
+          "listopad",
+          "grudzień"
+        ],
+        "medium": [
+          "sty",
+          "lut",
+          "mar",
+          "kwi",
+          "maj",
+          "cze",
+          "lip",
+          "sie",
+          "wrz",
+          "paź",
+          "lis",
+          "gru"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "sv": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"],
+        "short": ["sön", "mån", "tis", "ons", "tors", "fre", "lör"],
+        "narrow": ["S", "M", "T", "O", "T", "F", "L"]
+      },
+      "months": {
+        "day": [
+          "januari",
+          "februari",
+          "mars",
+          "april",
+          "maj",
+          "juni",
+          "juli",
+          "augusti",
+          "september",
+          "oktober",
+          "november",
+          "december"
+        ],
+        "title": [
+          "januari",
+          "februari",
+          "mars",
+          "april",
+          "maj",
+          "juni",
+          "juli",
+          "augusti",
+          "september",
+          "oktober",
+          "november",
+          "december"
+        ],
+        "medium": [
+          "jan.",
+          "feb.",
+          "mars",
+          "apr.",
+          "maj",
+          "juni",
+          "juli",
+          "aug.",
+          "sep.",
+          "okt.",
+          "nov.",
+          "dec."
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "ru": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"],
+        "short": ["вс", "пн", "вт", "ср", "чт", "пт", "сб"],
+        "narrow": ["В", "П", "В", "С", "Ч", "П", "С"]
+      },
+      "months": {
+        "day": [
+          "января",
+          "февраля",
+          "марта",
+          "апреля",
+          "мая",
+          "июня",
+          "июля",
+          "августа",
+          "сентября",
+          "октября",
+          "ноября",
+          "декабря"
+        ],
+        "title": [
+          "январь",
+          "февраль",
+          "март",
+          "апрель",
+          "май",
+          "июнь",
+          "июль",
+          "август",
+          "сентябрь",
+          "октябрь",
+          "ноябрь",
+          "декабрь"
+        ],
+        "medium": [
+          "янв.",
+          "февр.",
+          "мар.",
+          "апр.",
+          "мая",
+          "июн.",
+          "июл.",
+          "авг.",
+          "сент.",
+          "окт.",
+          "нояб.",
+          "дек."
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} {MMMM} {y} г.",
+        "title": "{MMMM} {y} г.",
+        "medium": "{d} {MMMM} {y} г."
+      }
+    },
+    "tr": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+        "short": ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"],
+        "narrow": ["P", "P", "S", "Ç", "P", "C", "C"]
+      },
+      "months": {
+        "day": [
+          "Ocak",
+          "Şubat",
+          "Mart",
+          "Nisan",
+          "Mayıs",
+          "Haziran",
+          "Temmuz",
+          "Ağustos",
+          "Eylül",
+          "Ekim",
+          "Kasım",
+          "Aralık"
+        ],
+        "title": [
+          "Ocak",
+          "Şubat",
+          "Mart",
+          "Nisan",
+          "Mayıs",
+          "Haziran",
+          "Temmuz",
+          "Ağustos",
+          "Eylül",
+          "Ekim",
+          "Kasım",
+          "Aralık"
+        ],
+        "medium": [
+          "Oca",
+          "Şub",
+          "Mar",
+          "Nis",
+          "May",
+          "Haz",
+          "Tem",
+          "Ağu",
+          "Eyl",
+          "Eki",
+          "Kas",
+          "Ara"
+        ]
+      },
+      "patterns": {
+        "day": "{d} {MMMM} {y} {EEEE}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    },
+    "ja": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+        "short": ["日", "月", "火", "水", "木", "金", "土"],
+        "narrow": ["日", "月", "火", "水", "木", "金", "土"]
+      },
+      "months": {
+        "day": null,
+        "title": null,
+        "medium": null
+      },
+      "patterns": {
+        "day": "{y}年{M}月{d}日{EEEE}",
+        "title": "{y}年{M}月",
+        "medium": "{y}/{MM}/{dd}"
+      }
+    },
+    "zh": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+        "short": ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+        "narrow": ["日", "一", "二", "三", "四", "五", "六"]
+      },
+      "months": {
+        "day": null,
+        "title": null,
+        "medium": null
+      },
+      "patterns": {
+        "day": "{y}年{M}月{d}日{EEEE}",
+        "title": "{y}年{M}月",
+        "medium": "{y}年{M}月{d}日"
+      }
+    },
+    "ar": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 12,
+      "weekdays": {
+        "long": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "short": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "narrow": ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
+      },
+      "months": {
+        "day": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "title": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}، {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}‏/{MM}‏/{y}"
+      }
+    },
+    "ar-EG": {
+      "digits": ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"],
+      "hourCycle": 12,
+      "weekdays": {
+        "long": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "short": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "narrow": ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
+      },
+      "months": {
+        "day": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "title": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}، {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}‏/{MM}‏/{y}"
+      }
+    },
+    "ar-SA": {
+      "digits": ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"],
+      "hourCycle": 12,
+      "weekdays": {
+        "long": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "short": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "narrow": ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
+      },
+      "months": {
+        "day": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "title": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "مايو",
+          "يونيو",
+          "يوليو",
+          "أغسطس",
+          "سبتمبر",
+          "أكتوبر",
+          "نوفمبر",
+          "ديسمبر"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}، {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}‏/{MM}‏/{y}"
+      }
+    },
+    "ar-MA": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "short": ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+        "narrow": ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
+      },
+      "months": {
+        "day": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "ماي",
+          "يونيو",
+          "يوليوز",
+          "غشت",
+          "شتنبر",
+          "أكتوبر",
+          "نونبر",
+          "دجنبر"
+        ],
+        "title": [
+          "يناير",
+          "فبراير",
+          "مارس",
+          "أبريل",
+          "ماي",
+          "يونيو",
+          "يوليوز",
+          "غشت",
+          "شتنبر",
+          "أكتوبر",
+          "نونبر",
+          "دجنبر"
+        ],
+        "medium": null
+      },
+      "patterns": {
+        "day": "{EEEE}، {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{dd}‏/{MM}‏/{y}"
+      }
+    },
+    "he": {
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": [
+          "יום ראשון",
+          "יום שני",
+          "יום שלישי",
+          "יום רביעי",
+          "יום חמישי",
+          "יום שישי",
+          "יום שבת"
+        ],
+        "short": ["יום א׳", "יום ב׳", "יום ג׳", "יום ד׳", "יום ה׳", "יום ו׳", "שבת"],
+        "narrow": ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"]
+      },
+      "months": {
+        "day": [
+          "ינואר",
+          "פברואר",
+          "מרץ",
+          "אפריל",
+          "מאי",
+          "יוני",
+          "יולי",
+          "אוגוסט",
+          "ספטמבר",
+          "אוקטובר",
+          "נובמבר",
+          "דצמבר"
+        ],
+        "title": [
+          "ינואר",
+          "פברואר",
+          "מרץ",
+          "אפריל",
+          "מאי",
+          "יוני",
+          "יולי",
+          "אוגוסט",
+          "ספטמבר",
+          "אוקטובר",
+          "נובמבר",
+          "דצמבר"
+        ],
+        "medium": [
+          "ינו׳",
+          "פבר׳",
+          "מרץ",
+          "אפר׳",
+          "מאי",
+          "יוני",
+          "יולי",
+          "אוג׳",
+          "ספט׳",
+          "אוק׳",
+          "נוב׳",
+          "דצמ׳"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE}, {d} ב{MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} ב{MMMM} {y}"
+      }
+    },
+    "fa": {
+      "digits": ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"],
+      "hourCycle": 24,
+      "weekdays": {
+        "long": ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"],
+        "short": ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"],
+        "narrow": ["ی", "د", "س", "چ", "پ", "ج", "ش"]
+      },
+      "months": {
+        "day": [
+          "ژانویهٔ",
+          "فوریهٔ",
+          "مارس",
+          "آوریل",
+          "مهٔ",
+          "ژوئن",
+          "ژوئیهٔ",
+          "اوت",
+          "سپتامبر",
+          "اکتبر",
+          "نوامبر",
+          "دسامبر"
+        ],
+        "title": [
+          "ژانویهٔ",
+          "فوریهٔ",
+          "مارس",
+          "آوریل",
+          "مهٔ",
+          "ژوئن",
+          "ژوئیهٔ",
+          "اوت",
+          "سپتامبر",
+          "اکتبر",
+          "نوامبر",
+          "دسامبر"
+        ],
+        "medium": [
+          "ژانویه",
+          "فوریه",
+          "مارس",
+          "آوریل",
+          "مه",
+          "ژوئن",
+          "ژوئیه",
+          "اوت",
+          "سپتامبر",
+          "اکتبر",
+          "نوامبر",
+          "دسامبر"
+        ]
+      },
+      "patterns": {
+        "day": "{EEEE} {d} {MMMM} {y}",
+        "title": "{MMMM} {y}",
+        "medium": "{d} {MMMM} {y}"
+      }
+    }
+  },
+  "cases": [
+    {
+      "locale": "en",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "Monday, June 1, 2026"
+    },
+    {
+      "locale": "en",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "Thursday, December 31, 2026"
+    },
+    {
+      "locale": "en",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "Sunday, February 14, 2027"
+    },
+    {
+      "locale": "en",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "Thursday, September 9, 1999"
+    },
+    {
+      "locale": "en",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "June 2026"
+    },
+    {
+      "locale": "en",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "December 2026"
+    },
+    {
+      "locale": "en",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "February 2027"
+    },
+    {
+      "locale": "en",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "September 1999"
+    },
+    {
+      "locale": "en",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "Jun 1, 2026"
+    },
+    {
+      "locale": "en",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "Dec 31, 2026"
+    },
+    {
+      "locale": "en",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "Feb 14, 2027"
+    },
+    {
+      "locale": "en",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "Sep 9, 1999"
+    },
+    {
+      "locale": "it",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "lunedì 1 giugno 2026"
+    },
+    {
+      "locale": "it",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "giovedì 31 dicembre 2026"
+    },
+    {
+      "locale": "it",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "domenica 14 febbraio 2027"
+    },
+    {
+      "locale": "it",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "giovedì 9 settembre 1999"
+    },
+    {
+      "locale": "it",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "giugno 2026"
+    },
+    {
+      "locale": "it",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "dicembre 2026"
+    },
+    {
+      "locale": "it",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "febbraio 2027"
+    },
+    {
+      "locale": "it",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "settembre 1999"
+    },
+    {
+      "locale": "it",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 giu 2026"
+    },
+    {
+      "locale": "it",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 dic 2026"
+    },
+    {
+      "locale": "it",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 feb 2027"
+    },
+    {
+      "locale": "it",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 set 1999"
+    },
+    {
+      "locale": "de",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "Montag, 1. Juni 2026"
+    },
+    {
+      "locale": "de",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "Donnerstag, 31. Dezember 2026"
+    },
+    {
+      "locale": "de",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "Sonntag, 14. Februar 2027"
+    },
+    {
+      "locale": "de",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "Donnerstag, 9. September 1999"
+    },
+    {
+      "locale": "de",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "Juni 2026"
+    },
+    {
+      "locale": "de",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "Dezember 2026"
+    },
+    {
+      "locale": "de",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "Februar 2027"
+    },
+    {
+      "locale": "de",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "September 1999"
+    },
+    {
+      "locale": "de",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "01.06.2026"
+    },
+    {
+      "locale": "de",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31.12.2026"
+    },
+    {
+      "locale": "de",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14.02.2027"
+    },
+    {
+      "locale": "de",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "09.09.1999"
+    },
+    {
+      "locale": "de-CH",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "Montag, 1. Juni 2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "Donnerstag, 31. Dezember 2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "Sonntag, 14. Februar 2027"
+    },
+    {
+      "locale": "de-CH",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "Donnerstag, 9. September 1999"
+    },
+    {
+      "locale": "de-CH",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "Juni 2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "Dezember 2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "Februar 2027"
+    },
+    {
+      "locale": "de-CH",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "September 1999"
+    },
+    {
+      "locale": "de-CH",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "01.06.2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31.12.2026"
+    },
+    {
+      "locale": "de-CH",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14.02.2027"
+    },
+    {
+      "locale": "de-CH",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "09.09.1999"
+    },
+    {
+      "locale": "fr",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "lundi 1 juin 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "jeudi 31 décembre 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "dimanche 14 février 2027"
+    },
+    {
+      "locale": "fr",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "jeudi 9 septembre 1999"
+    },
+    {
+      "locale": "fr",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "juin 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "décembre 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "février 2027"
+    },
+    {
+      "locale": "fr",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "septembre 1999"
+    },
+    {
+      "locale": "fr",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 juin 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 déc. 2026"
+    },
+    {
+      "locale": "fr",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 févr. 2027"
+    },
+    {
+      "locale": "fr",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sept. 1999"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "lundi 1 juin 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "jeudi 31 décembre 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "dimanche 14 février 2027"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "jeudi 9 septembre 1999"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "juin 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "décembre 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "février 2027"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "septembre 1999"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 juin 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 déc. 2026"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 févr. 2027"
+    },
+    {
+      "locale": "fr-CA",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sept. 1999"
+    },
+    {
+      "locale": "es",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "lunes, 1 de junio de 2026"
+    },
+    {
+      "locale": "es",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "jueves, 31 de diciembre de 2026"
+    },
+    {
+      "locale": "es",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "domingo, 14 de febrero de 2027"
+    },
+    {
+      "locale": "es",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "jueves, 9 de septiembre de 1999"
+    },
+    {
+      "locale": "es",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "junio de 2026"
+    },
+    {
+      "locale": "es",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "diciembre de 2026"
+    },
+    {
+      "locale": "es",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "febrero de 2027"
+    },
+    {
+      "locale": "es",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "septiembre de 1999"
+    },
+    {
+      "locale": "es",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 jun 2026"
+    },
+    {
+      "locale": "es",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 dic 2026"
+    },
+    {
+      "locale": "es",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 feb 2027"
+    },
+    {
+      "locale": "es",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sept 1999"
+    },
+    {
+      "locale": "es-MX",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "lunes, 1 de junio de 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "jueves, 31 de diciembre de 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "domingo, 14 de febrero de 2027"
+    },
+    {
+      "locale": "es-MX",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "jueves, 9 de septiembre de 1999"
+    },
+    {
+      "locale": "es-MX",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "junio de 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "diciembre de 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "febrero de 2027"
+    },
+    {
+      "locale": "es-MX",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "septiembre de 1999"
+    },
+    {
+      "locale": "es-MX",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 jun 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 dic 2026"
+    },
+    {
+      "locale": "es-MX",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 feb 2027"
+    },
+    {
+      "locale": "es-MX",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sep 1999"
+    },
+    {
+      "locale": "pt",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "segunda-feira, 1 de junho de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "quinta-feira, 31 de dezembro de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "domingo, 14 de fevereiro de 2027"
+    },
+    {
+      "locale": "pt",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "quinta-feira, 9 de setembro de 1999"
+    },
+    {
+      "locale": "pt",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "junho de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "dezembro de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "fevereiro de 2027"
+    },
+    {
+      "locale": "pt",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "setembro de 1999"
+    },
+    {
+      "locale": "pt",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 de jun. de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 de dez. de 2026"
+    },
+    {
+      "locale": "pt",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 de fev. de 2027"
+    },
+    {
+      "locale": "pt",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 de set. de 1999"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "segunda-feira, 1 de junho de 2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "quinta-feira, 31 de dezembro de 2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "domingo, 14 de fevereiro de 2027"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "quinta-feira, 9 de setembro de 1999"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "junho de 2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "dezembro de 2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "fevereiro de 2027"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "setembro de 1999"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "01/06/2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31/12/2026"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14/02/2027"
+    },
+    {
+      "locale": "pt-PT",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "09/09/1999"
+    },
+    {
+      "locale": "nl",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "maandag 1 juni 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "donderdag 31 december 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "zondag 14 februari 2027"
+    },
+    {
+      "locale": "nl",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "donderdag 9 september 1999"
+    },
+    {
+      "locale": "nl",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "juni 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "december 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "februari 2027"
+    },
+    {
+      "locale": "nl",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "september 1999"
+    },
+    {
+      "locale": "nl",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 jun 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 dec 2026"
+    },
+    {
+      "locale": "nl",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 feb 2027"
+    },
+    {
+      "locale": "nl",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sep 1999"
+    },
+    {
+      "locale": "pl",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "poniedziałek, 1 czerwca 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "czwartek, 31 grudnia 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "niedziela, 14 lutego 2027"
+    },
+    {
+      "locale": "pl",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "czwartek, 9 września 1999"
+    },
+    {
+      "locale": "pl",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "czerwiec 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "grudzień 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "luty 2027"
+    },
+    {
+      "locale": "pl",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "wrzesień 1999"
+    },
+    {
+      "locale": "pl",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 cze 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 gru 2026"
+    },
+    {
+      "locale": "pl",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 lut 2027"
+    },
+    {
+      "locale": "pl",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 wrz 1999"
+    },
+    {
+      "locale": "sv",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "måndag 1 juni 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "torsdag 31 december 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "söndag 14 februari 2027"
+    },
+    {
+      "locale": "sv",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "torsdag 9 september 1999"
+    },
+    {
+      "locale": "sv",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "juni 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "december 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "februari 2027"
+    },
+    {
+      "locale": "sv",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "september 1999"
+    },
+    {
+      "locale": "sv",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 juni 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 dec. 2026"
+    },
+    {
+      "locale": "sv",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 feb. 2027"
+    },
+    {
+      "locale": "sv",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 sep. 1999"
+    },
+    {
+      "locale": "ru",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "понедельник, 1 июня 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "четверг, 31 декабря 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "воскресенье, 14 февраля 2027 г."
+    },
+    {
+      "locale": "ru",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "четверг, 9 сентября 1999 г."
+    },
+    {
+      "locale": "ru",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "июнь 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "декабрь 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "февраль 2027 г."
+    },
+    {
+      "locale": "ru",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "сентябрь 1999 г."
+    },
+    {
+      "locale": "ru",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 июн. 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 дек. 2026 г."
+    },
+    {
+      "locale": "ru",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 февр. 2027 г."
+    },
+    {
+      "locale": "ru",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 сент. 1999 г."
+    },
+    {
+      "locale": "tr",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "1 Haziran 2026 Pazartesi"
+    },
+    {
+      "locale": "tr",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "31 Aralık 2026 Perşembe"
+    },
+    {
+      "locale": "tr",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "14 Şubat 2027 Pazar"
+    },
+    {
+      "locale": "tr",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "9 Eylül 1999 Perşembe"
+    },
+    {
+      "locale": "tr",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "Haziran 2026"
+    },
+    {
+      "locale": "tr",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "Aralık 2026"
+    },
+    {
+      "locale": "tr",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "Şubat 2027"
+    },
+    {
+      "locale": "tr",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "Eylül 1999"
+    },
+    {
+      "locale": "tr",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 Haz 2026"
+    },
+    {
+      "locale": "tr",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 Ara 2026"
+    },
+    {
+      "locale": "tr",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 Şub 2027"
+    },
+    {
+      "locale": "tr",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 Eyl 1999"
+    },
+    {
+      "locale": "ja",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "2026年6月1日月曜日"
+    },
+    {
+      "locale": "ja",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "2026年12月31日木曜日"
+    },
+    {
+      "locale": "ja",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "2027年2月14日日曜日"
+    },
+    {
+      "locale": "ja",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "1999年9月9日木曜日"
+    },
+    {
+      "locale": "ja",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "2026年6月"
+    },
+    {
+      "locale": "ja",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "2026年12月"
+    },
+    {
+      "locale": "ja",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "2027年2月"
+    },
+    {
+      "locale": "ja",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "1999年9月"
+    },
+    {
+      "locale": "ja",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "2026/06/01"
+    },
+    {
+      "locale": "ja",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "2026/12/31"
+    },
+    {
+      "locale": "ja",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "2027/02/14"
+    },
+    {
+      "locale": "ja",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "1999/09/09"
+    },
+    {
+      "locale": "zh",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "2026年6月1日星期一"
+    },
+    {
+      "locale": "zh",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "2026年12月31日星期四"
+    },
+    {
+      "locale": "zh",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "2027年2月14日星期日"
+    },
+    {
+      "locale": "zh",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "1999年9月9日星期四"
+    },
+    {
+      "locale": "zh",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "2026年6月"
+    },
+    {
+      "locale": "zh",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "2026年12月"
+    },
+    {
+      "locale": "zh",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "2027年2月"
+    },
+    {
+      "locale": "zh",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "1999年9月"
+    },
+    {
+      "locale": "zh",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "2026年6月1日"
+    },
+    {
+      "locale": "zh",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "2026年12月31日"
+    },
+    {
+      "locale": "zh",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "2027年2月14日"
+    },
+    {
+      "locale": "zh",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "1999年9月9日"
+    },
+    {
+      "locale": "ar",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "الاثنين، 1 يونيو 2026"
+    },
+    {
+      "locale": "ar",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "الخميس، 31 ديسمبر 2026"
+    },
+    {
+      "locale": "ar",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "الأحد، 14 فبراير 2027"
+    },
+    {
+      "locale": "ar",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "الخميس، 9 سبتمبر 1999"
+    },
+    {
+      "locale": "ar",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "يونيو 2026"
+    },
+    {
+      "locale": "ar",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "ديسمبر 2026"
+    },
+    {
+      "locale": "ar",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "فبراير 2027"
+    },
+    {
+      "locale": "ar",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "سبتمبر 1999"
+    },
+    {
+      "locale": "ar",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "01‏/06‏/2026"
+    },
+    {
+      "locale": "ar",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31‏/12‏/2026"
+    },
+    {
+      "locale": "ar",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14‏/02‏/2027"
+    },
+    {
+      "locale": "ar",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "09‏/09‏/1999"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "الاثنين، ١ يونيو ٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "الخميس، ٣١ ديسمبر ٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "الأحد، ١٤ فبراير ٢٠٢٧"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "الخميس، ٩ سبتمبر ١٩٩٩"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "يونيو ٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "ديسمبر ٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "فبراير ٢٠٢٧"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "سبتمبر ١٩٩٩"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "٠١‏/٠٦‏/٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "٣١‏/١٢‏/٢٠٢٦"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "١٤‏/٠٢‏/٢٠٢٧"
+    },
+    {
+      "locale": "ar-EG",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "٠٩‏/٠٩‏/١٩٩٩"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "الاثنين، ١ يونيو ٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "الخميس، ٣١ ديسمبر ٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "الأحد، ١٤ فبراير ٢٠٢٧"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "الخميس، ٩ سبتمبر ١٩٩٩"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "يونيو ٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "ديسمبر ٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "فبراير ٢٠٢٧"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "سبتمبر ١٩٩٩"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "٠١‏/٠٦‏/٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "٣١‏/١٢‏/٢٠٢٦"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "١٤‏/٠٢‏/٢٠٢٧"
+    },
+    {
+      "locale": "ar-SA",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "٠٩‏/٠٩‏/١٩٩٩"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "الاثنين، 1 يونيو 2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "الخميس، 31 دجنبر 2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "الأحد، 14 فبراير 2027"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "الخميس، 9 شتنبر 1999"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "يونيو 2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "دجنبر 2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "فبراير 2027"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "شتنبر 1999"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "01‏/06‏/2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31‏/12‏/2026"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14‏/02‏/2027"
+    },
+    {
+      "locale": "ar-MA",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "09‏/09‏/1999"
+    },
+    {
+      "locale": "he",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "יום שני, 1 ביוני 2026"
+    },
+    {
+      "locale": "he",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "יום חמישי, 31 בדצמבר 2026"
+    },
+    {
+      "locale": "he",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "יום ראשון, 14 בפברואר 2027"
+    },
+    {
+      "locale": "he",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "יום חמישי, 9 בספטמבר 1999"
+    },
+    {
+      "locale": "he",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "יוני 2026"
+    },
+    {
+      "locale": "he",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "דצמבר 2026"
+    },
+    {
+      "locale": "he",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "פברואר 2027"
+    },
+    {
+      "locale": "he",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "ספטמבר 1999"
+    },
+    {
+      "locale": "he",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "1 ביוני 2026"
+    },
+    {
+      "locale": "he",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "31 בדצמ׳ 2026"
+    },
+    {
+      "locale": "he",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "14 בפבר׳ 2027"
+    },
+    {
+      "locale": "he",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "9 בספט׳ 1999"
+    },
+    {
+      "locale": "fa",
+      "style": "day",
+      "date": "2026-06-01",
+      "expect": "دوشنبه ۱ ژوئن ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "day",
+      "date": "2026-12-31",
+      "expect": "پنجشنبه ۳۱ دسامبر ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "day",
+      "date": "2027-02-14",
+      "expect": "یکشنبه ۱۴ فوریهٔ ۲۰۲۷"
+    },
+    {
+      "locale": "fa",
+      "style": "day",
+      "date": "1999-09-09",
+      "expect": "پنجشنبه ۹ سپتامبر ۱۹۹۹"
+    },
+    {
+      "locale": "fa",
+      "style": "title",
+      "date": "2026-06-01",
+      "expect": "ژوئن ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "title",
+      "date": "2026-12-31",
+      "expect": "دسامبر ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "title",
+      "date": "2027-02-14",
+      "expect": "فوریهٔ ۲۰۲۷"
+    },
+    {
+      "locale": "fa",
+      "style": "title",
+      "date": "1999-09-09",
+      "expect": "سپتامبر ۱۹۹۹"
+    },
+    {
+      "locale": "fa",
+      "style": "medium",
+      "date": "2026-06-01",
+      "expect": "۱ ژوئن ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "medium",
+      "date": "2026-12-31",
+      "expect": "۳۱ دسامبر ۲۰۲۶"
+    },
+    {
+      "locale": "fa",
+      "style": "medium",
+      "date": "2027-02-14",
+      "expect": "۱۴ فوریه ۲۰۲۷"
+    },
+    {
+      "locale": "fa",
+      "style": "medium",
+      "date": "1999-09-09",
+      "expect": "۹ سپتامبر ۱۹۹۹"
+    }
+  ]
+}

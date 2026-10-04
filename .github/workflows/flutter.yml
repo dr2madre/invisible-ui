@@ -65,6 +65,13 @@ on:
       - "core/src/popover/**"
       - "packages/svelte/src/lib/popover/**"
       - "packages/svelte/src/lib/hover-card/**"
+      - "core/src/calendar/**"
+      - "packages/svelte/src/lib/calendar/**"
+      - "packages/svelte/src/lib/date-picker/**"
+      - "packages/svelte/src/lib/date-range-picker/**"
+      - "core/src/time-field/**"
+      - "packages/svelte/src/lib/time-field/**"
+      - "docs/time-field.md"
       - ".github/workflows/flutter.yml"
   push:
     branches: [main]
@@ -123,6 +130,13 @@ on:
       - "core/src/popover/**"
       - "packages/svelte/src/lib/popover/**"
       - "packages/svelte/src/lib/hover-card/**"
+      - "core/src/calendar/**"
+      - "packages/svelte/src/lib/calendar/**"
+      - "packages/svelte/src/lib/date-picker/**"
+      - "packages/svelte/src/lib/date-range-picker/**"
+      - "core/src/time-field/**"
+      - "packages/svelte/src/lib/time-field/**"
+      - "docs/time-field.md"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
 
