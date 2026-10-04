@@ -1,5 +1,6 @@
 import { canonicalLocale, DEFAULT_LOCALE } from "../i18n/locale";
-import { foldDigits, numberFormat, numberSymbols } from "../i18n/format";
+import { numberFormat, numberSymbols } from "../i18n/format";
+import { parseWithSymbols } from "./parse";
 import type {
   NumberFieldContext,
   NumberFieldError,
@@ -25,10 +26,6 @@ export function decimalsOf(value: number): number {
   return dot === -1 ? 0 : text.length - dot - 1;
 }
 
-// Group separators typed with a plain or non-breaking space must all count
-// as the locale's space grouping, because keyboards produce different spaces.
-const SPACE_GROUPS = [" ", "\u00a0", "\u202f", "\u2009"];
-
 /**
  * Parse an editing string against the locale's symbols. This classifies the
  * grammar only; range and step checks live in {@link validate}. Accepted
@@ -36,39 +33,7 @@ const SPACE_GROUPS = [" ", "\u00a0", "\u202f", "\u2009"];
  * a trailing decimal separator.
  */
 export function parseNumber(text: string, locale: string): NumberParseResult {
-  const trimmed = text.trim();
-  if (trimmed === "") return { status: "empty", value: null, error: null };
-
-  const tag = canonicalLocale(locale);
-  const symbols = numberSymbols(tag);
-  // Formatters emit invisible direction marks around RTL numbers: they must
-  // never make a pasted or reformatted value unparseable.
-  let s = foldDigits(trimmed.replace(/[\u061c\u200e\u200f\u2066-\u2069]/g, ""), tag);
-
-  const groups = /\s/.test(symbols.group) ? SPACE_GROUPS : [symbols.group];
-  for (const group of groups) s = s.split(group).join("");
-  if (symbols.minusSign !== "-") s = s.split(symbols.minusSign).join("-");
-  // The typographic minus sign folds to the ASCII hyphen too.
-  s = s.split("\u2212").join("-");
-  if (symbols.decimal !== ".") s = s.split(symbols.decimal).join(".");
-
-  if (/^[-+]$/.test(s) || /^[-+]?\.$/.test(s)) {
-    return { status: "incomplete", value: null, error: null };
-  }
-  const complete = /^[-+]?(\d+(\.\d+)?|\.\d+)$/.test(s);
-  const trailingSeparator = /^[-+]?\d+\.$/.test(s);
-  if (!complete && !trailingSeparator) {
-    return { status: "invalid", value: null, error: "parse" };
-  }
-  const value = Number(s);
-  if (!Number.isFinite(value)) {
-    return { status: "invalid", value: null, error: "parse" };
-  }
-  return {
-    status: trailingSeparator ? "incomplete" : "valid",
-    value: Object.is(value, -0) ? 0 : value,
-    error: null,
-  };
+  return parseWithSymbols(text, numberSymbols(canonicalLocale(locale)));
 }
 
 /** Report why a parsed value violates the constraints, or `null`. */
