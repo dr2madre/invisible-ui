@@ -44,4 +44,10 @@ In Elements, `name` submits the ISO date with the form:
 <DatePicker value="2026-06-15" label="Event date" clearable />
 ```
 
+In React, `onValueChange` reports the picked date, or `null` when cleared:
+
+```tsx
+<DatePicker label="Event date" value={date} name="date" clearable onValueChange={setDate} />
+```
+
 Themeable via `--ds-date-picker-*` and the calendar's `--ds-calendar-*`.
