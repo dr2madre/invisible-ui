@@ -198,6 +198,104 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Loading",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "LoadingVariant",
+          "default": "\"dots\"",
+          "required": false,
+          "description": "Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing `typing` dots (waiting for a chat reply), a `morph`ing shape (square to circle), or a `bar` (a full-width track: place it at the top of the content it covers). For a whole surface that renders, use `LoadingGenerationArea`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Completion percentage (0 to 100) for the `bar` variant: the bar becomes determinate, a fill that grows to done, with progressbar semantics. Leave it `null` for the indeterminate sliding segment.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name. Defaults to the catalog's \"Loading…\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showLabel",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Also show the label as visible text next to the indicator.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the percentage (from `value`) as visible text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Extra visible detail, such as \"3 of 8 files\". On a determinate bar it is also the `aria-valuetext`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive technology (the surrounding region announces the state).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Live status message: what the process is doing now (\"Connecting…\", \"Fetching records…\"). It shows as text inside the polite `role=\"status\"` region and is announced in full on every change. On a determinate bar it shows below the track and is the `aria-valuetext` when no `detail` is set. Ignored when `decorative`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "No-flash delay in ms: the indicator stays hidden until this long has passed, so a fast operation never flashes a loader. Read once, when the component mounts. Default `0` (shown at once).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "overlay",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render as a centred overlay over the nearest positioned ancestor. Mark that region `aria-busy=\"true\"`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "veil",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "With `overlay`: a translucent backdrop that also blocks the pointer while busy. Set `false` to overlay the indicator alone.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

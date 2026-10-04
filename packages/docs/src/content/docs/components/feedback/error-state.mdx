@@ -99,4 +99,16 @@ DOM. The generated recovery action emits a bubbling `action` event:
 Use `slot="icon"` to replace the fallback icon and `slot="actions"` to
 compose multiple buttons or links. Unslotted children add supporting content.
 
+In React, `icon`, `actions` and `children` take markup, and `actions` also
+takes entries:
+
+```tsx
+<ErrorState
+  title="Couldn't connect to the server"
+  description="Check your connection and try again."
+  actionLabel="Try again"
+  onAction={retry}
+/>
+```
+
 Themeable via `--ds-error-state-*` (gap, padding, max-width, icon/title size).

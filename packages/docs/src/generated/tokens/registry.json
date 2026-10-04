@@ -14296,6 +14296,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14315,6 +14316,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state[data-size=\"sm\"]",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
+          "selector": ".empty-state",
+          "property": "gap",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state[data-size=\"sm\"]",
           "property": "gap",
           "fallback": "0.5rem"
@@ -14368,6 +14383,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14387,6 +14403,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
+          "selector": ".empty-state[data-size=\"sm\"] .empty-state__illustration",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state__illustration",
           "property": "--ds-feedback-icon-size",
           "fallback": "3.5rem"
@@ -14440,6 +14470,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14451,6 +14482,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state__illustration",
+          "property": "max-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state__illustration",
           "property": "max-inline-size",
           "fallback": "12rem"
@@ -14490,6 +14528,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14501,6 +14540,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state",
+          "property": "max-inline-size",
+          "fallback": "24rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state",
           "property": "max-inline-size",
           "fallback": "24rem"
@@ -14540,6 +14586,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14559,6 +14606,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state[data-size=\"sm\"]",
+          "property": "padding",
+          "fallback": "1.5rem 1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
+          "selector": ".empty-state",
+          "property": "padding",
+          "fallback": "3rem 1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state[data-size=\"sm\"]",
           "property": "padding",
           "fallback": "1.5rem 1rem"
@@ -14612,6 +14673,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14631,6 +14693,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/empty-state.css",
+          "selector": ".empty-state__title",
+          "property": "font-size",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
+          "selector": ".empty-state[data-size=\"sm\"] .empty-state__title",
+          "property": "font-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/empty-state.css",
           "selector": ".empty-state__title",
           "property": "font-size",
           "fallback": "1.25rem"
@@ -14684,6 +14760,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14703,6 +14780,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"]",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "gap",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
           "selector": ".error-state[data-size=\"sm\"]",
           "property": "gap",
           "fallback": "0.5rem"
@@ -14756,6 +14847,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14775,6 +14867,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__icon",
+          "property": "--ds-feedback-icon-size",
+          "fallback": "2.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
           "selector": ".error-state__icon",
           "property": "--ds-feedback-icon-size",
           "fallback": "3.5rem"
@@ -14828,6 +14934,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14839,6 +14946,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "max-inline-size",
+          "fallback": "24rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
           "selector": ".error-state",
           "property": "max-inline-size",
           "fallback": "24rem"
@@ -14878,6 +14992,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14897,6 +15012,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"]",
+          "property": "padding",
+          "fallback": "1.5rem 1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
+          "selector": ".error-state",
+          "property": "padding",
+          "fallback": "3rem 1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
           "selector": ".error-state[data-size=\"sm\"]",
           "property": "padding",
           "fallback": "1.5rem 1rem"
@@ -14950,6 +15079,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -14969,6 +15099,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/error-state.css",
+          "selector": ".error-state__title",
+          "property": "font-size",
+          "fallback": "1.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
+          "selector": ".error-state[data-size=\"sm\"] .error-state__title",
+          "property": "font-size",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/error-state.css",
           "selector": ".error-state__title",
           "property": "font-size",
           "fallback": "1.25rem"
@@ -18015,6 +18159,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18033,6 +18178,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-image",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-image",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area--field",
           "property": "background-image",
           "fallback": "1px"
@@ -18086,6 +18245,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18104,6 +18264,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-image",
+          "fallback": "2.5px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-image",
+          "fallback": "2.5px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area--field::after",
           "property": "background-image",
           "fallback": "2.5px"
@@ -18157,6 +18331,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18168,6 +18343,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "animation",
+          "fallback": "7s"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area--field::after",
           "property": "animation",
           "fallback": "7s"
@@ -18207,6 +18389,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18239,6 +18422,34 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area--field::after",
+          "property": "background-size",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area--field::after",
           "property": "background-size",
           "fallback": "1.1rem"
@@ -18320,6 +18531,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18331,6 +18543,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area",
+          "property": "min-block-size",
+          "fallback": "6rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area",
           "property": "min-block-size",
           "fallback": "6rem"
@@ -18370,6 +18589,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18381,6 +18601,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__content",
+          "property": "animation",
+          "fallback": "240ms"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area__content",
           "property": "animation",
           "fallback": "240ms"
@@ -18420,6 +18647,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18431,6 +18659,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
+          "property": "margin",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area__zone",
           "property": "margin",
           "fallback": "0.75rem"
@@ -18470,6 +18705,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18481,6 +18717,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
           "selector": ".loading-generation-area__zone",
           "property": "padding",
           "fallback": "0.5rem 0.75rem"
@@ -18606,6 +18849,13 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/loading.css",
           "selector": ".loading__status",
+          "property": "font-size",
+          "fallback": "0.8125em"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/loading-generation-area.css",
+          "selector": ".loading-generation-area__zone",
           "property": "font-size",
           "fallback": "0.8125em"
         },
@@ -21321,6 +21571,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21332,6 +21583,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/notification-region.css",
+          "selector": ".notification-region",
+          "property": "inline-size",
+          "fallback": "24rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/notification-region.css",
           "selector": ".notification-region",
           "property": "inline-size",
           "fallback": "24rem"
@@ -21372,6 +21630,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -21383,6 +21642,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/notification-region.css",
+          "selector": ".notification-region",
+          "property": "z-index",
+          "fallback": "1000"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/notification-region.css",
           "selector": ".notification-region",
           "property": "z-index",
           "fallback": "1000"

@@ -88,22 +88,19 @@ const REACT_SHEETS = [
   "code.css",
   "code-block.css",
   "scroll-area.css",
+  "notification-region.css",
+  "empty-state.css",
+  "error-state.css",
+  "loading-generation-area.css",
 ];
 
 const VUE_SHEETS = [
   "textarea.css",
   "table.css",
-  "feedback-icon.css",
-  "empty-state.css",
-  "error-state.css",
-  "inline-notification.css",
-  "loading-generation-area.css",
   "toolbar.css",
   "upload-drop-area.css",
   "login-form.css",
   "table-set.css",
-  "dialog-status.css",
-  "notification-region.css",
   "carousel.css",
 ];
 

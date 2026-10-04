@@ -5,7 +5,7 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 64 components today: Button, Checkbox, Switch,
+adapters, and carries 72 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
@@ -17,7 +17,9 @@ navigation and structure (Tabs, Accordion, Collapsible, Breadcrumb,
 Pagination, Stepper, Sidebar, TreeView, ButtonGroup and Separator), the
 presentational components (Avatar, AvatarGroup, Count, Tag, Kbd, Code,
 CodeBlock, Blockquote, Skeleton, AspectRatio, ScrollArea, Progress, Meter,
-Link, Label, Field and Card), Icon and LocaleProvider. See item 14 in
+Link, Label, Field and Card), feedback (Loading, LoadingGenerationArea,
+FeedbackIcon, EmptyState, ErrorState, InlineNotification, Notification and
+NotificationRegion), Icon and LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -126,6 +128,12 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   or association shows at once. `useScrollArea` measures the viewport on
   scroll and resize and maps a thumb drag onto the native scroll. Field's
   control comes from a function child that receives `controlProps`.
+- **`createNotifier`** holds the notification queue apart from rendering. It
+  is an external store (`subscribe` and `getSnapshot`, the shape
+  `useSyncExternalStore` takes), so the region and any component of yours
+  read the same list. `NotificationRegion` holds new notifications while a
+  modal dialog is open (ADR 0016); the dialog family registers its panels so
+  the region knows.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 
@@ -140,7 +148,8 @@ same public surface, closed and open dialogs and open overlays included, and
 fails on React hydration mismatches or recoverable errors.
 The Combobox and the overlays render their body-level portals only after
 hydration, keeping the server and initial client trees identical before
-moving the popup into its runtime layer.
+moving the popup into its runtime layer. `NotificationRegion` renders
+nothing on the server and mounts in `<body>` once hydrated.
 
 ## Notes
 

@@ -40,7 +40,7 @@ notifier. `show()` and the status shorthands return the id that `update()` and
 
 ### Messages while a dialog is open
 
-In Elements, Svelte and Vue, the region holds new notifications while any modal
+In Elements, Svelte, Vue and React, the region holds new notifications while any modal
 dialog is open in the document, including a native `<dialog>` opened with
 `showModal()`
 ([ADR 0016](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0016-feedback-while-a-dialog-is-open.md)).
@@ -48,13 +48,13 @@ They are neither shown nor announced until the last modal closes; then they
 appear in order and their auto-dismiss countdowns start. Notifications already
 on screen when a modal opens stay, with their countdowns held, and a change
 to one of them shows after the modal closes. The region always mounts in
-`<body>`, even when it sits inside a dialog. In Svelte and Vue, the
+`<body>`, even when it sits inside a dialog. In Svelte, Vue and React, the
 notifier's list still holds the waiting notifications.
 
 A message about the dialog's own task belongs in the dialog: call `notify()`
-on the dialog (the element, the Svelte instance or the Vue template ref) to
-show it in the dialog's status area. A message that needs a decision now
-opens a dialog on top. React has no notification region yet.
+on the dialog (the element, the Svelte instance, the Vue template ref or the
+React handle) to show it in the dialog's status area. A message that needs a
+decision now opens a dialog on top.
 
 ```svelte
 <script lang="ts">
@@ -110,6 +110,26 @@ opens a dialog on top. React has no notification region yet.
 <Button onpress={() => notifier.show({ status: "success", title: "Saved" })}>
   Save
 </Button>
+```
+
+In React, create the notifier once, outside the component tree, and pass it
+to the region. The region renders in the browser only, through a portal into
+`<body>`. Read the list with `useSyncExternalStore(notifier.subscribe,
+notifier.getSnapshot)` when a component needs it.
+
+```tsx
+import { Button, createNotifier, NotificationRegion } from "@design-system/react";
+
+const notifier = createNotifier();
+
+export function App() {
+  return (
+    <>
+      <NotificationRegion notifier={notifier} placement="bottom-center" />
+      <Button onPress={() => notifier.success("Saved")}>Save</Button>
+    </>
+  );
+}
 ```
 
 Themeable via `--ds-notice-*` and `--ds-elevation-overlay`.

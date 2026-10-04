@@ -121,6 +121,13 @@ Elements exposes the same variants and progress semantics through attributes:
 ></ds-loading>
 ```
 
+In React:
+
+```tsx
+{busy ? <Loading variant="spinner" delay={150} /> : null}
+<Loading variant="bar" value={48} label="Importing files" showValue detail="3 of 8 files" />
+```
+
 Set `decorative` only when the surrounding control or busy region already
 announces the operation. Use `status` for discrete live updates and `delay` to
 avoid flashing the indicator for fast operations.

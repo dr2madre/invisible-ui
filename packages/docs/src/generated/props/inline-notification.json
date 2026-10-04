@@ -368,6 +368,192 @@
         "link"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "InlineNotification",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "status",
+          "type": "FeedbackStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Heading; it names the notification.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Body text. `children` replace it with rich content.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Link href. When set, and no `link` is given, a link renders.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "linkText",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Link text. Defaults to the catalog's \"Learn more\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "InlineNotificationAction[] | ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Action buttons as data, or markup of your own.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render the close button. Defaults to `false`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Close button name. Defaults to the catalog's \"Close\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether it shows. Closing hides it and reports `false` through `onOpenChange`; set it back to `true` to show it again.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the close button hides the notification.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "role",
+          "type": "\"status\" | \"alert\" | \"region\" | \"group\"",
+          "default": "\"status\"",
+          "required": false,
+          "description": "`\"status\"` (polite live region, default) or `\"alert\"` (urgent). `\"region\"` makes a named landmark. `\"group\"` is for a notification that a live region elsewhere announces, as in a dialog's status area (ADR 0016): it is named by its title and is not a live region itself.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "A high-contrast surface, the opposite of the page.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "plain",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "No surface: no tint and no border; the coloured icon chip shows the status.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "iconShape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Shape of the icon box: `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "iconBox",
+          "type": "\"tint\" | \"transparent\" | \"solid\"",
+          "default": null,
+          "required": false,
+          "description": "Icon box override. By default the box is tinted on a plain or inverted notification and transparent on a tinted surface; set `\"tint\"` or `\"solid\"` to force a chip there too.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "snack",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Snackbar layout: one compact row with the icon, the title and inline actions; the body is left out. Meant for the floating `Notification`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "component",
+          "type": "ComponentType<any>",
+          "default": null,
+          "required": false,
+          "description": "A component rendered as the body in place of `description` and `children`, with `componentProps`, so a notifier given data can carry rich content. Ignored in the `snack` layout.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "componentProps",
+          "type": "Record<string, unknown>",
+          "default": null,
+          "required": false,
+          "description": "Props passed to `component`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called after the close button hid the notification.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A custom glyph for the icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "link",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Link markup of your own, in place of the `href` link.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Rich body content, in place of `description`.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

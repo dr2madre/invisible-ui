@@ -85,6 +85,14 @@ loading-to-content contract:
 </script>
 ```
 
+In React, `indicator` and `children` take markup:
+
+```tsx
+<LoadingGenerationArea loading={pending} status="Generating image" value={progress}>
+  <img src={url} alt="Generated image" />
+</LoadingGenerationArea>
+```
+
 ### Props
 
 <PropsTable component="loading-generation-area" />

@@ -102,9 +102,8 @@ message goes depends on what it is about
 3. **Unrelated, and it needs a decision now:** a dialog on top, which takes
    focus and gives it back to the dialog below when it closes.
 
-The custom elements, Svelte and Vue implement all three today. React
-implements the status area and the dialogs on top, and has no notification
-region yet. Every dialog in the family has `notify()`,
+The custom elements, Svelte, Vue and React implement all three today. Every
+dialog in the family has `notify()`,
 `dismissNotice(id)` and `clearNotices()`. A notice looks like an Inline
 Notification, is announced once through a polite live region, never takes
 focus, and is cleared when the dialog closes. `notify()` on a closed dialog

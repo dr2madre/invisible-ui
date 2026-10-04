@@ -7,6 +7,7 @@ import { useDialogHandle, type DialogHandle } from "../dialog/use-dialog-handle"
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
 import { Kbd } from "../kbd/Kbd";
+import { Loading } from "../loading/Loading";
 import { useSearchDialog, type SearchDialogItem } from "./use-search-dialog";
 
 export interface SearchDialogProps {
@@ -70,17 +71,10 @@ const searchIcon = (
   </span>
 );
 
-// The Loading indicator's decorative dots, with the other adapters' markup:
-// the results status region announces the state.
+// Decorative: the results status region announces the state.
 const loadingIndicator = (
   <div className="search-dialog__loading">
-    <span className="loading" data-variant="dots" aria-hidden="true">
-      <span className="loading__indicator">
-        <span className="loading__dot" />
-        <span className="loading__dot" />
-        <span className="loading__dot" />
-      </span>
-    </span>
+    <Loading decorative />
   </div>
 );
 

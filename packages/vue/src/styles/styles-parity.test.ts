@@ -93,17 +93,17 @@ const SHARED_SHEETS = [
   "code.css",
   "code-block.css",
   "scroll-area.css",
+  "notification-region.css",
+  "empty-state.css",
+  "error-state.css",
+  "loading-generation-area.css",
 ];
 
 const VUE_SOURCE_SHEETS = [
   "textarea.css",
-  "notification-region.css",
   "table.css",
   "toolbar.css",
   "hover-card.css",
-  "empty-state.css",
-  "error-state.css",
-  "loading-generation-area.css",
   "login-form.css",
   "upload-drop-area.css",
   "carousel.css",

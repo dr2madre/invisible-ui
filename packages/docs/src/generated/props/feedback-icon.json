@@ -88,6 +88,56 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "FeedbackIcon",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "status",
+          "type": "FeedbackStatus",
+          "default": "\"info\"",
+          "required": false,
+          "description": "Feedback status: `info` | `success` | `warning` | `danger` | `neutral`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name. When omitted the box is decorative (`aria-hidden`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "box",
+          "type": "\"tint\" | \"transparent\" | \"solid\"",
+          "default": "\"tint\"",
+          "required": false,
+          "description": "Box treatment behind the glyph: - `\"tint\"` (default): a soft status-coloured chip. - `\"transparent\"`: the coloured glyph alone. Use it on surfaces that are already tinted, such as an Inline Notification, so the chip does not clash. - `\"solid\"`: a full status-coloured box with a contrasting glyph.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "shape",
+          "type": "\"rounded\" | \"round\"",
+          "default": "\"rounded\"",
+          "required": false,
+          "description": "Box shape: `\"rounded\"` (default) or a full `\"round\"` circle.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A custom glyph, shown in place of the built-in one.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

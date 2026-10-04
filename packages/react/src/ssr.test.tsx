@@ -126,6 +126,21 @@ const fixtures: Record<string, ReactElement> = {
     </adapter.Field>
   ),
   Card: <adapter.Card title="Revenue" variant="dashboard" value="€48k" />,
+  FeedbackIcon: <adapter.FeedbackIcon status="success" label="Done" />,
+  Loading: <adapter.Loading variant="bar" value={40} label="Upload" />,
+  LoadingGenerationArea: <adapter.LoadingGenerationArea status="Rendering…" value={40} />,
+  EmptyState: <adapter.EmptyState title="No projects yet" actionLabel="Add a project" />,
+  ErrorState: <adapter.ErrorState title="Couldn't load" actionLabel="Try again" />,
+  InlineNotification: (
+    <adapter.InlineNotification title="Heads up" description="Details." href="/docs" closable />
+  ),
+  Notification: <adapter.Notification title="Saved" text="All good" duration={3000} />,
+  // The region renders in the browser only; the wrapper gives the check markup.
+  NotificationRegion: (
+    <div>
+      <adapter.NotificationRegion notifier={adapter.createNotifier()} />
+    </div>
+  ),
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />
@@ -221,5 +236,15 @@ describe("React adapter SSR — i18n determinism", () => {
     );
     expect(arabic).toContain('dir="rtl"');
     expect(arabic).toContain('lang="ar-EG"');
+  });
+});
+
+describe("React adapter SSR: the notification region", () => {
+  // The region mounts in <body> through a portal, which waits for the
+  // browser: the server renders none of it, queued notifications included.
+  it("renders nothing on the server", () => {
+    const notifier = adapter.createNotifier();
+    notifier.info("Welcome back");
+    expect(renderToString(<adapter.NotificationRegion notifier={notifier} />)).toBe("");
   });
 });

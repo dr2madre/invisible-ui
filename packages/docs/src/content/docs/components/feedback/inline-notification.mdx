@@ -63,6 +63,20 @@ Elements uses light DOM for rich body content and the `icon`, `link`, and
 ></ds-inline-notification>
 ```
 
+In React, `icon`, `link`, `actions` and `children` take markup, and
+`actions` also takes entries. `open` with `onOpenChange` controls it:
+
+```tsx
+<InlineNotification
+  status="danger"
+  title="Payment failed"
+  description="The card was declined."
+  actions={[{ label: "Retry", variant: "primary", onClick: retry }]}
+  closable
+  onClose={() => track("payment-error-dismissed")}
+/>
+```
+
 Use `role="alert"` only for urgent feedback that should interrupt the current
 announcement. The default `role="status"` remains polite.
 

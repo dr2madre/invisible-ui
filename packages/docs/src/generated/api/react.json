@@ -402,6 +402,51 @@
       "signature": "interface DropdownMenuProps { /** Visible text of the trigger, and the menu's accessible name. */ label: string; /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; }"
     },
     {
+      "name": "EmptyState",
+      "kind": "function",
+      "signature": "declare function EmptyState({ title, description, status, headingLevel, actionLabel, onAction, actions, size, illustration, children, }: EmptyStateProps): react.JSX.Element;"
+    },
+    {
+      "name": "EmptyStateAction",
+      "kind": "type",
+      "signature": "EmptyStateAction = interface StateAction { label: string; onAction?: () => void; variant?: ButtonVariant; /** Renders the entry as a `Link` pointing here. */ href?: string; /** Browsing context for a link entry, such as `\"_blank\"`. */ target?: string; }"
+    },
+    {
+      "name": "EmptyStateProps",
+      "kind": "interface",
+      "signature": "interface EmptyStateProps { /** The headline: what this space is for, in plain language. */ title: string; /** Optional secondary line: detail or the suggested next step. */ description?: string; /** Feedback status driving the fallback icon's colour and glyph. */ status?: FeedbackStatus; /** Heading level for the title, so it fits the surrounding document outline. */ headingLevel?: 1 | 2 | 3 | 4 | 5 | 6; /** Action button label (such as \"Add a project\"). Omit it to render no button. */ actionLabel?: string; /** Called when the action button is pressed. */ onAction?: () => void; /** * The action area: entries, or markup of your own. An entry with `href` * renders a `Link`; the others render `Button`s, the first `default` and the * rest `ghost` unless an entry sets its own `variant`. Takes precedence over * `actionLabel`. */ actions?: EmptyStateAction[] | ReactNode; /** Density: `md` for pages and sections, `sm` inside cards, panels and tables. */ size?: \"md\" | \"sm\"; /** Artwork of your own, in place of the fallback `FeedbackIcon`. */ illustration?: ReactNode; /** Extra content between the description and the actions. */ children?: ReactNode; }"
+    },
+    {
+      "name": "ErrorState",
+      "kind": "function",
+      "signature": "declare function ErrorState({ title, description, status, headingLevel, actionLabel, onAction, actions, size, icon, children, }: ErrorStateProps): react.JSX.Element;"
+    },
+    {
+      "name": "ErrorStateAction",
+      "kind": "type",
+      "signature": "ErrorStateAction = interface StateAction { label: string; onAction?: () => void; variant?: ButtonVariant; /** Renders the entry as a `Link` pointing here. */ href?: string; /** Browsing context for a link entry, such as `\"_blank\"`. */ target?: string; }"
+    },
+    {
+      "name": "ErrorStateProps",
+      "kind": "interface",
+      "signature": "interface ErrorStateProps { /** The headline: what went wrong, in plain language. */ title: string; /** Optional secondary line: detail or next step. */ description?: string; /** Feedback status driving the default icon's colour and glyph. */ status?: FeedbackStatus; /** Heading level for the title, so it fits the surrounding document outline. */ headingLevel?: 1 | 2 | 3 | 4 | 5 | 6; /** Recovery button label (such as \"Try again\"). Omit it to render no button. */ actionLabel?: string; /** Called when the recovery button is pressed. */ onAction?: () => void; /** * The action area: entries, or markup of your own. An entry with `href` * renders a `Link`; the others render `Button`s, the first `default` and the * rest `ghost` unless an entry sets its own `variant`. Takes precedence over * `actionLabel`. */ actions?: ErrorStateAction[] | ReactNode; /** Density: `md` for pages and sections, `sm` inside cards, panels and tables. */ size?: \"md\" | \"sm\"; /** A glyph or artwork of your own, in place of the status `FeedbackIcon`. */ icon?: ReactNode; /** Extra content between the description and the actions. */ children?: ReactNode; }"
+    },
+    {
+      "name": "FeedbackIcon",
+      "kind": "function",
+      "signature": "declare function FeedbackIcon({ status, label, box, shape, children, }: FeedbackIconProps): react.JSX.Element;"
+    },
+    {
+      "name": "FeedbackIconProps",
+      "kind": "interface",
+      "signature": "interface FeedbackIconProps { /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */ status?: FeedbackStatus; /** Accessible name. When omitted the box is decorative (`aria-hidden`). */ label?: string; /** * Box treatment behind the glyph: * - `\"tint\"` (default): a soft status-coloured chip. * - `\"transparent\"`: the coloured glyph alone. Use it on surfaces that are * already tinted, such as an Inline Notification, so the chip does not * clash. * - `\"solid\"`: a full status-coloured box with a contrasting glyph. */ box?: \"tint\" | \"transparent\" | \"solid\"; /** Box shape: `\"rounded\"` (default) or a full `\"round\"` circle. */ shape?: \"rounded\" | \"round\"; /** A custom glyph, shown in place of the built-in one. */ children?: ReactNode; }"
+    },
+    {
+      "name": "FeedbackStatus",
+      "kind": "type",
+      "signature": "type FeedbackStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
       "name": "Field",
       "kind": "function",
       "signature": "declare function Field({ label, description, error, required, disabled, id, children, }: FieldProps): react.JSX.Element;"
@@ -437,6 +482,21 @@
       "signature": "interface IconProps { /** Rendered size; `1em` by default so icons scale with the surrounding text. */ size?: string; viewBox?: string; /** Stroke width in viewBox units (glyphs are stroke-based by default). */ strokeWidth?: number | string; /** Accessible name. When omitted the icon is decorative (`aria-hidden`). */ label?: string; /** Extra classes merged onto the `<svg>` (e.g. for stateful styling). */ className?: string; /** The glyph itself: `<path>`, `<line>`, `<polyline>`, … */ children?: ReactNode; }"
     },
     {
+      "name": "InlineNotification",
+      "kind": "function",
+      "signature": "declare function InlineNotification({ status, title, description, href, linkText, actions, closable, closeLabel, open, onOpenChange, role, inverted, plain, iconShape, iconBox, snack, component: Body, componentProps, onClose, icon, link, children, }: InlineNotificationProps): react.JSX.Element | null;"
+    },
+    {
+      "name": "InlineNotificationAction",
+      "kind": "interface",
+      "signature": "interface InlineNotificationAction { label: string; variant?: ButtonVariant; onClick?: () => void; }"
+    },
+    {
+      "name": "InlineNotificationProps",
+      "kind": "interface",
+      "signature": "interface InlineNotificationProps { /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */ status?: FeedbackStatus; /** Heading; it names the notification. */ title: string; /** Body text. `children` replace it with rich content. */ description: string; /** Link href. When set, and no `link` is given, a link renders. */ href?: string; /** Link text. Defaults to the catalog's \"Learn more\". */ linkText?: string; /** Action buttons as data, or markup of your own. */ actions?: InlineNotificationAction[] | ReactNode; /** Render the close button. Defaults to `false`. */ closable?: boolean; /** Close button name. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** * Whether it shows. Closing hides it and reports `false` through * `onOpenChange`; set it back to `true` to show it again. */ open?: boolean; /** Called when the close button hides the notification. */ onOpenChange?: (open: boolean) => void; /** * `\"status\"` (polite live region, default) or `\"alert\"` (urgent). * `\"region\"` makes a named landmark. `\"group\"` is for a notification that a * live region elsewhere announces, as in a dialog's status area (ADR 0016): * it is named by its title and is not a live region itself. */ role?: \"status\" | \"alert\" | \"region\" | \"group\"; /** A high-contrast surface, the opposite of the page. */ inverted?: boolean; /** No surface: no tint and no border; the coloured icon chip shows the status. */ plain?: boolean; /** Shape of the icon box: `\"rounded\"` (default) or a full `\"round\"` circle. */ iconShape?: \"rounded\" | \"round\"; /** * Icon box override. By default the box is tinted on a plain or inverted * notification and transparent on a tinted surface; set `\"tint\"` or * `\"solid\"` to force a chip there too. */ iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** * Snackbar layout: one compact row with the icon, the title and inline * actions; the body is left out. Meant for the floating `Notification`. */ snack?: boolean; /** * A component rendered as the body in place of `description` and * `children`, with `componentProps`, so a notifier given data can carry rich * content. Ignored in the `snack` layout. */ component?: ComponentType<any>; /** Props passed to `component`. */ componentProps?: Record<string, unknown>; /** Called after the close button hid the notification. */ onClose?: () => void; /** A custom glyph for the icon. */ icon?: ReactNode; /** Link markup of your own, in place of the `href` link. */ link?: ReactNode; /** Rich body content, in place of `description`. */ children?: ReactNode; }"
+    },
+    {
       "name": "Kbd",
       "kind": "function",
       "signature": "declare function Kbd({ keys, separator, children }: KbdProps): react.JSX.Element;"
@@ -470,6 +530,36 @@
       "name": "LinkVariant",
       "kind": "type",
       "signature": "type LinkVariant = \"primary\" | \"subtle\";"
+    },
+    {
+      "name": "Loading",
+      "kind": "function",
+      "signature": "declare function Loading({ variant, value, label, showLabel, showValue, detail, decorative, status, delay, overlay, veil, }: LoadingProps): react.JSX.Element | null;"
+    },
+    {
+      "name": "LoadingGenerationArea",
+      "kind": "function",
+      "signature": "declare function LoadingGenerationArea({ label, decorative, loading, field, labelPosition, status, value, detail, indicator, children, }: LoadingGenerationAreaProps): react.JSX.Element;"
+    },
+    {
+      "name": "LoadingGenerationAreaPosition",
+      "kind": "type",
+      "signature": "type LoadingGenerationAreaPosition = \"center\" | \"top\" | \"bottom\" | \"left\" | \"right\";"
+    },
+    {
+      "name": "LoadingGenerationAreaProps",
+      "kind": "interface",
+      "signature": "interface LoadingGenerationAreaProps { /** Accessible name. Defaults to the catalog's \"Loading…\". */ label?: string; /** Hide from assistive technology (the surrounding region announces the state). */ decorative?: boolean; /** * Whether the process is still running. While `true` (default) the loading * placeholder shows; set it to `false` when done and `children` (the real * content) render in its place. */ loading?: boolean; /** Show the dot field as the backdrop. */ field?: boolean; /** Where the label and indicator zone sits over the area. */ labelPosition?: LoadingGenerationAreaPosition; /** Live status message, announced on every change. */ status?: string; /** Percentage (0 to 100), shown as \"N%\". */ value?: number | null; /** Extra detail line, such as \"48 MB of 128 MB\" or \"3 of 8 files\". */ detail?: string; /** A loader shown in the label zone, such as a spinner when `field` is off. */ indicator?: ReactNode; /** The real content, rendered once `loading` is `false`. */ children?: ReactNode; }"
+    },
+    {
+      "name": "LoadingProps",
+      "kind": "interface",
+      "signature": "interface LoadingProps { /** * Indicator shape: pulsing `dots`, a rotating `spinner` arc, bouncing * `typing` dots (waiting for a chat reply), a `morph`ing shape (square to * circle), or a `bar` (a full-width track: place it at the top of the * content it covers). For a whole surface that renders, use * `LoadingGenerationArea`. */ variant?: LoadingVariant; /** * Completion percentage (0 to 100) for the `bar` variant: the bar becomes * determinate, a fill that grows to done, with progressbar semantics. * Leave it `null` for the indeterminate sliding segment. */ value?: number | null; /** Accessible name. Defaults to the catalog's \"Loading…\". */ label?: string; /** Also show the label as visible text next to the indicator. */ showLabel?: boolean; /** Show the percentage (from `value`) as visible text. */ showValue?: boolean; /** * Extra visible detail, such as \"3 of 8 files\". On a determinate bar it is * also the `aria-valuetext`. */ detail?: string; /** Hide from assistive technology (the surrounding region announces the state). */ decorative?: boolean; /** * Live status message: what the process is doing now (\"Connecting…\", * \"Fetching records…\"). It shows as text inside the polite `role=\"status\"` * region and is announced in full on every change. On a determinate bar it * shows below the track and is the `aria-valuetext` when no `detail` is * set. Ignored when `decorative`. */ status?: string; /** * No-flash delay in ms: the indicator stays hidden until this long has * passed, so a fast operation never flashes a loader. Read once, when the * component mounts. Default `0` (shown at once). */ delay?: number; /** * Render as a centred overlay over the nearest positioned ancestor. Mark * that region `aria-busy=\"true\"`. */ overlay?: boolean; /** * With `overlay`: a translucent backdrop that also blocks the pointer while * busy. Set `false` to overlay the indicator alone. */ veil?: boolean; }"
+    },
+    {
+      "name": "LoadingVariant",
+      "kind": "type",
+      "signature": "type LoadingVariant = \"dots\" | \"spinner\" | \"bar\" | \"typing\" | \"morph\";"
     },
     {
       "name": "LocaleProvider",
@@ -575,6 +665,66 @@
       "name": "NavigationMenuProps",
       "kind": "interface",
       "signature": "interface NavigationMenuProps { /** Accessible name for the navigation landmark. */ label: string; items: NavigationMenuItem[]; /** The open item's value, or `null`; initial / controlled. */ value?: string | null; /** Called whenever the user opens, switches or closes a panel. */ onValueChange?: (value: string | null) => void; }"
+    },
+    {
+      "name": "Notification",
+      "kind": "function",
+      "signature": "declare function Notification({ status, title, text, duration, closable, role, actions, inverted, snack, component, componentProps, iconShape, iconBox, onClose, paused, icon, }: NotificationProps): react.JSX.Element;"
+    },
+    {
+      "name": "NotificationAction",
+      "kind": "interface",
+      "signature": "interface NotificationAction { label: string; variant?: ButtonVariant; /** Run when the action is pressed. */ onClick?: () => void; /** Keep the notification open after the action runs. Defaults to `false` (dismiss). */ keepOpen?: boolean; }"
+    },
+    {
+      "name": "NotificationDismissReason",
+      "kind": "type",
+      "signature": "type NotificationDismissReason = \"user\" | \"timeout\" | \"action\" | \"api\";"
+    },
+    {
+      "name": "NotificationItem",
+      "kind": "interface",
+      "signature": "interface NotificationItem extends NotificationOptions { id: string; }"
+    },
+    {
+      "name": "NotificationOptions",
+      "kind": "interface",
+      "signature": "interface NotificationOptions { /** * Stable id. Pass one to `show()` to replace a live notification in place * (\"Saving…\", then \"Saved\") instead of stacking a new one; omit it and one * is generated. */ id?: string; status?: NotificationStatus; title?: string; /** Body text. */ text?: string; /** * Auto-dismiss delay in ms. `0` (default) keeps the notification until it * is dismissed. A snack with no close button sets one, so it always leaves. */ duration?: number; /** Whether to render the close button. Defaults to `true`. */ closable?: boolean; /** Live-region role: `\"status\"` (polite, default) or `\"alert\"` (urgent). */ role?: \"status\" | \"alert\"; /** Action buttons. */ actions?: NotificationAction[]; /** A high-contrast surface, for short outcomes that auto-dismiss. */ inverted?: boolean; /** Snackbar layout: one compact row with the icon, the title and an inline action. */ snack?: boolean; /** Shape of the icon box: `\"rounded\"` (default) or a full `\"round\"` circle. */ iconShape?: \"rounded\" | \"round\"; /** Icon box override (see `InlineNotification`). */ iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** Rich content: a component rendered as the body in place of `text`. */ component?: ComponentType<any>; /** Props for `component`. */ componentProps?: Record<string, unknown>; /** * Called once when the notification closes, with the reason: the close * button, a swipe, the timeout, an action, `dismiss()` or `clear()`. A * `show()` that replaces it under the same id does not call it. */ onDismiss?: (reason: NotificationDismissReason) => void; }"
+    },
+    {
+      "name": "NotificationPlacement",
+      "kind": "type",
+      "signature": "type NotificationPlacement = \"top-start\" | \"top-center\" | \"top-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\";"
+    },
+    {
+      "name": "NotificationPromiseMessages",
+      "kind": "interface",
+      "signature": "interface NotificationPromiseMessages<T> { loading: string; success: string | ((data: T) => string); error: string | ((error: unknown) => string); /** Auto-dismiss delay for the settled notification. Defaults to `0` (persistent). */ duration?: number; }"
+    },
+    {
+      "name": "NotificationProps",
+      "kind": "interface",
+      "signature": "interface NotificationProps { /** Feedback status: `info` | `success` | `warning` | `danger` | `neutral`. */ status?: NotificationStatus; title?: string; text?: string; /** Auto-dismiss delay in ms, opt-in. `0` (default) keeps it until closed. */ duration?: number; closable?: boolean; role?: \"status\" | \"alert\"; actions?: NotificationAction[]; /** A high-contrast surface, for short outcomes that auto-dismiss. */ inverted?: boolean; /** Snackbar layout: one compact row (icon, title, inline action), no body text. */ snack?: boolean; /** Rich body: a component rendered in place of `text` (ignored in `snack`). */ component?: ComponentType<any>; /** Props for `component`. */ componentProps?: Record<string, unknown>; /** Shape of the icon box: `\"rounded\"` (default) or a full `\"round\"` circle. */ iconShape?: \"rounded\" | \"round\"; /** Icon box override (see `InlineNotification`). */ iconBox?: \"tint\" | \"transparent\" | \"solid\"; /** Called when the notification closes, with the reason (timeout, user or action). */ onClose?: (reason: NotificationDismissReason) => void; /** * Hold the auto-dismiss countdown. The region sets it while the stack is * hovered or focused, so a burst of notifications pauses together. */ paused?: boolean; /** A custom glyph for the icon. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "NotificationRegion",
+      "kind": "function",
+      "signature": "declare function NotificationRegion({ notifier, placement, label, maxVisible, inset, swipeable, duration, exitDuration, }: NotificationRegionProps): react.ReactPortal | null;"
+    },
+    {
+      "name": "NotificationRegionProps",
+      "kind": "interface",
+      "signature": "interface NotificationRegionProps { /** The notifier whose queue this region renders. */ notifier: Notifier; placement?: NotificationPlacement; /** Accessible name for the region landmark. Defaults to the catalog's \"Notifications\". */ label?: string; /** * Optional cap on notifications rendered at once. `0` (default) means no * count cap: the pile fills the window height and the oldest are clipped at * the far edge. */ maxVisible?: number; /** Distance from the viewport edges, as a CSS length. Default `1rem`. */ inset?: string; /** Allow swiping a notification away (pointer and touch). Default `true`. */ swipeable?: boolean; /** Enter and reflow duration in ms. */ duration?: number; /** Leave duration in ms. Defaults to 1.75 times `duration`, a gentler exit. */ exitDuration?: number; }"
+    },
+    {
+      "name": "NotificationStatus",
+      "kind": "type",
+      "signature": "type NotificationStatus = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";"
+    },
+    {
+      "name": "Notifier",
+      "kind": "interface",
+      "signature": "interface Notifier { /** * Listen for changes to the list; returns the unsubscribe. With * `getSnapshot`, the shape `useSyncExternalStore` takes. */ subscribe: (listener: () => void) => () => void; /** * The active notifications, oldest first, including the ones a region holds * back while a modal dialog is open. A new array after every change. */ getSnapshot: () => readonly NotificationItem[]; /** * Queue a notification; returns its id. When `options.id` matches a live * notification, that one is replaced in place (no new entry, no `onDismiss`). */ show: (options?: NotificationOptions) => string; /** Shorthand for `show({ status: \"info\", title, ...options })`. */ info: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"success\", title, ...options })`. */ success: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"warning\", title, ...options })`. */ warning: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"danger\", title, ...options })`. */ danger: (title: string, options?: StatusOptions) => string; /** Shorthand for `show({ status: \"neutral\", title, ...options })`. */ neutral: (title: string, options?: StatusOptions) => string; /** Update a notification in place. */ update: (id: string, patch: NotificationOptions) => void; /** Remove a notification by id, calling its `onDismiss` with the reason (default `\"api\"`). */ dismiss: (id: string, reason?: NotificationDismissReason) => void; /** Remove every notification, calling each `onDismiss(\"api\")`. */ clear: () => void; /** * Show a loading notification tied to a promise, then turn it into success * or error when the promise settles. Returns the original promise. */ promise: <T>(promise: Promise<T>, messages: NotificationPromiseMessages<T>) => Promise<T>; }"
     },
     {
       "name": "NumberField",
@@ -880,6 +1030,11 @@
       "name": "SliderProps",
       "kind": "interface",
       "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "StatusOptions",
+      "kind": "type",
+      "signature": "type StatusOptions = Omit<NotificationOptions, \"status\" | \"title\">;"
     },
     {
       "name": "StepDescriptor",
@@ -1300,6 +1455,11 @@
       "name": "WeekStart",
       "kind": "type",
       "signature": "type WeekStart = calendar.WeekStart;"
+    },
+    {
+      "name": "createNotifier",
+      "kind": "function",
+      "signature": "declare function createNotifier(): Notifier;"
     },
     {
       "name": "en",

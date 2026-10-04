@@ -121,5 +121,19 @@ Use `slot="illustration"` to replace the fallback artwork and `slot="actions"`
 to compose multiple buttons or links. Unslotted children add supporting
 content.
 
+In React, `illustration`, `actions` and `children` take markup, and
+`actions` also takes entries:
+
+```tsx
+<EmptyState
+  title="No projects yet"
+  description="Create your first project to get started."
+  actions={[
+    { label: "Add a project", onAction: createProject },
+    { label: "Learn more", href: "/docs/projects" },
+  ]}
+/>
+```
+
 Themeable via `--ds-empty-state-*` (gap, padding, max-width, icon size,
 illustration max-width, title size).

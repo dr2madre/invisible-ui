@@ -166,6 +166,80 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "NotificationRegion",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "notifier",
+          "type": "Notifier",
+          "default": null,
+          "required": true,
+          "description": "The notifier whose queue this region renders.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placement",
+          "type": "NotificationPlacement",
+          "default": "\"top-end\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the region landmark. Defaults to the catalog's \"Notifications\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "maxVisible",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Optional cap on notifications rendered at once. `0` (default) means no count cap: the pile fills the window height and the oldest are clipped at the far edge.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "inset",
+          "type": "string",
+          "default": "\"1rem\"",
+          "required": false,
+          "description": "Distance from the viewport edges, as a CSS length. Default `1rem`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "swipeable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Allow swiping a notification away (pointer and touch). Default `true`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "200",
+          "required": false,
+          "description": "Enter and reflow duration in ms.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "exitDuration",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Leave duration in ms. Defaults to 1.75 times `duration`, a gentler exit.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
