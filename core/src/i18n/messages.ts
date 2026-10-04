@@ -121,6 +121,9 @@ export const en = {
   "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
   "contextMenu.label": "Context menu",
+  // The hint a submenu trigger carries on a platform whose semantics have no
+  // "opens a menu" property (the Flutter adapter, docs/menu-submenu-spec.md).
+  "menu.submenu": "submenu",
   // The sidebar's landmark name.
   "sidebar.label": "Main",
   "sidebar.collapse": "Collapse the navigation",

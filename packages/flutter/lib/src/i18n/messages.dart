@@ -12,6 +12,9 @@ class InvisibleMessages {
   /// Creates a message set, English unless a field is given.
   const InvisibleMessages({
     this.loadingLabel = 'Loading…',
+    this.submenuHint = 'submenu',
+    this.closeLabel = 'Close',
+    this.notificationRegionLabel = 'Notifications',
     this.numberFieldIncrement = 'Increase {label}',
     this.numberFieldDecrement = 'Decrease {label}',
     this.numberFieldParseError = 'Enter a number.',
@@ -22,6 +25,18 @@ class InvisibleMessages {
 
   /// Announced while a control is busy. Catalog key `loading.label`.
   final String loadingLabel;
+
+  /// The hint of a menu item that opens a submenu. Catalog key
+  /// `menu.submenu`.
+  final String submenuHint;
+
+  /// The name of a notification's close button. Catalog key
+  /// `inlineNotification.close`.
+  final String closeLabel;
+
+  /// The name of the notification region. Catalog key
+  /// `notificationRegion.label`.
+  final String notificationRegionLabel;
 
   /// The name of a number field's increment button, with `{label}`.
   /// Catalog key `numberField.increment`.
@@ -57,6 +72,9 @@ class InvisibleMessages {
   /// A copy with the given messages replaced.
   InvisibleMessages copyWith({
     String? loadingLabel,
+    String? submenuHint,
+    String? closeLabel,
+    String? notificationRegionLabel,
     String? numberFieldIncrement,
     String? numberFieldDecrement,
     String? numberFieldParseError,
@@ -66,6 +84,10 @@ class InvisibleMessages {
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
+      submenuHint: submenuHint ?? this.submenuHint,
+      closeLabel: closeLabel ?? this.closeLabel,
+      notificationRegionLabel:
+          notificationRegionLabel ?? this.notificationRegionLabel,
       numberFieldIncrement: numberFieldIncrement ?? this.numberFieldIncrement,
       numberFieldDecrement: numberFieldDecrement ?? this.numberFieldDecrement,
       numberFieldParseError:
@@ -83,6 +105,9 @@ class InvisibleMessages {
   bool operator ==(Object other) =>
       other is InvisibleMessages &&
       other.loadingLabel == loadingLabel &&
+      other.submenuHint == submenuHint &&
+      other.closeLabel == closeLabel &&
+      other.notificationRegionLabel == notificationRegionLabel &&
       other.numberFieldIncrement == numberFieldIncrement &&
       other.numberFieldDecrement == numberFieldDecrement &&
       other.numberFieldParseError == numberFieldParseError &&
@@ -93,6 +118,9 @@ class InvisibleMessages {
   @override
   int get hashCode => Object.hash(
     loadingLabel,
+    submenuHint,
+    closeLabel,
+    notificationRegionLabel,
     numberFieldIncrement,
     numberFieldDecrement,
     numberFieldParseError,

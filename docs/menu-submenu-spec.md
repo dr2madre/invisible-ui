@@ -12,8 +12,10 @@ Status: decided (see [Decisions taken](#decisions-taken)). The `core/`
 part is implemented: the `submenu` entry, the open path and the keyboard map
 in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
 grace-area and placement functions in `core/src/internal`. The React
-adapter renders submenus (see [React](#react)); the Svelte, Vue, custom
-element and Flutter adapters do not render them yet.
+adapter renders submenus (see [React](#react)), and the Flutter adapter
+renders them in its Dropdown Menu, on the shared menu layer in
+`packages/flutter/lib/src/menu`, running the shared vectors. The Svelte, Vue
+and custom element adapters do not render them yet.
 
 ## Pattern
 
