@@ -110,6 +110,31 @@ Future<void> pumpFocus(WidgetTester tester) async {
   await tester.pump();
 }
 
+/// Every tap target is at least 24 by 24, the WCAG 2.5.8 minimum and the
+/// target of the compact and regular densities.
+const MinimumTapTargetGuideline targetGuideline24 = MinimumTapTargetGuideline(
+  size: Size(24, 24),
+  link: 'https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum',
+);
+
+/// Every tap target is at least 44 by 44, the target of the touch density.
+const MinimumTapTargetGuideline targetGuideline44 = MinimumTapTargetGuideline(
+  size: Size(44, 44),
+  link:
+      'https://developer.apple.com/design/human-interface-guidelines/accessibility',
+);
+
+/// Gives focus to the focusable widget around [finder], as Tab or an arrow
+/// would.
+Future<void> focusOn(WidgetTester tester, Finder finder) async {
+  Focus.of(tester.element(finder)).requestFocus();
+  await pumpFocus(tester);
+}
+
+/// Whether the focusable widget around [finder] has focus.
+bool focusedOn(WidgetTester tester, Finder finder) =>
+    Focus.of(tester.element(finder)).hasPrimaryFocus;
+
 /// Matches a semantics node that has at least the given properties.
 ///
 /// One place for the matcher that Flutter 3.40 renamed to `isSemantics`, so

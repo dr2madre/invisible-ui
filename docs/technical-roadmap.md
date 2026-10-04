@@ -163,19 +163,25 @@ Each item ships as its own PR. Checkboxes track progress.
   Radio Group (`RadioButtonGroup`, since the widgets library has a
   `RadioGroup`), Segmented Control, Select, Combobox and Popover, then the
   dates: Calendar (month and two-month views, single and range), Date
-  Picker, Date Range Picker and Time Field, each with its parity checklist
-  in `packages/flutter/parity/`, and the `flutter.yml` workflow. The number
+  Picker, Date Range Picker and Time Field, then the disclosures and
+  navigation: Collapsible, Accordion, Tabs (automatic and manual
+  activation, both orientations), Breadcrumb, Pagination and Link (opened
+  through the app's callback), and Progress and Meter, each with its parity
+  checklist in `packages/flutter/parity/`, and the `flutter.yml` workflow.
+  The number
   field's logic answers the shared test vectors in
   `core/src/number-field/__vectors__`, the select typeahead and collection
   navigation those in `core/src/select/__vectors__`, the calendar grid,
   keys, bounds, ranges and localized names those in
   `core/src/calendar/__vectors__`, and the time field's parsing, bounds and
-  key sequences those in `core/src/time-field/__vectors__`, read by the
-  core and the Flutter tests. Every component of the first wave in ADR 0017
-  is in. Of what follows it, Card and Timelog's dialogs, forms, pickers and
-  Date Picker are in; the rest of wave 2 (the navigation bar) and
-  Collapsible and the specs for the section header and the colour swatch
-  are next.
+  key sequences those in `core/src/time-field/__vectors__`, and the tabs
+  keyboard model, the accordion toggles, the pagination page lists and the
+  progress and meter readings those in `core/src/tabs`, `accordion`,
+  `pagination`, `progress` and `meter`, read by the core and the Flutter
+  tests. Every component of the first wave in ADR 0017 is in. Of what
+  follows it, Card, Collapsible and Timelog's dialogs, forms, pickers and
+  Date Picker are in; the rest of wave 2 (the navigation bar) and the specs
+  for the section header and the colour swatch are next.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27

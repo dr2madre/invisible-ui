@@ -103,6 +103,14 @@ void main() {
         messages.timeFieldRangeOverflow,
         _english('timeField.rangeOverflow'),
       );
+      expect(messages.collapsibleToggle, _english('collapsible.toggle'));
+      expect(messages.paginationLabel, _english('pagination.label'));
+      expect(messages.paginationPrevious, _english('pagination.previous'));
+      expect(messages.paginationNext, _english('pagination.next'));
+      expect(messages.paginationPage, _english('pagination.page'));
+      expect(messages.paginationCurrent, _english('pagination.current'));
+      expect(messages.breadcrumbLabel, _english('breadcrumb.label'));
+      expect(messages.breadcrumbCurrent, _english('breadcrumb.current'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

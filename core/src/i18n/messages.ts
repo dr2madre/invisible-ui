@@ -117,12 +117,18 @@ export const en = {
   "pagination.previous": "Go to previous page",
   "pagination.next": "Go to next page",
   "pagination.page": "Go to page {page}",
+  // Read with the current page on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "pagination.current": "current page",
   "rating.stars": {
     one: "{count} star",
     other: "{count} stars",
   },
   "pinInput.cell": "Character {index} of {length}",
   "breadcrumb.label": "Breadcrumb",
+  // Read with the trail's current page on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "breadcrumb.current": "current page",
   "contextMenu.label": "Context menu",
   // The hint a submenu trigger carries on a platform whose semantics have no
   // "opens a menu" property (the Flutter adapter, docs/menu-submenu-spec.md).

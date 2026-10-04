@@ -1,0 +1,54 @@
+{
+  "description": "Accordion toggles, language-neutral: toggleValue(state, toggle) from core/src/accordion/state.ts, for a state whose expanded set is `value`. type defaults to single and collapsible to true. expect is the expanded set afterwards, in order. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "toggles": [
+    { "name": "Single: opening a section", "value": [], "toggle": "a", "expect": ["a"] },
+    {
+      "name": "Single: opening another closes the open one",
+      "value": ["a"],
+      "toggle": "b",
+      "expect": ["b"]
+    },
+    {
+      "name": "Single and collapsible: the open section closes",
+      "value": ["a"],
+      "toggle": "a",
+      "expect": []
+    },
+    {
+      "name": "Single, not collapsible: the open section stays open",
+      "value": ["a"],
+      "toggle": "a",
+      "collapsible": false,
+      "expect": ["a"]
+    },
+    {
+      "name": "Single, not collapsible: another section still replaces it",
+      "value": ["a"],
+      "toggle": "b",
+      "collapsible": false,
+      "expect": ["b"]
+    },
+    {
+      "name": "Multiple: opening adds the section at the end",
+      "value": ["b"],
+      "toggle": "a",
+      "type": "multiple",
+      "expect": ["b", "a"]
+    },
+    {
+      "name": "Multiple: closing removes only that section",
+      "value": ["a", "b", "c"],
+      "toggle": "b",
+      "type": "multiple",
+      "expect": ["a", "c"]
+    },
+    {
+      "name": "Multiple: the last open section closes, whatever collapsible says",
+      "value": ["a"],
+      "toggle": "a",
+      "type": "multiple",
+      "collapsible": false,
+      "expect": []
+    }
+  ]
+}
