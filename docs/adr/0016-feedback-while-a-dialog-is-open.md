@@ -12,7 +12,7 @@ React implements it for the components it has.
 | Elements | Implemented. |
 | Svelte | Implemented. |
 | Vue | Implemented. |
-| React | Implemented for the dialog family (Dialog, Sheet Dialog and the Alert, Confirm, Prompt and Search presets: status area, dialogs on top) and Button (`copy`). React has no notification region yet: case 2 applies when the region is ported. |
+| React | Implemented for the dialog family (Dialog, Sheet Dialog and the Alert, Confirm, Prompt and Search presets: status area, dialogs on top) and Button (`copy`). Popover, Tooltip, the menus and Navigation Menu render inside the dialog their trigger sits in, and a menu returns focus to its trigger before an item opens a dialog. React has no notification region yet: case 2 applies when the region is ported. |
 
 ## Context
 

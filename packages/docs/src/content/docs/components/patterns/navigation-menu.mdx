@@ -35,6 +35,20 @@ In Elements, assign the items as a property:
 </script>
 ```
 
+In React, `value` names the open panel, initially or controlled, and
+`onValueChange` reports what the user opens:
+
+```tsx
+<NavigationMenu
+  label="Main"
+  items={[
+    { value: "products", label: "Products", links: [{ label: "Analytics", href: "/analytics" }] },
+    { value: "pricing", label: "Pricing", href: "/pricing" },
+  ]}
+  onValueChange={(value) => track(value)}
+/>
+```
+
 ### Props
 
 <PropsTable component="navigation-menu" />

@@ -19,6 +19,46 @@ const fixtures: Record<string, ReactElement> = {
   PromptDialog: <adapter.PromptDialog title="Rename file" label="File name" />,
   SheetDialog: <adapter.SheetDialog title="Filters">Sheet body</adapter.SheetDialog>,
   SearchDialog: <adapter.SearchDialog items={[{ value: "save", label: "Save" }]} />,
+  Popover: <adapter.Popover triggerContent="Details">Popover body</adapter.Popover>,
+  Tooltip: (
+    <adapter.Tooltip text="Copy to clipboard">
+      <button type="button">Copy</button>
+    </adapter.Tooltip>
+  ),
+  DropdownMenu: (
+    <adapter.DropdownMenu
+      label="Actions"
+      items={[
+        { value: "rename", label: "Rename" },
+        {
+          type: "submenu",
+          value: "share",
+          label: "Share",
+          items: [{ value: "email", label: "Email" }],
+        },
+      ]}
+    />
+  ),
+  ContextMenu: (
+    <adapter.ContextMenu items={[{ value: "reload", label: "Reload" }]}>
+      <p>Region</p>
+    </adapter.ContextMenu>
+  ),
+  Menubar: (
+    <adapter.Menubar
+      label="Main"
+      menus={[{ value: "file", label: "File", items: [{ value: "new", label: "New" }] }]}
+    />
+  ),
+  NavigationMenu: (
+    <adapter.NavigationMenu
+      label="Site"
+      items={[
+        { value: "docs", label: "Docs", links: [{ label: "Guide", href: "#guide" }] },
+        { value: "blog", label: "Blog", href: "#blog" },
+      ]}
+    />
+  ),
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />
@@ -70,6 +110,32 @@ describe("React adapter SSR: the dialog family opened on the server", () => {
     const html = renderToString(element);
     expect(html).toContain("<dialog");
     expect(html).toContain('aria-modal="true"');
+  });
+});
+
+describe("React adapter SSR: overlays open on the server", () => {
+  // A portalled overlay waits for the browser, so an open one renders its
+  // trigger on the server, stated open, and no panel.
+  it.each([
+    [
+      "Popover",
+      <adapter.Popover key="p" open triggerContent="Details">
+        Body
+      </adapter.Popover>,
+    ],
+    [
+      "NavigationMenu",
+      <adapter.NavigationMenu
+        key="n"
+        label="Site"
+        value="docs"
+        items={[{ value: "docs", label: "Docs", links: [{ label: "Guide", href: "#guide" }] }]}
+      />,
+    ],
+  ])("server-renders an open %s as its trigger", (_, element) => {
+    const html = renderToString(element);
+    expect(html).toContain('aria-expanded="true"');
+    expect(html).not.toContain("Guide");
   });
 });
 

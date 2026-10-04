@@ -166,6 +166,96 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Popover",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "trigger",
+          "type": "\"click\" | \"hover\"",
+          "default": "\"click\"",
+          "required": false,
+          "description": "Opening contract: an intentional click, or a hover and focus preview.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "triggerVariant",
+          "type": "ButtonVariant",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Visual variant for the trigger Button (`trigger=\"click\"` only).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Initial / controlled open state.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placement",
+          "type": "Placement",
+          "default": "\"bottom\"",
+          "required": false,
+          "description": "Preferred placement of the panel.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "Delay before opening on hover, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "200",
+          "required": false,
+          "description": "Delay before closing on leave, in ms (`trigger=\"hover\"` only).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Name for the panel. Defaults to being named by the trigger.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the user opens or closes the panel.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "triggerContent",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger button's content (defaults to the catalog's label), or the focusable trigger element itself in hover mode.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The card.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

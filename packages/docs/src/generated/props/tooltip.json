@@ -88,6 +88,56 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Tooltip",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Tooltip label text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placement",
+          "type": "Placement",
+          "default": "\"top\"",
+          "required": false,
+          "description": "Preferred placement; flips when there is no room.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "default": "300",
+          "required": false,
+          "description": "Delay before showing on hover, in ms.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "Delay before hiding on leave, in ms.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The trigger: wrap a focusable element.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
