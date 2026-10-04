@@ -124,6 +124,13 @@ describe("i18n — translate", () => {
     expect(translate(catalog, {}, "en", "missing.key")).toBe("missing.key");
   });
 
+  it("carries today's marker for platforms with no current-date semantics", () => {
+    expect(translate(catalog, {}, "en", "calendar.current")).toBe("today");
+    expect(translate(catalog, { "calendar.current": "oggi" }, "it", "calendar.current")).toBe(
+      "oggi",
+    );
+  });
+
   it("carries the submenu hint for platforms with no popup semantics", () => {
     expect(translate(catalog, {}, "en", "menu.submenu")).toBe("submenu");
     expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(

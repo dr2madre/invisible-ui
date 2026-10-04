@@ -11,8 +11,9 @@ components listed below: Button, the form fields (Field, TextField,
 Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
 Menu, Popover), the feedback widgets (the notifications, Loading,
 EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
-ConfirmDialog) and the choice controls (Checkbox, CheckboxGroup, Switch,
-RadioButtonGroup, SegmentedControl, Select, Combobox). Names and APIs can
+ConfirmDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
+RadioButtonGroup, SegmentedControl, Select, Combobox) and the dates
+(Calendar, DatePicker, DateRangePicker, TimeField). Names and APIs can
 still change. It is not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
@@ -148,6 +149,10 @@ NumberField(
 | Select | Matched, with adaptations listed | [parity/select.md](parity/select.md) | [Select](https://dr2madre.github.io/invisible-ui/components/forms/select/) |
 | Combobox | Matched, with adaptations listed | [parity/combobox.md](parity/combobox.md) | [Combobox](https://dr2madre.github.io/invisible-ui/components/forms/combobox/) |
 | Popover | Matched, with adaptations listed | [parity/popover.md](parity/popover.md) | [Popover](https://dr2madre.github.io/invisible-ui/components/data-layout/popover/) |
+| Calendar | Matched for the month and two-month views, with adaptations listed | [parity/calendar.md](parity/calendar.md) | [Calendar](https://dr2madre.github.io/invisible-ui/components/forms/calendar/) |
+| DatePicker | Matched, with adaptations listed | [parity/date-picker.md](parity/date-picker.md) | [Date Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-picker/) |
+| DateRangePicker | Matched, with adaptations listed | [parity/date-range-picker.md](parity/date-range-picker.md) | [Date Range Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-range-picker/) |
+| TimeField | Matched, with adaptations listed | [parity/time-field.md](parity/time-field.md) | [Time Field](https://dr2madre.github.io/invisible-ui/components/forms/time-field/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -158,9 +163,11 @@ read by `test/number_format_test.dart` in a checkout of the whole
 repository.
 
 The menus also run the shared test vectors in `core/src/menu/__vectors__`,
-and Select, Combobox and the radio-style groups the typeahead and
-navigation vectors in `core/src/select/__vectors__`, which the `core/`
-tests run too.
+Select, Combobox and the radio-style groups the typeahead and navigation
+vectors in `core/src/select/__vectors__`, the calendar the grid, key,
+bound, range and name vectors in `core/src/calendar/__vectors__`, and the
+time field the parsing, bound and key sequence vectors in
+`core/src/time-field/__vectors__`, which the `core/` tests run too.
 
 The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
 Combobox) need an `Overlay` above them, as
@@ -241,6 +248,43 @@ Combobox<String>(
   dialog Escape closes the popover first.
 - **RadioButtonGroup** is the web's RadioGroup: the widgets library has a
   `RadioGroup` of its own.
+
+### Dates
+
+```dart
+DatePicker(
+  label: 'Day',
+  value: day, // a DateTime; only its year, month and day count
+  min: DateTime(2026),
+  weekStartsOn: DateTime.monday,
+  clearable: true,
+  onChanged: (next) => setState(() => day = next), // local midnight, or null
+)
+
+TimeField(
+  label: 'Start',
+  value: start, // '09:30', 24-hour, whatever the display
+  onChanged: (next) => setState(() => start = next), // null while incomplete
+  onChangeEnd: save, // focus leaves the field, or Enter
+)
+```
+
+- **Values.** Dates are `DateTime` calendar days: the time of day is
+  ignored, and the widgets report local midnight, as Flutter's own date
+  pickers do. `DateRangePicker` and `Calendar.range` take a `DateRange`,
+  its `end` null while the range is half made. A time is the canonical
+  24-hour string, `HH:mm` or `HH:mm:ss`, so a stored value never depends
+  on the locale.
+- **Names.** Month and weekday names, the field's date and the hour cycle
+  come from `DateSymbols.forLocale`: the CLDR data of 23 locales in the
+  Gregorian calendar, checked against `Intl` by the core tests through the
+  shared vectors. Pass `symbols:` for any other locale. Names come from the
+  calendar day, so the device's time zone never shifts them.
+- **Calendar.** `Calendar` shows one month or two (`CalendarView`); the week
+  and agenda views of the web calendar are not carried.
+- **Time field.** Digits type with auto-advance, Escape puts back the last
+  finished value, and a time outside `min` and `max` is reported, never
+  clamped. On touch, a vertical drag on a segment steps it.
 
 An app that also imports Material hides its widgets of the same name:
 `import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Switch, TextField, Tooltip;`.

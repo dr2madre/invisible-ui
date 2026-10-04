@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import '../choice/choice_item.dart';
 import '../field/field.dart';
 import '../internal/collection.dart';
-import '../internal/focus_ring.dart';
+import '../internal/field_button.dart';
 import '../internal/glyphs.dart';
 import '../internal/listbox.dart';
 import '../internal/text_box.dart';
@@ -13,7 +13,6 @@ import '../internal/value_control.dart';
 import '../theme/theme.dart';
 
 // Sizes the web Combobox sets in its own stylesheet.
-const double _buttonSide = 24;
 const double _buttonGap = 4;
 
 /// Picks the items that match a query; [Combobox.filter].
@@ -450,7 +449,7 @@ class _ComboboxState<T> extends State<Combobox<T>>
                           ? const Glyph(GlyphShape.search)
                           : chosenIcon,
                       actions: [
-                        _FieldButton(
+                        FieldButton(
                           label: widget.clearLabel ?? messages.comboboxClear,
                           visible: clearable,
                           focusable: true,
@@ -458,7 +457,7 @@ class _ComboboxState<T> extends State<Combobox<T>>
                           child: const Glyph(GlyphShape.close),
                         ),
                         const SizedBox(width: _buttonGap),
-                        _FieldButton(
+                        FieldButton(
                           label: open
                               ? messages.comboboxHide
                               : messages.comboboxShow,
@@ -477,105 +476,6 @@ class _ComboboxState<T> extends State<Combobox<T>>
           },
         );
       },
-    );
-  }
-}
-
-/// A small button inside the field: the clear button, a tab stop while it
-/// has something to clear, and the chevron, which only a pointer uses. A
-/// hidden button keeps its place, so the text never jumps.
-class _FieldButton extends StatefulWidget {
-  const _FieldButton({
-    required this.label,
-    required this.visible,
-    required this.focusable,
-    required this.onPressed,
-    required this.child,
-    this.enabled = true,
-  });
-
-  final String label;
-  final bool visible;
-  final bool focusable;
-  final bool enabled;
-  final void Function({required bool keyboard}) onPressed;
-  final Widget child;
-
-  @override
-  State<_FieldButton> createState() => _FieldButtonState();
-}
-
-class _FieldButtonState extends State<_FieldButton> {
-  bool _focusVisible = false;
-
-  static const Map<ShortcutActivator, Intent> _shortcuts = {
-    SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-    SingleActivator(LogicalKeyboardKey.numpadEnter): ActivateIntent(),
-    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-  };
-
-  late final Map<Type, Action<Intent>> _actions = {
-    ActivateIntent: CallbackAction<ActivateIntent>(
-      onInvoke: (_) => widget.onPressed(keyboard: true),
-    ),
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = InvisibleTheme.of(context);
-    final active = widget.visible && widget.enabled;
-    final side = MediaQuery.textScalerOf(context).scale(_buttonSide);
-    final target = theme.minTargetSize;
-    final body = ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: target.width,
-        minHeight: target.height,
-      ),
-      child: Center(
-        widthFactor: 1,
-        heightFactor: 1,
-        child: FocusRingPainter(
-          visible: _focusVisible && active,
-          ring: theme.focusRing,
-          radius: theme.controlRadius,
-          child: SizedBox.square(
-            dimension: side,
-            child: Center(child: widget.child),
-          ),
-        ),
-      ),
-    );
-    if (!active) {
-      return ExcludeSemantics(
-        child: Visibility(
-          visible: widget.visible,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: body,
-        ),
-      );
-    }
-    return Semantics(
-      container: true,
-      button: true,
-      label: widget.label,
-      onTap: () => widget.onPressed(keyboard: false),
-      child: ExcludeSemantics(
-        child: FocusableActionDetector(
-          enabled: widget.focusable,
-          shortcuts: _shortcuts,
-          actions: _actions,
-          mouseCursor: SystemMouseCursors.click,
-          onShowFocusHighlight: (value) =>
-              setState(() => _focusVisible = value),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => widget.onPressed(keyboard: false),
-            child: body,
-          ),
-        ),
-      ),
     );
   }
 }
