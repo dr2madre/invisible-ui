@@ -30,9 +30,16 @@ enum GlyphShape {
   /// A chevron pointing down: a closed menu trigger.
   chevronDown,
 
-  /// A chevron pointing to the inline-end: a submenu trigger. It mirrors
-  /// under right-to-left.
+  /// A chevron pointing to the inline-end: a submenu trigger, a calendar's
+  /// next button. It mirrors under right-to-left.
   chevronEnd,
+
+  /// A chevron pointing to the inline-start: a calendar's previous button.
+  /// It mirrors under right-to-left.
+  chevronStart,
+
+  /// A calendar page: a date field.
+  calendar,
 
   /// A tick: a checked menu item or checkbox.
   check,
@@ -79,7 +86,7 @@ class Glyph extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = _glyphStyle(context);
     final mirror =
-        shape == GlyphShape.chevronEnd &&
+        (shape == GlyphShape.chevronEnd || shape == GlyphShape.chevronStart) &&
         Directionality.of(context) == TextDirection.rtl;
     return CustomPaint(
       size: Size.square(style.size),
@@ -127,6 +134,20 @@ class _GlyphPainter extends CustomPainter {
       ],
       GlyphShape.chevronEnd => [
         _polyline([9, 6, 15, 12, 9, 18]),
+      ],
+      GlyphShape.chevronStart => [
+        _polyline([15, 6, 9, 12, 15, 18]),
+      ],
+      GlyphShape.calendar => [
+        Path()..addRRect(
+          RRect.fromRectAndRadius(
+            const Rect.fromLTWH(3, 4, 18, 18),
+            const Radius.circular(2),
+          ),
+        ),
+        _line(16, 2, 16, 6),
+        _line(8, 2, 8, 6),
+        _line(3, 10, 21, 10),
       ],
       GlyphShape.check || GlyphShape.success => [
         _polyline([20, 6, 9, 17, 4, 12]),

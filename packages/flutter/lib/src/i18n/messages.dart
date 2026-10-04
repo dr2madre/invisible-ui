@@ -34,6 +34,31 @@ class InvisibleMessages {
     this.comboboxShow = 'Show options',
     this.comboboxHide = 'Close options',
     this.popoverTriggerLabel = 'Open',
+    this.calendarLabel = 'Calendar',
+    this.calendarPrevious = 'Previous',
+    this.calendarNext = 'Next',
+    this.calendarToday = 'Today',
+    this.calendarCurrent = 'today',
+    this.calendarRangeStart = 'range start',
+    this.calendarRangeEnd = 'range end',
+    this.datePickerLabel = 'Date',
+    this.datePickerPlaceholder = 'Select a date',
+    this.datePickerClear = 'Clear date',
+    this.dateRangePickerLabel = 'Date range',
+    this.dateRangePickerPlaceholder = 'Select a range',
+    this.dateRangePickerClear = 'Clear range',
+    this.timeFieldLabel = 'Time',
+    this.timeFieldHour = 'Hour',
+    this.timeFieldMinute = 'Minute',
+    this.timeFieldSecond = 'Second',
+    this.timeFieldDayPeriod = 'AM/PM',
+    this.timeFieldEmpty = 'Empty',
+    this.timeFieldInvalidFormat = 'Enter a time in the expected format.',
+    this.timeFieldOutOfRange = 'Enter a time within the allowed range.',
+    this.timeFieldSecondsRequired = 'Enter hours, minutes, and seconds.',
+    this.timeFieldSecondsNotAllowed = 'Enter hours and minutes only.',
+    this.timeFieldRangeUnderflow = 'Enter a time no earlier than {min}.',
+    this.timeFieldRangeOverflow = 'Enter a time no later than {max}.',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -123,6 +148,106 @@ class InvisibleMessages {
   /// Catalog key `dialog.trigger`.
   final String popoverTriggerLabel;
 
+  /// The name of a calendar's day grid. Catalog key
+  /// `calendar.label`.
+  final String calendarLabel;
+
+  /// The name of a calendar's previous-month button. Catalog key
+  /// `calendar.previous`.
+  final String calendarPrevious;
+
+  /// The name of a calendar's next-month button. Catalog key
+  /// `calendar.next`.
+  final String calendarNext;
+
+  /// The text of a calendar's Today button. Catalog key
+  /// `calendar.today`.
+  final String calendarToday;
+
+  /// Appended to the name of today's date. Catalog key
+  /// `calendar.current`.
+  final String calendarCurrent;
+
+  /// Appended to the name of the first day of a selected range. Catalog key
+  /// `calendar.rangeStart`.
+  final String calendarRangeStart;
+
+  /// Appended to the name of the last day of a selected range. Catalog key
+  /// `calendar.rangeEnd`.
+  final String calendarRangeEnd;
+
+  /// The label of a date picker given none. Catalog key
+  /// `datePicker.label`.
+  final String datePickerLabel;
+
+  /// Shown by an empty date picker. Catalog key
+  /// `datePicker.placeholder`.
+  final String datePickerPlaceholder;
+
+  /// The name of a date picker's clear button. Catalog key
+  /// `datePicker.clear`.
+  final String datePickerClear;
+
+  /// The label of a date range picker given none. Catalog key
+  /// `dateRangePicker.label`.
+  final String dateRangePickerLabel;
+
+  /// Shown by an empty date range picker. Catalog key
+  /// `dateRangePicker.placeholder`.
+  final String dateRangePickerPlaceholder;
+
+  /// The name of a date range picker's clear button. Catalog key
+  /// `dateRangePicker.clear`.
+  final String dateRangePickerClear;
+
+  /// The label of a time field given none. Catalog key
+  /// `timeField.label`.
+  final String timeFieldLabel;
+
+  /// The name of a time field's hour segment. Catalog key
+  /// `timeField.hour`.
+  final String timeFieldHour;
+
+  /// The name of a time field's minute segment. Catalog key
+  /// `timeField.minute`.
+  final String timeFieldMinute;
+
+  /// The name of a time field's second segment. Catalog key
+  /// `timeField.second`.
+  final String timeFieldSecond;
+
+  /// The name of a time field's AM/PM segment. Catalog key
+  /// `timeField.dayPeriod`.
+  final String timeFieldDayPeriod;
+
+  /// The value read for an empty time segment. Catalog key
+  /// `timeField.empty`.
+  final String timeFieldEmpty;
+
+  /// Shown when a time value is not in the expected format. Catalog key
+  /// `timeField.invalidFormat`.
+  final String timeFieldInvalidFormat;
+
+  /// Shown when a time value has a segment out of its range. Catalog key
+  /// `timeField.outOfRange`.
+  final String timeFieldOutOfRange;
+
+  /// Shown when a time value lacks the seconds the field needs. Catalog key
+  /// `timeField.secondsRequired`.
+  final String timeFieldSecondsRequired;
+
+  /// Shown when a time value has seconds the field does not take. Catalog key
+  /// `timeField.secondsNotAllowed`.
+  final String timeFieldSecondsNotAllowed;
+
+  /// Shown when a time is before the minimum, with `{min}`. Catalog key
+  /// `timeField.rangeUnderflow`.
+  final String timeFieldRangeUnderflow;
+
+  /// Shown when a time is after the maximum, with `{max}`. Catalog key
+  /// `timeField.rangeOverflow`.
+  final String timeFieldRangeOverflow;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -155,6 +280,31 @@ class InvisibleMessages {
     String? comboboxShow,
     String? comboboxHide,
     String? popoverTriggerLabel,
+    String? calendarLabel,
+    String? calendarPrevious,
+    String? calendarNext,
+    String? calendarToday,
+    String? calendarCurrent,
+    String? calendarRangeStart,
+    String? calendarRangeEnd,
+    String? datePickerLabel,
+    String? datePickerPlaceholder,
+    String? datePickerClear,
+    String? dateRangePickerLabel,
+    String? dateRangePickerPlaceholder,
+    String? dateRangePickerClear,
+    String? timeFieldLabel,
+    String? timeFieldHour,
+    String? timeFieldMinute,
+    String? timeFieldSecond,
+    String? timeFieldDayPeriod,
+    String? timeFieldEmpty,
+    String? timeFieldInvalidFormat,
+    String? timeFieldOutOfRange,
+    String? timeFieldSecondsRequired,
+    String? timeFieldSecondsNotAllowed,
+    String? timeFieldRangeUnderflow,
+    String? timeFieldRangeOverflow,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -185,6 +335,38 @@ class InvisibleMessages {
       comboboxShow: comboboxShow ?? this.comboboxShow,
       comboboxHide: comboboxHide ?? this.comboboxHide,
       popoverTriggerLabel: popoverTriggerLabel ?? this.popoverTriggerLabel,
+      calendarLabel: calendarLabel ?? this.calendarLabel,
+      calendarPrevious: calendarPrevious ?? this.calendarPrevious,
+      calendarNext: calendarNext ?? this.calendarNext,
+      calendarToday: calendarToday ?? this.calendarToday,
+      calendarCurrent: calendarCurrent ?? this.calendarCurrent,
+      calendarRangeStart: calendarRangeStart ?? this.calendarRangeStart,
+      calendarRangeEnd: calendarRangeEnd ?? this.calendarRangeEnd,
+      datePickerLabel: datePickerLabel ?? this.datePickerLabel,
+      datePickerPlaceholder:
+          datePickerPlaceholder ?? this.datePickerPlaceholder,
+      datePickerClear: datePickerClear ?? this.datePickerClear,
+      dateRangePickerLabel: dateRangePickerLabel ?? this.dateRangePickerLabel,
+      dateRangePickerPlaceholder:
+          dateRangePickerPlaceholder ?? this.dateRangePickerPlaceholder,
+      dateRangePickerClear: dateRangePickerClear ?? this.dateRangePickerClear,
+      timeFieldLabel: timeFieldLabel ?? this.timeFieldLabel,
+      timeFieldHour: timeFieldHour ?? this.timeFieldHour,
+      timeFieldMinute: timeFieldMinute ?? this.timeFieldMinute,
+      timeFieldSecond: timeFieldSecond ?? this.timeFieldSecond,
+      timeFieldDayPeriod: timeFieldDayPeriod ?? this.timeFieldDayPeriod,
+      timeFieldEmpty: timeFieldEmpty ?? this.timeFieldEmpty,
+      timeFieldInvalidFormat:
+          timeFieldInvalidFormat ?? this.timeFieldInvalidFormat,
+      timeFieldOutOfRange: timeFieldOutOfRange ?? this.timeFieldOutOfRange,
+      timeFieldSecondsRequired:
+          timeFieldSecondsRequired ?? this.timeFieldSecondsRequired,
+      timeFieldSecondsNotAllowed:
+          timeFieldSecondsNotAllowed ?? this.timeFieldSecondsNotAllowed,
+      timeFieldRangeUnderflow:
+          timeFieldRangeUnderflow ?? this.timeFieldRangeUnderflow,
+      timeFieldRangeOverflow:
+          timeFieldRangeOverflow ?? this.timeFieldRangeOverflow,
     );
   }
 
@@ -213,7 +395,32 @@ class InvisibleMessages {
       other.comboboxEmpty == comboboxEmpty &&
       other.comboboxShow == comboboxShow &&
       other.comboboxHide == comboboxHide &&
-      other.popoverTriggerLabel == popoverTriggerLabel;
+      other.popoverTriggerLabel == popoverTriggerLabel &&
+      other.calendarLabel == calendarLabel &&
+      other.calendarPrevious == calendarPrevious &&
+      other.calendarNext == calendarNext &&
+      other.calendarToday == calendarToday &&
+      other.calendarCurrent == calendarCurrent &&
+      other.calendarRangeStart == calendarRangeStart &&
+      other.calendarRangeEnd == calendarRangeEnd &&
+      other.datePickerLabel == datePickerLabel &&
+      other.datePickerPlaceholder == datePickerPlaceholder &&
+      other.datePickerClear == datePickerClear &&
+      other.dateRangePickerLabel == dateRangePickerLabel &&
+      other.dateRangePickerPlaceholder == dateRangePickerPlaceholder &&
+      other.dateRangePickerClear == dateRangePickerClear &&
+      other.timeFieldLabel == timeFieldLabel &&
+      other.timeFieldHour == timeFieldHour &&
+      other.timeFieldMinute == timeFieldMinute &&
+      other.timeFieldSecond == timeFieldSecond &&
+      other.timeFieldDayPeriod == timeFieldDayPeriod &&
+      other.timeFieldEmpty == timeFieldEmpty &&
+      other.timeFieldInvalidFormat == timeFieldInvalidFormat &&
+      other.timeFieldOutOfRange == timeFieldOutOfRange &&
+      other.timeFieldSecondsRequired == timeFieldSecondsRequired &&
+      other.timeFieldSecondsNotAllowed == timeFieldSecondsNotAllowed &&
+      other.timeFieldRangeUnderflow == timeFieldRangeUnderflow &&
+      other.timeFieldRangeOverflow == timeFieldRangeOverflow;
 
   @override
   int get hashCode => Object.hashAll([
@@ -240,5 +447,30 @@ class InvisibleMessages {
     comboboxShow,
     comboboxHide,
     popoverTriggerLabel,
+    calendarLabel,
+    calendarPrevious,
+    calendarNext,
+    calendarToday,
+    calendarCurrent,
+    calendarRangeStart,
+    calendarRangeEnd,
+    datePickerLabel,
+    datePickerPlaceholder,
+    datePickerClear,
+    dateRangePickerLabel,
+    dateRangePickerPlaceholder,
+    dateRangePickerClear,
+    timeFieldLabel,
+    timeFieldHour,
+    timeFieldMinute,
+    timeFieldSecond,
+    timeFieldDayPeriod,
+    timeFieldEmpty,
+    timeFieldInvalidFormat,
+    timeFieldOutOfRange,
+    timeFieldSecondsRequired,
+    timeFieldSecondsNotAllowed,
+    timeFieldRangeUnderflow,
+    timeFieldRangeOverflow,
   ]);
 }

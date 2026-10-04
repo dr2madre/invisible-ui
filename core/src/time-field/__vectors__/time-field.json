@@ -1,0 +1,688 @@
+{
+  "description": "Time field logic, language-neutral, from core/src/time-field: parseTimeValue(value, { withSeconds, hourCycle }); rangeError(canonical, min, max); and key sequences run through connect() from initialState({ value, hourCycle, withSeconds, min, max }), each key pressed on the named segment. A sequence expects the published value, the status, the validation error, each segment's text, the segments focus was sent to, the values onValueCommit reported, and whether each key was handled (preventDefault). Escape is handled only when it undid something; Enter never prevents the default. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "parse": [
+    {
+      "value": null,
+      "expect": {
+        "status": "empty",
+        "canonical": null,
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "",
+      "expect": {
+        "status": "empty",
+        "canonical": null,
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "9:30",
+      "expect": {
+        "status": "valid",
+        "canonical": "09:30",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": true,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:30",
+      "expect": {
+        "status": "valid",
+        "canonical": "09:30",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:30:05",
+      "withSeconds": true,
+      "expect": {
+        "status": "valid",
+        "canonical": "09:30:05",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "25:30",
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "out-of-range",
+        "invalidSegment": "hour",
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:72",
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "out-of-range",
+        "invalidSegment": "minute",
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:30:75",
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "out-of-range",
+        "invalidSegment": "second",
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:30",
+      "withSeconds": true,
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "seconds-required",
+        "invalidSegment": "second",
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "09:30:05",
+      "withSeconds": false,
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "seconds-not-allowed",
+        "invalidSegment": "second",
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "9.30",
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "invalid-format",
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "930",
+      "expect": {
+        "status": "invalid",
+        "canonical": null,
+        "error": "invalid-format",
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": null
+      }
+    },
+    {
+      "value": "21:30",
+      "hourCycle": 12,
+      "expect": {
+        "status": "valid",
+        "canonical": "21:30",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": "PM"
+      }
+    },
+    {
+      "value": "00:15",
+      "hourCycle": 12,
+      "expect": {
+        "status": "valid",
+        "canonical": "00:15",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": "AM"
+      }
+    },
+    {
+      "value": "12:00",
+      "hourCycle": 12,
+      "expect": {
+        "status": "valid",
+        "canonical": "12:00",
+        "error": null,
+        "invalidSegment": null,
+        "normalized": false,
+        "dayPeriod": "PM"
+      }
+    }
+  ],
+  "range": [
+    {
+      "value": "09:30",
+      "min": "09:00",
+      "max": "17:00",
+      "expect": null
+    },
+    {
+      "value": "08:59",
+      "min": "09:00",
+      "max": null,
+      "expect": "range-underflow"
+    },
+    {
+      "value": "17:01",
+      "min": null,
+      "max": "17:00",
+      "expect": "range-overflow"
+    },
+    {
+      "value": "17:00:00",
+      "min": null,
+      "max": "17:00",
+      "expect": null
+    },
+    {
+      "value": "09:00",
+      "min": "09:00:30",
+      "max": null,
+      "expect": null
+    },
+    {
+      "value": null,
+      "min": "09:00",
+      "max": "17:00",
+      "expect": null
+    }
+  ],
+  "typing": [
+    {
+      "name": "two digits fill the hour and advance",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "0"
+        },
+        {
+          "segment": "hour",
+          "key": "9"
+        },
+        {
+          "segment": "minute",
+          "key": "3"
+        },
+        {
+          "segment": "minute",
+          "key": "0"
+        }
+      ],
+      "expect": {
+        "value": "09:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": ["minute"],
+        "commits": [],
+        "handled": [true, true, true, true]
+      }
+    },
+    {
+      "name": "a digit that cannot start two fills the hour at once",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "7"
+        },
+        {
+          "segment": "minute",
+          "key": "4"
+        },
+        {
+          "segment": "minute",
+          "key": "5"
+        }
+      ],
+      "expect": {
+        "value": "07:45",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "07",
+          "minute": "45"
+        },
+        "focus": ["minute"],
+        "commits": [],
+        "handled": [true, true, true]
+      }
+    },
+    {
+      "name": "an impossible second digit is ignored",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "2"
+        },
+        {
+          "segment": "hour",
+          "key": "5"
+        }
+      ],
+      "expect": {
+        "value": null,
+        "status": "incomplete",
+        "error": null,
+        "text": {
+          "hour": "02",
+          "minute": "mm"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true, true]
+      }
+    },
+    {
+      "name": "ArrowUp from empty starts at the minimum and wraps",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "23:59",
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "ArrowUp"
+        },
+        {
+          "segment": "minute",
+          "key": "ArrowUp"
+        }
+      ],
+      "expect": {
+        "value": "00:00",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "00",
+          "minute": "00"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true, true]
+      }
+    },
+    {
+      "name": "ArrowDown from empty starts at the maximum",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "ArrowDown"
+        },
+        {
+          "segment": "minute",
+          "key": "ArrowDown"
+        }
+      ],
+      "expect": {
+        "value": "23:59",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "23",
+          "minute": "59"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true, true]
+      }
+    },
+    {
+      "name": "12-hour: the value waits for AM or PM",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "9"
+        },
+        {
+          "segment": "minute",
+          "key": "3"
+        },
+        {
+          "segment": "minute",
+          "key": "0"
+        }
+      ],
+      "expect": {
+        "value": null,
+        "status": "incomplete",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30",
+          "dayPeriod": "--"
+        },
+        "focus": ["minute", "dayPeriod"],
+        "commits": [],
+        "handled": [true, true, true]
+      }
+    },
+    {
+      "name": "12-hour: P sets PM and publishes",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "9"
+        },
+        {
+          "segment": "minute",
+          "key": "3"
+        },
+        {
+          "segment": "minute",
+          "key": "0"
+        },
+        {
+          "segment": "dayPeriod",
+          "key": "p"
+        }
+      ],
+      "expect": {
+        "value": "21:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30",
+          "dayPeriod": "PM"
+        },
+        "focus": ["minute", "dayPeriod"],
+        "commits": [],
+        "handled": [true, true, true, true]
+      }
+    },
+    {
+      "name": "12-hour: a lone 0 waits for a second digit",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "0"
+        },
+        {
+          "segment": "hour",
+          "key": "8"
+        }
+      ],
+      "expect": {
+        "value": null,
+        "status": "incomplete",
+        "error": null,
+        "text": {
+          "hour": "08",
+          "minute": "mm",
+          "dayPeriod": "--"
+        },
+        "focus": ["minute"],
+        "commits": [],
+        "handled": [true, true]
+      }
+    },
+    {
+      "name": "12-hour: toggling the period keeps the hour",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": "21:30",
+      "keys": [
+        {
+          "segment": "dayPeriod",
+          "key": "ArrowUp"
+        }
+      ],
+      "expect": {
+        "value": "09:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30",
+          "dayPeriod": "AM"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true]
+      }
+    },
+    {
+      "name": "Backspace clears a segment and the value",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "09:30",
+      "keys": [
+        {
+          "segment": "minute",
+          "key": "Backspace"
+        }
+      ],
+      "expect": {
+        "value": null,
+        "status": "incomplete",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "mm"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true]
+      }
+    },
+    {
+      "name": "seconds: the value needs all three",
+      "hourCycle": 24,
+      "withSeconds": true,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "1"
+        },
+        {
+          "segment": "hour",
+          "key": "0"
+        },
+        {
+          "segment": "minute",
+          "key": "1"
+        },
+        {
+          "segment": "minute",
+          "key": "5"
+        },
+        {
+          "segment": "second",
+          "key": "4"
+        },
+        {
+          "segment": "second",
+          "key": "2"
+        }
+      ],
+      "expect": {
+        "value": "10:15:42",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "10",
+          "minute": "15",
+          "second": "42"
+        },
+        "focus": ["minute", "second"],
+        "commits": [],
+        "handled": [true, true, true, true, true, true]
+      }
+    },
+    {
+      "name": "Escape puts back the last committed value",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "09:30",
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "ArrowUp"
+        },
+        {
+          "segment": "hour",
+          "key": "Escape"
+        }
+      ],
+      "expect": {
+        "value": "09:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true, true]
+      }
+    },
+    {
+      "name": "Enter commits, then Escape has nothing to undo",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "09:30",
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "ArrowUp"
+        },
+        {
+          "segment": "hour",
+          "key": "Enter"
+        },
+        {
+          "segment": "hour",
+          "key": "Escape"
+        }
+      ],
+      "expect": {
+        "value": "10:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "10",
+          "minute": "30"
+        },
+        "focus": [],
+        "commits": ["10:30"],
+        "handled": [true, false, false]
+      }
+    },
+    {
+      "name": "out of range is reported, not clamped",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "17:00",
+      "max": "17:00",
+      "keys": [
+        {
+          "segment": "minute",
+          "key": "ArrowUp"
+        }
+      ],
+      "expect": {
+        "value": "17:01",
+        "status": "invalid",
+        "error": "range-overflow",
+        "text": {
+          "hour": "17",
+          "minute": "01"
+        },
+        "focus": [],
+        "commits": [],
+        "handled": [true]
+      }
+    },
+    {
+      "name": "ArrowLeft and ArrowRight move between segments",
+      "hourCycle": 12,
+      "withSeconds": true,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "ArrowRight"
+        },
+        {
+          "segment": "minute",
+          "key": "ArrowRight"
+        },
+        {
+          "segment": "second",
+          "key": "ArrowRight"
+        },
+        {
+          "segment": "dayPeriod",
+          "key": "ArrowRight"
+        },
+        {
+          "segment": "dayPeriod",
+          "key": "ArrowLeft"
+        }
+      ],
+      "expect": {
+        "value": null,
+        "status": "empty",
+        "error": null,
+        "text": {
+          "hour": "hh",
+          "minute": "mm",
+          "second": "ss",
+          "dayPeriod": "--"
+        },
+        "focus": ["minute", "second", "dayPeriod", "second"],
+        "commits": [],
+        "handled": [true, true, true, true, true]
+      }
+    }
+  ]
+}

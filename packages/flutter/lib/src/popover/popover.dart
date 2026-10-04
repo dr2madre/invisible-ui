@@ -45,7 +45,7 @@ class PopoverController {
 }
 
 // Sizes the web Popover sets in its own stylesheet.
-const double _maxWidth = 320;
+const double _defaultMaxWidth = 320;
 const EdgeInsets _padding = EdgeInsets.symmetric(horizontal: 16, vertical: 14);
 const double _clickGap = 6;
 const double _hoverGap = 8;
@@ -86,7 +86,33 @@ class Popover extends StatefulWidget {
     this.onOpenChanged,
   }) : openDelay = Duration.zero,
        closeDelay = Duration.zero,
-       _hover = false;
+       _hover = false,
+       _field = null,
+       _triggerFocusNode = null,
+       _initialFocus = null,
+       _maxWidth = _defaultMaxWidth;
+
+  const Popover._field({
+    super.key,
+    required String this.label,
+    required this.builder,
+    required PopoverFieldBuilder field,
+    required double maxWidth,
+    this.controller,
+    this.onOpenChanged,
+    FocusNode? triggerFocusNode,
+    FocusNode? Function()? initialFocus,
+  }) : trigger = null,
+       triggerVariant = ButtonVariant.standard,
+       triggerIcon = null,
+       placement = PopoverPlacement.bottom,
+       openDelay = Duration.zero,
+       closeDelay = Duration.zero,
+       _hover = false,
+       _field = field,
+       _triggerFocusNode = triggerFocusNode,
+       _initialFocus = initialFocus,
+       _maxWidth = maxWidth;
 
   /// A preview shown while [trigger] is hovered or focused.
   const Popover.hover({
@@ -101,7 +127,11 @@ class Popover extends StatefulWidget {
   }) : label = null,
        triggerVariant = ButtonVariant.standard,
        triggerIcon = null,
-       _hover = true;
+       _hover = true,
+       _field = null,
+       _triggerFocusNode = null,
+       _initialFocus = null,
+       _maxWidth = _defaultMaxWidth;
 
   /// The panel's accessible name. Null for a hover preview, which is not a
   /// dialog.
@@ -140,14 +170,64 @@ class Popover extends StatefulWidget {
 
   final bool _hover;
 
+  final PopoverFieldBuilder? _field;
+
+  final FocusNode? _triggerFocusNode;
+
+  final FocusNode? Function()? _initialFocus;
+
+  final double _maxWidth;
+
   @override
   State<Popover> createState() => _PopoverState();
 }
 
+/// Builds the field that opens a [fieldPopover]: [focusNode] goes on the
+/// field's focusable widget, [open] says whether the panel shows, and
+/// [toggle] opens or closes it as the user asks, with a report.
+typedef PopoverFieldBuilder =
+    Widget Function(
+      BuildContext context,
+      FocusNode focusNode,
+      bool open,
+      VoidCallback toggle,
+    );
+
+/// A popover opened by a field rather than a button, as the date pickers
+/// open their calendar. Package-internal: the library exports [Popover]
+/// only.
+///
+/// It behaves as the intentional [Popover] does: focus moves in when it
+/// opens, to [initialFocus] when that gives a node, Escape closes it and
+/// returns focus to [triggerFocusNode], a press outside closes it. The panel
+/// is a dialog named [label], at most [maxWidth] wide.
+Widget fieldPopover({
+  Key? key,
+  required String label,
+  required PopoverFieldBuilder field,
+  required Widget Function(BuildContext context, PopoverController controller)
+  builder,
+  double maxWidth = _defaultMaxWidth,
+  PopoverController? controller,
+  ValueChanged<bool>? onOpenChanged,
+  FocusNode? triggerFocusNode,
+  FocusNode? Function()? initialFocus,
+}) => Popover._field(
+  key: key,
+  label: label,
+  field: field,
+  builder: builder,
+  maxWidth: maxWidth,
+  controller: controller,
+  onOpenChanged: onOpenChanged,
+  triggerFocusNode: triggerFocusNode,
+  initialFocus: initialFocus,
+);
+
 class _PopoverState extends State<Popover> {
   final OverlayPortalController _portal = OverlayPortalController();
   final GlobalKey _triggerKey = GlobalKey();
-  final FocusNode _triggerFocus = FocusNode(debugLabel: 'Popover trigger');
+  final FocusNode _ownTriggerFocus = FocusNode(debugLabel: 'Popover trigger');
   // The panel takes focus itself only when it holds nothing focusable, and
   // Tab passes it by, so Tab from its last control leaves it and closes it.
   final FocusNode _panelFocus = FocusNode(
@@ -158,6 +238,8 @@ class _PopoverState extends State<Popover> {
   Timer? _timer;
 
   bool get _open => _portal.isShowing;
+
+  FocusNode get _triggerFocus => widget._triggerFocusNode ?? _ownTriggerFocus;
 
   @override
   void initState() {
@@ -183,7 +265,7 @@ class _PopoverState extends State<Popover> {
     _timer?.cancel();
     if (_controller._state == this) _controller._state = null;
     HardwareKeyboard.instance.removeHandler(_onHoverKey);
-    _triggerFocus.dispose();
+    _ownTriggerFocus.dispose();
     _panelFocus.dispose();
     super.dispose();
   }
@@ -204,7 +286,8 @@ class _PopoverState extends State<Popover> {
       // The panel builds in this frame; focus moves in once it is there.
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (!mounted || !_open) return;
-        (_firstInReadingOrder() ?? _panelFocus).requestFocus();
+        (widget._initialFocus?.call() ?? _firstInReadingOrder() ?? _panelFocus)
+            .requestFocus();
       });
     } else if (focusInside && restoreFocus) {
       _triggerFocus.requestFocus();
@@ -274,7 +357,7 @@ class _PopoverState extends State<Popover> {
     final hover = widget._hover;
 
     Widget panel = ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: _maxWidth),
+      constraints: BoxConstraints(maxWidth: widget._maxWidth),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colors.background,
@@ -371,6 +454,25 @@ class _PopoverState extends State<Popover> {
               }
             },
             child: widget.trigger,
+          ),
+        ),
+      );
+    }
+    if (widget._field case final field?) {
+      return TapRegion(
+        groupId: this,
+        child: Focus(
+          canRequestFocus: false,
+          skipTraversal: true,
+          onKeyEvent: _onPanelKey,
+          child: KeyedSubtree(
+            key: _triggerKey,
+            child: field(
+              context,
+              _triggerFocus,
+              _open,
+              () => _setOpen(!_open, report: true),
+            ),
           ),
         ),
       );
