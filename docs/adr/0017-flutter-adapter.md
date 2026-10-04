@@ -291,7 +291,8 @@ would get the wrong size).
   Card, Collapsible and the spec work for section header and colour swatch
   follow; then Timelog's wave 2 and wave 3 in its order. The editable grid
   spec is written once for every platform and the web Data Table gains it
-  when the maintainer schedules it.
+  when the maintainer schedules it. That spec is
+  [`docs/editable-grid-spec.md`](../editable-grid-spec.md).
 - **Roadmap.** React's full catalog (item 14) and Flutter (item 15) run in
   parallel. The shared groundwork comes first: the token file in a neutral
   path, the role, sizing, focus and density tiers in it, and the submenu
