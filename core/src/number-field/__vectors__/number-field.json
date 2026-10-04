@@ -1,0 +1,3284 @@
+{
+  "description": "Number field logic, language-neutral: parseNumber(text, symbols), validate(value, min, max, step), snapToStep(current, direction, min, max, step), formatNumber(value, symbols), canonicalString(value) and decimalsOf(value) from core/src/number-field. The symbol table is the project's own, the one the Flutter adapter carries; a locale missing from it falls back to its language, then to English. Expectations never depend on the runtime's CLDR data, which changes between Node and browser releases. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "symbols": {
+    "en": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "it": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "de": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "de-CH": {
+      "decimal": ".",
+      "group": "’",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "fr": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "fr-CA": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "es": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "es-MX": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "pt": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "pt-PT": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "nl": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "pl": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "sv": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "−",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "ru": {
+      "decimal": ",",
+      "group": " ",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "tr": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "ja": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "zh": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "ar": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "ar-EG": {
+      "decimal": "٫",
+      "group": "٬",
+      "minusSign": "-",
+      "digits": ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"]
+    },
+    "ar-SA": {
+      "decimal": "٫",
+      "group": "٬",
+      "minusSign": "-",
+      "digits": ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"]
+    },
+    "ar-MA": {
+      "decimal": ",",
+      "group": ".",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "he": {
+      "decimal": ".",
+      "group": ",",
+      "minusSign": "-",
+      "digits": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    },
+    "fa": {
+      "decimal": "٫",
+      "group": "٬",
+      "minusSign": "−",
+      "digits": ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+    }
+  },
+  "parse": [
+    {
+      "locale": "en",
+      "text": "1234.5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1,234.5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1,2,3",
+      "expect": {
+        "status": "valid",
+        "value": 123,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": " 42 ",
+      "expect": {
+        "status": "valid",
+        "value": 42,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "+3",
+      "expect": {
+        "status": "valid",
+        "value": 3,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "-7.25",
+      "expect": {
+        "status": "valid",
+        "value": -7.25,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "",
+      "expect": {
+        "status": "empty",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "   ",
+      "expect": {
+        "status": "empty",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "-",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "+",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": ".",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "abc",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1-2",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "--5",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1e5",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "0x10",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1.2.3",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "-0",
+      "expect": {
+        "status": "valid",
+        "value": 0,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "-0.0",
+      "expect": {
+        "status": "valid",
+        "value": 0,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "12.",
+      "expect": {
+        "status": "incomplete",
+        "value": 12,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": ".5",
+      "expect": {
+        "status": "valid",
+        "value": 0.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "−5",
+      "expect": {
+        "status": "valid",
+        "value": -5,
+        "error": null
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1 234",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "en",
+      "text": "1..2",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "1,5",
+      "expect": {
+        "status": "valid",
+        "value": 1.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "1.234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": ",",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "-,",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "12,",
+      "expect": {
+        "status": "incomplete",
+        "value": 12,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": ",5",
+      "expect": {
+        "status": "valid",
+        "value": 0.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "1,2,3",
+      "expect": {
+        "status": "invalid",
+        "value": null,
+        "error": "parse"
+      }
+    },
+    {
+      "locale": "it-IT",
+      "text": "12.345,5",
+      "expect": {
+        "status": "valid",
+        "value": 12345.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-DE",
+      "text": "1.234,56",
+      "expect": {
+        "status": "valid",
+        "value": 1234.56,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-DE",
+      "text": "-1.234,56",
+      "expect": {
+        "status": "valid",
+        "value": -1234.56,
+        "error": null
+      }
+    },
+    {
+      "locale": "fr-FR",
+      "text": "1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "fr-FR",
+      "text": "1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "fr-FR",
+      "text": "1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "fr-FR",
+      "text": "1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "fr-FR",
+      "text": "-1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": -1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "sv",
+      "text": "−5",
+      "expect": {
+        "status": "valid",
+        "value": -5,
+        "error": null
+      }
+    },
+    {
+      "locale": "sv",
+      "text": "-5",
+      "expect": {
+        "status": "valid",
+        "value": -5,
+        "error": null
+      }
+    },
+    {
+      "locale": "sv",
+      "text": "1 234,5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "de-CH",
+      "text": "1’234.5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "١٥",
+      "expect": {
+        "status": "valid",
+        "value": 15,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "١٥٫٥",
+      "expect": {
+        "status": "valid",
+        "value": 15.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "١٬٠٠٠",
+      "expect": {
+        "status": "valid",
+        "value": 1000,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "15.5",
+      "expect": {
+        "status": "valid",
+        "value": 15.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "؜-١٥",
+      "expect": {
+        "status": "valid",
+        "value": -15,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "‏١٥‏",
+      "expect": {
+        "status": "valid",
+        "value": 15,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar-EG",
+      "text": "٫",
+      "expect": {
+        "status": "incomplete",
+        "value": null,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar",
+      "text": "‎-1,234.5",
+      "expect": {
+        "status": "valid",
+        "value": -1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "ar",
+      "text": "1,234.5",
+      "expect": {
+        "status": "valid",
+        "value": 1234.5,
+        "error": null
+      }
+    },
+    {
+      "locale": "fa",
+      "text": "۱۲۳",
+      "expect": {
+        "status": "valid",
+        "value": 123,
+        "error": null
+      }
+    },
+    {
+      "locale": "fa",
+      "text": "‎−۱۲٫۵",
+      "expect": {
+        "status": "valid",
+        "value": -12.5,
+        "error": null
+      }
+    }
+  ],
+  "validate": [
+    {
+      "value": 5,
+      "min": 10,
+      "max": null,
+      "step": 1,
+      "expect": "range-underflow"
+    },
+    {
+      "value": 50,
+      "min": null,
+      "max": 10,
+      "step": 1,
+      "expect": "range-overflow"
+    },
+    {
+      "value": 0.3,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": null
+    },
+    {
+      "value": 0.35,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": "step-mismatch"
+    },
+    {
+      "value": 2.5,
+      "min": 0.5,
+      "max": null,
+      "step": 1,
+      "expect": null
+    },
+    {
+      "value": 2,
+      "min": 0.5,
+      "max": null,
+      "step": 1,
+      "expect": "step-mismatch"
+    },
+    {
+      "value": 10,
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "expect": null
+    },
+    {
+      "value": 0,
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "expect": null
+    },
+    {
+      "value": 1.5,
+      "min": null,
+      "max": null,
+      "step": 1,
+      "expect": "step-mismatch"
+    },
+    {
+      "value": -0.2,
+      "min": -1,
+      "max": 1,
+      "step": 0.1,
+      "expect": null
+    },
+    {
+      "value": 1000000000,
+      "min": null,
+      "max": null,
+      "step": 0.01,
+      "expect": null
+    }
+  ],
+  "snap": [
+    {
+      "current": 0,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": 0.1
+    },
+    {
+      "current": 0.9,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": 1
+    },
+    {
+      "current": 0.3,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": 0.4
+    },
+    {
+      "current": 1.005,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.005,
+      "expect": 1.01
+    },
+    {
+      "current": 0.34,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": 0.4
+    },
+    {
+      "current": 0.34,
+      "direction": -1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": 0.3
+    },
+    {
+      "current": 7,
+      "direction": 1,
+      "min": 0.5,
+      "max": null,
+      "step": 1,
+      "expect": 7.5
+    },
+    {
+      "current": 9.8,
+      "direction": 1,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "expect": 10
+    },
+    {
+      "current": 10,
+      "direction": 1,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "expect": 10
+    },
+    {
+      "current": 0.2,
+      "direction": -1,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "expect": 0
+    },
+    {
+      "current": null,
+      "direction": 1,
+      "min": 5,
+      "max": 10,
+      "step": 1,
+      "expect": 5
+    },
+    {
+      "current": null,
+      "direction": -1,
+      "min": 5,
+      "max": 10,
+      "step": 1,
+      "expect": 10
+    },
+    {
+      "current": null,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "current": null,
+      "direction": 1,
+      "min": null,
+      "max": -10,
+      "step": 1,
+      "expect": -10
+    },
+    {
+      "current": null,
+      "direction": -1,
+      "min": null,
+      "max": null,
+      "step": 1,
+      "expect": 0
+    },
+    {
+      "current": -0.34,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": -0.3
+    },
+    {
+      "current": -0.34,
+      "direction": -1,
+      "min": null,
+      "max": null,
+      "step": 0.1,
+      "expect": -0.4
+    },
+    {
+      "current": 2,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.5,
+      "expect": 2.5
+    },
+    {
+      "current": 2,
+      "direction": -1,
+      "min": null,
+      "max": null,
+      "step": 0.5,
+      "expect": 1.5
+    },
+    {
+      "current": 5,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 0.25,
+      "expect": 5.25
+    },
+    {
+      "current": -3,
+      "direction": -1,
+      "min": null,
+      "max": null,
+      "step": 1,
+      "expect": -4
+    },
+    {
+      "current": 1e-7,
+      "direction": 1,
+      "min": null,
+      "max": null,
+      "step": 1e-7,
+      "expect": 2e-7
+    }
+  ],
+  "format": [
+    {
+      "locale": "en",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "en",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "en",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "en",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "en",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "en",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "en",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "en",
+      "value": -1234.5,
+      "expect": "-1,234.5"
+    },
+    {
+      "locale": "en",
+      "value": -9876543.21,
+      "expect": "-9,876,543.21"
+    },
+    {
+      "locale": "en",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "en",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "en",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "en",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "en",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "en",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "en",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "en",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "en",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "en",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "en",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "it",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "it",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "it",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "it",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "it",
+      "value": 1234,
+      "expect": "1234"
+    },
+    {
+      "locale": "it",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "it",
+      "value": 1234.5,
+      "expect": "1234,5"
+    },
+    {
+      "locale": "it",
+      "value": -1234.5,
+      "expect": "-1234,5"
+    },
+    {
+      "locale": "it",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "it",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "it",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "it",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "it",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "it",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "it",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "it",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "it",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "it",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "it",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "it",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "de",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "de",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "de",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "de",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "de",
+      "value": 1234,
+      "expect": "1.234"
+    },
+    {
+      "locale": "de",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "de",
+      "value": 1234.5,
+      "expect": "1.234,5"
+    },
+    {
+      "locale": "de",
+      "value": -1234.5,
+      "expect": "-1.234,5"
+    },
+    {
+      "locale": "de",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "de",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "de",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "de",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "de",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "de",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "de",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "de",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "de",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "de",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "de",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "de",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "de-CH",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "de-CH",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "de-CH",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1234,
+      "expect": "1’234"
+    },
+    {
+      "locale": "de-CH",
+      "value": 12345,
+      "expect": "12’345"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1234.5,
+      "expect": "1’234.5"
+    },
+    {
+      "locale": "de-CH",
+      "value": -1234.5,
+      "expect": "-1’234.5"
+    },
+    {
+      "locale": "de-CH",
+      "value": -9876543.21,
+      "expect": "-9’876’543.21"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1000000,
+      "expect": "1’000’000"
+    },
+    {
+      "locale": "de-CH",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "de-CH",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1e21,
+      "expect": "1’000’000’000’000’000’000’000"
+    },
+    {
+      "locale": "de-CH",
+      "value": 123456789.12345679,
+      "expect": "123’456’789.12345679"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "de-CH",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "de-CH",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "de-CH",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "de-CH",
+      "value": 99999.99999999999,
+      "expect": "99’999.99999999999"
+    },
+    {
+      "locale": "fr",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "fr",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "fr",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "fr",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "fr",
+      "value": 1234,
+      "expect": "1 234"
+    },
+    {
+      "locale": "fr",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "fr",
+      "value": 1234.5,
+      "expect": "1 234,5"
+    },
+    {
+      "locale": "fr",
+      "value": -1234.5,
+      "expect": "-1 234,5"
+    },
+    {
+      "locale": "fr",
+      "value": -9876543.21,
+      "expect": "-9 876 543,21"
+    },
+    {
+      "locale": "fr",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "fr",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "fr",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "fr",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "fr",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "fr",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "fr",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "fr",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "fr",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "fr",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "fr",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "fr-CA",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1234,
+      "expect": "1 234"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1234.5,
+      "expect": "1 234,5"
+    },
+    {
+      "locale": "fr-CA",
+      "value": -1234.5,
+      "expect": "-1 234,5"
+    },
+    {
+      "locale": "fr-CA",
+      "value": -9876543.21,
+      "expect": "-9 876 543,21"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "fr-CA",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "es",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "es",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "es",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "es",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "es",
+      "value": 1234,
+      "expect": "1234"
+    },
+    {
+      "locale": "es",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "es",
+      "value": 1234.5,
+      "expect": "1234,5"
+    },
+    {
+      "locale": "es",
+      "value": -1234.5,
+      "expect": "-1234,5"
+    },
+    {
+      "locale": "es",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "es",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "es",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "es",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "es",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "es",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "es",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "es",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "es",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "es",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "es",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "es",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "es-MX",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "es-MX",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "es-MX",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "es-MX",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "es-MX",
+      "value": -1234.5,
+      "expect": "-1,234.5"
+    },
+    {
+      "locale": "es-MX",
+      "value": -9876543.21,
+      "expect": "-9,876,543.21"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "es-MX",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "es-MX",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "es-MX",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "es-MX",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "es-MX",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "es-MX",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "es-MX",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "pt",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "pt",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "pt",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "pt",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "pt",
+      "value": 1234,
+      "expect": "1.234"
+    },
+    {
+      "locale": "pt",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "pt",
+      "value": 1234.5,
+      "expect": "1.234,5"
+    },
+    {
+      "locale": "pt",
+      "value": -1234.5,
+      "expect": "-1.234,5"
+    },
+    {
+      "locale": "pt",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "pt",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "pt",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "pt",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "pt",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "pt",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "pt",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "pt",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "pt",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "pt",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "pt",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "pt",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "pt-PT",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1234,
+      "expect": "1234"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1234.5,
+      "expect": "1234,5"
+    },
+    {
+      "locale": "pt-PT",
+      "value": -1234.5,
+      "expect": "-1234,5"
+    },
+    {
+      "locale": "pt-PT",
+      "value": -9876543.21,
+      "expect": "-9 876 543,21"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "pt-PT",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "nl",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "nl",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "nl",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "nl",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "nl",
+      "value": 1234,
+      "expect": "1.234"
+    },
+    {
+      "locale": "nl",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "nl",
+      "value": 1234.5,
+      "expect": "1.234,5"
+    },
+    {
+      "locale": "nl",
+      "value": -1234.5,
+      "expect": "-1.234,5"
+    },
+    {
+      "locale": "nl",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "nl",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "nl",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "nl",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "nl",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "nl",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "nl",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "nl",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "nl",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "nl",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "nl",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "nl",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "pl",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "pl",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "pl",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "pl",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "pl",
+      "value": 1234,
+      "expect": "1234"
+    },
+    {
+      "locale": "pl",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "pl",
+      "value": 1234.5,
+      "expect": "1234,5"
+    },
+    {
+      "locale": "pl",
+      "value": -1234.5,
+      "expect": "-1234,5"
+    },
+    {
+      "locale": "pl",
+      "value": -9876543.21,
+      "expect": "-9 876 543,21"
+    },
+    {
+      "locale": "pl",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "pl",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "pl",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "pl",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "pl",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "pl",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "pl",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "pl",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "pl",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "pl",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "pl",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "sv",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "sv",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "sv",
+      "value": -1,
+      "expect": "−1"
+    },
+    {
+      "locale": "sv",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "sv",
+      "value": 1234,
+      "expect": "1 234"
+    },
+    {
+      "locale": "sv",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "sv",
+      "value": 1234.5,
+      "expect": "1 234,5"
+    },
+    {
+      "locale": "sv",
+      "value": -1234.5,
+      "expect": "−1 234,5"
+    },
+    {
+      "locale": "sv",
+      "value": -9876543.21,
+      "expect": "−9 876 543,21"
+    },
+    {
+      "locale": "sv",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "sv",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "sv",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "sv",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "sv",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "sv",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "sv",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "sv",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "sv",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "sv",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "sv",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "ru",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "ru",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "ru",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "ru",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "ru",
+      "value": 1234,
+      "expect": "1 234"
+    },
+    {
+      "locale": "ru",
+      "value": 12345,
+      "expect": "12 345"
+    },
+    {
+      "locale": "ru",
+      "value": 1234.5,
+      "expect": "1 234,5"
+    },
+    {
+      "locale": "ru",
+      "value": -1234.5,
+      "expect": "-1 234,5"
+    },
+    {
+      "locale": "ru",
+      "value": -9876543.21,
+      "expect": "-9 876 543,21"
+    },
+    {
+      "locale": "ru",
+      "value": 1000000,
+      "expect": "1 000 000"
+    },
+    {
+      "locale": "ru",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "ru",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "ru",
+      "value": 1e21,
+      "expect": "1 000 000 000 000 000 000 000"
+    },
+    {
+      "locale": "ru",
+      "value": 123456789.12345679,
+      "expect": "123 456 789,12345679"
+    },
+    {
+      "locale": "ru",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "ru",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "ru",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "ru",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "ru",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "ru",
+      "value": 99999.99999999999,
+      "expect": "99 999,99999999999"
+    },
+    {
+      "locale": "tr",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "tr",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "tr",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "tr",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "tr",
+      "value": 1234,
+      "expect": "1.234"
+    },
+    {
+      "locale": "tr",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "tr",
+      "value": 1234.5,
+      "expect": "1.234,5"
+    },
+    {
+      "locale": "tr",
+      "value": -1234.5,
+      "expect": "-1.234,5"
+    },
+    {
+      "locale": "tr",
+      "value": -9876543.21,
+      "expect": "-9.876.543,21"
+    },
+    {
+      "locale": "tr",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "tr",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "tr",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "tr",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "tr",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "tr",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "tr",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "tr",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "tr",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "tr",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "tr",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "ja",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "ja",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "ja",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "ja",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "ja",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "ja",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "ja",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "ja",
+      "value": -1234.5,
+      "expect": "-1,234.5"
+    },
+    {
+      "locale": "ja",
+      "value": -9876543.21,
+      "expect": "-9,876,543.21"
+    },
+    {
+      "locale": "ja",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "ja",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "ja",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "ja",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "ja",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "ja",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "ja",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "ja",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "ja",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "ja",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "ja",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "zh",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "zh",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "zh",
+      "value": -1,
+      "expect": "-1"
+    },
+    {
+      "locale": "zh",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "zh",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "zh",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "zh",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "zh",
+      "value": -1234.5,
+      "expect": "-1,234.5"
+    },
+    {
+      "locale": "zh",
+      "value": -9876543.21,
+      "expect": "-9,876,543.21"
+    },
+    {
+      "locale": "zh",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "zh",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "zh",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "zh",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "zh",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "zh",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "zh",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "zh",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "zh",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "zh",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "zh",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "ar",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "ar",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "ar",
+      "value": -1,
+      "expect": "‎-1"
+    },
+    {
+      "locale": "ar",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "ar",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "ar",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "ar",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "ar",
+      "value": -1234.5,
+      "expect": "‎-1,234.5"
+    },
+    {
+      "locale": "ar",
+      "value": -9876543.21,
+      "expect": "‎-9,876,543.21"
+    },
+    {
+      "locale": "ar",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "ar",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "ar",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "ar",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "ar",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "ar",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "ar",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "ar",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "ar",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "ar",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "ar",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 0,
+      "expect": "٠"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1,
+      "expect": "١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": -1,
+      "expect": "؜-١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 0.5,
+      "expect": "٠٫٥"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1234,
+      "expect": "١٬٢٣٤"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 12345,
+      "expect": "١٢٬٣٤٥"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1234.5,
+      "expect": "١٬٢٣٤٫٥"
+    },
+    {
+      "locale": "ar-EG",
+      "value": -1234.5,
+      "expect": "؜-١٬٢٣٤٫٥"
+    },
+    {
+      "locale": "ar-EG",
+      "value": -9876543.21,
+      "expect": "؜-٩٬٨٧٦٬٥٤٣٫٢١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1000000,
+      "expect": "١٬٠٠٠٬٠٠٠"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 0.12345,
+      "expect": "٠٫١٢٣٤٥"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 0.30000000000000004,
+      "expect": "٠٫٣"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1e21,
+      "expect": "١٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 123456789.12345679,
+      "expect": "١٢٣٬٤٥٦٬٧٨٩٫١٢٣٤٥٦٧٩"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1e-7,
+      "expect": "٠٫٠٠٠٠٠٠١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 0.000001,
+      "expect": "٠٫٠٠٠٠٠١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1.0000000000000002,
+      "expect": "١"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 2.5e-16,
+      "expect": "٠"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 1.5e-15,
+      "expect": "٠٫٠٠٠٠٠٠٠٠٠٠٠٠٠٠٢"
+    },
+    {
+      "locale": "ar-EG",
+      "value": 99999.99999999999,
+      "expect": "٩٩٬٩٩٩٫٩٩٩٩٩٩٩٩٩٩٩"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 0,
+      "expect": "٠"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1,
+      "expect": "١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": -1,
+      "expect": "؜-١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 0.5,
+      "expect": "٠٫٥"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1234,
+      "expect": "١٬٢٣٤"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 12345,
+      "expect": "١٢٬٣٤٥"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1234.5,
+      "expect": "١٬٢٣٤٫٥"
+    },
+    {
+      "locale": "ar-SA",
+      "value": -1234.5,
+      "expect": "؜-١٬٢٣٤٫٥"
+    },
+    {
+      "locale": "ar-SA",
+      "value": -9876543.21,
+      "expect": "؜-٩٬٨٧٦٬٥٤٣٫٢١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1000000,
+      "expect": "١٬٠٠٠٬٠٠٠"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 0.12345,
+      "expect": "٠٫١٢٣٤٥"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 0.30000000000000004,
+      "expect": "٠٫٣"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1e21,
+      "expect": "١٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠٬٠٠٠"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 123456789.12345679,
+      "expect": "١٢٣٬٤٥٦٬٧٨٩٫١٢٣٤٥٦٧٩"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1e-7,
+      "expect": "٠٫٠٠٠٠٠٠١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 0.000001,
+      "expect": "٠٫٠٠٠٠٠١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1.0000000000000002,
+      "expect": "١"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 2.5e-16,
+      "expect": "٠"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 1.5e-15,
+      "expect": "٠٫٠٠٠٠٠٠٠٠٠٠٠٠٠٠٢"
+    },
+    {
+      "locale": "ar-SA",
+      "value": 99999.99999999999,
+      "expect": "٩٩٬٩٩٩٫٩٩٩٩٩٩٩٩٩٩٩"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "ar-MA",
+      "value": -1,
+      "expect": "‎-1"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 0.5,
+      "expect": "0,5"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1234,
+      "expect": "1.234"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 12345,
+      "expect": "12.345"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1234.5,
+      "expect": "1.234,5"
+    },
+    {
+      "locale": "ar-MA",
+      "value": -1234.5,
+      "expect": "‎-1.234,5"
+    },
+    {
+      "locale": "ar-MA",
+      "value": -9876543.21,
+      "expect": "‎-9.876.543,21"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1000000,
+      "expect": "1.000.000"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 0.12345,
+      "expect": "0,12345"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 0.30000000000000004,
+      "expect": "0,3"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1e21,
+      "expect": "1.000.000.000.000.000.000.000"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 123456789.12345679,
+      "expect": "123.456.789,12345679"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1e-7,
+      "expect": "0,0000001"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 0.000001,
+      "expect": "0,000001"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 1.5e-15,
+      "expect": "0,000000000000002"
+    },
+    {
+      "locale": "ar-MA",
+      "value": 99999.99999999999,
+      "expect": "99.999,99999999999"
+    },
+    {
+      "locale": "he",
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "locale": "he",
+      "value": 1,
+      "expect": "1"
+    },
+    {
+      "locale": "he",
+      "value": -1,
+      "expect": "‎-1"
+    },
+    {
+      "locale": "he",
+      "value": 0.5,
+      "expect": "0.5"
+    },
+    {
+      "locale": "he",
+      "value": 1234,
+      "expect": "1,234"
+    },
+    {
+      "locale": "he",
+      "value": 12345,
+      "expect": "12,345"
+    },
+    {
+      "locale": "he",
+      "value": 1234.5,
+      "expect": "1,234.5"
+    },
+    {
+      "locale": "he",
+      "value": -1234.5,
+      "expect": "‎-1,234.5"
+    },
+    {
+      "locale": "he",
+      "value": -9876543.21,
+      "expect": "‎-9,876,543.21"
+    },
+    {
+      "locale": "he",
+      "value": 1000000,
+      "expect": "1,000,000"
+    },
+    {
+      "locale": "he",
+      "value": 0.12345,
+      "expect": "0.12345"
+    },
+    {
+      "locale": "he",
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "locale": "he",
+      "value": 1e21,
+      "expect": "1,000,000,000,000,000,000,000"
+    },
+    {
+      "locale": "he",
+      "value": 123456789.12345679,
+      "expect": "123,456,789.12345679"
+    },
+    {
+      "locale": "he",
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "locale": "he",
+      "value": 0.000001,
+      "expect": "0.000001"
+    },
+    {
+      "locale": "he",
+      "value": 1.0000000000000002,
+      "expect": "1"
+    },
+    {
+      "locale": "he",
+      "value": 2.5e-16,
+      "expect": "0"
+    },
+    {
+      "locale": "he",
+      "value": 1.5e-15,
+      "expect": "0.000000000000002"
+    },
+    {
+      "locale": "he",
+      "value": 99999.99999999999,
+      "expect": "99,999.99999999999"
+    },
+    {
+      "locale": "fa",
+      "value": 0,
+      "expect": "۰"
+    },
+    {
+      "locale": "fa",
+      "value": 1,
+      "expect": "۱"
+    },
+    {
+      "locale": "fa",
+      "value": -1,
+      "expect": "‎−۱"
+    },
+    {
+      "locale": "fa",
+      "value": 0.5,
+      "expect": "۰٫۵"
+    },
+    {
+      "locale": "fa",
+      "value": 1234,
+      "expect": "۱٬۲۳۴"
+    },
+    {
+      "locale": "fa",
+      "value": 12345,
+      "expect": "۱۲٬۳۴۵"
+    },
+    {
+      "locale": "fa",
+      "value": 1234.5,
+      "expect": "۱٬۲۳۴٫۵"
+    },
+    {
+      "locale": "fa",
+      "value": -1234.5,
+      "expect": "‎−۱٬۲۳۴٫۵"
+    },
+    {
+      "locale": "fa",
+      "value": -9876543.21,
+      "expect": "‎−۹٬۸۷۶٬۵۴۳٫۲۱"
+    },
+    {
+      "locale": "fa",
+      "value": 1000000,
+      "expect": "۱٬۰۰۰٬۰۰۰"
+    },
+    {
+      "locale": "fa",
+      "value": 0.12345,
+      "expect": "۰٫۱۲۳۴۵"
+    },
+    {
+      "locale": "fa",
+      "value": 0.30000000000000004,
+      "expect": "۰٫۳"
+    },
+    {
+      "locale": "fa",
+      "value": 1e21,
+      "expect": "۱٬۰۰۰٬۰۰۰٬۰۰۰٬۰۰۰٬۰۰۰٬۰۰۰٬۰۰۰"
+    },
+    {
+      "locale": "fa",
+      "value": 123456789.12345679,
+      "expect": "۱۲۳٬۴۵۶٬۷۸۹٫۱۲۳۴۵۶۷۹"
+    },
+    {
+      "locale": "fa",
+      "value": 1e-7,
+      "expect": "۰٫۰۰۰۰۰۰۱"
+    },
+    {
+      "locale": "fa",
+      "value": 0.000001,
+      "expect": "۰٫۰۰۰۰۰۱"
+    },
+    {
+      "locale": "fa",
+      "value": 1.0000000000000002,
+      "expect": "۱"
+    },
+    {
+      "locale": "fa",
+      "value": 2.5e-16,
+      "expect": "۰"
+    },
+    {
+      "locale": "fa",
+      "value": 1.5e-15,
+      "expect": "۰٫۰۰۰۰۰۰۰۰۰۰۰۰۰۰۲"
+    },
+    {
+      "locale": "fa",
+      "value": 99999.99999999999,
+      "expect": "۹۹٬۹۹۹٫۹۹۹۹۹۹۹۹۹۹۹"
+    },
+    {
+      "locale": "en",
+      "value": null,
+      "expect": ""
+    }
+  ],
+  "canonical": [
+    {
+      "value": null,
+      "expect": ""
+    },
+    {
+      "value": 0,
+      "expect": "0"
+    },
+    {
+      "value": 1234.5,
+      "expect": "1234.5"
+    },
+    {
+      "value": -0.5,
+      "expect": "-0.5"
+    },
+    {
+      "value": 1e21,
+      "expect": "1000000000000000000000"
+    },
+    {
+      "value": 0.30000000000000004,
+      "expect": "0.3"
+    },
+    {
+      "value": 1e-7,
+      "expect": "0.0000001"
+    },
+    {
+      "value": 123456789012345680000,
+      "expect": "123456789012345680000"
+    },
+    {
+      "value": 12345.5,
+      "expect": "12345.5"
+    }
+  ],
+  "decimals": [
+    {
+      "value": 0.005,
+      "expect": 3
+    },
+    {
+      "value": 1,
+      "expect": 0
+    },
+    {
+      "value": 1e-7,
+      "expect": 7
+    },
+    {
+      "value": 0.30000000000000004,
+      "expect": 17
+    },
+    {
+      "value": 1.5e-10,
+      "expect": 11
+    },
+    {
+      "value": 123.456,
+      "expect": 3
+    },
+    {
+      "value": 1e21,
+      "expect": 0
+    },
+    {
+      "value": 0,
+      "expect": 0
+    },
+    {
+      "value": 2.5,
+      "expect": 1
+    },
+    {
+      "value": 100,
+      "expect": 0
+    }
+  ]
+}

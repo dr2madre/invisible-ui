@@ -20,6 +20,24 @@ void main() {
     () {
       const messages = InvisibleMessages();
       expect(messages.loadingLabel, _english('loading.label'));
+      expect(messages.numberFieldIncrement, _english('numberField.increment'));
+      expect(messages.numberFieldDecrement, _english('numberField.decrement'));
+      expect(
+        messages.numberFieldParseError,
+        _english('numberField.parseError'),
+      );
+      expect(
+        messages.numberFieldRangeUnderflow,
+        _english('numberField.rangeUnderflow'),
+      );
+      expect(
+        messages.numberFieldRangeOverflow,
+        _english('numberField.rangeOverflow'),
+      );
+      expect(
+        messages.numberFieldStepMismatch,
+        _english('numberField.stepMismatch'),
+      );
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );
@@ -30,5 +48,13 @@ void main() {
     expect(italian.loadingLabel, 'Caricamento…');
     expect(italian, isNot(messages));
     expect(messages.copyWith(), messages);
+  });
+
+  test('placeholders are filled; unknown ones stay', () {
+    expect(
+      InvisibleMessages.fill('Increase {label}', {'label': 'Hours'}),
+      'Increase Hours',
+    );
+    expect(InvisibleMessages.fill('At least {min}.', {}), 'At least {min}.');
   });
 }

@@ -5,10 +5,11 @@ layer, themed from the Invisible UI design tokens. The package reimplements
 the behaviour of the web adapters in Dart and is held to the same
 specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md)).
 
-**Status: alpha, foundation and Button.** The package carries the tokens,
-the theme (light and dark, density, minimum target size, focus ring,
-messages) and its first component. Names and APIs can still change. It is
-not published to pub.dev.
+**Status: alpha, foundation, Button and fields.** The package carries the
+tokens, the theme (light and dark, density, minimum target size, focus ring,
+messages), Button, and the form fields: Field, TextField, Textarea and
+NumberField. Names and APIs can still change. It is not published to
+pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -80,14 +81,57 @@ class Editor extends StatelessWidget {
   English by default. Pass translated text through the theme's `messages`.
 - **Direction.** Components follow the ambient `Directionality`.
 
+### Fields
+
+```dart
+NumberField(
+  label: 'Hours',
+  value: hours, // null is empty, distinct from 0
+  min: 0,
+  max: 24,
+  step: 0.5,
+  onChanged: (next) => setState(() => hours = next),
+  onChangeEnd: save, // blur, Enter or a step
+)
+```
+
+- **Controlled and uncontrolled.** `TextField(value:, onChanged:)` shows the
+  parent's value; `TextField.uncontrolled(initialValue:)` keeps its own.
+  The same pair exists for `Textarea` and `NumberField`. A changed `value`
+  never calls `onChanged`.
+- **Forms.** Inside a `Form`, each field validates with `validator`, saves
+  with `onSaved`, and `FormState.reset()` restores the current default (the
+  last `value` the parent passed, or `initialValue`) without calling
+  `onChanged`.
+- **Numbers.** NumberField reads and writes the number in `locale`, or the
+  app's locale from `Localizations`, or English. `NumberSymbols.forLocale`
+  holds the CLDR symbols of 23 locales; pass `symbols:` for any other. Text
+  that is not a number, or a number out of range or off the step grid, is
+  reported, never corrected: the field shows why, and
+  `NumberFieldState.validationError` says it as data.
+- **Field.** `Field` gives any other control a label, a description and an
+  error, as part of the control's semantics.
+- **Material.** The name `TextField` is also Material's. An app that imports
+  both hides one (`import 'package:flutter/material.dart' hide TextField;`)
+  or imports this package with a prefix.
+
 ## Components
 
 | Component | Parity | Checklist | Docs |
 | --- | --- | --- | --- |
 | Button | Matched, with adaptations listed | [parity/button.md](parity/button.md) | [Button](https://dr2madre.github.io/invisible-ui/components/forms/button/) |
+| Field | Matched, with adaptations listed | [parity/field.md](parity/field.md) | [Field](https://dr2madre.github.io/invisible-ui/components/forms/field/) |
+| TextField | Matched, with adaptations listed | [parity/text-field.md](parity/text-field.md) | [Text Field](https://dr2madre.github.io/invisible-ui/components/forms/text-field/) |
+| Textarea | Matched, with adaptations listed | [parity/textarea.md](parity/textarea.md) | [Text Area](https://dr2madre.github.io/invisible-ui/components/forms/text-area/) |
+| NumberField | Matched, with adaptations listed | [parity/number-field.md](parity/number-field.md) | [Number Field](https://dr2madre.github.io/invisible-ui/components/forms/number-field/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
-by line, and names the reference commit it was checked against.
+by line, and names the reference commit it was checked against. The number
+field's parsing, validation, stepping and formatting answer the same test
+vectors as the core
+([`core/src/number-field/__vectors__`](https://github.com/dr2madre/invisible-ui/tree/main/core/src/number-field/__vectors__)),
+read by `test/number_format_test.dart` in a checkout of the whole
+repository.
 
 ## Tokens
 

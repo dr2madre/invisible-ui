@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
@@ -40,6 +41,20 @@ Matcher semanticsWith({
   bool? isEnabled,
   bool? isFocusable,
   bool? hasTapAction,
+  String? hint,
+  bool? isTextField,
+  bool? isReadOnly,
+  bool? isMultiline,
+  bool? isObscured,
+  bool? isRequired,
+  bool? isLiveRegion,
+  bool? hasIncreaseAction,
+  bool? hasDecreaseAction,
+  String? increasedValue,
+  String? decreasedValue,
+  int? maxValueLength,
+  int? currentValueLength,
+  SemanticsValidationResult validationResult = SemanticsValidationResult.none,
 }) {
   // ignore: deprecated_member_use
   return containsSemantics(
@@ -50,5 +65,33 @@ Matcher semanticsWith({
     isEnabled: isEnabled,
     isFocusable: isFocusable,
     hasTapAction: hasTapAction,
+    hint: hint,
+    isTextField: isTextField,
+    isReadOnly: isReadOnly,
+    isMultiline: isMultiline,
+    isObscured: isObscured,
+    hasRequiredState: isRequired == null ? null : true,
+    isRequired: isRequired,
+    isLiveRegion: isLiveRegion,
+    hasIncreaseAction: hasIncreaseAction,
+    hasDecreaseAction: hasDecreaseAction,
+    increasedValue: increasedValue,
+    decreasedValue: decreasedValue,
+    maxValueLength: maxValueLength,
+    currentValueLength: currentValueLength,
+    validationResult: validationResult,
   );
+}
+
+/// The semantics node of the editable text inside [of].
+SemanticsNode editableSemantics(WidgetTester tester, Finder of) => tester
+    .getSemantics(find.descendant(of: of, matching: find.byType(EditableText)));
+
+/// Gives the editable text inside [of] focus, as a click on it would.
+Future<void> focusEditable(WidgetTester tester, Finder of) async {
+  final editable = find.descendant(of: of, matching: find.byType(EditableText));
+  tester.widget<EditableText>(editable).focusNode.requestFocus();
+  // One frame applies the focus, the next paints what depends on it.
+  await tester.pump();
+  await tester.pump();
 }

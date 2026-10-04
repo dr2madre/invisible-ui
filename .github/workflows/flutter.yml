@@ -16,7 +16,14 @@ on:
       - "packages/svelte/style-dictionary.config.mjs"
       - "scripts/tokens-dart-format.mjs"
       - "core/src/button/**"
+      - "core/src/field/**"
+      - "core/src/text-field/**"
+      - "core/src/number-field/**"
+      - "core/src/i18n/**"
       - "packages/svelte/src/lib/button/**"
+      - "packages/svelte/src/lib/field/**"
+      - "packages/svelte/src/lib/text-field/**"
+      - "packages/svelte/src/lib/number-field/**"
       - ".github/workflows/flutter.yml"
   push:
     branches: [main]
@@ -26,7 +33,14 @@ on:
       - "packages/svelte/style-dictionary.config.mjs"
       - "scripts/tokens-dart-format.mjs"
       - "core/src/button/**"
+      - "core/src/field/**"
+      - "core/src/text-field/**"
+      - "core/src/number-field/**"
+      - "core/src/i18n/**"
       - "packages/svelte/src/lib/button/**"
+      - "packages/svelte/src/lib/field/**"
+      - "packages/svelte/src/lib/text-field/**"
+      - "packages/svelte/src/lib/number-field/**"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
 
