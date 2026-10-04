@@ -78,7 +78,7 @@ export interface ButtonProps extends NativeButtonProps {
  *
  * Colours and sizing are themeable via `--ds-button-*`.
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+export const Button = /* @__PURE__ */ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     variant = "default",
     disabled = false,

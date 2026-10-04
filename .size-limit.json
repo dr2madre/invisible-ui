@@ -47,7 +47,7 @@
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "35.5 kB"
+    "limit": "42.5 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",

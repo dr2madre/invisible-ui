@@ -42,4 +42,10 @@ once every cell is filled.
 <PinInput length={4} label="Verification code" />
 ```
 
+In React, `onComplete` reports the code once every cell is filled:
+
+```tsx
+<PinInput label="Verification code" length={6} name="code" onComplete={verify} />
+```
+
 Themeable via `--ds-pin-input-*`.

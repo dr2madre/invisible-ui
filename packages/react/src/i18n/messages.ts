@@ -5,7 +5,9 @@
  */
 import { i18n as core } from "@design-system/core";
 
-export const en = core.en;
+// Read through a call marked pure: a bare property read at the top level
+// keeps the whole catalog in every bundle, even one that never uses it.
+export const en = /* @__PURE__ */ (() => core.en)();
 export type MessageKey = core.MessageKey;
 /** A count message: CLDR plural categories, `other` required. */
 // The empty extension gives the type a local name, so this package's emitted

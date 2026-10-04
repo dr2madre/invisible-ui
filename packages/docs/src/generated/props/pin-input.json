@@ -211,6 +211,104 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "PinInput",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) code.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "default": "6",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "type",
+          "type": "PinInputType",
+          "default": "\"numeric\"",
+          "required": false,
+          "description": "Allowed characters.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render cells masked (like a password).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation state; colors the cells (red ring) and signals errors.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "success",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Validation success; colors the cells green (e.g. a verified code).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; the combined code is submitted under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the group of cells (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the combined value changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onComplete",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called once all cells are filled.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

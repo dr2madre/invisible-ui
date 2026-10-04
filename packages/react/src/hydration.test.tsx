@@ -22,6 +22,17 @@ import { NavigationMenu } from "./navigation-menu/NavigationMenu";
 import { LocaleProvider } from "./i18n/i18n";
 import { Select } from "./select/Select";
 import { Switch } from "./switch/Switch";
+import { Radio } from "./radio/Radio";
+import { RadioGroup } from "./radio-group/RadioGroup";
+import { CheckboxGroup } from "./checkbox-group/CheckboxGroup";
+import { SegmentedControl } from "./segmented-control/SegmentedControl";
+import { ToggleButton } from "./toggle-button/ToggleButton";
+import { ToggleGroup } from "./toggle-group/ToggleGroup";
+import { Slider } from "./slider/Slider";
+import { RangeSlider } from "./range-slider/RangeSlider";
+import { NumberField } from "./number-field/NumberField";
+import { PinInput } from "./pin-input/PinInput";
+import { RatingGroup } from "./rating-group/RatingGroup";
 
 function HydrationFixture(): ReactElement {
   return (
@@ -90,6 +101,34 @@ function HydrationFixture(): ReactElement {
             { value: "blog", label: "Blog", href: "#blog" },
           ]}
         />
+        <Radio name="plan" value="free" label="Free" checked />
+        <RadioGroup label="Size" items={[{ value: "s" }, { value: "m" }]} value="m" name="size" />
+        <CheckboxGroup
+          label="Toppings"
+          items={[{ value: "basil" }, { value: "olives" }]}
+          value={["basil"]}
+        />
+        <SegmentedControl
+          label="View"
+          items={[{ value: "list" }, { value: "grid" }]}
+          value="grid"
+        />
+        <ToggleGroup label="Formatting" variant="segmented">
+          <ToggleButton label="Bold" pressed check>
+            B
+          </ToggleButton>
+          <ToggleButton label="Italic">I</ToggleButton>
+        </ToggleGroup>
+        <Slider label="Volume" value={30} showValue ticks step={10} />
+        <RangeSlider
+          label="Price"
+          thumbLabels={["Minimum", "Maximum"]}
+          value={[20, 80]}
+          showValue
+        />
+        <NumberField label="Quantity" value={1234.5} min={0} name="quantity" description="Units." />
+        <PinInput label="Code" length={4} value="12" name="code" />
+        <RatingGroup label="Rating" value={3} name="rating" />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -168,6 +207,9 @@ describe("React adapter hydration", () => {
     expect(host.querySelector('[role="menubar"]')).not.toBeNull();
     expect(host.querySelector("nav")).not.toBeNull();
     expect(document.body.querySelector('[role="listbox"]')).not.toBeNull();
+    expect(host.querySelectorAll('[role="radiogroup"]')).toHaveLength(3);
+    expect(host.querySelectorAll('input[type="range"]')).toHaveLength(3);
+    expect(host.querySelector('[role="spinbutton"]')).toHaveValue("1,234.5");
 
     await unmount();
   });

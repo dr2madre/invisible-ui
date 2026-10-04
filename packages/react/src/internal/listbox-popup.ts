@@ -2,7 +2,7 @@ import { autoUpdate, flip, offset, shift, size, useFloating } from "@floating-ui
 import { useCallback, useEffect, useRef, type CSSProperties, type RefObject } from "react";
 
 // The popup is at least as wide as the input it hangs from.
-const matchReferenceWidth = size({
+const matchReferenceWidth = /* @__PURE__ */ size({
   apply({ rects, elements: { floating } }) {
     floating.style.minWidth = `${rects.reference.width}px`;
   },

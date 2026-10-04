@@ -1,0 +1,89 @@
+/* RadioGroup, ported from the Svelte adapter, class names kept identical. */
+
+.radio-field {
+  display: grid;
+  gap: var(--ds-radio-label-gap, 0.5rem);
+  font: inherit;
+  color: var(--ds-color-text, #282420);
+}
+.radio-field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-radio-gap, 0.5rem);
+}
+.radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: var(--ds-radio-gap-horizontal, 1.25rem);
+}
+
+.radio {
+  /* Anchors the hidden input: unanchored, it would sit at its static
+   position outside any clipping and widen the page. */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.radio--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The native input is the accessible, focusable control; visually hidden,
+   with the sibling `.radio__dot` painted from its :checked / :focus-visible. */
+.radio__input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.radio__dot {
+  inline-size: var(--ds-radio-size, 1.1rem);
+  block-size: var(--ds-radio-size, 1.1rem);
+  border: 1px solid var(--ds-color-control-border, #757067);
+  border-radius: 50%;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+}
+/* The dot, not the edge, carries the state: the boundary keeps the control
+   border, and the dot takes the selection text form, which clears 3:1 on the
+   page in both themes (the base selection purple measures 2.87:1 on the dark
+   page). */
+.radio__input:checked + .radio__dot {
+  border-color: var(--ds-color-control-border, #757067);
+}
+.radio__input:checked + .radio__dot::after {
+  content: "";
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  border-radius: 50%;
+  background: var(--ds-color-selected-text, #553d7f);
+}
+.radio__input:focus-visible + .radio__dot {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+}
+
+/* Forced colors: the focus sits on the hidden input, so the outline the
+   theme forces there lands on something nobody can see. Draw it on the
+   visible part instead. */
+@media (forced-colors: active) {
+  .radio__input:focus-visible + .radio__dot {
+    outline: var(--ds-focus-ring-width, 2px) solid Highlight;
+    outline-offset: 2px;
+  }
+}

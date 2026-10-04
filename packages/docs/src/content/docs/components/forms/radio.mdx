@@ -46,4 +46,13 @@ state, and choosing a radio sends a bubbling `change` event with
 <Radio name="plan" value="pro" label="Pro" checked />
 ```
 
+In React, `checked` sets the radio's state and `onChange` reports its value
+when the user chooses it. The radios of one `name` share the choice through
+the browser:
+
+```tsx
+<Radio name="plan" value="free" label="Free" checked={plan === "free"} onChange={setPlan} />
+<Radio name="plan" value="pro" label="Pro" checked={plan === "pro"} onChange={setPlan} />
+```
+
 Themeable via `--ds-radio-*`.

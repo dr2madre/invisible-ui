@@ -120,4 +120,16 @@ A native reset restores the current default pair and reports nothing through `on
 />
 ```
 
+In React, the value is a pair and `onValueChange` reports the whole pair:
+
+```tsx
+<RangeSlider
+  label="Price range"
+  thumbLabels={["Minimum price", "Maximum price"]}
+  value={range}
+  minDistance={10}
+  onValueChange={setRange}
+/>
+```
+
 Themeable via `--ds-range-slider-*` (`length` for the horizontal width, `vertical-length` for the upright track, `track-size`, `thumb-size`).

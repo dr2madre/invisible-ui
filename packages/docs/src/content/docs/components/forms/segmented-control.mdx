@@ -57,4 +57,19 @@ bubbling `change` event:
 />
 ```
 
+In React, an item's `icon` is any element:
+
+```tsx
+<SegmentedControl
+  label="View"
+  value={view}
+  items={[
+    { value: "list", label: "List", icon: <ListIcon /> },
+    { value: "grid", label: "Grid", icon: <GridIcon /> },
+  ]}
+  iconOnly
+  onValueChange={setView}
+/>
+```
+
 Themeable via `--ds-segment-*`.

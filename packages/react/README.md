@@ -5,11 +5,14 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 22 components today: Button, Checkbox, Switch,
+adapters, and carries 33 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
-ContextMenu, Menubar and NavigationMenu), Icon and LocaleProvider. See item 14 in
+ContextMenu, Menubar and NavigationMenu), the value controls (Radio,
+RadioGroup, CheckboxGroup, SegmentedControl, ToggleButton, ToggleGroup,
+Slider, RangeSlider, NumberField, PinInput and RatingGroup), Icon and
+LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -83,6 +86,14 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   own positioning (Floating UI), the hover delays and outside-press and
   focus-leave dismissal. Every overlay portals into the dialog its trigger
   sits in, else into the body (ADR 0016).
+- **The value controls** keep the browser's own controls underneath: native
+  radios for RadioGroup, SegmentedControl and RatingGroup (one
+  `useRadioGroup`), native boxes for CheckboxGroup and ToggleButton, native
+  ranges for Slider and RangeSlider. `useNumberField` and `usePinInput` drive
+  text inputs through the core. Each writes the DOM default a form reset
+  restores and puts its own value back after the reset (ADR 0012). The
+  standalone Radio leaves its input uncontrolled: the radios of one name sit
+  in separate components, and only the browser sees all of them.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 

@@ -253,6 +253,128 @@
         "icon"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Slider",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "orientation",
+          "type": "SliderOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the slider (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; the value is submitted under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the current value to the side of the track.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showRange",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the min and max reference values under the ends of the track.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "ticks",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show tick marks at each step (drawn only when the count stays readable).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "default": "String",
+          "required": false,
+          "description": "Format the displayed value/range (e.g. add a unit).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the value changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A decorative icon before the track.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

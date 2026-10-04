@@ -1,6 +1,6 @@
 import { textField as core } from "@design-system/core";
-import { useCallback, useId, useMemo, useRef, useState, type RefObject } from "react";
-import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
+import { useId, useMemo, useRef, type RefObject } from "react";
+import { useFormDefault, useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";
 
 export interface UseTextFieldOptions {
@@ -31,23 +31,12 @@ export function useTextField({
   controlRef,
 }: UseTextFieldOptions = {}): core.TextFieldApi {
   const generatedId = useId();
-  const [current, setCurrent] = useState(value);
-  const defaultValue = useControlledDefault(value, current, setCurrent);
-
   const ownRef = useRef<HTMLInputElement | null>(null);
   const anchor = controlRef ?? ownRef;
+  const [current, setValue, defaultValue] = useResettable(value, onValueChange, anchor);
   useFormDefault(anchor, (node) => {
     node.defaultValue = defaultValue;
   });
-  useFormReset(anchor, () => setCurrent(defaultValue));
-
-  const setValue = useCallback(
-    (next: string) => {
-      setCurrent(next);
-      onValueChange?.(next);
-    },
-    [onValueChange],
-  );
 
   return useMemo(
     () =>

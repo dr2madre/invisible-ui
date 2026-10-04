@@ -43,4 +43,19 @@ browser provides roving tabindex, arrow navigation and form participation.
 />
 ```
 
+In React, `value` works controlled or uncontrolled. `onValueChange` reports
+what the user chooses; a changed `value` reports nothing:
+
+```tsx
+<RadioGroup
+  label="Plan"
+  value={plan}
+  items={[
+    { value: "free", label: "Free" },
+    { value: "pro", label: "Pro" },
+  ]}
+  onValueChange={setPlan}
+/>
+```
+
 Themeable via `--ds-radio-*`.

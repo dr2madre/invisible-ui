@@ -131,6 +131,64 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "RatingGroup",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the rating group (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "5",
+          "required": false,
+          "description": "Number of stars.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "default": "null",
+          "required": false,
+          "description": "Selected rating (1..max), or null.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name; the rating is submitted under it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the rating changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
