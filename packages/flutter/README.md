@@ -5,11 +5,12 @@ layer, themed from the Invisible UI design tokens. The package reimplements
 the behaviour of the web adapters in Dart and is held to the same
 specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md)).
 
-**Status: alpha, foundation, Button and fields.** The package carries the
-tokens, the theme (light and dark, density, minimum target size, focus ring,
-messages), Button, and the form fields: Field, TextField, Textarea and
-NumberField. Names and APIs can still change. It is not published to
-pub.dev.
+**Status: alpha.** The package carries the tokens, the theme (light and
+dark, density, minimum target size, focus ring, messages) and the
+components listed below: Button, the form fields (Field, TextField,
+Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
+Menu) and the notifications. Names and APIs can still change. It is not
+published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -124,6 +125,11 @@ NumberField(
 | TextField | Matched, with adaptations listed | [parity/text-field.md](parity/text-field.md) | [Text Field](https://dr2madre.github.io/invisible-ui/components/forms/text-field/) |
 | Textarea | Matched, with adaptations listed | [parity/textarea.md](parity/textarea.md) | [Text Area](https://dr2madre.github.io/invisible-ui/components/forms/text-area/) |
 | NumberField | Matched, with adaptations listed | [parity/number-field.md](parity/number-field.md) | [Number Field](https://dr2madre.github.io/invisible-ui/components/forms/number-field/) |
+| Tooltip | Matched, with adaptations listed | [parity/tooltip.md](parity/tooltip.md) | [Tooltip](https://dr2madre.github.io/invisible-ui/components/data-layout/tooltip/) |
+| Toolbar | Matched, with adaptations listed | [parity/toolbar.md](parity/toolbar.md) | [Toolbar](https://dr2madre.github.io/invisible-ui/components/patterns/toolbar/) |
+| Dropdown Menu, with submenus | Matched against the Svelte menu and the submenu spec, with adaptations listed | [parity/dropdown-menu.md](parity/dropdown-menu.md) | [Dropdown Menu](https://dr2madre.github.io/invisible-ui/components/data-layout/dropdown-menu/) |
+| Inline Notification | Matched, with adaptations listed | [parity/inline-notification.md](parity/inline-notification.md) | [Inline Notification](https://dr2madre.github.io/invisible-ui/components/feedback/inline-notification/) |
+| Notification, Notification Region | Matched, with adaptations listed | [parity/notification.md](parity/notification.md) | [Notification](https://dr2madre.github.io/invisible-ui/components/feedback/notification/), [Notification Region](https://dr2madre.github.io/invisible-ui/components/feedback/notification-region/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -132,6 +138,33 @@ vectors as the core
 ([`core/src/number-field/__vectors__`](https://github.com/dr2madre/invisible-ui/tree/main/core/src/number-field/__vectors__)),
 read by `test/number_format_test.dart` in a checkout of the whole
 repository.
+
+The menus also run the shared test vectors in `core/src/menu/__vectors__`,
+which the `core/` tests run too.
+
+The overlays (Tooltip, Dropdown Menu) need an `Overlay` above them, as
+`WidgetsApp` provides. The notification region wraps the app's navigator
+and waits while a modal is open:
+
+```dart
+final notices = NotificationController();
+final modals = ModalObserver();
+
+WidgetsApp(
+  navigatorObservers: [modals],
+  builder: (context, child) => NotificationRegion(
+    controller: notices,
+    modals: modals,
+    child: child!,
+  ),
+  // ...
+);
+
+notices.success('Saved', duration: const Duration(seconds: 5));
+```
+
+An app that also imports Material hides its widgets of the same name:
+`import 'package:flutter/material.dart' hide DropdownMenu, TextField, Tooltip;`.
 
 ## Tokens
 

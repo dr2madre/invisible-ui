@@ -8,11 +8,16 @@ import 'package:flutter/foundation.dart' show Brightness;
 import 'package:flutter/widgets.dart';
 import 'package:invisible_ui/invisible_ui.dart';
 
+import 'preview_sheet.dart';
+
 /// Every variant, enabled, loading and disabled, in the theme that matches
 /// the preview's brightness.
 @Preview(group: 'Button', name: 'Variants, light', brightness: Brightness.light)
 @Preview(group: 'Button', name: 'Variants, dark', brightness: Brightness.dark)
-Widget buttonVariants() => const _Sheet(child: _AllVariants());
+Widget buttonVariants() => const PreviewSheet(
+  // Scrolls when large text makes the sheet taller than the preview.
+  child: SingleChildScrollView(child: _AllVariants()),
+);
 
 /// The same set right to left at text scale 2.0, in a narrow column.
 @Preview(
@@ -23,50 +28,25 @@ Widget buttonVariants() => const _Sheet(child: _AllVariants());
 )
 Widget buttonRightToLeft() => const Directionality(
   textDirection: TextDirection.rtl,
-  child: _Sheet(child: _AllVariants()),
+  child: PreviewSheet(child: SingleChildScrollView(child: _AllVariants())),
 );
 
 /// Touch density: every hit area is at least 44 by 44.
 @Preview(group: 'Button', name: 'Touch density')
-Widget buttonTouch() => _Sheet(
+Widget buttonTouch() => PreviewSheet(
   density: InvisibleDensity.touch,
   child: Wrap(
     spacing: 8,
     children: [
-      Button.icon(onPressed: () {}, icon: const _Glyph(), semanticLabel: 'Add'),
+      Button.icon(
+        onPressed: () {},
+        icon: const PreviewGlyph(),
+        semanticLabel: 'Add',
+      ),
       Button(onPressed: () {}, child: const Text('Save')),
     ],
   ),
 );
-
-/// Paints the page and picks the theme from the preview's brightness.
-class _Sheet extends StatelessWidget {
-  const _Sheet({required this.child, this.density = InvisibleDensity.regular});
-
-  final Widget child;
-  final InvisibleDensity density;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-        ? InvisibleThemeData.dark(density: density)
-        : InvisibleThemeData.light(density: density);
-    return InvisibleTheme(
-      data: theme,
-      child: ColoredBox(
-        color: theme.colors.background,
-        // Scrolls when large text makes the sheet taller than the preview.
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: DefaultTextStyle(
-            style: theme.textStyle.copyWith(color: theme.colors.text),
-            child: child,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _AllVariants extends StatelessWidget {
   const _AllVariants();
@@ -89,7 +69,9 @@ class _AllVariants extends StatelessWidget {
                 Button(
                   onPressed: () {},
                   variant: variant,
-                  icon: variant == ButtonVariant.danger ? null : const _Glyph(),
+                  icon: variant == ButtonVariant.danger
+                      ? null
+                      : const PreviewGlyph(),
                   child: Text(variant.name),
                 ),
                 Button(
@@ -106,36 +88,13 @@ class _AllVariants extends StatelessWidget {
                 Button.icon(
                   onPressed: () {},
                   variant: variant,
-                  icon: const _Glyph(),
+                  icon: const PreviewGlyph(),
                   semanticLabel: 'Add',
                 ),
               ],
             ),
           ),
       ],
-    );
-  }
-}
-
-/// A plus sign drawn from the icon theme, since the package bundles no icon
-/// font.
-class _Glyph extends StatelessWidget {
-  const _Glyph();
-
-  @override
-  Widget build(BuildContext context) {
-    final icons = IconTheme.of(context);
-    final side = MediaQuery.textScalerOf(context).scale(icons.size ?? 18);
-    final bar = side / 8;
-    return SizedBox.square(
-      dimension: side,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(width: side * 0.6, height: bar, color: icons.color),
-          Container(width: bar, height: side * 0.6, color: icons.color),
-        ],
-      ),
     );
   }
 }
