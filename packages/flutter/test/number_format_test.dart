@@ -35,7 +35,7 @@ void main() {
           .cast<Map<String, dynamic>>();
 
   group('symbols', () {
-    test('the table matches the CLDR data the web reads', () {
+    test('the table matches the shared vectors', () {
       final table = vectors['symbols'] as Map<String, dynamic>;
       for (final MapEntry(:key, :value) in table.entries) {
         final expected = value as Map<String, dynamic>;

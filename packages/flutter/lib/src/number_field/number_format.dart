@@ -52,9 +52,10 @@ class NumberParseResult {
 /// The symbols and digits a locale writes numbers with.
 ///
 /// [NumberSymbols.forLocale] returns the CLDR data the web adapters read
-/// through `Intl.NumberFormat`, for the locales in its table; the shared test
-/// vectors hold the two in agreement. Pass explicit symbols for any other
-/// locale.
+/// through `Intl.NumberFormat`, for the locales in its table. The shared test
+/// vectors hold the same table, and the core tests check the runtime's CLDR
+/// data against it, allowing for symbols a CLDR release has changed. Pass
+/// explicit symbols for any other locale.
 @immutable
 class NumberSymbols {
   /// Creates a set of number symbols. The defaults are English.

@@ -1,5 +1,5 @@
 {
-  "description": "Number field logic, language-neutral: numberSymbols(locale), parseNumber(text, locale), validate(value, min, max, step), snapToStep(current, direction, min, max, step), formatNumber(value, locale), canonicalString(value) and decimalsOf(value) from core/src/number-field and core/src/i18n. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "description": "Number field logic, language-neutral: parseNumber(text, symbols), validate(value, min, max, step), snapToStep(current, direction, min, max, step), formatNumber(value, symbols), canonicalString(value) and decimalsOf(value) from core/src/number-field. The symbol table is the project's own, the one the Flutter adapter carries; a locale missing from it falls back to its language, then to English. Expectations never depend on the runtime's CLDR data, which changes between Node and browser releases. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
   "symbols": {
     "en": {
       "decimal": ".",
