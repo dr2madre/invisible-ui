@@ -78,6 +78,15 @@ export { RangeSlider, type RangeSliderProps } from "./range-slider/RangeSlider";
 export { NumberField, type NumberFieldProps } from "./number-field/NumberField";
 export { PinInput, type PinInputProps } from "./pin-input/PinInput";
 export { RatingGroup, type RatingGroupProps } from "./rating-group/RatingGroup";
+export {
+  Calendar,
+  type CalendarDayContext,
+  type CalendarEvent,
+  type CalendarProps,
+} from "./calendar/Calendar";
+export { DatePicker, type DatePickerProps, type DateStyle } from "./date-picker/DatePicker";
+export { DateRangePicker, type DateRangePickerProps } from "./date-range-picker/DateRangePicker";
+export { TimeField, type TimeFieldProps } from "./time-field/TimeField";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -152,6 +161,23 @@ export {
   type UseRatingGroup,
   type UseRatingGroupOptions,
 } from "./rating-group/use-rating-group";
+export {
+  useCalendar,
+  type CalendarDay,
+  type CalendarMode,
+  type CalendarView,
+  type UseCalendar,
+  type UseCalendarOptions,
+  type WeekStart,
+} from "./calendar/use-calendar";
+export {
+  useTimeField,
+  type HourCycle,
+  type TimeSegmentType,
+  type TimeValueError,
+  type UseTimeField,
+  type UseTimeFieldOptions,
+} from "./time-field/use-time-field";
 export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 

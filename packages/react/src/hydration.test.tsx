@@ -33,6 +33,10 @@ import { RangeSlider } from "./range-slider/RangeSlider";
 import { NumberField } from "./number-field/NumberField";
 import { PinInput } from "./pin-input/PinInput";
 import { RatingGroup } from "./rating-group/RatingGroup";
+import { Calendar } from "./calendar/Calendar";
+import { DatePicker } from "./date-picker/DatePicker";
+import { DateRangePicker } from "./date-range-picker/DateRangePicker";
+import { TimeField } from "./time-field/TimeField";
 
 function HydrationFixture(): ReactElement {
   return (
@@ -129,6 +133,16 @@ function HydrationFixture(): ReactElement {
         <NumberField label="Quantity" value={1234.5} min={0} name="quantity" description="Units." />
         <PinInput label="Code" length={4} value="12" name="code" />
         <RatingGroup label="Rating" value={3} name="rating" />
+        <Calendar
+          value="2026-06-15"
+          views={["month", "week"]}
+          events={[{ date: "2026-06-18", label: "Review" }]}
+          prices={{ "2026-06-12": "€120" }}
+        />
+        <Calendar mode="range" rangeStart="2026-06-10" rangeEnd="2026-06-14" view="two-month" />
+        <DatePicker label="Event date" value="2026-06-15" name="event" clearable />
+        <DateRangePicker label="Stay" start="2026-06-10" end="2026-06-14" startName="from" />
+        <TimeField label="Start" value="21:30" name="start" />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -202,12 +216,14 @@ describe("React adapter hydration", () => {
     expect(host.querySelector("main")).not.toBeNull();
     expect(host.querySelector('[role="combobox"]')).not.toBeNull();
     expect(host.querySelector('[role="dialog"], [role="alertdialog"]')).toBeNull();
-    expect(host.querySelectorAll('[aria-haspopup="dialog"]')).toHaveLength(7);
+    expect(host.querySelectorAll('[aria-haspopup="dialog"]')).toHaveLength(9);
     expect(host.querySelectorAll('[aria-haspopup="menu"]')).toHaveLength(2);
     expect(host.querySelector('[role="menubar"]')).not.toBeNull();
     expect(host.querySelector("nav")).not.toBeNull();
     expect(document.body.querySelector('[role="listbox"]')).not.toBeNull();
-    expect(host.querySelectorAll('[role="radiogroup"]')).toHaveLength(3);
+    expect(host.querySelectorAll('[role="radiogroup"]')).toHaveLength(4);
+    expect(host.querySelectorAll('[role="grid"]')).toHaveLength(3);
+    expect(host.querySelector('[data-segment="dayPeriod"]')).toHaveTextContent("PM");
     expect(host.querySelectorAll('input[type="range"]')).toHaveLength(3);
     expect(host.querySelector('[role="spinbutton"]')).toHaveValue("1,234.5");
 

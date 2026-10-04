@@ -59,6 +59,10 @@ const REACT_SHEETS = [
   "number-field.css",
   "pin-input.css",
   "rating-group.css",
+  "calendar.css",
+  "date-picker.css",
+  "date-range-picker.css",
+  "time-field.css",
 ];
 
 const VUE_SHEETS = [
@@ -101,10 +105,6 @@ const VUE_SHEETS = [
   "code.css",
   "code-block.css",
   "carousel.css",
-  "calendar.css",
-  "date-picker.css",
-  "date-range-picker.css",
-  "time-field.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {

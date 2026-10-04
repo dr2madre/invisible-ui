@@ -42,4 +42,11 @@ In Elements, `start-name` and `end-name` submit the two ISO dates with the form:
 <DateRangePicker start="2026-06-10" end="2026-06-15" label="Stay dates" clearable />
 ```
 
+In React, `onChange` reports both ends after each pick, with a `null` end
+while the range is half made:
+
+```tsx
+<DateRangePicker label="Stay dates" start={from} end={to} onChange={(s, e) => setStay([s, e])} />
+```
+
 Themeable via `--ds-date-picker-*` and the calendar's `--ds-calendar-*`.
