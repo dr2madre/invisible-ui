@@ -220,6 +220,8 @@ Each item ships as its own PR. Checkboxes track progress.
   of wave 2, a new component that starts from its spec, and the specs for
   the section header and the colour swatch are outside the catalog and come
   next.
+  The editable grid spec, for every platform, is in
+  [`docs/editable-grid-spec.md`](./editable-grid-spec.md).
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27
