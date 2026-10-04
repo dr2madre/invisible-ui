@@ -27,6 +27,31 @@ export function toISO(year: number, month: number, day: number): string {
   return format(new Date(Date.UTC(year, month - 1, day)));
 }
 
+/* ------------------------------------------------------------------ *
+ * Dates for the Intl formatters: local midnight, not UTC.
+ *
+ * `Intl.DateTimeFormat` reads a Date in the local time zone. A Date at
+ * UTC midnight falls on the previous day west of UTC, so a weekday or a
+ * month name formatted from it shifts by one. These build the same
+ * calendar day at local midnight instead.
+ * ------------------------------------------------------------------ */
+
+/** An ISO `YYYY-MM-DD` date at local midnight, for the Intl date formatters. */
+export function localDate(iso: string): Date {
+  return new Date(`${iso}T00:00:00`);
+}
+
+/** A local date on the given weekday (0 = Sunday), to format a weekday name. */
+export function weekdayDate(weekday: number): Date {
+  // 2024-01-07 is a Sunday.
+  return new Date(2024, 0, 7 + weekday);
+}
+
+/** The first of a month (1–12) at local midnight, to format a month name. */
+export function monthDate(year: number, month: number): Date {
+  return localDate(toISO(year, month, 1));
+}
+
 /** Today's date as ISO `YYYY-MM-DD` (local calendar day). */
 export function today(): string {
   const now = new Date();

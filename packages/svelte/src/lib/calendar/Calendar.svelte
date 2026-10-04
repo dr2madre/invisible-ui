@@ -221,9 +221,9 @@
       year: "numeric",
     }),
   );
-  // A reference Sunday (2024-01-07) to render weekday names from an index.
-  const weekdayName = (fmt: Intl.DateTimeFormat, wd: number) =>
-    fmt.format(new Date(Date.UTC(2024, 0, 7 + wd)));
+  // Weekday and month names come from local dates: the formatters read
+  // local time, and a UTC midnight shifts the name by a day west of UTC.
+  const weekdayName = (fmt: Intl.DateTimeFormat, wd: number) => fmt.format(core.weekdayDate(wd));
 
   const v = $derived($calState.view);
   const ref = $derived(describe($calState.focusedDate));
@@ -265,7 +265,7 @@
   const yearFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { year: "numeric" }));
   const shortMonthFmt = $derived(i18n.dateTimeFormat(resolvedLocale, { month: "long" }));
   const shortMonthName = (year: number, month: number) =>
-    shortMonthFmt.format(new Date(Date.UTC(year, month - 1, 1)));
+    shortMonthFmt.format(core.monthDate(year, month));
   // Narrow weekday initials for the simplified mini-months.
   const weekdayNarrow = $derived(i18n.dateTimeFormat(resolvedLocale, { weekday: "narrow" }));
 
@@ -291,7 +291,7 @@
   });
 
   const monthLabel = (gm: { year: number; month: number }) =>
-    titleFmt.format(new Date(Date.UTC(gm.year, gm.month - 1, 1)));
+    titleFmt.format(core.monthDate(gm.year, gm.month));
 
   const dayAria = (iso: string, count: number, price: string | undefined) => {
     let aria = dayFmt.format(localDate(iso));

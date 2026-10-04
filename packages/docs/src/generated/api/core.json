@@ -336,6 +336,16 @@
       "signature": "calendar_isWithinRange: typeof isWithinRange"
     },
     {
+      "name": "calendar.localDate",
+      "kind": "const",
+      "signature": "calendar_localDate: typeof localDate"
+    },
+    {
+      "name": "calendar.monthDate",
+      "kind": "const",
+      "signature": "calendar_monthDate: typeof monthDate"
+    },
+    {
       "name": "calendar.monthMatrix",
       "kind": "const",
       "signature": "calendar_monthMatrix: typeof monthMatrix"
@@ -379,6 +389,11 @@
       "name": "calendar.weekday",
       "kind": "const",
       "signature": "calendar_weekday: typeof weekday"
+    },
+    {
+      "name": "calendar.weekdayDate",
+      "kind": "const",
+      "signature": "calendar_weekdayDate: typeof weekdayDate"
     },
     {
       "name": "calendar.weekdayOrder",

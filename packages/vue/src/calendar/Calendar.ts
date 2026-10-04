@@ -59,9 +59,10 @@ export interface CalendarProps {
   onRangeChange?: (start: string | null, end: string | null) => void;
 }
 
-/** A reference Sunday, so a weekday name can be rendered from an index. */
+// Weekday and month names come from local dates: the formatters read local
+// time, and a UTC midnight shifts the name by a day west of UTC.
 const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
-  fmt.format(new Date(Date.UTC(2024, 0, 7 + weekday)));
+  fmt.format(core.weekdayDate(weekday));
 
 /**
  * Calendar: the styled, batteries-included calendar (WAI-ARIA date grid).
@@ -170,7 +171,7 @@ export const Calendar = defineComponent({
     }));
 
     // Intl formatters, recomputed when the locale changes.
-    const dt = (iso: string) => new Date(`${iso}T00:00:00`);
+    const dt = core.localDate;
     const titleFmt = computed(() =>
       coreI18n.dateTimeFormat(resolvedLocale.value, { month: "long", year: "numeric" }),
     );
@@ -271,9 +272,9 @@ export const Calendar = defineComponent({
     });
 
     const monthLabel = (month: { year: number; month: number }) =>
-      titleFmt.value.format(new Date(Date.UTC(month.year, month.month - 1, 1)));
+      titleFmt.value.format(core.monthDate(month.year, month.month));
     const monthName = (month: { year: number; month: number }) =>
-      monthFmt.value.format(new Date(Date.UTC(month.year, month.month - 1, 1)));
+      monthFmt.value.format(core.monthDate(month.year, month.month));
 
     const dayAria = (iso: string, count: number, price: string | undefined) => {
       let aria = dayFmt.value.format(dt(iso));
