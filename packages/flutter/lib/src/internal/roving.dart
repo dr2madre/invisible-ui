@@ -115,3 +115,22 @@ class RovingKeyAction extends Action<RovingKeyIntent> {
   @override
   void invoke(RovingKeyIntent intent) => onKey(intent);
 }
+
+/// How long typed characters build one typeahead query.
+const Duration typeaheadReset = Duration(milliseconds: 500);
+
+/// The character [event] types, for typeahead: a printable one pressed with
+/// no command modifier, or null.
+String? typedCharacter(KeyEvent event) {
+  if (event is! KeyDownEvent && event is! KeyRepeatEvent) return null;
+  final character = event.character;
+  final keyboard = HardwareKeyboard.instance;
+  if (character == null ||
+      character.trim().isEmpty ||
+      keyboard.isControlPressed ||
+      keyboard.isMetaPressed ||
+      keyboard.isAltPressed) {
+    return null;
+  }
+  return character;
+}

@@ -1,0 +1,87 @@
+{
+  "description": "Single-select collection logic, language-neutral, on the items below: typeahead is matchOption(items, query, from) from core/src/select/state.ts; navigation is firstEnabled(items), lastEnabled(items), nextEnabled(items, from) and prevEnabled(items, from) from core/src/internal/collection.ts, which Select, Combobox and the radio-style groups use. expect is a value, or null. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "items": [
+    { "value": "draft", "label": "Draft" },
+    { "value": "review", "label": "In review" },
+    { "value": "locked", "label": "Locked", "disabled": true },
+    { "value": "done", "label": "Done" },
+    { "value": "dropped", "label": "Dropped" },
+    { "value": "lisbon", "label": "Lisbon" }
+  ],
+  "typeahead": [
+    { "name": "Matches the start of a label", "query": "d", "from": null, "expect": "draft" },
+    { "name": "Ignores case", "query": "IN", "from": null, "expect": "review" },
+    { "name": "Searches after the current item", "query": "d", "from": "draft", "expect": "done" },
+    { "name": "Wraps around", "query": "d", "from": "dropped", "expect": "draft" },
+    {
+      "name": "A longer query narrows the match",
+      "query": "dr",
+      "from": "draft",
+      "expect": "dropped"
+    },
+    { "name": "Skips a disabled item", "query": "l", "from": null, "expect": "lisbon" },
+    {
+      "name": "Matches the start, not the middle",
+      "query": "review",
+      "from": null,
+      "expect": null
+    },
+    { "name": "An empty query matches nothing", "query": "", "from": null, "expect": null },
+    {
+      "name": "Returns to the current item when it is the only match",
+      "query": "lis",
+      "from": "lisbon",
+      "expect": "lisbon"
+    },
+    {
+      "name": "An unknown current item searches from the start",
+      "query": "d",
+      "from": "missing",
+      "expect": "draft"
+    }
+  ],
+  "navigation": [
+    { "name": "First enabled item", "op": "first", "from": null, "expect": "draft" },
+    { "name": "Last enabled item", "op": "last", "from": null, "expect": "lisbon" },
+    {
+      "name": "Next with none active starts at the first",
+      "op": "next",
+      "from": null,
+      "expect": "draft"
+    },
+    {
+      "name": "Previous with none active starts at the last",
+      "op": "prev",
+      "from": null,
+      "expect": "lisbon"
+    },
+    { "name": "Next skips a disabled item", "op": "next", "from": "review", "expect": "done" },
+    { "name": "Previous skips a disabled item", "op": "prev", "from": "done", "expect": "review" },
+    { "name": "Next wraps from the last", "op": "next", "from": "lisbon", "expect": "draft" },
+    { "name": "Previous wraps from the first", "op": "prev", "from": "draft", "expect": "lisbon" }
+  ],
+  "disabledOnly": {
+    "items": [{ "value": "a", "label": "A", "disabled": true }],
+    "cases": [
+      {
+        "name": "No first item when every item is disabled",
+        "op": "first",
+        "from": null,
+        "expect": null
+      },
+      {
+        "name": "No next item when every item is disabled",
+        "op": "next",
+        "from": "a",
+        "expect": null
+      },
+      {
+        "name": "No typeahead match when every item is disabled",
+        "op": "typeahead",
+        "query": "a",
+        "from": null,
+        "expect": null
+      }
+    ]
+  }
+}

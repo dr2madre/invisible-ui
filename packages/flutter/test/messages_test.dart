@@ -48,6 +48,15 @@ void main() {
       expect(messages.dialogConfirmLabel, _english('dialog.confirm'));
       expect(messages.dialogCancelLabel, _english('dialog.cancel'));
       expect(messages.dialogDismissLabel, _english('dialog.dismiss'));
+      expect(messages.switchOn, _english('switch.on'));
+      expect(messages.switchOff, _english('switch.off'));
+      expect(messages.selectPlaceholder, _english('select.placeholder'));
+      expect(messages.comboboxPlaceholder, _english('combobox.placeholder'));
+      expect(messages.comboboxClear, _english('combobox.clear'));
+      expect(messages.comboboxEmpty, _english('combobox.empty'));
+      expect(messages.comboboxShow, _english('combobox.show'));
+      expect(messages.comboboxHide, _english('combobox.hide'));
+      expect(messages.popoverTriggerLabel, _english('dialog.trigger'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

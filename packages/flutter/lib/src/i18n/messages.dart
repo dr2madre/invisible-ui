@@ -25,6 +25,15 @@ class InvisibleMessages {
     this.dialogConfirmLabel = 'Confirm',
     this.dialogCancelLabel = 'Cancel',
     this.dialogDismissLabel = 'OK',
+    this.switchOn = 'ON',
+    this.switchOff = 'OFF',
+    this.selectPlaceholder = 'Select…',
+    this.comboboxPlaceholder = 'Search…',
+    this.comboboxClear = 'Clear',
+    this.comboboxEmpty = 'No results',
+    this.comboboxShow = 'Show options',
+    this.comboboxHide = 'Close options',
+    this.popoverTriggerLabel = 'Open',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -81,6 +90,39 @@ class InvisibleMessages {
   /// `dialog.dismiss`.
   final String dialogDismissLabel;
 
+  /// The text of a switch's on state. Catalog key `switch.on`.
+  final String switchOn;
+
+  /// The text of a switch's off state. Catalog key `switch.off`.
+  final String switchOff;
+
+  /// Shown by a select with nothing chosen. Catalog key
+  /// `select.placeholder`.
+  final String selectPlaceholder;
+
+  /// Shown in an empty combobox. Catalog key `combobox.placeholder`.
+  final String comboboxPlaceholder;
+
+  /// The name of a combobox's clear button. Catalog key
+  /// `combobox.clear`.
+  final String comboboxClear;
+
+  /// Shown when no option matches a combobox's text. Catalog key
+  /// `combobox.empty`.
+  final String comboboxEmpty;
+
+  /// The name of a combobox's button while its list is closed.
+  /// Catalog key `combobox.show`.
+  final String comboboxShow;
+
+  /// The name of a combobox's button while its list is open.
+  /// Catalog key `combobox.hide`.
+  final String comboboxHide;
+
+  /// The text of a popover trigger given no content of its own.
+  /// Catalog key `dialog.trigger`.
+  final String popoverTriggerLabel;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -104,6 +146,15 @@ class InvisibleMessages {
     String? dialogConfirmLabel,
     String? dialogCancelLabel,
     String? dialogDismissLabel,
+    String? switchOn,
+    String? switchOff,
+    String? selectPlaceholder,
+    String? comboboxPlaceholder,
+    String? comboboxClear,
+    String? comboboxEmpty,
+    String? comboboxShow,
+    String? comboboxHide,
+    String? popoverTriggerLabel,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -125,6 +176,15 @@ class InvisibleMessages {
       dialogConfirmLabel: dialogConfirmLabel ?? this.dialogConfirmLabel,
       dialogCancelLabel: dialogCancelLabel ?? this.dialogCancelLabel,
       dialogDismissLabel: dialogDismissLabel ?? this.dialogDismissLabel,
+      switchOn: switchOn ?? this.switchOn,
+      switchOff: switchOff ?? this.switchOff,
+      selectPlaceholder: selectPlaceholder ?? this.selectPlaceholder,
+      comboboxPlaceholder: comboboxPlaceholder ?? this.comboboxPlaceholder,
+      comboboxClear: comboboxClear ?? this.comboboxClear,
+      comboboxEmpty: comboboxEmpty ?? this.comboboxEmpty,
+      comboboxShow: comboboxShow ?? this.comboboxShow,
+      comboboxHide: comboboxHide ?? this.comboboxHide,
+      popoverTriggerLabel: popoverTriggerLabel ?? this.popoverTriggerLabel,
     );
   }
 
@@ -144,10 +204,19 @@ class InvisibleMessages {
       other.dialogCloseLabel == dialogCloseLabel &&
       other.dialogConfirmLabel == dialogConfirmLabel &&
       other.dialogCancelLabel == dialogCancelLabel &&
-      other.dialogDismissLabel == dialogDismissLabel;
+      other.dialogDismissLabel == dialogDismissLabel &&
+      other.switchOn == switchOn &&
+      other.switchOff == switchOff &&
+      other.selectPlaceholder == selectPlaceholder &&
+      other.comboboxPlaceholder == comboboxPlaceholder &&
+      other.comboboxClear == comboboxClear &&
+      other.comboboxEmpty == comboboxEmpty &&
+      other.comboboxShow == comboboxShow &&
+      other.comboboxHide == comboboxHide &&
+      other.popoverTriggerLabel == popoverTriggerLabel;
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     loadingLabel,
     submenuHint,
     closeLabel,
@@ -162,5 +231,14 @@ class InvisibleMessages {
     dialogConfirmLabel,
     dialogCancelLabel,
     dialogDismissLabel,
-  );
+    switchOn,
+    switchOff,
+    selectPlaceholder,
+    comboboxPlaceholder,
+    comboboxClear,
+    comboboxEmpty,
+    comboboxShow,
+    comboboxHide,
+    popoverTriggerLabel,
+  ]);
 }

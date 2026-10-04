@@ -35,9 +35,6 @@ const Duration submenuHoverDelay = Duration(milliseconds: 100);
 /// How long the pointer may rest in the grace area before it ends.
 const Duration graceRest = Duration(milliseconds: 300);
 
-/// How long typed characters build one typeahead query.
-const Duration typeaheadReset = Duration(milliseconds: 500);
-
 final Map<LogicalKeyboardKey, MenuKey> _menuKeys = {
   LogicalKeyboardKey.arrowDown: MenuKey.arrowDown,
   LogicalKeyboardKey.arrowUp: MenuKey.arrowUp,
@@ -326,13 +323,8 @@ class MenuSession<T> extends ChangeNotifier {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
       return KeyEventResult.ignored;
     }
-    final keyboard = HardwareKeyboard.instance;
-    final character = event.character;
-    if (character != null &&
-        character.trim().isNotEmpty &&
-        !keyboard.isControlPressed &&
-        !keyboard.isMetaPressed &&
-        !keyboard.isAltPressed) {
+    final character = typedCharacter(event);
+    if (character != null) {
       _typeahead(character);
       return KeyEventResult.handled;
     }

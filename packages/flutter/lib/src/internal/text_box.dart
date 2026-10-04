@@ -42,6 +42,8 @@ class TextBox extends StatefulWidget {
     this.onSubmitted,
     this.leading,
     this.trailing,
+    this.actions = const [],
+    this.onTextPointerDown,
   });
 
   /// The text.
@@ -97,6 +99,13 @@ class TextBox extends StatefulWidget {
 
   /// A decorative widget after the text.
   final Widget? trailing;
+
+  /// Buttons after the text, such as a clear button. Unlike [trailing] they
+  /// keep their semantics.
+  final List<Widget> actions;
+
+  /// Called when a pointer goes down on the text, before any gesture.
+  final VoidCallback? onTextPointerDown;
 
   @override
   State<TextBox> createState() => _TextBoxState();
@@ -208,16 +217,88 @@ class _TextBoxState extends State<TextBox>
             ],
           );
 
-    final ring = widget.invalid
+    Widget box = FieldBox(
+      enabled: widget.enabled,
+      invalid: widget.invalid,
+      focused: focused,
+      child: Row(
+        children: [
+          if (widget.leading case final leading?) ...[
+            ExcludeSemantics(child: leading),
+            const SizedBox(width: _iconGap),
+          ],
+          Expanded(
+            child: widget.onTextPointerDown == null
+                ? text
+                : Listener(
+                    behavior: HitTestBehavior.translucent,
+                    onPointerDown: (_) => widget.onTextPointerDown!(),
+                    child: text,
+                  ),
+          ),
+          if (widget.trailing case final trailing?) ...[
+            const SizedBox(width: _iconGap),
+            ExcludeSemantics(child: trailing),
+          ],
+          ...widget.actions,
+        ],
+      ),
+    );
+
+    box = _gestures.buildGestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: box,
+    );
+
+    return MouseRegion(
+      cursor: widget.enabled
+          ? SystemMouseCursors.text
+          : SystemMouseCursors.forbidden,
+      child: IgnorePointer(ignoring: !widget.enabled, child: box),
+    );
+  }
+}
+
+/// The box of a field control: the background, the border, the padding, the
+/// minimum target size and the focus ring, around [child].
+///
+/// While [focused] the border takes the focus colour and the ring shows. An
+/// [invalid] box keeps a danger border and ring at rest too.
+class FieldBox extends StatelessWidget {
+  /// Draws the box around [child].
+  const FieldBox({
+    super.key,
+    required this.child,
+    this.enabled = true,
+    this.invalid = false,
+    this.focused = false,
+  });
+
+  /// The content, usually a row of text and icons.
+  final Widget child;
+
+  /// A disabled box takes the disabled surface.
+  final bool enabled;
+
+  /// Paints the danger border and ring.
+  final bool invalid;
+
+  /// Shows the focus border and ring.
+  final bool focused;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = InvisibleTheme.of(context);
+    final colors = theme.colors;
+    final ring = invalid
         ? theme.focusRing.copyWith(
             color: colors.danger,
             haloColor: colors.danger.withValues(alpha: _dangerHalo),
           )
         : theme.focusRing;
     final radius = theme.controlRadius;
-
-    Widget box = FocusRingPainter(
-      visible: focused || widget.invalid,
+    return FocusRingPainter(
+      visible: focused || invalid,
       ring: ring,
       radius: radius,
       child: ConstrainedBox(
@@ -227,10 +308,10 @@ class _TextBoxState extends State<TextBox>
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: widget.enabled ? colors.background : colors.disabled,
+            color: enabled ? colors.background : colors.disabled,
             border: Border.all(
               width: _borderWidth,
-              color: widget.invalid
+              color: invalid
                   ? colors.danger
                   : focused
                   ? colors.focusRing
@@ -246,35 +327,11 @@ class _TextBoxState extends State<TextBox>
                 size: (theme.textStyle.fontSize ?? 16) * 1.15,
                 applyTextScaling: true,
               ),
-              child: Row(
-                children: [
-                  if (widget.leading case final leading?) ...[
-                    ExcludeSemantics(child: leading),
-                    const SizedBox(width: _iconGap),
-                  ],
-                  Expanded(child: text),
-                  if (widget.trailing case final trailing?) ...[
-                    const SizedBox(width: _iconGap),
-                    ExcludeSemantics(child: trailing),
-                  ],
-                ],
-              ),
+              child: child,
             ),
           ),
         ),
       ),
-    );
-
-    box = _gestures.buildGestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: box,
-    );
-
-    return MouseRegion(
-      cursor: widget.enabled
-          ? SystemMouseCursors.text
-          : SystemMouseCursors.forbidden,
-      child: IgnorePointer(ignoring: !widget.enabled, child: box),
     );
   }
 }
