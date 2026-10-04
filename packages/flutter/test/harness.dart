@@ -130,6 +130,9 @@ Matcher semanticsWith({
   bool? isChecked,
   bool? isInMutuallyExclusiveGroup,
   bool? isLiveRegion,
+  bool? isHeader,
+  bool? namesRoute,
+  bool? isFocused,
   bool? isTextField,
   bool? isReadOnly,
   bool? isMultiline,
@@ -160,6 +163,9 @@ Matcher semanticsWith({
     isChecked: isChecked,
     isInMutuallyExclusiveGroup: isInMutuallyExclusiveGroup,
     isLiveRegion: isLiveRegion,
+    isHeader: isHeader,
+    namesRoute: namesRoute,
+    isFocused: isFocused,
     isTextField: isTextField,
     isReadOnly: isReadOnly,
     isMultiline: isMultiline,
@@ -187,4 +193,37 @@ Future<void> focusEditable(WidgetTester tester, Finder of) async {
   // One frame applies the focus, the next paints what depends on it.
   await tester.pump();
   await tester.pump();
+}
+
+/// Wraps [home] in a [WidgetsApp], for widgets that need a navigator, such
+/// as dialogs. The app's own shortcuts apply (Tab, Escape), as in an app.
+Widget appHarness(
+  WidgetBuilder home, {
+  InvisibleThemeData? theme,
+  TextDirection direction = TextDirection.ltr,
+  double textScale = 1,
+  List<NavigatorObserver> observers = const [],
+  TransitionBuilder? wrap,
+}) {
+  return WidgetsApp(
+    color: const Color(0xFF000000),
+    navigatorObservers: observers,
+    pageRouteBuilder: <T>(settings, builder) => PageRouteBuilder<T>(
+      settings: settings,
+      pageBuilder: (context, _, _) => builder(context),
+    ),
+    builder: (context, child) => MediaQuery(
+      data: MediaQuery.of(
+        context,
+      ).copyWith(textScaler: TextScaler.linear(textScale)),
+      child: Directionality(
+        textDirection: direction,
+        child: InvisibleTheme(
+          data: theme ?? InvisibleThemeData.light(),
+          child: wrap == null ? child! : wrap(context, child),
+        ),
+      ),
+    ),
+    home: Builder(builder: (context) => Center(child: home(context))),
+  );
 }

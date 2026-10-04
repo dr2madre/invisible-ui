@@ -9,7 +9,9 @@ specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/doc
 dark, density, minimum target size, focus ring, messages) and the
 components listed below: Button, the form fields (Field, TextField,
 Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
-Menu) and the notifications. Names and APIs can still change. It is not
+Menu), the feedback widgets (the notifications, Loading, EmptyState,
+ErrorState), Card and the dialog family (Dialog, AlertDialog,
+ConfirmDialog). Names and APIs can still change. It is not
 published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
@@ -130,6 +132,13 @@ NumberField(
 | Dropdown Menu, with submenus | Matched against the Svelte menu and the submenu spec, with adaptations listed | [parity/dropdown-menu.md](parity/dropdown-menu.md) | [Dropdown Menu](https://dr2madre.github.io/invisible-ui/components/data-layout/dropdown-menu/) |
 | Inline Notification | Matched, with adaptations listed | [parity/inline-notification.md](parity/inline-notification.md) | [Inline Notification](https://dr2madre.github.io/invisible-ui/components/feedback/inline-notification/) |
 | Notification, Notification Region | Matched, with adaptations listed | [parity/notification.md](parity/notification.md) | [Notification](https://dr2madre.github.io/invisible-ui/components/feedback/notification/), [Notification Region](https://dr2madre.github.io/invisible-ui/components/feedback/notification-region/) |
+| Loading | Matched, with adaptations listed | [parity/loading.md](parity/loading.md) | [Loading](https://dr2madre.github.io/invisible-ui/components/feedback/loading/) |
+| EmptyState | Matched, with adaptations listed | [parity/empty-state.md](parity/empty-state.md) | [Empty State](https://dr2madre.github.io/invisible-ui/components/feedback/empty-state/) |
+| ErrorState | Matched, with adaptations listed | [parity/error-state.md](parity/error-state.md) | [Error State](https://dr2madre.github.io/invisible-ui/components/feedback/error-state/) |
+| Card | Matched, with adaptations listed | [parity/card.md](parity/card.md) | [Card](https://dr2madre.github.io/invisible-ui/components/data-layout/card/) |
+| Dialog | Matched, with adaptations listed | [parity/dialog.md](parity/dialog.md) | [Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/) |
+| AlertDialog | Matched, with adaptations listed | [parity/alert-dialog.md](parity/alert-dialog.md) | [Alert Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/alert-dialog/) |
+| ConfirmDialog | Matched, with adaptations listed | [parity/confirm-dialog.md](parity/confirm-dialog.md) | [Confirm Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/confirm-dialog/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -163,8 +172,36 @@ WidgetsApp(
 notices.success('Saved', duration: const Duration(seconds: 5));
 ```
 
+### Dialogs
+
+A dialog opens as a route, with `showInvisibleDialog`, and completes with
+the value it closes with:
+
+```dart
+final delete = await showInvisibleDialog<bool>(
+  context: context,
+  builder: (context) => const ConfirmDialog(
+    title: 'Delete 6 hours?',
+    description: 'The hours logged on Monday are removed from the report.',
+    confirmLabel: 'Delete',
+    cancelLabel: 'Keep hours',
+    confirmVariant: ButtonVariant.danger,
+  ),
+);
+if (delete == true) removeHours();
+```
+
+- **Modal.** The barrier blocks the screen below, Tab stays inside, Escape
+  closes the innermost dialog, and focus returns to the element that had it
+  when the dialog opened, also when a dialog opens on top of another.
+- **Status area.** Messages about the dialog's own task go in the dialog
+  (ADR 0016): `Dialog.of(context).notify(title: 'Upload failed', ...)` from
+  the content, or a `DialogController` passed as `controller` from outside.
+  The `ModalObserver` above counts these dialogs, so the notification
+  region holds its toasts while one is open.
+
 An app that also imports Material hides its widgets of the same name:
-`import 'package:flutter/material.dart' hide DropdownMenu, TextField, Tooltip;`.
+`import 'package:flutter/material.dart' hide AlertDialog, Card, Dialog, DropdownMenu, TextField, Tooltip;`.
 
 ## Tokens
 

@@ -21,6 +21,10 @@ class InvisibleMessages {
     this.numberFieldRangeUnderflow = 'Enter a number that is at least {min}.',
     this.numberFieldRangeOverflow = 'Enter a number that is at most {max}.',
     this.numberFieldStepMismatch = 'Enter a multiple of {step}.',
+    this.dialogCloseLabel = 'Close',
+    this.dialogConfirmLabel = 'Confirm',
+    this.dialogCancelLabel = 'Cancel',
+    this.dialogDismissLabel = 'OK',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -62,6 +66,21 @@ class InvisibleMessages {
   /// `numberField.stepMismatch`.
   final String numberFieldStepMismatch;
 
+  /// The name of a dialog's close button and of its dismissible barrier.
+  /// Catalog key `dialog.close`.
+  final String dialogCloseLabel;
+
+  /// The confirming button of a confirm dialog. Catalog key
+  /// `dialog.confirm`.
+  final String dialogConfirmLabel;
+
+  /// The cancelling button of a confirm dialog. Catalog key `dialog.cancel`.
+  final String dialogCancelLabel;
+
+  /// The acknowledging button of an alert dialog. Catalog key
+  /// `dialog.dismiss`.
+  final String dialogDismissLabel;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -81,6 +100,10 @@ class InvisibleMessages {
     String? numberFieldRangeUnderflow,
     String? numberFieldRangeOverflow,
     String? numberFieldStepMismatch,
+    String? dialogCloseLabel,
+    String? dialogConfirmLabel,
+    String? dialogCancelLabel,
+    String? dialogDismissLabel,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -98,6 +121,10 @@ class InvisibleMessages {
           numberFieldRangeOverflow ?? this.numberFieldRangeOverflow,
       numberFieldStepMismatch:
           numberFieldStepMismatch ?? this.numberFieldStepMismatch,
+      dialogCloseLabel: dialogCloseLabel ?? this.dialogCloseLabel,
+      dialogConfirmLabel: dialogConfirmLabel ?? this.dialogConfirmLabel,
+      dialogCancelLabel: dialogCancelLabel ?? this.dialogCancelLabel,
+      dialogDismissLabel: dialogDismissLabel ?? this.dialogDismissLabel,
     );
   }
 
@@ -113,7 +140,11 @@ class InvisibleMessages {
       other.numberFieldParseError == numberFieldParseError &&
       other.numberFieldRangeUnderflow == numberFieldRangeUnderflow &&
       other.numberFieldRangeOverflow == numberFieldRangeOverflow &&
-      other.numberFieldStepMismatch == numberFieldStepMismatch;
+      other.numberFieldStepMismatch == numberFieldStepMismatch &&
+      other.dialogCloseLabel == dialogCloseLabel &&
+      other.dialogConfirmLabel == dialogConfirmLabel &&
+      other.dialogCancelLabel == dialogCancelLabel &&
+      other.dialogDismissLabel == dialogDismissLabel;
 
   @override
   int get hashCode => Object.hash(
@@ -127,5 +158,9 @@ class InvisibleMessages {
     numberFieldRangeUnderflow,
     numberFieldRangeOverflow,
     numberFieldStepMismatch,
+    dialogCloseLabel,
+    dialogConfirmLabel,
+    dialogCancelLabel,
+    dialogDismissLabel,
   );
 }

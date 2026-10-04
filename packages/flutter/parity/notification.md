@@ -74,6 +74,7 @@ that holds it.
 | A change to a shown notification waits for the modal to close, then is announced | matched | same test |
 | Shown notifications stay where they are, under the modal | adapted | the Flutter region paints over the navigator, so a toast left visible would sit above the modal and take input. While a modal is open the shown toasts are hidden, inert and out of the focus order; they come back when it closes: same test |
 | Every modal counts, including one opened outside the design system | adapted | `ModalObserver` counts every `PopupRoute` (dialogs and modal sheets) in the navigator it observes: `a dialog route counts as a modal`; an overlay that is not a route calls `hold()` |
+| The package's own dialogs count | matched | `showInvisibleDialog` pushes a `PopupRoute`: `the notification region holds toasts while a dialog is open (ADR 0016, case 2)` in `test/dialog_test.dart` |
 | The region mounts in `<body>`, never inside a dialog | adapted | the app places the region around its navigator (`WidgetsApp.builder`), outside every route |
 | Dialog status area (case 1) and dialogs on top (case 3) | out of scope | they belong to the dialog family, which the Flutter package does not have yet |
 

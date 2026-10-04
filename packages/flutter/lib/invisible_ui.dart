@@ -3,9 +3,17 @@
 library;
 
 export 'src/button/button.dart' show Button, ButtonVariant;
+export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
+export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
+export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
+export 'src/dialog/dialog_route.dart'
+    show InvisibleDialogRoute, showInvisibleDialog;
 export 'src/dropdown_menu/dropdown_menu.dart' show DropdownMenu;
+export 'src/feedback_state/feedback_state.dart'
+    show EmptyState, ErrorState, FeedbackStateSize;
 export 'src/field/field.dart' show Field;
 export 'src/i18n/messages.dart';
+export 'src/loading/loading.dart' show Loading, LoadingVariant;
 export 'src/menu/menu_entry.dart';
 export 'src/notification/inline_notification.dart'
     show

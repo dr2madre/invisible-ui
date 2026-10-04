@@ -44,6 +44,10 @@ void main() {
         messages.numberFieldStepMismatch,
         _english('numberField.stepMismatch'),
       );
+      expect(messages.dialogCloseLabel, _english('dialog.close'));
+      expect(messages.dialogConfirmLabel, _english('dialog.confirm'));
+      expect(messages.dialogCancelLabel, _english('dialog.cancel'));
+      expect(messages.dialogDismissLabel, _english('dialog.dismiss'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

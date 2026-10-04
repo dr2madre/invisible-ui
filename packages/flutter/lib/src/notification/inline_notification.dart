@@ -1,10 +1,9 @@
-import 'dart:math' as math;
-
 import 'package:flutter/widgets.dart';
 
 import '../button/button.dart';
 import '../internal/announce.dart';
-import '../internal/glyphs.dart';
+import '../internal/close_button.dart';
+import '../internal/feedback_icon.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
 
@@ -73,10 +72,7 @@ const EdgeInsetsDirectional _padding = EdgeInsetsDirectional.symmetric(
   vertical: 14,
 );
 const double _gap = 12;
-const double _iconBox = 32;
-const double _iconPadding = 6;
 const double _closeArea = 40;
-const double _closeGlyph = 16;
 const double _closeInset = 8;
 const double _borderWidth = 1;
 
@@ -240,7 +236,7 @@ class _InlineNotificationState extends State<InlineNotification> {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: _gap,
               children: [
-                _StatusIcon(
+                FeedbackIcon(
                   status: widget.status,
                   // A tinted surface has its own colour; the chip shows on
                   // plain and inverted banners only.
@@ -255,10 +251,11 @@ class _InlineNotificationState extends State<InlineNotification> {
             PositionedDirectional(
               top: _closeInset,
               end: _closeInset,
-              child: _CloseButton(
+              child: CloseButton(
                 onPressed: close,
                 label: theme.messages.closeLabel,
                 color: foreground,
+                minArea: _closeArea,
               ),
             ),
         ],
@@ -271,85 +268,6 @@ class _InlineNotificationState extends State<InlineNotification> {
       container: true,
       liveRegion: widget.role == InlineNotificationRole.status ? true : null,
       child: banner,
-    );
-  }
-}
-
-/// The status glyph in its box, decorative: the title carries the meaning.
-class _StatusIcon extends StatelessWidget {
-  const _StatusIcon({required this.status, required this.chip, this.icon});
-
-  final NotificationStatus status;
-  final bool chip;
-  final Widget? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = InvisibleTheme.of(context);
-    final c = theme.colors;
-    final (color, shape) = switch (status) {
-      NotificationStatus.info => (c.info, GlyphShape.info),
-      NotificationStatus.success => (c.success, GlyphShape.success),
-      NotificationStatus.warning => (c.warning, GlyphShape.warning),
-      NotificationStatus.danger => (c.danger, GlyphShape.danger),
-      NotificationStatus.neutral => (c.neutral, GlyphShape.neutral),
-    };
-    final scale = MediaQuery.textScalerOf(context);
-    return ExcludeSemantics(
-      child: Container(
-        width: scale.scale(_iconBox),
-        height: scale.scale(_iconBox),
-        padding: EdgeInsets.all(scale.scale(_iconPadding)),
-        decoration: BoxDecoration(
-          color: chip ? color.withValues(alpha: 0.15) : null,
-          borderRadius: BorderRadius.circular(theme.controlRadius),
-        ),
-        child: IconTheme(
-          data: IconThemeData(
-            color: color,
-            size: _iconBox - _iconPadding * 2,
-            applyTextScaling: true,
-          ),
-          child: FittedBox(child: icon ?? Glyph(shape)),
-        ),
-      ),
-    );
-  }
-}
-
-/// The ghost close button, in the banner's own text colour so it reads on
-/// every surface.
-class _CloseButton extends StatelessWidget {
-  const _CloseButton({
-    required this.onPressed,
-    required this.label,
-    required this.color,
-  });
-
-  final VoidCallback onPressed;
-  final String label;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = InvisibleTheme.of(context);
-    return InvisibleTheme(
-      data: theme.copyWith(
-        colors: theme.colors.copyWith(text: color),
-        minTargetSize: Size(
-          math.max(_closeArea, theme.minTargetSize.width),
-          math.max(_closeArea, theme.minTargetSize.height),
-        ),
-      ),
-      child: Button.icon(
-        onPressed: onPressed,
-        variant: ButtonVariant.ghost,
-        icon: SizedBox.square(
-          dimension: MediaQuery.textScalerOf(context).scale(_closeGlyph),
-          child: const Glyph(GlyphShape.close),
-        ),
-        semanticLabel: label,
-      ),
     );
   }
 }
