@@ -1,0 +1,25 @@
+{
+  "description": "Progress completion, language-neutral: for a state from initialState({ value, min, max }) in core/src/progress/state.ts, percentage(state) is the completed share, 0 to 100, compared to within 1e-9. min defaults to 0 and max to 100. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "percentages": [
+    { "name": "A value in the default range", "value": 40, "expect": 40 },
+    { "name": "Nothing done", "value": 0, "expect": 0 },
+    { "name": "Done", "value": 100, "expect": 100 },
+    { "name": "A value above the maximum counts as done", "value": 120, "expect": 100 },
+    { "name": "A value below the minimum counts as nothing", "value": -10, "expect": 0 },
+    { "name": "Steps out of a smaller maximum", "value": 7, "max": 10, "expect": 70 },
+    {
+      "name": "A range that does not start at zero",
+      "value": 75,
+      "min": 50,
+      "max": 150,
+      "expect": 25
+    },
+    {
+      "name": "An empty range reads as nothing done",
+      "value": 10,
+      "min": 10,
+      "max": 10,
+      "expect": 0
+    }
+  ]
+}

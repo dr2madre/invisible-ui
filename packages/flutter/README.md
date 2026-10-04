@@ -12,9 +12,10 @@ Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
 Menu, Popover), the feedback widgets (the notifications, Loading,
 EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
 ConfirmDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
-RadioButtonGroup, SegmentedControl, Select, Combobox) and the dates
-(Calendar, DatePicker, DateRangePicker, TimeField). Names and APIs can
-still change. It is not published to pub.dev.
+RadioButtonGroup, SegmentedControl, Select, Combobox), the dates
+(Calendar, DatePicker, DateRangePicker, TimeField), the disclosures and
+navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link) and
+the value displays (Progress, Meter). Names and APIs can still change. It is not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -153,6 +154,14 @@ NumberField(
 | DatePicker | Matched, with adaptations listed | [parity/date-picker.md](parity/date-picker.md) | [Date Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-picker/) |
 | DateRangePicker | Matched, with adaptations listed | [parity/date-range-picker.md](parity/date-range-picker.md) | [Date Range Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-range-picker/) |
 | TimeField | Matched, with adaptations listed | [parity/time-field.md](parity/time-field.md) | [Time Field](https://dr2madre.github.io/invisible-ui/components/forms/time-field/) |
+| Collapsible | Matched, with adaptations listed | [parity/collapsible.md](parity/collapsible.md) | [Collapsible](https://dr2madre.github.io/invisible-ui/components/data-layout/collapsible/) |
+| Accordion | Matched, with adaptations listed | [parity/accordion.md](parity/accordion.md) | [Accordion](https://dr2madre.github.io/invisible-ui/components/data-layout/accordion/) |
+| Tabs | Matched, with adaptations listed | [parity/tabs.md](parity/tabs.md) | [Tabs](https://dr2madre.github.io/invisible-ui/components/navigation/tabs/) |
+| Breadcrumb | Matched, with adaptations listed | [parity/breadcrumb.md](parity/breadcrumb.md) | [Breadcrumb](https://dr2madre.github.io/invisible-ui/components/patterns/breadcrumb/) |
+| Pagination | Matched, with adaptations listed | [parity/pagination.md](parity/pagination.md) | [Pagination](https://dr2madre.github.io/invisible-ui/components/navigation/pagination/) |
+| Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
+| Progress | Matched, with adaptations listed | [parity/progress.md](parity/progress.md) | [Progress](https://dr2madre.github.io/invisible-ui/components/data-layout/progress/) |
+| Meter | Matched, with adaptations listed | [parity/meter.md](parity/meter.md) | [Meter](https://dr2madre.github.io/invisible-ui/components/data-layout/meter/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -165,9 +174,12 @@ repository.
 The menus also run the shared test vectors in `core/src/menu/__vectors__`,
 Select, Combobox and the radio-style groups the typeahead and navigation
 vectors in `core/src/select/__vectors__`, the calendar the grid, key,
-bound, range and name vectors in `core/src/calendar/__vectors__`, and the
+bound, range and name vectors in `core/src/calendar/__vectors__`, the
 time field the parsing, bound and key sequence vectors in
-`core/src/time-field/__vectors__`, which the `core/` tests run too.
+`core/src/time-field/__vectors__`, and Tabs, Accordion, Pagination,
+Progress and Meter the keyboard, toggle, page list and reading vectors in
+`core/src/tabs`, `accordion`, `pagination`, `progress` and `meter`, which
+the `core/` tests run too.
 
 The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
 Combobox) need an `Overlay` above them, as
@@ -285,6 +297,42 @@ TimeField(
 - **Time field.** Digits type with auto-advance, Escape puts back the last
   finished value, and a time outside `min` and `max` is reported, never
   clamped. On touch, a vertical drag on a segment steps it.
+
+### Navigation
+
+```dart
+Tabs<String>(
+  label: 'Project',
+  value: section,
+  activationMode: TabActivationMode.manual, // arrows move, Enter selects
+  items: const [
+    TabItem(value: 'hours', label: 'Hours', count: 12, child: HoursView()),
+    TabItem(value: 'people', label: 'People', child: PeopleView()),
+  ],
+  onChanged: (next) => setState(() => section = next),
+)
+
+Breadcrumb(
+  items: [
+    BreadcrumbItem(label: 'Home', home: true, onPressed: () => go('/')),
+    BreadcrumbItem(label: 'Projects', onPressed: () => go('/projects')),
+    const BreadcrumbItem(label: 'Timelog'), // the current page
+  ],
+)
+```
+
+- **Disclosures.** `Collapsible(expanded:, onExpansionChanged:)` shows and
+  hides one region; `Accordion(value:, onChanged:)` stacks sections, one
+  open at a time unless `multiple`. Hidden content keeps its state.
+- **Links.** `Link` and the breadcrumb steps open through `onPressed`, so
+  the app decides how a destination opens (a route, or a URL it launches)
+  and the package needs no URL plugin. Pass `uri` to announce the address.
+- **Pagination.** `Pagination(page:, pageCount:, onPageChanged:)` shows the
+  boundary pages, the siblings of the current page and the gaps.
+- **Progress and Meter.** `Progress` is determinate, as on the web: work of
+  unknown length is waiting, which `Loading(variant: LoadingVariant.bar)`
+  shows. `Meter` colours its fill by how good the value is, given
+  `optimum`.
 
 An app that also imports Material hides its widgets of the same name:
 `import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Switch, TextField, Tooltip;`.

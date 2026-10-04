@@ -59,6 +59,14 @@ class InvisibleMessages {
     this.timeFieldSecondsNotAllowed = 'Enter hours and minutes only.',
     this.timeFieldRangeUnderflow = 'Enter a time no earlier than {min}.',
     this.timeFieldRangeOverflow = 'Enter a time no later than {max}.',
+    this.collapsibleToggle = 'Toggle',
+    this.paginationLabel = 'Pagination',
+    this.paginationPrevious = 'Go to previous page',
+    this.paginationNext = 'Go to next page',
+    this.paginationPage = 'Go to page {page}',
+    this.paginationCurrent = 'current page',
+    this.breadcrumbLabel = 'Breadcrumb',
+    this.breadcrumbCurrent = 'current page',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -248,6 +256,38 @@ class InvisibleMessages {
   /// `timeField.rangeOverflow`.
   final String timeFieldRangeOverflow;
 
+  /// The text of a collapsible's trigger given no label. Catalog key
+  /// `collapsible.toggle`.
+  final String collapsibleToggle;
+
+  /// The name of a pagination's navigation. Catalog key
+  /// `pagination.label`.
+  final String paginationLabel;
+
+  /// The name of a pagination's previous-page button. Catalog key
+  /// `pagination.previous`.
+  final String paginationPrevious;
+
+  /// The name of a pagination's next-page button. Catalog key
+  /// `pagination.next`.
+  final String paginationNext;
+
+  /// The name of a pagination's page button, with `{page}`. Catalog key
+  /// `pagination.page`.
+  final String paginationPage;
+
+  /// Read with a pagination's current page. Catalog key
+  /// `pagination.current`.
+  final String paginationCurrent;
+
+  /// The name of a breadcrumb trail given none. Catalog key
+  /// `breadcrumb.label`.
+  final String breadcrumbLabel;
+
+  /// Read with a breadcrumb trail's current page. Catalog key
+  /// `breadcrumb.current`.
+  final String breadcrumbCurrent;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -305,6 +345,14 @@ class InvisibleMessages {
     String? timeFieldSecondsNotAllowed,
     String? timeFieldRangeUnderflow,
     String? timeFieldRangeOverflow,
+    String? collapsibleToggle,
+    String? paginationLabel,
+    String? paginationPrevious,
+    String? paginationNext,
+    String? paginationPage,
+    String? paginationCurrent,
+    String? breadcrumbLabel,
+    String? breadcrumbCurrent,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -367,6 +415,14 @@ class InvisibleMessages {
           timeFieldRangeUnderflow ?? this.timeFieldRangeUnderflow,
       timeFieldRangeOverflow:
           timeFieldRangeOverflow ?? this.timeFieldRangeOverflow,
+      collapsibleToggle: collapsibleToggle ?? this.collapsibleToggle,
+      paginationLabel: paginationLabel ?? this.paginationLabel,
+      paginationPrevious: paginationPrevious ?? this.paginationPrevious,
+      paginationNext: paginationNext ?? this.paginationNext,
+      paginationPage: paginationPage ?? this.paginationPage,
+      paginationCurrent: paginationCurrent ?? this.paginationCurrent,
+      breadcrumbLabel: breadcrumbLabel ?? this.breadcrumbLabel,
+      breadcrumbCurrent: breadcrumbCurrent ?? this.breadcrumbCurrent,
     );
   }
 
@@ -420,7 +476,15 @@ class InvisibleMessages {
       other.timeFieldSecondsRequired == timeFieldSecondsRequired &&
       other.timeFieldSecondsNotAllowed == timeFieldSecondsNotAllowed &&
       other.timeFieldRangeUnderflow == timeFieldRangeUnderflow &&
-      other.timeFieldRangeOverflow == timeFieldRangeOverflow;
+      other.timeFieldRangeOverflow == timeFieldRangeOverflow &&
+      other.collapsibleToggle == collapsibleToggle &&
+      other.paginationLabel == paginationLabel &&
+      other.paginationPrevious == paginationPrevious &&
+      other.paginationNext == paginationNext &&
+      other.paginationPage == paginationPage &&
+      other.paginationCurrent == paginationCurrent &&
+      other.breadcrumbLabel == breadcrumbLabel &&
+      other.breadcrumbCurrent == breadcrumbCurrent;
 
   @override
   int get hashCode => Object.hashAll([
@@ -472,5 +536,13 @@ class InvisibleMessages {
     timeFieldSecondsNotAllowed,
     timeFieldRangeUnderflow,
     timeFieldRangeOverflow,
+    collapsibleToggle,
+    paginationLabel,
+    paginationPrevious,
+    paginationNext,
+    paginationPage,
+    paginationCurrent,
+    breadcrumbLabel,
+    breadcrumbCurrent,
   ]);
 }

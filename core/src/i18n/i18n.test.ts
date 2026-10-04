@@ -131,6 +131,14 @@ describe("i18n — translate", () => {
     );
   });
 
+  it("carries the current page marker for platforms with no aria-current", () => {
+    expect(translate(catalog, {}, "en", "pagination.current")).toBe("current page");
+    expect(translate(catalog, {}, "en", "breadcrumb.current")).toBe("current page");
+    expect(
+      translate(catalog, { "breadcrumb.current": "pagina corrente" }, "it", "breadcrumb.current"),
+    ).toBe("pagina corrente");
+  });
+
   it("carries the submenu hint for platforms with no popup semantics", () => {
     expect(translate(catalog, {}, "en", "menu.submenu")).toBe("submenu");
     expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(

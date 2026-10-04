@@ -6,6 +6,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 
 import '../internal/glyphs.dart';
+import '../internal/open_width.dart';
 import '../theme/theme.dart';
 
 // Sizes the web Field sets in its own stylesheet rather than in the tokens.
@@ -313,13 +314,6 @@ class FieldFrame extends StatelessWidget {
       ],
     );
 
-    return LayoutBuilder(
-      builder: (context, constraints) => SizedBox(
-        width: constraints.hasBoundedWidth
-            ? constraints.maxWidth
-            : fieldDefaultWidth,
-        child: column,
-      ),
-    );
+    return OpenWidth(width: fieldDefaultWidth, child: column);
   }
 }
