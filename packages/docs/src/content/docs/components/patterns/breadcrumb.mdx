@@ -55,4 +55,18 @@ and omit `href` on the current page.
 />
 ```
 
+In React, the landmark name comes from the provider's catalog
+(`breadcrumb.label`) unless `label` is given:
+
+```tsx
+<Breadcrumb
+  separator="›"
+  items={[
+    { label: "Home", href: "/", home: true },
+    { label: "Components", href: "/components" },
+    { label: "Breadcrumb" },
+  ]}
+/>
+```
+
 Themeable via `--ds-breadcrumb-*`.

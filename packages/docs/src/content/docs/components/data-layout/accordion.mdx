@@ -49,4 +49,19 @@ children are the panel content, so a panel can hold any markup.
 />
 ```
 
+In React, `content` takes any markup, and `headingLevel` sets the level of the
+item headers (3 by default) so they fit the page outline:
+
+```tsx
+<Accordion
+  headingLevel={2}
+  value={open}
+  onValueChange={setOpen}
+  items={[
+    { value: "shipping", label: "Shipping", content: <ShippingTable /> },
+    { value: "returns", label: "Returns", content: "30-day returns." },
+  ]}
+/>
+```
+
 Themeable via `--ds-accordion-*`.

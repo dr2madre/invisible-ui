@@ -54,6 +54,32 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Separator",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Layout axis of the line.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Hide from assistive tech (purely visual).",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

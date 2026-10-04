@@ -78,6 +78,31 @@ const fixtures: Record<string, ReactElement> = {
   DatePicker: <adapter.DatePicker label="Event date" value="2026-06-15" />,
   DateRangePicker: <adapter.DateRangePicker label="Stay" start="2026-06-10" end="2026-06-14" />,
   TimeField: <adapter.TimeField label="Start" value="09:30" />,
+  Tabs: <adapter.Tabs label="Settings" items={[{ value: "a", label: "A", content: "Panel" }]} />,
+  Accordion: <adapter.Accordion items={[{ value: "a", label: "A", content: "Panel" }]} />,
+  Collapsible: <adapter.Collapsible label="Details">Body</adapter.Collapsible>,
+  Breadcrumb: <adapter.Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Page" }]} />,
+  Pagination: <adapter.Pagination page={2} pageCount={10} />,
+  Stepper: <adapter.Stepper steps={[{ label: "Account" }, { label: "Review" }]} current={1} />,
+  Sidebar: (
+    <adapter.Sidebar
+      value="home"
+      sections={[{ label: "Main", items: [{ value: "home", label: "Home", href: "/" }] }]}
+    />
+  ),
+  TreeView: (
+    <adapter.TreeView
+      label="Files"
+      nodes={[{ value: "src", children: [{ value: "index.ts" }] }]}
+      expanded={["src"]}
+    />
+  ),
+  ButtonGroup: (
+    <adapter.ButtonGroup label="Alignment">
+      <adapter.Button>Left</adapter.Button>
+    </adapter.ButtonGroup>
+  ),
+  Separator: <adapter.Separator />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />

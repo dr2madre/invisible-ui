@@ -142,4 +142,15 @@ and picking a step sends a bubbling `change` event with `detail.current`:
 <Stepper current={1} steps={[{ label: "Cart" }, { label: "Pay" }]} />
 ```
 
+In React, the landmark name and the "Completed" status come from the
+provider's catalog (`stepper.label`, `stepper.completed`):
+
+```tsx
+<Stepper
+  current={step}
+  onStepChange={setStep}
+  steps={[{ label: "Cart" }, { label: "Pay", description: "Card or transfer" }]}
+/>
+```
+
 Themeable via `--ds-stepper-*`.

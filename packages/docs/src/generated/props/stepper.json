@@ -139,6 +139,72 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Stepper",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "steps",
+          "type": "StepDescriptor[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) step, 0-based.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "linear",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Linear mode: upcoming steps cannot be picked.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "type": "StepperOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the progress nav. Defaults to the catalog's \"Progress\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onStepChange",
+          "type": "(current: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the current step changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

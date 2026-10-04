@@ -5,14 +5,16 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 37 components today: Button, Checkbox, Switch,
+adapters, and carries 47 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
 ContextMenu, Menubar and NavigationMenu), the value controls (Radio,
 RadioGroup, CheckboxGroup, SegmentedControl, ToggleButton, ToggleGroup,
 Slider, RangeSlider, NumberField, PinInput and RatingGroup), the date and
-time family (Calendar, DatePicker, DateRangePicker and TimeField), Icon and
+time family (Calendar, DatePicker, DateRangePicker and TimeField),
+navigation and structure (Tabs, Accordion, Collapsible, Breadcrumb,
+Pagination, Stepper, Sidebar, TreeView, ButtonGroup and Separator), Icon and
 LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
@@ -105,6 +107,17 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   a mismatch. The week starts on Monday unless `weekStartsOn` says
   otherwise: a locale's first day is not available in every browser, and a
   server and a browser that disagree would render different grids.
+- **`useTabs`, `useAccordion`, `useCollapsible`, `usePagination`,
+  `useStepper` and `useTreeView`** drive navigation and structure through
+  the core. The tabs, the pagination and the tree read the writing
+  direction of the element a key is pressed on, so in right-to-left text the
+  arrows follow the visual order with or without a `LocaleProvider`. Focus
+  moves by element id, so the prop getters work in markup of your own, a tab
+  strip placed apart from its panels included. The tree marks a parent
+  loading when it asks for its children (ADR 0014) and announces loading and
+  failure through one live region that stays in the page. Sidebar keeps the
+  open sections as ADR 0013 describes and renders its drawer as a
+  SheetDialog.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 

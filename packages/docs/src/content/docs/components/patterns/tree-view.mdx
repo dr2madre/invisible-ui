@@ -51,6 +51,21 @@ reserved for scalar values:
 </script>
 ```
 
+In React, `renderLabel` and `renderIcon` render a row's label and leading icon
+from its node:
+
+```tsx
+<TreeView
+  label="Files"
+  nodes={[{ value: "src", children: [{ value: "index.ts" }] }]}
+  expanded={expanded}
+  onExpandedChange={setExpanded}
+  selected={selected}
+  onSelectedChange={setSelected}
+  renderIcon={(node) => (node.hasChildren ? <FolderIcon /> : <FileIcon />)}
+/>
+```
+
 ### Large trees
 
 Tree View does not virtualize rows. DOM virtualization can remove the focused
@@ -77,6 +92,10 @@ Reflect the request through `loading`. On success, replace the controlled
 `nodes` forest and remove the value from `loading`. On failure, remove it from
 `loading` and add it to `loadErrors`. Right Arrow or the disclosure control
 retries a failed expanded node.
+
+Elements and React announce the loading and failure messages through one
+visually hidden live region that stays in the page; the row text describes the
+treeitem without being a live region of its own.
 
 Keep the latest request id per node and ignore older responses. This prevents a
 slow response from replacing newer data. Separate nodes can remain in `loading`

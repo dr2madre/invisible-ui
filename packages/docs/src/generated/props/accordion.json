@@ -131,6 +131,72 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Accordion",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "AccordionEntry[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "default": "NONE",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) expanded values.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "type",
+          "type": "AccordionType",
+          "default": "\"single\"",
+          "required": false,
+          "description": "`single` (default): one open at a time. `multiple`: many.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "For `single`: allow collapsing the open item.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "headingLevel",
+          "type": "AccordionHeadingLevel",
+          "default": "3",
+          "required": false,
+          "description": "Level of every item header, 2 to 6; an item's own `headingLevel` wins.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the expanded set changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

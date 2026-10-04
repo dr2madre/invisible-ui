@@ -41,4 +41,12 @@ Slots: `trigger` (the trigger content), default (the collapsible region).
 <Collapsible label="Details"><p>Hidden content.</p></Collapsible>
 ```
 
+In React, `trigger` takes markup in place of the `label` text:
+
+```tsx
+<Collapsible label="Details" open={open} onOpenChange={setOpen}>
+  <p>Hidden content.</p>
+</Collapsible>
+```
+
 Themeable via `--ds-collapsible-*`.

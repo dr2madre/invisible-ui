@@ -125,6 +125,64 @@
         "panel"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Tabs",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "TabsItem[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) selected tab.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "activationMode",
+          "type": "ActivationMode",
+          "default": "\"automatic\"",
+          "required": false,
+          "description": "`automatic` (default): arrows select while moving. `manual`: Enter or Space selects.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tab list (announced by screen readers).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the selected tab changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderPanel",
+          "type": "(item: TabsItem) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Rich content of one panel, rendered once per tab; wins over `content`.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

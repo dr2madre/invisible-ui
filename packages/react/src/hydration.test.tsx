@@ -37,6 +37,16 @@ import { Calendar } from "./calendar/Calendar";
 import { DatePicker } from "./date-picker/DatePicker";
 import { DateRangePicker } from "./date-range-picker/DateRangePicker";
 import { TimeField } from "./time-field/TimeField";
+import { Tabs } from "./tabs/Tabs";
+import { Accordion } from "./accordion/Accordion";
+import { Collapsible } from "./collapsible/Collapsible";
+import { Breadcrumb } from "./breadcrumb/Breadcrumb";
+import { Pagination } from "./pagination/Pagination";
+import { Stepper } from "./stepper/Stepper";
+import { Sidebar } from "./sidebar/Sidebar";
+import { TreeView } from "./tree-view/TreeView";
+import { ButtonGroup } from "./button-group/ButtonGroup";
+import { Separator } from "./separator/Separator";
 
 function HydrationFixture(): ReactElement {
   return (
@@ -143,6 +153,51 @@ function HydrationFixture(): ReactElement {
         <DatePicker label="Event date" value="2026-06-15" name="event" clearable />
         <DateRangePicker label="Stay" start="2026-06-10" end="2026-06-14" startName="from" />
         <TimeField label="Start" value="21:30" name="start" />
+        <Tabs
+          label="Settings"
+          value="team"
+          items={[
+            { value: "account", label: "Account", content: "Account settings." },
+            { value: "team", label: "Team", count: 3, content: "Team settings." },
+          ]}
+        />
+        <Accordion
+          items={[{ value: "shipping", label: "Shipping", content: "Ships in 3 days." }]}
+          value={["shipping"]}
+        />
+        <Collapsible label="Details" open>
+          Body
+        </Collapsible>
+        <Breadcrumb items={[{ label: "Home", href: "/", home: true }, { label: "Page" }]} />
+        <Pagination page={6} pageCount={20} />
+        <Stepper steps={[{ label: "Account" }, { label: "Review" }]} current={1} />
+        <Sidebar
+          value="daily"
+          sections={[
+            { label: "Main", items: [{ value: "home", label: "Home" }] },
+            {
+              id: "reports",
+              label: "Reports",
+              collapsible: true,
+              items: [{ value: "daily", label: "Daily", href: "/daily" }],
+            },
+          ]}
+        />
+        <TreeView
+          label="Files"
+          nodes={[
+            { value: "src", children: [{ value: "index.ts" }] },
+            { value: "remote", hasChildren: true },
+          ]}
+          expanded={["src", "remote"]}
+          loading={["remote"]}
+          selected="index.ts"
+        />
+        <ButtonGroup label="Alignment">
+          <Button>Left</Button>
+          <Button>Right</Button>
+        </ButtonGroup>
+        <Separator />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -226,6 +281,12 @@ describe("React adapter hydration", () => {
     expect(host.querySelector('[data-segment="dayPeriod"]')).toHaveTextContent("PM");
     expect(host.querySelectorAll('input[type="range"]')).toHaveLength(3);
     expect(host.querySelector('[role="spinbutton"]')).toHaveValue("1,234.5");
+    expect(host.querySelector('[role="tab"][aria-selected="true"]')).toHaveTextContent("Team");
+    expect(host.querySelector('[aria-current="page"].pagination__page')).toHaveTextContent("6");
+    expect(host.querySelector('[aria-current="step"]')).toHaveTextContent("Review");
+    expect(host.querySelector('[role="treeitem"][tabindex="0"]')).toHaveTextContent("index.ts");
+    expect(host.querySelector(".tree__live")).toHaveTextContent("Loading remote…");
+    expect(host.querySelector(".sidebar__group")).toHaveAttribute("aria-expanded", "true");
 
     await unmount();
   });
