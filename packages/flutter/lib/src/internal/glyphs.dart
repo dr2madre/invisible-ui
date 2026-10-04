@@ -67,6 +67,12 @@ enum GlyphShape {
 
   /// A light bulb: the neutral status, a tip.
   neutral,
+
+  /// A house: the first item of a breadcrumb trail.
+  home,
+
+  /// An arrow pointing up and away: a link that leaves the app.
+  external,
 }
 
 /// A stroked glyph, sized and coloured by the surrounding [IconTheme]. It has
@@ -215,6 +221,22 @@ class _GlyphPainter extends CustomPainter {
             const Offset(8.91, 14),
             radius: const Radius.circular(4.61),
           ),
+      ],
+      GlyphShape.home => [
+        Path()
+          ..moveTo(3, 9)
+          ..lineTo(12, 2)
+          ..lineTo(21, 9)
+          ..lineTo(21, 20)
+          ..arcToPoint(const Offset(19, 22), radius: corner)
+          ..lineTo(5, 22)
+          ..arcToPoint(const Offset(3, 20), radius: corner)
+          ..close(),
+        _polyline([9, 22, 9, 12, 15, 12, 15, 22]),
+      ],
+      GlyphShape.external => [
+        _line(7, 17, 17, 7),
+        _polyline([8, 7, 17, 7, 17, 16]),
       ],
     };
   }
