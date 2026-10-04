@@ -31,9 +31,10 @@ const VIEWS: CalendarView[] = ["month", "two-month", "week", "three-day", "day",
 
 const asView = (value: string | null, fallback: CalendarView): CalendarView =>
   VIEWS.includes(value as CalendarView) ? (value as CalendarView) : fallback;
-/** A reference Sunday, so a weekday name can be rendered from an index. */
+// Weekday and month names come from local dates: the formatters read local
+// time, and a UTC midnight shifts the name by a day west of UTC.
 const weekdayName = (fmt: Intl.DateTimeFormat, weekday: number) =>
-  fmt.format(new Date(Date.UTC(2024, 0, 7 + weekday)));
+  fmt.format(core.weekdayDate(weekday));
 
 /** The first day of the week for a locale, as the core counts it (0 = Sunday). */
 export function weekStartFor(locale: string): WeekStart {
@@ -573,7 +574,7 @@ export class DsCalendar extends HTMLElementBase {
     const wrap = document.createElement("div");
     wrap.className = "calendar__months";
     for (const month of months) {
-      const label = titleFmt.format(new Date(Date.UTC(month.year, month.month - 1, 1)));
+      const label = titleFmt.format(core.monthDate(month.year, month.month));
       const box = document.createElement("div");
       box.className = "calendar__month";
       if (twoMonth) {
@@ -659,7 +660,7 @@ export class DsCalendar extends HTMLElementBase {
       String(Number.isInteger(columns) && columns > 0 ? columns : 1),
     );
     for (const month of core.monthsOfYear(core.describe(this.#focused).year)) {
-      const name = monthFmt.format(new Date(Date.UTC(month.year, month.month - 1, 1)));
+      const name = monthFmt.format(core.monthDate(month.year, month.month));
       const section = document.createElement("section");
       section.className = "calendar__mini";
 

@@ -14,7 +14,7 @@ export type CalendarState = core.CalendarState;
 export type CalendarContext = core.CalendarContext;
 
 /** An ISO `YYYY-MM-DD` date as local midnight, for the Intl date formatters. */
-export const localDate = (iso: string) => new Date(`${iso}T00:00:00`);
+export const localDate = core.localDate;
 
 export interface CreateCalendar {
   /** Reactive resolved state. */
