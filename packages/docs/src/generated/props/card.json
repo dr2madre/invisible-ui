@@ -247,6 +247,152 @@
         "title"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Card",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"media\" | \"dashboard\"",
+          "default": "\"media\"",
+          "required": false,
+          "description": "`media` (default): media, text and actions. `dashboard`: a metric tile.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "type": "\"vertical\" | \"horizontal\"",
+          "default": "\"vertical\"",
+          "required": false,
+          "description": "Media card layout. Defaults to `vertical`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "surface",
+          "type": "\"default\" | \"secondary\"",
+          "default": "\"default\"",
+          "required": false,
+          "description": "Surface hierarchy. `secondary` uses the quieter secondary card surface.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "imageSrc",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Image URL for the media area, used as given (ignored with `icon` or `media`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "imageAlt",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "Alt text for the image. Empty by default (decorative).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Card title. A string renders as a heading and names the card; other markup replaces the heading.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "headingLevel",
+          "type": "2 | 3 | 4 | 5 | 6",
+          "default": "3",
+          "required": false,
+          "description": "Heading level for a string title (2 to 6). Defaults to `3`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Body description: text or markup.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string | number",
+          "default": null,
+          "required": false,
+          "description": "Dashboard: the large metric value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "change",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Dashboard: the smaller change shown beside the value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trend",
+          "type": "\"up\" | \"down\" | \"neutral\"",
+          "default": "\"neutral\"",
+          "required": false,
+          "description": "Dashboard: direction of the change, for its colour.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Decorative icon in the media area (media) or beside the title (dashboard).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "media",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Custom media, in place of the image or the icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "tags",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Tags shown with the title.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "metric",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Dashboard: extra content after the value and the change.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Actions at the end of the card.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Extra body content below the description.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

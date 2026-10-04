@@ -31,4 +31,14 @@ The label text is the default slot.
 <input id="email" type="email" />
 ```
 
+In React, `htmlFor` names the control, and `useLabel` gives the same props to
+a label of your own:
+
+```tsx
+<Label htmlFor="email" required>
+  Email
+</Label>
+<input id="email" type="email" />
+```
+
 Themeable via `--ds-label-*`.

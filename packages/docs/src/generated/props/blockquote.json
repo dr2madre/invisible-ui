@@ -57,6 +57,40 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Blockquote",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "cite",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Visible attribution, such as an author: text or markup.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "citeUrl",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Machine-readable source URL, set as the native `cite` attribute (not shown).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The quoted text.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

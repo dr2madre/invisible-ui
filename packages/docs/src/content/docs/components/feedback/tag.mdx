@@ -47,4 +47,13 @@ itself, so the application remains the source of truth:
 </script>
 ```
 
+In React, `icon` and `trailing` take markup, and `onRemove` reports the press
+without removing the tag:
+
+```tsx
+<Tag status="success" removable removeLabel="Remove status" onRemove={removeStatus}>
+  Published
+</Tag>
+```
+
 Themeable via `--ds-tag-*`.

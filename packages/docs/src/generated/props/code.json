@@ -22,6 +22,24 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Code",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The code text.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

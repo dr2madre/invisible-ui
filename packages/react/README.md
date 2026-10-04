@@ -5,7 +5,7 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 47 components today: Button, Checkbox, Switch,
+adapters, and carries 64 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
@@ -14,8 +14,10 @@ RadioGroup, CheckboxGroup, SegmentedControl, ToggleButton, ToggleGroup,
 Slider, RangeSlider, NumberField, PinInput and RatingGroup), the date and
 time family (Calendar, DatePicker, DateRangePicker and TimeField),
 navigation and structure (Tabs, Accordion, Collapsible, Breadcrumb,
-Pagination, Stepper, Sidebar, TreeView, ButtonGroup and Separator), Icon and
-LocaleProvider. See item 14 in
+Pagination, Stepper, Sidebar, TreeView, ButtonGroup and Separator), the
+presentational components (Avatar, AvatarGroup, Count, Tag, Kbd, Code,
+CodeBlock, Blockquote, Skeleton, AspectRatio, ScrollArea, Progress, Meter,
+Link, Label, Field and Card), Icon and LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -118,6 +120,12 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   failure through one live region that stays in the page. Sidebar keeps the
   open sections as ADR 0013 describes and renders its drawer as a
   SheetDialog.
+- **`useProgress`, `useMeter`, `useLabel`, `useField` and `useScrollArea`**
+  carry the presentational components' behaviour. The first four derive
+  their props from the options on every render, so a changed value, range
+  or association shows at once. `useScrollArea` measures the viewport on
+  scroll and resize and maps a thumb drag onto the native scroll. Field's
+  control comes from a function child that receives `controlProps`.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 

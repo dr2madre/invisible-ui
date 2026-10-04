@@ -118,6 +118,64 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Progress",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "Current value. Progress is determinate; waiting with no value belongs to Loading.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "shape",
+          "type": "\"bar\" | \"circle\"",
+          "default": "\"bar\"",
+          "required": false,
+          "description": "A linear `bar` (default) or a `circle` ring (an upload or an export).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the percentage inside the circle.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the progress bar.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

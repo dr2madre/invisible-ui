@@ -4,6 +4,7 @@ import { usePortalHost } from "../internal/portal-host";
 import { CheckGlyph, Icon } from "../icon/Icon";
 import { cx } from "../internal/cx";
 import { useI18n } from "../i18n/i18n";
+import { Tag } from "../tag/Tag";
 import { useMultiSelect, type MultiSelectItem } from "./use-multi-select";
 
 export interface MultiSelectProps {
@@ -177,40 +178,17 @@ export function MultiSelect({
             aria-label={t("multiSelect.selected")}
             ref={listEl}
           >
-            {api.selectedItems.map((item, index) => {
-              const removable = !inert && !(item.disabled ?? false);
-              return (
-                <li key={item.value} className="multi-select__value">
-                  <span className="tag" data-status="neutral" data-variant="soft" data-size="md">
-                    <span className="tag__label">{item.label ?? item.value}</span>
-                    {removable ? (
-                      <button
-                        type="button"
-                        className="tag__remove"
-                        aria-label={t("multiSelect.remove", { name: item.label ?? item.value })}
-                        onClick={() => removeAt(item.value, index)}
-                      >
-                        <svg
-                          viewBox="0 0 16 16"
-                          width="1em"
-                          height="1em"
-                          aria-hidden="true"
-                          focusable="false"
-                        >
-                          <path
-                            d="M4 4l8 8M12 4l-8 8"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.75"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </button>
-                    ) : null}
-                  </span>
-                </li>
-              );
-            })}
+            {api.selectedItems.map((item, index) => (
+              <li key={item.value} className="multi-select__value">
+                <Tag
+                  removable={!inert && !item.disabled}
+                  removeLabel={t("multiSelect.remove", { name: item.label ?? item.value })}
+                  onRemove={() => removeAt(item.value, index)}
+                >
+                  {item.label ?? item.value}
+                </Tag>
+              </li>
+            ))}
           </ul>
         ) : null}
         <input

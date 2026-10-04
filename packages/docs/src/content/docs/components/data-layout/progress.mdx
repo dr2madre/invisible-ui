@@ -64,4 +64,11 @@ In Elements:
 <Progress shape="circle" value={82} showValue label="Profile completeness" />
 ```
 
+In React, `useProgress` gives the same props to markup of your own:
+
+```tsx
+<Progress value={7} max={10} label="Achievements unlocked" />
+<Progress shape="circle" value={82} showValue label="Profile completeness" />
+```
+
 Themeable via `--ds-progress-*`.

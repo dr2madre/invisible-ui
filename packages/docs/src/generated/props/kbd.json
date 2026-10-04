@@ -56,6 +56,40 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Kbd",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "keys",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "A chord: each key renders as its own keycap, joined by `separator`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "separator",
+          "type": "string",
+          "default": "\"+\"",
+          "required": false,
+          "description": "Separator shown between chord keys. Defaults to \"+\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A single key, used when `keys` is empty.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

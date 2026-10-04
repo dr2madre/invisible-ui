@@ -47,6 +47,23 @@ import { Sidebar } from "./sidebar/Sidebar";
 import { TreeView } from "./tree-view/TreeView";
 import { ButtonGroup } from "./button-group/ButtonGroup";
 import { Separator } from "./separator/Separator";
+import { Avatar } from "./avatar/Avatar";
+import { AvatarGroup } from "./avatar-group/AvatarGroup";
+import { Count } from "./count/Count";
+import { Tag } from "./tag/Tag";
+import { Kbd } from "./kbd/Kbd";
+import { Code } from "./code/Code";
+import { CodeBlock } from "./code-block/CodeBlock";
+import { Blockquote } from "./blockquote/Blockquote";
+import { Skeleton } from "./skeleton/Skeleton";
+import { AspectRatio } from "./aspect-ratio/AspectRatio";
+import { ScrollArea } from "./scroll-area/ScrollArea";
+import { Progress } from "./progress/Progress";
+import { Meter } from "./meter/Meter";
+import { Link } from "./link/Link";
+import { Label } from "./label/Label";
+import { Field } from "./field/Field";
+import { Card } from "./card/Card";
 
 function HydrationFixture(): ReactElement {
   return (
@@ -198,6 +215,47 @@ function HydrationFixture(): ReactElement {
           <Button>Right</Button>
         </ButtonGroup>
         <Separator />
+        <Avatar name="Ada Lovelace" />
+        <AvatarGroup
+          label="Project team"
+          max={2}
+          items={[
+            { name: "Ada Lovelace", color: "rebeccapurple" },
+            { name: "Grace Hopper" },
+            { name: "Alan Turing" },
+          ]}
+        />
+        <Count count={120} label="120 unread messages" />
+        <Tag status="info" removable trailing={<Count count={2} />}>
+          Draft
+        </Tag>
+        <Kbd keys={["Ctrl", "K"]} />
+        <Code>pnpm install</Code>
+        <CodeBlock code={"pnpm install\npnpm test"} language="bash" />
+        <Blockquote cite="Ada Lovelace" citeUrl="https://example.com">
+          A quote.
+        </Blockquote>
+        <Skeleton lines={3} width="12rem" />
+        <AspectRatio ratio={16 / 9}>
+          <img src="/photo.jpg" alt="A harbour" />
+        </AspectRatio>
+        <ScrollArea label="Logs" maxHeight="4rem">
+          <p>Log line</p>
+        </ScrollArea>
+        <Progress value={40} label="Upload" />
+        <Progress shape="circle" value={60} showValue label="Export" />
+        <Meter value={90} low={50} high={80} optimum={0} label="Disk" />
+        <Link href="https://example.com" external>
+          Docs
+        </Link>
+        <Label htmlFor="nickname" required>
+          Nickname
+        </Label>
+        <input id="nickname" />
+        <Field label="Email" description="We never share it." error="Required" required>
+          {({ controlProps }) => <input type="email" {...controlProps} />}
+        </Field>
+        <Card title="Mountain retreat" imageSrc="/photo.jpg" description="A cabin." />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -287,6 +345,13 @@ describe("React adapter hydration", () => {
     expect(host.querySelector('[role="treeitem"][tabindex="0"]')).toHaveTextContent("index.ts");
     expect(host.querySelector(".tree__live")).toHaveTextContent("Loading remote…");
     expect(host.querySelector(".sidebar__group")).toHaveAttribute("aria-expanded", "true");
+    expect(host.querySelector(".avatar-group__overflow")).toHaveAttribute("aria-label", "1 more");
+    expect(host.querySelector(".count")).toHaveTextContent("99+");
+    expect(host.querySelector('[role="progressbar"]')).toHaveAttribute("aria-valuenow", "40");
+    expect(host.querySelector(".meter__indicator")).toHaveAttribute("data-quality", "poor");
+    expect(host.querySelector(".link")).toHaveAttribute("rel", "noopener noreferrer");
+    expect(host.querySelector('input[type="email"]')).toHaveAttribute("aria-invalid", "true");
+    expect(host.querySelector("article.card")).toHaveAccessibleName("Mountain retreat");
 
     await unmount();
   });

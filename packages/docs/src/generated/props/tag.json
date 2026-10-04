@@ -138,6 +138,88 @@
         "trailing"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Tag",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "status",
+          "type": "TagStatus",
+          "default": "\"neutral\"",
+          "required": false,
+          "description": "Status colour.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "variant",
+          "type": "\"soft\" | \"solid\"",
+          "default": "\"soft\"",
+          "required": false,
+          "description": "A soft tinted surface (default) or a solid, filled chip.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "default": "\"md\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a remove button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Name of the remove button. Defaults to the catalog's \"Remove\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onRemove",
+          "type": "() => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the remove button is pressed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Decorative leading icon.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trailing",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Trailing content, such as a `Count`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The tag text.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

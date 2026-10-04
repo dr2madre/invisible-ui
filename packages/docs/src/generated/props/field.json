@@ -128,6 +128,72 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Field",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "The field label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional helper text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional error message; when set, the control is marked invalid.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Base id. Generated when omitted.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "(control: FieldControl) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Renders the control from the props to spread onto it and its id.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

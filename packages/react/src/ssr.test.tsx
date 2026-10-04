@@ -103,6 +103,29 @@ const fixtures: Record<string, ReactElement> = {
     </adapter.ButtonGroup>
   ),
   Separator: <adapter.Separator />,
+  Avatar: <adapter.Avatar name="Ada Lovelace" src="/ada.png" />,
+  AvatarGroup: (
+    <adapter.AvatarGroup label="Team" items={[{ name: "Ada" }, { name: "Grace" }]} max={1} />
+  ),
+  Count: <adapter.Count count={3} label="3 unread messages" />,
+  Tag: <adapter.Tag removable>Draft</adapter.Tag>,
+  Kbd: <adapter.Kbd keys={["Ctrl", "K"]} />,
+  Code: <adapter.Code>pnpm install</adapter.Code>,
+  CodeBlock: <adapter.CodeBlock code="pnpm install" language="bash" />,
+  Blockquote: <adapter.Blockquote cite="Ada Lovelace">A quote.</adapter.Blockquote>,
+  Skeleton: <adapter.Skeleton lines={2} />,
+  AspectRatio: <adapter.AspectRatio ratio={16 / 9}>Media</adapter.AspectRatio>,
+  ScrollArea: <adapter.ScrollArea label="Logs">Content</adapter.ScrollArea>,
+  Progress: <adapter.Progress value={40} label="Upload" />,
+  Meter: <adapter.Meter value={40} label="Storage" />,
+  Link: <adapter.Link href="/guide">Guide</adapter.Link>,
+  Label: <adapter.Label htmlFor="name">Name</adapter.Label>,
+  Field: (
+    <adapter.Field label="Email" error="Required">
+      {({ controlProps }) => <input {...controlProps} />}
+    </adapter.Field>
+  ),
+  Card: <adapter.Card title="Revenue" variant="dashboard" value="€48k" />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />

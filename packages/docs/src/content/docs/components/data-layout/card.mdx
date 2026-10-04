@@ -50,4 +50,16 @@ hierarchy. It resolves through `--ds-card-secondary-bg`, whose default is the
 neutral surface role. The default surface continues to resolve through
 `--ds-card-bg`.
 
+In React, `title`, `description`, `icon`, `media`, `tags`, `metric` and
+`actions` take markup:
+
+```tsx
+<Card
+  title="Analytics"
+  description="Live data from the warehouse."
+  tags={<Tag status="success">Connected</Tag>}
+  actions={<Button>Open</Button>}
+/>
+```
+
 Themeable via `--ds-card-*`.
