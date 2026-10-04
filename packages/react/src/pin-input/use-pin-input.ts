@@ -1,6 +1,7 @@
 import { pinInput as core } from "@design-system/core";
 import { useId, useRef, useState, type RefObject } from "react";
 import { useI18n } from "../i18n/i18n";
+import { sameList } from "../internal/controllable";
 import { useControlledDefault, useFormReset } from "../internal/form-reset";
 import { inputEvent, normalizeProps } from "../normalize";
 
@@ -72,7 +73,7 @@ export function usePinInput({
     state: { ...state, values },
     setValues: (next) => {
       // A different number of cells is always a change.
-      if (next.length === values.length && next.every((cell, i) => cell === values[i])) return;
+      if (sameList(next, values)) return;
       setValues(next);
       const code = next.join("");
       onValueChange?.(code);

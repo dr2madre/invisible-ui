@@ -11,12 +11,10 @@ import { describe, expect, it } from "vitest";
 // Svelte adapter's): the adapters render the same design system, and a silent
 // divergence would show up as adapters that look subtly different.
 //
-// VUE_SOURCE_SHEETS are the batches the React adapter has not ported yet:
-// forms, overlays & menus, feedback, data & nav, then controls & inputs. These
-// Vue sheets are the source
-// of truth for the adapters that follow (web components are next). Each is
-// checked to be present here and still absent from the React adapter: the day
-// React gains one, this test fails and the sheet moves to SHARED_SHEETS.
+// VUE_SOURCE_SHEETS are the sheets only this adapter ships: the hover card,
+// which sits outside the catalog. Each is checked to be present here and
+// absent from the React adapter: the day React gains one, this test fails and
+// the sheet moves to SHARED_SHEETS.
 //
 // `index.css` is excluded: it names this package in its comment and in the
 // import path it documents, so its text is package-specific even though it
@@ -97,18 +95,16 @@ const SHARED_SHEETS = [
   "empty-state.css",
   "error-state.css",
   "loading-generation-area.css",
-];
-
-const VUE_SOURCE_SHEETS = [
   "textarea.css",
   "table.css",
+  "table-set.css",
   "toolbar.css",
-  "hover-card.css",
+  "carousel.css",
   "login-form.css",
   "upload-drop-area.css",
-  "carousel.css",
-  "table-set.css",
 ];
+
+const VUE_SOURCE_SHEETS = ["hover-card.css"];
 
 describe("stylesheet parity with the React adapter", () => {
   it.each(SHARED_SHEETS)("%s matches byte for byte", (sheet) => {
@@ -116,8 +112,8 @@ describe("stylesheet parity with the React adapter", () => {
   });
 });
 
-describe("Vue-first batch stylesheets (Vue is the source of truth)", () => {
-  it.each(VUE_SOURCE_SHEETS)("%s is present here and not yet in React", (sheet) => {
+describe("Vue-only stylesheets", () => {
+  it.each(VUE_SOURCE_SHEETS)("%s is present here and not in React", (sheet) => {
     expect(read(`./${sheet}`).length).toBeGreaterThan(0);
     expect(existsSync(path(`../../../react/src/styles/${sheet}`))).toBe(false);
   });

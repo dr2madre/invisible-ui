@@ -52,4 +52,12 @@ the input can span multiple lines.
 />
 ```
 
+In React, the native attributes take their React spelling (`maxLength`,
+`minLength`, `autoComplete`, `spellCheck`). A form reset restores the current
+`value` without calling `onValueChange`:
+
+```tsx
+<Textarea label="Message" name="message" rows={5} value={message} onValueChange={setMessage} />
+```
+
 Themeable via `--ds-field-*`.

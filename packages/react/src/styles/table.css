@@ -1,0 +1,116 @@
+/* Table, ported from the Svelte adapter, class names kept identical. */
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font: inherit;
+  color: var(--ds-color-text, #282420);
+  font-size: var(--ds-table-font-size, 0.9375rem);
+}
+
+.table__caption {
+  caption-side: top;
+  text-align: start;
+  padding-block-end: 0.5rem;
+  font-weight: 600;
+}
+.table__caption--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.table__th {
+  text-align: start;
+  font-weight: 600;
+  background: var(--ds-table-header-background, transparent);
+  /* Medium-dark header labels (not full black). */
+  color: var(--ds-table-header-text, var(--ds-color-text-secondary, #524c44));
+  /* Same height as body rows: identical padding + a 1px border (not thicker). */
+  padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
+  border-block-end: var(--ds-table-header-border, 1px) solid
+    var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+  white-space: nowrap;
+}
+.table__td {
+  padding: var(--ds-table-cell-padding, 0.625rem 0.75rem);
+  border-block-end: 1px solid var(--ds-table-border, var(--ds-color-border, #c7c1b7));
+}
+.table__th[data-align="end"],
+.table__td[data-align="end"] {
+  text-align: end;
+}
+.table__th[data-align="center"],
+.table__td[data-align="center"] {
+  text-align: center;
+}
+
+/* The selection column stays as narrow as its checkbox. */
+.table__th--selection,
+.table__td--selection {
+  inline-size: 2.5rem;
+  padding-inline-end: 0;
+}
+/* A comfortable touch target around the small box (WCAG 2.5.8): the
+   padding expands the clickable label, the margin cancels the layout
+   shift, and nothing changes visually. */
+.table__th--selection .field,
+.table__td--selection .field {
+  padding: 0.35rem;
+  margin: -0.35rem;
+}
+
+.table__row:hover {
+  background: var(--ds-table-row-hover, var(--ds-color-neutral-surface, #f4f2ef));
+}
+.table__row[data-selected] {
+  background: var(
+    --ds-table-row-selected,
+    color-mix(in srgb, var(--ds-color-selected, #7a52cc) 8%, transparent)
+  );
+}
+
+.table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.table__sort:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-focus-ring-shadow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.table__sort-icon {
+  display: inline-flex;
+}
+/* Unsorted columns show a faint up/down hint; the active one is emphasized. */
+.table__sort-icon .table__sort-icon-unset {
+  opacity: 0.4;
+}
+.table__sort:hover .table__sort-icon .table__sort-icon-unset {
+  opacity: 0.7;
+}
+/* The actively-sorted column reads as "selected": header label + icon adopt
+   the selection color so the current sort is unmistakable. */
+.table__th[data-sort-direction] {
+  color: var(--ds-table-sort-active, var(--ds-color-secondary-body-text, #7a52cc));
+}
+.table__th[data-sort-direction] .table__sort-icon {
+  color: var(--ds-table-sort-active, var(--ds-color-secondary, #7a52cc));
+}

@@ -1,5 +1,6 @@
 import { dialog as core } from "@design-system/core";
-import { useCallback, useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
+import { useEffect, useId, useMemo, useRef, type RefObject } from "react";
+import { useControllable } from "../internal/controllable";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { returnFocus, trackModal } from "../internal/modal-stack";
 import { lockScroll } from "../internal/scroll-lock";
@@ -78,26 +79,10 @@ export function useDialog({
   onOpenChange,
 }: UseDialogOptions = {}): UseDialog {
   const id = `ds-dialog-${useId()}`;
-  const [open, setOpenState] = useState(openProp);
-
-  // Mirror an externally controlled `open` without an effect.
-  const [lastProp, setLastProp] = useState(openProp);
-  if (openProp !== lastProp) {
-    setLastProp(openProp);
-    setOpenState(openProp);
-  }
-
-  // Writes first and reports afterwards (ADR 0011), from the handler that
-  // called it, never from inside a state updater, which React may run twice
-  // or while rendering. It reports only a change the open state really makes.
-  const setOpen = useCallback(
-    (next: boolean) => {
-      if (open === next) return;
-      setOpenState(next);
-      onOpenChange?.(next);
-    },
-    [open, onOpenChange],
-  );
+  // Mirrors an externally controlled `open` without an effect, and writes
+  // first and reports afterwards (ADR 0011), only for a change the open state
+  // really makes.
+  const [open, setOpen] = useControllable(openProp, onOpenChange);
 
   // Latest inputs, read by the panel's listeners without re-running the effect
   // that shows the panel (and moves focus into it) whenever they change.

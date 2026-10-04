@@ -73,6 +73,13 @@ import { InlineNotification } from "./inline-notification/InlineNotification";
 import { Notification } from "./notification/Notification";
 import { NotificationRegion } from "./notification/NotificationRegion";
 import { createNotifier } from "./notification/create-notifier";
+import { Textarea } from "./text-field/Textarea";
+import { Table } from "./table/Table";
+import { TableSet } from "./table/TableSet";
+import { Toolbar } from "./toolbar/Toolbar";
+import { Carousel } from "./carousel/Carousel";
+import { LoginForm } from "./login-form/LoginForm";
+import { UploadDropArea } from "./upload-drop-area/UploadDropArea";
 
 // Queued before the page renders: the region shows it once hydrated.
 const notifier = createNotifier();
@@ -287,6 +294,35 @@ function HydrationFixture(): ReactElement {
         />
         <Notification title="Saved" text="All changes are stored." duration={4000} />
         <NotificationRegion notifier={notifier} />
+        <Textarea label="Message" value="Hello" required />
+        <Table
+          caption="Scores"
+          columns={[
+            { key: "name", header: "Name", sortable: true },
+            { key: "score", header: "Score", align: "end" },
+          ]}
+          rows={[{ id: 1, name: "Ada", score: 9 }]}
+          sort={{ key: "name", direction: "desc" }}
+        />
+        <TableSet
+          title="People"
+          caption="People"
+          columns={[{ key: "name", header: "Name", sortable: true }]}
+          rows={[
+            { id: 1, name: "Grace" },
+            { id: 2, name: "Ada" },
+          ]}
+          selectionMode="multiple"
+          selectedRowIds={[2]}
+          getRowLabel={(row) => String(row.name)}
+        />
+        <Toolbar label="Text formatting">
+          <button type="button">Bold</button>
+          <button type="button">Italic</button>
+        </Toolbar>
+        <Carousel label="Featured" index={1} items={[{ title: "One" }, { title: "Two" }]} />
+        <LoginForm heading="Welcome" providers={[{ id: "google", label: "Google" }]} />
+        <UploadDropArea accept="image/*" caption="PNG up to 5 MB" />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
@@ -393,6 +429,21 @@ describe("React adapter hydration", () => {
     const region = document.body.querySelector<HTMLElement>(".notification-region")!;
     expect(region.parentElement).toBe(document.body);
     expect(region).toHaveTextContent("Welcome back");
+    expect(host.querySelector(".textarea textarea")).toHaveValue("Hello");
+    expect(host.querySelector('table.table th[aria-sort="descending"]')).toHaveTextContent("Name");
+    // The set sorts by its first sortable column and marks the selected row.
+    const setRows = host.querySelectorAll(".table-set tbody tr");
+    expect(setRows[0]).toHaveTextContent("Ada");
+    expect(setRows[0]).toHaveAttribute("data-selected", "");
+    // The roving tab stop is placed once the toolbar is in the page.
+    const tools = host.querySelectorAll<HTMLButtonElement>('[role="toolbar"] button');
+    expect([...tools].map((button) => button.tabIndex)).toEqual([0, -1]);
+    expect(host.querySelector('.carousel__slide[data-active=""]')).toHaveAttribute(
+      "aria-label",
+      "2 of 2",
+    );
+    expect(host.querySelector(".login__heading")).toHaveTextContent("Welcome");
+    expect(host.querySelector(".upload-drop-area__input")).toHaveAttribute("accept", "image/*");
 
     await unmount();
   });

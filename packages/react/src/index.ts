@@ -168,6 +168,31 @@ export {
   type Notifier,
   type StatusOptions,
 } from "./notification/create-notifier";
+export { Textarea, type TextareaProps } from "./text-field/Textarea";
+export {
+  Table,
+  type TableCellContext,
+  type TableColumnDef,
+  type TableProps,
+  type TableRow,
+  type TableSelectionCellContext,
+} from "./table/Table";
+export { TableSet, type TableSetProps, type TableViewDef } from "./table/TableSet";
+export { Toolbar, type ToolbarOrientation, type ToolbarProps } from "./toolbar/Toolbar";
+export {
+  Carousel,
+  type CarouselItemContext,
+  type CarouselProps,
+  type CarouselSlide,
+  type CarouselVariant,
+} from "./carousel/Carousel";
+export {
+  LoginForm,
+  type LoginFormProps,
+  type LoginFormProvider,
+  type LoginFormValue,
+} from "./login-form/LoginForm";
+export { UploadDropArea, type UploadDropAreaProps } from "./upload-drop-area/UploadDropArea";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -304,6 +329,24 @@ export {
   type ScrollOrientation,
   type UseScrollArea,
 } from "./scroll-area/use-scroll-area";
+export {
+  useTable,
+  type RowId,
+  type SelectionMode,
+  type SortDirection,
+  type SortState,
+  type TableApi,
+  type UseTable,
+  type UseTableOptions,
+} from "./table/use-table";
+export {
+  useCarousel,
+  type CarouselApi,
+  type CarouselOrientation,
+  type CarouselState,
+  type UseCarouselOptions,
+} from "./carousel/use-carousel";
+export { useDropArea, type UseDropArea, type UseDropAreaOptions } from "./drop-area/use-drop-area";
 export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 

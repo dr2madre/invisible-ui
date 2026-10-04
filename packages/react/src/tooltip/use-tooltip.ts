@@ -1,7 +1,7 @@
 import { tooltip as core } from "@design-system/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useDelayedToggle, type DelayedToggle } from "../internal/delayed-toggle";
-import { attachFloating, type Placement } from "../internal/floating";
+import { useAttachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 
 export interface UseTooltipOptions {
@@ -48,11 +48,7 @@ export function useTooltip({
   const triggerRef = useRef<HTMLElement>(null);
   const [tooltip, tooltipRef] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
-    const trigger = triggerRef.current;
-    if (!tooltip || !trigger) return;
-    return attachFloating(trigger, tooltip, { placement, offset });
-  }, [tooltip, placement, offset]);
+  useAttachFloating(triggerRef, tooltip, placement, offset);
 
   const { hide } = toggle;
   useEffect(() => {

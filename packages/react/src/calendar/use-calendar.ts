@@ -77,12 +77,12 @@ export function useCalendar({
   const id = idProp ?? generatedId;
   const range = mode === "range";
 
-  // Each mirror reflects its prop silently; the reports happen below, only
-  // for a user action that moved the piece of state they name.
+  // Each mirror reflects its prop silently; the reports happen on a user
+  // action that moved the piece of state they name.
   const [value, setValue] = useControllable(asDate(valueProp), undefined);
   const [start, setStart] = useControllable(asDate(startProp), undefined);
   const [end, setEnd] = useControllable(asDate(endProp), undefined);
-  const [view, setView] = useControllable(viewProp, undefined);
+  const [view, setView] = useControllable(viewProp, onViewChange);
   const [focused, setFocused] = useState(
     () => asDate(focusedProp) ?? asDate(valueProp) ?? asDate(startProp) ?? core.today(),
   );
@@ -129,11 +129,7 @@ export function useCalendar({
       setFocused(iso);
       onFocusChange?.(iso);
     },
-    setView: (next) => {
-      if (next === view) return;
-      setView(next);
-      onViewChange?.(next);
-    },
+    setView,
     focus: (iso) => setFocusRequest({ iso }),
     normalize: normalizeProps,
   });

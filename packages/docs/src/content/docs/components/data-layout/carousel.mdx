@@ -52,4 +52,18 @@ sanitized. See [Security](/invisible-ui/api/#security).
 <Carousel label="Photos" items={[{ image: "/a.jpg", title: "A" }]} />
 ```
 
+In React, `renderItem` replaces the `children` snippet, and `index` with
+`onIndexChange` makes the current slide controlled:
+
+```tsx
+<Carousel
+  label="Albums"
+  variant="gallery"
+  items={albums}
+  index={current}
+  onIndexChange={setCurrent}
+  renderItem={({ item, active }) => <Card title={String(item.title)} surface={active ? "default" : "secondary"} />}
+/>
+```
+
 Themeable via `--ds-carousel-*`.

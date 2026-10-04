@@ -72,6 +72,48 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Toolbar",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the toolbar (required).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "orientation",
+          "type": "ToolbarOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "flat",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Flat presentation: the controls inside lose their individual borders and fill at rest (they read as one group, divided only by separators), with a subtle hover overlay. The toolbar's own frame still groups them.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The controls: buttons, toggle buttons, separators.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

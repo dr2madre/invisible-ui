@@ -56,4 +56,17 @@ Dropped and picked files are forwarded through the same `onFiles` callback.
 <li use:dropArea={{ onDrop: (data) => moveInto(node, data) }}>Documents</li>
 ```
 
+In React, `children` replace the prompt and `icon` the glyph. A drop keeps only
+the files `accept` names, as the picker does, and `useDropArea` returns the
+props for a drop target of your own:
+
+```tsx
+<UploadDropArea accept="image/*" multiple onFiles={upload} />;
+
+function Folder({ node }) {
+  const { dropAreaProps } = useDropArea({ onDrop: (data) => moveInto(node, data) });
+  return <li {...dropAreaProps}>Documents</li>;
+}
+```
+
 Themeable via `--ds-upload-drop-area-*`.

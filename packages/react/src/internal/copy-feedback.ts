@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /** How long a "Copied" confirmation stays up, in ms. */
-export const COPIED_DURATION = 2000;
+const COPIED_DURATION = 2000;
 
 /**
  * The confirmation shown next to a control that copied something (ADR 0016),

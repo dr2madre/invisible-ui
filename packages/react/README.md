@@ -2,10 +2,9 @@
 
 React adapter over the framework-agnostic [`@design-system/core`](../../core).
 
-**Status: in scope for the full catalog.** The adapter started as the proof
-of concept that showed the core drives a second framework. It is being
-completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 72 components today: Button, Checkbox, Switch,
+**Status: full catalog.** The adapter started as the proof of concept that
+showed the core drives a second framework. Like the Svelte, Vue and custom
+elements adapters, it now carries all 80 components: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
@@ -19,7 +18,8 @@ presentational components (Avatar, AvatarGroup, Count, Tag, Kbd, Code,
 CodeBlock, Blockquote, Skeleton, AspectRatio, ScrollArea, Progress, Meter,
 Link, Label, Field and Card), feedback (Loading, LoadingGenerationArea,
 FeedbackIcon, EmptyState, ErrorState, InlineNotification, Notification and
-NotificationRegion), Icon and LocaleProvider. See item 14 in
+NotificationRegion), the data and form organisms (Textarea, Table, TableSet,
+Toolbar, Carousel, LoginForm and UploadDropArea), Icon and LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -134,6 +134,14 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   read the same list. `NotificationRegion` holds new notifications while a
   modal dialog is open (ADR 0016); the dialog family registers its panels so
   the region knows.
+- **`useTable`, `useCarousel` and `useDropArea`** carry the data and form
+  organisms. `useTable` mirrors the sort, the hidden columns and the
+  selected rows (ADR 0011) and never prunes a selection; TableSet adds the
+  page, the view and the filter coordination of `docs/data-table-spec.md`,
+  and reports a page it moved itself once that render commits. Cell values
+  render as text unless `renderCell` returns markup. `useCarousel` follows
+  the reading direction for its arrows, and UploadDropArea keeps a drop to
+  the files its `accept` names, as the picker does.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 
