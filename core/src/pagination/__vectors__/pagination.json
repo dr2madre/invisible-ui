@@ -1,0 +1,171 @@
+{
+  "description": "Pagination page lists, language-neutral: initialState({ page, pageCount, siblingCount, boundaryCount }) from core/src/pagination/state.ts clamps the page, and pageItems(state) lists the pages to show, \"ellipsis\" standing for a gap of two or more hidden pages. siblingCount and boundaryCount default to 1. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "pages": [
+    {
+      "name": "Few pages show them all",
+      "page": 1,
+      "pageCount": 5,
+      "expect": {
+        "page": 1,
+        "items": [1, 2, 3, 4, 5]
+      }
+    },
+    {
+      "name": "Seven pages still fit without a gap",
+      "page": 4,
+      "pageCount": 7,
+      "expect": {
+        "page": 4,
+        "items": [1, 2, 3, 4, 5, 6, 7]
+      }
+    },
+    {
+      "name": "The first page of eight keeps the start open",
+      "page": 1,
+      "pageCount": 8,
+      "expect": {
+        "page": 1,
+        "items": [1, 2, 3, 4, 5, "ellipsis", 8]
+      }
+    },
+    {
+      "name": "The last page of eight keeps the end open",
+      "page": 8,
+      "pageCount": 8,
+      "expect": {
+        "page": 8,
+        "items": [1, "ellipsis", 4, 5, 6, 7, 8]
+      }
+    },
+    {
+      "name": "A page near the start bridges the single hidden page",
+      "page": 3,
+      "pageCount": 10,
+      "expect": {
+        "page": 3,
+        "items": [1, 2, 3, 4, 5, "ellipsis", 10]
+      }
+    },
+    {
+      "name": "A page in the middle has a gap on each side",
+      "page": 5,
+      "pageCount": 10,
+      "expect": {
+        "page": 5,
+        "items": [1, "ellipsis", 4, 5, 6, "ellipsis", 10]
+      }
+    },
+    {
+      "name": "A page near the end bridges the single hidden page",
+      "page": 8,
+      "pageCount": 10,
+      "expect": {
+        "page": 8,
+        "items": [1, "ellipsis", 6, 7, 8, 9, 10]
+      }
+    },
+    {
+      "name": "The first of twenty",
+      "page": 1,
+      "pageCount": 20,
+      "expect": {
+        "page": 1,
+        "items": [1, 2, 3, 4, 5, "ellipsis", 20]
+      }
+    },
+    {
+      "name": "The middle of twenty",
+      "page": 10,
+      "pageCount": 20,
+      "expect": {
+        "page": 10,
+        "items": [1, "ellipsis", 9, 10, 11, "ellipsis", 20]
+      }
+    },
+    {
+      "name": "The last of twenty",
+      "page": 20,
+      "pageCount": 20,
+      "expect": {
+        "page": 20,
+        "items": [1, "ellipsis", 16, 17, 18, 19, 20]
+      }
+    },
+    {
+      "name": "Two siblings widen the window",
+      "page": 10,
+      "pageCount": 20,
+      "siblingCount": 2,
+      "expect": {
+        "page": 10,
+        "items": [1, "ellipsis", 8, 9, 10, 11, 12, "ellipsis", 20]
+      }
+    },
+    {
+      "name": "Two boundary pages at each end",
+      "page": 10,
+      "pageCount": 20,
+      "boundaryCount": 2,
+      "expect": {
+        "page": 10,
+        "items": [1, 2, "ellipsis", 9, 10, 11, "ellipsis", 19, 20]
+      }
+    },
+    {
+      "name": "No siblings shows the current page alone",
+      "page": 10,
+      "pageCount": 20,
+      "siblingCount": 0,
+      "expect": {
+        "page": 10,
+        "items": [1, "ellipsis", 10, "ellipsis", 20]
+      }
+    },
+    {
+      "name": "No boundary pages",
+      "page": 10,
+      "pageCount": 20,
+      "boundaryCount": 0,
+      "expect": {
+        "page": 10,
+        "items": ["ellipsis", 9, 10, 11, "ellipsis"]
+      }
+    },
+    {
+      "name": "A single page",
+      "page": 1,
+      "pageCount": 1,
+      "expect": {
+        "page": 1,
+        "items": [1]
+      }
+    },
+    {
+      "name": "A page count below one counts as one page",
+      "page": 1,
+      "pageCount": 0,
+      "expect": {
+        "page": 1,
+        "items": [1]
+      }
+    },
+    {
+      "name": "A page past the end is clamped to the last",
+      "page": 9,
+      "pageCount": 6,
+      "expect": {
+        "page": 6,
+        "items": [1, 2, 3, 4, 5, 6]
+      }
+    },
+    {
+      "name": "A page below one is clamped to the first",
+      "page": -2,
+      "pageCount": 12,
+      "expect": {
+        "page": 1,
+        "items": [1, 2, 3, 4, 5, "ellipsis", 12]
+      }
+    }
+  ]
+}

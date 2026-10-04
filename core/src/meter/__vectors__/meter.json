@@ -1,0 +1,143 @@
+{
+  "description": "Meter readings, language-neutral: for a state from initialState({ value, min, max, low, high, optimum }) in core/src/meter/state.ts, percentage(state) is the filled share (0 to 100, compared to within 1e-9), level(state) the band of the value and quality(state) how good it is given where the good end sits. min defaults to 0, max to 100, optimum to max; low and high are unset when absent. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "readings": [
+    {
+      "name": "A value in a plain range",
+      "value": 40,
+      "expect": { "percentage": 40, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "A value above the maximum fills the track",
+      "value": 150,
+      "expect": { "percentage": 100, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "A value below the minimum leaves it empty",
+      "value": -5,
+      "expect": { "percentage": 0, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "An empty range reads as empty",
+      "value": 10,
+      "min": 10,
+      "max": 10,
+      "expect": { "percentage": 0, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "A range that does not start at zero",
+      "value": 100,
+      "min": 50,
+      "max": 150,
+      "expect": { "percentage": 50, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "A full battery is good",
+      "value": 90,
+      "low": 20,
+      "high": 80,
+      "expect": { "percentage": 90, "level": "high", "quality": "optimal" }
+    },
+    {
+      "name": "A half battery is middling",
+      "value": 50,
+      "low": 20,
+      "high": 80,
+      "expect": { "percentage": 50, "level": "medium", "quality": "suboptimal" }
+    },
+    {
+      "name": "An almost empty battery is poor",
+      "value": 10,
+      "low": 20,
+      "high": 80,
+      "expect": { "percentage": 10, "level": "low", "quality": "poor" }
+    },
+    {
+      "name": "A full disk is poor when less is better",
+      "value": 90,
+      "low": 20,
+      "high": 80,
+      "optimum": 0,
+      "expect": { "percentage": 90, "level": "high", "quality": "poor" }
+    },
+    {
+      "name": "A half full disk is middling",
+      "value": 50,
+      "low": 20,
+      "high": 80,
+      "optimum": 0,
+      "expect": { "percentage": 50, "level": "medium", "quality": "suboptimal" }
+    },
+    {
+      "name": "An almost empty disk is good",
+      "value": 10,
+      "low": 20,
+      "high": 80,
+      "optimum": 0,
+      "expect": { "percentage": 10, "level": "low", "quality": "optimal" }
+    },
+    {
+      "name": "With the good end in the middle, a low value is middling",
+      "value": 10,
+      "low": 20,
+      "high": 80,
+      "optimum": 50,
+      "expect": { "percentage": 10, "level": "low", "quality": "suboptimal" }
+    },
+    {
+      "name": "With the good end in the middle, a high value is middling",
+      "value": 90,
+      "low": 20,
+      "high": 80,
+      "optimum": 50,
+      "expect": { "percentage": 90, "level": "high", "quality": "suboptimal" }
+    },
+    {
+      "name": "With the good end in the middle, a middle value is good",
+      "value": 50,
+      "low": 20,
+      "high": 80,
+      "optimum": 50,
+      "expect": { "percentage": 50, "level": "medium", "quality": "optimal" }
+    },
+    {
+      "name": "A value on the low threshold is low",
+      "value": 20,
+      "low": 20,
+      "high": 80,
+      "expect": { "percentage": 20, "level": "low", "quality": "poor" }
+    },
+    {
+      "name": "A value on the high threshold is high",
+      "value": 80,
+      "low": 20,
+      "high": 80,
+      "expect": { "percentage": 80, "level": "high", "quality": "optimal" }
+    },
+    {
+      "name": "Only a high threshold, above it",
+      "value": 85,
+      "high": 80,
+      "expect": { "percentage": 85, "level": "high", "quality": "optimal" }
+    },
+    {
+      "name": "Only a high threshold, below it",
+      "value": 50,
+      "high": 80,
+      "expect": { "percentage": 50, "level": "medium", "quality": "suboptimal" }
+    },
+    {
+      "name": "Only a low threshold, below it",
+      "value": 10,
+      "low": 30,
+      "expect": { "percentage": 10, "level": "low", "quality": "suboptimal" }
+    },
+    {
+      "name": "The good end follows a custom maximum",
+      "value": 140,
+      "max": 150,
+      "low": 50,
+      "high": 120,
+      "expect": { "percentage": 93.33333333333333, "level": "high", "quality": "optimal" }
+    }
+  ]
+}

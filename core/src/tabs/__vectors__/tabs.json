@@ -1,0 +1,155 @@
+{
+  "description": "The tabs keyboard model, language-neutral: a key pressed on the tab `from` of the items below, in connect() from core/src/tabs/connect.ts. `focus` is the tab focus moves to and `select` the tab selected, each a value or null when the key does nothing of the kind. Keys are DOM key names (\" \" is Space). orientation defaults to horizontal, direction to ltr and activationMode to automatic. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "items": [
+    { "value": "account" },
+    { "value": "password" },
+    { "value": "billing", "disabled": true },
+    { "value": "team" }
+  ],
+  "keys": [
+    {
+      "name": "Right moves to the next tab and selects it",
+      "from": "account",
+      "key": "ArrowRight",
+      "focus": "password",
+      "select": "password"
+    },
+    {
+      "name": "Right skips a disabled tab",
+      "from": "password",
+      "key": "ArrowRight",
+      "focus": "team",
+      "select": "team"
+    },
+    {
+      "name": "Right wraps from the last tab",
+      "from": "team",
+      "key": "ArrowRight",
+      "focus": "account",
+      "select": "account"
+    },
+    {
+      "name": "Left wraps from the first tab",
+      "from": "account",
+      "key": "ArrowLeft",
+      "focus": "team",
+      "select": "team"
+    },
+    {
+      "name": "Right to left, Left moves forward",
+      "from": "account",
+      "key": "ArrowLeft",
+      "direction": "rtl",
+      "focus": "password",
+      "select": "password"
+    },
+    {
+      "name": "Right to left, Right moves back",
+      "from": "account",
+      "key": "ArrowRight",
+      "direction": "rtl",
+      "focus": "team",
+      "select": "team"
+    },
+    {
+      "name": "Home goes to the first enabled tab",
+      "from": "team",
+      "key": "Home",
+      "focus": "account",
+      "select": "account"
+    },
+    {
+      "name": "End goes to the last enabled tab",
+      "from": "account",
+      "key": "End",
+      "focus": "team",
+      "select": "team"
+    },
+    {
+      "name": "Down does nothing in a horizontal list",
+      "from": "account",
+      "key": "ArrowDown",
+      "focus": null,
+      "select": null
+    },
+    {
+      "name": "Down moves to the next tab in a vertical list",
+      "from": "account",
+      "key": "ArrowDown",
+      "orientation": "vertical",
+      "focus": "password",
+      "select": "password"
+    },
+    {
+      "name": "Up wraps in a vertical list",
+      "from": "account",
+      "key": "ArrowUp",
+      "orientation": "vertical",
+      "focus": "team",
+      "select": "team"
+    },
+    {
+      "name": "Right does nothing in a vertical list",
+      "from": "account",
+      "key": "ArrowRight",
+      "orientation": "vertical",
+      "focus": null,
+      "select": null
+    },
+    {
+      "name": "A vertical list ignores the reading direction",
+      "from": "account",
+      "key": "ArrowDown",
+      "orientation": "vertical",
+      "direction": "rtl",
+      "focus": "password",
+      "select": "password"
+    },
+    {
+      "name": "Manual activation moves focus only",
+      "from": "account",
+      "key": "ArrowRight",
+      "activationMode": "manual",
+      "focus": "password",
+      "select": null
+    },
+    {
+      "name": "Manual activation: End moves focus only",
+      "from": "account",
+      "key": "End",
+      "activationMode": "manual",
+      "focus": "team",
+      "select": null
+    },
+    {
+      "name": "Manual activation: Enter selects the focused tab",
+      "from": "password",
+      "key": "Enter",
+      "activationMode": "manual",
+      "focus": null,
+      "select": "password"
+    },
+    {
+      "name": "Manual activation: Space selects the focused tab",
+      "from": "team",
+      "key": " ",
+      "activationMode": "manual",
+      "focus": null,
+      "select": "team"
+    },
+    {
+      "name": "Enter selects the focused tab under automatic activation too",
+      "from": "password",
+      "key": "Enter",
+      "focus": null,
+      "select": "password"
+    },
+    {
+      "name": "Another key does nothing",
+      "from": "account",
+      "key": "a",
+      "focus": null,
+      "select": null
+    }
+  ]
+}
