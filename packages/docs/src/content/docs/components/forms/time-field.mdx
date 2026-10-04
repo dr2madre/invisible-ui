@@ -63,4 +63,11 @@ In Elements, the hour cycle follows the locale unless `hour-cycle` is set, and `
 <TimeField value="14:05:30" hourCycle={12} withSeconds label="Meeting time" />
 ```
 
+In React, the hour cycle follows the provider's locale unless `hourCycle` is
+set, and `onValueCommit` reports the time when editing ends:
+
+```tsx
+<TimeField label="Start" value={start} min="09:00" name="start" onValueCommit={setStart} />
+```
+
 Themeable via `--ds-time-field-*`.

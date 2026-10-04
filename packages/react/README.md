@@ -5,13 +5,14 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 33 components today: Button, Checkbox, Switch,
+adapters, and carries 37 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
 SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
 ContextMenu, Menubar and NavigationMenu), the value controls (Radio,
 RadioGroup, CheckboxGroup, SegmentedControl, ToggleButton, ToggleGroup,
-Slider, RangeSlider, NumberField, PinInput and RatingGroup), Icon and
+Slider, RangeSlider, NumberField, PinInput and RatingGroup), the date and
+time family (Calendar, DatePicker, DateRangePicker and TimeField), Icon and
 LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
@@ -94,6 +95,16 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   restores and puts its own value back after the reset (ADR 0012). The
   standalone Radio leaves its input uncontrolled: the radios of one name sit
   in separate components, and only the browser sees all of them.
+- **`useCalendar` and `useTimeField`** drive the date grid and the time
+  segments through the core. The calendar moves DOM focus once the day it
+  asks for is rendered, and swaps ArrowLeft and ArrowRight in right-to-left
+  text. DatePicker and DateRangePicker open the calendar in a `usePopover`
+  dialog popup with focus on the focused day. TimeField takes its hour cycle
+  from the provider's locale through a formatter's resolved options, which
+  the server and every browser answer alike, so the segments hydrate without
+  a mismatch. The week starts on Monday unless `weekStartsOn` says
+  otherwise: a locale's first day is not available in every browser, and a
+  server and a browser that disagree would render different grids.
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 

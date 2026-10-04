@@ -42,6 +42,41 @@
       "signature": "type ButtonVariant = button.ButtonVariant;"
     },
     {
+      "name": "Calendar",
+      "kind": "function",
+      "signature": "declare function Calendar({ value, focusedDate, view, weekStartsOn, min, max, locale, events, prices, maxDots, yearColumns, views, viewLabels, showToday, prevLabel, nextLabel, todayLabel, viewsLabel, label, mode, rangeStart, rangeEnd, onValueChange, onFocusChange, onViewChange, onRangeChange, renderDay, }: CalendarProps): react.JSX.Element;"
+    },
+    {
+      "name": "CalendarDay",
+      "kind": "type",
+      "signature": "type CalendarDay = calendar.CalendarDay;"
+    },
+    {
+      "name": "CalendarDayContext",
+      "kind": "interface",
+      "signature": "interface CalendarDayContext { /** ISO `YYYY-MM-DD`. */ date: string; /** Whether the day belongs to the month shown. */ inMonth: boolean; /** Whether the day is the selected one. */ selected: boolean; /** The day's events. */ events: CalendarEvent[]; /** The day's price label, if any. */ price: string | undefined; }"
+    },
+    {
+      "name": "CalendarEvent",
+      "kind": "interface",
+      "signature": "interface CalendarEvent { /** ISO `YYYY-MM-DD`. */ date: string; /** Accessible description, also shown as a tooltip. */ label?: string; /** Semantic tone for the dot. */ tone?: \"primary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\"; }"
+    },
+    {
+      "name": "CalendarMode",
+      "kind": "type",
+      "signature": "type CalendarMode = \"single\" | \"range\";"
+    },
+    {
+      "name": "CalendarProps",
+      "kind": "interface",
+      "signature": "interface CalendarProps { /** Initial (uncontrolled) or current (controlled) selected date, ISO `YYYY-MM-DD`. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Initial (uncontrolled) or current (controlled) view. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** BCP-47 locale for month and weekday names. Defaults to the provider's locale. */ locale?: string; /** Appointment dots, keyed by their `date`. */ events?: CalendarEvent[]; /** Per-day price label, keyed by ISO date (e.g. `{ \"2026-06-25\": \"€120\" }`). */ prices?: Record<string, string>; /** Maximum dots rendered before a \"+N\" overflow marker (grid views). */ maxDots?: number; /** Year view: how many mini-months per row. */ yearColumns?: number; /** Views offered in the built-in switcher. With one entry no switcher shows. */ views?: CalendarView[]; /** Override the switcher labels per view. */ viewLabels?: Partial<Record<CalendarView, string>>; showToday?: boolean; /** Label of the previous button. Defaults to the catalog's. */ prevLabel?: string; /** Label of the next button. Defaults to the catalog's. */ nextLabel?: string; /** Text of the Today button. Defaults to the catalog's. */ todayLabel?: string; /** Name of the view switcher. Defaults to the catalog's. */ viewsLabel?: string; /** Accessible name for the grid. Defaults to the catalog's. */ label?: string; /** Selection mode: a single date, or a start-to-end `range`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Called when the user selects a date (single mode). */ onValueChange?: (value: string) => void; /** Called when the user moves the focused date. */ onFocusChange?: (value: string) => void; /** Called when the user changes the view. */ onViewChange?: (view: CalendarView) => void; /** Called after each pick in range mode, with a `null` end while the range is half made. */ onRangeChange?: (start: string | null, end: string | null) => void; /** Custom content of a day in the grid views, replacing the number, dots and price. */ renderDay?: (day: CalendarDayContext) => ReactNode; }"
+    },
+    {
+      "name": "CalendarView",
+      "kind": "type",
+      "signature": "type CalendarView = calendar.CalendarView;"
+    },
+    {
       "name": "Checkbox",
       "kind": "function",
       "signature": "declare function Checkbox({ label, hideLabel, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
@@ -112,6 +147,31 @@
       "signature": "interface ContextMenuProps { /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; /** Accessible name for the menu, which has no trigger to name it. Defaults to the catalog's \"Context menu\". */ label?: string; /** The region the menu opens on. */ children?: ReactNode; }"
     },
     {
+      "name": "DatePicker",
+      "kind": "function",
+      "signature": "declare function DatePicker({ value, min, max, weekStartsOn, locale, dateStyle, label, placeholder, disabled, clearable, events, prices, name, onValueChange, }: DatePickerProps): react.JSX.Element;"
+    },
+    {
+      "name": "DatePickerProps",
+      "kind": "interface",
+      "signature": "interface DatePickerProps { /** Initial (uncontrolled) or current (controlled) date, ISO `YYYY-MM-DD`, or `null`. */ value?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a date is selected. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name; the ISO date is submitted under it. */ name?: string; /** Called when the user picks or clears a date. */ onValueChange?: (value: string | null) => void; }"
+    },
+    {
+      "name": "DateRangePicker",
+      "kind": "function",
+      "signature": "declare function DateRangePicker({ start, end, min, max, weekStartsOn, locale, dateStyle, view, label, placeholder, disabled, clearable, events, prices, startName, endName, onChange, }: DateRangePickerProps): react.JSX.Element;"
+    },
+    {
+      "name": "DateRangePickerProps",
+      "kind": "interface",
+      "signature": "interface DateRangePickerProps { /** Initial (uncontrolled) or current (controlled) range start, ISO `YYYY-MM-DD`, or `null`. */ start?: string | null; /** Initial (uncontrolled) or current (controlled) range end, ISO `YYYY-MM-DD`, or `null`. */ end?: string | null; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** First day of the week, 0 = Sunday to 6. */ weekStartsOn?: WeekStart; /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */ locale?: string; /** `Intl` date style for the field. */ dateStyle?: DateStyle; /** Calendar view inside the popup. Defaults to two months side by side. */ view?: CalendarView; /** Accessible label for the field. Defaults to the catalog's. */ label?: string; /** Placeholder while empty. Defaults to the catalog's. */ placeholder?: string; disabled?: boolean; /** Show a clear button when a range is started. */ clearable?: boolean; /** Appointment dots, forwarded to the calendar. */ events?: CalendarEvent[]; /** Per-day price labels, forwarded to the calendar. */ prices?: Record<string, string>; /** Form field name for the start date, submitted as an ISO value. */ startName?: string; /** Form field name for the end date, submitted as an ISO value. */ endName?: string; /** Called after each pick and on clear, with a `null` end while the range is half made. */ onChange?: (start: string | null, end: string | null) => void; }"
+    },
+    {
+      "name": "DateStyle",
+      "kind": "type",
+      "signature": "type DateStyle = \"full\" | \"long\" | \"medium\" | \"short\";"
+    },
+    {
       "name": "Dialog",
       "kind": "const",
       "signature": "Dialog: react.ForwardRefExoticComponent<DialogProps & react.RefAttributes<DialogHandle>>"
@@ -170,6 +230,11 @@
       "name": "DropdownMenuProps",
       "kind": "interface",
       "signature": "interface DropdownMenuProps { /** Visible text of the trigger, and the menu's accessible name. */ label: string; /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; }"
+    },
+    {
+      "name": "HourCycle",
+      "kind": "type",
+      "signature": "type HourCycle = timeField.HourCycle;"
     },
     {
       "name": "I18nValue",
@@ -517,6 +582,26 @@
       "signature": "interface TextFieldProps { /** Visible label and accessible name for the control. */ label: string; /** Visually hide the label while keeping it as the control's accessible name. */ hideLabel?: boolean; /** Initial or current value. */ value?: string; /** Native input type. */ type?: InputType; /** Native placeholder. It does not replace the label. */ placeholder?: string; /** Hint linked to the control through `aria-describedby`. */ description?: string; /** Error message that marks the control invalid and is announced. */ error?: string; /** Confirmation message announced politely when the field is valid. */ success?: string; /** Prevent interaction and form submission. */ disabled?: boolean; /** Mark the native input as required. */ required?: boolean; /** Keep the input focusable and submittable but prevent edits. */ readOnly?: boolean; /** Native form field name. */ name?: string; /** Native maximum length constraint. */ maxLength?: number; /** Native minimum length constraint. */ minLength?: number; /** Native validation pattern. */ pattern?: string; /** Preferred virtual keyboard mode. */ inputMode?: InputHTMLAttributes<HTMLInputElement>[\"inputMode\"]; /** Native autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Enable or disable browser spelling correction. */ spellCheck?: boolean; /** Called once after a user edit is committed locally. */ onValueChange?: (value: string) => void; /** Decorative content placed inside the control at the inline start. */ left?: ReactNode; /** Decorative content placed inside the control at the inline end. */ right?: ReactNode; }"
     },
     {
+      "name": "TimeField",
+      "kind": "function",
+      "signature": "declare function TimeField({ value, hourCycle, withSeconds, disabled, invalid, error, label, name, form, min, max, onValueChange, onValueCommit, onValidationChange, }: TimeFieldProps): react.JSX.Element;"
+    },
+    {
+      "name": "TimeFieldProps",
+      "kind": "interface",
+      "signature": "interface TimeFieldProps { /** Initial (uncontrolled) or current (controlled) value, `HH:mm[:ss]` (24h), or `null`. */ value?: string | null; /** 12 or 24 hours. Defaults to the provider locale's preference. */ hourCycle?: HourCycle; /** Include a seconds segment. */ withSeconds?: boolean; disabled?: boolean; /** Domain-level invalid state. Structural time errors are detected automatically. */ invalid?: boolean; /** Visible, actionable error text supplied by the application. */ error?: string; /** Accessible label for the whole field. Defaults to the catalog's. */ label?: string; /** Form field name; the canonical time (`HH:mm[:ss]`) is submitted under it. */ name?: string; /** Id of the owning form when the field renders outside of it. */ form?: string; /** Earliest acceptable time (`HH:mm[:ss]`), inclusive. Reported, never enforced. */ min?: string; /** Latest acceptable time (`HH:mm[:ss]`), inclusive. Reported, never enforced. */ max?: string; /** Called with the canonical value when every required segment is filled, else `null`. */ onValueChange?: (value: string | null) => void; /** Called when the user finishes editing: focus leaves the field, or Enter. */ onValueCommit?: (value: string | null) => void; /** Called when an edit changes the structural error; `null` means none. */ onValidationChange?: (error: TimeValueError | null) => void; }"
+    },
+    {
+      "name": "TimeSegmentType",
+      "kind": "type",
+      "signature": "type TimeSegmentType = timeField.TimeSegmentType;"
+    },
+    {
+      "name": "TimeValueError",
+      "kind": "type",
+      "signature": "type TimeValueError = timeField.TimeValueError;"
+    },
+    {
       "name": "ToggleButton",
       "kind": "function",
       "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, }: ToggleButtonProps): react.JSX.Element;"
@@ -565,6 +650,16 @@
       "name": "UseButtonOptions",
       "kind": "interface",
       "signature": "interface UseButtonOptions { variant?: ButtonVariant; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** * Whether a native `<button>` is rendered (default). Set `false` when * rendering another element: role, focusability and Enter/Space activation * are then emulated by the core. */ nativeButton?: boolean; }"
+    },
+    {
+      "name": "UseCalendar",
+      "kind": "interface",
+      "signature": "interface UseCalendar extends calendar.CalendarApi { weekStartsOn: WeekStart; mode: CalendarMode; rangeStart: string | null; rangeEnd: string | null; }"
+    },
+    {
+      "name": "UseCalendarOptions",
+      "kind": "interface",
+      "signature": "interface UseCalendarOptions { /** Selected date (ISO `YYYY-MM-DD`), or `null`. Single mode only. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Layout and period. Defaults to `\"month\"`. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. Defaults to `1` (Monday). */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** Selection mode. Defaults to `\"single\"`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; onValueChange?: (value: string) => void; onFocusChange?: (focusedDate: string) => void; onViewChange?: (view: CalendarView) => void; onRangeChange?: (start: string | null, end: string | null) => void; }"
     },
     {
       "name": "UseCheckboxGroupOptions",
@@ -639,12 +734,12 @@
     {
       "name": "UsePopover",
       "kind": "interface",
-      "signature": "interface UsePopover { api: popover.PopoverApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger; the positioning anchor and Escape's focus target. */ triggerRef: RefObject<HTMLButtonElement | null>; /** Attach to the panel. Render it only while `open`. */ panelRef: (node: HTMLElement | null) => void; }"
+      "signature": "interface UsePopover<T extends HTMLElement = HTMLButtonElement> { api: popover.PopoverApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger; the positioning anchor and Escape's focus target. */ triggerRef: RefObject<T | null>; /** Attach to the panel. Render it only while `open`. */ panelRef: (node: HTMLElement | null) => void; }"
     },
     {
       "name": "UsePopoverOptions",
       "kind": "interface",
-      "signature": "interface UsePopoverOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; onOpenChange?: (open: boolean) => void; }"
+      "signature": "interface UsePopoverOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; /** * CSS selector for the element that takes focus when the panel opens. * Defaults to the first focusable element in the panel, else the panel. */ initialFocus?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "UseRadioGroupOptions",
@@ -702,6 +797,16 @@
       "signature": "interface UseTextFieldOptions { /** Initial or current value. */ value?: string; disabled?: boolean; readOnly?: boolean; required?: boolean; invalid?: boolean; hasDescription?: boolean; hasSuccess?: boolean; /** Called once after a user edit has been committed locally. */ onValueChange?: (value: string) => void; /** Native input carrying the form default and reset subscription. */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
+      "name": "UseTimeField",
+      "kind": "interface",
+      "signature": "interface UseTimeField extends timeField.TimeFieldApi { /** The segments to render, in order. */ segments: TimeSegmentType[]; /** Whether the field is disabled, by its prop or by a disabled fieldset. */ disabled: boolean; /** Whether a segment shows its placeholder. */ isPlaceholder(seg: TimeSegmentType): boolean; }"
+    },
+    {
+      "name": "UseTimeFieldOptions",
+      "kind": "interface",
+      "signature": "interface UseTimeFieldOptions { /** Initial (uncontrolled) or current (controlled) value, `HH:mm[:ss]` (24h), or `null`. */ value?: string | null; /** 12 or 24 hours; 12 adds a day-period segment. Defaults to 24. */ hourCycle?: HourCycle; /** Include a seconds segment. */ withSeconds?: boolean; /** Earliest acceptable time (`HH:mm[:ss]`), inclusive. Reported, never enforced. */ min?: string; /** Latest acceptable time (`HH:mm[:ss]`), inclusive. Reported, never enforced. */ max?: string; /** Explicit base id; a stable one is generated when omitted. */ id?: string; disabled?: boolean; /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<timeField.TimeFieldMessages>; /** Called with the canonical value when every required segment is filled, else `null`. */ onValueChange?: (value: string | null) => void; /** Called when the user finishes editing: focus leaves the field, or Enter. */ onValueCommit?: (value: string | null) => void; /** Called when an edit changes the structural error; `null` means none. */ onValidationChange?: (error: TimeValueError | null) => void; /** * The field container. Given it, input from a soft keyboard is routed * through the segment logic instead of editing the segment text. */ rootRef?: RefObject<HTMLElement | null>; /** * A form control inside the field, typically the hidden input carrying the * value. Given it, a reset of its form puts the value back, silently * (ADR 0012), and a disabled `<fieldset>` around it disables the field. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
       "name": "UseToggleButtonOptions",
       "kind": "interface",
       "signature": "interface UseToggleButtonOptions { /** Initial (uncontrolled) or current (controlled) pressed value. */ pressed?: boolean; disabled?: boolean; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
@@ -717,6 +822,11 @@
       "signature": "interface UseTooltipOptions { /** Preferred placement. Default `\"top\"`. */ placement?: Placement; /** Gap between trigger and tooltip, in px. Default `6`. */ offset?: number; /** Delay before showing on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before hiding on leave, in ms. Default `100`. */ closeDelay?: number; }"
     },
     {
+      "name": "WeekStart",
+      "kind": "type",
+      "signature": "type WeekStart = calendar.WeekStart;"
+    },
+    {
       "name": "en",
       "kind": "const",
       "signature": "en: { readonly \"calendar.previous\": \"Previous\"; readonly \"calendar.next\": \"Next\"; readonly \"calendar.today\": \"Today\"; readonly \"calendar.label\": \"Calendar\"; readonly \"calendar.viewsLabel\": \"Calendar view\"; readonly \"calendar.view.month\": \"Month\"; readonly \"calendar.view.two-month\": \"2 Months\"; readonly \"calendar.view.week\": \"Week\"; readonly \"calendar.view.three-day\": \"3 Days\"; readonly \"calendar.view.day\": \"Day\"; readonly \"calendar.view.year\": \"Year\"; readonly \"calendar.events\": { readonly one: \"{count} event\"; readonly other: \"{count} events\"; }; readonly \"calendar.rangeStart\": \"range start\"; readonly \"calendar.rangeEnd\": \"range end\"; readonly \"datePicker.label\": \"Date\"; readonly \"datePicker.placeholder\": \"Select a date\"; readonly \"datePicker.clear\": \"Clear date\"; readonly \"dateRangePicker.label\": \"Date range\"; readonly \"dateRangePicker.placeholder\": \"Select a range\"; readonly \"dateRangePicker.clear\": \"Clear range\"; readonly \"timeField.label\": \"Time\"; readonly \"timeField.hour\": \"Hour\"; readonly \"timeField.minute\": \"Minute\"; readonly \"timeField.second\": \"Second\"; readonly \"timeField.dayPeriod\": \"AM/PM\"; readonly \"timeField.empty\": \"Empty\"; readonly \"timeField.invalidFormat\": \"Enter a time in the expected format.\"; readonly \"timeField.outOfRange\": \"Enter a time within the allowed range.\"; readonly \"timeField.secondsRequired\": \"Enter hours, minutes, and seconds.\"; readonly \"timeField.secondsNotAllowed\": \"Enter hours and minutes only.\"; readonly \"timeField.rangeUnderflow\": \"Enter a time no earlier than {min}.\"; readonly \"timeField.rangeOverflow\": \"Enter a time no later than {max}.\"; readonly \"loading.label\": \"Loading\\u2026\"; readonly \"inlineNotification.close\": \"Close\"; readonly \"inlineNotification.learnMore\": \"Learn more\"; readonly \"dialog.close\": \"Close\"; readonly \"dialog.trigger\": \"Open\"; readonly \"searchDialog.trigger\": \"Search\\u2026\"; readonly \"collapsible.toggle\": \"Toggle\"; readonly \"loginForm.heading\": \"Sign in\"; readonly \"dialog.confirm\": \"Confirm\"; readonly \"dialog.cancel\": \"Cancel\"; readonly \"dialog.dismiss\": \"OK\"; readonly \"sheetDialog.close\": \"Close\"; readonly \"notificationRegion.label\": \"Notifications\"; readonly \"button.copied\": \"Copied\"; readonly \"combobox.placeholder\": \"Search\\u2026\"; readonly \"combobox.clear\": \"Clear\"; readonly \"combobox.empty\": \"No results\"; readonly \"searchField.clear\": \"Clear search\"; readonly \"searchField.submit\": \"Search\"; readonly \"searchDialog.title\": \"Search\"; readonly \"searchDialog.label\": \"Search\"; readonly \"searchDialog.placeholder\": \"Type to search\\u2026\"; readonly \"searchDialog.empty\": \"No results found.\"; readonly \"searchDialog.results\": { readonly one: \"{count} result available\"; readonly other: \"{count} results available\"; }; readonly \"searchDialog.loading\": \"Searching\\u2026\"; readonly \"numberField.increment\": \"Increase {label}\"; readonly \"numberField.decrement\": \"Decrease {label}\"; readonly \"numberField.parseError\": \"Enter a number.\"; readonly \"numberField.rangeUnderflow\": \"Enter a number that is at least {min}.\"; readonly \"numberField.rangeOverflow\": \"Enter a number that is at most {max}.\"; readonly \"numberField.stepMismatch\": \"Enter a multiple of {step}.\"; readonly \"select.placeholder\": \"Select\\u2026\"; readonly \"rangeSlider.lowerText\": \"{value}, minimum; may not exceed {bound}\"; readonly \"rangeSlider.upperText\": \"{value}, maximum; may not go below {bound}\"; readonly \"switch.on\": \"ON\"; readonly \"switch.off\": \"OFF\"; readonly \"loginForm.submit\": \"Sign in\"; readonly \"loginForm.forgot\": \"Forgot password?\"; readonly \"loginForm.email\": \"Email\"; readonly \"loginForm.emailPlaceholder\": \"you@example.com\"; readonly \"loginForm.password\": \"Password\"; readonly \"loginForm.divider\": \"or\"; readonly \"loginForm.provider\": \"Continue with {name}\"; readonly \"pagination.label\": \"Pagination\"; readonly \"pagination.previous\": \"Go to previous page\"; readonly \"pagination.next\": \"Go to next page\"; readonly \"pagination.page\": \"Go to page {page}\"; readonly \"rating.stars\": { readonly one: \"{count} star\"; readonly other: \"{count} stars\"; }; readonly \"pinInput.cell\": \"Character {index} of {length}\"; readonly \"breadcrumb.label\": \"Breadcrumb\"; readonly \"contextMenu.label\": \"Context menu\"; readonly \"menu.submenu\": \"submenu\"; readonly \"sidebar.label\": \"Main\"; readonly \"sidebar.collapse\": \"Collapse the navigation\"; readonly \"sidebar.expand\": \"Expand the navigation\"; readonly \"sidebar.open\": \"Open the navigation\"; readonly \"stepper.label\": \"Progress\"; readonly \"stepper.completed\": \"Completed\"; readonly \"tree.loading\": \"Loading {name}\\u2026\"; readonly \"tree.loadError\": \"Could not load {name}. Press Right Arrow to retry.\"; readonly \"carousel.previous\": \"Previous slide\"; readonly \"carousel.next\": \"Next slide\"; readonly \"carousel.choose\": \"Choose slide\"; readonly \"carousel.slide\": \"{index} of {count}\"; readonly \"carousel.goTo\": \"Go to slide {index}\"; readonly \"carousel.roleDescription\": \"carousel\"; readonly \"carousel.slideRoleDescription\": \"slide\"; readonly \"combobox.show\": \"Show options\"; readonly \"combobox.hide\": \"Close options\"; readonly \"table.views\": \"Views\"; readonly \"table.pagination\": \"Table pages\"; readonly \"table.loadMore\": \"Load more\"; readonly \"table.loading\": \"Loading\\u2026\"; readonly \"table.columns\": \"Columns\"; readonly \"table.selectRow\": \"Select {name}\"; readonly \"table.selectPage\": \"Select all visible rows\"; readonly \"table.selection\": \"Selection\"; readonly \"table.noResults\": \"No rows match the current filters\"; readonly \"table.results\": { readonly one: \"{count} result\"; readonly other: \"{count} results\"; }; readonly \"table.clearFilters\": \"Clear filters\"; readonly \"table.view\": \"View\"; readonly \"table.viewTable\": \"Table\"; readonly \"table.viewCards\": \"Cards\"; readonly \"avatarGroup.more\": { readonly one: \"{count} more\"; readonly other: \"{count} more\"; }; readonly \"codeBlock.copy\": \"Copy code\"; readonly \"codeBlock.copyText\": \"Copy\"; readonly \"codeBlock.copiedText\": \"Copied\"; readonly \"codeBlock.copied\": \"Copied to clipboard\"; readonly \"codeBlock.label\": \"Code\"; readonly \"codeBlock.labelLanguage\": \"Code: {language}\"; readonly \"codeBlock.sample\": \"Code sample\"; readonly \"codeBlock.sampleLanguage\": \"Code sample, {language}\"; readonly \"tag.remove\": \"Remove\"; readonly \"multiSelect.selected\": \"Selected values\"; readonly \"multiSelect.remove\": \"Remove {name}\"; readonly \"multiSelect.empty\": \"No results\"; readonly \"multiSelect.placeholder\": \"Search\\u2026\"; readonly \"uploadDropArea.prompt\": \"Drag & drop files or\"; readonly \"uploadDropArea.action\": \"browse\"; }"
@@ -730,6 +840,11 @@
       "name": "useButton",
       "kind": "function",
       "signature": "declare function useButton({ variant, disabled, type, onPress, nativeButton, }?: UseButtonOptions): button.ButtonApi;"
+    },
+    {
+      "name": "useCalendar",
+      "kind": "function",
+      "signature": "declare function useCalendar({ value: valueProp, focusedDate: focusedProp, view: viewProp, weekStartsOn, min, max, mode, rangeStart: startProp, rangeEnd: endProp, id: idProp, onValueChange, onFocusChange, onViewChange, onRangeChange, }?: UseCalendarOptions): UseCalendar;"
     },
     {
       "name": "useCheckbox",
@@ -789,7 +904,7 @@
     {
       "name": "usePopover",
       "kind": "function",
-      "signature": "declare function usePopover({ open: openProp, placement, offset, label, onOpenChange, }?: UsePopoverOptions): UsePopover;"
+      "signature": "declare function usePopover<T extends HTMLElement = HTMLButtonElement>({ open: openProp, placement, offset, label, initialFocus, onOpenChange, }?: UsePopoverOptions): UsePopover<T>;"
     },
     {
       "name": "useRadioGroup",
@@ -830,6 +945,11 @@
       "name": "useTextField",
       "kind": "function",
       "signature": "declare function useTextField({ value, disabled, readOnly, required, invalid, hasDescription, hasSuccess, onValueChange, controlRef, }?: UseTextFieldOptions): textField.TextFieldApi;"
+    },
+    {
+      "name": "useTimeField",
+      "kind": "function",
+      "signature": "declare function useTimeField({ value: valueProp, hourCycle, withSeconds, min, max, id: idProp, disabled: disabledProp, invalid, describedBy, messages, onValueChange, onValueCommit, onValidationChange, rootRef, controlRef, }?: UseTimeFieldOptions): UseTimeField;"
     },
     {
       "name": "useToggleButton",

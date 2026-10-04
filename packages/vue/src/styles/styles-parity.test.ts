@@ -64,6 +64,10 @@ const SHARED_SHEETS = [
   "number-field.css",
   "pin-input.css",
   "rating-group.css",
+  "calendar.css",
+  "date-picker.css",
+  "date-range-picker.css",
+  "time-field.css",
 ];
 
 const VUE_SOURCE_SHEETS = [
@@ -87,10 +91,6 @@ const VUE_SOURCE_SHEETS = [
   "button-group.css",
   "link.css",
   "separator.css",
-  "calendar.css",
-  "date-picker.css",
-  "date-range-picker.css",
-  "time-field.css",
   "collapsible.css",
   "hover-card.css",
   "sidebar.css",

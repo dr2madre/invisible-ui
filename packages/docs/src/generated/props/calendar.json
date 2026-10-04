@@ -461,6 +461,232 @@
         "day"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Calendar",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) selected date, ISO `YYYY-MM-DD`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "focusedDate",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The date that drives what is shown and where focus sits.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "view",
+          "type": "CalendarView",
+          "default": "\"month\"",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) view.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": "First day of the week, 0 = Sunday to 6.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Earliest selectable date (ISO), inclusive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Latest selectable date (ISO), inclusive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "BCP-47 locale for month and weekday names. Defaults to the provider's locale.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": null,
+          "required": false,
+          "description": "Appointment dots, keyed by their `date`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": "{}",
+          "required": false,
+          "description": "Per-day price label, keyed by ISO date (e.g. `{ \"2026-06-25\": \"€120\" }`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "maxDots",
+          "type": "number",
+          "default": "3",
+          "required": false,
+          "description": "Maximum dots rendered before a \"+N\" overflow marker (grid views).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "yearColumns",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Year view: how many mini-months per row.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "views",
+          "type": "CalendarView[]",
+          "default": "[\"month\"]",
+          "required": false,
+          "description": "Views offered in the built-in switcher. With one entry no switcher shows.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "viewLabels",
+          "type": "Partial<Record<CalendarView, string>>",
+          "default": "{}",
+          "required": false,
+          "description": "Override the switcher labels per view.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showToday",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "prevLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label of the previous button. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Label of the next button. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "todayLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Text of the Today button. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "viewsLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Name of the view switcher. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the grid. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "mode",
+          "type": "CalendarMode",
+          "default": "\"single\"",
+          "required": false,
+          "description": "Selection mode: a single date, or a start-to-end `range`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "rangeStart",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Range start (ISO), used when `mode=\"range\"`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "rangeEnd",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Range end (ISO), used when `mode=\"range\"`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the user selects a date (single mode).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onFocusChange",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the user moves the focused date.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onViewChange",
+          "type": "(view: CalendarView) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when the user changes the view.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onRangeChange",
+          "type": "(start: string | null, end: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after each pick in range mode, with a `null` end while the range is half made.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderDay",
+          "type": "(day: CalendarDayContext) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Custom content of a day in the grid views, replacing the number, dots and price.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
