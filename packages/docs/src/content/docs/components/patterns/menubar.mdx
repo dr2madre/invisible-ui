@@ -36,6 +36,27 @@ In Elements, assign the menus through the `menus` property and listen for
 </script>
 ```
 
+In React, `onSelect` names the menu and the item. A menu's `items` takes
+groups, separators, checkable items and submenus:
+
+```tsx
+<Menubar
+  label="Main"
+  menus={[
+    { value: "file", label: "File", items: [{ value: "new", label: "New" }] },
+    {
+      value: "edit",
+      label: "Edit",
+      items: [
+        { value: "undo", label: "Undo" },
+        { type: "submenu", value: "find", label: "Find", items: [{ value: "replace", label: "Replace" }] },
+      ],
+    },
+  ]}
+  onSelect={(menu, value) => run(menu, value)}
+/>
+```
+
 ### Props
 
 <PropsTable component="menubar" />

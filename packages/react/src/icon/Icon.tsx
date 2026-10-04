@@ -91,6 +91,9 @@ export const CloseGlyph = () => (
 /** The downward chevron that opens a list. */
 export const ChevronGlyph = () => <polyline points="6 9 12 15 18 9" />;
 
+/** The chevron pointing to the inline end, where a submenu opens; CSS mirrors it in RTL. */
+export const ChevronEndGlyph = () => <polyline points="9 6 15 12 9 18" />;
+
 /** The circled "i" of an informational message. */
 export const InfoGlyph = () => (
   <>

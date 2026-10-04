@@ -52,6 +52,21 @@ reports what the user does; setting `open` reports nothing:
 </script>
 ```
 
+In React, `triggerContent` is the trigger's content (or, with
+`trigger="hover"`, the trigger element itself) and `children` is the card.
+`onOpenChange` reports what the user does; a changed `open` reports nothing:
+
+```tsx
+<Popover label="Quick settings" triggerContent="Settings">
+  <p>Choose how the list looks.</p>
+  <button type="button">Compact rows</button>
+</Popover>
+
+<Popover trigger="hover" triggerContent={<a href="/people/ada">@ada</a>}>
+  Ada Lovelace, mathematician.
+</Popover>
+```
+
 ### Props
 
 <PropsTable component="popover" />

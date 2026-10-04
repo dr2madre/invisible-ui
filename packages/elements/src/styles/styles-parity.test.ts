@@ -42,6 +42,12 @@ const REACT_SHEETS = [
   "sheet-dialog.css",
   "kbd.css",
   "loading.css",
+  "popover.css",
+  "tooltip.css",
+  "dropdown-menu.css",
+  "context-menu.css",
+  "menubar.css",
+  "navigation-menu.css",
 ];
 
 const VUE_SHEETS = [
@@ -64,11 +70,6 @@ const VUE_SHEETS = [
   "tree-view.css",
   "avatar.css",
   "sidebar.css",
-  "tooltip.css",
-  "navigation-menu.css",
-  "dropdown-menu.css",
-  "context-menu.css",
-  "menubar.css",
   "breadcrumb.css",
   "progress.css",
   "scroll-area.css",
@@ -80,7 +81,6 @@ const VUE_SHEETS = [
   "login-form.css",
   "radio.css",
   "segmented-control.css",
-  "popover.css",
   "table-set.css",
   "dialog-status.css",
   "toggle-button.css",

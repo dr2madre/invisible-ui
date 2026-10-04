@@ -38,6 +38,25 @@ export type {
   DialogNoticeStatus,
   DialogNotices,
 } from "./dialog/use-dialog-notices";
+export { Popover, type PopoverProps } from "./popover/Popover";
+export { Tooltip, type TooltipProps } from "./tooltip/Tooltip";
+export {
+  DropdownMenu,
+  type DropdownMenuProps,
+  type MenuEntry,
+  type MenuGroup,
+  type MenuItem,
+  type MenuSeparator,
+  type MenuSubmenu,
+} from "./dropdown-menu/DropdownMenu";
+export { ContextMenu, type ContextMenuProps } from "./context-menu/ContextMenu";
+export { Menubar, type MenubarMenu, type MenubarProps } from "./menubar/Menubar";
+export {
+  NavigationMenu,
+  type NavigationMenuItem,
+  type NavigationMenuLink,
+  type NavigationMenuProps,
+} from "./navigation-menu/NavigationMenu";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -69,6 +88,19 @@ export {
   type UseSearchDialog,
   type UseSearchDialogOptions,
 } from "./search-dialog/use-search-dialog";
+export { usePopover, type UsePopover, type UsePopoverOptions } from "./popover/use-popover";
+export {
+  useHoverPreview,
+  type UseHoverPreview,
+  type UseHoverPreviewOptions,
+} from "./popover/use-hover-preview";
+export { useTooltip, type UseTooltip, type UseTooltipOptions } from "./tooltip/use-tooltip";
+export {
+  useNavigationMenu,
+  type UseNavigationMenu,
+  type UseNavigationMenuOptions,
+} from "./navigation-menu/use-navigation-menu";
+export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 
 // Localization

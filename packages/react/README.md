@@ -5,10 +5,11 @@ React adapter over the framework-agnostic [`@design-system/core`](../../core).
 **Status: in scope for the full catalog.** The adapter started as the proof
 of concept that showed the core drives a second framework. It is being
 completed to the full catalog, like the Svelte, Vue and custom elements
-adapters, and carries 16 components today: Button, Checkbox, Switch,
+adapters, and carries 22 components today: Button, Checkbox, Switch,
 TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SheetDialog and
-SearchDialog), Icon and LocaleProvider. See item 14 in
+SearchDialog), the overlays and menus (Popover, Tooltip, DropdownMenu,
+ContextMenu, Menubar and NavigationMenu), Icon and LocaleProvider. See item 14 in
 [`docs/technical-roadmap.md`](../../docs/technical-roadmap.md) and the
 history in [`docs/adapters-roadmap.md`](../../docs/adapters-roadmap.md).
 
@@ -71,6 +72,17 @@ core.connect({ state, setters, normalize })  →  prop bags  →  spread onto JS
   runs on it: the Alert, Confirm and Prompt presets share one shell,
   `useSheetDialog` adds the edge drag (written to the panel's transform, not
   rendered) and `useSearchDialog` wires the headless combobox inside it.
+- **The menus** (DropdownMenu, ContextMenu, Menubar) share one internal layer
+  over the core `menu` and `menubar` modules: roving focus, typeahead per
+  level, and the submenus of `docs/menu-submenu-spec.md`, with the 100 ms
+  hover delay, the grace area and placement by `menu.placeSubmenu`. Each
+  open submenu stays inside the root popup, so its keys reach the root and an
+  outside press sees one tree. Closing by a key or an activation moves focus
+  back before `onSelect` runs.
+- **`usePopover`, `useHoverPreview`, `useTooltip` and `useNavigationMenu`**
+  own positioning (Floating UI), the hover delays and outside-press and
+  focus-leave dismissal. Every overlay portals into the dialog its trigger
+  sits in, else into the body (ADR 0016).
 - Components are **controlled-friendly**: passing a changed `checked` mirrors it
   into internal state during render (no effect, no double render).
 
@@ -81,11 +93,11 @@ behaviour.
 
 Every public component renders in a Node environment without accessing the
 DOM, and the dialogs render open there too. A browser test then hydrates the
-same public surface, closed and open dialogs included, and fails on React
-hydration mismatches or recoverable errors.
-The Combobox renders its body-level portal only after hydration, keeping the
-server and initial client trees identical before moving the listbox into its
-runtime layer.
+same public surface, closed and open dialogs and open overlays included, and
+fails on React hydration mismatches or recoverable errors.
+The Combobox and the overlays render their body-level portals only after
+hydration, keeping the server and initial client trees identical before
+moving the popup into its runtime layer.
 
 ## Notes
 

@@ -58,8 +58,6 @@ makes sense, you want the Select.
 />
 ```
 
-Submenus are not supported yet: a menu is one level deep.
-
 In Elements, assign the entries through the `items` property and listen for
 `select`. The event fires after the menu closes:
 
@@ -76,6 +74,47 @@ In Elements, assign the entries through the `items` property and listen for
   ];
   menu.addEventListener("select", (event) => run(event.detail.value));
 </script>
+```
+
+### Submenus
+
+A **submenu** entry, `{ type: "submenu", value, label, items }`, is an item that
+opens a nested menu beside it. The React menus render submenus; the Svelte,
+Vue and Elements menus render one level.
+
+- Enter, Space or the arrow toward the inline end opens a submenu and focuses
+  its first item; the arrow toward the inline start and Escape close one level;
+  Tab and an outside press close every level. The arrows follow right-to-left
+  text.
+- The pointer resting 100 ms on a submenu item opens it. Moving diagonally
+  toward the submenu across other items keeps it open; a tap opens it on touch.
+- Space on a checkable item changes it and keeps the menu open, so several
+  options can be set in a row. Enter and a press close every level, then
+  report.
+- Values are unique across the whole tree, and `onSelect` reports the item's
+  value only. One level of submenu is recommended.
+
+In React:
+
+```tsx
+<DropdownMenu
+  label="Actions"
+  items={[
+    { value: "rename", label: "Rename" },
+    {
+      type: "submenu",
+      value: "share",
+      label: "Share",
+      items: [
+        { value: "email", label: "Email" },
+        { value: "link", label: "Copy link" },
+      ],
+    },
+    { type: "separator" },
+    { value: "delete", label: "Delete" },
+  ]}
+  onSelect={(value) => run(value)}
+/>
 ```
 
 ### Props
