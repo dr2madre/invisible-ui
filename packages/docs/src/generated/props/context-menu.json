@@ -88,6 +88,56 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "ContextMenu",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "MenuEntry[]",
+          "default": null,
+          "required": true,
+          "description": "Items, separators, groups and submenus, in the order shown.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the chosen item's value, after every level has closed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the menu, which has no trigger to name it. Defaults to the catalog's \"Context menu\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The region the menu opens on.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

@@ -38,6 +38,22 @@ In Elements, the children are the region. Assign the actions through the
 </script>
 ```
 
+In React, the children are the region. `items` takes the same entries as
+Dropdown Menu, submenus included:
+
+```tsx
+<ContextMenu
+  label="Page actions"
+  items={[
+    { value: "reload", label: "Reload" },
+    { type: "submenu", value: "share", label: "Share", items: [{ value: "email", label: "Email" }] },
+  ]}
+  onSelect={(value) => run(value)}
+>
+  <div>Right-click here</div>
+</ContextMenu>
+```
+
 ### Props
 
 <PropsTable component="context-menu" />

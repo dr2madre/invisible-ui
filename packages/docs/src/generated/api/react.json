@@ -12,6 +12,7 @@
   },
   "externalReferences": [
     "@design-system/core",
+    "@floating-ui/react-dom",
     "react"
   ],
   "symbols": [
@@ -86,6 +87,16 @@
       "signature": "interface ConfirmDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the confirmation (required). */ title: string; /** Optional supporting message. */ description?: string; /** Label of the confirming button. Defaults to the catalog's \"Confirm\". */ confirmLabel?: string; /** Label of the cancelling button (also the Escape action). Defaults to \"Cancel\". */ cancelLabel?: string; /** Variant of the confirm button (`\"danger\"` for a destructive confirm). */ confirmVariant?: ButtonVariant; /** * Interrupting urgency: switches the panel to `role=\"alertdialog\"`, which * screen readers announce immediately. Nothing else changes (ADR 0005). */ urgent?: boolean; /** Called when the confirm button is pressed (before the dialog closes). */ onConfirm?: () => void; /** Whether pressing the backdrop cancels and closes. Defaults to `true`. */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "ContextMenu",
+      "kind": "function",
+      "signature": "declare function ContextMenu({ items, disabled, onSelect, label, children, }: ContextMenuProps): react.JSX.Element;"
+    },
+    {
+      "name": "ContextMenuProps",
+      "kind": "interface",
+      "signature": "interface ContextMenuProps { /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; /** Accessible name for the menu, which has no trigger to name it. Defaults to the catalog's \"Context menu\". */ label?: string; /** The region the menu opens on. */ children?: ReactNode; }"
+    },
+    {
       "name": "Dialog",
       "kind": "const",
       "signature": "Dialog: react.ForwardRefExoticComponent<DialogProps & react.RefAttributes<DialogHandle>>"
@@ -136,6 +147,16 @@
       "signature": "type Dir = \"ltr\" | \"rtl\";"
     },
     {
+      "name": "DropdownMenu",
+      "kind": "function",
+      "signature": "declare function DropdownMenu({ label, items, disabled, onSelect }: DropdownMenuProps): react.JSX.Element;"
+    },
+    {
+      "name": "DropdownMenuProps",
+      "kind": "interface",
+      "signature": "interface DropdownMenuProps { /** Visible text of the trigger, and the menu's accessible name. */ label: string; /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; }"
+    },
+    {
       "name": "I18nValue",
       "kind": "interface",
       "signature": "interface I18nValue { /** Resolved BCP-47 locale; drives formatting, plurals, `lang` and direction. */ locale: string; /** Writing direction: explicit when given, otherwise derived from the locale. */ dir: Dir; /** Translator: `t(\"select.placeholder\")`. Falls back to English, then the key. */ t: TranslateFn; }"
@@ -161,6 +182,46 @@
       "signature": "interface LocaleProviderProps { /** BCP-47 locale tag. Defaults to `\"en\"`. */ locale?: string; /** Explicit writing direction; when omitted it derives from the locale. */ dir?: Dir; /** Message overrides, merged over the English catalog. */ messages?: Messages; children?: ReactNode; }"
     },
     {
+      "name": "MenuEntry",
+      "kind": "type",
+      "signature": "type MenuEntry = menu.MenuEntry;"
+    },
+    {
+      "name": "MenuGroup",
+      "kind": "type",
+      "signature": "type MenuGroup = menu.MenuGroup;"
+    },
+    {
+      "name": "MenuItem",
+      "kind": "type",
+      "signature": "type MenuItem = menu.MenuItem;"
+    },
+    {
+      "name": "MenuSeparator",
+      "kind": "type",
+      "signature": "type MenuSeparator = menu.MenuSeparator;"
+    },
+    {
+      "name": "MenuSubmenu",
+      "kind": "type",
+      "signature": "type MenuSubmenu = menu.MenuSubmenu;"
+    },
+    {
+      "name": "Menubar",
+      "kind": "function",
+      "signature": "declare function Menubar({ label, menus, onSelect }: MenubarProps): react.JSX.Element;"
+    },
+    {
+      "name": "MenubarMenu",
+      "kind": "interface",
+      "signature": "interface MenubarMenu { /** Stable value identifying the menu, passed to `onSelect`. */ value: string; /** Visible trigger label. */ label: string; /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; /** A disabled menu takes focus on its trigger but never opens. */ disabled?: boolean; }"
+    },
+    {
+      "name": "MenubarProps",
+      "kind": "interface",
+      "signature": "interface MenubarProps { /** Accessible name for the menubar. */ label: string; /** The top-level menus. */ menus: MenubarMenu[]; /** Called with the chosen item's menu value and item value, after the menu has closed. */ onSelect?: (menuValue: string, itemValue: string) => void; }"
+    },
+    {
       "name": "MessageKey",
       "kind": "type",
       "signature": "type MessageKey = i18n.MessageKey;"
@@ -184,6 +245,41 @@
       "name": "MultiSelectProps",
       "kind": "interface",
       "signature": "interface MultiSelectProps { /** Accessible, visible label (required). */ label: string; /** Ordered list of all options. */ items: MultiSelectItem[]; /** The selected values (controlled). Replace the array; do not mutate it. */ values?: string[]; /** Called with the next values after a user action. */ onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; /** Input placeholder. Defaults to the catalog's \"Search…\". */ placeholder?: string; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. */ removeOnBackspace?: boolean; /** Form field name; one hidden input per value is submitted under it. */ name?: string; /** * Expose `aria-required` on the input. Native constraint validation cannot * cover hidden multi-value inputs; validation stays with the application. */ required?: boolean; /** Empty-result row text. Defaults to the catalog's \"No results\". */ emptyText?: string; }"
+    },
+    {
+      "name": "NavigationMenu",
+      "kind": "function",
+      "signature": "declare function NavigationMenu({ label, items, value, onValueChange }: NavigationMenuProps): react.JSX.Element;"
+    },
+    {
+      "name": "NavigationMenuItem",
+      "kind": "interface",
+      "signature": "interface NavigationMenuItem { value: string; label: string; /** For a plain link item. */ href?: string; /** For a panel item: the links revealed when it opens. */ links?: NavigationMenuLink[]; }"
+    },
+    {
+      "name": "NavigationMenuLink",
+      "kind": "interface",
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+    },
+    {
+      "name": "NavigationMenuProps",
+      "kind": "interface",
+      "signature": "interface NavigationMenuProps { /** Accessible name for the navigation landmark. */ label: string; items: NavigationMenuItem[]; /** The open item's value, or `null`; initial / controlled. */ value?: string | null; /** Called whenever the user opens, switches or closes a panel. */ onValueChange?: (value: string | null) => void; }"
+    },
+    {
+      "name": "Placement",
+      "kind": "type",
+      "signature": "export declare type Placement = Prettify<Side | AlignedPlacement>;"
+    },
+    {
+      "name": "Popover",
+      "kind": "function",
+      "signature": "declare function Popover({ trigger, triggerVariant, open, placement, openDelay, closeDelay, label, onOpenChange, triggerContent, children, }: PopoverProps): react.JSX.Element;"
+    },
+    {
+      "name": "PopoverProps",
+      "kind": "interface",
+      "signature": "interface PopoverProps { /** Opening contract: an intentional click, or a hover and focus preview. */ trigger?: \"click\" | \"hover\"; /** Visual variant for the trigger Button (`trigger=\"click\"` only). */ triggerVariant?: ButtonVariant; /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. */ placement?: Placement; /** Delay before opening on hover, in ms (`trigger=\"hover\"` only). */ openDelay?: number; /** Delay before closing on leave, in ms (`trigger=\"hover\"` only). */ closeDelay?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; /** Called whenever the user opens or closes the panel. */ onOpenChange?: (open: boolean) => void; /** * The trigger button's content (defaults to the catalog's label), or the * focusable trigger element itself in hover mode. */ triggerContent?: ReactNode; /** The card. */ children?: ReactNode; }"
     },
     {
       "name": "PromptDialog",
@@ -271,6 +367,16 @@
       "signature": "interface TextFieldProps { /** Visible label and accessible name for the control. */ label: string; /** Visually hide the label while keeping it as the control's accessible name. */ hideLabel?: boolean; /** Initial or current value. */ value?: string; /** Native input type. */ type?: InputType; /** Native placeholder. It does not replace the label. */ placeholder?: string; /** Hint linked to the control through `aria-describedby`. */ description?: string; /** Error message that marks the control invalid and is announced. */ error?: string; /** Confirmation message announced politely when the field is valid. */ success?: string; /** Prevent interaction and form submission. */ disabled?: boolean; /** Mark the native input as required. */ required?: boolean; /** Keep the input focusable and submittable but prevent edits. */ readOnly?: boolean; /** Native form field name. */ name?: string; /** Native maximum length constraint. */ maxLength?: number; /** Native minimum length constraint. */ minLength?: number; /** Native validation pattern. */ pattern?: string; /** Preferred virtual keyboard mode. */ inputMode?: InputHTMLAttributes<HTMLInputElement>[\"inputMode\"]; /** Native autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Enable or disable browser spelling correction. */ spellCheck?: boolean; /** Called once after a user edit is committed locally. */ onValueChange?: (value: string) => void; /** Decorative content placed inside the control at the inline start. */ left?: ReactNode; /** Decorative content placed inside the control at the inline end. */ right?: ReactNode; }"
     },
     {
+      "name": "Tooltip",
+      "kind": "function",
+      "signature": "declare function Tooltip({ text, placement, openDelay, closeDelay, children, }: TooltipProps): react.JSX.Element;"
+    },
+    {
+      "name": "TooltipProps",
+      "kind": "interface",
+      "signature": "interface TooltipProps { /** Tooltip label text. */ text: string; /** Preferred placement; flips when there is no room. */ placement?: Placement; /** Delay before showing on hover, in ms. */ openDelay?: number; /** Delay before hiding on leave, in ms. */ closeDelay?: number; /** The trigger: wrap a focusable element. */ children?: ReactNode; }"
+    },
+    {
       "name": "TranslateFn",
       "kind": "type",
       "signature": "type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;"
@@ -306,6 +412,16 @@
       "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; /** * CSS selector for the element focus returns to on close, for a dialog * opened without a trigger of its own. It wins over the element that had * focus when the dialog opened. */ returnFocusTo?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "UseHoverPreview",
+      "kind": "interface",
+      "signature": "interface UseHoverPreview extends DelayedToggle { api: hoverCard.HoverCardApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger wrapper; the positioning anchor. */ triggerRef: RefObject<HTMLElement | null>; /** Attach to the card. Render it only while `open`. */ cardRef: (node: HTMLElement | null) => void; }"
+    },
+    {
+      "name": "UseHoverPreviewOptions",
+      "kind": "interface",
+      "signature": "interface UseHoverPreviewOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the card. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and card, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `200`. */ closeDelay?: number; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
       "name": "UseMultiSelect",
       "kind": "interface",
       "signature": "interface UseMultiSelect { /** The connected core API: prop bags plus imperative helpers. */ api: multiSelect.MultiSelectApi; /** The currently visible (filtered) items. */ items: MultiSelectItem[]; inputValue: string; values: string[]; open: boolean; /** Ref callback for the input; also the positioning reference. */ inputRef: RefCallback<HTMLInputElement>; /** Ref callback for the listbox popup. */ listboxRef: RefCallback<HTMLElement>; /** Ref for the control wrapper, so inner presses count as \"inside\". */ controlRef: RefObject<HTMLDivElement | null>; /** The input element, for imperative focus after a removal. */ inputEl: RefObject<HTMLInputElement | null>; /** Absolute-positioning styles for the listbox, from Floating UI. */ floatingStyles: CSSProperties; /** Typing filters, opens and highlights the first match. */ onInputChange: (event: ChangeEvent<HTMLInputElement>) => void; /** Pressing the closed input opens the list. */ onInputPointerDown: () => void; setOpen: (open: boolean) => void; }"
@@ -314,6 +430,26 @@
       "name": "UseMultiSelectOptions",
       "kind": "interface",
       "signature": "interface UseMultiSelectOptions { /** Ordered list of all options; filtering is applied here, in the adapter. */ items: MultiSelectItem[]; /** Selected values (controlled): ordered, unique. */ values?: string[]; disabled?: boolean; /** Review-only: focus works, opening/adding/removing do not. */ readOnly?: boolean; /** Cap on additions; never removes existing values. */ max?: number; /** Opt in to Backspace removal from an empty input. Defaults to `false`. */ removeOnBackspace?: boolean; /** * How to filter items against the current input text. Defaults to a * case-insensitive substring match on the label; an empty query matches all. */ filter?: (items: MultiSelectItem[], query: string) => MultiSelectItem[]; onValuesChange?: (values: string[]) => void; onInputValueChange?: (text: string) => void; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseNavigationMenu",
+      "kind": "interface",
+      "signature": "interface UseNavigationMenu { api: navigationMenu.NavigationMenuApi; /** The open item's value, or `null`. */ value: string | null; setValue: (value: string | null) => void; /** Props for a panel item's trigger: the core's, plus hover and focus movement. */ getTriggerProps: (value: string) => Record<string, unknown>; /** Props for the open panel: the core's, plus the hover hold and Escape's focus return. */ getContentProps: (value: string) => Record<string, unknown>; /** Attach to the open panel. */ contentRef: (node: HTMLElement | null) => void; }"
+    },
+    {
+      "name": "UseNavigationMenuOptions",
+      "kind": "interface",
+      "signature": "interface UseNavigationMenuOptions { /** The open item's value, or `null`; initial / controlled. */ value?: string | null; onValueChange?: (value: string | null) => void; /** Preferred placement of the panels. Default `\"bottom-start\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `150`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `150`. */ closeDelay?: number; }"
+    },
+    {
+      "name": "UsePopover",
+      "kind": "interface",
+      "signature": "interface UsePopover { api: popover.PopoverApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger; the positioning anchor and Escape's focus target. */ triggerRef: RefObject<HTMLButtonElement | null>; /** Attach to the panel. Render it only while `open`. */ panelRef: (node: HTMLElement | null) => void; }"
+    },
+    {
+      "name": "UsePopoverOptions",
+      "kind": "interface",
+      "signature": "interface UsePopoverOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "UseSearchDialog",
@@ -344,6 +480,16 @@
       "name": "UseTextFieldOptions",
       "kind": "interface",
       "signature": "interface UseTextFieldOptions { /** Initial or current value. */ value?: string; disabled?: boolean; readOnly?: boolean; required?: boolean; invalid?: boolean; hasDescription?: boolean; hasSuccess?: boolean; /** Called once after a user edit has been committed locally. */ onValueChange?: (value: string) => void; /** Native input carrying the form default and reset subscription. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UseTooltip",
+      "kind": "interface",
+      "signature": "interface UseTooltip extends DelayedToggle { api: tooltip.TooltipApi; open: boolean; /** Attach to the trigger; the positioning anchor. */ triggerRef: RefObject<HTMLElement | null>; /** Attach to the tooltip. Render it only while `open`. */ tooltipRef: (node: HTMLElement | null) => void; }"
+    },
+    {
+      "name": "UseTooltipOptions",
+      "kind": "interface",
+      "signature": "interface UseTooltipOptions { /** Preferred placement. Default `\"top\"`. */ placement?: Placement; /** Gap between trigger and tooltip, in px. Default `6`. */ offset?: number; /** Delay before showing on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before hiding on leave, in ms. Default `100`. */ closeDelay?: number; }"
     },
     {
       "name": "en",
@@ -381,6 +527,11 @@
       "signature": "declare function useDomProps(ref: RefObject<Element | null>, props: DomProps): void;"
     },
     {
+      "name": "useHoverPreview",
+      "kind": "function",
+      "signature": "declare function useHoverPreview({ open: openProp, placement, offset, openDelay, closeDelay, onOpenChange, }?: UseHoverPreviewOptions): UseHoverPreview;"
+    },
+    {
       "name": "useI18n",
       "kind": "function",
       "signature": "declare function useI18n(): I18nValue;"
@@ -389,6 +540,16 @@
       "name": "useMultiSelect",
       "kind": "function",
       "signature": "declare function useMultiSelect({ items: allItems, values: controlledValues, disabled, readOnly, max, removeOnBackspace, filter, onValuesChange, onInputValueChange, onOpenChange, }: UseMultiSelectOptions): UseMultiSelect;"
+    },
+    {
+      "name": "useNavigationMenu",
+      "kind": "function",
+      "signature": "declare function useNavigationMenu({ value: valueProp, onValueChange, placement, offset, openDelay, closeDelay, }?: UseNavigationMenuOptions): UseNavigationMenu;"
+    },
+    {
+      "name": "usePopover",
+      "kind": "function",
+      "signature": "declare function usePopover({ open: openProp, placement, offset, label, onOpenChange, }?: UsePopoverOptions): UsePopover;"
     },
     {
       "name": "useSearchDialog",
@@ -409,6 +570,11 @@
       "name": "useTextField",
       "kind": "function",
       "signature": "declare function useTextField({ value, disabled, readOnly, required, invalid, hasDescription, hasSuccess, onValueChange, controlRef, }?: UseTextFieldOptions): textField.TextFieldApi;"
+    },
+    {
+      "name": "useTooltip",
+      "kind": "function",
+      "signature": "declare function useTooltip({ placement, offset, openDelay, closeDelay, }?: UseTooltipOptions): UseTooltip;"
     }
   ]
 }

@@ -70,6 +70,48 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "NavigationMenu",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the navigation landmark.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "items",
+          "type": "NavigationMenuItem[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The open item's value, or `null`; initial / controlled.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the user opens, switches or closes a panel.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

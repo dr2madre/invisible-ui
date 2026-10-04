@@ -64,3 +64,67 @@
   color: var(--ds-color-text-disabled, #757067);
   cursor: not-allowed;
 }
+
+.context-menu__separator {
+  block-size: 1px;
+  margin: 0.3rem 0.15rem;
+  background: var(--ds-color-border, #c7c1b7);
+}
+.context-menu__group-label {
+  padding: 0.35rem 0.55rem 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-color-text-secondary, #524c44);
+}
+/* The tick sits in a fixed column so labels line up whether or not an item
+   is currently on. */
+.context-menu__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+/* Submenus (docs/menu-submenu-spec.md). A submenu stays inside the popup of
+   its parent level, and the adapter places it at physical coordinates, so it
+   drops the logical inset of the root popup. It scrolls when taller than the
+   room the adapter gives it. */
+.context-menu__submenu {
+  inset: 0 auto auto 0;
+  overflow-y: auto;
+}
+.context-menu__item[data-kind="submenu"][data-state="open"] {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}
+/* The chevron points to the inline end, where the submenu opens. */
+.context-menu__submenu-chevron {
+  display: inline-flex;
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  margin-inline-start: auto;
+  color: var(--ds-color-text-secondary, #524c44);
+}
+.context-menu__popup[dir="rtl"] .context-menu__submenu-chevron {
+  scale: -1 1;
+}
+
+/* A coarse pointer gets the touch target, density.touch.min-target-size:
+   44 by 44 at least, for every item and submenu trigger. */
+@media (pointer: coarse) {
+  .context-menu__item {
+    min-block-size: 44px;
+  }
+}
+
+/* Forced colors remove the inset ring: an outline in a system colour marks
+   the focused item and the open submenu trigger. */
+@media (forced-colors: active) {
+  .context-menu__item:focus-visible,
+  .context-menu__item[data-kind="submenu"][data-state="open"] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

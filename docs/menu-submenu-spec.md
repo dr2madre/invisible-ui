@@ -3,7 +3,7 @@
 A submenu is a menu item that opens another menu beside it. This file is the
 behaviour spec for submenus in Dropdown Menu, Context Menu and Menubar, for
 every platform: `core/` and the web adapters (Svelte, Vue, custom elements,
-React when its menus arrive) and the Flutter adapter. It is the shared
+React) and the Flutter adapter. It is the shared
 groundwork named in [ADR 0017](./adr/0017-flutter-adapter.md) §6: Wireframe's
 Flutter app needs menus with submenus, and the web menus gain them from the
 same spec.
@@ -11,10 +11,11 @@ same spec.
 Status: decided (see [Decisions taken](#decisions-taken)). The `core/`
 part is implemented: the `submenu` entry, the open path and the keyboard map
 in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
-grace-area and placement functions in `core/src/internal`. The Flutter
-adapter renders submenus in its Dropdown Menu, on the shared menu layer in
-`packages/flutter/lib/src/menu`, and runs the shared vectors. The web
-adapters do not render submenus yet.
+grace-area and placement functions in `core/src/internal`. The React
+adapter renders submenus (see [React](#react)), and the Flutter adapter
+renders them in its Dropdown Menu, on the shared menu layer in
+`packages/flutter/lib/src/menu`, running the shared vectors. The Svelte, Vue
+and custom element adapters do not render them yet.
 
 ## Pattern
 
@@ -366,8 +367,18 @@ groups and separators.
 
 ### React
 
-React has no menus today. Its Dropdown Menu, Context Menu and Menubar
-(roadmap item 14) follow this spec on the same `core` API.
+Implemented, the first adapter to render submenus. Dropdown Menu, Context
+Menu and Menubar share one internal layer, `packages/react/src/internal/menu.tsx`,
+over `menu.connect` and `menubar.connect`: one state object holds the open
+flag, the focused item and the open path (one per bar in Menubar, where one
+menu is open at a time), and each open submenu renders inside the popup of
+its parent level. The layer adds the roving focus, typeahead per level, the
+100 ms hover delay, the grace area through `menu.isInGraceArea`, placement
+through `menu.placeSubmenu` and the pointer type a press needs (decision 2).
+Context Menu and Menubar take `MenuEntry[]`. Closing by a key or an
+activation commits the closed state to the DOM and returns focus before
+`onSelect` runs. The tests are in `DropdownMenu.test.tsx`,
+`ContextMenu.test.tsx` and `Menubar.test.tsx`.
 
 ### Flutter
 

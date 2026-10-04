@@ -86,6 +86,48 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "DropdownMenu",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Visible text of the trigger, and the menu's accessible name.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "items",
+          "type": "MenuEntry[]",
+          "default": null,
+          "required": true,
+          "description": "Items, separators, groups and submenus, in the order shown.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the chosen item's value, after every level has closed.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

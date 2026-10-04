@@ -13,6 +13,12 @@ import { PromptDialog } from "./prompt-dialog/PromptDialog";
 import { SearchDialog } from "./search-dialog/SearchDialog";
 import { SheetDialog } from "./sheet-dialog/SheetDialog";
 import { Icon } from "./icon/Icon";
+import { Popover } from "./popover/Popover";
+import { Tooltip } from "./tooltip/Tooltip";
+import { DropdownMenu } from "./dropdown-menu/DropdownMenu";
+import { ContextMenu } from "./context-menu/ContextMenu";
+import { Menubar } from "./menubar/Menubar";
+import { NavigationMenu } from "./navigation-menu/NavigationMenu";
 import { LocaleProvider } from "./i18n/i18n";
 import { Select } from "./select/Select";
 import { Switch } from "./switch/Switch";
@@ -51,10 +57,59 @@ function HydrationFixture(): ReactElement {
           Sheet body
         </SheetDialog>
         <SearchDialog items={[{ value: "save", label: "Save", shortcut: ["⌘", "S"] }]} />
+        <Popover triggerContent="Details">Popover body</Popover>
+        <Popover trigger="hover" triggerContent={<a href="#ada">@ada</a>}>
+          Ada Lovelace
+        </Popover>
+        <Tooltip text="Copy to clipboard">
+          <button type="button">Copy</button>
+        </Tooltip>
+        <DropdownMenu
+          label="Actions"
+          items={[
+            { value: "rename", label: "Rename" },
+            {
+              type: "submenu",
+              value: "share",
+              label: "Share",
+              items: [{ value: "email", label: "Email" }],
+            },
+          ]}
+        />
+        <ContextMenu items={[{ value: "reload", label: "Reload" }]}>
+          <p>Region</p>
+        </ContextMenu>
+        <Menubar
+          label="Main"
+          menus={[{ value: "file", label: "File", items: [{ value: "new", label: "New" }] }]}
+        />
+        <NavigationMenu
+          label="Site"
+          items={[
+            { value: "docs", label: "Docs", links: [{ label: "Guide", href: "#guide" }] },
+            { value: "blog", label: "Blog", href: "#blog" },
+          ]}
+        />
         <Icon label="Add">
           <path d="M12 5v14M5 12h14" />
         </Icon>
       </main>
+    </LocaleProvider>
+  );
+}
+
+/** Overlays rendered open on the server: they open once hydrated. */
+function OpenOverlaysFixture(): ReactElement {
+  return (
+    <LocaleProvider locale="en-US">
+      <Popover open triggerContent="Details">
+        Popover body
+      </Popover>
+      <NavigationMenu
+        label="Site"
+        value="docs"
+        items={[{ value: "docs", label: "Docs", links: [{ label: "Guide", href: "#guide" }] }]}
+      />
     </LocaleProvider>
   );
 }
@@ -108,7 +163,10 @@ describe("React adapter hydration", () => {
     expect(host.querySelector("main")).not.toBeNull();
     expect(host.querySelector('[role="combobox"]')).not.toBeNull();
     expect(host.querySelector('[role="dialog"], [role="alertdialog"]')).toBeNull();
-    expect(host.querySelectorAll('[aria-haspopup="dialog"]')).toHaveLength(6);
+    expect(host.querySelectorAll('[aria-haspopup="dialog"]')).toHaveLength(7);
+    expect(host.querySelectorAll('[aria-haspopup="menu"]')).toHaveLength(2);
+    expect(host.querySelector('[role="menubar"]')).not.toBeNull();
+    expect(host.querySelector("nav")).not.toBeNull();
     expect(document.body.querySelector('[role="listbox"]')).not.toBeNull();
 
     await unmount();
@@ -124,6 +182,17 @@ describe("React adapter hydration", () => {
     expect(hydrationErrors).toEqual([]);
     expect(host.querySelectorAll("dialog")).toHaveLength(3);
     expect(shown).toHaveBeenCalledTimes(3);
+
+    await unmount();
+  });
+
+  it("hydrates open overlays and shows their panels once in the browser", async () => {
+    const { recoverableError, hydrationErrors, unmount } = await hydrate(<OpenOverlaysFixture />);
+
+    expect(recoverableError).not.toHaveBeenCalled();
+    expect(hydrationErrors).toEqual([]);
+    expect(document.body.querySelector(".popover__content")).not.toBeNull();
+    expect(document.body.querySelector(".navmenu__content")).not.toBeNull();
 
     await unmount();
   });

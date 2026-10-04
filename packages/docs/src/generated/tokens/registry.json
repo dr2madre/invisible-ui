@@ -18239,6 +18239,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18264,6 +18265,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
+          "property": "min-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "min-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
+          "selector": ".menu__popup",
+          "property": "min-inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar__popup",
           "property": "min-inline-size",
           "fallback": "12rem"
@@ -18334,6 +18356,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18370,6 +18393,27 @@
           "selector": "nav.sidebar",
           "property": "padding",
           "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
+          "selector": ".menu__popup",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
+          "selector": ".menubar__popup",
+          "property": "padding",
+          "fallback": "0.25rem"
         },
         {
           "adapter": "svelte",
@@ -18450,6 +18494,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18477,6 +18522,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
+          "selector": ".menu__popup",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar__popup",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -18546,6 +18612,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18578,6 +18645,20 @@
           "selector": "nav.sidebar",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
+          "selector": ".menu__trigger",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
+          "selector": ".menubar__trigger",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
         },
         {
           "adapter": "svelte",
@@ -18642,6 +18723,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18653,6 +18735,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/dropdown-menu.css",
+          "selector": ".menu__trigger",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
           "selector": ".menu__trigger",
           "property": "padding",
           "fallback": "0.5rem 0.75rem"
@@ -18694,6 +18783,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18719,6 +18809,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__popup",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/context-menu.css",
+          "selector": ".context-menu__popup",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/dropdown-menu.css",
+          "selector": ".menu__popup",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar__popup",
           "property": "z-index",
           "fallback": "50"
@@ -18786,6 +18897,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18797,6 +18909,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "gap",
+          "fallback": "0.125rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar",
           "property": "gap",
           "fallback": "0.125rem"
@@ -18836,6 +18955,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18847,6 +18967,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar",
           "property": "padding",
           "fallback": "0.25rem"
@@ -18886,6 +19013,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18899,6 +19027,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -18938,6 +19073,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -18949,6 +19085,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/menubar.css",
+          "selector": ".menubar__trigger",
+          "property": "padding",
+          "fallback": "0.375rem 0.625rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/menubar.css",
           "selector": ".menubar__trigger",
           "property": "padding",
           "fallback": "0.375rem 0.625rem"
@@ -19630,6 +19773,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19641,6 +19785,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "padding",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__content",
           "property": "padding",
           "fallback": "0.5rem"
@@ -19680,6 +19831,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19693,6 +19845,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__content",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -19732,6 +19891,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19743,6 +19903,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "min-inline-size",
+          "fallback": "18rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__content",
           "property": "min-inline-size",
           "fallback": "18rem"
@@ -19782,6 +19949,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19793,6 +19961,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__list",
           "property": "gap",
           "fallback": "0.25rem"
@@ -19832,6 +20007,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19845,6 +20021,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__trigger, .navmenu__toplink",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__trigger, .navmenu__toplink",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -19884,6 +20067,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19895,6 +20079,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__trigger, .navmenu__toplink",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__trigger, .navmenu__toplink",
           "property": "padding",
           "fallback": "0.5rem 0.75rem"
@@ -19934,6 +20125,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19945,6 +20137,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/navigation-menu.css",
+          "selector": ".navmenu__content",
+          "property": "z-index",
+          "fallback": "50"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/navigation-menu.css",
           "selector": ".navmenu__content",
           "property": "z-index",
           "fallback": "50"
@@ -20610,6 +20809,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20621,6 +20821,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "max-inline-size",
+          "fallback": "20rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "max-inline-size",
           "fallback": "20rem"
@@ -20662,6 +20869,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20680,6 +20888,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "padding",
+          "fallback": "0.875rem 1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "padding",
           "fallback": "0.875rem 1rem"
@@ -20742,6 +20957,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20762,6 +20978,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -20824,6 +21047,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20842,6 +21066,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/popover.css",
+          "selector": ".popover__content",
+          "property": "z-index",
+          "fallback": "100"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "z-index",
           "fallback": "100"
@@ -30019,6 +30250,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30032,6 +30264,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "background",
+          "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "background",
           "fallback": "var(--ds-color-emphasis-surface, #332f2a)"
@@ -30071,6 +30310,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30084,6 +30324,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "color",
           "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
@@ -30123,6 +30370,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30134,6 +30382,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "font-size",
+          "fallback": "0.8125rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "font-size",
           "fallback": "0.8125rem"
@@ -30173,6 +30428,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30184,6 +30440,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "max-inline-size",
+          "fallback": "18rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "max-inline-size",
           "fallback": "18rem"
@@ -30223,6 +30486,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30234,6 +30498,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "padding",
+          "fallback": "0.3rem 0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "padding",
           "fallback": "0.3rem 0.5rem"
@@ -30273,6 +30544,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30286,6 +30558,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -30325,6 +30604,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30336,6 +30616,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tooltip.css",
+          "selector": ".tooltip__content",
+          "property": "z-index",
+          "fallback": "60"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tooltip.css",
           "selector": ".tooltip__content",
           "property": "z-index",
           "fallback": "60"

@@ -47,6 +47,12 @@ const SHARED_SHEETS = [
   "sheet-dialog.css",
   "kbd.css",
   "loading.css",
+  "popover.css",
+  "tooltip.css",
+  "dropdown-menu.css",
+  "context-menu.css",
+  "menubar.css",
+  "navigation-menu.css",
 ];
 
 const VUE_SOURCE_SHEETS = [
@@ -55,9 +61,6 @@ const VUE_SOURCE_SHEETS = [
   "checkbox-group.css",
   "field.css",
   "label.css",
-  "popover.css",
-  "tooltip.css",
-  "dropdown-menu.css",
   "notification-region.css",
   "progress.css",
   "skeleton.css",
@@ -88,9 +91,6 @@ const VUE_SOURCE_SHEETS = [
   "time-field.css",
   "collapsible.css",
   "hover-card.css",
-  "context-menu.css",
-  "menubar.css",
-  "navigation-menu.css",
   "sidebar.css",
   "aspect-ratio.css",
   "blockquote.css",
