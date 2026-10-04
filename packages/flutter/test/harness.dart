@@ -1,9 +1,12 @@
+import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
 
-/// Wraps [child] the way an app would: media query, direction and theme,
-/// without WidgetsApp, so the shortcuts under test are the component's own.
+/// Wraps [child] the way an app would: media query, direction, theme and an
+/// overlay for popups, without WidgetsApp, so the shortcuts under test are
+/// the component's own.
 Widget harness(
   Widget child, {
   InvisibleThemeData? theme,
@@ -22,10 +25,89 @@ Widget harness(
       textDirection: direction,
       child: InvisibleTheme(
         data: theme ?? InvisibleThemeData.light(),
-        child: Center(child: child),
+        child: TapRegionSurface(
+          child: _HarnessOverlay(child: Center(child: child)),
+        ),
       ),
     ),
   );
+}
+
+/// An [Overlay] whose only entry shows the latest [child] on the theme
+/// background, so a test can pump a changed tree and keep the overlay's
+/// popups.
+class _HarnessOverlay extends StatefulWidget {
+  const _HarnessOverlay({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_HarnessOverlay> createState() => _HarnessOverlayState();
+}
+
+class _HarnessOverlayState extends State<_HarnessOverlay> {
+  // The page paints the theme background and takes presses, as an app's
+  // page does, so a press on empty space counts as outside a popup.
+  late final OverlayEntry _entry = OverlayEntry(
+    builder: (context) => ColoredBox(
+      color: InvisibleTheme.of(context).colors.background,
+      child: widget.child,
+    ),
+  );
+
+  @override
+  void didUpdateWidget(_HarnessOverlay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _entry.markNeedsBuild();
+  }
+
+  @override
+  void dispose() {
+    _entry
+      ..remove()
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Overlay(initialEntries: [_entry]);
+}
+
+/// An announcement sent to assistive technology.
+typedef Announcement = ({String message, bool assertive});
+
+/// Records the announcements sent while the test runs.
+List<Announcement> recordAnnouncements(WidgetTester tester) {
+  final log = <Announcement>[];
+  final messenger = tester.binding.defaultBinaryMessenger;
+  messenger.setMockDecodedMessageHandler<dynamic>(
+    SystemChannels.accessibility,
+    (message) async {
+      final event = message as Map<Object?, Object?>;
+      if (event['type'] == 'announce') {
+        final data = event['data']! as Map<Object?, Object?>;
+        log.add((
+          message: data['message']! as String,
+          assertive: data['assertiveness'] == Assertiveness.assertive.index,
+        ));
+      }
+      return null;
+    },
+  );
+  addTearDown(
+    () => messenger.setMockDecodedMessageHandler<dynamic>(
+      SystemChannels.accessibility,
+      null,
+    ),
+  );
+  return log;
+}
+
+/// Pumps the frame that applies a focus change and the one its listeners
+/// rebuild.
+Future<void> pumpFocus(WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump();
 }
 
 /// Matches a semantics node that has at least the given properties.
@@ -35,20 +117,36 @@ Widget harness(
 Matcher semanticsWith({
   String? label,
   String? value,
+  String? hint,
+  String? tooltip,
   bool? isButton,
   bool? hasEnabledState,
   bool? isEnabled,
   bool? isFocusable,
   bool? hasTapAction,
+  bool? hasExpandedState,
+  bool? isExpanded,
+  bool? hasCheckedState,
+  bool? isChecked,
+  bool? isInMutuallyExclusiveGroup,
+  bool? isLiveRegion,
 }) {
   // ignore: deprecated_member_use
   return containsSemantics(
     label: label,
     value: value,
+    hint: hint,
+    tooltip: tooltip,
     isButton: isButton,
     hasEnabledState: hasEnabledState,
     isEnabled: isEnabled,
     isFocusable: isFocusable,
     hasTapAction: hasTapAction,
+    hasExpandedState: hasExpandedState,
+    isExpanded: isExpanded,
+    hasCheckedState: hasCheckedState,
+    isChecked: isChecked,
+    isInMutuallyExclusiveGroup: isInMutuallyExclusiveGroup,
+    isLiveRegion: isLiveRegion,
   );
 }

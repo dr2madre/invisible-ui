@@ -11,8 +11,10 @@ same spec.
 Status: decided (see [Decisions taken](#decisions-taken)). The `core/`
 part is implemented: the `submenu` entry, the open path and the keyboard map
 in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
-grace-area and placement functions in `core/src/internal`. The web adapters
-and the Flutter adapter do not render submenus yet.
+grace-area and placement functions in `core/src/internal`. The Flutter
+adapter renders submenus in its Dropdown Menu, on the shared menu layer in
+`packages/flutter/lib/src/menu`, and runs the shared vectors. The web
+adapters do not render submenus yet.
 
 ## Pattern
 

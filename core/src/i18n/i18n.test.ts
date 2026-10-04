@@ -124,6 +124,13 @@ describe("i18n — translate", () => {
     expect(translate(catalog, {}, "en", "missing.key")).toBe("missing.key");
   });
 
+  it("carries the submenu hint for platforms with no popup semantics", () => {
+    expect(translate(catalog, {}, "en", "menu.submenu")).toBe("submenu");
+    expect(translate(catalog, { "menu.submenu": "sottomenu" }, "it", "menu.submenu")).toBe(
+      "sottomenu",
+    );
+  });
+
   it("interpolates named variables, reorderable, as plain text", () => {
     expect(
       translate({ greet: "{name} ha {count} anni" }, {}, "it", "greet", {
