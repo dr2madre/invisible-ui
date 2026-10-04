@@ -17,6 +17,41 @@
   ],
   "symbols": [
     {
+      "name": "Accordion",
+      "kind": "function",
+      "signature": "declare function Accordion({ items, value, type, collapsible, disabled, headingLevel, onValueChange, }: AccordionProps): react.JSX.Element;"
+    },
+    {
+      "name": "AccordionEntry",
+      "kind": "type",
+      "signature": "type AccordionEntry = AccordionItem & { label?: string; content?: ReactNode; headingLevel?: AccordionHeadingLevel; };"
+    },
+    {
+      "name": "AccordionHeadingLevel",
+      "kind": "type",
+      "signature": "type AccordionHeadingLevel = 2 | 3 | 4 | 5 | 6;"
+    },
+    {
+      "name": "AccordionItem",
+      "kind": "type",
+      "signature": "type AccordionItem = accordion.AccordionItem;"
+    },
+    {
+      "name": "AccordionProps",
+      "kind": "interface",
+      "signature": "interface AccordionProps { items: AccordionEntry[]; /** Initial (uncontrolled) or current (controlled) expanded values. */ value?: string[]; /** `single` (default): one open at a time. `multiple`: many. */ type?: AccordionType; /** For `single`: allow collapsing the open item. */ collapsible?: boolean; disabled?: boolean; /** Level of every item header, 2 to 6; an item's own `headingLevel` wins. */ headingLevel?: AccordionHeadingLevel; /** Called whenever the expanded set changes. */ onValueChange?: (value: string[]) => void; }"
+    },
+    {
+      "name": "AccordionType",
+      "kind": "type",
+      "signature": "type AccordionType = accordion.AccordionType;"
+    },
+    {
+      "name": "ActivationMode",
+      "kind": "type",
+      "signature": "type ActivationMode = tabs.ActivationMode;"
+    },
+    {
       "name": "AlertDialog",
       "kind": "const",
       "signature": "AlertDialog: react.ForwardRefExoticComponent<AlertDialogProps & react.RefAttributes<DialogHandle>>"
@@ -27,9 +62,44 @@
       "signature": "interface AlertDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the alert (required). */ title: string; /** The message to acknowledge (required). */ description: string; /** * Label of the single acknowledging button. Defaults to the catalog's \"OK\"; * prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\"). */ dismissLabel?: string; /** Called when the alert is acknowledged (button, Escape or backdrop). */ onDismiss?: () => void; /** * Whether pressing the backdrop acknowledges and closes. Defaults to `true`; * set `false` to require an explicit button press (e.g. \"I understood\"). */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "Breadcrumb",
+      "kind": "function",
+      "signature": "declare function Breadcrumb({ items, label, separator }: BreadcrumbProps): react.JSX.Element;"
+    },
+    {
+      "name": "BreadcrumbItem",
+      "kind": "interface",
+      "signature": "interface BreadcrumbItem { /** Visible label. */ label: string; /** Link target. Omit on the current (last) page. */ href?: string; /** Render a home glyph before the label (typically the first item). */ home?: boolean; }"
+    },
+    {
+      "name": "BreadcrumbProps",
+      "kind": "interface",
+      "signature": "interface BreadcrumbProps { /** The trail, from the root to the current page (rendered last). */ items: BreadcrumbItem[]; /** Accessible name for the landmark. Defaults to the catalog's \"Breadcrumb\". */ label?: string; /** Separator between items. */ separator?: string; }"
+    },
+    {
       "name": "Button",
       "kind": "const",
       "signature": "Button: react.ForwardRefExoticComponent<ButtonProps & react.RefAttributes<HTMLButtonElement>>"
+    },
+    {
+      "name": "ButtonGroup",
+      "kind": "function",
+      "signature": "declare function ButtonGroup({ label, orientation, attached, align, children, }: ButtonGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "ButtonGroupAlign",
+      "kind": "type",
+      "signature": "type ButtonGroupAlign = \"start\" | \"center\" | \"end\" | \"stretch\";"
+    },
+    {
+      "name": "ButtonGroupOrientation",
+      "kind": "type",
+      "signature": "type ButtonGroupOrientation = buttonGroup.Orientation;"
+    },
+    {
+      "name": "ButtonGroupProps",
+      "kind": "interface",
+      "signature": "interface ButtonGroupProps { /** Accessible name for the group. */ label: string; orientation?: ButtonGroupOrientation; /** Visually merge the buttons into one bar (vs. spacing them apart). */ attached?: boolean; /** * Cross-axis alignment of the items. Defaults to `center` so a taller sibling * (e.g. a Select with a label) never stretches the buttons; use `end` to line * buttons up with a labelled control's input row, or `stretch` for equal heights. */ align?: ButtonGroupAlign; /** The buttons. */ children?: ReactNode; }"
     },
     {
       "name": "ButtonProps",
@@ -105,6 +175,16 @@
       "name": "CheckedState",
       "kind": "type",
       "signature": "type CheckedState = checkbox.CheckedState;"
+    },
+    {
+      "name": "Collapsible",
+      "kind": "function",
+      "signature": "declare function Collapsible({ open, disabled, label, trigger, onOpenChange, children, }: CollapsibleProps): react.JSX.Element;"
+    },
+    {
+      "name": "CollapsibleProps",
+      "kind": "interface",
+      "signature": "interface CollapsibleProps { /** Initial (uncontrolled) or current (controlled) open state. */ open?: boolean; /** Whether the collapsible is disabled. */ disabled?: boolean; /** Trigger text, used when `trigger` is not given. */ label?: string; /** The trigger's content. Defaults to `label`, then the catalog's \"Toggle\". */ trigger?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; /** The collapsible content. */ children?: ReactNode; }"
     },
     {
       "name": "Combobox",
@@ -362,6 +442,21 @@
       "signature": "interface NumberFieldProps { /** Visible label, tied to the control. */ label: string; /** Initial (uncontrolled) or current (controlled) value; `null` means empty. */ value?: number | null; /** BCP-47 locale for parsing and display. Defaults to the provider's locale. */ locale?: string; min?: number; max?: number; /** Step for the spin actions; typed values are validated against it. */ step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; /** Opt in to wheel stepping while the input is focused and hovered. */ changeOnWheel?: boolean; /** Optional hint shown under the control and linked via `aria-describedby`. */ description?: string; /** Error message; when non-empty the field becomes invalid and announces it. */ error?: string; /** Form field name; the canonical ASCII value is submitted under it. */ name?: string; /** Id of the owning form when the field renders outside of it. */ form?: string; /** Called when the canonical value changes while editing. */ onValueChange?: (value: number | null) => void; /** Called at commit boundaries: blur, Enter, and spin actions. */ onValueCommit?: (value: number | null) => void; }"
     },
     {
+      "name": "PageItem",
+      "kind": "type",
+      "signature": "type PageItem = pagination.PageItem;"
+    },
+    {
+      "name": "Pagination",
+      "kind": "function",
+      "signature": "declare function Pagination({ page, pageCount, siblingCount, boundaryCount, disabled, label, onPageChange, }: PaginationProps): react.JSX.Element;"
+    },
+    {
+      "name": "PaginationProps",
+      "kind": "interface",
+      "signature": "interface PaginationProps { /** * Initial (uncontrolled) or current (controlled) page, 1-based. A later * prop, clamped to `pageCount`, overwrites the local choice without a report. */ page?: number; /** Total number of pages. */ pageCount: number; /** Pages shown on each side of the current page. */ siblingCount?: number; /** Pages always shown at the start and end. */ boundaryCount?: number; disabled?: boolean; /** Accessible name for the navigation landmark. Defaults to the catalog's \"Pagination\". */ label?: string; /** Called whenever the page changes. */ onPageChange?: (page: number) => void; }"
+    },
+    {
       "name": "PinInput",
       "kind": "function",
       "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
@@ -532,6 +627,16 @@
       "signature": "interface SelectProps { /** Accessible name for the control. */ label: string; /** Visually hide the label (kept for assistive tech) — for compact toolbars. */ hideLabel?: boolean; /** Options. Plain text only — see the note on rich options below. */ items: SelectItem[]; /** Selected value. `null` shows the placeholder. */ value?: string | null; /** Shown while nothing is selected. Defaults to the catalog's \"Select…\". */ placeholder?: string; disabled?: boolean; /** * Width behaviour: `wrap` fits the longest option (the native default), * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Form field name — this is a real `<select>`, so it submits natively. */ name?: string; /** Marks the control as required (native validation + announced to AT). */ required?: boolean; /** Error message; when non-empty the select becomes invalid and announces it. */ error?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
+      "name": "Separator",
+      "kind": "function",
+      "signature": "declare function Separator({ orientation, decorative }: SeparatorProps): react.JSX.Element;"
+    },
+    {
+      "name": "SeparatorProps",
+      "kind": "interface",
+      "signature": "interface SeparatorProps { /** Layout axis of the line. */ orientation?: \"horizontal\" | \"vertical\"; /** Hide from assistive tech (purely visual). */ decorative?: boolean; }"
+    },
+    {
       "name": "SheetDialog",
       "kind": "const",
       "signature": "SheetDialog: react.ForwardRefExoticComponent<SheetDialogProps & react.RefAttributes<DialogHandle>>"
@@ -545,6 +650,26 @@
       "name": "SheetDialogSide",
       "kind": "type",
       "signature": "type SheetDialogSide = \"top\" | \"right\" | \"bottom\" | \"left\";"
+    },
+    {
+      "name": "Sidebar",
+      "kind": "function",
+      "signature": "declare function Sidebar({ sections, value, label, onSelect, mode, collapsed: collapsedProp, onCollapsedChange, open: openProp, onOpenChange, openGroups, onOpenGroupsChange, closeOnNavigate, side, title, renderTrigger, returnFocusTo, trigger, logo, footer, }: SidebarProps): react.JSX.Element;"
+    },
+    {
+      "name": "SidebarItem",
+      "kind": "interface",
+      "signature": "interface SidebarItem { value: string; label: string; /** Renders the item as a link. Without it the item reports `onSelect`. */ href?: string; /** * Optional leading icon, decorative. The rail is only offered when every * destination has one: an icon is the whole of what a destination shows * once the labels are out of sight. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "SidebarProps",
+      "kind": "interface",
+      "signature": "interface SidebarProps { /** Groups of items, rendered in order with an optional heading each. */ sections: SidebarSection[]; /** The current destination's value. The application owns it. */ value?: string | null; /** Accessible name for the navigation landmark. Defaults to the catalog's \"Main\". */ label?: string; /** Called when an item without an `href` is activated. */ onSelect?: (value: string) => void; /** How this viewport shows the navigation. The application decides. */ mode?: \"inline\" | \"drawer\"; /** The rail: labels hidden from sight, icons kept. */ collapsed?: boolean; /** * Given, the rail toggle is rendered and reports every press, as long as * every destination carries an icon: without one there would be nothing to * show once the labels are hidden. */ onCollapsedChange?: (collapsed: boolean) => void; /** Whether the drawer is open (`mode=\"drawer\"`). */ open?: boolean; onOpenChange?: (open: boolean) => void; /** * Which sections are open, by id. Given it, the application owns the set and * this component only reports presses; left out, the component keeps the set * itself and opens the section holding the current item. */ openGroups?: string[]; onOpenGroupsChange?: (openGroups: string[]) => void; /** Whether following an item closes the drawer. */ closeOnNavigate?: boolean; /** Which edge the drawer comes from. Follows the writing direction. */ side?: \"inline-start\" | \"inline-end\"; /** The drawer's accessible name. Falls back to `label`. */ title?: string; /** Whether the drawer renders its own trigger button. */ renderTrigger?: boolean; /** Where focus goes when a drawer with no trigger of its own closes. */ returnFocusTo?: string; /** The drawer trigger's content (`mode=\"drawer\"`). Defaults to the catalog's label. */ trigger?: ReactNode; /** The logo at the top of the navigation. */ logo?: ReactNode; /** The footer at the bottom of the navigation. */ footer?: ReactNode; }"
+    },
+    {
+      "name": "SidebarSection",
+      "kind": "type",
+      "signature": "type SidebarSection = SidebarPlainSection | SidebarCollapsibleSection;"
     },
     {
       "name": "Slider",
@@ -562,6 +687,31 @@
       "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
+      "name": "StepDescriptor",
+      "kind": "interface",
+      "signature": "interface StepDescriptor { /** Short title. */ label: string; /** Optional secondary line. */ description?: string; }"
+    },
+    {
+      "name": "StepStatus",
+      "kind": "type",
+      "signature": "type StepStatus = stepper.StepStatus;"
+    },
+    {
+      "name": "Stepper",
+      "kind": "function",
+      "signature": "declare function Stepper({ steps, current, linear, orientation, disabled, label, onStepChange, }: StepperProps): react.JSX.Element;"
+    },
+    {
+      "name": "StepperOrientation",
+      "kind": "type",
+      "signature": "type StepperOrientation = stepper.Orientation;"
+    },
+    {
+      "name": "StepperProps",
+      "kind": "interface",
+      "signature": "interface StepperProps { steps: StepDescriptor[]; /** Initial (uncontrolled) or current (controlled) step, 0-based. */ current?: number; /** Linear mode: upcoming steps cannot be picked. */ linear?: boolean; orientation?: StepperOrientation; disabled?: boolean; /** Accessible name for the progress nav. Defaults to the catalog's \"Progress\". */ label?: string; /** Called whenever the current step changes. */ onStepChange?: (current: number) => void; }"
+    },
+    {
       "name": "Switch",
       "kind": "function",
       "signature": "declare function Switch({ label, hideLabel, checked, disabled, name, value, required, onOff, onText, offText, onCheckedChange, children, }: SwitchProps): react.JSX.Element;"
@@ -570,6 +720,31 @@
       "name": "SwitchProps",
       "kind": "interface",
       "signature": "interface SwitchProps { /** Accessible, visible label (required). Override with `children` for rich content. */ label: string; /** * Visually hide the label while keeping it as the accessible name. The label * text is always required. */ hideLabel?: boolean; checked?: boolean; disabled?: boolean; /** Form field name — the value is submitted under it when on. */ name?: string; /** Value submitted with the form when on. Defaults to the native `\"on\"`. */ value?: string; /** Mark the control required for native form validation. */ required?: boolean; /** Show ON/OFF text inside the track (a wider, labelled variant). */ onOff?: boolean; /** Track text when on / off (only with `onOff`). Defaults to the catalog's \"ON\" / \"OFF\". */ onText?: string; offText?: string; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; children?: ReactNode; }"
+    },
+    {
+      "name": "TabItem",
+      "kind": "type",
+      "signature": "type TabItem = tabs.TabItem;"
+    },
+    {
+      "name": "Tabs",
+      "kind": "function",
+      "signature": "declare function Tabs({ items, value, activationMode, label, onValueChange, renderPanel, }: TabsProps): react.JSX.Element;"
+    },
+    {
+      "name": "TabsItem",
+      "kind": "type",
+      "signature": "type TabsItem = TabItem & { label?: string; content?: ReactNode; count?: number; icon?: string; iconOnly?: boolean; };"
+    },
+    {
+      "name": "TabsOrientation",
+      "kind": "type",
+      "signature": "type TabsOrientation = tabs.Orientation;"
+    },
+    {
+      "name": "TabsProps",
+      "kind": "interface",
+      "signature": "interface TabsProps { items: TabsItem[]; /** Initial (uncontrolled) or current (controlled) selected tab. */ value?: string | null; /** `automatic` (default): arrows select while moving. `manual`: Enter or Space selects. */ activationMode?: ActivationMode; /** Accessible name for the tab list (announced by screen readers). */ label: string; /** Called whenever the selected tab changes. */ onValueChange?: (value: string) => void; /** Rich content of one panel, rendered once per tab; wins over `content`. */ renderPanel?: (item: TabsItem) => ReactNode; }"
     },
     {
       "name": "TextField",
@@ -647,6 +822,31 @@
       "signature": "type TranslateFn = (key: MessageKey, vars?: Record<string, string | number>) => string;"
     },
     {
+      "name": "TreeLoadRequest",
+      "kind": "type",
+      "signature": "type TreeLoadRequest = treeView.TreeLoadRequest;"
+    },
+    {
+      "name": "TreeNode",
+      "kind": "type",
+      "signature": "type TreeNode = treeView.TreeNode;"
+    },
+    {
+      "name": "TreeView",
+      "kind": "function",
+      "signature": "declare function TreeView({ nodes, expanded, selected, loading, loadErrors, disabled, label, labels, onExpandedChange, onSelectedChange, onLoadChildren, renderIcon, renderLabel, }: TreeViewProps): react.JSX.Element;"
+    },
+    {
+      "name": "TreeViewProps",
+      "kind": "interface",
+      "signature": "interface TreeViewProps { nodes: TreeNode[]; /** Initial (uncontrolled) or current (controlled) expanded parents. */ expanded?: string[]; /** Initial (uncontrolled) or current (controlled) selected node. */ selected?: string | null; /** Unloaded parent values with an active request. */ loading?: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Accessible name for the tree (announced by screen readers). */ label: string; /** Optional per-node display labels, keyed by node value. */ labels?: Record<string, string>; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the component never fetches. */ onLoadChildren?: (request: TreeLoadRequest) => void; /** Leading icon of a row, hidden from assistive tech. */ renderIcon?: (node: VisibleTreeNode) => ReactNode; /** A row's label. Defaults to `labels[node.value]`, then the node value. */ renderLabel?: (node: VisibleTreeNode) => ReactNode; }"
+    },
+    {
+      "name": "UseAccordionOptions",
+      "kind": "interface",
+      "signature": "interface UseAccordionOptions { /** Ordered list of items. */ items: AccordionItem[]; /** Initial (uncontrolled) or current (controlled) expanded values. */ value?: string[]; /** `single` (default): one open at a time. `multiple`: many. */ type?: AccordionType; /** For `single`: allow collapsing the open item. Defaults to `true`. */ collapsible?: boolean; disabled?: boolean; /** Arrow-key axis for moving between headers. Defaults to `vertical`. */ orientation?: accordion.Orientation; /** Called whenever the user changes the expanded set. */ onValueChange?: (value: string[]) => void; }"
+    },
+    {
       "name": "UseButtonOptions",
       "kind": "interface",
       "signature": "interface UseButtonOptions { variant?: ButtonVariant; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; /** Called when the button is activated (click, or Enter/Space when emulated). */ onPress?: (event: Event) => void; /** * Whether a native `<button>` is rendered (default). Set `false` when * rendering another element: role, focusability and Enter/Space activation * are then emulated by the core. */ nativeButton?: boolean; }"
@@ -670,6 +870,11 @@
       "name": "UseCheckboxOptions",
       "kind": "interface",
       "signature": "interface UseCheckboxOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: CheckedState; disabled?: boolean; /** Called whenever the checked value changes. */ onCheckedChange?: (checked: CheckedState) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UseCollapsibleOptions",
+      "kind": "interface",
+      "signature": "interface UseCollapsibleOptions { /** Initial (uncontrolled) or current (controlled) open state. */ open?: boolean; disabled?: boolean; /** Called whenever the user opens or closes the content. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
       "name": "UseCombobox",
@@ -725,6 +930,11 @@
       "name": "UseNumberFieldOptions",
       "kind": "interface",
       "signature": "interface UseNumberFieldOptions { /** Initial (uncontrolled) or current (controlled) value, or `null` when empty. */ value?: number | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; /** BCP-47 locale for parsing and display. Defaults to `\"en\"`. */ locale?: string; min?: number; max?: number; /** Step for the spin actions; typed values are validated against it. */ step?: number; disabled?: boolean; readOnly?: boolean; required?: boolean; /** Opt in to wheel stepping while the input is focused and hovered. */ changeOnWheel?: boolean; /** Domain-level invalid state supplied by the consumer. */ invalid?: boolean; /** Ids of visible description/error elements. */ describedBy?: string; messages?: Partial<numberField.NumberFieldMessages>; /** Called when the canonical value changes while editing. */ onValueChange?: (value: number | null) => void; /** Called at commit boundaries: blur, Enter, and spin actions. */ onValueCommit?: (value: number | null) => void; /** * The text input. Given it, the spin buttons keep focus on it, the wheel * steps it, and a reset of its form puts the value and its text back, * silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UsePaginationOptions",
+      "kind": "interface",
+      "signature": "interface UsePaginationOptions { /** Initial (uncontrolled) or current (controlled) page, 1-based; clamped to `pageCount`. */ page?: number; /** Total number of pages. */ pageCount: number; /** Pages shown on each side of the current page. Defaults to `1`. */ siblingCount?: number; /** Pages always shown at the start and end. Defaults to `1`. */ boundaryCount?: number; disabled?: boolean; /** Called whenever the user changes the page. */ onPageChange?: (page: number) => void; }"
     },
     {
       "name": "UsePinInputOptions",
@@ -787,9 +997,24 @@
       "signature": "interface UseSliderOptions { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; /** Step increment. Defaults to `1`. */ step?: number; /** Layout and arrow-key axis. Defaults to `horizontal`. */ orientation?: SliderOrientation; disabled?: boolean; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** * The native range input. Given it, the control carries the DOM default a * form reset restores, and puts its own value back when its form is reset, * silently (ADR 0012). */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
+      "name": "UseStepperOptions",
+      "kind": "interface",
+      "signature": "interface UseStepperOptions { /** Total number of steps. */ count: number; /** Initial (uncontrolled) or current (controlled) step, 0-based; clamped to the steps. */ current?: number; /** Linear mode (default): steps ahead of the current one cannot be picked. */ linear?: boolean; orientation?: StepperOrientation; disabled?: boolean; /** Called whenever the user changes the current step. */ onStepChange?: (current: number) => void; }"
+    },
+    {
       "name": "UseSwitchOptions",
       "kind": "interface",
       "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+    },
+    {
+      "name": "UseTabs",
+      "kind": "interface",
+      "signature": "interface UseTabs { /** The connected API; spread `rootProps`, `getTabProps` and `getPanelProps`. */ api: tabs.TabsApi; /** The selected tab value, or `null` when no tab is enabled. */ value: string | null; }"
+    },
+    {
+      "name": "UseTabsOptions",
+      "kind": "interface",
+      "signature": "interface UseTabsOptions { /** Ordered list of tabs. */ items: TabItem[]; /** Initial (uncontrolled) or current (controlled) selected value. `null` falls back to the first enabled tab. */ value?: string | null; /** Layout orientation (affects `aria-orientation` and the arrow keys). */ orientation?: TabsOrientation; /** * `automatic` (default): arrow keys move focus and select. `manual`: arrow * keys move focus only; Enter or Space selects the focused tab. */ activationMode?: ActivationMode; /** Called whenever the user selects a tab. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "UseTextFieldOptions",
@@ -822,6 +1047,21 @@
       "signature": "interface UseTooltipOptions { /** Preferred placement. Default `\"top\"`. */ placement?: Placement; /** Gap between trigger and tooltip, in px. Default `6`. */ offset?: number; /** Delay before showing on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before hiding on leave, in ms. Default `100`. */ closeDelay?: number; }"
     },
     {
+      "name": "UseTreeView",
+      "kind": "interface",
+      "signature": "interface UseTreeView { /** The connected API; spread `rootProps` and `getItemProps`. */ api: treeView.TreeApi; /** The rows to render, in order: collapsed subtrees are left out. */ visible: VisibleTreeNode[]; }"
+    },
+    {
+      "name": "UseTreeViewOptions",
+      "kind": "interface",
+      "signature": "interface UseTreeViewOptions { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Initial (uncontrolled) or current (controlled) expanded parents. */ expanded?: string[]; /** Initial (uncontrolled) or current (controlled) selected node. */ selected?: string | null; /** Unloaded parents with an active request. */ loading?: string[]; /** Unloaded parents whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Called whenever the user expands or collapses a parent. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the user selects a node. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the tree never fetches (ADR 0014). */ onLoadChildren?: (request: TreeLoadRequest) => void; }"
+    },
+    {
+      "name": "VisibleTreeNode",
+      "kind": "type",
+      "signature": "type VisibleTreeNode = treeView.VisibleNode;"
+    },
+    {
       "name": "WeekStart",
       "kind": "type",
       "signature": "type WeekStart = calendar.WeekStart;"
@@ -835,6 +1075,11 @@
       "name": "normalizeProps",
       "kind": "const",
       "signature": "normalizeProps: Normalize"
+    },
+    {
+      "name": "useAccordion",
+      "kind": "function",
+      "signature": "declare function useAccordion({ items, value: valueProp, type, collapsible, disabled, orientation, onValueChange, }: UseAccordionOptions): accordion.AccordionApi;"
     },
     {
       "name": "useButton",
@@ -855,6 +1100,11 @@
       "name": "useCheckboxGroup",
       "kind": "function",
       "signature": "declare function useCheckboxGroup({ items, value: valueProp, disabled, name, onValueChange, rootRef, }: UseCheckboxGroupOptions): checkboxGroup.CheckboxGroupApi;"
+    },
+    {
+      "name": "useCollapsible",
+      "kind": "function",
+      "signature": "declare function useCollapsible({ open: openProp, disabled, onOpenChange, }?: UseCollapsibleOptions): collapsible.CollapsibleApi;"
     },
     {
       "name": "useCombobox",
@@ -897,6 +1147,11 @@
       "signature": "declare function useNumberField({ value: valueProp, id: idProp, locale: localeProp, min, max, step, disabled, readOnly, required, changeOnWheel, invalid, describedBy, messages, onValueChange, onValueCommit, controlRef, }?: UseNumberFieldOptions): numberField.NumberFieldApi;"
     },
     {
+      "name": "usePagination",
+      "kind": "function",
+      "signature": "declare function usePagination({ page: pageProp, pageCount, siblingCount, boundaryCount, disabled, onPageChange, }: UsePaginationOptions): pagination.PaginationApi;"
+    },
+    {
       "name": "usePinInput",
       "kind": "function",
       "signature": "declare function usePinInput({ value, length, type, mask, disabled, cellLabel, onValueChange, onComplete, rootRef, }?: UsePinInputOptions): pinInput.PinInputApi;"
@@ -937,9 +1192,19 @@
       "signature": "declare function useSlider({ value, min, max, step, orientation, disabled, onValueChange, controlRef, }?: UseSliderOptions): slider.SliderApi;"
     },
     {
+      "name": "useStepper",
+      "kind": "function",
+      "signature": "declare function useStepper({ count, current: currentProp, linear, orientation, disabled, onStepChange, }: UseStepperOptions): stepper.StepperApi;"
+    },
+    {
       "name": "useSwitch",
       "kind": "function",
       "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, controlRef, }?: UseSwitchOptions): switchControl.SwitchApi;"
+    },
+    {
+      "name": "useTabs",
+      "kind": "function",
+      "signature": "declare function useTabs({ items, value: valueProp, orientation, activationMode, onValueChange, }: UseTabsOptions): UseTabs;"
     },
     {
       "name": "useTextField",
@@ -960,6 +1225,11 @@
       "name": "useTooltip",
       "kind": "function",
       "signature": "declare function useTooltip({ placement, offset, openDelay, closeDelay, }?: UseTooltipOptions): UseTooltip;"
+    },
+    {
+      "name": "useTreeView",
+      "kind": "function",
+      "signature": "declare function useTreeView({ nodes, expanded: expandedProp, selected: selectedProp, loading: loadingProp, loadErrors: loadErrorsProp, disabled, onExpandedChange, onSelectedChange, onLoadChildren, }: UseTreeViewOptions): UseTreeView;"
     }
   ]
 }

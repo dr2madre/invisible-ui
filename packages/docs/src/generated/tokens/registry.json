@@ -4252,6 +4252,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -4265,6 +4266,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/accordion.css",
           "selector": ".accordion",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -4304,6 +4312,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -4315,6 +4324,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion__trigger",
+          "property": "padding",
+          "fallback": "0.6rem 0.8rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/accordion.css",
           "selector": ".accordion__trigger",
           "property": "padding",
           "fallback": "0.6rem 0.8rem"
@@ -4354,6 +4370,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -4365,6 +4382,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/accordion.css",
+          "selector": ".accordion",
+          "property": "inline-size",
+          "fallback": "16rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/accordion.css",
           "selector": ".accordion",
           "property": "inline-size",
           "fallback": "16rem"
@@ -5639,6 +5663,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5652,6 +5677,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__current",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__current",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"
@@ -5691,6 +5723,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5702,6 +5735,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__list",
+          "property": "font-size",
+          "fallback": "0.875rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__list",
           "property": "font-size",
           "fallback": "0.875rem"
@@ -5741,6 +5781,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5759,6 +5800,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__list",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__item",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__list",
           "property": "gap",
           "fallback": "0.5rem"
@@ -5812,6 +5867,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5825,6 +5881,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__link:hover",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-hover, #6840b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__link:hover",
           "property": "color",
           "fallback": "var(--ds-color-secondary-hover, #6840b7)"
@@ -5864,6 +5927,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5877,6 +5941,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__link",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-body-text, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__link",
           "property": "color",
           "fallback": "var(--ds-color-secondary-body-text, #7a52cc)"
@@ -5916,6 +5987,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -5929,6 +6001,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/breadcrumb.css",
+          "selector": ".breadcrumb__sep",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/breadcrumb.css",
           "selector": ".breadcrumb__sep",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"
@@ -6267,6 +6346,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6278,6 +6358,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/button-group.css",
+          "selector": ".button-group:not(.button-group--attached)",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/button-group.css",
           "selector": ".button-group:not(.button-group--attached)",
           "property": "gap",
           "fallback": "0.5rem"
@@ -11733,6 +11820,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -11744,6 +11832,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__content",
+          "property": "padding",
+          "fallback": "0.625rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/collapsible.css",
           "selector": ".collapsible__content",
           "property": "padding",
           "fallback": "0.625rem 0.75rem"
@@ -11834,6 +11929,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -11847,6 +11943,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__trigger",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/collapsible.css",
           "selector": ".collapsible__trigger",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -11886,6 +11989,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -11897,6 +12001,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible__trigger",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/collapsible.css",
           "selector": ".collapsible__trigger",
           "property": "padding",
           "fallback": "0.5rem 0.75rem"
@@ -11936,6 +12047,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -11947,6 +12059,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/collapsible.css",
+          "selector": ".collapsible",
+          "property": "inline-size",
+          "fallback": "18rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/collapsible.css",
           "selector": ".collapsible",
           "property": "inline-size",
           "fallback": "18rem"
@@ -18661,6 +18780,13 @@
           "fallback": "0.25rem"
         },
         {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "padding",
+          "fallback": "0.75rem"
+        },
+        {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/context-menu/ContextMenu.svelte",
           "selector": ".context-menu__popup",
@@ -18904,6 +19030,13 @@
           "selector": ".menubar__trigger",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
         },
         {
           "adapter": "svelte",
@@ -20531,6 +20664,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20551,6 +20685,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "border-color",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination__page[data-selected]",
           "property": "border-color",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -20604,6 +20752,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20617,6 +20766,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__page[data-selected]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination__page[data-selected]",
           "property": "color",
           "fallback": "var(--ds-color-on-emphasis, #f4f2ef)"
@@ -20656,6 +20812,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20667,6 +20824,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination",
           "property": "gap",
           "fallback": "0.25rem"
@@ -20706,6 +20870,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20719,6 +20884,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination__control, .pagination__page",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -20759,6 +20931,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -20777,6 +20950,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "block-size",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
+          "selector": ".pagination__control, .pagination__page",
+          "property": "min-inline-size",
+          "fallback": "2rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/pagination.css",
           "selector": ".pagination__control, .pagination__page",
           "property": "block-size",
           "fallback": "2rem"
@@ -24686,6 +24873,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -24699,6 +24887,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/separator.css",
+          "selector": ".separator",
+          "property": "background",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/separator.css",
           "selector": ".separator",
           "property": "background",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -24739,6 +24934,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -24757,6 +24953,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/separator.css",
+          "selector": ".separator[data-orientation=\"vertical\"]",
+          "property": "margin-inline",
+          "fallback": "0"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/separator.css",
+          "selector": ".separator[data-orientation=\"horizontal\"]",
+          "property": "margin-block",
+          "fallback": "0"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/separator.css",
           "selector": ".separator[data-orientation=\"vertical\"]",
           "property": "margin-inline",
           "fallback": "0"
@@ -24811,6 +25021,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -24829,6 +25040,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/separator.css",
+          "selector": ".separator[data-orientation=\"vertical\"]",
+          "property": "inline-size",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/separator.css",
+          "selector": ".separator[data-orientation=\"horizontal\"]",
+          "property": "block-size",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/separator.css",
           "selector": ".separator[data-orientation=\"vertical\"]",
           "property": "inline-size",
           "fallback": "1px"
@@ -25288,6 +25513,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25301,6 +25527,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "background",
           "fallback": "var(--ds-color-background, #fff)"
@@ -25340,6 +25573,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25353,6 +25587,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -25392,6 +25633,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25403,6 +25645,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "gap",
+          "fallback": "0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "gap",
           "fallback": "0.75rem"
@@ -25442,6 +25691,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25455,6 +25705,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar .sidebar__item",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -25494,6 +25751,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25507,6 +25765,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar .sidebar__item",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar .sidebar__item",
           "property": "color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -25546,6 +25811,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25557,6 +25823,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "padding",
+          "fallback": "var(--ds-menu-padding, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "padding",
           "fallback": "var(--ds-menu-padding, 0.75rem)"
@@ -25596,6 +25869,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25609,6 +25883,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "border-radius",
+          "fallback": "var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "border-radius",
           "fallback": "var(--ds-menu-radius, var(--ds-radius-surface, 0.75rem))"
@@ -25648,6 +25929,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25659,6 +25941,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar.sidebar--collapsed",
+          "property": "inline-size",
+          "fallback": "3.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar.sidebar--collapsed",
           "property": "inline-size",
           "fallback": "3.5rem"
@@ -25698,6 +25987,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -25709,6 +25999,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/sidebar.css",
+          "selector": "nav.sidebar",
+          "property": "inline-size",
+          "fallback": "15rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/sidebar.css",
           "selector": "nav.sidebar",
           "property": "inline-size",
           "fallback": "15rem"
@@ -27118,6 +27415,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27131,6 +27429,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "background",
           "fallback": "var(--ds-color-surface, #e6e0d8)"
@@ -27170,6 +27475,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27183,6 +27489,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "border-color",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "border-color",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -27222,6 +27535,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27235,6 +27549,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__indicator",
           "property": "color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -27274,6 +27595,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27287,6 +27609,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"complete\"] .stepper__connector, .stepper__step[data-status=\"current\"] .stepper__connector",
+          "property": "background-image",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"complete\"] .stepper__connector, .stepper__step[data-status=\"current\"] .stepper__connector",
           "property": "background-image",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -27326,6 +27655,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27339,6 +27669,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-image",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__connector",
           "property": "background-image",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -27378,6 +27715,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27403,6 +27741,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "background-size",
+          "fallback": "5px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
           "property": "background-size",
           "fallback": "5px"
@@ -27470,6 +27829,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27481,6 +27841,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "inline-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__connector",
           "property": "inline-size",
           "fallback": "1.5rem"
@@ -27521,6 +27888,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27546,6 +27914,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
+          "property": "inline-size",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "block-size",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
+          "selector": ".stepper__connector",
+          "property": "inline-size",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__list[data-orientation=\"vertical\"] .stepper__connector",
           "property": "inline-size",
           "fallback": "3px"
@@ -27613,6 +28002,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27626,6 +28016,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
           "property": "background",
           "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 10%, transparent)"
@@ -27665,6 +28062,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27678,6 +28076,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-selected, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"current\"] .stepper__indicator",
           "property": "color",
           "fallback": "var(--ds-color-selected, #7a52cc)"
@@ -27717,6 +28122,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27728,6 +28134,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__list",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__list",
           "property": "gap",
           "fallback": "0.25rem"
@@ -27767,6 +28180,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27780,6 +28194,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "background",
           "fallback": "var(--ds-color-surface, #e6e0d8)"
@@ -27819,6 +28240,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27832,6 +28254,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "border",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -27872,6 +28301,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27890,6 +28320,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "block-size",
+          "fallback": "1.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "inline-size",
+          "fallback": "1.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "block-size",
           "fallback": "1.75rem"
@@ -27943,6 +28387,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -27956,6 +28401,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__indicator",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"
@@ -27995,6 +28447,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -28006,6 +28459,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__trigger",
+          "property": "gap",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__trigger",
           "property": "gap",
           "fallback": "0.5rem"
@@ -28045,6 +28505,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -28056,6 +28517,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__trigger",
+          "property": "padding",
+          "fallback": "0.25rem 0.4rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__trigger",
           "property": "padding",
           "fallback": "0.25rem 0.4rem"
@@ -28095,6 +28563,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -28108,6 +28577,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
+          "property": "border-color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "border-color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -28147,6 +28623,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -28160,6 +28637,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/stepper.css",
+          "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/stepper.css",
           "selector": ".stepper__step[data-status=\"upcoming\"] .stepper__indicator",
           "property": "color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -29658,6 +30142,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29669,6 +30154,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tabs.css",
+          "selector": ".tabs__tab",
+          "property": "padding",
+          "fallback": "0.4rem 0.8rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tabs.css",
           "selector": ".tabs__tab",
           "property": "padding",
           "fallback": "0.4rem 0.8rem"
@@ -31505,6 +31997,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31516,6 +32009,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "background",
+          "fallback": "transparent"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree",
           "property": "background",
           "fallback": "transparent"
@@ -31555,6 +32055,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31566,6 +32067,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "gap",
+          "fallback": "0.35rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item",
           "property": "gap",
           "fallback": "0.35rem"
@@ -31605,6 +32113,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31616,6 +32125,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "padding-inline-start",
+          "fallback": "1.1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item",
           "property": "padding-inline-start",
           "fallback": "1.1rem"
@@ -31655,6 +32171,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31668,6 +32185,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item:hover",
           "property": "background",
           "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
@@ -31707,6 +32231,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31718,6 +32243,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "padding-block",
+          "fallback": "0.3rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item",
           "property": "padding-block",
           "fallback": "0.3rem"
@@ -31757,6 +32289,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31770,6 +32303,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -31809,6 +32349,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31822,6 +32363,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item--selected",
           "property": "background",
           "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent)"
@@ -31861,6 +32409,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31874,6 +32423,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected:hover",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 16%, transparent)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item--selected:hover",
           "property": "background",
           "fallback": "color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 16%, transparent)"
@@ -31913,6 +32469,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31926,6 +32483,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__item--selected",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__item--selected",
           "property": "color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -31965,6 +32529,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31976,6 +32541,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree",
           "property": "padding",
           "fallback": "0.25rem"
@@ -32015,6 +32587,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -32028,6 +32601,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -32067,6 +32647,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -32078,6 +32659,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/tree-view.css",
+          "selector": ".tree__load-status",
+          "property": "font-size",
+          "fallback": "0.875rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/tree-view.css",
           "selector": ".tree__load-status",
           "property": "font-size",
           "fallback": "0.875rem"

@@ -226,6 +226,120 @@
         "label"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "TreeView",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "nodes",
+          "type": "TreeNode[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "expanded",
+          "type": "string[]",
+          "default": "NONE",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) expanded parents.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "selected",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) selected node.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loading",
+          "type": "string[]",
+          "default": "NONE",
+          "required": false,
+          "description": "Unloaded parent values with an active request.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loadErrors",
+          "type": "string[]",
+          "default": "NONE",
+          "required": false,
+          "description": "Unloaded parent values whose latest request failed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the tree (announced by screen readers).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "labels",
+          "type": "Record<string, string>",
+          "default": null,
+          "required": false,
+          "description": "Optional per-node display labels, keyed by node value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the expanded set changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(selected: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the selected value changes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onLoadChildren",
+          "type": "(request: TreeLoadRequest) => void",
+          "default": null,
+          "required": false,
+          "description": "Requests children from the application; the component never fetches.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderIcon",
+          "type": "(node: VisibleTreeNode) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Leading icon of a row, hidden from assistive tech.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderLabel",
+          "type": "(node: VisibleTreeNode) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A row's label. Defaults to `labels[node.value]`, then the node value.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

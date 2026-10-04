@@ -46,4 +46,15 @@ In Elements:
 </ButtonGroup>
 ```
 
+In React, the buttons are the children, and `align` sets their cross-axis
+alignment:
+
+```tsx
+<ButtonGroup label="Text alignment" align="end">
+  <Button>Left</Button>
+  <Button>Center</Button>
+  <Button>Right</Button>
+</ButtonGroup>
+```
+
 Themeable via `--ds-button-group-*`.

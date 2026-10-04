@@ -306,6 +306,168 @@
         "trigger"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Sidebar",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "sections",
+          "type": "SidebarSection[]",
+          "default": null,
+          "required": true,
+          "description": "Groups of items, rendered in order with an optional heading each.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "The current destination's value. The application owns it.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Main\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called when an item without an `href` is activated.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "mode",
+          "type": "\"inline\" | \"drawer\"",
+          "default": "\"inline\"",
+          "required": false,
+          "description": "How this viewport shows the navigation. The application decides.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "The rail: labels hidden from sight, icons kept.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "Given, the rail toggle is rendered and reports every press, as long as every destination carries an icon: without one there would be nothing to show once the labels are hidden.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": null,
+          "required": false,
+          "description": "Whether the drawer is open (`mode=\"drawer\"`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "openGroups",
+          "type": "string[]",
+          "default": null,
+          "required": false,
+          "description": "Which sections are open, by id. Given it, the application owns the set and this component only reports presses; left out, the component keeps the set itself and opens the section holding the current item.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onOpenGroupsChange",
+          "type": "(openGroups: string[]) => void",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "closeOnNavigate",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether following an item closes the drawer.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "side",
+          "type": "\"inline-start\" | \"inline-end\"",
+          "default": "\"inline-start\"",
+          "required": false,
+          "description": "Which edge the drawer comes from. Follows the writing direction.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The drawer's accessible name. Falls back to `label`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderTrigger",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Whether the drawer renders its own trigger button.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "returnFocusTo",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Where focus goes when a drawer with no trigger of its own closes.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The drawer trigger's content (`mode=\"drawer\"`). Defaults to the catalog's label.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "logo",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The logo at the top of the navigation.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "footer",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The footer at the bottom of the navigation.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

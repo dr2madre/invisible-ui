@@ -57,6 +57,21 @@ In Elements, assign the item list as a property. Selection is reflected by the
 </script>
 ```
 
+In React, `content` takes any markup, and a count is read as part of the tab's
+name while the badge stays hidden from assistive technology:
+
+```tsx
+<Tabs
+  label="Catalog sections"
+  value={section}
+  onValueChange={setSection}
+  items={[
+    { value: "tables", label: "Tables", count: 11, content: <TableList /> },
+    { value: "columns", label: "Columns", count: 42, content: <ColumnList /> },
+  ]}
+/>
+```
+
 ### Rich panels
 
 For anything beyond text, use the `panel` snippet: it renders once per tab
@@ -86,6 +101,12 @@ tabs.renderPanel = (item) => {
 };
 ```
 
+In React, `renderPanel` renders a panel from its item:
+
+```tsx
+<Tabs label="Inbox" items={folders} renderPanel={(item) => <MyList folder={item.value} />} />
+```
+
 ### Composed tabs
 
 When the strip belongs in a header and the panels further down, write the parts
@@ -109,6 +130,24 @@ beside the strip lines up with the tabs rather than with the panel. The
   <ds-tab-panel value="form">…</ds-tab-panel>
   <ds-tab-panel value="preview">…</ds-tab-panel>
 </ds-tabs>
+```
+
+In React, the composed form is the `useTabs` hook: its prop getters wire the
+same roles, links, visibility and keys onto markup of your own, wherever it
+sits.
+
+```tsx
+const { api } = useTabs({ items: [{ value: "form" }, { value: "preview" }] });
+
+<header className="editor-header">
+  <div {...api.rootProps} className="tabs__list" aria-label="Editor">
+    <button {...api.getTabProps("form")} className="tabs__tab">Form</button>
+    <button {...api.getTabProps("preview")} className="tabs__tab">Preview</button>
+  </div>
+  <Button variant="ghost">Close</Button>
+</header>
+<div {...api.getPanelProps("form")} className="tabs__panel">…</div>
+<div {...api.getPanelProps("preview")} className="tabs__panel">…</div>
 ```
 
 Themeable via `--ds-tabs-*`.

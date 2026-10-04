@@ -51,4 +51,12 @@ With Elements, use attributes for configuration and listen for the bubbling
 Use `previous-label`, `next-label` and `page-label` to localize the control.
 The `page-label` value supports the `{page}` placeholder.
 
+In React, the control names come from the provider's catalog
+(`pagination.previous`, `pagination.next`, `pagination.page`). When a press
+disables Previous or Next, focus moves to the page that is now current:
+
+```tsx
+<Pagination page={page} pageCount={10} onPageChange={setPage} />
+```
+
 Themeable via `--ds-pagination-*`.

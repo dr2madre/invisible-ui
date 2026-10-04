@@ -87,6 +87,31 @@ export {
 export { DatePicker, type DatePickerProps, type DateStyle } from "./date-picker/DatePicker";
 export { DateRangePicker, type DateRangePickerProps } from "./date-range-picker/DateRangePicker";
 export { TimeField, type TimeFieldProps } from "./time-field/TimeField";
+export { Tabs, type TabsItem, type TabsProps } from "./tabs/Tabs";
+export {
+  Accordion,
+  type AccordionEntry,
+  type AccordionHeadingLevel,
+  type AccordionProps,
+} from "./accordion/Accordion";
+export { Collapsible, type CollapsibleProps } from "./collapsible/Collapsible";
+export { Breadcrumb, type BreadcrumbItem, type BreadcrumbProps } from "./breadcrumb/Breadcrumb";
+export { Pagination, type PaginationProps } from "./pagination/Pagination";
+export { Stepper, type StepDescriptor, type StepperProps } from "./stepper/Stepper";
+export {
+  Sidebar,
+  type SidebarItem,
+  type SidebarProps,
+  type SidebarSection,
+} from "./sidebar/Sidebar";
+export { TreeView, type TreeViewProps } from "./tree-view/TreeView";
+export {
+  ButtonGroup,
+  type ButtonGroupAlign,
+  type ButtonGroupOrientation,
+  type ButtonGroupProps,
+} from "./button-group/ButtonGroup";
+export { Separator, type SeparatorProps } from "./separator/Separator";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -178,6 +203,40 @@ export {
   type UseTimeField,
   type UseTimeFieldOptions,
 } from "./time-field/use-time-field";
+export {
+  useTabs,
+  type ActivationMode,
+  type TabItem,
+  type TabsOrientation,
+  type UseTabs,
+  type UseTabsOptions,
+} from "./tabs/use-tabs";
+export {
+  useAccordion,
+  type AccordionItem,
+  type AccordionType,
+  type UseAccordionOptions,
+} from "./accordion/use-accordion";
+export { useCollapsible, type UseCollapsibleOptions } from "./collapsible/use-collapsible";
+export {
+  usePagination,
+  type PageItem,
+  type UsePaginationOptions,
+} from "./pagination/use-pagination";
+export {
+  useStepper,
+  type StepStatus,
+  type StepperOrientation,
+  type UseStepperOptions,
+} from "./stepper/use-stepper";
+export {
+  useTreeView,
+  type TreeLoadRequest,
+  type TreeNode,
+  type UseTreeView,
+  type UseTreeViewOptions,
+  type VisibleTreeNode,
+} from "./tree-view/use-tree-view";
 export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 

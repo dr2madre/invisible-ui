@@ -43,6 +43,23 @@ close it on `navigate`.
 </script>
 ```
 
+In React, an icon is any element, `logo` and `footer` take markup, and the
+rail toggle keeps one name ("Collapse the navigation") while `aria-pressed`
+says whether the rail is closed. A drawer is `mode="drawer"`, the same
+navigation inside a SheetDialog.
+
+```tsx
+<Sidebar
+  label="Primary"
+  value={current}
+  onSelect={setCurrent}
+  collapsed={collapsed}
+  onCollapsedChange={setCollapsed}
+  logo={<img src="/logo.svg" alt="Dromio" />}
+  sections={[{ items: [{ value: "home", label: "Home", icon: <HomeIcon /> }] }]}
+/>
+```
+
 ### Props
 
 <PropsTable component="sidebar" />

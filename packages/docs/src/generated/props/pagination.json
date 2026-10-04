@@ -147,6 +147,72 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Pagination",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) page, 1-based. A later prop, clamped to `pageCount`, overwrites the local choice without a report.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "pageCount",
+          "type": "number",
+          "default": null,
+          "required": true,
+          "description": "Total number of pages.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages shown on each side of the current page.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "boundaryCount",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Pages always shown at the start and end.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the navigation landmark. Defaults to the catalog's \"Pagination\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the page changes.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

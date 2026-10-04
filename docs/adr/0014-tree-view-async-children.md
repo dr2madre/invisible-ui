@@ -4,8 +4,8 @@ Date: 2026-09-21
 
 ## Status
 
-Accepted. The contract applies to core, Svelte, Vue and Elements. React does
-not yet ship Tree View. Virtualization remains a separate decision.
+Accepted. The contract applies to core, Svelte, Vue, Elements and React.
+Virtualization remains a separate decision.
 
 ## Context
 
