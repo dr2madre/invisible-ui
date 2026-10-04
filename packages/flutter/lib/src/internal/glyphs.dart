@@ -34,8 +34,14 @@ enum GlyphShape {
   /// under right-to-left.
   chevronEnd,
 
-  /// A tick: a checked menu item.
+  /// A tick: a checked menu item or checkbox.
   check,
+
+  /// A horizontal bar: a checkbox in the mixed state.
+  dash,
+
+  /// A magnifying glass: a search field.
+  search,
 
   /// A cross: a close button.
   close,
@@ -59,11 +65,15 @@ enum GlyphShape {
 /// A stroked glyph, sized and coloured by the surrounding [IconTheme]. It has
 /// no semantics: the control that shows it carries the meaning.
 class Glyph extends StatelessWidget {
-  /// Creates the glyph [shape].
-  const Glyph(this.shape, {super.key});
+  /// Creates the glyph [shape], stroked [strokeWidth] units wide on the
+  /// 24-unit grid; null keeps the shape's own width.
+  const Glyph(this.shape, {super.key, this.strokeWidth});
 
   /// The drawing.
   final GlyphShape shape;
+
+  /// The stroke width on the 24-unit grid.
+  final double? strokeWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -73,17 +83,28 @@ class Glyph extends StatelessWidget {
         Directionality.of(context) == TextDirection.rtl;
     return CustomPaint(
       size: Size.square(style.size),
-      painter: _GlyphPainter(shape, style.color, mirror: mirror),
+      painter: _GlyphPainter(
+        shape,
+        style.color,
+        mirror: mirror,
+        strokeWidth: strokeWidth,
+      ),
     );
   }
 }
 
 class _GlyphPainter extends CustomPainter {
-  const _GlyphPainter(this.shape, this.color, {required this.mirror});
+  const _GlyphPainter(
+    this.shape,
+    this.color, {
+    required this.mirror,
+    this.strokeWidth,
+  });
 
   final GlyphShape shape;
   final Color color;
   final bool mirror;
+  final double? strokeWidth;
 
   static Path _polyline(List<double> points, {bool close = false}) {
     final path = Path()..moveTo(points[0], points[1]);
@@ -109,6 +130,12 @@ class _GlyphPainter extends CustomPainter {
       ],
       GlyphShape.check || GlyphShape.success => [
         _polyline([20, 6, 9, 17, 4, 12]),
+      ],
+      GlyphShape.dash => [_line(5, 12, 19, 12)],
+      GlyphShape.search => [
+        Path()
+          ..addOval(Rect.fromCircle(center: const Offset(11, 11), radius: 8)),
+        _line(21, 21, 16.65, 16.65),
       ],
       GlyphShape.close => [_line(18, 6, 6, 18), _line(6, 6, 18, 18)],
       GlyphShape.info => [
@@ -182,7 +209,7 @@ class _GlyphPainter extends CustomPainter {
     final bold = shape == GlyphShape.success;
     final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = bold ? 2.5 : 2
+      ..strokeWidth = strokeWidth ?? (bold ? 2.5 : 2)
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..color = color;
@@ -193,7 +220,10 @@ class _GlyphPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_GlyphPainter old) =>
-      old.shape != shape || old.color != color || old.mirror != mirror;
+      old.shape != shape ||
+      old.color != color ||
+      old.mirror != mirror ||
+      old.strokeWidth != strokeWidth;
 }
 
 /// A plus or minus sign, for step buttons. Size and colour come from the

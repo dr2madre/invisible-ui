@@ -1,3 +1,7 @@
+// semantics.dart exports SemanticsRole only in releases after Flutter 3.32.
+// ignore: unnecessary_import
+import 'dart:ui' show SemanticsRole;
+
 import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 
@@ -120,6 +124,9 @@ class FieldSemantics extends StatelessWidget {
     this.enabled = true,
     this.maxValueLength,
     this.currentValueLength,
+    this.expanded,
+    this.role,
+    this.explicitChildNodes = false,
   });
 
   /// The accessible name.
@@ -146,6 +153,15 @@ class FieldSemantics extends StatelessWidget {
   /// The current length of a text value.
   final int? currentValueLength;
 
+  /// Whether the popup the control opens is showing; null when it opens none.
+  final bool? expanded;
+
+  /// The role of a group control, such as a radio group.
+  final SemanticsRole? role;
+
+  /// Keeps the children as nodes of their own, for a group of controls.
+  final bool explicitChildNodes;
+
   /// The control.
   final Widget child;
 
@@ -158,6 +174,8 @@ class FieldSemantics extends StatelessWidget {
     ].where((part) => part != null && part.isNotEmpty).join('\n');
     return Semantics(
       container: true,
+      explicitChildNodes: explicitChildNodes,
+      role: role,
       label: label,
       hint: hint.isEmpty ? null : hint,
       enabled: enabled ? null : false,
@@ -167,6 +185,7 @@ class FieldSemantics extends StatelessWidget {
           : SemanticsValidationResult.none,
       maxValueLength: maxValueLength,
       currentValueLength: maxValueLength == null ? null : currentValueLength,
+      expanded: expanded,
       child: child,
     );
   }

@@ -9,10 +9,11 @@ specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/doc
 dark, density, minimum target size, focus ring, messages) and the
 components listed below: Button, the form fields (Field, TextField,
 Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
-Menu), the feedback widgets (the notifications, Loading, EmptyState,
-ErrorState), Card and the dialog family (Dialog, AlertDialog,
-ConfirmDialog). Names and APIs can still change. It is not
-published to pub.dev.
+Menu, Popover), the feedback widgets (the notifications, Loading,
+EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
+ConfirmDialog) and the choice controls (Checkbox, CheckboxGroup, Switch,
+RadioButtonGroup, SegmentedControl, Select, Combobox). Names and APIs can
+still change. It is not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -139,6 +140,14 @@ NumberField(
 | Dialog | Matched, with adaptations listed | [parity/dialog.md](parity/dialog.md) | [Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/) |
 | AlertDialog | Matched, with adaptations listed | [parity/alert-dialog.md](parity/alert-dialog.md) | [Alert Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/alert-dialog/) |
 | ConfirmDialog | Matched, with adaptations listed | [parity/confirm-dialog.md](parity/confirm-dialog.md) | [Confirm Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/confirm-dialog/) |
+| Checkbox | Matched, with adaptations listed | [parity/checkbox.md](parity/checkbox.md) | [Checkbox](https://dr2madre.github.io/invisible-ui/components/forms/checkbox/) |
+| CheckboxGroup | Matched, with adaptations listed | [parity/checkbox-group.md](parity/checkbox-group.md) | [Checkbox Group](https://dr2madre.github.io/invisible-ui/components/forms/checkbox-group/) |
+| Switch | Matched, with adaptations listed | [parity/switch.md](parity/switch.md) | [Switch](https://dr2madre.github.io/invisible-ui/components/forms/switch/) |
+| RadioButtonGroup | Matched, with adaptations listed | [parity/radio-group.md](parity/radio-group.md) | [Radio Group](https://dr2madre.github.io/invisible-ui/components/forms/radio-group/) |
+| SegmentedControl | Matched, with adaptations listed | [parity/segmented-control.md](parity/segmented-control.md) | [Segmented Control](https://dr2madre.github.io/invisible-ui/components/forms/segmented-control/) |
+| Select | Matched, with adaptations listed | [parity/select.md](parity/select.md) | [Select](https://dr2madre.github.io/invisible-ui/components/forms/select/) |
+| Combobox | Matched, with adaptations listed | [parity/combobox.md](parity/combobox.md) | [Combobox](https://dr2madre.github.io/invisible-ui/components/forms/combobox/) |
+| Popover | Matched, with adaptations listed | [parity/popover.md](parity/popover.md) | [Popover](https://dr2madre.github.io/invisible-ui/components/data-layout/popover/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -149,9 +158,12 @@ read by `test/number_format_test.dart` in a checkout of the whole
 repository.
 
 The menus also run the shared test vectors in `core/src/menu/__vectors__`,
-which the `core/` tests run too.
+and Select, Combobox and the radio-style groups the typeahead and
+navigation vectors in `core/src/select/__vectors__`, which the `core/`
+tests run too.
 
-The overlays (Tooltip, Dropdown Menu) need an `Overlay` above them, as
+The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
+Combobox) need an `Overlay` above them, as
 `WidgetsApp` provides. The notification region wraps the app's navigator
 and waits while a modal is open:
 
@@ -200,8 +212,38 @@ if (delete == true) removeHours();
   The `ModalObserver` above counts these dialogs, so the notification
   region holds its toasts while one is open.
 
+### Choices and pickers
+
+Every value control has a controlled constructor (`value:` with
+`onChanged:`, or `onSelected:` for `SegmentedControl`) and an
+`.uncontrolled(initialValue:)` one, joins an enclosing `Form` (validator,
+saver, silent reset to the current default) and takes its options as
+`ChoiceItem`s:
+
+```dart
+Combobox<String>(
+  label: 'Client',
+  description: 'Optional.',
+  items: [for (final c in clients) ChoiceItem(value: c.id, label: c.name)],
+  value: clientId,
+  onChanged: (id) => setState(() => clientId = id), // null when cleared
+)
+```
+
+- **Select** opens a styled list from a trigger: arrows, Home, End and
+  typeahead move the highlight, which is announced, while focus stays on
+  the trigger.
+- **Combobox** filters as the user types. For options that load from a
+  server, listen to `onInputChanged`, set `loading`, pass the results as
+  `items` and a `filter` that keeps them all.
+- **Popover** holds anything, such as a search field and a list: focus
+  moves in when it opens, Escape closes it and returns focus, and inside a
+  dialog Escape closes the popover first.
+- **RadioButtonGroup** is the web's RadioGroup: the widgets library has a
+  `RadioGroup` of its own.
+
 An app that also imports Material hides its widgets of the same name:
-`import 'package:flutter/material.dart' hide AlertDialog, Card, Dialog, DropdownMenu, TextField, Tooltip;`.
+`import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Switch, TextField, Tooltip;`.
 
 ## Tokens
 
