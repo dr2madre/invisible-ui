@@ -53,4 +53,11 @@ In Elements, the week starts on the locale's first day and names come from `Intl
 />
 ```
 
+In React, `onValueChange` reports a pick, `mode="range"` reports both ends
+through `onRangeChange`, and `renderDay` replaces a day's content:
+
+```tsx
+<Calendar value={day} views={["month", "week"]} events={events} onValueChange={setDay} />
+```
+
 Themeable via `--ds-calendar-*`.

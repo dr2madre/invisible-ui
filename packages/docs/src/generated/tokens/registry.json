@@ -6727,6 +6727,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6738,6 +6739,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__agenda-events",
+          "property": "min-block-size",
+          "fallback": "6rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__agenda-events",
           "property": "min-block-size",
           "fallback": "6rem"
@@ -6777,6 +6785,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6788,6 +6797,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__day",
+          "property": "background",
+          "fallback": "transparent"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__day",
           "property": "background",
           "fallback": "transparent"
@@ -6827,6 +6843,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6847,6 +6864,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__mini-day:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__mini-day:hover",
           "property": "background",
           "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
@@ -6900,6 +6931,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6913,6 +6945,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__day",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__day",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -6952,6 +6991,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -6963,6 +7003,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__day",
+          "property": "min-block-size",
+          "fallback": "3rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__day",
           "property": "min-block-size",
           "fallback": "3rem"
@@ -7002,6 +7049,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7015,6 +7063,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__dot",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__dot",
           "property": "background",
           "fallback": "var(--ds-color-primary, #7a52cc)"
@@ -7054,6 +7109,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7072,6 +7128,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__row",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__agenda-row",
+          "property": "gap",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__row",
           "property": "gap",
           "fallback": "0.25rem"
@@ -7125,6 +7195,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7145,6 +7216,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__price",
+          "property": "color",
+          "fallback": "var(--ds-color-success-body-text, #3e7523)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__agenda-price",
+          "property": "color",
+          "fallback": "var(--ds-color-success-body-text, #3e7523)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__price",
           "property": "color",
           "fallback": "var(--ds-color-success-body-text, #3e7523)"
@@ -7198,6 +7283,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7211,6 +7297,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__day[data-in-range]",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 12%, transparent)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__day[data-in-range]",
           "property": "background",
           "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 12%, transparent)"
@@ -7250,6 +7343,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7284,6 +7378,34 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__mini-day[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__agenda-head[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day[data-range-start], .calendar__day[data-range-end]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__mini-day[data-selected]",
           "property": "background",
           "fallback": "var(--ds-color-primary, #7a52cc)"
@@ -7365,6 +7487,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7399,6 +7522,34 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__mini-day[data-selected]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-primary, #ffffff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__agenda-head[data-selected]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-primary, #ffffff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day[data-range-start], .calendar__day[data-range-end]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-primary, #ffffff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day[data-selected]",
+          "property": "color",
+          "fallback": "var(--ds-color-on-primary, #ffffff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__mini-day[data-selected]",
           "property": "color",
           "fallback": "var(--ds-color-on-primary, #ffffff)"
@@ -7480,6 +7631,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7491,6 +7643,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__title",
+          "property": "font-size",
+          "fallback": "1.125rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__title",
           "property": "font-size",
           "fallback": "1.125rem"
@@ -7530,6 +7689,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -7557,6 +7717,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/calendar.css",
+          "selector": ".calendar__mini-day[data-today]",
+          "property": "color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__agenda-head[data-today] .calendar__agenda-num",
+          "property": "color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
+          "selector": ".calendar__day[data-today] .calendar__daynum",
+          "property": "color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/calendar.css",
           "selector": ".calendar__mini-day[data-today]",
           "property": "color",
           "fallback": "var(--ds-color-primary, #7a52cc)"
@@ -20997,6 +21178,13 @@
         },
         {
           "adapter": "react",
+          "file": "packages/react/src/styles/date-picker.css",
+          "selector": ".date-picker__popover",
+          "property": "padding",
+          "fallback": "0.875rem 1rem"
+        },
+        {
+          "adapter": "react",
           "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "padding",
@@ -21087,6 +21275,13 @@
         },
         {
           "adapter": "react",
+          "file": "packages/react/src/styles/date-picker.css",
+          "selector": ".date-picker__popover",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
           "file": "packages/react/src/styles/popover.css",
           "selector": ".popover__content",
           "property": "border-radius",
@@ -21170,6 +21365,13 @@
           "adapter": "elements",
           "file": "packages/elements/src/styles/popover.css",
           "selector": ".popover__content",
+          "property": "z-index",
+          "fallback": "100"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/date-picker.css",
+          "selector": ".date-picker__popover",
           "property": "z-index",
           "fallback": "100"
         },
@@ -29856,6 +30058,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29869,6 +30072,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/time-field.css",
+          "selector": ".time-field__segment:focus",
+          "property": "background",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/time-field.css",
           "selector": ".time-field__segment:focus",
           "property": "background",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -29908,6 +30118,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -29921,6 +30132,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/time-field.css",
+          "selector": ".time-field__segment:focus",
+          "property": "color",
+          "fallback": "var(--ds-color-on-secondary, #ffffff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/time-field.css",
           "selector": ".time-field__segment:focus",
           "property": "color",
           "fallback": "var(--ds-color-on-secondary, #ffffff)"

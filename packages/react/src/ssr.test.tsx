@@ -74,6 +74,10 @@ const fixtures: Record<string, ReactElement> = {
   NumberField: <adapter.NumberField label="Quantity" value={2} />,
   PinInput: <adapter.PinInput label="Code" length={4} />,
   RatingGroup: <adapter.RatingGroup label="Rating" value={3} />,
+  Calendar: <adapter.Calendar value="2026-06-15" />,
+  DatePicker: <adapter.DatePicker label="Event date" value="2026-06-15" />,
+  DateRangePicker: <adapter.DateRangePicker label="Stay" start="2026-06-10" end="2026-06-14" />,
+  TimeField: <adapter.TimeField label="Start" value="09:30" />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />

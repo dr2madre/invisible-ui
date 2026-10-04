@@ -1,0 +1,13 @@
+/* DateRangePicker, ported from the Svelte adapter. It renders the same
+   `.date-picker` block as DatePicker, so the shared rules live in
+   `date-picker.css`; the two rules here are where a range field differs: a
+   wider field (it shows two dates) and a wider popover (it shows two months).
+   Import order matters, `date-picker.css` comes first in `index.css`. */
+
+.date-picker__input--range {
+  min-inline-size: 12rem;
+}
+
+.date-picker__popover--wide {
+  max-inline-size: min(94vw, 40rem);
+}

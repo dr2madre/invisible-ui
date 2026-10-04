@@ -303,6 +303,152 @@
       ],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "DateRangePicker",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "start",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) range start, ISO `YYYY-MM-DD`, or `null`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "end",
+          "type": "string | null",
+          "default": "null",
+          "required": false,
+          "description": "Initial (uncontrolled) or current (controlled) range end, ISO `YYYY-MM-DD`, or `null`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Earliest selectable date (ISO), inclusive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Latest selectable date (ISO), inclusive.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "WeekStart",
+          "default": "1",
+          "required": false,
+          "description": "First day of the week, 0 = Sunday to 6.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "BCP-47 locale for the field and the calendar. Defaults to the provider's locale.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "dateStyle",
+          "type": "DateStyle",
+          "default": "\"medium\"",
+          "required": false,
+          "description": "`Intl` date style for the field.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "view",
+          "type": "CalendarView",
+          "default": "\"two-month\"",
+          "required": false,
+          "description": "Calendar view inside the popup. Defaults to two months side by side.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible label for the field. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Placeholder while empty. Defaults to the catalog's.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show a clear button when a range is started.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "default": null,
+          "required": false,
+          "description": "Appointment dots, forwarded to the calendar.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "prices",
+          "type": "Record<string, string>",
+          "default": null,
+          "required": false,
+          "description": "Per-day price labels, forwarded to the calendar.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "startName",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name for the start date, submitted as an ISO value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "endName",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name for the end date, submitted as an ISO value.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onChange",
+          "type": "(start: string | null, end: string | null) => void",
+          "default": null,
+          "required": false,
+          "description": "Called after each pick and on clear, with a `null` end while the range is half made.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

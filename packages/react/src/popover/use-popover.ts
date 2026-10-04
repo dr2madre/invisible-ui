@@ -19,15 +19,20 @@ export interface UsePopoverOptions {
   offset?: number;
   /** Name for the panel. Defaults to being named by the trigger. */
   label?: string;
+  /**
+   * CSS selector for the element that takes focus when the panel opens.
+   * Defaults to the first focusable element in the panel, else the panel.
+   */
+  initialFocus?: string;
   onOpenChange?: (open: boolean) => void;
 }
 
-export interface UsePopover {
+export interface UsePopover<T extends HTMLElement = HTMLButtonElement> {
   api: core.PopoverApi;
   open: boolean;
   setOpen: (open: boolean) => void;
   /** Attach to the trigger; the positioning anchor and Escape's focus target. */
-  triggerRef: RefObject<HTMLButtonElement | null>;
+  triggerRef: RefObject<T | null>;
   /** Attach to the panel. Render it only while `open`. */
   panelRef: (node: HTMLElement | null) => void;
 }
@@ -43,13 +48,14 @@ const FOCUSABLE =
  * moving into the panel on open, and back to the trigger only after Escape.
  * `open` is a controllable mirror (ADR 0011).
  */
-export function usePopover({
+export function usePopover<T extends HTMLElement = HTMLButtonElement>({
   open: openProp = false,
   placement = "bottom",
   offset = 6,
   label,
+  initialFocus,
   onOpenChange,
-}: UsePopoverOptions = {}): UsePopover {
+}: UsePopoverOptions = {}): UsePopover<T> {
   const id = `ds-popover-${useId()}`;
   const [open, setOpen] = useControllable(openProp, onOpenChange);
   const api = useMemo(
@@ -57,12 +63,12 @@ export function usePopover({
     [open, id, setOpen, label],
   );
 
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<T>(null);
   // The panel in state, so the effects below run when it mounts and unmount.
   const [panel, panelRef] = useState<HTMLElement | null>(null);
-  const latest = useRef(setOpen);
+  const latest = useRef({ setOpen, initialFocus });
   useIsomorphicLayoutEffect(() => {
-    latest.current = setOpen;
+    latest.current = { setOpen, initialFocus };
   });
 
   useEffect(() => {
@@ -79,7 +85,7 @@ export function usePopover({
   useEffect(() => {
     if (!panel) return;
     const trigger = triggerRef.current;
-    const close = () => latest.current(false);
+    const close = () => latest.current.setOpen(false);
     const stopOutside = onOutsidePointerDown(() => [trigger, panel], close);
     // Non-modal: focus moving out of the trigger and the panel closes it.
     const onFocusIn = (event: FocusEvent) => {
@@ -94,7 +100,7 @@ export function usePopover({
       if (event.key === "Escape") restore = true;
     };
     panel.addEventListener("keydown", onKeyDown, true);
-    (panel.querySelector<HTMLElement>(FOCUSABLE) ?? panel).focus();
+    (panel.querySelector<HTMLElement>(latest.current.initialFocus ?? FOCUSABLE) ?? panel).focus();
     return () => {
       stopOutside();
       document.removeEventListener("focusin", onFocusIn);
