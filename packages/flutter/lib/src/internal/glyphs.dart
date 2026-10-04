@@ -65,6 +65,48 @@ class _HazardPainter extends CustomPainter {
   bool shouldRepaint(_HazardPainter old) => old.color != color;
 }
 
+/// A plus or minus sign, for step buttons. Size and colour come from the
+/// [IconTheme]; the button that shows it carries the name.
+class SignGlyph extends StatelessWidget {
+  /// A plus sign when [plus], a minus sign otherwise.
+  const SignGlyph({super.key, required this.plus});
+
+  /// Whether the sign is a plus.
+  final bool plus;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = _glyphStyle(context);
+    return CustomPaint(
+      size: Size.square(style.size),
+      painter: _SignPainter(color: style.color, plus: plus),
+    );
+  }
+}
+
+class _SignPainter extends CustomPainter {
+  const _SignPainter({required this.color, required this.plus});
+
+  final Color color;
+  final bool plus;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.scale(size.width / 24);
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round
+      ..color = color;
+    canvas.drawLine(const Offset(5, 12), const Offset(19, 12), paint);
+    if (plus) canvas.drawLine(const Offset(12, 5), const Offset(12, 19), paint);
+  }
+
+  @override
+  bool shouldRepaint(_SignPainter old) =>
+      old.color != color || old.plus != plus;
+}
+
 /// A rotating arc that shows work in progress. It stands still when the
 /// platform asks for reduced motion. It has no semantics: the control that
 /// shows it announces the busy state.

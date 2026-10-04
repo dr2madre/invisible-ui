@@ -141,9 +141,13 @@ Each item ships as its own PR. Checkboxes track progress.
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
   Progress: `packages/flutter` carries the foundation (generated tokens
   checked by `pnpm tokens:check`, `InvisibleTheme` with light and dark,
-  density, minimum target size, focus ring and messages) and Button, with
-  its parity checklist in `packages/flutter/parity/button.md` and the
-  `flutter.yml` workflow. The rest of the first wave is still open.
+  density, minimum target size, focus ring and messages), Button, and the
+  fields of the first wave: Field, TextField, Textarea and NumberField, each
+  with its parity checklist in `packages/flutter/parity/`, and the
+  `flutter.yml` workflow. The number field's logic answers the shared test
+  vectors in `core/src/number-field/__vectors__`, read by the core and the
+  Flutter tests. Tooltip, Toolbar, Dropdown Menu with submenus and the
+  feedback components of the first wave are still open.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27
