@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { cx } from "../internal/cx";
 
 export interface IconProps {
   /** Rendered size; `1em` by default so icons scale with the surrounding text. */
@@ -32,7 +33,7 @@ export function Icon({
 }: IconProps) {
   return (
     <svg
-      className={className ? `icon ${className}` : "icon"}
+      className={cx("icon", className)}
       viewBox={viewBox}
       width={size}
       height={size}
@@ -122,4 +123,18 @@ export const NeutralGlyph = () => (
     <path d="M10 22h4" />
     <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
   </>
+);
+
+/** The small check of a completed step or a selected tree item, on a 16px grid. */
+export const SmallCheck = () => (
+  <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
+    <path
+      d="M3.5 8.5l3 3 6-6.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
 );

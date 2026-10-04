@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { Checkbox } from "./checkbox/Checkbox";
 import { Combobox } from "./combobox/Combobox";
 import { Switch } from "./switch/Switch";
+import { Textarea } from "./text-field/Textarea";
 
 // Every field component takes `hideLabel`: the label leaves the screen and
 // stays the control's accessible name.
@@ -22,5 +23,11 @@ describe("hideLabel across field components", () => {
     const { container } = render(<Combobox label="Country" hideLabel items={[{ value: "it" }]} />);
     expect(screen.getByRole("combobox", { name: "Country" })).toBeInTheDocument();
     expect(container.querySelector(".combobox__label--hidden")).toHaveTextContent("Country");
+  });
+
+  it("Textarea keeps its hidden label as the accessible name", () => {
+    const { container } = render(<Textarea label="Message" hideLabel />);
+    expect(screen.getByRole("textbox", { name: "Message" })).toBeInTheDocument();
+    expect(container.querySelector(".field__label--hidden")).toHaveTextContent("Message");
   });
 });

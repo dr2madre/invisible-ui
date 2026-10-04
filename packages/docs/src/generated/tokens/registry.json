@@ -9350,6 +9350,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9363,6 +9364,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "background",
+          "fallback": "var(--ds-color-surface, #e6e0d8)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "background",
           "fallback": "var(--ds-color-surface, #e6e0d8)"
@@ -9402,6 +9410,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9415,6 +9424,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "border",
           "fallback": "var(--ds-color-control-border, #757067)"
@@ -9455,6 +9471,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9473,6 +9490,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow--prev",
+          "property": "inset-inline-start",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel__arrow--next",
+          "property": "inset-inline-end",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow--prev",
           "property": "inset-inline-start",
           "fallback": "0.5rem"
@@ -9527,6 +9558,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9545,6 +9577,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "block-size",
+          "fallback": "2.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "inline-size",
+          "fallback": "2.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "block-size",
           "fallback": "2.25rem"
@@ -9598,6 +9644,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9611,6 +9658,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__arrow",
+          "property": "color",
+          "fallback": "var(--ds-color-text, #282420)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__arrow",
           "property": "color",
           "fallback": "var(--ds-color-text, #282420)"
@@ -9648,6 +9702,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9659,6 +9714,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__bg",
+          "property": "aspect-ratio",
+          "fallback": "16 / 9"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__bg",
           "property": "aspect-ratio",
           "fallback": "16 / 9"
@@ -9698,6 +9760,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9717,6 +9780,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"][data-orientation=\"vertical\"] .carousel__viewport",
+          "property": "block-size",
+          "fallback": "22rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__viewport",
+          "property": "block-size",
+          "fallback": "16rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel[data-variant=\"coverflow\"][data-orientation=\"vertical\"] .carousel__viewport",
           "property": "block-size",
           "fallback": "22rem"
@@ -9770,6 +9847,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9781,6 +9859,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__viewport",
+          "property": "perspective",
+          "fallback": "1200px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel[data-variant=\"coverflow\"] .carousel__viewport",
           "property": "perspective",
           "fallback": "1200px"
@@ -9820,6 +9905,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9831,6 +9917,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "inline-size",
+          "fallback": "12rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
           "property": "inline-size",
           "fallback": "12rem"
@@ -9943,6 +10036,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -9956,6 +10050,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot[data-selected]",
+          "property": "background",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__dot[data-selected]",
           "property": "background",
           "fallback": "var(--ds-color-primary, #7a52cc)"
@@ -9995,6 +10096,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10008,6 +10110,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "background",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__dot::before",
           "property": "background",
           "fallback": "var(--ds-color-control-border, #757067)"
@@ -10048,6 +10157,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10066,6 +10176,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "block-size",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel__dot::before",
+          "property": "inline-size",
+          "fallback": "0.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__dot::before",
           "property": "block-size",
           "fallback": "0.5rem"
@@ -10119,6 +10243,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10130,6 +10255,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"gallery\"] .carousel__track",
+          "property": "gap",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel[data-variant=\"gallery\"] .carousel__track",
           "property": "gap",
           "fallback": "1rem"
@@ -10169,6 +10301,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10180,6 +10313,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"gallery\"] .carousel__slide",
+          "property": "inline-size",
+          "fallback": "14rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel[data-variant=\"gallery\"] .carousel__slide",
           "property": "inline-size",
           "fallback": "14rem"
@@ -10217,6 +10357,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10228,6 +10369,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "background",
+          "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "background",
           "fallback": "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"
@@ -10267,6 +10415,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10278,6 +10427,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "padding",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "padding",
           "fallback": "1.5rem"
@@ -10317,6 +10473,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10328,6 +10485,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__overlay",
+          "property": "color",
+          "fallback": "#fff"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__overlay",
           "property": "color",
           "fallback": "#fff"
@@ -10367,6 +10531,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10387,6 +10552,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__viewport",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__bg",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__viewport",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -10440,6 +10619,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10533,6 +10713,83 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 1) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-pink, #e5a1ac)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 2) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-violet, #b8a1e6)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 3) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-teal, #7abecc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 4) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-green, #8dcc7a)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide:nth-child(5n + 5) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-yellow, #e5cb44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 1) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-pink, #e5a1ac)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 2) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-violet, #b8a1e6)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 3) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-teal, #7abecc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 4) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-green, #8dcc7a)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"slide\"] .carousel__slide:nth-child(5n + 5) .carousel__bg",
+          "property": "background-color",
+          "fallback": "var(--ds-pastel-yellow, #e5cb44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__bg",
           "property": "background-color",
           "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
@@ -10712,6 +10969,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10723,6 +10981,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__title",
           "property": "font-size",
           "fallback": "1.5rem"
@@ -10762,6 +11027,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -10787,6 +11053,27 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/carousel.css",
+          "selector": ".carousel__track",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
+          "selector": ".carousel[data-variant=\"coverflow\"] .carousel__slide",
+          "property": "transition",
+          "fallback": "350ms ease"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/carousel.css",
           "selector": ".carousel__track",
           "property": "transition",
           "fallback": "350ms ease"
@@ -15671,6 +15958,13 @@
           "fallback": "0.375rem"
         },
         {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
+          "selector": ".textarea",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
+        {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/field/Field.svelte",
           "selector": ".field",
@@ -15762,6 +16056,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -15775,6 +16070,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/textarea.css",
+          "selector": ".textarea .field__control",
+          "property": "background",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "background",
           "fallback": "var(--ds-color-control-border, #757067)"
@@ -15815,6 +16117,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -15833,6 +16136,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/textarea.css",
+          "selector": ".textarea .field__control",
+          "property": "background",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
+          "selector": ".textarea .field__control",
+          "property": "background",
+          "fallback": "3px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
           "selector": ".textarea .field__control",
           "property": "background",
           "fallback": "3px"
@@ -16066,6 +16383,13 @@
           "fallback": "0.5rem 0.75rem"
         },
         {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
+          "selector": ".textarea .field__control",
+          "property": "padding",
+          "fallback": "0.5rem 0.75rem"
+        },
+        {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/number-field/NumberField.svelte",
           "selector": ".field__control",
@@ -16248,6 +16572,13 @@
           "adapter": "react",
           "file": "packages/react/src/styles/text-field.css",
           "selector": ".text-field .field__control",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
+          "selector": ".textarea .field__control",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
         },
@@ -16503,6 +16834,13 @@
           "adapter": "react",
           "file": "packages/react/src/styles/text-field.css",
           "selector": ".text-field",
+          "property": "inline-size",
+          "fallback": "18rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/textarea.css",
+          "selector": ".textarea",
           "property": "inline-size",
           "fallback": "18rem"
         },
@@ -19166,6 +19504,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19179,6 +19518,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "background",
           "fallback": "var(--ds-color-background, #fff)"
@@ -19218,6 +19564,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19231,6 +19578,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "border",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -19270,6 +19624,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19281,6 +19636,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "gap",
+          "fallback": "1rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "gap",
           "fallback": "1rem"
@@ -19321,6 +19683,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19339,6 +19702,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "padding",
+          "fallback": "1.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "inline-size",
+          "fallback": "1.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "padding",
           "fallback": "1.75rem"
@@ -19392,6 +19769,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19405,6 +19783,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -19444,6 +19829,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19457,6 +19843,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "box-shadow",
+          "fallback": "var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "box-shadow",
           "fallback": "var(--ds-elevation-overlay, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))"
@@ -19496,6 +19889,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -19507,6 +19901,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/login-form.css",
+          "selector": ".login",
+          "property": "inline-size",
+          "fallback": "22rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/login-form.css",
           "selector": ".login",
           "property": "inline-size",
           "fallback": "22rem"
@@ -30507,6 +30908,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30541,6 +30943,34 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th",
+          "property": "border-block-end",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
+          "selector": ".table-view__card",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
+          "selector": ".table-view__no-results",
+          "property": "border",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
+          "selector": ".table__td",
+          "property": "border-block-end",
+          "fallback": "var(--ds-color-border, #c7c1b7)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "border-block-end",
           "fallback": "var(--ds-color-border, #c7c1b7)"
@@ -30623,6 +31053,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30634,6 +31065,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__cards",
+          "property": "grid-template-columns",
+          "fallback": "16rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-view__cards",
           "property": "grid-template-columns",
           "fallback": "16rem"
@@ -30673,6 +31111,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30691,6 +31130,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th",
+          "property": "padding",
+          "fallback": "0.625rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
+          "selector": ".table__td",
+          "property": "padding",
+          "fallback": "0.625rem 0.75rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "padding",
           "fallback": "0.625rem 0.75rem"
@@ -30744,6 +31197,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30755,6 +31209,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table",
+          "property": "font-size",
+          "fallback": "0.9375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table",
           "property": "font-size",
           "fallback": "0.9375rem"
@@ -30794,6 +31255,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30805,6 +31267,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th",
+          "property": "background",
+          "fallback": "transparent"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "background",
           "fallback": "transparent"
@@ -30844,6 +31313,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30855,6 +31325,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th",
+          "property": "border-block-end",
+          "fallback": "1px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "border-block-end",
           "fallback": "1px"
@@ -30894,6 +31371,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30907,6 +31385,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"
@@ -30947,6 +31432,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -30967,6 +31453,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__no-results",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
+          "selector": ".table-view__card",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-view__no-results",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -31020,6 +31520,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31033,6 +31534,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__row:hover",
+          "property": "background",
+          "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__row:hover",
           "property": "background",
           "fallback": "var(--ds-color-neutral-surface, #f4f2ef)"
@@ -31072,6 +31580,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31085,6 +31594,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__row[data-selected]",
+          "property": "background",
+          "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 8%, transparent)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__row[data-selected]",
           "property": "background",
           "fallback": "color-mix(in srgb, var(--ds-color-selected, #7a52cc) 8%, transparent)"
@@ -31124,6 +31640,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31146,6 +31663,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table.css",
+          "selector": ".table__th[data-sort-direction] .table__sort-icon",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
+          "selector": ".table__th[data-sort-direction]",
+          "property": "color",
+          "fallback": "var(--ds-color-secondary-body-text, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table.css",
           "selector": ".table__th[data-sort-direction] .table__sort-icon",
           "property": "color",
           "fallback": "var(--ds-color-secondary, #7a52cc)"
@@ -31200,6 +31731,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31218,6 +31750,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-view__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
+          "selector": ".table-set__title",
+          "property": "font-size",
+          "fallback": "1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-view__title",
           "property": "font-size",
           "fallback": "1.5rem"
@@ -31273,6 +31819,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -31293,6 +31840,20 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/table-set.css",
+          "selector": ".table-set__tab[data-state=\"active\"]",
+          "property": "border-block-end-color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
+          "selector": ".table-set__tab[data-state=\"active\"]",
+          "property": "color",
+          "fallback": "var(--ds-color-primary, #7a52cc)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/table-set.css",
           "selector": ".table-set__tab[data-state=\"active\"]",
           "property": "border-block-end-color",
           "fallback": "var(--ds-color-primary, #7a52cc)"
@@ -32637,6 +33198,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -32648,6 +33210,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "gap",
+          "fallback": "0.375rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toolbar.css",
           "selector": ".toolbar",
           "property": "gap",
           "fallback": "0.375rem"
@@ -32687,6 +33256,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -32698,6 +33268,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "padding",
+          "fallback": "0.25rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toolbar.css",
           "selector": ".toolbar",
           "property": "padding",
           "fallback": "0.25rem"
@@ -32737,6 +33314,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -32750,6 +33328,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toolbar.css",
+          "selector": ".toolbar",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-control, 0.5rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/toolbar.css",
           "selector": ".toolbar",
           "property": "border-radius",
           "fallback": "var(--ds-radius-control, 0.5rem)"
@@ -33909,6 +34494,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -33922,6 +34508,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "background",
+          "fallback": "var(--ds-color-background, #fff)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "background",
           "fallback": "var(--ds-color-background, #fff)"
@@ -33961,6 +34554,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -33974,6 +34568,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border",
+          "fallback": "var(--ds-color-control-border, #757067)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border",
           "fallback": "var(--ds-color-control-border, #757067)"
@@ -34013,6 +34614,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -34024,6 +34626,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border",
+          "fallback": "2px"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border",
           "fallback": "2px"
@@ -34063,6 +34672,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -34076,6 +34686,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area__icon",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area__icon",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"
@@ -34115,6 +34732,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -34126,6 +34744,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "padding",
+          "fallback": "2rem 1.5rem"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "padding",
           "fallback": "2rem 1.5rem"
@@ -34165,6 +34790,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -34178,6 +34804,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "border-radius",
+          "fallback": "var(--ds-radius-surface, 0.75rem)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "border-radius",
           "fallback": "var(--ds-radius-surface, 0.75rem)"
@@ -34217,6 +34850,7 @@
       ],
       "adapters": [
         "elements",
+        "react",
         "svelte",
         "vue"
       ],
@@ -34230,6 +34864,13 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/upload-drop-area.css",
+          "selector": ".upload-drop-area",
+          "property": "color",
+          "fallback": "var(--ds-color-text-secondary, #524c44)"
+        },
+        {
+          "adapter": "react",
+          "file": "packages/react/src/styles/upload-drop-area.css",
           "selector": ".upload-drop-area",
           "property": "color",
           "fallback": "var(--ds-color-text-secondary, #524c44)"

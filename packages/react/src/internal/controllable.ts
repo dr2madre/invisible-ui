@@ -7,13 +7,14 @@ import { useCallback, useState } from "react";
  *
  * `equal` compares by content where identity is not enough: a page that
  * writes a fresh array with the same entries on every render changes nothing,
- * and an echo of the reported value is a give-back.
+ * and an echo of the reported value is a give-back. The third entry writes
+ * the state without a report, for a value the component itself settles on.
  */
 export function useControllable<T>(
   prop: T,
   onChange: ((value: T) => void) | undefined,
   equal: (a: T, b: T) => boolean = Object.is,
-): [T, (next: T) => void] {
+): [value: T, setValue: (next: T) => void, syncValue: (next: T) => void] {
   const [value, setValue] = useState(prop);
   const [lastProp, setLastProp] = useState(prop);
   if (!equal(prop, lastProp)) {
@@ -28,11 +29,11 @@ export function useControllable<T>(
     },
     [value, onChange, equal],
   );
-  return [value, set];
+  return [value, set, setValue];
 }
 
 /** The same entries in the same order. */
-export const sameList = (a: readonly string[], b: readonly string[]): boolean =>
+export const sameList = <T>(a: readonly T[], b: readonly T[]): boolean =>
   a === b || (a.length === b.length && a.every((entry, index) => entry === b[index]));
 
 /** The same entries, whatever order each side keeps them in. */

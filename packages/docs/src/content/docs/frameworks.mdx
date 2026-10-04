@@ -12,15 +12,14 @@ when an adapter grows.
 | Technology | Package | Components today | State |
 | --- | --- | --- | --- |
 | **Svelte** | `@design-system/svelte` | All 80 | Complete: every component documented with a live demo. |
-| **React** | `@design-system/react` | 72 of 80 | Being completed to the full catalog, with styled components and headless hooks. |
+| **React** | `@design-system/react` | All 80 | Complete: styled components and headless hooks for the whole catalog. |
 | **Python** ([Reflex](https://reflex.dev/)) | `invisible_ui` | 7 | Working adapter over the React components ([ADR 0006](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0006-python-adapter-wraps-react.md)). |
 | **Web components** (plain HTML) | `@design-system/elements` | All 80 | Complete: one script tag, no build step, any page ([ADR 0008](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0008-web-components-adapter.md)). |
 | **Vue** | `@design-system/vue` | All 80 | Complete: every Svelte component has a Vue counterpart, with `v-model` on the controlled values. |
 | **Flutter** | `invisible_ui` (Dart) | 30 of 80 | Foundation (tokens, theme, density, focus ring, messages) and Button, Field, Text Field, Text Area, Number Field, Checkbox, Checkbox Group, Switch, Radio Group, Segmented Control, Select, Combobox, Calendar, Date Picker, Date Range Picker, Time Field, Tooltip, Toolbar, Popover, Dropdown Menu with submenus, Inline Notification, Notification, Notification Region, Loading, Empty State, Error State, Card, Dialog, Alert Dialog and Confirm Dialog, each checked against the Svelte reference ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md), [parity checklists](https://github.com/dr2madre/invisible-ui/tree/main/packages/flutter/parity)). |
 
-Svelte, Vue and the web components carry the whole catalog. The shared set
-below tracks the React adapter, which is being completed to the full catalog,
-and the Python wrappers over it. When a component
+Svelte, React, Vue and the web components carry the whole catalog. The shared
+set below tracks the Python wrappers over the React components. When a component
 lands in an adapter, this page and the [API conventions](/invisible-ui/api/)
 change with it.
 

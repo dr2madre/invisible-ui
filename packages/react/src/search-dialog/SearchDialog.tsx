@@ -5,7 +5,7 @@ import { DialogHeader } from "../dialog/DialogHeader";
 import { DialogStatus } from "../dialog/DialogStatus";
 import { useDialogHandle, type DialogHandle } from "../dialog/use-dialog-handle";
 import { useI18n } from "../i18n/i18n";
-import { Icon } from "../icon/Icon";
+import { Icon, SearchGlyph } from "../icon/Icon";
 import { Kbd } from "../kbd/Kbd";
 import { Loading } from "../loading/Loading";
 import { useSearchDialog, type SearchDialogItem } from "./use-search-dialog";
@@ -65,8 +65,7 @@ interface Section {
 const searchIcon = (
   <span className="search-dialog__search-icon" aria-hidden="true">
     <Icon size="100%">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      <SearchGlyph />
     </Icon>
   </span>
 );

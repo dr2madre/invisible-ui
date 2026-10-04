@@ -53,4 +53,18 @@ or have sanitized. See [Security](/invisible-ui/api/#security).
 />
 ```
 
+In React, `logo` takes markup and `renderProviderIcon` receives the provider
+id. `onSubmit` reads the credentials from the form itself, so a form reset
+leaves nothing behind:
+
+```tsx
+<LoginForm
+  logo={<img src="/logo.svg" alt="Acme" />}
+  providers={[{ id: "google", label: "Google" }]}
+  renderProviderIcon={(id) => <ProviderGlyph id={id} />}
+  onProvider={signInWith}
+  onSubmit={({ email, password }) => signIn(email, password)}
+/>
+```
+
 Themeable via `--ds-login-*`.

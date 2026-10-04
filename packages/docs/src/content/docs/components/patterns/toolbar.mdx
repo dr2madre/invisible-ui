@@ -50,4 +50,18 @@ Controls added, removed or disabled later keep a single tab stop.
 </Toolbar>
 ```
 
+In React, the controls are the children. The toolbar finds them in the page,
+so any component that renders a button takes part:
+
+```tsx
+<Toolbar label="Formatting">
+  <ToggleButton label="Bold">B</ToggleButton>
+  <ToggleButton label="Italic">I</ToggleButton>
+  <Separator orientation="vertical" decorative />
+  <Button ariaLabel="Add" iconOnly>
+    +
+  </Button>
+</Toolbar>
+```
+
 Themeable via `--ds-toolbar-gap`.

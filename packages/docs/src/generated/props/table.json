@@ -210,6 +210,120 @@
         "selectionHeader"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Table",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "columns",
+          "type": "TableColumnDef[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "rows",
+          "type": "TableRow[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "sort",
+          "type": "SortState | null",
+          "default": "null",
+          "required": false,
+          "description": "The active sort, reflected on the headers (controlled).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSortToggle",
+          "type": "(key: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the column key when a sortable header is activated.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name for the table (rendered as a `<caption>`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "hideCaption",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Visually hide the caption (still available to assistive tech).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "getValue",
+          "type": "(row: TableRow, key: string) => unknown",
+          "default": "defaultGetValue",
+          "required": false,
+          "description": "Reads a row's value for a column (defaults to `row[key]`).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: TableRow, index: number) => string | number",
+          "default": "defaultGetRowId",
+          "required": false,
+          "description": "Stable row key (defaults to `row.id`, falling back to the index).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "selectionColumn",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a leading structural column for row selection. Its content comes from `selectionHeader` and `renderSelectionCell`; this component stays free of the selection policy itself.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "isRowSelected",
+          "type": "(row: TableRow, rowIndex: number) => boolean",
+          "default": null,
+          "required": false,
+          "description": "Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderCell",
+          "type": "(context: TableCellContext) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Custom cell content. Defaults to the cell value, as text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "selectionHeader",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Header cell content of the selection column.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderSelectionCell",
+          "type": "(context: TableSelectionCellContext) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Body cell content of the selection column, rendered for every row.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

@@ -129,6 +129,80 @@
         "icon"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "UploadDropArea",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "accept",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or `\".pdf,.docx\"`. The picker filters by it, and so does a drop.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Allow selecting or dropping more than one file.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Form field name (the underlying file input).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional caption under the text, such as the accepted formats or the size limit.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onFiles",
+          "type": "(files: File[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the selected or dropped files.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Replaces the default prompt text.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Replaces the built-in upload icon.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

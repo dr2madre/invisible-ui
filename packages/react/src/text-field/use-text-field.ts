@@ -14,8 +14,8 @@ export interface UseTextFieldOptions {
   hasSuccess?: boolean;
   /** Called once after a user edit has been committed locally. */
   onValueChange?: (value: string) => void;
-  /** Native input carrying the form default and reset subscription. */
-  controlRef?: RefObject<HTMLInputElement | null>;
+  /** Native input or textarea carrying the form default and reset subscription. */
+  controlRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 }
 
 /** Connect the shared text-field state and accessibility wiring to React. */
@@ -31,7 +31,7 @@ export function useTextField({
   controlRef,
 }: UseTextFieldOptions = {}): core.TextFieldApi {
   const generatedId = useId();
-  const ownRef = useRef<HTMLInputElement | null>(null);
+  const ownRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const anchor = controlRef ?? ownRef;
   const [current, setValue, defaultValue] = useResettable(value, onValueChange, anchor);
   useFormDefault(anchor, (node) => {

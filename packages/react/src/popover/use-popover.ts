@@ -2,7 +2,7 @@ import { popover as core } from "@design-system/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useControllable } from "../internal/controllable";
 import {
-  attachFloating,
+  useAttachFloating,
   ignoreGhostClicks,
   onOutsidePointerDown,
   type Placement,
@@ -76,11 +76,7 @@ export function usePopover<T extends HTMLElement = HTMLButtonElement>({
     return node ? ignoreGhostClicks(node) : undefined;
   }, []);
 
-  useEffect(() => {
-    const trigger = triggerRef.current;
-    if (!panel || !trigger) return;
-    return attachFloating(trigger, panel, { placement, offset });
-  }, [panel, placement, offset]);
+  useAttachFloating(triggerRef, panel, placement, offset);
 
   useEffect(() => {
     if (!panel) return;

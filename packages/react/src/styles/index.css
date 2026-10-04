@@ -78,3 +78,10 @@
 @import "./empty-state.css";
 @import "./error-state.css";
 @import "./loading-generation-area.css";
+@import "./textarea.css";
+@import "./table.css";
+@import "./table-set.css";
+@import "./toolbar.css";
+@import "./carousel.css";
+@import "./login-form.css";
+@import "./upload-drop-area.css";

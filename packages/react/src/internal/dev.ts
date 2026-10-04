@@ -1,5 +1,9 @@
-/** True in development builds. */
-export const DEV: boolean = import.meta.env?.DEV === true;
+/**
+ * True in development builds. Read through a call marked pure: a bare
+ * property read at the top level stays in every bundle, even one that never
+ * asks for it.
+ */
+export const DEV: boolean = /* @__PURE__ */ (() => import.meta.env?.DEV === true)();
 
 /**
  * Consumer misuse is an error in development and a documented, deterministic

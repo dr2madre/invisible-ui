@@ -1,4 +1,5 @@
 import { useI18n } from "../i18n/i18n";
+import { SmallCheck } from "../icon/Icon";
 import { useStepper, type StepperOrientation } from "./use-stepper";
 
 /** A step's display content. */
@@ -22,19 +23,6 @@ export interface StepperProps {
   /** Called whenever the current step changes. */
   onStepChange?: (current: number) => void;
 }
-
-const CHECK = (
-  <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
-    <path
-      d="M3.5 8.5l3 3 6-6.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 /**
  * Stepper: the styled progress stepper, an ordered sequence of steps showing
@@ -78,7 +66,7 @@ export function Stepper({
               {index > 0 ? <span className="stepper__connector" aria-hidden="true" /> : null}
               <button className="stepper__trigger" {...api.getStepProps(index)}>
                 <span className="stepper__indicator" aria-hidden="true">
-                  {status === "complete" ? CHECK : index + 1}
+                  {status === "complete" ? <SmallCheck /> : index + 1}
                 </span>
                 {/* Spaces keep the parts apart in the accessible name. */}
                 <span className="stepper__text">

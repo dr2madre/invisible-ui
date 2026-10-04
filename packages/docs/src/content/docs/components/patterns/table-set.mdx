@@ -121,4 +121,25 @@ already-filtered `rows` plus a few coordination inputs.
 <TableSet title="Customers" {columns} {rows} configurable allowViewToggle pageSize={10} />
 ```
 
+In React, `toolbar` takes markup and `renderCell` replaces the `cell` snippet.
+Every stateful prop is a controllable mirror, so a parent that holds the
+selection passes it back down:
+
+```tsx
+<TableSet
+  title="Customers"
+  columns={columns}
+  rows={filteredRows}
+  pageSize={10}
+  toolbar={<SearchField label="Filter customers" hideLabel onValueChange={setQuery} />}
+  filtersActive={query !== ""}
+  totalRowCount={customers.length}
+  onClearFilters={() => setQuery("")}
+  selectionMode="multiple"
+  selectedRowIds={selected}
+  onSelectedRowIdsChange={setSelected}
+  getRowLabel={(row) => String(row.name)}
+/>
+```
+
 Themeable via `--ds-table-*`.
