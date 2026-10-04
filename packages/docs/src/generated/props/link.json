@@ -72,6 +72,51 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Link",
+        "specifier": "@design-system/react"
+      },
+      "extends": [
+        "Omit< ComponentPropsWithoutRef<\"a\">",
+        "\"href\" | \"children\" | \"className\" >"
+      ],
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Destination URL, used as given.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "external",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Open in a new tab: adds `target` and a safe `rel`, and a trailing arrow.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "variant",
+          "type": "LinkVariant",
+          "default": "\"primary\"",
+          "required": false,
+          "description": "`subtle` takes the surrounding text colour (still underlined on hover).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The link text.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

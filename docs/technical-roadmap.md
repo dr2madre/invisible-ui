@@ -9,7 +9,7 @@ and maintain*.
 
 - **Headless core** — framework-agnostic `state` / `connect` / prop-getter
   pattern (as in Zag/Ark) + complete Svelte, Vue and custom elements adapters.
-  React is being completed to the full catalog and carries 47 components
+  React is being completed to the full catalog and carries 64 components
   today; Reflex wraps the React set for Python consumers.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
@@ -118,7 +118,7 @@ Each item ships as its own PR. Checkboxes track progress.
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
   time family, then the presentational rest.
-- [ ] **14. React: full catalog** — `packages/react` carries 47 of the 80
+- [ ] **14. React: full catalog** — `packages/react` carries 64 of the 80
   components in the catalog: Button, Checkbox, Switch, TextField,
   SearchField, Select, Combobox, MultiSelect, the dialog family (Dialog,
   Alert Dialog, Confirm Dialog, Prompt Dialog, Sheet Dialog and Search
@@ -130,7 +130,10 @@ Each item ships as its own PR. Checkboxes track progress.
   batch 3), the date and time family (Calendar, Date Picker, Date Range
   Picker and Time Field, batch 4), navigation and structure (Tabs,
   Accordion, Collapsible, Breadcrumb, Pagination, Stepper, Sidebar, Tree
-  View, Button Group and Separator, batch 5), Icon and LocaleProvider.
+  View, Button Group and Separator, batch 5), the presentational
+  components (Avatar, Avatar Group, Count, Tag, Kbd, Code, Code Block,
+  Blockquote, Skeleton, Aspect Ratio, Scroll Area, Progress, Meter, Link,
+  Label, Field and Card, batch 6), Icon and LocaleProvider.
   Svelte, Vue and custom elements carry all of them. The
   remaining components are ported as React components and `use*` hooks over
   the same core, with the Svelte component as the model for markup, class

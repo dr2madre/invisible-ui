@@ -118,6 +118,64 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Count",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "default": "0",
+          "required": false,
+          "description": "The number to display.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "99",
+          "required": false,
+          "description": "Ceiling before showing \"N+\". Defaults to 99.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Render a bare dot (a presence indicator) instead of a number.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "showZero",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Show the bubble even when `count` is 0.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "status",
+          "type": "CountStatus",
+          "default": "\"danger\"",
+          "required": false,
+          "description": "Status colour. Defaults to `danger`, the usual unread colour.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Fuller accessible name, such as \"3 unread messages\".",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

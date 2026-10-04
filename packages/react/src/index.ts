@@ -112,6 +112,27 @@ export {
   type ButtonGroupProps,
 } from "./button-group/ButtonGroup";
 export { Separator, type SeparatorProps } from "./separator/Separator";
+export { Avatar, initialsOf, type AvatarProps } from "./avatar/Avatar";
+export {
+  AvatarGroup,
+  type AvatarGroupItem,
+  type AvatarGroupProps,
+} from "./avatar-group/AvatarGroup";
+export { Count, type CountProps, type CountStatus } from "./count/Count";
+export { Tag, type TagProps, type TagStatus } from "./tag/Tag";
+export { Kbd, type KbdProps } from "./kbd/Kbd";
+export { Code, type CodeProps } from "./code/Code";
+export { CodeBlock, type CodeBlockProps } from "./code-block/CodeBlock";
+export { Blockquote, type BlockquoteProps } from "./blockquote/Blockquote";
+export { Skeleton, type SkeletonProps } from "./skeleton/Skeleton";
+export { AspectRatio, type AspectRatioProps } from "./aspect-ratio/AspectRatio";
+export { ScrollArea, type ScrollAreaProps } from "./scroll-area/ScrollArea";
+export { Progress, type ProgressProps } from "./progress/Progress";
+export { Meter, type MeterProps } from "./meter/Meter";
+export { Link, type LinkProps, type LinkVariant } from "./link/Link";
+export { Label, type LabelProps } from "./label/Label";
+export { Field, type FieldControl, type FieldProps } from "./field/Field";
+export { Card, type CardProps } from "./card/Card";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.
@@ -237,6 +258,17 @@ export {
   type UseTreeViewOptions,
   type VisibleTreeNode,
 } from "./tree-view/use-tree-view";
+export { useProgress, type UseProgressOptions } from "./progress/use-progress";
+export { useMeter, type UseMeterOptions } from "./meter/use-meter";
+export { useLabel, type UseLabelOptions } from "./label/use-label";
+export { useField, type UseFieldOptions } from "./field/use-field";
+export {
+  useScrollArea,
+  type ScrollAxis,
+  type ScrollbarGeometry,
+  type ScrollOrientation,
+  type UseScrollArea,
+} from "./scroll-area/use-scroll-area";
 export type { Placement } from "./internal/floating";
 export { useDomProps } from "./use-dom-props";
 

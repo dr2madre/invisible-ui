@@ -102,6 +102,56 @@
       "emits": [],
       "slots": []
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Avatar",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Required: the accessible name and the source of the initials.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Image URL. When absent or it fails to load, the initials show.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Accessible name; defaults to `name`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"md\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"square\"",
+          "default": "\"circle\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

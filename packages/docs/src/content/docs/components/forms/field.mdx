@@ -32,4 +32,13 @@ In Svelte, the control is the `children` snippet, which receives `controlProps` 
 </Field>
 ```
 
+In React, `children` is a function that receives `controlProps` and
+`controlId`, and `useField` wires markup of your own:
+
+```tsx
+<Field label="Email" error={error}>
+  {({ controlProps }) => <input {...controlProps} type="email" />}
+</Field>
+```
+
 Themeable via `--ds-field-*`.

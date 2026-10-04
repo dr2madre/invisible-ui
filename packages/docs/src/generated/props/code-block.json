@@ -88,6 +88,56 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "CodeBlock",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "default": "\"\"",
+          "required": false,
+          "description": "The source text: what the copy button copies, and what shows without `children`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Optional caption in the header, such as a language or a filename.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Render a copy button. Defaults to `true`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "copyLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Name of the copy button. Defaults to the catalog's \"Copy code\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Already highlighted markup, shown in place of `code`.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

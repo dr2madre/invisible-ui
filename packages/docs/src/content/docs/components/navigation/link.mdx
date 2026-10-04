@@ -40,6 +40,18 @@ sanitized. See [Security](/invisible-ui/api/#security).
 <Link href="/more" variant="subtle">A quieter link</Link>
 ```
 
+In React, every other anchor attribute reaches the `<a>`, and a `target="_blank"`
+passed as an attribute gets the safe `rel` too:
+
+```tsx
+<Link href="https://example.com" external>
+  External site
+</Link>
+<Link href="/more" variant="subtle" onClick={track}>
+  A quieter link
+</Link>
+```
+
 Set `external` for links that open in a new tab — it adds `target="_blank"` with
 a safe `rel` and a trailing arrow icon. Themeable via `--ds-link-*`.
 

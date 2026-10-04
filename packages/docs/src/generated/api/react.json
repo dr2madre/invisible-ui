@@ -62,6 +62,51 @@
       "signature": "interface AlertDialogProps { /** Visual variant for the trigger Button. */ triggerVariant?: ButtonVariant; /** The trigger button's content. Defaults to the catalog's \"Open\". */ trigger?: ReactNode; /** Initial / controlled open state. */ open?: boolean; /** Accessible title naming the alert (required). */ title: string; /** The message to acknowledge (required). */ description: string; /** * Label of the single acknowledging button. Defaults to the catalog's \"OK\"; * prefer naming the outcome in context (\"Done\", \"Close\", \"I understood\"). */ dismissLabel?: string; /** Called when the alert is acknowledged (button, Escape or backdrop). */ onDismiss?: () => void; /** * Whether pressing the backdrop acknowledges and closes. Defaults to `true`; * set `false` to require an explicit button press (e.g. \"I understood\"). */ closeOnOutsideClick?: boolean; /** Show a close button at the trailing end of the header; it closes like Escape. */ closeButton?: boolean; /** Accessible label for the close button. Defaults to the catalog's \"Close\". */ closeLabel?: string; /** Leading feedback icon in the header. */ icon?: ReactNode; /** Called whenever the open state changes. */ onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "AspectRatio",
+      "kind": "function",
+      "signature": "declare function AspectRatio({ ratio, children }: AspectRatioProps): react.JSX.Element;"
+    },
+    {
+      "name": "AspectRatioProps",
+      "kind": "interface",
+      "signature": "interface AspectRatioProps { /** Width-to-height ratio, such as `16 / 9`, `4 / 3` or `1`. */ ratio?: number; /** The media or block content to fit in the box. */ children?: ReactNode; }"
+    },
+    {
+      "name": "Avatar",
+      "kind": "function",
+      "signature": "declare function Avatar({ name, src, alt, size, shape }: AvatarProps): react.JSX.Element;"
+    },
+    {
+      "name": "AvatarGroup",
+      "kind": "function",
+      "signature": "declare function AvatarGroup({ items, max, size, shape, label, }: AvatarGroupProps): react.JSX.Element;"
+    },
+    {
+      "name": "AvatarGroupItem",
+      "kind": "interface",
+      "signature": "interface AvatarGroupItem { /** Required: the accessible name and the source of the initials. */ name: string; /** Image URL; falls back to the initials when absent or it fails to load. */ src?: string; /** Accessible name override; defaults to `name`. */ alt?: string; /** Optional background for the initials avatar (any CSS colour). */ color?: string; }"
+    },
+    {
+      "name": "AvatarGroupProps",
+      "kind": "interface",
+      "signature": "interface AvatarGroupProps { /** The people in the group. */ items: AvatarGroupItem[]; /** Maximum avatars to show before the rest collapse into a \"+N\" chip. */ max?: number; size?: \"sm\" | \"md\" | \"lg\"; shape?: \"circle\" | \"square\"; /** Accessible name for the group. */ label: string; }"
+    },
+    {
+      "name": "AvatarProps",
+      "kind": "interface",
+      "signature": "interface AvatarProps { /** Required: the accessible name and the source of the initials. */ name: string; /** Image URL. When absent or it fails to load, the initials show. */ src?: string; /** Accessible name; defaults to `name`. */ alt?: string; size?: \"sm\" | \"md\" | \"lg\"; shape?: \"circle\" | \"square\"; }"
+    },
+    {
+      "name": "Blockquote",
+      "kind": "function",
+      "signature": "declare function Blockquote({ cite, citeUrl, children }: BlockquoteProps): react.JSX.Element;"
+    },
+    {
+      "name": "BlockquoteProps",
+      "kind": "interface",
+      "signature": "interface BlockquoteProps { /** Visible attribution, such as an author: text or markup. */ cite?: ReactNode; /** Machine-readable source URL, set as the native `cite` attribute (not shown). */ citeUrl?: string; /** The quoted text. */ children?: ReactNode; }"
+    },
+    {
       "name": "Breadcrumb",
       "kind": "function",
       "signature": "declare function Breadcrumb({ items, label, separator }: BreadcrumbProps): react.JSX.Element;"
@@ -147,6 +192,16 @@
       "signature": "type CalendarView = calendar.CalendarView;"
     },
     {
+      "name": "Card",
+      "kind": "function",
+      "signature": "declare function Card({ variant, orientation, surface, imageSrc, imageAlt, title, headingLevel, description, value, change, trend, icon, media, tags, metric, actions, children, }: CardProps): react.JSX.Element;"
+    },
+    {
+      "name": "CardProps",
+      "kind": "interface",
+      "signature": "interface CardProps { /** `media` (default): media, text and actions. `dashboard`: a metric tile. */ variant?: \"media\" | \"dashboard\"; /** Media card layout. Defaults to `vertical`. */ orientation?: \"vertical\" | \"horizontal\"; /** Surface hierarchy. `secondary` uses the quieter secondary card surface. */ surface?: \"default\" | \"secondary\"; /** Image URL for the media area, used as given (ignored with `icon` or `media`). */ imageSrc?: string; /** Alt text for the image. Empty by default (decorative). */ imageAlt?: string; /** * Card title. A string renders as a heading and names the card; other * markup replaces the heading. */ title?: ReactNode; /** Heading level for a string title (2 to 6). Defaults to `3`. */ headingLevel?: 2 | 3 | 4 | 5 | 6; /** Body description: text or markup. */ description?: ReactNode; /** Dashboard: the large metric value. */ value?: string | number; /** Dashboard: the smaller change shown beside the value. */ change?: string; /** Dashboard: direction of the change, for its colour. */ trend?: \"up\" | \"down\" | \"neutral\"; /** Decorative icon in the media area (media) or beside the title (dashboard). */ icon?: ReactNode; /** Custom media, in place of the image or the icon. */ media?: ReactNode; /** Tags shown with the title. */ tags?: ReactNode; /** Dashboard: extra content after the value and the change. */ metric?: ReactNode; /** Actions at the end of the card. */ actions?: ReactNode; /** Extra body content below the description. */ children?: ReactNode; }"
+    },
+    {
       "name": "Checkbox",
       "kind": "function",
       "signature": "declare function Checkbox({ label, hideLabel, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
@@ -175,6 +230,26 @@
       "name": "CheckedState",
       "kind": "type",
       "signature": "type CheckedState = checkbox.CheckedState;"
+    },
+    {
+      "name": "Code",
+      "kind": "function",
+      "signature": "declare function Code({ children }: CodeProps): react.JSX.Element;"
+    },
+    {
+      "name": "CodeBlock",
+      "kind": "function",
+      "signature": "declare function CodeBlock({ code, language, copyable, copyLabel, children, }: CodeBlockProps): react.JSX.Element;"
+    },
+    {
+      "name": "CodeBlockProps",
+      "kind": "interface",
+      "signature": "interface CodeBlockProps { /** The source text: what the copy button copies, and what shows without `children`. */ code?: string; /** Optional caption in the header, such as a language or a filename. */ language?: string; /** Render a copy button. Defaults to `true`. */ copyable?: boolean; /** Name of the copy button. Defaults to the catalog's \"Copy code\". */ copyLabel?: string; /** Already highlighted markup, shown in place of `code`. */ children?: ReactNode; }"
+    },
+    {
+      "name": "CodeProps",
+      "kind": "interface",
+      "signature": "interface CodeProps { /** The code text. */ children?: ReactNode; }"
     },
     {
       "name": "Collapsible",
@@ -225,6 +300,21 @@
       "name": "ContextMenuProps",
       "kind": "interface",
       "signature": "interface ContextMenuProps { /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; /** Accessible name for the menu, which has no trigger to name it. Defaults to the catalog's \"Context menu\". */ label?: string; /** The region the menu opens on. */ children?: ReactNode; }"
+    },
+    {
+      "name": "Count",
+      "kind": "function",
+      "signature": "declare function Count({ count, max, dot, showZero, status, label, }: CountProps): react.JSX.Element | null;"
+    },
+    {
+      "name": "CountProps",
+      "kind": "interface",
+      "signature": "interface CountProps { /** The number to display. */ count?: number; /** Ceiling before showing \"N+\". Defaults to 99. */ max?: number; /** Render a bare dot (a presence indicator) instead of a number. */ dot?: boolean; /** Show the bubble even when `count` is 0. */ showZero?: boolean; /** Status colour. Defaults to `danger`, the usual unread colour. */ status?: CountStatus; /** Fuller accessible name, such as \"3 unread messages\". */ label?: string; }"
+    },
+    {
+      "name": "CountStatus",
+      "kind": "type",
+      "signature": "type CountStatus = \"danger\" | \"neutral\" | \"info\" | \"success\" | \"warning\";"
     },
     {
       "name": "DatePicker",
@@ -312,6 +402,21 @@
       "signature": "interface DropdownMenuProps { /** Visible text of the trigger, and the menu's accessible name. */ label: string; /** Items, separators, groups and submenus, in the order shown. */ items: MenuEntry[]; disabled?: boolean; /** Called with the chosen item's value, after every level has closed. */ onSelect?: (value: string) => void; }"
     },
     {
+      "name": "Field",
+      "kind": "function",
+      "signature": "declare function Field({ label, description, error, required, disabled, id, children, }: FieldProps): react.JSX.Element;"
+    },
+    {
+      "name": "FieldControl",
+      "kind": "interface",
+      "signature": "interface FieldControl { /** Spread onto the control: its id and ARIA wiring. */ controlProps: ElementProps; /** The control's id. */ controlId: string; }"
+    },
+    {
+      "name": "FieldProps",
+      "kind": "interface",
+      "signature": "interface FieldProps { /** The field label. */ label: string; /** Optional helper text. */ description?: string; /** Optional error message; when set, the control is marked invalid. */ error?: string; required?: boolean; disabled?: boolean; /** Base id. Generated when omitted. */ id?: string; /** Renders the control from the props to spread onto it and its id. */ children?: (control: FieldControl) => ReactNode; }"
+    },
+    {
       "name": "HourCycle",
       "kind": "type",
       "signature": "type HourCycle = timeField.HourCycle;"
@@ -330,6 +435,41 @@
       "name": "IconProps",
       "kind": "interface",
       "signature": "interface IconProps { /** Rendered size; `1em` by default so icons scale with the surrounding text. */ size?: string; viewBox?: string; /** Stroke width in viewBox units (glyphs are stroke-based by default). */ strokeWidth?: number | string; /** Accessible name. When omitted the icon is decorative (`aria-hidden`). */ label?: string; /** Extra classes merged onto the `<svg>` (e.g. for stateful styling). */ className?: string; /** The glyph itself: `<path>`, `<line>`, `<polyline>`, … */ children?: ReactNode; }"
+    },
+    {
+      "name": "Kbd",
+      "kind": "function",
+      "signature": "declare function Kbd({ keys, separator, children }: KbdProps): react.JSX.Element;"
+    },
+    {
+      "name": "KbdProps",
+      "kind": "interface",
+      "signature": "interface KbdProps { /** A chord: each key renders as its own keycap, joined by `separator`. */ keys?: string[]; /** Separator shown between chord keys. Defaults to \"+\". */ separator?: string; /** A single key, used when `keys` is empty. */ children?: ReactNode; }"
+    },
+    {
+      "name": "Label",
+      "kind": "function",
+      "signature": "declare function Label({ htmlFor, required, children }: LabelProps): react.JSX.Element;"
+    },
+    {
+      "name": "LabelProps",
+      "kind": "interface",
+      "signature": "interface LabelProps { /** Id of the control this labels. */ htmlFor?: string; /** Show a required marker (`*`), hidden from assistive tech, after the text. */ required?: boolean; /** The label text. */ children?: ReactNode; }"
+    },
+    {
+      "name": "Link",
+      "kind": "const",
+      "signature": "Link: react.ForwardRefExoticComponent<LinkProps & react.RefAttributes<HTMLAnchorElement>>"
+    },
+    {
+      "name": "LinkProps",
+      "kind": "interface",
+      "signature": "interface LinkProps extends Omit<ComponentPropsWithoutRef<\"a\">, \"href\" | \"children\" | \"className\"> { /** Destination URL, used as given. */ href: string; /** Open in a new tab: adds `target` and a safe `rel`, and a trailing arrow. */ external?: boolean; /** `subtle` takes the surrounding text colour (still underlined on hover). */ variant?: LinkVariant; /** The link text. */ children?: ReactNode; }"
+    },
+    {
+      "name": "LinkVariant",
+      "kind": "type",
+      "signature": "type LinkVariant = \"primary\" | \"subtle\";"
     },
     {
       "name": "LocaleProvider",
@@ -390,6 +530,16 @@
       "name": "Messages",
       "kind": "type",
       "signature": "type Messages = Partial<Record<MessageKey, string | PluralMessage>>;"
+    },
+    {
+      "name": "Meter",
+      "kind": "function",
+      "signature": "declare function Meter({ value, min, max, low, high, optimum, label }: MeterProps): react.JSX.Element;"
+    },
+    {
+      "name": "MeterProps",
+      "kind": "interface",
+      "signature": "interface MeterProps { /** Current measured value. */ value?: number; min?: number; max?: number; /** Upper bound of the \"low\" band. */ low?: number; /** Lower bound of the \"high\" band. */ high?: number; /** * Where the good end of the scale is. Defaults to `max`, so more reads as * better; set it near `min` for a measure where less is better. */ optimum?: number; /** Accessible name for the meter. */ label: string; }"
     },
     {
       "name": "MultiSelect",
@@ -487,6 +637,16 @@
       "signature": "interface PopoverProps { /** Opening contract: an intentional click, or a hover and focus preview. */ trigger?: \"click\" | \"hover\"; /** Visual variant for the trigger Button (`trigger=\"click\"` only). */ triggerVariant?: ButtonVariant; /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. */ placement?: Placement; /** Delay before opening on hover, in ms (`trigger=\"hover\"` only). */ openDelay?: number; /** Delay before closing on leave, in ms (`trigger=\"hover\"` only). */ closeDelay?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; /** Called whenever the user opens or closes the panel. */ onOpenChange?: (open: boolean) => void; /** * The trigger button's content (defaults to the catalog's label), or the * focusable trigger element itself in hover mode. */ triggerContent?: ReactNode; /** The card. */ children?: ReactNode; }"
     },
     {
+      "name": "Progress",
+      "kind": "function",
+      "signature": "declare function Progress({ value, min, max, shape, showValue, label, }: ProgressProps): react.JSX.Element;"
+    },
+    {
+      "name": "ProgressProps",
+      "kind": "interface",
+      "signature": "interface ProgressProps { /** Current value. Progress is determinate; waiting with no value belongs to Loading. */ value?: number; min?: number; max?: number; /** A linear `bar` (default) or a `circle` ring (an upload or an export). */ shape?: \"bar\" | \"circle\"; /** Show the percentage inside the circle. */ showValue?: boolean; /** Accessible name for the progress bar. */ label: string; }"
+    },
+    {
       "name": "PromptDialog",
       "kind": "const",
       "signature": "PromptDialog: react.ForwardRefExoticComponent<PromptDialogProps & react.RefAttributes<DialogHandle>>"
@@ -565,6 +725,31 @@
       "name": "RatingItem",
       "kind": "interface",
       "signature": "interface RatingItem { value: string; position: number; }"
+    },
+    {
+      "name": "ScrollArea",
+      "kind": "function",
+      "signature": "declare function ScrollArea({ orientation, maxHeight, label, children, }: ScrollAreaProps): react.JSX.Element;"
+    },
+    {
+      "name": "ScrollAreaProps",
+      "kind": "interface",
+      "signature": "interface ScrollAreaProps { /** Which axes scroll. Defaults to `vertical`. */ orientation?: ScrollOrientation; /** Largest block size of the viewport, the scroll constraint, such as `\"12rem\"`. */ maxHeight?: string; /** * Optional accessible name; makes the viewport a labelled region. Two * scroll areas on a page should not share one: the landmark list would show * the same entry twice. */ label?: string; /** The scrolling content. */ children?: ReactNode; }"
+    },
+    {
+      "name": "ScrollAxis",
+      "kind": "type",
+      "signature": "type ScrollAxis = \"vertical\" | \"horizontal\";"
+    },
+    {
+      "name": "ScrollOrientation",
+      "kind": "type",
+      "signature": "type ScrollOrientation = scrollArea.ScrollOrientation;"
+    },
+    {
+      "name": "ScrollbarGeometry",
+      "kind": "type",
+      "signature": "type ScrollbarGeometry = scrollArea.ScrollbarGeometry;"
     },
     {
       "name": "SearchDialog",
@@ -672,6 +857,16 @@
       "signature": "type SidebarSection = SidebarPlainSection | SidebarCollapsibleSection;"
     },
     {
+      "name": "Skeleton",
+      "kind": "function",
+      "signature": "declare function Skeleton({ variant, lines, width, height, radius, animation, label, }: SkeletonProps): react.JSX.Element;"
+    },
+    {
+      "name": "SkeletonProps",
+      "kind": "interface",
+      "signature": "interface SkeletonProps { variant?: \"text\" | \"circle\" | \"rect\"; /** Number of lines for the `text` variant. */ lines?: number; /** Any CSS length, such as \"12rem\" or \"100%\". For `circle`, also the height. */ width?: string; /** Any CSS length. The `text` variant follows the line height instead. */ height?: string; /** Border radius override (any CSS length). */ radius?: string; /** Shimmer animation. Defaults to `pulse`. */ animation?: \"pulse\" | \"wave\" | \"none\"; /** When set, the skeleton becomes a polite status with this accessible name. */ label?: string; }"
+    },
+    {
       "name": "Slider",
       "kind": "function",
       "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, }: SliderProps): react.JSX.Element;"
@@ -745,6 +940,21 @@
       "name": "TabsProps",
       "kind": "interface",
       "signature": "interface TabsProps { items: TabsItem[]; /** Initial (uncontrolled) or current (controlled) selected tab. */ value?: string | null; /** `automatic` (default): arrows select while moving. `manual`: Enter or Space selects. */ activationMode?: ActivationMode; /** Accessible name for the tab list (announced by screen readers). */ label: string; /** Called whenever the selected tab changes. */ onValueChange?: (value: string) => void; /** Rich content of one panel, rendered once per tab; wins over `content`. */ renderPanel?: (item: TabsItem) => ReactNode; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "function",
+      "signature": "declare function Tag({ status, variant, size, removable, removeLabel, onRemove, icon, trailing, children, }: TagProps): react.JSX.Element;"
+    },
+    {
+      "name": "TagProps",
+      "kind": "interface",
+      "signature": "interface TagProps { /** Status colour. */ status?: TagStatus; /** A soft tinted surface (default) or a solid, filled chip. */ variant?: \"soft\" | \"solid\"; size?: \"sm\" | \"md\"; /** Render a remove button. */ removable?: boolean; /** Name of the remove button. Defaults to the catalog's \"Remove\". */ removeLabel?: string; /** Called when the remove button is pressed. */ onRemove?: () => void; /** Decorative leading icon. */ icon?: ReactNode; /** Trailing content, such as a `Count`. */ trailing?: ReactNode; /** The tag text. */ children?: ReactNode; }"
+    },
+    {
+      "name": "TagStatus",
+      "kind": "type",
+      "signature": "type TagStatus = \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"selected\";"
     },
     {
       "name": "TextField",
@@ -897,6 +1107,11 @@
       "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; /** * CSS selector for the element focus returns to on close, for a dialog * opened without a trigger of its own. It wins over the element that had * focus when the dialog opened. */ returnFocusTo?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "UseFieldOptions",
+      "kind": "interface",
+      "signature": "interface UseFieldOptions { /** Base id the part ids derive from. Generated when omitted. */ id?: string; required?: boolean; /** Marks the control invalid (`aria-invalid`). */ invalid?: boolean; disabled?: boolean; /** A description is rendered: the control is described by it. */ hasDescription?: boolean; /** An error message is rendered: the control is described by it. */ hasError?: boolean; }"
+    },
+    {
       "name": "UseHoverPreview",
       "kind": "interface",
       "signature": "interface UseHoverPreview extends DelayedToggle { api: hoverCard.HoverCardApi; open: boolean; setOpen: (open: boolean) => void; /** Attach to the trigger wrapper; the positioning anchor. */ triggerRef: RefObject<HTMLElement | null>; /** Attach to the card. Render it only while `open`. */ cardRef: (node: HTMLElement | null) => void; }"
@@ -905,6 +1120,16 @@
       "name": "UseHoverPreviewOptions",
       "kind": "interface",
       "signature": "interface UseHoverPreviewOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the card. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and card, in px. Default `8`. */ offset?: number; /** Delay before opening on hover, in ms. Default `300`. */ openDelay?: number; /** Delay before closing on leave, in ms. Default `200`. */ closeDelay?: number; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseLabelOptions",
+      "kind": "interface",
+      "signature": "interface UseLabelOptions { /** Id of the control the label names. */ htmlFor?: string; /** Id of the label itself, for `aria-labelledby` on the control. */ id?: string; }"
+    },
+    {
+      "name": "UseMeterOptions",
+      "kind": "interface",
+      "signature": "interface UseMeterOptions { /** Current measured value. Defaults to `0`. */ value?: number; /** Defaults to `0`. */ min?: number; /** Defaults to `100`. */ max?: number; /** Upper bound of the \"low\" band. */ low?: number; /** Lower bound of the \"high\" band. */ high?: number; /** Where the good end of the scale is. Defaults to `max`. */ optimum?: number; /** Base id. Generated when omitted. */ id?: string; }"
     },
     {
       "name": "UseMultiSelect",
@@ -952,6 +1177,11 @@
       "signature": "interface UsePopoverOptions { /** Initial / controlled open state. */ open?: boolean; /** Preferred placement of the panel. Default `\"bottom\"`. */ placement?: Placement; /** Gap between trigger and panel, in px. Default `6`. */ offset?: number; /** Name for the panel. Defaults to being named by the trigger. */ label?: string; /** * CSS selector for the element that takes focus when the panel opens. * Defaults to the first focusable element in the panel, else the panel. */ initialFocus?: string; onOpenChange?: (open: boolean) => void; }"
     },
     {
+      "name": "UseProgressOptions",
+      "kind": "interface",
+      "signature": "interface UseProgressOptions { /** Current value; `null` for work of unknown length. Defaults to `0`. */ value?: number | null; /** Defaults to `0`. */ min?: number; /** Defaults to `100`. */ max?: number; /** Base id. Generated when omitted. */ id?: string; }"
+    },
+    {
       "name": "UseRadioGroupOptions",
       "kind": "interface",
       "signature": "interface UseRadioGroupOptions { /** Ordered list of items. */ items: RadioItem[]; /** Initial (uncontrolled) or current (controlled) selected value. */ value?: string | null; disabled?: boolean; /** Layout and arrow-key axis. Defaults to `vertical`. */ orientation?: RadioGroupOrientation; /** Shared form/group name; generated when omitted so the radios group. */ name?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; /** * The element holding the radios. Given it, the radios carry the DOM default * a form reset restores, and the group puts its own value back when its form * is reset, silently (ADR 0012). */ rootRef?: RefObject<HTMLElement | null>; }"
@@ -970,6 +1200,11 @@
       "name": "UseRatingGroupOptions",
       "kind": "interface",
       "signature": "interface UseRatingGroupOptions { /** Number of stars. Defaults to `5`. */ max?: number; /** Selected rating (`1..max`), or `null`. */ value?: number | null; disabled?: boolean; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; /** The element holding the star radios; see `useRadioGroup`. */ rootRef?: RefObject<HTMLElement | null>; }"
+    },
+    {
+      "name": "UseScrollArea",
+      "kind": "interface",
+      "signature": "interface UseScrollArea { /** Callback ref for the scrollable viewport. */ viewportRef: (node: HTMLElement | null) => void; /** Vertical scrollbar geometry: overflow, and the thumb's size and offset fractions. */ vertical: ScrollbarGeometry; /** Horizontal scrollbar geometry. */ horizontal: ScrollbarGeometry; /** Pointer handlers that let a thumb be dragged along its axis. */ getThumbProps: (axis: ScrollAxis) => { onPointerDown: (event: PointerEvent<HTMLElement>) => void; onPointerMove: (event: PointerEvent<HTMLElement>) => void; onPointerUp: (event: PointerEvent<HTMLElement>) => void; onPointerCancel: (event: PointerEvent<HTMLElement>) => void; }; }"
     },
     {
       "name": "UseSearchDialog",
@@ -1072,6 +1307,11 @@
       "signature": "en: { readonly \"calendar.previous\": \"Previous\"; readonly \"calendar.next\": \"Next\"; readonly \"calendar.today\": \"Today\"; readonly \"calendar.label\": \"Calendar\"; readonly \"calendar.viewsLabel\": \"Calendar view\"; readonly \"calendar.view.month\": \"Month\"; readonly \"calendar.view.two-month\": \"2 Months\"; readonly \"calendar.view.week\": \"Week\"; readonly \"calendar.view.three-day\": \"3 Days\"; readonly \"calendar.view.day\": \"Day\"; readonly \"calendar.view.year\": \"Year\"; readonly \"calendar.events\": { readonly one: \"{count} event\"; readonly other: \"{count} events\"; }; readonly \"calendar.rangeStart\": \"range start\"; readonly \"calendar.rangeEnd\": \"range end\"; readonly \"datePicker.label\": \"Date\"; readonly \"datePicker.placeholder\": \"Select a date\"; readonly \"datePicker.clear\": \"Clear date\"; readonly \"dateRangePicker.label\": \"Date range\"; readonly \"dateRangePicker.placeholder\": \"Select a range\"; readonly \"dateRangePicker.clear\": \"Clear range\"; readonly \"timeField.label\": \"Time\"; readonly \"timeField.hour\": \"Hour\"; readonly \"timeField.minute\": \"Minute\"; readonly \"timeField.second\": \"Second\"; readonly \"timeField.dayPeriod\": \"AM/PM\"; readonly \"timeField.empty\": \"Empty\"; readonly \"timeField.invalidFormat\": \"Enter a time in the expected format.\"; readonly \"timeField.outOfRange\": \"Enter a time within the allowed range.\"; readonly \"timeField.secondsRequired\": \"Enter hours, minutes, and seconds.\"; readonly \"timeField.secondsNotAllowed\": \"Enter hours and minutes only.\"; readonly \"timeField.rangeUnderflow\": \"Enter a time no earlier than {min}.\"; readonly \"timeField.rangeOverflow\": \"Enter a time no later than {max}.\"; readonly \"loading.label\": \"Loading\\u2026\"; readonly \"inlineNotification.close\": \"Close\"; readonly \"inlineNotification.learnMore\": \"Learn more\"; readonly \"dialog.close\": \"Close\"; readonly \"dialog.trigger\": \"Open\"; readonly \"searchDialog.trigger\": \"Search\\u2026\"; readonly \"collapsible.toggle\": \"Toggle\"; readonly \"loginForm.heading\": \"Sign in\"; readonly \"dialog.confirm\": \"Confirm\"; readonly \"dialog.cancel\": \"Cancel\"; readonly \"dialog.dismiss\": \"OK\"; readonly \"sheetDialog.close\": \"Close\"; readonly \"notificationRegion.label\": \"Notifications\"; readonly \"button.copied\": \"Copied\"; readonly \"combobox.placeholder\": \"Search\\u2026\"; readonly \"combobox.clear\": \"Clear\"; readonly \"combobox.empty\": \"No results\"; readonly \"searchField.clear\": \"Clear search\"; readonly \"searchField.submit\": \"Search\"; readonly \"searchDialog.title\": \"Search\"; readonly \"searchDialog.label\": \"Search\"; readonly \"searchDialog.placeholder\": \"Type to search\\u2026\"; readonly \"searchDialog.empty\": \"No results found.\"; readonly \"searchDialog.results\": { readonly one: \"{count} result available\"; readonly other: \"{count} results available\"; }; readonly \"searchDialog.loading\": \"Searching\\u2026\"; readonly \"numberField.increment\": \"Increase {label}\"; readonly \"numberField.decrement\": \"Decrease {label}\"; readonly \"numberField.parseError\": \"Enter a number.\"; readonly \"numberField.rangeUnderflow\": \"Enter a number that is at least {min}.\"; readonly \"numberField.rangeOverflow\": \"Enter a number that is at most {max}.\"; readonly \"numberField.stepMismatch\": \"Enter a multiple of {step}.\"; readonly \"select.placeholder\": \"Select\\u2026\"; readonly \"rangeSlider.lowerText\": \"{value}, minimum; may not exceed {bound}\"; readonly \"rangeSlider.upperText\": \"{value}, maximum; may not go below {bound}\"; readonly \"switch.on\": \"ON\"; readonly \"switch.off\": \"OFF\"; readonly \"loginForm.submit\": \"Sign in\"; readonly \"loginForm.forgot\": \"Forgot password?\"; readonly \"loginForm.email\": \"Email\"; readonly \"loginForm.emailPlaceholder\": \"you@example.com\"; readonly \"loginForm.password\": \"Password\"; readonly \"loginForm.divider\": \"or\"; readonly \"loginForm.provider\": \"Continue with {name}\"; readonly \"pagination.label\": \"Pagination\"; readonly \"pagination.previous\": \"Go to previous page\"; readonly \"pagination.next\": \"Go to next page\"; readonly \"pagination.page\": \"Go to page {page}\"; readonly \"rating.stars\": { readonly one: \"{count} star\"; readonly other: \"{count} stars\"; }; readonly \"pinInput.cell\": \"Character {index} of {length}\"; readonly \"breadcrumb.label\": \"Breadcrumb\"; readonly \"contextMenu.label\": \"Context menu\"; readonly \"menu.submenu\": \"submenu\"; readonly \"sidebar.label\": \"Main\"; readonly \"sidebar.collapse\": \"Collapse the navigation\"; readonly \"sidebar.expand\": \"Expand the navigation\"; readonly \"sidebar.open\": \"Open the navigation\"; readonly \"stepper.label\": \"Progress\"; readonly \"stepper.completed\": \"Completed\"; readonly \"tree.loading\": \"Loading {name}\\u2026\"; readonly \"tree.loadError\": \"Could not load {name}. Press Right Arrow to retry.\"; readonly \"carousel.previous\": \"Previous slide\"; readonly \"carousel.next\": \"Next slide\"; readonly \"carousel.choose\": \"Choose slide\"; readonly \"carousel.slide\": \"{index} of {count}\"; readonly \"carousel.goTo\": \"Go to slide {index}\"; readonly \"carousel.roleDescription\": \"carousel\"; readonly \"carousel.slideRoleDescription\": \"slide\"; readonly \"combobox.show\": \"Show options\"; readonly \"combobox.hide\": \"Close options\"; readonly \"table.views\": \"Views\"; readonly \"table.pagination\": \"Table pages\"; readonly \"table.loadMore\": \"Load more\"; readonly \"table.loading\": \"Loading\\u2026\"; readonly \"table.columns\": \"Columns\"; readonly \"table.selectRow\": \"Select {name}\"; readonly \"table.selectPage\": \"Select all visible rows\"; readonly \"table.selection\": \"Selection\"; readonly \"table.noResults\": \"No rows match the current filters\"; readonly \"table.results\": { readonly one: \"{count} result\"; readonly other: \"{count} results\"; }; readonly \"table.clearFilters\": \"Clear filters\"; readonly \"table.view\": \"View\"; readonly \"table.viewTable\": \"Table\"; readonly \"table.viewCards\": \"Cards\"; readonly \"avatarGroup.more\": { readonly one: \"{count} more\"; readonly other: \"{count} more\"; }; readonly \"codeBlock.copy\": \"Copy code\"; readonly \"codeBlock.copyText\": \"Copy\"; readonly \"codeBlock.copiedText\": \"Copied\"; readonly \"codeBlock.copied\": \"Copied to clipboard\"; readonly \"codeBlock.label\": \"Code\"; readonly \"codeBlock.labelLanguage\": \"Code: {language}\"; readonly \"codeBlock.sample\": \"Code sample\"; readonly \"codeBlock.sampleLanguage\": \"Code sample, {language}\"; readonly \"tag.remove\": \"Remove\"; readonly \"multiSelect.selected\": \"Selected values\"; readonly \"multiSelect.remove\": \"Remove {name}\"; readonly \"multiSelect.empty\": \"No results\"; readonly \"multiSelect.placeholder\": \"Search\\u2026\"; readonly \"uploadDropArea.prompt\": \"Drag & drop files or\"; readonly \"uploadDropArea.action\": \"browse\"; }"
     },
     {
+      "name": "initialsOf",
+      "kind": "function",
+      "signature": "declare function initialsOf(name: string): string;"
+    },
+    {
       "name": "normalizeProps",
       "kind": "const",
       "signature": "normalizeProps: Normalize"
@@ -1122,6 +1362,11 @@
       "signature": "declare function useDomProps(ref: RefObject<Element | null>, props: DomProps): void;"
     },
     {
+      "name": "useField",
+      "kind": "function",
+      "signature": "declare function useField({ id, ...flags }?: UseFieldOptions): field.FieldApi;"
+    },
+    {
       "name": "useHoverPreview",
       "kind": "function",
       "signature": "declare function useHoverPreview({ open: openProp, placement, offset, openDelay, closeDelay, onOpenChange, }?: UseHoverPreviewOptions): UseHoverPreview;"
@@ -1130,6 +1375,16 @@
       "name": "useI18n",
       "kind": "function",
       "signature": "declare function useI18n(): I18nValue;"
+    },
+    {
+      "name": "useLabel",
+      "kind": "function",
+      "signature": "declare function useLabel({ htmlFor, id }?: UseLabelOptions): label.LabelApi;"
+    },
+    {
+      "name": "useMeter",
+      "kind": "function",
+      "signature": "declare function useMeter(options?: UseMeterOptions): meter.MeterApi;"
     },
     {
       "name": "useMultiSelect",
@@ -1162,6 +1417,11 @@
       "signature": "declare function usePopover<T extends HTMLElement = HTMLButtonElement>({ open: openProp, placement, offset, label, initialFocus, onOpenChange, }?: UsePopoverOptions): UsePopover<T>;"
     },
     {
+      "name": "useProgress",
+      "kind": "function",
+      "signature": "declare function useProgress({ value, min, max, id, }?: UseProgressOptions): progress.ProgressApi;"
+    },
+    {
       "name": "useRadioGroup",
       "kind": "function",
       "signature": "declare function useRadioGroup({ items, value: valueProp, disabled, orientation, name, onValueChange, rootRef, }: UseRadioGroupOptions): radioGroup.RadioGroupApi;"
@@ -1175,6 +1435,11 @@
       "name": "useRatingGroup",
       "kind": "function",
       "signature": "declare function useRatingGroup({ max, value, disabled, name, onValueChange, rootRef, }?: UseRatingGroupOptions): UseRatingGroup;"
+    },
+    {
+      "name": "useScrollArea",
+      "kind": "function",
+      "signature": "declare function useScrollArea(): UseScrollArea;"
     },
     {
       "name": "useSearchDialog",

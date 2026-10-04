@@ -6,7 +6,7 @@ import { DialogStatus } from "../dialog/DialogStatus";
 import { useDialogHandle, type DialogHandle } from "../dialog/use-dialog-handle";
 import { useI18n } from "../i18n/i18n";
 import { Icon } from "../icon/Icon";
-import { Kbd } from "../internal/kbd";
+import { Kbd } from "../kbd/Kbd";
 import { useSearchDialog, type SearchDialogItem } from "./use-search-dialog";
 
 export interface SearchDialogProps {
@@ -163,7 +163,11 @@ export const SearchDialog = /* @__PURE__ */ forwardRef<DialogHandle, SearchDialo
         <span className="search-dialog__item-label">{item.label ?? item.value}</span>
         {item.shortcut ? (
           <span className="search-dialog__item-shortcut">
-            <Kbd keys={item.shortcut} />
+            {Array.isArray(item.shortcut) ? (
+              <Kbd keys={item.shortcut} />
+            ) : (
+              <Kbd>{item.shortcut}</Kbd>
+            )}
           </span>
         ) : null}
       </div>

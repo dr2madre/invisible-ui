@@ -40,6 +40,32 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "AspectRatio",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "ratio",
+          "type": "number",
+          "default": "1",
+          "required": false,
+          "description": "Width-to-height ratio, such as `16 / 9`, `4 / 3` or `1`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The media or block content to fit in the box.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",
