@@ -7,6 +7,7 @@ import {
   type Placement,
   type VirtualElement,
 } from "@floating-ui/react-dom";
+import { useEffect, type RefObject } from "react";
 
 export type { Placement };
 
@@ -59,6 +60,23 @@ export function attachFloating(
   if (typeof ResizeObserver !== "undefined") return autoUpdate(anchor, floating, update);
   update();
   return () => {};
+}
+
+/**
+ * Keep `floating` positioned against the trigger while both are in the page
+ * and while the placement or the offset stay the same.
+ */
+export function useAttachFloating(
+  triggerRef: RefObject<HTMLElement | null>,
+  floating: HTMLElement | null,
+  placement: Placement,
+  gap: number,
+): void {
+  useEffect(() => {
+    const trigger = triggerRef.current;
+    if (!floating || !trigger) return;
+    return attachFloating(trigger, floating, { placement, offset: gap });
+  }, [triggerRef, floating, placement, gap]);
 }
 
 /** A zero-size anchor at a viewport point. */

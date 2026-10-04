@@ -1,6 +1,6 @@
 import { rangeSlider as core } from "@design-system/core";
-import { useId, useMemo, useRef, useState, type RefObject } from "react";
-import { useControlledDefault, useFormDefault, useFormReset } from "../internal/form-reset";
+import { useId, useMemo, useRef, type RefObject } from "react";
+import { useFormDefault, useResettable } from "../internal/form-reset";
 import { normalizeProps } from "../normalize";
 
 export type RangeSliderOrientation = core.Orientation;
@@ -59,18 +59,15 @@ export function useRangeSlider({
   // application's data, not a user action.
   const normalize = (pair: RangeValue) => core.normalizePair(pair, min, max, step, minDistance);
 
-  const [held, setHeld] = useState(value);
-  // A pair matching what the control holds in only one position is not a
-  // give-back: it is compared as a whole (ADR 0012).
-  const given = useControlledDefault(value, held, setHeld, samePair);
-  const pair = normalize(held);
-  const defaultValue = normalize(given);
-
   const own = useRef<HTMLInputElement | null>(null);
   const [lower, upper] = thumbRefs ?? [own, own];
-  // One anchor is enough: the reset event is form-wide, and the restore puts
-  // the whole pair back at once.
-  useFormReset(lower, () => setHeld(given));
+  // A pair matching what the control holds in only one position is not a
+  // give-back: it is compared as a whole (ADR 0012). One reset anchor is
+  // enough: the reset event is form-wide, and the restore puts the whole pair
+  // back at once.
+  const [held, setHeld, given] = useResettable(value, undefined, lower, samePair);
+  const pair = normalize(held);
+  const defaultValue = normalize(given);
   // React keeps a controlled input's `value` attribute in step with what it
   // renders, so the defaults are written back after every render.
   useFormDefault(lower, (node: HTMLInputElement) => {

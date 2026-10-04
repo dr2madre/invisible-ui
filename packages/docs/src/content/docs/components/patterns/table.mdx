@@ -68,6 +68,23 @@ reports a requested sort and leaves row ordering to the application:
 </script>
 ```
 
+In React, `renderCell` replaces the `cell` snippet, and the selection column
+takes `selectionHeader` (markup) and `renderSelectionCell`. Cell values render
+as text unless `renderCell` returns markup of your own:
+
+```tsx
+<Table
+  caption="Team"
+  columns={columns}
+  rows={rows}
+  sort={sort}
+  onSortToggle={(key) => setSort(nextSort(sort, key))}
+  renderCell={({ column, value }) =>
+    column.key === "email" ? <a href={`mailto:${value}`}>{String(value)}</a> : String(value)
+  }
+/>
+```
+
 ### Empty state in Elements
 
 Keep an empty result inside the table instead of hiding the table and

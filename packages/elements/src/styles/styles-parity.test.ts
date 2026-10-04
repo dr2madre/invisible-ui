@@ -5,15 +5,11 @@ import { fileURLToPath } from "node:url";
 // The elements package ships its own copy of the component stylesheets so it
 // is self-contained when published.
 //
-// REACT_SHEETS cover the components React also ships: those copies must never
-// drift from the React adapter's (which in turn guards its tokens against the
-// Svelte adapter's).
+// REACT_SHEETS cover the components React also ships, which is the whole
+// catalog: those copies must never drift from the React adapter's (which in
+// turn guards its tokens against the Svelte adapter's).
 //
-// VUE_SHEETS cover the components this adapter gained ahead of React. Vue holds
-// the whole catalog, so its copies are the source: same guard, different
-// origin. When React gains one of these, its sheet moves up to REACT_SHEETS.
-//
-// `index.css` is excluded from both: it names this package in the import path
+// `index.css` is excluded: it names this package in the import path
 // it documents, and it lists exactly the sheets this adapter ships, which is a
 // different set from React's.
 
@@ -92,16 +88,13 @@ const REACT_SHEETS = [
   "empty-state.css",
   "error-state.css",
   "loading-generation-area.css",
-];
-
-const VUE_SHEETS = [
   "textarea.css",
   "table.css",
-  "toolbar.css",
-  "upload-drop-area.css",
-  "login-form.css",
   "table-set.css",
+  "toolbar.css",
   "carousel.css",
+  "login-form.css",
+  "upload-drop-area.css",
 ];
 
 describe("stylesheet parity with the React adapter", () => {
@@ -135,16 +128,10 @@ describe("login form width", () => {
   });
 });
 
-describe("stylesheet parity with the Vue adapter", () => {
-  it.each(VUE_SHEETS)("%s matches byte for byte", (sheet) => {
-    expect(read(`./${sheet}`)).toBe(read(`../../../vue/src/styles/${sheet}`));
-  });
-});
-
 describe("the index", () => {
   it("imports every sheet this package ships", () => {
     const index = read("./index.css");
-    for (const sheet of [...REACT_SHEETS, ...VUE_SHEETS]) {
+    for (const sheet of REACT_SHEETS) {
       expect(index, `missing @import for ${sheet}`).toContain(`@import "./${sheet}"`);
     }
   });

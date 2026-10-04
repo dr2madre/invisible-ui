@@ -9,6 +9,7 @@ import {
   type RefCallback,
   type RefObject,
 } from "react";
+import { sameList } from "../internal/controllable";
 import { fail } from "../internal/dev";
 import { useControlledDefault, useFormReset } from "../internal/form-reset";
 import { useListboxPopup } from "../internal/listbox-popup";
@@ -66,9 +67,6 @@ export interface UseMultiSelect {
 
 // A stable default: a fresh [] per render would defeat the identity mirror.
 const NO_VALUES: string[] = [];
-
-const valuesEqual = (a: string[], b: string[]) =>
-  a === b || (a.length === b.length && a.every((value, index) => value === b[index]));
 
 /**
  * The values contract keeps entries unique; a controlled value that already
@@ -130,9 +128,9 @@ export function useMultiSelect({
     state.values,
     (next) => {
       assertUniqueValues(next);
-      setState((s) => (valuesEqual(s.values, next) ? s : { ...s, values: next }));
+      setState((s) => (sameList(s.values, next) ? s : { ...s, values: next }));
     },
-    valuesEqual,
+    sameList,
   );
 
   // --- The visible list follows the item list; the open, highlight and text
@@ -160,7 +158,7 @@ export function useMultiSelect({
   // setters (ADR 0011), and only when the selection actually moves.
   const setValues = useCallback(
     (next: string[]) => {
-      if (valuesEqual(state.values, next)) return;
+      if (sameList(state.values, next)) return;
       setState((s) => ({ ...s, values: next }));
       onValuesChange?.(next);
     },

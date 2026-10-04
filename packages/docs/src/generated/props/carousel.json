@@ -189,6 +189,104 @@
         "default"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "Carousel",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "CarouselSlide[]",
+          "default": null,
+          "required": true,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "variant",
+          "type": "CarouselVariant",
+          "default": "\"slide\"",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "orientation",
+          "type": "CarouselOrientation",
+          "default": "\"horizontal\"",
+          "required": false,
+          "description": "Coverflow only: lay the flow out horizontally (default) or vertically.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Show the slide-picker dots. Defaults to `true`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": null,
+          "required": true,
+          "description": "Accessible name for the carousel (announced by screen readers).",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "prevLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Previous button accessible name. Defaults to the catalog's \"Previous slide\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Next button accessible name. Defaults to the catalog's \"Next slide\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "default": null,
+          "required": false,
+          "description": "Initial or current slide index (controllable mirror). Defaults to `0`.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "default": null,
+          "required": false,
+          "description": "Called whenever the user moves to another slide.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderItem",
+          "type": "(context: CarouselItemContext) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "Custom markup for every item. Defaults to the built-in slide.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

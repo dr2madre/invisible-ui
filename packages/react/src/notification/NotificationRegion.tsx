@@ -8,6 +8,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useI18n } from "../i18n/i18n";
+import { sameList } from "../internal/controllable";
 import { useIsomorphicLayoutEffect } from "../internal/layout-effect";
 import { hasOpenModal, onModalChange } from "../internal/modal-stack";
 import { swipeDismiss, type SwipeDismissHandle } from "../internal/swipe";
@@ -48,9 +49,6 @@ interface Leaving {
 const EMPTY: ReadonlyMap<string, NotificationItem> = new Map();
 // Extra time after a transition before its classes go, so the last frame lands.
 const SETTLE = 50;
-
-const sameItems = (a: readonly NotificationItem[], b: readonly NotificationItem[]) =>
-  a === b || (a.length === b.length && a.every((item, index) => item === b[index]));
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 const subscribeReducedMotion = (onChange: () => void) => {
@@ -161,7 +159,7 @@ export function NotificationRegion({
     list: readonly NotificationItem[];
     leaving: readonly Leaving[];
   }>({ list: [], leaving: [] });
-  if (!sameItems(presence.list, visible)) {
+  if (!sameList(presence.list, visible)) {
     const staying = new Set(visible.map((item) => item.id));
     const gone =
       motionOut > 0

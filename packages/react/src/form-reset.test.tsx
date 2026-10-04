@@ -15,6 +15,7 @@ import { SegmentedControl } from "./segmented-control/SegmentedControl";
 import { CheckboxGroup } from "./checkbox-group/CheckboxGroup";
 import { RatingGroup } from "./rating-group/RatingGroup";
 import { PinInput } from "./pin-input/PinInput";
+import { Textarea } from "./text-field/Textarea";
 
 const fruit = [
   { value: "apple", label: "Apple" },
@@ -679,8 +680,8 @@ describe("form reset on server-rendered markup", () => {
 });
 
 // The value controls that keep a choice of their own over native radios or
-// boxes, and the PIN input whose code travels in a hidden input. The page
-// echoes every report back, as React consumers do.
+// boxes, the PIN input whose code travels in a hidden input, and the
+// textarea. The page echoes every report back, as React consumers do.
 const ab = [{ value: "a" }, { value: "b" }];
 
 interface Choice<T> {
@@ -755,6 +756,16 @@ const CHOICES = [
         .getAllByRole<HTMLInputElement>("textbox")
         .map((cell) => cell.value)
         .join(""),
+  } satisfies Choice<string>,
+  {
+    name: "Textarea",
+    start: "ab",
+    render: (value, onChange) => (
+      <Textarea label="F" name="f" value={value} onValueChange={onChange} />
+    ),
+    edit: (user) => user.type(screen.getByRole("textbox", { name: "F" }), "c"),
+    payloads: ["ab", "abc"],
+    visible: () => (screen.getByRole("textbox", { name: "F" }) as HTMLTextAreaElement).value,
   } satisfies Choice<string>,
 ] as Choice<unknown>[];
 

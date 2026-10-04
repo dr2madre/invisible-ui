@@ -141,6 +141,34 @@ const fixtures: Record<string, ReactElement> = {
       <adapter.NotificationRegion notifier={adapter.createNotifier()} />
     </div>
   ),
+  Textarea: <adapter.Textarea label="Message" value="Hello" />,
+  Table: (
+    <adapter.Table
+      caption="People"
+      columns={[{ key: "name", header: "Name", sortable: true }]}
+      rows={[{ id: 1, name: "Ada" }]}
+      sort={{ key: "name", direction: "asc" }}
+    />
+  ),
+  TableSet: (
+    <adapter.TableSet
+      title="People"
+      caption="People"
+      columns={[{ key: "name", header: "Name", sortable: true }]}
+      rows={[{ id: 1, name: "Ada" }]}
+      pageSize={10}
+      configurable
+      allowViewToggle
+    />
+  ),
+  Toolbar: (
+    <adapter.Toolbar label="Text formatting">
+      <button type="button">Bold</button>
+    </adapter.Toolbar>
+  ),
+  Carousel: <adapter.Carousel label="Featured" items={[{ title: "One" }, { title: "Two" }]} />,
+  LoginForm: <adapter.LoginForm providers={[{ id: "google", label: "Google" }]} />,
+  UploadDropArea: <adapter.UploadDropArea accept="image/*" caption="PNG up to 5 MB" />,
   Icon: (
     <adapter.Icon label="Add">
       <path d="M12 5v14M5 12h14" />

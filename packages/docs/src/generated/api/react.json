@@ -202,6 +202,46 @@
       "signature": "interface CardProps { /** `media` (default): media, text and actions. `dashboard`: a metric tile. */ variant?: \"media\" | \"dashboard\"; /** Media card layout. Defaults to `vertical`. */ orientation?: \"vertical\" | \"horizontal\"; /** Surface hierarchy. `secondary` uses the quieter secondary card surface. */ surface?: \"default\" | \"secondary\"; /** Image URL for the media area, used as given (ignored with `icon` or `media`). */ imageSrc?: string; /** Alt text for the image. Empty by default (decorative). */ imageAlt?: string; /** * Card title. A string renders as a heading and names the card; other * markup replaces the heading. */ title?: ReactNode; /** Heading level for a string title (2 to 6). Defaults to `3`. */ headingLevel?: 2 | 3 | 4 | 5 | 6; /** Body description: text or markup. */ description?: ReactNode; /** Dashboard: the large metric value. */ value?: string | number; /** Dashboard: the smaller change shown beside the value. */ change?: string; /** Dashboard: direction of the change, for its colour. */ trend?: \"up\" | \"down\" | \"neutral\"; /** Decorative icon in the media area (media) or beside the title (dashboard). */ icon?: ReactNode; /** Custom media, in place of the image or the icon. */ media?: ReactNode; /** Tags shown with the title. */ tags?: ReactNode; /** Dashboard: extra content after the value and the change. */ metric?: ReactNode; /** Actions at the end of the card. */ actions?: ReactNode; /** Extra body content below the description. */ children?: ReactNode; }"
     },
     {
+      "name": "Carousel",
+      "kind": "function",
+      "signature": "declare function Carousel({ items, variant, orientation, loop, showIndicators, label, prevLabel, nextLabel, index: indexProp, onIndexChange, renderItem, }: CarouselProps): react.JSX.Element;"
+    },
+    {
+      "name": "CarouselApi",
+      "kind": "type",
+      "signature": "type CarouselApi = carousel.CarouselApi;"
+    },
+    {
+      "name": "CarouselItemContext",
+      "kind": "interface",
+      "signature": "interface CarouselItemContext { item: CarouselSlide; index: number; active: boolean; }"
+    },
+    {
+      "name": "CarouselOrientation",
+      "kind": "type",
+      "signature": "type CarouselOrientation = carousel.Orientation;"
+    },
+    {
+      "name": "CarouselProps",
+      "kind": "interface",
+      "signature": "interface CarouselProps { items: CarouselSlide[]; variant?: CarouselVariant; /** Coverflow only: lay the flow out horizontally (default) or vertically. */ orientation?: CarouselOrientation; loop?: boolean; /** Show the slide-picker dots. Defaults to `true`. */ showIndicators?: boolean; /** Accessible name for the carousel (announced by screen readers). */ label: string; /** Previous button accessible name. Defaults to the catalog's \"Previous slide\". */ prevLabel?: string; /** Next button accessible name. Defaults to the catalog's \"Next slide\". */ nextLabel?: string; /** Initial or current slide index (controllable mirror). Defaults to `0`. */ index?: number; /** Called whenever the user moves to another slide. */ onIndexChange?: (index: number) => void; /** Custom markup for every item. Defaults to the built-in slide. */ renderItem?: (context: CarouselItemContext) => ReactNode; }"
+    },
+    {
+      "name": "CarouselSlide",
+      "kind": "interface",
+      "signature": "interface CarouselSlide { /** Background image URL (slide variant). */ image?: string; /** Title overlaid on the slide. */ title?: string; /** Description overlaid on the slide. */ description?: string; /** Arbitrary extra data for custom rendering through `renderItem`. */ [key: string]: unknown; }"
+    },
+    {
+      "name": "CarouselState",
+      "kind": "type",
+      "signature": "type CarouselState = carousel.CarouselState;"
+    },
+    {
+      "name": "CarouselVariant",
+      "kind": "type",
+      "signature": "type CarouselVariant = \"slide\" | \"gallery\" | \"coverflow\";"
+    },
+    {
       "name": "Checkbox",
       "kind": "function",
       "signature": "declare function Checkbox({ label, hideLabel, checked, disabled, name, value, required, onCheckedChange, children, }: CheckboxProps): react.JSX.Element;"
@@ -572,6 +612,26 @@
       "signature": "interface LocaleProviderProps { /** BCP-47 locale tag. Defaults to `\"en\"`. */ locale?: string; /** Explicit writing direction; when omitted it derives from the locale. */ dir?: Dir; /** Message overrides, merged over the English catalog. */ messages?: Messages; children?: ReactNode; }"
     },
     {
+      "name": "LoginForm",
+      "kind": "function",
+      "signature": "declare function LoginForm({ heading, subheading, submitLabel, forgotHref, forgotLabel, providers, onSubmit, onProvider, logo, renderProviderIcon, }: LoginFormProps): react.JSX.Element;"
+    },
+    {
+      "name": "LoginFormProps",
+      "kind": "interface",
+      "signature": "interface LoginFormProps { /** The card's heading. Defaults to the catalog's \"Sign in\". */ heading?: string; subheading?: string; /** Submit button label. Defaults to the catalog's \"Sign in\". */ submitLabel?: string; /** Where the forgot-password link goes. An empty string leaves the link out. */ forgotHref?: string; /** Forgot-password link text. Defaults to the catalog's \"Forgot password?\". */ forgotLabel?: string; /** Social providers rendered as buttons above the fields. */ providers?: LoginFormProvider[]; /** Called with the typed credentials when the form is submitted. */ onSubmit?: (value: LoginFormValue) => void; /** Called with the provider id when a provider button is pressed. */ onProvider?: (id: string) => void; /** A logo shown on top of the card. */ logo?: ReactNode; /** The icon of a provider button, given the provider id. */ renderProviderIcon?: (provider: string) => ReactNode; }"
+    },
+    {
+      "name": "LoginFormProvider",
+      "kind": "interface",
+      "signature": "interface LoginFormProvider { id: string; label: string; }"
+    },
+    {
+      "name": "LoginFormValue",
+      "kind": "interface",
+      "signature": "interface LoginFormValue { email: string; password: string; }"
+    },
+    {
       "name": "MenuEntry",
       "kind": "type",
       "signature": "type MenuEntry = menu.MenuEntry;"
@@ -877,6 +937,11 @@
       "signature": "interface RatingItem { value: string; position: number; }"
     },
     {
+      "name": "RowId",
+      "kind": "type",
+      "signature": "type RowId = table.RowId;"
+    },
+    {
       "name": "ScrollArea",
       "kind": "function",
       "signature": "declare function ScrollArea({ orientation, maxHeight, label, children, }: ScrollAreaProps): react.JSX.Element;"
@@ -962,6 +1027,11 @@
       "signature": "interface SelectProps { /** Accessible name for the control. */ label: string; /** Visually hide the label (kept for assistive tech) — for compact toolbars. */ hideLabel?: boolean; /** Options. Plain text only — see the note on rich options below. */ items: SelectItem[]; /** Selected value. `null` shows the placeholder. */ value?: string | null; /** Shown while nothing is selected. Defaults to the catalog's \"Select…\". */ placeholder?: string; disabled?: boolean; /** * Width behaviour: `wrap` fits the longest option (the native default), * `fill` takes 100% of the container, `fixed` uses `--ds-select-width`. */ width?: \"wrap\" | \"fill\" | \"fixed\"; /** Form field name — this is a real `<select>`, so it submits natively. */ name?: string; /** Marks the control as required (native validation + announced to AT). */ required?: boolean; /** Error message; when non-empty the select becomes invalid and announces it. */ error?: string; /** Called whenever the selected value changes. */ onValueChange?: (value: string) => void; }"
     },
     {
+      "name": "SelectionMode",
+      "kind": "type",
+      "signature": "type SelectionMode = table.SelectionMode;"
+    },
+    {
       "name": "Separator",
       "kind": "function",
       "signature": "declare function Separator({ orientation, decorative }: SeparatorProps): react.JSX.Element;"
@@ -1032,6 +1102,16 @@
       "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
+      "name": "SortDirection",
+      "kind": "type",
+      "signature": "type SortDirection = table.SortDirection;"
+    },
+    {
+      "name": "SortState",
+      "kind": "interface",
+      "signature": "interface SortState { key: string; direction: SortDirection; }"
+    },
+    {
       "name": "StatusOptions",
       "kind": "type",
       "signature": "type StatusOptions = Omit<NotificationOptions, \"status\" | \"title\">;"
@@ -1077,6 +1157,56 @@
       "signature": "type TabItem = tabs.TabItem;"
     },
     {
+      "name": "Table",
+      "kind": "function",
+      "signature": "declare function Table({ columns, rows, sort, onSortToggle, caption, hideCaption, getValue, getRowId, selectionColumn, isRowSelected, renderCell, selectionHeader, renderSelectionCell, }: TableProps): react.JSX.Element;"
+    },
+    {
+      "name": "TableApi",
+      "kind": "type",
+      "signature": "type TableApi = table.TableApi;"
+    },
+    {
+      "name": "TableCellContext",
+      "kind": "interface",
+      "signature": "interface TableCellContext { row: TableRow; column: TableColumnDef; value: unknown; rowIndex: number; }"
+    },
+    {
+      "name": "TableColumnDef",
+      "kind": "interface",
+      "signature": "interface TableColumnDef { /** Stable key; the default accessor into a row. */ key: string; /** Header label. */ header: string; /** Whether the column can be sorted. */ sortable?: boolean; /** Whether the column can be hidden via configuration (used by TableSet). */ hideable?: boolean; /** Text alignment for the column's cells and header. Defaults to `start`. */ align?: \"start\" | \"center\" | \"end\"; }"
+    },
+    {
+      "name": "TableProps",
+      "kind": "interface",
+      "signature": "interface TableProps { columns: TableColumnDef[]; rows: TableRow[]; /** The active sort, reflected on the headers (controlled). */ sort?: SortState | null; /** Called with the column key when a sortable header is activated. */ onSortToggle?: (key: string) => void; /** Accessible name for the table (rendered as a `<caption>`). */ caption?: string; /** Visually hide the caption (still available to assistive tech). */ hideCaption?: boolean; /** Reads a row's value for a column (defaults to `row[key]`). */ getValue?: (row: TableRow, key: string) => unknown; /** Stable row key (defaults to `row.id`, falling back to the index). */ getRowId?: (row: TableRow, index: number) => string | number; /** * Render a leading structural column for row selection. Its content comes * from `selectionHeader` and `renderSelectionCell`; this component stays * free of the selection policy itself. */ selectionColumn?: boolean; /** Marks a row selected (`data-selected` styling hook). Used with `selectionColumn`. */ isRowSelected?: (row: TableRow, rowIndex: number) => boolean; /** Custom cell content. Defaults to the cell value, as text. */ renderCell?: (context: TableCellContext) => ReactNode; /** Header cell content of the selection column. */ selectionHeader?: ReactNode; /** Body cell content of the selection column, rendered for every row. */ renderSelectionCell?: (context: TableSelectionCellContext) => ReactNode; }"
+    },
+    {
+      "name": "TableRow",
+      "kind": "type",
+      "signature": "type TableRow = Record<string, unknown>;"
+    },
+    {
+      "name": "TableSelectionCellContext",
+      "kind": "interface",
+      "signature": "interface TableSelectionCellContext { row: TableRow; rowId: string | number; rowIndex: number; }"
+    },
+    {
+      "name": "TableSet",
+      "kind": "function",
+      "signature": "declare function TableSet({ columns, rows, views, activeView, viewsLabel, onViewChange, title, titleLevel, caption, toolbar, ...config }: TableSetProps): react.JSX.Element;"
+    },
+    {
+      "name": "TableSetProps",
+      "kind": "interface",
+      "signature": "interface TableSetProps { /** Single-view columns (used when `views` is not provided). */ columns?: TableColumnDef[]; /** Single-view rows (used when `views` is not provided). */ rows?: TableRow[]; /** Distinct views shown as tabs; each supplies its own columns and rows. */ views?: TableViewDef[]; /** * The active view id. Controllable mirror: selecting a tab updates it * locally and reports through `onViewChange`; a later prop value overwrites * the local choice without a callback. Defaults to the first view. */ activeView?: string; /** Accessible name for the views tab list. Defaults to the catalog's \"Views\". */ viewsLabel?: string; /** Called when the user selects another view. */ onViewChange?: (id: string) => void; /** Optional title shown in the header (rendered as a heading). */ title?: string; titleLevel?: 2 | 3 | 4 | 5 | 6; /** Accessible name for the table or list (a `<caption>` in table view). */ caption?: string; /** Header content beside the title, such as filters or actions. */ toolbar?: ReactNode; /** Visually hide the caption (still available to assistive tech). */ hideCaption?: boolean; /** Rows per page. Without it, every row shows. */ pageSize?: number; /** The current page (controllable mirror). Defaults to `1`. */ page?: number; /** Accessible name for the pagination nav. Defaults to the catalog's \"Table pages\". */ paginationLabel?: string; /** Called with the page after a user action, or after the component moved it. */ onPageChange?: (page: number) => void; /** Load rows on demand instead of paging them. */ infinite?: boolean; /** Infinite mode: more rows are available. */ hasMore?: boolean; /** Infinite mode: rows are loading. */ loading?: boolean; /** Infinite mode: called when the user, or the end of the list, asks for more. */ onLoadMore?: () => void; /** Load-more button text. Defaults to the catalog's \"Load more\". */ loadMoreLabel?: string; /** Loading status text. Defaults to the catalog's \"Loading…\". */ loadingLabel?: string; /** The active sort (controllable mirror). Defaults to the first sortable column. */ sort?: SortState | null; onSortChange?: (sort: SortState | null) => void; /** Hidden column keys (controllable mirror). */ hiddenColumns?: string[]; onHiddenColumnsChange?: (hidden: string[]) => void; /** The body layout (controllable mirror). Defaults to `table`. */ view?: \"table\" | \"card\"; /** Show the table and cards switch. */ allowViewToggle?: boolean; /** Show the column-visibility settings. */ configurable?: boolean; /** Column-visibility settings label. Defaults to the catalog's \"Columns\". */ configLabel?: string; /** Card view: the column shown as each card's title. Defaults to the first column. */ cardTitleKey?: string; /** Card view: the column shown as each card's description. */ cardDescriptionKey?: string; getValue?: (row: TableRow, key: string) => unknown; getRowId?: (row: TableRow, index: number) => string | number; /** Row selection: off by default. `single` or `multiple` adds the column. */ selectionMode?: SelectionMode; /** The selected row ids (controlled). Replace the array; do not mutate it. */ selectedRowIds?: RowId[]; /** Called with the next ids after a user selection action. */ onSelectedRowIdsChange?: (ids: RowId[]) => void; /** Marks rows the user may select. Others render without a checkbox. */ isRowSelectable?: (row: TableRow) => boolean; /** * Names a row for its selection checkbox (\"Select {name}\"). Optional in the * type, but required at runtime whenever selection is active. */ getRowLabel?: (row: TableRow) => string; /** Whether the consumer's filters are active. Filtering itself stays outside. */ filtersActive?: boolean; /** Total unfiltered row count when known; `0` means the dataset is empty. */ totalRowCount?: number; /** Changing this (or `filtersActive`) resets the local page to one. */ filterRevision?: string | number; /** Clears the consumer's filters; enables the built-in no-results action. */ onClearFilters?: () => void; /** Copy for the no-results state. Defaults to the catalog's message. */ noResultsLabel?: string; /** Custom cell content, in the table and in the cards. Defaults to the cell value, as text. */ renderCell?: (context: TableCellContext) => ReactNode; }"
+    },
+    {
+      "name": "TableViewDef",
+      "kind": "interface",
+      "signature": "interface TableViewDef { /** Stable id (the tab value). */ id: string; /** Tab label. */ label: string; columns: TableColumnDef[]; rows: TableRow[]; /** Optional accessible name for this view's table or list (defaults to `label`). */ caption?: string; }"
+    },
+    {
       "name": "Tabs",
       "kind": "function",
       "signature": "declare function Tabs({ items, value, activationMode, label, onValueChange, renderPanel, }: TabsProps): react.JSX.Element;"
@@ -1120,6 +1250,16 @@
       "name": "TextFieldProps",
       "kind": "interface",
       "signature": "interface TextFieldProps { /** Visible label and accessible name for the control. */ label: string; /** Visually hide the label while keeping it as the control's accessible name. */ hideLabel?: boolean; /** Initial or current value. */ value?: string; /** Native input type. */ type?: InputType; /** Native placeholder. It does not replace the label. */ placeholder?: string; /** Hint linked to the control through `aria-describedby`. */ description?: string; /** Error message that marks the control invalid and is announced. */ error?: string; /** Confirmation message announced politely when the field is valid. */ success?: string; /** Prevent interaction and form submission. */ disabled?: boolean; /** Mark the native input as required. */ required?: boolean; /** Keep the input focusable and submittable but prevent edits. */ readOnly?: boolean; /** Native form field name. */ name?: string; /** Native maximum length constraint. */ maxLength?: number; /** Native minimum length constraint. */ minLength?: number; /** Native validation pattern. */ pattern?: string; /** Preferred virtual keyboard mode. */ inputMode?: InputHTMLAttributes<HTMLInputElement>[\"inputMode\"]; /** Native autofill hint. */ autoComplete?: InputHTMLAttributes<HTMLInputElement>[\"autoComplete\"]; /** Enable or disable browser spelling correction. */ spellCheck?: boolean; /** Called once after a user edit is committed locally. */ onValueChange?: (value: string) => void; /** Decorative content placed inside the control at the inline start. */ left?: ReactNode; /** Decorative content placed inside the control at the inline end. */ right?: ReactNode; }"
+    },
+    {
+      "name": "Textarea",
+      "kind": "function",
+      "signature": "declare function Textarea({ label, hideLabel, value, placeholder, rows, description, error, success, disabled, required, readOnly, name, autoComplete, maxLength, minLength, spellCheck, onValueChange, }: TextareaProps): react.JSX.Element;"
+    },
+    {
+      "name": "TextareaProps",
+      "kind": "interface",
+      "signature": "interface TextareaProps { /** Visible label and accessible name for the control. */ label: string; /** Visually hide the label while keeping it as the control's accessible name. */ hideLabel?: boolean; /** Initial or current value. */ value?: string; /** Native placeholder. It does not replace the label. */ placeholder?: string; /** Visible rows. Defaults to `3`. */ rows?: number; /** Hint linked to the control through `aria-describedby`. */ description?: string; /** Error message that marks the control invalid and is announced. */ error?: string; /** Confirmation message announced politely when the field is valid. */ success?: string; /** Prevent interaction and form submission. */ disabled?: boolean; /** Mark the native textarea as required. */ required?: boolean; /** Keep the textarea focusable and submittable but prevent edits. */ readOnly?: boolean; /** Native form field name: the value is submitted under it. */ name?: string; /** Native autofill hint. */ autoComplete?: TextareaHTMLAttributes<HTMLTextAreaElement>[\"autoComplete\"]; /** Native maximum length constraint. */ maxLength?: number; /** Native minimum length constraint. */ minLength?: number; /** Turn spelling correction off for codes and identifiers. */ spellCheck?: boolean; /** Called once after a user edit is committed locally. */ onValueChange?: (value: string) => void; }"
     },
     {
       "name": "TimeField",
@@ -1172,6 +1312,21 @@
       "signature": "type ToggleGroupVariant = \"separate\" | \"segmented\";"
     },
     {
+      "name": "Toolbar",
+      "kind": "function",
+      "signature": "declare function Toolbar({ label, orientation, flat, children, }: ToolbarProps): react.JSX.Element;"
+    },
+    {
+      "name": "ToolbarOrientation",
+      "kind": "type",
+      "signature": "type ToolbarOrientation = toolbar.ToolbarOrientation;"
+    },
+    {
+      "name": "ToolbarProps",
+      "kind": "interface",
+      "signature": "interface ToolbarProps { /** Accessible name for the toolbar (required). */ label: string; orientation?: ToolbarOrientation; /** * Flat presentation: the controls inside lose their individual borders and * fill at rest (they read as one group, divided only by separators), with a * subtle hover overlay. The toolbar's own frame still groups them. */ flat?: boolean; /** The controls: buttons, toggle buttons, separators. */ children?: ReactNode; }"
+    },
+    {
       "name": "Tooltip",
       "kind": "function",
       "signature": "declare function Tooltip({ text, placement, openDelay, closeDelay, children, }: TooltipProps): react.JSX.Element;"
@@ -1207,6 +1362,16 @@
       "signature": "interface TreeViewProps { nodes: TreeNode[]; /** Initial (uncontrolled) or current (controlled) expanded parents. */ expanded?: string[]; /** Initial (uncontrolled) or current (controlled) selected node. */ selected?: string | null; /** Unloaded parent values with an active request. */ loading?: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors?: string[]; disabled?: boolean; /** Accessible name for the tree (announced by screen readers). */ label: string; /** Optional per-node display labels, keyed by node value. */ labels?: Record<string, string>; /** Called whenever the expanded set changes. */ onExpandedChange?: (expanded: string[]) => void; /** Called whenever the selected value changes. */ onSelectedChange?: (selected: string) => void; /** Requests children from the application; the component never fetches. */ onLoadChildren?: (request: TreeLoadRequest) => void; /** Leading icon of a row, hidden from assistive tech. */ renderIcon?: (node: VisibleTreeNode) => ReactNode; /** A row's label. Defaults to `labels[node.value]`, then the node value. */ renderLabel?: (node: VisibleTreeNode) => ReactNode; }"
     },
     {
+      "name": "UploadDropArea",
+      "kind": "function",
+      "signature": "declare function UploadDropArea({ accept, multiple, disabled, name, caption, onFiles, children, icon, }: UploadDropAreaProps): react.JSX.Element;"
+    },
+    {
+      "name": "UploadDropAreaProps",
+      "kind": "interface",
+      "signature": "interface UploadDropAreaProps { /** * Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or * `\".pdf,.docx\"`. The picker filters by it, and so does a drop. */ accept?: string; /** Allow selecting or dropping more than one file. */ multiple?: boolean; disabled?: boolean; /** Form field name (the underlying file input). */ name?: string; /** Optional caption under the text, such as the accepted formats or the size limit. */ caption?: string; /** Called with the selected or dropped files. */ onFiles?: (files: File[]) => void; /** Replaces the default prompt text. */ children?: ReactNode; /** Replaces the built-in upload icon. */ icon?: ReactNode; }"
+    },
+    {
       "name": "UseAccordionOptions",
       "kind": "interface",
       "signature": "interface UseAccordionOptions { /** Ordered list of items. */ items: AccordionItem[]; /** Initial (uncontrolled) or current (controlled) expanded values. */ value?: string[]; /** `single` (default): one open at a time. `multiple`: many. */ type?: AccordionType; /** For `single`: allow collapsing the open item. Defaults to `true`. */ collapsible?: boolean; disabled?: boolean; /** Arrow-key axis for moving between headers. Defaults to `vertical`. */ orientation?: accordion.Orientation; /** Called whenever the user changes the expanded set. */ onValueChange?: (value: string[]) => void; }"
@@ -1225,6 +1390,11 @@
       "name": "UseCalendarOptions",
       "kind": "interface",
       "signature": "interface UseCalendarOptions { /** Selected date (ISO `YYYY-MM-DD`), or `null`. Single mode only. */ value?: string | null; /** The date that drives what is shown and where focus sits. */ focusedDate?: string; /** Layout and period. Defaults to `\"month\"`. */ view?: CalendarView; /** First day of the week, 0 = Sunday to 6. Defaults to `1` (Monday). */ weekStartsOn?: WeekStart; /** Earliest selectable date (ISO), inclusive. */ min?: string; /** Latest selectable date (ISO), inclusive. */ max?: string; /** Selection mode. Defaults to `\"single\"`. */ mode?: CalendarMode; /** Range start (ISO), used when `mode=\"range\"`. */ rangeStart?: string | null; /** Range end (ISO), used when `mode=\"range\"`. */ rangeEnd?: string | null; /** Explicit base id; a stable one is generated when omitted. */ id?: string; onValueChange?: (value: string) => void; onFocusChange?: (focusedDate: string) => void; onViewChange?: (view: CalendarView) => void; onRangeChange?: (start: string | null, end: string | null) => void; }"
+    },
+    {
+      "name": "UseCarouselOptions",
+      "kind": "interface",
+      "signature": "interface UseCarouselOptions { /** Total number of slides. */ count: number; /** Initial or current slide index (0-based), a controllable mirror. Defaults to `0`. */ index?: number; /** Whether navigation wraps around at the ends. Defaults to `false`. */ loop?: boolean; /** Arrow-key axis. Defaults to `horizontal`. */ orientation?: CarouselOrientation; /** Called whenever the user moves to another slide. */ onIndexChange?: (index: number) => void; }"
     },
     {
       "name": "UseCheckboxGroupOptions",
@@ -1260,6 +1430,16 @@
       "name": "UseDialogOptions",
       "kind": "interface",
       "signature": "interface UseDialogOptions { /** Initial / controlled open state. */ open?: boolean; /** `\"dialog\"` (default) or `\"alertdialog\"`. */ role?: DialogRole; /** Whether a description element is present (wires `aria-describedby`). */ describedBy?: boolean; /** Whether Escape closes the dialog. Default `true`. */ closeOnEscape?: boolean; /** Whether pressing the backdrop closes. Default `true`. */ closeOnOutsideClick?: boolean; /** * CSS selector (within the panel) for the element to focus on open. When * omitted, focus lands on the panel itself — never on the close button — so a * screen reader announces the dialog without snapping focus to a \"✕\". */ initialFocus?: string; /** * CSS selector for the element focus returns to on close, for a dialog * opened without a trigger of its own. It wins over the element that had * focus when the dialog opened. */ returnFocusTo?: string; onOpenChange?: (open: boolean) => void; }"
+    },
+    {
+      "name": "UseDropArea",
+      "kind": "interface",
+      "signature": "interface UseDropArea { /** Whether a drag is currently over the target. */ dragging: boolean; /** Spread onto the drop target: the drag handlers plus the `data-dragover` styling hook. */ dropAreaProps: { \"data-dragover\": \"\" | undefined; onDragOver: (event: DragEvent<HTMLElement>) => void; onDragLeave: () => void; onDrop: (event: DragEvent<HTMLElement>) => void; }; }"
+    },
+    {
+      "name": "UseDropAreaOptions",
+      "kind": "interface",
+      "signature": "interface UseDropAreaOptions { /** Ignore drags entirely (no highlight, no drop). */ disabled?: boolean; /** Called with the DataTransfer of a successful drop. */ onDrop?: (data: DataTransfer, event: DragEvent<HTMLElement>) => void; /** Called when the drag-over highlight toggles. */ onDragChange?: (dragging: boolean) => void; }"
     },
     {
       "name": "UseFieldOptions",
@@ -1397,6 +1577,16 @@
       "signature": "interface UseSwitchOptions { /** Initial (uncontrolled) or current (controlled) checked value. */ checked?: boolean; disabled?: boolean; /** Called whenever the on/off value changes. */ onCheckedChange?: (checked: boolean) => void; /** * The native input this state renders on. Given it, the control carries the * DOM default a form reset restores, and puts its own state back when its * form is reset, silently (ADR 0012). Without it nothing changes: a reset * reaches no control that cannot say which form it belongs to. */ controlRef?: RefObject<HTMLInputElement | null>; }"
     },
     {
+      "name": "UseTable",
+      "kind": "interface",
+      "signature": "interface UseTable { /** The connected API: sorting, visibility, selection and the header prop bags. */ api: TableApi; /** Set the sort directly (or clear it with `null`), reporting the change. */ setSort: (sort: SortState | null) => void; /** Put a sort in place without reporting it, e.g. a default the component chose. */ syncSort: (sort: SortState | null) => void; }"
+    },
+    {
+      "name": "UseTableOptions",
+      "kind": "interface",
+      "signature": "interface UseTableOptions { /** The columns, as the core needs them: key, `sortable`, `hideable`. */ columns: table.TableColumn[]; /** Active sort (controllable mirror), or `null` for none. */ sort?: SortState | null; /** Hidden column keys (controllable mirror). */ hiddenColumns?: string[]; /** Called whenever the sort changes (including cleared to `null`). */ onSortChange?: (sort: SortState | null) => void; /** Called whenever the hidden-column set changes. */ onHiddenColumnsChange?: (hidden: string[]) => void; /** Row selection mode. Defaults to `none`. Changing it never touches the selection. */ selectionMode?: SelectionMode; /** Selected row ids (controllable mirror). */ selectedRowIds?: RowId[]; /** Called with the next ids after a user selection action. */ onSelectedRowIdsChange?: (ids: RowId[]) => void; }"
+    },
+    {
       "name": "UseTabs",
       "kind": "interface",
       "signature": "interface UseTabs { /** The connected API; spread `rootProps`, `getTabProps` and `getPanelProps`. */ api: tabs.TabsApi; /** The selected tab value, or `null` when no tab is enabled. */ value: string | null; }"
@@ -1409,7 +1599,7 @@
     {
       "name": "UseTextFieldOptions",
       "kind": "interface",
-      "signature": "interface UseTextFieldOptions { /** Initial or current value. */ value?: string; disabled?: boolean; readOnly?: boolean; required?: boolean; invalid?: boolean; hasDescription?: boolean; hasSuccess?: boolean; /** Called once after a user edit has been committed locally. */ onValueChange?: (value: string) => void; /** Native input carrying the form default and reset subscription. */ controlRef?: RefObject<HTMLInputElement | null>; }"
+      "signature": "interface UseTextFieldOptions { /** Initial or current value. */ value?: string; disabled?: boolean; readOnly?: boolean; required?: boolean; invalid?: boolean; hasDescription?: boolean; hasSuccess?: boolean; /** Called once after a user edit has been committed locally. */ onValueChange?: (value: string) => void; /** Native input or textarea carrying the form default and reset subscription. */ controlRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>; }"
     },
     {
       "name": "UseTimeField",
@@ -1492,6 +1682,11 @@
       "signature": "declare function useCalendar({ value: valueProp, focusedDate: focusedProp, view: viewProp, weekStartsOn, min, max, mode, rangeStart: startProp, rangeEnd: endProp, id: idProp, onValueChange, onFocusChange, onViewChange, onRangeChange, }?: UseCalendarOptions): UseCalendar;"
     },
     {
+      "name": "useCarousel",
+      "kind": "function",
+      "signature": "declare function useCarousel({ count, index: indexProp, loop, orientation, onIndexChange, }: UseCarouselOptions): CarouselApi;"
+    },
+    {
       "name": "useCheckbox",
       "kind": "function",
       "signature": "declare function useCheckbox({ checked, disabled, onCheckedChange, controlRef, }?: UseCheckboxOptions): checkbox.CheckboxApi;"
@@ -1520,6 +1715,11 @@
       "name": "useDomProps",
       "kind": "function",
       "signature": "declare function useDomProps(ref: RefObject<Element | null>, props: DomProps): void;"
+    },
+    {
+      "name": "useDropArea",
+      "kind": "function",
+      "signature": "declare function useDropArea({ disabled, onDrop, onDragChange, }?: UseDropAreaOptions): UseDropArea;"
     },
     {
       "name": "useField",
@@ -1625,6 +1825,11 @@
       "name": "useSwitch",
       "kind": "function",
       "signature": "declare function useSwitch({ checked, disabled, onCheckedChange, controlRef, }?: UseSwitchOptions): switchControl.SwitchApi;"
+    },
+    {
+      "name": "useTable",
+      "kind": "function",
+      "signature": "declare function useTable({ columns, sort: sortProp, hiddenColumns: hiddenProp, onSortChange, onHiddenColumnsChange, selectionMode, selectedRowIds: selectedProp, onSelectedRowIdsChange, }: UseTableOptions): UseTable;"
     },
     {
       "name": "useTabs",

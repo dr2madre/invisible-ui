@@ -169,6 +169,96 @@
         "providerIcon"
       ]
     },
+    "react": {
+      "import": {
+        "kind": "named",
+        "name": "LoginForm",
+        "specifier": "@design-system/react"
+      },
+      "extends": [],
+      "props": [
+        {
+          "name": "heading",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "The card's heading. Defaults to the catalog's \"Sign in\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "subheading",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "",
+          "descriptionFrom": "none"
+        },
+        {
+          "name": "submitLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Submit button label. Defaults to the catalog's \"Sign in\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "forgotHref",
+          "type": "string",
+          "default": "\"#\"",
+          "required": false,
+          "description": "Where the forgot-password link goes. An empty string leaves the link out.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "forgotLabel",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "Forgot-password link text. Defaults to the catalog's \"Forgot password?\".",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "providers",
+          "type": "LoginFormProvider[]",
+          "default": "EMPTY",
+          "required": false,
+          "description": "Social providers rendered as buttons above the fields.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onSubmit",
+          "type": "(value: LoginFormValue) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the typed credentials when the form is submitted.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "onProvider",
+          "type": "(id: string) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the provider id when a provider button is pressed.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "logo",
+          "type": "ReactNode",
+          "default": null,
+          "required": false,
+          "description": "A logo shown on top of the card.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "renderProviderIcon",
+          "type": "(provider: string) => ReactNode",
+          "default": null,
+          "required": false,
+          "description": "The icon of a provider button, given the provider id.",
+          "descriptionFrom": "source"
+        }
+      ]
+    },
     "elements": {
       "import": {
         "kind": "element",

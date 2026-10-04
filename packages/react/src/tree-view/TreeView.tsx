@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
+import { SmallCheck } from "../icon/Icon";
 import { cx } from "../internal/cx";
 import {
   useTreeView,
@@ -41,19 +42,6 @@ const twistie = (
   <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
     <path
       d="M6 4l4 4-4 4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const check = (
-  <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false">
-    <path
-      d="M3.5 8.5l3 3 6-6.5"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.75"
@@ -201,7 +189,7 @@ export function TreeView({
                 className={cx("tree__check", isSelected && "tree__check--shown")}
                 aria-hidden="true"
               >
-                {check}
+                <SmallCheck />
               </span>
             </li>
           );

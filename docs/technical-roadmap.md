@@ -8,9 +8,8 @@ and maintain*.
 ## Already in place
 
 - **Headless core** — framework-agnostic `state` / `connect` / prop-getter
-  pattern (as in Zag/Ark) + complete Svelte, Vue and custom elements adapters.
-  React is being completed to the full catalog and carries 72 components
-  today; Reflex wraps the React set for Python consumers.
+  pattern (as in Zag/Ark) + complete Svelte, React, Vue and custom elements
+  adapters. Reflex wraps the React set for Python consumers.
 - **TypeScript** — `strict`, `noUncheckedIndexedAccess`, `verbatimModuleSyntax`,
   `isolatedModules`, ES2022 / Bundler resolution.
 - **Tokens** — two tiers (primitives → semantic role/state), dark mode
@@ -83,7 +82,7 @@ Each item ships as its own PR. Checkboxes track progress.
   (`packages/reflex`, `import invisible_ui`): thin `rx.Component` wrappers over
   the React build (ADR 0006) with 8 render tests — nothing re-implemented in
   Python. Full plan and integration findings: `docs/adapters-roadmap.md`.
-  React now targets the full catalog (item 14).
+  React now carries the full catalog (item 14).
 - [x] **7. Adapter SSR/hydration guarantees** — `ssr.test.ts` server-renders every
   Svelte fixture (`svelte/server` `render`, node env) so no component touches
   the DOM during SSR; runs in the normal test gate. Caught and fixed a real bug:
@@ -118,31 +117,32 @@ Each item ships as its own PR. Checkboxes track progress.
   value controls (Radio, Slider, Range Slider, Number Field, Pin Input, Rating
   Group, Segmented Control, Toggle Button, Toggle Group), then the date and
   time family, then the presentational rest.
-- [ ] **14. React: full catalog** — `packages/react` carries 72 of the 80
-  components in the catalog: Button, Checkbox, Switch, TextField,
-  SearchField, Select, Combobox, MultiSelect, the dialog family (Dialog,
-  Alert Dialog, Confirm Dialog, Prompt Dialog, Sheet Dialog and Search
-  Dialog, batch 1), the overlays and menus (Popover, Tooltip, Dropdown
-  Menu, Context Menu, Menubar and Navigation Menu, batch 2; the menus
-  render submenus, the first adapter to do so), the value controls (Radio,
-  Radio Group, Checkbox Group, Segmented Control, Toggle Button, Toggle
-  Group, Slider, Range Slider, Number Field, Pin Input and Rating Group,
-  batch 3), the date and time family (Calendar, Date Picker, Date Range
-  Picker and Time Field, batch 4), navigation and structure (Tabs,
-  Accordion, Collapsible, Breadcrumb, Pagination, Stepper, Sidebar, Tree
-  View, Button Group and Separator, batch 5), the presentational
-  components (Avatar, Avatar Group, Count, Tag, Kbd, Code, Code Block,
-  Blockquote, Skeleton, Aspect Ratio, Scroll Area, Progress, Meter, Link,
-  Label, Field and Card, batch 6), feedback (Loading, Loading Generation
-  Area, Feedback Icon, Empty State, Error State, Inline Notification,
-  Notification and Notification Region, batch 7), Icon and LocaleProvider.
-  Svelte, Vue and custom elements carry all of them. The
-  remaining components are ported as React components and `use*` hooks over
-  the same core, with the Svelte component as the model for markup, class
-  names, tokens and tests. Batches follow shared shape rather than the
-  alphabet. Each batch ships as its own PR and brings its generated API
-  manifest, docs tab and tests.
-- [ ] **15. Flutter adapter** — runs in parallel with item 14, React: full
+- [x] **14. React: full catalog** — done. `packages/react` carries all 80
+  components in the catalog, like Svelte, Vue and custom elements, plus Icon
+  and LocaleProvider. All batches are merged: Button, Checkbox, Switch,
+  TextField, SearchField, Select, Combobox, MultiSelect, the dialog family
+  (Dialog, Alert Dialog, Confirm Dialog, Prompt Dialog, Sheet Dialog and
+  Search Dialog, batch 1), the overlays and menus (Popover, Tooltip, Dropdown
+  Menu, Context Menu, Menubar and Navigation Menu, batch 2; the menus render
+  submenus, the first adapter to do so), the value controls (Radio, Radio
+  Group, Checkbox Group, Segmented Control, Toggle Button, Toggle Group,
+  Slider, Range Slider, Number Field, Pin Input and Rating Group, batch 3),
+  the date and time family (Calendar, Date Picker, Date Range Picker and Time
+  Field, batch 4), navigation and structure (Tabs, Accordion, Collapsible,
+  Breadcrumb, Pagination, Stepper, Sidebar, Tree View, Button Group and
+  Separator, batch 5), the presentational components (Avatar, Avatar Group,
+  Count, Tag, Kbd, Code, Code Block, Blockquote, Skeleton, Aspect Ratio,
+  Scroll Area, Progress, Meter, Link, Label, Field and Card, batch 6),
+  feedback (Loading, Loading Generation Area, Feedback Icon, Empty State,
+  Error State, Inline Notification, Notification and Notification Region,
+  batch 7), and the data and form organisms (Textarea, Table, Table Set,
+  Toolbar, Carousel, Login Form and Upload Drop Area, batch 8). The
+  components were ported as React components and `use*` hooks over the same
+  core, with the Svelte component as the model for markup, class names,
+  tokens and tests. Every stylesheet is held byte for byte to the Vue and
+  custom element copies, and every public component has server-rendering and
+  hydration coverage.
+- [ ] **15. Flutter adapter** — ran in parallel with item 14, React: full
   catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
   groundwork comes first: `tokens.json` moves to `packages/tokens/`, the
   roles, sizes, focus ring and density move into it, and the menu spec gains

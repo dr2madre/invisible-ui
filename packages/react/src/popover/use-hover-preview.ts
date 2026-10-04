@@ -2,7 +2,7 @@ import { hoverCard as core } from "@design-system/core";
 import { useEffect, useId, useMemo, useRef, useState, type RefObject } from "react";
 import { useControllable } from "../internal/controllable";
 import { useDelayedToggle, type DelayedToggle } from "../internal/delayed-toggle";
-import { attachFloating, type Placement } from "../internal/floating";
+import { useAttachFloating, type Placement } from "../internal/floating";
 import { normalizeProps } from "../normalize";
 
 export interface UseHoverPreviewOptions {
@@ -56,11 +56,7 @@ export function useHoverPreview({
   const triggerRef = useRef<HTMLElement>(null);
   const [card, cardRef] = useState<HTMLElement | null>(null);
 
-  useEffect(() => {
-    const trigger = triggerRef.current;
-    if (!card || !trigger) return;
-    return attachFloating(trigger, card, { placement, offset });
-  }, [card, placement, offset]);
+  useAttachFloating(triggerRef, card, placement, offset);
 
   const { hide } = toggle;
   useEffect(() => {
