@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../choice/choice_item.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
+import 'ambient.dart';
 import 'anchored_layout.dart';
 import 'announce.dart';
 import 'elevation.dart';
@@ -400,7 +401,7 @@ class ListboxChevron extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final reduceMotion = reducedMotion(context);
     return AnimatedRotation(
       turns: open ? 0.5 : 0,
       duration: reduceMotion

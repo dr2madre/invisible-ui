@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../button/button.dart';
+import '../feedback_icon/feedback_icon.dart';
 import '../internal/announce.dart';
-import '../internal/feedback_icon.dart';
 import '../notification/inline_notification.dart' show NotificationStatus;
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
@@ -264,7 +264,7 @@ class _FeedbackStateState extends State<_FeedbackState> {
               widget.icon ??
               FeedbackIcon(
                 status: widget.status,
-                round: true,
+                shape: FeedbackIconShape.round,
                 size: small ? 40 : 56,
               ),
         ),

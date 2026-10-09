@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+// The English `avatarGroup.more`: its one and other forms read the same.
+String _avatarGroupMore(int count) => '$count more';
+
 /// The text the components show or announce.
 ///
 /// The defaults are the English catalog of `core/src/i18n/messages.ts`; each
@@ -67,6 +70,16 @@ class InvisibleMessages {
     this.paginationCurrent = 'current page',
     this.breadcrumbLabel = 'Breadcrumb',
     this.breadcrumbCurrent = 'current page',
+    this.avatarGroupMore = _avatarGroupMore,
+    this.tagRemove = 'Remove',
+    this.codeBlockLabel = 'Code',
+    this.codeBlockLabelLanguage = 'Code: {language}',
+    this.codeBlockSample = 'Code sample',
+    this.codeBlockSampleLanguage = 'Code sample, {language}',
+    this.codeBlockCopy = 'Copy code',
+    this.codeBlockCopyText = 'Copy',
+    this.codeBlockCopiedText = 'Copied',
+    this.codeBlockCopied = 'Copied to clipboard',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -288,6 +301,45 @@ class InvisibleMessages {
   /// `breadcrumb.current`.
   final String breadcrumbCurrent;
 
+  /// The name of an avatar group's "+N" chip, from the number of avatars
+  /// left out. Catalog key `avatarGroup.more`, a plural message: a
+  /// translation is a function that picks the plural form of its language.
+  final String Function(int count) avatarGroupMore;
+
+  /// The name of a tag's remove button. Catalog key `tag.remove`.
+  final String tagRemove;
+
+  /// The name of a code block. Catalog key `codeBlock.label`.
+  final String codeBlockLabel;
+
+  /// The name of a code block with a caption, with `{language}`.
+  /// Catalog key `codeBlock.labelLanguage`.
+  final String codeBlockLabelLanguage;
+
+  /// The name of a code block's scroller. Catalog key
+  /// `codeBlock.sample`.
+  final String codeBlockSample;
+
+  /// The name of a code block's scroller with a caption, with
+  /// `{language}`. Catalog key `codeBlock.sampleLanguage`.
+  final String codeBlockSampleLanguage;
+
+  /// The name of a code block's copy button. Catalog key
+  /// `codeBlock.copy`.
+  final String codeBlockCopy;
+
+  /// The visible text of a code block's copy button. Catalog key
+  /// `codeBlock.copyText`.
+  final String codeBlockCopyText;
+
+  /// The visible text of a code block's copy button after a copy.
+  /// Catalog key `codeBlock.copiedText`.
+  final String codeBlockCopiedText;
+
+  /// Announced after a code block copied its code. Catalog key
+  /// `codeBlock.copied`.
+  final String codeBlockCopied;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -353,6 +405,16 @@ class InvisibleMessages {
     String? paginationCurrent,
     String? breadcrumbLabel,
     String? breadcrumbCurrent,
+    String Function(int count)? avatarGroupMore,
+    String? tagRemove,
+    String? codeBlockLabel,
+    String? codeBlockLabelLanguage,
+    String? codeBlockSample,
+    String? codeBlockSampleLanguage,
+    String? codeBlockCopy,
+    String? codeBlockCopyText,
+    String? codeBlockCopiedText,
+    String? codeBlockCopied,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -423,6 +485,18 @@ class InvisibleMessages {
       paginationCurrent: paginationCurrent ?? this.paginationCurrent,
       breadcrumbLabel: breadcrumbLabel ?? this.breadcrumbLabel,
       breadcrumbCurrent: breadcrumbCurrent ?? this.breadcrumbCurrent,
+      avatarGroupMore: avatarGroupMore ?? this.avatarGroupMore,
+      tagRemove: tagRemove ?? this.tagRemove,
+      codeBlockLabel: codeBlockLabel ?? this.codeBlockLabel,
+      codeBlockLabelLanguage:
+          codeBlockLabelLanguage ?? this.codeBlockLabelLanguage,
+      codeBlockSample: codeBlockSample ?? this.codeBlockSample,
+      codeBlockSampleLanguage:
+          codeBlockSampleLanguage ?? this.codeBlockSampleLanguage,
+      codeBlockCopy: codeBlockCopy ?? this.codeBlockCopy,
+      codeBlockCopyText: codeBlockCopyText ?? this.codeBlockCopyText,
+      codeBlockCopiedText: codeBlockCopiedText ?? this.codeBlockCopiedText,
+      codeBlockCopied: codeBlockCopied ?? this.codeBlockCopied,
     );
   }
 
@@ -484,7 +558,17 @@ class InvisibleMessages {
       other.paginationPage == paginationPage &&
       other.paginationCurrent == paginationCurrent &&
       other.breadcrumbLabel == breadcrumbLabel &&
-      other.breadcrumbCurrent == breadcrumbCurrent;
+      other.breadcrumbCurrent == breadcrumbCurrent &&
+      other.avatarGroupMore == avatarGroupMore &&
+      other.tagRemove == tagRemove &&
+      other.codeBlockLabel == codeBlockLabel &&
+      other.codeBlockLabelLanguage == codeBlockLabelLanguage &&
+      other.codeBlockSample == codeBlockSample &&
+      other.codeBlockSampleLanguage == codeBlockSampleLanguage &&
+      other.codeBlockCopy == codeBlockCopy &&
+      other.codeBlockCopyText == codeBlockCopyText &&
+      other.codeBlockCopiedText == codeBlockCopiedText &&
+      other.codeBlockCopied == codeBlockCopied;
 
   @override
   int get hashCode => Object.hashAll([
@@ -544,5 +628,15 @@ class InvisibleMessages {
     paginationCurrent,
     breadcrumbLabel,
     breadcrumbCurrent,
+    avatarGroupMore,
+    tagRemove,
+    codeBlockLabel,
+    codeBlockLabelLanguage,
+    codeBlockSample,
+    codeBlockSampleLanguage,
+    codeBlockCopy,
+    codeBlockCopyText,
+    codeBlockCopiedText,
+    codeBlockCopied,
   ]);
 }

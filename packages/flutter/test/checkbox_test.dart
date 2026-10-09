@@ -253,8 +253,7 @@ void main() {
     ) async {
       final focus = FocusNode();
       addTearDown(focus.dispose);
-      FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+      useKeyboardHighlight();
       await tester.pumpWidget(
         harness(Checkbox.uncontrolled(label: 'Remember me', focusNode: focus)),
       );

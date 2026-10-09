@@ -136,6 +136,16 @@
       "signature": "asyncContent_deriveAsyncView: typeof deriveAsyncView"
     },
     {
+      "name": "avatar",
+      "kind": "namespace",
+      "signature": "namespace avatar"
+    },
+    {
+      "name": "avatar.initialsOf",
+      "kind": "const",
+      "signature": "avatar_initialsOf: typeof initialsOf"
+    },
+    {
       "name": "button",
       "kind": "namespace",
       "signature": "namespace button"

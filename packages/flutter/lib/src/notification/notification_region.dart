@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+import '../internal/ambient.dart';
 import '../internal/announce.dart';
 import '../internal/elevation.dart';
 import '../theme/theme.dart';
@@ -246,7 +247,7 @@ class _NotificationRegionState extends State<NotificationRegion> {
   @override
   Widget build(BuildContext context) {
     final theme = InvisibleTheme.of(context);
-    final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final reduceMotion = reducedMotion(context);
     final top = switch (widget.placement) {
       NotificationPlacement.topStart ||
       NotificationPlacement.topCenter ||

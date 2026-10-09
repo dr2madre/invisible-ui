@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../button/button.dart';
+import '../feedback_icon/feedback_icon.dart';
 import '../internal/announce.dart';
 import '../internal/close_button.dart';
-import '../internal/feedback_icon.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
 
@@ -240,7 +240,9 @@ class _InlineNotificationState extends State<InlineNotification> {
                   status: widget.status,
                   // A tinted surface has its own colour; the chip shows on
                   // plain and inverted banners only.
-                  chip: widget.plain || widget.inverted,
+                  box: widget.plain || widget.inverted
+                      ? FeedbackIconBox.tint
+                      : FeedbackIconBox.transparent,
                   icon: widget.icon,
                 ),
                 Expanded(child: content),

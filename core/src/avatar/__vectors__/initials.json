@@ -1,0 +1,30 @@
+{
+  "description": "Avatar initials, language-neutral: initialsOf(name) in core/src/avatar/initials.ts. A character is a user-perceived character (a grapheme cluster), never a UTF-16 code unit. Words are split on white space. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "initials": [
+    { "name": "First and last word", "input": "Ada Lovelace", "expect": "AL" },
+    { "name": "Middle names are skipped", "input": "Grace Brewster Murray Hopper", "expect": "GH" },
+    { "name": "One word gives its first two characters", "input": "madonna", "expect": "MA" },
+    { "name": "A one-letter word gives one initial", "input": "Q", "expect": "Q" },
+    { "name": "A blank name", "input": "   ", "expect": "?" },
+    { "name": "An empty name", "input": "", "expect": "?" },
+    {
+      "name": "Surrounding and repeated white space",
+      "input": "  ada \t  lovelace  ",
+      "expect": "AL"
+    },
+    { "name": "Accented letters keep their accent", "input": "élodie ñúñez", "expect": "ÉÑ" },
+    {
+      "name": "A letter with a combining mark is one character",
+      "input": "émile zola",
+      "expect": "ÉZ"
+    },
+    { "name": "An emoji is one character", "input": "😀 Smile", "expect": "😀S" },
+    {
+      "name": "A family emoji joined by zero-width joiners is one character",
+      "input": "👨‍👩‍👧 Family",
+      "expect": "👨‍👩‍👧F"
+    },
+    { "name": "A script without case stays as it is", "input": "محمد علي", "expect": "مع" },
+    { "name": "Ideographs", "input": "山田", "expect": "山田" }
+  ]
+}

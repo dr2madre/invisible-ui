@@ -27,6 +27,18 @@ enum InvisibleDensity {
   };
 }
 
+// The web's `--ds-font-mono` stack, from the stylesheet: the type families
+// are not in tokens.json. The first installed one draws the text.
+const List<String> _monoStack = [
+  'SFMono-Regular',
+  'Menlo',
+  'Monaco',
+  'Consolas',
+  'Liberation Mono',
+  'Courier New',
+  'monospace',
+];
+
 /// The focus indicator: a solid ring and a translucent halo around it.
 @immutable
 class InvisibleFocusRing {
@@ -102,6 +114,7 @@ class InvisibleThemeData {
     this.density = InvisibleDensity.regular,
     Size? minTargetSize,
     this.fontFamily,
+    this.monoFontFamily,
     this.controlRadius = InvisibleRadiusTokens.control,
     this.messages = const InvisibleMessages(),
   }) : _minTargetSize = minTargetSize;
@@ -111,6 +124,7 @@ class InvisibleThemeData {
     InvisibleDensity density = InvisibleDensity.regular,
     Size? minTargetSize,
     String? fontFamily,
+    String? monoFontFamily,
     InvisibleMessages messages = const InvisibleMessages(),
   }) {
     return InvisibleThemeData(
@@ -123,6 +137,7 @@ class InvisibleThemeData {
       density: density,
       minTargetSize: minTargetSize,
       fontFamily: fontFamily,
+      monoFontFamily: monoFontFamily,
       messages: messages,
     );
   }
@@ -134,6 +149,7 @@ class InvisibleThemeData {
     InvisibleDensity density = InvisibleDensity.regular,
     Size? minTargetSize,
     String? fontFamily,
+    String? monoFontFamily,
     InvisibleMessages messages = const InvisibleMessages(),
   }) {
     return InvisibleThemeData(
@@ -146,6 +162,7 @@ class InvisibleThemeData {
       density: density,
       minTargetSize: minTargetSize,
       fontFamily: fontFamily,
+      monoFontFamily: monoFontFamily,
       messages: messages,
     );
   }
@@ -175,6 +192,10 @@ class InvisibleThemeData {
   /// The font family of every component text. Null uses the platform font.
   final String? fontFamily;
 
+  /// The font family of code and keys (Code, CodeBlock, Kbd). Null uses the
+  /// first installed font of the web's monospace stack.
+  final String? monoFontFamily;
+
   /// The corner radius of controls, in logical pixels.
   final double controlRadius;
 
@@ -202,6 +223,15 @@ class InvisibleThemeData {
     height: InvisibleTypographyTokens.lineHeight,
   );
 
+  /// The text style of code and keys: [monoFontFamily], or the web's
+  /// monospace stack (`--ds-font-mono`), at the base size.
+  TextStyle get monoTextStyle => TextStyle(
+    fontFamily: monoFontFamily ?? _monoStack.first,
+    fontFamilyFallback: _monoStack,
+    fontSize: 16,
+    height: InvisibleTypographyTokens.lineHeight,
+  );
+
   /// A copy with the given parts replaced.
   InvisibleThemeData copyWith({
     Brightness? brightness,
@@ -210,6 +240,7 @@ class InvisibleThemeData {
     InvisibleDensity? density,
     Size? minTargetSize,
     String? fontFamily,
+    String? monoFontFamily,
     double? controlRadius,
     InvisibleMessages? messages,
   }) {
@@ -220,6 +251,7 @@ class InvisibleThemeData {
       density: density ?? this.density,
       minTargetSize: minTargetSize ?? _minTargetSize,
       fontFamily: fontFamily ?? this.fontFamily,
+      monoFontFamily: monoFontFamily ?? this.monoFontFamily,
       controlRadius: controlRadius ?? this.controlRadius,
       messages: messages ?? this.messages,
     );
@@ -234,6 +266,7 @@ class InvisibleThemeData {
       other.density == density &&
       other._minTargetSize == _minTargetSize &&
       other.fontFamily == fontFamily &&
+      other.monoFontFamily == monoFontFamily &&
       other.controlRadius == controlRadius &&
       other.messages == messages;
 
@@ -245,6 +278,7 @@ class InvisibleThemeData {
     density,
     _minTargetSize,
     fontFamily,
+    monoFontFamily,
     controlRadius,
     messages,
   );
@@ -269,6 +303,7 @@ class InvisibleTheme extends InheritedWidget {
     InvisibleDensity? density,
     Size? minTargetSize,
     String? fontFamily,
+    String? monoFontFamily,
     double? controlRadius,
     InvisibleMessages? messages,
     required Widget child,
@@ -282,6 +317,7 @@ class InvisibleTheme extends InheritedWidget {
           density: density,
           minTargetSize: minTargetSize,
           fontFamily: fontFamily,
+          monoFontFamily: monoFontFamily,
           controlRadius: controlRadius,
           messages: messages,
         ),

@@ -269,8 +269,7 @@ void main() {
     });
 
     testWidgets('keyboard focus shows the ring on the day', (tester) async {
-      FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+      useKeyboardHighlight();
       await tester.pumpWidget(
         harness(
           SizedBox(

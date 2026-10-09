@@ -437,8 +437,7 @@ void main() {
     });
 
     testWidgets('keyboard focus shows the ring', (tester) async {
-      FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+      useKeyboardHighlight();
       await tester.pumpWidget(harness(_select()));
       await _focusTrigger(tester);
       await tester.pump();

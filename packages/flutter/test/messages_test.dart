@@ -14,6 +14,16 @@ String? _english(String key) {
   return match?.group(1);
 }
 
+/// One plural form of a plural catalog message, such as `one` or `other`.
+String? _plural(String key, String form) {
+  final block = RegExp(
+    '"${RegExp.escape(key)}": \\{(.*?)\\n\\s*\\}',
+    dotAll: true,
+  ).firstMatch(_catalog.readAsStringSync())?.group(1);
+  if (block == null) return null;
+  return RegExp('$form: "([^"]*)"').firstMatch(block)?.group(1);
+}
+
 void main() {
   test(
     'the English defaults match the shared catalog',
@@ -111,6 +121,33 @@ void main() {
       expect(messages.paginationCurrent, _english('pagination.current'));
       expect(messages.breadcrumbLabel, _english('breadcrumb.label'));
       expect(messages.breadcrumbCurrent, _english('breadcrumb.current'));
+      expect(
+        messages.avatarGroupMore(1),
+        InvisibleMessages.fill(_plural('avatarGroup.more', 'one')!, {
+          'count': '1',
+        }),
+      );
+      expect(
+        messages.avatarGroupMore(5),
+        InvisibleMessages.fill(_plural('avatarGroup.more', 'other')!, {
+          'count': '5',
+        }),
+      );
+      expect(messages.tagRemove, _english('tag.remove'));
+      expect(messages.codeBlockLabel, _english('codeBlock.label'));
+      expect(
+        messages.codeBlockLabelLanguage,
+        _english('codeBlock.labelLanguage'),
+      );
+      expect(messages.codeBlockSample, _english('codeBlock.sample'));
+      expect(
+        messages.codeBlockSampleLanguage,
+        _english('codeBlock.sampleLanguage'),
+      );
+      expect(messages.codeBlockCopy, _english('codeBlock.copy'));
+      expect(messages.codeBlockCopyText, _english('codeBlock.copyText'));
+      expect(messages.codeBlockCopiedText, _english('codeBlock.copiedText'));
+      expect(messages.codeBlockCopied, _english('codeBlock.copied'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );

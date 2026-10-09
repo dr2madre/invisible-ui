@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import '../internal/ambient.dart';
 import '../internal/glyphs.dart';
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
@@ -154,7 +155,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   void _syncMotion() {
     final still =
         !_visible ||
-        (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ||
+        reducedMotion(context) ||
         _determinate ||
         // The spinner glyph turns by itself.
         widget.variant == LoadingVariant.spinner;
@@ -182,7 +183,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     final color = ambient.color ?? theme.colors.text;
     final fontSize = ambient.fontSize ?? theme.textStyle.fontSize!;
     final em = MediaQuery.textScalerOf(context).scale(fontSize);
-    final still = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final still = reducedMotion(context);
     final label = widget.label ?? theme.messages.loadingLabel;
     final value = widget.value?.clamp(0, 100).toDouble();
     final bar = widget.variant == LoadingVariant.bar;

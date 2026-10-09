@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../theme/theme.dart';
+import 'ambient.dart';
 import 'focus_ring.dart';
 import 'glyphs.dart';
 import 'pressable.dart';
@@ -70,7 +71,7 @@ class DisclosureTrigger extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final enabled = onToggle != null;
-    final still = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final still = reducedMotion(context);
     return Semantics(
       container: true,
       button: true,

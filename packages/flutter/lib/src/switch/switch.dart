@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../internal/ambient.dart';
 import '../internal/toggle_tile.dart';
 import '../internal/value_control.dart';
 import '../theme/theme.dart';
@@ -208,7 +209,7 @@ class _Track extends StatelessWidget {
     );
     final inset = indicatorSide(context, _thumbInset);
     final thumb = height - inset * 2;
-    final duration = MediaQuery.maybeDisableAnimationsOf(context) ?? false
+    final duration = reducedMotion(context)
         ? Duration.zero
         : const Duration(milliseconds: 150);
 

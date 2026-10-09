@@ -228,8 +228,7 @@ void main() {
       'touch; text scale 2.0 grows the track', (tester) async {
     final focus = FocusNode();
     addTearDown(focus.dispose);
-    FocusManager.instance.highlightStrategy =
-        FocusHighlightStrategy.alwaysTraditional;
+    useKeyboardHighlight();
     await tester.pumpWidget(
       harness(
         SizedBox(
