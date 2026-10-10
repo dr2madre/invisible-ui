@@ -19,6 +19,7 @@ export 'src/code/code.dart' show Code;
 export 'src/code_block/code_block.dart' show CodeBlock;
 export 'src/collapsible/collapsible.dart' show Collapsible;
 export 'src/combobox/combobox.dart' show ChoiceFilter, Combobox;
+export 'src/context_menu/context_menu.dart' show ContextMenu;
 export 'src/count/count.dart' show Count;
 export 'src/date_picker/date_picker.dart' show DatePicker, DateRangePicker;
 export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
@@ -37,7 +38,15 @@ export 'src/label/label.dart' show Label;
 export 'src/link/link.dart' show Link, LinkVariant;
 export 'src/loading/loading.dart' show Loading, LoadingVariant;
 export 'src/menu/menu_entry.dart';
+export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
+export 'src/navigation_menu/navigation_menu.dart'
+    show
+        NavigationMenu,
+        NavigationMenuItem,
+        NavigationMenuLink,
+        NavigationMenuPanel,
+        NavigationMenuTopLink;
 export 'src/notification/inline_notification.dart'
     show
         InlineNotification,
@@ -61,6 +70,8 @@ export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;
 export 'src/segmented_control/segmented_control.dart' show SegmentedControl;
 export 'src/select/select.dart' show Select;
+export 'src/sidebar/sidebar.dart' show Sidebar;
+export 'src/sidebar/sidebar_item.dart' show SidebarItem, SidebarSection;
 export 'src/skeleton/skeleton.dart'
     show Skeleton, SkeletonAnimation, SkeletonVariant;
 export 'src/switch/switch.dart' show Switch;
@@ -73,3 +84,4 @@ export 'src/time_field/time_logic.dart' show TimeFieldError, TimeInputStatus;
 export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;
+export 'src/tree_view/tree_view.dart' show TreeLoadRequest, TreeNode, TreeView;
