@@ -148,6 +148,20 @@ void main() {
       expect(messages.codeBlockCopyText, _english('codeBlock.copyText'));
       expect(messages.codeBlockCopiedText, _english('codeBlock.copiedText'));
       expect(messages.codeBlockCopied, _english('codeBlock.copied'));
+      expect(messages.rangeSliderLowerText, _english('rangeSlider.lowerText'));
+      expect(messages.rangeSliderUpperText, _english('rangeSlider.upperText'));
+      for (final (count, form) in [(1, 'one'), (4, 'other')]) {
+        expect(
+          messages.ratingStars(count),
+          InvisibleMessages.fill(_plural('rating.stars', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
+      expect(messages.pinInputCell, _english('pinInput.cell'));
+      expect(messages.stepperLabel, _english('stepper.label'));
+      expect(messages.stepperCompleted, _english('stepper.completed'));
+      expect(messages.stepperCurrent, _english('stepper.current'));
     },
     skip: _catalog.existsSync() ? false : 'core/ is not in this checkout',
   );
