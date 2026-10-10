@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 // The English `avatarGroup.more`: its one and other forms read the same.
 String _avatarGroupMore(int count) => '$count more';
 
+// The English `rating.stars`.
+String _ratingStars(int count) => count == 1 ? '$count star' : '$count stars';
+
 /// The text the components show or announce.
 ///
 /// The defaults are the English catalog of `core/src/i18n/messages.ts`; each
@@ -80,6 +83,13 @@ class InvisibleMessages {
     this.codeBlockCopyText = 'Copy',
     this.codeBlockCopiedText = 'Copied',
     this.codeBlockCopied = 'Copied to clipboard',
+    this.rangeSliderLowerText = '{value}, minimum; may not exceed {bound}',
+    this.rangeSliderUpperText = '{value}, maximum; may not go below {bound}',
+    this.ratingStars = _ratingStars,
+    this.pinInputCell = 'Character {index} of {length}',
+    this.stepperLabel = 'Progress',
+    this.stepperCompleted = 'Completed',
+    this.stepperCurrent = 'current step',
   });
 
   /// Announced while a control is busy. Catalog key `loading.label`.
@@ -340,6 +350,31 @@ class InvisibleMessages {
   /// `codeBlock.copied`.
   final String codeBlockCopied;
 
+  /// The value text of a range slider's lower thumb, with `{value}` and the
+  /// `{bound}` it may not pass. Catalog key `rangeSlider.lowerText`.
+  final String rangeSliderLowerText;
+
+  /// The value text of a range slider's upper thumb, with `{value}` and the
+  /// `{bound}` it may not pass. Catalog key `rangeSlider.upperText`.
+  final String rangeSliderUpperText;
+
+  /// The name of a rating star, a function of its count, so a translation
+  /// picks its own plural forms. Catalog key `rating.stars`.
+  final String Function(int count) ratingStars;
+
+  /// The name of a PIN input cell, with `{index}` and `{length}`. Catalog
+  /// key `pinInput.cell`.
+  final String pinInputCell;
+
+  /// The default name of a stepper. Catalog key `stepper.label`.
+  final String stepperLabel;
+
+  /// Read after a completed step's label. Catalog key `stepper.completed`.
+  final String stepperCompleted;
+
+  /// Read with the current step. Catalog key `stepper.current`.
+  final String stepperCurrent;
+
   /// [message] with each `{name}` placeholder replaced from [values].
   static String fill(String message, Map<String, String> values) =>
       message.replaceAllMapped(
@@ -415,6 +450,13 @@ class InvisibleMessages {
     String? codeBlockCopyText,
     String? codeBlockCopiedText,
     String? codeBlockCopied,
+    String? rangeSliderLowerText,
+    String? rangeSliderUpperText,
+    String Function(int count)? ratingStars,
+    String? pinInputCell,
+    String? stepperLabel,
+    String? stepperCompleted,
+    String? stepperCurrent,
   }) {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
@@ -497,6 +539,13 @@ class InvisibleMessages {
       codeBlockCopyText: codeBlockCopyText ?? this.codeBlockCopyText,
       codeBlockCopiedText: codeBlockCopiedText ?? this.codeBlockCopiedText,
       codeBlockCopied: codeBlockCopied ?? this.codeBlockCopied,
+      rangeSliderLowerText: rangeSliderLowerText ?? this.rangeSliderLowerText,
+      rangeSliderUpperText: rangeSliderUpperText ?? this.rangeSliderUpperText,
+      ratingStars: ratingStars ?? this.ratingStars,
+      pinInputCell: pinInputCell ?? this.pinInputCell,
+      stepperLabel: stepperLabel ?? this.stepperLabel,
+      stepperCompleted: stepperCompleted ?? this.stepperCompleted,
+      stepperCurrent: stepperCurrent ?? this.stepperCurrent,
     );
   }
 
@@ -568,7 +617,14 @@ class InvisibleMessages {
       other.codeBlockCopy == codeBlockCopy &&
       other.codeBlockCopyText == codeBlockCopyText &&
       other.codeBlockCopiedText == codeBlockCopiedText &&
-      other.codeBlockCopied == codeBlockCopied;
+      other.codeBlockCopied == codeBlockCopied &&
+      other.rangeSliderLowerText == rangeSliderLowerText &&
+      other.rangeSliderUpperText == rangeSliderUpperText &&
+      other.ratingStars == ratingStars &&
+      other.pinInputCell == pinInputCell &&
+      other.stepperLabel == stepperLabel &&
+      other.stepperCompleted == stepperCompleted &&
+      other.stepperCurrent == stepperCurrent;
 
   @override
   int get hashCode => Object.hashAll([
@@ -638,5 +694,12 @@ class InvisibleMessages {
     codeBlockCopyText,
     codeBlockCopiedText,
     codeBlockCopied,
+    rangeSliderLowerText,
+    rangeSliderUpperText,
+    ratingStars,
+    pinInputCell,
+    stepperLabel,
+    stepperCompleted,
+    stepperCurrent,
   ]);
 }

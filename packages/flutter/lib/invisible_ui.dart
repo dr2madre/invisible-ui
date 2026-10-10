@@ -9,6 +9,7 @@ export 'src/avatar/avatar_group.dart' show AvatarGroup, AvatarGroupItem;
 export 'src/blockquote/blockquote.dart' show Blockquote;
 export 'src/breadcrumb/breadcrumb.dart' show Breadcrumb, BreadcrumbItem;
 export 'src/button/button.dart' show Button, ButtonVariant;
+export 'src/button_group/button_group.dart' show ButtonGroup;
 export 'src/calendar/calendar.dart' show Calendar, CalendarView;
 export 'src/calendar/calendar_date.dart' show DateRange;
 export 'src/calendar/date_symbols.dart' show DateSymbols;
@@ -53,16 +54,23 @@ export 'src/number_field/number_field.dart' show NumberField, NumberFieldState;
 export 'src/number_field/number_format.dart'
     show NumberFieldError, NumberInputStatus, NumberParseResult, NumberSymbols;
 export 'src/pagination/pagination.dart' show Pagination;
+export 'src/pin_input/pin_input.dart' show PinInput, PinInputType;
 export 'src/popover/popover.dart'
     show Popover, PopoverController, PopoverPlacement;
 export 'src/progress/progress.dart' show Progress, ProgressShape;
+export 'src/radio/radio.dart' show Radio;
 export 'src/radio_group/radio_group.dart' show RadioButtonGroup;
+export 'src/rating_group/rating_group.dart' show RatingGroup;
 export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;
 export 'src/segmented_control/segmented_control.dart' show SegmentedControl;
 export 'src/select/select.dart' show Select;
+export 'src/separator/separator.dart' show Separator;
 export 'src/skeleton/skeleton.dart'
     show Skeleton, SkeletonAnimation, SkeletonVariant;
+export 'src/slider/range_slider.dart' show RangeSlider;
+export 'src/slider/slider.dart' show Slider;
+export 'src/stepper/stepper.dart' show StepItem, Stepper;
 export 'src/switch/switch.dart' show Switch;
 export 'src/tabs/tabs.dart' show TabActivationMode, TabItem, Tabs;
 export 'src/tag/tag.dart' show Tag, TagSize, TagStatus, TagVariant;
@@ -70,6 +78,9 @@ export 'src/text_field/text_field.dart' show TextField, Textarea;
 export 'src/theme/theme.dart';
 export 'src/time_field/time_field.dart' show TimeField;
 export 'src/time_field/time_logic.dart' show TimeFieldError, TimeInputStatus;
+export 'src/toggle_button/toggle_button.dart' show ToggleButton;
+export 'src/toggle_group/toggle_group.dart'
+    show ToggleGroup, ToggleGroupVariant;
 export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;

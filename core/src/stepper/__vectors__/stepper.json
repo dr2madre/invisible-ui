@@ -1,0 +1,77 @@
+{
+  "description": "Stepper progress, language-neutral: for initialState({ count, current, linear, disabled }) in core/src/stepper/state.ts, current is the clamped step, status lists stepStatus for each index and reachable lists canGoTo for each index. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "steps": [
+    {
+      "name": "Linear, at the start",
+      "count": 4,
+      "current": 0,
+      "linear": true,
+      "disabled": false,
+      "expect": {
+        "current": 0,
+        "status": ["current", "upcoming", "upcoming", "upcoming"],
+        "reachable": [true, false, false, false]
+      }
+    },
+    {
+      "name": "Linear, in the middle",
+      "count": 4,
+      "current": 2,
+      "linear": true,
+      "disabled": false,
+      "expect": {
+        "current": 2,
+        "status": ["complete", "complete", "current", "upcoming"],
+        "reachable": [true, true, true, false]
+      }
+    },
+    {
+      "name": "Non-linear, in the middle",
+      "count": 4,
+      "current": 2,
+      "linear": false,
+      "disabled": false,
+      "expect": {
+        "current": 2,
+        "status": ["complete", "complete", "current", "upcoming"],
+        "reachable": [true, true, true, true]
+      }
+    },
+    {
+      "name": "A current step past the end clamps to the last",
+      "count": 4,
+      "current": 9,
+      "linear": true,
+      "disabled": false,
+      "expect": {
+        "current": 3,
+        "status": ["complete", "complete", "complete", "current"],
+        "reachable": [true, true, true, true]
+      }
+    },
+    {
+      "name": "A negative current step clamps to the first",
+      "count": 4,
+      "current": -2,
+      "linear": true,
+      "disabled": false,
+      "expect": {
+        "current": 0,
+        "status": ["current", "upcoming", "upcoming", "upcoming"],
+        "reachable": [true, false, false, false]
+      }
+    },
+    {
+      "name": "Disabled reaches nothing",
+      "count": 4,
+      "current": 1,
+      "linear": false,
+      "disabled": true,
+      "expect": {
+        "current": 1,
+        "status": ["complete", "current", "upcoming", "upcoming"],
+        "reachable": [false, false, false, false]
+      }
+    }
+  ]
+}

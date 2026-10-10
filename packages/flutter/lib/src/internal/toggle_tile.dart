@@ -10,8 +10,9 @@ const double _gap = 8;
 const double _disabledOpacity = 0.5;
 
 /// A painted indicator and its label, activated as a whole: the shared body
-/// of [Checkbox], [Switch], and the items of [CheckboxGroup] and [RadioButtonGroup],
-/// as the web wraps the native input and its text in one `<label>`.
+/// of [Checkbox], [Switch], [Radio], the items of [CheckboxGroup] and
+/// [RadioButtonGroup], and the stars of [RatingGroup], as the web wraps the
+/// native input and its text in one `<label>`.
 ///
 /// A tap anywhere on the row or Space activates it; Enter does not, as on a
 /// native checkbox. The focus ring is drawn around the indicator. The row is

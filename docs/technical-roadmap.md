@@ -172,9 +172,14 @@ Each item ships as its own PR. Checkboxes track progress.
   components: Avatar, Avatar Group, Count, Tag (with its remove button),
   Kbd, Label, Feedback Icon (now public), Skeleton, Code, Code Block (copy
   through Flutter's `Clipboard`, announced) and Blockquote, and Scroll Area,
-  each with its parity checklist in `packages/flutter/parity/`, and the
-  `flutter.yml` workflow. Aspect Ratio is not ported: the widgets library
-  has its own `AspectRatio`, recorded in `parity/aspect-ratio.md`.
+  then the value controls: Slider and Range Slider (the native range keys,
+  mirrored right to left, with an end-of-gesture callback), Rating Group,
+  Pin Input (paste and one-time code autofill spread over the cells), Radio
+  (grouped by name), Toggle Button, Toggle Group, Button Group, Stepper and
+  Separator, each with its parity checklist in `packages/flutter/parity/`,
+  and the `flutter.yml` workflow. Aspect Ratio and Icon are not ported: the
+  widgets library has its own `AspectRatio` and `Icon`, recorded in
+  `parity/aspect-ratio.md` and `parity/icon.md`.
   The number
   field's logic answers the shared test vectors in
   `core/src/number-field/__vectors__`, the select typeahead and collection
@@ -186,7 +191,9 @@ Each item ships as its own PR. Checkboxes track progress.
   progress and meter readings those in `core/src/tabs`, `accordion`,
   `pagination`, `progress` and `meter`, and the avatar initials those in
   `core/src/avatar`, where the initials logic the four web adapters shared
-  as copies now lives, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
+  as copies now lives, and the slider, range slider, stepper and PIN input
+  values those in `core/src/slider`, `range-slider`, `stepper` and
+  `pin-input`, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
   follows it, Card, Collapsible and Timelog's dialogs, forms, pickers and
   Date Picker are in; the rest of wave 2 (the navigation bar) and the specs
   for the section header and the colour swatch are next.

@@ -17,7 +17,9 @@ RadioButtonGroup, SegmentedControl, Select, Combobox), the dates
 navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link),
 the value displays (Progress, Meter) and the display components (Avatar,
 AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
-CodeBlock, Blockquote, ScrollArea). Names and APIs can still change. It is not published to pub.dev.
+CodeBlock, Blockquote, ScrollArea) and the value controls (Slider,
+RangeSlider, RatingGroup, PinInput, Radio, ToggleButton, ToggleGroup,
+ButtonGroup, Stepper, Separator). Names and APIs can still change. It is not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -176,7 +178,18 @@ NumberField(
 | CodeBlock | Matched, with adaptations listed | [parity/code-block.md](parity/code-block.md) | [Code Block](https://dr2madre.github.io/invisible-ui/components/formatting-display/code-block/) |
 | Blockquote | Matched, with adaptations listed | [parity/blockquote.md](parity/blockquote.md) | [Blockquote](https://dr2madre.github.io/invisible-ui/components/formatting-display/blockquote/) |
 | ScrollArea | Matched, with adaptations listed | [parity/scroll-area.md](parity/scroll-area.md) | [Scroll Area](https://dr2madre.github.io/invisible-ui/components/navigation/scroll-area/) |
+| Slider | Matched, with adaptations listed | [parity/slider.md](parity/slider.md) | [Slider](https://dr2madre.github.io/invisible-ui/components/forms/slider/) |
+| RangeSlider | Matched, with adaptations listed | [parity/range-slider.md](parity/range-slider.md) | [Range Slider](https://dr2madre.github.io/invisible-ui/components/forms/range-slider/) |
+| RatingGroup | Matched, with adaptations listed | [parity/rating-group.md](parity/rating-group.md) | [Rating Group](https://dr2madre.github.io/invisible-ui/components/forms/rating-group/) |
+| PinInput | Matched, with adaptations listed | [parity/pin-input.md](parity/pin-input.md) | [Pin Input](https://dr2madre.github.io/invisible-ui/components/forms/pin-input/) |
+| Radio | Matched, with adaptations listed | [parity/radio.md](parity/radio.md) | [Radio](https://dr2madre.github.io/invisible-ui/components/forms/radio/) |
+| ToggleButton | Matched, with adaptations listed | [parity/toggle-button.md](parity/toggle-button.md) | [Toggle Button](https://dr2madre.github.io/invisible-ui/components/forms/toggle-button/) |
+| ToggleGroup | Matched, with adaptations listed | [parity/toggle-group.md](parity/toggle-group.md) | [Toggle Group](https://dr2madre.github.io/invisible-ui/components/forms/toggle-group/) |
+| ButtonGroup | Matched, with adaptations listed | [parity/button-group.md](parity/button-group.md) | [Button Group](https://dr2madre.github.io/invisible-ui/components/forms/button-group/) |
+| Stepper | Matched, with adaptations listed | [parity/stepper.md](parity/stepper.md) | [Stepper](https://dr2madre.github.io/invisible-ui/components/patterns/stepper/) |
+| Separator | Matched, with adaptations listed | [parity/separator.md](parity/separator.md) | [Separator](https://dr2madre.github.io/invisible-ui/components/formatting-display/separator/) |
 | AspectRatio | Not ported: the widgets library has its own `AspectRatio` | [parity/aspect-ratio.md](parity/aspect-ratio.md) | [Aspect Ratio](https://dr2madre.github.io/invisible-ui/components/formatting-display/aspect-ratio/) |
+| Icon | Not ported: the widgets library has its own `Icon` | [parity/icon.md](parity/icon.md) | [Icon](https://dr2madre.github.io/invisible-ui/components/formatting-display/icon/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -194,8 +207,10 @@ time field the parsing, bound and key sequence vectors in
 `core/src/time-field/__vectors__`, and Tabs, Accordion, Pagination,
 Progress and Meter the keyboard, toggle, page list and reading vectors in
 `core/src/tabs`, `accordion`, `pagination`, `progress` and `meter`, and the
-avatar initials the vectors in `core/src/avatar`, which the `core/` tests
-run too.
+avatar initials the vectors in `core/src/avatar`, the sliders, the stepper
+and the PIN input the value, progress and cell vectors in
+`core/src/slider`, `range-slider`, `stepper` and `pin-input`, which the
+`core/` tests run too.
 
 The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
 Combobox) need an `Overlay` above them, as
@@ -381,8 +396,53 @@ CodeBlock(code: snippet, language: 'Dart') // a copy button, announced
 - **AspectRatio** is the widgets library's own; see
   [parity/aspect-ratio.md](parity/aspect-ratio.md).
 
+### Values
+
+```dart
+Slider(
+  label: 'Volume',
+  value: volume,
+  step: 5,
+  format: (v) => '${v.round()}%', // the shown and announced text
+  onChanged: (next) => setState(() => volume = next), // while it moves
+  onChangeEnd: save, // once per drag, tap or key
+)
+
+PinInput(
+  label: 'Verification code',
+  value: code,
+  onChanged: (next) => setState(() => code = next),
+  onCompleted: verify, // every cell filled
+)
+```
+
+- **Forms.** Each has a controlled constructor and an `.uncontrolled` one,
+  and joins an enclosing `Form` with `onSaved` and a silent reset. As on the
+  web, they show no error message of their own: the app shows one beside
+  them. `Radio` holds no value; `RadioButtonGroup` does.
+- **Sliders.** `Slider` and `RangeSlider` take the keys of a native range
+  input: arrows, Page Up and Page Down, Home and End, mirrored right to
+  left. A `RangeSlider` value is a `(double, double)` pair whose thumbs
+  never cross and keep `minDistance`; each thumb announces the bound it may
+  not pass. `label` and `thumbLabels` name them without showing.
+- **Choices.** `RatingGroup` is a radio group of stars. `Radio` is one
+  radio button for a group the app lays out: radios with the same `name`
+  form a group with one tab stop and arrow keys, the parent holding
+  `groupValue`. `ToggleButton` is an on and off button, announced as
+  checked, as on the web; `ToggleGroup` lays out toggles, separate or
+  joined, and keeps no state.
+- **PinInput.** One cell per character, moving on as the user types; a
+  paste or a code the platform fills in spreads over the cells, and the
+  first cell carries the one-time code autofill hint. `obscureText` hides
+  the characters; the widget never logs the code.
+- **Groups and steps.** `ButtonGroup` names a set of action buttons and
+  joins them into one bar when `attached`. `Stepper` shows the steps of a
+  task; in linear mode only the current and completed steps can be chosen,
+  and a narrow stepper stacks its steps.
+- **Icon** is the widgets library's own; see [parity/icon.md](parity/icon.md).
+
 An app that also imports Material hides its widgets of the same name:
-`import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Switch, TextField, Tooltip;`.
+`import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Radio, RangeSlider, Slider, Stepper, Switch, TextField, Tooltip;`.
 
 ## Tokens
 

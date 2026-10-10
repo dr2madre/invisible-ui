@@ -141,6 +141,9 @@ export const en = {
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
+  // Read with the current step on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "stepper.current": "current step",
   "tree.loading": "Loading {name}…",
   "tree.loadError": "Could not load {name}. Press Right Arrow to retry.",
   "carousel.previous": "Previous slide",
