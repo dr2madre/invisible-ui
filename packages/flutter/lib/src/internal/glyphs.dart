@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import 'ambient.dart';
+
 /// The size and colour of a glyph, from the surrounding [IconTheme], scaled
 /// with the text when the theme asks for it.
 ({double size, Color color}) _glyphStyle(BuildContext context) {
@@ -331,7 +333,7 @@ class _SpinnerState extends State<Spinner> with SingleTickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (MediaQuery.maybeDisableAnimationsOf(context) ?? false) {
+    if (reducedMotion(context)) {
       _turns.stop();
     } else if (!_turns.isAnimating) {
       _turns.repeat();

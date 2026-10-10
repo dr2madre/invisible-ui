@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../internal/ambient.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
 import '../theme/theme.dart';
@@ -182,7 +183,7 @@ class _ButtonState extends State<Button> {
     );
 
     final radius = theme.controlRadius;
-    final duration = MediaQuery.maybeDisableAnimationsOf(context) ?? false
+    final duration = reducedMotion(context)
         ? Duration.zero
         : const Duration(milliseconds: 120);
     final target = theme.minTargetSize;

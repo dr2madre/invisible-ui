@@ -84,6 +84,24 @@ void main() {
       expect(InvisibleThemeData.light().textStyle.fontFamily, isNull);
     });
 
+    test('code takes the monospace family, or the web monospace stack', () {
+      final stack = InvisibleThemeData.light().monoTextStyle;
+      expect(stack.fontFamily, 'SFMono-Regular');
+      expect(stack.fontFamilyFallback, [
+        'SFMono-Regular',
+        'Menlo',
+        'Monaco',
+        'Consolas',
+        'Liberation Mono',
+        'Courier New',
+        'monospace',
+      ]);
+      final chosen = InvisibleThemeData.dark(monoFontFamily: 'JetBrains Mono');
+      expect(chosen.monoTextStyle.fontFamily, 'JetBrains Mono');
+      expect(chosen.copyWith().monoFontFamily, 'JetBrains Mono');
+      expect(chosen, isNot(InvisibleThemeData.dark()));
+    });
+
     test('copyWith replaces only what it is given; equality is by value', () {
       final theme = InvisibleThemeData.light();
       expect(theme.copyWith(), theme);
@@ -145,6 +163,7 @@ void main() {
           InvisibleTheme.merge(
             density: InvisibleDensity.touch,
             fontFamily: 'Inter',
+            monoFontFamily: 'Code Mono',
             child: Builder(
               builder: (context) {
                 seen = InvisibleTheme.of(context);
@@ -160,6 +179,7 @@ void main() {
       expect(seen.density, InvisibleDensity.touch);
       expect(seen.minTargetSize, const Size(44, 44));
       expect(seen.fontFamily, 'Inter');
+      expect(seen.monoFontFamily, 'Code Mono');
     });
 
     test('dependants rebuild only when the data changes', () {

@@ -14,8 +14,10 @@ EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
 ConfirmDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
 RadioButtonGroup, SegmentedControl, Select, Combobox), the dates
 (Calendar, DatePicker, DateRangePicker, TimeField), the disclosures and
-navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link) and
-the value displays (Progress, Meter). Names and APIs can still change. It is not published to pub.dev.
+navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link),
+the value displays (Progress, Meter) and the display components (Avatar,
+AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
+CodeBlock, Blockquote, ScrollArea). Names and APIs can still change. It is not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
@@ -162,6 +164,19 @@ NumberField(
 | Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
 | Progress | Matched, with adaptations listed | [parity/progress.md](parity/progress.md) | [Progress](https://dr2madre.github.io/invisible-ui/components/data-layout/progress/) |
 | Meter | Matched, with adaptations listed | [parity/meter.md](parity/meter.md) | [Meter](https://dr2madre.github.io/invisible-ui/components/data-layout/meter/) |
+| Avatar | Matched, with adaptations listed | [parity/avatar.md](parity/avatar.md) | [Avatar](https://dr2madre.github.io/invisible-ui/components/data-layout/avatar/) |
+| AvatarGroup | Matched, with adaptations listed | [parity/avatar-group.md](parity/avatar-group.md) | [Avatar Group](https://dr2madre.github.io/invisible-ui/components/data-layout/avatar-group/) |
+| Count | Matched, with adaptations listed | [parity/count.md](parity/count.md) | [Count](https://dr2madre.github.io/invisible-ui/components/feedback/count/) |
+| Tag | Matched, with adaptations listed | [parity/tag.md](parity/tag.md) | [Tag](https://dr2madre.github.io/invisible-ui/components/feedback/tag/) |
+| Kbd | Matched, with adaptations listed | [parity/kbd.md](parity/kbd.md) | [Kbd](https://dr2madre.github.io/invisible-ui/components/navigation/kbd/) |
+| Label | Matched, with adaptations listed | [parity/label.md](parity/label.md) | [Label](https://dr2madre.github.io/invisible-ui/components/forms/label/) |
+| FeedbackIcon | Matched, with adaptations listed | [parity/feedback-icon.md](parity/feedback-icon.md) | [Feedback Icon](https://dr2madre.github.io/invisible-ui/components/feedback/feedback-icon/) |
+| Skeleton | Matched, with adaptations listed | [parity/skeleton.md](parity/skeleton.md) | [Skeleton](https://dr2madre.github.io/invisible-ui/components/feedback/skeleton/) |
+| Code | Matched, with adaptations listed | [parity/code.md](parity/code.md) | [Code](https://dr2madre.github.io/invisible-ui/components/formatting-display/code/) |
+| CodeBlock | Matched, with adaptations listed | [parity/code-block.md](parity/code-block.md) | [Code Block](https://dr2madre.github.io/invisible-ui/components/formatting-display/code-block/) |
+| Blockquote | Matched, with adaptations listed | [parity/blockquote.md](parity/blockquote.md) | [Blockquote](https://dr2madre.github.io/invisible-ui/components/formatting-display/blockquote/) |
+| ScrollArea | Matched, with adaptations listed | [parity/scroll-area.md](parity/scroll-area.md) | [Scroll Area](https://dr2madre.github.io/invisible-ui/components/navigation/scroll-area/) |
+| AspectRatio | Not ported: the widgets library has its own `AspectRatio` | [parity/aspect-ratio.md](parity/aspect-ratio.md) | [Aspect Ratio](https://dr2madre.github.io/invisible-ui/components/formatting-display/aspect-ratio/) |
 
 Each checklist compares the Flutter widget with the Svelte reference, line
 by line, and names the reference commit it was checked against. The number
@@ -178,8 +193,9 @@ bound, range and name vectors in `core/src/calendar/__vectors__`, the
 time field the parsing, bound and key sequence vectors in
 `core/src/time-field/__vectors__`, and Tabs, Accordion, Pagination,
 Progress and Meter the keyboard, toggle, page list and reading vectors in
-`core/src/tabs`, `accordion`, `pagination`, `progress` and `meter`, which
-the `core/` tests run too.
+`core/src/tabs`, `accordion`, `pagination`, `progress` and `meter`, and the
+avatar initials the vectors in `core/src/avatar`, which the `core/` tests
+run too.
 
 The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
 Combobox) need an `Overlay` above them, as
@@ -333,6 +349,37 @@ Breadcrumb(
   unknown length is waiting, which `Loading(variant: LoadingVariant.bar)`
   shows. `Meter` colours its fill by how good the value is, given
   `optimum`.
+
+### Display
+
+```dart
+Tag(
+  status: TagStatus.selected,
+  onRemoved: () => removeFilter('design'), // shows the remove button
+  removeLabel: 'Remove Design',
+  child: const Text('Design'),
+)
+
+CodeBlock(code: snippet, language: 'Dart') // a copy button, announced
+```
+
+- **Avatars.** `Avatar(name:, image:)` shows the photo, or the initials
+  while it loads and when it fails; the whole avatar is one image named
+  `name`. `AvatarGroup` folds the people past `max` into a "+N" chip, named
+  by `InvisibleMessages.avatarGroupMore`, a function of the count, so a
+  translation picks its own plural forms.
+- **Counts and tags.** `Count` is a live region named by `semanticLabel`
+  ("3 unread messages"); a tag's meaning is its text. The colour of either
+  adds to the text and never replaces it.
+- **Code.** `Code` and `CodeBlock` show their text as text, in
+  `InvisibleThemeData.monoFontFamily` or the web's monospace stack.
+  `CodeBlock` copies through Flutter's `Clipboard`.
+- **Skeleton.** Hidden from assistive technology unless it has a
+  `semanticLabel`; still under reduced motion.
+- **ScrollArea.** A focusable viewport with the theme's scroll bars; the
+  keyboard scrolls it while it has focus.
+- **AspectRatio** is the widgets library's own; see
+  [parity/aspect-ratio.md](parity/aspect-ratio.md).
 
 An app that also imports Material hides its widgets of the same name:
 `import 'package:flutter/material.dart' hide AlertDialog, Card, Checkbox, Dialog, DropdownMenu, Switch, TextField, Tooltip;`.

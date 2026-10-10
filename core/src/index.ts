@@ -17,6 +17,7 @@ export * as collapsible from "./collapsible";
 export * as progress from "./progress";
 export * as meter from "./meter";
 export * as label from "./label";
+export * as avatar from "./avatar";
 export * as field from "./field";
 export * as slider from "./slider";
 export * as rangeSlider from "./range-slider";

@@ -6,6 +6,7 @@ import 'dart:ui' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 
 import '../choice/choice_item.dart';
+import '../internal/ambient.dart';
 import '../internal/collection.dart';
 import '../internal/focus_ring.dart';
 import '../internal/pressable.dart';
@@ -316,7 +317,7 @@ class _Tab<T> extends StatelessWidget {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final enabled = !item.disabled;
-    final still = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final still = reducedMotion(context);
     final count = item.count;
     final iconOnly = item.iconOnly && item.icon != null;
     final name = count == null ? item.label : '${item.label} ($count)';

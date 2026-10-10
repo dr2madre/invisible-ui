@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/theme.dart';
 import '../tokens/tokens.g.dart';
+import 'ambient.dart';
 import 'open_width.dart';
 
 // Sizes the web Progress and Meter set in their own stylesheets.
@@ -11,9 +12,7 @@ const double _height = 8;
 /// How long a bar's fill takes to follow a new value, as the web's 200ms
 /// transition; nothing under reduced motion.
 Duration valueTransition(BuildContext context) =>
-    MediaQuery.maybeDisableAnimationsOf(context) ?? false
-    ? Duration.zero
-    : const Duration(milliseconds: 200);
+    reducedMotion(context) ? Duration.zero : const Duration(milliseconds: 200);
 
 /// The track and fill of [Progress] and [Meter]: [percentage] of the track,
 /// 0 to 100, filled from the inline-start in [fill]. It takes the width its

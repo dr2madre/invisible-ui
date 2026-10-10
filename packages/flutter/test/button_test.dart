@@ -462,8 +462,7 @@ void main() {
         isFalse,
       );
 
-      FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+      useKeyboardHighlight();
       await tester.pump();
       final ring = tester.widget<FocusRingPainter>(
         find.byType(FocusRingPainter),
@@ -473,8 +472,7 @@ void main() {
     });
 
     testWidgets('uses style.focus.onDark in the dark theme', (tester) async {
-      FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+      useKeyboardHighlight();
       final focus = FocusNode();
       addTearDown(focus.dispose);
       await tester.pumpWidget(

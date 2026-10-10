@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../internal/ambient.dart';
 import '../internal/anchored_layout.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
@@ -183,7 +184,7 @@ class _MenuTriggerState extends State<_MenuTrigger> {
     final foreground = enabled ? c.text : c.textDisabled;
     final fontSize = theme.textStyle.fontSize!;
     final target = theme.minTargetSize;
-    final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    final reduceMotion = reducedMotion(context);
 
     final surface = FocusRingPainter(
       visible: _focusVisible,

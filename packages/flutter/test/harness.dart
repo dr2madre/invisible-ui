@@ -124,6 +124,17 @@ const MinimumTapTargetGuideline targetGuideline44 = MinimumTapTargetGuideline(
       'https://developer.apple.com/design/human-interface-guidelines/accessibility',
 );
 
+/// Shows focus as after keyboard use, so focus rings paint, until the test
+/// ends.
+void useKeyboardHighlight() {
+  FocusManager.instance.highlightStrategy =
+      FocusHighlightStrategy.alwaysTraditional;
+  addTearDown(
+    () => FocusManager.instance.highlightStrategy =
+        FocusHighlightStrategy.automatic,
+  );
+}
+
 /// Gives focus to the focusable widget around [finder], as Tab or an arrow
 /// would.
 Future<void> focusOn(WidgetTester tester, Finder finder) async {

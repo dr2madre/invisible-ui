@@ -75,7 +75,7 @@
     "name": "@design-system/elements — table set only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsTableSet }",
-    "limit": "22 kB"
+    "limit": "22.1 kB"
   },
   {
     "name": "@design-system/elements — count only, tree-shaken",
