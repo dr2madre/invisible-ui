@@ -1,0 +1,322 @@
+{
+  "description": "The tree view keyboard model, language-neutral: a key pressed on the node `from` of the forest below, in connect() from core/src/tree-view/connect.ts. `initialExpanded`, `loading` and `loadErrors` list the open parents, the unloaded parents with a request out and those whose latest request failed, each empty when absent; `disabled` disables the whole tree. `focus` is the node focus moves to, `expanded` the expanded list the key reports, `select` the node selected and `load` the parent whose children are requested, each null when the key does nothing of the kind. Keys are DOM key names (\" \" is Space); direction defaults to ltr. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "nodes": [
+    {
+      "value": "src",
+      "children": [
+        {
+          "value": "index.ts"
+        },
+        {
+          "value": "lib",
+          "children": [
+            {
+              "value": "button.ts"
+            },
+            {
+              "value": "input.ts"
+            }
+          ]
+        },
+        {
+          "value": "legacy.ts",
+          "disabled": true
+        }
+      ]
+    },
+    {
+      "value": "readme",
+      "disabled": true
+    },
+    {
+      "value": "remote",
+      "hasChildren": true
+    },
+    {
+      "value": "empty",
+      "hasChildren": true,
+      "children": []
+    },
+    {
+      "value": "package.json"
+    }
+  ],
+  "keys": [
+    {
+      "name": "ArrowDown moves to the next visible node, skipping a disabled one",
+      "from": "src",
+      "key": "ArrowDown",
+      "focus": "remote",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowDown enters the children of an open parent",
+      "from": "src",
+      "key": "ArrowDown",
+      "initialExpanded": ["src"],
+      "focus": "index.ts",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowDown does not wrap at the last node",
+      "from": "package.json",
+      "key": "ArrowDown",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowUp does not wrap at the first node",
+      "from": "src",
+      "key": "ArrowUp",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowUp moves to the last visible node of the open subtree above",
+      "from": "remote",
+      "key": "ArrowUp",
+      "initialExpanded": ["src", "lib"],
+      "focus": "input.ts",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight opens a closed parent",
+      "from": "src",
+      "key": "ArrowRight",
+      "focus": null,
+      "expanded": ["src"],
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight keeps the other open parents, in order",
+      "from": "src",
+      "key": "ArrowRight",
+      "initialExpanded": ["lib"],
+      "focus": null,
+      "expanded": ["lib", "src"],
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight on an open loaded parent moves to its first child",
+      "from": "src",
+      "key": "ArrowRight",
+      "initialExpanded": ["src"],
+      "focus": "index.ts",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight on a leaf does nothing",
+      "from": "package.json",
+      "key": "ArrowRight",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight on a closed unloaded parent opens it and requests its children",
+      "from": "remote",
+      "key": "ArrowRight",
+      "focus": null,
+      "expanded": ["remote"],
+      "select": null,
+      "load": "remote"
+    },
+    {
+      "name": "ArrowRight on an open unloaded parent that is loading does nothing",
+      "from": "remote",
+      "key": "ArrowRight",
+      "initialExpanded": ["remote"],
+      "loading": ["remote"],
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowRight on an open parent whose load failed requests again",
+      "from": "remote",
+      "key": "ArrowRight",
+      "initialExpanded": ["remote"],
+      "loadErrors": ["remote"],
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": "remote"
+    },
+    {
+      "name": "ArrowRight on a completed empty load does nothing",
+      "from": "empty",
+      "key": "ArrowRight",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowLeft closes an open parent",
+      "from": "src",
+      "key": "ArrowLeft",
+      "initialExpanded": ["src"],
+      "focus": null,
+      "expanded": [],
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowLeft on a child moves to its parent",
+      "from": "button.ts",
+      "key": "ArrowLeft",
+      "initialExpanded": ["src", "lib"],
+      "focus": "lib",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowLeft on a closed root parent does nothing",
+      "from": "src",
+      "key": "ArrowLeft",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "ArrowLeft on a root leaf does nothing",
+      "from": "package.json",
+      "key": "ArrowLeft",
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Right to left, ArrowLeft opens a closed parent",
+      "from": "src",
+      "key": "ArrowLeft",
+      "direction": "rtl",
+      "focus": null,
+      "expanded": ["src"],
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Right to left, ArrowLeft on an open parent moves to its first child",
+      "from": "src",
+      "key": "ArrowLeft",
+      "direction": "rtl",
+      "initialExpanded": ["src"],
+      "focus": "index.ts",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Right to left, ArrowRight closes an open parent",
+      "from": "src",
+      "key": "ArrowRight",
+      "direction": "rtl",
+      "initialExpanded": ["src"],
+      "focus": null,
+      "expanded": [],
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Right to left, ArrowRight on a child moves to its parent",
+      "from": "index.ts",
+      "key": "ArrowRight",
+      "direction": "rtl",
+      "initialExpanded": ["src"],
+      "focus": "src",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Home moves to the first visible enabled node",
+      "from": "package.json",
+      "key": "Home",
+      "initialExpanded": ["src"],
+      "focus": "src",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "End moves to the last visible enabled node",
+      "from": "src",
+      "key": "End",
+      "initialExpanded": ["src"],
+      "focus": "package.json",
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "Enter selects the node",
+      "from": "lib",
+      "key": "Enter",
+      "initialExpanded": ["src"],
+      "focus": null,
+      "expanded": null,
+      "select": "lib",
+      "load": null
+    },
+    {
+      "name": "Space selects the node",
+      "from": "index.ts",
+      "key": " ",
+      "initialExpanded": ["src"],
+      "focus": null,
+      "expanded": null,
+      "select": "index.ts",
+      "load": null
+    },
+    {
+      "name": "A disabled tree moves nowhere",
+      "from": "src",
+      "key": "ArrowDown",
+      "disabled": true,
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "A disabled tree opens nothing",
+      "from": "src",
+      "key": "ArrowRight",
+      "disabled": true,
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    },
+    {
+      "name": "A disabled tree selects nothing",
+      "from": "src",
+      "key": "Enter",
+      "disabled": true,
+      "focus": null,
+      "expanded": null,
+      "select": null,
+      "load": null
+    }
+  ]
+}

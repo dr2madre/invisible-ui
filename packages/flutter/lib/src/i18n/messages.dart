@@ -16,6 +16,7 @@ class InvisibleMessages {
   const InvisibleMessages({
     this.loadingLabel = 'Loading…',
     this.submenuHint = 'submenu',
+    this.contextMenuLabel = 'Context menu',
     this.closeLabel = 'Close',
     this.notificationRegionLabel = 'Notifications',
     this.numberFieldIncrement = 'Increase {label}',
@@ -70,6 +71,12 @@ class InvisibleMessages {
     this.paginationCurrent = 'current page',
     this.breadcrumbLabel = 'Breadcrumb',
     this.breadcrumbCurrent = 'current page',
+    this.sidebarLabel = 'Main',
+    this.sidebarCollapse = 'Collapse the navigation',
+    this.sidebarExpand = 'Expand the navigation',
+    this.sidebarCurrent = 'current page',
+    this.treeLoading = 'Loading {name}…',
+    this.treeLoadError = 'Could not load {name}. Press Right Arrow to retry.',
     this.avatarGroupMore = _avatarGroupMore,
     this.tagRemove = 'Remove',
     this.codeBlockLabel = 'Code',
@@ -88,6 +95,10 @@ class InvisibleMessages {
   /// The hint of a menu item that opens a submenu. Catalog key
   /// `menu.submenu`.
   final String submenuHint;
+
+  /// The name of a context menu given none. Catalog key
+  /// `contextMenu.label`.
+  final String contextMenuLabel;
 
   /// The name of a notification's close button. Catalog key
   /// `inlineNotification.close`.
@@ -301,6 +312,30 @@ class InvisibleMessages {
   /// `breadcrumb.current`.
   final String breadcrumbCurrent;
 
+  /// The name of a sidebar's navigation given none. Catalog key
+  /// `sidebar.label`.
+  final String sidebarLabel;
+
+  /// The name of a sidebar's rail toggle while the sidebar is open. Catalog
+  /// key `sidebar.collapse`.
+  final String sidebarCollapse;
+
+  /// The name of a sidebar's rail toggle while it is a rail. Catalog key
+  /// `sidebar.expand`.
+  final String sidebarExpand;
+
+  /// Read with a sidebar's current destination. Catalog key
+  /// `sidebar.current`.
+  final String sidebarCurrent;
+
+  /// Read while a tree item's children load, with `{name}`. Catalog key
+  /// `tree.loading`.
+  final String treeLoading;
+
+  /// Read when a tree item's children failed to load, with `{name}`.
+  /// Catalog key `tree.loadError`.
+  final String treeLoadError;
+
   /// The name of an avatar group's "+N" chip, from the number of avatars
   /// left out. Catalog key `avatarGroup.more`, a plural message: a
   /// translation is a function that picks the plural form of its language.
@@ -351,6 +386,7 @@ class InvisibleMessages {
   InvisibleMessages copyWith({
     String? loadingLabel,
     String? submenuHint,
+    String? contextMenuLabel,
     String? closeLabel,
     String? notificationRegionLabel,
     String? numberFieldIncrement,
@@ -405,6 +441,12 @@ class InvisibleMessages {
     String? paginationCurrent,
     String? breadcrumbLabel,
     String? breadcrumbCurrent,
+    String? sidebarLabel,
+    String? sidebarCollapse,
+    String? sidebarExpand,
+    String? sidebarCurrent,
+    String? treeLoading,
+    String? treeLoadError,
     String Function(int count)? avatarGroupMore,
     String? tagRemove,
     String? codeBlockLabel,
@@ -419,6 +461,7 @@ class InvisibleMessages {
     return InvisibleMessages(
       loadingLabel: loadingLabel ?? this.loadingLabel,
       submenuHint: submenuHint ?? this.submenuHint,
+      contextMenuLabel: contextMenuLabel ?? this.contextMenuLabel,
       closeLabel: closeLabel ?? this.closeLabel,
       notificationRegionLabel:
           notificationRegionLabel ?? this.notificationRegionLabel,
@@ -485,6 +528,12 @@ class InvisibleMessages {
       paginationCurrent: paginationCurrent ?? this.paginationCurrent,
       breadcrumbLabel: breadcrumbLabel ?? this.breadcrumbLabel,
       breadcrumbCurrent: breadcrumbCurrent ?? this.breadcrumbCurrent,
+      sidebarLabel: sidebarLabel ?? this.sidebarLabel,
+      sidebarCollapse: sidebarCollapse ?? this.sidebarCollapse,
+      sidebarExpand: sidebarExpand ?? this.sidebarExpand,
+      sidebarCurrent: sidebarCurrent ?? this.sidebarCurrent,
+      treeLoading: treeLoading ?? this.treeLoading,
+      treeLoadError: treeLoadError ?? this.treeLoadError,
       avatarGroupMore: avatarGroupMore ?? this.avatarGroupMore,
       tagRemove: tagRemove ?? this.tagRemove,
       codeBlockLabel: codeBlockLabel ?? this.codeBlockLabel,
@@ -505,6 +554,7 @@ class InvisibleMessages {
       other is InvisibleMessages &&
       other.loadingLabel == loadingLabel &&
       other.submenuHint == submenuHint &&
+      other.contextMenuLabel == contextMenuLabel &&
       other.closeLabel == closeLabel &&
       other.notificationRegionLabel == notificationRegionLabel &&
       other.numberFieldIncrement == numberFieldIncrement &&
@@ -559,6 +609,12 @@ class InvisibleMessages {
       other.paginationCurrent == paginationCurrent &&
       other.breadcrumbLabel == breadcrumbLabel &&
       other.breadcrumbCurrent == breadcrumbCurrent &&
+      other.sidebarLabel == sidebarLabel &&
+      other.sidebarCollapse == sidebarCollapse &&
+      other.sidebarExpand == sidebarExpand &&
+      other.sidebarCurrent == sidebarCurrent &&
+      other.treeLoading == treeLoading &&
+      other.treeLoadError == treeLoadError &&
       other.avatarGroupMore == avatarGroupMore &&
       other.tagRemove == tagRemove &&
       other.codeBlockLabel == codeBlockLabel &&
@@ -574,6 +630,7 @@ class InvisibleMessages {
   int get hashCode => Object.hashAll([
     loadingLabel,
     submenuHint,
+    contextMenuLabel,
     closeLabel,
     notificationRegionLabel,
     numberFieldIncrement,
@@ -628,6 +685,12 @@ class InvisibleMessages {
     paginationCurrent,
     breadcrumbLabel,
     breadcrumbCurrent,
+    sidebarLabel,
+    sidebarCollapse,
+    sidebarExpand,
+    sidebarCurrent,
+    treeLoading,
+    treeLoadError,
     avatarGroupMore,
     tagRemove,
     codeBlockLabel,

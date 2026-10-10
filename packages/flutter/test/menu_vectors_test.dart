@@ -6,11 +6,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
 import 'package:invisible_ui/src/menu/menu_tree.dart';
 import 'package:invisible_ui/src/menu/submenu_geometry.dart';
+import 'package:invisible_ui/src/menubar/menubar_nav.dart';
 
-// The language-neutral vectors core/src/menu/vectors.test.ts runs against
-// core/. Present in a checkout of the whole repository; a copy of this
+// The language-neutral vectors core/src/menu/vectors.test.ts and
+// core/src/menubar/vectors.test.ts run against core/. Present in a checkout of the whole repository; a copy of this
 // package alone skips them.
 final Directory _vectors = Directory('../../core/src/menu/__vectors__');
+final File _menubarVectors = File(
+  '../../core/src/menubar/__vectors__/menubar-keyboard.json',
+);
+
+const Map<String, MenubarKey> _menubarKeys = {
+  'ArrowLeft': MenubarKey.arrowLeft,
+  'ArrowRight': MenubarKey.arrowRight,
+  'Home': MenubarKey.home,
+  'End': MenubarKey.end,
+};
 
 Map<String, dynamic> _read(String name) =>
     jsonDecode(File('${_vectors.path}/$name').readAsStringSync())
@@ -188,6 +199,61 @@ void main() {
           'y': placed.offset.dy,
           'maxHeight': placed.maxHeight,
         }, expected);
+      });
+    }
+  });
+
+  group('menubar vectors', () {
+    final file =
+        jsonDecode(_menubarVectors.readAsStringSync()) as Map<String, dynamic>;
+    final disabled = [
+      for (final menu in file['menus'] as List<dynamic>)
+        (menu as Map<String, dynamic>)['disabled'] as bool? ?? false,
+    ];
+    for (final vector in _cases(file)) {
+      test(vector['name'] as String, () {
+        final nav = MenubarNav(
+          disabled: disabled,
+          focusedIndex: vector['focusedIndex'] as int,
+          openIndex: vector['openIndex'] as int,
+        );
+        final event = vector['event'] as String;
+        final key = _menubarKeys[event];
+        final unused = MenubarStep(
+          focusedIndex: nav.focusedIndex,
+          openIndex: nav.openIndex,
+          handled: false,
+        );
+        final step = switch (event) {
+          'pointerEnter' => nav.pointerEnter(vector['index'] as int),
+          // The open menu took the key: the bar leaves it alone.
+          _ when vector['menuHandled'] == true || key == null => unused,
+          _ => nav.key(key, _direction(vector['direction'])),
+        };
+        // What the bar asks for, in the order the core asks for it.
+        final log = [
+          if (nav.openIndex != -1 && nav.openIndex != step.openIndex)
+            'close:${nav.openIndex}',
+          if (step.openIndex != -1 && step.openIndex != nav.openIndex)
+            'open:${step.openIndex}',
+          if (step.focus != null) 'focus:${step.focus}',
+        ];
+        final expected = vector['expected'] as Map<String, dynamic>;
+        expect(
+          {
+            'focusedIndex': step.focusedIndex,
+            'openIndex': step.openIndex,
+            'log': log,
+          },
+          {
+            'focusedIndex': expected['focusedIndex'],
+            'openIndex': expected['openIndex'],
+            'log': expected['log'],
+          },
+        );
+        if (expected['handled'] case final bool handled) {
+          expect(step.handled, handled);
+        }
       });
     }
   });

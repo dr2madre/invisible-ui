@@ -134,6 +134,7 @@ describe("i18n — translate", () => {
   it("carries the current page marker for platforms with no aria-current", () => {
     expect(translate(catalog, {}, "en", "pagination.current")).toBe("current page");
     expect(translate(catalog, {}, "en", "breadcrumb.current")).toBe("current page");
+    expect(translate(catalog, {}, "en", "sidebar.current")).toBe("current page");
     expect(
       translate(catalog, { "breadcrumb.current": "pagina corrente" }, "it", "breadcrumb.current"),
     ).toBe("pagina corrente");

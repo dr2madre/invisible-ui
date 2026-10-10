@@ -13,8 +13,9 @@ part is implemented: the `submenu` entry, the open path and the keyboard map
 in `core/src/menu`, the Menubar coordination in `core/src/menubar`, and the
 grace-area and placement functions in `core/src/internal`. The React
 adapter renders submenus (see [React](#react)), and the Flutter adapter
-renders them in its Dropdown Menu, on the shared menu layer in
-`packages/flutter/lib/src/menu`, running the shared vectors. The Svelte, Vue
+renders them in its Dropdown Menu, Context Menu and Menubar, on the shared
+menu layer in `packages/flutter/lib/src/menu`, running the shared vectors,
+the Menubar ones in `core/src/menubar/__vectors__` included. The Svelte, Vue
 and custom element adapters do not render them yet.
 
 ## Pattern
@@ -384,8 +385,11 @@ activation commits the closed state to the DOM and returns focus before
 
 - **Anchors.** Each level is a `RawMenuAnchor` with its own `MenuController`.
   A submenu anchor sits inside its parent's `overlayBuilder`, the nesting
-  the `RawMenuAnchor` documentation shows. Menubar is a `RawMenuAnchorGroup`.
-  The trigger's `FocusNode` is the anchor's `childFocusNode`.
+  the `RawMenuAnchor` documentation shows. In Menubar each top menu is a
+  root anchor and the bar coordinates them with the `core/src/menubar`
+  rules, rather than through a `RawMenuAnchorGroup`, whose own outside-press
+  handling can return focus to the trigger. The trigger's `FocusNode` is
+  the anchor's `childFocusNode`.
 - **Keyboard.** One shared menu keyboard layer (ADR 0017 §4) maps the keys
   with `Shortcuts` to menu intents (next, previous, first, last, open
   submenu, close level, activate, dismiss) and resolves left and right from
