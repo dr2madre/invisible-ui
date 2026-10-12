@@ -230,8 +230,7 @@ class _SearchFieldState extends State<SearchField> {
     );
   }
 
-  bool get _clearable =>
-      widget.enabled && !widget.readOnly && _text.isNotEmpty;
+  bool get _clearable => widget.enabled && !widget.readOnly && _text.isNotEmpty;
 
   void _clear({required bool keyboard}) {
     if (!_clearable) return;

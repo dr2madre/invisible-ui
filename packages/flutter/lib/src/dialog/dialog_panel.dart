@@ -136,7 +136,7 @@ class _DialogScope extends InheritedWidget {
 /// token defines yet.
 const Color dialogBarrierColor = Color(0x801C1915);
 
-/// The spacing between the parts of a panel.
+/// The spacing between the parts of a panel, and how the parts sit in it.
 @immutable
 class DialogSpacing {
   /// Creates the spacing.
@@ -145,6 +145,14 @@ class DialogSpacing {
     required this.beforeStatus,
     required this.beforeFooter,
     required this.maxWidth,
+    this.padding = _panelPadding,
+    this.headerPadding = EdgeInsets.zero,
+    this.headerDivider = false,
+    this.statusPadding = EdgeInsets.zero,
+    this.statusDivider = false,
+    this.footerDivider = false,
+    this.fill = false,
+    this.scrollBody = true,
   });
 
   /// Between the header and the body.
@@ -158,6 +166,33 @@ class DialogSpacing {
 
   /// The widest the panel grows.
   final double maxWidth;
+
+  /// The space between the panel's edge and its parts.
+  final EdgeInsets padding;
+
+  /// The header's own space, inside [padding].
+  final EdgeInsets headerPadding;
+
+  /// Whether a border under the header spans the panel.
+  final bool headerDivider;
+
+  /// The status area's own space, inside [padding].
+  final EdgeInsets statusPadding;
+
+  /// Whether a border over the status area spans the panel.
+  final bool statusDivider;
+
+  /// Whether a border over the footer spans the panel, with [beforeFooter]
+  /// on both sides of it.
+  final bool footerDivider;
+
+  /// Whether the panel fills the height it is given, the body taking the
+  /// space left, so the footer sits at the bottom.
+  final bool fill;
+
+  /// Whether the body scrolls as a whole. False leaves the scrolling to the
+  /// body, such as a fixed search row over a scrolling list.
+  final bool scrollBody;
 
   /// The web Dialog: header and footer padded away from the body.
   static const DialogSpacing dialog = DialogSpacing(
@@ -174,6 +209,32 @@ class DialogSpacing {
     beforeFooter: 24,
     maxWidth: 448,
   );
+
+  /// The web Search Dialog: flush, the search row and the results edge to
+  /// edge, a header and a status area set apart by borders.
+  static const DialogSpacing search = DialogSpacing(
+    afterHeader: 0,
+    beforeStatus: 0,
+    beforeFooter: 0,
+    maxWidth: 512,
+    padding: EdgeInsets.zero,
+    headerPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    headerDivider: true,
+    statusPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    statusDivider: true,
+    scrollBody: false,
+  );
+
+  /// The web Sheet Dialog: as tall or as wide as the screen allows, the body
+  /// taking the space left and the footer set apart at the bottom.
+  static const DialogSpacing sheet = DialogSpacing(
+    afterHeader: 16,
+    beforeStatus: 16,
+    beforeFooter: 16,
+    maxWidth: double.infinity,
+    footerDivider: true,
+    fill: true,
+  );
 }
 
 // Sizes the web dialogs set in their own stylesheets.
@@ -184,6 +245,7 @@ const EdgeInsets _panelPadding = EdgeInsets.symmetric(
 const double _inset = 16;
 const double _headerGap = 12;
 const double _closeGlyph = 20;
+const double _messageGap = 16;
 // Under this height, scaled with the text, the whole panel scrolls, header
 // and footer included, so nothing is cut off on a short window or at a large
 // text scale.
@@ -213,6 +275,10 @@ class DialogPanel extends StatefulWidget {
     this.initialFocus,
     this.controller,
     this.onClosed,
+    this.closeLabel,
+    this.radius,
+    this.border,
+    this.place,
   });
 
   /// The title; it names the dialog.
@@ -262,6 +328,20 @@ class DialogPanel extends StatefulWidget {
 
   /// Called once after the dialog's route is popped, however it closed.
   final VoidCallback? onClosed;
+
+  /// The name of the close button. Defaults to the theme's
+  /// `dialogCloseLabel`.
+  final String? closeLabel;
+
+  /// The corners of the panel. Defaults to the surface radius.
+  final BorderRadius? radius;
+
+  /// The border of the panel. Defaults to one on every side.
+  final BoxBorder? border;
+
+  /// Places the finished panel on the screen. Null centres it, clear of the
+  /// screen edges, at most [DialogSpacing.maxWidth] wide.
+  final Widget Function(BuildContext context, Widget panel)? place;
 
   @override
   State<DialogPanel> createState() => _DialogPanelState();
@@ -431,41 +511,99 @@ class _DialogPanelState extends State<DialogPanel> {
       hideTitle: widget.hideTitle,
       subtitle: widget.subtitle,
       closeButton: widget.closeButton,
+      closeLabel: widget.closeLabel,
       onClose: _dismiss,
       icon: widget.icon,
       lead: widget.headerLead,
       meta: widget.headerMeta,
       actions: widget.headerActions,
     );
-    final body =
-        widget.body ??
-        (widget.message == null
-            ? null
-            // The panel's own description carries it to assistive
-            // technology.
-            : ExcludeSemantics(
-                child: Text(
-                  widget.message!,
-                  style: text.copyWith(color: c.textSecondary),
-                ),
-              ));
+    final message = widget.message == null
+        ? null
+        // The panel's own description carries it to assistive technology.
+        : ExcludeSemantics(
+            child: Text(
+              widget.message!,
+              style: text.copyWith(color: c.textSecondary),
+            ),
+          );
+    final body = switch ((message, widget.body)) {
+      (null, final body) => body,
+      (final message?, null) => message,
+      (final message?, final body?) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: _messageGap,
+        children: [message, body],
+      ),
+    };
+    final edge = spacing.padding;
+    final sides = EdgeInsets.only(left: edge.left, right: edge.right);
+    final divider = BorderSide(color: c.border);
 
     List<Widget> parts({required bool flexible}) {
       final list = <Widget>[];
       void add(Widget part, double gap) {
-        if (list.isNotEmpty) list.add(SizedBox(height: gap));
+        if (list.isNotEmpty && gap > 0) list.add(SizedBox(height: gap));
         list.add(part);
       }
 
-      if (!header.isEmpty) add(header, 0);
-      if (body != null) {
+      // Each part takes the panel's side padding itself, so a divider spans
+      // the whole panel.
+      Widget pad(Widget part, [EdgeInsets own = EdgeInsets.zero]) =>
+          Padding(padding: sides + own, child: part);
+
+      if (!header.isEmpty) {
+        final padded = pad(header, spacing.headerPadding);
         add(
-          flexible ? Flexible(child: SingleChildScrollView(child: body)) : body,
+          spacing.headerDivider
+              ? DecoratedBox(
+                  decoration: BoxDecoration(border: Border(bottom: divider)),
+                  child: padded,
+                )
+              : padded,
+          0,
+        );
+      }
+      if (body != null) {
+        final scroll = spacing.scrollBody
+            ? SingleChildScrollView(child: pad(body))
+            : pad(body);
+        add(
+          !flexible
+              ? pad(body)
+              : spacing.fill
+              ? Expanded(child: scroll)
+              : Flexible(child: scroll),
           spacing.afterHeader,
         );
       }
-      if (_shown.isNotEmpty) add(_status(), spacing.beforeStatus);
-      if (widget.footer != null) add(widget.footer!, spacing.beforeFooter);
+      if (_shown.isNotEmpty) {
+        final padded = pad(_status(), spacing.statusPadding);
+        add(
+          spacing.statusDivider
+              ? DecoratedBox(
+                  decoration: BoxDecoration(border: Border(top: divider)),
+                  child: padded,
+                )
+              : padded,
+          spacing.beforeStatus,
+        );
+      }
+      if (widget.footer case final footer?) {
+        add(
+          spacing.footerDivider
+              ? DecoratedBox(
+                  decoration: BoxDecoration(border: Border(top: divider)),
+                  child: pad(
+                    footer,
+                    EdgeInsets.only(top: spacing.beforeFooter),
+                  ),
+                )
+              : pad(footer),
+          spacing.beforeFooter,
+        );
+      }
       return list;
     }
 
@@ -478,76 +616,84 @@ class _DialogPanelState extends State<DialogPanel> {
             constraints.maxHeight <
                 MediaQuery.textScalerOf(context).scale(_tightHeight);
         final column = Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: spacing.fill && bounded && !tight
+              ? MainAxisSize.max
+              : MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: parts(flexible: bounded && !tight),
         );
         return Padding(
-          padding: _panelPadding,
+          padding: EdgeInsets.only(top: edge.top, bottom: edge.bottom),
           child: tight ? SingleChildScrollView(child: column) : column,
         );
       },
     );
 
+    final radius =
+        widget.radius ?? BorderRadius.circular(InvisibleRadiusTokens.surface);
     final panel = DecoratedBox(
       decoration: BoxDecoration(
         color: c.background,
-        border: Border.all(color: c.border),
-        borderRadius: BorderRadius.circular(InvisibleRadiusTokens.surface),
+        border: widget.border ?? Border.all(color: c.border),
+        borderRadius: radius,
         boxShadow: overlayShadow(theme.brightness),
       ),
       child: DefaultTextStyle(style: text, child: content),
     );
 
+    final semanticPanel = Semantics(
+      container: true,
+      explicitChildNodes: true,
+      namesRoute: true,
+      role: widget.role,
+      label: widget.title,
+      hint: widget.subtitle ?? widget.message,
+      // The panel's focus belongs to this node: the dialog itself is
+      // what takes focus when it opens.
+      focusable: true,
+      focused: _panelFocus.hasPrimaryFocus,
+      child: FocusableActionDetector(
+        focusNode: _panelFocus,
+        includeFocusSemantics: false,
+        onFocusChange: (_) => setState(() {}),
+        shortcuts: const {
+          SingleActivator(LogicalKeyboardKey.escape): DismissIntent(),
+        },
+        actions: {
+          DismissIntent: CallbackAction<DismissIntent>(
+            onInvoke: (_) {
+              _dismiss();
+              return null;
+            },
+          ),
+        },
+        onShowFocusHighlight: (visible) =>
+            setState(() => _focusVisible = visible),
+        child: FocusRingPainter(
+          visible: _focusVisible,
+          ring: theme.focusRing,
+          radius: radius.topLeft.x,
+          child: panel,
+        ),
+      ),
+    );
+
     final media = MediaQuery.of(context);
     return _DialogScope(
       controller: _controller,
-      child: Padding(
-        // Clear of the screen edges, the system areas and the keyboard.
-        padding:
-            const EdgeInsets.all(_inset) + media.padding + media.viewInsets,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: spacing.maxWidth),
-            child: Semantics(
-              container: true,
-              explicitChildNodes: true,
-              namesRoute: true,
-              role: widget.role,
-              label: widget.title,
-              hint: widget.subtitle ?? widget.message,
-              // The panel's focus belongs to this node: the dialog itself is
-              // what takes focus when it opens.
-              focusable: true,
-              focused: _panelFocus.hasPrimaryFocus,
-              child: FocusableActionDetector(
-                focusNode: _panelFocus,
-                includeFocusSemantics: false,
-                onFocusChange: (_) => setState(() {}),
-                shortcuts: const {
-                  SingleActivator(LogicalKeyboardKey.escape): DismissIntent(),
-                },
-                actions: {
-                  DismissIntent: CallbackAction<DismissIntent>(
-                    onInvoke: (_) {
-                      _dismiss();
-                      return null;
-                    },
-                  ),
-                },
-                onShowFocusHighlight: (visible) =>
-                    setState(() => _focusVisible = visible),
-                child: FocusRingPainter(
-                  visible: _focusVisible,
-                  ring: theme.focusRing,
-                  radius: InvisibleRadiusTokens.surface,
-                  child: panel,
-                ),
+      child:
+          widget.place?.call(context, semanticPanel) ??
+          Padding(
+            // Clear of the screen edges, the system areas and the keyboard.
+            padding:
+                const EdgeInsets.all(_inset) + media.padding + media.viewInsets,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: spacing.maxWidth),
+                child: semanticPanel,
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -562,6 +708,7 @@ class _DialogHeader extends StatelessWidget {
     required this.hideTitle,
     required this.subtitle,
     required this.closeButton,
+    required this.closeLabel,
     required this.onClose,
     required this.icon,
     required this.lead,
@@ -573,6 +720,7 @@ class _DialogHeader extends StatelessWidget {
   final bool hideTitle;
   final String? subtitle;
   final bool closeButton;
+  final String? closeLabel;
   final VoidCallback onClose;
   final Widget? icon;
   final Widget? lead;
@@ -637,7 +785,7 @@ class _DialogHeader extends StatelessWidget {
         if (closeButton)
           CloseButton(
             onPressed: onClose,
-            label: theme.messages.dialogCloseLabel,
+            label: closeLabel ?? theme.messages.dialogCloseLabel,
             color: c.textSecondary,
             glyphSize: _closeGlyph,
           ),

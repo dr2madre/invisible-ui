@@ -28,6 +28,10 @@ export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
 export 'src/dialog/dialog_route.dart'
     show InvisibleDialogRoute, showInvisibleDialog;
+export 'src/dialog/prompt_dialog.dart' show PromptDialog;
+export 'src/dialog/search_dialog.dart'
+    show SearchDialog, SearchDialogFilter, SearchDialogItem;
+export 'src/dialog/sheet_dialog.dart' show SheetDialog, SheetDialogSide;
 export 'src/dropdown_menu/dropdown_menu.dart' show DropdownMenu;
 export 'src/feedback_icon/feedback_icon.dart'
     show FeedbackIcon, FeedbackIconBox, FeedbackIconShape;
