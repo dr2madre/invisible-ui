@@ -121,6 +121,69 @@ void main() {
       expect(messages.paginationNext, _english('pagination.next'));
       expect(messages.paginationPage, _english('pagination.page'));
       expect(messages.paginationCurrent, _english('pagination.current'));
+      expect(messages.tableViews, _english('table.views'));
+      expect(messages.tablePagination, _english('table.pagination'));
+      expect(messages.tableLoadMore, _english('table.loadMore'));
+      expect(messages.tableLoading, _english('table.loading'));
+      expect(messages.tableColumns, _english('table.columns'));
+      expect(messages.tableSelectRow, _english('table.selectRow'));
+      expect(messages.tableSelectPage, _english('table.selectPage'));
+      expect(messages.tableSelection, _english('table.selection'));
+      expect(messages.tableNoResults, _english('table.noResults'));
+      expect(messages.tableClearFilters, _english('table.clearFilters'));
+      expect(messages.tableView, _english('table.view'));
+      expect(messages.tableViewTable, _english('table.viewTable'));
+      expect(messages.tableViewCards, _english('table.viewCards'));
+      expect(messages.tableSortedAscending, _english('table.sortedAscending'));
+      expect(
+        messages.tableSortedDescending,
+        _english('table.sortedDescending'),
+      );
+      expect(messages.carouselPrevious, _english('carousel.previous'));
+      expect(messages.carouselNext, _english('carousel.next'));
+      expect(messages.carouselChoose, _english('carousel.choose'));
+      expect(messages.carouselSlide, _english('carousel.slide'));
+      expect(messages.carouselGoTo, _english('carousel.goTo'));
+      expect(
+        messages.carouselRoleDescription,
+        _english('carousel.roleDescription'),
+      );
+      expect(
+        messages.carouselSlideRoleDescription,
+        _english('carousel.slideRoleDescription'),
+      );
+      expect(messages.loginFormHeading, _english('loginForm.heading'));
+      expect(messages.loginFormSubmit, _english('loginForm.submit'));
+      expect(messages.loginFormForgot, _english('loginForm.forgot'));
+      expect(messages.loginFormEmail, _english('loginForm.email'));
+      expect(
+        messages.loginFormEmailPlaceholder,
+        _english('loginForm.emailPlaceholder'),
+      );
+      expect(messages.loginFormPassword, _english('loginForm.password'));
+      expect(messages.loginFormDivider, _english('loginForm.divider'));
+      expect(messages.loginFormProvider, _english('loginForm.provider'));
+      expect(messages.uploadDropAreaPrompt, _english('uploadDropArea.prompt'));
+      expect(messages.uploadDropAreaAction, _english('uploadDropArea.action'));
+      expect(messages.uploadDropAreaBrowse, _english('uploadDropArea.browse'));
+      expect(
+        messages.uploadDropAreaRejectedType,
+        _english('uploadDropArea.rejectedType'),
+      );
+      expect(
+        messages.uploadDropAreaRejectedCount,
+        _english('uploadDropArea.rejectedCount'),
+      );
+      expect(messages.uploadDropAreaFiles, _english('uploadDropArea.files'));
+      expect(messages.uploadDropAreaRemove, _english('uploadDropArea.remove'));
+      for (final (count, form) in [(1, 'one'), (3, 'other')]) {
+        expect(
+          messages.tableResults(count),
+          InvisibleMessages.fill(_plural('table.results', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
       expect(messages.breadcrumbLabel, _english('breadcrumb.label'));
       expect(messages.breadcrumbCurrent, _english('breadcrumb.current'));
       expect(messages.sidebarLabel, _english('sidebar.label'));
