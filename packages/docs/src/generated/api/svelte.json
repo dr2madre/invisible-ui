@@ -626,7 +626,7 @@
     {
       "name": "CreateNavigationMenu",
       "kind": "interface",
-      "signature": "interface CreateNavigationMenu { state: Readable<NavigationMenuState>; api: Readable<NavigationMenuApi>; /** The open item's value (or `null`). */ value: Readable<string | null>; /** Imperatively set the open value. */ setValue: (value: string | null) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Action for a panel item's trigger: `use:triggerAction={value}`. */ triggerAction: Action<HTMLElement, string>; /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */ contentAction: Action<HTMLElement, string>; }"
+      "signature": "interface CreateNavigationMenu { state: Readable<NavigationMenuState>; api: Readable<NavigationMenuApi>; /** The open item's value (or `null`). */ value: Readable<string | null>; /** * Imperatively set the open value. A panel opened this way stays open * until it is closed; pass `kept: false` to let the pointer leaving close it. */ setValue: (value: string | null, kept?: boolean) => void; /** Reflect a controlled `value` prop without reporting a change. */ syncValue: (value: string | null) => void; /** Action for a panel item's trigger: `use:triggerAction={value}`. */ triggerAction: Action<HTMLElement, NavigationMenuTriggerParam>; /** Action for a panel item's content (render only while open): `use:contentAction={value}`. */ contentAction: Action<HTMLElement, string>; /** Action for every link, in a panel or at the top level: `use:linkAction={{ current, panel }}`. */ linkAction: Action<HTMLElement, NavigationMenuLinkParam | undefined>; }"
     },
     {
       "name": "CreateNumberField",
@@ -741,7 +741,7 @@
     {
       "name": "CreateToggleButton",
       "kind": "interface",
-      "signature": "interface CreateToggleButton { /** Reactive resolved state (`{ pressed, disabled }`). */ state: Readable<ToggleButtonState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<ToggleButtonApi>; /** Imperatively set the pressed value (ignored when disabled). */ setPressed: (value: boolean) => void; /** Reflect a controlled `pressed` prop without reporting a change. */ syncPressed: (value: boolean) => void; /** Imperatively make the control available or unavailable. */ setDisabled: (value: boolean) => void; /** Imperatively flip the pressed value (ignored when disabled). */ toggle: () => void; /** Svelte action for the native checkbox: `<input type=\"checkbox\" use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
+      "signature": "interface CreateToggleButton { /** Reactive resolved state (`{ pressed, disabled }`). */ state: Readable<ToggleButtonState>; /** Reactive connected API (prop getters + helpers). */ api: Readable<ToggleButtonApi>; /** Imperatively set the pressed value (ignored when disabled). */ setPressed: (value: boolean) => void; /** Reflect a controlled `pressed` prop without reporting a change. */ syncPressed: (value: boolean) => void; /** Imperatively make the control available or unavailable. */ setDisabled: (value: boolean) => void; /** Imperatively flip the pressed value (ignored when disabled). */ toggle: () => void; /** Svelte action for the native button: `<button type=\"button\" use:rootAction>`. */ rootAction: Action<HTMLElement>; }"
     },
     {
       "name": "CreateTooltip",
@@ -752,6 +752,11 @@
       "name": "CreateTreeView",
       "kind": "interface",
       "signature": "interface CreateTreeView { /** Reactive resolved state. */ state: Readable<TreeState>; /** Reactive connected API. */ api: Readable<TreeApi>; /** The currently-visible, flattened node list (for rendering). */ visible: Readable<VisibleNode[]>; /** Expanded parent values. */ expanded: Readable<string[]>; /** The selected value (or `null`). */ selected: Readable<string | null>; /** Unloaded parents with an active request. */ loading: Readable<string[]>; /** Unloaded parents whose latest request failed. */ loadErrors: Readable<string[]>; /** Reflect controlled nodes without reporting a change. */ syncNodes: (nodes: TreeNode[]) => void; /** Reflect the controlled disabled state. */ syncDisabled: (disabled: boolean) => void; /** Reflect a controlled `expanded` prop without reporting a change. */ syncExpanded: (expanded: string[]) => void; /** Reflect a controlled `selected` prop without reporting a change. */ syncSelected: (value: string | null) => void; /** Reflect controlled loading values without reporting a request. */ syncLoading: (loading: string[]) => void; /** Reflect controlled failures without reporting a request. */ syncLoadErrors: (loadErrors: string[]) => void; /** Imperatively expand/collapse a parent. */ toggle: (value: string) => void; /** Imperatively select a value. */ select: (value: string) => void; /** Svelte action for the tree container: `<div use:rootAction>`. */ rootAction: Action<HTMLElement>; /** Svelte action for a treeitem: `<div use:itemAction={value}>`. */ itemAction: Action<HTMLElement, string>; }"
+    },
+    {
+      "name": "CreateTreeViewOptions",
+      "kind": "interface",
+      "signature": "interface CreateTreeViewOptions extends TreeContext { /** * Text typeahead matches for a node whose label is not in the page. * Defaults to its value. A rendered row always matches the text it shows. */ labelOf?: (value: string) => string; }"
     },
     {
       "name": "DialogAnnouncement",
@@ -966,17 +971,27 @@
     {
       "name": "NavigationMenuItem",
       "kind": "interface",
-      "signature": "interface NavigationMenuItem { value: string; label: string; /** For plain link items. */ href?: string; /** For panel items — the links revealed when opened. */ links?: NavigationMenuLink[]; }"
+      "signature": "interface NavigationMenuItem { value: string; label: string; /** For plain link items. */ href?: string; /** For plain link items: marks the link to the page on screen (`aria-current=\"page\"`). */ current?: boolean; /** For panel items — the links revealed when opened. */ links?: NavigationMenuLink[]; }"
     },
     {
       "name": "NavigationMenuLink",
       "kind": "interface",
-      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; }"
+      "signature": "interface NavigationMenuLink { label: string; href: string; description?: string; /** * Marks the link to the page on screen: `aria-current=\"page\"`, and its * panel's trigger is styled as holding the current page. */ current?: boolean; }"
+    },
+    {
+      "name": "NavigationMenuLinkParam",
+      "kind": "interface",
+      "signature": "interface NavigationMenuLinkParam { /** The link goes to the page on screen. */ current?: boolean; /** The value of the panel holding the link; omit for a top-level link. */ panel?: string; }"
     },
     {
       "name": "NavigationMenuState",
       "kind": "type",
       "signature": "type NavigationMenuState = navigationMenu.NavigationMenuState;"
+    },
+    {
+      "name": "NavigationMenuTriggerParam",
+      "kind": "type",
+      "signature": "type NavigationMenuTriggerParam = string | { value: string; holdsCurrent?: boolean; };"
     },
     {
       "name": "NotificationAction",
@@ -1696,7 +1711,7 @@
     {
       "name": "createTreeView",
       "kind": "function",
-      "signature": "declare function createTreeView(context: TreeContext): CreateTreeView;"
+      "signature": "declare function createTreeView(context: CreateTreeViewOptions): CreateTreeView;"
     },
     {
       "name": "dropArea",
