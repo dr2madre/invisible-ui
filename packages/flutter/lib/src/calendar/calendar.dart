@@ -10,6 +10,7 @@ import '../internal/glyphs.dart';
 import '../theme/theme.dart';
 import 'calendar_date.dart';
 import 'date_symbols.dart';
+import 'week_start.dart';
 
 /// The months a [Calendar] shows.
 enum CalendarView {
@@ -69,7 +70,7 @@ class Calendar extends StatefulWidget {
     this.focusedDate,
     this.onFocusChanged,
     this.view = CalendarView.month,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.min,
     this.max,
     this.locale,
@@ -91,7 +92,7 @@ class Calendar extends StatefulWidget {
     this.focusedDate,
     this.onFocusChanged,
     this.view = CalendarView.month,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.min,
     this.max,
     this.locale,
@@ -114,7 +115,7 @@ class Calendar extends StatefulWidget {
     this.focusedDate,
     this.onFocusChanged,
     this.view = CalendarView.month,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.min,
     this.max,
     this.locale,
@@ -137,7 +138,7 @@ class Calendar extends StatefulWidget {
     this.focusedDate,
     this.onFocusChanged,
     this.view = CalendarView.month,
-    this.weekStartsOn = DateTime.monday,
+    this.weekStartsOn,
     this.min,
     this.max,
     this.locale,
@@ -183,7 +184,8 @@ class Calendar extends StatefulWidget {
   final CalendarView view;
 
   /// The first day of a week row, [DateTime.monday] to [DateTime.sunday].
-  final int weekStartsOn;
+  /// Null uses the locale's first day from CLDR ([weekStartForLocale]).
+  final int? weekStartsOn;
 
   /// The earliest day that can be picked, inclusive.
   final DateTime? min;
@@ -224,7 +226,14 @@ class _CalendarState extends State<Calendar> {
 
   DateTime? get _min => widget.min == null ? null : dateOnly(widget.min!);
   DateTime? get _max => widget.max == null ? null : dateOnly(widget.max!);
-  int get _weekStart => widget.weekStartsOn % 7;
+  int get _weekStart =>
+      (widget.weekStartsOn ??
+          weekStartForLocale(
+            widget.locale ??
+                Localizations.maybeLocaleOf(context) ??
+                const Locale('en'),
+          )) %
+      7;
 
   FocusNode? get _focusedNode => _nodes[_focused];
 

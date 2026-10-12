@@ -26,7 +26,7 @@ scope**. Every matched line names the widget test in
 | `DatePicker(value:, onChanged:)` | `value` with `onValueChange` | controlled `value`, change callback; null when cleared |
 | `DatePicker.uncontrolled(initialValue:)` | `value` unbound | `defaultValue` |
 | `DateTime` calendar day | ISO `YYYY-MM-DD` string | adapted: idiomatic Dart, as Flutter's own date pickers; the time of day is ignored and local midnight is reported |
-| `min`, `max`, `weekStartsOn`, `locale`, `clearable`, `label`, `placeholder` | the same names | `weekStartsOn` in Dart's weekday constants; `label` and `placeholder` default to the catalog keys `datePicker.label` and `datePicker.placeholder` |
+| `min`, `max`, `weekStartsOn`, `locale`, `clearable`, `label`, `placeholder` | the same names | `weekStartsOn` in Dart's weekday constants, null for the locale's CLDR first day (see `parity/calendar.md`); `label` and `placeholder` default to the catalog keys `datePicker.label` and `datePicker.placeholder` |
 | `enabled: false` | `disabled` | `disabled` |
 | `symbols` | none | the names, overriding the locale's |
 | `description`, `error`, `required`, `hideLabel`, `validator`, `onSaved` | none | the field parts every Flutter value control carries |

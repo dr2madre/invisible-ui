@@ -30,7 +30,7 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | `Calendar.rangeUncontrolled(initialRange:)` | `mode="range"`, unbound | the range's default |
 | `focusedDate`, `onFocusChanged` | `focusedDate`, `onFocusChange` | the focused day, reflected and reported |
 | `view: CalendarView.month` or `.twoMonth` | `view` (`month`, `two-month`) | adapted: the two date-picking views; see below |
-| `weekStartsOn: DateTime.monday` … `DateTime.sunday` | `weekStartsOn` 0 (Sunday) to 6 | the same day, in Dart's weekday constants |
+| `weekStartsOn: DateTime.monday` … `DateTime.sunday`, null by default | `weekStartsOn` 0 (Sunday) to 6, Monday by default | the same day, in Dart's weekday constants. Null takes the locale's first day from CLDR (`weekStartForLocale`), the default every adapter adopts; the web adapters still default to Monday until they switch |
 | `min`, `max` | `min`, `max` | inclusive bounds |
 | `locale`, `symbols` | `locale` | the locale of the names; `symbols` overrides them |
 | `label` | `label` | the grid's name, catalog key `calendar.label` |
@@ -91,3 +91,11 @@ names those in `calendar-names.json` (`test/calendar_vectors_test.dart`).
 | Day numbers in the locale's digits | adapted | the web prints ASCII digits in the grid; Flutter uses the locale's, as its full names do |
 | `weekStartsOn` | matched | `weekStartsOn sets the first column` |
 | Right to left at text scale 2.0 in a narrow window; 24 by 24 days, 44 by 44 under touch | matched | `right to left at text scale 2.0 in a narrow window, with 24 by 24 days, and 44 by 44 under touch` |
+
+## Week start
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| The default first day comes from CLDR for the locale and its region: the `-u-fw-` keyword, the `-u-rg-` override, the region, the language's likely region, then Monday | matched | the CLDR 46 table in `core/src/calendar/week-start.ts` and `lib/src/calendar/week_start.dart`, both checked against `core/src/calendar/__vectors__/week-start.json`: `the table matches the shared one`, `each locale starts on its CLDR day` (week_start_test) |
+| The calendar starts its rows on that day; the app overrides it with `weekStartsOn` | matched | `defaults to the locale's CLDR first day`, `the app can override it`, `follows the app locale from Localizations` |
+| A Flutter `Locale` carries no `-u-` keywords | adapted | a `Locale` has language, script and country only; the keywords apply to tags read by `weekStartForTag`, the vectors' entry point |
