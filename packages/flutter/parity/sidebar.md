@@ -1,8 +1,8 @@
 # Sidebar parity checklist
 
-Reference commit: `6769c363dcefa3ea3e47fbe9a388d37dd5288597`
+Reference commit: `71ede6af6037f9dc1aa5ade2c426bd21abb37943`
 
-Reference paths: `core/src/collapsible` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md`
+Reference paths: `core/src/collapsible` `packages/svelte/src/lib/sidebar` `docs/sidebar-spec.md` `packages/svelte/src/lib/sheet-dialog`
 
 The Flutter `Sidebar` checked against the Svelte `Sidebar`
 (`packages/svelte/src/lib/sidebar`: `Sidebar.svelte`, `SidebarNav.svelte`,
@@ -14,7 +14,8 @@ Docs page: [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns
 
 Each line is **matched**, **adapted** (with the platform reason), **out of
 scope** or **not yet verified**. Every matched line names the widget test in
-`test/sidebar_test.dart` that holds it.
+`test/sidebar_test.dart` that holds it, or, for the drawer,
+`test/sidebar_drawer_test.dart`.
 
 ## Names
 
@@ -102,10 +103,31 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Text contrast | matched | `semantics: …`, `right to left at text scale 2.0 in a 320 wide parent: …` (`textContrastGuideline`) |
 | `--ds-sidebar-*` theme variables, `data-mode`, `data-side`, `data-collapsed` | out of scope | the Flutter theme carries the shared roles; component variables and attribute hooks have no Flutter equivalent yet |
 
+## Drawer (ADR 0013)
+
+| Flutter | Svelte | Meaning |
+| --- | --- | --- |
+| `showSidebarDrawer<T>(context:, builder:)` | `mode="drawer"` with `open` and `onOpenChange` | the navigation in a Sheet Dialog; the future completing is the close report |
+| `side: SheetDialogSide.start / end` | `side: "inline-start" / "inline-end"` | the drawer's edge, following the reading direction |
+| `title` | `title` | the dialog's name, the sidebar's catalog label by default |
+| `closeOnNavigate` | `closeOnNavigate` | whether following a destination closes the drawer |
+| `returnFocus` | `renderTrigger={false}`, `returnFocusTo` | the app's own button; where focus goes back |
+| `draggable` | none | the sheet's grab handle |
+
+| Line | Status | Evidence or reason |
+| --- | --- | --- |
+| The navigation sits in a modal Sheet Dialog named like the navigation | matched | `a modal sheet named like the navigation, at the inline-start edge, with labels and no rail toggle` |
+| The drawer comes from the inline-start edge, mirrored right to left | matched | same test |
+| Escape closes it | matched | same test |
+| The drawer shows the labels and no rail toggle, whatever `collapsed` says | matched | same test |
+| Following a destination closes the drawer and reports once | adapted | ADR 0011: the drawer closes first, then `onSelected` reports: `following a destination closes the drawer first, then reports; focus returns to the button that opened it` |
+| `closeOnNavigate: false` keeps it open | matched | `closeOnNavigate false keeps it open and still reports` |
+| No trigger of its own; focus goes back to the named button | adapted | Flutter dialogs render no trigger: the app's button calls `showSidebarDrawer`, and `returnFocus` names where focus goes when the drawer was opened by something else: `returnFocus names where focus goes when focus was elsewhere at the opening` |
+| The drawer's trigger content, `sidebar.open` | adapted | the app's button carries it; `InvisibleMessages.sidebarOpen` holds the catalog text |
+| The navigation follows the app's state while the drawer stays open | adapted | the builder runs in the drawer's route, which does not rebuild with the page: the app reads its state there, for example through a `ValueListenableBuilder` |
+
 ## Out of scope
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| `mode="drawer"`, `open`, `onOpenChange`, `closeOnNavigate`, `title`, `renderTrigger`, `returnFocusTo`, `trigger` | out of scope | the drawer composes Sheet Dialog (ADR 0013). The Flutter package has no Sheet Dialog yet, so it has no drawer code; the drawer arrives with Sheet Dialog |
-| `side` (inline-start or inline-end) | out of scope | it places the drawer's edge only; the inline sidebar sits where the app puts it |
-| Responsive presentation | out of scope | as on the web, the component reads no screen size; the app decides where and when to show it and whether it is a rail |
+| Responsive presentation | out of scope | as on the web, the component reads no screen size; the app decides where and when to show it, whether it is a rail and when it is a drawer |

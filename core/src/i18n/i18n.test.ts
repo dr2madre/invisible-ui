@@ -189,6 +189,18 @@ describe("i18n — translate", () => {
     );
   });
 
+  it("carries the multi select announcements for platforms with no live tag list", () => {
+    expect(translate(catalog, {}, "en", "multiSelect.added", { name: "Ada" })).toBe("Ada added");
+    expect(translate(catalog, {}, "en", "multiSelect.removed", { name: "Ada" })).toBe(
+      "Ada removed",
+    );
+    expect(
+      translate(catalog, { "multiSelect.removed": "{name} rimosso" }, "it", "multiSelect.removed", {
+        name: "Ada",
+      }),
+    ).toBe("Ada rimosso");
+  });
+
   it("interpolates named variables, reorderable, as plain text", () => {
     expect(
       translate({ greet: "{name} ha {count} anni" }, {}, "it", "greet", {

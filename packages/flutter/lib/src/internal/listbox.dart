@@ -124,6 +124,7 @@ class ListboxPopup<T> extends StatefulWidget {
     required this.onPressOutside,
     required this.semanticLabel,
     required this.child,
+    this.selectedValues,
     this.emptyText,
     this.loading = false,
   });
@@ -136,6 +137,10 @@ class ListboxPopup<T> extends StatefulWidget {
 
   /// The chosen value, ticked in the list.
   final T? selected;
+
+  /// The chosen values of a list that holds several, ticked in the list in
+  /// place of [selected].
+  final Set<T>? selectedValues;
 
   /// Chooses an option the pointer pressed.
   final ValueChanged<T> onSelect;
@@ -188,7 +193,9 @@ class _ListboxPopupState<T> extends State<ListboxPopup<T>> {
               key: widget.controller.keyFor(item.value),
               controller: widget.controller,
               item: item,
-              selected: item.value == widget.selected,
+              selected:
+                  widget.selectedValues?.contains(item.value) ??
+                  item.value == widget.selected,
               iconSlot: hasIcons,
               onSelect: widget.onSelect,
             ),

@@ -267,7 +267,7 @@
     "name": "@design-system/elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
-    "limit": "5.5 kB"
+    "limit": "5.6 kB"
   },
   {
     "name": "@design-system/elements — prompt dialog only, tree-shaken",

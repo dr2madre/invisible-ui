@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart';
 // The English `avatarGroup.more`: its one and other forms read the same.
 String _avatarGroupMore(int count) => '$count more';
 
+// The English `searchDialog.results`.
+String _searchDialogResults(int count) =>
+    count == 1 ? '$count result available' : '$count results available';
+
 // The English `rating.stars`.
 String _ratingStars(int count) => count == 1 ? '$count star' : '$count stars';
 
@@ -45,6 +49,22 @@ class InvisibleMessages {
     this.comboboxEmpty = 'No results',
     this.comboboxShow = 'Show options',
     this.comboboxHide = 'Close options',
+    this.searchFieldClear = 'Clear search',
+    this.searchFieldSubmit = 'Search',
+    this.searchDialogTitle = 'Search',
+    this.searchDialogLabel = 'Search',
+    this.searchDialogPlaceholder = 'Type to search…',
+    this.searchDialogEmpty = 'No results found.',
+    this.searchDialogResults = _searchDialogResults,
+    this.searchDialogLoading = 'Searching…',
+    this.sheetDialogClose = 'Close',
+    this.sidebarOpen = 'Open the navigation',
+    this.multiSelectSelected = 'Selected values',
+    this.multiSelectRemove = 'Remove {name}',
+    this.multiSelectAdded = '{name} added',
+    this.multiSelectRemoved = '{name} removed',
+    this.multiSelectEmpty = 'No results',
+    this.multiSelectPlaceholder = 'Search…',
     this.popoverTriggerLabel = 'Open',
     this.calendarLabel = 'Calendar',
     this.calendarPrevious = 'Previous',
@@ -237,6 +257,70 @@ class InvisibleMessages {
   /// The name of a combobox's button while its list is open.
   /// Catalog key `combobox.hide`.
   final String comboboxHide;
+
+  /// The name of a search field's clear button. Catalog key
+  /// `searchField.clear`.
+  final String searchFieldClear;
+
+  /// The name of a search field's submit button. Catalog key
+  /// `searchField.submit`.
+  final String searchFieldSubmit;
+
+  /// The default title of a search dialog. Catalog key `searchDialog.title`.
+  final String searchDialogTitle;
+
+  /// The default name of a search dialog's field. Catalog key
+  /// `searchDialog.label`.
+  final String searchDialogLabel;
+
+  /// Shown in a search dialog's empty field. Catalog key
+  /// `searchDialog.placeholder`.
+  final String searchDialogPlaceholder;
+
+  /// Shown and announced when nothing matches a search dialog's query. Catalog
+  /// key `searchDialog.empty`.
+  final String searchDialogEmpty;
+
+  /// Announced with the number of results, a function of the count, so a
+  /// translation picks its own plural forms. Catalog key
+  /// `searchDialog.results`.
+  final String Function(int count) searchDialogResults;
+
+  /// Announced while a search dialog's results load. Catalog key
+  /// `searchDialog.loading`.
+  final String searchDialogLoading;
+
+  /// The name of a sheet dialog's close button. Catalog key
+  /// `sheetDialog.close`.
+  final String sheetDialogClose;
+
+  /// The name of the button an app gives the sidebar drawer. Catalog key
+  /// `sidebar.open`.
+  final String sidebarOpen;
+
+  /// The name of a multi select's list of chosen values. Catalog key
+  /// `multiSelect.selected`.
+  final String multiSelectSelected;
+
+  /// The name of a chosen value's remove button, with `{name}`. Catalog key
+  /// `multiSelect.remove`.
+  final String multiSelectRemove;
+
+  /// Announced after a value is added to a multi select, with `{name}`. Catalog
+  /// key `multiSelect.added`.
+  final String multiSelectAdded;
+
+  /// Announced after a value is removed from a multi select, with `{name}`.
+  /// Catalog key `multiSelect.removed`.
+  final String multiSelectRemoved;
+
+  /// Shown when no option matches a multi select's text. Catalog key
+  /// `multiSelect.empty`.
+  final String multiSelectEmpty;
+
+  /// Shown in a multi select's empty field. Catalog key
+  /// `multiSelect.placeholder`.
+  final String multiSelectPlaceholder;
 
   /// The text of a popover trigger given no content of its own.
   /// Catalog key `dialog.trigger`.
@@ -663,6 +747,22 @@ class InvisibleMessages {
     String? comboboxEmpty,
     String? comboboxShow,
     String? comboboxHide,
+    String? searchFieldClear,
+    String? searchFieldSubmit,
+    String? searchDialogTitle,
+    String? searchDialogLabel,
+    String? searchDialogPlaceholder,
+    String? searchDialogEmpty,
+    String Function(int count)? searchDialogResults,
+    String? searchDialogLoading,
+    String? sheetDialogClose,
+    String? sidebarOpen,
+    String? multiSelectSelected,
+    String? multiSelectRemove,
+    String? multiSelectAdded,
+    String? multiSelectRemoved,
+    String? multiSelectEmpty,
+    String? multiSelectPlaceholder,
     String? popoverTriggerLabel,
     String? calendarLabel,
     String? calendarPrevious,
@@ -793,6 +893,24 @@ class InvisibleMessages {
       comboboxEmpty: comboboxEmpty ?? this.comboboxEmpty,
       comboboxShow: comboboxShow ?? this.comboboxShow,
       comboboxHide: comboboxHide ?? this.comboboxHide,
+      searchFieldClear: searchFieldClear ?? this.searchFieldClear,
+      searchFieldSubmit: searchFieldSubmit ?? this.searchFieldSubmit,
+      searchDialogTitle: searchDialogTitle ?? this.searchDialogTitle,
+      searchDialogLabel: searchDialogLabel ?? this.searchDialogLabel,
+      searchDialogPlaceholder:
+          searchDialogPlaceholder ?? this.searchDialogPlaceholder,
+      searchDialogEmpty: searchDialogEmpty ?? this.searchDialogEmpty,
+      searchDialogResults: searchDialogResults ?? this.searchDialogResults,
+      searchDialogLoading: searchDialogLoading ?? this.searchDialogLoading,
+      sheetDialogClose: sheetDialogClose ?? this.sheetDialogClose,
+      sidebarOpen: sidebarOpen ?? this.sidebarOpen,
+      multiSelectSelected: multiSelectSelected ?? this.multiSelectSelected,
+      multiSelectRemove: multiSelectRemove ?? this.multiSelectRemove,
+      multiSelectAdded: multiSelectAdded ?? this.multiSelectAdded,
+      multiSelectRemoved: multiSelectRemoved ?? this.multiSelectRemoved,
+      multiSelectEmpty: multiSelectEmpty ?? this.multiSelectEmpty,
+      multiSelectPlaceholder:
+          multiSelectPlaceholder ?? this.multiSelectPlaceholder,
       popoverTriggerLabel: popoverTriggerLabel ?? this.popoverTriggerLabel,
       calendarLabel: calendarLabel ?? this.calendarLabel,
       calendarPrevious: calendarPrevious ?? this.calendarPrevious,
@@ -938,6 +1056,22 @@ class InvisibleMessages {
       other.comboboxEmpty == comboboxEmpty &&
       other.comboboxShow == comboboxShow &&
       other.comboboxHide == comboboxHide &&
+      other.searchFieldClear == searchFieldClear &&
+      other.searchFieldSubmit == searchFieldSubmit &&
+      other.searchDialogTitle == searchDialogTitle &&
+      other.searchDialogLabel == searchDialogLabel &&
+      other.searchDialogPlaceholder == searchDialogPlaceholder &&
+      other.searchDialogEmpty == searchDialogEmpty &&
+      other.searchDialogResults == searchDialogResults &&
+      other.searchDialogLoading == searchDialogLoading &&
+      other.sheetDialogClose == sheetDialogClose &&
+      other.sidebarOpen == sidebarOpen &&
+      other.multiSelectSelected == multiSelectSelected &&
+      other.multiSelectRemove == multiSelectRemove &&
+      other.multiSelectAdded == multiSelectAdded &&
+      other.multiSelectRemoved == multiSelectRemoved &&
+      other.multiSelectEmpty == multiSelectEmpty &&
+      other.multiSelectPlaceholder == multiSelectPlaceholder &&
       other.popoverTriggerLabel == popoverTriggerLabel &&
       other.calendarLabel == calendarLabel &&
       other.calendarPrevious == calendarPrevious &&
@@ -1064,6 +1198,22 @@ class InvisibleMessages {
     comboboxEmpty,
     comboboxShow,
     comboboxHide,
+    searchFieldClear,
+    searchFieldSubmit,
+    searchDialogTitle,
+    searchDialogLabel,
+    searchDialogPlaceholder,
+    searchDialogEmpty,
+    searchDialogResults,
+    searchDialogLoading,
+    sheetDialogClose,
+    sidebarOpen,
+    multiSelectSelected,
+    multiSelectRemove,
+    multiSelectAdded,
+    multiSelectRemoved,
+    multiSelectEmpty,
+    multiSelectPlaceholder,
     popoverTriggerLabel,
     calendarLabel,
     calendarPrevious,

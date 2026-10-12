@@ -44,6 +44,7 @@ class TextBox extends StatefulWidget {
     this.trailing,
     this.actions = const [],
     this.onTextPointerDown,
+    this.framed = true,
   });
 
   /// The text.
@@ -106,6 +107,10 @@ class TextBox extends StatefulWidget {
 
   /// Called when a pointer goes down on the text, before any gesture.
   final VoidCallback? onTextPointerDown;
+
+  /// Whether the box draws its border, background and focus ring. A bare
+  /// box leaves them to a row of its own, such as a search dialog's.
+  final bool framed;
 
   @override
   State<TextBox> createState() => _TextBoxState();
@@ -217,33 +222,36 @@ class _TextBoxState extends State<TextBox>
             ],
           );
 
-    Widget box = FieldBox(
-      enabled: widget.enabled,
-      invalid: widget.invalid,
-      focused: focused,
-      child: Row(
-        children: [
-          if (widget.leading case final leading?) ...[
-            ExcludeSemantics(child: leading),
-            const SizedBox(width: _iconGap),
-          ],
-          Expanded(
-            child: widget.onTextPointerDown == null
-                ? text
-                : Listener(
-                    behavior: HitTestBehavior.translucent,
-                    onPointerDown: (_) => widget.onTextPointerDown!(),
-                    child: text,
-                  ),
-          ),
-          if (widget.trailing case final trailing?) ...[
-            const SizedBox(width: _iconGap),
-            ExcludeSemantics(child: trailing),
-          ],
-          ...widget.actions,
+    final row = Row(
+      children: [
+        if (widget.leading case final leading?) ...[
+          ExcludeSemantics(child: leading),
+          const SizedBox(width: _iconGap),
         ],
-      ),
+        Expanded(
+          child: widget.onTextPointerDown == null
+              ? text
+              : Listener(
+                  behavior: HitTestBehavior.translucent,
+                  onPointerDown: (_) => widget.onTextPointerDown!(),
+                  child: text,
+                ),
+        ),
+        if (widget.trailing case final trailing?) ...[
+          const SizedBox(width: _iconGap),
+          ExcludeSemantics(child: trailing),
+        ],
+        ...widget.actions,
+      ],
     );
+    Widget box = widget.framed
+        ? FieldBox(
+            enabled: widget.enabled,
+            invalid: widget.invalid,
+            focused: focused,
+            child: row,
+          )
+        : row;
 
     box = _gestures.buildGestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -335,3 +343,8 @@ class FieldBox extends StatelessWidget {
     );
   }
 }
+
+/// Whether an input method is composing text in [value]: Enter then commits
+/// the composition and must not also submit or confirm.
+bool isComposing(TextEditingValue value) =>
+    value.composing.isValid && !value.composing.isCollapsed;

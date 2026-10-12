@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 
+import '../dialog/dialog_route.dart';
+import '../dialog/sheet_dialog.dart';
 import '../internal/disclosure.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
@@ -75,7 +77,9 @@ const double _activeTint = 0.1;
 /// The sidebar is 240 wide, 56 as a rail, and never wider than its parent.
 /// Given a bounded height, it fills it: the sections scroll between the
 /// logo and the footer, and the footer sits at the bottom. The app decides
-/// where and when to show it; the sidebar reads no screen size.
+/// where and when to show it; the sidebar reads no screen size. On a narrow
+/// screen the app can show the same navigation as a drawer with
+/// [showSidebarDrawer].
 class Sidebar<T> extends StatefulWidget {
   /// Creates the navigation from [sections].
   const Sidebar({
@@ -164,7 +168,10 @@ class _SidebarState<T> extends State<Sidebar<T>> {
 
   Set<String> get _expanded => widget.expandedSections ?? _own;
 
-  bool get _rail => widget.collapsed && canRail(widget.sections);
+  bool get _rail =>
+      widget.collapsed &&
+      canRail(widget.sections) &&
+      context.getInheritedWidgetOfExactType<_SidebarDrawerScope>() == null;
 
   bool _holdsCurrent(SidebarSection<T> section) {
     final value = widget.value;
@@ -221,11 +228,15 @@ class _SidebarState<T> extends State<Sidebar<T>> {
     final railable = canRail(widget.sections);
     assert(_mistakes.isEmpty, _mistakes.join(' '));
     assert(
-      !widget.collapsed || railable,
+      !widget.collapsed ||
+          railable ||
+          _SidebarDrawerScope.maybeOf(context) != null,
       'A collapsed sidebar needs an icon on every destination: without one a '
       'destination shows nothing once the labels are out of sight.',
     );
-    final rail = widget.collapsed && railable;
+    final drawer = _SidebarDrawerScope.maybeOf(context);
+    // A drawer shows the labels: it has the room, and no rail toggle.
+    final rail = widget.collapsed && railable && drawer == null;
     final expanded = _expanded;
 
     Widget items(SidebarSection<T> section, {String? name}) => Semantics(
@@ -248,7 +259,17 @@ class _SidebarState<T> extends State<Sidebar<T>> {
                 item: item,
                 current: item.value == widget.value,
                 rail: rail,
-                onPressed: () => widget.onSelected?.call(item.value),
+                onPressed: () {
+                  // Following a destination closes the drawer first, then
+                  // reports it (ADR 0011).
+                  if (drawer?.closeOnNavigate ?? false) {
+                    final navigator = Navigator.maybeOf(context);
+                    if (navigator != null && navigator.canPop()) {
+                      navigator.pop();
+                    }
+                  }
+                  widget.onSelected?.call(item.value);
+                },
               ),
             ),
         ],
@@ -338,22 +359,29 @@ class _SidebarState<T> extends State<Sidebar<T>> {
           label: widget.label ?? theme.messages.sidebarLabel,
           child: SizedBox(
             // The web sets both widths in rem, which grow with the text size.
-            width: math.min(
-              MediaQuery.textScalerOf(
-                context,
-              ).scale(rail ? _railWidth : _width),
-              constraints.maxWidth,
-            ),
+            // In a drawer the sheet sets the width.
+            width: drawer != null
+                ? constraints.maxWidth
+                : math.min(
+                    MediaQuery.textScalerOf(
+                      context,
+                    ).scale(rail ? _railWidth : _width),
+                    constraints.maxWidth,
+                  ),
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.background,
-                border: Border.all(color: colors.border),
-                borderRadius: BorderRadius.circular(
-                  InvisibleRadiusTokens.surface,
-                ),
-              ),
+              decoration: drawer != null
+                  ? const BoxDecoration()
+                  : BoxDecoration(
+                      color: colors.background,
+                      border: Border.all(color: colors.border),
+                      borderRadius: BorderRadius.circular(
+                        InvisibleRadiusTokens.surface,
+                      ),
+                    ),
               child: Padding(
-                padding: const EdgeInsets.all(_padding),
+                padding: drawer != null
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.all(_padding),
                 child: DefaultTextStyle(
                   style: theme.textStyle.copyWith(color: colors.text),
                   child: Column(
@@ -363,7 +391,9 @@ class _SidebarState<T> extends State<Sidebar<T>> {
                     children: [
                       if (widget.logo case final logo?)
                         Padding(padding: _logoPadding, child: logo),
-                      if (widget.onCollapsedChanged != null && railable)
+                      if (widget.onCollapsedChanged != null &&
+                          railable &&
+                          drawer == null)
                         _RailToggle(
                           collapsed: widget.collapsed,
                           onPressed: () => widget.onCollapsedChanged?.call(
@@ -537,4 +567,81 @@ class _RailToggle extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Shows the navigation [builder] returns, a [Sidebar], as a drawer: a
+/// [SheetDialog] at the inline-start edge ([side]), named [title] or the
+/// sidebar's catalog label, as ADR 0013 decides.
+///
+/// It is modal like every dialog of the family: focus moves into it, Tab
+/// stays inside, and Escape, the barrier and the close button close it. The
+/// app owns the button that opens it, usually in its header, named for
+/// example by the theme's `sidebarOpen`; when the drawer closes, focus goes
+/// back to [returnFocus], or to the element that had focus when it opened.
+/// With [closeOnNavigate], the default, following a destination closes the
+/// drawer first and then reports it through the sidebar's `onSelected`.
+/// [draggable] adds the sheet's grab handle.
+///
+/// The drawer shows the labels whatever the sidebar's `collapsed` says, and
+/// no rail toggle. [builder] runs inside the drawer's route: a sidebar that
+/// should follow the app's state while the drawer stays open reads it there,
+/// for example through a `ValueListenableBuilder`.
+///
+/// ```dart
+/// iu.Button(
+///   onPressed: () => iu.showSidebarDrawer<String>(
+///     context: context,
+///     builder: (context) => iu.Sidebar<String>(
+///       sections: sections,
+///       value: current,
+///       onSelected: navigate,
+///     ),
+///   ),
+///   child: Text(iu.InvisibleTheme.of(context).messages.sidebarOpen),
+/// )
+/// ```
+Future<void> showSidebarDrawer<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  SheetDialogSide side = SheetDialogSide.start,
+  String? title,
+  bool closeOnNavigate = true,
+  bool draggable = false,
+  FocusNode? returnFocus,
+}) {
+  assert(
+    side == SheetDialogSide.start || side == SheetDialogSide.end,
+    'A navigation drawer comes from the inline-start or the inline-end edge.',
+  );
+  final label = title ?? InvisibleTheme.of(context).messages.sidebarLabel;
+  return showInvisibleDialog<void>(
+    context: context,
+    returnFocus: returnFocus,
+    builder: (context) => SheetDialog(
+      title: label,
+      side: side,
+      draggable: draggable,
+      child: _SidebarDrawerScope(
+        closeOnNavigate: closeOnNavigate,
+        child: Builder(builder: builder),
+      ),
+    ),
+  );
+}
+
+/// Tells a [Sidebar] it shows in a drawer.
+class _SidebarDrawerScope extends InheritedWidget {
+  const _SidebarDrawerScope({
+    required this.closeOnNavigate,
+    required super.child,
+  });
+
+  final bool closeOnNavigate;
+
+  static _SidebarDrawerScope? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_SidebarDrawerScope>();
+
+  @override
+  bool updateShouldNotify(_SidebarDrawerScope oldWidget) =>
+      closeOnNavigate != oldWidget.closeOnNavigate;
 }

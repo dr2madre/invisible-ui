@@ -136,6 +136,13 @@ on:
       - "packages/svelte/src/lib/stepper/**"
       - "packages/svelte/src/lib/separator/**"
       - "packages/svelte/src/lib/icon/**"
+      - "core/src/multi-select/**"
+      - "packages/svelte/src/lib/multi-select/**"
+      - "packages/svelte/src/lib/search-field/**"
+      - "packages/svelte/src/lib/prompt-dialog/**"
+      - "packages/svelte/src/lib/search-dialog/**"
+      - "packages/svelte/src/lib/sheet-dialog/**"
+      - "packages/svelte/src/lib/loading-generation-area/**"
       - ".github/workflows/flutter.yml"
   push:
     branches: [main]
@@ -265,6 +272,13 @@ on:
       - "packages/svelte/src/lib/stepper/**"
       - "packages/svelte/src/lib/separator/**"
       - "packages/svelte/src/lib/icon/**"
+      - "core/src/multi-select/**"
+      - "packages/svelte/src/lib/multi-select/**"
+      - "packages/svelte/src/lib/search-field/**"
+      - "packages/svelte/src/lib/prompt-dialog/**"
+      - "packages/svelte/src/lib/search-dialog/**"
+      - "packages/svelte/src/lib/sheet-dialog/**"
+      - "packages/svelte/src/lib/loading-generation-area/**"
       - ".github/workflows/flutter.yml"
   workflow_dispatch:
 

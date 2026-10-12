@@ -174,13 +174,18 @@ Each item ships as its own PR. Checkboxes track progress.
   through Flutter's `Clipboard`, announced) and Blockquote, and Scroll Area,
   then the menus and navigation: Context Menu and Menubar on the shared menu
   layer (the bar running the `core/src/menubar` vectors), Navigation Menu,
-  Sidebar (inline and rail; the drawer waits for Sheet Dialog) and Tree View
+  Sidebar (inline and rail) and Tree View
   (the `core/src/tree-view` vectors), then the value controls: Slider and
   Range Slider (the native range keys, mirrored right to left, with an
   end-of-gesture callback), Rating Group, Pin Input (paste and one-time code
   autofill spread over the cells), Radio (grouped by name), Toggle Button,
-  Toggle Group, Button Group, Stepper and Separator, each with its parity
-  checklist in `packages/flutter/parity/`, and the `flutter.yml` workflow.
+  Toggle Group, Button Group, Stepper and Separator, then search and the
+  rest of the dialog family: Search Field, Multi Select (its selection rules
+  on the shared vectors in `core/src/multi-select/__vectors__`), Prompt
+  Dialog, Search Dialog, Sheet Dialog (edges that follow the reading
+  direction, drag to dismiss) with the Sidebar drawer on it (ADR 0013), and
+  Loading Generation Area, each with its parity checklist in
+  `packages/flutter/parity/`, and the `flutter.yml` workflow.
   The data and form patterns follow: Table and Table Set (sorting,
   selection, filtering, pagination and the card view of
   [`docs/data-table-spec.md`](./data-table-spec.md), with Table View kept

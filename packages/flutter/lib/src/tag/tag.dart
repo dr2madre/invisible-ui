@@ -74,6 +74,7 @@ class Tag extends StatelessWidget {
     this.trailing,
     this.onRemoved,
     this.removeLabel,
+    this.removeFocusNode,
   });
 
   /// The text, usually a [Text].
@@ -101,6 +102,9 @@ class Tag extends StatelessWidget {
   /// The accessible name of the remove button, in place of
   /// [InvisibleMessages.tagRemove].
   final String? removeLabel;
+
+  /// The focus node of the remove button, to move focus to it.
+  final FocusNode? removeFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +151,7 @@ class Tag extends StatelessWidget {
               if (onRemoved != null)
                 _RemoveButton(
                   onPressed: onRemoved,
+                  focusNode: removeFocusNode,
                   label: removeLabel ?? theme.messages.tagRemove,
                   color: paint.foreground,
                 ),
@@ -163,9 +168,11 @@ class _RemoveButton extends StatelessWidget {
     required this.onPressed,
     required this.label,
     required this.color,
+    this.focusNode,
   });
 
   final VoidCallback onPressed;
+  final FocusNode? focusNode;
   final String label;
   final Color color;
 
@@ -180,6 +187,7 @@ class _RemoveButton extends StatelessWidget {
       onTap: onPressed,
       child: Pressable(
         onPressed: onPressed,
+        focusNode: focusNode,
         builder: (context, states) => FocusRingPainter(
           visible: states.focusVisible,
           ring: theme.focusRing,

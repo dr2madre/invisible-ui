@@ -30,6 +30,10 @@ export 'src/dialog/dialog.dart' show AlertDialog, ConfirmDialog, Dialog;
 export 'src/dialog/dialog_panel.dart' show DialogController, DialogNotice;
 export 'src/dialog/dialog_route.dart'
     show InvisibleDialogRoute, showInvisibleDialog;
+export 'src/dialog/prompt_dialog.dart' show PromptDialog;
+export 'src/dialog/search_dialog.dart'
+    show SearchDialog, SearchDialogFilter, SearchDialogItem;
+export 'src/dialog/sheet_dialog.dart' show SheetDialog, SheetDialogSide;
 export 'src/dropdown_menu/dropdown_menu.dart' show DropdownMenu;
 export 'src/feedback_icon/feedback_icon.dart'
     show FeedbackIcon, FeedbackIconBox, FeedbackIconShape;
@@ -42,11 +46,14 @@ export 'src/kbd/kbd.dart' show Kbd;
 export 'src/label/label.dart' show Label;
 export 'src/link/link.dart' show Link, LinkVariant;
 export 'src/loading/loading.dart' show Loading, LoadingVariant;
+export 'src/loading/loading_generation_area.dart'
+    show LoadingAreaLabelPosition, LoadingGenerationArea;
 export 'src/login_form/login_form.dart'
     show LoginCredentials, LoginForm, LoginProvider;
 export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
+export 'src/multi_select/multi_select.dart' show MultiSelect;
 export 'src/navigation_menu/navigation_menu.dart'
     show
         NavigationMenu,
@@ -78,10 +85,11 @@ export 'src/radio_group/radio_group.dart' show RadioButtonGroup;
 export 'src/rating_group/rating_group.dart' show RatingGroup;
 export 'src/scroll_area/scroll_area.dart'
     show ScrollArea, ScrollAreaOrientation;
+export 'src/search_field/search_field.dart' show SearchField;
 export 'src/segmented_control/segmented_control.dart' show SegmentedControl;
 export 'src/select/select.dart' show Select;
 export 'src/separator/separator.dart' show Separator;
-export 'src/sidebar/sidebar.dart' show Sidebar;
+export 'src/sidebar/sidebar.dart' show Sidebar, showSidebarDrawer;
 export 'src/sidebar/sidebar_item.dart' show SidebarItem, SidebarSection;
 export 'src/skeleton/skeleton.dart'
     show Skeleton, SkeletonAnimation, SkeletonVariant;
