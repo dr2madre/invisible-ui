@@ -13,6 +13,7 @@ export 'src/button_group/button_group.dart' show ButtonGroup;
 export 'src/calendar/calendar.dart' show Calendar, CalendarView;
 export 'src/calendar/calendar_date.dart' show DateRange;
 export 'src/calendar/date_symbols.dart' show DateSymbols;
+export 'src/calendar/week_start.dart' show weekStartForLocale;
 export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
 export 'src/checkbox/checkbox.dart' show Checkbox, CheckboxGroup;
 export 'src/choice/choice_item.dart';
