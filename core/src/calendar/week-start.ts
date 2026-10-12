@@ -126,3 +126,13 @@ export function forLocale(locale: string): IsoWeekday {
   region ??= LIKELY_REGION[subtags[0]!];
   return (region && FIRST_DAY_BY_REGION[region]) || 1;
 }
+
+/**
+ * The first day of the week for a BCP 47 locale tag as the calendar counts
+ * it, 0 = Sunday … 6 = Saturday: the default `weekStartsOn` of every web
+ * calendar. Pass the locale the server and the client share, such as the
+ * i18n provider's, so server rendering and hydration agree.
+ */
+export function weekStartsOn(locale: string): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
+  return (forLocale(locale) % 7) as 0 | 1 | 2 | 3 | 4 | 5 | 6;
+}
