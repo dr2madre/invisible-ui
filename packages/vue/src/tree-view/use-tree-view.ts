@@ -1,6 +1,7 @@
 import { treeView as core } from "@design-system/core";
 import {
   computed,
+  onScopeDispose,
   ref,
   toValue,
   watch,
@@ -35,6 +36,8 @@ export interface UseTreeViewOptions {
   onSelectedChange?: (selected: string) => void;
   /** Requests children from the application; the component never fetches. */
   onLoadChildren?: (request: TreeLoadRequest) => void;
+  /** Typeahead text for a node whose row shows no label text; defaults to its value. */
+  labelOf?: (value: string) => string;
 }
 
 export interface UseTreeView {
@@ -52,8 +55,9 @@ export interface UseTreeView {
 
 /**
  * Connect the headless tree (WAI-ARIA tree pattern) to Vue: single selection,
- * roving tabindex, expand/collapse and arrow-key navigation over the visible
- * nodes. The flattening and navigation logic lives in `@design-system/core`;
+ * roving tabindex, expand/collapse, arrow-key navigation over the visible
+ * nodes (mirrored in right-to-left text) and typeahead, which moves focus
+ * only.The flattening and navigation logic lives in `@design-system/core`;
  * this composable owns the resolved state (mirroring controlled `expanded` /
  * `selected` with watches), derives the connected props with
  * `computed(connect)`, and moves DOM focus inside the tree (`rootRef`).
@@ -140,7 +144,20 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
     id: seed.id,
   }));
 
-  const api = computed(() =>
+  // One query per tree, so characters typed in quick succession add up.
+  const typeahead = core.createTypeahead();
+  onScopeDispose(() => typeahead.reset());
+
+  // Typeahead matches the text a row shows, which the label slot may change.
+  const visible = computed(() => core.visibleNodes(state.value));
+  const labelIds = computed(() => new Map(visible.value.map((node) => [node.value, node.labelId])));
+  const labelOf = (value: string) => {
+    const labelId = labelIds.value.get(value);
+    const text = labelId ? document.getElementById(labelId)?.textContent?.trim() : undefined;
+    return text || resolved.value.labelOf?.(value) || value;
+  };
+
+  const connectIn = (direction: "ltr" | "rtl") =>
     core.connect({
       state: state.value,
       setExpanded,
@@ -148,13 +165,38 @@ export function useTreeView(options: MaybeRefOrGetter<UseTreeViewOptions>): UseT
       setFocused,
       focus,
       requestLoad,
+      direction,
+      typeahead,
+      labelOf,
       normalize: normalizeProps,
-    }),
-  );
+    });
+
+  // The reading direction is read when a key arrives, so a `dir` set by an
+  // ancestor after render still mirrors Left and Right.
+  const api = computed<TreeApi>(() => {
+    const ltr = connectIn("ltr");
+    return {
+      ...ltr,
+      getItemProps: (value: string) => {
+        const props = ltr.getItemProps(value);
+        const onKeydown = props.onKeydown as ((event: KeyboardEvent) => void) | undefined;
+        if (!onKeydown) return props;
+        return {
+          ...props,
+          onKeydown: (event: KeyboardEvent) => {
+            const root = rootRef.value;
+            if (root && getComputedStyle(root).direction === "rtl") {
+              (connectIn("rtl").getItemProps(value).onKeydown as typeof onKeydown)(event);
+            } else onKeydown(event);
+          },
+        };
+      },
+    };
+  });
 
   return {
     api,
-    visible: computed(() => core.visibleNodes(state.value)),
+    visible,
     expanded: computed(() => expanded.value),
     selected: computed(() => selected.value),
     rootRef,

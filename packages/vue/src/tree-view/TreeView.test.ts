@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
+import { defineComponent, h } from "vue";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { TreeView } from "./TreeView";
@@ -140,10 +141,90 @@ describe("Vue TreeView", () => {
       loadErrors: ["remote"],
       onLoadChildren,
     });
-    await user.click(
-      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!,
-    );
+    screen.getByRole("treeitem", { name: /remote/ }).focus();
+    await user.keyboard("{ArrowRight}");
     expect(onLoadChildren.mock.calls[1]![0].requestId).toBeGreaterThan(firstId);
+  });
+
+  it("collapses and expands a failed row with the twistie instead of retrying", async () => {
+    const user = userEvent.setup();
+    const onLoadChildren = vi.fn();
+    setup({
+      nodes: [{ value: "remote", hasChildren: true }],
+      expanded: ["remote"],
+      loadErrors: ["remote"],
+      onLoadChildren,
+    });
+    const twistie = () =>
+      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!;
+
+    await user.click(twistie());
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(onLoadChildren).not.toHaveBeenCalled();
+
+    await user.click(twistie());
+    expect(screen.getByRole("treeitem", { name: /remote/ })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+  });
+
+  it("mirrors Left and Right in right-to-left text", async () => {
+    const user = userEvent.setup();
+    render(
+      defineComponent({
+        setup: () => () =>
+          h("div", { dir: "rtl" }, [h(TreeView, { nodes, label: "Project files", expanded: [] })]),
+      }),
+    );
+    const src = screen.getByRole("treeitem", { name: /src/ });
+    src.focus();
+    await user.keyboard("{ArrowLeft}");
+    expect(src).toHaveAttribute("aria-expanded", "true");
+    await user.keyboard("{ArrowRight}");
+    expect(src).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("moves focus by typeahead, by one character and by a quick sequence", async () => {
+    vi.useFakeTimers();
+    try {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      setup({
+        nodes: [{ value: "a" }, { value: "b" }, { value: "c" }, { value: "d" }],
+        labels: { a: "Apple", b: "Banana", c: "Blueberry", d: "Cherry" },
+        expanded: [],
+        selected: "a",
+      });
+      const row = (name: string) => screen.getByRole("treeitem", { name });
+      row("Apple").focus();
+
+      await user.keyboard("c");
+      expect(row("Cherry")).toHaveFocus();
+      vi.advanceTimersByTime(600);
+
+      await user.keyboard("bl");
+      expect(row("Blueberry")).toHaveFocus();
+      expect(row("Apple")).toHaveAttribute("aria-selected", "true");
+      expect(row("Blueberry")).toHaveAttribute("aria-selected", "false");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("matches the text the label slot shows", async () => {
+    const user = userEvent.setup();
+    render(TreeView, {
+      props: { nodes: [{ value: "x1" }, { value: "x2" }], label: "Files" },
+      slots: {
+        label: ({ node }: { node: { value: string } }) => (node.value === "x2" ? "Zeta" : "Alpha"),
+      },
+    });
+    screen.getByRole("treeitem", { name: "Alpha" }).focus();
+    await user.keyboard("z");
+    expect(screen.getByRole("treeitem", { name: "Zeta" })).toHaveFocus();
   });
 
   it("keeps focus when loaded children replace the controlled forest", async () => {
