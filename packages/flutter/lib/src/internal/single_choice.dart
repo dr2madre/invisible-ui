@@ -22,8 +22,8 @@ const Map<ShortcutActivator, Intent> _arrowShortcuts = {
   ),
 };
 
-/// The focus of a single-choice group, [RadioButtonGroup] and [SegmentedControl],
-/// as native radio buttons sharing a name have it: one tab stop, on the
+/// The focus of a single-choice group such as [SegmentedControl], as native
+/// radio buttons sharing a name have it: one tab stop, on the
 /// chosen option or, with none chosen, the first enabled one; arrows move
 /// focus to the next or previous enabled option, wrapping, and choose it.
 /// Right and left follow the reading direction.

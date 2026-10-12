@@ -1,9 +1,11 @@
+import 'dart:ui' show SemanticsRole, SemanticsValidationResult;
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
-import 'package:invisible_ui/src/field/field.dart';
-import 'package:invisible_ui/src/radio_group/radio_group.dart' show RadioDot;
+import 'package:invisible_ui/src/internal/focus_ring.dart';
+import 'package:invisible_ui/src/radio/radio.dart' show RadioDot;
 
 import 'harness.dart';
 
@@ -182,6 +184,20 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.tab);
     await tester.pump();
     expect(_focused(tester, 'Filtered view'), isTrue);
+
+    // A disabled chosen option leaves the stop to the first enabled one.
+    await tester.pumpWidget(build('all'));
+    before.requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pump();
+    expect(_focused(tester, 'This month'), isTrue);
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pump();
+    expect(
+      Focus.of(tester.element(find.text('After'))).hasPrimaryFocus,
+      isTrue,
+    );
   });
 
   testWidgets('Space chooses the focused option; a disabled group takes '
@@ -249,9 +265,18 @@ void main() {
         ),
       ),
     );
+    final semantics = tester.ensureSemantics();
     expect(form.currentState!.validate(), isFalse);
     await tester.pump();
     expect(find.text('Choose a scope.'), findsOneWidget);
+    expect(
+      tester.getSemantics(find.byType(RadioGroup<String>)),
+      semanticsWith(
+        label: 'Export',
+        hint: 'Choose a scope.',
+        validationResult: SemanticsValidationResult.invalid,
+      ),
+    );
     await tester.tap(find.text('This month'));
     await tester.pump();
     expect(form.currentState!.validate(), isTrue);
@@ -260,6 +285,31 @@ void main() {
     form.currentState!.reset();
     await tester.pump();
     expect(_checked(tester), isNull);
+    expect(find.text('Choose a scope.'), findsNothing);
+    semantics.dispose();
+  });
+
+  testWidgets('the focus ring shows around the focused option after keyboard '
+      'use', (tester) async {
+    useKeyboardHighlight();
+    await tester.pumpWidget(
+      harness(
+        const RadioButtonGroup<String>.uncontrolled(
+          label: 'Export',
+          items: _scopes,
+        ),
+      ),
+    );
+    List<bool> rings() => [
+      for (final ring in tester.widgetList<FocusRingPainter>(
+        find.byType(FocusRingPainter),
+      ))
+        ring.visible,
+    ];
+    expect(rings(), [false, false, false, false]);
+    await tester.tap(find.text('Export'));
+    await pumpFocus(tester);
+    expect(rings(), [true, false, false, false]);
   });
 
   testWidgets('semantics: a named radio group of exclusive options', (
@@ -273,12 +323,21 @@ void main() {
           items: _scopes,
           value: 'year',
           description: 'What the file holds.',
+          required: true,
         ),
       ),
     );
+    // One node: the native group's radio group role, with the field's name,
+    // description and required state on it.
+    final group = tester.getSemantics(find.byType(RadioGroup<String>));
+    expect(group.getSemanticsData().role, SemanticsRole.radioGroup);
     expect(
-      tester.getSemantics(find.byType(FieldSemantics)),
-      semanticsWith(label: 'Export', hint: 'What the file holds.'),
+      group,
+      semanticsWith(
+        label: 'Export',
+        hint: 'What the file holds.',
+        isRequired: true,
+      ),
     );
     expect(
       tester.getSemantics(find.text('This year')),

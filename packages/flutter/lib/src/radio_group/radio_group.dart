@@ -1,22 +1,33 @@
-import 'dart:ui' show SemanticsRole;
+import 'dart:ui' show SemanticsValidationResult;
 
 import 'package:flutter/widgets.dart';
 
 import '../choice/choice_item.dart';
 import '../field/field.dart';
-import '../internal/single_choice.dart';
-import '../internal/toggle_tile.dart';
 import '../internal/value_control.dart';
-import '../theme/theme.dart';
+import '../radio/radio.dart';
 
 // Sizes the web RadioButtonGroup sets in its own stylesheet.
-const double _dotSide = 17.6;
-const double _innerDot = 9.6;
 const double _gap = 8;
 const double _gapHorizontal = 20;
 
 /// A named set of options of which one is chosen, following the WAI-ARIA
-/// radio group pattern.
+/// radio group pattern, built on the widgets library's [RadioGroup] and
+/// [Radio].
+///
+/// ```dart
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// iu.RadioButtonGroup<String>(
+///   label: 'Export',
+///   items: const [
+///     iu.ChoiceItem(value: 'month', label: 'This month'),
+///     iu.ChoiceItem(value: 'year', label: 'This year'),
+///   ],
+///   value: scope,
+///   onChanged: (next) => setState(() => scope = next),
+/// );
+/// ```
 ///
 /// The group is one tab stop: the chosen option, or the first enabled one
 /// when none is chosen. The arrow keys move to the next or previous enabled
@@ -24,15 +35,16 @@ const double _gapHorizontal = 20;
 /// direction. Space or a tap chooses the focused option. Options stack
 /// vertically, or wrap in rows when [orientation] is horizontal.
 ///
-/// Controlled, [RadioButtonGroup] shows [value] (null when nothing is chosen) and
-/// reports each choice through [onChanged]; [RadioButtonGroup.uncontrolled] keeps
-/// its own value. A changed [value] is shown without calling [onChanged].
-/// Inside a [Form] it validates, saves and resets like the other value
-/// controls.
+/// Controlled, [RadioButtonGroup] shows [value] (null when nothing is
+/// chosen) and reports each choice through [onChanged];
+/// [RadioButtonGroup.uncontrolled] keeps its own value. A changed [value] is
+/// shown without calling [onChanged]. Inside a [Form] it validates, saves
+/// and resets like the other value controls: [error] or the [validator]'s
+/// message shows under the options, and a reset restores the default
+/// without reporting it.
 ///
-/// The web adapters call it RadioGroup; the widgets library has its own
-/// `RadioGroup`, a registry for raw radio buttons, so this one has another
-/// name.
+/// The web adapters call it RadioGroup; that name is the widgets library's
+/// value holder this group is built on.
 class RadioButtonGroup<T> extends StatefulWidget {
   /// A group that shows [value], controlled by the parent.
   const RadioButtonGroup({
@@ -125,7 +137,12 @@ class RadioButtonGroup<T> extends StatefulWidget {
 
 class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
     with ValueControl<T?, RadioButtonGroup<T>> {
-  final SingleChoiceFocus<T> _focus = SingleChoiceFocus<T>();
+  // Holds the options' focus nodes, for a tap on the label.
+  final FocusNode _options = FocusNode(
+    debugLabel: 'RadioButtonGroup options',
+    canRequestFocus: false,
+    skipTraversal: true,
+  );
 
   @override
   bool get isControlled => widget._controlled;
@@ -138,32 +155,23 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
 
   @override
   void dispose() {
-    _focus.dispose();
+    _options.dispose();
     super.dispose();
   }
 
-  void _choose(T next) {
-    if (commitValue(next)) widget.onChanged?.call(next);
+  void _choose(T? next) {
+    if (next != null && commitValue(next)) widget.onChanged?.call(next);
   }
 
   @override
   Widget build(BuildContext context) {
-    final items = widget.items;
-    _focus.sync(items, value, enabled: widget.enabled);
     final options = [
-      for (final item in items)
-        ToggleTile(
+      for (final item in widget.items)
+        Radio<T>(
           key: ValueKey(item.value),
+          value: item.value,
           label: item.label,
-          semanticLabel: item.label,
-          indicator: RadioDot(checked: item.value == value),
-          indicatorRadius: indicatorSide(context, _dotSide) / 2,
-          onActivate: widget.enabled && !item.disabled
-              ? () => _choose(item.value)
-              : null,
-          checked: item.value == value,
-          inMutuallyExclusiveGroup: true,
-          focusNode: _focus.nodeFor(item.value),
+          enabled: widget.enabled && !item.disabled,
         ),
     ];
     return buildFormField(
@@ -173,6 +181,11 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
       autovalidateMode: widget.autovalidateMode,
       builder: (errorText) {
         final error = widget.error ?? errorText;
+        final invalid = error != null && error.isNotEmpty;
+        final hint = [
+          widget.description,
+          error,
+        ].where((part) => part != null && part.isNotEmpty).join('\n');
         return FieldFrame(
           label: widget.label,
           hideLabel: widget.hideLabel,
@@ -180,32 +193,43 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
           enabled: widget.enabled,
           description: widget.description,
           error: error,
-          onLabelTap: _focus.focusTabStop,
-          control: FieldSemantics(
-            label: widget.label,
-            description: widget.description,
-            error: error,
-            required: widget.required,
-            enabled: widget.enabled,
-            role: SemanticsRole.radioGroup,
-            explicitChildNodes: true,
-            child: SingleChoiceKeys<T>(
-              focus: _focus,
-              items: items,
-              onMove: _choose,
-              child: widget.orientation == Axis.vertical
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: _gap,
-                      children: options,
-                    )
-                  : Wrap(
-                      spacing: _gapHorizontal,
-                      runSpacing: _gap,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: options,
-                    ),
+          onLabelTap: () => focusRadioTabStop(_options),
+          // The native group's node has the radio group role; the field's
+          // name, hint and states merge into it, as FieldSemantics gives
+          // them to other fields.
+          control: Actions(
+            // The native group's keys invoke VoidCallbackIntent, whose action
+            // WidgetsApp provides; this keeps them working without one.
+            actions: _groupActions,
+            child: RadioGroup<T>(
+              groupValue: value,
+              onChanged: _choose,
+              child: Semantics(
+                label: widget.label,
+                hint: hint.isEmpty ? null : hint,
+                enabled: widget.enabled ? null : false,
+                isRequired: widget.required ? true : null,
+                validationResult: invalid
+                    ? SemanticsValidationResult.invalid
+                    : SemanticsValidationResult.none,
+                child: Focus(
+                  focusNode: _options,
+                  includeSemantics: false,
+                  child: widget.orientation == Axis.vertical
+                      ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: _gap,
+                          children: options,
+                        )
+                      : Wrap(
+                          spacing: _gapHorizontal,
+                          runSpacing: _gap,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: options,
+                        ),
+                ),
+              ),
             ),
           ),
         );
@@ -214,38 +238,6 @@ class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>>
   }
 }
 
-/// The painted circle of a radio option, with a dot when [checked]. The dot
-/// takes the selection text colour, and the ring stays the control border.
-class RadioDot extends StatelessWidget {
-  /// Paints the circle.
-  const RadioDot({super.key, required this.checked});
-
-  /// Whether the option is chosen.
-  final bool checked;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = InvisibleTheme.of(context).colors;
-    final side = indicatorSide(context, _dotSide);
-    final inner = indicatorSide(context, _innerDot);
-    return Container(
-      width: side,
-      height: side,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: colors.controlBorder),
-      ),
-      child: checked
-          ? Container(
-              width: inner,
-              height: inner,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colors.selectedText,
-              ),
-            )
-          : null,
-    );
-  }
-}
+final Map<Type, Action<Intent>> _groupActions = {
+  VoidCallbackIntent: VoidCallbackAction(),
+};
