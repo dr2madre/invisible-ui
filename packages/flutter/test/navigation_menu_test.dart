@@ -268,9 +268,7 @@ void main() {
   });
 
   testWidgets('links open through their callbacks by a tap or Enter, never '
-      'Space, and leave the panel open; the callbacks are read when pressed', (
-    tester,
-  ) async {
+      'Space; the callbacks are read when pressed', (tester) async {
     final opened = <String>[];
     await tester.pumpWidget(_menu(opened: opened));
     await tester.tap(find.text('Pricing'));
@@ -280,18 +278,271 @@ void main() {
     await tester.tap(_products);
     await tester.pump();
     await tester.tap(find.text('Analytics'));
+    await tester.pump();
+    await tester.tap(_products);
+    await tester.pump();
     await focusOn(tester, find.text('Automation'));
     await tester.sendKeyEvent(LogicalKeyboardKey.space);
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     expect(opened, ['pricing', 'pricing', 'analytics', 'automation']);
-    expect(_shows('Automation'), isTrue, reason: 'choosing closes nothing');
 
     final replaced = <String>[];
     await tester.pumpWidget(_menu(opened: replaced));
+    await tester.pump();
+    await tester.tap(_products);
+    await tester.pump();
     await tester.tap(find.text('Analytics'));
     expect(replaced, ['analytics']);
     expect(opened, hasLength(4));
   });
+
+  testWidgets('a link closes the panel before its callback runs, by a tap '
+      'and by Enter; a plain link closes an open panel too', (tester) async {
+    final log = <String>[];
+    await tester.pumpWidget(
+      harness(
+        NavigationMenu<String>(
+          label: 'Main',
+          onOpenChanged: (value) => log.add('open $value'),
+          items: [
+            NavigationMenuItem.panel(
+              value: 'products',
+              label: 'Products',
+              links: [
+                NavigationMenuLink(
+                  label: 'Analytics',
+                  onPressed: () => log.add('analytics'),
+                ),
+              ],
+            ),
+            NavigationMenuItem.link(
+              value: 'pricing',
+              label: 'Pricing',
+              onPressed: () => log.add('pricing'),
+            ),
+          ],
+        ),
+      ),
+    );
+    await tester.tap(_products);
+    await tester.pump();
+    await tester.tap(find.text('Analytics'));
+    await tester.pump();
+    expect(_shows('Analytics'), isFalse);
+    await focusOn(tester, _products);
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+    await pumpFocus(tester);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(_shows('Analytics'), isFalse);
+    await tester.tap(_products);
+    await tester.pump();
+    await focusOn(tester, find.text('Pricing'));
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(_shows('Analytics'), isFalse);
+    // The close is committed and reported before each callback runs.
+    expect(log, [
+      for (final link in ['analytics', 'analytics', 'pricing']) ...[
+        'open products',
+        'open null',
+        link,
+      ],
+    ]);
+  });
+
+  testWidgets('a link leaves focus where its callback puts it, never back on '
+      'the trigger by itself', (tester) async {
+    final page = FocusNode(debugLabel: 'page');
+    addTearDown(page.dispose);
+    await tester.pumpWidget(
+      harness(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            NavigationMenu<String>(
+              label: 'Main',
+              items: [
+                NavigationMenuItem.panel(
+                  value: 'products',
+                  label: 'Products',
+                  links: [
+                    NavigationMenuLink(
+                      label: 'Analytics',
+                      onPressed: page.requestFocus,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Focus(focusNode: page, child: const Text('Page')),
+          ],
+        ),
+      ),
+    );
+    await focusOn(tester, _products);
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+    await pumpFocus(tester);
+    expect(focusedOn(tester, find.text('Analytics')), isTrue);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await pumpFocus(tester);
+    await pumpFocus(tester);
+    expect(_shows('Analytics'), isFalse);
+    expect(page.hasPrimaryFocus, isTrue);
+    expect(focusedOn(tester, _products), isFalse);
+  });
+
+  testWidgets('a link whose callback leaves focus nowhere hands it to the '
+      'trigger; a trigger that is gone takes nothing', (tester) async {
+    final withPanel = ValueNotifier<bool>(true);
+    addTearDown(withPanel.dispose);
+    final opened = <String>[];
+    final early = <bool>[];
+    await tester.pumpWidget(
+      harness(
+        ValueListenableBuilder<bool>(
+          valueListenable: withPanel,
+          builder: (context, panel, _) => NavigationMenu<String>(
+            label: 'Main',
+            items: [
+              if (panel)
+                NavigationMenuItem.panel(
+                  value: 'products',
+                  label: 'Products',
+                  links: [
+                    NavigationMenuLink(
+                      label: 'Analytics',
+                      onPressed: () {
+                        opened.add('analytics');
+                        // What focus does before any frame: the trigger
+                        // only takes it as the safety net, a frame later.
+                        Future.microtask(
+                          () => early.add(focusedOn(tester, _products)),
+                        );
+                      },
+                    ),
+                    NavigationMenuLink(
+                      label: 'Automation',
+                      // The page this link opens has no panel item.
+                      onPressed: () => withPanel.value = false,
+                    ),
+                  ],
+                ),
+              NavigationMenuItem.link(
+                value: 'pricing',
+                label: 'Pricing',
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    await focusOn(tester, _products);
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+    await pumpFocus(tester);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await pumpFocus(tester);
+    await pumpFocus(tester);
+    expect(opened, ['analytics']);
+    expect(early, [false]);
+    expect(_shows('Analytics'), isFalse);
+    expect(focusedOn(tester, _products), isTrue, reason: 'the safety net');
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+    await pumpFocus(tester);
+    await focusOn(tester, find.text('Automation'));
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await pumpFocus(tester);
+    await pumpFocus(tester);
+    expect(tester.takeException(), isNull);
+    expect(_products, findsNothing);
+    expect(focusedOn(tester, find.text('Pricing')), isFalse);
+  });
+
+  testWidgets('the first click keeps a panel the pointer opened; leaving '
+      'then closes nothing; the next click closes it', (tester) async {
+    final reports = <String?>[];
+    await tester.pumpWidget(_menu(onOpenChanged: reports.add));
+    final mouse = await _mouse(tester);
+    await mouse.moveTo(tester.getCenter(_products));
+    await tester.pump(const Duration(milliseconds: 160));
+    expect(_shows('Analytics'), isTrue, reason: 'hover opened it');
+    await mouse.down(tester.getCenter(_products));
+    await mouse.up();
+    await tester.pump();
+    expect(_shows('Analytics'), isTrue, reason: 'the click keeps it');
+    await mouse.moveTo(const Offset(5, 5));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_shows('Analytics'), isTrue, reason: 'leaving closes nothing');
+    // Hovering another trigger switches, and the menu stays kept.
+    await mouse.moveTo(tester.getCenter(_resources));
+    await tester.pump();
+    await mouse.moveTo(const Offset(5, 5));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_shows('Docs'), isTrue);
+    await mouse.moveTo(tester.getCenter(_resources));
+    await mouse.down(tester.getCenter(_resources));
+    await mouse.up();
+    await tester.pump();
+    expect(_shows('Docs'), isFalse, reason: 'the second click closes');
+    expect(reports, ['products', 'resources', null]);
+  });
+
+  testWidgets('a click opens a panel and keeps it; Escape and a press '
+      'outside close a kept panel', (tester) async {
+    await tester.pumpWidget(_menu());
+    final mouse = await _mouse(tester);
+    await mouse.moveTo(tester.getCenter(_products));
+    await mouse.down(tester.getCenter(_products));
+    await mouse.up();
+    await mouse.moveTo(const Offset(5, 5));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_shows('Analytics'), isTrue);
+    await focusOn(tester, _products);
+    await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+    await tester.pump();
+    expect(_shows('Analytics'), isFalse);
+
+    await tester.tap(_products);
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_shows('Analytics'), isTrue);
+    await tester.tapAt(const Offset(5, 5));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(_shows('Analytics'), isFalse);
+  });
+
+  for (final close in ['click', 'Escape']) {
+    testWidgets('after a $close closes the panel, the resting pointer opens '
+        'nothing; leaving the trigger re-arms hover', (tester) async {
+      await tester.pumpWidget(_menu());
+      final mouse = await _mouse(tester);
+      await mouse.moveTo(tester.getCenter(_products));
+      await tester.pump(const Duration(milliseconds: 160));
+      expect(_shows('Analytics'), isTrue);
+      if (close == 'click') {
+        // The first click keeps the panel, the second closes it.
+        for (var i = 0; i < 2; i++) {
+          await mouse.down(tester.getCenter(_products));
+          await mouse.up();
+          await tester.pump();
+        }
+      } else {
+        await focusOn(tester, _products);
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pump();
+      }
+      expect(_shows('Analytics'), isFalse);
+      await mouse.moveBy(const Offset(2, 1));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(_shows('Analytics'), isFalse, reason: 'the pointer stayed');
+      await mouse.moveTo(const Offset(5, 5));
+      await tester.pump();
+      await mouse.moveTo(tester.getCenter(_products));
+      await tester.pump(const Duration(milliseconds: 160));
+      expect(_shows('Analytics'), isTrue, reason: 'hover is re-armed');
+    });
+  }
 
   testWidgets('onOpenChanged reports once per change and is read at the '
       'change', (tester) async {
@@ -442,5 +693,197 @@ void main() {
           .visible,
       isTrue,
     );
+  });
+
+  group('current page', () {
+    List<NavigationMenuItem<String>> items({String current = 'analytics'}) => [
+      NavigationMenuItem.panel(
+        value: 'products',
+        label: 'Products',
+        links: [
+          NavigationMenuLink(
+            label: 'Analytics',
+            current: current == 'analytics',
+            onPressed: () {},
+          ),
+          NavigationMenuLink(label: 'Automation', onPressed: () {}),
+        ],
+      ),
+      NavigationMenuItem.panel(
+        value: 'resources',
+        label: 'Resources',
+        links: [NavigationMenuLink(label: 'Docs', onPressed: () {})],
+      ),
+      NavigationMenuItem.link(
+        value: 'pricing',
+        label: 'Pricing',
+        current: current == 'pricing',
+        onPressed: () {},
+      ),
+    ];
+
+    Widget build({
+      String current = 'analytics',
+      TextDirection direction = TextDirection.ltr,
+      double textScale = 1,
+      InvisibleThemeData? theme,
+    }) => harness(
+      NavigationMenu<String>(
+        label: 'Main',
+        items: items(current: current),
+      ),
+      direction: direction,
+      textScale: textScale,
+      theme: theme,
+    );
+
+    // The bar painted beside the colour, so the state never rests on
+    // colour alone.
+    bool marked(WidgetTester tester, String text) => tester
+        .widgetList<CustomPaint>(
+          find.ancestor(
+            of: find.text(text),
+            matching: find.byType(CustomPaint),
+          ),
+        )
+        .any(
+          (paint) => '${paint.foregroundPainter.runtimeType}' == '_CurrentMark',
+        );
+
+    Color colorOf(WidgetTester tester, String text) =>
+        tester.widget<Text>(find.text(text)).style!.color!;
+
+    testWidgets('only the current link is read as the current page; its '
+        'trigger is marked on screen and read as before', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(build());
+      final products = tester.getSemantics(_products);
+      expect(products.value, isEmpty, reason: 'visual only');
+      expect(products.label, 'Products');
+      expect(marked(tester, 'Products'), isTrue);
+      expect(marked(tester, 'Resources'), isFalse);
+      expect(marked(tester, 'Pricing'), isFalse);
+      expect(tester.getSemantics(find.text('Pricing')).value, isEmpty);
+
+      await tester.tap(_products);
+      await tester.pump();
+      expect(
+        tester.getSemantics(find.text('Analytics')),
+        semanticsWith(label: 'Analytics', value: 'current page'),
+      );
+      expect(tester.getSemantics(find.text('Automation')).value, isEmpty);
+      expect(marked(tester, 'Analytics'), isTrue);
+      expect(marked(tester, 'Automation'), isFalse);
+      expect(
+        colorOf(tester, 'Analytics'),
+        isNot(colorOf(tester, 'Automation')),
+      );
+      await expectLater(tester, meetsGuideline(textContrastGuideline));
+      semantics.dispose();
+    });
+
+    testWidgets('a plain link in the bar can be the current page', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(build(current: 'pricing'));
+      expect(
+        tester.getSemantics(find.text('Pricing')),
+        semanticsWith(label: 'Pricing', value: 'current page'),
+      );
+      expect(marked(tester, 'Pricing'), isTrue);
+      expect(marked(tester, 'Products'), isFalse);
+      semantics.dispose();
+    });
+
+    testWidgets('the mark of a current panel link sits at the inline-start '
+        'edge, mirrored right to left', (tester) async {
+      for (final direction in TextDirection.values) {
+        await tester.pumpWidget(build(direction: direction));
+        await tester.tap(_products);
+        await tester.pump();
+        final paint = find
+            .ancestor(
+              of: find.text('Analytics'),
+              matching: find.byType(CustomPaint),
+            )
+            .first;
+        final box = tester.renderObject<RenderBox>(paint);
+        final width = box.size.width;
+        final left = direction == TextDirection.ltr ? 0.0 : width - 2;
+        expect(
+          box,
+          paints
+            // The tint, then the mark.
+            ..rrect()
+            ..rrect(
+              rrect: RRect.fromRectAndRadius(
+                Rect.fromLTWH(left, 4, 2, box.size.height - 8),
+                const Radius.circular(1),
+              ),
+            ),
+          reason: direction.name,
+        );
+        await tester.tap(_products);
+        await tester.pump();
+      }
+    });
+
+    testWidgets('right to left at text scale 2.0 under touch: no overflow, '
+        'labelled 44 by 44 targets', (tester) async {
+      tester.view.physicalSize = const Size(320, 700);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        build(
+          direction: TextDirection.rtl,
+          textScale: 2,
+          theme: InvisibleThemeData.light(density: InvisibleDensity.touch),
+        ),
+      );
+      await tester.tap(_products);
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      final semantics = tester.ensureSemantics();
+      await tester.pump();
+      expect(
+        tester.getSemantics(find.text('Analytics')),
+        semanticsWith(value: 'current page'),
+      );
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      await expectLater(tester, meetsGuideline(targetGuideline44));
+      await expectLater(tester, meetsGuideline(textContrastGuideline));
+      semantics.dispose();
+    });
+
+    testWidgets('two current links fail an assertion', (tester) async {
+      await tester.pumpWidget(
+        harness(
+          NavigationMenu<String>(
+            label: 'Main',
+            items: [
+              NavigationMenuItem.panel(
+                value: 'products',
+                label: 'Products',
+                links: [
+                  NavigationMenuLink(
+                    label: 'Analytics',
+                    current: true,
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              NavigationMenuItem.link(
+                value: 'pricing',
+                label: 'Pricing',
+                current: true,
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(tester.takeException(), isAssertionError);
+    });
   });
 }

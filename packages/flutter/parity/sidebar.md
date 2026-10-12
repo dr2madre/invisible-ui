@@ -81,19 +81,19 @@ scope** or **not yet verified**. Every matched line names the widget test in
 | Each section's items as a list | matched | `SemanticsRole.list` with `SemanticsRole.listItem` children: `semantics: …` |
 | A plain section's heading | adapted | the web renders a paragraph before the list; Flutter names the list with the heading, so it is read with the list in both layouts: `semantics: …`, `the rail: …` |
 | Collapsible heading `aria-controls` | adapted | Flutter semantics have no relation between nodes; the content follows the button in the tree |
-| Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
+| Screen reader output on VoiceOver, TalkBack, NVDA | not yet verified | Assistive technology: not tested |
 
 ## Look and layout
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| Width 15rem, rail 3.5rem, never wider than the parent | adapted | 240 and 56 at text scale 1.0, scaled with the text as rem is with the browser's text size, then clamped to the parent: `the rail: 56 wide, …`, `right to left at text scale 2.0 in a 320 wide parent: long labels wrap with no overflow; 44 by 44 targets under touch`, `the rail right to left at text scale 2.0 under touch: no overflow, 44 by 44 targets` |
+| Width 15rem, rail 3.5rem, never wider than the parent | adapted | 240 and 56 at text scale 1.0, scaled with the text as rem is with the browser's text size, then clamped to the parent: `the width grows with the text scale and stops at the parent`, `the rail: 56 wide, …`, `right to left at text scale 2.0 in a 320 wide parent: long labels wrap with no overflow; 44 by 44 targets under touch`, `the rail right to left at text scale 2.0 under touch: no overflow, 44 by 44 targets` |
 | Padding 12, gap 12, `background`, `border`, `radius.surface` | matched | `Sidebar.build`; the reference stylesheet sets the same roles |
 | Items: padding 8 by 10, gap 10, `radius.control`, `state-hover` on hover; current: `secondary-body-text`, 10% `secondary` tint, w600 | matched | `_ItemButton`; the tint is the 10% the package's selected states use |
 | Long labels wrap | matched | `right to left at text scale 2.0 in a 320 wide parent: …` |
 | Headings: 11 px, bold, uppercase, 0.05 em tracking, `text-secondary` | matched | `semantics: …` (the uppercase heading is read as written, "Projects") |
 | Heading chevron: a quarter turn toward the content, mirrored right to left, none under reduced motion | matched | `the heading chevron turns a quarter turn toward the content, mirrored right to left, at once under reduced motion` |
-| Heading hover tint | adapted | the shared disclosure header paints no hover tint; the keyboard ring stays |
+| Heading hover tint: `state-hover`, `radius.control` | matched | `a section heading takes the hover tint under the mouse; a Collapsible header keeps none`. The shared disclosure header takes it through `hoverTint`, which only Sidebar sets, so Collapsible and Accordion keep the look of their web references |
 | Heading chevron size | adapted | the shared disclosure header sizes it at 1.1 em of the body text; the web sizes it at 1 em of the heading |
 | Footer at the bottom with a top border and 8 of space | matched | `bounded height: the sections scroll and the footer sits at the bottom; unbounded: a plain column` |
 | The sections scroll between the logo and the footer | adapted | with a bounded height the sections scroll; with an unbounded one the sidebar is a plain column, since Flutter cannot fill an unbounded height: same test |
@@ -106,6 +106,6 @@ scope** or **not yet verified**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| `mode="drawer"`, `open`, `onOpenChange`, `closeOnNavigate`, `title`, `renderTrigger`, `returnFocusTo`, `trigger` | out of scope | the drawer composes Sheet Dialog (ADR 0013), which the Flutter package does not have yet |
+| `mode="drawer"`, `open`, `onOpenChange`, `closeOnNavigate`, `title`, `renderTrigger`, `returnFocusTo`, `trigger` | out of scope | the drawer composes Sheet Dialog (ADR 0013). The Flutter package has no Sheet Dialog yet, so it has no drawer code; the drawer arrives with Sheet Dialog |
 | `side` (inline-start or inline-end) | out of scope | it places the drawer's edge only; the inline sidebar sits where the app puts it |
 | Responsive presentation | out of scope | as on the web, the component reads no screen size; the app decides where and when to show it and whether it is a rail |

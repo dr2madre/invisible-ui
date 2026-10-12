@@ -292,6 +292,7 @@ class _SidebarState<T> extends State<Sidebar<T>> {
               padding: rail ? _railHeadingPadding : _headingPadding,
               radius: theme.controlRadius,
               ringInside: true,
+              hoverTint: true,
             ),
             DisclosurePanel(visible: open, child: items(section)),
           ],

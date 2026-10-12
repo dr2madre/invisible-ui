@@ -35,6 +35,11 @@ const EdgeInsetsDirectional _linkPadding = EdgeInsetsDirectional.symmetric(
 const double _descriptionSize = 14;
 const Duration _hoverDelay = Duration(milliseconds: 150);
 const Duration _turn = Duration(milliseconds: 150);
+// The current page carries a bar besides its colour, so the state never
+// rests on colour alone. The tint is the 10% the package's selected states
+// use.
+const double _markWidth = 2;
+const double _currentTint = 0.1;
 
 /// A link inside a [NavigationMenuItem.panel].
 @immutable
@@ -46,6 +51,7 @@ class NavigationMenuLink {
     required this.onPressed,
     this.description,
     this.uri,
+    this.current = false,
   });
 
   /// The visible label and accessible name.
@@ -59,6 +65,11 @@ class NavigationMenuLink {
 
   /// The destination, announced as the link's address.
   final Uri? uri;
+
+  /// Whether the link leads to the page on screen. The app says which link
+  /// is current: it is read as the current page, and the trigger that holds
+  /// it is marked on screen only.
+  final bool current;
 }
 
 /// One top-level item of a [NavigationMenu]: a plain link or a trigger that
@@ -73,6 +84,7 @@ sealed class NavigationMenuItem<T> {
     required String label,
     required VoidCallback onPressed,
     Uri? uri,
+    bool current,
   }) = NavigationMenuTopLink<T>;
 
   /// A trigger that reveals [links] in a panel below it.
@@ -98,6 +110,7 @@ final class NavigationMenuTopLink<T> extends NavigationMenuItem<T> {
     required super.label,
     required this.onPressed,
     this.uri,
+    this.current = false,
   }) : super._();
 
   /// Opens the destination.
@@ -105,6 +118,9 @@ final class NavigationMenuTopLink<T> extends NavigationMenuItem<T> {
 
   /// The destination, announced as the link's address.
   final Uri? uri;
+
+  /// Whether the link leads to the page on screen, read as the current page.
+  final bool current;
 }
 
 /// A [NavigationMenu] trigger with its panel of links. Create it with
@@ -125,13 +141,23 @@ final class NavigationMenuPanel<T> extends NavigationMenuItem<T> {
 /// links.
 ///
 /// Plain items are links. Panel items are disclosure buttons, at most one
-/// open at a time. The pointer resting on a trigger opens its panel after
-/// 150 ms, or at once while another panel is open; leaving the trigger and
-/// the panel closes it after 150 ms. A tap, a click, Enter or Space toggles
-/// a panel; touch has no hover. ArrowDown on a trigger opens its panel and
-/// moves focus to the first link. Escape closes the panel and focus returns
-/// to its trigger. A press outside closes it without moving focus back.
-/// Links open through their callback on a tap or Enter, as [Link] does.
+/// open at a time. The pointer resting on a trigger opens its panel while
+/// it stays: after 150 ms, or at once while another panel is open; leaving
+/// the trigger and the panel closes it after 150 ms. A tap, a click, Enter
+/// or Space opens a panel and keeps it open, also one the pointer opened;
+/// the next press closes it. Touch has no hover. ArrowDown on a trigger
+/// opens its panel, keeps it open and moves focus to the first link.
+/// Escape closes the panel and focus returns to its trigger. A press
+/// outside closes it without moving focus back. A panel closed by a press
+/// or Escape opens by hover again only after the pointer leaves its
+/// trigger.
+///
+/// Links open through their callback on a tap or Enter, as [Link] does. A
+/// link closes the open panel before its callback runs, and focus goes
+/// where the callback puts it, never back to the trigger by itself; only
+/// when it lands nowhere does it go to the trigger. The app marks the link
+/// of the page on screen with `current`: that link is read as the current
+/// page, and the trigger that holds it is marked on screen only.
 ///
 /// The open panel belongs to the component; [onOpenChanged] reports each
 /// change once, with the open item's value or null. A crowded bar wraps
@@ -180,6 +206,9 @@ class _Slot {
 class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
   final Map<T, _Slot> _slots = {};
   T? _open;
+  // Whether a press keeps the open panel open, so the pointer leaving it
+  // closes nothing.
+  bool _kept = false;
   Timer? _timer;
 
   _Slot _slot(T value) => _slots.putIfAbsent(value, _Slot.new);
@@ -192,7 +221,10 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
         if (item is NavigationMenuPanel<T>) item.value,
     };
     // A panel whose item is gone closes silently: no one asked for it.
-    if (_open != null && !panels.contains(_open)) _open = null;
+    if (_open != null && !panels.contains(_open)) {
+      _open = null;
+      _kept = false;
+    }
     _slots.removeWhere((value, slot) {
       if (panels.contains(value)) return false;
       slot.dispose();
@@ -210,12 +242,16 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
   }
 
   /// Opens the panel of [value], or closes every panel for null, and reports
-  /// it once. Focus inside a panel that closes returns to its trigger,
-  /// unless [restoreFocus] is false.
-  void _set(T? value, {bool restoreFocus = true}) {
+  /// it once. [keep] says whether a press opened it. Focus inside a panel
+  /// that closes returns to its trigger, unless [restoreFocus] is false.
+  void _set(T? value, {bool keep = false, bool restoreFocus = true}) {
     _timer?.cancel();
     _timer = null;
-    if (!mounted || value == _open) return;
+    if (!mounted) return;
+    if (value == _open) {
+      _kept = value != null && (_kept || keep);
+      return;
+    }
     // A hover delay may outlive its item.
     if (value != null && !_slots.containsKey(value)) return;
     final previous = _open == null ? null : _slots[_open];
@@ -224,12 +260,51 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
       previous?.portal.hide();
       if (value != null) _slots[value]!.portal.show();
       _open = value;
+      // A press keeps the menu open across a switch by hover.
+      _kept = value != null && (_kept || keep);
     });
     if (focusInside && restoreFocus) previous!.trigger.requestFocus();
     widget.onOpenChanged?.call(value);
   }
 
-  void _toggle(T value) => _set(_open == value ? null : value);
+  /// A press on a trigger keeps a panel the pointer opened and closes one a
+  /// press kept. Hover opens only on entering a trigger, so a panel closed
+  /// here stays closed while the pointer rests on it.
+  void _press(T value) {
+    if (_open == value && _kept) {
+      _set(null);
+    } else {
+      _set(value, keep: true);
+    }
+  }
+
+  /// Runs a link's [onPressed] once the open panel is closed.
+  ///
+  /// Focus inside the panel goes to its scope, not back to the trigger, so
+  /// the callback can move it, for example into the page it opens. If it is
+  /// still nowhere after the next frame, it goes to the trigger.
+  void _activate(VoidCallback onPressed) {
+    final slot = _open == null ? null : _slots[_open];
+    final focusInside = slot?.panel.hasFocus ?? false;
+    final scope = slot?.panel.enclosingScope;
+    if (focusInside) {
+      FocusManager.instance.primaryFocus?.unfocus(
+        disposition: UnfocusDisposition.scope,
+      );
+    }
+    _set(null, restoreFocus: false);
+    onPressed();
+    if (slot == null || !focusInside) return;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      // The trigger may have gone with its item or with the whole menu.
+      if (!mounted || !_slots.containsValue(slot)) return;
+      final trigger = slot.trigger;
+      if (trigger.context == null || !trigger.canRequestFocus) return;
+      final focus = FocusManager.instance.primaryFocus;
+      if (focus == null || focus == scope) trigger.requestFocus();
+    });
+    SchedulerBinding.instance.ensureVisualUpdate();
+  }
 
   void _enterTrigger(PointerEnterEvent event, T value) {
     // Touch has no hover: the tap toggles.
@@ -245,6 +320,10 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
 
   void _scheduleClose() {
     _timer?.cancel();
+    _timer = null;
+    // A panel a press opened or kept waits for a press, Escape or a press
+    // outside.
+    if (_kept) return;
     _timer = Timer(_hoverDelay, () => _set(null));
   }
 
@@ -264,7 +343,7 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
   KeyEventResult _onTriggerKey(T value, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
     if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      _set(value);
+      _set(value, keep: true);
       // The panel builds in this frame; focus moves in once it is there.
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (!mounted || _open != value) return;
@@ -345,7 +424,10 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
                               container: true,
                               explicitChildNodes: true,
                               role: SemanticsRole.listItem,
-                              child: _PanelLink(link: link),
+                              child: _PanelLink(
+                                link: link,
+                                onPressed: () => _activate(link.onPressed),
+                              ),
                             ),
                         ],
                       ),
@@ -365,9 +447,10 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
       case NavigationMenuTopLink<T>():
         return _BarButton(
           label: item.label,
-          onPressed: item.onPressed,
+          onPressed: () => _activate(item.onPressed),
           uri: item.uri,
           link: true,
+          current: item.current,
         );
       case NavigationMenuPanel<T>():
         final value = item.value;
@@ -389,9 +472,12 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
                 onExit: (_) => _scheduleClose(),
                 child: _BarButton(
                   label: item.label,
-                  onPressed: () => _toggle(value),
+                  onPressed: () => _press(value),
                   focusNode: slot.trigger,
                   expanded: open,
+                  // Marked on screen only: the link itself is read as the
+                  // current page.
+                  holdsCurrent: item.links.any((link) => link.current),
                 ),
               ),
             ),
@@ -406,6 +492,14 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
       widget.items.map((item) => item.value).toSet().length ==
           widget.items.length,
       'Each navigation menu item needs a value of its own.',
+    );
+    assert(
+      widget.items
+              .expand(_currentFlags<T>)
+              .where((current) => current)
+              .length <=
+          1,
+      'At most one navigation menu link leads to the current page.',
     );
     final theme = InvisibleTheme.of(context);
     return Semantics(
@@ -439,8 +533,14 @@ class _NavigationMenuState<T> extends State<NavigationMenu<T>> {
   }
 }
 
-/// A trigger or a plain link in the bar. A trigger has [expanded]; a link
-/// has [link] and an optional [uri].
+/// Whether each link of [item] leads to the current page.
+Iterable<bool> _currentFlags<T>(NavigationMenuItem<T> item) => switch (item) {
+  NavigationMenuTopLink<T>(:final current) => [current],
+  NavigationMenuPanel<T>(:final links) => links.map((link) => link.current),
+};
+
+/// A trigger or a plain link in the bar. A trigger has [expanded] and
+/// [holdsCurrent]; a link has [link], an optional [uri] and [current].
 class _BarButton extends StatelessWidget {
   const _BarButton({
     required this.label,
@@ -449,6 +549,8 @@ class _BarButton extends StatelessWidget {
     this.expanded,
     this.link = false,
     this.uri,
+    this.current = false,
+    this.holdsCurrent = false,
   });
 
   final String label;
@@ -458,12 +560,19 @@ class _BarButton extends StatelessWidget {
   final bool link;
   final Uri? uri;
 
+  /// The link leads to the current page: read and marked.
+  final bool current;
+
+  /// The trigger's panel holds the current page: marked, not read.
+  final bool holdsCurrent;
+
   @override
   Widget build(BuildContext context) {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final open = expanded ?? false;
     final fontSize = theme.textStyle.fontSize!;
+    final marked = current || holdsCurrent;
     return Semantics(
       container: true,
       button: !link,
@@ -471,6 +580,7 @@ class _BarButton extends StatelessWidget {
       linkUrl: uri,
       expanded: expanded,
       label: label,
+      value: current ? theme.messages.navigationMenuCurrent : null,
       onTap: onPressed,
       child: Pressable(
         onPressed: onPressed,
@@ -480,44 +590,55 @@ class _BarButton extends StatelessWidget {
           visible: states.focusVisible,
           ring: theme.focusRing,
           radius: theme.controlRadius,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: states.hovered || open ? colors.stateHover : null,
-              borderRadius: BorderRadius.circular(theme.controlRadius),
-            ),
-            child: Padding(
-              padding: _triggerPadding,
-              child: ExcludeSemantics(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: _triggerGap,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        label,
-                        style: TextStyle(
-                          color: colors.text,
-                          fontWeight: FontWeight.w600,
+          child: CustomPaint(
+            foregroundPainter: marked
+                ? _CurrentMark(
+                    color: colors.secondaryBodyText,
+                    bottom: true,
+                    direction: Directionality.of(context),
+                  )
+                : null,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: states.hovered || open ? colors.stateHover : null,
+                borderRadius: BorderRadius.circular(theme.controlRadius),
+              ),
+              child: Padding(
+                padding: _triggerPadding,
+                child: ExcludeSemantics(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: _triggerGap,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          label,
+                          style: TextStyle(
+                            color: marked
+                                ? colors.secondaryBodyText
+                                : colors.text,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                    if (expanded != null)
-                      IconTheme(
-                        data: IconThemeData(
-                          color: colors.textSecondary,
-                          size: fontSize,
-                          applyTextScaling: true,
+                      if (expanded != null)
+                        IconTheme(
+                          data: IconThemeData(
+                            color: colors.textSecondary,
+                            size: fontSize,
+                            applyTextScaling: true,
+                          ),
+                          child: AnimatedRotation(
+                            turns: open ? 0.5 : 0,
+                            duration: reducedMotion(context)
+                                ? Duration.zero
+                                : _turn,
+                            curve: Curves.ease,
+                            child: const Glyph(GlyphShape.chevronDown),
+                          ),
                         ),
-                        child: AnimatedRotation(
-                          turns: open ? 0.5 : 0,
-                          duration: reducedMotion(context)
-                              ? Duration.zero
-                              : _turn,
-                          curve: Curves.ease,
-                          child: const Glyph(GlyphShape.chevronDown),
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -530,63 +651,79 @@ class _BarButton extends StatelessWidget {
 
 /// A link in a panel: a bold label over an optional description.
 class _PanelLink extends StatelessWidget {
-  const _PanelLink({required this.link});
+  const _PanelLink({required this.link, required this.onPressed});
 
   final NavigationMenuLink link;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = InvisibleTheme.of(context);
     final colors = theme.colors;
     final description = link.description;
+    final current = link.current;
     return Semantics(
       container: true,
       link: true,
       linkUrl: link.uri,
       label: link.label,
+      value: current ? theme.messages.navigationMenuCurrent : null,
       hint: description,
-      onTap: link.onPressed,
+      onTap: onPressed,
       child: Pressable(
-        onPressed: link.onPressed,
+        onPressed: onPressed,
         keys: PressKeys.link,
         alignment: AlignmentDirectional.centerStart,
         builder: (context, states) => FocusRingPainter(
           visible: states.focusVisible,
           ring: theme.focusRing,
           radius: theme.controlRadius,
-          // The tint fills the panel's width, not only the text's.
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: states.hovered || states.focusVisible
-                  ? colors.stateHover
-                  : null,
-              borderRadius: BorderRadius.circular(theme.controlRadius),
-            ),
-            child: Padding(
-              padding: _linkPadding,
-              child: ExcludeSemantics(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: _linkGap,
-                  children: [
-                    Text(
-                      link.label,
-                      style: TextStyle(
-                        color: colors.text,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    if (description != null)
+          child: CustomPaint(
+            foregroundPainter: current
+                ? _CurrentMark(
+                    color: colors.secondaryBodyText,
+                    bottom: false,
+                    direction: Directionality.of(context),
+                  )
+                : null,
+            // The tint fills the panel's width, not only the text's.
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: states.hovered || states.focusVisible
+                    ? colors.stateHover
+                    : current
+                    ? colors.secondary.withValues(alpha: _currentTint)
+                    : null,
+                borderRadius: BorderRadius.circular(theme.controlRadius),
+              ),
+              child: Padding(
+                padding: _linkPadding,
+                child: ExcludeSemantics(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: _linkGap,
+                    children: [
                       Text(
-                        description,
+                        link.label,
                         style: TextStyle(
-                          color: colors.textSecondary,
-                          fontSize: _descriptionSize,
+                          color: current
+                              ? colors.secondaryBodyText
+                              : colors.text,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                  ],
+                      if (description != null)
+                        Text(
+                          description,
+                          style: TextStyle(
+                            color: colors.textSecondary,
+                            fontSize: _descriptionSize,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -595,4 +732,49 @@ class _PanelLink extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The bar that marks the current page: under the label of a bar item,
+/// along the inline-start edge of a panel link.
+class _CurrentMark extends CustomPainter {
+  const _CurrentMark({
+    required this.color,
+    required this.bottom,
+    required this.direction,
+  });
+
+  final Color color;
+  final bool bottom;
+  final TextDirection direction;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect bar;
+    if (bottom) {
+      // Within the padding under the label, clear of the rounded corners.
+      final inset = _triggerPadding.start;
+      bar = Rect.fromLTWH(
+        inset,
+        size.height - _markWidth - 2,
+        size.width - 2 * inset,
+        _markWidth,
+      );
+    } else {
+      final inset = _linkPadding.top / 2;
+      final left = direction == TextDirection.ltr
+          ? 0.0
+          : size.width - _markWidth;
+      bar = Rect.fromLTWH(left, inset, _markWidth, size.height - 2 * inset);
+    }
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(bar, const Radius.circular(_markWidth / 2)),
+      Paint()..color = color,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CurrentMark oldDelegate) =>
+      oldDelegate.color != color ||
+      oldDelegate.bottom != bottom ||
+      oldDelegate.direction != direction;
 }

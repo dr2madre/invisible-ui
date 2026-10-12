@@ -10,8 +10,9 @@ import 'package:invisible_ui/invisible_ui.dart';
 
 import 'preview_sheet.dart';
 
-/// The site navigation: a Navigation Menu bar over a Sidebar whose current
-/// destination sits in a collapsible section.
+/// The site navigation: a Navigation Menu bar whose Products item holds the
+/// current page, over a Sidebar whose current destination sits in a
+/// collapsible section.
 @Preview(
   group: 'Site navigation',
   name: 'Light',
@@ -69,6 +70,9 @@ const List<NavigationMenuItem<String>> _bar = [
         label: 'Reports',
         description: 'Totals by person, project and week.',
         onPressed: _open,
+        // The page on screen: read as the current page, and Products is
+        // marked in the bar.
+        current: true,
       ),
     ],
   ),

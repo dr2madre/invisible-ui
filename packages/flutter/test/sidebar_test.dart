@@ -504,6 +504,62 @@ void main() {
     semantics.dispose();
   });
 
+  testWidgets('a section heading takes the hover tint under the mouse; a '
+      'Collapsible header keeps none', (tester) async {
+    Color? fill(Finder label) => tester
+        .widgetList<DecoratedBox>(
+          find.ancestor(of: label, matching: find.byType(DecoratedBox)),
+        )
+        .map((box) => (box.decoration as BoxDecoration).color)
+        .first;
+
+    await tester.pumpWidget(_sidebar());
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(mouse.removePointer);
+    await mouse.addPointer(location: Offset.zero);
+    expect(fill(_projects), isNull);
+    await mouse.moveTo(tester.getCenter(_projects));
+    await tester.pump();
+    final hover = InvisibleThemeData.light().colors.stateHover;
+    expect(fill(_projects), hover);
+    await mouse.moveTo(Offset.zero);
+    await tester.pump();
+    expect(fill(_projects), isNull);
+
+    await tester.pumpWidget(
+      harness(
+        const Collapsible.uncontrolled(label: 'Details', child: Text('Body')),
+      ),
+    );
+    await mouse.moveTo(tester.getCenter(find.text('Details')));
+    await tester.pump();
+    expect(fill(find.text('Details')), isNot(hover));
+  });
+
+  testWidgets('the width grows with the text scale and stops at the parent', (
+    tester,
+  ) async {
+    Future<double> width(double scale, {double? parent}) async {
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: parent ?? 800,
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Sidebar(sections: _sections()),
+            ),
+          ),
+          textScale: scale,
+        ),
+      );
+      return tester.getSize(find.byType(Sidebar<String>)).width;
+    }
+
+    expect(await width(1), 240);
+    expect(await width(1.5), 360);
+    expect(await width(1.5, parent: 300), 300);
+  });
+
   testWidgets('the heading chevron turns a quarter turn toward the content, '
       'mirrored right to left, at once under reduced motion', (tester) async {
     for (final direction in TextDirection.values) {

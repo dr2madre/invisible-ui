@@ -30,6 +30,7 @@ class DisclosureTrigger extends StatelessWidget {
     this.decoration,
     this.radius = 0,
     this.ringInside = false,
+    this.hoverTint = false,
     this.focusNode,
   });
 
@@ -63,6 +64,11 @@ class DisclosureTrigger extends StatelessWidget {
   /// Draws the focus ring inside the header, for a container that clips.
   final bool ringInside;
 
+  /// Fills the header with `state-hover`, rounded by [radius], while the
+  /// mouse is over it, as the web Sidebar's section headings do. The web
+  /// Collapsible and Accordion headers have no hover fill.
+  final bool hoverTint;
+
   /// The focus node, for arrow keys between headers.
   final FocusNode? focusNode;
 
@@ -85,8 +91,15 @@ class DisclosureTrigger extends StatelessWidget {
         focusNode: focusNode,
         alignment: AlignmentDirectional.centerStart,
         builder: (context, states) {
+          final base = decoration ?? const BoxDecoration();
           final row = DecoratedBox(
-            decoration: decoration ?? const BoxDecoration(),
+            decoration: hoverTint && states.hovered
+                ? base.copyWith(
+                    color: colors.stateHover,
+                    borderRadius:
+                        base.borderRadius ?? BorderRadius.circular(radius),
+                  )
+                : base,
             child: Padding(
               padding: padding,
               child: Row(
