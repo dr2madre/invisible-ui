@@ -247,3 +247,31 @@ describe("React DatePicker in a form", () => {
     expect(field("Due date")).toHaveValue("Jun 1, 2026");
   });
 });
+
+// June 2026 starts on a Monday: the first cell is May 31 when the week
+// starts on Sunday, June 1 when it starts on Monday.
+describe("React DatePicker week start", () => {
+  const firstDate = () => document.querySelector("[data-date]")?.getAttribute("data-date");
+
+  it.each([
+    ["en-US", "2026-05-31"],
+    ["it-IT", "2026-06-01"],
+    ["ar-EG", "2026-05-30"],
+  ])("starts the week on the provider locale's first day (%s)", async (locale, first) => {
+    const user = userEvent.setup();
+    render(
+      <LocaleProvider locale={locale}>
+        <DatePicker label="Event date" value="2026-06-15" />
+      </LocaleProvider>,
+    );
+    await user.click(field());
+    expect(firstDate()).toBe(first);
+  });
+
+  it("lets weekStartsOn override the locale", async () => {
+    const user = userEvent.setup();
+    render(<Fixture weekStartsOn={1} />);
+    await user.click(field());
+    expect(firstDate()).toBe("2026-06-01");
+  });
+});
