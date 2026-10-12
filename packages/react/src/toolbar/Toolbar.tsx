@@ -17,8 +17,9 @@ export interface ToolbarProps {
   children?: ReactNode;
 }
 
+// A toggle button carries a hidden input for its form value: never a control.
 const FOCUSABLE =
-  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
+  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input:not([type="hidden"]), select, textarea';
 
 /** All controls that belong directly to this toolbar, in DOM order. */
 const controlsOf = (root: HTMLElement): HTMLElement[] =>

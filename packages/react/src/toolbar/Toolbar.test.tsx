@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { Separator } from "../separator/Separator";
 import { ToggleButton } from "../toggle-button/ToggleButton";
+import { ToggleGroup } from "../toggle-group/ToggleGroup";
 import { Toolbar, type ToolbarOrientation } from "./Toolbar";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
@@ -55,9 +56,9 @@ describe("React Toolbar", () => {
     render(<Fixture />);
     const toolbar = screen.getByRole("toolbar", { name: "Text formatting" });
     expect(toolbar).toHaveAttribute("aria-orientation", "horizontal");
-    // Toggle buttons are independent on/off controls (native checkboxes).
-    expect(screen.getByRole("checkbox", { name: "Bold" })).not.toBeChecked();
-    expect(screen.getByRole("checkbox", { name: "Align left" })).toBeInTheDocument();
+    // Toggle buttons are independent on/off controls (native buttons).
+    expect(screen.getByRole("button", { name: "Bold", pressed: false })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Align left" })).toBeInTheDocument();
   });
 
   it("marks the flat presentation", () => {
@@ -69,17 +70,17 @@ describe("React Toolbar", () => {
 
   it("exposes a single tab stop (roving tabindex)", () => {
     render(<Fixture />);
-    expect(screen.getByRole("checkbox", { name: "Bold" })).toHaveAttribute("tabindex", "0");
-    expect(screen.getByRole("checkbox", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
-    expect(screen.getByRole("checkbox", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("button", { name: "Bold" })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("button", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("button", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
   });
 
   it("moves focus with the arrow keys and wraps, updating the tab stop", async () => {
     const user = userEvent.setup();
     render(<Fixture />);
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
-    const alignLeft = screen.getByRole("checkbox", { name: "Align left" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
+    const alignLeft = screen.getByRole("button", { name: "Align left" });
 
     bold.focus();
     await user.keyboard("{ArrowRight}");
@@ -99,8 +100,8 @@ describe("React Toolbar", () => {
     const user = userEvent.setup();
     render(<Fixture orientation="vertical" />);
     expect(screen.getByRole("toolbar")).toHaveAttribute("aria-orientation", "vertical");
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
 
     bold.focus();
     await user.keyboard("{ArrowDown}");
@@ -113,8 +114,8 @@ describe("React Toolbar", () => {
     const user = userEvent.setup();
     render(<Fixture />);
     screen.getByRole("toolbar").setAttribute("dir", "rtl");
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
 
     bold.focus();
     // The visual start is on the right, so ArrowLeft walks forward.
@@ -193,7 +194,7 @@ describe("React Toolbar (DOM changes)", () => {
 // Toggle buttons are the toolbar's usual content, and their disabled prop is
 // controlled, so the reconciliation has to see the change they make.
 describe("React Toolbar (toggle button children)", () => {
-  const control = (name: string) => screen.getByRole("checkbox", { name });
+  const control = (name: string) => screen.getByRole("button", { name });
 
   it("moves the tab stop off a toggle button that becomes disabled", async () => {
     const { rerender } = render(<ToggleFixture />);
@@ -224,5 +225,46 @@ describe("React Toolbar (toggle button children)", () => {
     control("Bold").focus();
     await user.keyboard("{ArrowRight}");
     expect(control("Italic")).toHaveFocus();
+  });
+});
+
+// A toggle group inside a toolbar adds no navigation of its own: the
+// toolbar's single tab stop and arrow keys reach the toggles it holds.
+describe("React Toolbar (toggle group children)", () => {
+  const GroupFixture = () => (
+    <Toolbar label="Text formatting">
+      <button type="button">Undo</button>
+      <ToggleGroup label="Style">
+        <ToggleButton label="Bold" name="bold" pressed>
+          B
+        </ToggleButton>
+        <ToggleButton label="Italic">I</ToggleButton>
+        <ToggleButton label="Underline">U</ToggleButton>
+      </ToggleGroup>
+      <button type="button">Redo</button>
+    </Toolbar>
+  );
+  const control = (name: string) => screen.getByRole("button", { name });
+
+  it("keeps one tab stop for the whole toolbar, the group's toggles included", async () => {
+    render(<GroupFixture />);
+    await waitFor(() => expect(control("Undo")).toHaveAttribute("tabindex", "0"));
+    for (const name of ["Bold", "Italic", "Underline", "Redo"]) {
+      expect(control(name)).toHaveAttribute("tabindex", "-1");
+    }
+  });
+
+  it("walks into and through the group with the toolbar's arrow keys", async () => {
+    const user = userEvent.setup();
+    render(<GroupFixture />);
+    control("Undo").focus();
+    await user.keyboard("{ArrowRight}");
+    expect(control("Bold")).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(control("Italic")).toHaveFocus();
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    // The pressed toggle's hidden form input is not a stop on the way.
+    expect(control("Redo")).toHaveFocus();
+    expect(control("Bold")).toHaveAttribute("aria-pressed", "true");
   });
 });
