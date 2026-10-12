@@ -91,3 +91,11 @@ describe("Svelte DateRangePicker", () => {
     expect((field() as HTMLInputElement).value).toMatch(/Jun 1\s*.\s*3, 2026/);
   });
 });
+
+describe("Svelte DateRangePicker (week start)", () => {
+  it("starts the week on the locale's first day (Sunday for en-US)", async () => {
+    render(Fixture, { props: { start: "2026-06-10" } });
+    await fireEvent.click(field());
+    expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName("Sunday");
+  });
+});

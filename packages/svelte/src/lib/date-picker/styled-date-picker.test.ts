@@ -71,3 +71,11 @@ describe("Svelte DatePicker", () => {
     expect(field()).toHaveValue("Jun 2, 2026");
   });
 });
+
+describe("Svelte DatePicker (week start)", () => {
+  it("starts the week on the locale's first day (Sunday for en-US)", async () => {
+    render(Fixture, { props: { value: "2026-06-15" } });
+    await fireEvent.click(field());
+    expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName("Sunday");
+  });
+});
