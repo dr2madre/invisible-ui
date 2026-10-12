@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
 import { useI18n } from "../i18n/i18n";
 import { SmallCheck } from "../icon/Icon";
 import { cx } from "../internal/cx";
@@ -60,8 +60,10 @@ interface Announcement {
 }
 
 /**
- * TreeView: the styled tree (WAI-ARIA tree pattern): single selection,
- * expand and collapse, roving tabindex and full arrow-key navigation.
+ * TreeView: the styled tree (WAI-ARIA tree pattern): single selection (one
+ * node at a time; selecting another replaces it), expand and collapse,
+ * roving tabindex, full arrow-key navigation and typeahead (typing moves
+ * focus to the next row whose label starts with the typed characters).
  * Behaviour and accessibility come from the headless tree in
  * `@design-system/core`.
  *
@@ -93,6 +95,7 @@ export function TreeView({
   renderLabel,
 }: TreeViewProps) {
   const { t } = useI18n();
+  const labelOf = useCallback((value: string) => labels?.[value] ?? value, [labels]);
   const { api, visible } = useTreeView({
     nodes,
     expanded,
@@ -103,6 +106,7 @@ export function TreeView({
     onExpandedChange,
     onSelectedChange,
     onLoadChildren,
+    labelOf,
   });
 
   const nameOf = (node: VisibleTreeNode) => labels?.[node.value] ?? node.value;
@@ -155,8 +159,9 @@ export function TreeView({
                   aria-hidden="true"
                   onClick={(event) => {
                     event.stopPropagation();
-                    if (node.loadState === "error") api.retryLoad(node.value);
-                    else api.toggle(node.value);
+                    // Always expand or collapse, failed loads included: retry
+                    // stays on the keyboard path the core owns.
+                    api.toggle(node.value);
                   }}
                 >
                   {twistie}
