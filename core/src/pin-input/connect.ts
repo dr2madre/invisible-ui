@@ -1,5 +1,6 @@
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { sanitizeChar } from "./state";
+import type { Dir } from "../i18n/locale";
+import { keyTarget, sanitizeChar } from "./state";
 import type { PinInputState } from "./types";
 
 /** The public, framework-agnostic API for a connected PIN input. */
@@ -26,20 +27,34 @@ export interface ConnectOptions {
   setValues: (values: string[]) => void;
   /** Move DOM focus to the cell at the given index (adapter-provided). */
   focus?: (index: number) => void;
+  /**
+   * Reading direction the arrows follow. Omitted, each key press reads the
+   * computed `direction` of the cell, so a `dir` set anywhere above counts.
+   */
+  direction?: Dir;
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
+}
+
+/** The computed reading direction of the element a key event reached. */
+function directionOf(event: Event): Dir {
+  const el = event.currentTarget as Element | null;
+  const style = el ? el.ownerDocument.defaultView?.getComputedStyle(el) : undefined;
+  return style?.direction === "rtl" ? "rtl" : "ltr";
 }
 
 /**
  * Connect PIN-input state to prop getters: a row of single-character cells (an
  * OTP / verification-code input). Typing a valid character fills the cell and
- * advances; Backspace clears and steps back; arrows move between cells; paste
- * is distributed across cells. Cells reject characters outside the input type.
+ * advances; Backspace clears and steps back; arrows move between cells as they
+ * are laid out, right to left in a right-to-left layout; paste is distributed
+ * across cells. Cells reject characters outside the input type.
  */
 export function connect({
   state,
   setValues,
   focus,
+  direction,
   cellLabel = (index, length) => `Character ${index + 1} of ${length}`,
   normalize = identityNormalize,
 }: ConnectOptions): PinInputApi {
@@ -95,22 +110,12 @@ export function connect({
                 focus?.(index - 1);
               }
               break;
-            case "ArrowLeft":
+            default: {
+              const target = keyTarget(e.key, index, length, direction ?? directionOf(e));
+              if (target === null) return;
               e.preventDefault();
-              if (index > 0) focus?.(index - 1);
-              break;
-            case "ArrowRight":
-              e.preventDefault();
-              if (index < length - 1) focus?.(index + 1);
-              break;
-            case "Home":
-              e.preventDefault();
-              focus?.(0);
-              break;
-            case "End":
-              e.preventDefault();
-              focus?.(length - 1);
-              break;
+              focus?.(target);
+            }
           }
         },
         onPaste: (event: Event) => {

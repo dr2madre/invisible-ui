@@ -86,3 +86,32 @@ describe("Vue RatingGroup (styled)", () => {
     expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
   });
 });
+
+describe("Vue RatingGroup error", () => {
+  it("shows the error as an alert that describes each star, without aria-invalid", async () => {
+    const { rerender } = render(RatingGroup, {
+      props: { label: "Rating", error: "Pick a rating" },
+    });
+    const alert = screen.getByRole("alert");
+    expect(alert).toHaveTextContent("Pick a rating");
+    for (const star of within(group()).getAllByRole("radio")) {
+      expect(star).toHaveAttribute("aria-describedby", alert.id);
+      expect(star).toHaveAccessibleDescription("Pick a rating");
+      expect(star).not.toHaveAttribute("aria-invalid");
+    }
+    expect(group()).not.toHaveAttribute("aria-invalid");
+
+    await rerender({ error: "" });
+    expect(screen.queryByRole("alert")).toBeNull();
+    for (const star of within(group()).getAllByRole("radio")) {
+      expect(star).not.toHaveAttribute("aria-describedby");
+    }
+  });
+
+  it("has no accessibility violations with an error", async () => {
+    const { container } = render(RatingGroup, {
+      props: { label: "Rating", error: "Pick a rating" },
+    });
+    expect(await axe(container, noAxeColorContrast)).toHaveNoViolations();
+  });
+});

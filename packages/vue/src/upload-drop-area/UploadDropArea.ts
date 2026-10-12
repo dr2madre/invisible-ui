@@ -1,10 +1,29 @@
-import { defineComponent, h, onScopeDispose, ref, type PropType } from "vue";
+import { uploadDropArea } from "@design-system/core";
+import {
+  defineComponent,
+  h,
+  mergeProps,
+  onScopeDispose,
+  ref,
+  shallowRef,
+  type PropType,
+} from "vue";
 import { useDropArea } from "../drop-area/use-drop-area";
 import { useI18n } from "../i18n/i18n";
+import { HazardGlyph, Icon } from "../icon/Icon";
+import { useStableId } from "../internal/use-stable-id";
 import { Loading } from "../loading/Loading";
 
+/** A file the area left out, and why: `type` (not in `accept`) or `count`. */
+export type UploadRejection = uploadDropArea.UploadRejection;
+
 export interface UploadDropAreaProps {
-  /** Accepted file types (the input's `accept` attribute), e.g. "image/*". */
+  /**
+   * Accepted file types (the input's `accept` attribute), e.g. "image/*".
+   * Picked and dropped files go through the same filter; the files it leaves
+   * out are named in a message under the area and reported to `onRejected`.
+   * The filter is a convenience: the app still validates the files it gets.
+   */
   accept?: string;
   /** Allow selecting/dropping more than one file. */
   multiple?: boolean;
@@ -13,8 +32,13 @@ export interface UploadDropAreaProps {
   name?: string;
   /** Optional grey caption under the text (e.g. accepted formats / max size). */
   caption?: string;
-  /** Called with the selected/dropped files. */
+  /** Called with the selected or dropped files the area takes. */
   onFiles?: (files: File[]) => void;
+  /**
+   * Called with the files the area left out: a type `accept` does not name,
+   * or a file beyond the first in an area without `multiple`.
+   */
+  onRejected?: (rejected: UploadRejection[]) => void;
 }
 
 /** No-flash delay before the picker spinner appears, in ms. */
@@ -28,7 +52,9 @@ const PICKER_SPINNER_DELAY = 150;
  * keyboard operation and form participation; the styled area is a `<label>` for
  * that input, so clicking or pressing Enter/Space on it opens the picker. A
  * `dragover` highlight gives drag feedback, and dropped files are forwarded
- * through the same `onFiles` callback as picked files.
+ * through the same `onFiles` callback as picked files. Both go through the
+ * same `accept` filter; the files it leaves out are named in an alert under
+ * the area and reported to `onRejected`.
  *
  * Themeable via `--ds-upload-drop-area-*`. The default prompt comes from the
  * catalog (`uploadDropArea.prompt` plus the styled `uploadDropArea.action`
@@ -36,6 +62,9 @@ const PICKER_SPINNER_DELAY = 150;
  */
 export const UploadDropArea = defineComponent({
   name: "UploadDropArea",
+  // The rejection message renders beside the label, so the root is a fragment
+  // and the attributes go on the label by hand.
+  inheritAttrs: false,
   props: {
     accept: { type: String, default: undefined },
     multiple: { type: Boolean, default: false },
@@ -43,38 +72,49 @@ export const UploadDropArea = defineComponent({
     name: { type: String, default: undefined },
     caption: { type: String, default: undefined },
     onFiles: { type: Function as PropType<(files: File[]) => void>, default: undefined },
+    onRejected: {
+      type: Function as PropType<(rejected: UploadRejection[]) => void>,
+      default: undefined,
+    },
   },
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const i18n = useI18n();
 
     const inputEl = ref<HTMLInputElement | null>(null);
+    const rejectedId = `${useStableId("ds-upload-drop-area")}-rejected`;
+    // Each batch gets its own key, so the same rejection twice is a new alert.
+    const rejection = shallowRef<{ batch: number; files: UploadRejection[] }>({
+      batch: 0,
+      files: [],
+    });
 
-    const emitFiles = (list: FileList | null | undefined) => {
-      if (!list || !list.length) return;
-      props.onFiles?.(Array.from(list));
-    };
-
-    // A dropped file joins the form the way a picked one does: it becomes the
-    // input's file list, so it submits, and a form reset clears it. A single
-    // file input holds one file, so a multi-file drop keeps the first.
-    const adopt = (dropped: FileList) => {
-      if (typeof DataTransfer === "undefined" || !inputEl.value) {
-        emitFiles(dropped);
-        return;
+    // Picked and dropped files go through the same filter. The input holds
+    // the files the area takes, so they submit and a form reset clears them;
+    // a drop with none to take leaves the input as it was.
+    const take = (files: File[], dropped: boolean) => {
+      const { accepted, rejected } = uploadDropArea.splitFiles(files, {
+        accept: props.accept,
+        multiple: props.multiple,
+      });
+      const input = inputEl.value;
+      if (input && (dropped ? accepted.length > 0 : rejected.length > 0)) {
+        if (accepted.length === 0) input.value = "";
+        else if (typeof DataTransfer !== "undefined") {
+          const transfer = new DataTransfer();
+          for (const file of accepted) transfer.items.add(file);
+          input.files = transfer.files;
+        }
       }
-      const kept = new DataTransfer();
-      for (const file of Array.from(dropped).slice(0, props.multiple ? undefined : 1)) {
-        kept.items.add(file);
-      }
-      inputEl.value.files = kept.files;
-      emitFiles(kept.files);
+      rejection.value = { batch: rejection.value.batch + 1, files: rejected };
+      if (rejected.length > 0) props.onRejected?.(rejected);
+      if (accepted.length > 0) props.onFiles?.(accepted);
     };
 
     // The drag target is the generic drop area (shared, Tree-ready); this
     // component adds the upload business: the file input and its picker.
     const { dropAreaProps } = useDropArea(() => ({
       disabled: props.disabled,
-      onDrop: (data: DataTransfer) => adopt(data.files),
+      onDrop: (data: DataTransfer) => take(Array.from(data.files), true),
     }));
 
     // The native file dialog can take up to ~1s to appear (the OS builds the
@@ -100,27 +140,32 @@ export const UploadDropArea = defineComponent({
 
     const onInput = (event: Event) => {
       resolveOpen();
-      emitFiles((event.currentTarget as HTMLInputElement).files);
+      const files = Array.from((event.currentTarget as HTMLInputElement).files ?? []);
+      if (files.length > 0) take(files, false);
     };
 
     onScopeDispose(resolveOpen);
 
     return () => {
       const { t } = i18n.value;
+      const rejected = rejection.value.files;
 
-      return h(
+      const area = h(
         "label",
-        {
-          ...dropAreaProps.value,
-          class: [
-            "upload-drop-area",
-            {
-              "upload-drop-area--disabled": props.disabled,
-              "upload-drop-area--opening": opening.value,
-            },
-          ],
-          "aria-busy": opening.value ? "true" : undefined,
-        },
+        mergeProps(
+          {
+            ...dropAreaProps.value,
+            class: [
+              "upload-drop-area",
+              {
+                "upload-drop-area--disabled": props.disabled,
+                "upload-drop-area--opening": opening.value,
+              },
+            ],
+            "aria-busy": opening.value ? "true" : undefined,
+          },
+          attrs,
+        ),
         [
           h("input", {
             ref: inputEl,
@@ -130,6 +175,7 @@ export const UploadDropArea = defineComponent({
             multiple: props.multiple,
             disabled: props.disabled,
             name: props.name,
+            "aria-describedby": rejected.length > 0 ? rejectedId : undefined,
             onClick: onOpen,
             onCancel: resolveOpen,
             onChange: onInput,
@@ -186,6 +232,39 @@ export const UploadDropArea = defineComponent({
             : null,
         ],
       );
+      // Always a fragment, so the label and its input survive a message
+      // appearing. The message sits outside the label, so it never joins the
+      // input's name; announced when it appears, with the hazard glyph so it
+      // never relies on color.
+      return [
+        area,
+        rejected.length === 0
+          ? null
+          : h(
+              "div",
+              {
+                key: rejection.value.batch,
+                id: rejectedId,
+                class: "upload-drop-area__rejected",
+                role: "alert",
+              },
+              rejected.map(({ file, reason }) =>
+                h("p", { class: "field__error field__message" }, [
+                  h("span", { class: "field__msg-icon", "aria-hidden": "true" }, [
+                    h(Icon, { size: "1em" }, { default: HazardGlyph }),
+                  ]),
+                  t(
+                    reason === "type"
+                      ? "uploadDropArea.rejectedType"
+                      : "uploadDropArea.rejectedCount",
+                    {
+                      name: file.name,
+                    },
+                  ),
+                ]),
+              ),
+            ),
+      ];
     };
   },
 });

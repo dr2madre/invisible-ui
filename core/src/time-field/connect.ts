@@ -1,5 +1,16 @@
+import { foldArabicDigits } from "../internal/digits";
 import { identityNormalize, type ElementProps, type Normalize } from "../types";
-import { bounds, format, from12, pad2, rangeError, segmentId, segments, to12 } from "./state";
+import {
+  bounds,
+  format,
+  from12,
+  pad2,
+  parseTimeValue,
+  rangeError,
+  segmentId,
+  segments,
+  to12,
+} from "./state";
 import type {
   DayPeriod,
   TimeFieldState,
@@ -97,12 +108,12 @@ export function connect({
     return null;
   };
 
-  const withPart = (seg: TimeSegmentType, raw: number | null): TimeParts => {
-    const next: TimeParts = { ...parts };
+  const withPart = (seg: TimeSegmentType, raw: number | null, base = parts): TimeParts => {
+    const next: TimeParts = { ...base };
     if (seg === "hour") {
       if (raw == null) next.hour = null;
       else if (hourCycle === 12) {
-        next.hour = parts.dayPeriod == null ? raw : from12(raw, parts.dayPeriod);
+        next.hour = base.dayPeriod == null ? raw : from12(raw, base.dayPeriod);
       } else next.hour = raw;
     } else if (seg === "minute") next.minute = raw;
     else if (seg === "second") next.second = raw;
@@ -118,37 +129,101 @@ export function connect({
     setParts(withPart(seg, nextRaw), "", null);
   };
 
-  const togglePeriod = (to?: DayPeriod) => {
-    const currentPeriod = parts.dayPeriod;
+  const withPeriod = (base: TimeParts, to?: DayPeriod): TimeParts => {
+    const currentPeriod = base.dayPeriod;
     const period = to ?? (currentPeriod === "AM" ? "PM" : "AM");
     const displayHour =
-      parts.hour == null ? null : currentPeriod == null ? parts.hour : to12(parts.hour);
-    const next: TimeParts = {
-      ...parts,
+      base.hour == null ? null : currentPeriod == null ? base.hour : to12(base.hour);
+    return {
+      ...base,
       dayPeriod: period,
       hour: displayHour == null ? null : from12(displayHour, period),
     };
-    setParts(next, "", null);
   };
 
-  const typeDigit = (seg: TimeSegmentType, digit: string) => {
+  const togglePeriod = (to?: DayPeriod) => setParts(withPeriod(parts, to), "", null);
+
+  /** The parts and digit-entry buffer between two typed characters. */
+  interface Entry {
+    parts: TimeParts;
+    buffer: string;
+    bufferSeg: TimeSegmentType | null;
+  }
+
+  /**
+   * One digit typed into a segment: the entry it leaves and the segment the
+   * focus moves to once the segment is complete. Null when the digit cannot
+   * go there: an attempted 25 keeps the previous value instead of becoming 05.
+   */
+  const enterDigit = (
+    from: Entry,
+    seg: TimeSegmentType,
+    digit: string,
+  ): { entry: Entry; next: TimeSegmentType | null } | null => {
     const { max } = bounds(seg, hourCycle);
-    const buf = bufferSeg === seg ? buffer + digit : digit;
+    const buf = from.bufferSeg === seg ? from.buffer + digit : digit;
     const cand = Number(buf);
-    // Keep focus and the previous value instead of silently treating the last
-    // digit as a new value (for example, turning an attempted 25 into 05).
-    if (cand > max) return;
+    if (cand > max) return null;
     // 12h hour: a lone 0 isn't valid yet — keep buffering for a second digit.
     const tooSmall = seg === "hour" && hourCycle === 12 && cand === 0;
     const full = !tooSmall && (buf.length >= 2 || cand * 10 > max);
-    const next = withPart(seg, tooSmall ? null : cand);
-    if (full) {
-      setParts(next, "", null);
-      const i = order.indexOf(seg);
-      if (i < order.length - 1) focus?.(order[i + 1]!);
-    } else {
-      setParts(next, buf, seg);
+    const next = withPart(seg, tooSmall ? null : cand, from.parts);
+    if (!full) return { entry: { parts: next, buffer: buf, bufferSeg: seg }, next: null };
+    return {
+      entry: { parts: next, buffer: "", bufferSeg: null },
+      next: order[order.indexOf(seg) + 1] ?? null,
+    };
+  };
+
+  const typeDigit = (seg: TimeSegmentType, digit: string) => {
+    const typed = enterDigit({ parts, buffer, bufferSeg }, seg, digit);
+    if (!typed) return;
+    setParts(typed.entry.parts, typed.entry.buffer, typed.entry.bufferSeg);
+    if (typed.next) focus?.(typed.next);
+  };
+
+  /**
+   * Pasted text: a whole time, such as `09:30`, sets every segment; anything
+   * else types its characters from the focused segment on, as the keys would,
+   * so `0930` fills the hour and the minute. Arabic-Indic and Persian digits
+   * type as ASCII ones.
+   */
+  const paste = (seg: TimeSegmentType, raw: string) => {
+    const text = foldArabicDigits(raw).trim();
+    const whole = parseTimeValue(text, { withSeconds, hourCycle });
+    if (whole.status === "valid") {
+      setParts(whole.parts, "", null);
+      return;
     }
+    let entry: Entry = { parts, buffer, bufferSeg };
+    let current = seg;
+    let moved: TimeSegmentType | null = null;
+    // A time is a few characters; a long paste types no more than these.
+    for (const char of [...text].slice(0, 32)) {
+      if (current === "dayPeriod") {
+        const letter = char.toLowerCase();
+        if (letter === "a" || letter === "p") {
+          const period = letter === "a" ? "AM" : "PM";
+          entry = { parts: withPeriod(entry.parts, period), buffer: "", bufferSeg: null };
+        }
+      } else if (/^\d$/.test(char)) {
+        const typed = enterDigit(entry, current, char);
+        if (!typed) continue;
+        entry = typed.entry;
+        if (typed.next) current = moved = typed.next;
+      }
+    }
+    if (entry.parts === parts && entry.buffer === buffer) return;
+    setParts(entry.parts, entry.buffer, entry.bufferSeg);
+    if (moved) focus?.(moved);
+  };
+
+  const onPaste = (seg: TimeSegmentType) => (event: Event) => {
+    const e = event as ClipboardEvent;
+    // The segments are no text inputs: the field reads the text itself.
+    e.preventDefault?.();
+    if (disabled) return;
+    paste(seg, e.clipboardData?.getData("text/plain") ?? "");
   };
 
   const clear = (seg: TimeSegmentType) => {
@@ -213,9 +288,13 @@ export function connect({
             e.preventDefault();
             togglePeriod("PM");
           }
-        } else if (/^\d$/.test(e.key)) {
-          e.preventDefault();
-          typeDigit(seg, e.key);
+        } else {
+          // Arabic-Indic and Persian digits type as their ASCII value.
+          const digit = foldArabicDigits(e.key);
+          if (/^\d$/.test(digit)) {
+            e.preventDefault();
+            typeDigit(seg, digit);
+          }
         }
     }
   };
@@ -240,7 +319,7 @@ export function connect({
       else if (c.includes("p")) togglePeriod("PM");
       return;
     }
-    const digit = data.replace(/\D/g, "").slice(-1);
+    const digit = foldArabicDigits(data).replace(/\D/g, "").slice(-1);
     if (digit) typeDigit(seg, digit);
   };
 
@@ -322,6 +401,7 @@ export function connect({
           "aria-valuenow": period == null ? undefined : period === "PM" ? 1 : 0,
           onKeyDown: onKeyDown(seg),
           onBeforeInput: onBeforeInput(seg),
+          onPaste: onPaste(seg),
           onClick: () => {
             if (!disabled) togglePeriod();
           },
@@ -346,6 +426,7 @@ export function connect({
         "aria-invalid": state.invalidSegment === seg || undefined,
         onKeyDown: onKeyDown(seg),
         onBeforeInput: onBeforeInput(seg),
+        onPaste: onPaste(seg),
       });
     },
   };

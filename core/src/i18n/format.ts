@@ -94,17 +94,23 @@ export function numberSymbols(locale: string): NumberSymbols {
 }
 
 /**
- * Map a locale's digits in a string to ASCII digits, character by character.
- * Everything else passes through untouched: this folds digits, it does not
- * interpret or parse the text.
+ * Map `digits` (a locale's ten, 0 through 9) in a string to ASCII digits,
+ * character by character. Everything else passes through untouched.
  */
-export function foldDigits(text: string, locale: string): string {
-  const { digits } = numberSymbols(locale);
-  if (digits[0] === "0") return text;
+export function foldDigitsWith(text: string, digits: readonly string[]): string {
   let out = "";
   for (const char of text) {
     const index = digits.indexOf(char);
     out += index === -1 ? char : String(index);
   }
   return out;
+}
+
+/**
+ * Map a locale's digits in a string to ASCII digits, character by character.
+ * Everything else passes through untouched: this folds digits, it does not
+ * interpret or parse the text.
+ */
+export function foldDigits(text: string, locale: string): string {
+  return foldDigitsWith(text, numberSymbols(locale).digits);
 }

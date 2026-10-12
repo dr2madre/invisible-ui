@@ -1638,7 +1638,7 @@
     {
       "name": "pinInput.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#e0cd7e99 { /** Current resolved state. */ state: PinInputState; /** * Accessible name for a cell, by zero-based index. Defaults to English; * adapters pass their translated catalog through here. */ cellLabel?: (index: number, length: number) => string; /** Request a new per-cell values array; the adapter owns how state updates. */ setValues: (values: string[]) => void; /** Move DOM focus to the cell at the given index (adapter-provided). */ focus?: (index: number) => void; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#8a2e2af6 { /** Current resolved state. */ state: PinInputState; /** * Accessible name for a cell, by zero-based index. Defaults to English; * adapters pass their translated catalog through here. */ cellLabel?: (index: number, length: number) => string; /** Request a new per-cell values array; the adapter owns how state updates. */ setValues: (values: string[]) => void; /** Move DOM focus to the cell at the given index (adapter-provided). */ focus?: (index: number) => void; /** * Reading direction the arrows follow. Omitted, each key press reads the * computed `direction` of the cell, so a `dir` set anywhere above counts. */ direction?: Dir; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "pinInput.PinInputApi",
@@ -1663,7 +1663,7 @@
     {
       "name": "pinInput.connect",
       "kind": "function",
-      "signature": "declare function connect#d7b9264f({ state, setValues, focus, cellLabel, normalize, }: ConnectOptions#e0cd7e99): PinInputApi;"
+      "signature": "declare function connect#e70702d5({ state, setValues, focus, direction, cellLabel, normalize, }: ConnectOptions#8a2e2af6): PinInputApi;"
     },
     {
       "name": "pinInput.initialState",
@@ -1674,6 +1674,11 @@
       "name": "pinInput.isComplete",
       "kind": "const",
       "signature": "pinInput_isComplete: typeof isComplete"
+    },
+    {
+      "name": "pinInput.keyTarget",
+      "kind": "const",
+      "signature": "pinInput_keyTarget: typeof keyTarget"
     },
     {
       "name": "pinInput.sanitizeChar",
@@ -2543,72 +2548,72 @@
     {
       "name": "timeField.bounds",
       "kind": "const",
-      "signature": "index_bounds: typeof bounds"
+      "signature": "timeField_bounds: typeof bounds"
     },
     {
       "name": "timeField.connect",
       "kind": "const",
-      "signature": "index_connect: typeof connect"
+      "signature": "timeField_connect: typeof connect"
     },
     {
       "name": "timeField.emptyParts",
       "kind": "const",
-      "signature": "index_emptyParts: typeof emptyParts"
+      "signature": "timeField_emptyParts: typeof emptyParts"
     },
     {
       "name": "timeField.format",
       "kind": "const",
-      "signature": "index_format: typeof format"
+      "signature": "timeField_format: typeof format"
     },
     {
       "name": "timeField.from12",
       "kind": "const",
-      "signature": "index_from12: typeof from12"
+      "signature": "timeField_from12: typeof from12"
     },
     {
       "name": "timeField.initialState",
       "kind": "const",
-      "signature": "index_initialState: typeof initialState"
+      "signature": "timeField_initialState: typeof initialState"
     },
     {
       "name": "timeField.pad2",
       "kind": "const",
-      "signature": "index_pad2: typeof pad2"
+      "signature": "timeField_pad2: typeof pad2"
     },
     {
       "name": "timeField.parseTimeValue",
       "kind": "const",
-      "signature": "index_parseTimeValue: typeof parseTimeValue"
+      "signature": "timeField_parseTimeValue: typeof parseTimeValue"
     },
     {
       "name": "timeField.parseValue",
       "kind": "const",
-      "signature": "index_parseValue: typeof parseValue"
+      "signature": "timeField_parseValue: typeof parseValue"
     },
     {
       "name": "timeField.periodOf",
       "kind": "const",
-      "signature": "index_periodOf: typeof periodOf"
+      "signature": "timeField_periodOf: typeof periodOf"
     },
     {
       "name": "timeField.rangeError",
       "kind": "const",
-      "signature": "index_rangeError: typeof rangeError"
+      "signature": "timeField_rangeError: typeof rangeError"
     },
     {
       "name": "timeField.segmentId",
       "kind": "const",
-      "signature": "index_segmentId: typeof segmentId"
+      "signature": "timeField_segmentId: typeof segmentId"
     },
     {
       "name": "timeField.segments",
       "kind": "const",
-      "signature": "index_segments: typeof segments"
+      "signature": "timeField_segments: typeof segments"
     },
     {
       "name": "timeField.to12",
       "kind": "const",
-      "signature": "index_to12: typeof to12"
+      "signature": "timeField_to12: typeof to12"
     },
     {
       "name": "toggleButton",
@@ -2809,6 +2814,36 @@
       "name": "treeView.visibleNodes",
       "kind": "const",
       "signature": "treeView_visibleNodes: typeof visibleNodes"
+    },
+    {
+      "name": "uploadDropArea",
+      "kind": "namespace",
+      "signature": "namespace uploadDropArea"
+    },
+    {
+      "name": "uploadDropArea.UploadFileInfo",
+      "kind": "type",
+      "signature": "uploadDropArea.UploadFileInfo = interface UploadFileInfo { /** The file name, with its extension. */ name: string; /** The media type, such as `image/png`; empty when the platform did not say. */ type: string; }"
+    },
+    {
+      "name": "uploadDropArea.UploadRejectReason",
+      "kind": "type",
+      "signature": "uploadDropArea.UploadRejectReason = type UploadRejectReason = /** Its type is not in the accept list. */ \"type\" /** The area takes one file and another came first. */ | \"count\";"
+    },
+    {
+      "name": "uploadDropArea.UploadRejection",
+      "kind": "type",
+      "signature": "type index_UploadRejection<F extends UploadFileInfo = File> = UploadRejection<F>;"
+    },
+    {
+      "name": "uploadDropArea.acceptsFile",
+      "kind": "const",
+      "signature": "index_acceptsFile: typeof acceptsFile"
+    },
+    {
+      "name": "uploadDropArea.splitFiles",
+      "kind": "const",
+      "signature": "index_splitFiles: typeof splitFiles"
     },
     {
       "name": "weekStart",

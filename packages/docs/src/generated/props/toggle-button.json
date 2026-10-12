@@ -58,6 +58,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message, shown after the button and announced. The button points at it through `aria-describedby`. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onPressedChange",
           "type": "((p: boolean) => void) | undefined",
           "default": "undefined",
@@ -131,6 +139,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message. When non-empty it shows after the control as an alert and describes the control. The application owns it: a form reset leaves it in place, and the application clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onPressedChange",
           "type": "(pressed: boolean) => void",
           "default": "undefined",
@@ -172,6 +188,14 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "An error message shown under the control as an alert. It describes the control. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "check",
@@ -271,6 +295,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "a message after the button; the page owns it, so a form reset leaves it in place",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [

@@ -1,6 +1,18 @@
-import { boolAttr, definePart, emit, HTMLElementBase, upgradeProperty } from "../internal/base";
+import { uploadDropArea } from "@design-system/core";
+import {
+  boolAttr,
+  definePart,
+  emit,
+  HTMLElementBase,
+  nextId,
+  upgradeProperty,
+} from "../internal/base";
 import { onLocaleChange, t } from "../internal/i18n";
+import { hazardIcon } from "../internal/icons";
 import { DsLoading } from "../loading/ds-loading";
+
+/** A file the area left out, and why: `type` (not in `accept`) or `count`. */
+export type UploadRejection = uploadDropArea.UploadRejection;
 
 /** No-flash delay before the picker spinner appears, in ms. */
 const PICKER_SPINNER_DELAY = 150;
@@ -16,8 +28,11 @@ const UPLOAD_ICON =
  * browser owns file selection, keyboard operation (Tab to the input, Enter or
  * Space opens the picker) and form participation. Dragging files over the
  * area sets `data-dragover`; dropped files become the input's file list, so
- * they submit with the form and a reset clears them. A single-file area keeps
- * the first dropped file.
+ * they submit with the form and a reset clears them. Picked and dropped
+ * files go through the same `accept` filter, and a single-file area takes
+ * the first file that passes it; the files left out are named in an alert
+ * under the area and reported in a `reject` event. The filter is a
+ * convenience: the page still validates the files it receives.
  *
  * Unslotted children replace the default prompt. A child with `slot="icon"`
  * replaces the upload glyph. While the picker opens, a `<ds-loading>` spinner
@@ -26,7 +41,9 @@ const UPLOAD_ICON =
  * Attributes: `accept`, `multiple`, `disabled`, `name`, `caption`.
  * Properties: `files` (read-only), `disabled`.
  * Emits: bubbling `files` CustomEvent with `detail.files` (a `File[]`) when
- * files are picked or dropped.
+ * files are picked or dropped and the area takes some; bubbling `reject`
+ * CustomEvent with `detail.rejected` (`{ file, reason }[]`, reason `type` or
+ * `count`) for the files it leaves out.
  */
 export class DsUploadDropArea extends HTMLElementBase {
   static observedAttributes = ["accept", "multiple", "disabled", "name", "caption"];
@@ -38,6 +55,9 @@ export class DsUploadDropArea extends HTMLElementBase {
   #opening = false;
   #prompt: Text | null = null;
   #action: HTMLSpanElement | null = null;
+  #rejectedId = `${nextId("ds-upload-drop-area")}-rejected`;
+  #rejected: HTMLDivElement | null = null;
+  #rejection: UploadRejection[] = [];
 
   constructor() {
     super();
@@ -98,7 +118,7 @@ export class DsUploadDropArea extends HTMLElementBase {
       event.preventDefault();
       root.removeAttribute("data-dragover");
       if (this.disabled || !event.dataTransfer) return;
-      this.#adopt(event.dataTransfer.files);
+      this.#take(Array.from(event.dataTransfer.files), true);
     });
 
     const input = document.createElement("input");
@@ -110,7 +130,8 @@ export class DsUploadDropArea extends HTMLElementBase {
       // The host reports a typed `files` event; the native one stays inside.
       event.stopPropagation();
       this.#resolveOpen();
-      this.#emitFiles(input.files);
+      const files = Array.from(input.files ?? []);
+      if (files.length > 0) this.#take(files, false);
     });
     input.addEventListener("input", (event) => event.stopPropagation());
 
@@ -144,6 +165,48 @@ export class DsUploadDropArea extends HTMLElementBase {
   #localize() {
     if (this.#prompt) this.#prompt.data = `${t(this, "uploadDropArea.prompt")} `;
     if (this.#action) this.#action.textContent = t(this, "uploadDropArea.action");
+    for (const [index, paragraph] of Array.from(this.#rejected?.children ?? []).entries()) {
+      const { file, reason } = this.#rejection[index]!;
+      paragraph.lastChild!.textContent = this.#rejectionText(file, reason);
+    }
+  }
+
+  #rejectionText(file: File, reason: uploadDropArea.UploadRejectReason) {
+    const key = reason === "type" ? "uploadDropArea.rejectedType" : "uploadDropArea.rejectedCount";
+    return t(this, key, { name: file.name });
+  }
+
+  /**
+   * Name the files left out, after the area: outside the label, so it never
+   * joins the input's name. A new element each time, so the same rejection
+   * twice is announced again; the hazard glyph keeps it off color alone.
+   */
+  #showRejected(rejected: UploadRejection[]) {
+    this.#rejection = rejected;
+    this.#rejected?.remove();
+    this.#rejected = null;
+    const input = this.#input!;
+    if (rejected.length === 0) {
+      input.removeAttribute("aria-describedby");
+      return;
+    }
+    const box = document.createElement("div");
+    box.id = this.#rejectedId;
+    box.className = "upload-drop-area__rejected";
+    box.setAttribute("role", "alert");
+    for (const { file, reason } of rejected) {
+      const paragraph = document.createElement("p");
+      paragraph.className = "field__error field__message";
+      const glyph = document.createElement("span");
+      glyph.className = "field__msg-icon";
+      glyph.setAttribute("aria-hidden", "true");
+      glyph.innerHTML = hazardIcon();
+      paragraph.append(glyph, document.createTextNode(this.#rejectionText(file, reason)));
+      box.appendChild(paragraph);
+    }
+    this.#root!.after(box);
+    this.#rejected = box;
+    input.setAttribute("aria-describedby", this.#rejectedId);
   }
 
   #sync() {
@@ -172,23 +235,26 @@ export class DsUploadDropArea extends HTMLElementBase {
     }
   }
 
-  #emitFiles(list: FileList | null | undefined) {
-    if (!list || !list.length) return;
-    emit(this, "files", { files: Array.from(list) });
-  }
-
-  #adopt(dropped: FileList) {
+  // Picked and dropped files go through the same filter. The input holds the
+  // files the area takes, so they submit and a form reset clears them; a drop
+  // with none to take leaves the input as it was.
+  #take(files: File[], dropped: boolean) {
     const input = this.#input!;
-    if (typeof DataTransfer === "undefined") {
-      this.#emitFiles(dropped);
-      return;
+    const { accepted, rejected } = uploadDropArea.splitFiles(files, {
+      accept: this.getAttribute("accept"),
+      multiple: input.multiple,
+    });
+    if (dropped ? accepted.length > 0 : rejected.length > 0) {
+      if (accepted.length === 0) input.value = "";
+      else if (typeof DataTransfer !== "undefined") {
+        const transfer = new DataTransfer();
+        for (const file of accepted) transfer.items.add(file);
+        input.files = transfer.files;
+      }
     }
-    const kept = new DataTransfer();
-    for (const file of Array.from(dropped).slice(0, input.multiple ? undefined : 1)) {
-      kept.items.add(file);
-    }
-    input.files = kept.files;
-    this.#emitFiles(kept.files);
+    this.#showRejected(rejected);
+    if (rejected.length > 0) emit(this, "reject", { rejected });
+    if (accepted.length > 0) emit(this, "files", { files: accepted });
   }
 
   // The native file dialog can take up to a second to appear, so a spinner

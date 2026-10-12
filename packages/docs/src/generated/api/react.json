@@ -819,12 +819,12 @@
     {
       "name": "PinInput",
       "kind": "function",
-      "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
+      "signature": "declare function PinInput({ value, length, type, mask, disabled, invalid: invalidProp, error, success, name, label, onValueChange, onComplete, }: PinInputProps): react.JSX.Element;"
     },
     {
       "name": "PinInputProps",
       "kind": "interface",
-      "signature": "interface PinInputProps { /** Initial (uncontrolled) or current (controlled) code. */ value?: string; length?: number; /** Allowed characters. */ type?: PinInputType; /** Render cells masked (like a password). */ mask?: boolean; disabled?: boolean; /** Validation state; colors the cells (red ring) and signals errors. */ invalid?: boolean; /** Validation success; colors the cells green (e.g. a verified code). */ success?: boolean; /** Form field name; the combined code is submitted under it. */ name?: string; /** Accessible name for the group of cells (required). */ label: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
+      "signature": "interface PinInputProps { /** Initial (uncontrolled) or current (controlled) code. */ value?: string; length?: number; /** Allowed characters. */ type?: PinInputType; /** Render cells masked (like a password). */ mask?: boolean; disabled?: boolean; /** Validation state; colors the cells (red ring) and signals errors. */ invalid?: boolean; /** * An error message shown under the cells as an alert. It describes each * cell and marks the input invalid, like `invalid`. The app owns it: a form * reset leaves it in place, so the app clears it. */ error?: string; /** Validation success; colors the cells green (e.g. a verified code). */ success?: boolean; /** Form field name; the combined code is submitted under it. */ name?: string; /** Accessible name for the group of cells (required). */ label: string; /** Called whenever the combined value changes. */ onValueChange?: (value: string) => void; /** Called once all cells are filled. */ onComplete?: (value: string) => void; }"
     },
     {
       "name": "PinInputType",
@@ -904,7 +904,7 @@
     {
       "name": "RangeSlider",
       "kind": "function",
-      "signature": "declare function RangeSlider({ value, min, max, step, minDistance, orientation, disabled, label, thumbLabels, name, showValue, showRange, ticks, format, onValueChange, icon, }: RangeSliderProps): react.JSX.Element;"
+      "signature": "declare function RangeSlider({ value, min, max, step, minDistance, orientation, disabled, label, thumbLabels, name, showValue, showRange, ticks, format, onValueChange, icon, error, }: RangeSliderProps): react.JSX.Element;"
     },
     {
       "name": "RangeSliderOrientation",
@@ -914,7 +914,7 @@
     {
       "name": "RangeSliderProps",
       "kind": "interface",
-      "signature": "interface RangeSliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** Accessible name for the group (required). */ label: string; /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */ thumbLabels: readonly [string, string]; /** * Form field name. Both thumbs submit under it, in order: * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */ name?: string; /** Show the current values to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (only when the count is reasonable). */ ticks?: boolean; /** Format a displayed value (e.g. add a unit). */ format?: (value: number) => string; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+      "signature": "interface RangeSliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: RangeValue; min?: number; max?: number; step?: number; /** The gap the two thumbs may not close. They may touch; they never cross. */ minDistance?: number; orientation?: RangeSliderOrientation; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control and marks it invalid. The app owns it: a form reset leaves it in * place, so the app clears it. */ error?: string; /** Accessible name for the group (required). */ label: string; /** Accessible name for each thumb: `[lowerLabel, upperLabel]`. */ thumbLabels: readonly [string, string]; /** * Form field name. Both thumbs submit under it, in order: * `FormData.getAll(name)` reads `[String(lower), String(upper)]`. */ name?: string; /** Show the current values to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (only when the count is reasonable). */ ticks?: boolean; /** Format a displayed value (e.g. add a unit). */ format?: (value: number) => string; /** Called with the complete pair whenever it changes. */ onValueChange?: (value: RangeValue) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
       "name": "RangeValue",
@@ -924,12 +924,12 @@
     {
       "name": "RatingGroup",
       "kind": "function",
-      "signature": "declare function RatingGroup({ label, max, value, disabled, name, onValueChange, }: RatingGroupProps): react.JSX.Element;"
+      "signature": "declare function RatingGroup({ label, max, value, disabled, name, onValueChange, error, }: RatingGroupProps): react.JSX.Element;"
     },
     {
       "name": "RatingGroupProps",
       "kind": "interface",
-      "signature": "interface RatingGroupProps { /** Accessible name for the rating group (required). */ label: string; /** Number of stars. */ max?: number; /** Selected rating (1..max), or null. */ value?: number | null; disabled?: boolean; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
+      "signature": "interface RatingGroupProps { /** Accessible name for the rating group (required). */ label: string; /** Number of stars. */ max?: number; /** Selected rating (1..max), or null. */ value?: number | null; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control. The app owns it: a form reset leaves it in place, so the app * clears it. */ error?: string; /** Form field name; the rating is submitted under it. */ name?: string; /** Called whenever the rating changes. */ onValueChange?: (value: number) => void; }"
     },
     {
       "name": "RatingItem",
@@ -1089,7 +1089,7 @@
     {
       "name": "Slider",
       "kind": "function",
-      "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, }: SliderProps): react.JSX.Element;"
+      "signature": "declare function Slider({ value, min, max, step, orientation, disabled, label, name, showValue, showRange, ticks, format, onValueChange, icon, error, }: SliderProps): react.JSX.Element;"
     },
     {
       "name": "SliderOrientation",
@@ -1099,7 +1099,7 @@
     {
       "name": "SliderProps",
       "kind": "interface",
-      "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
+      "signature": "interface SliderProps { /** Initial (uncontrolled) or current (controlled) value. */ value?: number; min?: number; max?: number; step?: number; orientation?: SliderOrientation; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control and marks it invalid. The app owns it: a form reset leaves it in * place, so the app clears it. */ error?: string; /** Accessible name for the slider (required). */ label: string; /** Form field name; the value is submitted under it. */ name?: string; /** Show the current value to the side of the track. */ showValue?: boolean; /** Show the min and max reference values under the ends of the track. */ showRange?: boolean; /** Show tick marks at each step (drawn only when the count stays readable). */ ticks?: boolean; /** Format the displayed value/range (e.g. add a unit). */ format?: (value: number) => string; /** Called whenever the value changes. */ onValueChange?: (value: number) => void; /** A decorative icon before the track. */ icon?: ReactNode; }"
     },
     {
       "name": "SortDirection",
@@ -1284,12 +1284,12 @@
     {
       "name": "ToggleButton",
       "kind": "function",
-      "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, }: ToggleButtonProps): react.JSX.Element;"
+      "signature": "declare function ToggleButton({ pressed, disabled, check, label, name, value, onPressedChange, children, error, }: ToggleButtonProps): react.JSX.Element;"
     },
     {
       "name": "ToggleButtonProps",
       "kind": "interface",
-      "signature": "interface ToggleButtonProps { /** * Whether the button is pressed: the initial value, or the current one when * it changes between renders (e.g. a filter chip driven by a list). */ pressed?: boolean; disabled?: boolean; /** * Show a leading checkmark when pressed (the filter-chip look). The check * reveals the selected state explicitly, the way a checkbox does. */ check?: boolean; /** Accessible name; required when the content is icon-only. */ label?: string; /** Form field name; when pressed, submits `value` under it. */ name?: string; /** Value submitted under `name` when pressed. */ value?: string; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** The button's content. */ children?: ReactNode; }"
+      "signature": "interface ToggleButtonProps { /** * Whether the button is pressed: the initial value, or the current one when * it changes between renders (e.g. a filter chip driven by a list). */ pressed?: boolean; disabled?: boolean; /** * An error message shown under the control as an alert. It describes the * control. The app owns it: a form reset leaves it in place, so the app * clears it. */ error?: string; /** * Show a leading checkmark when pressed (the filter-chip look). The check * reveals the selected state explicitly, the way a checkbox does. */ check?: boolean; /** Accessible name; required when the content is icon-only. */ label?: string; /** Form field name; when pressed, submits `value` under it. */ name?: string; /** Value submitted under `name` when pressed. */ value?: string; /** Called whenever the pressed value changes. */ onPressedChange?: (pressed: boolean) => void; /** The button's content. */ children?: ReactNode; }"
     },
     {
       "name": "ToggleGroup",
@@ -1364,12 +1364,17 @@
     {
       "name": "UploadDropArea",
       "kind": "function",
-      "signature": "declare function UploadDropArea({ accept, multiple, disabled, name, caption, onFiles, children, icon, }: UploadDropAreaProps): react.JSX.Element;"
+      "signature": "declare function UploadDropArea({ accept, multiple, disabled, name, caption, onFiles, onRejected, children, icon, }: UploadDropAreaProps): react.JSX.Element;"
     },
     {
       "name": "UploadDropAreaProps",
       "kind": "interface",
-      "signature": "interface UploadDropAreaProps { /** * Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or * `\".pdf,.docx\"`. The picker filters by it, and so does a drop. */ accept?: string; /** Allow selecting or dropping more than one file. */ multiple?: boolean; disabled?: boolean; /** Form field name (the underlying file input). */ name?: string; /** Optional caption under the text, such as the accepted formats or the size limit. */ caption?: string; /** Called with the selected or dropped files. */ onFiles?: (files: File[]) => void; /** Replaces the default prompt text. */ children?: ReactNode; /** Replaces the built-in upload icon. */ icon?: ReactNode; }"
+      "signature": "interface UploadDropAreaProps { /** * Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or * `\".pdf,.docx\"`. Picked and dropped files go through the same filter; the * files it leaves out are named in a message under the area and reported * to `onRejected`. The filter is a convenience: the app still validates * the files it receives. */ accept?: string; /** Allow selecting or dropping more than one file. */ multiple?: boolean; disabled?: boolean; /** Form field name (the underlying file input). */ name?: string; /** Optional caption under the text, such as the accepted formats or the size limit. */ caption?: string; /** Called with the selected or dropped files the area takes. */ onFiles?: (files: File[]) => void; /** * Called with the files the area left out: a type `accept` does not name, * or a file beyond the first in an area without `multiple`. */ onRejected?: (rejected: UploadRejection[]) => void; /** Replaces the default prompt text. */ children?: ReactNode; /** Replaces the built-in upload icon. */ icon?: ReactNode; }"
+    },
+    {
+      "name": "UploadRejection",
+      "kind": "type",
+      "signature": "type UploadRejection = uploadDropArea.UploadRejection;"
     },
     {
       "name": "UseAccordionOptions",

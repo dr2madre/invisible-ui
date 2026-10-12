@@ -24,6 +24,12 @@ describe("pin-input state", () => {
     expect(sanitizeChar("a", "alphanumeric")).toBe("a");
     expect(sanitizeChar("@", "alphanumeric")).toBe("");
   });
+
+  it("accepts Arabic-Indic and Persian digits as ASCII", () => {
+    expect(sanitizeChar("٣", "numeric")).toBe("3");
+    expect(sanitizeChar("۷", "numeric")).toBe("7");
+    expect(sanitizeChar("٠", "alphanumeric")).toBe("0");
+  });
 });
 
 describe("pin-input connect", () => {
@@ -45,6 +51,15 @@ describe("pin-input connect", () => {
     (api.getInputProps(0).onInput as (e: Event) => void)(inputEvent("7"));
     expect(setValues).toHaveBeenCalledWith(["7", "", "", ""]);
     expect(focus).toHaveBeenCalledWith(1);
+  });
+
+  it("reports a typed Arabic-Indic digit as ASCII", () => {
+    const setValues = vi.fn();
+    const target = { value: "٧" };
+    const api = connect({ state: make(), setValues });
+    (api.getInputProps(0).onInput as (e: Event) => void)({ target } as unknown as Event);
+    expect(setValues).toHaveBeenCalledWith(["7", "", "", ""]);
+    expect(target.value).toBe("7");
   });
 
   it("rejects a disallowed char", () => {

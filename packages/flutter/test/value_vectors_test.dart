@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/src/pin_input/pin_input.dart';
@@ -212,6 +213,28 @@ void main() {
           expect(result!.values, expected['values']);
           expect(result.focus, expected['focus']);
         }
+      });
+    }
+    // The web key names the vectors use, as Flutter's logical keys.
+    final keys = {
+      'ArrowLeft': LogicalKeyboardKey.arrowLeft,
+      'ArrowRight': LogicalKeyboardKey.arrowRight,
+      'ArrowUp': LogicalKeyboardKey.arrowUp,
+      'Home': LogicalKeyboardKey.home,
+      'End': LogicalKeyboardKey.end,
+      '5': LogicalKeyboardKey.digit5,
+    };
+    for (final v in _cases(file['keys'])) {
+      test('keys: ${v['name']}', () {
+        expect(
+          keyTarget(
+            keys[v['key']]!,
+            v['index'] as int,
+            v['length'] as int,
+            rtl: v['direction'] == 'rtl',
+          ),
+          v['expect'],
+        );
       });
     }
   });

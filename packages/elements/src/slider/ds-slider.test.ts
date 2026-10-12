@@ -149,4 +149,20 @@ describe("<ds-slider> in a native form", () => {
     expect(control()).toHaveAccessibleName("Volume");
     warn.mockRestore();
   });
+
+  it("shows an error that describes the slider and marks it invalid, kept on reset", async () => {
+    const host = mount(
+      `<form><ds-slider label="Volume" description="Ignored" error="Too loud"></ds-slider></form>`,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("Too loud");
+    expect(control()).toHaveAccessibleDescription("Too loud");
+    expect(control()).toHaveAttribute("aria-invalid", "true");
+    document.querySelector("form")!.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(screen.getByRole("alert")).toHaveTextContent("Too loud");
+    host.removeAttribute("error");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(control()).not.toHaveAttribute("aria-describedby");
+    expect(control()).not.toHaveAttribute("aria-invalid");
+  });
 });

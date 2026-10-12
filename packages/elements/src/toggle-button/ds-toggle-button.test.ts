@@ -124,4 +124,19 @@ describe("<ds-toggle-button> disabled after mount", () => {
     expect(toggle()).toBeChecked();
     expect(toggle()).toHaveAttribute("data-state", "on");
   });
+
+  it("shows an error after the button that describes it, kept on reset", async () => {
+    document.body.innerHTML = `<form><ds-toggle-button label="Bold" description="Ignored" error="Pick a style">B</ds-toggle-button></form>`;
+    const host = document.querySelector("ds-toggle-button") as DsToggleButton;
+    expect(screen.getByRole("alert")).toHaveTextContent("Pick a style");
+    expect(host.lastElementChild).toBe(screen.getByRole("alert"));
+    expect(toggle()).toHaveAccessibleDescription("Pick a style");
+    expect(toggle()).not.toHaveAttribute("aria-invalid");
+    document.querySelector("form")!.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    host.removeAttribute("error");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(toggle()).not.toHaveAttribute("aria-describedby");
+  });
 });

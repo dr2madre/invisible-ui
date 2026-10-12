@@ -192,7 +192,11 @@ export {
   type LoginFormProvider,
   type LoginFormValue,
 } from "./login-form/LoginForm";
-export { UploadDropArea, type UploadDropAreaProps } from "./upload-drop-area/UploadDropArea";
+export {
+  UploadDropArea,
+  type UploadDropAreaProps,
+  type UploadRejection,
+} from "./upload-drop-area/UploadDropArea";
 export { Icon, type IconProps } from "./icon/Icon";
 
 // Hooks — the headless layer, for consumers rendering their own markup.

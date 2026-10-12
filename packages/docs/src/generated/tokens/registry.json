@@ -15657,7 +15657,9 @@
       "id": "field-error-color",
       "component": "field",
       "usedBy": [
-        "field"
+        "field",
+        "internal",
+        "upload-drop-area"
       ],
       "category": "color",
       "categories": [
@@ -15711,6 +15713,20 @@
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/field/Field.svelte",
           "selector": ".field__error",
+          "property": "color",
+          "fallback": "var(--ds-color-danger-body-text, #be3b50)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/internal/FieldError.svelte",
+          "selector": ".field__message",
+          "property": "color",
+          "fallback": "var(--ds-color-danger-body-text, #be3b50)"
+        },
+        {
+          "adapter": "svelte",
+          "file": "packages/svelte/src/lib/upload-drop-area/UploadDropArea.svelte",
+          "selector": ".field__message",
           "property": "color",
           "fallback": "var(--ds-color-danger-body-text, #be3b50)"
         },

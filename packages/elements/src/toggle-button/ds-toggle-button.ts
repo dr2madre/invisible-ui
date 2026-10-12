@@ -8,6 +8,7 @@ import {
   syncAttribute,
   upgradeProperty,
 } from "../internal/base";
+import { FieldMessages } from "../internal/field-message";
 import { watchFormReset } from "../internal/form-reset";
 import { CHECK_PATH, pathIcon } from "../internal/icons";
 
@@ -27,16 +28,19 @@ import { CHECK_PATH, pathIcon } from "../internal/icons";
  * The host is the `.toggle` box itself, so toggles inside a
  * `<ds-toggle-group>` are siblings and the segmented group draws its dividers.
  *
- * Attributes: `pressed`, `disabled`, `check`, `label`, `name`, `value`.
+ * Attributes: `pressed`, `disabled`, `check`, `label`, `name`, `value`,
+ * `error` (a message after the button; the page owns it, so a form reset
+ * leaves it in place).
  * Properties: `pressed`, `disabled`.
  * Emits: bubbling `change` CustomEvent with `detail.pressed`.
  */
 export class DsToggleButton extends HTMLElementBase {
-  static observedAttributes = ["pressed", "disabled", "check", "label", "name", "value"];
+  static observedAttributes = ["pressed", "disabled", "check", "label", "name", "value", "error"];
 
   #input: HTMLInputElement | null = null;
   #surface: HTMLLabelElement | null = null;
   #check: SVGSVGElement | null = null;
+  #messages = new FieldMessages(nextId("ds-toggle-button"));
   /** What a form reset restores: the last state set from outside. */
   #defaultPressed = false;
   #stopFormReset: (() => void) | null = null;
@@ -134,6 +138,7 @@ export class DsToggleButton extends HTMLElementBase {
     else input.setAttribute("aria-label", label);
     this.classList.toggle("toggle--disabled", disabled);
     this.#syncCheck(boolAttr(this, "check") && api.pressed);
+    this.#messages.sync(this, this, [input], { ariaInvalid: false, description: false });
   }
 
   #syncCheck(show: boolean) {

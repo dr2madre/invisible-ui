@@ -125,4 +125,24 @@ describe("<ds-rating-group>", () => {
     mount(`<ds-rating-group label="Rating" value="3"></ds-rating-group>`);
     expect(await axe(document.body)).toHaveNoViolations();
   });
+
+  it("shows an error that describes every star, kept on reset", async () => {
+    const host = mount(
+      `<form><ds-rating-group label="Rating" description="Ignored" error="Rate the stay"></ds-rating-group></form>`,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("Rate the stay");
+    expect(group()).not.toHaveAttribute("aria-invalid");
+    for (const input of within(group()).getAllByRole("radio")) {
+      expect(input).toHaveAccessibleDescription("Rate the stay");
+      expect(input).not.toHaveAttribute("aria-invalid");
+    }
+    host.setAttribute("max", "3");
+    expect(star("3 stars")).toHaveAccessibleDescription("Rate the stay");
+    document.querySelector("form")!.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    host.removeAttribute("error");
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(star("1 star")).not.toHaveAttribute("aria-describedby");
+  });
 });

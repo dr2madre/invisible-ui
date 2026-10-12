@@ -170,4 +170,32 @@ test.describe("Elements PIN input", () => {
     await expect(cells.first()).toHaveValue("");
     expect(await formData(page, "verify")).toEqual(["code="]);
   });
+
+  test("typed Arabic-Indic and Persian digits reach the form as ASCII", async ({ page }) => {
+    const cells = page.getByRole("textbox");
+    await record(page, "ds-pin-input", "change");
+    await cells.first().click();
+    await page.keyboard.type("\u0661\u06F2");
+    await expect(cells.nth(0)).toHaveValue("1");
+    await expect(cells.nth(1)).toHaveValue("2");
+    await expect(page.locator("ds-pin-input")).toHaveAttribute("data-change", "1 12");
+    expect(await formData(page, "verify")).toEqual(["code=12"]);
+  });
+});
+
+test.describe("Elements PIN input, right to left", () => {
+  test("ArrowLeft moves to the next cell and ArrowRight to the previous one", async ({ page }) => {
+    await mount(
+      page,
+      ["ds-pin-input"],
+      `<div dir="rtl"><ds-pin-input label="Verification code" length="4"></ds-pin-input></div>`,
+    );
+    const cells = page.getByRole("textbox");
+    await cells.nth(1).click();
+    await page.keyboard.press("ArrowLeft");
+    await expect(cells.nth(2)).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(cells.nth(0)).toBeFocused();
+  });
 });

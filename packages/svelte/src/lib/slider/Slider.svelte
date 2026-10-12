@@ -13,6 +13,8 @@
   import { createSlider } from "./create-slider";
   import { formReset } from "../internal/form-reset";
   import { controllable } from "../internal/controllable.svelte";
+  import { stableId } from "../internal/stable-id";
+  import FieldError from "../internal/FieldError.svelte";
 
   interface Props {
     value?: number;
@@ -23,6 +25,12 @@
     disabled?: boolean;
     /** Accessible name for the slider. */
     label: string;
+    /**
+     * Error message, shown under the track and announced. The input points
+     * at it through `aria-describedby` and takes `aria-invalid`. The app
+     * owns it: a form reset leaves it in place, so the app clears it.
+     */
+    error?: string;
     /** Form field name — the value is submitted under it. */
     name?: string;
     /** Show the current value to the side of the track. */
@@ -47,6 +55,7 @@
     orientation = "horizontal",
     disabled = false,
     label,
+    error,
     name,
     showValue = false,
     showRange = false,
@@ -91,6 +100,8 @@
     isGiveBack: (next) => next === $sliderValue,
   });
 
+  const errorId = `${stableId("ds-slider")}-error`;
+
   function onInput(event: Event) {
     setValue(Number((event.currentTarget as HTMLInputElement).value));
   }
@@ -124,6 +135,8 @@
         {disabled}
         aria-label={label}
         aria-orientation={orientation}
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? "true" : undefined}
         value={$sliderValue}
         defaultValue={mirror.defaultValue}
         oninput={onInput}
@@ -147,6 +160,7 @@
       <span>{format(max)}</span>
     </div>
   {/if}
+  <FieldError id={errorId} {error} />
 </div>
 
 <style>
