@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
-// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35,
+// and never the custom action types.
 // ignore: unnecessary_import
-import 'package:flutter/semantics.dart' show SemanticsRole;
+import 'package:flutter/semantics.dart'
+    show CustomSemanticsAction, SemanticsRole;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -39,7 +41,7 @@ int _requestCounter = 0;
 
 /// A tree of nodes, following the WAI-ARIA tree view pattern: one node is
 /// selected, parents open and close, and the keyboard moves over the
-/// visible nodes.
+/// visible nodes. Selection is single: at most one node is selected.
 ///
 /// The tree is one tab stop: the node that last had focus, else the
 /// selected one, else the first. Down and Up move between the visible
@@ -47,15 +49,37 @@ int _requestCounter = 0;
 /// arrow toward the inline-end opens a closed parent and enters an open
 /// one; the arrow toward the inline-start closes an open parent, else moves
 /// to the parent; in right-to-left text the two swap. Enter, Space or a
-/// press selects. Typing letters moves focus to the next node whose label
-/// starts with them, and `*` opens every parent beside the focused node.
-/// A press on a parent's chevron opens or closes it without selecting.
+/// press selects. Typing a character, or several in quick succession,
+/// moves focus to the next node whose label starts with them; it never
+/// selects. A press on a parent's chevron opens or closes it without
+/// selecting. For assistive technology, a closed parent offers an "Expand"
+/// action and an open one a "Collapse" action
+/// ([InvisibleMessages.treeExpand], [InvisibleMessages.treeCollapse]);
+/// neither changes the selection.
 ///
 /// A node with [TreeNode.hasChildren] and no children loads them on demand:
 /// opening it calls [onLoadChildren] once, and the app passes the children
 /// back in [nodes]. While the parent is in [loading] or [loadErrors], its
-/// row shows a status after the label; on a failure the arrow toward the
-/// inline-end, or a press on the chevron, asks again.
+/// row shows a status after the label. On a failure of an open parent, the
+/// arrow toward the inline-end or the "Retry" action
+/// ([InvisibleMessages.treeRetry]) asks again; the chevron still closes it,
+/// and opening a closed parent whose load failed asks again too.
+///
+/// ```dart
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// final files = iu.TreeView<String>.uncontrolled(
+///   label: 'Files',
+///   nodes: const [
+///     iu.TreeNode(
+///       value: 'docs',
+///       label: 'Documents',
+///       children: [iu.TreeNode(value: 'notes', label: 'Notes')],
+///     ),
+///   ],
+///   onSelectionChanged: (value) {},
+/// );
+/// ```
 ///
 /// Controlled, [TreeView] shows [selected] and [expanded] and reports each
 /// change through [onSelectionChanged] and [onExpansionChanged];
@@ -237,11 +261,36 @@ class _TreeViewState<T> extends State<TreeView<T>> {
 
   void _press(T value) => _apply(TreeAction(focus: value, select: value));
 
-  void _pressTwistie(T value) {
+  void _toggle(T value) => _apply(_model.toggle(value));
+
+  // Checks the state at call time, so an action read before a rebuild
+  // never does the opposite of its name.
+  void _setExpanded(T value, bool open) {
     final model = _model;
-    final node = model.find(value);
-    final failed = node?.loadState == TreeLoadState.error && node!.expanded;
-    _apply(failed ? model.retry(value) : model.toggle(value));
+    if (model.find(value)?.expanded == open) return;
+    _apply(model.toggle(value));
+  }
+
+  /// The custom semantics actions of [node]: the one of Expand and Collapse
+  /// that applies, and Retry on an open parent whose load failed. None
+  /// moves focus or changes the selection.
+  Map<CustomSemanticsAction, VoidCallback>? _actions(
+    VisibleTreeNode<T> node,
+    InvisibleMessages messages,
+  ) {
+    if (node.disabled || !node.hasChildren) return null;
+    final value = node.value;
+    return {
+      if (node.expanded)
+        CustomSemanticsAction(label: messages.treeCollapse): () =>
+            _setExpanded(value, false)
+      else
+        CustomSemanticsAction(label: messages.treeExpand): () =>
+            _setExpanded(value, true),
+      if (node.expanded && node.loadState == TreeLoadState.error)
+        CustomSemanticsAction(label: messages.treeRetry): () =>
+            _apply(_model.retry(value)),
+    };
   }
 
   void _onKey(RovingKeyIntent intent) {
@@ -250,20 +299,15 @@ class _TreeViewState<T> extends State<TreeView<T>> {
     _apply(_model.key(from, intent.key, Directionality.of(context)));
   }
 
-  // Typeahead and `*`, the two keys of the APG pattern the web tree lacks.
+  // Typeahead, the APG key the web tree lacks. It moves focus only.
   KeyEventResult _onKeyEvent(FocusNode _, KeyEvent event) {
     final character = typedCharacter(event);
     final from = _focusedNode;
     if (character == null || from == null) return KeyEventResult.ignored;
-    final model = _model;
-    if (character == '*') {
-      _apply(model.expandSiblings(from));
-      return KeyEventResult.handled;
-    }
     _query += character;
     _queryTimer?.cancel();
     _queryTimer = Timer(typeaheadReset, () => _query = '');
-    _apply(TreeAction(focus: model.match(_query, from)));
+    _apply(TreeAction(focus: _model.match(_query, from)));
     return KeyEventResult.handled;
   }
 
@@ -302,7 +346,8 @@ class _TreeViewState<T> extends State<TreeView<T>> {
               status: _status(info, messages),
               focusNode: _node(info.value)..skipTraversal = info.value != stop,
               onPressed: () => _press(info.value),
-              onTwistie: () => _pressTwistie(info.value),
+              onTwistie: () => _toggle(info.value),
+              actions: _actions(info, messages),
               onFocused: () => setState(() => _focused = info.value),
             ),
             children: info.expanded && info.childrenLoaded
@@ -400,6 +445,7 @@ class _TreeRow<T> extends StatelessWidget {
     required this.onPressed,
     required this.onTwistie,
     required this.onFocused,
+    required this.actions,
   });
 
   final VisibleTreeNode<T> info;
@@ -409,6 +455,7 @@ class _TreeRow<T> extends StatelessWidget {
   final VoidCallback onPressed;
   final VoidCallback onTwistie;
   final VoidCallback onFocused;
+  final Map<CustomSemanticsAction, VoidCallback>? actions;
 
   void _focusChanged(BuildContext context, bool focused) {
     if (!focused) return;
@@ -446,6 +493,7 @@ class _TreeRow<T> extends StatelessWidget {
       expanded: info.hasChildren ? info.expanded : null,
       enabled: enabled,
       onTap: enabled ? onPressed : null,
+      customSemanticsActions: actions,
       child: Pressable(
         onPressed: enabled ? onPressed : null,
         focusNode: focusNode,

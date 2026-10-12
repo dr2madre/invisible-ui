@@ -56,9 +56,9 @@ runs through `connect()` too.
 | Home and End jump to the first and last visible enabled node | matched | `left to right: …`; vectors: `Home…`, `End…` |
 | Enter and Space select the focused node | matched | `Enter and Space select the focused node, once each`; vectors: `Enter selects the node`, `Space selects the node` |
 | Arrows, Home and End stay in the tree, as the web prevents their default | matched | the tree's `RovingKeyAction` handles them whenever a node has focus |
-| Typeahead: printable characters build a query, reset after 500 ms, case-insensitive prefix match on labels, over visible enabled nodes after the focused one, wrapping; it moves focus only | adapted | Flutter only: APG key the web reference lacks. `typeahead moves focus to the next visible enabled label…`. Not in the shared vectors, since core has no typeahead |
-| `*` opens every closed enabled parent beside the focused node, with one expansion report, and requests the unloaded ones | adapted | Flutter only: APG key the web reference lacks. `* opens every closed enabled parent beside the focused node…`. Not in the shared vectors, since core has no `*` |
-| Multi-selection (Shift and Control with arrows, Space toggles) | out of scope | the reference is single-select; the multi-select model is an open design question |
+| Typeahead: a character, or a sequence typed within 500 ms, builds a query; case-insensitive prefix match on labels, over visible enabled nodes after the focused one, wrapping; it moves focus and never selects or opens | adapted | Flutter only: APG key the web reference lacks. `typeahead moves focus to the next visible enabled label…` (the selected node keeps its check). Not in the shared vectors, since core has no typeahead |
+| `*` (open every parent beside the focused node) | out of scope | removed by decision: `*` is an ordinary typeahead character. `* is an ordinary typeahead character: it opens, selects and requests nothing`; vectors: a shared vector for `*` is asserted to change nothing in Flutter, a documented difference |
+| Multi-selection (Shift and Control with arrows, Space toggles) | out of scope | single selection only, by decision; the `TreeView` dartdoc says so |
 
 ## Focus
 
@@ -76,8 +76,8 @@ runs through `connect()` too.
 | --- | --- | --- |
 | A press on a row focuses and selects it | matched | `a press on a row focuses and selects it, reports once…` |
 | A press on the chevron opens or closes without selecting | matched | `a press on the chevron opens and closes the parent without selecting…` |
-| A press on the chevron of an open parent whose load failed retries | matched | `a failure shows the error status…` |
-| A press on the chevron of a closed parent whose load failed | adapted | it opens the parent and requests again. The Svelte chevron calls `retryLoad` for every failed parent, and `retryLoad` ignores a closed one, so there the press does nothing |
+| A press on the chevron of an open parent whose load failed | adapted | it closes the parent, by decision: the chevron always opens and closes, and retry is a separate action (Right Arrow, the Retry semantics action). The Svelte chevron retries there. `after a failure the chevron still closes the parent without a request…` |
+| A press on the chevron of a closed parent whose load failed | adapted | it opens the parent and requests again: same test. The Svelte chevron calls `retryLoad` for every failed parent, and `retryLoad` ignores a closed one, so there the press does nothing |
 | A disabled node takes no press; a disabled tree takes none | matched | `a disabled node is dimmed…`, `a disabled tree has no tab stop, opens and selects nothing` |
 
 ## State and callbacks
@@ -87,7 +87,7 @@ runs through `connect()` too.
 | Reflection never emits: a changed `selected` or `expanded` is shown without a report (ADR 0011) | matched | `controlled: a changed selection or expanded set is shown without a report…` |
 | Give-back: the parent echoing the reported value moves nothing | matched | same test |
 | A selection of the selected node reports nothing | matched | `a press on a row focuses and selects it, reports once…`, `Enter and Space select the focused node, once each` |
-| Report after commit, once per action; expansion and load request committed before either is reported | matched | `TreeView` commits every change of an action in one `setState`, then reports; `* opens every closed enabled parent…` reports once |
+| Report after commit, once per action; expansion and load request committed before either is reported | matched | `TreeView` commits every change of an action in one `setState`, then reports; `…a closed parent offers Expand…` (Expand on an unloaded parent reports once and requests once) |
 | Uncontrolled keeps its own state from the initial values | matched | `uncontrolled: starts from the initial values and keeps its own state` |
 | Callbacks are read at call time | matched | `callbacks are read when the action happens` |
 
@@ -104,6 +104,8 @@ runs through `connect()` too.
 | Status in a polite live region (`role="status"`, `aria-live="polite"`) | adapted | `Semantics(liveRegion: true)`; Flutter live regions have no politeness level and announce politely: `opening an unloaded parent…` |
 | Status as the row's description (`aria-describedby`) | adapted | the row's semantics hint: same test |
 | `aria-busy` on a loading parent | adapted | Flutter has no busy property; the hint and the live region carry the loading state |
+| Retry for assistive technology: an open parent whose load failed offers a "Retry" custom action (`InvisibleMessages.treeRetry`), absent while a request is out | adapted | the web has no equivalent action; its chevron retries. `a failure shows the error status… the Retry action ask again…`. Assistive technology: not tested |
+| The load-error text (`tree.loadError`) names Right Arrow | matched | kept as it is; the text change is a pending decision |
 | Loaded children replace the status | matched | `a failure shows the error status…` |
 
 ## Semantics
@@ -116,8 +118,8 @@ runs through `connect()` too.
 | `aria-level`, `aria-setsize`, `aria-posinset` | adapted | Flutter has no level property: each open parent's children sit in a nested `SemanticsRole.list` inside its list item, so depth and set size come from the nesting: same test |
 | `aria-disabled` on disabled nodes | matched | same test (`Music` is not enabled) |
 | Chevron, icon and check hidden from assistive technology | matched | each sits in excluded semantics; `labeledTapTargetGuideline` passes in the same test |
-| Opening and closing a parent with a screen reader on touch, without a keyboard | not yet verified | the reference hides the chevron from assistive technology and offers no expand action either; see the open question in the change |
-| Screen reader output on macOS, Windows, Linux, iOS and Android | not yet verified | a manual session; none is recorded |
+| Opening and closing a parent with a screen reader on touch, without a keyboard | adapted | an enabled parent offers one custom semantics action: "Expand" (`InvisibleMessages.treeExpand`) while closed, "Collapse" (`treeCollapse`) while open. Only the action that applies is offered, so the action list matches the expanded state and never offers a no-op. Neither moves focus or changes the selection. The web reference has no such action. `ltr: a closed parent offers Expand and an open one Collapse…` and the `rtl` twin; `a disabled tree offers no actions`. Assistive technology: not tested |
+| Screen reader output on macOS, Windows, Linux, iOS and Android | not yet verified | Assistive technology: not tested |
 
 ## Layout and tokens
 
@@ -134,7 +136,7 @@ runs through `connect()` too.
 | Disabled rows at opacity 0.5 | matched | `a disabled node is dimmed, takes no focus and no press` |
 | Label on one line with an ellipsis | matched | `text scale 2.0 in a 320 pixel parent…` |
 | The status sits beside the label and moves under it when the row is too narrow | adapted | the Svelte status shrinks and wraps beside the label; a narrow Flutter row would grow very tall, so the status takes its own line |
-| Text scale 2.0 in a 320 pixel parent without overflow | matched | `text scale 2.0 in a 320 pixel parent: nothing overflows…` |
+| Text scale 2.0 in a 320 pixel parent without overflow | matched | `text scale 2.0 in a 320 pixel parent: nothing overflows…` (also checks the Collapse action, `labeledTapTargetGuideline` and `targetGuideline24`) |
 | Text contrast | matched | `rows carry selected…` (`textContrastGuideline`) |
 | Colours `text`, `text-secondary`, `danger-text`, `secondary`, `neutral-surface` | matched | the reference sets them in its stylesheet; same roles |
 | Reduced motion: no chevron turn animation | matched | `the chevron turns a quarter while open, instantly under reduced motion` |

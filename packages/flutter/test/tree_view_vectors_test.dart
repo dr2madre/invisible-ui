@@ -54,10 +54,27 @@ void main() {
           loadErrors: _set(vector['loadErrors']),
           disabled: vector['disabled'] as bool? ?? false,
         );
+        final direction = vector['direction'] == 'rtl'
+            ? TextDirection.rtl
+            : TextDirection.ltr;
+        if (vector['key'] == '*') {
+          // A documented difference: the Flutter tree has no `*` key, so a
+          // web vector for it expects nothing to change here.
+          final result = model.key(
+            vector['from'] as String,
+            LogicalKeyboardKey.asterisk,
+            direction,
+          );
+          expect(result.focus, isNull);
+          expect(result.expanded, isNull);
+          expect(result.select, isNull);
+          expect(result.load, isEmpty);
+          return;
+        }
         final result = model.key(
           vector['from'] as String,
           _keys[vector['key']]!,
-          vector['direction'] == 'rtl' ? TextDirection.rtl : TextDirection.ltr,
+          direction,
         );
         expect(result.load.length, lessThanOrEqualTo(1));
         expect(result.focus, vector['focus']);

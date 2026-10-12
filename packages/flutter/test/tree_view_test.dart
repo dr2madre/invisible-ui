@@ -1,6 +1,8 @@
-// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35,
+// and never the custom action types.
 // ignore: unnecessary_import
-import 'package:flutter/semantics.dart' show SemanticsRole;
+import 'package:flutter/semantics.dart'
+    show CustomSemanticsAction, SemanticsAction, SemanticsRole;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -149,6 +151,29 @@ Future<void> _type(WidgetTester tester, String character) async {
 bool _focused(WidgetTester tester, String label) =>
     focusedOn(tester, find.text(label));
 
+/// The labels of the custom semantics actions on the row named [label].
+List<String> _actions(WidgetTester tester, String label) => [
+  for (final id
+      in tester
+              .getSemantics(find.text(label))
+              .getSemanticsData()
+              .customSemanticsActionIds ??
+          const <int>[])
+    CustomSemanticsAction.getAction(id)!.label!,
+];
+
+/// Performs the custom semantics action named [action] on the row named
+/// [label], as assistive technology does.
+Future<void> _perform(WidgetTester tester, String label, String action) async {
+  final node = tester.getSemantics(find.text(label));
+  node.owner!.performAction(
+    node.id,
+    SemanticsAction.customAction,
+    CustomSemanticsAction.getIdentifier(CustomSemanticsAction(label: action)),
+  );
+  await tester.pumpAndSettle();
+}
+
 void main() {
   group('pointer', () {
     testWidgets('a press on a row focuses and selects it, reports once and '
@@ -294,7 +319,9 @@ void main() {
       tester,
     ) async {
       final log = _Log();
-      await tester.pumpWidget(harness(_tree(log, initialExpanded: {'docs'})));
+      await tester.pumpWidget(
+        harness(_tree(log, initialSelected: 'docs', initialExpanded: {'docs'})),
+      );
       await focusOn(tester, find.text('Documents'));
       await _type(tester, 'n');
       expect(_focused(tester, 'Notes'), isTrue);
@@ -318,27 +345,23 @@ void main() {
       await _type(tester, 'p');
       await _type(tester, 'i');
       expect(_focused(tester, 'Pictures'), isTrue, reason: 'one query');
-      expect(log.selected, isEmpty);
+      expect(log.selected, isEmpty, reason: 'typeahead never selects');
+      expect(_checked(tester, 'Documents'), isTrue);
+      expect(_checked(tester, 'Pictures'), isFalse);
       expect(log.expanded, isEmpty);
     });
 
-    testWidgets('* opens every closed enabled parent beside the focused node, '
-        'reports once and requests the unloaded ones', (tester) async {
+    testWidgets('* is an ordinary typeahead character: it opens, selects '
+        'and requests nothing', (tester) async {
       final log = _Log();
       await tester.pumpWidget(harness(_tree(log)));
       await focusOn(tester, find.text('Videos'));
       await _type(tester, '*');
-      expect(log.expanded, [
-        {'docs', 'pictures'},
-      ]);
-      expect(log.loads.map((r) => r.value), ['pictures']);
       expect(_focused(tester, 'Videos'), isTrue);
-      await focusOn(tester, find.text('Notes'));
-      await _type(tester, '*');
-      expect(log.expanded.last, {'docs', 'pictures', 'reports'});
-      await _type(tester, '*');
-      expect(log.expanded.length, 2, reason: 'nothing left to open');
-      expect(log.loads.length, 1);
+      expect(log.expanded, isEmpty);
+      expect(log.selected, isEmpty);
+      expect(log.loads, isEmpty);
+      expect(find.text('Notes'), findsNothing);
     });
 
     testWidgets('one tab stop: the first node, else the selected one, else '
@@ -506,9 +529,9 @@ void main() {
     });
 
     testWidgets('a failure shows the error status in the danger role; the '
-        'inline-end arrow and the chevron retry with a newer request id', (
-      tester,
-    ) async {
+        'inline-end arrow and the Retry action ask again with a newer '
+        'request id, and keep the parent open', (tester) async {
+      final semantics = tester.ensureSemantics();
       final log = _Log();
       const error = 'Could not load Pictures. Press Right Arrow to retry.';
       await tester.pumpWidget(
@@ -525,6 +548,9 @@ void main() {
       expect(log.loads.map((r) => r.value), ['pictures']);
       expect(find.text('Loading Pictures…'), findsOneWidget);
       expect(log.expanded, isEmpty, reason: 'a retry keeps the parent open');
+      expect(_actions(tester, 'Pictures'), [
+        'Collapse',
+      ], reason: 'no Retry while a request is out');
 
       await tester.pumpWidget(
         harness(
@@ -540,8 +566,8 @@ void main() {
           ),
         ),
       );
-      await tester.tap(_twistie('Pictures'));
-      await tester.pump();
+      expect(_actions(tester, 'Pictures'), ['Collapse', 'Retry']);
+      await _perform(tester, 'Pictures', 'Retry');
       expect(log.loads.length, 2);
       expect(log.loads[1].requestId, greaterThan(log.loads[0].requestId));
       expect(log.expanded, isEmpty);
@@ -555,6 +581,35 @@ void main() {
       expect(find.text('Beach'), findsOneWidget);
       expect(find.textContaining('Pictures.'), findsNothing);
       expect(find.text('Loading Pictures…'), findsNothing);
+      semantics.dispose();
+    });
+
+    testWidgets('after a failure the chevron still closes the parent without '
+        'a request; opening it again asks again', (tester) async {
+      final log = _Log();
+      await tester.pumpWidget(
+        harness(
+          _controlled(log, expanded: {'pictures'}, loadErrors: {'pictures'}),
+        ),
+      );
+      await tester.tap(_twistie('Pictures'));
+      await tester.pumpAndSettle();
+      expect(log.expanded, [<String>{}]);
+      expect(log.loads, isEmpty);
+
+      await tester.pumpWidget(
+        harness(_controlled(log, loadErrors: {'pictures'})),
+      );
+      expect(
+        find.textContaining('Could not load'),
+        findsOneWidget,
+        reason: 'the failure stays in view on the closed parent',
+      );
+      await tester.tap(_twistie('Pictures'));
+      await tester.pumpAndSettle();
+      expect(log.expanded.last, {'pictures'});
+      expect(log.loads.map((r) => r.value), ['pictures']);
+      expect(log.selected, isEmpty);
     });
   });
 
@@ -607,6 +662,52 @@ void main() {
   });
 
   group('semantics and layout', () {
+    for (final direction in TextDirection.values) {
+      testWidgets('${direction.name}: a closed parent offers Expand and an '
+          'open one Collapse; leaves and disabled nodes offer none; the '
+          'actions open and close without selecting or moving focus', (
+        tester,
+      ) async {
+        final semantics = tester.ensureSemantics();
+        final log = _Log();
+        await tester.pumpWidget(
+          harness(_tree(log, initialSelected: 'videos'), direction: direction),
+        );
+        await focusOn(tester, find.text('Videos'));
+        expect(_actions(tester, 'Documents'), ['Expand']);
+        expect(_actions(tester, 'Pictures'), ['Expand']);
+        expect(_actions(tester, 'Videos'), isEmpty);
+        expect(_actions(tester, 'Music'), isEmpty);
+
+        await _perform(tester, 'Documents', 'Expand');
+        expect(log.expanded, [
+          {'docs'},
+        ]);
+        expect(find.text('Notes'), findsOneWidget);
+        expect(_actions(tester, 'Documents'), ['Collapse']);
+        expect(_actions(tester, 'Archive'), isEmpty, reason: 'disabled');
+
+        await _perform(tester, 'Pictures', 'Expand');
+        expect(log.loads.map((r) => r.value), ['pictures']);
+
+        await _perform(tester, 'Documents', 'Collapse');
+        expect(log.expanded.last, {'pictures'});
+        expect(find.text('Notes'), findsNothing);
+        expect(log.selected, isEmpty, reason: 'the actions never select');
+        expect(_checked(tester, 'Videos'), isTrue);
+        expect(_focused(tester, 'Videos'), isTrue);
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        semantics.dispose();
+      });
+    }
+
+    testWidgets('a disabled tree offers no actions', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(harness(_tree(_Log(), enabled: false)));
+      expect(_actions(tester, 'Documents'), isEmpty);
+      semantics.dispose();
+    });
+
     testWidgets('rows carry selected, expanded only on parents, enabled and '
         'focus; each level is a list of list items named by the tree', (
       tester,
@@ -694,6 +795,7 @@ void main() {
 
     testWidgets('text scale 2.0 in a 320 pixel parent: nothing overflows and '
         'long labels end in an ellipsis', (tester) async {
+      final semantics = tester.ensureSemantics();
       const nodes = [
         TreeNode(
           value: 'a',
@@ -730,6 +832,13 @@ void main() {
         tester.getRect(_row('Nested folder with another long name')).right,
         lessThanOrEqualTo(tester.getRect(find.byType(TreeView<String>)).right),
       );
+      expect(
+        _actions(tester, 'A folder with a rather long name that cannot fit'),
+        ['Collapse'],
+      );
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      await expectLater(tester, meetsGuideline(targetGuideline24));
+      semantics.dispose();
     });
 
     testWidgets('every row and chevron keeps 44 by 44 under touch', (

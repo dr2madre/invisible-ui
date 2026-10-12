@@ -368,24 +368,4 @@ class TreeModel<T> {
     query,
     from,
   );
-
-  /// Opens every closed, enabled parent beside [from] at its level, and
-  /// requests the children of those not loaded.
-  TreeAction<T> expandSiblings(T from) {
-    final node = find(from);
-    if (node == null) return const TreeAction();
-    final closed = [
-      for (final sibling in visible)
-        if (identical(sibling.parent, node.parent) &&
-            sibling.hasChildren &&
-            !sibling.disabled &&
-            !sibling.expanded)
-          sibling,
-    ];
-    if (closed.isEmpty) return const TreeAction();
-    return TreeAction(
-      expanded: {...expanded, for (final s in closed) s.value},
-      load: [for (final s in closed) ..._load(s.value)],
-    );
-  }
 }
