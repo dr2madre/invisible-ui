@@ -65,9 +65,10 @@ strings live in the English catalog (`en`); see `MessageKey` for the keys.
 
 - Dates format on the **Gregorian calendar** in every locale; other calendar
   systems are not supported.
-- Calendar's week start and Time Field's hour cycle keep their documented
-  defaults (`Monday`, `24`) unless you set them; the resolved locale does not
-  change them implicitly.
+- Calendar's week start follows the resolved locale's first day of the week
+  (CLDR, language and region) unless you set `weekStartsOn`.
+- Time Field's hour cycle keeps its documented default (`24`) unless you set
+  it; the resolved locale does not change it implicitly.
 - The library ships English defaults only: translations are yours via
   `messages`. Component search filters match case-insensitively without
   locale-specific case rules; pass your own `filter` where you need them.
