@@ -1,3 +1,6 @@
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// ignore: unnecessary_import
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -287,9 +290,11 @@ class _ScrollerState extends State<Scroller> {
     }
 
     final label = widget.semanticLabel;
+    final named = label != null && label.isNotEmpty;
     return Semantics(
       container: label != null,
       label: label,
+      role: named ? SemanticsRole.region : null,
       child: FocusableActionDetector(
         focusNode: _node,
         shortcuts: _keys,

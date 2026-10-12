@@ -62,3 +62,8 @@ class ModalObserver extends NavigatorObserver with ChangeNotifier {
     _add(newRoute);
   }
 }
+
+/// The first modal route still open, the one shown toasts sit below.
+/// Package-internal.
+Route<dynamic>? lowestModalRoute(ModalObserver observer) =>
+    observer._routes.firstOrNull;

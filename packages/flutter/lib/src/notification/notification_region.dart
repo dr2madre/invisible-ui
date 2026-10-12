@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/scheduler.dart';
+// widgets.dart exports SemanticsRole only in releases after Flutter 3.35.
+// ignore: unnecessary_import
+import 'package:flutter/semantics.dart' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 
 import '../internal/ambient.dart';
@@ -50,11 +53,14 @@ const double _travel = 16;
 ///
 /// While [modals] reports a modal open, new notifications wait unshown and
 /// unannounced; they appear in order, countdowns starting, when the last
-/// modal closes (ADR 0016). The toasts already shown when it opened are
-/// hidden and inert while it is open, their countdowns held, and come back
-/// afterwards: the region paints over the navigator, so a toast left visible
-/// would sit above the modal and compete with it. A change to one of them
-/// waits for the modal to close too.
+/// modal closes (ADR 0016). The toasts already shown when a modal route
+/// opened stay where they are, under the route's barrier, inert and with
+/// their countdowns held, as they do under a web dialog's backdrop: the
+/// region moves them into the navigator's overlay, just below the first
+/// modal route, and takes them back when the last one closes. A change to
+/// one of them waits for the modal to close too. A modal counted with
+/// [ModalObserver.hold] has no place in the navigator's overlay, so while
+/// only such modals are open the shown toasts are hidden instead.
 ///
 /// Place it around the app's navigator, for example in `WidgetsApp.builder`.
 class NotificationRegion extends StatefulWidget {
@@ -120,6 +126,12 @@ class _NotificationRegionState extends State<NotificationRegion> {
   bool _pointerInside = false;
   bool _focusInside = false;
 
+  /// The shown toasts while a modal route is open: an entry in the
+  /// navigator's overlay just below that route.
+  OverlayEntry? _below;
+  late InvisibleThemeData _theme;
+  late TextDirection _direction;
+
   bool get _paused => _pointerInside || _focusInside || _modalOpen;
 
   @override
@@ -153,6 +165,7 @@ class _NotificationRegionState extends State<NotificationRegion> {
   void dispose() {
     widget.controller.removeListener(_sync);
     widget.modals?.removeListener(_syncModal);
+    _dropBelow();
     super.dispose();
   }
 
@@ -180,6 +193,48 @@ class _NotificationRegionState extends State<NotificationRegion> {
         : const {};
     _modalOpen = open;
     _sync();
+    // The navigator may be in the middle of a push or a pop: the overlay
+    // changes after this frame.
+    SchedulerBinding.instance
+      ..addPostFrameCallback((_) => open ? _placeBelow() : _takeBack())
+      ..ensureVisualUpdate();
+  }
+
+  void _placeBelow() {
+    final modals = widget.modals;
+    final route = modals == null ? null : lowestModalRoute(modals);
+    final overlay = modals?.navigator?.overlay;
+    if (!mounted || !_modalOpen || _below != null) return;
+    if (route == null || overlay == null || route.overlayEntries.isEmpty) {
+      return;
+    }
+    final entry = OverlayEntry(
+      builder: (_) => InvisibleTheme(
+        data: _theme,
+        child: Directionality(
+          textDirection: _direction,
+          // Under the barrier, as the web page is under a dialog: no
+          // pointer, no focus, nothing for assistive technology.
+          child: IgnorePointer(
+            child: ExcludeFocus(child: ExcludeSemantics(child: _toasts())),
+          ),
+        ),
+      ),
+    );
+    overlay.insert(entry, below: route.overlayEntries.first);
+    setState(() => _below = entry);
+  }
+
+  void _takeBack() {
+    if (!mounted || _modalOpen || _below == null) return;
+    setState(_dropBelow);
+  }
+
+  void _dropBelow() {
+    _below
+      ?..remove()
+      ..dispose();
+    _below = null;
   }
 
   void _sync() {
@@ -211,6 +266,7 @@ class _NotificationRegionState extends State<NotificationRegion> {
         ..ensureVisualUpdate();
     }
     if (mounted) setState(() {});
+    _below?.markNeedsBuild();
   }
 
   /// Notifications to announce after the next frame, oldest first.
@@ -246,7 +302,50 @@ class _NotificationRegionState extends State<NotificationRegion> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = InvisibleTheme.of(context);
+    _theme = InvisibleTheme.of(context);
+    _direction = Directionality.of(context);
+    _below?.markNeedsBuild();
+    final shown = _slots.any((slot) => !slot.leaving);
+    final below = _below != null;
+
+    return Stack(
+      children: [
+        widget.child,
+        if (!below)
+          Positioned.fill(
+            // Hidden and inert while a modal with no place in the
+            // navigator's overlay is open (ADR 0016).
+            child: Offstage(
+              offstage: _modalOpen,
+              child: ExcludeFocus(
+                excluding: _modalOpen,
+                child: Semantics(
+                  container: shown,
+                  explicitChildNodes: true,
+                  role: shown ? SemanticsRole.region : null,
+                  label: shown
+                      ? widget.semanticLabel ??
+                            _theme.messages.notificationRegionLabel
+                      : null,
+                  // The whole stack pauses together while focus is inside
+                  // it.
+                  child: Focus(
+                    canRequestFocus: false,
+                    skipTraversal: true,
+                    onFocusChange: (inside) =>
+                        setState(() => _focusInside = inside),
+                    child: _toasts(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  /// The stacked toasts, in the region or below a modal route.
+  Widget _toasts() {
     final reduceMotion = reducedMotion(context);
     final top = switch (widget.placement) {
       NotificationPlacement.topStart ||
@@ -264,9 +363,8 @@ class _NotificationRegionState extends State<NotificationRegion> {
     };
     final enter = reduceMotion ? Duration.zero : widget.duration;
     final exit = reduceMotion ? Duration.zero : widget.duration * 1.75;
-    final shown = _slots.any((slot) => !slot.leaving);
 
-    final stack = LayoutBuilder(
+    return LayoutBuilder(
       builder: (context, constraints) {
         final inset = widget.inset;
         final available = math.max(0.0, constraints.maxWidth - inset * 2);
@@ -299,7 +397,9 @@ class _NotificationRegionState extends State<NotificationRegion> {
                     children: [
                       for (final slot in _slots.reversed)
                         _ToastSlot(
-                          key: ObjectKey(slot),
+                          // Global, so a toast keeps its state when it moves
+                          // below a modal route and back.
+                          key: GlobalObjectKey(slot),
                           notice: slot.notice,
                           leaving: slot.leaving,
                           paused: _paused,
@@ -319,37 +419,6 @@ class _NotificationRegionState extends State<NotificationRegion> {
           ),
         );
       },
-    );
-
-    return Stack(
-      children: [
-        widget.child,
-        Positioned.fill(
-          // Hidden and inert while a modal is open (ADR 0016).
-          child: Offstage(
-            offstage: _modalOpen,
-            child: ExcludeFocus(
-              excluding: _modalOpen,
-              child: Semantics(
-                container: shown,
-                explicitChildNodes: true,
-                label: shown
-                    ? widget.semanticLabel ??
-                          theme.messages.notificationRegionLabel
-                    : null,
-                // The whole stack pauses together while focus is inside it.
-                child: Focus(
-                  canRequestFocus: false,
-                  skipTraversal: true,
-                  onFocusChange: (inside) =>
-                      setState(() => _focusInside = inside),
-                  child: stack,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

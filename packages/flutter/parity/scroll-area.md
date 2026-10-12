@@ -45,7 +45,7 @@ scope**. Every matched line names the widget test in
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| With `label`, a named region | adapted | Flutter 3.32 has no region role; a node named by the label, focusable, with the scroll actions: `semantics: a named region the keyboard reaches; text scale 2.0 in a narrow parent` |
+| With `label`, a named region | matched | `SemanticsRole.region` (Flutter 3.35) on a node named by the label, focusable, with the scroll actions: `semantics: a named region the keyboard reaches; text scale 2.0 in a narrow parent`. Assistive technology: not tested |
 | The bars are hidden from assistive technology | matched | `RawScrollbar` adds no semantics |
 | Screen reader output on macOS, Windows, Linux | not yet verified | a manual session; none is recorded |
 
