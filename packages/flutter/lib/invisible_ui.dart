@@ -112,3 +112,7 @@ export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;
 export 'src/tree_view/tree_view.dart' show TreeLoadRequest, TreeNode, TreeView;
+export 'src/upload_drop_area/upload_drop_area.dart'
+    show UploadDropArea, UploadDropController;
+export 'src/upload_drop_area/upload_files.dart'
+    show UploadFile, UploadRejectReason, UploadRejection, acceptsFile;
