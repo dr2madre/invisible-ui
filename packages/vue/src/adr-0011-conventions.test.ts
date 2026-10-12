@@ -194,8 +194,8 @@ const cases: Case[] = [
     prop: "pressed",
     callback: "onPressedChange",
     change: { props: { pressed: true }, reads: "true" },
-    read: () => String((screen.getByRole("checkbox") as HTMLInputElement).checked),
-    act: async (user) => user.click(screen.getByRole("checkbox")),
+    read: () => screen.getByRole("button").getAttribute("aria-pressed") ?? "",
+    act: async (user) => user.click(screen.getByRole("button")),
   },
   {
     name: "TimeField",
