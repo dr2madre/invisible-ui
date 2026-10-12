@@ -17,7 +17,7 @@ export interface DateRangePickerProps {
   min?: string;
   /** Latest selectable date (ISO), inclusive. */
   max?: string;
-  /** First day of the week, 0 = Sunday to 6. */
+  /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
   /** BCP-47 locale for the field and the calendar. Defaults to the provider's locale. */
   locale?: string;
@@ -61,7 +61,7 @@ export function DateRangePicker({
   end = null,
   min,
   max,
-  weekStartsOn = 1,
+  weekStartsOn,
   locale,
   dateStyle = "medium",
   view = "two-month",

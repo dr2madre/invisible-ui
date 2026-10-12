@@ -12,6 +12,14 @@ export type TreeContext = core.TreeContext;
 export type TreeLoadRequest = core.TreeLoadRequest;
 export type VisibleNode = core.VisibleNode;
 
+export interface CreateTreeViewOptions extends TreeContext {
+  /**
+   * Text typeahead matches for a node whose label is not in the page.
+   * Defaults to its value. A rendered row always matches the text it shows.
+   */
+  labelOf?: (value: string) => string;
+}
+
 export interface CreateTreeView {
   /** Reactive resolved state. */
   state: Readable<TreeState>;
@@ -51,12 +59,15 @@ export interface CreateTreeView {
 
 /**
  * Create a headless tree (WAI-ARIA tree pattern): single selection, roving
- * tabindex, expand/collapse and arrow-key navigation over the visible nodes.
+ * tabindex, expand/collapse, arrow-key navigation over the visible nodes and
+ * typeahead (typing moves focus to the next row whose label starts with the
+ * typed text, never changing selection or expansion). Right expands and Left
+ * collapses, mirrored in right-to-left text, read from the tree element.
  * The flattening + navigation logic lives in `@design-system/core`; this adapter
  * wires state to Svelte stores, applies the connected props via actions, and
  * moves DOM focus during navigation.
  */
-export function createTreeView(context: TreeContext): CreateTreeView {
+export function createTreeView(context: CreateTreeViewOptions): CreateTreeView {
   const state = writable<TreeState>(
     core.initialState({ ...context, id: context.id ?? stableId("ds-tree") }),
   );
@@ -132,7 +143,17 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     context.onLoadChildren?.(request);
   };
 
-  const api = derived(state, ($state) =>
+  // One query per tree, so characters typed in quick succession add up.
+  const typeahead = core.createTypeahead();
+
+  // Typeahead matches the text a row shows, which a label snippet may change.
+  const labelOf = (value: string) => {
+    const node = core.visibleNodes(get(state)).find((entry) => entry.value === value);
+    const text = node ? document.getElementById(node.labelId)?.textContent?.trim() : undefined;
+    return text || (context.labelOf ? context.labelOf(value) : value);
+  };
+
+  const connectWith = ($state: TreeState, direction: "ltr" | "rtl") =>
     core.connect({
       state: $state,
       setExpanded,
@@ -140,9 +161,17 @@ export function createTreeView(context: TreeContext): CreateTreeView {
       setFocused,
       focus,
       requestLoad,
+      direction,
+      typeahead,
+      labelOf,
       normalize: normalizeProps,
-    }),
-  );
+    });
+
+  const api = derived(state, ($state) => connectWith($state, "ltr"));
+
+  // The direction is read when a key arrives, so a `dir` set after mount on
+  // the tree or an ancestor applies at once.
+  const rtl = () => rootEl != null && getComputedStyle(rootEl).direction === "rtl";
 
   const baseRootAction = createRootAction(api);
   const rootAction: Action<HTMLElement> = (node) => {
@@ -151,14 +180,22 @@ export function createTreeView(context: TreeContext): CreateTreeView {
     return {
       destroy() {
         if (rootEl === node) rootEl = null;
+        typeahead.reset();
         handle?.destroy?.();
       },
     };
   };
 
-  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) =>
-    a.getItemProps(value),
-  );
+  const itemAction: Action<HTMLElement, string> = createItemAction(api, (a, value: string) => {
+    const props = a.getItemProps(value);
+    return {
+      ...props,
+      onKeyDown: (event: Event) => {
+        const live = rtl() ? connectWith(get(state), "rtl").getItemProps(value) : props;
+        (live.onKeyDown as ((event: Event) => void) | undefined)?.(event);
+      },
+    };
+  });
 
   return {
     state,

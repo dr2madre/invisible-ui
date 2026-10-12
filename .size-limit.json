@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "52.4 kB"
+    "limit": "52.6 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "78.7 kB"
+    "limit": "79.7 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "71.5 kB"
+    "limit": "72.8 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",
@@ -333,7 +333,7 @@
     "name": "@design-system/elements — toggle group only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleGroup }",
-    "limit": "0.5 kB"
+    "limit": "1.5 kB"
   },
   {
     "name": "@design-system/elements — toolbar only, tree-shaken",

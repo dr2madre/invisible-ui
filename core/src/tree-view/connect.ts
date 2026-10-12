@@ -7,7 +7,9 @@ import {
   prevVisible,
   toggleExpanded,
   visibleNode,
+  visibleNodes,
 } from "./state";
+import { matchNext, typedCharacter, type Typeahead } from "../internal/typeahead";
 import type { TreeLoadRequest, TreeState } from "./types";
 
 let loadRequestCounter = 0;
@@ -51,6 +53,13 @@ export interface ConnectOptions {
    * still expands and the one that points outward still collapses.
    */
   direction?: "ltr" | "rtl";
+  /**
+   * The query typed characters build. Create it once per tree with
+   * `createTypeahead()`; without it, typing moves nothing.
+   */
+  typeahead?: Typeahead;
+  /** The text typeahead matches for a node. Defaults to its value. */
+  labelOf?: (value: string) => string;
   /** Framework adapter's prop normaliser. Defaults to identity. */
   normalize?: Normalize;
 }
@@ -61,6 +70,8 @@ export interface ConnectOptions {
  * with roving tabindex, expand/collapse, and arrow-key navigation over the
  * currently-visible nodes (Right expands/enters, Left collapses/rises to the
  * parent, Up/Down move between visible rows, Home/End jump to the ends).
+ * Typing a character, or a quick sequence of them, moves focus to the next
+ * visible node whose label starts with it; it never changes the selection.
  */
 export function connect({
   state,
@@ -70,6 +81,8 @@ export function connect({
   focus,
   requestLoad,
   direction = "ltr",
+  typeahead,
+  labelOf = (value) => value,
   normalize = identityNormalize,
 }: ConnectOptions): TreeApi {
   const { expanded, selected, disabled, id } = state;
@@ -229,6 +242,15 @@ export function connect({
               event.preventDefault();
               select(value);
               break;
+            default: {
+              const character = typeahead && typedCharacter(event as KeyboardEvent);
+              if (!character) break;
+              event.preventDefault();
+              const entries = visibleNodes(state)
+                .filter((node) => !node.disabled)
+                .map((node) => ({ value: node.value, label: labelOf(node.value) }));
+              move(matchNext(entries, typeahead.push(character), value));
+            }
           }
         },
       });

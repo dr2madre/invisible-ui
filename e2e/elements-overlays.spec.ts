@@ -183,7 +183,7 @@ test.describe("Elements navigation menu", () => {
           label: "Products",
           links: [
             { label: "Catalog", href: "#catalog", description: "Every table in one place" },
-            { label: "Lineage", href: "#lineage" },
+            { label: "Lineage", href: "#lineage", current: true },
           ],
         },
         { value: "docs", label: "Docs", links: [{ label: "Guides", href: "#guides" }] },
@@ -225,6 +225,39 @@ test.describe("Elements navigation menu", () => {
     await page.getByText("Page content").click();
     await expect(docs).toHaveAttribute("aria-expanded", "false");
     await expect(nav.getByRole("link", { name: "Guides" })).toBeHidden();
+  });
+  test("a click keeps a hovered panel open and a second click closes it", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: "Site" });
+    const products = nav.getByRole("button", { name: "Products" });
+    await products.hover();
+    await expect(products).toHaveAttribute("aria-expanded", "true");
+    await products.click();
+    await expect(products).toHaveAttribute("aria-expanded", "true");
+    // Leaving no longer closes the panel a click kept.
+    await page.mouse.move(0, 400);
+    await page.waitForTimeout(400);
+    await expect(products).toHaveAttribute("aria-expanded", "true");
+    await products.click();
+    await expect(products).toHaveAttribute("aria-expanded", "false");
+    // The pointer stays on the trigger: hover does not reopen it.
+    await page.waitForTimeout(400);
+    await expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  test("a link closes the panel and the current page is marked", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: "Site" });
+    const products = nav.getByRole("button", { name: "Products" });
+    await expect(products).toHaveAttribute("data-current", "");
+    await expect(products).not.toHaveAttribute("aria-current");
+    await products.focus();
+    await page.keyboard.press("ArrowDown");
+    const lineage = nav.getByRole("link", { name: "Lineage" });
+    await expect(lineage).toHaveAttribute("aria-current", "page");
+    await expect(nav.getByRole("link", { name: /Catalog/ })).not.toHaveAttribute("aria-current");
+    await nav.getByRole("link", { name: /Catalog/ }).focus();
+    await page.keyboard.press("Enter");
+    await expect(products).toHaveAttribute("aria-expanded", "false");
+    await expect(page).toHaveURL(/#catalog$/);
   });
 });
 

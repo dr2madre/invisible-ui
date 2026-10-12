@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
+import { renderToString } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { LocaleProvider } from "../i18n/i18n";
@@ -411,5 +412,48 @@ describe("React Calendar range mode", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(<Range />);
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+// June 2026 starts on a Monday, so the first cell tells the first column:
+// May 30 is a Saturday, May 31 a Sunday, June 1 a Monday.
+describe("React Calendar week start", () => {
+  const firstDate = (root: ParentNode = document) =>
+    root.querySelector("[data-date]")?.getAttribute("data-date");
+  const InLocale = ({ locale, ...props }: Partial<CalendarProps>) => (
+    <LocaleProvider locale={locale}>
+      <Calendar focusedDate="2026-06-15" {...props} />
+    </LocaleProvider>
+  );
+
+  it.each([
+    ["en", "2026-05-31"],
+    ["en-US", "2026-05-31"],
+    ["it-IT", "2026-06-01"],
+    ["ar-EG", "2026-05-30"],
+  ])("starts the week on the provider locale's first day (%s)", (locale, first) => {
+    render(<InLocale locale={locale} />);
+    expect(firstDate()).toBe(first);
+  });
+
+  it("lets weekStartsOn override the locale", () => {
+    render(<InLocale locale="en-US" weekStartsOn={1} />);
+    expect(firstDate()).toBe("2026-06-01");
+  });
+
+  it("follows a locale change", () => {
+    const { rerender } = render(<InLocale locale="en-US" />);
+    rerender(<InLocale locale="it-IT" />);
+    expect(firstDate()).toBe("2026-06-01");
+  });
+
+  it("renders the same first column on the server and in the browser", () => {
+    for (const locale of ["en-US", "it-IT", "ar-EG"]) {
+      const host = document.createElement("div");
+      host.innerHTML = renderToString(<InLocale locale={locale} />);
+      const { container, unmount } = render(<InLocale locale={locale} />);
+      expect(firstDate(host)).toBe(firstDate(container));
+      unmount();
+    }
   });
 });

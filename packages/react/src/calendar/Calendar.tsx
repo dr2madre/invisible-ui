@@ -45,7 +45,7 @@ export interface CalendarProps {
   focusedDate?: string;
   /** Initial (uncontrolled) or current (controlled) view. */
   view?: CalendarView;
-  /** First day of the week, 0 = Sunday to 6. */
+  /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
   /** Earliest selectable date (ISO), inclusive. */
   min?: string;
@@ -176,7 +176,7 @@ export function Calendar({
   value = null,
   focusedDate,
   view = "month",
-  weekStartsOn = 1,
+  weekStartsOn,
   min,
   max,
   locale,
@@ -203,11 +203,13 @@ export function Calendar({
 }: CalendarProps) {
   const i18n = useI18n();
   const { t } = i18n;
+  const resolvedLocale = locale ?? i18n.locale;
   const api = useCalendar({
     value,
     focusedDate,
     view,
     weekStartsOn,
+    locale: resolvedLocale,
     min,
     max,
     mode,
@@ -218,7 +220,6 @@ export function Calendar({
     onViewChange,
     onRangeChange,
   });
-  const resolvedLocale = locale ?? i18n.locale;
   // Rendering a grid formats every day; the formatters, the weekday names and
   // the events by day are kept between renders that do not change them.
   const f = useMemo(() => formatters(resolvedLocale), [resolvedLocale]);

@@ -1,6 +1,6 @@
-import { render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import { LocaleProvider } from "../i18n/i18n";
 import { TreeView, type TreeViewProps } from "./TreeView";
@@ -144,6 +144,68 @@ describe("React TreeView (styled)", () => {
   });
 });
 
+describe("React TreeView typeahead", () => {
+  const fruit: TreeNode[] = [
+    { value: "apple" },
+    { value: "banana" },
+    { value: "blueberry" },
+    { value: "cherry" },
+  ];
+  const names = { apple: "Apple", banana: "Banana", blueberry: "Blueberry", cherry: "Cherry" };
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("moves focus to the next row starting with a typed character, not the selection", async () => {
+    const user = userEvent.setup();
+    const onSelectedChange = vi.fn();
+    render(
+      <Fixture nodes={fruit} labels={names} selected="apple" onSelectedChange={onSelectedChange} />,
+    );
+    item("Apple").focus();
+    await user.keyboard("b");
+    expect(item("Banana")).toHaveFocus();
+    expect(item("Apple")).toHaveAttribute("aria-selected", "true");
+    expect(item("Banana")).toHaveAttribute("aria-selected", "false");
+    expect(onSelectedChange).not.toHaveBeenCalled();
+  });
+
+  it("matches a quick sequence as one query, and starts over after a pause", () => {
+    vi.useFakeTimers();
+    render(<Fixture nodes={fruit} labels={names} />);
+    const type = (key: string) =>
+      act(() => {
+        fireEvent.keyDown(document.activeElement!, { key });
+      });
+    item("Apple").focus();
+    type("b");
+    type("l");
+    expect(item("Blueberry")).toHaveFocus();
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+    type("c");
+    expect(item("Cherry")).toHaveFocus();
+  });
+
+  it("matches the label the row shows, and never expands", async () => {
+    const user = userEvent.setup();
+    const onExpandedChange = vi.fn();
+    render(
+      <Fixture
+        renderLabel={(node) => (node.value === "package.json" ? "Manifest" : node.value)}
+        onExpandedChange={onExpandedChange}
+      />,
+    );
+    item("src").focus();
+    await user.keyboard("m");
+    expect(item("Manifest")).toHaveFocus();
+    expect(item("src")).toHaveAttribute("aria-expanded", "false");
+    expect(onExpandedChange).not.toHaveBeenCalled();
+  });
+});
+
 describe("React TreeView asynchronous children (ADR 0014)", () => {
   it("requests unloaded children once and announces loading", async () => {
     const user = userEvent.setup();
@@ -190,9 +252,32 @@ describe("React TreeView asynchronous children (ADR 0014)", () => {
         onLoadChildren={onLoadChildren}
       />,
     );
-    await user.click(item(/remote/).querySelector(".tree__twistie")!);
+    await user.keyboard("{ArrowRight}");
     expect(onLoadChildren).toHaveBeenCalledTimes(2);
     expect(onLoadChildren.mock.calls[1]![0].requestId).toBeGreaterThan(firstId);
+  });
+
+  it("collapses and expands a failed parent from its chevron, without retrying", async () => {
+    const user = userEvent.setup();
+    const onLoadChildren = vi.fn();
+    const onExpandedChange = vi.fn();
+    render(
+      <Fixture
+        nodes={remote}
+        expanded={["remote"]}
+        loadErrors={["remote"]}
+        onLoadChildren={onLoadChildren}
+        onExpandedChange={onExpandedChange}
+      />,
+    );
+    const chevron = () => item(/remote/).querySelector(".tree__twistie")!;
+    await user.click(chevron());
+    expect(item(/remote/)).toHaveAttribute("aria-expanded", "false");
+    expect(onExpandedChange).toHaveBeenLastCalledWith([]);
+    expect(onLoadChildren).not.toHaveBeenCalled();
+    await user.click(chevron());
+    expect(item(/remote/)).toHaveAttribute("aria-expanded", "true");
+    expect(onExpandedChange).toHaveBeenLastCalledWith(["remote"]);
   });
 
   it("keeps focus when loaded children replace the controlled forest", () => {

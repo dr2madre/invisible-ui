@@ -11,12 +11,12 @@ import ToggleGroupDemo from "../../../../demos/ToggleGroupDemo.svelte";
   <ToggleGroupDemo client:visible />
 </Preview>
 
-A purely **visual** wrapper that arranges a set of independent
-[Toggle Button](/invisible-ui/components/forms/toggle-button/) children and
-gives them a shared look. It has **no selection state of its own**: each toggle
-inside is a standalone on/off control (a native checkbox) that owns its own
-`pressed` state, label and form field. You insert the toggles via the default
-slot.
+A wrapper that arranges a set of independent
+[Toggle Button](/invisible-ui/components/forms/toggle-button/) children, gives
+them a shared look and, from three toggles, one keyboard stop. It has **no
+selection state of its own**: each toggle inside is a standalone on/off control
+(a native button with `aria-pressed`) that owns its own `pressed` state, label
+and form field. You insert the toggles via the default slot.
 
 If you need exactly one active choice — a radio-style view switcher — use the
 [Segmented Control](/invisible-ui/components/forms/segmented-control/) instead.
@@ -47,13 +47,26 @@ In Elements, place the `<ds-toggle-button>` children inside the group:
 
 ### Accessibility
 
-- The group is a `role="group"`. Each toggle is an independent native checkbox,
-  so it is a normal Tab stop and toggles with Space.
+- The group is a `role="group"`, not a toolbar. Each toggle is an independent
+  native button with `aria-pressed`; Enter and Space toggle it.
+- With three or more toggles the group is one Tab stop. The arrow keys move
+  focus between the enabled toggles and wrap at the ends: Left and Right in a
+  horizontal group, mirrored in right-to-left text, Up and Down in a vertical
+  one. Home and End jump to the first and the last toggle. Tab returns to the
+  toggle that had focus last.
+- With one or two toggles each toggle is its own Tab stop and the arrow keys do
+  nothing.
+- Inside a [Toolbar](/invisible-ui/components/patterns/toolbar/) the toolbar's
+  keys apply to the toggles and the group adds none.
+- Moving focus never changes a toggle. When toggles are added or removed,
+  focus stays where it was; when the focused toggle is removed, its neighbour
+  takes focus.
 - The optional `label` becomes the group's `aria-label` — a _container_ name
   (e.g. "Formatting") that gives screen readers context ("group, Formatting").
   It is optional and different in nature from a form label: it names the
   container, it does **not** label the items (each toggle carries its own name).
   If the toggles are unrelated, omit it entirely.
+- Assistive technology: not tested.
 
 ### Example
 
@@ -76,7 +89,7 @@ In React, the toggles are the group's `children`:
 ### Filter chips
 
 Multi-select filter chips are just a `wrap` group of `check` toggles: each is a
-native checkbox, the checkmark makes the selection explicit, and `wrap` lets the
+toggle button, the checkmark makes the selection explicit, and `wrap` lets the
 row flow onto multiple lines in a narrow container.
 
 ```svelte

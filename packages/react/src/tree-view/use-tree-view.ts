@@ -1,5 +1,5 @@
 import { treeView as core } from "@design-system/core";
-import { useCallback, useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { sameList, useControllable } from "../internal/controllable";
 import { focusValue, keyedByDirection, type Direction } from "../internal/roving";
 import { normalizeProps } from "../normalize";
@@ -26,6 +26,8 @@ export interface UseTreeViewOptions {
   onSelectedChange?: (selected: string) => void;
   /** Requests children from the application; the tree never fetches (ADR 0014). */
   onLoadChildren?: (request: TreeLoadRequest) => void;
+  /** Text typeahead matches for a node whose label is not in the page. Defaults to its value. */
+  labelOf?: (value: string) => string;
 }
 
 export interface UseTreeView {
@@ -42,6 +44,8 @@ const NONE: string[] = [];
  * selection, expand and collapse, one roving tab stop and arrow-key
  * navigation over the visible rows. In right-to-left text Left Arrow expands
  * and Right Arrow collapses, so the arrow that points inward still opens.
+ * Typing a character moves focus to the next row whose label starts with the
+ * characters typed so far; it never selects or expands.
  *
  * `expanded`, `selected`, `loading` and `loadErrors` are controllable mirrors
  * (ADR 0011). Expanding a parent marked `hasChildren` with no `children` asks
@@ -60,6 +64,7 @@ export function useTreeView({
   onExpandedChange,
   onSelectedChange,
   onLoadChildren,
+  labelOf,
 }: UseTreeViewOptions): UseTreeView {
   const id = `ds-tree-${useId()}`;
   const [expanded, setExpanded] = useControllable(expandedProp, onExpandedChange, sameList);
@@ -72,6 +77,9 @@ export function useTreeView({
   const [loading, setLoading] = useControllable(loadingProp, undefined);
   const [loadErrors, setLoadErrors] = useControllable(loadErrorsProp, undefined);
   const [focused, setFocused] = useState<string | null>(null);
+  // One query per tree, so characters typed in quick succession add up.
+  const [typeahead] = useState(core.createTypeahead);
+  useEffect(() => () => typeahead.reset(), [typeahead]);
 
   // The request is marked loading here, so a second press cannot repeat it
   // before the application reflects it.
@@ -90,6 +98,22 @@ export function useTreeView({
     [nodes, expanded, selected, loading, loadErrors, focused, disabled, id],
   );
 
+  const visible = useMemo(() => core.visibleNodes(state), [state]);
+
+  // Typeahead matches the text a row shows, which `renderLabel` may change.
+  const labelIds = useMemo(
+    () => new Map(visible.map((node) => [node.value, node.labelId])),
+    [visible],
+  );
+  const matchText = useCallback(
+    (value: string) => {
+      const labelId = labelIds.get(value);
+      const text = labelId ? document.getElementById(labelId)?.textContent?.trim() : undefined;
+      return text || (labelOf ? labelOf(value) : value);
+    },
+    [labelIds, labelOf],
+  );
+
   const connect = useCallback(
     (direction: Direction) =>
       core.connect({
@@ -100,9 +124,11 @@ export function useTreeView({
         focus: (target) => focusValue(document.getElementById(id), target),
         requestLoad,
         direction,
+        typeahead,
+        labelOf: matchText,
         normalize: normalizeProps,
       }),
-    [state, id, setExpanded, setSelected, requestLoad],
+    [state, id, setExpanded, setSelected, requestLoad, typeahead, matchText],
   );
 
   const api = useMemo(() => {
@@ -116,6 +142,5 @@ export function useTreeView({
     };
   }, [connect, id]);
 
-  const visible = useMemo(() => core.visibleNodes(state), [state]);
   return { api, visible };
 }

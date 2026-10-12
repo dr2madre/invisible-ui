@@ -51,8 +51,10 @@ const cases: Case[] = [
   },
 ];
 
-/** Every control a user can focus: the inputs that are not hidden. */
-const controls = (root: ParentNode) => [...root.querySelectorAll("input:not([type=hidden])")];
+/** Every control a user can focus: the inputs that are not hidden and the buttons. */
+const controls = (root: ParentNode) => [
+  ...root.querySelectorAll("input:not([type=hidden]), button"),
+];
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -66,6 +68,7 @@ describe.each(cases)("React $name error", ({ name, invalid, element }) => {
     expect(alert).toHaveTextContent("Pick a value");
     expect(alert).toHaveClass("field__error", "field__message");
     expect(alert.querySelector(".field__msg-icon svg")).not.toBeNull();
+    expect(controls(container).length).toBeGreaterThan(0);
     for (const control of controls(container)) {
       expect(control).toHaveAttribute("aria-describedby", alert.id);
     }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { forLocale, table } from "./week-start";
+import { forLocale, table, weekStartsOn } from "./week-start";
 import vectors from "./__vectors__/week-start.json";
 
 // The Flutter adapter reads the same file, so both carry the same table and
@@ -20,4 +20,15 @@ describe("weekStart.forLocale", () => {
       expect(forLocale(locale)).toBe(firstDay);
     });
   }
+});
+
+describe("weekStart.weekStartsOn", () => {
+  it("counts the same day from Sunday, as the calendar does", () => {
+    for (const { locale, firstDay } of vectors.cases) {
+      expect(weekStartsOn(locale)).toBe(firstDay % 7);
+    }
+    expect(weekStartsOn("en-US")).toBe(0);
+    expect(weekStartsOn("it-IT")).toBe(1);
+    expect(weekStartsOn("ar-EG")).toBe(6);
+  });
 });

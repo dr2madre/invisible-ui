@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 import { Separator } from "../separator/Separator";
 import { ToggleButton } from "../toggle-button/ToggleButton";
+import { ToggleGroup } from "../toggle-group/ToggleGroup";
 import { Toolbar } from "./Toolbar";
 
 const noAxeColorContrast = { rules: { "color-contrast": { enabled: false } } };
@@ -53,24 +54,23 @@ describe("Vue Toolbar", () => {
     render(Fixture);
     const toolbar = screen.getByRole("toolbar", { name: "Text formatting" });
     expect(toolbar).toHaveAttribute("aria-orientation", "horizontal");
-    // Toggle buttons are independent on/off controls (native checkboxes).
-    expect(screen.getByRole("checkbox", { name: "Bold" })).not.toBeChecked();
-    expect(screen.getByRole("checkbox", { name: "Align left" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Bold", pressed: false })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Align left" })).toBeInTheDocument();
   });
 
   it("exposes a single tab stop (roving tabindex)", () => {
     render(Fixture);
-    expect(screen.getByRole("checkbox", { name: "Bold" })).toHaveAttribute("tabindex", "0");
-    expect(screen.getByRole("checkbox", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
-    expect(screen.getByRole("checkbox", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("button", { name: "Bold" })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("button", { name: "Italic" })).toHaveAttribute("tabindex", "-1");
+    expect(screen.getByRole("button", { name: "Align left" })).toHaveAttribute("tabindex", "-1");
   });
 
   it("moves focus with the arrow keys and wraps, updating the tab stop", async () => {
     const user = userEvent.setup();
     render(Fixture);
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
-    const alignLeft = screen.getByRole("checkbox", { name: "Align left" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
+    const alignLeft = screen.getByRole("button", { name: "Align left" });
 
     bold.focus();
     await user.keyboard("{ArrowRight}");
@@ -89,8 +89,8 @@ describe("Vue Toolbar", () => {
   it("moves along the vertical axis with Up/Down", async () => {
     const user = userEvent.setup();
     render(Fixture, { props: { orientation: "vertical" } });
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
 
     bold.focus();
     await user.keyboard("{ArrowDown}");
@@ -103,8 +103,8 @@ describe("Vue Toolbar", () => {
     const user = userEvent.setup();
     const { container } = render(Fixture);
     (container.querySelector(".toolbar") as HTMLElement).setAttribute("dir", "rtl");
-    const bold = screen.getByRole("checkbox", { name: "Bold" });
-    const italic = screen.getByRole("checkbox", { name: "Italic" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const italic = screen.getByRole("button", { name: "Italic" });
 
     bold.focus();
     // The visual start is on the right, so ArrowLeft walks forward.
@@ -112,6 +112,39 @@ describe("Vue Toolbar", () => {
     expect(italic).toHaveFocus();
     await user.keyboard("{ArrowRight}");
     expect(bold).toHaveFocus();
+  });
+
+  it("reaches the toggles nested in a toggle group, which adds no keys of its own", async () => {
+    const user = userEvent.setup();
+    render(
+      defineComponent({
+        setup: () => () =>
+          h(Toolbar, { label: "Text formatting" }, () => [
+            h("button", { type: "button" }, "Undo"),
+            h(ToggleGroup, { label: "Style" }, () => [
+              h(ToggleButton, { label: "Bold", name: "bold", pressed: true }, () => "B"),
+              h(ToggleButton, { label: "Italic" }, () => "I"),
+              h(ToggleButton, { label: "Underline" }, () => "U"),
+            ]),
+          ]),
+      }),
+    );
+    const undo = screen.getByRole("button", { name: "Undo" });
+    const bold = screen.getByRole("button", { name: "Bold" });
+    const underline = screen.getByRole("button", { name: "Underline" });
+
+    expect(undo).toHaveAttribute("tabindex", "0");
+    expect(bold).toHaveAttribute("tabindex", "-1");
+    // The hidden form input inside a pressed toggle is not a control.
+    expect(document.querySelector('input[type="hidden"]')).not.toHaveAttribute("tabindex");
+
+    undo.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(bold).toHaveFocus();
+    await user.keyboard("{End}");
+    expect(underline).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(undo).toHaveFocus();
   });
 
   it("has no accessibility violations", async () => {

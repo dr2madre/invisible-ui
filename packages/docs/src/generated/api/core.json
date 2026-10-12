@@ -467,8 +467,8 @@
     },
     {
       "name": "carousel.nextIndex",
-      "kind": "function",
-      "signature": "declare function nextIndex#1f0504da(state: CarouselState): number;"
+      "kind": "const",
+      "signature": "carousel_nextIndex: typeof nextIndex"
     },
     {
       "name": "carousel.prevIndex",
@@ -1433,12 +1433,12 @@
     {
       "name": "navigationMenu.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#7a82da2f { state: NavigationMenuState; /** Request a new open value; the adapter owns how state updates. */ setValue: (value: string | null) => void; normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#81f2b8ae { state: NavigationMenuState; /** * Request a new open value and whether a press keeps it open; the adapter * owns how state updates, and reports only a changed value. */ setValue: (value: string | null, kept: boolean) => void; normalize?: Normalize; }"
     },
     {
       "name": "navigationMenu.NavigationMenuApi",
       "kind": "type",
-      "signature": "navigationMenu.NavigationMenuApi = interface NavigationMenuApi { value: string | null; /** Whether the item with this value is open. */ isOpen(value: string): boolean; /** Open the item with this value. */ open(value: string): void; /** Close any open item. */ close(): void; /** Toggle the item with this value. */ toggle(value: string): void; /** Props for a panel item's trigger (`aria-expanded` / `aria-controls`). */ getTriggerProps(value: string): ElementProps; /** Props for a panel item's content. */ getContentProps(value: string): ElementProps; }"
+      "signature": "navigationMenu.NavigationMenuApi = interface NavigationMenuApi { value: string | null; /** Whether a press keeps the open panel open (see `NavigationMenuState.kept`). */ kept: boolean; /** Whether the item with this value is open. */ isOpen(value: string): boolean; /** Open the item with this value and keep it open. */ open(value: string): void; /** Close any open item. */ close(): void; /** A press on a trigger: keep its panel open, or close it when a press kept it. */ toggle(value: string): void; /** The pointer rests on a trigger: open its panel while the pointer stays. */ hoverOpen(value: string): void; /** The pointer left: close the open panel unless a press kept it. */ hoverClose(): void; /** * Props for a panel item's trigger (`aria-expanded` / `aria-controls`). * `holdsCurrent` marks a trigger whose panel holds the current page: it * sets `data-current` for styling and is never announced as current. */ getTriggerProps(value: string, options?: { holdsCurrent?: boolean; }): ElementProps; /** Props for a panel item's content. */ getContentProps(value: string): ElementProps; /** * Props for a link, in a panel or at the top level. A click closes the open * panel before the browser follows the link. `current` marks the link to * the page on screen: `aria-current=\"page\"` and `data-current`. */ getLinkProps(options?: { current?: boolean; }): ElementProps; }"
     },
     {
       "name": "navigationMenu.NavigationMenuContext",
@@ -1448,12 +1448,12 @@
     {
       "name": "navigationMenu.NavigationMenuState",
       "kind": "type",
-      "signature": "navigationMenu.NavigationMenuState = interface NavigationMenuState { /** The value of the currently open item, or `null`. */ value: string | null; /** Base id used to link triggers and content panels. */ id: string; }"
+      "signature": "navigationMenu.NavigationMenuState = interface NavigationMenuState { /** The value of the currently open item, or `null`. */ value: string | null; /** * Whether a press (click, tap, Enter, Space, ArrowDown) keeps the open panel * open. A panel only the pointer opened closes when the pointer leaves; a * kept one waits for a second press, Escape or a press outside. */ kept: boolean; /** Base id used to link triggers and content panels. */ id: string; }"
     },
     {
       "name": "navigationMenu.connect",
       "kind": "function",
-      "signature": "declare function connect#d8e49c3d({ state, setValue, normalize, }: ConnectOptions#7a82da2f): NavigationMenuApi;"
+      "signature": "declare function connect#d8e49c3d({ state, setValue, normalize, }: ConnectOptions#81f2b8ae): NavigationMenuApi;"
     },
     {
       "name": "navigationMenu.contentId",
@@ -1461,9 +1461,24 @@
       "signature": "navigationMenu_contentId: typeof contentId"
     },
     {
+      "name": "navigationMenu.hoverClose",
+      "kind": "const",
+      "signature": "navigationMenu_hoverClose: typeof hoverClose"
+    },
+    {
+      "name": "navigationMenu.hoverOpen",
+      "kind": "const",
+      "signature": "navigationMenu_hoverOpen: typeof hoverOpen"
+    },
+    {
       "name": "navigationMenu.initialState",
       "kind": "function",
       "signature": "declare function initialState#dc70392a(context?: NavigationMenuContext): NavigationMenuState;"
+    },
+    {
+      "name": "navigationMenu.pressTrigger",
+      "kind": "const",
+      "signature": "navigationMenu_pressTrigger: typeof pressTrigger"
     },
     {
       "name": "navigationMenu.triggerId",
@@ -2628,7 +2643,7 @@
     {
       "name": "toggleButton.ToggleButtonApi",
       "kind": "type",
-      "signature": "toggleButton.ToggleButtonApi = interface ToggleButtonApi { /** Whether the toggle button is currently pressed. */ pressed: boolean; /** Whether the toggle button is disabled. */ disabled: boolean; /** Set the pressed value explicitly (ignored when disabled). */ setPressed(value: boolean): void; /** Flip the pressed value (ignored when disabled). */ toggle(): void; /** * Props for a native `<input type=\"checkbox\">`. A toggle button is an * independent on/off control, so it is a checkbox styled to look like a * button: the browser owns the checkbox role, Space activation, focus and * form participation, while `data-state` (`on`/`off`) and `data-disabled` * drive the button styling. The live `checked` value is a DOM *property*, so * adapters bind it directly rather than via these (attribute-shaped) props. */ rootProps: ElementProps; }"
+      "signature": "toggleButton.ToggleButtonApi = interface ToggleButtonApi { /** Whether the toggle button is currently pressed. */ pressed: boolean; /** Whether the toggle button is disabled. */ disabled: boolean; /** Set the pressed value explicitly (ignored when disabled). */ setPressed(value: boolean): void; /** Flip the pressed value (ignored when disabled). */ toggle(): void; /** * Props for a native `<button type=\"button\">` carrying `aria-pressed`. The * browser owns the button role, focus, and Enter and Space activation; a * click flips the pressed value. `data-state` (`on`/`off`) and * `data-disabled` drive the styling. */ rootProps: ElementProps; /** * Props for an `<input type=\"hidden\">` that submits `value` under `name` * while the button is pressed and enabled, or `null` when nothing is * submitted. Provisional: it keeps the form data a pressed toggle sent as a * checkbox, until form participation is decided. */ getHiddenInputProps(field: { name?: string; value?: string; }): ElementProps | null; }"
     },
     {
       "name": "toggleButton.ToggleButtonContext",
@@ -2661,6 +2676,36 @@
       "signature": "toggleButton_togglePressed: typeof togglePressed"
     },
     {
+      "name": "toggleGroup",
+      "kind": "namespace",
+      "signature": "namespace toggleGroup"
+    },
+    {
+      "name": "toggleGroup.ROVING_MINIMUM",
+      "kind": "const",
+      "signature": "toggleGroup_ROVING_MINIMUM: typeof ROVING_MINIMUM"
+    },
+    {
+      "name": "toggleGroup.move",
+      "kind": "const",
+      "signature": "toggleGroup_move: typeof move"
+    },
+    {
+      "name": "toggleGroup.refocusIndex",
+      "kind": "const",
+      "signature": "toggleGroup_refocusIndex: typeof refocusIndex"
+    },
+    {
+      "name": "toggleGroup.roves",
+      "kind": "const",
+      "signature": "toggleGroup_roves: typeof roves"
+    },
+    {
+      "name": "toggleGroup.tabStop",
+      "kind": "const",
+      "signature": "toggleGroup_tabStop: typeof tabStop"
+    },
+    {
       "name": "toolbar",
       "kind": "namespace",
       "signature": "namespace toolbar"
@@ -2682,8 +2727,8 @@
     },
     {
       "name": "toolbar.nextIndex",
-      "kind": "const",
-      "signature": "toolbar_nextIndex: typeof nextIndex"
+      "kind": "function",
+      "signature": "declare function nextIndex#e702ba57({ key, index, count, orientation, direction, }: ToolbarMoveOptions): number | null;"
     },
     {
       "name": "tooltip",
@@ -2733,7 +2778,7 @@
     {
       "name": "treeView.ConnectOptions",
       "kind": "interface",
-      "signature": "interface ConnectOptions#fe9830a0 { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Report a request for an unloaded parent's children. */ requestLoad?: (request: TreeLoadRequest) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so the arrow that points inward * still expands and the one that points outward still collapses. */ direction?: \"ltr\" | \"rtl\"; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
+      "signature": "interface ConnectOptions#2d9fbc6b { /** Current resolved state. */ state: TreeState; /** Request a new expanded set; the adapter owns how state updates. */ setExpanded: (expanded: string[]) => void; /** Request a new selected value. */ setSelected: (value: string) => void; /** Record the roving-focus node (drives the single tab stop). */ setFocused: (value: string) => void; /** Move DOM focus to the node with the given value (adapter-provided). */ focus?: (value: string) => void; /** Report a request for an unloaded parent's children. */ requestLoad?: (request: TreeLoadRequest) => void; /** * Reading direction. Defaults to `\"ltr\"`. In right-to-left text the left and * right arrows swap meaning, so the arrow that points inward * still expands and the one that points outward still collapses. */ direction?: \"ltr\" | \"rtl\"; /** * The query typed characters build. Create it once per tree with * `createTypeahead()`; without it, typing moves nothing. */ typeahead?: Typeahead; /** The text typeahead matches for a node. Defaults to its value. */ labelOf?: (value: string) => string; /** Framework adapter's prop normaliser. Defaults to identity. */ normalize?: Normalize; }"
     },
     {
       "name": "treeView.TreeApi",
@@ -2761,6 +2806,11 @@
       "signature": "treeView.TreeState = interface TreeState { /** The (possibly nested) node forest. */ nodes: TreeNode[]; /** Values of the currently expanded parent nodes. */ expanded: string[]; /** The selected node value, or `null`. Single-select. */ selected: string | null; /** Unloaded parent values with an active request. */ loading: string[]; /** Unloaded parent values whose latest request failed. */ loadErrors: string[]; /** The roving-focus node value, or `null` (defaults to selected / first). */ focused: string | null; /** Whether the whole tree is disabled. */ disabled: boolean; /** Base id used to scope generated ids. */ id: string; }"
     },
     {
+      "name": "treeView.Typeahead",
+      "kind": "type",
+      "signature": "treeView.Typeahead = interface Typeahead { /** Add a character and return the query so far. */ push(character: string): string; /** Clear the query. */ reset(): void; }"
+    },
+    {
       "name": "treeView.VisibleNode",
       "kind": "type",
       "signature": "treeView.VisibleNode = interface VisibleNode { value: string; disabled: boolean; /** 1-based depth, for `aria-level`. */ level: number; /** Whether the node has children (is expandable). */ hasChildren: boolean; /** Whether the children array has been supplied by the consumer. */ childrenLoaded: boolean; /** State of an unloaded parent. Absent for loaded parents and leaves. */ loadState?: \"idle\" | \"loading\" | \"error\"; /** Stable id of the loading or failure description for this treeitem. */ loadStatusId: string; /** Stable id of the label that supplies this treeitem's accessible name. */ labelId: string; /** Whether the node is currently expanded. */ expanded: boolean; /** Number of siblings (incl. self), for `aria-setsize`. */ setSize: number; /** 1-based position among siblings, for `aria-posinset`. */ posInSet: number; /** The parent node's value, or `null` at the root. */ parent: string | null; }"
@@ -2768,7 +2818,12 @@
     {
       "name": "treeView.connect",
       "kind": "function",
-      "signature": "declare function connect#cf6d35b9({ state, setExpanded, setSelected, setFocused, focus, requestLoad, direction, normalize, }: ConnectOptions#fe9830a0): TreeApi;"
+      "signature": "declare function connect#4a14d4ad({ state, setExpanded, setSelected, setFocused, focus, requestLoad, direction, typeahead, labelOf, normalize, }: ConnectOptions#2d9fbc6b): TreeApi;"
+    },
+    {
+      "name": "treeView.createTypeahead",
+      "kind": "const",
+      "signature": "treeView_createTypeahead: typeof createTypeahead"
     },
     {
       "name": "treeView.firstVisible",
@@ -2864,6 +2919,11 @@
       "name": "weekStart.table",
       "kind": "const",
       "signature": "weekStart_table: typeof table"
+    },
+    {
+      "name": "weekStart.weekStartsOn",
+      "kind": "const",
+      "signature": "weekStart_weekStartsOn: typeof weekStartsOn"
     }
   ]
 }

@@ -35,11 +35,11 @@
         },
         {
           "name": "weekStartsOn",
-          "type": "WeekStart",
-          "default": "1",
+          "type": "WeekStart | undefined",
+          "default": "undefined",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "First day of the week, 0 = Sunday … 6 = Saturday. Defaults to the locale's first day of the week (from `locale`, else the provider's).",
+          "descriptionFrom": "source"
         },
         {
           "name": "locale",
@@ -165,10 +165,10 @@
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
-          "default": "1",
+          "default": "undefined",
           "required": false,
-          "description": "",
-          "descriptionFrom": "none"
+          "description": "First day of the week (0 = Sunday). Defaults to the locale's first day of the week.",
+          "descriptionFrom": "source"
         },
         {
           "name": "locale",
@@ -294,10 +294,10 @@
         {
           "name": "weekStartsOn",
           "type": "WeekStart",
-          "default": "1",
+          "default": null,
           "required": false,
           "description": "First day of the week, 0 = Sunday to 6.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "locale",
@@ -421,7 +421,7 @@
           "reactive": true,
           "required": false,
           "description": "0 = Sunday to 6",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "locale",

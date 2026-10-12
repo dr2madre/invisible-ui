@@ -3,12 +3,19 @@
  * links (Radix "Navigation Menu"). Each panel-item is a disclosure: a trigger
  * with `aria-expanded` / `aria-controls` over a content panel; at most one panel
  * is open. Hover timing, positioning and dismissal are DOM concerns owned by the
- * adapter — this pure primitive owns the open value and the ARIA wiring.
+ * adapter — this pure primitive owns the open value, whether a press keeps the
+ * panel open, and the ARIA wiring.
  */
 
 export interface NavigationMenuState {
   /** The value of the currently open item, or `null`. */
   value: string | null;
+  /**
+   * Whether a press (click, tap, Enter, Space, ArrowDown) keeps the open panel
+   * open. A panel only the pointer opened closes when the pointer leaves; a
+   * kept one waits for a second press, Escape or a press outside.
+   */
+  kept: boolean;
   /** Base id used to link triggers and content panels. */
   id: string;
 }

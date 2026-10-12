@@ -3,7 +3,7 @@ import {
   computed,
   nextTick,
   onScopeDispose,
-  ref,
+  shallowRef,
   toValue,
   type ComputedRef,
   type MaybeRefOrGetter,
@@ -20,6 +20,8 @@ export interface NavigationMenuLink {
   label: string;
   href: string;
   description?: string;
+  /** Whether the link points to the page on screen. */
+  current?: boolean;
 }
 
 /**
@@ -31,6 +33,8 @@ export interface NavigationMenuItem {
   label: string;
   /** For plain link items. */
   href?: string;
+  /** For plain link items: whether the link points to the page on screen. */
+  current?: boolean;
   /** For panel items, the links revealed when opened. */
   links?: NavigationMenuLink[];
 }
@@ -53,8 +57,11 @@ export interface UseNavigationMenu {
   api: ComputedRef<core.NavigationMenuApi>;
   /** The open item's value, or `null`. */
   value: ComputedRef<string | null>;
-  /** Set the open value. */
-  setValue: (value: string | null) => void;
+  /**
+   * Set the open value and whether a press keeps it open; `kept` defaults to
+   * `true` for an item and `false` for `null`.
+   */
+  setValue: (value: string | null, kept?: boolean) => void;
   /** Register a panel item's trigger element, by value. */
   setTriggerRef: (value: string, node: HTMLElement | null) => void;
   /** Template ref for the open panel; at most one is rendered. */
@@ -69,6 +76,8 @@ export interface UseNavigationMenu {
   onTriggerKeydown: (event: KeyboardEvent) => void;
   /** Escape inside the panel returns focus to its trigger. */
   onContentKeydown: (value: string, event: KeyboardEvent) => void;
+  /** A link in the panel of `value` was activated. */
+  onLinkClick: (value: string) => void;
 }
 
 const FOCUSABLE =
@@ -76,13 +85,15 @@ const FOCUSABLE =
 
 /**
  * Connect the headless navigation menu to Vue. State and ARIA (the open value,
- * `aria-expanded` / `aria-controls`, Escape, ArrowDown) live in
- * `@design-system/core`; this composable owns the DOM concerns through the
- * shared overlay helpers: hover open/close with delays (switching between
- * panels is immediate), `attachFloating` positioning, `onOutsidePointerDown`
- * dismissal, and focus movement (ArrowDown moves into the panel, Escape
- * returns to the trigger). At most one panel is open; plain link items need no
- * wiring.
+ * whether a press keeps it open, `aria-expanded` / `aria-controls`,
+ * `aria-current`, Escape, ArrowDown) live in `@design-system/core`; this
+ * composable owns the DOM concerns through the shared overlay helpers: hover
+ * open/close with delays (switching between panels is immediate),
+ * `attachFloating` positioning, `onOutsidePointerDown` dismissal, and focus
+ * movement (ArrowDown moves into the panel, Escape returns to the trigger). A
+ * press, Escape or an outside press cancels any pending hover timer, so a
+ * panel the user just closed never reopens by itself. At most one panel is
+ * open.
  */
 export function useNavigationMenu(
   options: MaybeRefOrGetter<UseNavigationMenuOptions> = {},
@@ -90,28 +101,36 @@ export function useNavigationMenu(
   const id = useStableId("ds-navigation-menu");
   const resolved = computed(() => toValue(options));
 
-  const value = ref<string | null>(resolved.value.value ?? null);
+  const value = shallowRef<string | null>(resolved.value.value ?? null);
+  const kept = shallowRef(value.value !== null);
 
-  // Mirror an externally controlled value.
+  // Mirror an externally controlled value; one the app opens stays open.
   watch(
     () => resolved.value.value,
     (next) => {
-      if (next !== undefined) value.value = next;
+      if (next === undefined) return;
+      value.value = next;
+      kept.value = next !== null;
     },
   );
 
-  const setValue = (next: string | null) => {
+  const setValue = (next: string | null, nextKept: boolean = next !== null) => {
+    kept.value = nextKept;
     if (value.value === next) return;
     value.value = next;
     resolved.value.onValueChange?.(next);
   };
 
   const api = computed(() =>
-    core.connect({ state: { value: value.value, id }, setValue, normalize: normalizeProps }),
+    core.connect({
+      state: { value: value.value, kept: kept.value, id },
+      setValue,
+      normalize: normalizeProps,
+    }),
   );
 
   const triggerEls = new Map<string, HTMLElement>();
-  const contentRef = ref<HTMLElement | null>(null);
+  const contentRef = shallowRef<HTMLElement | null>(null);
 
   const setTriggerRef = (key: string, node: HTMLElement | null) => {
     if (node) triggerEls.set(key, node);
@@ -120,15 +139,20 @@ export function useNavigationMenu(
 
   let openTimer: ReturnType<typeof setTimeout> | undefined;
   let closeTimer: ReturnType<typeof setTimeout> | undefined;
+  let focusTimer: ReturnType<typeof setTimeout> | undefined;
   const hold = () => {
     clearTimeout(openTimer);
     clearTimeout(closeTimer);
   };
   // A pending hover must not open something after the component is gone.
-  onScopeDispose(hold);
+  onScopeDispose(() => {
+    hold();
+    clearTimeout(focusTimer);
+  });
   const scheduleClose = () => {
     hold();
-    closeTimer = setTimeout(() => setValue(null), resolved.value.closeDelay ?? 150);
+    // The latest api is read when the timer fires; the core ignores a kept panel.
+    closeTimer = setTimeout(() => api.value.hoverClose(), resolved.value.closeDelay ?? 150);
   };
 
   const onTriggerPointerenter = (key: string, event: PointerEvent) => {
@@ -138,12 +162,15 @@ export function useNavigationMenu(
     if (event.pointerType === "touch") return;
     hold();
     const open = value.value;
-    if (open !== null && open !== key) setValue(key);
-    else if (open === null)
-      openTimer = setTimeout(() => setValue(key), resolved.value.openDelay ?? 150);
+    if (open === null) {
+      openTimer = setTimeout(() => api.value.hoverOpen(key), resolved.value.openDelay ?? 150);
+    } else if (open !== key) {
+      api.value.hoverOpen(key);
+    }
   };
 
   const onTriggerKeydown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") hold();
     if (event.key !== "ArrowDown") return;
     void nextTick().then(() => {
       contentRef.value?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
@@ -151,7 +178,22 @@ export function useNavigationMenu(
   };
 
   const onContentKeydown = (key: string, event: KeyboardEvent) => {
-    if (event.key === "Escape") triggerEls.get(key)?.focus();
+    if (event.key !== "Escape") return;
+    hold();
+    triggerEls.get(key)?.focus();
+  };
+
+  // The panel closes before navigation and focus stays where the app puts it.
+  // Only when it fell to the page once the panel is gone does the trigger take
+  // it, so the keyboard keeps a place in the bar.
+  const onLinkClick = (key: string) => {
+    hold();
+    clearTimeout(focusTimer);
+    focusTimer = setTimeout(() => {
+      const active = document.activeElement;
+      const trigger = triggerEls.get(key);
+      if ((active === null || active === document.body) && trigger?.isConnected) trigger.focus();
+    }, 0);
   };
 
   // Position and guard the open panel; the cleanup runs when it closes or the
@@ -170,7 +212,10 @@ export function useNavigationMenu(
             offset: resolved.value.offset ?? 8,
           })
         : () => {};
-      const stopOutside = onOutsidePointerDown([trigger, panel], () => setValue(null));
+      const stopOutside = onOutsidePointerDown([trigger, panel], () => {
+        hold();
+        api.value.close();
+      });
 
       onCleanup(() => {
         stopFloating();
@@ -192,5 +237,6 @@ export function useNavigationMenu(
     hold,
     onTriggerKeydown,
     onContentKeydown,
+    onLinkClick,
   };
 }

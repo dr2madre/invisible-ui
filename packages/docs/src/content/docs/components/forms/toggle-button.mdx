@@ -13,7 +13,7 @@ import ToggleButtonErrorDemo from "../../../../demos/ToggleButtonErrorDemo.svelt
 </Preview>
 
 An independent on/off control (e.g. Bold in a toolbar), built on a native
-`<input type="checkbox">` styled to look like a button.
+`<button type="button">` that carries `aria-pressed`.
 
 ### Import
 
@@ -52,13 +52,21 @@ In Flutter, the validator's message clears on form reset.
 
 ### Accessibility
 
-- A native checkbox: the browser owns the role, Space activation, focus and
-  form participation. Exposes `data-state="on" \| "off"` for styling.
+- A native button with `aria-pressed`, following the
+  [WAI-ARIA button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/):
+  the browser owns the role and focus, and Enter and Space toggle it. Exposes
+  `data-state="on" \| "off"` for styling.
+- The accessible name never changes with the state: only the pressed state
+  does. Keep the label the same ("Bold"), not "Bold on" and "Bold off".
 - Provide `label` when the slot content is icon-only so the control still has an accessible name.
-- Pass `name` (and optional `value`) to submit the pressed state with a form.
+- Pass `name` (and optional `value`) to submit the pressed state with a form:
+  while the button is pressed and enabled, a hidden input sends `value` under
+  `name`, as a checked checkbox would. This form participation is provisional
+  and may change.
 - Distinct from `Switch`: a toggle button is an action, a switch is a setting.
 - A non-empty `error` links the button to the message through
   `aria-describedby`.
+- Assistive technology: not tested.
 
 ### Example
 

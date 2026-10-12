@@ -33,8 +33,11 @@ const options = `<option value="apple">Apple</option><option value="pear">Pear</
 interface Row {
   name: string;
   markup: string;
-  /** The DOM default the control carries, in a form the test can compare. */
-  domDefault: () => string;
+  /**
+   * The DOM default the control carries, in a form the test can compare.
+   * `null` for a control with no native default, whose own test file covers it.
+   */
+  domDefault: (() => string) | null;
   /** What that default must be at mount, and must stay after an edit. */
   wants: string;
   edit: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
@@ -237,19 +240,18 @@ const CONTROLS: Row[] = [
   {
     name: "<ds-toggle-button>",
     markup: `<ds-toggle-button label="F" name="f" check></ds-toggle-button>`,
-    domDefault: () => defaultsOf("input[type=checkbox]", "defaultChecked"),
+    // A button has no native default: the element tracks it.
+    domDefault: null,
     wants: "",
-    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    edit: async (user) => user.click(screen.getByRole("button", { name: "F" })),
     edited: "on",
     restored: null,
     adopt: (host) => host.removeAttribute("pressed"),
     adopted: "",
     giveBack: (host) => ((host as unknown as { pressed: boolean }).pressed = true),
     editedAsDefault: "on",
-    // The checkedness is native's to restore; the check glyph is the
-    // element's, so reading both tells the two apart.
     visible: () =>
-      `${(screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked} ${
+      `${screen.getByRole("button", { name: "F" }).getAttribute("aria-pressed")} ${
         document.querySelectorAll(".toggle__check").length
       }`,
     restoredVisible: "false 0",
@@ -342,6 +344,10 @@ const CONTROLS: Row[] = [
 ];
 
 describe.each(CONTROLS)("form reset restores $name", (entry) => {
+  const expectDefault = (wanted: string, message: string) => {
+    if (entry.domDefault) expect(entry.domDefault(), message).toBe(wanted);
+  };
+
   it("puts the payload and the page back, and says nothing", async () => {
     const user = userEvent.setup();
     const { form, host } = mount(entry.markup);
@@ -351,11 +357,11 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
     form.addEventListener("change", changes);
     form.addEventListener("input", changes);
 
-    expect(entry.domDefault(), "the DOM default must be there from the start").toBe(entry.wants);
+    expectDefault(entry.wants, "the DOM default must be there from the start");
 
     await entry.edit(user);
     expect(payload(form)).toBe(entry.edited);
-    expect(entry.domDefault(), "the DOM default must not follow the edit").toBe(entry.wants);
+    expectDefault(entry.wants, "the DOM default must not follow the edit");
     const reported = changes.mock.calls.length;
     expect(reported, "the edit itself must have been reported").toBeGreaterThan(0);
 
@@ -380,7 +386,7 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
     // not a new default, so a second reset lands in the same place.
     await entry.edit(user);
     entry.giveBack(host);
-    expect(entry.domDefault(), "an echo became the default").toBe(entry.wants);
+    expectDefault(entry.wants, "an echo became the default");
     form.reset();
     await settled();
     expect(payload(form)).toBe(entry.restored);
@@ -388,14 +394,12 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
     // The same write again, now that the reset has taken that value off the
     // control: nothing is echoed, so it is the page's own choice.
     entry.giveBack(host);
-    expect(entry.domDefault(), "a choice made after a reset was read as an echo").toBe(
-      entry.editedAsDefault,
-    );
+    expectDefault(entry.editedAsDefault, "a choice made after a reset was read as an echo");
 
     // A value the page chooses for itself is a new default, and a reset after
     // it lands there.
     entry.adopt(host);
-    expect(entry.domDefault(), "the adopted value did not become the default").toBe(entry.adopted);
+    expectDefault(entry.adopted, "the adopted value did not become the default");
   });
 
   it("restores nothing when the reset is cancelled", async () => {

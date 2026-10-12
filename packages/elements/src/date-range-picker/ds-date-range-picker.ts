@@ -19,8 +19,8 @@ import { asDate, dt } from "../internal/date";
  *
  * Attributes: `start`, `end` (ISO `YYYY-MM-DD`), `start-name`, `end-name`,
  * `view` (calendar view in the popup, `two-month` by default), `min`, `max`,
- * `week-starts-on` (0 = Sunday to 6), `locale`, `date-style`
- * (full|long|medium|short), `label`, `placeholder`, `clear-label`,
+ * `week-starts-on` (0 = Sunday to 6; defaults to the locale's first day of
+ * the week), `locale`, `date-style` (full|long|medium|short), `label`, `placeholder`, `clear-label`,
  * `disabled`, `clearable`.
  * Properties: `start`, `end`, `events`, `prices` (forwarded to the calendar),
  * `open` (read only).

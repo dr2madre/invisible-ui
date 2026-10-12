@@ -2,7 +2,7 @@ import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { axe } from "vitest-axe";
 import "../define";
-import type { CalendarEvent, DsCalendar } from "./ds-calendar";
+import { weekStartFor, type CalendarEvent, type DsCalendar } from "./ds-calendar";
 
 const EVENTS: CalendarEvent[] = [
   { date: "2026-06-10", label: "Standup", tone: "primary" },
@@ -185,6 +185,37 @@ describe("<ds-calendar> locale", () => {
 
   it("lets week-starts-on override the locale", () => {
     mount('value="2026-06-15" week-starts-on="1"', "en-US");
+    expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName("Monday");
+  });
+
+  it.each([
+    ["en", "Sunday"],
+    ["en-US", "Sunday"],
+    ["it-IT", "Monday"],
+    ["ar-EG", "Saturday"],
+  ])("starts the week in %s on %s by default", (locale, first) => {
+    mount(`value="2026-06-15" locale="${locale}"`);
+    const header = screen.getAllByRole("columnheader")[0]!;
+    // Names are in the locale's language: compare the day the column shows.
+    const shown = header.getAttribute("aria-label") ?? header.textContent ?? "";
+    // 14 June 2026 is a Sunday.
+    const format = new Intl.DateTimeFormat(locale, { weekday: "long" });
+    const names = Array.from({ length: 7 }, (_, i) => format.format(new Date(2026, 5, 14 + i)));
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    expect(days[names.indexOf(shown)]).toBe(first);
+  });
+
+  it("resolves the default from CLDR data, the same on server and browser", () => {
+    expect(weekStartFor("en-US")).toBe(0);
+    expect(weekStartFor("it-IT")).toBe(1);
+    expect(weekStartFor("ar-EG")).toBe(6);
+    expect(weekStartFor("en-GB")).toBe(1);
+  });
+
+  it("follows a locale change", () => {
+    const host = mount('value="2026-06-15" locale="en-US"');
+    expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName("Sunday");
+    host.setAttribute("locale", "en-GB");
     expect(screen.getAllByRole("columnheader")[0]).toHaveAccessibleName("Monday");
   });
 

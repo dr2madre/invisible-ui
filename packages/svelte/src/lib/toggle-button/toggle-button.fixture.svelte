@@ -10,12 +10,7 @@
 
   let { pressed = false, disabled = false, onPressedChange }: Props = $props();
 
-  const { state: tbState, rootAction } = untrack(() =>
-    createToggleButton({ pressed, disabled, onPressedChange }),
-  );
+  const { rootAction } = untrack(() => createToggleButton({ pressed, disabled, onPressedChange }));
 </script>
 
-<label>
-  <input use:rootAction checked={$tbState.pressed} aria-label="Bold" />
-  <span aria-hidden="true">Bold</span>
-</label>
+<button type="button" use:rootAction>Bold</button>

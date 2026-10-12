@@ -16,7 +16,7 @@ export interface ToolbarProps {
 }
 
 const FOCUSABLE =
-  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
+  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input:not([type="hidden"]), select, textarea';
 
 /**
  * Toolbar — a grouping container (WAI-ARIA `role="toolbar"`) for a set of

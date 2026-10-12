@@ -19,7 +19,7 @@ views.
 
 <ImportSnippet component="calendar" />
 
-In Elements, the week starts on the locale's first day and names come from `Intl`. Events and prices are properties:
+In Elements, names come from `Intl`. Events and prices are properties:
 
 ```html
 <ds-calendar value="2026-06-15" views="month week day"></ds-calendar>
@@ -41,6 +41,17 @@ In Elements, the week starts on the locale's first day and names come from `Intl
   Enter/Space selects.
 - The period title is announced (`aria-live`); out-of-range days are
   `aria-disabled`; today is `aria-current="date"`.
+
+### First day of the week
+
+Without `weekStartsOn`, every adapter starts the week on the locale's first
+day from CLDR week data, read from the language and the region: Sunday for
+`en-US`, Monday for `it-IT` and `en-GB`, Saturday for `ar-EG`. The locale is
+the calendar's `locale`, else the
+[Locale Provider](/invisible-ui/components/localization/locale-provider/)'s
+(`en` by default), never the browser's, so a page rendered on the server
+starts on the same day after hydration. Set `weekStartsOn` (0 = Sunday … 6 =
+Saturday) to choose the day yourself.
 
 ### Example
 

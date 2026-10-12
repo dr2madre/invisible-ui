@@ -62,7 +62,14 @@ interface Row {
   render: (initial: boolean, onChange: (next: boolean) => void) => ReactNode;
   toggle: (user: ReturnType<typeof userEvent.setup>) => Promise<void>;
   visible: () => boolean;
+  /** False for a control with no checkbox default in the DOM to check. */
+  domDefault?: boolean;
 }
+
+const expectDefaults = (entry: Row, expected: string, message: string) => {
+  if (entry.domDefault === false) return;
+  expect(defaultsOf(), message).toBe(expected);
+};
 
 const CONTROLS: Row[] = [
   {
@@ -93,8 +100,11 @@ const CONTROLS: Row[] = [
         F
       </ToggleButton>
     ),
-    toggle: (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
-    visible: () => (screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).checked,
+    toggle: (user) => user.click(screen.getByRole("button", { name: "F" })),
+    visible: () =>
+      screen.getByRole("button", { name: "F" }).getAttribute("aria-pressed") === "true",
+    // A button keeps its default in the component; the payload checks cover it.
+    domDefault: false,
   },
 ];
 
@@ -129,12 +139,12 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     const form = screen.getByTestId("host") as HTMLFormElement;
 
     expect(payload(form)).toBe("on");
-    expect(defaultsOf(), "the DOM default must be there from the start").toBe("on");
+    expectDefaults(entry, "on", "the DOM default must be there from the start");
 
     await entry.toggle(user);
     expect(payload(form)).toBe(null);
     expect(entry.visible()).toBe(false);
-    expect(defaultsOf(), "the DOM default must not follow the edit").toBe("on");
+    expectDefaults(entry, "on", "the DOM default must not follow the edit");
     expect(reported, "the edit itself must have been reported").toHaveBeenCalledTimes(1);
 
     await resetAndSettle(form);
@@ -199,7 +209,7 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     const form = screen.getByTestId("host") as HTMLFormElement;
 
     await user.click(screen.getByRole("button", { name: "Turn it off" }));
-    expect(defaultsOf(), "a value the page chose is the new default").toBe("");
+    expectDefaults(entry, "", "a value the page chose is the new default");
 
     await resetAndSettle(form);
     expect(payload(form)).toBe(null);
@@ -214,7 +224,7 @@ describe.each(CONTROLS)("React form reset restores $name", (entry) => {
     // The page mirrors the report straight back into the prop. That is an
     // echo, not a choice, so the default stays where it was.
     await entry.toggle(user);
-    expect(defaultsOf(), "an echo became the default").toBe("on");
+    expectDefaults(entry, "on", "an echo became the default");
 
     await resetAndSettle(form);
     expect(payload(form)).toBe("on");

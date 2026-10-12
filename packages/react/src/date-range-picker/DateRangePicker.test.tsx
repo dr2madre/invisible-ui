@@ -158,3 +158,35 @@ describe("React DateRangePicker in a form", () => {
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 });
+
+// June 2026 starts on a Monday, so June 1 sits in the first column when the
+// week starts on Monday, the second on Sunday, the third on Saturday. Two
+// months leave the days of the other month blank.
+describe("React DateRangePicker week start", () => {
+  const juneFirstColumn = () => {
+    const cell = day("2026-06-01").parentElement!;
+    return Array.from(cell.parentElement!.children).indexOf(cell);
+  };
+
+  it.each([
+    ["en-US", 1],
+    ["it-IT", 0],
+    ["ar-EG", 2],
+  ])("starts the week on the provider locale's first day (%s)", async (locale, column) => {
+    const user = userEvent.setup();
+    render(
+      <LocaleProvider locale={locale}>
+        <DateRangePicker label="Stay" start="2026-06-10" end="2026-06-14" />
+      </LocaleProvider>,
+    );
+    await user.click(field());
+    expect(juneFirstColumn()).toBe(column);
+  });
+
+  it("lets weekStartsOn override the locale", async () => {
+    const user = userEvent.setup();
+    render(<Fixture start="2026-06-10" end="2026-06-14" weekStartsOn={1} />);
+    await user.click(field());
+    expect(juneFirstColumn()).toBe(0);
+  });
+});

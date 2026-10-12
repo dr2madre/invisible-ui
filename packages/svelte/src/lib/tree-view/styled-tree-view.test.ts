@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { axe } from "vitest-axe";
 import Fixture from "./tree-view.fixture.svelte";
+import LabelsFixture from "./tree-view-labels.fixture.svelte";
 
 describe("Svelte TreeView (styled)", () => {
   it("is a labelled tree of treeitems", () => {
@@ -93,9 +94,9 @@ describe("Svelte TreeView (styled)", () => {
       loadErrors: ["remote"],
       onLoadChildren,
     });
-    await fireEvent.click(
-      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!,
-    );
+    await fireEvent.keyDown(screen.getByRole("treeitem", { name: /remote/ }), {
+      key: "ArrowRight",
+    });
     expect(onLoadChildren.mock.calls[1]![0].requestId).toBeGreaterThan(firstId);
   });
 
@@ -142,5 +143,88 @@ describe("Svelte TreeView (styled)", () => {
   it("has no accessibility violations", async () => {
     const { container } = render(Fixture, { props: { expanded: ["src", "lib"] } });
     expect(await axe(container)).toHaveNoViolations();
+  });
+});
+
+describe("Svelte TreeView (twistie after a failed load)", () => {
+  it("collapses and expands, without retrying", async () => {
+    const onLoadChildren = vi.fn();
+    render(Fixture, {
+      props: {
+        nodes: [{ value: "remote", hasChildren: true }],
+        expanded: ["remote"],
+        loadErrors: ["remote"],
+        onLoadChildren,
+      },
+    });
+    const row = () => screen.getByRole("treeitem", { name: /remote/ });
+
+    await fireEvent.click(row().querySelector(".tree__twistie")!);
+    expect(row()).toHaveAttribute("aria-expanded", "false");
+    expect(onLoadChildren).not.toHaveBeenCalled();
+
+    await fireEvent.click(row().querySelector(".tree__twistie")!);
+    expect(row()).toHaveAttribute("aria-expanded", "true");
+  });
+});
+
+describe("Svelte TreeView (typeahead)", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const row = (name: string) => screen.getByRole("treeitem", { name: new RegExp(`^${name}`) });
+
+  it("moves focus by one character, never changing selection or expansion", async () => {
+    render(Fixture, { props: { expanded: ["src"], selected: "index.ts" } });
+    row("src").focus();
+
+    await fireEvent.keyDown(row("src"), { key: "l" });
+    expect(row("lib")).toHaveFocus();
+    expect(row("index\\.ts")).toHaveAttribute("aria-selected", "true");
+    expect(row("lib")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("matches a quick sequence as one query, and starts again after a pause", async () => {
+    vi.useFakeTimers();
+    render(Fixture, {
+      props: {
+        nodes: [{ value: "apple" }, { value: "banana" }, { value: "blueberry" }],
+        expanded: [],
+      },
+    });
+    row("apple").focus();
+
+    await fireEvent.keyDown(row("apple"), { key: "b" });
+    expect(row("banana")).toHaveFocus();
+    await fireEvent.keyDown(row("banana"), { key: "l" });
+    expect(row("blueberry")).toHaveFocus();
+
+    vi.advanceTimersByTime(600);
+    await fireEvent.keyDown(row("blueberry"), { key: "a" });
+    expect(row("apple")).toHaveFocus();
+    expect(row("apple")).not.toHaveAttribute("aria-selected", "true");
+  });
+
+  it("matches the text the row shows", async () => {
+    render(LabelsFixture);
+    screen.getByRole("treeitem", { name: /Sources/ }).focus();
+
+    await fireEvent.keyDown(screen.getByRole("treeitem", { name: /Sources/ }), { key: "p" });
+    expect(screen.getByRole("treeitem", { name: /Package/ })).toHaveFocus();
+  });
+});
+
+describe("Svelte TreeView (right-to-left)", () => {
+  it("expands with Left and collapses with Right", async () => {
+    const { container } = render(Fixture, { props: { expanded: ["src"] } });
+    container.setAttribute("dir", "rtl");
+    const lib = () => screen.getByRole("treeitem", { name: /^lib/ });
+    lib().focus();
+
+    await fireEvent.keyDown(lib(), { key: "ArrowLeft" });
+    expect(lib()).toHaveAttribute("aria-expanded", "true");
+    await fireEvent.keyDown(lib(), { key: "ArrowRight" });
+    expect(lib()).toHaveAttribute("aria-expanded", "false");
   });
 });

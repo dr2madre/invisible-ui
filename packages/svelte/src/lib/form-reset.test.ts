@@ -40,8 +40,12 @@ type Entry = {
   payload?: (form: HTMLFormElement) => string | null;
   /** What the page shows after the reset. */
   shows: string;
-  /** The DOM default the control must carry, before and after the edit. */
-  domDefault: () => string;
+  /**
+   * The DOM default the control must carry, before and after the edit.
+   * Omitted where the DOM has no default to carry (a button), so the adapter
+   * tracks it.
+   */
+  domDefault?: () => string;
   wants: string;
   /** Read what the page shows. */
   visible: () => string;
@@ -131,17 +135,15 @@ const CONTROLS: Entry[] = [
     // `check` renders the machine-driven glyph, which is the surface this row
     // reads: without it there is nothing but native's own checkedness.
     props: { label: "F", name: "f", pressed: false, check: true },
-    edit: async (user) => user.click(screen.getByRole("checkbox", { name: "F" })),
+    edit: async (user) => user.click(screen.getByRole("button", { name: "F" })),
     edited: "on",
     restored: null,
     shows: "false 0",
-    domDefault: () =>
-      String((screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement).defaultChecked),
-    // The checkedness is native's to restore; the check glyph is the
-    // machine's, so reading both is what tells the two layers apart.
+    // A button carries no DOM default: the adapter tracks it and restores
+    // both the pressed state and the glyph.
     visible: () => {
-      const input = screen.getByRole("checkbox", { name: "F" }) as HTMLInputElement;
-      return `${input.checked} ${document.querySelectorAll(".toggle__check").length}`;
+      const button = screen.getByRole("button", { name: "F" });
+      return `${button.getAttribute("aria-pressed")} ${document.querySelectorAll(".toggle__check").length}`;
     },
   },
   {
@@ -287,12 +289,16 @@ describe.each(CONTROLS)("form reset restores $name", (entry) => {
     root.parentElement!.insertBefore(form, root);
     form.append(root);
 
-    expect(entry.domDefault(), "the DOM default must be there from the start").toBe(entry.wants);
+    if (entry.domDefault) {
+      expect(entry.domDefault(), "the DOM default must be there from the start").toBe(entry.wants);
+    }
     const payload =
       entry.payload ?? ((host: HTMLFormElement) => new FormData(host).get("f") as string | null);
     await entry.edit(user);
     expect(payload(form)).toBe(entry.edited);
-    expect(entry.domDefault(), "the DOM default must not follow the edit").toBe(entry.wants);
+    if (entry.domDefault) {
+      expect(entry.domDefault(), "the DOM default must not follow the edit").toBe(entry.wants);
+    }
     const reported =
       onValueChange.mock.calls.length +
       onCheckedChange.mock.calls.length +
@@ -473,7 +479,7 @@ describe("form reset under a controlled echo", () => {
     await user.type(textbox, "Grace");
     await user.click(inForm.getByRole("checkbox", { name: "Check" }));
     await user.click(inForm.getByRole("switch", { name: "Switch" }));
-    await user.click(inForm.getByRole("checkbox", { name: "Toggle" }));
+    await user.click(inForm.getByRole("button", { name: "Toggle" }));
     const range = inForm.getByRole("slider", { name: "Slide" }) as HTMLInputElement;
     range.value = "70";
     range.dispatchEvent(new Event("input", { bubbles: true }));

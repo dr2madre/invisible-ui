@@ -53,7 +53,7 @@ const cases: Case[] = [
     name: "ToggleButton",
     Component: ToggleButton,
     props: { label: "Bold" },
-    controls: () => screen.getAllByRole("checkbox"),
+    controls: () => screen.getAllByRole("button"),
     ariaInvalid: false,
   },
 ];

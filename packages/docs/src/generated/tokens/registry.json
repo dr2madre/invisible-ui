@@ -32499,14 +32499,14 @@
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
         {
           "adapter": "elements",
           "file": "packages/elements/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
@@ -32527,14 +32527,14 @@
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
         {
           "adapter": "react",
           "file": "packages/react/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
@@ -32555,14 +32555,14 @@
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
-          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] :global(.toggle:not(:first-child) .toggle__surface)",
+          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-inline-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
         {
           "adapter": "svelte",
           "file": "packages/svelte/src/lib/toggle-group/ToggleGroup.svelte",
-          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] :global(.toggle:not(:first-child) .toggle__surface)",
+          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :global(:not(:first-child) .toggle__surface)",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
@@ -32583,14 +32583,14 @@
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"horizontal\"] > :not(:first-child) .toggle__surface",
           "property": "border-inline-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         },
         {
           "adapter": "vue",
           "file": "packages/vue/src/styles/toggle-group.css",
-          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] .toggle:not(:first-child) .toggle__surface",
+          "selector": ".toggle-group--segmented[data-orientation=\"vertical\"] > :not(:first-child) .toggle__surface",
           "property": "border-block-start",
           "fallback": "var(--ds-color-control-border, #757067)"
         }

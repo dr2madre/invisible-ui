@@ -101,3 +101,27 @@
   font-size: 0.875rem;
   color: var(--ds-color-text-secondary, #524c44);
 }
+
+/* The current page: the link the app marks, and the trigger whose panel
+   holds it. A bar marks it besides the colour, so the state never rests on
+   colour alone: under the label at the top level, along the inline-start
+   edge in a panel. */
+.navmenu__trigger[data-current],
+.navmenu__toplink[data-current] {
+  color: var(--ds-color-secondary-body-text, #7a52cc);
+  text-decoration: underline 2px;
+  text-underline-offset: 0.35em;
+}
+.navmenu__link[data-current] {
+  /* The bar takes its width from the padding, so the label does not move. */
+  padding-inline-start: calc(0.625rem - 2px);
+  border-inline-start: 2px solid var(--ds-color-secondary-body-text, #7a52cc);
+  background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+}
+.navmenu__link[data-current] .navmenu__link-label {
+  color: var(--ds-color-secondary-body-text, #7a52cc);
+}
+.navmenu__link[data-current]:hover,
+.navmenu__link[data-current]:focus-visible {
+  background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
+}

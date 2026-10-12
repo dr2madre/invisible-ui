@@ -33,8 +33,10 @@
   // The toolbar element, set once it is in the page.
   let root: HTMLElement | undefined;
 
+  // Hidden inputs are left out: a pressed toggle button carries one for its
+  // form data, and it can never take focus.
   const FOCUSABLE =
-    'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
+    'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input:not([type="hidden"]), select, textarea';
 
   /** All controls that belong directly to this toolbar, in DOM order. */
   function controls(): HTMLElement[] {

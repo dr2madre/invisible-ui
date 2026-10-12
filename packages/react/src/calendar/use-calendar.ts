@@ -1,5 +1,6 @@
-import { calendar as core, type ElementProps } from "@design-system/core";
+import { calendar as core, weekStart, type ElementProps } from "@design-system/core";
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
+import { useI18n } from "../i18n/i18n";
 import { useControllable } from "../internal/controllable";
 import { asDate } from "../internal/date";
 import { normalizeProps } from "../normalize";
@@ -17,8 +18,10 @@ export interface UseCalendarOptions {
   focusedDate?: string;
   /** Layout and period. Defaults to `"month"`. */
   view?: CalendarView;
-  /** First day of the week, 0 = Sunday to 6. Defaults to `1` (Monday). */
+  /** First day of the week, 0 = Sunday to 6. Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
+  /** BCP-47 locale whose first day of the week is the default. Defaults to the provider's locale. */
+  locale?: string;
   /** Earliest selectable date (ISO), inclusive. */
   min?: string;
   /** Latest selectable date (ISO), inclusive. */
@@ -61,7 +64,8 @@ export function useCalendar({
   value: valueProp = null,
   focusedDate: focusedProp,
   view: viewProp = "month",
-  weekStartsOn = 1,
+  weekStartsOn: weekStartsOnProp,
+  locale,
   min,
   max,
   mode = "single",
@@ -73,6 +77,10 @@ export function useCalendar({
   onViewChange,
   onRangeChange,
 }: UseCalendarOptions = {}): UseCalendar {
+  // The provider's locale is the same on the server and in the browser, so
+  // both render the same first column.
+  const i18n = useI18n();
+  const weekStartsOn = weekStartsOnProp ?? weekStart.weekStartsOn(locale ?? i18n.locale);
   const generatedId = `ds-calendar-${useId()}`;
   const id = idProp ?? generatedId;
   const range = mode === "range";

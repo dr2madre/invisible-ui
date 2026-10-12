@@ -17,6 +17,7 @@ export interface DateRangePickerProps {
   end?: string | null;
   min?: string;
   max?: string;
+  /** First day of the week (0 = Sunday). Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
   locale?: string;
   dateStyle?: DateStyle;
@@ -54,7 +55,7 @@ export const DateRangePicker = defineComponent({
     end: { type: String as PropType<string | null>, default: null },
     min: { type: String, default: undefined },
     max: { type: String, default: undefined },
-    weekStartsOn: { type: Number as PropType<WeekStart>, default: 1 },
+    weekStartsOn: { type: Number as PropType<WeekStart>, default: undefined },
     locale: { type: String, default: undefined },
     dateStyle: { type: String as PropType<DateStyle>, default: "medium" },
     view: { type: String as PropType<CalendarView>, default: "two-month" },

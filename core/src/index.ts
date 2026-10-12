@@ -6,6 +6,7 @@ export * as formReset from "./form-reset";
 export * as button from "./button";
 export * as buttonGroup from "./button-group";
 export * as toggleButton from "./toggle-button";
+export * as toggleGroup from "./toggle-group";
 export * as checkbox from "./checkbox";
 export * as checkboxGroup from "./checkbox-group";
 export * as radioGroup from "./radio-group";

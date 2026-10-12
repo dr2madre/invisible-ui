@@ -64,7 +64,7 @@
           "default": "\"horizontal\"",
           "required": false,
           "description": "Layout axis. Purely visual: the group has no keyboard navigation of its own.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "wrap",
@@ -110,7 +110,7 @@
           "default": "\"horizontal\"",
           "required": false,
           "description": "Layout axis. Purely visual: the group has no keyboard navigation of its own.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "wrap",

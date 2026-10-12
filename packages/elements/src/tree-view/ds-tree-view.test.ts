@@ -150,10 +150,86 @@ describe("<ds-tree-view>", () => {
 
     tree.loading = [];
     tree.loadErrors = ["remote"];
-    await user.click(
-      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!,
-    );
+    screen.getByRole("treeitem", { name: /remote/ }).focus();
+    await user.keyboard("{ArrowRight}");
     expect((requested.mock.calls[1]![0] as CustomEvent).detail.requestId).toBeGreaterThan(firstId);
+  });
+
+  it("collapses and expands a failed node from its twistie", async () => {
+    const user = userEvent.setup();
+    const tree = mount();
+    tree.nodes = [{ value: "remote", hasChildren: true }];
+    tree.expanded = ["remote"];
+    tree.loadErrors = ["remote"];
+    const requested = vi.fn();
+    tree.addEventListener("load-children", requested);
+    const twistie = () =>
+      screen.getByRole("treeitem", { name: /remote/ }).querySelector(".tree__twistie")!;
+
+    await user.click(twistie());
+    expect(tree.expanded).toEqual([]);
+    expect(requested).not.toHaveBeenCalled();
+    expect(screen.getByRole("status")).toHaveTextContent("Could not load remote.");
+
+    // Expanding an unloaded parent asks for its children, as it always does.
+    await user.click(twistie());
+    expect(tree.expanded).toEqual(["remote"]);
+    expect(requested).toHaveBeenCalledOnce();
+  });
+
+  describe("typeahead", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const mountTypeahead = () => {
+      const tree = mount();
+      tree.labels = { "index.ts": "Index", lib: "Library", "package.json": "Package" };
+      return tree;
+    };
+
+    it("moves focus to the next node starting with a typed character", async () => {
+      const user = userEvent.setup();
+      const tree = mountTypeahead();
+      screen.getByRole("treeitem", { name: /src/ }).focus();
+
+      await user.keyboard("p");
+      expect(screen.getByRole("treeitem", { name: /Package/ })).toHaveFocus();
+      expect(tree.selected).toBeNull();
+      expect(tree.expanded).toEqual(["src"]);
+    });
+
+    it("matches a quick sequence, then starts over after a pause", async () => {
+      vi.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const tree = mountTypeahead();
+      screen.getByRole("treeitem", { name: /src/ }).focus();
+
+      await user.keyboard("li");
+      expect(screen.getByRole("treeitem", { name: /Library/ })).toHaveFocus();
+
+      vi.advanceTimersByTime(600);
+      await user.keyboard("i");
+      expect(screen.getByRole("treeitem", { name: /Index/ })).toHaveFocus();
+      expect(tree.selected).toBeNull();
+      expect(tree.expanded).toEqual(["src"]);
+    });
+
+    it("matches the label shown, not the value", async () => {
+      vi.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const tree = mount();
+      tree.labels = { "package.json": "Manifest" };
+      const src = screen.getByRole("treeitem", { name: /src/ });
+      src.focus();
+
+      await user.keyboard("p");
+      expect(src).toHaveFocus();
+      vi.advanceTimersByTime(600);
+      await user.keyboard("m");
+      expect(screen.getByRole("treeitem", { name: /Manifest/ })).toHaveFocus();
+      expect(tree.selected).toBeNull();
+    });
   });
 
   it("keeps focus when loaded children replace the controlled forest", () => {

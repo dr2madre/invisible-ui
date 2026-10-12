@@ -47,7 +47,7 @@
           "default": "undefined",
           "required": false,
           "description": "Form field name — when checked, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
@@ -128,7 +128,7 @@
           "default": "undefined",
           "required": false,
           "description": "Form field name; when pressed, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
@@ -136,7 +136,7 @@
           "default": "\"on\"",
           "required": false,
           "description": "Value submitted under `name` when pressed.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "error",
@@ -219,7 +219,7 @@
           "default": null,
           "required": false,
           "description": "Form field name; when pressed, submits `value` under it.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "value",
