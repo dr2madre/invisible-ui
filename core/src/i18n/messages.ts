@@ -189,6 +189,10 @@ export const en = {
   "table.view": "View",
   "table.viewTable": "Table",
   "table.viewCards": "Cards",
+  // Read with a sorted column's header on a platform whose semantics have no
+  // aria-sort (the Flutter adapter).
+  "table.sortedAscending": "sorted ascending",
+  "table.sortedDescending": "sorted descending",
   // Misc
   // The name of the "+N" chip that stands for the avatars left out.
   "avatarGroup.more": {
@@ -215,6 +219,16 @@ export const en = {
   // like "Trascina qui i file oppure seleziona" keep a natural order.
   "uploadDropArea.prompt": "Drag & drop files or",
   "uploadDropArea.action": "browse",
+  // The area's name where the application takes no dropped files (the
+  // Flutter adapter, where the application opens the picker).
+  "uploadDropArea.browse": "Browse files",
+  // Shown and announced for each file the accept filter or the one-file
+  // limit leaves out.
+  "uploadDropArea.rejectedType": "{name} is not an accepted file type.",
+  "uploadDropArea.rejectedCount": "{name} was not added: only one file is accepted.",
+  // The list of files the application keeps, and each file's remove button.
+  "uploadDropArea.files": "Selected files",
+  "uploadDropArea.remove": "Remove {name}",
 } as const;
 
 export type MessageKey = keyof typeof en;

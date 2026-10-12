@@ -145,6 +145,33 @@ describe("i18n — translate", () => {
     expect(translate(catalog, { "tree.retry": "Riprova" }, "it", "tree.retry")).toBe("Riprova");
   });
 
+  it("carries the sort state for platforms with no aria-sort", () => {
+    expect(translate(catalog, {}, "en", "table.sortedAscending")).toBe("sorted ascending");
+    expect(translate(catalog, {}, "en", "table.sortedDescending")).toBe("sorted descending");
+    expect(
+      translate(
+        catalog,
+        { "table.sortedAscending": "in ordine crescente" },
+        "it",
+        "table.sortedAscending",
+      ),
+    ).toBe("in ordine crescente");
+  });
+
+  it("carries the upload area's browse name, rejections and file list", () => {
+    expect(translate(catalog, {}, "en", "uploadDropArea.browse")).toBe("Browse files");
+    expect(translate(catalog, {}, "en", "uploadDropArea.rejectedType", { name: "a.exe" })).toBe(
+      "a.exe is not an accepted file type.",
+    );
+    expect(translate(catalog, {}, "en", "uploadDropArea.rejectedCount", { name: "b.png" })).toBe(
+      "b.png was not added: only one file is accepted.",
+    );
+    expect(translate(catalog, {}, "en", "uploadDropArea.files")).toBe("Selected files");
+    expect(translate(catalog, {}, "en", "uploadDropArea.remove", { name: "c.pdf" })).toBe(
+      "Remove c.pdf",
+    );
+  });
+
   it("carries the current page marker for platforms with no aria-current", () => {
     expect(translate(catalog, {}, "en", "pagination.current")).toBe("current page");
     expect(translate(catalog, {}, "en", "breadcrumb.current")).toBe("current page");
