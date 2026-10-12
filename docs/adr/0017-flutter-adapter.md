@@ -250,8 +250,9 @@ external release schedule and its own behaviour rules).
   desktop is a theme setting (`minTargetSize: Size(44, 44)`), applied
   without changing density.
 - **Focus ring.** Width, offset and halo come from the role tier; the ring
-  colour is `style.focus.onDark` in dark mode and the light-mode role in
-  light mode, as in `tokens.css`.
+  colour is the `color-focus-ring` role of the active theme
+  (`role.dark.color-focus-ring` in dark mode, see decision 8), as in
+  `tokens.css`.
 
 **Recommendation:** Style Dictionary with a custom Dart format, the role
 tier and a density tier added to `tokens.json` first, `InvisibleTheme` as
