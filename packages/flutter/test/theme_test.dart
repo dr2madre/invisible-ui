@@ -182,21 +182,96 @@ void main() {
       expect(seen.monoFontFamily, 'Code Mono');
     });
 
-    test('dependants rebuild only when the data changes', () {
-      final a = InvisibleTheme(
-        data: InvisibleThemeData.light(),
-        child: const SizedBox(),
+    testWidgets('dependants rebuild only when the data changes', (
+      tester,
+    ) async {
+      _Probe.builds = 0;
+      Widget themed(InvisibleThemeData data) => Directionality(
+        textDirection: TextDirection.ltr,
+        child: InvisibleTheme(data: data, child: const _Probe()),
       );
-      final same = InvisibleTheme(
-        data: InvisibleThemeData.light(),
-        child: const SizedBox(),
+      await tester.pumpWidget(themed(InvisibleThemeData.light()));
+      await tester.pumpWidget(themed(InvisibleThemeData.light()));
+      expect(_Probe.builds, 1);
+      await tester.pumpWidget(themed(InvisibleThemeData.dark()));
+      expect(_Probe.builds, 2);
+    });
+
+    test('a smaller target size never goes below the token', () {
+      expect(
+        InvisibleThemeData.light(
+          minTargetSize: const Size(10, 30),
+        ).minTargetSize,
+        const Size(24, 30),
       );
-      final other = InvisibleTheme(
-        data: InvisibleThemeData.dark(),
-        child: const SizedBox(),
+      expect(
+        InvisibleThemeData.light(
+          density: InvisibleDensity.touch,
+          minTargetSize: const Size(24, 24),
+        ).minTargetSize,
+        const Size(44, 44),
       );
-      expect(same.updateShouldNotify(a), isFalse);
-      expect(other.updateShouldNotify(a), isTrue);
+    });
+
+    testWidgets('sets the icon theme from the tokens, scaled with the text', (
+      tester,
+    ) async {
+      late IconThemeData icons;
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: InvisibleTheme(
+            data: InvisibleThemeData.dark(),
+            child: Builder(
+              builder: (context) {
+                icons = IconTheme.of(context);
+                return const SizedBox();
+              },
+            ),
+          ),
+        ),
+      );
+      expect(icons.color, InvisibleColors.dark.text);
+      expect(icons.size, 16);
+      expect(icons.applyTextScaling, isTrue);
+    });
+
+    testWidgets('a decorative icon adds nothing to the semantics tree; a '
+        'named one is an image with its name', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: InvisibleTheme(
+            data: InvisibleThemeData.light(),
+            child: const Row(
+              children: [
+                Icon(IconData(0xe145)),
+                Icon(IconData(0xe146), semanticLabel: 'Add'),
+              ],
+            ),
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('Add'), findsOneWidget);
+      expect(
+        tester.getSemantics(find.byType(Icon).first).label,
+        isNot(contains('Add')),
+      );
+      semantics.dispose();
     });
   });
+}
+
+class _Probe extends StatelessWidget {
+  const _Probe();
+
+  static int builds = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    InvisibleTheme.of(context);
+    builds++;
+    return const SizedBox();
+  }
 }

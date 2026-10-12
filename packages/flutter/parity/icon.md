@@ -24,8 +24,8 @@ Icon(
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| Sized `1em`, following the surrounding text | out of scope | the SDK `Icon` takes its size from `IconTheme`, which each component sets from its text size, with `applyTextScaling` |
-| Coloured `currentColor` | out of scope | `IconTheme.color`, which each component sets |
-| Decorative by default; `label` makes it an image with a name | out of scope | the SDK `Icon` adds no semantics without `semanticLabel`, and names itself with one |
+| Sized `1em`, following the surrounding text | adapted | the SDK `Icon` takes its size from `IconTheme`; `InvisibleTheme` sets one from the tokens (the base text size, with `applyTextScaling`), and each component sets its own from its text size: `sets the icon theme from the tokens, scaled with the text` (theme_test) |
+| Coloured `currentColor` | adapted | `IconTheme.color`: the text colour role from `InvisibleTheme`, and each component's own: same test |
+| Decorative by default; `label` makes it an image with a name | matched | the SDK `Icon` adds no semantics without `semanticLabel`, and names itself with one: `a decorative icon adds nothing to the semantics tree; a named one is an image with its name` (theme_test); an icon-only `Button` requires its `semanticLabel`. Assistive technology: not tested |
 | A 24 by 24 stroked SVG wrapper for any icon set | out of scope | any widget is an icon: an icon font through `IconData`, or a drawing; the package bundles no icon font (ADR 0017) |
 | `animation: "spin"` and `"pulse"`, still under reduced motion | out of scope | work in progress is `Loading`, which spins and stands still under reduced motion; an app animates its own icon with the SDK's transitions |

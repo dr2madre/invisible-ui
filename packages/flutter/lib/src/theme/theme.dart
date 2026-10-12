@@ -183,11 +183,19 @@ class InvisibleThemeData {
 
   /// The smallest hit area a control keeps, whatever its painted size.
   ///
-  /// Defaults to the density's `min-target-size` token: 24 by 24 under
-  /// compact and regular (WCAG 2.5.8), 44 by 44 under touch. Set it to
-  /// `Size(44, 44)` for 44 by 44 targets at any density.
-  Size get minTargetSize =>
-      _minTargetSize ?? Size.square(density._tokens.minTargetSize);
+  /// The density's `min-target-size` token: 24 by 24 under compact and
+  /// regular (WCAG 2.5.8), 44 by 44 under touch. A larger size passed to the
+  /// theme, such as `Size(44, 44)` for 44 by 44 targets at any density,
+  /// replaces it; a smaller one never lowers it below the token.
+  Size get minTargetSize {
+    final floor = density._tokens.minTargetSize;
+    final size = _minTargetSize;
+    if (size == null) return Size.square(floor);
+    return Size(
+      size.width < floor ? floor : size.width,
+      size.height < floor ? floor : size.height,
+    );
+  }
 
   /// The font family of every component text. Null uses the platform font.
   final String? fontFamily;
@@ -287,13 +295,18 @@ class InvisibleThemeData {
 /// Provides [InvisibleThemeData] to the components below it.
 ///
 /// A nested theme replaces the outer one for its subtree; [merge] changes
-/// only some parts of it.
-class InvisibleTheme extends InheritedWidget {
+/// only some parts of it. It also sets the [IconTheme] of its subtree from
+/// the tokens: the text colour and the base text size, scaled with the
+/// text, so an SDK [Icon] matches the text around it.
+class InvisibleTheme extends StatelessWidget {
   /// Provides [data] to [child].
-  const InvisibleTheme({super.key, required this.data, required super.child});
+  const InvisibleTheme({super.key, required this.data, required this.child});
 
   /// The theme for this subtree.
   final InvisibleThemeData data;
+
+  /// The subtree.
+  final Widget child;
 
   /// A theme that keeps the surrounding one and replaces the given parts.
   static Widget merge({
@@ -328,7 +341,7 @@ class InvisibleTheme extends InheritedWidget {
 
   /// The nearest theme, or null when there is none.
   static InvisibleThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InvisibleTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_InvisibleThemeScope>()?.data;
 
   /// The nearest theme. Without one, the light or dark theme that matches the
   /// platform brightness.
@@ -342,5 +355,27 @@ class InvisibleTheme extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(InvisibleTheme oldWidget) => data != oldWidget.data;
+  Widget build(BuildContext context) {
+    return _InvisibleThemeScope(
+      data: data,
+      child: IconTheme.merge(
+        data: IconThemeData(
+          color: data.colors.text,
+          size: data.textStyle.fontSize,
+          applyTextScaling: true,
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
+class _InvisibleThemeScope extends InheritedWidget {
+  const _InvisibleThemeScope({required this.data, required super.child});
+
+  final InvisibleThemeData data;
+
+  @override
+  bool updateShouldNotify(_InvisibleThemeScope oldWidget) =>
+      data != oldWidget.data;
 }
