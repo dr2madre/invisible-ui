@@ -15,7 +15,7 @@
           "default": "undefined",
           "required": false,
           "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\".",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "multiple",
@@ -55,6 +55,14 @@
           "default": "undefined",
           "required": false,
           "description": "Called with the selected/dropped files.",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "onRejected",
+          "type": "((rejected: UploadRejection[]) => void) | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the files the area left out: a type `accept` does not name, or a file beyond the first in an area without `multiple`.",
           "descriptionFrom": "source"
         },
         {
@@ -80,7 +88,7 @@
           "default": "undefined",
           "required": false,
           "description": "Accepted file types (the input's `accept` attribute), e.g. \"image/*\".",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "multiple",
@@ -120,6 +128,14 @@
           "default": "undefined",
           "required": false,
           "description": "Called with the selected/dropped files.",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "onRejected",
+          "type": "(rejected: UploadRejection[]) => void",
+          "default": "undefined",
+          "required": false,
+          "description": "Called with the files the area left out: a type `accept` does not name, or a file beyond the first in an area without `multiple`.",
           "descriptionFrom": "source"
         }
       ],
@@ -143,7 +159,7 @@
           "default": null,
           "required": false,
           "description": "Accepted file types (the input's `accept` attribute), e.g. `\"image/*\"` or `\".pdf,.docx\"`. The picker filters by it, and so does a drop.",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         },
         {
           "name": "multiple",
@@ -183,6 +199,14 @@
           "default": null,
           "required": false,
           "description": "Called with the selected or dropped files.",
+          "descriptionFrom": "curated"
+        },
+        {
+          "name": "onRejected",
+          "type": "(rejected: UploadRejection[]) => void",
+          "default": null,
+          "required": false,
+          "description": "Called with the files the area left out: a type `accept` does not name, or a file beyond the first in an area without `multiple`.",
           "descriptionFrom": "source"
         },
         {
@@ -248,7 +272,7 @@
       ],
       "notes": [
         "Properties: `files` (read-only), `disabled`.",
-        "Emits: bubbling `files` CustomEvent with `detail.files` (a `File[]`) when files are picked or dropped."
+        "Emits: bubbling `files` CustomEvent with `detail.files` (a `File[]`) when files are picked or dropped and the area takes some; bubbling `reject` CustomEvent with `detail.rejected` (`{ file, reason }[]`, reason `type` or `count`) for the files it leaves out."
       ]
     }
   }

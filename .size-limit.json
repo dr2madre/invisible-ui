@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "22 kB"
+    "limit": "22.4 kB"
   },
   {
     "name": "@design-system/core — one primitive, tree-shaken (label)",
@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "52 kB"
+    "limit": "52.4 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "77.7 kB"
+    "limit": "78.7 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "71 kB"
+    "limit": "71.5 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",
@@ -267,7 +267,7 @@
     "name": "@design-system/elements — pin input only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsPinInput }",
-    "limit": "5.6 kB"
+    "limit": "5.8 kB"
   },
   {
     "name": "@design-system/elements — prompt dialog only, tree-shaken",
@@ -321,13 +321,13 @@
     "name": "@design-system/elements — slider only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsSlider }",
-    "limit": "2.5 kB"
+    "limit": "2.9 kB"
   },
   {
     "name": "@design-system/elements — toggle button only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsToggleButton }",
-    "limit": "2 kB"
+    "limit": "2.3 kB"
   },
   {
     "name": "@design-system/elements — toggle group only, tree-shaken",
@@ -351,7 +351,7 @@
     "name": "@design-system/elements — upload drop area only, tree-shaken",
     "path": "packages/elements/dist/index.js",
     "import": "{ DsUploadDropArea }",
-    "limit": "5.1 kB"
+    "limit": "5.8 kB"
   },
   {
     "name": "@design-system/elements — accordion only, tree-shaken",

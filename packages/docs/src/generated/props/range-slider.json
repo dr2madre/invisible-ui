@@ -82,6 +82,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message, shown under the track and announced. Both inputs point at it through `aria-describedby` and take `aria-invalid`. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
@@ -267,6 +275,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message. When non-empty it shows after the control as an alert and describes the control. The application owns it: a form reset leaves it in place, and the application clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onValueChange",
           "type": "(value: readonly [number, number]) => void",
           "default": "undefined",
@@ -348,6 +364,14 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "An error message shown under the control as an alert. It describes the control and marks it invalid. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "label",
@@ -513,6 +537,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "a message under the track that also marks both thumbs invalid; the page owns it, so a form reset leaves it in place",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [

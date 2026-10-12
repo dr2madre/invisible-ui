@@ -58,6 +58,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message, shown under the cells and announced. A non-empty one marks the cells invalid, like `invalid`, and every cell points at it through `aria-describedby`. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "success",
           "type": "boolean",
           "default": "false",
@@ -171,6 +179,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message. When non-empty it shows after the cells as an alert, describes each cell and marks the cells invalid. The application owns it: a form reset leaves it in place, and the application clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "name",
           "type": "string",
           "default": "undefined",
@@ -262,9 +278,17 @@
         {
           "name": "invalid",
           "type": "boolean",
-          "default": "false",
+          "default": null,
           "required": false,
           "description": "Validation state; colors the cells (red ring) and signals errors.",
+          "descriptionFrom": "source"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "An error message shown under the cells as an alert. It describes each cell and marks the input invalid, like `invalid`. The app owns it: a form reset leaves it in place, so the app clears it.",
           "descriptionFrom": "source"
         },
         {

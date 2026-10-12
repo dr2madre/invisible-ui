@@ -844,6 +844,11 @@
       "signature": "type TreeNode = treeView.TreeNode;"
     },
     {
+      "name": "UploadRejection",
+      "kind": "type",
+      "signature": "type UploadRejection = uploadDropArea.UploadRejection;"
+    },
+    {
       "name": "WeekStart",
       "kind": "type",
       "signature": "type WeekStart = calendar.WeekStart;"

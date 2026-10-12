@@ -42,6 +42,14 @@
           "descriptionFrom": "curated"
         },
         {
+          "name": "error",
+          "type": "string | undefined",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message, shown under the stars and announced. Every star points at it through `aria-describedby`. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "name",
           "type": "string | undefined",
           "default": "undefined",
@@ -115,6 +123,14 @@
           "descriptionFrom": "source"
         },
         {
+          "name": "error",
+          "type": "string",
+          "default": "undefined",
+          "required": false,
+          "description": "Error message. When non-empty it shows after the control as an alert and describes each star. The application owns it: a form reset leaves it in place, and the application clears it.",
+          "descriptionFrom": "source"
+        },
+        {
           "name": "onValueChange",
           "type": "(value: number) => void",
           "default": "undefined",
@@ -170,6 +186,14 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": null,
+          "required": false,
+          "description": "An error message shown under the control as an alert. It describes the control. The app owns it: a form reset leaves it in place, so the app clears it.",
+          "descriptionFrom": "source"
         },
         {
           "name": "name",
@@ -230,6 +254,13 @@
           "required": false,
           "description": "",
           "descriptionFrom": "none"
+        },
+        {
+          "name": "error",
+          "reactive": true,
+          "required": false,
+          "description": "a message under the stars; the page owns it, so a form reset leaves it in place",
+          "descriptionFrom": "source"
         }
       ],
       "notes": [
