@@ -14,7 +14,12 @@
       label: "Products",
       links: [
         { label: "Analytics", href: "#analytics", description: "Understand your traffic." },
-        { label: "Automation", href: "#automation", description: "Automate your workflow." },
+        {
+          label: "Automation",
+          href: "#automation",
+          description: "Automate your workflow.",
+          current: true,
+        },
       ],
     },
     {
@@ -30,3 +35,4 @@
 </script>
 
 <NavigationMenu label="Main" {items} {onValueChange} />
+<button type="button">Elsewhere</button>

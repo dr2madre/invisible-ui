@@ -7,9 +7,18 @@
    * (`@design-system/core`); this adapter adds hover open/close (with switching),
    * Floating-UI positioning, outside-press dismissal and focus movement.
    *
-   * Pass `items`: `{ value, label, href }` for a link, or
-   * `{ value, label, links: [{ label, href, description? }] }` for a panel.
-   * Themeable via `--ds-navmenu-*`.
+   * The pointer resting on a trigger opens its panel while it stays; a click
+   * keeps it open, also one the pointer opened, and a second click closes it.
+   * Escape closes and returns focus to the trigger; a press outside closes
+   * without moving focus. Activating a link closes the panel before the
+   * browser follows it.
+   *
+   * Pass `items`: `{ value, label, href, current? }` for a link, or
+   * `{ value, label, links: [{ label, href, description?, current? }] }` for a
+   * panel. `current` marks the link to the page on screen
+   * (`aria-current="page"`); the trigger of the panel holding it is styled as
+   * current too, without being announced as the page. Themeable via
+   * `--ds-navmenu-*`.
    */
   import { createNavigationMenu, type NavigationMenuItem } from "./create-navigation-menu";
   import { portal } from "../internal/portal";
@@ -29,7 +38,7 @@
 
   // A live callback reference (ADR 0011).
   const nav = createNavigationMenu({ onValueChange: (next) => onValueChange?.(next) });
-  const { triggerAction, contentAction, value } = nav;
+  const { triggerAction, contentAction, linkAction, value } = nav;
 </script>
 
 <nav class="navmenu" aria-label={label}>
@@ -37,7 +46,14 @@
     {#each items as item (item.value)}
       <li class="navmenu__item">
         {#if item.links}
-          <button class="navmenu__trigger" type="button" use:triggerAction={item.value}>
+          <button
+            class="navmenu__trigger"
+            type="button"
+            use:triggerAction={{
+              value: item.value,
+              holdsCurrent: item.links.some((link) => link.current),
+            }}
+          >
             {item.label}
             <span class="navmenu__chevron" aria-hidden="true">
               <Icon size="100%"><polyline points="6 9 12 15 18 9" /></Icon>
@@ -55,7 +71,12 @@
               <ul class="navmenu__links">
                 {#each item.links as link (link.href)}
                   <li>
-                    <a class="navmenu__link" href={link.href}>
+                    <a
+                      class="navmenu__link"
+                      href={link.href}
+                      aria-current={link.current ? "page" : undefined}
+                      use:linkAction={{ current: link.current, panel: item.value }}
+                    >
                       <span class="navmenu__link-label">{link.label}</span>
                       {#if link.description}
                         <span class="navmenu__link-desc">{link.description}</span>
@@ -67,7 +88,14 @@
             </div>
           {/if}
         {:else}
-          <a class="navmenu__toplink" href={item.href}>{item.label}</a>
+          <!-- aria-current is written here too, so the server markup already
+               names the current page before the action runs. -->
+          <a
+            class="navmenu__toplink"
+            href={item.href}
+            aria-current={item.current ? "page" : undefined}
+            use:linkAction={{ current: item.current }}>{item.label}</a
+          >
         {/if}
       </li>
     {/each}
@@ -174,5 +202,29 @@
   .navmenu__link-desc {
     font-size: 0.875rem;
     color: var(--ds-color-text-secondary, #524c44);
+  }
+
+  /* The current page: the link the app marks, and the trigger whose panel
+     holds it. A bar marks it besides the colour, so the state never rests on
+     colour alone: under the label at the top level, along the inline-start
+     edge in a panel. The attribute comes from the action, so it is global. */
+  .navmenu__trigger:global([data-current]),
+  .navmenu__toplink:global([data-current]) {
+    color: var(--ds-color-secondary-body-text, #7a52cc);
+    text-decoration: underline 2px;
+    text-underline-offset: 0.35em;
+  }
+  .navmenu__link:global([data-current]) {
+    /* The bar takes its width from the padding, so the label does not move. */
+    padding-inline-start: calc(0.625rem - 2px);
+    border-inline-start: 2px solid var(--ds-color-secondary-body-text, #7a52cc);
+    background: color-mix(in srgb, var(--ds-color-secondary, #7a52cc) 10%, transparent);
+  }
+  .navmenu__link:global([data-current]) .navmenu__link-label {
+    color: var(--ds-color-secondary-body-text, #7a52cc);
+  }
+  .navmenu__link:global([data-current]):hover,
+  .navmenu__link:global([data-current]):focus-visible {
+    background: var(--ds-state-hover, rgb(0 0 0 / 0.06));
   }
 </style>
