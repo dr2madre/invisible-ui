@@ -215,9 +215,9 @@ const cases: Case[] = [
     prop: "pressed",
     callback: "onPressedChange",
     change: { props: { pressed: true }, reads: "true" },
-    // A checkbox styled as a button: the browser owns the role and the state.
-    read: () => String((screen.getByRole("checkbox") as HTMLInputElement).checked),
-    act: async (user) => user.click(screen.getByRole("checkbox")),
+    // A native button: the pressed state reads from aria-pressed.
+    read: () => String(screen.getByRole("button", { name: "Bold" }).getAttribute("aria-pressed")),
+    act: async (user) => user.click(screen.getByRole("button", { name: "Bold" })),
   },
   {
     name: "TimeField",
