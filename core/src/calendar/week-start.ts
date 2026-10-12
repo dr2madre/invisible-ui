@@ -95,7 +95,7 @@ const LIKELY_REGION: Record<string, string> = {
 const FW: Record<string, IsoWeekday> = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 7 };
 
 /** The table above, for the shared vectors test. */
-export const weekStartData = { firstDayByRegion: FIRST_DAY_BY_REGION, likelyRegion: LIKELY_REGION };
+export const table = { firstDayByRegion: FIRST_DAY_BY_REGION, likelyRegion: LIKELY_REGION };
 
 /**
  * The CLDR first day of the week for a BCP 47 locale tag. In order: the
@@ -103,7 +103,7 @@ export const weekStartData = { firstDayByRegion: FIRST_DAY_BY_REGION, likelyRegi
  * language's likely region, then Monday. A region missing from the table,
  * such as `419`, starts on Monday, as in CLDR.
  */
-export function weekStartForLocale(locale: string): IsoWeekday {
+export function forLocale(locale: string): IsoWeekday {
   const subtags = locale.toLowerCase().split(/[-_]/);
   let region: string | undefined;
   let i = 1;
