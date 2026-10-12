@@ -1,0 +1,24 @@
+{
+  "description": "The writing direction of a locale, language-neutral, from localeDirection(locale) in core/src/i18n/locale.ts: right to left for the right-to-left languages and scripts, left to right otherwise. Only tags whose answer every runtime agrees on are listed. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "directions": [
+    { "locale": "en", "expect": "ltr" },
+    { "locale": "en-US", "expect": "ltr" },
+    { "locale": "it-IT", "expect": "ltr" },
+    { "locale": "de-CH", "expect": "ltr" },
+    { "locale": "ja", "expect": "ltr" },
+    { "locale": "zh-Hant-TW", "expect": "ltr" },
+    { "locale": "ar", "expect": "rtl" },
+    { "locale": "ar-EG", "expect": "rtl" },
+    { "locale": "he-IL", "expect": "rtl" },
+    { "locale": "fa-IR", "expect": "rtl" },
+    { "locale": "ur", "expect": "rtl" },
+    { "locale": "ps", "expect": "rtl" },
+    { "locale": "yi", "expect": "rtl" },
+    { "locale": "dv", "expect": "rtl" },
+    { "locale": "ckb", "expect": "rtl" },
+    { "locale": "ug", "expect": "rtl" },
+    { "locale": "sd", "expect": "rtl" },
+    { "locale": "pa-Arab", "expect": "rtl" },
+    { "locale": "uz-Arab", "expect": "rtl" }
+  ]
+}

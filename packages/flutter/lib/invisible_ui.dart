@@ -15,6 +15,8 @@ export 'src/calendar/calendar_date.dart' show DateRange;
 export 'src/calendar/date_symbols.dart' show DateSymbols;
 export 'src/calendar/week_start.dart' show weekStartForLocale;
 export 'src/card/card.dart' show Card, CardOrientation, CardTrend;
+export 'src/carousel/carousel.dart'
+    show Carousel, CarouselItemBuilder, CarouselSlide, CarouselVariant;
 export 'src/checkbox/checkbox.dart' show Checkbox, CheckboxGroup;
 export 'src/choice/choice_item.dart';
 export 'src/code/code.dart' show Code;
@@ -34,11 +36,14 @@ export 'src/feedback_icon/feedback_icon.dart'
 export 'src/feedback_state/feedback_state.dart'
     show EmptyState, ErrorState, FeedbackStateSize;
 export 'src/field/field.dart' show Field;
+export 'src/i18n/locale_provider.dart' show LocaleProvider, localeDirection;
 export 'src/i18n/messages.dart';
 export 'src/kbd/kbd.dart' show Kbd;
 export 'src/label/label.dart' show Label;
 export 'src/link/link.dart' show Link, LinkVariant;
 export 'src/loading/loading.dart' show Loading, LoadingVariant;
+export 'src/login_form/login_form.dart'
+    show LoginCredentials, LoginForm, LoginProvider;
 export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
@@ -84,6 +89,17 @@ export 'src/slider/range_slider.dart' show RangeSlider;
 export 'src/slider/slider.dart' show Slider;
 export 'src/stepper/stepper.dart' show StepItem, Stepper;
 export 'src/switch/switch.dart' show Switch;
+export 'src/table/table.dart'
+    show
+        Table,
+        TableAlign,
+        TableCellBuilder,
+        TableCellDetails,
+        TableColumn,
+        TableSelectionCellBuilder;
+export 'src/table/table_logic.dart'
+    show SelectionMode, SortDirection, TableSort, nextSort, sortRows;
+export 'src/table/table_set.dart' show TableSet, TableSetView, TableViewMode;
 export 'src/tabs/tabs.dart' show TabActivationMode, TabItem, Tabs;
 export 'src/tag/tag.dart' show Tag, TagSize, TagStatus, TagVariant;
 export 'src/text_field/text_field.dart' show TextField, Textarea;
@@ -97,3 +113,7 @@ export 'src/toolbar/toolbar.dart' show Toolbar, ToolbarSeparator;
 export 'src/tokens/tokens.g.dart';
 export 'src/tooltip/tooltip.dart' show Tooltip, TooltipPlacement;
 export 'src/tree_view/tree_view.dart' show TreeLoadRequest, TreeNode, TreeView;
+export 'src/upload_drop_area/upload_drop_area.dart'
+    show UploadDropArea, UploadDropController;
+export 'src/upload_drop_area/upload_files.dart'
+    show UploadFile, UploadRejectReason, UploadRejection, acceptsFile;
