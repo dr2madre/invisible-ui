@@ -170,7 +170,11 @@ export {
   type LoginFormProvider,
   type LoginFormValue,
 } from "./login-form/LoginForm";
-export { UploadDropArea, type UploadDropAreaProps } from "./upload-drop-area/UploadDropArea";
+export {
+  UploadDropArea,
+  type UploadDropAreaProps,
+  type UploadRejection,
+} from "./upload-drop-area/UploadDropArea";
 export { ScrollArea, type ScrollAreaProps } from "./scroll-area/ScrollArea";
 export { Stepper, type StepDescriptor, type StepperProps } from "./stepper/Stepper";
 export { TreeView, type TreeViewProps } from "./tree-view/TreeView";

@@ -27,7 +27,8 @@ assistive-tech contract, so always pair it with an accessible alternative
 
 <ImportSnippet component="upload-drop-area" />
 
-In Elements, picked and dropped files arrive in the bubbling `files` event:
+In Elements, picked and dropped files arrive in the bubbling `files` event,
+and the files the `accept` filter leaves out in the bubbling `reject` event:
 
 ```html
 <ds-upload-drop-area accept="image/*" multiple name="photos"></ds-upload-drop-area>
@@ -35,6 +36,7 @@ In Elements, picked and dropped files arrive in the bubbling `files` event:
 <script type="module">
   const area = document.querySelector("ds-upload-drop-area");
   area.addEventListener("files", (event) => upload(event.detail.files));
+  area.addEventListener("reject", (event) => log(event.detail.rejected));
 </script>
 ```
 
@@ -43,6 +45,38 @@ In Elements, picked and dropped files arrive in the bubbling `files` event:
 <PropsTable component="upload-drop-area" />
 
 Dropped and picked files are forwarded through the same `onFiles` callback.
+
+### Accepted files
+
+Picked and dropped files go through the same filter. `accept` has the format
+of the file input's `accept` attribute: extensions (`.pdf`), media types
+(`application/pdf`) and type families (`image/*`), compared without case. A
+file with no media type matches by extension only. Without `multiple`, the
+area takes the first file that passes the filter.
+
+The files the filter leaves out never reach `onFiles` and never join the
+form. The area names each one in a message under it, with the hazard icon,
+and reports them to `onRejected` (`reject` in Elements) as
+`{ file, reason }`, where `reason` is `"type"` or `"count"`. The message is
+an alert, and the file input points at it through `aria-describedby`. It
+stays until the next pick or drop. A drop with no file to take leaves the
+files the input already holds.
+
+The filter is a convenience. The browser's picker can still offer every
+file, and a file's name and media type can be wrong, so the app validates
+the files it receives, on the server too.
+
+```svelte
+<UploadDropArea
+  accept=".pdf,image/*"
+  multiple
+  onFiles={(files) => upload(files)}
+  onRejected={(rejected) => track(rejected.map(({ file, reason }) => `${file.name}: ${reason}`))}
+/>
+```
+
+The messages come from the catalog: `uploadDropArea.rejectedType` and
+`uploadDropArea.rejectedCount`, both with a `{name}` placeholder.
 
 ### Example
 
@@ -56,9 +90,8 @@ Dropped and picked files are forwarded through the same `onFiles` callback.
 <li use:dropArea={{ onDrop: (data) => moveInto(node, data) }}>Documents</li>
 ```
 
-In React, `children` replace the prompt and `icon` the glyph. A drop keeps only
-the files `accept` names, as the picker does, and `useDropArea` returns the
-props for a drop target of your own:
+In React, `children` replace the prompt and `icon` the glyph, and
+`useDropArea` returns the props for a drop target of your own:
 
 ```tsx
 <UploadDropArea accept="image/*" multiple onFiles={upload} />;
@@ -70,3 +103,13 @@ function Folder({ node }) {
 ```
 
 Themeable via `--ds-upload-drop-area-*`.
+
+### Accessibility
+
+- The native file input is the control: Tab reaches it, Enter or Space opens
+  the picker, and the prompt is its name.
+- Drag and drop is a pointer enhancement; the picker offers the same files.
+- Files the filter leaves out are named in an alert after the area, with the
+  hazard icon, so the message never relies on color. The input points at it
+  through `aria-describedby`.
+- Assistive technology: not tested.

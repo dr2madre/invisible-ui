@@ -1,0 +1,155 @@
+{
+  "description": "Upload drop area filter, language-neutral: acceptsFile(file, accept) and splitFiles(files, { accept, multiple }) from core/src/upload-drop-area. accept has the format of the file input's accept attribute: extensions, media types and type families, without case; an empty list takes every file, and a file with no type matches by extension only. split expects the names of the accepted files and, for each file left out, its name and the reason: type (not in the accept list) or count (the area takes one file and another came first). Picked and dropped files go through the same split. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "accepts": [
+    {
+      "name": "No accept list takes every file",
+      "file": { "name": "notes.txt", "type": "text/plain" },
+      "accept": "",
+      "expect": true
+    },
+    {
+      "name": "A blank accept list takes every file",
+      "file": { "name": "notes.txt", "type": "text/plain" },
+      "accept": " , ",
+      "expect": true
+    },
+    {
+      "name": "An extension matches the end of the name",
+      "file": { "name": "report.pdf", "type": "application/pdf" },
+      "accept": ".pdf",
+      "expect": true
+    },
+    {
+      "name": "An extension matches without case",
+      "file": { "name": "REPORT.PDF", "type": "" },
+      "accept": ".Pdf",
+      "expect": true
+    },
+    {
+      "name": "An extension that is not the name's ending",
+      "file": { "name": "report.pdf.txt", "type": "text/plain" },
+      "accept": ".pdf",
+      "expect": false
+    },
+    {
+      "name": "A media type matches exactly",
+      "file": { "name": "photo.png", "type": "image/png" },
+      "accept": "image/png",
+      "expect": true
+    },
+    {
+      "name": "A media type matches without case",
+      "file": { "name": "photo.png", "type": "Image/PNG" },
+      "accept": "image/png",
+      "expect": true
+    },
+    {
+      "name": "Another media type",
+      "file": { "name": "photo.jpg", "type": "image/jpeg" },
+      "accept": "image/png",
+      "expect": false
+    },
+    {
+      "name": "A type family matches its members",
+      "file": { "name": "photo.jpg", "type": "image/jpeg" },
+      "accept": "image/*",
+      "expect": true
+    },
+    {
+      "name": "A type family leaves other families out",
+      "file": { "name": "clip.mp4", "type": "video/mp4" },
+      "accept": "image/*",
+      "expect": false
+    },
+    {
+      "name": "A file with no type misses a media type",
+      "file": { "name": "photo", "type": "" },
+      "accept": "image/png",
+      "expect": false
+    },
+    {
+      "name": "A file with no type misses a type family",
+      "file": { "name": "photo", "type": "" },
+      "accept": "image/*",
+      "expect": false
+    },
+    {
+      "name": "Any entry of a mixed list matches",
+      "file": { "name": "draft.docx", "type": "" },
+      "accept": "image/*, .pdf , .DOCX",
+      "expect": true
+    },
+    {
+      "name": "No entry of a mixed list matches",
+      "file": { "name": "song.mp3", "type": "audio/mpeg" },
+      "accept": "image/*,.pdf,application/zip",
+      "expect": false
+    }
+  ],
+  "split": [
+    {
+      "name": "Every file of a multiple area without a list",
+      "files": [
+        { "name": "one.txt", "type": "text/plain" },
+        { "name": "two.txt", "type": "text/plain" }
+      ],
+      "accept": "",
+      "multiple": true,
+      "expect": { "accepted": ["one.txt", "two.txt"], "rejected": [] }
+    },
+    {
+      "name": "A single-file area takes the first file",
+      "files": [
+        { "name": "one.txt", "type": "text/plain" },
+        { "name": "two.txt", "type": "text/plain" }
+      ],
+      "accept": "",
+      "multiple": false,
+      "expect": {
+        "accepted": ["one.txt"],
+        "rejected": [{ "name": "two.txt", "reason": "count" }]
+      }
+    },
+    {
+      "name": "Files outside the list are left out",
+      "files": [
+        { "name": "photo.png", "type": "image/png" },
+        { "name": "notes.txt", "type": "text/plain" },
+        { "name": "scan.jpg", "type": "image/jpeg" }
+      ],
+      "accept": "image/*",
+      "multiple": true,
+      "expect": {
+        "accepted": ["photo.png", "scan.jpg"],
+        "rejected": [{ "name": "notes.txt", "reason": "type" }]
+      }
+    },
+    {
+      "name": "A single-file area takes the first matching file",
+      "files": [
+        { "name": "notes.txt", "type": "text/plain" },
+        { "name": "photo.png", "type": "image/png" },
+        { "name": "scan.jpg", "type": "image/jpeg" }
+      ],
+      "accept": "image/*",
+      "multiple": false,
+      "expect": {
+        "accepted": ["photo.png"],
+        "rejected": [
+          { "name": "notes.txt", "reason": "type" },
+          { "name": "scan.jpg", "reason": "count" }
+        ]
+      }
+    },
+    {
+      "name": "Nothing matches",
+      "files": [{ "name": "notes.txt", "type": "text/plain" }],
+      "accept": ".pdf",
+      "multiple": false,
+      "expect": {
+        "accepted": [],
+        "rejected": [{ "name": "notes.txt", "reason": "type" }]
+      }
+    }
+  ]
+}

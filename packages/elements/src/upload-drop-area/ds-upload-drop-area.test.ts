@@ -1,4 +1,4 @@
-import { fireEvent } from "@testing-library/dom";
+import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { afterEach, vi } from "vitest";
 import { axe } from "vitest-axe";
@@ -130,6 +130,82 @@ describe("<ds-upload-drop-area>", () => {
 
   it("has no accessibility violations", async () => {
     mount(`<ds-upload-drop-area caption="PNG up to 5 MB"></ds-upload-drop-area>`);
+    expect(await axe(document.body)).toHaveNoViolations();
+  });
+});
+
+// Picked and dropped files go through the same accept filter (the core's
+// splitFiles): the ones it leaves out never reach the files event, are
+// reported in a reject event and are named in an alert under the area.
+describe("<ds-upload-drop-area> accept filter", () => {
+  const png = new File(["x"], "photo.png", { type: "image/png" });
+  const jpeg = new File(["x"], "photo.JPG", { type: "image/jpeg" });
+  const pdf = new File(["x"], "report.pdf", { type: "application/pdf" });
+  const text = new File(["x"], "notes.txt", { type: "text/plain" });
+  const drop = (...files: File[]) => fireEvent.drop(zone(), { dataTransfer: { files } });
+  const record = (host: HTMLElement) => {
+    const files: File[][] = [];
+    const rejected: unknown[] = [];
+    host.addEventListener("files", (event) => files.push((event as CustomEvent).detail.files));
+    host.addEventListener("reject", (event) =>
+      rejected.push((event as CustomEvent).detail.rejected),
+    );
+    return { files, rejected };
+  };
+
+  it("keeps the dropped files accept names and reports the others", () => {
+    const host = mount(
+      `<ds-upload-drop-area accept="image/*, .pdf" multiple></ds-upload-drop-area>`,
+    );
+    const seen = record(host);
+    drop(png, text, pdf, jpeg);
+    expect(seen.files).toEqual([[png, pdf, jpeg]]);
+    expect(seen.rejected).toEqual([[{ file: text, reason: "type" }]]);
+    const alert = screen.getByRole("alert");
+    expect(alert).toHaveTextContent("notes.txt is not an accepted file type.");
+    expect(alert.querySelector(".field__error.field__message .field__msg-icon svg")).not.toBeNull();
+    expect(zone()).not.toContainElement(alert);
+    expect(host).toContainElement(alert);
+    expect(input()).toHaveAttribute("aria-describedby", alert.id);
+  });
+
+  it("filters picked files the same way and keeps only the accepted ones in the input", async () => {
+    const host = mount(`<ds-upload-drop-area accept=".pdf" multiple></ds-upload-drop-area>`);
+    const seen = record(host);
+    await userEvent.setup({ applyAccept: false }).upload(input(), [pdf, text]);
+    expect(seen.files).toEqual([[pdf]]);
+    expect(seen.rejected).toEqual([[{ file: text, reason: "type" }]]);
+  });
+
+  it("takes the first accepted file on a single-file area and names the rest", () => {
+    const host = mount(`<ds-upload-drop-area accept="image/*"></ds-upload-drop-area>`);
+    const seen = record(host);
+    drop(pdf, png, jpeg);
+    expect(seen.files).toEqual([[png]]);
+    expect(seen.rejected).toEqual([
+      [
+        { file: pdf, reason: "type" },
+        { file: jpeg, reason: "count" },
+      ],
+    ]);
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "photo.JPG was not added: only one file is accepted.",
+    );
+  });
+
+  it("clears the message once a batch is taken whole", () => {
+    const host = mount(`<ds-upload-drop-area accept="image/*" multiple></ds-upload-drop-area>`);
+    const seen = record(host);
+    drop(text);
+    expect(seen.files).toEqual([]);
+    drop(png);
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(input()).not.toHaveAttribute("aria-describedby");
+  });
+
+  it("has no accessibility violations with the message", async () => {
+    mount(`<ds-upload-drop-area accept="image/*"></ds-upload-drop-area>`);
+    drop(text);
     expect(await axe(document.body)).toHaveNoViolations();
   });
 });

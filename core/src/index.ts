@@ -48,3 +48,4 @@ export * as calendar from "./calendar";
 // table.
 export * as weekStart from "./calendar/week-start";
 export * as timeField from "./time-field";
+export * as uploadDropArea from "./upload-drop-area";

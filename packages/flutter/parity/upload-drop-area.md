@@ -24,7 +24,7 @@ scope**. Every matched line names the widget test in
 | --- | --- | --- |
 | `onBrowse: Future<List<UploadFile>> Function()` | the native file input | the app opens the picker and returns the files |
 | `onFiles: ValueChanged<List<UploadFile>>` | `onFiles(files)` | the files taken |
-| `onRejected: ValueChanged<List<UploadRejection>>` | none | the files left out, and why |
+| `onRejected: ValueChanged<List<UploadRejection>>` | `onRejected(rejected)` | the files left out, and why |
 | `accept`, `multiple`, `enabled` | `accept`, `multiple`, `disabled` | the same meaning |
 | `dropController: UploadDropController` | the `dropArea` action | the app's drop events; its presence says the app takes drops |
 | `caption`, `prompt`, `icon` | `caption`, `children`, `icon` | texts and glyph |
@@ -38,9 +38,9 @@ scope**. Every matched line names the widget test in
 | A press, Enter or Space opens the picker | adapted | calls `onBrowse`; the app opens the picker (for example with `file_selector`): `without drops: …`, `Enter and Space browse too` |
 | A spinner while the picker opens, after a short delay | matched | `while the picker opens, a spinner shows after a short delay` |
 | Drag highlight and drop | adapted | shown only with a `dropController`; the app wires its drop plugin to `dragEntered`, `dragExited` and `drop`: `with drops: …` |
-| Picked and dropped files filtered by `accept` | adapted | the same filter for both, in the web's `accept` format; on the web the picker filters and a drop is not filtered (an open point): same test, and the `acceptsFile` group |
-| One file without `multiple` | adapted | the first file that passes is taken and the others are reported as rejected; the web keeps the first dropped file silently: same test, `multiple takes every file that passes` |
-| Rejected files reported, shown and announced | adapted | a message per file under the area, after the hazard glyph, and announced; the web has no rejection path: same test |
+| Picked and dropped files filtered by `accept` | matched | the same filter for both, in the web's `accept` format, as the core's `acceptsFile`: same test, the `acceptsFile` group and the shared vectors `accepts` in `core/src/upload-drop-area/__vectors__`, read by `test/upload_vectors_test.dart` |
+| One file without `multiple` | matched | the first file that passes is taken and the others are reported as rejected, as the core's `splitFiles`: same test, `multiple takes every file that passes`, vectors `split` |
+| Rejected files reported, shown and announced | matched | a message per file under the area, after the hazard glyph, and announced; the web reports them to `onRejected` (the `reject` event in Elements) and shows them in an alert: same test |
 | Disabled: no browsing, drops ignored | matched | `disabled: no browsing, drops ignored` |
 | The final check of the files | matched | stays with the app, as on the web |
 | Form participation | out of scope | Flutter has no form file input; the app keeps the files |

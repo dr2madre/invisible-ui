@@ -232,6 +232,18 @@ test.describe("Elements upload drop area", () => {
       await host.evaluate((element) => (element as HTMLElement & { files: File[] }).files.length),
     ).toBe(0);
   });
+
+  test("a picked file outside accept stays out of the form and is named", async ({ page }) => {
+    const input = page.locator("ds-upload-drop-area input[type='file']");
+    await input.setInputFiles([
+      { name: "report.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4") },
+      { name: "photo.png", mimeType: "image/png", buffer: Buffer.from("png") },
+    ]);
+    const host = page.locator("ds-upload-drop-area");
+    await expect(host).toHaveAttribute("data-reported", "report.pdf");
+    await expect(host.getByRole("alert")).toHaveText("photo.png is not an accepted file type.");
+    expect(await formData(page, "upload")).toEqual(["title=Report", "attachment=report.pdf"]);
+  });
 });
 
 test.describe("Elements login form", () => {
