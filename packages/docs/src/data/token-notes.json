@@ -70,7 +70,10 @@
     "purpose": "Text and icons drawn on a solid status fill: information, success, danger."
   },
   "--ds-color-on-warning": {
-    "purpose": "Text and icons drawn on the warning fill. It is dark, because the light warning colour cannot carry white text."
+    "purpose": "Text drawn on the warning label fill (solid Tag, Count). It is dark, because the light warning colour cannot carry white text."
+  },
+  "--ds-color-warning-label-surface": {
+    "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.9:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour."
   },
   "--ds-color-emphasis-surface": {
     "purpose": "An area that should stand out from the page around it, such as a tooltip or an inverted panel."
@@ -104,6 +107,12 @@
   },
   "--ds-color-neutral-border": {
     "purpose": "The edge that goes with the quiet neutral fill."
+  },
+  "--ds-dialog-overlay": {
+    "purpose": "The scrim behind a modal dialog, per theme (dialog.overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement."
+  },
+  "--ds-min-target-size-touch": {
+    "purpose": "The side of the smallest square hit area a control keeps under a coarse pointer: 44 by 44 (density.touch.min-target-size). Visual density never reduces it."
   },
   "--ds-elevation-overlay": {
     "purpose": "The shadow under something floating over the page: a menu, a popover, a dialog. It changes between themes, because a shadow reads differently on a dark page."

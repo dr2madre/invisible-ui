@@ -68,6 +68,15 @@ purpose; the rule governs the Tier-2 semantic layer the components read.
 - "Role vs. state" needs judgment at the edges (e.g. `emphasis`); this ADR is
   the tie-breaker.
 
+## Addendum, 2026-10-12: themes are not tokens
+
+`role.light` and `role.dark` in `packages/tokens/tokens.json` identify
+themes, not semantic tokens: `light` and `dark` there name the theme a role
+belongs to, as `[data-theme="dark"]` does in the stylesheet. The constraint
+is unchanged: a token name never says how its colour looks. So the dark
+focus ring is `role.dark.color-focus-ring`, the same role as the light one,
+and no token carries a name such as `onDark`.
+
 ## References
 
 - [ADR 0001 — Headless primitives](./0001-headless-primitives.md)

@@ -202,7 +202,7 @@
     --_fg: var(--ds-color-on-status, #fff);
   }
   .tag:global([data-variant="solid"][data-status="warning"]) {
-    --_bg: var(--ds-color-warning, #c96422);
+    --_bg: var(--ds-color-warning-label-surface, #d17b43);
     --_fg: var(--ds-color-on-warning, #282420);
   }
   .tag:global([data-variant="solid"][data-status="danger"]) {

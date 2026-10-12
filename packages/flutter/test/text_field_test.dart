@@ -391,7 +391,7 @@ void main() {
       expect(ring.ring.color, InvisibleColors.light.danger);
     });
 
-    testWidgets('dark uses style.focus.onDark', (tester) async {
+    testWidgets('dark uses the dark focus ring role', (tester) async {
       await tester.pumpWidget(
         harness(
           const TextField.uncontrolled(label: 'Name'),
@@ -404,7 +404,7 @@ void main() {
             .widget<FocusRingPainter>(find.byType(FocusRingPainter))
             .ring
             .color,
-        InvisibleStyleColors.focusOnDark,
+        InvisibleColors.dark.focusRing,
       );
     });
   });

@@ -48,7 +48,7 @@ that holds it.
 | --- | --- | --- |
 | Soft: the status surface, text and border; selected tints the secondary at 8 % and 22 % | matched | `soft and solid colours per status` |
 | Solid: the status colour with the text that reads on it | matched | same test |
-| Text contrast | matched, one shortfall | every pair passes 4.5:1 except solid warning, the web's own pair, at 3.9:1 for 13 pixel text: same test |
+| Text contrast | matched | every pair passes 4.5:1; solid warning paints `color-warning-label-surface` under `color-on-warning`, 4.86:1 in both themes: `soft and solid colours per status`, `the solid warning label reaches 4.5:1 in the dark theme` |
 | The cross at 0.7 opacity, full on hover and focus; focus ring on the button | matched | `the remove button is named by removeLabel; …` |
 | Leading icon at 1 em in the text colour; trailing content after the text | matched | `a long tag wraps …` places the count and the button |
 | The remove button at the inline-end, mirrored right to left | matched | `a long tag wraps at text scale 2.0 in a narrow parent, the remove button at the inline-end right to left` |

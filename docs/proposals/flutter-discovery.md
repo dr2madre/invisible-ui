@@ -207,7 +207,9 @@ Sources:
   source. The docs token registry resolves 535 entries with light and dark
   values from that stylesheet.
 - `style.focus.onDark` (`#a286db`, the dark-mode focus ring colour) is in
-  review on the `fix/dark-focus-token` branch and not yet on `main`.
+  review on the `fix/dark-focus-token` branch and not yet on `main`. It was
+  later removed: since 2026-10-12 the dark ring is
+  `role.dark.color-focus-ring` (ADR 0002).
 - No spacing scale, density tier or target-size token exists.
 - No component in `core/` supports submenus. The catalog has Dropdown
   Menu, Context Menu, Menubar, Toolbar and Tooltip. It has no section

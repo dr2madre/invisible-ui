@@ -273,7 +273,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 172,
+        "line": 174,
         "dtcg": "role.light.color-background"
       },
       "expressions": {
@@ -311,7 +311,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 176,
+        "line": 178,
         "dtcg": "role.light.color-border"
       },
       "expressions": {
@@ -349,7 +349,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 181,
+        "line": 183,
         "dtcg": "role.light.color-control-border"
       },
       "expressions": {
@@ -387,7 +387,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 210,
+        "line": 209,
         "dtcg": "role.light.color-danger"
       },
       "expressions": {
@@ -426,7 +426,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 286,
+        "line": 293,
         "dtcg": "role.light.color-danger-body-text"
       },
       "expressions": {
@@ -466,7 +466,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 240,
+        "line": 247,
         "dtcg": "role.light.color-danger-border"
       },
       "expressions": {
@@ -502,7 +502,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 211,
+        "line": 210,
         "dtcg": "role.light.color-danger-hover"
       },
       "expressions": {
@@ -541,7 +541,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 239,
+        "line": 246,
         "dtcg": "role.light.color-danger-surface"
       },
       "expressions": {
@@ -577,7 +577,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 274,
+        "line": 281,
         "dtcg": "role.light.color-danger-text"
       },
       "expressions": {
@@ -613,7 +613,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 244,
+        "line": 251,
         "dtcg": "role.light.color-destructive-surface"
       },
       "expressions": {
@@ -649,7 +649,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 184,
+        "line": 186,
         "dtcg": "role.light.color-disabled"
       },
       "expressions": {
@@ -687,7 +687,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 291,
+        "line": 298,
         "dtcg": "role.light.color-emphasis-border"
       },
       "expressions": {
@@ -725,7 +725,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 289,
+        "line": 296,
         "dtcg": "role.light.color-emphasis-surface"
       },
       "expressions": {
@@ -763,7 +763,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 195,
+        "line": 194,
         "dtcg": "role.light.color-focus-halo"
       },
       "expressions": {
@@ -799,7 +799,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 187,
+        "line": 189,
         "dtcg": "role.light.color-focus-ring"
       },
       "expressions": {
@@ -827,42 +827,6 @@
       "replacedBy": null
     },
     {
-      "name": "--ds-color-focus-ring-on-dark",
-      "id": "color-focus-ring-on-dark",
-      "tier": "semantic",
-      "ownership": "design",
-      "valueType": "color",
-      "specimenKind": "color",
-      "source": {
-        "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 190,
-        "dtcg": "style.focus.onDark"
-      },
-      "expressions": {
-        "light": "#a286db",
-        "darkMedia": null,
-        "darkAttr": null,
-        "fallbackLight": null,
-        "fallbackDark": null
-      },
-      "aliasChain": [],
-      "adapters": [
-        "svelte",
-        "vue",
-        "react",
-        "elements"
-      ],
-      "resolved": {
-        "light": "#a286db",
-        "dark": "#a286db"
-      },
-      "hasAlpha": false,
-      "purpose": null,
-      "group": "The dark-mode ring as one fixed value, for consumers that cannot mix colours (the Flutter apps): the dark ring below resolves to the same #a286db.",
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
       "name": "--ds-color-info",
       "id": "color-info",
       "tier": "semantic",
@@ -871,7 +835,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 207,
+        "line": 206,
         "dtcg": "role.light.color-info"
       },
       "expressions": {
@@ -910,7 +874,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 218,
+        "line": 225,
         "dtcg": "role.light.color-info-border"
       },
       "expressions": {
@@ -946,7 +910,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 217,
+        "line": 224,
         "dtcg": "role.light.color-info-surface"
       },
       "expressions": {
@@ -982,7 +946,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 263,
+        "line": 270,
         "dtcg": "role.light.color-info-text"
       },
       "expressions": {
@@ -1018,7 +982,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 212,
+        "line": 211,
         "dtcg": "role.light.color-neutral"
       },
       "expressions": {
@@ -1056,7 +1020,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 259,
+        "line": 266,
         "dtcg": "role.light.color-neutral-border"
       },
       "expressions": {
@@ -1094,7 +1058,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 258,
+        "line": 265,
         "dtcg": "role.light.color-neutral-surface"
       },
       "expressions": {
@@ -1132,7 +1096,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 280,
+        "line": 287,
         "dtcg": "role.light.color-neutral-text"
       },
       "expressions": {
@@ -1170,7 +1134,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 249,
+        "line": 256,
         "dtcg": "role.light.color-on-destructive-surface"
       },
       "expressions": {
@@ -1209,7 +1173,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 290,
+        "line": 297,
         "dtcg": "role.light.color-on-emphasis"
       },
       "expressions": {
@@ -1247,7 +1211,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 202,
+        "line": 201,
         "dtcg": "role.light.color-on-primary"
       },
       "expressions": {
@@ -1285,7 +1249,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 205,
+        "line": 204,
         "dtcg": "role.light.color-on-secondary"
       },
       "expressions": {
@@ -1323,7 +1287,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 257,
+        "line": 264,
         "dtcg": "role.light.color-on-secondary-surface"
       },
       "expressions": {
@@ -1363,7 +1327,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 103,
+        "line": 105,
         "dtcg": "role.light.color-on-selected"
       },
       "expressions": {
@@ -1402,7 +1366,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 213,
+        "line": 212,
         "dtcg": "role.light.color-on-status"
       },
       "expressions": {
@@ -1440,7 +1404,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 214,
+        "line": 213,
         "dtcg": "role.light.color-on-warning"
       },
       "expressions": {
@@ -1464,7 +1428,7 @@
         "dark": "#282420"
       },
       "hasAlpha": false,
-      "purpose": "Text and icons drawn on the warning fill. It is dark, because the light warning colour cannot carry white text.",
+      "purpose": "Text drawn on the warning label fill (solid Tag, Count). It is dark, because the light warning colour cannot carry white text.",
       "group": null,
       "stability": "alpha",
       "replacedBy": null
@@ -1478,7 +1442,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 200,
+        "line": 199,
         "dtcg": "role.light.color-primary"
       },
       "expressions": {
@@ -1517,7 +1481,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 201,
+        "line": 200,
         "dtcg": "role.light.color-primary-hover"
       },
       "expressions": {
@@ -1556,7 +1520,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 203,
+        "line": 202,
         "dtcg": "role.light.color-secondary"
       },
       "expressions": {
@@ -1595,7 +1559,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 285,
+        "line": 292,
         "dtcg": "role.light.color-secondary-body-text"
       },
       "expressions": {
@@ -1635,7 +1599,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 204,
+        "line": 203,
         "dtcg": "role.light.color-secondary-hover"
       },
       "expressions": {
@@ -1674,7 +1638,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 252,
+        "line": 259,
         "dtcg": "role.light.color-secondary-surface"
       },
       "expressions": {
@@ -1710,7 +1674,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 102,
+        "line": 104,
         "dtcg": "role.light.color-selected"
       },
       "expressions": {
@@ -1750,7 +1714,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 275,
+        "line": 282,
         "dtcg": "role.light.color-selected-text"
       },
       "expressions": {
@@ -1786,7 +1750,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 208,
+        "line": 207,
         "dtcg": "role.light.color-success"
       },
       "expressions": {
@@ -1825,7 +1789,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 287,
+        "line": 294,
         "dtcg": "role.light.color-success-body-text"
       },
       "expressions": {
@@ -1865,7 +1829,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 224,
+        "line": 231,
         "dtcg": "role.light.color-success-border"
       },
       "expressions": {
@@ -1901,7 +1865,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 219,
+        "line": 226,
         "dtcg": "role.light.color-success-surface"
       },
       "expressions": {
@@ -1937,7 +1901,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 264,
+        "line": 271,
         "dtcg": "role.light.color-success-text"
       },
       "expressions": {
@@ -1973,7 +1937,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 182,
+        "line": 184,
         "dtcg": "role.light.color-surface"
       },
       "expressions": {
@@ -2011,7 +1975,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 183,
+        "line": 185,
         "dtcg": "role.light.color-surface-hover"
       },
       "expressions": {
@@ -2049,7 +2013,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 173,
+        "line": 175,
         "dtcg": "role.light.color-text"
       },
       "expressions": {
@@ -2087,7 +2051,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 175,
+        "line": 177,
         "dtcg": "role.light.color-text-disabled"
       },
       "expressions": {
@@ -2125,7 +2089,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 174,
+        "line": 176,
         "dtcg": "role.light.color-text-secondary"
       },
       "expressions": {
@@ -2163,7 +2127,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 209,
+        "line": 208,
         "dtcg": "role.light.color-warning"
       },
       "expressions": {
@@ -2202,7 +2166,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 234,
+        "line": 241,
         "dtcg": "role.light.color-warning-border"
       },
       "expressions": {
@@ -2230,6 +2194,42 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-color-warning-label-surface",
+      "id": "color-warning-label-surface",
+      "tier": "semantic",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 217,
+        "dtcg": "role.light.color-warning-label-surface"
+      },
+      "expressions": {
+        "light": "color-mix( in srgb, var(--ds-feedback-warning) 85%, var(--ds-neutral-0) )",
+        "darkMedia": "color-mix( in srgb, var(--ds-feedback-warning) 85%, var(--ds-neutral-0) )",
+        "darkAttr": "color-mix( in srgb, var(--ds-feedback-warning) 85%, var(--ds-neutral-0) )",
+        "fallbackLight": "var(--ds-neutral-100)",
+        "fallbackDark": "var(--ds-neutral-100)"
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#d17b43",
+        "dark": "#d17b43"
+      },
+      "hasAlpha": false,
+      "purpose": "The fill behind a text label with the warning status: the solid Tag and the Count. The warning colour gives dark text 3.9:1 only; this fill gives it 4.5:1 or more. Glyphs, dots and meter fills keep the warning colour.",
+      "group": "The fill behind a text label with the warning status (solid Tag, Count). The warning colour itself gives its dark text 3.9:1 only; this mix gives it 4.9:1, and the warning colour stays as it is everywhere else.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-color-warning-surface",
       "id": "color-warning-surface",
       "tier": "semantic",
@@ -2238,7 +2238,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 229,
+        "line": 236,
         "dtcg": "role.light.color-warning-surface"
       },
       "expressions": {
@@ -2274,7 +2274,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 269,
+        "line": 276,
         "dtcg": "role.light.color-warning-text"
       },
       "expressions": {
@@ -2374,6 +2374,42 @@
       "replacedBy": null
     },
     {
+      "name": "--ds-dialog-overlay",
+      "id": "dialog-overlay",
+      "tier": "other",
+      "ownership": "design",
+      "valueType": "color",
+      "specimenKind": "color",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 303,
+        "dtcg": "dialog.overlay.light"
+      },
+      "expressions": {
+        "light": "rgb(28 25 21 / 0.5)",
+        "darkMedia": "rgb(0 0 0 / 0.6)",
+        "darkAttr": "rgb(0 0 0 / 0.6)",
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": "#1c1915 at 50% alpha",
+        "dark": "#000000 at 60% alpha"
+      },
+      "hasAlpha": true,
+      "purpose": "The scrim behind a modal dialog, per theme (dialog.overlay in the design source). How far it sets the dialog apart from the page is a theme choice, not an accessibility requirement.",
+      "group": "The scrim behind a modal dialog (dialog.overlay). How far it sets the dialog apart from the page is a theme choice: docs/tokens.md.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
       "name": "--ds-elevation-overlay",
       "id": "elevation-overlay",
       "tier": "elevation",
@@ -2382,7 +2418,7 @@
       "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 293,
+        "line": 300,
         "dtcg": null
       },
       "expressions": {
@@ -2608,7 +2644,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 194,
+        "line": 193,
         "dtcg": "focus.halo-width"
       },
       "expressions": {
@@ -2644,7 +2680,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 193,
+        "line": 192,
         "dtcg": "focus.ring-offset"
       },
       "expressions": {
@@ -2680,7 +2716,7 @@
       "specimenKind": "shadow",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 196,
+        "line": 195,
         "dtcg": null
       },
       "expressions": {
@@ -2716,7 +2752,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 192,
+        "line": 191,
         "dtcg": "focus.ring-width"
       },
       "expressions": {
@@ -2752,7 +2788,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 110,
+        "line": 112,
         "dtcg": null
       },
       "expressions": {
@@ -2788,7 +2824,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 107,
+        "line": 109,
         "dtcg": null
       },
       "expressions": {
@@ -2824,7 +2860,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 121,
+        "line": 123,
         "dtcg": "typography.font-size-h1"
       },
       "expressions": {
@@ -2860,7 +2896,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 122,
+        "line": 124,
         "dtcg": "typography.font-size-h2"
       },
       "expressions": {
@@ -2896,7 +2932,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 123,
+        "line": 125,
         "dtcg": "typography.font-size-h3"
       },
       "expressions": {
@@ -2932,7 +2968,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 124,
+        "line": 126,
         "dtcg": "typography.font-size-h4"
       },
       "expressions": {
@@ -2968,7 +3004,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 125,
+        "line": 127,
         "dtcg": "typography.font-size-h5"
       },
       "expressions": {
@@ -3004,7 +3040,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 126,
+        "line": 128,
         "dtcg": "typography.font-size-h6"
       },
       "expressions": {
@@ -3076,7 +3112,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 120,
+        "line": 122,
         "dtcg": "typography.heading-weight"
       },
       "expressions": {
@@ -3112,7 +3148,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 115,
+        "line": 117,
         "dtcg": "typography.line-height"
       },
       "expressions": {
@@ -3148,7 +3184,7 @@
       "specimenKind": "text",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 116,
+        "line": 118,
         "dtcg": "typography.line-height-tight"
       },
       "expressions": {
@@ -3184,7 +3220,7 @@
       "specimenKind": "size",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 97,
+        "line": 98,
         "dtcg": "density.regular.min-target-size"
       },
       "expressions": {
@@ -3207,7 +3243,43 @@
       },
       "hasAlpha": false,
       "purpose": "smallest hit area a control keeps",
-      "group": "The side of the smallest square hit area a control keeps, whatever its painted size: 24 by 24 meets WCAG 2.5.8. The regular density only; the compact and touch levels are not specified yet.",
+      "group": "The side of the smallest square hit area a control keeps, whatever its painted size: 24 by 24 meets WCAG 2.5.8. The touch size is the target a coarse pointer gets, 44 by 44, read under `@media (pointer: coarse)`. Visual density never lowers either.",
+      "stability": "alpha",
+      "replacedBy": null
+    },
+    {
+      "name": "--ds-min-target-size-touch",
+      "id": "min-target-size-touch",
+      "tier": "sizing",
+      "ownership": "design",
+      "valueType": "dimension",
+      "specimenKind": "size",
+      "source": {
+        "file": "packages/svelte/src/lib/styles/tokens.css",
+        "line": 99,
+        "dtcg": "density.touch.min-target-size"
+      },
+      "expressions": {
+        "light": "44px",
+        "darkMedia": null,
+        "darkAttr": null,
+        "fallbackLight": null,
+        "fallbackDark": null
+      },
+      "aliasChain": [],
+      "adapters": [
+        "svelte",
+        "vue",
+        "react",
+        "elements"
+      ],
+      "resolved": {
+        "light": null,
+        "dark": null
+      },
+      "hasAlpha": false,
+      "purpose": "The side of the smallest square hit area a control keeps under a coarse pointer: 44 by 44 (density.touch.min-target-size). Visual density never reduces it.",
+      "group": "The side of the smallest square hit area a control keeps, whatever its painted size: 24 by 24 meets WCAG 2.5.8. The touch size is the target a coarse pointer gets, 44 by 44, read under `@media (pointer: coarse)`. Visual density never lowers either.",
       "stability": "alpha",
       "replacedBy": null
     },
@@ -4120,7 +4192,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 185,
+        "line": 187,
         "dtcg": "role.light.state-hover"
       },
       "expressions": {
@@ -4156,7 +4228,7 @@
       "specimenKind": "color",
       "source": {
         "file": "packages/svelte/src/lib/styles/tokens.css",
-        "line": 186,
+        "line": 188,
         "dtcg": "role.light.state-pressed"
       },
       "expressions": {
@@ -13950,209 +14022,6 @@
           "selector": ".prompt-dialog__panel",
           "property": "max-inline-size",
           "fallback": "28rem"
-        }
-      ],
-      "purpose": null,
-      "stability": "alpha",
-      "replacedBy": null
-    },
-    {
-      "name": "--ds-dialog-overlay",
-      "id": "dialog-overlay",
-      "component": "alert-dialog",
-      "usedBy": [
-        "alert-dialog",
-        "confirm-dialog",
-        "dialog",
-        "prompt-dialog",
-        "search-dialog",
-        "sheet-dialog"
-      ],
-      "category": "color",
-      "categories": [
-        "color"
-      ],
-      "properties": [
-        "background"
-      ],
-      "adapters": [
-        "elements",
-        "react",
-        "svelte",
-        "vue"
-      ],
-      "fallbacks": [
-        "rgb(28 25 21 / 0.5)"
-      ],
-      "parents": [],
-      "sites": [
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/alert-dialog.css",
-          "selector": ".alert-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/confirm-dialog.css",
-          "selector": ".confirm-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/dialog.css",
-          "selector": ".dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/prompt-dialog.css",
-          "selector": ".prompt-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/search-dialog.css",
-          "selector": ".search-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "elements",
-          "file": "packages/elements/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/alert-dialog.css",
-          "selector": ".alert-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/confirm-dialog.css",
-          "selector": ".confirm-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/dialog.css",
-          "selector": ".dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/prompt-dialog.css",
-          "selector": ".prompt-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/search-dialog.css",
-          "selector": ".search-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "react",
-          "file": "packages/react/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/alert-dialog/AlertDialog.svelte",
-          "selector": ".alert-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/confirm-dialog/ConfirmDialog.svelte",
-          "selector": ".confirm-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/dialog/Dialog.svelte",
-          "selector": ".dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/prompt-dialog/PromptDialog.svelte",
-          "selector": ".prompt-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/search-dialog/SearchDialog.svelte",
-          "selector": ".search-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "svelte",
-          "file": "packages/svelte/src/lib/sheet-dialog/SheetDialog.svelte",
-          "selector": ".sheet-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/alert-dialog.css",
-          "selector": ".alert-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/confirm-dialog.css",
-          "selector": ".confirm-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/dialog.css",
-          "selector": ".dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/prompt-dialog.css",
-          "selector": ".prompt-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/search-dialog.css",
-          "selector": ".search-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
-        },
-        {
-          "adapter": "vue",
-          "file": "packages/vue/src/styles/sheet-dialog.css",
-          "selector": ".sheet-dialog__panel::backdrop",
-          "property": "background",
-          "fallback": "rgb(28 25 21 / 0.5)"
         }
       ],
       "purpose": null,
@@ -35018,11 +34887,23 @@
     },
     {
       "front": "--ds-color-on-warning",
+      "back": "--ds-color-warning-label-surface",
+      "min": 4.5,
+      "what": "label on the warning label fill",
+      "light": 4.86,
+      "dark": 4.86,
+      "passes": {
+        "light": true,
+        "dark": true
+      }
+    },
+    {
+      "front": "--ds-color-on-status",
       "back": "--ds-color-warning",
       "min": 3,
       "what": "the icon on the warning fill",
-      "light": 3.91,
-      "dark": 3.91,
+      "light": 3.94,
+      "dark": 3.94,
       "passes": {
         "light": true,
         "dark": true
@@ -35222,12 +35103,13 @@
     }
   ],
   "counts": {
-    "total": 113,
+    "total": 115,
     "byTier": {
       "primitive": 24,
       "brand": 6,
       "semantic": 54,
-      "sizing": 3,
+      "sizing": 4,
+      "other": 1,
       "elevation": 1,
       "feedback": 5,
       "focus": 4,
@@ -35235,14 +35117,14 @@
       "radius": 3,
       "state": 2
     },
-    "withDarkOverride": 53,
-    "designOwned": 102,
-    "colors": 91
+    "withDarkOverride": 55,
+    "designOwned": 104,
+    "colors": 92
   },
   "adapters": {
-    "svelte": 113,
-    "vue": 113,
-    "react": 113,
-    "elements": 113
+    "svelte": 115,
+    "vue": 115,
+    "react": 115,
+    "elements": 115
   }
 }

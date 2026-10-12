@@ -43,11 +43,6 @@ abstract final class InvisibleStyleColors {
   static const Color warningDefault = Color(0xFFC96422);
   static const Color dangerDefault = Color(0xFFBE3B50);
   static const Color dangerHover = Color(0xFFAB2E42);
-
-  /// Focus ring on dark surfaces: secondary mixed 70% with white, as
-  /// --ds-color-focus-ring in dark mode. The primary reaches only 2.87:1 on
-  /// grey 900.
-  static const Color focusOnDark = Color(0xFFA286DB);
 }
 
 /// Corner radii, in logical pixels.
@@ -64,6 +59,14 @@ abstract final class InvisibleFocusTokens {
   static const double ringWidth = 2.0;
   static const double ringOffset = 2.0;
   static const double haloWidth = 3.0;
+}
+
+/// Component tier: the dialog family. overlay is the scrim behind a modal
+/// dialog, per theme. How far it sets the dialog apart from the page is a theme
+/// choice, not an accessibility requirement.
+abstract final class InvisibleDialogTokens {
+  static const Color overlayLight = Color(0x801C1915);
+  static const Color overlayDark = Color(0x99000000);
 }
 
 /// Line heights, heading weight and heading sizes, from a 100% root font size.
@@ -83,7 +86,8 @@ abstract final class InvisibleTypographyTokens {
 /// Control sizing per density level. regular is the default and matches
 /// tokens.css. min-target-size is the side of the smallest square hit area a
 /// control keeps, whatever its painted size: 24 by 24 under compact and regular
-/// (WCAG 2.5.8), 44 by 44 under touch.
+/// (WCAG 2.5.8), 44 by 44 under touch, which the web reads under a coarse
+/// pointer. Visual density never reduces the touch target.
 ///
 /// A size that the source leaves undefined for a level is null.
 final class InvisibleDensityTokens {
@@ -173,6 +177,7 @@ final class InvisibleColors {
     required this.neutral,
     required this.onStatus,
     required this.onWarning,
+    required this.warningLabelSurface,
     required this.infoSurface,
     required this.infoBorder,
     required this.successSurface,
@@ -231,6 +236,7 @@ final class InvisibleColors {
     neutral: Color(0xFF5E5951),
     onStatus: Color(0xFFFFFFFF),
     onWarning: Color(0xFF282420),
+    warningLabelSurface: Color(0xFFD17B43),
     infoSurface: Color(0xFFF0F3F9),
     infoBorder: Color(0xFFC6D1E9),
     successSurface: Color(0xFFF0F4ED),
@@ -289,6 +295,7 @@ final class InvisibleColors {
     neutral: Color(0xFF5E5951),
     onStatus: Color(0xFFFFFFFF),
     onWarning: Color(0xFF282420),
+    warningLabelSurface: Color(0xFFD17B43),
     infoSurface: Color(0xFF2D3341),
     infoBorder: Color(0xFF334264),
     successSurface: Color(0xFF2D3621),
@@ -399,6 +406,9 @@ final class InvisibleColors {
 
   /// `color-on-warning`.
   final Color onWarning;
+
+  /// `color-warning-label-surface`.
+  final Color warningLabelSurface;
 
   /// `color-info-surface`.
   final Color infoSurface;
@@ -513,6 +523,7 @@ final class InvisibleColors {
     Color? neutral,
     Color? onStatus,
     Color? onWarning,
+    Color? warningLabelSurface,
     Color? infoSurface,
     Color? infoBorder,
     Color? successSurface,
@@ -570,6 +581,7 @@ final class InvisibleColors {
       neutral: neutral ?? this.neutral,
       onStatus: onStatus ?? this.onStatus,
       onWarning: onWarning ?? this.onWarning,
+      warningLabelSurface: warningLabelSurface ?? this.warningLabelSurface,
       infoSurface: infoSurface ?? this.infoSurface,
       infoBorder: infoBorder ?? this.infoBorder,
       successSurface: successSurface ?? this.successSurface,
@@ -629,6 +641,7 @@ final class InvisibleColors {
     neutral,
     onStatus,
     onWarning,
+    warningLabelSurface,
     infoSurface,
     infoBorder,
     successSurface,
@@ -689,6 +702,12 @@ abstract final class InvisibleColorMixes {
       amount: 0.3,
       mixWith: Color(0x00000000),
       value: Color(0x4D8E6CD4),
+    ),
+    'warningLabelSurface': InvisibleColorMix(
+      base: Color(0xFFC96422),
+      amount: 0.85,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFD17B43),
     ),
     'infoSurface': InvisibleColorMix(
       base: Color(0xFF4067B6),
@@ -783,11 +802,23 @@ abstract final class InvisibleColorMixes {
   };
 
   static const Map<String, InvisibleColorMix> dark = {
+    'focusRing': InvisibleColorMix(
+      base: Color(0xFF7A52CC),
+      amount: 0.7,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFA286DB),
+    ),
     'focusHalo': InvisibleColorMix(
       base: Color(0xFFA286DB),
       amount: 0.3,
       mixWith: Color(0x00000000),
       value: Color(0x4DA286DB),
+    ),
+    'warningLabelSurface': InvisibleColorMix(
+      base: Color(0xFFC96422),
+      amount: 0.85,
+      mixWith: Color(0xFFFFFFFF),
+      value: Color(0xFFD17B43),
     ),
     'infoSurface': InvisibleColorMix(
       base: Color(0xFF4067B6),

@@ -21,8 +21,21 @@ void main() {
       expect(InvisibleColors.light.focusHalo.a, closeTo(0.3, 0.005));
     });
 
-    test('the dark focus ring is style.focus.onDark', () {
-      expect(InvisibleColors.dark.focusRing, InvisibleStyleColors.focusOnDark);
+    test('the dark focus ring is its own role, mixed from the secondary', () {
+      expect(InvisibleColors.dark.focusRing, const Color(0xFFA286DB));
+      final mix = InvisibleColorMixes.dark['focusRing']!;
+      expect(mix.base, InvisibleStyleColors.secondaryDefault);
+      expect(mix.amount, 0.7);
+      expect(mix.mixWith, InvisiblePalette.grey0);
+    });
+
+    test('the dialog overlay has a value per theme', () {
+      expect(InvisibleDialogTokens.overlayLight, const Color(0x801C1915));
+      expect(InvisibleDialogTokens.overlayDark, const Color(0x99000000));
+    });
+
+    test('the touch target is 44 at least', () {
+      expect(InvisibleDensityTokens.touch.minTargetSize, 44);
     });
 
     test('every mix recipe computes the value its role holds', () {

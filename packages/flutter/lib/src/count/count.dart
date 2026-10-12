@@ -62,7 +62,7 @@ class Count extends StatelessWidget {
       NotificationStatus.neutral => (c.neutral, c.onStatus),
       NotificationStatus.info => (c.info, c.onStatus),
       NotificationStatus.success => (c.success, c.onStatus),
-      NotificationStatus.warning => (c.warning, c.onWarning),
+      NotificationStatus.warning => (c.warningLabelSurface, c.onWarning),
     };
     final scale = MediaQuery.textScalerOf(context);
     final decoration = BoxDecoration(

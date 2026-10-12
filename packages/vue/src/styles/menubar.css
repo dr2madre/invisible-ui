@@ -145,8 +145,8 @@
 @media (pointer: coarse) {
   .menubar__item,
   .menubar__trigger {
-    min-block-size: 44px;
-    min-inline-size: 44px;
+    min-block-size: var(--ds-min-target-size-touch, 44px);
+    min-inline-size: var(--ds-min-target-size-touch, 44px);
   }
 }
 

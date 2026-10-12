@@ -242,6 +242,27 @@ void main() {
       expect(find.text('Rename project'), findsNothing);
     });
 
+    testWidgets('the barrier is the theme\'s dialog overlay', (tester) async {
+      Color? barrier() =>
+          tester.widgetList<ModalBarrier>(find.byType(ModalBarrier)).last.color;
+      for (final (theme, expected) in [
+        (InvisibleThemeData.light(), InvisibleDialogTokens.overlayLight),
+        (InvisibleThemeData.dark(), InvisibleDialogTokens.overlayDark),
+        (
+          InvisibleThemeData.light().copyWith(
+            dialogOverlay: const Color(0x40000000),
+          ),
+          const Color(0x40000000),
+        ),
+      ]) {
+        await tester.pumpWidget(_page(_rename, theme: theme));
+        await _openWithKeyboard(tester);
+        expect(barrier(), expected);
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pumpAndSettle();
+      }
+    });
+
     testWidgets('initialFocus takes focus when it opens', (tester) async {
       final name = FocusNode();
       addTearDown(name.dispose);

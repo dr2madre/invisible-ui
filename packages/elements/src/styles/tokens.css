@@ -92,9 +92,11 @@
   --ds-control-padding-y: 0.5rem;
   --ds-control-padding-x: 0.875rem;
   /* The side of the smallest square hit area a control keeps, whatever its
-     painted size: 24 by 24 meets WCAG 2.5.8. The regular density only; the
-     compact and touch levels are not specified yet. */
+     painted size: 24 by 24 meets WCAG 2.5.8. The touch size is the target a
+     coarse pointer gets, 44 by 44, read under `@media (pointer: coarse)`.
+     Visual density never lowers either. */
   --ds-min-target-size: 24px; /* smallest hit area a control keeps */
+  --ds-min-target-size-touch: 44px; /* the same under a coarse pointer */
 
   /* Selection color (checked/selected states). Alias of the secondary (violet);
      distinct in name from the primary ACTION color, even if both are violet in
@@ -185,9 +187,6 @@
   --ds-state-hover: rgb(0 0 0 / 0.06);
   --ds-state-pressed: rgb(0 0 0 / 0.12);
   --ds-color-focus-ring: color-mix(in srgb, var(--ds-brand-secondary) 85%, var(--ds-neutral-0));
-  /* The dark-mode ring as one fixed value, for consumers that cannot mix colours (the
-     Flutter apps): the dark ring below resolves to the same #a286db. */
-  --ds-color-focus-ring-on-dark: #a286db;
   /* Focus indicator: a solid inner ring + a transparent halo of the same color. */
   --ds-focus-ring-width: 2px;
   --ds-focus-ring-offset: 2px;
@@ -212,6 +211,14 @@
   --ds-color-neutral: var(--ds-neutral-500);
   --ds-color-on-status: var(--ds-neutral-0);
   --ds-color-on-warning: var(--ds-neutral-900);
+  /* The fill behind a text label with the warning status (solid Tag, Count).
+     The warning colour itself gives its dark text 3.9:1 only; this mix gives
+     it 4.9:1, and the warning colour stays as it is everywhere else. */
+  --ds-color-warning-label-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 85%,
+    var(--ds-neutral-0)
+  );
 
   /* Tinted surfaces derived from the feedback hue, mixed into the page. */
   --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 8%, var(--ds-neutral-0));
@@ -291,6 +298,9 @@
   --ds-color-emphasis-border: var(--ds-neutral-700);
 
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* The scrim behind a modal dialog (dialog.overlay). How far it sets the
+     dialog apart from the page is a theme choice: docs/tokens.md. */
+  --ds-dialog-overlay: rgb(28 25 21 / 0.5);
 }
 
 /* =============== Tier 2 — semantic (dark) ================================= */
@@ -326,6 +336,11 @@
     --ds-color-neutral: var(--ds-neutral-500);
     --ds-color-on-status: var(--ds-neutral-0);
     --ds-color-on-warning: var(--ds-neutral-900);
+    --ds-color-warning-label-surface: color-mix(
+      in srgb,
+      var(--ds-feedback-warning) 85%,
+      var(--ds-neutral-0)
+    );
 
     --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
     --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
@@ -417,6 +432,7 @@
     --ds-color-emphasis-border: var(--ds-neutral-300);
 
     --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+    --ds-dialog-overlay: rgb(0 0 0 / 0.6);
   }
 }
 
@@ -451,6 +467,11 @@
   --ds-color-neutral: var(--ds-neutral-500);
   --ds-color-on-status: var(--ds-neutral-0);
   --ds-color-on-warning: var(--ds-neutral-900);
+  --ds-color-warning-label-surface: color-mix(
+    in srgb,
+    var(--ds-feedback-warning) 85%,
+    var(--ds-neutral-0)
+  );
 
   --ds-color-info-surface: color-mix(in srgb, var(--ds-feedback-info) 22%, var(--ds-neutral-900));
   --ds-color-info-border: color-mix(in srgb, var(--ds-feedback-info) 45%, var(--ds-neutral-900));
@@ -529,6 +550,7 @@
   --ds-color-emphasis-border: var(--ds-neutral-300);
 
   --ds-elevation-overlay: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --ds-dialog-overlay: rgb(0 0 0 / 0.6);
 }
 
 /* =============== Fallback: no color-mix() (pre-2023 engines) ============== *
@@ -550,6 +572,8 @@
     --ds-color-danger-border: var(--ds-feedback-danger);
     --ds-color-destructive-surface: var(--ds-neutral-50);
     --ds-color-secondary-surface: var(--ds-neutral-50);
+    /* The dark label text keeps 4.5:1 on a neutral fill; the word carries the status. */
+    --ds-color-warning-label-surface: var(--ds-neutral-100);
     --ds-color-info-text: var(--ds-neutral-900);
     --ds-color-success-text: var(--ds-neutral-900);
     --ds-color-warning-text: var(--ds-neutral-900);
@@ -572,6 +596,7 @@
       --ds-color-danger-border: var(--ds-feedback-danger);
       --ds-color-destructive-surface: var(--ds-neutral-800);
       --ds-color-secondary-surface: var(--ds-neutral-800);
+      --ds-color-warning-label-surface: var(--ds-neutral-100);
       --ds-color-info-text: var(--ds-neutral-50);
       --ds-color-success-text: var(--ds-neutral-50);
       --ds-color-warning-text: var(--ds-neutral-50);
@@ -597,6 +622,7 @@
     --ds-color-danger-border: var(--ds-feedback-danger);
     --ds-color-destructive-surface: var(--ds-neutral-800);
     --ds-color-secondary-surface: var(--ds-neutral-800);
+    --ds-color-warning-label-surface: var(--ds-neutral-100);
     --ds-color-info-text: var(--ds-neutral-50);
     --ds-color-success-text: var(--ds-neutral-50);
     --ds-color-warning-text: var(--ds-neutral-50);

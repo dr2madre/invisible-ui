@@ -244,7 +244,10 @@ const TIERS = [
   { tier: "radius", test: (n) => n.startsWith("--ds-radius-") },
   { tier: "elevation", test: (n) => n.startsWith("--ds-elevation-") },
   { tier: "typography", test: (n) => /^--ds-(font|line-height|heading)/.test(n) },
-  { tier: "sizing", test: (n) => n.startsWith("--ds-control-") || n === "--ds-min-target-size" },
+  {
+    tier: "sizing",
+    test: (n) => n.startsWith("--ds-control-") || n.startsWith("--ds-min-target-size"),
+  },
 ];
 const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other";
 
@@ -254,7 +257,8 @@ const tierOf = (name) => TIERS.find((entry) => entry.test(name))?.tier ?? "other
  * `style.danger.default` becomes `--ds-feedback-danger`. The role, focus,
  * typography and regular density tiers name the property itself:
  * `role.dark.color-text` is `--ds-color-text`, `focus.ring-width` is
- * `--ds-focus-ring-width`.
+ * `--ds-focus-ring-width`. The touch target is `--ds-min-target-size-touch`;
+ * a component token per theme, `dialog.overlay.dark`, is `--ds-dialog-overlay`.
  */
 function cssNameForDtcg(path) {
   const parts = path.split(".");
@@ -264,14 +268,13 @@ function cssNameForDtcg(path) {
   if (parts[0] === "density" && parts[1] === "regular" && parts.length === 3) {
     return `--ds-${parts[2]}`;
   }
+  if (path === "density.touch.min-target-size") return "--ds-min-target-size-touch";
+  if (parts[0] === "dialog" && parts.length === 3) return `--ds-dialog-${parts[1]}`;
   if (parts[0] === "palette") {
     const hue = parts[1] === "grey" ? "neutral" : parts[1];
     return `--ds-${hue}-${parts[2]}`;
   }
   if (parts[0] === "radius") return `--ds-radius-${parts[1]}`;
-  if (parts[0] === "style" && parts[1] === "focus") {
-    return `--ds-color-focus-ring-${parts[2].replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}`;
-  }
   if (parts[0] === "style") {
     const family = ["primary", "secondary", "white", "black"].includes(parts[1])
       ? "brand"
@@ -284,13 +287,13 @@ function cssNameForDtcg(path) {
 
 /**
  * Design-source paths with no stylesheet form, with the reason. The web
- * renders the regular density only.
+ * renders the regular density, and the touch target for a coarse pointer.
  */
 function noStylesheetForm(path) {
   const parts = path.split(".");
   if (parts[0] !== "density") return null;
-  if (parts[1] !== "regular") return "a density level the stylesheet does not render";
-  return null;
+  if (parts[1] === "regular" || path === "density.touch.min-target-size") return null;
+  return "a density level the stylesheet does not render";
 }
 
 // Ownership is a fact about the sources, not a guess: a token is design-owned
@@ -610,6 +613,12 @@ const PAIRINGS = [
   },
   {
     front: "--ds-color-on-warning",
+    back: "--ds-color-warning-label-surface",
+    min: 4.5,
+    what: "label on the warning label fill",
+  },
+  {
+    front: "--ds-color-on-status",
     back: "--ds-color-warning",
     min: 3,
     what: "the icon on the warning fill",

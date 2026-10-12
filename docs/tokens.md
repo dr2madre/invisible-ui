@@ -29,9 +29,10 @@ gets the same theme from the same file:
 | --- | --- | --- |
 | `radius` | Corner radii by shape role. | `radius.control` is `--ds-radius-control` |
 | `role.light`, `role.dark` | The colour roles for each theme: surfaces, text, borders, states, status tints, the focus ring and halo, selection. | `role.dark.color-text` is `--ds-color-text` in the dark theme |
+| `dialog` | Component tier: the dialog family, per theme. | `dialog.overlay.light` and `dialog.overlay.dark` are `--ds-dialog-overlay` in each theme |
 | `focus` | Focus ring width, offset and halo width. | `focus.ring-width` is `--ds-focus-ring-width` |
 | `typography` | Line heights, heading weight, heading sizes. | `typography.font-size-h1` is `--ds-font-size-h1` |
-| `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size` |
+| `density.compact`, `density.regular`, `density.touch` | Control sizing per density level, and the minimum target size. | `density.regular.control-padding-x` is `--ds-control-padding-x`, `density.regular.min-target-size` is `--ds-min-target-size`, `density.touch.min-target-size` is `--ds-min-target-size-touch` |
 
 - **Roles.** A role that `tokens.css` points at another token keeps the
   reference (`{palette.grey.900}`, `{style.danger.hover}`). A role that
@@ -39,23 +40,31 @@ gets the same theme from the same file:
   nearest 8-bit channel, because DTCG has no colour mixing, and carries the mix
   itself as a recipe (see [Mix recipes](#mix-recipes)). A translucent role
   (`state-hover`, `color-focus-halo`) uses the DTCG colour object, which keeps
-  the exact alpha. The dark focus ring is `{style.focus.onDark}`.
+  the exact alpha. The dark focus ring is a role like the light one:
+  `role.dark.color-focus-ring` holds `#a286db` and its mix (ADR 0002: the
+  theme, not the token name, says it is dark).
 - **Density.** `regular` is the default and holds the values the web renders
   today. `min-target-size` is the side of the smallest square hit area a
   control keeps, whatever its painted size: 24 under `compact` and `regular`
   (WCAG 2.5.8), 44 under `touch`. `compact` and `touch` hold only that value
   for now: no other compact or touch size has been decided. The stylesheet
-  renders the regular level only: `--ds-min-target-size` is the regular
-  value, 24px, and the compact and touch levels have no `--ds-*` property
-  and no per-density selector. Components still write their own 24px
-  minimum; the property is there for consumer styles to read.
+  renders the regular level, `--ds-min-target-size` (24px), and the touch
+  target, `--ds-min-target-size-touch` (44px), with no per-density selector.
+  The component sheets read the touch target under
+  `@media (pointer: coarse)`: menu items, context menu items and menubar
+  triggers keep at least 44 by 44 there. Components still write their own
+  24px minimum; `--ds-min-target-size` is there for consumer styles to read.
+- **Visual density never reduces the touch target.** A density level
+  changes how tight controls look, never the hit area: a coarse pointer
+  keeps 44 by 44 on the web, and the Flutter theme never lowers
+  `minTargetSize` below the level's token.
 
 ## Mix recipes
 
 Each colour that `tokens.css` builds with `color-mix()` keeps the resolved
 colour in `$value` and the mix it comes from under `$extensions`, with the
 key `com.invisible-ui.mix`. That covers the mixed roles of `role.light` and
-`role.dark` and `style.focus.onDark`:
+`role.dark`, the dark focus ring included:
 
 ```json
 "color-info-surface": {
@@ -94,6 +103,37 @@ To recompute, mix each channel in sRGB with premultiplied alpha, then round
 to the nearest 8-bit value. The parity test does this for every recipe and
 checks the result against `$value` and against `tokens.css`.
 
+## Status label fills
+
+Solid Tag and Count put a text label on a status fill, so the pair is a text
+pair: 4.5:1 (WCAG 1.4.3). White on the info, success, danger and neutral
+colours clears it. The warning colour, `#c96422`, gives the dark
+`color-on-warning` 3.9:1 only, and no palette colour reaches 4.5:1 on it. So
+the warning label has its own fill, `color-warning-label-surface`: the
+warning colour mixed 85% with white, `#d17b43`, on which `color-on-warning`
+measures 4.86:1 in both themes. The warning colour stays as it is for
+glyphs, dots and meter fills, which need 3:1. Without `color-mix()` the fill
+falls back to `--ds-neutral-100` (11.75:1), and the label's text still names
+the status.
+
+## Dialog overlay
+
+`dialog.overlay` is the scrim between a modal dialog and the page below,
+`--ds-dialog-overlay` in the stylesheet, which every dialog sheet reads for
+its `::backdrop`, and `InvisibleThemeData.dialogOverlay` in Flutter.
+
+| Theme | Overlay | Dimmed page | Dialog surface against the dimmed page | Dialog border against the dimmed page |
+| --- | --- | --- | --- | --- |
+| Light | `rgb(28 25 21 / 0.5)` | `#8e8c8a` | 3.35:1 | 1.87:1 |
+| Dark | `rgb(0 0 0 / 0.6)` | `#100e0d` | 1.25:1 | 1.76:1 |
+
+The dimmed page is the page background with the overlay on top; the dialog
+surface is `color-background` and its border `color-border`. Before the
+dark value, the dark theme used the light overlay, which left 1.07:1 between
+the dialog and the dimmed page. How far the overlay sets the dialog apart is
+a theme choice, not an accessibility requirement: the dialog is modal, and
+its name, focus and inert background do not depend on the overlay.
+
 ## Naming grammar
 
 ```
@@ -130,8 +170,8 @@ optional; property after a double dash. Canonical states:
   `color-mix()` arithmetic), and asserts the two are equal. It also fails when
   the stylesheet gains a colour role the source lacks.
 - The token registry (`pnpm tokens:check`) fails when a token in the source
-  has no property in the stylesheet, except the compact and touch density
-  levels. It leaves the mix recipes out: its entries already carry the
+  has no property in the stylesheet, except the density sizes the
+  stylesheet does not render (the compact level). It leaves the mix recipes out: its entries already carry the
   stylesheet's `color-mix()` expressions.
 
 ## Why the runtime stays in `tokens.css`

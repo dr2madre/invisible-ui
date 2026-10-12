@@ -2,7 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 import '../theme/theme.dart';
-import 'dialog_panel.dart';
+import '../tokens/tokens.g.dart';
 
 /// Shows the dialog [builder] returns, usually a [Dialog], an [AlertDialog]
 /// or a [ConfirmDialog], above the current screen, and completes with the
@@ -19,7 +19,8 @@ import 'dialog_panel.dart';
 /// (ADR 0013). A [ModalObserver] in the navigator's observers counts it, so a
 /// [NotificationRegion] holds its notifications while it is open (case 2).
 ///
-/// The theme around [context] applies inside the dialog.
+/// The theme around [context] applies inside the dialog, and its
+/// [InvisibleThemeData.dialogOverlay] colours the barrier.
 Future<T?> showInvisibleDialog<T>({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -35,6 +36,7 @@ Future<T?> showInvisibleDialog<T>({
       builder: (context) =>
           InvisibleTheme(data: theme, child: builder(context)),
       barrierDismissible: barrierDismissible,
+      barrierColor: theme.dialogOverlay,
       barrierLabel: theme.messages.dialogCloseLabel,
       settings: routeSettings,
       returnFocus: returnFocus,
@@ -46,7 +48,9 @@ Future<T?> showInvisibleDialog<T>({
 /// itself.
 ///
 /// It is a [PopupRoute] over a translucent barrier, with no motion, as the
-/// web dialogs have none. It remembers the element that had focus when it
+/// web dialogs have none. The barrier is [barrierColor], the light theme's
+/// `dialog.overlay` unless given; [showInvisibleDialog] passes the theme's.
+/// It remembers the element that had focus when it
 /// was created, or [returnFocus] when given, and gives focus back to it
 /// after it is popped, when that element is still there; otherwise the
 /// navigator's own focus history decides.
@@ -55,13 +59,13 @@ class InvisibleDialogRoute<T> extends RawDialogRoute<T> {
   InvisibleDialogRoute({
     required WidgetBuilder builder,
     super.barrierDismissible,
+    super.barrierColor = InvisibleDialogTokens.overlayLight,
     super.barrierLabel,
     super.settings,
     FocusNode? returnFocus,
   }) : _returnFocus = returnFocus ?? FocusManager.instance.primaryFocus,
        super(
          pageBuilder: (context, _, _) => builder(context),
-         barrierColor: dialogBarrierColor,
          transitionDuration: Duration.zero,
          // Tab wraps inside the dialog, never out to the screen below.
          traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,

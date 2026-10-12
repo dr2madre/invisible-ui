@@ -41,7 +41,7 @@ that holds it.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |
-| The status colour with the text that reads on it (dark text on warning) | matched | `each status takes its colour and the text that reads on it` |
+| The status colour with the text that reads on it (dark text on the warning label fill, `color-warning-label-surface`) | matched | `each status takes its colour and the text that reads on it` |
 | A pill at least 1.25 rem square, 0.6875 rem text, weight 600; a 0.55 rem dot | matched | `a dot has no number: …` (the dot), `grows with the text at scale 2.0, right to left` |
 | Grows with the text size | matched | same test |
 | Targets | out of scope | not interactive |
