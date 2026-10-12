@@ -322,8 +322,8 @@ if (delete == true) removeHours();
   direction. It slides in unless motion is reduced; with `draggable`, a drag
   of its handle toward the edge closes it, and Escape and the close button
   always do.
-- **Close, then report.** A prompt and a search close before they report
-  their value through `onConfirm` and `onSelected` (ADR 0011).
+- **Close, then report.** A confirmation, a prompt and a search close
+  before they report through `onConfirm` and `onSelected` (ADR 0011).
 
 ### Choices and pickers
 

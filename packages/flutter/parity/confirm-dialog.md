@@ -23,7 +23,7 @@ that holds it.
 | `confirmLabel`, `cancelLabel` | `confirmLabel`, `cancelLabel` | outcome-named buttons, the catalog's `dialog.confirm` and `dialog.cancel` by default |
 | `confirmVariant` | `confirmVariant` | `ButtonVariant.danger` for a destructive choice |
 | `urgent` | `urgent` | role `alertdialog` |
-| `onConfirm` | `onConfirm` | runs before the dialog closes |
+| `onConfirm` | `onConfirm` | runs after the dialog has closed on a confirmation |
 | `barrierDismissible` on `showInvisibleDialog` | `closeOnOutsideClick` | whether the barrier cancels |
 | `closeButton`, `icon`, `controller` | `closeButton`, `icon`, `notify()` | header and status area |
 
@@ -33,7 +33,8 @@ that holds it.
 | --- | --- | --- |
 | Focus starts on Cancel, the safe choice | matched | `focus starts on the safe choice; outcome-named buttons report the choice` |
 | Outcome-named destructive confirmation ("Keep hours" / "Delete") with the danger button's hazard glyph | matched | same test |
-| Cancel closes; confirm runs `onConfirm`, then closes; Escape closes without confirming | matched | same test |
+| Cancel closes; Escape closes without confirming | matched | same test |
+| `onConfirm` runs, then the dialog closes | adapted | ADR 0011 says a component closes before it reports; the web calls `onConfirm` before closing. Flutter closes first, then calls `onConfirm`: `confirming closes the dialog first, then reports (ADR 0011)` |
 | Focus returns to the trigger | matched | same test |
 | Role `dialog`; `urgent` makes it `alertdialog`, nothing else changes | matched | same test; `urgent makes it an alert dialog` |
 | Catalog labels by default | matched | `urgent makes it an alert dialog` ("Cancel", "Confirm"); `test/messages_test.dart` |
