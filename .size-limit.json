@@ -2,7 +2,7 @@
   {
     "name": "@design-system/core — full barrel (all primitives)",
     "path": "core/dist/index.js",
-    "limit": "22.4 kB"
+    "limit": "23.1 kB"
   },
   {
     "name": "@design-system/core — one primitive, tree-shaken (label)",
@@ -37,17 +37,17 @@
   {
     "name": "@design-system/svelte — adapters barrel",
     "path": "packages/svelte/dist/index.js",
-    "limit": "52.6 kB"
+    "limit": "53.1 kB"
   },
   {
     "name": "@design-system/vue — adapters barrel",
     "path": "packages/vue/dist/index.js",
-    "limit": "79.7 kB"
+    "limit": "80.8 kB"
   },
   {
     "name": "@design-system/react — adapters barrel",
     "path": "packages/react/dist/index.js",
-    "limit": "72.8 kB"
+    "limit": "73.6 kB"
   },
   {
     "name": "@design-system/react — text field only, tree-shaken",

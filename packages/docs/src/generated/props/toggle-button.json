@@ -301,7 +301,7 @@
           "reactive": true,
           "required": false,
           "description": "a message after the button; the page owns it, so a form reset leaves it in place",
-          "descriptionFrom": "source"
+          "descriptionFrom": "curated"
         }
       ],
       "notes": [
