@@ -1,6 +1,7 @@
 export {
   createTreeView,
   type CreateTreeView,
+  type CreateTreeViewOptions,
   type TreeApi,
   type TreeContext,
   type TreeLoadRequest,
