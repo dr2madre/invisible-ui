@@ -40,6 +40,15 @@ enum GlyphShape {
   /// It mirrors under right-to-left.
   chevronStart,
 
+  /// A chevron pointing up: a column sorted ascending.
+  chevronUp,
+
+  /// Two small chevrons, up and down: a sortable column not sorted now.
+  sortable,
+
+  /// An arrow rising from a tray: an upload area.
+  upload,
+
   /// A calendar page: a date field.
   calendar,
 
@@ -145,6 +154,24 @@ class _GlyphPainter extends CustomPainter {
       ],
       GlyphShape.chevronStart => [
         _polyline([15, 6, 9, 12, 15, 18]),
+      ],
+      GlyphShape.chevronUp => [
+        _polyline([6, 14, 12, 8, 18, 14]),
+      ],
+      GlyphShape.sortable => [
+        _polyline([8, 9, 12, 5, 16, 9]),
+        _polyline([8, 15, 12, 19, 16, 15]),
+      ],
+      GlyphShape.upload => [
+        Path()
+          ..moveTo(21, 15)
+          ..lineTo(21, 19)
+          ..arcToPoint(const Offset(19, 21), radius: corner)
+          ..lineTo(5, 21)
+          ..arcToPoint(const Offset(3, 19), radius: corner)
+          ..lineTo(3, 15),
+        _polyline([17, 8, 12, 3, 7, 8]),
+        _line(12, 3, 12, 15),
       ],
       GlyphShape.calendar => [
         Path()..addRRect(

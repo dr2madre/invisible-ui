@@ -84,6 +84,17 @@ export 'src/slider/range_slider.dart' show RangeSlider;
 export 'src/slider/slider.dart' show Slider;
 export 'src/stepper/stepper.dart' show StepItem, Stepper;
 export 'src/switch/switch.dart' show Switch;
+export 'src/table/table.dart'
+    show
+        Table,
+        TableAlign,
+        TableCellBuilder,
+        TableCellDetails,
+        TableColumn,
+        TableSelectionCellBuilder;
+export 'src/table/table_logic.dart'
+    show SelectionMode, SortDirection, TableSort, nextSort, sortRows;
+export 'src/table/table_set.dart' show TableSet, TableSetView, TableViewMode;
 export 'src/tabs/tabs.dart' show TabActivationMode, TabItem, Tabs;
 export 'src/tag/tag.dart' show Tag, TagSize, TagStatus, TagVariant;
 export 'src/text_field/text_field.dart' show TextField, Textarea;
