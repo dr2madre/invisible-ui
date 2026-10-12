@@ -56,17 +56,34 @@ In React, `value` names the open panel, initially or controlled, and
 Every `href` is rendered as given: pass only URLs you trust or have
 sanitized. See [Security](/invisible-ui/api/#security).
 
-A panel link is `{ label, href, description? }`.
+A panel link is `{ label, href, description?, current? }`, and a plain link
+item accepts `current?` as well. Set `current: true` on the one link that
+leads to the page on screen.
 
 ### Accessibility
 
 - A `<nav>` landmark containing links and disclosure buttons
   (`aria-expanded` / `aria-controls` → a labelled content panel). At most one
   panel is open.
-- Opens on **hover** (with delay) and on **click / ArrowDown** (ArrowDown also
-  moves focus into the panel); switches immediately between panels while open;
-  closes on leave, **Escape** (returning focus to the trigger), or an outside
-  press. Positioning (flip/shift) is handled by the adapter.
+- The pointer resting on a trigger opens its panel while the pointer stays:
+  after a short delay, or at once while another panel is open. Leaving the
+  trigger and the panel closes it after a short delay.
+- A **click**, a tap, Enter or Space keeps the panel open, also one the
+  pointer opened, and a second press closes it. A click has no delay and no
+  time limit. **ArrowDown** opens the panel, keeps it open and moves focus to
+  its first link. **Escape** closes it and returns focus to the trigger; an
+  outside press closes it without moving focus. After a panel is closed by a
+  press or Escape, hover opens it again only once the pointer has left the
+  trigger. Positioning (flip/shift) is handled by the adapter.
+- Activating a link closes the open panel before the browser follows the link.
+  Focus is not returned to the trigger: the page you open decides where focus
+  goes. Only when focus would be lost (on the page body) and the trigger is
+  still there does focus go back to the trigger.
+- The current page: the link marked `current` gets `aria-current="page"` and a
+  visible mark that does not rely on colour alone (an underline at the top
+  level, a bar along the start edge in a panel). The trigger whose panel holds
+  it shows the same mark on screen but is never announced as current.
+- Assistive technology: not tested.
 
 ### Example
 
