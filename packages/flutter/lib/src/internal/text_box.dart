@@ -335,3 +335,8 @@ class FieldBox extends StatelessWidget {
     );
   }
 }
+
+/// Whether an input method is composing text in [value]: Enter then commits
+/// the composition and must not also submit or confirm.
+bool isComposing(TextEditingValue value) =>
+    value.composing.isValid && !value.composing.isCollapsed;
