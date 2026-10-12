@@ -232,4 +232,27 @@ describe("<ds-pin-input>", () => {
     expect(screen.getByRole("group", { name: "Code" })).toBeInTheDocument();
     warn.mockRestore();
   });
+
+  it("moves the arrows by the layout direction", async () => {
+    const user = userEvent.setup();
+    mount('length="4"', (html) => `<div dir="rtl">${html}</div>`);
+    await user.click(cells()[1]!);
+    await user.keyboard("{ArrowLeft}");
+    expect(cells()[2]).toHaveFocus();
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    expect(cells()[0]).toHaveFocus();
+  });
+
+  it("takes Arabic-Indic and Persian digits as ASCII", async () => {
+    const user = userEvent.setup();
+    const host = mount('length="4" name="code"', (html) => `<form>${html}</form>`);
+    const changes = recorder(host, "change");
+    await user.click(cells()[0]!);
+    await user.keyboard("\u0661\u06F2");
+    expect(changes).toEqual(["1", "12"]);
+    await user.paste("\u0663\u0664");
+    expect(cells().map((cell) => cell.value)).toEqual(["1", "2", "3", "4"]);
+    expect(host.value).toBe("1234");
+    expect(new FormData(document.querySelector("form")!).get("code")).toBe("1234");
+  });
 });

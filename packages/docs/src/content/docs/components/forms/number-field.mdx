@@ -54,7 +54,15 @@ so ten steps of `0.1` land on `1`, never `0.9999…`.
 
 Parsing and display follow the `locale` prop, defaulting to the surrounding
 [Locale Provider](/invisible-ui/components/localization/locale-provider/)
-scope. The locale's own digits and ASCII digits are both accepted.
+scope. The field accepts ASCII digits, the locale's own digits, and
+Arabic-Indic (٠–٩) and Persian (۰–۹) digits in every locale, typed or pasted.
+The value it reports is a number, and the formatted text uses the locale's
+digits.
+
+A locale that groups thousands with an apostrophe, such as `de-CH`, takes both
+the typographic `’` it displays and the straight `'` keyboards type. No other
+locale takes an apostrophe, and a malformed number, such as `1'234,5` in
+`de-CH`, stays invalid.
 
 In Elements:
 

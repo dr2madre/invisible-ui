@@ -81,6 +81,29 @@ describe("<ds-number-field>", () => {
     expect(commits).toHaveLength(1);
   });
 
+  it("reads Arabic-Indic and Persian digits in any locale and reports the number", async () => {
+    const host = mount('locale="it-IT" step="0.5"');
+    const edits = recorder(host, "input");
+    await fireEvent.input(input(), { target: { value: "١٢٣,٥" } });
+    await fireEvent.input(input(), { target: { value: "۴۲" } });
+    expect(edits).toEqual([123.5, 42]);
+    expect(host.getAttribute("value")).toBe("42");
+  });
+
+  it("takes both apostrophes as the de-CH group separator, and nowhere else", async () => {
+    const host = mount('locale="de-CH"');
+    const edits = recorder(host, "input");
+    await fireEvent.input(input(), { target: { value: "1'234" } });
+    await fireEvent.input(input(), { target: { value: "12’345" } });
+    expect(edits).toEqual([1234, 12345]);
+    await fireEvent.input(input(), { target: { value: "1'2'3,4" } });
+    expect(input()).toHaveAttribute("data-state", "invalid");
+    host.setAttribute("locale", "en-US");
+    await fireEvent.input(input(), { target: { value: "1'234" } });
+    expect(input()).toHaveAttribute("data-state", "invalid");
+    expect(edits).toEqual([1234, 12345, null]);
+  });
+
   it("reflects a value set from outside without emitting, and ignores an echo", async () => {
     const host = mount('value="5"');
     const edits = recorder(host, "input");

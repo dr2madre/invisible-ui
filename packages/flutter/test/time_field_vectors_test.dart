@@ -115,4 +115,29 @@ void main() {
       });
     }
   }, skip: skip);
+
+  group('time-field paste vectors', () {
+    if (skip != false) return;
+    for (final vector in _cases(file['paste'])) {
+      test(vector['name'] as String, () {
+        final editor = TimeEditor(
+          value: vector['value'] as String?,
+          hourCycle: vector['hourCycle'] as int,
+          withSeconds: vector['withSeconds'] as bool,
+        );
+        final moved = editor.paste(
+          _segment(vector['segment'] as String),
+          vector['text'] as String,
+        );
+        expect({
+          'value': editor.value,
+          'text': {
+            for (final segment in editor.segments)
+              segment.name: editor.text(segment),
+          },
+          'focus': [?moved?.name],
+        }, vector['expect']);
+      });
+    }
+  }, skip: skip);
 }

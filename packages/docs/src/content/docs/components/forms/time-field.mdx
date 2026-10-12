@@ -54,6 +54,11 @@ In Elements, the hour cycle follows the locale unless `hour-cycle` is set, and `
 - Each segment is a `role="spinbutton"`: ArrowUp/Down increment/decrement
   (wrapping), Left/Right move between segments, digits type with auto-advance,
   Backspace clears, and A/P set the period in 12-hour mode.
+- Arabic-Indic (٠–٩) and Persian (۰–۹) digits type as 0–9 in every locale,
+  from a hardware or a soft keyboard. The value stays the ASCII `HH:mm[:ss]`.
+- Pasting a whole time, such as `09:30`, sets every segment; other pasted
+  text types its characters from the focused segment, as the keys would, so
+  `0930` fills the hour and the minute.
 - `hourCycle` and `withSeconds` are construction-time configuration.
 
 ### Example

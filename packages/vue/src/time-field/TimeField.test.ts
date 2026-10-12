@@ -158,6 +158,26 @@ describe("Vue TimeField (styled)", () => {
     expect(onValueChange).toHaveBeenLastCalledWith("14:00");
   });
 
+  it("takes Arabic-Indic and Persian digits, typed, from a soft keyboard or pasted, as ASCII", async () => {
+    const onValueChange = vi.fn();
+    renderField({ value: "00:00", hourCycle: 24, onValueChange });
+    await fireEvent.keyDown(seg("hour"), { key: "١" });
+    await fireEvent.keyDown(seg("hour"), { key: "٤" });
+    expect(onValueChange).toHaveBeenLastCalledWith("14:00");
+    for (const data of ["۴", "۵"]) {
+      await fireEvent(
+        seg("minute"),
+        new InputEvent("beforeinput", { data, inputType: "insertText", bubbles: true }),
+      );
+    }
+    expect(onValueChange).toHaveBeenLastCalledWith("14:45");
+    await fireEvent.paste(seg("hour"), {
+      clipboardData: { getData: () => "٠٩:۳۰" },
+    });
+    expect(onValueChange).toHaveBeenLastCalledWith("09:30");
+    expect(seg("hour")).toHaveTextContent("09");
+  });
+
   it("does not reinterpret an impossible second digit", async () => {
     const onValueChange = vi.fn();
     renderField({ value: "00:00", onValueChange });

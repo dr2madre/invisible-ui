@@ -63,6 +63,33 @@ describe("React PinInput", () => {
     expect(cells()[0]).toHaveFocus();
   });
 
+  it("moves the arrows the way the cells are laid out in a right-to-left layout", async () => {
+    const user = userEvent.setup();
+    render(
+      <div dir="rtl">
+        <PinInput label="Verification code" length={4} />
+      </div>,
+    );
+    await user.click(cells()[1]!);
+    await user.keyboard("{ArrowLeft}");
+    expect(cells()[2]).toHaveFocus();
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    expect(cells()[0]).toHaveFocus();
+  });
+
+  it("fills typed and pasted Arabic-Indic and Persian digits as ASCII", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<PinInput label="Verification code" length={4} onValueChange={onValueChange} />);
+    await user.click(cells()[0]!);
+    await user.keyboard("\u0661");
+    expect(cells()[0]).toHaveValue("1");
+    expect(onValueChange).toHaveBeenLastCalledWith("1");
+    await user.paste("\u06F2\u06F3\u0664");
+    expect(cells().map((cell) => cell.value)).toEqual(["1", "2", "3", "4"]);
+    expect(onValueChange).toHaveBeenLastCalledWith("1234");
+  });
+
   it("distributes a pasted code across the cells and completes once", async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();

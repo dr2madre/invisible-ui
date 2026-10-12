@@ -101,3 +101,43 @@ describe("time-field key sequence vectors", () => {
     });
   }
 });
+
+describe("time-field paste vectors", () => {
+  for (const vector of vectors.paste) {
+    it(vector.name, () => {
+      const hourCycle = vector.hourCycle as HourCycle;
+      let state = initialState({
+        value: vector.value,
+        hourCycle,
+        withSeconds: vector.withSeconds,
+        id: "vectors",
+      });
+      const focus: TimeSegmentType[] = [];
+      const build = () =>
+        connect({
+          state,
+          setParts: (parts, buffer, bufferSeg) => {
+            state = { ...state, parts, buffer, bufferSeg };
+          },
+          setCommittedParts: () => {},
+          focus: (seg) => focus.push(seg),
+        });
+      const onPaste = build().getSegmentProps(vector.segment as TimeSegmentType).onPaste as (
+        event: unknown,
+      ) => void;
+      let prevented = false;
+      onPaste({
+        clipboardData: { getData: () => vector.text },
+        preventDefault() {
+          prevented = true;
+        },
+      });
+      expect(prevented).toBe(true);
+      const api = build();
+      const text = Object.fromEntries(
+        segments(hourCycle, vector.withSeconds).map((seg) => [seg, api.getSegmentText(seg)]),
+      );
+      expect({ value: api.value, text, focus }).toEqual(vector.expect);
+    });
+  }
+});

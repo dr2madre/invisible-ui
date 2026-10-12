@@ -1,3 +1,5 @@
+import { foldArabicDigits } from "../internal/digits";
+import type { Dir } from "../i18n/locale";
 import type { PinInputContext, PinInputState, PinInputType } from "./types";
 
 let idCounter = 0;
@@ -6,11 +8,37 @@ let idCounter = 0;
 export const splitValue = (value: string, length: number): string[] =>
   Array.from({ length }, (_, i) => value[i] ?? "");
 
-/** Keep a single character only if it is allowed for the input type. */
+/**
+ * Keep a single character only if it is allowed for the input type. Arabic-Indic
+ * and Persian digits are allowed and come back as ASCII digits, so the value
+ * reported is always ASCII.
+ */
 export function sanitizeChar(char: string, type: PinInputType): string {
   if (!char) return "";
-  const ok = type === "numeric" ? /[0-9]/.test(char) : /[0-9a-z]/i.test(char);
-  return ok ? char : "";
+  const folded = foldArabicDigits(char);
+  const ok = type === "numeric" ? /^[0-9]$/.test(folded) : /^[0-9a-z]$/i.test(folded);
+  return ok ? folded : "";
+}
+
+/**
+ * The cell a navigation key moves the focus to from cell `index`, or null for
+ * any other key. The arrows follow the cells as they are laid out: in a
+ * right-to-left layout the first cell is on the right, so ArrowLeft moves to
+ * the next cell. Home and End go to the first and the last cell. At an end,
+ * the arrow keeps the focus where it is.
+ */
+export function keyTarget(
+  key: string,
+  index: number,
+  length: number,
+  direction: Dir = "ltr",
+): number | null {
+  if (key === "Home") return 0;
+  if (key === "End") return length - 1;
+  const step = key === "ArrowRight" ? 1 : key === "ArrowLeft" ? -1 : 0;
+  if (!step) return null;
+  const target = index + (direction === "rtl" ? -step : step);
+  return Math.min(Math.max(target, 0), length - 1);
 }
 
 /** Build the initial state from user context. */

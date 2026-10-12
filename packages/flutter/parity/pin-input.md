@@ -12,7 +12,7 @@ Docs page: [Pin Input](https://dr2madre.github.io/invisible-ui/components/forms/
 
 Each line is **matched**, **adapted** (with the platform reason) or **out of
 scope**. Every matched line names the widget test in
-`test/pin_input_test.dart` that holds it. The split, the character filter
+`test/pin_input_test.dart` that holds it. The split, the character filter, the arrow targets
 and the paste distribution answer the shared vectors in
 `core/src/pin-input/__vectors__`, read by `test/value_vectors_test.dart`
 and by the core tests, which run the paste through the core's own paste
@@ -30,7 +30,7 @@ handler.
 | `enabled: false` | `disabled` | `disabled` |
 | `length`, `invalid`, `success`, `label` | the same names | as on the web |
 | `autofocus`, `onSaved` | none | the first cell's focus; the form saver |
-| `error`, `validator`, `autovalidateMode` | none | the error message and the form validator every Flutter value control carries |
+| `error`, `validator`, `autovalidateMode` | `error` (the app passes and clears it; no validator) | the error message and the form validator every Flutter value control carries |
 | `name` | `name` | out of scope: Flutter forms submit no strings |
 
 ## Value and callbacks (ADR 0011)
@@ -42,9 +42,9 @@ handler.
 | A typed character replaces the cell's character | matched | `a typed character replaces the one in the cell`: the web selects the cell on focus and holds one character |
 | Backspace clears the cell, or the previous one when empty, moving there | matched | `Backspace clears the cell, then the previous one, moving back; arrows, Home and End move; mirrored right to left` |
 | Arrows move between cells; Home and End to the ends | matched | same test |
-| Right to left mirrors the arrows | adapted | the web's arrows keep their physical direction while the cells follow `dir`, so the left arrow moves right there; the arrows follow the reading direction (`Directionality`): same test, left moves forward and right moves back in RTL |
+| Right to left mirrors the arrows | matched | the arrows follow the reading direction (`Directionality`; the cell's computed `direction` on the web): same test, left moves forward and right moves back in RTL; shared vectors `keys` through `keyTarget` |
 | A paste spreads over the cells from the focused one, keeping allowed characters | matched | `a pasted or autofilled code spreads over the cells from the focused one`: the keyboard paste reads the clipboard; a code typed or filled in at once spreads the same way |
-| Arabic-Indic (U+0660 to U+0669) and Persian (U+06F0 to U+06F9) digits are taken in every locale, typed or pasted, and land in the cell as ASCII; the code reported is ASCII | adapted | the shared vector `sanitize` refuses `٣`, and Flutter keeps that rule for the raw character; the widget folds the digits before the rule, so the cell shows the code that is reported: `Arabic-Indic and Persian digits typed, they land in the cells as ASCII and report ASCII, ltr` and `, rtl`; `a typed digit replaces the one in the cell`; `pasted with the paste shortcut or filled in by the platform, they spread as ASCII`; `alphanumeric cells take them as ASCII too` |
+| Arabic-Indic (U+0660 to U+0669) and Persian (U+06F0 to U+06F9) digits are taken in every locale, typed or pasted, and land in the cell as ASCII; the code reported is ASCII | matched | shared vectors `sanitize` and `paste`, which take them as ASCII; `Arabic-Indic and Persian digits typed, they land in the cells as ASCII and report ASCII, ltr` and `, rtl`; `a typed digit replaces the one in the cell`; `pasted with the paste shortcut or filled in by the platform, they spread as ASCII`; `alphanumeric cells take them as ASCII too` |
 | Reflection never reports | matched | `controlled: a changed value is shown, never reported` |
 | Disabled: no focus, no input | matched | `disabled: no focus and no input` |
 | The code is never logged | matched | no log or diagnostics write it; obscured cells keep it out of semantics |
@@ -72,9 +72,12 @@ handler.
 
 ## Error message (Flutter)
 
-The web control has no error message of its own; the Flutter control has
-one, as the other Flutter value controls do (`error`, `validator` and
-`autovalidateMode` through `FormField`).
+The web control takes an `error` message the app passes and clears: an
+alert after the control, with the hazard glyph, that the control names in
+`aria-describedby`. The Flutter control takes it the Flutter way, as the
+other Flutter value controls do (`error`, `validator` and
+`autovalidateMode` through `FormField`), and a form reset clears the
+validator's message.
 
 | Line | Status | Evidence or reason |
 | --- | --- | --- |

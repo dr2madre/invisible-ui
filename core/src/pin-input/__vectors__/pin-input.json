@@ -1,5 +1,5 @@
 {
-  "description": "PIN input values, language-neutral: splitValue(value, length) and sanitizeChar(char, type) in core/src/pin-input/state.ts, and paste: what the onPaste handler of connect.ts commits and focuses when text is pasted into the cell at index (null when it commits nothing). The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "description": "PIN input values, language-neutral: splitValue(value, length), sanitizeChar(char, type) and keyTarget(key, index, length, direction) in core/src/pin-input/state.ts, and paste: what the onPaste handler of connect.ts commits and focuses when text is pasted into the cell at index (null when it commits nothing). Arabic-Indic and Persian digits are accepted and come back as ASCII digits. keys: the cell a key moves the focus to (null for a key that moves nothing); the arrows follow the layout, so in a right-to-left one ArrowLeft goes to the next cell. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
   "split": [
     {
       "name": "Fills from the first cell",
@@ -67,6 +67,42 @@
       "name": "An Arabic-Indic digit, numeric",
       "char": "٣",
       "type": "numeric",
+      "expect": "3"
+    },
+    {
+      "name": "A Persian digit, numeric",
+      "char": "۷",
+      "type": "numeric",
+      "expect": "7"
+    },
+    {
+      "name": "An Arabic-Indic zero, alphanumeric",
+      "char": "٠",
+      "type": "alphanumeric",
+      "expect": "0"
+    },
+    {
+      "name": "A Persian digit, alphanumeric",
+      "char": "۹",
+      "type": "alphanumeric",
+      "expect": "9"
+    },
+    {
+      "name": "An Arabic letter, numeric",
+      "char": "ب",
+      "type": "numeric",
+      "expect": ""
+    },
+    {
+      "name": "An Arabic letter, alphanumeric",
+      "char": "ب",
+      "type": "alphanumeric",
+      "expect": ""
+    },
+    {
+      "name": "The Arabic decimal separator, numeric",
+      "char": "٫",
+      "type": "numeric",
       "expect": ""
     }
   ],
@@ -133,6 +169,142 @@
         "values": ["a", "1", "B", "2"],
         "focus": 3
       }
+    },
+    {
+      "name": "Arabic-Indic digits fill as ASCII",
+      "values": ["", "", "", ""],
+      "index": 0,
+      "text": "١٢٣٤",
+      "type": "numeric",
+      "expect": {
+        "values": ["1", "2", "3", "4"],
+        "focus": 3
+      }
+    },
+    {
+      "name": "Persian, Arabic-Indic and ASCII digits mixed",
+      "values": ["", "", "", ""],
+      "index": 0,
+      "text": "۱-2 ٣۴",
+      "type": "numeric",
+      "expect": {
+        "values": ["1", "2", "3", "4"],
+        "focus": 3
+      }
+    }
+  ],
+  "keys": [
+    {
+      "name": "ArrowRight moves to the next cell, left to right",
+      "key": "ArrowRight",
+      "index": 1,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 2
+    },
+    {
+      "name": "ArrowLeft moves to the previous cell, left to right",
+      "key": "ArrowLeft",
+      "index": 1,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 0
+    },
+    {
+      "name": "ArrowLeft moves to the next cell, right to left",
+      "key": "ArrowLeft",
+      "index": 1,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 2
+    },
+    {
+      "name": "ArrowRight moves to the previous cell, right to left",
+      "key": "ArrowRight",
+      "index": 1,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 0
+    },
+    {
+      "name": "ArrowLeft stays on the last cell, right to left",
+      "key": "ArrowLeft",
+      "index": 3,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 3
+    },
+    {
+      "name": "ArrowRight stays on the first cell, right to left",
+      "key": "ArrowRight",
+      "index": 0,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 0
+    },
+    {
+      "name": "ArrowRight stays on the last cell, left to right",
+      "key": "ArrowRight",
+      "index": 3,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 3
+    },
+    {
+      "name": "ArrowLeft stays on the first cell, left to right",
+      "key": "ArrowLeft",
+      "index": 0,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 0
+    },
+    {
+      "name": "Home goes to the first cell, right to left",
+      "key": "Home",
+      "index": 2,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 0
+    },
+    {
+      "name": "End goes to the last cell, right to left",
+      "key": "End",
+      "index": 1,
+      "length": 4,
+      "direction": "rtl",
+      "expect": 3
+    },
+    {
+      "name": "Home goes to the first cell, left to right",
+      "key": "Home",
+      "index": 2,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 0
+    },
+    {
+      "name": "End goes to the last cell, left to right",
+      "key": "End",
+      "index": 1,
+      "length": 4,
+      "direction": "ltr",
+      "expect": 3
+    },
+    {
+      "name": "ArrowUp moves nothing",
+      "key": "ArrowUp",
+      "index": 1,
+      "length": 4,
+      "direction": "ltr",
+      "expect": null
+    },
+    {
+      "name": "A character moves nothing",
+      "key": "5",
+      "index": 1,
+      "length": 4,
+      "direction": "rtl",
+      "expect": null
     }
   ]
 }

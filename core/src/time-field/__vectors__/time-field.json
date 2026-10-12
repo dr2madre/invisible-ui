@@ -1,5 +1,5 @@
 {
-  "description": "Time field logic, language-neutral, from core/src/time-field: parseTimeValue(value, { withSeconds, hourCycle }); rangeError(canonical, min, max); and key sequences run through connect() from initialState({ value, hourCycle, withSeconds, min, max }), each key pressed on the named segment. A sequence expects the published value, the status, the validation error, each segment's text, the segments focus was sent to, the values onValueCommit reported, and whether each key was handled (preventDefault). Escape is handled only when it undid something; Enter never prevents the default. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
+  "description": "Time field logic, language-neutral, from core/src/time-field: parseTimeValue(value, { withSeconds, hourCycle }); rangeError(canonical, min, max); and key sequences run through connect() from initialState({ value, hourCycle, withSeconds, min, max }), each key pressed on the named segment. A sequence expects the published value, the status, the validation error, each segment's text, the segments focus was sent to, the values onValueCommit reported, and whether each key was handled (preventDefault). Escape is handled only when it undid something; Enter never prevents the default. paste: text pasted on the named segment, through the onPaste handler of connect() (the Flutter paste shortcut): a whole time sets every segment, other text types its characters from that segment on; it expects the value, each segment's text and the segment focus moved to last. Arabic-Indic and Persian digits type as ASCII ones. The core tests and the Flutter tests read this file, so both implementations answer the same cases.",
   "parse": [
     {
       "value": null,
@@ -682,6 +682,191 @@
         "focus": ["minute", "second", "dayPeriod", "second"],
         "commits": [],
         "handled": [true, true, true, true, true]
+      }
+    },
+    {
+      "name": "Arabic-Indic and Persian digits type as ASCII",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "keys": [
+        {
+          "segment": "hour",
+          "key": "٠"
+        },
+        {
+          "segment": "hour",
+          "key": "٩"
+        },
+        {
+          "segment": "minute",
+          "key": "۳"
+        },
+        {
+          "segment": "minute",
+          "key": "۰"
+        }
+      ],
+      "expect": {
+        "value": "09:30",
+        "status": "valid",
+        "error": null,
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": ["minute"],
+        "commits": [],
+        "handled": [true, true, true, true]
+      }
+    }
+  ],
+  "paste": [
+    {
+      "name": "A whole time sets every segment",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "segment": "hour",
+      "text": "09:30",
+      "expect": {
+        "value": "09:30",
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "A whole time in Arabic-Indic digits",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "segment": "minute",
+      "text": "٠٩:٣٠",
+      "expect": {
+        "value": "09:30",
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "A whole time in Persian digits, 12-hour",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": null,
+      "segment": "hour",
+      "text": "۲۱:۱۵",
+      "expect": {
+        "value": "21:15",
+        "text": {
+          "hour": "09",
+          "minute": "15",
+          "dayPeriod": "PM"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "A whole time with seconds, spaces trimmed",
+      "hourCycle": 24,
+      "withSeconds": true,
+      "value": null,
+      "segment": "hour",
+      "text": " 07:05:09 ",
+      "expect": {
+        "value": "07:05:09",
+        "text": {
+          "hour": "07",
+          "minute": "05",
+          "second": "09"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "Characters type from the focused segment",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "segment": "hour",
+      "text": "0930",
+      "expect": {
+        "value": "09:30",
+        "text": {
+          "hour": "09",
+          "minute": "30"
+        },
+        "focus": ["minute"]
+      }
+    },
+    {
+      "name": "Persian characters type into the minute",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "10:00",
+      "segment": "minute",
+      "text": "۴۵",
+      "expect": {
+        "value": "10:45",
+        "text": {
+          "hour": "10",
+          "minute": "45"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "Characters and a period type on, 12-hour",
+      "hourCycle": 12,
+      "withSeconds": false,
+      "value": null,
+      "segment": "hour",
+      "text": "0930p",
+      "expect": {
+        "value": "21:30",
+        "text": {
+          "hour": "09",
+          "minute": "30",
+          "dayPeriod": "PM"
+        },
+        "focus": ["dayPeriod"]
+      }
+    },
+    {
+      "name": "An impossible character is skipped",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": null,
+      "segment": "hour",
+      "text": "259",
+      "expect": {
+        "value": null,
+        "text": {
+          "hour": "02",
+          "minute": "mm"
+        },
+        "focus": []
+      }
+    },
+    {
+      "name": "Text without a number leaves the value",
+      "hourCycle": 24,
+      "withSeconds": false,
+      "value": "10:00",
+      "segment": "hour",
+      "text": "abc",
+      "expect": {
+        "value": "10:00",
+        "text": {
+          "hour": "10",
+          "minute": "00"
+        },
+        "focus": []
       }
     }
   ]
