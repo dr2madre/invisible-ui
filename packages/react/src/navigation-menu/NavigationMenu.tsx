@@ -10,6 +10,8 @@ export interface NavigationMenuLink {
   label: string;
   href: string;
   description?: string;
+  /** Whether the link leads to the page on screen. */
+  current?: boolean;
 }
 
 /** A top-level item: a plain link (`href`), or a panel item that reveals `links`. */
@@ -18,6 +20,8 @@ export interface NavigationMenuItem {
   label: string;
   /** For a plain link item. */
   href?: string;
+  /** For a plain link item: whether it leads to the page on screen. */
+  current?: boolean;
   /** For a panel item: the links revealed when it opens. */
   links?: NavigationMenuLink[];
 }
@@ -41,6 +45,12 @@ export interface NavigationMenuProps {
  * and focus movement (ArrowDown into the panel, Escape back to the trigger).
  * Inside an open dialog the panels render in the dialog (ADR 0016).
  *
+ * Hovering a trigger opens its panel while the pointer stays; a click keeps
+ * it open, and a second click closes it. Activating a link closes the panel.
+ * Mark the link to the page on screen with `current`: it gets
+ * `aria-current="page"`, and the trigger whose panel holds it is marked
+ * visually only.
+ *
  * Themeable via `--ds-navmenu-*`.
  */
 export function NavigationMenu({ label, items, value = null, onValueChange }: NavigationMenuProps) {
@@ -59,7 +69,9 @@ export function NavigationMenu({ label, items, value = null, onValueChange }: Na
                 <button
                   className="navmenu__trigger"
                   type="button"
-                  {...nav.getTriggerProps(item.value)}
+                  {...nav.getTriggerProps(item.value, {
+                    holdsCurrent: item.links.some((link) => link.current),
+                  })}
                 >
                   {item.label}
                   <span className="navmenu__chevron" aria-hidden="true">
@@ -80,7 +92,11 @@ export function NavigationMenu({ label, items, value = null, onValueChange }: Na
                         <ul className="navmenu__links">
                           {item.links.map((link) => (
                             <li key={link.href}>
-                              <a className="navmenu__link" href={link.href}>
+                              <a
+                                className="navmenu__link"
+                                href={link.href}
+                                {...nav.getLinkProps({ current: link.current, item: item.value })}
+                              >
                                 <span className="navmenu__link-label">{link.label}</span>
                                 {link.description ? (
                                   <span className="navmenu__link-desc">{link.description}</span>
@@ -95,7 +111,11 @@ export function NavigationMenu({ label, items, value = null, onValueChange }: Na
                   : null}
               </>
             ) : (
-              <a className="navmenu__toplink" href={item.href}>
+              <a
+                className="navmenu__toplink"
+                href={item.href}
+                {...nav.getLinkProps({ current: item.current })}
+              >
                 {item.label}
               </a>
             )}
