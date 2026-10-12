@@ -36,6 +36,7 @@ export 'src/feedback_icon/feedback_icon.dart'
 export 'src/feedback_state/feedback_state.dart'
     show EmptyState, ErrorState, FeedbackStateSize;
 export 'src/field/field.dart' show Field;
+export 'src/i18n/locale_provider.dart' show LocaleProvider, localeDirection;
 export 'src/i18n/messages.dart';
 export 'src/kbd/kbd.dart' show Kbd;
 export 'src/label/label.dart' show Label;
