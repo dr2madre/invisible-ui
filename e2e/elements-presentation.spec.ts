@@ -216,6 +216,13 @@ test("Elements Tree View expands, selects and navigates from the keyboard", asyn
   await expect(index).toBeFocused();
   await page.keyboard.press("Space");
   await expect(index).toHaveAttribute("aria-selected", "true");
+  // Typeahead moves focus, never the selection.
+  await page.keyboard.press("b");
+  const button = tree.getByRole("treeitem", { name: /button\.ts/ });
+  await expect(button).toBeFocused();
+  await expect(index).toHaveAttribute("aria-selected", "true");
+  await expect(button).toHaveAttribute("aria-selected", "false");
+  await page.keyboard.press("ArrowUp");
   await page.keyboard.press("ArrowLeft");
   await expect(src).toBeFocused();
   await page.keyboard.press("ArrowLeft");
@@ -253,7 +260,7 @@ test("Elements Tree View loads remote children without losing focus and retries 
       window.setTimeout(() => {
         if (latest.get(value) !== requestId) return;
         tree.loading = tree.loading.filter((entry) => entry !== value);
-        if (value === "archive" && attempt === 1) {
+        if (value === "archive" && attempt <= 2) {
           tree.loadErrors = [...tree.loadErrors, value];
           return;
         }
@@ -279,6 +286,16 @@ test("Elements Tree View loads remote children without losing focus and retries 
   await page.keyboard.press("ArrowRight");
   await expect(archive).toHaveAttribute("data-load-state", "error");
   await expect(archive).toBeFocused();
+  // The disclosure arrow still collapses and expands a failed node; expanding
+  // it requests the children again.
+  const twistie = archive.locator(".tree__twistie");
+  await twistie.click();
+  await expect(archive).toHaveAttribute("aria-expanded", "false");
+  await twistie.click();
+  await expect(archive).toHaveAttribute("aria-expanded", "true");
+  await expect(archive).toHaveAttribute("data-load-state", "error");
+  // Right Arrow retries.
+  await archive.focus();
   await page.keyboard.press("ArrowRight");
   await expect(archive).toHaveAttribute("aria-busy", "true");
   await expect(tree.getByRole("treeitem", { name: /archive-child/ })).toBeVisible();

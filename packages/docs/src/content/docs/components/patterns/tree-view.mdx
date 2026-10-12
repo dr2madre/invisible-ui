@@ -12,7 +12,8 @@ import TreeViewAsyncDemo from "../../../../demos/TreeViewAsyncDemo.svelte";
   <TreeViewDemo client:visible />
 </Preview>
 
-A WAI-ARIA tree with roving tabindex, expand/collapse and keyboard navigation.
+A WAI-ARIA tree with single selection, roving tabindex, expand/collapse and
+keyboard navigation.
 
 ### Import
 
@@ -26,7 +27,17 @@ A WAI-ARIA tree with roving tabindex, expand/collapse and keyboard navigation.
 
 - `role="tree"` with roving tabindex; Up/Down move between visible rows,
   Left/Right collapse/expand (or move to parent/child), Home/End jump to ends,
-  Enter/Space select.
+  Enter/Space select. In right-to-left text Left and Right swap, so the arrow
+  that points into the row still expands it.
+- Single selection: at most one node is selected (`aria-multiselectable` is
+  `false`). Selecting another node replaces it.
+- Typing a character moves focus to the next visible node whose label starts
+  with it; characters typed in quick succession (within half a second) build
+  one query, so "ba" finds "Banana" after "Apple". Typing moves focus only: it
+  never selects, expands or collapses a node.
+- The disclosure arrow expands and collapses its node with a pointer, also
+  after a failed load.
+- Assistive technology: not tested.
 
 ### Example
 
@@ -90,8 +101,9 @@ fetch or apply the response.
 
 Reflect the request through `loading`. On success, replace the controlled
 `nodes` forest and remove the value from `loading`. On failure, remove it from
-`loading` and add it to `loadErrors`. Right Arrow or the disclosure control
-retries a failed expanded node.
+`loading` and add it to `loadErrors`. Right Arrow retries a failed expanded
+node. The disclosure arrow keeps expanding and collapsing it; expanding a
+collapsed failed node requests its children again.
 
 Elements and React announce the loading and failure messages through one
 visually hidden live region that stays in the page; the row text describes the
