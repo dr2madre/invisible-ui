@@ -31,7 +31,8 @@ interface TreeRow {
 let warnedUnlabelled = false;
 
 /**
- * `<ds-tree-view>` implements the single-select WAI-ARIA tree pattern.
+ * `<ds-tree-view>` implements the single-select WAI-ARIA tree pattern: at
+ * most one node is selected at a time.
  *
  * Set `nodes` as a property to a nested `TreeNode[]`; `expanded`, `selected`,
  * `loading`, `loadErrors`, and `labels` are reactive properties. The `label`,
@@ -41,11 +42,15 @@ let warnedUnlabelled = false;
  * Expanding it, or pressing Right Arrow on it, fires `load-children` with
  * `detail.value` and `detail.requestId`; the element never fetches. Reflect
  * the request through `loading`, then replace `nodes` and clear `loading` on
- * success, or move the value to `loadErrors` on failure. The twistie or Right
- * Arrow on a failed node retries with a new request id. Loading and error
- * messages are announced through one visually hidden live region, created
- * once and updated in place. Right and Left Arrow follow the reading
- * direction.
+ * success, or move the value to `loadErrors` on failure. Right Arrow on an
+ * expanded failed node retries with a new request id; the twistie always
+ * expands or collapses. Loading and error messages are announced through one
+ * visually hidden live region, created once and updated in place. Right and
+ * Left Arrow follow the reading direction.
+ *
+ * Typing a character, or a quick sequence of them, moves focus to the next
+ * visible node whose shown label starts with that text. Typing never changes
+ * selection or expansion.
  *
  * Emits: `expanded-change` with `detail.expanded`, `selected-change` with
  * `detail.selected`, and `load-children` with `detail.value` and
@@ -68,6 +73,7 @@ export class DsTreeView extends HTMLElementBase {
   #rows = new Map<string, TreeRow>();
   // The load message shown for each node, to announce only new ones.
   #messages = new Map<string, string>();
+  #typeahead = core.createTypeahead();
 
   constructor() {
     super();
@@ -174,6 +180,9 @@ export class DsTreeView extends HTMLElementBase {
       },
       focus: (value) => this.#item(value)?.focus(),
       direction: getComputedStyle(this).direction === "rtl" ? "rtl" : "ltr",
+      typeahead: this.#typeahead,
+      labelOf: (value) =>
+        this.#rows.get(value)?.label.textContent?.trim() || (this.#labels[value] ?? value),
       requestLoad: (request) => {
         if (this.#loading.includes(request.value)) return;
         this.#loading = [...this.#loading, request.value];
@@ -253,9 +262,7 @@ export class DsTreeView extends HTMLElementBase {
         twistie.innerHTML = twistieIcon();
         twistie.addEventListener("click", (event) => {
           event.stopPropagation();
-          const { value, loadState } = row.node;
-          if (loadState === "error") this.#api().retryLoad(value);
-          else this.#api().toggle(value);
+          this.#api().toggle(row.node.value);
         });
         row.twistie = twistie;
       }
