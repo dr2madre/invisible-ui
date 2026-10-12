@@ -84,7 +84,7 @@ export 'src/search_field/search_field.dart' show SearchField;
 export 'src/segmented_control/segmented_control.dart' show SegmentedControl;
 export 'src/select/select.dart' show Select;
 export 'src/separator/separator.dart' show Separator;
-export 'src/sidebar/sidebar.dart' show Sidebar;
+export 'src/sidebar/sidebar.dart' show Sidebar, showSidebarDrawer;
 export 'src/sidebar/sidebar_item.dart' show SidebarItem, SidebarSection;
 export 'src/skeleton/skeleton.dart'
     show Skeleton, SkeletonAnimation, SkeletonVariant;
