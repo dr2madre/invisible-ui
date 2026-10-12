@@ -22,6 +22,9 @@ CodeBlock, Blockquote, ScrollArea) and the value controls (Slider,
 RangeSlider, RatingGroup, PinInput, Radio, ToggleButton, ToggleGroup,
 ButtonGroup, Stepper, Separator). Names and APIs can still change. It is not published to pub.dev.
 
+The data and form patterns are in too: Table and TableSet, Carousel,
+LoginForm, UploadDropArea and LocaleProvider.
+
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.
 
@@ -185,6 +188,12 @@ iu.NumberField(
 | Navigation Menu | Matched, with adaptations listed | [parity/navigation-menu.md](parity/navigation-menu.md) | [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/) |
 | Sidebar | Matched for the inline sidebar and the rail, with adaptations listed; the drawer mode waits for Sheet Dialog | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
+| Table | Matched, with adaptations listed | [parity/table.md](parity/table.md) | [Table](https://dr2madre.github.io/invisible-ui/components/patterns/table/) |
+| TableSet (with the internal Table View) | Matched for spec units 5A to 5C, with adaptations listed | [parity/table-set.md](parity/table-set.md) | [Table Set](https://dr2madre.github.io/invisible-ui/components/patterns/table-set/) |
+| Carousel | Matched, with adaptations listed | [parity/carousel.md](parity/carousel.md) | [Carousel](https://dr2madre.github.io/invisible-ui/components/data-layout/carousel/) |
+| LoginForm | Matched, with autofill hints and adaptations listed | [parity/login-form.md](parity/login-form.md) | [Login Form](https://dr2madre.github.io/invisible-ui/components/patterns/login-form/) |
+| UploadDropArea | Adapted: the app opens the picker and reports drops | [parity/upload-drop-area.md](parity/upload-drop-area.md) | [Upload Drop Area](https://dr2madre.github.io/invisible-ui/components/forms/upload-drop-area/) |
+| LocaleProvider | Matched, with adaptations listed | [parity/locale-provider.md](parity/locale-provider.md) | [Locale Provider](https://dr2madre.github.io/invisible-ui/components/localization/locale-provider/) |
 | Progress | Matched, with adaptations listed | [parity/progress.md](parity/progress.md) | [Progress](https://dr2madre.github.io/invisible-ui/components/data-layout/progress/) |
 | Meter | Matched, with adaptations listed | [parity/meter.md](parity/meter.md) | [Meter](https://dr2madre.github.io/invisible-ui/components/data-layout/meter/) |
 | Avatar | Matched, with adaptations listed | [parity/avatar.md](parity/avatar.md) | [Avatar](https://dr2madre.github.io/invisible-ui/components/data-layout/avatar/) |
@@ -234,6 +243,11 @@ avatar initials the vectors in `core/src/avatar`, the sliders, the stepper
 and the PIN input the value, progress and cell vectors in
 `core/src/slider`, `range-slider`, `stepper` and `pin-input`, which the
 `core/` tests run too.
+
+Table and TableSet run the sort, selection and visibility vectors in
+`core/src/table/__vectors__`, Carousel the navigation and key vectors in
+`core/src/carousel/__vectors__`, and LocaleProvider the direction vectors
+in `core/src/i18n/__vectors__`.
 
 The overlays (Tooltip, Dropdown Menu, Context Menu, Menubar, Popover, the
 lists of Select and Combobox) need an `Overlay` above them, as
@@ -414,6 +428,64 @@ iu.Breadcrumb(
   unknown length is waiting, which `iu.Loading(variant: iu.LoadingVariant.bar)`
   shows. `Meter` colours its fill by how good the value is, given
   `optimum`.
+
+### Data and form patterns
+
+```dart
+iu.TableSet<Map<String, Object?>>(
+  title: 'Customers',
+  columns: const [
+    iu.TableColumn(key: 'name', header: 'Name', sortable: true),
+    iu.TableColumn(key: 'city', header: 'City'),
+  ],
+  rows: filteredCustomers, // the app filters
+  pageSize: 10,
+  filtersActive: query.isNotEmpty,
+  totalRowCount: customers.length,
+  onClearFilters: () => setState(() => query = ''),
+  selectionMode: iu.SelectionMode.multiple,
+  selectedRowIds: selected,
+  onSelectedRowIdsChanged: (ids) => setState(() => selected = ids),
+  getRowLabel: (row) => row['name']! as String,
+)
+
+iu.UploadDropArea(
+  accept: '.pdf,image/*',
+  onBrowse: pickFiles, // the app opens the picker, e.g. with file_selector
+  onFiles: (files) => setState(() => attachments.addAll(files)),
+)
+```
+
+- **Tables.** `iu.Table` is the controlled table: it shows `sort` and
+  reports a header press; `iu.nextSort` and `iu.sortRows` give the cycle
+  and the stable sort. Flutter's semantics carry the table, row, cell and
+  column header roles; a sorted header's value says "sorted ascending" and
+  the change is announced, since Flutter has no sort property. A table
+  wider than its container scrolls sideways, and the scroller takes focus
+  only then. Cells are measured for their column, so a `cellBuilder`
+  returns text, icons or buttons, not a `LayoutBuilder`.
+- **Table sets.** `iu.TableSet` adds the title, the column list, the card
+  view, pagination or loading more, filtering coordination and selection,
+  following units 5A to 5C of the data table spec; with `views` it shows
+  tabs. Each setting is a controllable mirror. Selection needs stable,
+  unique ids and `getRowLabel`; the selection is the app's data and is
+  never pruned. The view inside stays internal, as on the web.
+- **Carousel.** `iu.Carousel` names its slides "2 of 5", announces each
+  move, takes the arrow keys (mirrored right to left) and moves at once
+  under reduced motion. It never advances on its own. Coverflow neighbours
+  are never faded, so their text keeps its contrast.
+- **Sign-in.** `iu.LoginForm` puts the email and password fields in an
+  `AutofillGroup` with the username, email and password hints, so a
+  password manager fills and saves them; labels come from the catalog.
+- **Uploads.** `iu.UploadDropArea` adds no dependency: `onBrowse` opens the
+  app's picker and returns `iu.UploadFile`s; drops reach it through an
+  `iu.UploadDropController` the app wires to its drop plugin, and only then
+  does the drop prompt show. Picked and dropped files pass the same
+  `accept` filter; rejected files are named and announced. See the
+  `file_selector` example in [parity/upload-drop-area.md](parity/upload-drop-area.md).
+- **Locale.** `iu.LocaleProvider(locale: const Locale('ar'), child: ...)`
+  sets the locale through `Localizations`, the direction from the locale
+  and, with `messages`, the catalog for a subtree.
 
 ### Display
 

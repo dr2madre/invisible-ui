@@ -181,6 +181,13 @@ Each item ships as its own PR. Checkboxes track progress.
   autofill spread over the cells), Radio (grouped by name), Toggle Button,
   Toggle Group, Button Group, Stepper and Separator, each with its parity
   checklist in `packages/flutter/parity/`, and the `flutter.yml` workflow.
+  The data and form patterns follow: Table and Table Set (sorting,
+  selection, filtering, pagination and the card view of
+  [`docs/data-table-spec.md`](./data-table-spec.md), with Table View kept
+  internal), Carousel, Login Form (with the autofill hints a password
+  manager reads), Upload Drop Area (the app opens the picker and reports
+  drops, no dependency) and Locale Provider, running the table, carousel and
+  locale direction vectors in `core/src/table`, `carousel` and `i18n`.
   Aspect Ratio and Icon are not ported: the widgets library has its own
   `AspectRatio` and `Icon`, recorded in `parity/aspect-ratio.md` and
   `parity/icon.md`.
