@@ -10,9 +10,11 @@ dark, density, minimum target size, focus ring, messages) and the
 components listed below: Button, the form fields (Field, TextField,
 Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
 Menu, Context Menu, Menubar, Popover), the feedback widgets (the notifications, Loading,
-EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
-ConfirmDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
-RadioButtonGroup, SegmentedControl, Select, Combobox), the dates
+LoadingGenerationArea, EmptyState, ErrorState), Card, the dialog family
+(Dialog, AlertDialog, ConfirmDialog, PromptDialog, SearchDialog,
+SheetDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
+RadioButtonGroup, SegmentedControl, Select, Combobox, MultiSelect), the
+search field (SearchField), the dates
 (Calendar, DatePicker, DateRangePicker, TimeField), the disclosures and
 navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link,
 Navigation Menu, Sidebar, Tree View),
@@ -158,12 +160,16 @@ iu.NumberField(
 | Inline Notification | Matched, with adaptations listed | [parity/inline-notification.md](parity/inline-notification.md) | [Inline Notification](https://dr2madre.github.io/invisible-ui/components/feedback/inline-notification/) |
 | Notification, Notification Region | Matched, with adaptations listed | [parity/notification.md](parity/notification.md) | [Notification](https://dr2madre.github.io/invisible-ui/components/feedback/notification/), [Notification Region](https://dr2madre.github.io/invisible-ui/components/feedback/notification-region/) |
 | Loading | Matched, with adaptations listed | [parity/loading.md](parity/loading.md) | [Loading](https://dr2madre.github.io/invisible-ui/components/feedback/loading/) |
+| LoadingGenerationArea | Matched, with adaptations listed | [parity/loading-generation-area.md](parity/loading-generation-area.md) | [Loading Area](https://dr2madre.github.io/invisible-ui/components/feedback/loading-generation-area/) |
 | EmptyState | Matched, with adaptations listed | [parity/empty-state.md](parity/empty-state.md) | [Empty State](https://dr2madre.github.io/invisible-ui/components/feedback/empty-state/) |
 | ErrorState | Matched, with adaptations listed | [parity/error-state.md](parity/error-state.md) | [Error State](https://dr2madre.github.io/invisible-ui/components/feedback/error-state/) |
 | Card | Matched, with adaptations listed | [parity/card.md](parity/card.md) | [Card](https://dr2madre.github.io/invisible-ui/components/data-layout/card/) |
 | Dialog | Matched, with adaptations listed | [parity/dialog.md](parity/dialog.md) | [Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/) |
 | AlertDialog | Matched, with adaptations listed | [parity/alert-dialog.md](parity/alert-dialog.md) | [Alert Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/alert-dialog/) |
 | ConfirmDialog | Matched, with adaptations listed | [parity/confirm-dialog.md](parity/confirm-dialog.md) | [Confirm Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/confirm-dialog/) |
+| PromptDialog | Matched, with adaptations listed | [parity/prompt-dialog.md](parity/prompt-dialog.md) | [Prompt Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/prompt-dialog/) |
+| SearchDialog | Matched, with adaptations listed | [parity/search-dialog.md](parity/search-dialog.md) | [Search Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/search-dialog/) |
+| SheetDialog | Matched, with adaptations listed | [parity/sheet-dialog.md](parity/sheet-dialog.md) | [Sheet Dialog](https://dr2madre.github.io/invisible-ui/components/feedback/dialog/sheet-dialog/) |
 | Checkbox | Matched, with adaptations listed | [parity/checkbox.md](parity/checkbox.md) | [Checkbox](https://dr2madre.github.io/invisible-ui/components/forms/checkbox/) |
 | CheckboxGroup | Matched, with adaptations listed | [parity/checkbox-group.md](parity/checkbox-group.md) | [Checkbox Group](https://dr2madre.github.io/invisible-ui/components/forms/checkbox-group/) |
 | Switch | Matched, with adaptations listed | [parity/switch.md](parity/switch.md) | [Switch](https://dr2madre.github.io/invisible-ui/components/forms/switch/) |
@@ -171,6 +177,8 @@ iu.NumberField(
 | SegmentedControl | Matched, with adaptations listed | [parity/segmented-control.md](parity/segmented-control.md) | [Segmented Control](https://dr2madre.github.io/invisible-ui/components/forms/segmented-control/) |
 | Select | Matched, with adaptations listed | [parity/select.md](parity/select.md) | [Select](https://dr2madre.github.io/invisible-ui/components/forms/select/) |
 | Combobox | Matched, with adaptations listed | [parity/combobox.md](parity/combobox.md) | [Combobox](https://dr2madre.github.io/invisible-ui/components/forms/combobox/) |
+| MultiSelect | Matched, with adaptations listed | [parity/multi-select.md](parity/multi-select.md) | [Multi Select](https://dr2madre.github.io/invisible-ui/components/forms/multi-select/) |
+| SearchField | Matched, with adaptations listed | [parity/search-field.md](parity/search-field.md) | [Search Field](https://dr2madre.github.io/invisible-ui/components/forms/search-field/) |
 | Popover | Matched, with adaptations listed | [parity/popover.md](parity/popover.md) | [Popover](https://dr2madre.github.io/invisible-ui/components/data-layout/popover/) |
 | Calendar | Matched for the month and two-month views, with adaptations listed | [parity/calendar.md](parity/calendar.md) | [Calendar](https://dr2madre.github.io/invisible-ui/components/forms/calendar/) |
 | DatePicker | Matched, with adaptations listed | [parity/date-picker.md](parity/date-picker.md) | [Date Picker](https://dr2madre.github.io/invisible-ui/components/forms/date-picker/) |
@@ -183,7 +191,7 @@ iu.NumberField(
 | Pagination | Matched, with adaptations listed | [parity/pagination.md](parity/pagination.md) | [Pagination](https://dr2madre.github.io/invisible-ui/components/navigation/pagination/) |
 | Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
 | Navigation Menu | Matched, with adaptations listed | [parity/navigation-menu.md](parity/navigation-menu.md) | [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/) |
-| Sidebar | Matched for the inline sidebar and the rail, with adaptations listed; the drawer mode waits for Sheet Dialog | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
+| Sidebar | Matched for the inline sidebar, the rail and the drawer, with adaptations listed | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
 | Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Progress | Matched, with adaptations listed | [parity/progress.md](parity/progress.md) | [Progress](https://dr2madre.github.io/invisible-ui/components/data-layout/progress/) |
 | Meter | Matched, with adaptations listed | [parity/meter.md](parity/meter.md) | [Meter](https://dr2madre.github.io/invisible-ui/components/data-layout/meter/) |
@@ -232,8 +240,9 @@ Progress and Meter the keyboard, toggle, page list and reading vectors in
 `core/src/tabs`, `accordion`, `pagination`, `progress` and `meter`, and the
 avatar initials the vectors in `core/src/avatar`, the sliders, the stepper
 and the PIN input the value, progress and cell vectors in
-`core/src/slider`, `range-slider`, `stepper` and `pin-input`, which the
-`core/` tests run too.
+`core/src/slider`, `range-slider`, `stepper` and `pin-input`, and the
+multi select's selection rules the vectors in `core/src/multi-select`,
+which the `core/` tests run too.
 
 The overlays (Tooltip, Dropdown Menu, Context Menu, Menubar, Popover, the
 lists of Select and Combobox) need an `Overlay` above them, as
@@ -287,6 +296,20 @@ if (delete == true) removeHours();
   outside.
   The `ModalObserver` above counts these dialogs, so the notification
   region holds its toasts while one is open.
+- **Prompt.** `iu.PromptDialog` asks for one value and completes with it.
+  `required` or `confirmValue` (type the file name to delete it) gate the
+  confirm button; Enter confirms, except while an input method composes.
+- **Search.** `iu.SearchDialog<T>` filters `SearchDialogItem`s, grouped by
+  `group`, with `suggestions` for an empty query and `loading` while results
+  load; it announces the number of results. Results fetched as the user
+  types come through `onQueryChanged` and a rebuilt dialog.
+- **Sheet.** `iu.SheetDialog` anchors the panel to an edge: `side` is
+  `top`, `bottom`, `start` or `end`, the last two following the reading
+  direction. It slides in unless motion is reduced; with `draggable`, a drag
+  of its handle toward the edge closes it, and Escape and the close button
+  always do.
+- **Close, then report.** A prompt and a search close before they report
+  their value through `onConfirm` and `onSelected` (ADR 0011).
 
 ### Choices and pickers
 
@@ -317,6 +340,13 @@ iu.Combobox<String>(
   dialog Escape closes the popover first.
 - **RadioButtonGroup** is the web's RadioGroup, built on the widgets
   library's `RadioGroup` (which keeps that name) and `iu.Radio`.
+- **MultiSelect** keeps several options as removable tags (`values:` with
+  `onChanged:`): Enter adds and keeps the list open, every addition and
+  removal is announced, and removing a tag moves focus to the next remove
+  button.
+- **SearchField** runs the search through `onSubmitted` (Enter or its
+  submit button); its clear button empties it and puts focus back in it.
+  `submitButton: false` makes it a filter that applies as the user types.
 
 ### Dates
 
@@ -401,8 +431,10 @@ iu.Breadcrumb(
   current page and its trigger is marked on screen.
 - **Sidebar.** The app's side navigation, with collapsible sections and an
   icon rail. Every destination reports `onSelected`; the app navigates and
-  decides where the sidebar shows, as on the web. The drawer mode waits for
-  Sheet Dialog.
+  decides where the sidebar shows, as on the web. On a narrow screen
+  `iu.showSidebarDrawer(context:, builder:)` shows it in a Sheet Dialog at
+  the inline-start edge (ADR 0013); following a destination closes the
+  drawer, then reports.
 - **Tree View.** The tree keyboard of the APG with typeahead, which moves
   focus only. Single selection. Children load on demand
   (`onLoadChildren`). For assistive technology, a closed parent offers an
@@ -445,6 +477,9 @@ iu.Button(onPressed: () {}, copy: link, child: const Text('Copy link'))
   keeping its name and focus.
 - **Skeleton.** Hidden from assistive technology unless it has a
   `semanticLabel`; still under reduced motion.
+- **LoadingGenerationArea.** Fills a surface with a drifting dot field and
+  a label zone (`status`, `value`, `detail`) while `loading`, then fades in
+  its `child`. A polite live region; still under reduced motion.
 - **ScrollArea.** A focusable viewport with the theme's scroll bars; the
   keyboard scrolls it while it has focus. With `semanticLabel` it is a named
   region.

@@ -211,6 +211,19 @@ void main() {
       expect(top.top, 0);
     });
 
+    testWidgets('no border along the anchored edge and square corners', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_page(_filters));
+      await _open(tester);
+      final decoration =
+          tester.widget<DecoratedBox>(_panel).decoration as BoxDecoration;
+      final border = decoration.border! as Border;
+      expect(border.right, BorderSide.none);
+      expect(border.left.style, BorderStyle.solid);
+      expect(decoration.borderRadius, BorderRadius.zero);
+    });
+
     testWidgets('the size grows with the text and stops at the screen', (
       tester,
     ) async {

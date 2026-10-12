@@ -205,6 +205,23 @@ void main() {
     });
   });
 
+  testWidgets('Tab closes the list and moves on', (tester) async {
+    await tester.pumpWidget(
+      WidgetsApp(
+        color: const Color(0xFF000000),
+        builder: (context, _) =>
+            harness(_select(_Log(), initialValues: ['ada'])),
+      ),
+    );
+    await _focus(tester);
+    await _key(tester, LogicalKeyboardKey.arrowDown);
+    expect(_open(), isTrue);
+    await _key(tester, LogicalKeyboardKey.tab);
+    await pumpFocus(tester);
+    expect(_open(), isFalse);
+    expect(_fieldFocused(tester), isFalse);
+  });
+
   group('removing', () {
     testWidgets('a remove button removes, announces, and focus moves to the '
         'next remove button, then the previous, then the field', (

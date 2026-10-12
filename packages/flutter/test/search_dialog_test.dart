@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/src/internal/focus_ring.dart';
 
 import 'harness.dart';
 
@@ -383,6 +384,42 @@ void main() {
       items.value = [..._items.where((item) => item.value != 'home')];
       await tester.pump();
       expect(_active(tester), isNull);
+    });
+  });
+
+  group('dialog', () {
+    testWidgets('the query starts empty on every opening', (tester) async {
+      await tester.pumpWidget(_page((_) => _search()));
+      await _open(tester);
+      await tester.enterText(_editable, 'ho');
+      await _key(tester, LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      await _open(tester);
+      expect(tester.widget<EditableText>(_editable).controller.text, '');
+    });
+
+    testWidgets('the search row shows the focus ring; a notice sits after '
+        'the results and takes no focus', (tester) async {
+      final controller = DialogController();
+      await tester.pumpWidget(
+        _page(
+          (_) => SearchDialog<String>(items: _items, controller: controller),
+        ),
+      );
+      await _open(tester);
+      final ring = tester.widget<FocusRingPainter>(
+        find
+            .ancestor(of: _editable, matching: find.byType(FocusRingPainter))
+            .first,
+      );
+      expect(ring.visible, isTrue);
+      controller.notify(title: 'Search is offline');
+      await tester.pump();
+      expect(
+        tester.getTopLeft(find.text('Search is offline')).dy,
+        greaterThan(tester.getBottomLeft(find.text('Settings')).dy),
+      );
+      expect(_fieldFocused(tester), isTrue);
     });
   });
 
