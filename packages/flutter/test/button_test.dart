@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:invisible_ui/invisible_ui.dart';
+import 'package:invisible_ui/src/internal/copy_feedback.dart';
 import 'package:invisible_ui/src/internal/focus_ring.dart';
 import 'package:invisible_ui/src/internal/glyphs.dart';
 
@@ -21,9 +22,124 @@ BoxDecoration _decoration(WidgetTester tester) {
   return container.decoration! as BoxDecoration;
 }
 
+List<String> _clipboard(WidgetTester tester, {bool refuse = false}) {
+  final copied = <String>[];
+  tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+    SystemChannels.platform,
+    (call) async {
+      if (call.method == 'Clipboard.setData') {
+        if (refuse) throw PlatformException(code: 'denied');
+        copied.add(
+          (call.arguments as Map<Object?, Object?>)['text']! as String,
+        );
+      }
+      return null;
+    },
+  );
+  addTearDown(
+    () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      null,
+    ),
+  );
+  return copied;
+}
+
 void main() {
   tearDown(() {
     FocusManager.instance.highlightStrategy = FocusHighlightStrategy.automatic;
+  });
+
+  group('copy', () {
+    testWidgets('a press runs onPressed, copies, shows Copied beside the '
+        'button for two seconds and announces it; the name and focus stay', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      final copied = _clipboard(tester);
+      final announced = recordAnnouncements(tester);
+      var presses = 0;
+      await tester.pumpWidget(
+        harness(
+          Button(
+            onPressed: () => presses++,
+            copy: 'https://example.com',
+            child: const Text('Copy link'),
+          ),
+        ),
+      );
+      await focusOn(tester, find.text('Copy link'));
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pump();
+      expect(presses, 1);
+      expect(copied, ['https://example.com']);
+      expect(find.text('Copied'), findsOneWidget);
+      expect(announced, [(message: 'Copied', assertive: false)]);
+      expect(
+        tester.getSemantics(find.text('Copy link')),
+        semanticsWith(label: 'Copy link', isButton: true),
+      );
+      expect(focusedOn(tester, find.text('Copy link')), isTrue);
+      await expectLater(tester, meetsGuideline(textContrastGuideline));
+      await tester.pump(copiedDuration);
+      expect(find.text('Copied'), findsNothing);
+      semantics.dispose();
+    });
+
+    testWidgets('copiedLabel replaces the text; a refused copy shows and '
+        'announces nothing', (tester) async {
+      final announced = recordAnnouncements(tester);
+      _clipboard(tester);
+      await tester.pumpWidget(
+        harness(
+          Button(
+            onPressed: () {},
+            copy: 'x',
+            copiedLabel: 'Link copied',
+            child: const Text('Copy'),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Copy'));
+      await tester.pump();
+      expect(find.text('Link copied'), findsOneWidget);
+      expect(announced.single.message, 'Link copied');
+      await tester.pump(copiedDuration);
+
+      _clipboard(tester, refuse: true);
+      announced.clear();
+      await tester.tap(find.text('Copy'));
+      await tester.pump();
+      expect(find.text('Link copied'), findsNothing);
+      expect(announced, isEmpty);
+    });
+
+    testWidgets('right to left at text scale 2.0 in a narrow parent, the '
+        'confirmation follows the button', (tester) async {
+      _clipboard(tester);
+      await tester.pumpWidget(
+        harness(
+          SizedBox(
+            width: 240,
+            child: Button(
+              onPressed: () {},
+              copy: 'x',
+              child: const Text('Copy'),
+            ),
+          ),
+          direction: TextDirection.rtl,
+          textScale: 2,
+        ),
+      );
+      await tester.tap(find.text('Copy'));
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      expect(
+        tester.getCenter(find.text('Copied')).dx,
+        lessThan(tester.getCenter(find.text('Copy')).dx),
+      );
+      await tester.pump(copiedDuration);
+    });
   });
 
   group('activation', () {

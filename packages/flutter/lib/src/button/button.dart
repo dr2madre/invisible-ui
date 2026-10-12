@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../internal/ambient.dart';
+import '../internal/copy_feedback.dart';
 import '../internal/focus_ring.dart';
 import '../internal/glyphs.dart';
 import '../internal/grouped_corners.dart';
@@ -47,6 +50,18 @@ const double _disabledOpacity = 0.5;
 /// icon-only button), the label stays, the button stays focusable and
 /// presses are ignored. The busy state is announced as the button's value.
 ///
+/// With [copy], pressing the button also writes that text to the clipboard
+/// (ADR 0016, case 1). After a successful copy, "Copied" ([copiedLabel], or
+/// [InvisibleMessages.buttonCopied]) shows beside the button for two seconds
+/// and is announced politely; the button keeps its name and its focus. When
+/// the clipboard refuses, nothing is shown or announced.
+///
+/// ```dart
+/// import 'package:invisible_ui/invisible_ui.dart' as iu;
+///
+/// iu.Button(onPressed: () {}, copy: link, child: const Text('Copy link'));
+/// ```
+///
 /// The hit area is never smaller than [InvisibleThemeData.minTargetSize],
 /// and the button grows with its label and with the text scale.
 class Button extends StatefulWidget {
@@ -61,6 +76,8 @@ class Button extends StatefulWidget {
     this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
+    this.copy,
+    this.copiedLabel,
   }) : _iconOnly = false;
 
   /// A button that shows only [icon]. With no visible text, [semanticLabel]
@@ -74,6 +91,8 @@ class Button extends StatefulWidget {
     this.loading = false,
     this.focusNode,
     this.autofocus = false,
+    this.copy,
+    this.copiedLabel,
   }) : assert(semanticLabel != '', 'An icon-only button needs a label.'),
        child = null,
        _iconOnly = true;
@@ -104,6 +123,13 @@ class Button extends StatefulWidget {
   /// Whether the button takes focus when it first appears.
   final bool autofocus;
 
+  /// The text a press writes to the clipboard, after [onPressed] runs.
+  final String? copy;
+
+  /// The confirmation shown after a copy, in place of
+  /// [InvisibleMessages.buttonCopied].
+  final String? copiedLabel;
+
   final bool _iconOnly;
 
   @override
@@ -113,6 +139,21 @@ class Button extends StatefulWidget {
 class _ButtonState extends State<Button> {
   bool _focusVisible = false;
   bool _hovered = false;
+  final CopyFeedback _feedback = CopyFeedback();
+
+  @override
+  void initState() {
+    super.initState();
+    _feedback.addListener(_changed);
+  }
+
+  void _changed() => setState(() {});
+
+  @override
+  void dispose() {
+    _feedback.dispose();
+    super.dispose();
+  }
 
   static const Map<ShortcutActivator, Intent> _shortcuts = {
     SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
@@ -130,6 +171,18 @@ class _ButtonState extends State<Button> {
     // Read from the widget at the press, so a replaced callback is the one run.
     if (widget.loading) return;
     widget.onPressed?.call();
+    final copy = widget.copy;
+    if (copy != null && mounted) {
+      unawaited(
+        _feedback.copy(
+          context,
+          copy,
+          announcement:
+              widget.copiedLabel ??
+              InvisibleTheme.of(context).messages.buttonCopied,
+        ),
+      );
+    }
   }
 
   @override
@@ -225,7 +278,7 @@ class _ButtonState extends State<Button> {
       ),
     );
 
-    return Semantics(
+    final Widget button = Semantics(
       container: true,
       button: true,
       enabled: _enabled,
@@ -272,6 +325,23 @@ class _ButtonState extends State<Button> {
           ),
         ),
       ),
+    );
+    if (widget.copy == null) return button;
+    // Beside the button, never inside it: text inside would change its name.
+    // A Wrap, so in a narrow parent the text goes below instead of
+    // overflowing.
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: _gap,
+      runSpacing: _gap / 2,
+      children: [
+        button,
+        if (_feedback.copied)
+          Text(
+            widget.copiedLabel ?? theme.messages.buttonCopied,
+            style: theme.textStyle.copyWith(color: theme.colors.textSecondary),
+          ),
+      ],
     );
   }
 }
