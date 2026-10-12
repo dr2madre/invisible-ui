@@ -25,10 +25,14 @@ export interface CalendarProps {
   value?: string | null;
   focusedDate?: string;
   view?: CalendarView;
+  /** First day of the week (0 = Sunday). Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
   min?: string;
   max?: string;
-  /** BCP-47 locale for month and weekday names. Defaults to the runtime locale. */
+  /**
+   * BCP-47 locale for month and weekday names and the first day of the week.
+   * Defaults to the i18n provider's locale.
+   */
   locale?: string;
   /** Appointment dots, keyed by their `date`. */
   events?: CalendarEvent[];
@@ -85,7 +89,7 @@ export const Calendar = defineComponent({
     value: { type: String as PropType<string | null>, default: null },
     focusedDate: { type: String, default: undefined },
     view: { type: String as PropType<CalendarView>, default: "month" },
-    weekStartsOn: { type: Number as PropType<WeekStart>, default: 1 },
+    weekStartsOn: { type: Number as PropType<WeekStart>, default: undefined },
     min: { type: String, default: undefined },
     max: { type: String, default: undefined },
     locale: { type: String, default: undefined },
@@ -163,6 +167,7 @@ export const Calendar = defineComponent({
       focusedDate: props.focusedDate,
       view: props.view,
       weekStartsOn: props.weekStartsOn,
+      locale: resolvedLocale.value,
       min: props.min,
       max: props.max,
       onValueChange: handleSelect,

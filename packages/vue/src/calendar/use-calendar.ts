@@ -1,4 +1,4 @@
-import { calendar as core } from "@design-system/core";
+import { calendar as core, weekStart } from "@design-system/core";
 import {
   computed,
   nextTick,
@@ -10,6 +10,7 @@ import {
 } from "vue";
 import { normalizeProps } from "../normalize";
 import { useStableId } from "../internal/use-stable-id";
+import { useI18n } from "../i18n/i18n";
 
 export type CalendarView = core.CalendarView;
 export type WeekStart = core.WeekStart;
@@ -22,8 +23,10 @@ export interface UseCalendarOptions {
   focusedDate?: string;
   /** Layout/period. Defaults to `"month"`. */
   view?: CalendarView;
-  /** First day of the week. Defaults to `1` (Monday). */
+  /** First day of the week (0 = Sunday). Defaults to the locale's first day of the week. */
   weekStartsOn?: WeekStart;
+  /** BCP-47 locale for the default first day of the week. Defaults to the i18n provider's. */
+  locale?: string;
   /** Earliest selectable date (ISO), inclusive. */
   min?: string;
   /** Latest selectable date (ISO), inclusive. */
@@ -58,6 +61,14 @@ export interface UseCalendar {
 export function useCalendar(options: MaybeRefOrGetter<UseCalendarOptions> = {}): UseCalendar {
   const id = useStableId("ds-calendar");
   const resolved = computed(() => toValue(options));
+  const i18n = useI18n();
+  // The provider's locale is the same on the server and the client, so the
+  // first column agrees across hydration.
+  const weekStartsOn = computed<WeekStart>(
+    () =>
+      resolved.value.weekStartsOn ??
+      weekStart.weekStartsOn(resolved.value.locale ?? i18n.value.locale),
+  );
 
   // An empty string means "nothing selected": a consumer binding a
   // text-shaped model starts there, and `""` reaches the date formatters as
@@ -118,7 +129,7 @@ export function useCalendar(options: MaybeRefOrGetter<UseCalendarOptions> = {}):
         value: value.value,
         focusedDate: focusedDate.value,
         view: view.value,
-        weekStartsOn: resolved.value.weekStartsOn ?? 1,
+        weekStartsOn: weekStartsOn.value,
         min: resolved.value.min ?? null,
         max: resolved.value.max ?? null,
         id,
@@ -136,6 +147,6 @@ export function useCalendar(options: MaybeRefOrGetter<UseCalendarOptions> = {}):
     value: computed(() => value.value),
     focusedDate: computed(() => focusedDate.value),
     view: computed(() => view.value),
-    weekStartsOn: computed(() => resolved.value.weekStartsOn ?? 1),
+    weekStartsOn,
   };
 }
