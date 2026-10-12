@@ -3,8 +3,10 @@ import { boolAttr, HTMLElementBase } from "../internal/base";
 
 export type ToolbarOrientation = core.ToolbarOrientation;
 
+// A pressed toggle button carries a hidden input for its form value: never a
+// control.
 const FOCUSABLE =
-  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input, select, textarea';
+  'button, [role="button"], [role="checkbox"], [role="radio"], [role="switch"], a[href], input:not([type="hidden"]), select, textarea';
 
 /**
  * `<ds-toolbar>` groups related controls under the WAI-ARIA toolbar pattern:

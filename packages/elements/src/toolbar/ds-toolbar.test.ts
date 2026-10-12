@@ -178,4 +178,15 @@ describe("<ds-toolbar> (DOM changes)", () => {
     await user.tab();
     expect(screen.getByRole("toolbar").contains(document.activeElement)).toBe(false);
   });
+
+  it("skips the hidden input a pressed toggle button carries", async () => {
+    const user = userEvent.setup();
+    mount(`<ds-toggle-button name="strike" pressed>Strike</ds-toggle-button>`);
+    const strike = screen.getByRole("button", { name: "Strike", pressed: true });
+    await waitFor(() => expect(strike).toHaveAttribute("tabindex", "-1"));
+    expect(document.querySelector('input[type="hidden"]')).not.toHaveAttribute("tabindex");
+    strike.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(control("Bold")).toHaveFocus();
+  });
 });
