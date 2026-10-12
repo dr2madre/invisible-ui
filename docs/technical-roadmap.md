@@ -184,6 +184,10 @@ Each item ships as its own PR. Checkboxes track progress.
   Aspect Ratio and Icon are not ported: the widgets library has its own
   `AspectRatio` and `Icon`, recorded in `parity/aspect-ratio.md` and
   `parity/icon.md`.
+  The lower bound is Flutter 3.35 and Dart 3.9 (ADR 0017, decision 7): the
+  radios run on the native `RadioGroup` and `RawRadio`, and the calendar's
+  default week start comes from CLDR through the shared vectors in
+  `core/src/calendar/__vectors__/week-start.json`.
   The number
   field's logic answers the shared test vectors in
   `core/src/number-field/__vectors__`, the select typeahead and collection
