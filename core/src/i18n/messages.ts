@@ -209,6 +209,10 @@ export const en = {
   "tag.remove": "Remove",
   "multiSelect.selected": "Selected values",
   "multiSelect.remove": "Remove {name}",
+  // Announced politely after a value is added or removed, on a platform with
+  // no live tag list (the Flutter adapter).
+  "multiSelect.added": "{name} added",
+  "multiSelect.removed": "{name} removed",
   "multiSelect.empty": "No results",
   "multiSelect.placeholder": "Search\u2026",
   // Upload Drop Area — prompt first, the styled action word last, so translations

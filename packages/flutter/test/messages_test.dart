@@ -11,7 +11,13 @@ String? _english(String key) {
   final match = RegExp(
     '"${RegExp.escape(key)}": "([^"]*)"',
   ).firstMatch(_catalog.readAsStringSync());
-  return match?.group(1);
+  // The catalog writes a few characters as `\uXXXX` escapes.
+  return match
+      ?.group(1)
+      ?.replaceAllMapped(
+        RegExp(r'\\u([0-9a-fA-F]{4})'),
+        (escape) => String.fromCharCode(int.parse(escape.group(1)!, radix: 16)),
+      );
 }
 
 /// One plural form of a plural catalog message, such as `one` or `other`.
@@ -68,6 +74,35 @@ void main() {
       expect(messages.comboboxEmpty, _english('combobox.empty'));
       expect(messages.comboboxShow, _english('combobox.show'));
       expect(messages.comboboxHide, _english('combobox.hide'));
+      expect(messages.searchFieldClear, _english('searchField.clear'));
+      expect(messages.searchFieldSubmit, _english('searchField.submit'));
+      expect(messages.searchDialogTitle, _english('searchDialog.title'));
+      expect(messages.searchDialogLabel, _english('searchDialog.label'));
+      expect(
+        messages.searchDialogPlaceholder,
+        _english('searchDialog.placeholder'),
+      );
+      expect(messages.searchDialogEmpty, _english('searchDialog.empty'));
+      for (final (count, form) in [(1, 'one'), (3, 'other')]) {
+        expect(
+          messages.searchDialogResults(count),
+          InvisibleMessages.fill(_plural('searchDialog.results', form)!, {
+            'count': '$count',
+          }),
+        );
+      }
+      expect(messages.searchDialogLoading, _english('searchDialog.loading'));
+      expect(messages.sheetDialogClose, _english('sheetDialog.close'));
+      expect(messages.sidebarOpen, _english('sidebar.open'));
+      expect(messages.multiSelectSelected, _english('multiSelect.selected'));
+      expect(messages.multiSelectRemove, _english('multiSelect.remove'));
+      expect(messages.multiSelectAdded, _english('multiSelect.added'));
+      expect(messages.multiSelectRemoved, _english('multiSelect.removed'));
+      expect(messages.multiSelectEmpty, _english('multiSelect.empty'));
+      expect(
+        messages.multiSelectPlaceholder,
+        _english('multiSelect.placeholder'),
+      );
       expect(messages.popoverTriggerLabel, _english('dialog.trigger'));
       expect(messages.calendarLabel, _english('calendar.label'));
       expect(messages.calendarPrevious, _english('calendar.previous'));
