@@ -172,7 +172,10 @@ Each item ships as its own PR. Checkboxes track progress.
   components: Avatar, Avatar Group, Count, Tag (with its remove button),
   Kbd, Label, Feedback Icon (now public), Skeleton, Code, Code Block (copy
   through Flutter's `Clipboard`, announced) and Blockquote, and Scroll Area,
-  each with its parity checklist in `packages/flutter/parity/`, and the
+  then the menus and navigation: Context Menu and Menubar on the shared menu
+  layer (the bar running the `core/src/menubar` vectors), Navigation Menu,
+  Sidebar (inline and rail; the drawer waits for Sheet Dialog) and Tree View
+  (the `core/src/tree-view` vectors), each with its parity checklist in `packages/flutter/parity/`, and the
   `flutter.yml` workflow. Aspect Ratio is not ported: the widgets library
   has its own `AspectRatio`, recorded in `parity/aspect-ratio.md`.
   The number

@@ -9,12 +9,13 @@ specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/doc
 dark, density, minimum target size, focus ring, messages) and the
 components listed below: Button, the form fields (Field, TextField,
 Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
-Menu, Popover), the feedback widgets (the notifications, Loading,
+Menu, Context Menu, Menubar, Popover), the feedback widgets (the notifications, Loading,
 EmptyState, ErrorState), Card, the dialog family (Dialog, AlertDialog,
 ConfirmDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
 RadioButtonGroup, SegmentedControl, Select, Combobox), the dates
 (Calendar, DatePicker, DateRangePicker, TimeField), the disclosures and
-navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link),
+navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link,
+Navigation Menu, Sidebar, Tree View),
 the value displays (Progress, Meter) and the display components (Avatar,
 AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
 CodeBlock, Blockquote, ScrollArea). Names and APIs can still change. It is not published to pub.dev.
@@ -135,6 +136,8 @@ NumberField(
 | Tooltip | Matched, with adaptations listed | [parity/tooltip.md](parity/tooltip.md) | [Tooltip](https://dr2madre.github.io/invisible-ui/components/data-layout/tooltip/) |
 | Toolbar | Matched, with adaptations listed | [parity/toolbar.md](parity/toolbar.md) | [Toolbar](https://dr2madre.github.io/invisible-ui/components/patterns/toolbar/) |
 | Dropdown Menu, with submenus | Matched against the Svelte menu and the submenu spec, with adaptations listed | [parity/dropdown-menu.md](parity/dropdown-menu.md) | [Dropdown Menu](https://dr2madre.github.io/invisible-ui/components/data-layout/dropdown-menu/) |
+| Context Menu, with submenus | Matched against the Svelte Context Menu and the submenu spec, with adaptations listed | [parity/context-menu.md](parity/context-menu.md) | [Context Menu](https://dr2madre.github.io/invisible-ui/components/data-layout/context-menu/) |
+| Menubar, with submenus | Matched against the Svelte Menubar and the submenu spec, with adaptations listed | [parity/menubar.md](parity/menubar.md) | [Menubar](https://dr2madre.github.io/invisible-ui/components/patterns/menubar/) |
 | Inline Notification | Matched, with adaptations listed | [parity/inline-notification.md](parity/inline-notification.md) | [Inline Notification](https://dr2madre.github.io/invisible-ui/components/feedback/inline-notification/) |
 | Notification, Notification Region | Matched, with adaptations listed | [parity/notification.md](parity/notification.md) | [Notification](https://dr2madre.github.io/invisible-ui/components/feedback/notification/), [Notification Region](https://dr2madre.github.io/invisible-ui/components/feedback/notification-region/) |
 | Loading | Matched, with adaptations listed | [parity/loading.md](parity/loading.md) | [Loading](https://dr2madre.github.io/invisible-ui/components/feedback/loading/) |
@@ -162,6 +165,9 @@ NumberField(
 | Breadcrumb | Matched, with adaptations listed | [parity/breadcrumb.md](parity/breadcrumb.md) | [Breadcrumb](https://dr2madre.github.io/invisible-ui/components/patterns/breadcrumb/) |
 | Pagination | Matched, with adaptations listed | [parity/pagination.md](parity/pagination.md) | [Pagination](https://dr2madre.github.io/invisible-ui/components/navigation/pagination/) |
 | Link | Matched, with adaptations listed | [parity/link.md](parity/link.md) | [Link](https://dr2madre.github.io/invisible-ui/components/navigation/link/) |
+| Navigation Menu | Matched, with adaptations listed | [parity/navigation-menu.md](parity/navigation-menu.md) | [Navigation Menu](https://dr2madre.github.io/invisible-ui/components/patterns/navigation-menu/) |
+| Sidebar | Matched for the inline sidebar and the rail, with adaptations listed; the drawer mode waits for Sheet Dialog | [parity/sidebar.md](parity/sidebar.md) | [Sidebar](https://dr2madre.github.io/invisible-ui/components/patterns/sidebar/) |
+| Tree View | Matched, single selection, with adaptations listed | [parity/tree-view.md](parity/tree-view.md) | [Tree View](https://dr2madre.github.io/invisible-ui/components/patterns/tree-view/) |
 | Progress | Matched, with adaptations listed | [parity/progress.md](parity/progress.md) | [Progress](https://dr2madre.github.io/invisible-ui/components/data-layout/progress/) |
 | Meter | Matched, with adaptations listed | [parity/meter.md](parity/meter.md) | [Meter](https://dr2madre.github.io/invisible-ui/components/data-layout/meter/) |
 | Avatar | Matched, with adaptations listed | [parity/avatar.md](parity/avatar.md) | [Avatar](https://dr2madre.github.io/invisible-ui/components/data-layout/avatar/) |
@@ -186,7 +192,9 @@ vectors as the core
 read by `test/number_format_test.dart` in a checkout of the whole
 repository.
 
-The menus also run the shared test vectors in `core/src/menu/__vectors__`,
+The menus also run the shared test vectors in `core/src/menu/__vectors__`
+and the Menubar the bar vectors in `core/src/menubar/__vectors__`, the
+Tree View the keyboard vectors in `core/src/tree-view/__vectors__`,
 Select, Combobox and the radio-style groups the typeahead and navigation
 vectors in `core/src/select/__vectors__`, the calendar the grid, key,
 bound, range and name vectors in `core/src/calendar/__vectors__`, the
@@ -197,8 +205,8 @@ Progress and Meter the keyboard, toggle, page list and reading vectors in
 avatar initials the vectors in `core/src/avatar`, which the `core/` tests
 run too.
 
-The overlays (Tooltip, Dropdown Menu, Popover, the lists of Select and
-Combobox) need an `Overlay` above them, as
+The overlays (Tooltip, Dropdown Menu, Context Menu, Menubar, Popover, the
+lists of Select and Combobox) need an `Overlay` above them, as
 `WidgetsApp` provides. The notification region wraps the app's navigator
 and waits while a modal is open:
 
@@ -343,6 +351,19 @@ Breadcrumb(
 - **Links.** `Link` and the breadcrumb steps open through `onPressed`, so
   the app decides how a destination opens (a route, or a URL it launches)
   and the package needs no URL plugin. Pass `uri` to announce the address.
+- **Menus.** `Menubar` holds top menus (`MenubarMenu`) with the items,
+  groups and submenus of `DropdownMenu`; the arrows move between top menus.
+  `ContextMenu` opens on its child at the pointer: a secondary click, a long
+  press on touch, Shift+F10 or the context menu key.
+- **Navigation Menu.** A bar where some items open a panel of links: hover
+  opens after 150 ms, a tap, Enter or Space toggles, ArrowDown moves into
+  the panel, Escape returns to the trigger.
+- **Sidebar.** The app's side navigation, with collapsible sections and an
+  icon rail. Every destination reports `onSelected`; the app navigates and
+  decides where the sidebar shows, as on the web. The drawer mode waits for
+  Sheet Dialog.
+- **Tree View.** The tree keyboard of the APG, typeahead and `*` included,
+  single selection and children loaded on demand (`onLoadChildren`).
 - **Pagination.** `Pagination(page:, pageCount:, onPageChanged:)` shows the
   boundary pages, the siblings of the current page and the gaps.
 - **Progress and Meter.** `Progress` is determinate, as on the web: work of

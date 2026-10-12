@@ -138,6 +138,9 @@ export const en = {
   "sidebar.collapse": "Collapse the navigation",
   "sidebar.expand": "Expand the navigation",
   "sidebar.open": "Open the navigation",
+  // Read with the current destination on a platform whose semantics have no
+  // aria-current (the Flutter adapter).
+  "sidebar.current": "current page",
   "stepper.label": "Progress",
   // Read out for a completed step: the checkmark that shows it is decorative.
   "stepper.completed": "Completed",
