@@ -5,27 +5,28 @@ layer, themed from the Invisible UI design tokens. The package reimplements
 the behaviour of the web adapters in Dart and is held to the same
 specification ([ADR 0017](https://github.com/dr2madre/invisible-ui/blob/main/docs/adr/0017-flutter-adapter.md)).
 
-**Status: alpha.** The package carries the tokens, the theme (light and
-dark, density, minimum target size, focus ring, messages) and the
-components listed below: Button, the form fields (Field, TextField,
-Textarea, NumberField), the overlays and chrome (Tooltip, Toolbar, Dropdown
-Menu, Context Menu, Menubar, Popover), the feedback widgets (the notifications, Loading,
+**Status: alpha, full catalog.** The package covers all 80 components of
+the catalog. It carries the tokens, the theme (light and dark, density,
+minimum target size, focus ring, messages) and the components listed
+below: Button, the form fields (Field, TextField, Textarea, NumberField),
+the overlays and chrome (Tooltip, Toolbar, Dropdown Menu, Context Menu,
+Menubar, Popover), the feedback widgets (the notifications, Loading,
 LoadingGenerationArea, EmptyState, ErrorState), Card, the dialog family
 (Dialog, AlertDialog, ConfirmDialog, PromptDialog, SearchDialog,
 SheetDialog), the choice controls (Checkbox, CheckboxGroup, Switch,
 RadioButtonGroup, SegmentedControl, Select, Combobox, MultiSelect), the
-search field (SearchField), the dates
-(Calendar, DatePicker, DateRangePicker, TimeField), the disclosures and
-navigation (Collapsible, Accordion, Tabs, Breadcrumb, Pagination, Link,
-Navigation Menu, Sidebar, Tree View),
-the value displays (Progress, Meter) and the display components (Avatar,
-AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
-CodeBlock, Blockquote, ScrollArea) and the value controls (Slider,
+search field (SearchField), the dates (Calendar, DatePicker,
+DateRangePicker, TimeField), the disclosures and navigation (Collapsible,
+Accordion, Tabs, Breadcrumb, Pagination, Link, Navigation Menu, Sidebar,
+Tree View), the value displays (Progress, Meter), the display components
+(Avatar, AvatarGroup, Count, Tag, Kbd, Label, FeedbackIcon, Skeleton, Code,
+CodeBlock, Blockquote, ScrollArea), the value controls (Slider,
 RangeSlider, RatingGroup, PinInput, Radio, ToggleButton, ToggleGroup,
-ButtonGroup, Stepper, Separator). Names and APIs can still change. It is not published to pub.dev.
-
-The data and form patterns are in too: Table and TableSet, Carousel,
-LoginForm, UploadDropArea and LocaleProvider.
+ButtonGroup, Stepper, Separator) and the data and form patterns (Table and
+TableSet, with Table View internal as on the web, Carousel, LoginForm,
+UploadDropArea and LocaleProvider). Icon and Aspect Ratio are Flutter's own
+`Icon` and `AspectRatio` widgets. Names and APIs can still change. It is
+not published to pub.dev.
 
 The package depends on the Flutter SDK only: no Material, no Cupertino, no
 bundled icon font. An app that uses it can set `uses-material-design: false`.

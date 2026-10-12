@@ -142,8 +142,8 @@ Each item ships as its own PR. Checkboxes track progress.
   tokens and tests. Every stylesheet is held byte for byte to the Vue and
   custom element copies, and every public component has server-rendering and
   hydration coverage.
-- [ ] **15. Flutter adapter** — ran in parallel with item 14, React: full
-  catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
+- [x] **15. Flutter adapter** — done. It ran in parallel with item 14,
+  React: full catalog ([ADR 0017](./adr/0017-flutter-adapter.md), accepted). The shared
   groundwork comes first: `tokens.json` moves to `packages/tokens/`, the
   roles, sizes, focus ring and density move into it, and the menu spec gains
   submenus ([`docs/menu-submenu-spec.md`](./menu-submenu-spec.md)). Then `packages/flutter` (Dart package `invisible_ui`)
@@ -152,7 +152,8 @@ Each item ships as its own PR. Checkboxes track progress.
   [`docs/proposals/flutter-adapter.md`](./proposals/flutter-adapter.md) and
   the discovery in
   [`docs/proposals/flutter-discovery.md`](./proposals/flutter-discovery.md).
-  Progress: `packages/flutter` carries the foundation (generated tokens
+  `packages/flutter` carries all 80 components of the catalog: the
+  foundation (generated tokens
   checked by `pnpm tokens:check`, `InvisibleTheme` with light and dark,
   density, minimum target size, focus ring and messages), Button, the
   fields Field, TextField, Textarea and NumberField, Tooltip, Toolbar,
@@ -215,8 +216,10 @@ Each item ships as its own PR. Checkboxes track progress.
   values those in `core/src/slider`, `range-slider`, `stepper` and
   `pin-input`, read by the core and the Flutter tests. Every component of the first wave in ADR 0017 is in. Of what
   follows it, Card, Collapsible and Timelog's dialogs, forms, pickers and
-  Date Picker are in; the rest of wave 2 (the navigation bar) and the specs
-  for the section header and the colour swatch are next.
+  Date Picker are in, and so is the rest of the catalog. The navigation bar
+  of wave 2, a new component that starts from its spec, and the specs for
+  the section header and the colour swatch are outside the catalog and come
+  next.
 - [x] **16. Svelte: runes syntax** — the Svelte adapter moved from the legacy
   syntax to runes mode in three phases
   ([ADR 0015](./adr/0015-svelte-runes.md)). Phase 1 moved the 27

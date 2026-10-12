@@ -77,7 +77,7 @@ that holds it.
 | Every modal counts, including one opened outside the design system | adapted | `ModalObserver` counts every `PopupRoute` (dialogs and modal sheets) in the navigator it observes: `a dialog route counts as a modal`; an overlay that is not a route calls `hold()` |
 | The package's own dialogs count | matched | `showInvisibleDialog` pushes a `PopupRoute`: `the notification region holds toasts while a dialog is open (ADR 0016, case 2)` in `test/dialog_test.dart` |
 | The region mounts in `<body>`, never inside a dialog | adapted | the app places the region around its navigator (`WidgetsApp.builder`), outside every route |
-| Dialog status area (case 1) and dialogs on top (case 3) | out of scope | they belong to the dialog family, which the Flutter package does not have yet |
+| Dialog status area (case 1) and dialogs on top (case 3) | matched | they belong to the dialog family: see [dialog.md](dialog.md) |
 
 ## Accessibility and layout
 
