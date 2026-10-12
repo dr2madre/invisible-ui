@@ -152,6 +152,28 @@ describe("<ds-date-picker>", () => {
   });
 });
 
+describe("<ds-date-picker> week start", () => {
+  const firstColumn = () => screen.getAllByRole("columnheader")[0];
+
+  it("starts the week on the locale's first day", async () => {
+    const user = userEvent.setup();
+    mount('value="2026-06-15" locale="en-US"');
+    await user.click(field());
+    expect(firstColumn()).toHaveAccessibleName("Sunday");
+
+    mount('value="2026-06-15" locale="en-GB"');
+    await user.click(field());
+    expect(firstColumn()).toHaveAccessibleName("Monday");
+  });
+
+  it("lets week-starts-on override the locale", async () => {
+    const user = userEvent.setup();
+    mount('value="2026-06-15" locale="en-US" week-starts-on="6"');
+    await user.click(field());
+    expect(firstColumn()).toHaveAccessibleName("Saturday");
+  });
+});
+
 describe("<ds-date-picker> in a form", () => {
   const mountForm = (attrs = 'value="2026-06-15"') => {
     document.body.innerHTML = `<form lang="en-US">
