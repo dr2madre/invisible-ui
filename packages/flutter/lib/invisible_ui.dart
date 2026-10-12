@@ -41,6 +41,8 @@ export 'src/kbd/kbd.dart' show Kbd;
 export 'src/label/label.dart' show Label;
 export 'src/link/link.dart' show Link, LinkVariant;
 export 'src/loading/loading.dart' show Loading, LoadingVariant;
+export 'src/login_form/login_form.dart'
+    show LoginCredentials, LoginForm, LoginProvider;
 export 'src/menu/menu_entry.dart';
 export 'src/menubar/menubar.dart' show Menubar, MenubarMenu;
 export 'src/meter/meter.dart' show Meter;
