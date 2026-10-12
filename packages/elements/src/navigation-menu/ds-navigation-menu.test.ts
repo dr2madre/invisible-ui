@@ -1,6 +1,6 @@
 import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import { vi } from "vitest";
+import { onTestFinished, vi } from "vitest";
 import { axe } from "vitest-axe";
 import "../define";
 import type { DsNavigationMenu, NavigationMenuItem } from "./ds-navigation-menu";
@@ -162,6 +162,205 @@ describe("<ds-navigation-menu>", () => {
     expect(products).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("closes a hover-opened panel when the pointer leaves", () => {
+    vi.useFakeTimers();
+    mount();
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(150);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+
+    // Moving onto the panel keeps it open; leaving it closes after the delay.
+    fireEvent.pointerLeave(products, { pointerType: "mouse" });
+    const panel = document.querySelector<HTMLElement>(".navmenu__content")!;
+    fireEvent.pointerEnter(panel, { pointerType: "mouse" });
+    vi.advanceTimersByTime(300);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    fireEvent.pointerLeave(panel, { pointerType: "mouse" });
+    vi.advanceTimersByTime(149);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    vi.advanceTimersByTime(1);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("keeps a hover-opened panel open after a click, until a second click", () => {
+    vi.useFakeTimers();
+    const menu = mount();
+    const seen: Array<string | null> = [];
+    menu.addEventListener("value-change", (e) => seen.push((e as CustomEvent).detail.value));
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(150);
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.pointerLeave(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(500);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    expect(seen).toEqual(["products", null]);
+  });
+
+  it("does not undo a click made within the hover delay", () => {
+    vi.useFakeTimers();
+    mount();
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(50);
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    vi.advanceTimersByTime(500);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    // The click kept it: the pointer leaving does not close it.
+    fireEvent.pointerLeave(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(500);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("does not reopen on hover after a click closed it while the pointer stays", () => {
+    vi.useFakeTimers();
+    mount();
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(150);
+    fireEvent.click(products);
+    fireEvent.click(products);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    fireEvent.pointerMove(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(1000);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+
+    // Entering the trigger again opens on hover as usual.
+    fireEvent.pointerLeave(products, { pointerType: "mouse" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(150);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("closes on Escape and on a press outside, with no pending hover reopening it", () => {
+    vi.useFakeTimers();
+    mount();
+    const products = screen.getByRole("button", { name: "Products" });
+    fireEvent.pointerEnter(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(150);
+    fireEvent.click(products);
+    products.focus();
+    fireEvent.keyDown(products, { key: "Escape" });
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    expect(products).toHaveFocus();
+    vi.advanceTimersByTime(1000);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+
+    fireEvent.click(products);
+    const outside = screen.getByRole("button", { name: "Outside" });
+    fireEvent.pointerDown(outside);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+    expect(products).toHaveFocus();
+    vi.advanceTimersByTime(1000);
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("opens and keeps an item set by the page", () => {
+    vi.useFakeTimers();
+    const menu = mount();
+    menu.value = "products";
+    const products = screen.getByRole("button", { name: "Products" });
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    fireEvent.pointerLeave(products, { pointerType: "mouse" });
+    vi.advanceTimersByTime(500);
+    expect(products).toHaveAttribute("aria-expanded", "true");
+    menu.value = null;
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+});
+
+describe("<ds-navigation-menu> links", () => {
+  const withCurrent: NavigationMenuItem[] = [
+    { value: "home", label: "Home", href: "#home" },
+    {
+      value: "products",
+      label: "Products",
+      links: [
+        { label: "Catalog", href: "#catalog", current: true },
+        { label: "Lineage", href: "#lineage" },
+      ],
+    },
+    { value: "about", label: "About", href: "#about", current: false },
+  ];
+
+  const mountCurrent = (list = withCurrent) => {
+    document.body.innerHTML = `<ds-navigation-menu label="Site"></ds-navigation-menu><h1 tabindex="-1">Page</h1>`;
+    const menu = document.querySelector("ds-navigation-menu") as DsNavigationMenu;
+    menu.items = list;
+    return menu;
+  };
+  const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+  it("marks only the current link as the page, and its trigger for styling only", async () => {
+    const user = userEvent.setup();
+    mountCurrent();
+    const products = screen.getByRole("button", { name: "Products" });
+    expect(products).toHaveAttribute("data-current", "");
+    expect(products).not.toHaveAttribute("aria-current");
+    expect(screen.getByRole("link", { name: "Home" })).not.toHaveAttribute("aria-current");
+
+    await user.click(products);
+    expect(screen.getByRole("link", { name: "Catalog" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("link", { name: "Catalog" })).toHaveAttribute("data-current", "");
+    expect(screen.getByRole("link", { name: "Lineage" })).not.toHaveAttribute("aria-current");
+    expect(document.querySelectorAll("[aria-current]")).toHaveLength(1);
+  });
+
+  it("marks a current top-level link", () => {
+    mountCurrent([{ value: "home", label: "Home", href: "#home", current: true }]);
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("closes the panel on a link click and leaves focus where the page puts it", async () => {
+    const user = userEvent.setup();
+    const menu = mountCurrent();
+    const seen: Array<string | null> = [];
+    menu.addEventListener("value-change", (e) => seen.push((e as CustomEvent).detail.value));
+    const heading = screen.getByRole("heading", { name: "Page" });
+    // The page moves focus to its new content when a link is followed.
+    const moveFocus = (event: Event) => {
+      if ((event.target as Element).closest("a")) heading.focus();
+    };
+    document.addEventListener("click", moveFocus);
+    onTestFinished(() => document.removeEventListener("click", moveFocus));
+
+    await user.click(screen.getByRole("button", { name: "Products" }));
+    await user.click(screen.getByRole("link", { name: "Lineage" }));
+    expect(screen.queryByRole("link", { name: "Lineage" })).toBeNull();
+    expect(seen).toEqual(["products", null]);
+    await settled();
+    expect(heading).toHaveFocus();
+  });
+
+  it("puts focus back on the trigger when the link click left it on the body", async () => {
+    const user = userEvent.setup();
+    mountCurrent();
+    const products = screen.getByRole("button", { name: "Products" });
+    await user.click(products);
+    await user.click(screen.getByRole("link", { name: "Lineage" }));
+    expect(screen.queryByRole("link", { name: "Lineage" })).toBeNull();
+    await settled();
+    expect(products).toHaveFocus();
+  });
+
+  it("closes an open panel when a top-level link is followed", async () => {
+    const user = userEvent.setup();
+    mountCurrent();
+    const products = screen.getByRole("button", { name: "Products" });
+    await user.click(products);
+    await user.click(screen.getByRole("link", { name: "About" }));
+    expect(products).toHaveAttribute("aria-expanded", "false");
+  });
+});
+
+describe("<ds-navigation-menu> accessibility", () => {
   it("has no accessibility violations while open", async () => {
     const user = userEvent.setup();
     mount();
