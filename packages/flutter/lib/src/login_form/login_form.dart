@@ -141,9 +141,10 @@ class _LoginFormState extends State<LoginForm> {
     // The values come from the fields themselves, so a reset never leaves
     // a stale copy behind.
     form.save();
-    widget.onSubmitted?.call(
-      LoginCredentials(email: _email, password: _secret),
-    );
+    final credentials = LoginCredentials(email: _email, password: _secret);
+    // The form keeps no copy of the password past the report.
+    _secret = '';
+    widget.onSubmitted?.call(credentials);
   }
 
   @override
